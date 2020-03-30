@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "WWW",
+        "CHC",
+        "FWS"
+    ],
+    "key": {
+        "W": {
+            "tag": "minecraft:planks"
+        },
+        "H": {
+            "item": "minecraft:beehive"
+        },
+        "C": {
+            "item": "minecraft:honeycomb"
+        },
+        "F": {
+            "item": "minecraft:campfire"
+        },
+        "S": {
+            "item": "minecraft:shears"
+        }
+    },
+    "result": {
+        "item": "productivebees:advanced_beehive"
+    }
+}

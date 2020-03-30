@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "WWW",
+        "WCW",
+        "WWW"
+    ],
+    "key": {
+        "W": {
+            "tag": "minecraft:planks"
+        },
+        "C": {
+            "item": "minecraft:honeycomb"
+        }
+    },
+    "result": {
+        "item": "productivebees:expansion_box"
+    }
+}

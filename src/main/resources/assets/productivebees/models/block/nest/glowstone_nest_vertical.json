@@ -1,0 +1,7 @@
+{
+    "parent": "block/orientable_vertical",
+    "textures": {
+        "front": "productivebees:block/nest/glowstone",
+        "side": "block/glowstone"
+    }
+}

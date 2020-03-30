@@ -1,0 +1,26 @@
+package cy.jdkdigital.productivebees.block.nest;
+
+import cy.jdkdigital.productivebees.block.SolitaryNest;
+import cy.jdkdigital.productivebees.init.ModEntities;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.dimension.Dimension;
+
+public class NetherBrickNest extends SolitaryNest {
+
+    public NetherBrickNest(Properties properties) {
+        super(properties);
+    }
+
+    @Override
+    public boolean canRepopulateIn(Dimension dimension, Biome biome) {
+        return dimension.isNether();
+    }
+
+    @Override
+    public EntityType<BeeEntity> getNestingBeeType(World world) {
+        return ModEntities.MAGMATIC_BEE.get();
+    }
+}

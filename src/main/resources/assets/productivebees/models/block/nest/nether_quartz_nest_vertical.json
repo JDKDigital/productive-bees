@@ -1,0 +1,7 @@
+{
+    "parent": "block/orientable_vertical",
+    "textures": {
+        "front": "productivebees:block/nest/nether_quartz_ore",
+        "side": "block/nether_quartz_ore"
+    }
+}

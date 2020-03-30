@@ -1,0 +1,10 @@
+{
+    "parent": "block/orientable_with_bottom",
+    "textures": {
+        "particle": "productivebees:block/advanced_beehive/side",
+        "bottom": "productivebees:block/advanced_beehive/bottom",
+        "top": "productivebees:block/advanced_beehive/bottom",
+        "front": "productivebees:block/advanced_beehive/side",
+        "side": "productivebees:block/advanced_beehive/side"
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "facing=north,has_honey=false,expanded=false": { "model": "productivebees:block/expansion_box/small" },
+        "facing=south,has_honey=false,expanded=false": { "model": "productivebees:block/expansion_box/small", "y": 180 },
+        "facing=west,has_honey=false,expanded=false":  { "model": "productivebees:block/expansion_box/small", "y": 270 },
+        "facing=east,has_honey=false,expanded=false":  { "model": "productivebees:block/expansion_box/small", "y": 90 },
+        "facing=north,has_honey=true,expanded=false": { "model": "productivebees:block/expansion_box/small" },
+        "facing=south,has_honey=true,expanded=false": { "model": "productivebees:block/expansion_box/small", "y": 180 },
+        "facing=west,has_honey=true,expanded=false":  { "model": "productivebees:block/expansion_box/small", "y": 270 },
+        "facing=east,has_honey=true,expanded=false":  { "model": "productivebees:block/expansion_box/small", "y": 90 },
+        "facing=north,has_honey=false,expanded=true": { "model": "productivebees:block/expansion_box/expanded" },
+        "facing=south,has_honey=false,expanded=true": { "model": "productivebees:block/expansion_box/expanded", "y": 180 },
+        "facing=west,has_honey=false,expanded=true":  { "model": "productivebees:block/expansion_box/expanded", "y": 270 },
+        "facing=east,has_honey=false,expanded=true":  { "model": "productivebees:block/expansion_box/expanded", "y": 90 },
+        "facing=north,has_honey=true,expanded=true": { "model": "productivebees:block/expansion_box/expanded_honey" },
+        "facing=south,has_honey=true,expanded=true": { "model": "productivebees:block/expansion_box/expanded_honey", "y": 180 },
+        "facing=west,has_honey=true,expanded=true":  { "model": "productivebees:block/expansion_box/expanded_honey", "y": 270 },
+        "facing=east,has_honey=true,expanded=true":  { "model": "productivebees:block/expansion_box/expanded_honey", "y": 90 }
+    }
+}

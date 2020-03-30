@@ -1,0 +1,7 @@
+{
+    "parent": "block/orientable_vertical",
+    "textures": {
+        "front": "productivebees:block/nest/sand",
+        "side": "block/sand"
+    }
+}

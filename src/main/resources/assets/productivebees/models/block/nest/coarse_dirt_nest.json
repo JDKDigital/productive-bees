@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "block/coarse_dirt",
+        "front": "productivebees:block/nest/coarse_dirt",
+        "side": "block/coarse_dirt"
+    }
+}

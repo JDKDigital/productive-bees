@@ -1,0 +1,35 @@
+{
+    "parent": "productivebees:husbandry/advanced_beehive",
+    "display": {
+        "icon": {
+            "item": "productivebees:expansion_box"
+        },
+        "title": {
+            "translate": "advancements.husbandry.expansion_box.title"
+        },
+        "description": {
+            "translate": "advancements.husbandry.expansion_box.description"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "expansion_box": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "productivebees:expansion_box"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "expansion_box"
+        ]
+    ]
+}
