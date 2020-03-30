@@ -1,12 +1,11 @@
 package cy.jdkdigital.productivebees;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivebees.network.PacketOpenGui;
 import cy.jdkdigital.productivebees.setup.ClientProxy;
 import cy.jdkdigital.productivebees.setup.ClientSetup;
 import cy.jdkdigital.productivebees.setup.IProxy;
@@ -14,10 +13,9 @@ import cy.jdkdigital.productivebees.setup.ServerProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
@@ -26,16 +24,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,7 +49,9 @@ public final class ProductiveBees
 	public static final String MODID = "productivebees";
 
 	public static final IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-	
+
+	public static final SimpleChannel NETWORK_CHANNEL;
+
     public static final Logger LOGGER = LogManager.getLogger();
 
     public ProductiveBees()
@@ -157,7 +156,8 @@ public final class ProductiveBees
 			ModBlocks.NETHER_QUARTZ_NEST.get(),
 			ModBlocks.NETHER_BRICK_NEST.get(),
 			ModBlocks.END_NEST.get(),
-			ModBlocks.OBSIDIAN_PILLAR_NEST.get()
+			ModBlocks.OBSIDIAN_PILLAR_NEST.get(),
+			ModBlocks.DRAGON_EGG_HIVE.get()
 		);
 
 		Set<Block> newSet = new HashSet<>(TileEntityType.field_226985_G_.validBlocks);
@@ -176,5 +176,22 @@ public final class ProductiveBees
 
 	public static void addToMap(Block block, Map<BlockState,PointOfInterestType> pointOfInterestTypeMap) {
 		block.getStateContainer().getValidStates().forEach(state -> pointOfInterestTypeMap.put(state, PointOfInterestType.field_226356_s_));
+	}
+
+	private static int ID = 0;
+	static {
+
+		final String PROTOCOL_VERSION = "1";
+		NETWORK_CHANNEL = NetworkRegistry.newSimpleChannel(
+				new ResourceLocation(ProductiveBees.MODID, "bee"),
+				() -> PROTOCOL_VERSION,
+				PROTOCOL_VERSION::equals,
+				PROTOCOL_VERSION::equals
+		);
+		NETWORK_CHANNEL.registerMessage(ID++,
+				PacketOpenGui.class,
+				PacketOpenGui::toBytes,
+				PacketOpenGui::new,
+				PacketOpenGui::handle);
 	}
 }

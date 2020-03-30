@@ -16,7 +16,7 @@ public class ModTags {
     public static final String GLOWSTONE_NESTS = "glowstone_nests";
     public static final String NETHER_BRICK_NESTS = "nether_brick_nests";
     public static final String END_NESTS = "end_nests";
-    public static final String OBSIDIAN_NESTS = "obsidian_nests";
+    public static final String DRACONIC_NESTS = "draconic_nests";
 
     public static final String DESERT_FLOWERS = "desert_flower";
 

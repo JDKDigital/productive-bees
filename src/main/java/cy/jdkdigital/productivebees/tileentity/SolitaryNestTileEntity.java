@@ -28,20 +28,15 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
     // Used for calculating if a new bee should move in
     private int nestTickTimer = 0;
 
-    protected int MAX_BEES = 1;
-    protected int MAX_EGGS = 3;
+    public int MAX_EGGS = 3;
 
 	public SolitaryNestTileEntity() {
 	    super(ModTileEntityTypes.SOLITARY_NEST.get());
+        MAX_BEES = 1;
 	}
 
-    @Override
-    public int getMaxBees() {
-        return MAX_BEES;
-    }
-
-    public int getEggCapacity() {
-        return MAX_EGGS;
+    public boolean isSealed() {
+	    return isSealed;
     }
 
     @Override
@@ -79,11 +74,11 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
                         CompoundNBT tag = egg.nbt;
                         Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
                         BeeEntity beeEntity = (BeeEntity) EntityType.func_220335_a(tag, this.world, (spawnedEntity) -> spawnedEntity);
-                        if (beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, this.getPos(), direction, 0)) {
+                        if (beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, this.getPos(), direction, -24000)) {
                             eggIterator.remove();
                         }
                     } else {
-                        egg.ticksInHive++;
+                        egg.ticksInHive += 41;
                     }
                 }
             }
@@ -110,7 +105,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
 
     protected int getTimeInHive(boolean hasNectar) {
         // When the bee returns with nectar, it will produce an egg cell and will stay a while
-        return hasNectar ? 4000 : 600;
+        return hasNectar ? 12000 : 600;
     }
 
     public void read(CompoundNBT compoundNBT) {
@@ -138,13 +133,13 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
         // Lay egg
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
             beeEntity.func_226413_eG_();
-            if (this.eggs.size() < this.getEggCapacity()) {
+            if (this.eggs.size() < MAX_EGGS) {
                 CompoundNBT compoundNBT = new CompoundNBT();
                 beeEntity.writeUnlessPassenger(compoundNBT);
-                this.eggs.add(new SolitaryNestTileEntity.Egg(compoundNBT, 0, this.getRepopulationCooldown() * this.eggs.size() / 3));
+                this.eggs.add(new SolitaryNestTileEntity.Egg(compoundNBT, 0, this.getRepopulationCooldown() * this.eggs.size()));
 
                 // Once nest is full of eggs, seal it and set the "mother" bee to die
-                if (this.eggs.size() == this.getEggCapacity()) {
+                if (this.eggs.size() == MAX_EGGS) {
                     this.isSealed = true;
                     beeEntity.hivePos = null;
                     beeEntity.func_226449_s_(true); // loose stinger
@@ -168,16 +163,20 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
         return listNBT;
     }
 
-    public static class Egg {
-        public final CompoundNBT nbt;
-        public int ticksInHive;
+    public static class Egg extends AdvancedBeehiveTileEntityAbstract.Bee {
         public final int incubationTime;
 
         public Egg(CompoundNBT nbt, int ticksInHive, int incubationTime) {
-            nbt.removeUniqueId("UUID");
-            this.nbt = nbt;
-            this.ticksInHive = ticksInHive;
+            super(nbt, ticksInHive, 0);
             this.incubationTime = incubationTime;
+        }
+
+        @Override
+        public String toString() {
+            return "Egg {" +
+                    "ticksInHive=" + ticksInHive +
+                    ", incubationTime=" + incubationTime +
+                    '}';
         }
     }
 }

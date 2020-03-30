@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.tileentity;
 
 import com.electronwill.nightconfig.core.Config;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
@@ -37,8 +38,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -49,18 +48,13 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     private int tickCounter = 0;
     public static final int BOTTLE_SLOT = 0;
     public static final int[] OUTPUT_SLOTS = new int[] {1,2,3,4,5,6,7,8,9};
-    protected int MAX_BEES = 5;
 
-	private LazyOptional<IItemHandler> handler = LazyOptional.of(this::createHandler);
+	private LazyOptional<IItemHandler> handler = LazyOptional.of(this::createInventoryHandler);
 
 	public AdvancedBeehiveTileEntity() {
 	    super(ModTileEntityTypes.ADVANCED_BEEHIVE.get());
+        MAX_BEES = 5;
 	}
-
-    @Override
-    public int getMaxBees() {
-        return MAX_BEES;
-    }
 
     /**
 	 * @return The logical-server-side Container for this TileEntity
@@ -168,7 +162,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         CompoundNBT tag = pkt.getNbtCompound();
-//        LOGGER.info("onDataPacket " + tag.contains("bees"));
+        ProductiveBees.LOGGER.info("onDataPacket " + tag.contains("bees"));
         if (tag.contains("bees")) {
             this.read(tag);
 //            LOGGER.info(tag.getCompound("bees"));
@@ -180,13 +174,12 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     @Nonnull
     @Override
     public IModelData getModelData() {
-//        LOGGER.info("getModelData " + this.world);
+//        ProductiveBees.LOGGER.info("getModelData " + this.world);
         return new ModelDataMap.Builder().build();
     }
 
     @Override
     public void read(CompoundNBT tag) {
-//        LOGGER.info("read " + this.world + " " + tag);
         super.read(tag);
         CompoundNBT invTag = tag.getCompound("inv");
         handler.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(invTag));
@@ -194,7 +187,6 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     @Override
     public CompoundNBT write(CompoundNBT tag) {
-//        LOGGER.info("write");
         handler.ifPresent(h -> {
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
             tag.put("inv", compound);
@@ -203,7 +195,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         return super.write(tag);
     }
 	
-    private IItemHandler createHandler() {
+    private IItemHandler createInventoryHandler() {
         return new ItemStackHandler(10) {
 
             @Override

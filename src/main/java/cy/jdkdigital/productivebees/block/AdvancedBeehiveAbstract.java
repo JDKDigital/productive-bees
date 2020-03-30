@@ -33,6 +33,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraftforge.api.distmarker.Dist;
@@ -76,7 +77,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 				this.activateBeeFrenzy(world, pos);
 			}
 
-			CriteriaTriggers.field_229865_L_.func_226223_a_((ServerPlayerEntity)player, state.getBlock(), itemStack, beehiveTileEntity.beeListSize());
+			CriteriaTriggers.field_229865_L_.func_226223_a_((ServerPlayerEntity)player, state.getBlock(), itemStack, beehiveTileEntity.getBees().size());
 		}
 	}
 

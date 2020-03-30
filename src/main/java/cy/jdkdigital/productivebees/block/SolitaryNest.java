@@ -81,16 +81,12 @@ abstract public class SolitaryNest extends AdvancedBeehiveAbstract {
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult blockRayTraceResult) {
 		if (!world.isRemote()) {
 			SolitaryNestTileEntity tileEntity = (SolitaryNestTileEntity) world.getTileEntity(pos);
-			ProductiveBees.LOGGER.info("Nest state: " + tileEntity);
-			ProductiveBees.LOGGER.info("Bee count: " + tileEntity.beeListSize());
+			ProductiveBees.LOGGER.info("Nest tilentity: " + tileEntity);
+			ProductiveBees.LOGGER.info("Nest sealed: " + tileEntity.isSealed());
+			ProductiveBees.LOGGER.info("Bee count: " + tileEntity.getBees().size());
+			ProductiveBees.LOGGER.info("Occupants: " + tileEntity.getBees());
 			ProductiveBees.LOGGER.info("Egg count: " + tileEntity.getEggList().size());
-			ProductiveBees.LOGGER.info("Occupants: " + tileEntity.beeList);
 			ProductiveBees.LOGGER.info("Eggs: " + tileEntity.getEggList());
-
-			PointOfInterestManager poiManager = ((ServerWorld) world).getPointOfInterestManager();
-			poiManager.exists(pos, (poiType) -> {
-				return poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
-			});
 
 			return ActionResultType.PASS;
 		}

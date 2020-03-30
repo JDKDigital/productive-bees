@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.block;
 
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
+import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -38,7 +39,7 @@ public class ExpansionBox extends Block {
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(BlockStateProperties.HORIZONTAL_FACING, AdvancedBeehive.EXPANDED, HAS_HONEY);
+		builder.add(BlockStateProperties.FACING, AdvancedBeehive.EXPANDED, HAS_HONEY);
 	}
 
 	public void updateState(World world, BlockPos pos, BlockState state, boolean isRemoved) {
@@ -58,7 +59,7 @@ public class ExpansionBox extends Block {
 				int maxHoneyLevel = ((AdvancedBeehiveAbstract)blockBelow).getMaxHoneyLevel();
 				world.setBlockState(pos, state
 					// Fix expansion box direction to match the beehive
-					.with(HorizontalBlock.HORIZONTAL_FACING, blockStateBelow.get(BlockStateProperties.FACING))
+					.with(BlockStateProperties.FACING, blockStateBelow.get(BlockStateProperties.FACING))
 					// Set honey state based on the beehive below
 					.with(HAS_HONEY, honeyLevel >= maxHoneyLevel)
 				, 3);
@@ -94,7 +95,8 @@ public class ExpansionBox extends Block {
 			// Open the beehive below, if there is one
 			final TileEntity tileEntity = worldIn.getTileEntity(pos.down());
 			if (tileEntity instanceof AdvancedBeehiveTileEntity) {
-				NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, tileEntity.getPos());
+				Block block = tileEntity.getBlockState().getBlock();
+				((AdvancedBeehive)block).openGui((ServerPlayerEntity) player, (AdvancedBeehiveTileEntity) tileEntity);
 			}
 		}
 		return ActionResultType.SUCCESS;

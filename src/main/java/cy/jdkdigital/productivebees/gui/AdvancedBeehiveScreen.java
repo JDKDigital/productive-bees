@@ -6,7 +6,9 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
+import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundNBT;
@@ -14,6 +16,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.fml.network.NetworkDirection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,8 +35,6 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 		put("productivebees:lapis_bee", 21);
 		put("productivebees:redstone_bee", 28); // 249
 	}};
-
-	private static final Logger LOGGER = LogManager.getLogger();
 
 	public AdvancedBeehiveScreen(AdvancedBeehiveContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
@@ -69,22 +70,23 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 
 		// Draw bees
 		HashMap<Integer, ArrayList<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
-		ListNBT beeList = this.container.getBees();
-		if (beeList.size() > 0) {
-//			LOGGER.info(beeList);
-			int i = 0;
-			for (INBT inbt : beeList) {
-				CompoundNBT inb = (CompoundNBT) inbt;
-				String beeId = ((CompoundNBT) inb.get("EntityData")).getString("id");
+		this.container.tileEntity.getCapability(CapabilityBee.BEE).ifPresent(handler -> {
+			ListNBT beeList = handler.getBeeListAsListNBT();
+			if (beeList.size() > 0) {
+				ProductiveBees.LOGGER.info("beeList" + beeList);
+				int i = 0;
+				for (INBT inbt : beeList) {
+					CompoundNBT inb = (CompoundNBT) inbt;
+					String beeId = ((CompoundNBT) inb.get("EntityData")).getString("id");
 
-				int beeTexureLocation = 0;
-				if (beeTextureLocations.containsKey(beeId)) {
-					beeTexureLocation = beeTextureLocations.get(beeId);
-				}
+					int beeTexureLocation = 0;
+					if (beeTextureLocations.containsKey(beeId)) {
+						beeTexureLocation = beeTextureLocations.get(beeId);
+					}
 //				LOGGER.info(beeId + ":" + beeTexureLocation);
-				this.blit(beeTexureLocation, 249, positions.get(i).get(0), positions.get(i).get(1), 7, 7);
+					this.blit(beeTexureLocation, 249, positions.get(i).get(0), positions.get(i).get(1), 7, 7);
+				}
 			}
-		}
+		});
 	}
-
 }

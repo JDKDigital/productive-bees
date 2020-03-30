@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.entity.bee;
 import com.electronwill.nightconfig.core.Config;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.entity.bee.solitary.SlimyBeeEntity;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import net.minecraft.block.Block;
@@ -26,10 +25,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.SectionPos;
 import net.minecraft.village.PointOfInterest;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
@@ -40,11 +36,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	public Tag<Block> nestBlockTag;
+
+	protected Predicate<PointOfInterestType> isInterestedIn = (poiType) -> poiType == PointOfInterestType.field_226356_s_ || poiType == PointOfInterestType.field_226357_t_;
 
 	public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
@@ -144,13 +141,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		return ProductiveBeesConfig.BEES.itemProductionRules.get().get(beeId);
 	}
 
-	public boolean isInterestedIn(PointOfInterestType poiType) {
-		if (this instanceof ISolitaryBeeEntity) {
-			return poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() || poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
-		}
-		return poiType == PointOfInterestType.field_226356_s_ || poiType == PointOfInterestType.field_226357_t_;
-	}
-
 	protected Predicate<BlockState> pollinatePredicate() {
 		Predicate<BlockState> predicate = (blockState) -> {
 			if (blockState.isIn(BlockTags.TALL_FLOWERS)) {
@@ -188,8 +178,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			return false;
 		} else {
 			TileEntity tileEntity = this.world.getTileEntity(this.hivePos);
-			return  tileEntity instanceof BeehiveTileEntity && ((BeehiveTileEntity)tileEntity).func_226968_d_() ||
-					tileEntity instanceof AdvancedBeehiveTileEntityAbstract &&  ((AdvancedBeehiveTileEntityAbstract)tileEntity).hasFireBlockBelow();
+			return  tileEntity instanceof BeehiveTileEntity && ((BeehiveTileEntity)tileEntity).func_226968_d_();
 		}
 	}
 
@@ -268,7 +257,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(pos);
 			int maxBees = 3;
 			if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-				maxBees = ((AdvancedBeehiveTileEntityAbstract) tileEntity).getMaxBees();
+				maxBees = ((AdvancedBeehiveTileEntityAbstract) tileEntity).MAX_BEES;
 			}
 			while(this.field_226469_d_.size() > maxBees) {
 				this.field_226469_d_.remove(0);
@@ -320,7 +309,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			BlockPos pos = new BlockPos(ProductiveBeeEntity.this);
 
 			PointOfInterestManager poiManager = ((ServerWorld)ProductiveBeeEntity.this.world).getPointOfInterestManager();
-			Stream<PointOfInterest> stream = poiManager.func_219146_b(ProductiveBeeEntity.this::isInterestedIn, pos, 30, PointOfInterestManager.Status.ANY);
+			Stream<PointOfInterest> stream = poiManager.func_219146_b(ProductiveBeeEntity.this.isInterestedIn, pos, 30, PointOfInterestManager.Status.ANY);
 
 			return stream
 					.map(PointOfInterest::getPos)
@@ -364,15 +353,15 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 
 		public void startExecuting() {
-			ProductiveBees.LOGGER.info("EnterBeehiveGoal startExecuting " + ProductiveBeeEntity.this.hivePos);
-			TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(ProductiveBeeEntity.this.hivePos);
-			if (tileEntity instanceof BeehiveTileEntity) {
-				BeehiveTileEntity beehiveTileEntity = (BeehiveTileEntity)tileEntity;
-				beehiveTileEntity.func_226962_a_(ProductiveBeeEntity.this, ProductiveBeeEntity.this.func_226411_eD_(), 0);
-			}
-			if(tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-				AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract) tileEntity;
-				beehiveTileEntity.insertBee(ProductiveBeeEntity.this, ProductiveBeeEntity.this.hasNectar(), 0);
+			if (ProductiveBeeEntity.this.hasHivePos()) {
+				TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(ProductiveBeeEntity.this.hivePos);
+				if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
+					AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract) tileEntity;
+					beehiveTileEntity.insertBee(ProductiveBeeEntity.this, ProductiveBeeEntity.this.hasNectar(), 0);
+				} else if (tileEntity instanceof BeehiveTileEntity) {
+					BeehiveTileEntity beehiveTileEntity = (BeehiveTileEntity) tileEntity;
+					beehiveTileEntity.func_226962_a_(ProductiveBeeEntity.this, ProductiveBeeEntity.this.func_226411_eD_(), 0);
+				}
 			}
 		}
 	}

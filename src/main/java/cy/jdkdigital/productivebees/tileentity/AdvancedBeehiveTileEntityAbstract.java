@@ -6,20 +6,20 @@ import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.handler.bee.BeeStorage;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IBeeStorage;
-import net.minecraft.block.*;
+import net.minecraft.block.BeehiveBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tileentity.BeehiveTileEntity;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
@@ -27,57 +27,67 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class AdvancedBeehiveTileEntityAbstract extends TileEntity implements ITickableTileEntity {
-    public List<AdvancedBeehiveTileEntityAbstract.Bee> beeList = Lists.newArrayList();
+public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntity {
     public BlockPos flowerPos = null;
-    protected int MAX_BEES = 3;
-    private LazyOptional<IBeeStorage> beeHandler = LazyOptional.of(BeeStorage::new);
+    public int MAX_BEES = 3;
+    private LazyOptional<IBeeStorage> beeHandler = LazyOptional.of(this::createBeeHandler);
+    private TileEntityType<?> tileEntityType;
+
+    private int tickCounter = 0;
 
     public AdvancedBeehiveTileEntityAbstract(TileEntityType<?> tileEntityType) {
-        super(tileEntityType);
+        super();
+        this.tileEntityType = tileEntityType;
+    }
+
+    @Nonnull
+    @Override
+    public TileEntityType<?> getType() {
+        return this.tileEntityType;
     }
 
     public void tick() {
         if (!this.world.isRemote) {
-            this.tickBees();
-            BlockPos pos = this.getPos();
+
+            if (tickCounter++ % 100 == 0) {
+                this.tickBees();
+                tickCounter = 0;
+            }
 
             // Play hive buzz sound
-            if (this.beeListSize() > 0 && this.world.getRandom().nextDouble() < 0.005D) {
-                double x = (double)pos.getX() + 0.5D;
-                double y = (double)pos.getY();
-                double z = (double)pos.getZ() + 0.5D;
-                this.world.playSound(null, x, y, z, SoundEvents.field_226134_ai_, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            }
+            beeHandler.ifPresent(h -> {
+                if (h.getBees().size() > 0 && this.world.getRandom().nextDouble() < 0.005D) {
+                    BlockPos pos = this.getPos();
+                    double x = (double) pos.getX() + 0.5D;
+                    double y = (double) pos.getY();
+                    double z = (double) pos.getZ() + 0.5D;
+                    this.world.playSound(null, x, y, z, SoundEvents.field_226134_ai_, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                }
+            });
         }
     }
 
     private void tickBees() {
-        Iterator<Bee> beeListIterator = this.beeList.iterator();
-        BlockState blockState = this.getBlockState();
-
-        while(beeListIterator.hasNext()) {
-            Bee bee = beeListIterator.next();
-            if (bee.ticksInHive > bee.minOccupationTicks) {
-                BeehiveTileEntity.State beeState = bee.nbt.getBoolean("HasNectar") ? BeehiveTileEntity.State.HONEY_DELIVERED : BeehiveTileEntity.State.BEE_RELEASED;
-                if (this.releaseBee(blockState, bee.nbt, null, beeState)) {
-                    beeListIterator.remove();
+        beeHandler.ifPresent(h -> {
+            h.getBees().removeIf((bee) -> {
+                if (bee.ticksInHive > bee.minOccupationTicks) {
+                    BeehiveTileEntity.State beeState = bee.nbt.getBoolean("HasNectar") ? BeehiveTileEntity.State.HONEY_DELIVERED : BeehiveTileEntity.State.BEE_RELEASED;
+                    return this.releaseBee(this.getBlockState(), bee.nbt, null, beeState);
+                } else {
+                    bee.ticksInHive += tickCounter;
                 }
-            } else {
-                bee.ticksInHive++;
-            }
-        }
-    }
-
-    public int getMaxBees() {
-        return MAX_BEES;
+                return false;
+            });
+        });
     }
 
     protected int getTimeInHive(boolean hasNectar) {
@@ -85,36 +95,18 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends TileEntity imple
     }
 
     public void markDirty() {
-        if (this.hasFireBlockBelow()) {
+        if (this.func_226968_d_()) {
             this.releaseBees(null, this.world.getBlockState(this.getPos()), BeehiveTileEntity.State.EMERGENCY);
         }
 
         super.markDirty();
     }
 
-    public boolean hasFireBlockBelow() {
-        if (this.world == null) {
-            return false;
-        } else {
-            Iterator iterator = BlockPos.getAllInBoxMutable(this.pos.add(-1, -1, -1), this.pos.add(1, 1, 1)).iterator();
-
-            BlockPos blockPos;
-            do {
-                if (!iterator.hasNext()) {
-                    return false;
-                }
-
-                blockPos = (BlockPos) iterator.next();
-            } while (!(this.world.getBlockState(blockPos).getBlock() instanceof FireBlock));
-
-            return true;
-        }
-    }
-
     public void releaseBees(@Nullable PlayerEntity player, BlockState blockState, BeehiveTileEntity.State beeState) {
         List<Entity> releasedBees = Lists.newArrayList();
-        this.beeList.removeIf((tag) -> this.releaseBee(blockState, tag.nbt, releasedBees, beeState));
-
+        beeHandler.ifPresent(h -> {
+            h.getBees().removeIf((tag) -> this.releaseBee(blockState, tag.nbt, releasedBees, beeState));
+        });
         if (player != null) {
             Iterator entityIterator = releasedBees.iterator();
 
@@ -135,15 +127,11 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends TileEntity imple
     }
 
     public boolean isHiveEmpty() {
-        return this.beeListSize() == 0;
+        return this.getBees().size() == 0;
     }
 
     public boolean isHiveFull() {
-        return this.beeListSize() == this.getMaxBees();
-    }
-
-    public int beeListSize() {
-        return this.beeList.size();
+        return this.getBees().size() == MAX_BEES;
     }
 
     public static int getHoneyLevel(BlockState state) {
@@ -160,26 +148,28 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends TileEntity imple
     }
 
     public void insertBee(Entity entity, boolean hasNectar, int ticksInHive) {
-        ProductiveBees.LOGGER.info("insertBee " + this.beeListSize() + " " + this.getMaxBees());
-        if (this.beeListSize() < this.getMaxBees()) {
-            entity.stopRiding();
-            entity.removePassengers();
-            CompoundNBT compoundNBT = new CompoundNBT();
-            entity.writeUnlessPassenger(compoundNBT);
-            this.beeList.add(new AdvancedBeehiveTileEntityAbstract.Bee(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar)));
-            if (this.world != null) {
-                if (entity instanceof BeeEntity) {
-                    BeeEntity beeEntity = (BeeEntity) entity;
-                    if (beeEntity.func_226425_er_() && (!this.hasFlowerPos() || this.world.rand.nextBoolean())) {
-                        this.flowerPos = beeEntity.func_226424_eq_();
+        beeHandler.ifPresent(h -> {
+            if (h.getBees().size() < MAX_BEES) {
+                entity.stopRiding();
+                entity.removePassengers();
+                CompoundNBT compoundNBT = new CompoundNBT();
+                entity.writeUnlessPassenger(compoundNBT);
+                h.addBee(new Bee(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar)));
+                if (this.world != null) {
+                    if (entity instanceof BeeEntity) {
+                        BeeEntity beeEntity = (BeeEntity) entity;
+                        if (beeEntity.func_226425_er_() && (!this.hasFlowerPos() || this.world.rand.nextBoolean())) {
+                            this.flowerPos = beeEntity.func_226424_eq_();
+                        }
                     }
+
+                    BlockPos pos = this.getPos();
+                    this.world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.field_226131_af_, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
 
-                BlockPos pos = this.getPos();
-                this.world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.field_226131_af_, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                entity.remove();
             }
-            entity.remove();
-        }
+        });
     }
 
     public void func_226961_a_(Entity beeEntity, boolean hasNectar) {
@@ -195,7 +185,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends TileEntity imple
         if ((this.world.isNightTime() || this.world.isRaining()) && beeState != BeehiveTileEntity.State.EMERGENCY) {
             return false;
         } else {
-            ProductiveBees.LOGGER.info("releaseBee: " + tag);
             tag.remove("Passengers");
             tag.remove("Leash");
             tag.removeUniqueId("UUID");
@@ -210,7 +199,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends TileEntity imple
                 boolean spawned = false;
                 BeeEntity beeEntity = (BeeEntity) EntityType.func_220335_a(tag, this.world, (spawnedEntity) -> spawnedEntity);
                 if (beeEntity != null) {
-                    ProductiveBees.LOGGER.info("entity: " + beeEntity);
+                    ProductiveBees.LOGGER.info("release entity: " + beeEntity);
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, this.pos, direction, null);
                     if (spawned) {
                         if (this.hasFlowerPos() && !beeEntity.func_226425_er_() && this.world.rand.nextFloat() < 0.9F) {
@@ -258,53 +247,24 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends TileEntity imple
     public void read(CompoundNBT tag) {
         super.read(tag);
 
-        this.beeList.clear();
-        ListNBT listNBT = tag.getList("Bees", 10);
-
-        for (int i = 0; i < listNBT.size(); ++i) {
-            CompoundNBT beeTag = listNBT.getCompound(i);
-            AdvancedBeehiveTileEntityAbstract.Bee bee = new AdvancedBeehiveTileEntityAbstract.Bee(beeTag.getCompound("EntityData"), beeTag.getInt("TicksInHive"), beeTag.getInt("MinOccupationTicks"));
-            this.beeList.add(bee);
-        }
-
-        this.flowerPos = null;
-        if (tag.contains("FlowerPos")) {
-            this.flowerPos = NBTUtil.readBlockPos(tag.getCompound("FlowerPos"));
-        }
-//        CompoundNBT beeTag = tag.getCompound("beestorage");
-//        beeHandler.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(beeTag));
+        CompoundNBT beeTag = tag.getCompound("Bees");
+        beeHandler.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(beeTag));
     }
 
     public CompoundNBT write(CompoundNBT tag) {
         super.write(tag);
 
-        super.write(tag);
-        tag.put("Bees", this.getBeeListAsNBTList());
-        if (this.hasFlowerPos()) {
-            tag.put("FlowerPos", NBTUtil.writeBlockPos(this.flowerPos));
-        }
-
-//        beeHandler.ifPresent(h -> {
-//            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
-//            tag.put("beestorage", compound);
-//        });
+        beeHandler.ifPresent(h -> {
+            tag.remove("Bees");
+            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
+            tag.put("Bees", compound);
+        });
 
         return tag;
     }
 
     public ListNBT getBeeListAsNBTList() {
-        ListNBT listNBT = new ListNBT();
-
-        for (Bee bee : this.beeList) {
-            bee.nbt.removeUniqueId("UUID");
-            CompoundNBT beeTag = new CompoundNBT();
-            beeTag.put("EntityData", bee.nbt);
-            beeTag.putInt("TicksInHive", bee.ticksInHive);
-            beeTag.putInt("MinOccupationTicks", bee.minOccupationTicks);
-            listNBT.add(beeTag);
-        }
-
-        return listNBT;
+        return this.getCapability(CapabilityBee.BEE).map(IBeeStorage::getBeeListAsListNBT).orElse(new ListNBT());
     }
 
     public static boolean spawnBeeInWorldAPosition(World world, BeeEntity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
@@ -319,12 +279,17 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends TileEntity imple
         if (age != null) {
             entity.setGrowingAge(age);
         }
+        // Check if the entity is in beehive_inhabitors tag
         if (!entity.getType().isContained(EntityTypeTags.field_226155_c_)) {
             return false;
         } else {
             world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.field_226132_ag_, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return world.addEntity(entity);
         }
+    }
+
+    public List<Bee> getBees() {
+        return this.getCapability(CapabilityBee.BEE).map(IBeeStorage::getBees).orElse(new ArrayList<>());
     }
 
     public static class Bee {
@@ -344,10 +309,20 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends TileEntity imple
             return "Bee{" +
                     "ticksInHive=" + ticksInHive +
                     ", minOccupationTicks=" + minOccupationTicks +
+                    ", nbt=" + nbt +
                     '}';
         }
     }
 
+    private IBeeStorage createBeeHandler() {
+        return new BeeStorage() {
+            @Override
+            public void onContentsChanged() {
+                super.onContentsChanged();
+                AdvancedBeehiveTileEntityAbstract.this.markDirty();
+            }
+        };
+    }
 
     @Nonnull
     @Override

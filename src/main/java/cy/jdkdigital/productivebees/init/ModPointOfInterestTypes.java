@@ -38,6 +38,11 @@ public final class ModPointOfInterestTypes {
         blocks.add(ModBlocks.NETHER_QUARTZ_NEST);
         blocks.add(ModBlocks.GLOWSTONE_NEST);
         blocks.add(ModBlocks.END_NEST);
+        return blocks;
+    }, 0);
+    public static final RegistryObject<PointOfInterestType> DRACONIC_NEST = register("draconic_nest", () -> {
+        List<RegistryObject<Block>> blocks = new ArrayList<>();
+        blocks.add(ModBlocks.DRAGON_EGG_HIVE);
         blocks.add(ModBlocks.OBSIDIAN_PILLAR_NEST);
         return blocks;
     }, 0);
