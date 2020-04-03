@@ -38,7 +38,7 @@ public class HoneyTreat extends Item {
         // Stop agro
         bee.setRevengeTarget(null);
         // Allow entering hive
-        bee.func_226450_t_(0);
+        bee.setStayOutOfHiveCountdown(0);
 
         itemStack.shrink(1);
 

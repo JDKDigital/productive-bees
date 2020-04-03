@@ -17,6 +17,7 @@ public interface IBeeStorage {
 
     void clearBees();
 
+    @Nonnull
     ListNBT getBeeListAsListNBT();
 
     void setBeesFromListNBT(ListNBT list);

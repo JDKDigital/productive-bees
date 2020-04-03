@@ -116,9 +116,9 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                     BeeEntity beeEntity = (BeeEntity) entity;
                     if (player.getPositionVec().squareDistanceTo(entity.getPositionVec()) <= 16.0D) {
                         if (!this.hasCampfire()) {
-                            beeEntity.func_226391_a_(player);
+                            beeEntity.setBeeAttacker(player);
                         } else {
-                            beeEntity.func_226450_t_(400);
+                            beeEntity.setStayOutOfHiveCountdown(400);
                         }
                     }
                 }
@@ -130,7 +130,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return this.getBees().size() == 0;
     }
 
-    public boolean isHiveFull() {
+    public boolean isFullOfBees() {
         return this.getBees().size() == MAX_BEES;
     }
 
@@ -158,8 +158,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 if (this.world != null) {
                     if (entity instanceof BeeEntity) {
                         BeeEntity beeEntity = (BeeEntity) entity;
-                        if (beeEntity.func_226425_er_() && (!this.hasFlowerPos() || this.world.rand.nextBoolean())) {
-                            this.flowerPos = beeEntity.func_226424_eq_();
+                        if (beeEntity.hasFlower() && (!this.hasFlowerPos() || this.world.rand.nextBoolean())) {
+                            this.flowerPos = beeEntity.getFlowerPos();
                         }
                     }
 
@@ -202,8 +202,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                     ProductiveBees.LOGGER.info("release entity: " + beeEntity);
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, this.pos, direction, null);
                     if (spawned) {
-                        if (this.hasFlowerPos() && !beeEntity.func_226425_er_() && this.world.rand.nextFloat() < 0.9F) {
-                            beeEntity.func_226431_g_(this.flowerPos);
+                        if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() < 0.9F) {
+                            beeEntity.setFlowerPos(this.flowerPos);
                         }
 
                         beeReleasePostAction(beeEntity, state, beeState);
@@ -219,13 +219,13 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
-        beeEntity.func_226426_eu_();
+        beeEntity.resetTicksWithoutNectar();
 
         // Deliver honey on the way out
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
-            beeEntity.func_226413_eG_();
+            beeEntity.onHoneyDelivered();
             Block block = state.getBlock();
-            if (block.isIn(BlockTags.BEEHIVES)) {
+            if (block.isIn(BlockTags.BEEHIVES) && state.has(AdvancedBeehiveAbstract.HONEY_LEVEL)) {
                 int honeyLevel = getHoneyLevel(state);
                 int maxHoneyLevel = getMaxHoneyLevel(state);
                 if (honeyLevel < maxHoneyLevel) {
@@ -251,6 +251,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         beeHandler.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(beeTag));
     }
 
+    @Nonnull
     public CompoundNBT write(CompoundNBT tag) {
         super.write(tag);
 
@@ -263,6 +264,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return tag;
     }
 
+    @Nonnull
     public ListNBT getBeeListAsNBTList() {
         return this.getCapability(CapabilityBee.BEE).map(IBeeStorage::getBeeListAsListNBT).orElse(new ListNBT());
     }

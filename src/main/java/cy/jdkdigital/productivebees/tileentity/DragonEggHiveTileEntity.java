@@ -27,8 +27,7 @@ public class DragonEggHiveTileEntity extends AdvancedBeehiveTileEntityAbstract {
 	}
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, State beeState) {
-        beeEntity.func_226426_eu_();
-
+        super.beeReleasePostAction(beeEntity, state, beeState);
         // Generate item?
     }
 }

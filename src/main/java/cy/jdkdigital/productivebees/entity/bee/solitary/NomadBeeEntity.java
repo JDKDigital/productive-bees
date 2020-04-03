@@ -20,7 +20,7 @@ public class NomadBeeEntity extends SolitaryBeeEntity {
     }
 
     @Override
-    protected Predicate<BlockState> pollinatePredicate() {
+    protected Predicate<BlockState> getFlowerPredicate() {
         return (blockState) -> {
             return blockState.isIn(ModTags.getTag(ModTags.DESERT_FLOWERS));
         };

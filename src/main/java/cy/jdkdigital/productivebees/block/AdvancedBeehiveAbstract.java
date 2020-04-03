@@ -89,7 +89,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 
 			for (BeeEntity bee : beeList) {
 				if (bee.getAttackTarget() == null) {
-					bee.func_226391_a_(playerList.get(world.rand.nextInt(playerCount)));
+					bee.setBeeAttacker(playerList.get(world.rand.nextInt(playerCount)));
 				}
 			}
 		}

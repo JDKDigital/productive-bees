@@ -128,11 +128,10 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
     }
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
-        beeEntity.func_226426_eu_();
+	    super.beeReleasePostAction(beeEntity, state, beeState);
 
         // Lay egg
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
-            beeEntity.func_226413_eG_();
             if (this.eggs.size() < MAX_EGGS) {
                 CompoundNBT compoundNBT = new CompoundNBT();
                 beeEntity.writeUnlessPassenger(compoundNBT);
@@ -142,7 +141,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
                 if (this.eggs.size() == MAX_EGGS) {
                     this.isSealed = true;
                     beeEntity.hivePos = null;
-                    beeEntity.func_226449_s_(true); // loose stinger
+                    beeEntity.setHasStung(true);
                 }
             }
         }

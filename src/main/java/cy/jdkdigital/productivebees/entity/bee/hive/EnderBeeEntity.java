@@ -28,7 +28,7 @@ public class EnderBeeEntity extends ProductiveBeeEntity implements IBeeEntity, I
 	protected void updateAITasks() {
 		// Teleport to active path
 		if (null != this.navigator.getPath()) {
-			BlockPos pos = this.navigator.getPath().func_224770_k();
+			BlockPos pos = this.navigator.getPath().getTarget();
 			teleportTo(pos.getX(), pos.getY(), pos.getZ());
 		}
 

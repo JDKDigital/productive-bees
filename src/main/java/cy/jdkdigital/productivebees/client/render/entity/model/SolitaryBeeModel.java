@@ -82,8 +82,8 @@ public class SolitaryBeeModel<T extends ProductiveBeeEntity> extends AgeableMode
 
     public void setLivingAnimations(T entity, float p_212843_2_, float p_212843_3_, float p_212843_4_) {
         super.setLivingAnimations(entity, p_212843_2_, p_212843_3_, p_212843_4_);
-        this.field_228241_n_ = entity.func_226455_v_(p_212843_4_);
-        this.stinger.showModel = !entity.func_226412_eE_();
+        this.field_228241_n_ = entity.getBodyPitch(p_212843_4_);
+        this.stinger.showModel = !entity.hasStung();
     }
 
     public void setRotationAngles(T entity, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {

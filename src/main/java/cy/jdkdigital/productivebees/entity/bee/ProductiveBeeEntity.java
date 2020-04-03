@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.entity.bee;
 import com.electronwill.nightconfig.core.Config;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -58,7 +57,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromTag(ItemTags.FLOWERS), false));
 
 		this.pollinateGoal = new ProductiveBeeEntity.PollinateGoal();
-		this.pollinateGoal.field_226492_c_ = this.pollinatePredicate();
+		this.pollinateGoal.flowerPredicate = this.getFlowerPredicate();
 		this.goalSelector.addGoal(4, this.pollinateGoal);
 		this.goalSelector.addGoal(5, new ProductiveBeeEntity.UpdateNestGoal());
 
@@ -80,26 +79,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 
 	public String getBeeType() {
 		return this.getEntityString().split("[:_]")[1];
-	}
-
-	public boolean isAngry() {
-		return super.func_226427_ez_();
-	}
-
-	public boolean hasNectar() {
-		return super.func_226411_eD_();
-	}
-
-	public boolean hasHivePos() {
-		return super.func_226409_eA_();
-	}
-
-	public boolean failedToFindNectar() {
-		return super.func_226414_eH_();
-	}
-
-	public boolean hasStung() {
-		return super.func_226412_eE_();
 	}
 
 	public boolean isBreedingItem(ItemStack itemStack) {
@@ -141,7 +120,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		return ProductiveBeesConfig.BEES.itemProductionRules.get().get(beeId);
 	}
 
-	protected Predicate<BlockState> pollinatePredicate() {
+	protected Predicate<BlockState> getFlowerPredicate() {
 		Predicate<BlockState> predicate = (blockState) -> {
 			if (blockState.isIn(BlockTags.TALL_FLOWERS)) {
 				if (blockState.getBlock() == Blocks.SUNFLOWER) {
@@ -159,26 +138,9 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	public boolean tileAtPosHasRoom(BlockPos pos) {
 		TileEntity tileEntity = this.world.getTileEntity(pos);
 		if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-			return !((AdvancedBeehiveTileEntityAbstract)tileEntity).isHiveFull();
+			return !((AdvancedBeehiveTileEntityAbstract)tileEntity).isFullOfBees();
 		} else {
 			return false;
-		}
-	}
-
-	public boolean func_226415_eI_() {
-		if (this.stayOutOfHiveCountdown <= 0 && !this.pollinateGoal.func_226503_k_() && !this.hasStung()) {
-			boolean needsToReturnHome = this.failedToFindNectar() || this.world.isRaining() || this.world.isNightTime() || this.hasNectar();
-			return needsToReturnHome && !this.hasHome();
-		} else {
-			return false;
-		}
-	}
-	private boolean hasHome() {
-		if (this.hivePos == null) {
-			return false;
-		} else {
-			TileEntity tileEntity = this.world.getTileEntity(this.hivePos);
-			return  tileEntity instanceof BeehiveTileEntity && ((BeehiveTileEntity)tileEntity).func_226968_d_();
 		}
 	}
 
@@ -186,16 +148,16 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		private PassiveGoal() {
 		}
 
-		public abstract boolean func_225506_g_();
+		public abstract boolean canBeeStart();
 
-		public abstract boolean func_225507_h_();
+		public abstract boolean canBeeContinue();
 
 		public boolean shouldExecute() {
-			return this.func_225506_g_() && !ProductiveBeeEntity.this.isAngry();
+			return this.canBeeStart() && !ProductiveBeeEntity.this.isAngry();
 		}
 
 		public boolean shouldContinueExecuting() {
-			return this.func_225507_h_() && !ProductiveBeeEntity.this.isAngry();
+			return this.canBeeContinue() && !ProductiveBeeEntity.this.isAngry();
 		}
 	}
 
@@ -204,17 +166,17 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			super();
 		}
 
-		public boolean func_225506_g_() {
+		public boolean canBeeStart() {
 			if (ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewFlower > 0) {
 				return false;
-			} else if (ProductiveBeeEntity.this.func_226411_eD_()) {
+			} else if (ProductiveBeeEntity.this.hasNectar()) {
 				return false;
 			} else if (ProductiveBeeEntity.this.world.isRaining()) {
 				return false;
 			} else if (ProductiveBeeEntity.this.rand.nextFloat() < 0.7F) {
 				return false;
 			} else {
-				Optional<BlockPos> optional = this.func_226507_o_();
+				Optional<BlockPos> optional = this.getFlower();
 				if (optional.isPresent()) {
 					ProductiveBeeEntity.this.savedFlowerPos = optional.get();
 					return ProductiveBeeEntity.this.navigator.tryMoveToXYZ((double)ProductiveBeeEntity.this.savedFlowerPos.getX() + 0.5D, (double)ProductiveBeeEntity.this.savedFlowerPos.getY() + 0.5D, (double)ProductiveBeeEntity.this.savedFlowerPos.getZ() + 0.5D, 1.2F);
@@ -230,37 +192,37 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			super();
 		}
 
-		public boolean func_225506_g_() {
-			boolean hasHivePos = ProductiveBeeEntity.this.hasHivePos();
+		public boolean canBeeStart() {
+			boolean hasHivePos = ProductiveBeeEntity.this.hasHive();
 			if (!hasHivePos) {
 				return false;
 			}
 
 			return  !ProductiveBeeEntity.this.detachHome() &&
-					ProductiveBeeEntity.this.func_226415_eI_() &&
-					!this.isAtNest(ProductiveBeeEntity.this.hivePos) &&
+					ProductiveBeeEntity.this.canEnterHive() &&
+					!this.isCloseEnough(ProductiveBeeEntity.this.hivePos) &&
 					ProductiveBeeEntity.this.world.getBlockState(ProductiveBeeEntity.this.hivePos).isIn(ProductiveBeeEntity.this.nestBlockTag);
 		}
 
-		private boolean isAtNest(BlockPos pos) {
-			if (ProductiveBeeEntity.this.func_226401_b_(pos, 2)) {
+		private boolean isCloseEnough(BlockPos pos) {
+			if (ProductiveBeeEntity.this.isWithinDistance(pos, 2)) {
 				return true;
 			} else {
 				Path path = ProductiveBeeEntity.this.navigator.getPath();
-				return path != null && path.func_224770_k().equals(pos) && path.func_224771_h() && path.isFinished();
+				return path != null && path.getTarget().equals(pos) && path.reachesTarget() && path.isFinished();
 			}
 		}
 
-		protected void func_226475_c_(BlockPos pos) {
-			this.field_226469_d_.add(pos);
+		protected void addPossibleHives(BlockPos pos) {
+			this.possibleHives.add(pos);
 
 			TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(pos);
 			int maxBees = 3;
 			if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
 				maxBees = ((AdvancedBeehiveTileEntityAbstract) tileEntity).MAX_BEES;
 			}
-			while(this.field_226469_d_.size() > maxBees) {
-				this.field_226469_d_.remove(0);
+			while(this.possibleHives.size() > maxBees) {
+				this.possibleHives.remove(0);
 			}
 		}
 	}
@@ -281,8 +243,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 
 		public boolean needsNewHome() {
 			return ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewHive == 0 &&
-					!ProductiveBeeEntity.this.hasHivePos() &&
-					ProductiveBeeEntity.this.func_226415_eI_();
+					!ProductiveBeeEntity.this.hasHive() &&
+					ProductiveBeeEntity.this.canEnterHive();
 		}
 
 		public void startExecuting() {
@@ -293,13 +255,13 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 				BlockPos blockPos;
 				do {
 					if (!iterator.hasNext()) {
-						ProductiveBeeEntity.this.findBeehiveGoal.func_226477_j_();
+						ProductiveBeeEntity.this.findBeehiveGoal.clearPossibleHives();
 						ProductiveBeeEntity.this.hivePos = nearbyNests.get(0);
 						return;
 					}
 
 					blockPos = (BlockPos)iterator.next();
-				} while(ProductiveBeeEntity.this.findBeehiveGoal.func_226473_b_(blockPos));
+				} while(ProductiveBeeEntity.this.findBeehiveGoal.isPossibleHive(blockPos));
 
 				ProductiveBeeEntity.this.hivePos = blockPos;
 			}
@@ -324,21 +286,21 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			super();
 		}
 
-		public boolean func_225506_g_() {
-			if (ProductiveBeeEntity.this.hasHivePos() && ProductiveBeeEntity.this.func_226415_eI_() && ProductiveBeeEntity.this.hivePos.withinDistance(ProductiveBeeEntity.this.getPositionVec(), 2.0D)) {
-				TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(ProductiveBeeEntity.this.hivePos);
-				// Enter vanilla registered hives
-				if (tileEntity instanceof BeehiveTileEntity) {
-					BeehiveTileEntity beehiveTileEntity = (BeehiveTileEntity)tileEntity;
-					if (!beehiveTileEntity.func_226970_h_()) {
+		public boolean canBeeStart() {
+			if (ProductiveBeeEntity.this.hasHive() && ProductiveBeeEntity.this.canEnterHive() && ProductiveBeeEntity.this.hivePos.withinDistance(ProductiveBeeEntity.this.getPositionVec(), 2.0D)) {
+				TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(ProductiveBeeEntity.this.getHivePos());
+				// Enter ProductiveBees hives
+				if(tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
+					AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract)tileEntity;
+					if (!beehiveTileEntity.isFullOfBees()) {
 						return true;
 					}
 					ProductiveBeeEntity.this.hivePos = null;
 				}
-				// Enter ProductiveBees hives
-				if(tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-					AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract)tileEntity;
-					if (!beehiveTileEntity.isHiveFull()) {
+				// Enter vanilla registered hives
+				else if (tileEntity instanceof BeehiveTileEntity) {
+					BeehiveTileEntity beehiveTileEntity = (BeehiveTileEntity)tileEntity;
+					if (!beehiveTileEntity.isFullOfBees()) {
 						return true;
 					}
 					ProductiveBeeEntity.this.hivePos = null;
@@ -348,19 +310,19 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			return false;
 		}
 
-		public boolean func_225507_h_() {
+		public boolean canBeeContinue() {
 			return false;
 		}
 
 		public void startExecuting() {
-			if (ProductiveBeeEntity.this.hasHivePos()) {
-				TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(ProductiveBeeEntity.this.hivePos);
+			if (ProductiveBeeEntity.this.hasHive()) {
+				TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(ProductiveBeeEntity.this.getHivePos());
 				if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
 					AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract) tileEntity;
 					beehiveTileEntity.insertBee(ProductiveBeeEntity.this, ProductiveBeeEntity.this.hasNectar(), 0);
 				} else if (tileEntity instanceof BeehiveTileEntity) {
 					BeehiveTileEntity beehiveTileEntity = (BeehiveTileEntity) tileEntity;
-					beehiveTileEntity.func_226962_a_(ProductiveBeeEntity.this, ProductiveBeeEntity.this.func_226411_eD_(), 0);
+					beehiveTileEntity.func_226962_a_(ProductiveBeeEntity.this, ProductiveBeeEntity.this.hasNectar(), 0);
 				}
 			}
 		}
