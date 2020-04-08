@@ -10,6 +10,8 @@ import cy.jdkdigital.productivebees.setup.ClientProxy;
 import cy.jdkdigital.productivebees.setup.ClientSetup;
 import cy.jdkdigital.productivebees.setup.IProxy;
 import cy.jdkdigital.productivebees.setup.ServerProxy;
+import cy.jdkdigital.productivebees.world.storage.loot.conditions.EntityIsProductiveBee;
+import cy.jdkdigital.productivebees.world.storage.loot.functions.ProductivityBonus;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -18,8 +20,11 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
+import net.minecraft.world.storage.loot.conditions.LootConditionManager;
+import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -105,32 +110,35 @@ public final class ProductiveBees
 	{
 		CapabilityBee.register();
 
+		LootFunctionManager.registerFunction(new ProductivityBonus.Serializer());
+		LootConditionManager.registerCondition(new EntityIsProductiveBee.Serializer());
+
 		this.fixPOI(event);
 	}
 
 	public void loadComplete(FMLLoadCompleteEvent event)
 	{
 		for (Biome biome : ForgeRegistries.BIOMES) {
-			String key = biome.getTranslationKey();
-			if(key.contains("desert")) {
+			Biome.Category cat = biome.getCategory();
+			if(cat.equals(Biome.Category.DESERT)) {
 				biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.SAND_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.SAND.getDefaultState(), ModBlocks.SAND_NEST.get().getDefaultState())));
 			}
-			else if (key.contains("savanna_plateau") || key.contains("shattered_savanna") || key.contains("wooded_badlands") || key.contains("badlands_plateau") || key.contains("taiga_hills")) {
+			else if (cat.equals(Biome.Category.SAVANNA) || cat.equals(Biome.Category.TAIGA)) {
 				biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.COARSE_DIRT_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.COARSE_DIRT.getDefaultState(), ModBlocks.COARSE_DIRT_NEST.get().getDefaultState())));
 			}
-			else if (key.contains("mountains")) {
+			else if (cat.equals(Biome.Category.EXTREME_HILLS)) {
 				biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.STONE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.STONE.getDefaultState(), ModBlocks.STONE_NEST.get().getDefaultState())));
 			}
-			else if (key.contains("swamp")) {
+			else if (cat.equals(Biome.Category.SWAMP)) {
 				biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.SLIMY_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GRASS_BLOCK.getDefaultState(), ModBlocks.SLIMY_NEST.get().getDefaultState())));
 			}
-			else if (key.contains("nether")) {
+			else if (cat.equals(Biome.Category.NETHER)) {
 				biome.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, ModFeatures.GLOWSTONE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GLOWSTONE.getDefaultState(), ModBlocks.GLOWSTONE_NEST.get().getDefaultState())));
 				biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.NETHER_FORTRESS_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_BRICKS.getDefaultState(), ModBlocks.NETHER_BRICK_NEST.get().getDefaultState())));
 			}
-			else if (key.contains("end")) {
+			else if (cat.equals(Biome.Category.THEEND)) {
 				biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.END_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.END_STONE.getDefaultState(), ModBlocks.END_NEST.get().getDefaultState())));
-				if (key.contains("the_end")) {
+				if (biome == Biomes.THE_END) {
 					// Pillar nests
 					biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.OBSIDIAN_PILLAR_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.OBSIDIAN.getDefaultState(), ModBlocks.OBSIDIAN_PILLAR_NEST.get().getDefaultState())));
 				}

@@ -11,6 +11,11 @@ import net.minecraft.potion.Effects;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class GlowingBeeEntity extends EffectHiveBeeEntity implements IBeeEntity {
 
 	public GlowingBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
@@ -23,7 +28,7 @@ public class GlowingBeeEntity extends EffectHiveBeeEntity implements IBeeEntity 
 	}
 
 	@Override
-    public Effect getEffect() {
-		return Effects.BLINDNESS;
+    public Map<Effect, Integer> getEffects() {
+		return new HashMap<Effect, Integer>() {{put(Effects.BLINDNESS, 200);}};
 	}
 }

@@ -45,5 +45,22 @@
 	"advancements.husbandry.advanced_beehive.title":  "Gotta work, bees!",
 	"advancements.husbandry.advanced_beehive.description": "Craft an advanced beehive",
 	"advancements.husbandry.expansion_box.title": "Bigger is always better.",
-	"advancements.husbandry.expansion_box.description": "Get an expansion box for your advanced beehive"
+	"advancements.husbandry.expansion_box.description": "Get an expansion box for your advanced beehive",
+
+	"productivebees.attribute.information.type": "Type: %s",
+	"productivebees.attribute.information.type.hive": "Hive",
+	"productivebees.attribute.information.type.solitary": "Solitary",
+	"productivebees.attribute.information.productivity": "Productivity: %s",
+	"productivebees.attribute.information.productivity.normal": "Normal",
+	"productivebees.attribute.information.productivity.medium": "Medium",
+	"productivebees.attribute.information.productivity.high": "High",
+	"productivebees.attribute.information.productivity.very_high": "Very High",
+	"productivebees.attribute.information.temper": "Temper: %s",
+	"productivebees.attribute.information.temper.passive": "Passive",
+	"productivebees.attribute.information.temper.normal": "Normal",
+	"productivebees.attribute.information.temper.short": "Short",
+	"productivebees.attribute.information.temper.hostile": "Hostile",
+
+	"productivebees.hive.tooltip.bees": "Bees:",
+	"productivebees.hive.tooltip.honey_level": "Honey Level: %d"
 }

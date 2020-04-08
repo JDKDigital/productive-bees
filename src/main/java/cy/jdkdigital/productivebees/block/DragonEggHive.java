@@ -50,8 +50,8 @@ public class DragonEggHive extends AdvancedBeehiveAbstract {
         if (!world.isRemote()) {
             DragonEggHiveTileEntity tileEntity = (DragonEggHiveTileEntity) world.getTileEntity(pos);
             ProductiveBees.LOGGER.info("Nest tilentity: " + tileEntity);
-            ProductiveBees.LOGGER.info("Bee count: " + tileEntity.getBees().size());
-            ProductiveBees.LOGGER.info("Occupants: " + tileEntity.getBees());
+            ProductiveBees.LOGGER.info("Bee count: " + tileEntity.getBeeList().size());
+            ProductiveBees.LOGGER.info("Occupants: " + tileEntity.getBeeList());
 
             return ActionResultType.PASS;
         }

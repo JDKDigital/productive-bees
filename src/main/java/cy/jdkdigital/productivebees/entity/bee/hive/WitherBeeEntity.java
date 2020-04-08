@@ -7,6 +7,9 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WitherBeeEntity extends EffectHiveBeeEntity {
 
 	public WitherBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
@@ -14,7 +17,7 @@ public class WitherBeeEntity extends EffectHiveBeeEntity {
 	}
 
 	@Override
-    public Effect getEffect() {
-		return Effects.WITHER;
+    public Map<Effect, Integer> getEffects() {
+		return new HashMap<Effect, Integer>() {{put(Effects.WITHER, 150);}};
 	}
 }

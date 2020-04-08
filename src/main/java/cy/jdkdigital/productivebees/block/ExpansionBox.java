@@ -66,6 +66,7 @@ public class ExpansionBox extends Block {
 			}
 			// Update beehive
 			world.setBlockState(posDown, blockStateBelow.with(AdvancedBeehive.EXPANDED, !isRemoved), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+			((AdvancedBeehiveTileEntity)world.getTileEntity(posDown)).MAX_BEES = world.getBlockState(pos).get(AdvancedBeehive.EXPANDED) ? 5 : 3;
 		}
 	}
 

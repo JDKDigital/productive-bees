@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.gen.feature;
 import com.mojang.datafixers.Dynamic;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
 import net.minecraft.block.pattern.BlockStateMatcher;
 import net.minecraft.entity.EntityType;
@@ -89,7 +88,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
                 BeeEntity newBee = beeType.create(world.getWorld());
                 newBee.setPosition(pos.getX(), pos.getY(), pos.getZ());
                 ProductiveBees.LOGGER.info(newBee);
-                nestTileEntity.insertBee(newBee, false, world.getRandom().nextInt(599));
+                nestTileEntity.tryEnterHive(newBee, false, world.getRandom().nextInt(599));
             }
 
             return result;

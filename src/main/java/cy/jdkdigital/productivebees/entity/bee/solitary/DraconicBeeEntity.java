@@ -10,16 +10,13 @@ import net.minecraft.potion.Effect;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class DraconicBeeEntity extends EffectHiveBeeEntity implements IBeeEntity {
 
 	public DraconicBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
 		this.nestBlockTag = ModTags.getTag(ModTags.DRACONIC_NESTS);
-		isInterestedIn = (poiType) -> poiType == PointOfInterestType.field_226356_s_ || poiType == ModPointOfInterestTypes.DRACONIC_NEST.get();
-	}
-
-	@Override
-	public Effect getEffect() {
-		return null;
+		beehiveInterests = (poiType) -> poiType == PointOfInterestType.field_226356_s_ || poiType == ModPointOfInterestTypes.DRACONIC_NEST.get();
 	}
 }

@@ -16,6 +16,8 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import static net.minecraftforge.event.ForgeEventFactory.*;
 
@@ -30,11 +32,6 @@ public class CreeperBeeEntity extends EffectHiveBeeEntity {
 
 	public CreeperBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
-	}
-
-	@Override
-	public Effect getEffect() {
-		return null;
 	}
 
 	protected void registerData() {

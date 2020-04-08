@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.block;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.*;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -19,6 +20,7 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.*;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -31,14 +33,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.*;
 import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.Constants;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
@@ -67,6 +71,32 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		return state.get(HONEY_LEVEL);
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	@Override
+	public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		super.addInformation(stack, worldIn, tooltip, flagIn);
+
+		CompoundNBT entityNBT = stack.getChildTag("BlockEntityTag");
+		CompoundNBT stateNBT = stack.getChildTag("BlockStateTag");
+		if (stateNBT != null) {
+			if (stateNBT.contains("honey_level")) {
+				String honeyLevel = stateNBT.getString("honey_level");
+				tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.honey_level", honeyLevel).applyTextStyle(TextFormatting.GOLD));
+			}
+		}
+		if (entityNBT != null) {
+			if (entityNBT.contains("Bees")) {
+				ListNBT beeList = entityNBT.getCompound("Bees").getList("Inhabitants", Constants.NBT.TAG_COMPOUND);
+				tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").applyTextStyle(TextFormatting.BOLD));
+				for (int i = 0; i < beeList.size(); ++i) {
+					CompoundNBT tag = beeList.getCompound(i);
+					CompoundNBT beeNBT = tag.getCompound("EntityData");
+					tooltip.add(new TranslationTextComponent("" + beeNBT.getString("id")).applyTextStyle(TextFormatting.GREEN));
+				}
+			}
+		}
+	}
+
 	public void harvestBlock(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity tileEntity, ItemStack itemStack) {
 		super.harvestBlock(world, player, pos, state, tileEntity, itemStack);
 		if (!world.isRemote && tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
@@ -77,7 +107,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 				this.activateBeeFrenzy(world, pos);
 			}
 
-			CriteriaTriggers.field_229865_L_.func_226223_a_((ServerPlayerEntity)player, state.getBlock(), itemStack, beehiveTileEntity.getBees().size());
+			CriteriaTriggers.BEE_NEST_DESTROYED.test((ServerPlayerEntity)player, state.getBlock(), itemStack, beehiveTileEntity.getBeeCount());
 		}
 	}
 
@@ -126,16 +156,16 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		}
 
 		if (itemUsed) {
-			if (!CampfireBlock.func_226914_b_(world, pos, 5)) {
+			if (!CampfireBlock.isLitCampfireInRange(world, pos, 5)) {
 				if (this.tileEntityAtPositionHasBees(world, pos)) {
 					this.activateBeeFrenzy(world, pos);
 				}
 
-				this.drainHive(world, state, pos, player, BeehiveTileEntity.State.EMERGENCY);
+				this.takeHoney(world, state, pos, player, BeehiveTileEntity.State.EMERGENCY);
 			} else {
-				this.drainHive(world, state, pos);
+				this.takeHoney(world, state, pos);
 				if (player instanceof ServerPlayerEntity) {
-					CriteriaTriggers.field_229863_J_.func_226695_a_((ServerPlayerEntity)player, pos, heldItemCopy);
+					CriteriaTriggers.SAFELY_HARVEST_HONEY.test((ServerPlayerEntity)player, pos, heldItemCopy);
 				}
 			}
 
@@ -155,8 +185,8 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		}
 	}
 
-	public void drainHive(World world, BlockState state, BlockPos pos, @Nullable PlayerEntity player, BeehiveTileEntity.State beeState) {
-		this.drainHive(world, state, pos);
+	public void takeHoney(World world, BlockState state, BlockPos pos, @Nullable PlayerEntity player, BeehiveTileEntity.State beeState) {
+		this.takeHoney(world, state, pos);
 		TileEntity tileEntity = world.getTileEntity(pos);
 		if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
 			AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract)tileEntity;
@@ -164,7 +194,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		}
 	}
 
-	public void drainHive(World world, BlockState state, BlockPos pos) {
+	public void takeHoney(World world, BlockState state, BlockPos pos) {
 		world.setBlockState(pos, state.with(HONEY_LEVEL, getMaxHoneyLevel() - 5), 3);
 	}
 
@@ -172,27 +202,27 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 	public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
 		if (state.get(HONEY_LEVEL) >= MAX_HONEY_LEVEL) {
 			for(int i = 0; i < random.nextInt(1) + 1; ++i) {
-				this.dripHoney(world, pos, state);
+				this.func_226879_a_(world, pos, state);
 			}
 		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private void dripHoney(World world, BlockPos pos, BlockState state) {
+	private void func_226879_a_(World world, BlockPos pos, BlockState state) {
 		if (state.getFluidState().isEmpty() && world.rand.nextFloat() >= 0.3F) {
 			VoxelShape shape = state.getCollisionShape(world, pos);
 			double shapeEnd = shape.getEnd(Direction.Axis.Y);
 			if (shapeEnd >= 1.0D && !state.isIn(BlockTags.IMPERMEABLE)) {
 				double shapeStart = shape.getStart(Direction.Axis.Y);
 				if (shapeStart > 0.0D) {
-					this.dripHoney(world, pos, shape, (double)pos.getY() + shapeStart - 0.05D);
+					this.addHoneyParticle(world, pos, shape, (double)pos.getY() + shapeStart - 0.05D);
 				} else {
 					BlockPos posDown = pos.down();
 					BlockState stateDown = world.getBlockState(posDown);
 					VoxelShape shapeDown = stateDown.getCollisionShape(world, posDown);
 					double shapeDownEnd = shapeDown.getEnd(Direction.Axis.Y);
 					if ((shapeDownEnd < 1.0D || !stateDown.isCollisionShapeOpaque(world, posDown)) && stateDown.getFluidState().isEmpty()) {
-						this.dripHoney(world, pos, shape, (double)pos.getY() - 0.05D);
+						this.addHoneyParticle(world, pos, shape, (double)pos.getY() - 0.05D);
 					}
 				}
 			}
@@ -201,12 +231,12 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private void dripHoney(World world, BlockPos pos, VoxelShape shape, double p_226880_4_) {
-		this.dripHoney(world, (double)pos.getX() + shape.getStart(Direction.Axis.X), (double)pos.getX() + shape.getEnd(Direction.Axis.X), (double)pos.getZ() + shape.getStart(Direction.Axis.Z), (double)pos.getZ() + shape.getEnd(Direction.Axis.Z), p_226880_4_);
+	private void addHoneyParticle(World world, BlockPos pos, VoxelShape shape, double p_226880_4_) {
+		this.addHoneyParticle(world, (double)pos.getX() + shape.getStart(Direction.Axis.X), (double)pos.getX() + shape.getEnd(Direction.Axis.X), (double)pos.getZ() + shape.getStart(Direction.Axis.Z), (double)pos.getZ() + shape.getEnd(Direction.Axis.Z), p_226880_4_);
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private void dripHoney(World world, double d1, double d2, double d3, double d4, double d5) {
+	private void addHoneyParticle(World world, double d1, double d2, double d3, double d4, double d5) {
 		world.addParticle(ParticleTypes.DRIPPING_HONEY, MathHelper.lerp(world.rand.nextDouble(), d1, d2), d5, MathHelper.lerp(world.rand.nextDouble(), d3, d4), 0.0D, 0.0D, 0.0D);
 	}
 
@@ -218,6 +248,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		builder.add(HONEY_LEVEL, BlockStateProperties.FACING);
 	}
 
+	@Nonnull
 	public BlockRenderType getRenderType(BlockState state) {
 		return BlockRenderType.MODEL;
 	}
@@ -234,14 +265,11 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 				}
 
 				ItemStack itemStack = new ItemStack(this);
-				CompoundNBT compoundNBT;
+				CompoundNBT compoundNBT = new CompoundNBT();
 				if (hasBees) {
-					compoundNBT = new CompoundNBT();
 					compoundNBT.put("Bees", beehiveTileEntity.getBeeListAsNBTList());
-					itemStack.setTagInfo("BlockEntityTag", compoundNBT);
 				}
 
-				compoundNBT = new CompoundNBT();
 				compoundNBT.putInt("honey_level", honeyLevel);
 				itemStack.setTagInfo("BlockStateTag", compoundNBT);
 				ItemEntity hiveEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
@@ -249,7 +277,6 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 				world.addEntity(hiveEntity);
 			}
 		}
-
 		super.onBlockHarvested(world, pos, state, player);
 	}
 
@@ -280,6 +307,6 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 
 	static {
 		DIRECTIONS = new Direction[]{Direction.WEST, Direction.EAST, Direction.SOUTH};
-		HONEY_LEVEL = BlockStateProperties.field_227036_ao_;
+		HONEY_LEVEL = BlockStateProperties.HONEY_LEVEL;
 	}
 }

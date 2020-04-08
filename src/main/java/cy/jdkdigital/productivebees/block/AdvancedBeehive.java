@@ -1,9 +1,11 @@
 package cy.jdkdigital.productivebees.block;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.network.PacketOpenGui;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
+import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -30,6 +32,8 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 
@@ -70,6 +74,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 		if (!isRemoved) {
 			// Set this block to expanded if there's an expansion box on top and the block has not been removed
 			world.setBlockState(pos, state.with(EXPANDED, blockAbove instanceof ExpansionBox), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+			((AdvancedBeehiveTileEntity)world.getTileEntity(pos)).MAX_BEES = world.getBlockState(pos).get(EXPANDED) ? 5 : 3;
 		}
 		if (blockAbove instanceof ExpansionBox) {
 			// Set this block to expanded if there's an advanced beehive below and the block has not been removed
@@ -80,6 +85,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 				// Set honey state based on the beehive below
 				.with(ExpansionBox.HAS_HONEY, !isRemoved && state.get(AdvancedBeehiveAbstract.HONEY_LEVEL) >= getMaxHoneyLevel()), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
 		}
+
 	}
 
 	@Override
@@ -134,8 +140,15 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 	public void openGui(ServerPlayerEntity player, AdvancedBeehiveTileEntity tileEntity) {
 		ProductiveBees.NETWORK_CHANNEL.sendTo(new PacketOpenGui(tileEntity.getBeeListAsNBTList(), tileEntity.getPos()), player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 
-		NetworkHooks.openGui(player, (INamedContainerProvider) tileEntity, packetBuffer -> {
+		tileEntity.inhabitantList.clear();
+		tileEntity.getCapability(CapabilityBee.BEE).ifPresent(handler -> {
+			for (AdvancedBeehiveTileEntityAbstract.Inhabitant bee: handler.getInhabitants()) {
+				tileEntity.inhabitantList.add(bee.nbt.getString("id"));
+			}
+		});
+		NetworkHooks.openGui(player, tileEntity, packetBuffer -> {
 			packetBuffer.writeBlockPos(tileEntity.getPos());
+			packetBuffer.writeString(String.join(",", tileEntity.inhabitantList));
 		});
 	}
 }

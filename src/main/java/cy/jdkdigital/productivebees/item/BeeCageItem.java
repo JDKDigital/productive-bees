@@ -1,5 +1,10 @@
 package cy.jdkdigital.productivebees.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.util.BeeAttribute;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -14,13 +19,12 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
 
 public class BeeCageItem extends Item {
 
@@ -72,6 +76,12 @@ public class BeeCageItem extends Item {
         }
         target.writeWithoutTypeId(nbt);
 
+        if (target instanceof ProductiveBeeEntity) {
+            nbt.putInt("bee_productivity", ((ProductiveBeeEntity)target).getAttributeValue(BeeAttributes.PRODUCTIVITY));
+            nbt.putInt("bee_temper", ((ProductiveBeeEntity)target).getAttributeValue(BeeAttributes.TEMPER));
+            nbt.putString("bee_type", ((ProductiveBeeEntity)target).getAttributeValue(BeeAttributes.TYPE));
+        }
+
         ItemStack cageStack = new ItemStack(itemStack.getItem());
         cageStack.setTag(nbt);
 
@@ -110,5 +120,52 @@ public class BeeCageItem extends Item {
 
         String entityId = stack.getTag().getString("name");
         return new TranslationTextComponent(this.getTranslationKey()).appendText(" (" + entityId + ")");
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.addInformation(stack, world, list, flag);
+
+        if (stack.getTag() != null) {
+            String type = stack.getTag().getString("bee_type");
+            ITextComponent type_value = new TranslationTextComponent("productivebees.attribute.information.type." + type).applyTextStyle(getColor(type));
+            list.add((new TranslationTextComponent("productivebees.attribute.information.type", type_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+            Integer productivity = stack.getTag().getInt("bee_productivity");
+            ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).applyTextStyle(getColor(productivity));
+            list.add((new TranslationTextComponent("productivebees.attribute.information.productivity", productivity_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+            Integer temper = stack.getTag().getInt("bee_temper");
+            ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).applyTextStyle(getColor(temper));
+            list.add((new TranslationTextComponent("productivebees.attribute.information.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+        }
+    }
+
+    private static TextFormatting getColor(String level) {
+        switch (level) {
+            case "hive":
+                return TextFormatting.YELLOW;
+            case "solitary":
+                return TextFormatting.GRAY;
+        }
+        return TextFormatting.WHITE;
+    }
+
+    private static TextFormatting getColor(int level) {
+        switch (level) {
+            case -3:
+                return TextFormatting.DARK_RED;
+            case -2:
+                return TextFormatting.RED;
+            case -1:
+                return TextFormatting.YELLOW;
+            case 1:
+                return TextFormatting.GREEN;
+            case 2:
+                return TextFormatting.BLUE;
+            case 3:
+                return TextFormatting.GOLD;
+        }
+        return TextFormatting.LIGHT_PURPLE;
     }
 }

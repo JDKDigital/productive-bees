@@ -3,9 +3,9 @@ package cy.jdkdigital.productivebees.tileentity;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
-import cy.jdkdigital.productivebees.handler.bee.BeeStorage;
+import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
-import cy.jdkdigital.productivebees.handler.bee.IBeeStorage;
+import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -39,7 +39,7 @@ import java.util.List;
 public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntity {
     public BlockPos flowerPos = null;
     public int MAX_BEES = 3;
-    private LazyOptional<IBeeStorage> beeHandler = LazyOptional.of(this::createBeeHandler);
+    private LazyOptional<IInhabitantStorage> beeHandler = LazyOptional.of(this::createBeeHandler);
     private TileEntityType<?> tileEntityType;
 
     private int tickCounter = 0;
@@ -65,7 +65,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
             // Play hive buzz sound
             beeHandler.ifPresent(h -> {
-                if (h.getBees().size() > 0 && this.world.getRandom().nextDouble() < 0.005D) {
+                if (h.getInhabitants().size() > 0 && this.world.getRandom().nextDouble() < 0.005D) {
                     BlockPos pos = this.getPos();
                     double x = (double) pos.getX() + 0.5D;
                     double y = (double) pos.getY();
@@ -78,12 +78,12 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     private void tickBees() {
         beeHandler.ifPresent(h -> {
-            h.getBees().removeIf((bee) -> {
-                if (bee.ticksInHive > bee.minOccupationTicks) {
-                    BeehiveTileEntity.State beeState = bee.nbt.getBoolean("HasNectar") ? BeehiveTileEntity.State.HONEY_DELIVERED : BeehiveTileEntity.State.BEE_RELEASED;
-                    return this.releaseBee(this.getBlockState(), bee.nbt, null, beeState);
+            h.getInhabitants().removeIf((inhabitant) -> {
+                if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
+                    BeehiveTileEntity.State beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveTileEntity.State.HONEY_DELIVERED : BeehiveTileEntity.State.BEE_RELEASED;
+                    return this.releaseBee(this.getBlockState(), inhabitant.nbt, null, beeState);
                 } else {
-                    bee.ticksInHive += tickCounter;
+                    inhabitant.ticksInHive += tickCounter;
                 }
                 return false;
             });
@@ -95,7 +95,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     public void markDirty() {
-        if (this.func_226968_d_()) {
+        if (this.isNearFire()) {
             this.releaseBees(null, this.world.getBlockState(this.getPos()), BeehiveTileEntity.State.EMERGENCY);
         }
 
@@ -105,7 +105,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     public void releaseBees(@Nullable PlayerEntity player, BlockState blockState, BeehiveTileEntity.State beeState) {
         List<Entity> releasedBees = Lists.newArrayList();
         beeHandler.ifPresent(h -> {
-            h.getBees().removeIf((tag) -> this.releaseBee(blockState, tag.nbt, releasedBees, beeState));
+            h.getInhabitants().removeIf((tag) -> this.releaseBee(blockState, tag.nbt, releasedBees, beeState));
         });
         if (player != null) {
             Iterator entityIterator = releasedBees.iterator();
@@ -115,7 +115,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 if (entity instanceof BeeEntity) {
                     BeeEntity beeEntity = (BeeEntity) entity;
                     if (player.getPositionVec().squareDistanceTo(entity.getPositionVec()) <= 16.0D) {
-                        if (!this.hasCampfire()) {
+                        if (!this.isSmoked()) {
                             beeEntity.setBeeAttacker(player);
                         } else {
                             beeEntity.setStayOutOfHiveCountdown(400);
@@ -127,11 +127,11 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     public boolean isHiveEmpty() {
-        return this.getBees().size() == 0;
+        return this.getBeeList().size() == 0;
     }
 
     public boolean isFullOfBees() {
-        return this.getBees().size() == MAX_BEES;
+        return this.getBeeList().size() == MAX_BEES;
     }
 
     public static int getHoneyLevel(BlockState state) {
@@ -143,18 +143,18 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return block instanceof AdvancedBeehiveAbstract ? ((AdvancedBeehiveAbstract) block).getMaxHoneyLevel() : 5;
     }
 
-    public boolean hasCampfire() {
-        return CampfireBlock.func_226914_b_(this.world, this.getPos(), 5);
+    public boolean isSmoked() {
+        return CampfireBlock.isLitCampfireInRange(this.world, this.getPos(), 5);
     }
 
-    public void insertBee(Entity entity, boolean hasNectar, int ticksInHive) {
+    public void tryEnterHive(Entity entity, boolean hasNectar, int ticksInHive) {
         beeHandler.ifPresent(h -> {
-            if (h.getBees().size() < MAX_BEES) {
+            if (h.getInhabitants().size() < MAX_BEES) {
                 entity.stopRiding();
                 entity.removePassengers();
                 CompoundNBT compoundNBT = new CompoundNBT();
                 entity.writeUnlessPassenger(compoundNBT);
-                h.addBee(new Bee(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar)));
+                h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar), entity.getName().getFormattedText()));
                 if (this.world != null) {
                     if (entity instanceof BeeEntity) {
                         BeeEntity beeEntity = (BeeEntity) entity;
@@ -173,11 +173,11 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     public void func_226961_a_(Entity beeEntity, boolean hasNectar) {
-        this.insertBee(beeEntity, hasNectar, 0);
+        this.tryEnterHive(beeEntity, hasNectar, 0);
     }
 
     public void func_226962_a_(Entity beeEntity, boolean hasNectar, int ticksInHive) {
-        this.insertBee(beeEntity, hasNectar, ticksInHive);
+        this.tryEnterHive(beeEntity, hasNectar, ticksInHive);
     }
 
     public boolean releaseBee(BlockState state, CompoundNBT tag, @Nullable List<Entity> releasedBees, BeehiveTileEntity.State beeState) {
@@ -188,7 +188,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
             tag.remove("Passengers");
             tag.remove("Leash");
             tag.removeUniqueId("UUID");
-            Direction direction = state.has(BlockStateProperties.FACING) ? state.get(BlockStateProperties.FACING) : state.get(BeehiveBlock.field_226872_b_);
+            Direction direction = state.has(BlockStateProperties.FACING) ? state.get(BlockStateProperties.FACING) : state.get(BeehiveBlock.FACING);
             BlockPos offset = pos.offset(direction);
             boolean isPositionBlocked = !this.world.getBlockState(offset).getCollisionShape(this.world, offset).isEmpty();
             if (isPositionBlocked && beeState != BeehiveTileEntity.State.EMERGENCY) {
@@ -266,7 +266,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     @Nonnull
     public ListNBT getBeeListAsNBTList() {
-        return this.getCapability(CapabilityBee.BEE).map(IBeeStorage::getBeeListAsListNBT).orElse(new ListNBT());
+        return this.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
     }
 
     public static boolean spawnBeeInWorldAPosition(World world, BeeEntity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
@@ -290,20 +290,22 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         }
     }
 
-    public List<Bee> getBees() {
-        return this.getCapability(CapabilityBee.BEE).map(IBeeStorage::getBees).orElse(new ArrayList<>());
+    public List<Inhabitant> getBeeList() {
+        return this.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitants).orElse(new ArrayList<>());
     }
 
-    public static class Bee {
+    public static class Inhabitant {
         public final CompoundNBT nbt;
         public int ticksInHive;
         public final int minOccupationTicks;
+        public final String localizedName;
 
-        public Bee(CompoundNBT nbt, int ticksInHive, int minOccupationTicks) {
+        public Inhabitant(CompoundNBT nbt, int ticksInHive, int minOccupationTicks, String localizedName) {
             nbt.removeUniqueId("UUID");
             this.nbt = nbt;
             this.ticksInHive = ticksInHive;
             this.minOccupationTicks = minOccupationTicks;
+            this.localizedName = localizedName;
         }
 
         @Override
@@ -316,8 +318,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         }
     }
 
-    private IBeeStorage createBeeHandler() {
-        return new BeeStorage() {
+    private IInhabitantStorage createBeeHandler() {
+        return new InhabitantStorage() {
             @Override
             public void onContentsChanged() {
                 super.onContentsChanged();

@@ -3,20 +3,18 @@ package cy.jdkdigital.productivebees.entity.bee.solitary;
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.IBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ISolitaryBeeEntity;
-import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.Effects;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SlimyBeeEntity extends EffectHiveBeeEntity implements IBeeEntity, ISolitaryBeeEntity {
 
@@ -26,8 +24,8 @@ public class SlimyBeeEntity extends EffectHiveBeeEntity implements IBeeEntity, I
 	}
 
 	@Override
-    public Effect getEffect() {
-		return Effects.SLOWNESS;
+    public Map<Effect, Integer> getEffects() {
+		return new HashMap<Effect, Integer>() {{put(Effects.SLOWNESS, 200);}};
 	}
 
 	@Override

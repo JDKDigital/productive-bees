@@ -1,20 +1,23 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
 import com.electronwill.nightconfig.core.Config;
+import com.google.common.collect.Maps;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
+import cy.jdkdigital.productivebees.util.BeeAttribute;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.state.properties.DoubleBlockHalf;
@@ -30,6 +33,7 @@ import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
@@ -38,23 +42,31 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
+	protected Map<BeeAttribute<?>, Object> beeAttributes = Maps.newIdentityHashMap();
 	public Tag<Block> nestBlockTag;
 
-	protected Predicate<PointOfInterestType> isInterestedIn = (poiType) -> poiType == PointOfInterestType.field_226356_s_ || poiType == PointOfInterestType.field_226357_t_;
+	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> poiType == PointOfInterestType.field_226356_s_ || poiType == PointOfInterestType.field_226357_t_;
 
 	public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
 		this.nestBlockTag = BlockTags.BEEHIVES;
+
+		beeAttributes.put(BeeAttributes.PRODUCTIVITY, world.rand.nextInt(2));
+		beeAttributes.put(BeeAttributes.TEMPER, 0);
+		beeAttributes.put(BeeAttributes.TYPE, "hive");
+		beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.FLOWERS);
+		beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
+
+		// Goal to make entity follow player, must be registered after init to use bee attributes
+		this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
 	}
 
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.399999976158142D, true));
+		// Resting goal!
 		this.goalSelector.addGoal(1, new ProductiveBeeEntity.EnterBeehiveGoal());
 		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-
-		// Item to make entity follow player
-		this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.fromTag(ItemTags.FLOWERS), false));
 
 		this.pollinateGoal = new ProductiveBeeEntity.PollinateGoal();
 		this.pollinateGoal.flowerPredicate = this.getFlowerPredicate();
@@ -62,8 +74,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		this.goalSelector.addGoal(5, new ProductiveBeeEntity.UpdateNestGoal());
 
 		this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.25D));
-
-//		this.goalSelector.addGoal(5, new BeeEntity.UpdateBeehiveGoal());
 
 		this.findBeehiveGoal = new ProductiveBeeEntity.FindNestGoal();
 		this.goalSelector.addGoal(5, this.findBeehiveGoal);
@@ -77,21 +87,32 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		this.targetSelector.addGoal(2, new BeeEntity.AttackPlayerGoal(this));
 	}
 
+	public boolean isAngry() {
+		return super.isAngry() && getAttributeValue(BeeAttributes.TEMPER) > 0;
+	}
+
+	public boolean isFlowers(BlockPos pos) {
+		ProductiveBees.LOGGER.info("Running custom isFlowers method");
+		return this.world.isBlockPresent(pos) && this.world.getBlockState(pos).getBlock().isIn(getAttributeValue(BeeAttributes.FOOD_SOURCE));
+	}
+
 	public String getBeeType() {
 		return this.getEntityString().split("[:_]")[1];
 	}
 
 	public boolean isBreedingItem(ItemStack itemStack) {
-		return
-			(itemStack.getItem() == Items.REDSTONE && this.getBeeType().equals("redstone")) ||
-			(itemStack.getItem() == Items.DIAMOND && this.getBeeType().equals("diamond")) ||
-			(itemStack.getItem() == Items.LAPIS_LAZULI && this.getBeeType().equals("lapis")) ||
-			(itemStack.getItem() == Items.EMERALD && this.getBeeType().equals("emerald")) ||
-			(itemStack.getItem() == Items.GOLD_INGOT && this.getBeeType().equals("gold")) ||
-			(itemStack.getItem() == Items.IRON_INGOT && this.getBeeType().equals("iron")) ||
-			(itemStack.getItem() == Items.GUNPOWDER && this.getBeeType().equals("creeper"))
-		;
+		return itemStack.getItem().isIn(getAttributeValue(BeeAttributes.APHRODISIACS));
 	}
+
+	public <T> T getAttributeValue(BeeAttribute<T> parameter) {
+		return (T) this.beeAttributes.get(parameter);
+	}
+
+//	@Override
+//	public boolean processInteract(PlayerEntity player, Hand hand) {
+//		ItemStack itemStack = player.getHeldItem(hand);
+//		return super.processInteract(player, hand);
+//	}
 
 	@Override
 	public BeeEntity createChild(AgeableEntity targetEntity) {
@@ -112,24 +133,27 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 	}
 
-	public Config getProductionList() {
-		return getProductionList(this.getEntityString());
-	}
-
 	public static Config getProductionList(String beeId) {
 		return ProductiveBeesConfig.BEES.itemProductionRules.get().get(beeId);
 	}
 
+	public static LootTable getProductionLootTable(World world, String beeId) {
+		ResourceLocation beeRes = new ResourceLocation(beeId);
+		ResourceLocation resourcelocation = new ResourceLocation(beeRes.getNamespace(), "entities/" + beeRes.getPath());
+		return world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
+	}
+
 	protected Predicate<BlockState> getFlowerPredicate() {
 		Predicate<BlockState> predicate = (blockState) -> {
-			if (blockState.isIn(BlockTags.TALL_FLOWERS)) {
+			Tag<Block> interests = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.FOOD_SOURCE);
+			if (interests.equals(BlockTags.TALL_FLOWERS) && blockState.isIn(BlockTags.TALL_FLOWERS)) {
 				if (blockState.getBlock() == Blocks.SUNFLOWER) {
 					return blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
 				} else {
 					return true;
 				}
 			} else {
-				return blockState.isIn(BlockTags.SMALL_FLOWERS);
+				return blockState.isIn(interests);
 			}
 		};
 		return predicate;
@@ -227,29 +251,14 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 	}
 
-	class UpdateNestGoal extends Goal {
+	class UpdateNestGoal extends BeeEntity.UpdateBeehiveGoal {
 		private UpdateNestGoal() {
 			super();
 		}
 
-		@Override
-		public boolean shouldExecute() {
-			return this.needsNewHome() && !ProductiveBeeEntity.this.isAngry();
-		}
-
-		public boolean shouldContinueExecuting() {
-			return false;
-		}
-
-		public boolean needsNewHome() {
-			return ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewHive == 0 &&
-					!ProductiveBeeEntity.this.hasHive() &&
-					ProductiveBeeEntity.this.canEnterHive();
-		}
-
 		public void startExecuting() {
 			ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewHive = 20;
-			List<BlockPos> nearbyNests = this.findNearbyNests();
+			List<BlockPos> nearbyNests = this.getNearbyFreeNests();
 			if (!nearbyNests.isEmpty()) {
 				Iterator iterator = nearbyNests.iterator();
 				BlockPos blockPos;
@@ -267,11 +276,11 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			}
 		}
 
-		private List<BlockPos> findNearbyNests() {
+		private List<BlockPos> getNearbyFreeNests() {
 			BlockPos pos = new BlockPos(ProductiveBeeEntity.this);
 
 			PointOfInterestManager poiManager = ((ServerWorld)ProductiveBeeEntity.this.world).getPointOfInterestManager();
-			Stream<PointOfInterest> stream = poiManager.func_219146_b(ProductiveBeeEntity.this.isInterestedIn, pos, 30, PointOfInterestManager.Status.ANY);
+			Stream<PointOfInterest> stream = poiManager.func_219146_b(ProductiveBeeEntity.this.beehiveInterests, pos, 30, PointOfInterestManager.Status.ANY);
 
 			return stream
 					.map(PointOfInterest::getPos)
@@ -281,7 +290,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 	}
 
-	public class EnterBeehiveGoal extends ProductiveBeeEntity.PassiveGoal {
+	public class EnterBeehiveGoal extends BeeEntity.EnterBeehiveGoal {
 		public EnterBeehiveGoal() {
 			super();
 		}
@@ -310,21 +319,23 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			return false;
 		}
 
-		public boolean canBeeContinue() {
-			return false;
-		}
-
 		public void startExecuting() {
 			if (ProductiveBeeEntity.this.hasHive()) {
 				TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(ProductiveBeeEntity.this.getHivePos());
 				if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
 					AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract) tileEntity;
-					beehiveTileEntity.insertBee(ProductiveBeeEntity.this, ProductiveBeeEntity.this.hasNectar(), 0);
+					beehiveTileEntity.tryEnterHive(ProductiveBeeEntity.this, ProductiveBeeEntity.this.hasNectar(), 0);
 				} else if (tileEntity instanceof BeehiveTileEntity) {
 					BeehiveTileEntity beehiveTileEntity = (BeehiveTileEntity) tileEntity;
-					beehiveTileEntity.func_226962_a_(ProductiveBeeEntity.this, ProductiveBeeEntity.this.hasNectar(), 0);
+					beehiveTileEntity.tryEnterHive(ProductiveBeeEntity.this, ProductiveBeeEntity.this.hasNectar(), 0);
 				}
 			}
+		}
+	}
+
+	public class ProductiveTemptGoal extends TemptGoal {
+		public ProductiveTemptGoal(CreatureEntity entity, double speed) {
+			super(entity, speed, false, Ingredient.fromTag(getAttributeValue(BeeAttributes.APHRODISIACS)));
 		}
 	}
 }

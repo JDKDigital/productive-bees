@@ -1,9 +1,6 @@
 package cy.jdkdigital.productivebees.block;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.block.nest.SlimyNest;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
 import net.minecraft.block.Block;
@@ -18,12 +15,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.Dimension;
-import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 
@@ -83,10 +78,10 @@ abstract public class SolitaryNest extends AdvancedBeehiveAbstract {
 			SolitaryNestTileEntity tileEntity = (SolitaryNestTileEntity) world.getTileEntity(pos);
 			ProductiveBees.LOGGER.info("Nest tilentity: " + tileEntity);
 			ProductiveBees.LOGGER.info("Nest sealed: " + tileEntity.isSealed());
-			ProductiveBees.LOGGER.info("Bee count: " + tileEntity.getBees().size());
-			ProductiveBees.LOGGER.info("Occupants: " + tileEntity.getBees());
-			ProductiveBees.LOGGER.info("Egg count: " + tileEntity.getEggList().size());
-			ProductiveBees.LOGGER.info("Eggs: " + tileEntity.getEggList());
+			ProductiveBees.LOGGER.info("Bee count: " + tileEntity.getBeeList().size());
+			ProductiveBees.LOGGER.info("Occupants: " + tileEntity.getBeeList());
+			ProductiveBees.LOGGER.info("Egg count: " + tileEntity.getEggs().size());
+			ProductiveBees.LOGGER.info("Eggs: " + tileEntity.getEggListAsNBTList());
 
 			return ActionResultType.PASS;
 		}

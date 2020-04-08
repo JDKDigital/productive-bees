@@ -1,25 +1,22 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
-import net.minecraft.block.Block;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Tags;
 
 abstract public class SolitaryBeeEntity extends ProductiveBeeEntity implements ISolitaryBeeEntity
 {
 	public SolitaryBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
 		this.nestBlockTag = ModTags.getTag(ModTags.GROUND_NESTS);
-		isInterestedIn = (poiType) -> poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() || poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
+		beehiveInterests = (poiType) -> poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() || poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
+		beeAttributes.remove(BeeAttributes.TYPE);
+		beeAttributes.put(BeeAttributes.TYPE, "solitary");
 	}
 
 	@Override

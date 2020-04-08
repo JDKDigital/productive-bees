@@ -8,6 +8,9 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ZombieBeeEntity extends EffectHiveBeeEntity {
 
 	public ZombieBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
@@ -15,8 +18,8 @@ public class ZombieBeeEntity extends EffectHiveBeeEntity {
 	}
 
 	@Override
-    public Effect getEffect() {
-		return Effects.HUNGER;
+    public Map<Effect, Integer> getEffects() {
+		return new HashMap<Effect, Integer>() {{put(Effects.HUNGER, 220);}};
 	}
 
 	@Override

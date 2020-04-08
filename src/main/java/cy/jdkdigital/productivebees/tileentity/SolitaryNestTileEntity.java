@@ -2,6 +2,9 @@ package cy.jdkdigital.productivebees.tileentity;
 
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
+import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
+import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
+import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -16,14 +19,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.Dimension;
+import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.util.LazyOptional;
 
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
 
-    public List<SolitaryNestTileEntity.Egg> eggs = Lists.newArrayList();
+    private LazyOptional<IInhabitantStorage> eggHandler = LazyOptional.of(this::createEggHandler);
     protected boolean isSealed = false;
+    private int tickCounter = 0;
 
     // Used for calculating if a new bee should move in
     private int nestTickTimer = 0;
@@ -61,29 +69,44 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
                 }
             }
 
+            eggHandler.ifPresent(h -> {
+                // Once nest is empty of eggs, unseal it
+                if (h.getInhabitants().isEmpty()) {
+                    this.isSealed = false;
+                }
+            });
+
+            if (tickCounter++ % 97 == 0) {
+                this.tickEggs();
+                tickCounter = 0;
+            }
+        }
+        super.tick();
+    }
+
+    private void tickEggs() {
+        eggHandler.ifPresent(h -> {
             // Once nest is empty of eggs, unseal it
-            if (this.eggs.isEmpty()) {
+            if (h.getInhabitants().isEmpty()) {
                 this.isSealed = false;
             }
             // Check if eggs need to hatch from sealed hive
-            if (this.isSealed && nestTickTimer % 41 == 0) {
-                Iterator<SolitaryNestTileEntity.Egg> eggIterator = this.eggs.iterator();
-                while(eggIterator.hasNext()) {
-                    SolitaryNestTileEntity.Egg egg = eggIterator.next();
-                    if (egg.ticksInHive > egg.incubationTime) {
+            if (this.isSealed) {
+                h.getInhabitants().removeIf((egg) -> {
+                    if (egg.ticksInHive > egg.minOccupationTicks) {
                         CompoundNBT tag = egg.nbt;
                         Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
                         BeeEntity beeEntity = (BeeEntity) EntityType.func_220335_a(tag, this.world, (spawnedEntity) -> spawnedEntity);
                         if (beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, this.getPos(), direction, -24000)) {
-                            eggIterator.remove();
+                            return true;
                         }
                     } else {
-                        egg.ticksInHive += 41;
+                        egg.ticksInHive += tickCounter;
                     }
-                }
+                    return false;
+                });
             }
-        }
-        super.tick();
+        });
     }
 
     public static EntityType<BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest) {
@@ -108,23 +131,22 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
         return hasNectar ? 12000 : 600;
     }
 
-    public void read(CompoundNBT compoundNBT) {
-        super.read(compoundNBT);
-        this.eggs.clear();
-        ListNBT eggList = compoundNBT.getList("Eggs", 10);
+    public void read(CompoundNBT tag) {
+        super.read(tag);
 
-        for(int i = 0; i < eggList.size(); ++i) {
-            CompoundNBT eggNBT = eggList.getCompound(i);
-            SolitaryNestTileEntity.Egg egg = new SolitaryNestTileEntity.Egg(eggNBT.getCompound("EntityData"), eggNBT.getInt("TicksInHive"), eggNBT.getInt("IncubationTime"));
-            this.eggs.add(egg);
-        }
+        CompoundNBT eggTag = tag.getCompound("Eggs");
+        eggHandler.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(eggTag));
     }
 
-    public CompoundNBT write(CompoundNBT compoundNBT) {
-        super.write(compoundNBT);
-        compoundNBT.put("Eggs", this.getEggList());
+    public CompoundNBT write(CompoundNBT tag) {
+        super.write(tag);
 
-        return compoundNBT;
+        eggHandler.ifPresent(h -> {
+            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
+            tag.put("Eggs", compound);
+        });
+
+        return tag;
     }
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
@@ -132,50 +154,55 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
 
         // Lay egg
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
-            if (this.eggs.size() < MAX_EGGS) {
-                CompoundNBT compoundNBT = new CompoundNBT();
-                beeEntity.writeUnlessPassenger(compoundNBT);
-                this.eggs.add(new SolitaryNestTileEntity.Egg(compoundNBT, 0, this.getRepopulationCooldown() * this.eggs.size()));
+            eggHandler.ifPresent(h -> {
+                if (h.getInhabitants().size() < MAX_EGGS) {
+                    CompoundNBT compoundNBT = new CompoundNBT();
+                    beeEntity.writeUnlessPassenger(compoundNBT);
 
-                // Once nest is full of eggs, seal it and set the "mother" bee to die
-                if (this.eggs.size() == MAX_EGGS) {
-                    this.isSealed = true;
-                    beeEntity.hivePos = null;
-                    beeEntity.setHasStung(true);
+                    h.addInhabitant(new Egg(compoundNBT, 0, this.getRepopulationCooldown() * this.getEggs().size()));
+                    // Once nest is full of eggs, seal it and set the "mother" bee to die
+                    if (h.getInhabitants().size() == MAX_EGGS) {
+                        this.isSealed = true;
+                        // Kill off mother bee after filling the hive with eggs
+                        beeEntity.hivePos = null;
+                        beeEntity.setHasStung(true);
+                    }
                 }
-            }
+            });
         }
     }
 
-    public ListNBT getEggList() {
-        ListNBT listNBT = new ListNBT();
-
-        for (Egg egg : this.eggs) {
-            egg.nbt.removeUniqueId("UUID");
-            CompoundNBT compoundNBT = new CompoundNBT();
-            compoundNBT.put("EntityData", egg.nbt);
-            compoundNBT.putInt("TicksInHive", egg.ticksInHive);
-            compoundNBT.putInt("IncubationTime", egg.incubationTime);
-            listNBT.add(compoundNBT);
-        }
-
-        return listNBT;
+    public List<Inhabitant> getEggs() {
+        return this.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitants).orElse(new ArrayList<>());
     }
 
-    public static class Egg extends AdvancedBeehiveTileEntityAbstract.Bee {
-        public final int incubationTime;
+    @Nonnull
+    public ListNBT getEggListAsNBTList() {
+        return this.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
+    }
+
+    public static class Egg extends Inhabitant {
 
         public Egg(CompoundNBT nbt, int ticksInHive, int incubationTime) {
-            super(nbt, ticksInHive, 0);
-            this.incubationTime = incubationTime;
+            super(nbt, ticksInHive, incubationTime, "");
         }
 
         @Override
         public String toString() {
             return "Egg {" +
                     "ticksInHive=" + ticksInHive +
-                    ", incubationTime=" + incubationTime +
+                    ", incubationTime=" + minOccupationTicks +
                     '}';
         }
+    }
+
+    private IInhabitantStorage createEggHandler() {
+        return new InhabitantStorage() {
+            @Override
+            public void onContentsChanged() {
+                super.onContentsChanged();
+                SolitaryNestTileEntity.this.markDirty();
+            }
+        };
     }
 }

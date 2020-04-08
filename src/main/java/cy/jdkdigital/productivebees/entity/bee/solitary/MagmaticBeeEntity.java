@@ -11,6 +11,8 @@ import net.minecraft.potion.Effect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class MagmaticBeeEntity extends EffectHiveBeeEntity implements IBeeEntity {
 
 	private int lavaDuration = 0;
@@ -37,11 +39,6 @@ public class MagmaticBeeEntity extends EffectHiveBeeEntity implements IBeeEntity
 
 	public boolean isBurning() {
 		return this.isAngry();
-	}
-
-	@Override
-	public Effect getEffect() {
-		return null;
 	}
 
 	public void attackTarget(LivingEntity target) {

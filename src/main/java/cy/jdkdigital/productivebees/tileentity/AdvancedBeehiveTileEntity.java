@@ -9,7 +9,10 @@ import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -22,11 +25,18 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootParameterSets;
+import net.minecraft.world.storage.loot.LootParameters;
+import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
@@ -41,6 +51,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider {
@@ -48,12 +60,13 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     private int tickCounter = 0;
     public static final int BOTTLE_SLOT = 0;
     public static final int[] OUTPUT_SLOTS = new int[] {1,2,3,4,5,6,7,8,9};
+    public List<String> inhabitantList = new ArrayList<>();
 
 	private LazyOptional<IItemHandler> handler = LazyOptional.of(this::createInventoryHandler);
 
 	public AdvancedBeehiveTileEntity() {
 	    super(ModTileEntityTypes.ADVANCED_BEEHIVE.get());
-        MAX_BEES = 5;
+        MAX_BEES = 3;
 	}
 
     /**
@@ -81,13 +94,13 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             tickCounter = 0;
 
             ListNBT beeList = ((AdvancedBeehiveTileEntity)world.getTileEntity(this.pos)).getBeeListAsNBTList();
-            if (beeList.size() > 0 && !world.isNightTime()) {
+            if (beeList.size() > 0) {
                 for (INBT inbt : beeList) {
                     CompoundNBT inb = (CompoundNBT) inbt;
                     String beeId = ((CompoundNBT) inb.get("EntityData")).getString("id");
 
-//                    EntityType<BeeEntity> entityType = (EntityType<BeeEntity>)ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeId));
-//                    entityType.create(world)
+                    EntityType<BeeEntity> entityType = (EntityType<BeeEntity>)ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeId));
+                    BeeEntity bee = entityType.create(world);
 
                     Config productionList = ProductiveBeeEntity.getProductionList(beeId);
 
@@ -96,13 +109,22 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                         for (Map.Entry<String, Object> entry : productionList.valueMap().entrySet()) {
                             Double value = (Double) entry.getValue();
                             if (world.rand.nextDouble() < value) {
+                                LootTable lootTable = ProductiveBeeEntity.getProductionLootTable(world, beeId);
                                 this.handler.ifPresent(itemHandler -> {
-                                    Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(entry.getKey()));
-                                    int slot = getAvailableOutputSlot(itemHandler, item);
-                                    if (slot > 0) {
-                                        itemHandler.insertItem(slot, new ItemStack(item), false);
-                                        this.markDirty();
-                                    }
+                                    LootContext ctx =  new LootContext.Builder((ServerWorld) world)
+                                        .withRandom(world.rand)
+                                        .withParameter(LootParameters.THIS_ENTITY, bee)
+                                        .withParameter(LootParameters.POSITION, this.pos)
+                                        .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.GENERIC)
+                                        .build(LootParameterSets.ENTITY);
+
+                                    List<ItemStack> stacks = lootTable.generate(ctx);
+                                    net.minecraftforge.common.ForgeHooks.modifyLoot(stacks, ctx).forEach((stack) -> {
+                                        int slot = getAvailableOutputSlot(itemHandler, stack);
+                                        if (slot > 0) {
+                                            itemHandler.insertItem(slot, stack, false);
+                                        }
+                                    });
                                 });
                             }
                         }
@@ -123,11 +145,11 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         super.tick();
 	}
 
-	private int getAvailableOutputSlot(IItemHandler handler, Item item) {
+	private int getAvailableOutputSlot(IItemHandler handler, ItemStack insertStack) {
 	    int emptySlot = 0;
         for (int slot : OUTPUT_SLOTS) {
             ItemStack stack = handler.getStackInSlot(slot);
-            if (stack.getItem() == item && stack.getMaxStackSize() != stack.getCount()) {
+            if (stack.getItem() == insertStack.getItem() && (stack.getMaxStackSize() + insertStack.getCount()) != stack.getCount()) {
                 return slot;
             }
             if (stack.isEmpty() && emptySlot == 0) {
@@ -145,37 +167,6 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             tag.put("bees", this.getBeeListAsNBTList());
         }
         return tag;
-    }
-
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-//        LOGGER.info("getUpdatePacket");
-        return new SUpdateTileEntityPacket(this.pos, 14, this.getUpdateTag());
-    }
-
-    @Override
-    public void handleUpdateTag(CompoundNBT tag) {
-//        LOGGER.info("handleUpdateTag" + " " + this.world + " " + tag.get("bees"));
-        this.read(tag);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        CompoundNBT tag = pkt.getNbtCompound();
-        ProductiveBees.LOGGER.info("onDataPacket " + tag.contains("bees"));
-        if (tag.contains("bees")) {
-            this.read(tag);
-//            LOGGER.info(tag.getCompound("bees"));
-            ModelDataManager.requestModelDataRefresh(this);
-            world.notifyBlockUpdate(this.pos, getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
-        }
-    }
-
-    @Nonnull
-    @Override
-    public IModelData getModelData() {
-//        ProductiveBees.LOGGER.info("getModelData " + this.world);
-        return new ModelDataMap.Builder().build();
     }
 
     @Override
