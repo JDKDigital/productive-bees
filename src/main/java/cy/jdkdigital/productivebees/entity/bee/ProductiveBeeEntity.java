@@ -14,11 +14,13 @@ import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tags.BlockTags;
@@ -34,6 +36,7 @@ import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootTable;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
@@ -42,7 +45,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
-	protected Map<BeeAttribute<?>, Object> beeAttributes = Maps.newIdentityHashMap();
+	protected Map<BeeAttribute<?>, Object> beeAttributes = Maps.newHashMap();
 	public Tag<Block> nestBlockTag;
 
 	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> poiType == PointOfInterestType.field_226356_s_ || poiType == PointOfInterestType.field_226357_t_;
@@ -52,7 +55,9 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		this.nestBlockTag = BlockTags.BEEHIVES;
 
 		beeAttributes.put(BeeAttributes.PRODUCTIVITY, world.rand.nextInt(2));
-		beeAttributes.put(BeeAttributes.TEMPER, 0);
+		beeAttributes.put(BeeAttributes.TEMPER, 1);
+		beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
+		beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 0);
 		beeAttributes.put(BeeAttributes.TYPE, "hive");
 		beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.FLOWERS);
 		beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
@@ -69,7 +74,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
 
 		this.pollinateGoal = new ProductiveBeeEntity.PollinateGoal();
-		this.pollinateGoal.flowerPredicate = this.getFlowerPredicate();
 		this.goalSelector.addGoal(4, this.pollinateGoal);
 		this.goalSelector.addGoal(5, new ProductiveBeeEntity.UpdateNestGoal());
 
@@ -92,7 +96,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	}
 
 	public boolean isFlowers(BlockPos pos) {
-		ProductiveBees.LOGGER.info("Running custom isFlowers method");
 		return this.world.isBlockPresent(pos) && this.world.getBlockState(pos).getBlock().isIn(getAttributeValue(BeeAttributes.FOOD_SOURCE));
 	}
 
@@ -108,7 +111,37 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		return (T) this.beeAttributes.get(parameter);
 	}
 
-//	@Override
+	@Override
+	public void writeAdditional(CompoundNBT tag) {
+		super.writeAdditional(tag);
+
+		tag.putInt("bee_productivity", this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
+		tag.putInt("bee_temper", this.getAttributeValue(BeeAttributes.TEMPER));
+		tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
+		tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
+		tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
+		tag.putString("bee_food_source", this.getAttributeValue(BeeAttributes.FOOD_SOURCE).getId().toString());
+		tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getId().toString());
+	}
+
+	@Override
+	public void readAdditional(CompoundNBT tag) {
+		super.readAdditional(tag);
+
+		if (tag.contains("bee_productivity")) {
+			beeAttributes.clear();
+			beeAttributes.put(BeeAttributes.PRODUCTIVITY, tag.getInt("bee_productivity"));
+			beeAttributes.put(BeeAttributes.TEMPER, tag.getInt("bee_temper"));
+			beeAttributes.put(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
+			beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
+			beeAttributes.put(BeeAttributes.TYPE, tag.getString("bee_type"));
+			beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_food_source"))));
+			beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
+			ProductiveBees.LOGGER.info("After read: " + tag.getString("bee_food_source") + " " + this.getAttributeValue(BeeAttributes.FOOD_SOURCE) + " " + this);
+		}
+	}
+
+	//	@Override
 //	public boolean processInteract(PlayerEntity player, Hand hand) {
 //		ItemStack itemStack = player.getHeldItem(hand);
 //		return super.processInteract(player, hand);
@@ -143,22 +176,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		return world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
 	}
 
-	protected Predicate<BlockState> getFlowerPredicate() {
-		Predicate<BlockState> predicate = (blockState) -> {
-			Tag<Block> interests = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.FOOD_SOURCE);
-			if (interests.equals(BlockTags.TALL_FLOWERS) && blockState.isIn(BlockTags.TALL_FLOWERS)) {
-				if (blockState.getBlock() == Blocks.SUNFLOWER) {
-					return blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
-				} else {
-					return true;
-				}
-			} else {
-				return blockState.isIn(interests);
-			}
-		};
-		return predicate;
-	}
-
 	public boolean tileAtPosHasRoom(BlockPos pos) {
 		TileEntity tileEntity = this.world.getTileEntity(pos);
 		if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
@@ -188,6 +205,17 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	public class PollinateGoal extends BeeEntity.PollinateGoal {
 		public PollinateGoal() {
 			super();
+			this.flowerPredicate = (blockState) -> {
+				Tag<Block> interests = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.FOOD_SOURCE);
+				if (blockState.isIn(interests) && blockState.isIn(BlockTags.TALL_FLOWERS)) {
+					if (blockState.getBlock() == Blocks.SUNFLOWER) {
+						return blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
+					} else {
+						return true;
+					}
+				}
+				return blockState.isIn(interests);
+			};
 		}
 
 		public boolean canBeeStart() {

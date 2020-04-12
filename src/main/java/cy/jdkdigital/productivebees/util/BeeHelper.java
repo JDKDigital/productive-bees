@@ -44,6 +44,11 @@ public class BeeHelper {
                 bee = ModEntities.DIAMOND_BEE.get();
             }
         }
+        else if (itemStack.getItem() == Items.IRON_INGOT) {
+            if (!entity.getEntityString().equals("productivebees:iron_bee")) {
+                bee = ModEntities.IRON_BEE.get();
+            }
+        }
         else if (itemStack.getItem() == Items.GOLD_INGOT) {
             if (!entity.getEntityString().equals("productivebees:gold_bee")) {
                 bee = ModEntities.GOLD_BEE.get();

@@ -46,7 +46,7 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(Collections.emptyList(), ModBlocks.ADVANCED_BEEHIVE.get().getRegistryName());
+        registration.addRecipes(Collections.emptyList(), ModBlocks.ADVANCED_OAK_BEEHIVE.get().getRegistryName());
     }
 
     static class BeeIngredient {

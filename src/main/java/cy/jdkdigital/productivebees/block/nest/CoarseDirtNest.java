@@ -21,6 +21,6 @@ public class CoarseDirtNest extends SolitaryNest {
 
     @Override
     public EntityType<BeeEntity> getNestingBeeType(World world) {
-        return world.rand.nextBoolean() ? ModEntities.MINING_BEE.get() : ModEntities.MASON_BEE.get();
+        return world.rand.nextBoolean() ? ModEntities.MINING_BEE.get() : ModEntities.DIGGER_BEE.get();
     }
 }

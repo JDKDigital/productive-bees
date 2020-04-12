@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.client.render.entity.model.SolitaryBeeModel;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
@@ -33,7 +34,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
 			beeLocation = beeLocation + "_nectar";
 		}
 		
-		return new ResourceLocation("productivebees:textures/entity/" + beeLocation + ".png");
+		return new ResourceLocation(ProductiveBees.MODID + ":textures/entity/" + beeLocation + ".png");
 	}
 
 }

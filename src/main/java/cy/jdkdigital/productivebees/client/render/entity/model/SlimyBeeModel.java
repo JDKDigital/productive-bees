@@ -4,25 +4,23 @@ import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
 public class SlimyBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeModel<T> {
-    private final ModelRenderer slime;
-    private final ModelRenderer innards;
 
     public SlimyBeeModel(boolean outerLayer) {
         super(false);
 
-        this.slime = new ModelRenderer(this, 0, 0);
-        this.innards = new ModelRenderer(this, 34, 0);
+        ModelRenderer slime = new ModelRenderer(this, 0, 0);
+        ModelRenderer innards = new ModelRenderer(this, 34, 0);
 
         if (!outerLayer) {
             addBodyParts();
         } else {
-            this.slime.setRotationPoint(0.0F, 0.0F, 0.0F);
-            this.slime.addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F, 0.0F);
-            this.beeModel.addChild(this.slime);
+            slime.setRotationPoint(0.0F, 0.0F, 0.0F);
+            slime.addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F, 0.0F);
+            this.beeModel.addChild(slime);
 
-            this.innards.setRotationPoint(0.0F, 0.0F, 0.0F);
-            this.innards.addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F);
-            this.beeModel.addChild(this.innards);
+            innards.setRotationPoint(0.0F, 0.0F, 0.0F);
+            innards.addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F);
+            this.beeModel.addChild(innards);
         }
     }
 

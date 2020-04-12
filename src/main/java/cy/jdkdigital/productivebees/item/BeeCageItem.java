@@ -14,6 +14,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -22,6 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
@@ -76,12 +79,6 @@ public class BeeCageItem extends Item {
         }
         target.writeWithoutTypeId(nbt);
 
-        if (target instanceof ProductiveBeeEntity) {
-            nbt.putInt("bee_productivity", ((ProductiveBeeEntity)target).getAttributeValue(BeeAttributes.PRODUCTIVITY));
-            nbt.putInt("bee_temper", ((ProductiveBeeEntity)target).getAttributeValue(BeeAttributes.TEMPER));
-            nbt.putString("bee_type", ((ProductiveBeeEntity)target).getAttributeValue(BeeAttributes.TYPE));
-        }
-
         ItemStack cageStack = new ItemStack(itemStack.getItem());
         cageStack.setTag(nbt);
 
@@ -112,6 +109,7 @@ public class BeeCageItem extends Item {
         return null;
     }
 
+    @Nonnull
     @Override
     public ITextComponent getDisplayName(ItemStack stack) {
         if (!isFilled(stack)) {
@@ -126,18 +124,24 @@ public class BeeCageItem extends Item {
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
         super.addInformation(stack, world, list, flag);
 
-        if (stack.getTag() != null) {
-            String type = stack.getTag().getString("bee_type");
-            ITextComponent type_value = new TranslationTextComponent("productivebees.attribute.information.type." + type).applyTextStyle(getColor(type));
-            list.add((new TranslationTextComponent("productivebees.attribute.information.type", type_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+        CompoundNBT tag = stack.getTag();
+        if (tag != null) {
+            boolean hasStung = tag.getBoolean("HasStung");
+            if (hasStung) {
+                list.add(new TranslationTextComponent("productivebees.information.health.dying").applyTextStyle(TextFormatting.RED).applyTextStyle(TextFormatting.ITALIC));
+            }
 
-            Integer productivity = stack.getTag().getInt("bee_productivity");
+            String type = tag.getString("bee_type");
+            ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).applyTextStyle(getColor(type));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+            int productivity = tag.getInt("bee_productivity");
             ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).applyTextStyle(getColor(productivity));
-            list.add((new TranslationTextComponent("productivebees.attribute.information.productivity", productivity_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).applyTextStyle(TextFormatting.DARK_GRAY));
 
-            Integer temper = stack.getTag().getInt("bee_temper");
-            ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).applyTextStyle(getColor(temper));
-            list.add((new TranslationTextComponent("productivebees.attribute.information.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+            int temper = tag.getInt("bee_temper");
+            ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).applyTextStyle(getColor(temper));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
         }
     }
 

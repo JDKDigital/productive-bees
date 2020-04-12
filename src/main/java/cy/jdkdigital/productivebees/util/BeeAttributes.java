@@ -13,6 +13,8 @@ public class BeeAttributes {
     public static final BeeAttribute<String> TYPE = register("type");
     public static final BeeAttribute<Integer> PRODUCTIVITY = register("productivity");
     public static final BeeAttribute<Integer> TEMPER = register("temper");
+    public static final BeeAttribute<Integer> BEHAVIOR = register("behavior");
+    public static final BeeAttribute<Integer> WEATHER_TOLERANCE = register("weather_tolerance");
     public static final BeeAttribute<Tag<Block>> FOOD_SOURCE = register("food_source");
     public static final BeeAttribute<Tag<Item>> APHRODISIACS = register("aphrodisiacs");
 
@@ -34,6 +36,16 @@ public class BeeAttributes {
             put(1, "productivebees.attribute.information.temper.normal");
             put(2, "productivebees.attribute.information.temper.short");
             put(3, "productivebees.attribute.information.temper.hostile");
+        }});
+        keyMap.put(BEHAVIOR, new HashMap<Integer, String>() {{
+            put(0, "productivebees.attribute.information.behavior.diurnal");
+            put(1, "productivebees.attribute.information.behavior.nocturnal");
+            put(2, "productivebees.attribute.information.behavior.metaturnal");
+        }});
+        keyMap.put(WEATHER_TOLERANCE, new HashMap<Integer, String>() {{
+            put(0, "productivebees.attribute.information.weather_tolerance.none");
+            put(1, "productivebees.attribute.information.weather_tolerance.rain");
+            put(2, "productivebees.attribute.information.weather_tolerance.any");
         }});
     }
 }

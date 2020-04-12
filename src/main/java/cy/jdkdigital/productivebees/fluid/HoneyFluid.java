@@ -49,14 +49,9 @@ public abstract class HoneyFluid extends FlowingFluid {
         BlockPos blockpos = pos.up();
         if (worldIn.getBlockState(blockpos).isAir() && !worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
             if (random.nextInt(100) == 0) {
-                worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.field_226136_eQ_, SoundCategory.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
-            }
-
-            if (random.nextInt(200) == 0) {
-//                worldIn.playSound((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
+                worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_HONEY_BLOCK_SLIDE, SoundCategory.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
             }
         }
-
     }
 
     @Override
@@ -115,7 +110,7 @@ public abstract class HoneyFluid extends FlowingFluid {
     }
 
     private void triggerEffects(IWorld world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.field_226140_eU_, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.playSound(null, pos, SoundEvents.BLOCK_HONEY_BLOCK_SLIDE, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 
     protected boolean canSourcesMultiply() {

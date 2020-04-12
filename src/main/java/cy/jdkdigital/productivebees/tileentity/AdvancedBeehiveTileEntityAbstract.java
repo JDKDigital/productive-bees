@@ -70,7 +70,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                     double x = (double) pos.getX() + 0.5D;
                     double y = (double) pos.getY();
                     double z = (double) pos.getZ() + 0.5D;
-                    this.world.playSound(null, x, y, z, SoundEvents.field_226134_ai_, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    this.world.playSound(null, x, y, z, SoundEvents.BLOCK_BEEHIVE_WORK, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
             });
         }
@@ -164,7 +164,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                     }
 
                     BlockPos pos = this.getPos();
-                    this.world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.field_226131_af_, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    this.world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_ENTER, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
 
                 entity.remove();
@@ -282,10 +282,10 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
             entity.setGrowingAge(age);
         }
         // Check if the entity is in beehive_inhabitors tag
-        if (!entity.getType().isContained(EntityTypeTags.field_226155_c_)) {
+        if (!entity.getType().isContained(EntityTypeTags.BEEHIVE_INHABITORS)) {
             return false;
         } else {
-            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.field_226132_ag_, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_EXIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return world.addEntity(entity);
         }
     }

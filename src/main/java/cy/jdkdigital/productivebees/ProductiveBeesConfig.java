@@ -35,7 +35,7 @@ public class ProductiveBeesConfig {
                     .define("enableItemConverting", true);
 
             itemTickRate = builder
-                    .comment("How often should a bee generate items while in the hive.")
+                    .comment("How often should a bee attempt to generate items while in the hive.")
                     .define("itemTickRate", 600);
 
             builder.pop();
@@ -48,67 +48,30 @@ public class ProductiveBeesConfig {
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
 
-            Config productionValues = Config.inMemory();
+            Config productionRates = Config.inMemory();
 
-            productionValues.add("minecraft:bee", itemConfig(new HashMap<String, Double>() {{
-                put(ForgeRegistries.ITEMS.getKey(Items.HONEYCOMB).toString(), 0.25D);
-            }}));
-            productionValues.add("productivebees:iron_bee", itemConfig(new HashMap<String, Double>() {{
-                put(ForgeRegistries.ITEMS.getKey(Items.IRON_INGOT).toString(), 0.10D);
-                put(Items.IRON_NUGGET.getRegistryName().toString(), 0.40D);
-            }}));
-            productionValues.add("productivebees:gold_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.GOLD_INGOT.getRegistryName().toString(), 0.10D);
-                put(Items.GOLD_NUGGET.getRegistryName().toString(), 0.40D);
-            }}));
-            productionValues.add("productivebees:redstone_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.REDSTONE.getRegistryName().toString(), 0.25D);
-            }}));
-            productionValues.add("productivebees:lapis_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.LAPIS_LAZULI.getRegistryName().toString(), 0.20D);
-            }}));
-            productionValues.add("productivebees:emerald_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.EMERALD.getRegistryName().toString(), 0.05D);
-            }}));
-            productionValues.add("productivebees:diamond_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.DIAMOND.getRegistryName().toString(), 0.10D);
-            }}));
-            productionValues.add("productivebees:glowing_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.GLOWSTONE.getRegistryName().toString(), 0.25D);
-            }}));
-            productionValues.add("productivebees:quartz_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.QUARTZ.getRegistryName().toString(), 0.25D);
-            }}));
-            productionValues.add("productivebees:creeper_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.GUNPOWDER.getRegistryName().toString(), 0.10D);
-            }}));
-            productionValues.add("productivebees:zombie_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.ROTTEN_FLESH.getRegistryName().toString(), 0.10D);
-            }}));
-            productionValues.add("productivebees:ender_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.ENDER_PEARL.getRegistryName().toString(), 0.05D);
-            }}));
-            productionValues.add("productivebees:skeletal_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.BONE.getRegistryName().toString(), 0.10D);
-            }}));
-            productionValues.add("productivebees:wither_bee", itemConfig(new HashMap<String, Double>() {{
-                put(Items.WITHER_SKELETON_SKULL.getRegistryName().toString(), 0.01D);
-            }}));
+            productionRates.add("minecraft:bee",  0.25D);
+            productionRates.add("productivebees:creeper_bee", 0.10D);
+            productionRates.add("productivebees:diamond_bee", 0.10D);
+            productionRates.add("productivebees:emerald_bee", 0.05D);
+            productionRates.add("productivebees:ender_bee", 0.05D);
+            productionRates.add("productivebees:glowing_bee", 0.25D);
+            productionRates.add("productivebees:gold_bee", 0.10D);
+            productionRates.add("productivebees:iron_bee", 0.10D);
+            productionRates.add("productivebees:lapis_bee", 0.20D);
+            productionRates.add("productivebees:magmatic_bee", 0.20D);
+            productionRates.add("productivebees:quartz_bee", 0.25D);
+            productionRates.add("productivebees:redstone_bee", 0.25D);
+            productionRates.add("productivebees:skeletal_bee", 0.10D);
+            productionRates.add("productivebees:zombie_bee", 0.10D);
+            productionRates.add("productivebees:wither_bee", 0.01D);
 
             itemProductionRules = builder
-                    .comment("Bee production rules.")
-                    .define("itemProductionRules", productionValues);
+                    .comment("Bee production rates.")
+                    .define("itemProductionRates", productionRates);
 
             builder.pop();
         }
-    }
-
-    private static Config itemConfig(Map<String, Double> itemMap) {
-        Config config = Config.inMemory();
-        for (Map.Entry<String, Double> entry : itemMap.entrySet()) {
-            config.add(entry.getKey(), entry.getValue());
-        }
-        return config;
     }
 
     @SubscribeEvent
@@ -118,5 +81,4 @@ public class ProductiveBeesConfig {
     @SubscribeEvent
     public static void onReload(final ModConfig.Reloading configEvent) {
     }
-
 }

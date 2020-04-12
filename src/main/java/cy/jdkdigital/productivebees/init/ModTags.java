@@ -18,7 +18,8 @@ public class ModTags {
     public static final String END_NESTS = "end_nests";
     public static final String DRACONIC_NESTS = "draconic_nests";
 
-    public static final String DESERT_FLOWERS = "desert_flower";
+    public static final String ARID_FLOWERS = "arid_flower";
+    public static final String SWAMP_FLOWERS = "swamp_flower";
 
     public static Tag<Block> getTag(String resourceLocation) {
         return BlockTags.getCollection().getOrCreate(new ResourceLocation(ProductiveBees.MODID, resourceLocation));

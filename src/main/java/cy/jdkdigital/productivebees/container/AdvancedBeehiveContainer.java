@@ -72,6 +72,6 @@ public class AdvancedBeehiveContainer extends AbstractContainer {
 
 	@Override
 	public boolean canInteractWith(@Nonnull final PlayerEntity player) {
-		return isWithinUsableDistance(canInteractWithCallable, player, ModBlocks.ADVANCED_BEEHIVE.get());
+		return isWithinUsableDistance(canInteractWithCallable, player, ModBlocks.ADVANCED_OAK_BEEHIVE.get());
 	}
 }

@@ -53,25 +53,27 @@ public class ModEntities {
     public static RegistryObject<EntityType<BeeEntity>> QUARTZ_BEE = createHiveBee("quartz_bee", ProductiveBeeEntity::new);
     public static RegistryObject<EntityType<BeeEntity>> MAGMATIC_BEE = createHiveBee("magmatic_bee", MagmaticBeeEntity::new);
     public static RegistryObject<EntityType<BeeEntity>> DRACONIC_BEE = createHiveBee("draconic_bee", DraconicBeeEntity::new);
+    public static RegistryObject<EntityType<BeeEntity>> SLIMY_BEE = createHiveBee("slimy_bee", SlimyBeeEntity::new);
+
     public static RegistryObject<EntityType<BeeEntity>> MINING_BEE = createSolitaryBee("mining_bee", MiningBeeEntity::new);
     public static RegistryObject<EntityType<BeeEntity>> NOMAD_BEE = createSolitaryBee("nomad_bee", NomadBeeEntity::new);
     public static RegistryObject<EntityType<BeeEntity>> DIGGER_BEE = createSolitaryBee("digger_bee", DiggerBeeEntity::new);
     public static RegistryObject<EntityType<BeeEntity>> MASON_BEE = createSolitaryBee("mason_bee", MasonBeeEntity::new);
-    public static RegistryObject<EntityType<BeeEntity>> SLIMY_BEE = createHiveBee("slimy_bee", SlimyBeeEntity::new);
+    public static RegistryObject<EntityType<BeeEntity>> LEAFCUTTER_BEE = createSolitaryBee("leafcutter_bee", LeafcutterBeeEntity::new);
 
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createHiveBee(String name, EntityType.IFactory<E> supplier) {
         EntityType.Builder<E> builder = EntityType.Builder.<E>create(supplier, EntityClassification.CREATURE).size(0.7F, 0.6F);
         if (name.equals("magmatic_bee")) {
             builder.immuneToFire();
         }
-        return HIVE_BEES.register(name, () -> builder.build("productivebees:" + name));
+        return HIVE_BEES.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
     }
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createSolitaryBee(String name, EntityType.IFactory<E> supplier) {
         EntityType.Builder<E> builder = EntityType.Builder.<E>create(supplier, EntityClassification.CREATURE).size(0.7F, 0.6F);
         if (name.equals("magmatic_bee")) {
             builder.immuneToFire();
         }
-        return SOLITARY_BEES.register(name, () -> builder.build("productivebees:" + name));
+        return SOLITARY_BEES.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
     }
 
     @OnlyIn(Dist.CLIENT)

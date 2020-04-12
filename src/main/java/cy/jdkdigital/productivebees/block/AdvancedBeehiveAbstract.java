@@ -136,7 +136,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		boolean itemUsed = false;
 		if (honeyLevel >= getMaxHoneyLevel()) {
 			if (heldItem.getItem() == Items.SHEARS) {
-				world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.field_226133_ah_, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+				world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 				spawnHoneycomb(world, pos);
 				heldItem.damageItem(1, player, (entity) -> {
 					entity.sendBreakAnimation(hand);

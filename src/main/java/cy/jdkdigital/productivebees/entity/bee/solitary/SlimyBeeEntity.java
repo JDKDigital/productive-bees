@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.IBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ISolitaryBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.particles.ParticleTypes;
@@ -13,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,8 @@ public class SlimyBeeEntity extends EffectHiveBeeEntity implements IBeeEntity, I
 	public SlimyBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
 		this.nestBlockTag = ModTags.getTag(ModTags.SLIMY_NESTS);
+
+		beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.getTag(ModTags.SWAMP_FLOWERS));
 	}
 
 	@Override
@@ -43,6 +47,7 @@ public class SlimyBeeEntity extends EffectHiveBeeEntity implements IBeeEntity, I
 		}
 	}
 
+	@Nonnull
 	@Override
 	protected ResourceLocation getLootTable() {
 		return EntityType.SLIME.getLootTable();

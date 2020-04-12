@@ -16,6 +16,7 @@ import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -124,17 +125,18 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand handIn, final BlockRayTraceResult hit) {
+	public ActionResultType onBlockActivated(BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit) {
 		state = world.getBlockState(pos);
-		if (!world.isRemote()) {
+		if (!world.isRemote() && !player.getHeldItem(hand).equals(Items.GLASS_BOTTLE)) {
 			final TileEntity tileEntity = world.getTileEntity(pos);
 			if (tileEntity instanceof AdvancedBeehiveTileEntity) {
 				this.updateState(world, pos, state, false);
 				tileEntity.requestModelDataUpdate();
 				openGui((ServerPlayerEntity) player, (AdvancedBeehiveTileEntity) tileEntity);
+				return ActionResultType.SUCCESS;
 			}
 		}
-		return ActionResultType.SUCCESS;
+		return ActionResultType.PASS;
 	}
 
 	public void openGui(ServerPlayerEntity player, AdvancedBeehiveTileEntity tileEntity) {

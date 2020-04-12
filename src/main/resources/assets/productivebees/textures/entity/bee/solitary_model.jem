@@ -1,0 +1,64 @@
+{
+	"texture": "bee.png",
+	"textureSize": [64, 64],
+	"models": [
+		{
+			"part": "body",
+			"id": "body",
+			"invertAxis": "xy",
+			"translate": [0, -24, 0],
+			"boxes": [
+				{"coordinates": [-3, 19, -8, 6, 6, 10], "textureOffset": [0, 0]},
+				{"coordinates": [-1, 24, -11, 0, 2, 3], "textureOffset": [3, 3]},
+				{"coordinates": [2, 24, -11, 0, 2, 3], "textureOffset": [2, 0]},
+				{"coordinates": [0, 21.5, 2, 0, 1, 2], "textureOffset": [3, 1]}
+			]
+		},
+		{
+			"part": "left_wing",
+			"id": "left_wing",
+			"invertAxis": "xy",
+			"translate": [2, -26, 8],
+			"boxes": [
+				{"coordinates": [-9, 25, -6, 7, 0, 6], "textureOffset": [9, 24]}
+			]
+		},
+		{
+			"part": "right_wing",
+			"id": "right_wing",
+			"invertAxis": "xy",
+			"translate": [-3, -26, 8],
+			"mirrorTexture": "u",
+			"boxes": [
+				{"coordinates": [2, 25, -6, 7, 0, 6], "textureOffset": [9, 24]}
+			]
+		},
+		{
+			"part": "leg1",
+			"id": "leg1",
+			"invertAxis": "xy",
+			"translate": [0, 0, 0],
+			"boxes": [
+				{"coordinates": [-2, 17, -5, 4, 2, 0], "textureOffset": [27, 1]}
+			]
+		},
+		{
+			"part": "leg2",
+			"id": "leg2",
+			"invertAxis": "xy",
+			"translate": [0, 0, 0],
+			"boxes": [
+				{"coordinates": [-2, 17, -3, 4, 2, 0], "textureOffset": [27, 3]}
+			]
+		},
+		{
+			"part": "leg3",
+			"id": "leg3",
+			"invertAxis": "xy",
+			"translate": [0, 0, 0],
+			"boxes": [
+				{"coordinates": [-2, 17, -1, 4, 2, 0], "textureOffset": [27, 5]}
+			]
+		}
+	]
+}

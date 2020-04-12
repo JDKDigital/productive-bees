@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.tileentity;
 
 import com.electronwill.nightconfig.core.Config;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
@@ -9,7 +8,6 @@ import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
@@ -17,18 +15,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -37,11 +31,7 @@ import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameterSets;
 import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraft.world.storage.loot.LootTable;
-import net.minecraftforge.client.model.ModelDataManager;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -80,7 +70,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent(ModBlocks.ADVANCED_BEEHIVE.get().getTranslationKey());
+		return new TranslationTextComponent(ModBlocks.ADVANCED_OAK_BEEHIVE.get().getTranslationKey());
 	}
 
 	@Override
@@ -96,11 +86,13 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             ListNBT beeList = ((AdvancedBeehiveTileEntity)world.getTileEntity(this.pos)).getBeeListAsNBTList();
             if (beeList.size() > 0) {
                 for (INBT inbt : beeList) {
-                    CompoundNBT inb = (CompoundNBT) inbt;
-                    String beeId = ((CompoundNBT) inb.get("EntityData")).getString("id");
+                    CompoundNBT inb = (CompoundNBT)((CompoundNBT) inbt).get("EntityData");
+                    String beeId = inb.getString("id");
 
+                    // TODO, improve performance
                     EntityType<BeeEntity> entityType = (EntityType<BeeEntity>)ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeId));
                     BeeEntity bee = entityType.create(world);
+                    bee.read(inb);
 
                     Config productionList = ProductiveBeeEntity.getProductionList(beeId);
 

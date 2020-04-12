@@ -1,5 +1,7 @@
 package cy.jdkdigital.productivebees;
 
+import com.electronwill.nightconfig.core.file.CommentedFileConfig;
+import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import cy.jdkdigital.productivebees.event.EventHandler;
@@ -29,13 +31,16 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -83,16 +88,16 @@ public final class ProductiveBees
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 
 		// Config loading
-//		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
-//		final CommentedFileConfig configData = CommentedFileConfig.
-//				builder(FMLPaths.CONFIGDIR.get().resolve("productivebees.toml")).
-//				sync().
-//				autosave().
-//				writingMode(WritingMode.REPLACE).
-//				build();
-//
-//		configData.load();
-//		ProductiveBeesConfig.CONFIG.setConfig(configData);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
+		final CommentedFileConfig configData = CommentedFileConfig.
+				builder(FMLPaths.CONFIGDIR.get().resolve("productivebees.toml")).
+				sync().
+				autosave().
+				writingMode(WritingMode.REPLACE).
+				build();
+
+		configData.load();
+		ProductiveBeesConfig.CONFIG.setConfig(configData);
     }
 
     public void initSetupClient()
@@ -153,8 +158,7 @@ public final class ProductiveBees
 
     	// Add all new bee poi, otherwise the bees wont give a shit about them
 		final ImmutableList<Block> BEEHIVES = ImmutableList.of(
-			Blocks.BEEHIVE,
-			ModBlocks.ADVANCED_BEEHIVE.get(),
+			ModBlocks.ADVANCED_OAK_BEEHIVE.get(),
 			ModBlocks.BAMBOO_HIVE.get(),
 			ModBlocks.STONE_NEST.get(),
 			ModBlocks.SAND_NEST.get(),
@@ -165,12 +169,42 @@ public final class ProductiveBees
 			ModBlocks.NETHER_BRICK_NEST.get(),
 			ModBlocks.END_NEST.get(),
 			ModBlocks.OBSIDIAN_PILLAR_NEST.get(),
-			ModBlocks.DRAGON_EGG_HIVE.get()
+			ModBlocks.DRAGON_EGG_HIVE.get(),
+			ModBlocks.ADVANCED_SPRUCE_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BIRCH_BEEHIVE.get(),
+			ModBlocks.ADVANCED_JUNGLE_BEEHIVE.get(),
+			ModBlocks.ADVANCED_ACACIA_BEEHIVE.get(),
+			ModBlocks.ADVANCED_DARK_OAK_BEEHIVE.get(),
+			ModBlocks.ADVANCED_CRIMSON_BEEHIVE.get(),
+			ModBlocks.ADVANCED_WARPED_BEEHIVE.get(),
+			ModBlocks.ADVANCED_SNAKE_BLOCK_BEEHIVE.get(),
+			ModBlocks.ADVANCED_ROSEWOOD_BEEHIVE.get(),
+			ModBlocks.ADVANCED_YUCCA_BEEHIVE.get(),
+			ModBlocks.ADVANCED_KOUSA_BEEHIVE.get(),
+			ModBlocks.ADVANCED_ASPEN_BEEHIVE.get(),
+			ModBlocks.ADVANCED_WILLOW_BEEHIVE.get(),
+			ModBlocks.ADVANCED_WISTERIA_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BAMBOO_BEEHIVE.get(),
+			ModBlocks.ADVANCED_MAPLE_BEEHIVE.get(),
+			ModBlocks.ADVANCED_DRIFTWOOD_BEEHIVE.get(),
+			ModBlocks.ADVANCED_RIVER_BEEHIVE.get(),
+			ModBlocks.ADVANCED_POISE_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_FIR_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_DEAD_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_PALM_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_MAGIC_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_CHERRY_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_UMBRAN_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_WILLOW_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_REDWOOD_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_HELLBARK_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_MAHOGANY_BEEHIVE.get(),
+			ModBlocks.ADVANCED_BOP_JACARANDA_BEEHIVE.get()
 		);
 
-		Set<Block> newSet = new HashSet<>(TileEntityType.field_226985_G_.validBlocks);
+		Set<Block> newSet = new HashSet<>(TileEntityType.BEEHIVE.validBlocks);
 		newSet.addAll(BEEHIVES);
-		TileEntityType.field_226985_G_.validBlocks = newSet;
+		TileEntityType.BEEHIVE.validBlocks = newSet;
 
 		PointOfInterestType.field_226356_s_.field_221075_w = BlockTags.BEEHIVES.getAllElements().stream().flatMap((map) -> {
 			return map.getStateContainer().getValidStates().stream();
@@ -178,7 +212,7 @@ public final class ProductiveBees
 
 		Map<BlockState,PointOfInterestType> map = new HashMap<>();
 		addToMap(Blocks.BEEHIVE, map);
-		addToMap(ModBlocks.ADVANCED_BEEHIVE.get(), map);
+		addToMap(ModBlocks.ADVANCED_OAK_BEEHIVE.get(), map);
 		PointOfInterestType.field_221073_u.putAll(map);
 	}
 

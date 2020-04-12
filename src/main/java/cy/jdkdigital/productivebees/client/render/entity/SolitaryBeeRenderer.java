@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.model.SolitaryBeeModel;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -24,6 +25,6 @@ public class SolitaryBeeRenderer extends MobRenderer<SolitaryBeeEntity, Solitary
 	public ResourceLocation getEntityTexture(SolitaryBeeEntity bee) {
 		String beeLocation = "bee/" + bee.getBeeType() + "/bee";
 		
-		return new ResourceLocation("productivebees:textures/entity/" + beeLocation + ".png");
+		return new ResourceLocation(ProductiveBees.MODID + ":textures/entity/" + beeLocation + ".png");
 	}
 }
