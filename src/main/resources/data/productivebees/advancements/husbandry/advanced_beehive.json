@@ -2,7 +2,7 @@
     "parent": "minecraft:husbandry/safely_harvest_honey",
     "display": {
         "icon": {
-            "item": "productivebees:advanced_beehive"
+            "item": "productivebees:advanced_oak_beehive"
         },
         "title": {
             "translate": "advancements.husbandry.advanced_beehive.title"
@@ -21,7 +21,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "productivebees:advanced_beehive"
+                        "item": "productivebees:advanced_oak_beehive"
                     }
                 ]
             }
@@ -29,7 +29,7 @@
     },
     "requirements": [
         [
-            "advanced_beehive"
+            "advanced_oak_beehive"
         ]
     ]
 }

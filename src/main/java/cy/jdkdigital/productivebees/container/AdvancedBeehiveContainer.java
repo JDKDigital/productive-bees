@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
@@ -47,7 +48,6 @@ public class AdvancedBeehiveContainer extends AbstractContainer {
 		this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
 		IItemHandler inventory = new InvWrapper(playerInventory);
-		ProductiveBees.LOGGER.info("World " + tileEntity.getWorld());
 
 		// Tile inventory slot(s)
 		this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
@@ -72,6 +72,12 @@ public class AdvancedBeehiveContainer extends AbstractContainer {
 
 	@Override
 	public boolean canInteractWith(@Nonnull final PlayerEntity player) {
-		return isWithinUsableDistance(canInteractWithCallable, player, ModBlocks.ADVANCED_OAK_BEEHIVE.get());
+		boolean c = canInteractWithCallable.applyOrElse((world, pos) -> {
+			boolean b = world.getBlockState(pos).getBlock() instanceof AdvancedBeehive && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
+			ProductiveBees.LOGGER.info("Check: " + b + " - " + (world.getBlockState(pos).getBlock() instanceof AdvancedBeehive) + " " + world.getBlockState(pos).getBlock());
+			return b;
+		}, true);
+		ProductiveBees.LOGGER.info(c);
+		return c;
 	}
 }

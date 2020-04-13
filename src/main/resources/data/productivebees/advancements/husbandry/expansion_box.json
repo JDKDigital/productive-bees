@@ -2,7 +2,7 @@
     "parent": "productivebees:husbandry/advanced_beehive",
     "display": {
         "icon": {
-            "item": "productivebees:expansion_box"
+            "item": "productivebees:expansion_box_oak"
         },
         "title": {
             "translate": "advancements.husbandry.expansion_box.title"
@@ -21,7 +21,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "productivebees:expansion_box"
+                        "item": "productivebees:expansion_box_oak"
                     }
                 ]
             }
@@ -29,7 +29,7 @@
     },
     "requirements": [
         [
-            "expansion_box"
+            "expansion_box_oak"
         ]
     ]
 }

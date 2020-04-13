@@ -102,5 +102,4 @@ public class ExpansionBox extends Block {
 		}
 		return ActionResultType.SUCCESS;
 	}
-	
 }

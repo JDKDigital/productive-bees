@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameter;
@@ -28,7 +29,10 @@ public class EntityIsProductiveBee implements ILootCondition {
 
     public boolean test(LootContext ctx) {
         Entity entity = ctx.get(LootParameters.THIS_ENTITY);
-        return entity instanceof ProductiveBeeEntity;
+
+        return entity instanceof ProductiveBeeEntity
+                && ctx.get(LootParameters.DAMAGE_SOURCE) == DamageSource.CRAMMING
+                && ctx.get(LootParameters.KILLER_ENTITY) == null;
     }
 
     public static IBuilder builder() {

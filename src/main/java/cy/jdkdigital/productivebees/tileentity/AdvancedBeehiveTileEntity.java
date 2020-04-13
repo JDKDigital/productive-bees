@@ -107,7 +107,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                                         .withRandom(world.rand)
                                         .withParameter(LootParameters.THIS_ENTITY, bee)
                                         .withParameter(LootParameters.POSITION, this.pos)
-                                        .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.GENERIC)
+                                        .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.CRAMMING)
                                         .build(LootParameterSets.ENTITY);
 
                                     List<ItemStack> stacks = lootTable.generate(ctx);

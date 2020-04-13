@@ -46,7 +46,7 @@ public class DragonEggHive extends AdvancedBeehiveAbstract {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult blockRayTraceResult) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (!world.isRemote()) {
             DragonEggHiveTileEntity tileEntity = (DragonEggHiveTileEntity) world.getTileEntity(pos);
             ProductiveBees.LOGGER.info("Nest tilentity: " + tileEntity);
@@ -55,6 +55,6 @@ public class DragonEggHive extends AdvancedBeehiveAbstract {
 
             return ActionResultType.PASS;
         }
-        return super.onBlockActivated(state, world, pos, player, hand, blockRayTraceResult);
+        return super.onBlockActivated(state, world, pos, player, hand, hit);
     }
 }

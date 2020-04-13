@@ -129,7 +129,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		spawnAsEntity(world, pos, new ItemStack(Items.HONEYCOMB, 3));
 	}
 
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult blockRayTraceResult) {
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		ItemStack heldItem = player.getHeldItem(hand);
 		ItemStack heldItemCopy = heldItem.copy();
 		int honeyLevel = state.get(HONEY_LEVEL);
@@ -171,7 +171,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 
 			return ActionResultType.SUCCESS;
 		} else {
-			return super.onBlockActivated(state, world, pos, player, hand, blockRayTraceResult);
+			return super.onBlockActivated(state, world, pos, player, hand, hit);
 		}
 	}
 

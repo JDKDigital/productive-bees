@@ -127,7 +127,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit) {
 		state = world.getBlockState(pos);
-		if (!world.isRemote() && !player.getHeldItem(hand).equals(Items.GLASS_BOTTLE)) {
+		if (!world.isRemote() && super.onBlockActivated(state, world, pos, player, hand, hit) != ActionResultType.SUCCESS) {
 			final TileEntity tileEntity = world.getTileEntity(pos);
 			if (tileEntity instanceof AdvancedBeehiveTileEntity) {
 				this.updateState(world, pos, state, false);
@@ -136,11 +136,11 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 				return ActionResultType.SUCCESS;
 			}
 		}
-		return ActionResultType.PASS;
+		return ActionResultType.SUCCESS;
 	}
 
 	public void openGui(ServerPlayerEntity player, AdvancedBeehiveTileEntity tileEntity) {
-		ProductiveBees.NETWORK_CHANNEL.sendTo(new PacketOpenGui(tileEntity.getBeeListAsNBTList(), tileEntity.getPos()), player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+//		ProductiveBees.NETWORK_CHANNEL.sendTo(new PacketOpenGui(tileEntity.getBeeListAsNBTList(), tileEntity.getPos()), player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 
 		tileEntity.inhabitantList.clear();
 		tileEntity.getCapability(CapabilityBee.BEE).ifPresent(handler -> {

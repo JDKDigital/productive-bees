@@ -1,0 +1,28 @@
+{
+    "variants": {
+        "facing=north,has_honey=false,expanded=false": { "model": "productivebees:block/expansion_box/spruce_beehive_small" },
+        "facing=south,has_honey=false,expanded=false": { "model": "productivebees:block/expansion_box/spruce_beehive_small", "y": 180 },
+        "facing=west,has_honey=false,expanded=false":  { "model": "productivebees:block/expansion_box/spruce_beehive_small", "y": 270 },
+        "facing=east,has_honey=false,expanded=false":  { "model": "productivebees:block/expansion_box/spruce_beehive_small", "y": 90 },
+        "facing=up,has_honey=false,expanded=false":  { "model": "productivebees:block/expansion_box/spruce_beehive_small", "x": 180 },
+        "facing=down,has_honey=false,expanded=false":  { "model": "productivebees:block/expansion_box/spruce_beehive_small" },
+        "facing=north,has_honey=true,expanded=false": { "model": "productivebees:block/expansion_box/spruce_beehive_small" },
+        "facing=south,has_honey=true,expanded=false": { "model": "productivebees:block/expansion_box/spruce_beehive_small", "y": 180 },
+        "facing=west,has_honey=true,expanded=false":  { "model": "productivebees:block/expansion_box/spruce_beehive_small", "y": 270 },
+        "facing=east,has_honey=true,expanded=false":  { "model": "productivebees:block/expansion_box/spruce_beehive_small", "y": 90 },
+        "facing=up,has_honey=true,expanded=false":  { "model": "productivebees:block/expansion_box/spruce_beehive_small", "x": 180 },
+        "facing=down,has_honey=true,expanded=false":  { "model": "productivebees:block/expansion_box/spruce_beehive_small" },
+        "facing=north,has_honey=false,expanded=true": { "model": "productivebees:block/expansion_box/spruce_beehive" },
+        "facing=south,has_honey=false,expanded=true": { "model": "productivebees:block/expansion_box/spruce_beehive", "y": 180 },
+        "facing=west,has_honey=false,expanded=true":  { "model": "productivebees:block/expansion_box/spruce_beehive", "y": 270 },
+        "facing=east,has_honey=false,expanded=true":  { "model": "productivebees:block/expansion_box/spruce_beehive", "y": 90 },
+        "facing=up,has_honey=false,expanded=true":  { "model": "productivebees:block/expansion_box/spruce_beehive", "x": 180 },
+        "facing=down,has_honey=false,expanded=true":  { "model": "productivebees:block/expansion_box/spruce_beehive" },
+        "facing=north,has_honey=true,expanded=true": { "model": "productivebees:block/expansion_box/spruce_beehive_honey" },
+        "facing=south,has_honey=true,expanded=true": { "model": "productivebees:block/expansion_box/spruce_beehive_honey", "y": 180 },
+        "facing=west,has_honey=true,expanded=true":  { "model": "productivebees:block/expansion_box/spruce_beehive_honey", "y": 270 },
+        "facing=east,has_honey=true,expanded=true":  { "model": "productivebees:block/expansion_box/spruce_beehive_honey", "y": 90 },
+        "facing=up,has_honey=true,expanded=true":  { "model": "productivebees:block/expansion_box/spruce_beehive_honey", "x": 180 },
+        "facing=down,has_honey=true,expanded=true":  { "model": "productivebees:block/expansion_box/spruce_beehive_honey" }
+    }
+}
