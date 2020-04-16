@@ -25,7 +25,7 @@ public class AdvancedBeehiveContainer extends AbstractContainer {
 	public static final HashMap<Integer, ArrayList<Integer>> BEE_POSITIONS = new HashMap<Integer, ArrayList<Integer>>() {{
 		put(0, new ArrayList<Integer>() {{add(37);add(25);}});
 		put(1, new ArrayList<Integer>() {{add(55);add(35);}});
-		put(4, new ArrayList<Integer>() {{add(37);add(45);}});
+		put(2, new ArrayList<Integer>() {{add(37);add(45);}});
 	}};
 	public static final HashMap<Integer, ArrayList<Integer>> BEE_POSITIONS_EXPANDED = new HashMap<Integer, ArrayList<Integer>>() {{
 		put(0, new ArrayList<Integer>() {{add(19);add(25);}});
@@ -72,12 +72,6 @@ public class AdvancedBeehiveContainer extends AbstractContainer {
 
 	@Override
 	public boolean canInteractWith(@Nonnull final PlayerEntity player) {
-		boolean c = canInteractWithCallable.applyOrElse((world, pos) -> {
-			boolean b = world.getBlockState(pos).getBlock() instanceof AdvancedBeehive && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
-			ProductiveBees.LOGGER.info("Check: " + b + " - " + (world.getBlockState(pos).getBlock() instanceof AdvancedBeehive) + " " + world.getBlockState(pos).getBlock());
-			return b;
-		}, true);
-		ProductiveBees.LOGGER.info(c);
-		return c;
+		return canInteractWithCallable.applyOrElse((world, pos) -> world.getBlockState(pos).getBlock() instanceof AdvancedBeehive && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
 	}
 }

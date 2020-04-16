@@ -23,7 +23,7 @@ public class SlimyNest extends SolitaryNest
 
     @Override
     public boolean canRepopulateIn(Dimension dimension, Biome biome) {
-        return dimension.isSurfaceWorld() && biome.getTranslationKey().contains("swamp");
+        return dimension.isSurfaceWorld() && biome.getCategory().equals(Biome.Category.SWAMP);
     }
 
     @Override

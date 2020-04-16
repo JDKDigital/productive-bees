@@ -19,9 +19,9 @@
         "expansion_box": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "items": [
+                "blocks": [
                     {
-                        "item": "productivebees:expansion_box_oak"
+                        "tag": "productivebees:expansion_boxes"
                     }
                 ]
             }
@@ -29,7 +29,7 @@
     },
     "requirements": [
         [
-            "expansion_box_oak"
+            "expansion_box"
         ]
     ]
 }

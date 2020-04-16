@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "productivebees:advanced_oak_beehive",
+      "productivebees:advanced_spruce_beehive",
+      "productivebees:advanced_birch_beehive",
+      "productivebees:advanced_dark_oak_beehive",
+      "productivebees:advanced_acacia_beehive",
+      "productivebees:advanced_jungle_beehive"
+    ]
+  },
+  "criteria": {
+    "has_beehive": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:beehive"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "productivebees:advanced_oak_beehive"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_beehive",
+      "has_the_recipe"
+    ]
+  ]
+}

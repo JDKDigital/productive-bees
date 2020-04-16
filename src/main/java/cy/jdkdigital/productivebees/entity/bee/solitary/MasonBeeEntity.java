@@ -11,5 +11,6 @@ import net.minecraft.world.World;
 public class MasonBeeEntity extends SolitaryBeeEntity {
     public MasonBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
+        this.nestBlockTag = ModTags.getTag(ModTags.GROUND_NESTS);
     }
 }

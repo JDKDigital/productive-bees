@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.entity.bee.ISolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -22,6 +23,7 @@ public class EnderBeeEntity extends ProductiveBeeEntity implements IBeeEntity, I
 	public EnderBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
 		this.nestBlockTag = ModTags.getTag(ModTags.END_NESTS);
+		beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.getTag(ModTags.END_FLOWERS));
 	}
 
 	@Override

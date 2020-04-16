@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y":    { "model": "productivebees:block/nest/oak_wood_nest" },
+        "axis=z":     { "model": "productivebees:block/nest/oak_wood_nest_vertical", "x": 90 },
+        "axis=x":     { "model": "productivebees:block/nest/oak_wood_nest_vertical", "x": 90, "y": 90 }
+    }
+}

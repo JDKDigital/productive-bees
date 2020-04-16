@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -15,7 +16,6 @@ abstract public class SolitaryBeeEntity extends ProductiveBeeEntity implements I
 		super(entityType, world);
 		this.nestBlockTag = ModTags.getTag(ModTags.GROUND_NESTS);
 		beehiveInterests = (poiType) -> poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() || poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
-		beeAttributes.remove(BeeAttributes.TYPE);
 		beeAttributes.put(BeeAttributes.TYPE, "solitary");
 	}
 

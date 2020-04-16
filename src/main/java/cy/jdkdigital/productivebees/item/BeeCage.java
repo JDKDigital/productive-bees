@@ -29,9 +29,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
-public class BeeCageItem extends Item {
+public class BeeCage extends Item {
 
-    public BeeCageItem(Properties properties) {
+    public BeeCage(Properties properties) {
         super(properties);
 
         this.addPropertyOverride(new ResourceLocation("filled"), (itemStack, world, entity) -> isFilled(itemStack) ? 1.0F : 0.0F);

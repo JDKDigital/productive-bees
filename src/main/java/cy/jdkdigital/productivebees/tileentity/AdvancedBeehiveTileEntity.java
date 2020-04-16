@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.tileentity;
 
-import com.electronwill.nightconfig.core.Config;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
@@ -94,31 +93,28 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                     BeeEntity bee = entityType.create(world);
                     bee.read(inb);
 
-                    Config productionList = ProductiveBeeEntity.getProductionList(beeId);
+                    Double productionRate = ProductiveBeeEntity.getProductionRate(beeId);
 
                     // Generate bee produce
-                    if (productionList != null) {
-                        for (Map.Entry<String, Object> entry : productionList.valueMap().entrySet()) {
-                            Double value = (Double) entry.getValue();
-                            if (world.rand.nextDouble() < value) {
-                                LootTable lootTable = ProductiveBeeEntity.getProductionLootTable(world, beeId);
-                                this.handler.ifPresent(itemHandler -> {
-                                    LootContext ctx =  new LootContext.Builder((ServerWorld) world)
-                                        .withRandom(world.rand)
-                                        .withParameter(LootParameters.THIS_ENTITY, bee)
-                                        .withParameter(LootParameters.POSITION, this.pos)
-                                        .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.CRAMMING)
-                                        .build(LootParameterSets.ENTITY);
+                    if (productionRate != null && productionRate > 0) {
+                        if (world.rand.nextDouble() < productionRate) {
+                            LootTable lootTable = ProductiveBeeEntity.getProductionLootTable(world, beeId);
+                            this.handler.ifPresent(itemHandler -> {
+                                LootContext ctx =  new LootContext.Builder((ServerWorld) world)
+                                    .withRandom(world.rand)
+                                    .withParameter(LootParameters.THIS_ENTITY, bee)
+                                    .withParameter(LootParameters.POSITION, this.pos)
+                                    .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.CRAMMING)
+                                    .build(LootParameterSets.ENTITY);
 
-                                    List<ItemStack> stacks = lootTable.generate(ctx);
-                                    net.minecraftforge.common.ForgeHooks.modifyLoot(stacks, ctx).forEach((stack) -> {
-                                        int slot = getAvailableOutputSlot(itemHandler, stack);
-                                        if (slot > 0) {
-                                            itemHandler.insertItem(slot, stack, false);
-                                        }
-                                    });
+                                List<ItemStack> stacks = lootTable.generate(ctx);
+                                net.minecraftforge.common.ForgeHooks.modifyLoot(stacks, ctx).forEach((stack) -> {
+                                    int slot = getAvailableOutputSlot(itemHandler, stack);
+                                    if (slot > 0) {
+                                        itemHandler.insertItem(slot, stack, false);
+                                    }
                                 });
-                            }
+                            });
                         }
                     }
                 }
@@ -199,6 +195,15 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                     return stack;
                 }
                 return super.insertItem(slot, stack, simulate);
+            }
+
+            @Nonnull
+            @Override
+            public ItemStack extractItem(int slot, int amount, boolean simulate) {
+                if (this.getStackInSlot(slot).getItem() == Items.GLASS_BOTTLE) {
+                    return ItemStack.EMPTY;
+                }
+                return super.extractItem(slot, amount, simulate);
             }
         };
     }

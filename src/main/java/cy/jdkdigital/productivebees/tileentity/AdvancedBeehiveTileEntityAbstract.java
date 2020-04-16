@@ -181,10 +181,13 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     public boolean releaseBee(BlockState state, CompoundNBT tag, @Nullable List<Entity> releasedBees, BeehiveTileEntity.State beeState) {
-        BlockPos pos = this.getPos();
-        if ((this.world.isNightTime() || this.world.isRaining()) && beeState != BeehiveTileEntity.State.EMERGENCY) {
+        boolean stayInside =
+                (this.world.isNightTime() && tag.getInt("bee_behavior") == 0) ||
+                (this.world.isRaining() && (beeState != BeehiveTileEntity.State.EMERGENCY || tag.getInt("bee_weather_tolerance") == 0));
+        if (stayInside) {
             return false;
         } else {
+            BlockPos pos = this.getPos();
             tag.remove("Passengers");
             tag.remove("Leash");
             tag.removeUniqueId("UUID");
@@ -199,7 +202,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 boolean spawned = false;
                 BeeEntity beeEntity = (BeeEntity) EntityType.func_220335_a(tag, this.world, (spawnedEntity) -> spawnedEntity);
                 if (beeEntity != null) {
-                    ProductiveBees.LOGGER.info("release entity: " + beeEntity);
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, this.pos, direction, null);
                     if (spawned) {
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() < 0.9F) {

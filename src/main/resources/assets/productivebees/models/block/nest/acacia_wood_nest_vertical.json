@@ -1,0 +1,9 @@
+{
+    "parent": "productivebees:block/nest/wood_nest_vertical",
+    "textures": {
+        "particle": "block/acacia_log",
+        "end": "block/acacia_log_top",
+        "side": "block/acacia_log",
+        "front": "productivebees:block/nest/wood/acacia"
+    }
+}

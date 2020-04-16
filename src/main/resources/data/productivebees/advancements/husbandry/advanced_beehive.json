@@ -19,9 +19,9 @@
         "advanced_beehive": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "items": [
+                "blocks": [
                     {
-                        "item": "productivebees:advanced_oak_beehive"
+                        "tag": "productivebees:advanced_beehives"
                     }
                 ]
             }
@@ -29,7 +29,7 @@
     },
     "requirements": [
         [
-            "advanced_oak_beehive"
+            "advanced_beehive"
         ]
     ]
 }

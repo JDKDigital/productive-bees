@@ -1,15 +1,10 @@
 package cy.jdkdigital.productivebees;
 
 import com.electronwill.nightconfig.core.Config;
-import net.minecraft.item.Items;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Mod.EventBusSubscriber
 public class ProductiveBeesConfig {
@@ -43,7 +38,7 @@ public class ProductiveBeesConfig {
     }
 
     public static class Bees {
-        public final ForgeConfigSpec.ConfigValue<Config> itemProductionRules;
+        public final ForgeConfigSpec.ConfigValue<Config> itemProductionRates;
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
@@ -66,7 +61,7 @@ public class ProductiveBeesConfig {
             productionRates.add("productivebees:zombie_bee", 0.10D);
             productionRates.add("productivebees:wither_bee", 0.01D);
 
-            itemProductionRules = builder
+            itemProductionRates = builder
                     .comment("Bee production rates.")
                     .define("itemProductionRates", productionRates);
 

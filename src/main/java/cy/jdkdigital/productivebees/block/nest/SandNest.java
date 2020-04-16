@@ -16,11 +16,11 @@ public class SandNest extends SolitaryNest {
 
     @Override
     public boolean canRepopulateIn(Dimension dimension, Biome biome) {
-        return dimension.isSurfaceWorld() && biome.getTranslationKey().contains("desert");
+        return dimension.isSurfaceWorld() && biome.getCategory().equals(Biome.Category.DESERT);
     }
 
     @Override
     public EntityType<BeeEntity> getNestingBeeType(World world) {
-        return ModEntities.NOMAD_BEE.get();
+        return world.rand.nextBoolean() ? ModEntities.NOMAD_BEE.get() : ModEntities.DIGGER_BEE.get();
     }
 }

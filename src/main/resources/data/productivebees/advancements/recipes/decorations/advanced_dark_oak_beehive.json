@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "productivebees:advanced_dark_oak_beehive",
+      "productivebees:expansion_box_dark_oak"
+    ]
+  },
+  "criteria": {
+    "has_beehive": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:dark_oak_planks"
+          },
+          {
+            "item": "minecraft:beehive"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "productivebees:advanced_dark_oak_beehive"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_beehive",
+      "has_the_recipe"
+    ]
+  ]
+}

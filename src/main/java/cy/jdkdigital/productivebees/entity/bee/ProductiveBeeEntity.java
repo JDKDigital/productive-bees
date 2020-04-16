@@ -1,20 +1,18 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
-import com.electronwill.nightconfig.core.Config;
 import com.google.common.collect.Maps;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
@@ -36,7 +34,6 @@ import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootTable;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
@@ -48,7 +45,10 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	protected Map<BeeAttribute<?>, Object> beeAttributes = Maps.newHashMap();
 	public Tag<Block> nestBlockTag;
 
-	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> poiType == PointOfInterestType.field_226356_s_ || poiType == PointOfInterestType.field_226357_t_;
+	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> poiType == PointOfInterestType.field_226356_s_ ||
+			poiType == PointOfInterestType.field_226357_t_ ||
+			poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
+			poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
 
 	public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
@@ -137,7 +137,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			beeAttributes.put(BeeAttributes.TYPE, tag.getString("bee_type"));
 			beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_food_source"))));
 			beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
-			ProductiveBees.LOGGER.info("After read: " + tag.getString("bee_food_source") + " " + this.getAttributeValue(BeeAttributes.FOOD_SOURCE) + " " + this);
 		}
 	}
 
@@ -166,8 +165,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 	}
 
-	public static Config getProductionList(String beeId) {
-		return ProductiveBeesConfig.BEES.itemProductionRules.get().get(beeId);
+	public static Double getProductionRate(String beeId) {
+		return ProductiveBeesConfig.BEES.itemProductionRates.get().get(beeId);
 	}
 
 	public static LootTable getProductionLootTable(World world, String beeId) {
@@ -180,26 +179,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		TileEntity tileEntity = this.world.getTileEntity(pos);
 		if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
 			return !((AdvancedBeehiveTileEntityAbstract)tileEntity).isFullOfBees();
-		} else {
-			return false;
 		}
-	}
-
-	abstract class PassiveGoal extends Goal {
-		private PassiveGoal() {
-		}
-
-		public abstract boolean canBeeStart();
-
-		public abstract boolean canBeeContinue();
-
-		public boolean shouldExecute() {
-			return this.canBeeStart() && !ProductiveBeeEntity.this.isAngry();
-		}
-
-		public boolean shouldContinueExecuting() {
-			return this.canBeeContinue() && !ProductiveBeeEntity.this.isAngry();
-		}
+		return false;
 	}
 
 	public class PollinateGoal extends BeeEntity.PollinateGoal {
@@ -223,7 +204,9 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 				return false;
 			} else if (ProductiveBeeEntity.this.hasNectar()) {
 				return false;
-			} else if (ProductiveBeeEntity.this.world.isRaining()) {
+			} else if (ProductiveBeeEntity.this.world.isRaining() && ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 0) {
+				return false;
+			} else if (ProductiveBeeEntity.this.world.isThundering() && ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) < 2) {
 				return false;
 			} else if (ProductiveBeeEntity.this.rand.nextFloat() < 0.7F) {
 				return false;
@@ -287,6 +270,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		public void startExecuting() {
 			ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewHive = 20;
 			List<BlockPos> nearbyNests = this.getNearbyFreeNests();
+
 			if (!nearbyNests.isEmpty()) {
 				Iterator iterator = nearbyNests.iterator();
 				BlockPos blockPos;

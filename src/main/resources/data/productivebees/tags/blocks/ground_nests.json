@@ -2,7 +2,6 @@
     "replace": false,
     "values": [
         "productivebees:stone_nest",
-        "productivebees:sand_nest",
         "productivebees:coarse_dirt_nest"
     ]
 }
