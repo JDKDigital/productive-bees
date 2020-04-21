@@ -316,6 +316,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 					if (!beehiveTileEntity.isFullOfBees()) {
 						return true;
 					}
+					// Hive is full, reset and look for another spot
 					ProductiveBeeEntity.this.hivePos = null;
 				}
 				// Enter vanilla registered hives

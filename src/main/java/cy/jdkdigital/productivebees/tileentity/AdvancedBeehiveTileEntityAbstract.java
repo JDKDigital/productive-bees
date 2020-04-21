@@ -174,11 +174,14 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     public boolean releaseBee(BlockState state, CompoundNBT tag, @Nullable List<Entity> releasedBees, BeehiveTileEntity.State beeState) {
         boolean stayInside =
-                (this.world.isNightTime() && tag.getInt("bee_behavior") == 0) ||
-                (this.world.isRaining() && (beeState != BeehiveTileEntity.State.EMERGENCY || tag.getInt("bee_weather_tolerance") == 0));
-        if (stayInside) {
-            return false;
-        } else {
+                (this.world.isNightTime() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
+                (this.world.isRaining() && (beeState != BeehiveTileEntity.State.EMERGENCY || tag.getInt("bee_weather_tolerance") == 0)); // it's raining and the bees is not tolerant
+
+        if (!this.world.isNightTime() && !this.world.isRaining() && stayInside) {
+            ProductiveBees.LOGGER.info("Bee is staying inside during the day: " + tag);
+        }
+
+        if (!stayInside) {
             BlockPos pos = this.getPos();
             tag.remove("Passengers");
             tag.remove("Leash");
@@ -186,19 +189,17 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
             Direction direction = state.has(BlockStateProperties.FACING) ? state.get(BlockStateProperties.FACING) : state.get(BeehiveBlock.FACING);
             BlockPos offset = pos.offset(direction);
             boolean isPositionBlocked = !this.world.getBlockState(offset).getCollisionShape(this.world, offset).isEmpty();
-            if (isPositionBlocked && beeState != BeehiveTileEntity.State.EMERGENCY) {
-                ProductiveBees.LOGGER.info("position blocked");
-                return false;
-            } else {
+            if (!isPositionBlocked || beeState == BeehiveTileEntity.State.EMERGENCY) {
                 // Spawn entity
                 boolean spawned = false;
                 BeeEntity beeEntity = (BeeEntity) EntityType.func_220335_a(tag, this.world, (spawnedEntity) -> spawnedEntity);
                 if (beeEntity != null) {
-                    spawned = spawnBeeInWorldAPosition(this.world, beeEntity, this.pos, direction, null);
+                    spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
                     if (spawned) {
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() < 0.9F) {
                             beeEntity.setFlowerPos(this.flowerPos);
                         }
+                        beeEntity.hivePos = pos;
 
                         beeReleasePostAction(beeEntity, state, beeState);
 
@@ -209,7 +210,9 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 }
                 return spawned;
             }
+            return false;
         }
+        return false;
     }
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
@@ -276,12 +279,11 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
             entity.setGrowingAge(age);
         }
         // Check if the entity is in beehive_inhabitors tag
-        if (!entity.getType().isContained(EntityTypeTags.BEEHIVE_INHABITORS)) {
-            return false;
-        } else {
+        if (entity.getType().isContained(EntityTypeTags.BEEHIVE_INHABITORS)) {
             world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_EXIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return world.addEntity(entity);
         }
+        return false;
     }
 
     public List<Inhabitant> getBeeList() {

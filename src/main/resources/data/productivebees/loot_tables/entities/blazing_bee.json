@@ -5,26 +5,31 @@
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
-          "functions": [
+          "type": "minecraft:alternatives",
+          "children": [
             {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 2.0,
-                "max": 4.0,
-                "type": "minecraft:uniform"
-              }
-            },
-            {
-              "function": "productivebees:productivity"
+              "type": "minecraft:item",
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": {
+                    "min": 2.0,
+                    "max": 4.0,
+                    "type": "minecraft:uniform"
+                  }
+                },
+                {
+                  "function": "productivebees:productivity"
+                }
+              ],
+              "conditions": [
+                {
+                  "condition": "productivebees:entity_is_productive_bee"
+                }
+              ],
+              "name": "minecraft:blaze_powder"
             }
-          ],
-          "name": "minecraft:blaze_powder"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "productivebees:entity_is_productive_bee"
+          ]
         }
       ]
     }

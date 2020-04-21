@@ -111,18 +111,21 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
                                 List<ItemStack> stacks = lootTable.generate(ctx);
                                 net.minecraftforge.common.ForgeHooks.modifyLoot(stacks, ctx).forEach((stack) -> {
-                                    ItemStack insertedStack = ((ItemHandler)inv).addOutput(stack);
-                                    ProductiveBees.LOGGER.info("Produced " + stack + " Inserted: " + insertedStack + " " + bee);
+                                    if (!stack.isEmpty()) {
+                                        ((ItemHandler)inv).addOutput(stack);
+                                    }
                                 });
                             });
                         }
                     }
                 }
             }
+        }
 
+        if (tickCounter % 23 == 0) {
             BlockState blockState = this.getBlockState();
 
-            if (blockState.getBlock() instanceof AdvancedBeehive && blockState.get(AdvancedBeehive.EXPANDED)) {
+            if (blockState.getBlock() instanceof AdvancedBeehive) {
                 int honeyLevel = blockState.get(BeehiveBlock.HONEY_LEVEL);
 
                 // Auto harvest if empty bottles are in
@@ -132,12 +135,12 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                         ItemStack bottles = h.getStackInSlot(BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
                             final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
-                            final ItemStack comb = new ItemStack(Items.HONEYCOMB);
                             inventoryHandler.ifPresent(inv -> {
-                                if (!((ItemHandler)inv).addOutput(filledBottle).isEmpty()) {
-                                    ((ItemHandler)inv).addOutput(comb);
+                                boolean addedBottle = ((ItemHandler) inv).addOutput(filledBottle);
+                                if (addedBottle) {
+                                    ((ItemHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
                                     bottles.shrink(1);
-                                    world.setBlockState(pos, blockState.with(BeehiveBlock.HONEY_LEVEL, finalHoneyLevel -5));
+                                    world.setBlockState(pos, blockState.with(BeehiveBlock.HONEY_LEVEL, finalHoneyLevel - 5));
                                 }
                             });
                         }
@@ -146,7 +149,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 }
 
                 // Update any attached expansion box if the honey level reaches max
-                if (honeyLevel >= getMaxHoneyLevel(blockState)) {
+                if (blockState.get(AdvancedBeehive.EXPANDED) && honeyLevel >= getMaxHoneyLevel(blockState)) {
                     ((AdvancedBeehive) blockState.getBlock()).updateState(world, this.getPos(), blockState, false);
                 }
             }
@@ -234,12 +237,13 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             return super.insertItem(slot, stack, simulate);
         }
 
-        public ItemStack addOutput(@Nonnull ItemStack stack) {
+        public boolean addOutput(@Nonnull ItemStack stack) {
             int slot = getAvailableOutputSlot(this, stack);
             if (slot > 0) {
-                return insertItem(slot, stack, false);
+                insertItem(slot, stack, false);
+                return true;
             }
-            return ItemStack.EMPTY;
+            return false;
         }
     }
 

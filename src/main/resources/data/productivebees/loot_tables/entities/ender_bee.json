@@ -5,26 +5,45 @@
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
-          "functions": [
+          "type": "minecraft:alternatives",
+          "children": [
             {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 0.0,
-                "max": 1.0,
-                "type": "minecraft:uniform"
-              }
+              "type": "minecraft:item",
+              "functions": [
+                {
+                  "function": "productivebees:productivity"
+                },
+                {
+                  "function": "productivebees:convert_to_comb",
+                  "itemName": "minecraft:ender_pearl"
+                }
+              ],
+              "conditions": [
+                {
+                  "condition": "productivebees:entity_is_productive_bee"
+                },
+                {
+                  "condition": "productivebees:mod_loaded",
+                  "modId": "beesourceful"
+                }
+              ],
+              "name": "minecraft:ender_pearl"
             },
             {
-              "function": "productivebees:productivity"
+              "type": "minecraft:item",
+              "functions": [
+                {
+                  "function": "productivebees:productivity"
+                }
+              ],
+              "conditions": [
+                {
+                  "condition": "productivebees:entity_is_productive_bee"
+                }
+              ],
+              "name": "minecraft:ender_pearl"
             }
-          ],
-          "name": "minecraft:ender_pearl"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "productivebees:entity_is_productive_bee"
+          ]
         }
       ]
     }

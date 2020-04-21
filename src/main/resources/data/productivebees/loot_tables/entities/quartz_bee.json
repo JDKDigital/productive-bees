@@ -5,26 +5,58 @@
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
-          "functions": [
+          "type": "minecraft:alternatives",
+          "children": [
             {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1.0,
-                "max": 2.0,
-                "type": "minecraft:uniform"
-              }
+              "type": "minecraft:item",
+              "functions": [
+                {
+                  "function": "productivebees:productivity"
+                },
+                {
+                  "function": "productivebees:convert_to_comb",
+                  "itemName": "minecraft:quartz"
+                }
+              ],
+              "conditions": [
+                {
+                  "condition": "productivebees:entity_is_productive_bee"
+                },
+                {
+                  "condition": "productivebees:mod_loaded",
+                  "modId": "beesourceful"
+                }
+              ],
+              "name": "minecraft:quartz"
             },
             {
-              "function": "productivebees:productivity"
+              "type": "minecraft:item",
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": {
+                    "min": 1.0,
+                    "max": 3.0,
+                    "type": "minecraft:uniform"
+                  }
+                },
+                {
+                  "function": "productivebees:productivity"
+                }
+              ],
+              "conditions": [
+                {
+                  "condition": "productivebees:entity_is_productive_bee"
+                },
+                {
+                  "condition": "productivebees:mod_loaded",
+                  "modId": "beesourceful",
+                  "inverted": true
+                }
+              ],
+              "name": "minecraft:quartz"
             }
-          ],
-          "name": "minecraft:quartz"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "productivebees:entity_is_productive_bee"
+          ]
         }
       ]
     }

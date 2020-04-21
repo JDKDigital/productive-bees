@@ -31,7 +31,7 @@ public class ProductiveBeesConfig {
 
             itemTickRate = builder
                     .comment("How often should a bee attempt to generate items while in the hive.")
-                    .define("itemTickRate", 600);
+                    .define("itemTickRate", 500);
 
             builder.pop();
         }

@@ -13,6 +13,8 @@ import cy.jdkdigital.productivebees.setup.ClientSetup;
 import cy.jdkdigital.productivebees.setup.IProxy;
 import cy.jdkdigital.productivebees.setup.ServerProxy;
 import cy.jdkdigital.productivebees.world.storage.loot.conditions.EntityIsProductiveBee;
+import cy.jdkdigital.productivebees.world.storage.loot.conditions.ModLoaded;
+import cy.jdkdigital.productivebees.world.storage.loot.functions.ConvertToComb;
 import cy.jdkdigital.productivebees.world.storage.loot.functions.ProductivityBonus;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -127,7 +129,9 @@ public final class ProductiveBees {
         CapabilityBee.register();
 
         LootFunctionManager.registerFunction(new ProductivityBonus.Serializer());
+        LootFunctionManager.registerFunction(new ConvertToComb.Serializer());
         LootConditionManager.registerCondition(new EntityIsProductiveBee.Serializer());
+        LootConditionManager.registerCondition(new ModLoaded.Serializer());
 
         this.fixPOI(event);
     }

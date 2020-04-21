@@ -23,6 +23,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.*;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -65,10 +66,12 @@ public class BeeCage extends Item {
     }
 
     @Override
-    public boolean itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity target, Hand hand) {
-        if (target.getEntityWorld().isRemote() || (!(target instanceof BeeEntity) || !target.isAlive()) || (isFilled(itemStack))) {
+    public boolean itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity targetIn, Hand hand) {
+        if (targetIn.getEntityWorld().isRemote() || (!(targetIn instanceof BeeEntity) || !targetIn.isAlive()) || (isFilled(itemStack))) {
             return false;
         }
+
+        BeeEntity target = (BeeEntity)targetIn;
 
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("entity", EntityType.getKey(target.getType()).toString());
@@ -78,6 +81,11 @@ public class BeeCage extends Item {
             nbt.putString("name", target.getName().getFormattedText());
         }
         target.writeWithoutTypeId(nbt);
+
+        nbt.putBoolean("isProductiveBee", target instanceof ProductiveBeeEntity);
+
+        String modId = target.getType().getRegistryName().getNamespace();
+        nbt.putString("mod", ModList.get().getModObjectById(modId).get().getClass().getSimpleName());
 
         ItemStack cageStack = new ItemStack(itemStack.getItem());
         cageStack.setTag(nbt);
@@ -131,22 +139,27 @@ public class BeeCage extends Item {
                 list.add(new TranslationTextComponent("productivebees.information.health.dying").applyTextStyle(TextFormatting.RED).applyTextStyle(TextFormatting.ITALIC));
             }
 
-            String type = tag.getString("bee_type");
-            ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).applyTextStyle(getColor(type));
-            list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+            if (tag.getBoolean("isProductiveBee")) {
+                String type = tag.getString("bee_type");
+                ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).applyTextStyle(getColor(type));
+                list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).applyTextStyle(TextFormatting.DARK_GRAY));
 
-            int productivity = tag.getInt("bee_productivity");
-            ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).applyTextStyle(getColor(productivity));
-            list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+                int productivity = tag.getInt("bee_productivity");
+                ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).applyTextStyle(getColor(productivity));
+                list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).applyTextStyle(TextFormatting.DARK_GRAY));
 
-            int temper = tag.getInt("bee_temper");
-            ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).applyTextStyle(getColor(temper));
-            list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+                int temper = tag.getInt("bee_temper");
+                ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).applyTextStyle(getColor(temper));
+                list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+            } else {
+                String mod = tag.getString("mod");
+                list.add((new StringTextComponent("Mod: " + mod)).applyTextStyle(TextFormatting.DARK_AQUA));
+            }
         }
     }
 
-    private static TextFormatting getColor(String level) {
-        switch (level) {
+    private static TextFormatting getColor(String type) {
+        switch (type) {
             case "hive":
                 return TextFormatting.YELLOW;
             case "solitary":
@@ -158,9 +171,9 @@ public class BeeCage extends Item {
     private static TextFormatting getColor(int level) {
         switch (level) {
             case -3:
-                return TextFormatting.DARK_RED;
-            case -2:
                 return TextFormatting.RED;
+            case -2:
+                return TextFormatting.DARK_RED;
             case -1:
                 return TextFormatting.YELLOW;
             case 1:
