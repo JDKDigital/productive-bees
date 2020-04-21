@@ -26,26 +26,26 @@ public class BeeAttributes {
 
     static {
         keyMap.put(PRODUCTIVITY, new HashMap<Integer, String>() {{
-            put(0, "productivebees.attribute.information.productivity.normal");
-            put(1, "productivebees.attribute.information.productivity.medium");
-            put(2, "productivebees.attribute.information.productivity.high");
-            put(3, "productivebees.attribute.information.productivity.very_high");
+            put(0, "productivebees.information.attribute.productivity.normal");
+            put(1, "productivebees.information.attribute.productivity.medium");
+            put(2, "productivebees.information.attribute.productivity.high");
+            put(3, "productivebees.information.attribute.productivity.very_high");
         }});
         keyMap.put(TEMPER, new HashMap<Integer, String>() {{
-            put(0, "productivebees.attribute.information.temper.passive");
-            put(1, "productivebees.attribute.information.temper.normal");
-            put(2, "productivebees.attribute.information.temper.short");
-            put(3, "productivebees.attribute.information.temper.hostile");
+            put(0, "productivebees.information.attribute.temper.passive");
+            put(1, "productivebees.information.attribute.temper.normal");
+            put(2, "productivebees.information.attribute.temper.short");
+            put(3, "productivebees.information.attribute.temper.hostile");
         }});
         keyMap.put(BEHAVIOR, new HashMap<Integer, String>() {{
-            put(0, "productivebees.attribute.information.behavior.diurnal");
-            put(1, "productivebees.attribute.information.behavior.nocturnal");
-            put(2, "productivebees.attribute.information.behavior.metaturnal");
+            put(0, "productivebees.information.attribute.behavior.diurnal");
+            put(1, "productivebees.information.attribute.behavior.nocturnal");
+            put(2, "productivebees.information.attribute.behavior.metaturnal");
         }});
         keyMap.put(WEATHER_TOLERANCE, new HashMap<Integer, String>() {{
-            put(0, "productivebees.attribute.information.weather_tolerance.none");
-            put(1, "productivebees.attribute.information.weather_tolerance.rain");
-            put(2, "productivebees.attribute.information.weather_tolerance.any");
+            put(0, "productivebees.information.attribute.weather_tolerance.none");
+            put(1, "productivebees.information.attribute.weather_tolerance.rain");
+            put(2, "productivebees.information.attribute.weather_tolerance.any");
         }});
     }
 }

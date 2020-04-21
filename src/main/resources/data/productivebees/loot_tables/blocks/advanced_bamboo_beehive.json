@@ -1,0 +1,34 @@
+{
+    "type": "minecraft:block",
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "functions": [
+                        {
+                            "function": "minecraft:copy_nbt",
+                            "source": "block_entity",
+                            "ops": [
+                                {
+                                    "source": "Bees",
+                                    "target": "BlockEntityTag.Bees",
+                                    "op": "replace"
+                                }
+                            ]
+                        },
+                        {
+                            "function": "minecraft:copy_state",
+                            "block": "productivebees:advanced_bamboo_beehive",
+                            "properties": [
+                                "honey_level"
+                            ]
+                        }
+                    ],
+                    "name": "productivebees:advanced_bamboo_beehive"
+                }
+            ]
+        }
+    ]
+}
