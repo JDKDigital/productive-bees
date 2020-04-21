@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
+import net.minecraft.block.BeehiveBlock;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -76,7 +77,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED);
-		int honeyLevel = this.container.tileEntity.getBlockState().get(AdvancedBeehiveAbstract.HONEY_LEVEL);
+		int honeyLevel = this.container.tileEntity.getBlockState().get(BeehiveBlock.HONEY_LEVEL);
 
 		assert minecraft != null;
 		minecraft.getTextureManager().bindTexture(expanded ? GUI_TEXTURE_EXPANDED : GUI_TEXTURE);

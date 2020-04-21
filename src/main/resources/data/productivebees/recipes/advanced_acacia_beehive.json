@@ -1,0 +1,34 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "WWW",
+        "CHC",
+        "FWS"
+    ],
+    "key": {
+        "W": {
+            "item": "minecraft:acacia_planks"
+        },
+        "H": {
+            "item": "buzzierbees:acacia_beehive"
+        },
+        "C": {
+            "item": "minecraft:honeycomb"
+        },
+        "F": {
+            "item": "minecraft:campfire"
+        },
+        "S": {
+            "item": "minecraft:shears"
+        }
+    },
+    "result": {
+        "item": "productivebees:advanced_acacia_beehive"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "buzzierbees"
+        }
+    ]
+}

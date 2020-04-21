@@ -64,7 +64,13 @@ public class ModTileEntityTypes {
 			ModBlocks.NETHER_BRICK_NEST.get(),
 			ModBlocks.GLOWSTONE_NEST.get(),
 			ModBlocks.END_NEST.get(),
-			ModBlocks.OBSIDIAN_PILLAR_NEST.get()
+			ModBlocks.OBSIDIAN_PILLAR_NEST.get(),
+			ModBlocks.OAK_WOOD_NEST.get(),
+			ModBlocks.JUNGLE_WOOD_NEST.get(),
+			ModBlocks.BIRCH_WOOD_NEST.get(),
+			ModBlocks.DARK_OAK_WOOD_NEST.get(),
+			ModBlocks.ACACIA_WOOD_NEST.get(),
+			ModBlocks.SPRUCE_WOOD_NEST.get()
 		).build(null)
 	);
 	

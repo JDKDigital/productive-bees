@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.tileentity.SolitaryHiveTileEntity;
+import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -37,7 +38,16 @@ public class WoodNest extends SolitaryNest {
 
 	@Override
 	public EntityType<BeeEntity> getNestingBeeType(World world) {
-		return ModEntities.LEAFCUTTER_BEE.get();
+		switch (world.rand.nextInt(5)) {
+			case 0:
+				return ModEntities.MASON_BEE.get();
+			case 1:
+				return ModEntities.DIGGER_BEE.get();
+			case 2:
+				return ModEntities.MINING_BEE.get();
+			default:
+				return ModEntities.LEAFCUTTER_BEE.get();
+		}
 	}
 
 	public BlockState rotate(BlockState state, Rotation rotation) {
@@ -59,11 +69,12 @@ public class WoodNest extends SolitaryNest {
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(BlockStateProperties.FACING, AdvancedBeehiveAbstract.HONEY_LEVEL, AXIS);
+		builder.add(BlockStateProperties.FACING, BeehiveBlock.HONEY_LEVEL, AXIS);
 	}
 
+	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(AXIS, context.getFace().getAxis());
+		return super.getStateForPlacement(context).with(AXIS, context.getFace().getAxis());
 	}
 
 	static {

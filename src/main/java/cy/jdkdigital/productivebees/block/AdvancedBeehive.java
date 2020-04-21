@@ -1,22 +1,18 @@
 package cy.jdkdigital.productivebees.block;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import cy.jdkdigital.productivebees.network.PacketOpenGui;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
+import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -28,13 +24,10 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 
@@ -84,7 +77,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 				// Fix expansion box direction to match the beehive
 				.with(BlockStateProperties.FACING, state.get(BlockStateProperties.FACING))
 				// Set honey state based on the beehive below
-				.with(ExpansionBox.HAS_HONEY, !isRemoved && state.get(AdvancedBeehiveAbstract.HONEY_LEVEL) >= getMaxHoneyLevel()), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+				.with(ExpansionBox.HAS_HONEY, !isRemoved && state.get(BeehiveBlock.HONEY_LEVEL) >= getMaxHoneyLevel()), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
 		}
 
 	}
@@ -110,11 +103,19 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 	}
 
 	@SuppressWarnings("deprecation")
+	@Override
 	public void onReplaced(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (oldState.getBlock() != newState.getBlock()) {
 			TileEntity tileEntity = worldIn.getTileEntity(pos);
 			if (tileEntity instanceof AdvancedBeehiveTileEntity) {
+				// Drop inventory
 				tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+					for (int slot = 0; slot < handler.getSlots(); ++slot) {
+						InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+					}
+				});
+				// Drop bottles
+				((AdvancedBeehiveTileEntity)tileEntity).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null, true).ifPresent(handler -> {
 					for (int slot = 0; slot < handler.getSlots(); ++slot) {
 						InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
 					}
@@ -140,8 +141,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 	}
 
 	public void openGui(ServerPlayerEntity player, AdvancedBeehiveTileEntity tileEntity) {
-//		ProductiveBees.NETWORK_CHANNEL.sendTo(new PacketOpenGui(tileEntity.getBeeListAsNBTList(), tileEntity.getPos()), player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
-
 		tileEntity.inhabitantList.clear();
 		tileEntity.getCapability(CapabilityBee.BEE).ifPresent(handler -> {
 			for (AdvancedBeehiveTileEntityAbstract.Inhabitant bee: handler.getInhabitants()) {

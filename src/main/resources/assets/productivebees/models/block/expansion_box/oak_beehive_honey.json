@@ -1,10 +1,10 @@
 {
     "parent": "block/orientable_with_bottom",
     "textures": {
-        "particle": "productivebees:block/advanced_beehive/advanced_oak_beehive_side_top",
+        "particle": "productivebees:block/advanced_beehive/oak_beehive_side_top",
         "bottom": "block/beehive_end",
         "top": "block/beehive_end",
-        "front": "productivebees:block/advanced_beehive/advanced_oak_beehive_front_top_honey",
-        "side": "productivebees:block/advanced_beehive/advanced_oak_beehive_side_top"
+        "front": "productivebees:block/advanced_beehive/oak_beehive_side_top",
+        "side": "productivebees:block/advanced_beehive/oak_beehive_side_top"
     }
 }

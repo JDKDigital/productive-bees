@@ -96,13 +96,13 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     public void markDirty() {
         if (this.isNearFire()) {
-            this.releaseBees(null, this.world.getBlockState(this.getPos()), BeehiveTileEntity.State.EMERGENCY);
+            this.angerBees(null, this.world.getBlockState(this.getPos()), BeehiveTileEntity.State.EMERGENCY);
         }
 
         super.markDirty();
     }
 
-    public void releaseBees(@Nullable PlayerEntity player, BlockState blockState, BeehiveTileEntity.State beeState) {
+    public void angerBees(@Nullable PlayerEntity player, BlockState blockState, BeehiveTileEntity.State beeState) {
         List<Entity> releasedBees = Lists.newArrayList();
         beeHandler.ifPresent(h -> {
             h.getInhabitants().removeIf((tag) -> this.releaseBee(blockState, tag.nbt, releasedBees, beeState));
@@ -126,16 +126,12 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         }
     }
 
-    public boolean isHiveEmpty() {
-        return this.getBeeList().size() == 0;
+    public boolean hasNoBees() {
+        return this.getBeeList().isEmpty();
     }
 
     public boolean isFullOfBees() {
         return this.getBeeList().size() == MAX_BEES;
-    }
-
-    public static int getHoneyLevel(BlockState state) {
-        return state.get(AdvancedBeehiveAbstract.HONEY_LEVEL);
     }
 
     public static int getMaxHoneyLevel(BlockState state) {
@@ -172,12 +168,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         });
     }
 
-    public void func_226961_a_(Entity beeEntity, boolean hasNectar) {
+    public void tryEnterHive(Entity beeEntity, boolean hasNectar) {
         this.tryEnterHive(beeEntity, hasNectar, 0);
-    }
-
-    public void func_226962_a_(Entity beeEntity, boolean hasNectar, int ticksInHive) {
-        this.tryEnterHive(beeEntity, hasNectar, ticksInHive);
     }
 
     public boolean releaseBee(BlockState state, CompoundNBT tag, @Nullable List<Entity> releasedBees, BeehiveTileEntity.State beeState) {
@@ -227,7 +219,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
             beeEntity.onHoneyDelivered();
             Block block = state.getBlock();
-            if (block.isIn(BlockTags.BEEHIVES) && state.has(AdvancedBeehiveAbstract.HONEY_LEVEL)) {
+            if (block.isIn(BlockTags.BEEHIVES) && state.has(BeehiveBlock.HONEY_LEVEL)) {
                 int honeyLevel = getHoneyLevel(state);
                 int maxHoneyLevel = getMaxHoneyLevel(state);
                 if (honeyLevel < maxHoneyLevel) {
@@ -236,7 +228,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                         --levelIncrease;
                     }
 
-                    this.world.setBlockState(pos, state.with(AdvancedBeehiveAbstract.HONEY_LEVEL, honeyLevel + levelIncrease));
+                    this.world.setBlockState(pos, state.with(BeehiveBlock.HONEY_LEVEL, honeyLevel + levelIncrease));
                 }
             }
         }

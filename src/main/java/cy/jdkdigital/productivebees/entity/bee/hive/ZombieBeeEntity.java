@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.entity.bee.hive;
 
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.BeeEntity;
@@ -15,6 +16,7 @@ public class ZombieBeeEntity extends EffectHiveBeeEntity {
 
 	public ZombieBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
+		beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
 	}
 
 	@Override

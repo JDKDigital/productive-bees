@@ -56,7 +56,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
     }
 
     protected boolean placeNest(IWorld world, BlockPos pos, ReplaceBlockConfig featureConfig) {
-        // Check if we are above target block
+        // Check if we are at target block
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
         boolean match = placeOntop ? matcher.test(world.getBlockState(pos.down())) : matcher.test(world.getBlockState(pos));
         if (match) {

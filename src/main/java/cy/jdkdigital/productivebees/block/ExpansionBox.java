@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.block;
 
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
+import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -55,7 +56,7 @@ public class ExpansionBox extends Block {
 
 		if (blockBelow instanceof AdvancedBeehive) {
 			if (!isRemoved) {
-				int honeyLevel = blockStateBelow.get(AdvancedBeehiveAbstract.HONEY_LEVEL);
+				int honeyLevel = blockStateBelow.get(BeehiveBlock.HONEY_LEVEL);
 				int maxHoneyLevel = ((AdvancedBeehiveAbstract)blockBelow).getMaxHoneyLevel();
 				world.setBlockState(pos, state
 					// Fix expansion box direction to match the beehive

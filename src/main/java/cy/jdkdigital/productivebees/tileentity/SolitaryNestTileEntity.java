@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.tileentity;
 
-import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
@@ -24,7 +23,6 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
@@ -119,7 +117,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
     protected boolean canRepopulate() {
         SolitaryNest block = ((SolitaryNest)this.getBlockState().getBlock());
 	    boolean blockConditionsMet = block.canRepopulateIn(world.getDimension(), world.getBiome(this.getPos()));
-	    return isHiveEmpty() && blockConditionsMet;
+	    return hasNoBees() && blockConditionsMet;
     }
 
     protected int getRepopulationCooldown() {

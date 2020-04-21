@@ -14,7 +14,7 @@ abstract public class SolitaryBeeEntity extends ProductiveBeeEntity implements I
 {
 	public SolitaryBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
-		this.nestBlockTag = ModTags.getTag(ModTags.GROUND_NESTS);
+		this.nestBlockTag = ModTags.getTag(ModTags.SOLITARY_OVERWORLD_NESTS);
 		beehiveInterests = (poiType) -> poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() || poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
 		beeAttributes.put(BeeAttributes.TYPE, "solitary");
 	}

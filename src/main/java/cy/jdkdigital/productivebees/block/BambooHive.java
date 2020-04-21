@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.block;
 
 import cy.jdkdigital.productivebees.tileentity.SolitaryHiveTileEntity;
+import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItemUseContext;
@@ -51,7 +52,7 @@ public class BambooHive extends AdvancedBeehiveAbstract {
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(BlockStateProperties.FACING, AdvancedBeehiveAbstract.HONEY_LEVEL, AXIS);
+		builder.add(BlockStateProperties.FACING, BeehiveBlock.HONEY_LEVEL, AXIS);
 	}
 
 	public BlockState getStateForPlacement(BlockItemUseContext context) {

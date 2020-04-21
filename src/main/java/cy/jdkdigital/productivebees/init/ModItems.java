@@ -21,7 +21,6 @@ public class ModItems {
 	public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, ProductiveBees.MODID);
 	public static final List<RegistryObject<Item>> SPAWN_EGGS = Lists.newArrayList();
 
-	public static RegistryObject<Item> BEE = createItem("bee", () -> new Item(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
 	public static RegistryObject<Item> HONEY_BUCKET = createItem("honey_bucket", () -> new BucketItem(ModFluids.HONEY, new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
 	public static RegistryObject<Item> BEE_CAGE = createItem("bee_cage", () -> new BeeCage(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
 	public static RegistryObject<Item> HONEY_TREAT = createItem("honey_treat", () -> new HoneyTreat(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES).food(Foods.HONEY)));

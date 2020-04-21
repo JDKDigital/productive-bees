@@ -24,6 +24,7 @@ gradle.properties
 .idea
 eclipse
 run
+gen
 
 # Files from Forge MDK
 changelog.txt

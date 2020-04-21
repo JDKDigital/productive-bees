@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.block;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
+import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -47,21 +48,24 @@ abstract public class SolitaryNest extends AdvancedBeehiveAbstract {
 		return new SolitaryNestTileEntity();
 	}
 
+	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext itemUseContext) {
 		return this.getDefaultState().with(BlockStateProperties.FACING, itemUseContext.getNearestLookingDirection().getOpposite());
 	}
 
+	@Override
 	public BlockState rotate(BlockState state, Rotation rotation) {
 		return state.with(BlockStateProperties.FACING, rotation.rotate(state.get(BlockStateProperties.FACING)));
 	}
 
+	@Override
 	public BlockState mirror(BlockState state, Mirror mirror) {
 		return state.rotate(mirror.toRotation(state.get(BlockStateProperties.FACING)));
 	}
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(BlockStateProperties.FACING, AdvancedBeehiveAbstract.HONEY_LEVEL);
+		builder.add(BlockStateProperties.FACING, BeehiveBlock.HONEY_LEVEL);
 	}
 
 	public boolean canRepopulateIn(Dimension dimension, Biome biome) {

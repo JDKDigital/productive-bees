@@ -7,11 +7,8 @@ import cy.jdkdigital.productivebees.client.render.entity.SlimyBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.SolitaryBeeRenderer;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.hive.CreeperBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.hive.EnderBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.hive.*;
 import cy.jdkdigital.productivebees.entity.bee.solitary.*;
-import cy.jdkdigital.productivebees.entity.bee.hive.WitherBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.hive.ZombieBeeEntity;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.EntityClassification;
@@ -44,7 +41,7 @@ public class ModEntities {
     public static RegistryObject<EntityType<BeeEntity>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBeeEntity::new, 6238757, 894731);
     public static RegistryObject<EntityType<BeeEntity>> ZOMBIE_BEE = createHiveBee("zombie_bee", ZombieBeeEntity::new, 6238757, 7969893);
     public static RegistryObject<EntityType<BeeEntity>> ENDER_BEE = createHiveBee("ender_bee", EnderBeeEntity::new, 6238757, 1447446);
-    public static RegistryObject<EntityType<BeeEntity>> SKELETAL_BEE = createHiveBee("skeletal_bee", ProductiveBeeEntity::new, 6238757, 12698049);
+    public static RegistryObject<EntityType<BeeEntity>> SKELETAL_BEE = createHiveBee("skeletal_bee", SkeletalBeeEntity::new, 6238757, 12698049);
     public static RegistryObject<EntityType<BeeEntity>> WITHER_BEE = createHiveBee("wither_bee", WitherBeeEntity::new, 6238757, 1315860);
 
     public static RegistryObject<EntityType<BeeEntity>> GLOWING_BEE = createHiveBee("glowing_bee", GlowingBeeEntity::new, 6238757, 16579584);

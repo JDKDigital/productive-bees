@@ -4,15 +4,12 @@ import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.*;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.item.TNTEntity;
 import net.minecraft.entity.item.minecart.TNTMinecartEntity;
 import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
@@ -28,7 +25,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
@@ -50,13 +46,12 @@ import java.util.Random;
 public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 
 	public static final Direction[] DIRECTIONS;
-	public static final IntegerProperty HONEY_LEVEL;
 
 	protected static int MAX_HONEY_LEVEL = 5;
 
 	public AdvancedBeehiveAbstract(Properties properties) {
 		super(properties);
-		this.setDefaultState(this.stateContainer.getBaseState().with(HONEY_LEVEL, 0).with(BlockStateProperties.FACING, Direction.NORTH));
+		this.setDefaultState(this.stateContainer.getBaseState().with(BeehiveBlock.HONEY_LEVEL, 0).with(BlockStateProperties.FACING, Direction.NORTH));
 	}
 
 	public int getMaxHoneyLevel() {
@@ -68,7 +63,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 	}
 
 	public int getComparatorInputOverride(BlockState state, World world, BlockPos pos) {
-		return state.get(HONEY_LEVEL);
+		return state.get(BeehiveBlock.HONEY_LEVEL);
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -97,47 +92,15 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		}
 	}
 
-	public void harvestBlock(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity tileEntity, ItemStack itemStack) {
-		super.harvestBlock(world, player, pos, state, tileEntity, itemStack);
-		if (!world.isRemote && tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-			AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract)tileEntity;
-			if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, itemStack) == 0) {
-				beehiveTileEntity.releaseBees(player, state, BeehiveTileEntity.State.EMERGENCY);
-				world.updateComparatorOutputLevel(pos, this);
-				this.activateBeeFrenzy(world, pos);
-			}
-
-			CriteriaTriggers.BEE_NEST_DESTROYED.test((ServerPlayerEntity)player, state.getBlock(), itemStack, beehiveTileEntity.getBeeCount());
-		}
-	}
-
-	private void activateBeeFrenzy(World world, BlockPos pos) {
-		List<BeeEntity> beeList = world.getEntitiesWithinAABB(BeeEntity.class, (new AxisAlignedBB(pos)).grow(8.0D, 6.0D, 8.0D));
-		if (!beeList.isEmpty()) {
-			List<PlayerEntity> playerList = world.getEntitiesWithinAABB(PlayerEntity.class, (new AxisAlignedBB(pos)).grow(8.0D, 6.0D, 8.0D));
-			int playerCount = playerList.size();
-
-			for (BeeEntity bee : beeList) {
-				if (bee.getAttackTarget() == null) {
-					bee.setBeeAttacker(playerList.get(world.rand.nextInt(playerCount)));
-				}
-			}
-		}
-	}
-
-	public static void spawnHoneycomb(World world, BlockPos pos) {
-		spawnAsEntity(world, pos, new ItemStack(Items.HONEYCOMB, 3));
-	}
-
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
 		ItemStack heldItem = player.getHeldItem(hand);
 		ItemStack heldItemCopy = heldItem.copy();
-		int honeyLevel = state.get(HONEY_LEVEL);
+		int honeyLevel = state.get(BeehiveBlock.HONEY_LEVEL);
 		boolean itemUsed = false;
 		if (honeyLevel >= getMaxHoneyLevel()) {
 			if (heldItem.getItem() == Items.SHEARS) {
 				world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-				spawnHoneycomb(world, pos);
+				BeehiveBlock.dropHoneyComb(world, pos);
 				heldItem.damageItem(1, player, (entity) -> {
 					entity.sendBreakAnimation(hand);
 				});
@@ -156,17 +119,9 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		}
 
 		if (itemUsed) {
-			if (!CampfireBlock.isLitCampfireInRange(world, pos, 5)) {
-				if (this.tileEntityAtPositionHasBees(world, pos)) {
-					this.activateBeeFrenzy(world, pos);
-				}
-
-				this.takeHoney(world, state, pos, player, BeehiveTileEntity.State.EMERGENCY);
-			} else {
-				this.takeHoney(world, state, pos);
-				if (player instanceof ServerPlayerEntity) {
-					CriteriaTriggers.SAFELY_HARVEST_HONEY.test((ServerPlayerEntity)player, pos, heldItemCopy);
-				}
+			this.takeHoney(world, state, pos);
+			if (player instanceof ServerPlayerEntity) {
+				CriteriaTriggers.SAFELY_HARVEST_HONEY.test((ServerPlayerEntity)player, pos, heldItemCopy);
 			}
 
 			return ActionResultType.SUCCESS;
@@ -175,32 +130,13 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		}
 	}
 
-	private boolean tileEntityAtPositionHasBees(World world, BlockPos pos) {
-		TileEntity tileEntity = world.getTileEntity(pos);
-		if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-			AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract)tileEntity;
-			return !beehiveTileEntity.isHiveEmpty();
-		} else {
-			return false;
-		}
-	}
-
-	public void takeHoney(World world, BlockState state, BlockPos pos, @Nullable PlayerEntity player, BeehiveTileEntity.State beeState) {
-		this.takeHoney(world, state, pos);
-		TileEntity tileEntity = world.getTileEntity(pos);
-		if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-			AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract)tileEntity;
-			beehiveTileEntity.releaseBees(player, state, beeState);
-		}
-	}
-
 	public void takeHoney(World world, BlockState state, BlockPos pos) {
-		world.setBlockState(pos, state.with(HONEY_LEVEL, getMaxHoneyLevel() - 5), 3);
+		world.setBlockState(pos, state.with(BeehiveBlock.HONEY_LEVEL, getMaxHoneyLevel() - 5), 3);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
-		if (state.get(HONEY_LEVEL) >= MAX_HONEY_LEVEL) {
+		if (state.get(BeehiveBlock.HONEY_LEVEL) >= MAX_HONEY_LEVEL) {
 			for(int i = 0; i < random.nextInt(1) + 1; ++i) {
 				this.func_226879_a_(world, pos, state);
 			}
@@ -245,7 +181,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 	}
 
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HONEY_LEVEL, BlockStateProperties.FACING);
+		builder.add(BeehiveBlock.HONEY_LEVEL, BlockStateProperties.FACING);
 	}
 
 	@Nonnull
@@ -258,8 +194,8 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 			TileEntity tileEntity = world.getTileEntity(pos);
 			if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
 				AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract)tileEntity;
-				int honeyLevel = state.get(HONEY_LEVEL);
-				boolean hasBees = !beehiveTileEntity.isHiveEmpty();
+				int honeyLevel = state.get(BeehiveBlock.HONEY_LEVEL);
+				boolean hasBees = !beehiveTileEntity.hasNoBees();
 				if (!hasBees && honeyLevel == 0) {
 					return;
 				}
@@ -286,7 +222,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 			TileEntity tileEntity = builder.get(LootParameters.BLOCK_ENTITY);
 			if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
 				AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract)tileEntity;
-				beehiveTileEntity.releaseBees(null, state, BeehiveTileEntity.State.EMERGENCY);
+				beehiveTileEntity.angerBees(null, state, BeehiveTileEntity.State.EMERGENCY);
 			}
 		}
 
@@ -298,7 +234,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 			TileEntity tileEntity = world.getTileEntity(pos);
 			if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
 				AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract)tileEntity;
-				beehiveTileEntity.releaseBees(null, state, BeehiveTileEntity.State.EMERGENCY);
+				beehiveTileEntity.angerBees(null, state, BeehiveTileEntity.State.EMERGENCY);
 			}
 		}
 
@@ -307,6 +243,5 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 
 	static {
 		DIRECTIONS = new Direction[]{Direction.WEST, Direction.EAST, Direction.SOUTH};
-		HONEY_LEVEL = BlockStateProperties.HONEY_LEVEL;
 	}
 }

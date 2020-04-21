@@ -45,8 +45,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	protected Map<BeeAttribute<?>, Object> beeAttributes = Maps.newHashMap();
 	public Tag<Block> nestBlockTag;
 
-	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> poiType == PointOfInterestType.field_226356_s_ ||
-			poiType == PointOfInterestType.field_226357_t_ ||
+	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE ||
+			poiType == PointOfInterestType.BEE_NEST ||
 			poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
 			poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
 

@@ -14,7 +14,6 @@ import java.util.function.Predicate;
 public class NomadBeeEntity extends SolitaryBeeEntity {
     public NomadBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
-        this.nestBlockTag = ModTags.getTag(ModTags.ARID_NESTS);
 
         beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.getTag(ModTags.ARID_FLOWERS));
     }

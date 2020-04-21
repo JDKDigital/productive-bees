@@ -49,10 +49,13 @@ public class AdvancedBeehiveContainer extends AbstractContainer {
 
 		IItemHandler inventory = new InvWrapper(playerInventory);
 
-		// Tile inventory slot(s)
-		this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-			addSlot(new SlotItemHandler(handler, AdvancedBeehiveTileEntity.BOTTLE_SLOT, 86, 17));
-			addSlotBox(handler, AdvancedBeehiveTileEntity.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
+		// Bottle slot
+		this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null, true).ifPresent(bottleHandler -> {
+			addSlot(new SlotItemHandler(bottleHandler, AdvancedBeehiveTileEntity.BOTTLE_SLOT, 86, 17));
+		});
+		// Inventory slots
+		this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+			addSlotBox(inv, AdvancedBeehiveTileEntity.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
 		});
 
 		layoutPlayerInventorySlots(inventory, 0, 8, 84);
