@@ -12,10 +12,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:birch_planks"
-          },
-          {
-            "item": "minecraft:beehive"
+            "item": "buzzierbees:birch_beehive"
           }
         ]
       }
@@ -32,5 +29,11 @@
       "has_beehive",
       "has_the_recipe"
     ]
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "buzzierbees"
+    }
   ]
 }

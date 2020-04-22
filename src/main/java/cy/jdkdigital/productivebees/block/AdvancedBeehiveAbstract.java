@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.block;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.*;
@@ -89,44 +90,6 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 					tooltip.add(new TranslationTextComponent("" + beeNBT.getString("id")).applyTextStyle(TextFormatting.GREEN));
 				}
 			}
-		}
-	}
-
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-		ItemStack heldItem = player.getHeldItem(hand);
-		ItemStack heldItemCopy = heldItem.copy();
-		int honeyLevel = state.get(BeehiveBlock.HONEY_LEVEL);
-		boolean itemUsed = false;
-		if (honeyLevel >= getMaxHoneyLevel()) {
-			if (heldItem.getItem() == Items.SHEARS) {
-				world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-				BeehiveBlock.dropHoneyComb(world, pos);
-				heldItem.damageItem(1, player, (entity) -> {
-					entity.sendBreakAnimation(hand);
-				});
-				itemUsed = true;
-			} else if (heldItem.getItem() == Items.GLASS_BOTTLE) {
-				heldItem.shrink(1);
-				world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-				if (heldItem.isEmpty()) {
-					player.setHeldItem(hand, new ItemStack(Items.HONEY_BOTTLE));
-				} else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.HONEY_BOTTLE))) {
-					player.dropItem(new ItemStack(Items.HONEY_BOTTLE), false);
-				}
-
-				itemUsed = true;
-			}
-		}
-
-		if (itemUsed) {
-			this.takeHoney(world, state, pos);
-			if (player instanceof ServerPlayerEntity) {
-				CriteriaTriggers.SAFELY_HARVEST_HONEY.test((ServerPlayerEntity)player, pos, heldItemCopy);
-			}
-
-			return ActionResultType.SUCCESS;
-		} else {
-			return super.onBlockActivated(state, world, pos, player, hand, hit);
 		}
 	}
 

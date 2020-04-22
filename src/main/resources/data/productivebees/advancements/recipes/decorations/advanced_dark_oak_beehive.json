@@ -12,10 +12,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:dark_oak_planks"
-          },
-          {
-            "item": "minecraft:beehive"
+            "item": "buzzierbees:dark_oak_beehive"
           }
         ]
       }
@@ -32,5 +29,11 @@
       "has_beehive",
       "has_the_recipe"
     ]
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "buzzierbees"
+    }
   ]
 }
