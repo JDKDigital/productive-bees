@@ -30,10 +30,10 @@
       "has_the_recipe"
     ]
   ],
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "buzzierbees"
-    }
-  ]
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "buzzierbees"
+        }
+    ]
 }

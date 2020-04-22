@@ -2,7 +2,8 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "productivebees:expansion_box_oak"
+      "productivebees:advanced_bop_umbran_beehive",
+      "productivebees:expansion_box_bop_umbran"
     ]
   },
   "criteria": {
@@ -11,7 +12,7 @@
       "conditions": {
         "items": [
           {
-            "item": "productivebees:advanced_oak_beehive"
+            "item": "buzzierbees:bop_umbran_beehive"
           }
         ]
       }
@@ -19,7 +20,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "productivebees:expansion_box_oak"
+        "recipe": "productivebees:advanced_bop_umbran_beehive"
       }
     }
   },
@@ -28,5 +29,15 @@
       "has_beehive",
       "has_the_recipe"
     ]
-  ]
+  ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "buzzierbees"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
 }

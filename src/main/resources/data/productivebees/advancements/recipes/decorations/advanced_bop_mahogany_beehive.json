@@ -2,8 +2,8 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "productivebees:advanced_birch_beehive",
-      "productivebees:expansion_box_birch"
+      "productivebees:advanced_bop_mahogany_beehive",
+      "productivebees:expansion_box_bop_mahogany"
     ]
   },
   "criteria": {
@@ -12,7 +12,7 @@
       "conditions": {
         "items": [
           {
-            "item": "buzzierbees:birch_beehive"
+            "item": "buzzierbees:bop_mahogany_beehive"
           }
         ]
       }
@@ -20,7 +20,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "productivebees:advanced_birch_beehive"
+        "recipe": "productivebees:advanced_bop_mahogany_beehive"
       }
     }
   },
@@ -34,6 +34,10 @@
         {
             "type": "forge:mod_loaded",
             "modid": "buzzierbees"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
         }
     ]
 }

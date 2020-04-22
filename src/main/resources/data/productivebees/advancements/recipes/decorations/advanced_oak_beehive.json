@@ -3,11 +3,7 @@
   "rewards": {
     "recipes": [
       "productivebees:advanced_oak_beehive",
-      "productivebees:advanced_spruce_beehive",
-      "productivebees:advanced_birch_beehive",
-      "productivebees:advanced_dark_oak_beehive",
-      "productivebees:advanced_acacia_beehive",
-      "productivebees:advanced_jungle_beehive"
+      "productivebees:expansion_box_oak"
     ]
   },
   "criteria": {

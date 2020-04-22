@@ -8,18 +8,21 @@
     "productivebees:emerald_bee",
     "productivebees:diamond_bee",
     "productivebees:dye_bee",
-    "productivebees:creeper_bee",
-    "productivebees:zombie_bee",
-    "productivebees:ender_bee",
-    "productivebees:skeletal_bee",
-    "productivebees:wither_bee",
     "productivebees:glowing_bee",
     "productivebees:quartz_bee",
     "productivebees:magmatic_bee",
+    "productivebees:blazing_bee",
+    "productivebees:slimy_bee",
+    "productivebees:creeper_bee",
+    "productivebees:zombie_bee",
+    "productivebees:ender_bee",
+    "productivebees:draconic_bee",
+    "productivebees:skeletal_bee",
+    "productivebees:wither_bee",
     "productivebees:mining_bee",
     "productivebees:nomad_bee",
     "productivebees:mason_bee",
-    "productivebees:slimy_bee",
-    "productivebees:draconic_bee"
+    "productivebees:digger_bee",
+    "productivebees:leafcutter_bee"
   ]
 }
