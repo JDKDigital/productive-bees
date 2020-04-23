@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.util;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.Goal;
@@ -14,12 +16,61 @@ import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BeeHelper {
+    public static Map<String, Map<String, String>> breedingMap = new HashMap<String, Map<String, String>>() {{
+        put("glowing", new HashMap<String, String>() {{
+            put("mining", "redstone");
+        }});
+        put("mining", new HashMap<String, String>() {{
+            put("glowing", "redstone");
+            put("quartz", "iron");
+        }});
+        put("mason", new HashMap<String, String>() {{
+            put("leafcutter", "spidey");
+            put("quartz", "gold");
+        }});
+        put("leafcutter", new HashMap<String, String>() {{
+            put("mason", "spidey");
+        }});
+        put("quartz", new HashMap<String, String>() {{
+            put("mason", "gold");
+            put("mining", "iron");
+        }});
+        put("magmatic", new HashMap<String, String>() {{
+            put("nomad", "blazing");
+        }});
+        put("nomad", new HashMap<String, String>() {{
+            put("magmatic", "blazing");
+        }});
+        put("gold", new HashMap<String, String>() {{
+            put("lapis", "diamond");
+        }});
+        put("lapis", new HashMap<String, String>() {{
+            put("gold", "diamond");
+        }});
+        put("diamond", new HashMap<String, String>() {{
+            put("slimy", "emerald");
+        }});
+        put("slimy", new HashMap<String, String>() {{
+            put("slimy", "diamond");
+        }});
+        put("redstone", new HashMap<String, String>() {{
+            put("river", "lapis");
+        }});
+        put("river", new HashMap<String, String>() {{
+            put("redstone", "lapis");
+        }});
+    }};
+
     public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, World world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
         BlockPos pos = entity.getPosition();
 
@@ -54,6 +105,11 @@ public class BeeHelper {
                 bee = ModEntities.GOLD_BEE.get();
             }
         }
+        else if (itemStack.getItem() == Items.TNT) {
+            if (!entity.getEntityString().equals("productivebees:creeper_bee")) {
+                bee = ModEntities.CREEPER_BEE.get();
+            }
+        }
         else if (itemStack.getItem() == Items.HONEYCOMB) {
             if (!entity.getEntityString().equals("minecraft:bee")) {
                 bee = EntityType.BEE;
@@ -82,5 +138,22 @@ public class BeeHelper {
             return bee;
         }
         return null;
+    }
+
+    @Nullable
+    public static ResourceLocation getBreedingResult(ProductiveBeeEntity beeEntity, AgeableEntity targetEntity) {
+        Map<String, String> res = breedingMap.get(beeEntity.getBeeType());
+        ProductiveBees.LOGGER.info(res);
+
+        String babyType = null;
+        if (targetEntity instanceof ProductiveBeeEntity) {
+            babyType = res.get(((ProductiveBeeEntity)targetEntity).getBeeType());
+        }
+
+        if (babyType == null) {
+            babyType = beeEntity.getBeeType();
+        }
+
+        return babyType != null ? new ResourceLocation(ProductiveBees.MODID, babyType + "_bee") : null;
     }
 }

@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
@@ -71,7 +72,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.399999976158142D, true));
 		// Resting goal!
 		this.goalSelector.addGoal(1, new ProductiveBeeEntity.EnterBeehiveGoal());
-		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, ProductiveBeeEntity.class));
 
 		this.pollinateGoal = new ProductiveBeeEntity.PollinateGoal();
 		this.goalSelector.addGoal(4, this.pollinateGoal);
@@ -148,20 +149,21 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 
 	@Override
 	public BeeEntity createChild(AgeableEntity targetEntity) {
-		return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(ProductiveBees.MODID, this.getBeeType() + "_bee")).create(world);
+		ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, targetEntity);
+		ProductiveBees.LOGGER.info("CreateChild " + breedingResult);
+		return (BeeEntity) ForgeRegistries.ENTITIES.getValue(breedingResult).create(world);
 	}
 
 	@Override
-	public boolean canMateWith(AnimalEntity nearbyEntity) {
-		if (nearbyEntity == this) {
+	public boolean canMateWith(AnimalEntity otherAnimal) {
+		if (otherAnimal == this) {
 			return false;
-		} else if (!(nearbyEntity instanceof BeeEntity)) {
+		} else if (!(otherAnimal instanceof BeeEntity)) {
 			return false;
 		} else {
 			// Check specific breeding rules
-
-
-			return this.isInLove() && nearbyEntity.isInLove();
+			ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, otherAnimal);
+			return breedingResult != null && this.isInLove() && otherAnimal.isInLove();
 		}
 	}
 
