@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.jei;
+package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.init.ModEntities;
 import mezz.jei.api.ingredients.IIngredientHelper;

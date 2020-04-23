@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.jei;
+package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;

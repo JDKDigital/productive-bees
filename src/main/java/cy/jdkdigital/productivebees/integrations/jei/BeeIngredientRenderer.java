@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.jei;
+package cy.jdkdigital.productivebees.integrations.jei;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import mezz.jei.api.ingredients.IIngredientRenderer;

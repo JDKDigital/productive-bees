@@ -67,6 +67,10 @@ repositories {
         name = "JEI Maven"
         url "http://dvs1.progwml6.com/files/maven"
     }
+    maven {
+        name = "HWYLA"
+        url "http://tehnut.info/maven"
+    }
 }
 
 dependencies {
@@ -76,6 +80,8 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${mcversion}:${jei_version}:api")
     // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${mcversion}:${jei_version}")
+
+    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
