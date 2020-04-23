@@ -24,6 +24,7 @@ public class ModTags {
 
     public static final String ARID_FLOWERS = "arid_flowers";
     public static final String SWAMP_FLOWERS = "swamp_flowers";
+    public static final String RIVER_FLOWERS = "river_flowers";
     public static final String END_FLOWERS = "end_flowers";
     public static final String DRACONIC_FLOWERS = "draconic_flowers";
     public static final String WITHER_FLOWERS = "wither_flowers";

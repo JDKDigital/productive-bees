@@ -16,7 +16,7 @@ public class ZombieBeeEntity extends EffectHiveBeeEntity {
 
 	public ZombieBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
-		beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
+		beeAttributes.put(BeeAttributes.BEHAVIOR, 1);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class ZombieBeeEntity extends EffectHiveBeeEntity {
 	@Override
 	protected void registerAttributes() {
 		super.registerAttributes();
-		this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.4000000238418579D);
-		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20000001192092896D);
+		this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.4F);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2F);
 	}
 }
