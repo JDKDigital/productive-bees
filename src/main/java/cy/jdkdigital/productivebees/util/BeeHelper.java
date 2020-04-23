@@ -64,9 +64,9 @@ public class BeeHelper {
             put("slimy", "diamond");
         }});
         put("redstone", new HashMap<String, String>() {{
-            put("river", "lapis");
+            put("blue_banded", "lapis");
         }});
-        put("river", new HashMap<String, String>() {{
+        put("blue_banded", new HashMap<String, String>() {{
             put("redstone", "lapis");
         }});
     }};
@@ -108,6 +108,11 @@ public class BeeHelper {
         else if (itemStack.getItem() == Items.TNT) {
             if (!entity.getEntityString().equals("productivebees:creeper_bee")) {
                 bee = ModEntities.CREEPER_BEE.get();
+            }
+        }
+        else if (itemStack.getItem() == Items.WITHER_ROSE) {
+            if (!entity.getEntityString().equals("productivebees:wither_bee")) {
+                bee = ModEntities.WITHER_BEE.get();
             }
         }
         else if (itemStack.getItem() == Items.HONEYCOMB) {
