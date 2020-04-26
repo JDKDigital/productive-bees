@@ -1,13 +1,12 @@
 package cy.jdkdigital.productivebees.init;
 
-import java.util.function.Supplier;
-
-import javax.annotation.Nonnull;
-
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+
+import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 public class ModItemGroups {
 	

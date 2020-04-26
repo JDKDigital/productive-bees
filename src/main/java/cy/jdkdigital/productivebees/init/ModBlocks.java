@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.init;
 
 import com.google.common.base.Supplier;
-
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.block.BambooHive;
@@ -12,9 +11,6 @@ import cy.jdkdigital.productivebees.fluid.HoneyFluid;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.BlockItem;

@@ -9,17 +9,14 @@ import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
-import static net.minecraftforge.event.ForgeEventFactory.*;
+import static net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent;
 
 public class CreeperBeeEntity extends EffectHiveBeeEntity {
 	private static final DataParameter<Integer> STATE = EntityDataManager.createKey(CreeperBeeEntity.class, DataSerializers.VARINT);

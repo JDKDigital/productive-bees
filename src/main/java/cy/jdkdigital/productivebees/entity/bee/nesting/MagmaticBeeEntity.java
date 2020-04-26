@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.entity.bee.solitary;
+package cy.jdkdigital.productivebees.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.IBeeEntity;
@@ -7,11 +7,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.potion.Effect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class MagmaticBeeEntity extends EffectHiveBeeEntity implements IBeeEntity {
 

@@ -8,9 +8,9 @@ import cy.jdkdigital.productivebees.client.render.entity.SolitaryBeeRenderer;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.*;
+import cy.jdkdigital.productivebees.entity.bee.nesting.*;
 import cy.jdkdigital.productivebees.entity.bee.solitary.*;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
@@ -51,12 +51,19 @@ public class ModEntities {
     public static RegistryObject<EntityType<BeeEntity>> DRACONIC_BEE = createHiveBee("draconic_bee", DraconicBeeEntity::new, 6238757, 1842204);
     public static RegistryObject<EntityType<BeeEntity>> SLIMY_BEE = createHiveBee("slimy_bee", SlimyBeeEntity::new, 6238757, 8306542);
 
-    public static RegistryObject<EntityType<BeeEntity>> BLUE_BANDED_BEE = createSolitaryBee("blue_banded_bee", BlueBandedBeeEntity::new, 6238757, 2057258);
-    public static RegistryObject<EntityType<BeeEntity>> MINING_BEE = createSolitaryBee("mining_bee", MiningBeeEntity::new, 6238757, 11709345);
-    public static RegistryObject<EntityType<BeeEntity>> NOMAD_BEE = createSolitaryBee("nomad_bee", NomadBeeEntity::new, 6238757, 14529911);
+    public static RegistryObject<EntityType<BeeEntity>> ASHY_MINING_BEE = createSolitaryBee("ashy_mining_bee", AshyMiningBeeEntity::new, 6238757, 11709345);
+    public static RegistryObject<EntityType<BeeEntity>> BLUE_BANDED_BEE = createSolitaryBee("blue_banded_bee", BlueBandedBeeEntity::new, 6238757, 9615358);
+    public static RegistryObject<EntityType<BeeEntity>> GREEN_CARPENTER_BEE = createSolitaryBee("green_carpenter_bee", CarpenterBeeEntity::new, 6238757, 9615358);
+    public static RegistryObject<EntityType<BeeEntity>> YELLOW_CARPENTER_BEE = createSolitaryBee("yellow_carpenter_bee", CarpenterBeeEntity::new, 6238757, 9615358);
+    public static RegistryObject<EntityType<BeeEntity>> CHOCOLATE_MINING_BEE = createSolitaryBee("chocolate_mining_bee", ChocolateMiningBeeEntity::new, 6238757, 11709345);
     public static RegistryObject<EntityType<BeeEntity>> DIGGER_BEE = createSolitaryBee("digger_bee", DiggerBeeEntity::new, 6238757, 8875079);
-    public static RegistryObject<EntityType<BeeEntity>> MASON_BEE = createSolitaryBee("mason_bee", MasonBeeEntity::new, 6238757, 12226382);
     public static RegistryObject<EntityType<BeeEntity>> LEAFCUTTER_BEE = createSolitaryBee("leafcutter_bee", LeafcutterBeeEntity::new, 6238757, 2057258);
+    public static RegistryObject<EntityType<BeeEntity>> MASON_BEE = createSolitaryBee("mason_bee", MasonBeeEntity::new, 6238757, 12226382);
+    public static RegistryObject<EntityType<BeeEntity>> NEON_CUCKOO_BEE = createSolitaryBee("neon_cuckoo_bee", NeonCuckooBeeEntity::new, 6238757, 9615358);
+    public static RegistryObject<EntityType<BeeEntity>> NOMAD_BEE = createSolitaryBee("nomad_bee", NomadBeeEntity::new, 6238757, 14529911);
+    public static RegistryObject<EntityType<BeeEntity>> REED_BEE = createSolitaryBee("reed_bee", ReedBeeEntity::new, 6238757, 11709345);
+    public static RegistryObject<EntityType<BeeEntity>> RESIN_BEE = createSolitaryBee("resin_bee", ResinBeeEntity::new, 6238757, 11709345);
+    public static RegistryObject<EntityType<BeeEntity>> SWEATY_BEE = createSolitaryBee("sweaty_bee", SweatBeeEntity::new, 6238757, 11709345);
 
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createHiveBee(String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor) {
         return createBee(HIVE_BEES, name, supplier, primaryColor, secondaryColor);

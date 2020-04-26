@@ -1,8 +1,6 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
-import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,5 +1,8 @@
 {
 	"itemGroup.productivebees": "Productive Bees",
+
+	"jei.productivebees.advanced_beehive": "Advanced Beehive",
+
 	"item.productivebees.honey_bucket": "Honey Bucket",
 	"item.productivebees.honey_treat": "Honey Treat",
 	"item.productivebees.bee_cage": "Bee Cage",
@@ -21,7 +24,8 @@
 	"item.productivebees.spawn_egg_draconic_bee": "Draconic Bee Spawn Egg",
 	"item.productivebees.spawn_egg_skeletal_bee": "Skeletal Bee Spawn Egg",
 	"item.productivebees.spawn_egg_wither_bee": "Withered Bee Spawn Egg",
-	"item.productivebees.spawn_egg_mining_bee": "Mining Bee Spawn Egg",
+	"item.productivebees.spawn_egg_ashy_mining_bee": "Ashy Mining Bee Spawn Egg",
+	"item.productivebees.spawn_egg_chocolate_mining_bee": "Chocolate Mining Bee Spawn Egg",
 	"item.productivebees.spawn_egg_nomad_bee": "Nomad Bee Spawn Egg",
 	"item.productivebees.spawn_egg_mason_bee": "Mason Bee Spawn Egg",
 	"item.productivebees.spawn_egg_digger_bee": "Digger Bee Spawn Egg",
@@ -128,7 +132,8 @@
 	"entity.productivebees.draconic_bee": "Draconic Bee",
 	"entity.productivebees.skeletal_bee": "Skeletal Bee",
 	"entity.productivebees.wither_bee": "Withered Bee",
-	"entity.productivebees.mining_bee": "Mining Bee",
+	"entity.productivebees.ashy_mining_bee": "Ashy Mining Bee",
+	"entity.productivebees.chocolate_mining_bee": "Chocolate Mining Bee",
 	"entity.productivebees.nomad_bee": "Nomad Bee",
 	"entity.productivebees.mason_bee": "Mason Bee",
 	"entity.productivebees.digger_bee": "Digger Bee",

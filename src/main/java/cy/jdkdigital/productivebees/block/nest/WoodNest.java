@@ -1,9 +1,7 @@
 package cy.jdkdigital.productivebees.block.nest;
 
-import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.init.ModEntities;
-import cy.jdkdigital.productivebees.tileentity.SolitaryHiveTileEntity;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -13,15 +11,11 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Rotation;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.Dimension;
-
-import javax.annotation.Nullable;
 
 public class WoodNest extends SolitaryNest {
 	public static final EnumProperty<Direction.Axis> AXIS;
@@ -44,7 +38,7 @@ public class WoodNest extends SolitaryNest {
 			case 1:
 				return ModEntities.DIGGER_BEE.get();
 			case 2:
-				return ModEntities.MINING_BEE.get();
+				return ModEntities.ASHY_MINING_BEE.get();
 			default:
 				return ModEntities.LEAFCUTTER_BEE.get();
 		}

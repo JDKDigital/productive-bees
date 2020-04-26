@@ -3,13 +3,11 @@ package cy.jdkdigital.productivebees.entity.bee;
 import com.google.common.collect.Maps;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.AgeableEntity;
@@ -28,7 +26,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.PointOfInterest;
@@ -104,8 +101,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		if (!this.hasHive()) {
 			return false;
 		} else {
-			BlockState state = this.world.getBlockState(this.hivePos);
-			return state.isIn(BlockTags.BEEHIVES);
+			TileEntity tileentity = this.world.getTileEntity(this.hivePos);
+			return tileentity instanceof BeehiveTileEntity;
 		}
 	}
 

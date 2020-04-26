@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.client.render.entity.model.SolitaryBeeModel;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

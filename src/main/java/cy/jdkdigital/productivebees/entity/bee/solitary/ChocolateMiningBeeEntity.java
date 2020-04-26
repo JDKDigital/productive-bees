@@ -5,8 +5,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.world.World;
 
-public class ChocolotateMiningBeeEntity extends SolitaryBeeEntity {
-    public ChocolotateMiningBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
+public class ChocolateMiningBeeEntity extends SolitaryBeeEntity {
+    public ChocolateMiningBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
     }
 }

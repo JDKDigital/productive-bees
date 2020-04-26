@@ -1,11 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import com.google.common.collect.ImmutableList;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
-import net.minecraft.client.renderer.entity.model.AgeableModel;
-import net.minecraft.client.renderer.entity.model.ModelUtils;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
 
 public class SolitaryBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeModel<T> {
 

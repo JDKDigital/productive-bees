@@ -2,8 +2,8 @@ package cy.jdkdigital.productivebees.tileentity;
 
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
-import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
+import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

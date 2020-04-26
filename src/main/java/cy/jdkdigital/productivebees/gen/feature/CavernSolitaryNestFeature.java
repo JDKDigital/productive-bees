@@ -1,17 +1,11 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.datafixers.Dynamic;
-import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockStateMatcher;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
-import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 
 import java.util.Random;

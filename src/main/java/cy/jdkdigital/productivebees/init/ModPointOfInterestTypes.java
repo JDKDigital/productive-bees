@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;

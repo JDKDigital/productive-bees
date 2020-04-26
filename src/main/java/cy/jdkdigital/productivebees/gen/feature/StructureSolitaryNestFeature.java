@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.datafixers.Dynamic;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.pattern.BlockStateMatcher;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;

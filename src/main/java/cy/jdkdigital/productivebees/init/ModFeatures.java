@@ -1,27 +1,18 @@
 package cy.jdkdigital.productivebees.init;
 
 import com.google.common.base.Supplier;
-import com.mojang.datafixers.Dynamic;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.gen.feature.SolitaryNestFeature;
 import cy.jdkdigital.productivebees.gen.feature.CavernSolitaryNestFeature;
+import cy.jdkdigital.productivebees.gen.feature.SolitaryNestFeature;
 import cy.jdkdigital.productivebees.gen.feature.StructureSolitaryNestFeature;
 import cy.jdkdigital.productivebees.gen.feature.WoodSolitaryNestFeature;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
-import net.minecraft.world.gen.treedecorator.TreeDecorator;
-import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.function.Function;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModFeatures {
