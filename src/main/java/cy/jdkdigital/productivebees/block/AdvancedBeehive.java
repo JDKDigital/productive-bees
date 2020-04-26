@@ -164,16 +164,14 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 			if (player instanceof ServerPlayerEntity) {
 				CriteriaTriggers.SAFELY_HARVEST_HONEY.test((ServerPlayerEntity)player, pos, heldItemCopy);
 			}
-			return ActionResultType.SUCCESS;
 		} else if (!world.isRemote()) {
 			final TileEntity tileEntity = world.getTileEntity(pos);
 			if (tileEntity instanceof AdvancedBeehiveTileEntity) {
 				this.updateState(world, pos, state, false);
 				openGui((ServerPlayerEntity) player, (AdvancedBeehiveTileEntity) tileEntity);
 			}
-			return ActionResultType.SUCCESS;
 		}
-		return super.onBlockActivated(state, world, pos, player, hand, hit);
+		return ActionResultType.SUCCESS;
 	}
 
 	public void openGui(ServerPlayerEntity player, AdvancedBeehiveTileEntity tileEntity) {

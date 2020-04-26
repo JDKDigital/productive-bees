@@ -16,10 +16,10 @@
         "hidden": false
     },
     "criteria": {
-        "advanced_beehive": {
+        "get_hive": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "blocks": [
+                "block": [
                     {
                         "tag": "productivebees:advanced_beehives"
                     }
@@ -29,7 +29,7 @@
     },
     "requirements": [
         [
-            "advanced_beehive"
+            "get_hive"
         ]
     ]
 }

@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import net.minecraft.block.BeehiveBlock;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -22,6 +23,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -31,7 +33,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 	private static final ResourceLocation GUI_TEXTURE_EXPANDED = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_expanded.png");
 	private static final ResourceLocation GUI_TEXTURE_BEE_OVERLAY = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_bee_overlay.png");
 
-	private static final HashMap<String, ResourceLocation> beeTextureLocations = new HashMap<>();
+	private static HashMap<String, ResourceLocation> beeTextureLocations = new HashMap<>();
 
 	public AdvancedBeehiveScreen(AdvancedBeehiveContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
@@ -90,18 +92,24 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 		this.blit(this.guiLeft + 82, this.guiTop + 35, 176, 14, l + 1, 16);
 	}
 
-	private ResourceLocation getBeeTexture(String beeId, World world) {
+	public static ResourceLocation getBeeTexture(@Nonnull ResourceLocation res, World world) {
+		String beeId = res.toString();
 		if (beeTextureLocations.get(beeId) != null) {
 			return beeTextureLocations.get(beeId);
 		}
-		ResourceLocation resLocation = new ResourceLocation(beeId);
 
-		Entity bee = ForgeRegistries.ENTITIES.getValue(resLocation).create(world);
+		Entity bee = ForgeRegistries.ENTITIES.getValue(res).create(world);
 
-		EntityRendererManager manager = minecraft.getRenderManager();
+		EntityRendererManager manager = Minecraft.getInstance().getRenderManager();
 		EntityRenderer renderer = manager.getRenderer(bee);
 
 		beeTextureLocations.put(beeId, renderer.getEntityTexture(bee));
 		return beeTextureLocations.get(beeId);
+	}
+
+	public static ResourceLocation getBeeTexture(String beeId, World world) {
+		ResourceLocation resLocation = new ResourceLocation(beeId);
+
+		return getBeeTexture(resLocation, world);
 	}
 }

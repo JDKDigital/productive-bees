@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.AgeableEntity;
@@ -27,6 +28,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.PointOfInterest;
@@ -46,10 +48,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	protected Map<BeeAttribute<?>, Object> beeAttributes = Maps.newHashMap();
 	public Tag<Block> nestBlockTag;
 
-	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE ||
-			poiType == PointOfInterestType.BEE_NEST ||
-			poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
-			poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
+	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE;
 
 	public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
@@ -71,17 +70,18 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.399999976158142D, true));
 		// Resting goal!
-		this.goalSelector.addGoal(1, new ProductiveBeeEntity.EnterBeehiveGoal());
+		this.goalSelector.addGoal(1, new BeeEntity.EnterBeehiveGoal());
 		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, ProductiveBeeEntity.class));
 
 		this.pollinateGoal = new ProductiveBeeEntity.PollinateGoal();
 		this.goalSelector.addGoal(4, this.pollinateGoal);
-		this.goalSelector.addGoal(5, new ProductiveBeeEntity.UpdateNestGoal());
 
 		this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.25D));
 
+		this.goalSelector.addGoal(5, new ProductiveBeeEntity.UpdateNestGoal());
 		this.findBeehiveGoal = new ProductiveBeeEntity.FindNestGoal();
 		this.goalSelector.addGoal(5, this.findBeehiveGoal);
+
 		this.findFlowerGoal = new BeeEntity.FindFlowerGoal();
 		this.goalSelector.addGoal(6, this.findFlowerGoal);
 		this.goalSelector.addGoal(7, new BeeEntity.FindPollinationTargetGoal());
@@ -98,6 +98,15 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 
 	public boolean isFlowers(BlockPos pos) {
 		return this.world.isBlockPresent(pos) && this.world.getBlockState(pos).getBlock().isIn(getAttributeValue(BeeAttributes.FOOD_SOURCE));
+	}
+
+	public boolean isHiveValid() {
+		if (!this.hasHive()) {
+			return false;
+		} else {
+			BlockState state = this.world.getBlockState(this.hivePos);
+			return state.isIn(BlockTags.BEEHIVES);
+		}
 	}
 
 	public String getBeeType() {
@@ -141,11 +150,22 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 	}
 
-	//	@Override
-//	public boolean processInteract(PlayerEntity player, Hand hand) {
-//		ItemStack itemStack = player.getHeldItem(hand);
-//		return super.processInteract(player, hand);
-//	}
+	private PrioritizedGoal lastGoal = null;
+	@Override
+	protected void updateAITasks() {
+		super.updateAITasks();
+
+		PrioritizedGoal currentGoal = this.goalSelector.getRunningGoals().findFirst().orElse(new PrioritizedGoal(0, new Goal() {
+			@Override
+			public boolean shouldExecute() {
+				return false;
+			}
+		}));
+		if (!currentGoal.equals(lastGoal)) {
+			lastGoal = currentGoal;
+			ProductiveBees.LOGGER.info("Current goal: " + currentGoal.getGoal() + " hasHive:" + hasHive());
+		}
+	}
 
 	@Override
 	public BeeEntity createChild(AgeableEntity targetEntity) {
@@ -175,14 +195,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		ResourceLocation beeRes = new ResourceLocation(beeId);
 		ResourceLocation resourcelocation = new ResourceLocation(beeRes.getNamespace(), "entities/" + beeRes.getPath());
 		return world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
-	}
-
-	public boolean tileAtPosHasRoom(BlockPos pos) {
-		TileEntity tileEntity = this.world.getTileEntity(pos);
-		if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-			return !((AdvancedBeehiveTileEntityAbstract)tileEntity).isFullOfBees();
-		}
-		return false;
 	}
 
 	public class PollinateGoal extends BeeEntity.PollinateGoal {
@@ -230,12 +242,11 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 
 		public boolean canBeeStart() {
-			boolean hasHivePos = ProductiveBeeEntity.this.hasHive();
-			if (!hasHivePos) {
+			if (!ProductiveBeeEntity.this.hasHive()) {
 				return false;
 			}
 
-			return  !ProductiveBeeEntity.this.detachHome() &&
+			return !ProductiveBeeEntity.this.detachHome() &&
 					ProductiveBeeEntity.this.canEnterHive() &&
 					!this.isCloseEnough(ProductiveBeeEntity.this.hivePos) &&
 					ProductiveBeeEntity.this.world.getBlockState(ProductiveBeeEntity.this.hivePos).isIn(ProductiveBeeEntity.this.nestBlockTag);
@@ -270,9 +281,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 
 		public void startExecuting() {
-			ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewHive = 20;
+			ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewHive = 200;
 			List<BlockPos> nearbyNests = this.getNearbyFreeNests();
-
 			if (!nearbyNests.isEmpty()) {
 				Iterator iterator = nearbyNests.iterator();
 				BlockPos blockPos;
@@ -294,57 +304,14 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			BlockPos pos = new BlockPos(ProductiveBeeEntity.this);
 
 			PointOfInterestManager poiManager = ((ServerWorld)ProductiveBeeEntity.this.world).getPointOfInterestManager();
+
 			Stream<PointOfInterest> stream = poiManager.func_219146_b(ProductiveBeeEntity.this.beehiveInterests, pos, 30, PointOfInterestManager.Status.ANY);
 
 			return stream
 					.map(PointOfInterest::getPos)
-					.filter(ProductiveBeeEntity.this::tileAtPosHasRoom)
+					.filter(ProductiveBeeEntity.this::doesHiveHaveSpace)
 					.sorted(Comparator.comparingDouble((vec) -> vec.distanceSq(pos)))
 					.collect(Collectors.toList());
-		}
-	}
-
-	public class EnterBeehiveGoal extends BeeEntity.EnterBeehiveGoal {
-		public EnterBeehiveGoal() {
-			super();
-		}
-
-		public boolean canBeeStart() {
-			if (ProductiveBeeEntity.this.hasHive() && ProductiveBeeEntity.this.canEnterHive() && ProductiveBeeEntity.this.hivePos.withinDistance(ProductiveBeeEntity.this.getPositionVec(), 2.0D)) {
-				TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(ProductiveBeeEntity.this.getHivePos());
-				// Enter ProductiveBees hives
-				if(tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-					AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract)tileEntity;
-					if (!beehiveTileEntity.isFullOfBees()) {
-						return true;
-					}
-					// Hive is full, reset and look for another spot
-					ProductiveBeeEntity.this.hivePos = null;
-				}
-				// Enter vanilla registered hives
-				else if (tileEntity instanceof BeehiveTileEntity) {
-					BeehiveTileEntity beehiveTileEntity = (BeehiveTileEntity)tileEntity;
-					if (!beehiveTileEntity.isFullOfBees()) {
-						return true;
-					}
-					ProductiveBeeEntity.this.hivePos = null;
-				}
-			}
-
-			return false;
-		}
-
-		public void startExecuting() {
-			if (ProductiveBeeEntity.this.hasHive()) {
-				TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(ProductiveBeeEntity.this.getHivePos());
-				if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-					AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract) tileEntity;
-					beehiveTileEntity.tryEnterHive(ProductiveBeeEntity.this, ProductiveBeeEntity.this.hasNectar(), 0);
-				} else if (tileEntity instanceof BeehiveTileEntity) {
-					BeehiveTileEntity beehiveTileEntity = (BeehiveTileEntity) tileEntity;
-					beehiveTileEntity.tryEnterHive(ProductiveBeeEntity.this, ProductiveBeeEntity.this.hasNectar(), 0);
-				}
-			}
 		}
 	}
 

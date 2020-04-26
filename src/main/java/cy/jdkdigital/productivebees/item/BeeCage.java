@@ -153,6 +153,9 @@ public class BeeCage extends Item {
                 list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
             } else {
                 String mod = tag.getString("mod");
+                if (mod == "String") {
+                    mod = "Minecraft";
+                }
                 list.add((new StringTextComponent("Mod: " + mod)).applyTextStyle(TextFormatting.DARK_AQUA));
             }
         }

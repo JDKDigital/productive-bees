@@ -16,7 +16,6 @@ public class ModTileEntityTypes {
 	public static final RegistryObject<TileEntityType<AdvancedBeehiveTileEntity>> ADVANCED_BEEHIVE = TILE_ENTITY_TYPES.register("advanced_beehive", () ->
 		TileEntityType.Builder.create(AdvancedBeehiveTileEntity::new,
 			ModBlocks.ADVANCED_OAK_BEEHIVE.get(),
-			ModBlocks.ADVANCED_OAK_BEEHIVE.get(),
 			ModBlocks.ADVANCED_SPRUCE_BEEHIVE.get(),
 			ModBlocks.ADVANCED_BIRCH_BEEHIVE.get(),
 			ModBlocks.ADVANCED_JUNGLE_BEEHIVE.get(),

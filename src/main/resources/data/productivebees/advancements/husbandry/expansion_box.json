@@ -16,10 +16,10 @@
         "hidden": false
     },
     "criteria": {
-        "expansion_box": {
+        "get_box": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "blocks": [
+                "block": [
                     {
                         "tag": "productivebees:expansion_boxes"
                     }
@@ -29,7 +29,7 @@
     },
     "requirements": [
         [
-            "expansion_box"
+            "get_box"
         ]
     ]
 }

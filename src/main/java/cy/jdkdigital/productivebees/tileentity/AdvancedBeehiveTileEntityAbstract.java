@@ -20,6 +20,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tileentity.BeehiveTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
@@ -126,23 +127,22 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         }
     }
 
+    @Override
     public boolean hasNoBees() {
         return this.getBeeList().isEmpty();
     }
 
+    @Override
+    public int getBeeCount() {
+        return this.getBeeList().size();
+    }
+
+    @Override
     public boolean isFullOfBees() {
-        return this.getBeeList().size() == MAX_BEES;
+        return this.getBeeCount() == MAX_BEES;
     }
 
-    public static int getMaxHoneyLevel(BlockState state) {
-        Block block = state.getBlock();
-        return block instanceof AdvancedBeehiveAbstract ? ((AdvancedBeehiveAbstract) block).getMaxHoneyLevel() : 5;
-    }
-
-    public boolean isSmoked() {
-        return CampfireBlock.isLitCampfireInRange(this.world, this.getPos(), 5);
-    }
-
+    @Override
     public void tryEnterHive(Entity entity, boolean hasNectar, int ticksInHive) {
         beeHandler.ifPresent(h -> {
             if (h.getInhabitants().size() < MAX_BEES) {
@@ -199,8 +199,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() < 0.9F) {
                             beeEntity.setFlowerPos(this.flowerPos);
                         }
-                        beeEntity.hivePos = pos;
-
                         beeReleasePostAction(beeEntity, state, beeState);
 
                         if (releasedBees != null) {
@@ -239,6 +237,11 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     private boolean hasFlowerPos() {
         return this.flowerPos != null;
+    }
+
+    public static int getMaxHoneyLevel(BlockState state) {
+        Block block = state.getBlock();
+        return block instanceof AdvancedBeehiveAbstract ? ((AdvancedBeehiveAbstract) block).getMaxHoneyLevel() : 5;
     }
 
     public void read(CompoundNBT tag) {

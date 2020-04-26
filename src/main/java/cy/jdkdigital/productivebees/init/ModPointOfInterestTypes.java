@@ -33,11 +33,17 @@ public final class ModPointOfInterestTypes {
         blocks.add(ModBlocks.STONE_NEST);
         blocks.add(ModBlocks.SAND_NEST);
         blocks.add(ModBlocks.COARSE_DIRT_NEST);
+        blocks.add(ModBlocks.GRAVEL_NEST);
         blocks.add(ModBlocks.SLIMY_NEST);
         blocks.add(ModBlocks.NETHER_BRICK_NEST);
         blocks.add(ModBlocks.NETHER_QUARTZ_NEST);
         blocks.add(ModBlocks.GLOWSTONE_NEST);
         blocks.add(ModBlocks.END_NEST);
+        blocks.add(ModBlocks.OAK_WOOD_NEST);
+        blocks.add(ModBlocks.BIRCH_WOOD_NEST);
+        blocks.add(ModBlocks.SPRUCE_WOOD_NEST);
+        blocks.add(ModBlocks.DARK_OAK_WOOD_NEST);
+        blocks.add(ModBlocks.ACACIA_WOOD_NEST);
         return blocks;
     }, 0);
     public static final RegistryObject<PointOfInterestType> DRACONIC_NEST = register("draconic_nest", () -> {

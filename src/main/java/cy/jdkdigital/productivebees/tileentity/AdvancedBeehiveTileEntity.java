@@ -1,8 +1,6 @@
 package cy.jdkdigital.productivebees.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
@@ -10,6 +8,7 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,6 +23,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -52,8 +52,8 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     public static final int[] OUTPUT_SLOTS = new int[] {1,2,3,4,5,6,7,8,9};
     public List<String> inhabitantList = new ArrayList<>();
 
-	private LazyOptional<IItemHandler> inventoryHandler = LazyOptional.of(this::createInventoryHandler);
-	private LazyOptional<IItemHandler> bottleHandler = LazyOptional.of(this::createBottleHandler);
+	private LazyOptional<IItemHandler> inventoryHandler = LazyOptional.of(() -> new ItemHandler(10));
+	private LazyOptional<IItemHandler> bottleHandler = LazyOptional.of(() -> new ItemHandler(1));
 
 	public AdvancedBeehiveTileEntity() {
 	    super(ModTileEntityTypes.ADVANCED_BEEHIVE.get());
@@ -73,6 +73,10 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 	public ITextComponent getDisplayName() {
 		return new TranslationTextComponent(ModBlocks.ADVANCED_OAK_BEEHIVE.get().getTranslationKey());
 	}
+
+    public boolean isSmoked() {
+        return true;
+    }
 
 	@Override
 	public void tick() {
@@ -100,17 +104,8 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                     // Generate bee produce
                     if (productionRate != null && productionRate > 0) {
                         if (world.rand.nextDouble() < productionRate) {
-                            LootTable lootTable = ProductiveBeeEntity.getProductionLootTable(world, beeId);
                             inventoryHandler.ifPresent(inv -> {
-                                LootContext ctx =  new LootContext.Builder((ServerWorld) world)
-                                    .withRandom(world.rand)
-                                    .withParameter(LootParameters.THIS_ENTITY, bee)
-                                    .withParameter(LootParameters.POSITION, this.pos)
-                                    .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.CRAMMING)
-                                    .build(LootParameterSets.ENTITY);
-
-                                List<ItemStack> stacks = lootTable.generate(ctx);
-                                net.minecraftforge.common.ForgeHooks.modifyLoot(stacks, ctx).forEach((stack) -> {
+                                getBeeProduce((ServerWorld) world, beeId, bee, pos).forEach((stack) -> {
                                     if (!stack.isEmpty()) {
                                         ((ItemHandler)inv).addOutput(stack);
                                     }
@@ -158,6 +153,20 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         super.tick();
 	}
 
+	public static List<ItemStack> getBeeProduce(ServerWorld world, String beeId, BeeEntity bee, BlockPos pos) {
+        LootTable lootTable = ProductiveBeeEntity.getProductionLootTable(world, beeId);
+        LootContext ctx =  new LootContext.Builder(world)
+                .withRandom(world.rand)
+                .withParameter(LootParameters.THIS_ENTITY, bee)
+                .withParameter(LootParameters.POSITION, pos)
+                .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.CRAMMING)
+                .build(LootParameterSets.ENTITY);
+
+        List<ItemStack> stacks = lootTable.generate(ctx);
+
+        return net.minecraftforge.common.ForgeHooks.modifyLoot(stacks, ctx);
+    }
+
 	private int getAvailableOutputSlot(IItemHandler handler, ItemStack insertStack) {
 	    int emptySlot = 0;
         for (int slot : OUTPUT_SLOTS) {
@@ -173,43 +182,31 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT tag = super.getUpdateTag();
-        if (this.getBeeListAsNBTList().size() > 0) {
-            tag.put("bees", this.getBeeListAsNBTList());
-        }
-        return tag;
-    }
-
-    @Override
     public void read(CompoundNBT tag) {
         super.read(tag);
+
         CompoundNBT invTag = tag.getCompound("inv");
-        CompoundNBT bottleTag = tag.getCompound("bottles");
         inventoryHandler.ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
+
+        CompoundNBT bottleTag = tag.getCompound("bottles");
         bottleHandler.ifPresent(bottle -> ((INBTSerializable<CompoundNBT>) bottle).deserializeNBT(bottleTag));
     }
 
     @Override
     public CompoundNBT write(CompoundNBT tag) {
+        super.write(tag);
+
         inventoryHandler.ifPresent(inv -> {
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
             tag.put("inv", compound);
         });
+
         bottleHandler.ifPresent(bottle -> {
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) bottle).serializeNBT();
             tag.put("bottles", compound);
         });
 
-        return super.write(tag);
-    }
-
-    private IItemHandler createInventoryHandler() {
-        return new ItemHandler(10);
-    }
-
-    private IItemHandler createBottleHandler() {
-        return new ItemHandler(1);
+        return tag;
     }
 
     class ItemHandler extends ItemStackHandler {

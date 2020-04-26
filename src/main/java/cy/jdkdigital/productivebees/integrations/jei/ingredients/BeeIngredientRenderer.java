@@ -1,12 +1,15 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.gui.AdvancedBeehiveScreen;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 import javax.annotation.Nonnull;
@@ -24,13 +27,13 @@ public class BeeIngredientRenderer implements IIngredientRenderer<ProduciveBeesJ
         RenderSystem.enableBlend();
         RenderSystem.enableAlphaTest();
 
-        // @TODO Remake this
-        Minecraft.getInstance().getTextureManager().bindTexture(beeIngredient.getBeeType().getRegistryName());
+        ResourceLocation resLocation = AdvancedBeehiveScreen.getBeeTexture(beeIngredient.getBeeType().getRegistryName(), ProductiveBees.proxy.getClientWorld());
+        Minecraft.getInstance().getTextureManager().bindTexture(resLocation);
         float scale = (float) 1 / 16;
-        int iconX = 16;
-        int iconY = 16;
-        int iconU = 0;
-        int iconV = 0;
+        int iconX = 10;
+        int iconY = 10;
+        int iconU = 1;
+        int iconV = 1;
 
         BufferBuilder render = Tessellator.getInstance().getBuffer();
         render.begin(7, DefaultVertexFormats.POSITION_TEX);

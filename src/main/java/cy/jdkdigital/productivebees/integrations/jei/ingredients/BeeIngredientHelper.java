@@ -9,6 +9,7 @@ import net.minecraftforge.fml.RegistryObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class BeeIngredientHelper implements IIngredientHelper<ProduciveBeesJeiPlugin.BeeIngredient> {
@@ -33,6 +34,11 @@ public class BeeIngredientHelper implements IIngredientHelper<ProduciveBeesJeiPl
     @Nullable
     @Override
     public ProduciveBeesJeiPlugin.BeeIngredient getMatch(Iterable<ProduciveBeesJeiPlugin.BeeIngredient> iterable, ProduciveBeesJeiPlugin.BeeIngredient beeIngredient) {
+        for (ProduciveBeesJeiPlugin.BeeIngredient ingredient : iterable) {
+            if (ingredient.getBeeType().getRegistryName() == beeIngredient.getBeeType().getRegistryName()) {
+                return ingredient;
+            }
+        }
         return null;
     }
 
@@ -50,7 +56,7 @@ public class BeeIngredientHelper implements IIngredientHelper<ProduciveBeesJeiPl
 
     @Nonnull
     @Override
-    public String getWildcardId(ProduciveBeesJeiPlugin.BeeIngredient beeIngredient) {
+    public String getWildcardId(@Nonnull ProduciveBeesJeiPlugin.BeeIngredient beeIngredient) {
         return getUniqueId(beeIngredient);
     }
 
