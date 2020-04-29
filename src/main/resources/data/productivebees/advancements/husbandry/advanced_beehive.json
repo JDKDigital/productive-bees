@@ -19,7 +19,7 @@
         "get_hive": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "block": [
+                "items": [
                     {
                         "tag": "productivebees:advanced_beehives"
                     }

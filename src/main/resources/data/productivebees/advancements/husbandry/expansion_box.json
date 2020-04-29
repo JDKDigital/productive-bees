@@ -19,7 +19,7 @@
         "get_box": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "block": [
+                "items": [
                     {
                         "tag": "productivebees:expansion_boxes"
                     }

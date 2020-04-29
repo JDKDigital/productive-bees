@@ -32,15 +32,16 @@ public class WoodNest extends SolitaryNest {
 
 	@Override
 	public EntityType<BeeEntity> getNestingBeeType(World world) {
-		switch (world.rand.nextInt(5)) {
+		switch (world.rand.nextInt(3)) {
 			case 0:
-				return ModEntities.MASON_BEE.get();
+				return ModEntities.RESIN_BEE.get();
 			case 1:
-				return ModEntities.DIGGER_BEE.get();
+				return ModEntities.YELLOW_BLACK_CARPENTER_BEE.get();
 			case 2:
-				return ModEntities.ASHY_MINING_BEE.get();
+				return ModEntities.BLUE_BANDED_BEE.get();
+			case 3:
 			default:
-				return ModEntities.LEAFCUTTER_BEE.get();
+				return ModEntities.GREEN_CARPENTER_BEE.get();
 		}
 	}
 

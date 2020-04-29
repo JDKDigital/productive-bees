@@ -34,8 +34,6 @@ public class CavernSolitaryNestFeature extends SolitaryNestFeature {
             pos = pos.up();
         }
 
-//        pos = pos.down();
-
         return placeNest(world, pos, featureConfig);
     }
 }

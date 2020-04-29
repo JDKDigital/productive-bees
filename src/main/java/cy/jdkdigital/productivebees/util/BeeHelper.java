@@ -24,9 +24,9 @@ import java.util.Map;
 public class BeeHelper {
     public static Map<String, Map<String, String>> breedingMap = new HashMap<String, Map<String, String>>() {{
         put("glowing", new HashMap<String, String>() {{
-            put("mining", "redstone");
+            put("ashy_mining_bee", "redstone");
         }});
-        put("mining", new HashMap<String, String>() {{
+        put("ashy_mining_bee", new HashMap<String, String>() {{
             put("glowing", "redstone");
             put("quartz", "iron");
         }});
@@ -39,7 +39,7 @@ public class BeeHelper {
         }});
         put("quartz", new HashMap<String, String>() {{
             put("mason", "gold");
-            put("mining", "iron");
+            put("ashy_mining_bee", "iron");
         }});
         put("magmatic", new HashMap<String, String>() {{
             put("nomad", "blazing");
@@ -57,7 +57,7 @@ public class BeeHelper {
             put("slimy", "emerald");
         }});
         put("slimy", new HashMap<String, String>() {{
-            put("slimy", "diamond");
+            put("diamond", "diamond");
         }});
         put("redstone", new HashMap<String, String>() {{
             put("blue_banded", "lapis");

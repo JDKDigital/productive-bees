@@ -16,7 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
 public class EnderBeeEntity extends ProductiveBeeEntity implements IBeeEntity, ISolitaryBeeEntity {
-	private int teleportTime = 150;
+	private int teleportCooldown = 150;
 
 	public EnderBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
@@ -27,14 +27,14 @@ public class EnderBeeEntity extends ProductiveBeeEntity implements IBeeEntity, I
 	@Override
 	public void tick() {
 		super.tick();
-		this.teleportTime++;
+		this.teleportCooldown++;
 	}
 
 	@Override
 	protected void updateAITasks() {
 		// Teleport to active path
-		if (this.teleportTime > 150 && null != this.navigator.getPath()) {
-			this.teleportTime = 0;
+		if (this.teleportCooldown > 150 && null != this.navigator.getPath()) {
+			this.teleportCooldown = 0;
 			BlockPos pos = this.navigator.getPath().getTarget();
 			teleportTo(pos.getX(), pos.getY(), pos.getZ());
 		}

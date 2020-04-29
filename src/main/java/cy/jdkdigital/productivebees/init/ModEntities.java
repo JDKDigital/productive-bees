@@ -53,8 +53,8 @@ public class ModEntities {
 
     public static RegistryObject<EntityType<BeeEntity>> ASHY_MINING_BEE = createSolitaryBee("ashy_mining_bee", AshyMiningBeeEntity::new, 6238757, 11709345);
     public static RegistryObject<EntityType<BeeEntity>> BLUE_BANDED_BEE = createSolitaryBee("blue_banded_bee", BlueBandedBeeEntity::new, 6238757, 9615358);
-    public static RegistryObject<EntityType<BeeEntity>> GREEN_CARPENTER_BEE = createSolitaryBee("green_carpenter_bee", CarpenterBeeEntity::new, 6238757, 9615358);
-    public static RegistryObject<EntityType<BeeEntity>> YELLOW_CARPENTER_BEE = createSolitaryBee("yellow_carpenter_bee", CarpenterBeeEntity::new, 6238757, 9615358);
+    public static RegistryObject<EntityType<BeeEntity>> GREEN_CARPENTER_BEE = createSolitaryBee("green_carpenter_bee", GreenCarpenterBeeEntity::new, 6238757, 9615358);
+    public static RegistryObject<EntityType<BeeEntity>> YELLOW_BLACK_CARPENTER_BEE = createSolitaryBee("yellow_black_carpenter_bee", YellowBlackCarpenterBeeEntity::new, 6238757, 9615358);
     public static RegistryObject<EntityType<BeeEntity>> CHOCOLATE_MINING_BEE = createSolitaryBee("chocolate_mining_bee", ChocolateMiningBeeEntity::new, 6238757, 11709345);
     public static RegistryObject<EntityType<BeeEntity>> DIGGER_BEE = createSolitaryBee("digger_bee", DiggerBeeEntity::new, 6238757, 8875079);
     public static RegistryObject<EntityType<BeeEntity>> LEAFCUTTER_BEE = createSolitaryBee("leafcutter_bee", LeafcutterBeeEntity::new, 6238757, 2057258);

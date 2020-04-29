@@ -21,6 +21,6 @@ public class SandNest extends SolitaryNest {
 
     @Override
     public EntityType<BeeEntity> getNestingBeeType(World world) {
-        return world.rand.nextBoolean() ? ModEntities.NOMAD_BEE.get() : ModEntities.DIGGER_BEE.get();
+        return  world.getRandom().nextBoolean() ? ModEntities.ASHY_MINING_BEE.get() : ModEntities.CHOCOLATE_MINING_BEE.get();
     }
 }

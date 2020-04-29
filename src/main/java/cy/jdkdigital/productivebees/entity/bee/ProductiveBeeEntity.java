@@ -107,7 +107,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	}
 
 	public String getBeeType() {
-		return this.getEntityString().split("[:_]")[1];
+		return this.getEntityString().split("[:]")[1].replace("_bee", "");
 	}
 
 	public boolean isBreedingItem(ItemStack itemStack) {
@@ -147,27 +147,26 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 	}
 
-	private PrioritizedGoal lastGoal = null;
-	@Override
-	protected void updateAITasks() {
-		super.updateAITasks();
-
-		PrioritizedGoal currentGoal = this.goalSelector.getRunningGoals().findFirst().orElse(new PrioritizedGoal(0, new Goal() {
-			@Override
-			public boolean shouldExecute() {
-				return false;
-			}
-		}));
-		if (!currentGoal.equals(lastGoal)) {
-			lastGoal = currentGoal;
-			ProductiveBees.LOGGER.info("Current goal: " + currentGoal.getGoal() + " hasHive:" + hasHive());
-		}
-	}
+//	private PrioritizedGoal lastGoal = null;
+//	@Override
+//	protected void updateAITasks() {
+//		super.updateAITasks();
+//
+//		PrioritizedGoal currentGoal = this.goalSelector.getRunningGoals().findFirst().orElse(new PrioritizedGoal(0, new Goal() {
+//			@Override
+//			public boolean shouldExecute() {
+//				return false;
+//			}
+//		}));
+//		if (!currentGoal.equals(lastGoal)) {
+//			lastGoal = currentGoal;
+//			ProductiveBees.LOGGER.info("Current goal: " + currentGoal.getGoal() + " hasHive:" + hasHive());
+//		}
+//	}
 
 	@Override
 	public BeeEntity createChild(AgeableEntity targetEntity) {
 		ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, targetEntity);
-		ProductiveBees.LOGGER.info("CreateChild " + breedingResult);
 		return (BeeEntity) ForgeRegistries.ENTITIES.getValue(breedingResult).create(world);
 	}
 

@@ -1,0 +1,99 @@
+{
+  "parent": "productivebees:husbandry/breed_a_productive_bee",
+  "display": {
+    "icon": {
+      "loc": "productivebees:textures/advancements/all_bees.png"
+    },
+    "title": {
+      "translate": "advancements.husbandry.breed_all_productive_bees.title"
+    },
+    "description": {
+      "translate": "advancements.husbandry.breed_all_productive_bees.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "iron_bee": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "child": {
+          "type": "productivebees:iron_bee"
+        }
+      }
+    },
+    "gold_bee": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "child": {
+          "type": "productivebees:gold_bee"
+        }
+      }
+    },
+    "redstone_bee": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "child": {
+          "type": "productivebees:redstone_bee"
+        }
+      }
+    },
+    "lapis_bee": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "parent": {
+          "type": "productivebees:ender_bee"
+        }
+      }
+    },
+    "diamond_bee": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "child": {
+          "type": "productivebees:diamond_bee"
+        }
+      }
+    },
+    "emerald_bee": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "child": {
+          "type": "productivebees:emerald_bee"
+        }
+      }
+    },
+    "blazing_bee": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "child": {
+          "type": "productivebees:blazing_bee"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "iron_bee"
+    ],
+    [
+      "gold_bee"
+    ],
+    [
+      "redstone_bee"
+    ],
+    [
+      "lapis_bee"
+    ],
+    [
+      "diamond_bee"
+    ],
+    [
+      "emerald_bee"
+    ],
+    [
+      "blazing_bee"
+    ]
+  ]
+}

@@ -21,6 +21,6 @@ public class StoneNest extends SolitaryNest {
 
     @Override
     public EntityType<BeeEntity> getNestingBeeType(World world) {
-        return world.rand.nextBoolean() ? ModEntities.ASHY_MINING_BEE.get() : ModEntities.MASON_BEE.get();
+        return world.rand.nextBoolean() ? ModEntities.DIGGER_BEE.get() : ModEntities.MASON_BEE.get();
     }
 }
