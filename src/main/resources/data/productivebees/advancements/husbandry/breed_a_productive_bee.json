@@ -2,7 +2,7 @@
   "parent": "minecraft:husbandry/root",
   "display": {
     "icon": {
-      "loc": "productivebees:textures/advancements/iron_bee.png"
+      "item": "productivebees:adv_breed_bee"
     },
     "title": {
       "translate": "advancements.husbandry.breed_a_productive_bee.title"

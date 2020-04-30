@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.entity.bee;
 import com.google.common.collect.Maps;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -45,7 +46,12 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	protected Map<BeeAttribute<?>, Object> beeAttributes = Maps.newHashMap();
 	public Tag<Block> nestBlockTag;
 
-	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE;
+	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> (
+		poiType == PointOfInterestType.BEEHIVE ||
+		poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
+		poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
+		poiType == ModPointOfInterestTypes.DRACONIC_NEST.get()
+	);
 
 	public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
@@ -167,6 +173,9 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	@Override
 	public BeeEntity createChild(AgeableEntity targetEntity) {
 		ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, targetEntity);
+		if (breedingResult == null) {
+			breedingResult = new ResourceLocation(this.getBeeType());
+		}
 		return (BeeEntity) ForgeRegistries.ENTITIES.getValue(breedingResult).create(world);
 	}
 

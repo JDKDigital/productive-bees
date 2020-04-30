@@ -14,8 +14,8 @@ public class ModTags {
     public static final String SOLITARY_HIVES = "solitary_hives";
 
     public static final String SOLITARY_OVERWORLD_NESTS = "solitary_overworld_nests";
-    public static final String GROUND_NESTS = "ground_nests";
-    public static final String ARID_NESTS = "arid_nests";
+    public static final String REED_NESTS = "reed_nests";
+    public static final String WOOD_NESTS = "wood_nests";
     public static final String SLIMY_NESTS = "slimy_nests";
     public static final String GLOWSTONE_NESTS = "glowstone_nests";
     public static final String NETHER_BRICK_NESTS = "nether_brick_nests";

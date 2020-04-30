@@ -24,6 +24,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
@@ -35,6 +36,7 @@ import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
@@ -82,6 +84,7 @@ public final class ProductiveBees {
 
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
             modEventBus.addListener(EventPriority.LOWEST, this::registerItemColors);
+            modEventBus.addListener(EventPriority.LOWEST, this::registerBlockColors);
             modEventBus.addListener(EventPriority.LOWEST, this::setupClient);
         });
 
@@ -103,10 +106,6 @@ public final class ProductiveBees {
         ProductiveBeesConfig.CONFIG.setConfig(configData);
     }
 
-    public void initSetupClient() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
-    }
-
     @OnlyIn(Dist.CLIENT)
     private void setupClient(final FMLClientSetupEvent event) {
         ModEntities.registerRendering();
@@ -123,6 +122,13 @@ public final class ProductiveBees {
                 }
             }
         }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void registerBlockColors(ColorHandlerEvent.Block event) {
+        event.getBlockColors().register((blockState, lightReader, pos, i) -> {
+            return lightReader != null && pos != null ? BiomeColors.getGrassColor(lightReader, pos) : -1;
+        }, ModBlocks.SUGAR_CANE_NEST.get());
     }
 
     public void preInit(FMLCommonSetupEvent event) {
@@ -159,8 +165,8 @@ public final class ProductiveBees {
                 biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.SLIMY_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GRASS_BLOCK.getDefaultState(), ModBlocks.SLIMY_NEST.get().getDefaultState())));
             } else if (category.equals(Biome.Category.NETHER)) {
                 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, ModFeatures.GLOWSTONE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GLOWSTONE.getDefaultState(), ModBlocks.GLOWSTONE_NEST.get().getDefaultState())));
-                biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.NETHER_QUARTZ_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_QUARTZ_ORE.getDefaultState(), ModBlocks.NETHER_QUARTZ_NEST.get().getDefaultState())));
-                biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.NETHER_QUARTZ_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_QUARTZ_ORE.getDefaultState(), ModBlocks.NETHER_QUARTZ_NEST.get().getDefaultState())));
+                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ModFeatures.NETHER_QUARTZ_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_QUARTZ_ORE.getDefaultState(), ModBlocks.NETHER_QUARTZ_NEST.get().getDefaultState())));
+                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ModFeatures.NETHER_QUARTZ_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_QUARTZ_ORE.getDefaultState(), ModBlocks.NETHER_QUARTZ_NEST.get().getDefaultState())));
                 biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.NETHER_FORTRESS_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_BRICKS.getDefaultState(), ModBlocks.NETHER_BRICK_NEST.get().getDefaultState())));
             } else if (category.equals(Biome.Category.RIVER)) {
                 if (biome.getTempCategory() != Biome.TempCategory.COLD) {
@@ -174,6 +180,9 @@ public final class ProductiveBees {
                     // Must spawn where chorus fruit exist
                     biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.END_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.END_STONE.getDefaultState(), ModBlocks.END_NEST.get().getDefaultState())));
                 }
+            }
+            if (!category.equals(Biome.Category.THEEND) && !category.equals(Biome.Category.NETHER)) {
+                biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatures.SUGAR_CANE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.SUGAR_CANE.getDefaultState(), ModBlocks.SUGAR_CANE_NEST.get().getDefaultState())));
             }
         }
     }
@@ -195,6 +204,8 @@ public final class ProductiveBees {
             ModBlocks.STONE_NEST.get(),
             ModBlocks.SAND_NEST.get(),
             ModBlocks.COARSE_DIRT_NEST.get(),
+            ModBlocks.GRAVEL_NEST.get(),
+            ModBlocks.SUGAR_CANE_NEST.get(),
             ModBlocks.SLIMY_NEST.get(),
             ModBlocks.GLOWSTONE_NEST.get(),
             ModBlocks.NETHER_QUARTZ_NEST.get(),

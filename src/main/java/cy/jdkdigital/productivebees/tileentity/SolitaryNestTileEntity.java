@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
+import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -57,7 +58,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
                     BlockPos pos = this.getPos();
                     Block block = this.getBlockState().getBlock();
                     if (block instanceof SolitaryNest) {
-                        EntityType<BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block);
+                        EntityType<BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block, true);
                         BeeEntity newBee = beeType.create(this.world);
                         if (newBee != null) {
                             Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
@@ -108,10 +109,27 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
     }
 
     public static EntityType<BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest) {
-        Dimension dimension = world.getDimension();
-        Biome biome = world.getBiome(pos);
+	    return getProducibleBeeType(world, pos, nest, false);
+    }
+    public static EntityType<BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest, boolean hatched) {
+//        Dimension dimension = world.getDimension();
+//        Biome biome = world.getBiome(pos);
 
-        return nest.getNestingBeeType(world);
+        EntityType<BeeEntity> beeType = nest.getNestingBeeType(world);
+
+        // Cuckoo behavior
+        if (world.getRandom().nextInt(10) == 1) {
+            switch (beeType.getRegistryName().getPath()) {
+                case "blue_banded_bee":
+                    beeType = ModEntities.NEON_CUCKOO_BEE.get();
+                    break;
+                case "ashy_mining_bee":
+                    beeType = ModEntities.NOMAD_BEE.get();
+                    break;
+            }
+        }
+
+        return beeType;
     }
 
     protected boolean canRepopulate() {

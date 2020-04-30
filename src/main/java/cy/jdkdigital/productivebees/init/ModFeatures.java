@@ -2,10 +2,7 @@ package cy.jdkdigital.productivebees.init;
 
 import com.google.common.base.Supplier;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.gen.feature.CavernSolitaryNestFeature;
-import cy.jdkdigital.productivebees.gen.feature.SolitaryNestFeature;
-import cy.jdkdigital.productivebees.gen.feature.StructureSolitaryNestFeature;
-import cy.jdkdigital.productivebees.gen.feature.WoodSolitaryNestFeature;
+import cy.jdkdigital.productivebees.gen.feature.*;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
@@ -23,8 +20,9 @@ public class ModFeatures {
     public static final RegistryObject<Feature<ReplaceBlockConfig>> COARSE_DIRT_NEST = register("coarse_dirt_nest", () -> new SolitaryNestFeature(0.30F, ReplaceBlockConfig::deserialize));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> GRAVEL_NEST = register("gravel_nest", () -> new SolitaryNestFeature(0.15F, ReplaceBlockConfig::deserialize));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> SLIMY_NEST = register("slimy_nest", () -> new SolitaryNestFeature(0.20F, ReplaceBlockConfig::deserialize, true));
+    public static final RegistryObject<Feature<ReplaceBlockConfig>> SUGAR_CANE_NEST = register("sugar_cane_nest", () -> new ReedSolitaryNestFeature(1.00F, ReplaceBlockConfig::deserialize));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> GLOWSTONE_NEST = register("glowstone_nest", () -> new CavernSolitaryNestFeature(0.80F, ReplaceBlockConfig::deserialize));
-    public static final RegistryObject<Feature<ReplaceBlockConfig>> NETHER_QUARTZ_NEST = register("nether_quartz_nest", () -> new SolitaryNestFeature(1.00F, ReplaceBlockConfig::deserialize));
+    public static final RegistryObject<Feature<ReplaceBlockConfig>> NETHER_QUARTZ_NEST = register("nether_quartz_nest", () -> new OreSolitaryNestFeature(1.00F, ReplaceBlockConfig::deserialize, 10, 128));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> NETHER_FORTRESS_NEST = register("nether_fortress_nest", () -> new StructureSolitaryNestFeature(0.90F, ReplaceBlockConfig::deserialize, 35));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> END_NEST = register("end_nest", () -> new SolitaryNestFeature(0.05F, ReplaceBlockConfig::deserialize));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> OBSIDIAN_PILLAR_NEST = register("obsidian_pillar_nest", () -> new StructureSolitaryNestFeature(1.00F, ReplaceBlockConfig::deserialize, 25));

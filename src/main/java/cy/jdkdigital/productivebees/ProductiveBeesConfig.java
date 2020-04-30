@@ -54,12 +54,16 @@ public class ProductiveBeesConfig {
             productionRates.add("productivebees:gold_bee", 0.10D);
             productionRates.add("productivebees:iron_bee", 0.10D);
             productionRates.add("productivebees:lapis_bee", 0.20D);
+            productionRates.add("productivebees:dye_bee", 0.50D);
             productionRates.add("productivebees:magmatic_bee", 0.20D);
             productionRates.add("productivebees:quartz_bee", 0.25D);
             productionRates.add("productivebees:redstone_bee", 0.25D);
             productionRates.add("productivebees:skeletal_bee", 0.10D);
             productionRates.add("productivebees:zombie_bee", 0.10D);
             productionRates.add("productivebees:wither_bee", 0.01D);
+            productionRates.add("productivebees:blazing_bee", 0.15D);
+            productionRates.add("productivebees:draconic_bee", 0.01D);
+            productionRates.add("productivebees:slimy_bee", 0.30D);
 
             itemProductionRates = builder
                     .comment("Bee production rates.")

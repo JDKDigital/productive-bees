@@ -2,6 +2,7 @@
 	"itemGroup.productivebees": "Productive Bees",
 
 	"jei.productivebees.advanced_beehive": "Advanced Beehive",
+	"jei.productivebees.bee_breeding": "Bee Breeding",
 
 	"item.productivebees.honey_bucket": "Honey Bucket",
 	"item.productivebees.honey_treat": "Honey Treat",
@@ -52,6 +53,8 @@
 	"block.productivebees.stone_nest": "Stone Nest",
 	"block.productivebees.sand_nest": "Sand Nest",
 	"block.productivebees.coarse_dirt_nest": "Dirt Nest",
+	"block.productivebees.gravel_nest": "Gravel Nest",
+	"block.productivebees.sugar_cane_nest": "Reed Nest",
 	"block.productivebees.glowstone_nest": "Glowstone Nest",
 	"block.productivebees.nether_quartz_nest": "Quartz Nest",
 	"block.productivebees.nether_brick_nest": "Nether Brick Nest",

@@ -1,8 +1,9 @@
-package cy.jdkdigital.productivebees.integrations.jei;
+package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.gui.AdvancedBeehiveScreen;
+import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -29,11 +30,11 @@ public class BeeIngredientRenderer implements IIngredientRenderer<ProduciveBeesJ
 
         ResourceLocation resLocation = AdvancedBeehiveScreen.getBeeTexture(beeIngredient.getBeeType().getRegistryName(), ProductiveBees.proxy.getClientWorld());
         Minecraft.getInstance().getTextureManager().bindTexture(resLocation);
-        float scale = (float) 1 / 16;
-        int iconX = 10;
-        int iconY = 10;
-        int iconU = 1;
-        int iconV = 1;
+        float scale = (float) 1 / 128;
+        int iconX = 14;
+        int iconY = 14;
+        int iconU = 20;
+        int iconV = 20;
 
         BufferBuilder render = Tessellator.getInstance().getBuffer();
         render.begin(7, DefaultVertexFormats.POSITION_TEX);

@@ -60,9 +60,9 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
         boolean match = placeOntop ? matcher.test(world.getBlockState(pos.down())) : matcher.test(world.getBlockState(pos));
         if (match) {
-            ProductiveBees.LOGGER.info("Placing nest at " + pos);
-            // Check if there's air around and face that way
-            Direction direction = null;
+            ProductiveBees.LOGGER.info("Placing nest at " + pos + " - " + featureConfig.state);
+            // Check if there's air around and face that way, default to UP
+            Direction direction = Direction.UP;
             for(Direction dir : BlockStateProperties.FACING.getAllowedValues()) {
                 BlockPos blockPos = pos.offset(dir, 1);
                 if (world.isAirBlock(blockPos)) {
@@ -71,13 +71,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
                 }
             }
 
-            if (direction == null) {
-                ProductiveBees.LOGGER.info("Could not place nest inside structure " + pos);
-                return false;
-            }
-
             // Replace target block with nest
-//            ProductiveBees.LOGGER.info("nest placed at " + pos + " with dir " + direction);
             boolean result = world.setBlockState(pos, featureConfig.state.with(BlockStateProperties.FACING, direction), 2);
 
             TileEntity tileEntity = world.getTileEntity(pos);

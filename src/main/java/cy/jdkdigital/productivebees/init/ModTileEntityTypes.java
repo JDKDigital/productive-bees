@@ -58,6 +58,8 @@ public class ModTileEntityTypes {
 			ModBlocks.SAND_NEST.get(),
 			ModBlocks.STONE_NEST.get(),
 			ModBlocks.COARSE_DIRT_NEST.get(),
+			ModBlocks.GRAVEL_NEST.get(),
+			ModBlocks.SUGAR_CANE_NEST.get(),
 			ModBlocks.SLIMY_NEST.get(),
 			ModBlocks.NETHER_QUARTZ_NEST.get(),
 			ModBlocks.NETHER_BRICK_NEST.get(),

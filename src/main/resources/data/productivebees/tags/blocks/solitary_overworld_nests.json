@@ -5,11 +5,7 @@
         "productivebees:stone_nest",
         "productivebees:coarse_dirt_nest",
         "productivebees:gravel_nest",
-        "productivebees:oak_wood_nest",
-        "productivebees:spruce_wood_nest",
-        "productivebees:dark_oak_wood_nest",
-        "productivebees:birch_wood_nest",
-        "productivebees:jungle_wood_nest",
-        "productivebees:acacia_wood_nest"
+        "productivebees:sugar_cane_nest",
+        "#productivebees:wood_nests"
     ]
 }

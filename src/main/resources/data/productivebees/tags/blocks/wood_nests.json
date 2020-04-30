@@ -1,0 +1,11 @@
+{
+    "replace": false,
+    "values": [
+        "productivebees:oak_wood_nest",
+        "productivebees:spruce_wood_nest",
+        "productivebees:dark_oak_wood_nest",
+        "productivebees:birch_wood_nest",
+        "productivebees:jungle_wood_nest",
+        "productivebees:acacia_wood_nest"
+    ]
+}

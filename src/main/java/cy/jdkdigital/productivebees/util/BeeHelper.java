@@ -24,10 +24,12 @@ import java.util.Map;
 public class BeeHelper {
     public static Map<String, Map<String, String>> breedingMap = new HashMap<String, Map<String, String>>() {{
         put("glowing", new HashMap<String, String>() {{
-            put("ashy_mining_bee", "redstone");
+            put("chocolate_mining", "redstone");
         }});
-        put("ashy_mining_bee", new HashMap<String, String>() {{
+        put("chocolate_mining", new HashMap<String, String>() {{
             put("glowing", "redstone");
+        }});
+        put("ashy_mining", new HashMap<String, String>() {{
             put("quartz", "iron");
         }});
         put("mason", new HashMap<String, String>() {{
@@ -39,7 +41,7 @@ public class BeeHelper {
         }});
         put("quartz", new HashMap<String, String>() {{
             put("mason", "gold");
-            put("ashy_mining_bee", "iron");
+            put("ashy_mining", "iron");
         }});
         put("magmatic", new HashMap<String, String>() {{
             put("nomad", "blazing");
@@ -47,11 +49,11 @@ public class BeeHelper {
         put("nomad", new HashMap<String, String>() {{
             put("magmatic", "blazing");
         }});
-        put("gold", new HashMap<String, String>() {{
+        put("ender", new HashMap<String, String>() {{
             put("lapis", "diamond");
         }});
         put("lapis", new HashMap<String, String>() {{
-            put("gold", "diamond");
+            put("ender", "diamond");
         }});
         put("diamond", new HashMap<String, String>() {{
             put("slimy", "emerald");
@@ -141,20 +143,29 @@ public class BeeHelper {
         return null;
     }
 
-    @Nullable
     public static ResourceLocation getBreedingResult(ProductiveBeeEntity beeEntity, AgeableEntity targetEntity) {
-        Map<String, String> res = breedingMap.get(beeEntity.getBeeType());
-        ProductiveBees.LOGGER.info(res);
-
-        String babyType = null;
-        if (targetEntity instanceof ProductiveBeeEntity) {
-            babyType = res.get(((ProductiveBeeEntity)targetEntity).getBeeType());
+        // Only breed Productive Bees, breeding with other bees will give a vanilla bee for now
+        if (!(targetEntity instanceof ProductiveBeeEntity)) {
+            return new ResourceLocation("minecraft:bee");
         }
 
+        // Get breeding rules
+        Map<String, String> res = breedingMap.get(beeEntity.getBeeType());
+
+        // If the two bees are the same type, or no breeding rules exist, create a new of that type
+        if (res == null || beeEntity.getBeeType().equals(((ProductiveBeeEntity) targetEntity).getBeeType())) {
+            return new ResourceLocation(ProductiveBees.MODID, beeEntity.getBeeType() + "_bee");
+        }
+
+        ProductiveBees.LOGGER.info(res);
+
+        String babyType = res.get(((ProductiveBeeEntity)targetEntity).getBeeType());
+
+        // If no specific rules for the target bee exist, create a child of same type
         if (babyType == null) {
             babyType = beeEntity.getBeeType();
         }
 
-        return babyType != null ? new ResourceLocation(ProductiveBees.MODID, babyType + "_bee") : null;
+        return new ResourceLocation(ProductiveBees.MODID, babyType + "_bee");
     }
 }

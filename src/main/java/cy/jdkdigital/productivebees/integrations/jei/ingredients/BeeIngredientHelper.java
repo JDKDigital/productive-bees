@@ -1,6 +1,8 @@
-package cy.jdkdigital.productivebees.integrations.jei;
+package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
@@ -9,26 +11,31 @@ import net.minecraftforge.fml.RegistryObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BeeIngredientHelper implements IIngredientHelper<ProduciveBeesJeiPlugin.BeeIngredient> {
 
-    public static List<ProduciveBeesJeiPlugin.BeeIngredient> createList()
-    {
-        List<ProduciveBeesJeiPlugin.BeeIngredient> list = new ArrayList<>();
+    public static Map<String, ProduciveBeesJeiPlugin.BeeIngredient> ingredientList = new HashMap<>();
 
-        list.add(new ProduciveBeesJeiPlugin.BeeIngredient(EntityType.BEE));
+    public static Map<String, ProduciveBeesJeiPlugin.BeeIngredient> createList()
+    {
+        ingredientList.clear();
+
+        ingredientList.put(EntityType.BEE.getRegistryName() + "", new ProduciveBeesJeiPlugin.BeeIngredient(EntityType.BEE));
 
         for(RegistryObject<EntityType<?>> registryObject: ModEntities.HIVE_BEES.getEntries()) {
-            list.add(new ProduciveBeesJeiPlugin.BeeIngredient((EntityType<BeeEntity>) registryObject.get()));
+            EntityType<BeeEntity> bee = (EntityType<BeeEntity>) registryObject.get();
+            ingredientList.put(bee.getRegistryName() + "", new ProduciveBeesJeiPlugin.BeeIngredient(bee));
         }
 
         for(RegistryObject<EntityType<?>> registryObject: ModEntities.SOLITARY_BEES.getEntries()) {
-            list.add(new ProduciveBeesJeiPlugin.BeeIngredient((EntityType<BeeEntity>) registryObject.get()));
+            EntityType<BeeEntity> bee = (EntityType<BeeEntity>) registryObject.get();
+            ingredientList.put(bee.getRegistryName() + "", new ProduciveBeesJeiPlugin.BeeIngredient(bee));
         }
 
-        return list;
+        return ingredientList;
     }
 
     @Nullable

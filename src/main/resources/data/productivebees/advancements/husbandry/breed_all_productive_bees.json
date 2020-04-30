@@ -2,7 +2,7 @@
   "parent": "productivebees:husbandry/breed_a_productive_bee",
   "display": {
     "icon": {
-      "loc": "productivebees:textures/advancements/all_bees.png"
+      "item": "productivebees:adv_breed_all_bees"
     },
     "title": {
       "translate": "advancements.husbandry.breed_all_productive_bees.title"
@@ -43,8 +43,8 @@
     "lapis_bee": {
       "trigger": "minecraft:bred_animals",
       "conditions": {
-        "parent": {
-          "type": "productivebees:ender_bee"
+        "child": {
+          "type": "productivebees:lapis_bee"
         }
       }
     },
