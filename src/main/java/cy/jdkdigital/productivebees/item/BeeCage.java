@@ -82,7 +82,12 @@ public class BeeCage extends Item {
         nbt.putBoolean("isProductiveBee", target instanceof ProductiveBeeEntity);
 
         String modId = target.getType().getRegistryName().getNamespace();
-        nbt.putString("mod", ModList.get().getModObjectById(modId).get().getClass().getSimpleName());
+        String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
+
+        if (modId.equals("minecraft")) {
+            modName = "Minecraft";
+        }
+        nbt.putString("mod", modName);
 
         ItemStack cageStack = new ItemStack(itemStack.getItem());
         cageStack.setTag(nbt);

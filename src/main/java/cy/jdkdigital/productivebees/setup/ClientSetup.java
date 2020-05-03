@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.setup;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.gui.AdvancedBeehiveScreen;
+import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;

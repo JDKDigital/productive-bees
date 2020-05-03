@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.gui.AdvancedBeehiveScreen;
+import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
 import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
