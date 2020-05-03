@@ -1,18 +1,18 @@
 modLoader="javafml"
 loaderVersion="[31,)"
-issueTrackerURL="http://my.issue.tracker/" #optional
+issueTrackerURL="https://github.com/JDKDigital/productive-bees/issues" #optional
 
 [[mods]] #mandatory
 modId="productivebees"
-version="${version}"
+version="${file.jarVersion}"
 displayName="Productive Bees"
-updateJSONURL="https://jdkdigital.cy/productivebees.json"
+# updateJSONURL="https://jdkdigital.cy/productivebees.json"
 # displayURL="http://example.com/"
 # logoFile="examplemod.png"
 credits="Thanks to me"
 authors="LobsterJonn"
 description='''
-
+Useful bees
 '''
 
 [[dependencies.productivebees]] #optional

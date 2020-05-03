@@ -153,23 +153,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 	}
 
-//	private PrioritizedGoal lastGoal = null;
-//	@Override
-//	protected void updateAITasks() {
-//		super.updateAITasks();
-//
-//		PrioritizedGoal currentGoal = this.goalSelector.getRunningGoals().findFirst().orElse(new PrioritizedGoal(0, new Goal() {
-//			@Override
-//			public boolean shouldExecute() {
-//				return false;
-//			}
-//		}));
-//		if (!currentGoal.equals(lastGoal)) {
-//			lastGoal = currentGoal;
-//			ProductiveBees.LOGGER.info("Current goal: " + currentGoal.getGoal() + " hasHive:" + hasHive());
-//		}
-//	}
-
 	@Override
 	public BeeEntity createChild(AgeableEntity targetEntity) {
 		ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, targetEntity);

@@ -15,7 +15,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
 
-version = '1.15.2-0.1.1'
+version = "${version}"
 group = 'cy.jdkdigital.productivebees'
 archivesBaseName = 'productivebees'
 

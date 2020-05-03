@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
 import mezz.jei.api.ingredients.IIngredientHelper;
@@ -10,9 +9,7 @@ import net.minecraftforge.fml.RegistryObject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BeeIngredientHelper implements IIngredientHelper<ProduciveBeesJeiPlugin.BeeIngredient> {
@@ -23,16 +20,19 @@ public class BeeIngredientHelper implements IIngredientHelper<ProduciveBeesJeiPl
     {
         ingredientList.clear();
 
-        ingredientList.put(EntityType.BEE.getRegistryName() + "", new ProduciveBeesJeiPlugin.BeeIngredient(EntityType.BEE));
+        // Add vanilla bee as ingredient
+        ingredientList.put(EntityType.BEE.getRegistryName() + "", new ProduciveBeesJeiPlugin.BeeIngredient(EntityType.BEE, 0));
 
+        // Add hive bees
         for(RegistryObject<EntityType<?>> registryObject: ModEntities.HIVE_BEES.getEntries()) {
             EntityType<BeeEntity> bee = (EntityType<BeeEntity>) registryObject.get();
-            ingredientList.put(bee.getRegistryName() + "", new ProduciveBeesJeiPlugin.BeeIngredient(bee));
+            ingredientList.put(bee.getRegistryName() + "", new ProduciveBeesJeiPlugin.BeeIngredient(bee, 0));
         }
 
+        // Add solitary bees
         for(RegistryObject<EntityType<?>> registryObject: ModEntities.SOLITARY_BEES.getEntries()) {
             EntityType<BeeEntity> bee = (EntityType<BeeEntity>) registryObject.get();
-            ingredientList.put(bee.getRegistryName() + "", new ProduciveBeesJeiPlugin.BeeIngredient(bee));
+            ingredientList.put(bee.getRegistryName() + "", new ProduciveBeesJeiPlugin.BeeIngredient(bee, 1));
         }
 
         return ingredientList;
@@ -82,7 +82,7 @@ public class BeeIngredientHelper implements IIngredientHelper<ProduciveBeesJeiPl
     @Nonnull
     @Override
     public ProduciveBeesJeiPlugin.BeeIngredient copyIngredient(ProduciveBeesJeiPlugin.BeeIngredient beeIngredient) {
-        return new ProduciveBeesJeiPlugin.BeeIngredient(beeIngredient.getBeeType());
+        return new ProduciveBeesJeiPlugin.BeeIngredient(beeIngredient.getBeeType(), beeIngredient.getRenderType());
     }
 
     @Nonnull

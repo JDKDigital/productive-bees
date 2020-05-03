@@ -14,7 +14,6 @@ public class GlowstoneNest extends SolitaryNest {
 
     public GlowstoneNest(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(BlockStateProperties.FACING, Direction.NORTH));
     }
 
     @Override

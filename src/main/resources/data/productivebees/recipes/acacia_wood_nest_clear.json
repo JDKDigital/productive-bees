@@ -1,0 +1,11 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:acacia_wood_nest"
+        }
+    ],
+    "result": {
+        "item": "productivebees:acacia_wood_nest"
+    }
+}

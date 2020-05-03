@@ -2,11 +2,14 @@ package cy.jdkdigital.productivebees.tileentity;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
+import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BeehiveBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
@@ -19,6 +22,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -87,7 +91,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 		if (++tickCounter > ProductiveBeesConfig.GENERAL.itemTickRate.get()) {
             tickCounter = 0;
 
-            ListNBT beeList = ((AdvancedBeehiveTileEntity)world.getTileEntity(this.pos)).getBeeListAsNBTList();
+            ListNBT beeList = this.getBeeListAsNBTList();
             if (beeList.size() > 0) {
                 for (INBT inbt : beeList) {
                     CompoundNBT inb = (CompoundNBT)((CompoundNBT) inbt).get("EntityData");
@@ -112,6 +116,17 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                             });
                         }
                     }
+                }
+            }
+
+            // Spawn skeletal and zombie bees in available hives
+            if (world.isNightTime() && beeList.size() < MAX_BEES && world.rand.nextFloat() < 0.01F) {
+                EntityType<BeeEntity> beeType = world.rand.nextBoolean() ? ModEntities.SKELETAL_BEE.get() : ModEntities.ZOMBIE_BEE.get();
+                BeeEntity newBee = beeType.create(world);
+                if (newBee != null) {
+                    Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
+//                    spawnBeeInWorldAPosition(world, newBee, pos, direction, null);
+                    tryEnterHive(newBee, false);
                 }
             }
         }

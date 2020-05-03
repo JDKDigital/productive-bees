@@ -10,6 +10,6 @@ public class SkeletalBeeEntity extends ProductiveBeeEntity {
 
 	public SkeletalBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
-		beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
+		beeAttributes.put(BeeAttributes.BEHAVIOR, 1);
 	}
 }

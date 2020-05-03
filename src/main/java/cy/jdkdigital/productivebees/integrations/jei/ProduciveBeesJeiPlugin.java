@@ -22,6 +22,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Map;
 
 @JeiPlugin
 public class ProduciveBeesJeiPlugin implements IModPlugin {
@@ -31,6 +32,10 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
     public static final ResourceLocation CATEGORY_BEE_BREEDING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
 
     public static final IIngredientType<ProduciveBeesJeiPlugin.BeeIngredient> BEE_INGREDIENT = () -> ProduciveBeesJeiPlugin.BeeIngredient.class;
+
+    public ProduciveBeesJeiPlugin() {
+        BeeIngredientHelper.createList();
+    }
 
     @Nonnull
     @Override
@@ -55,34 +60,45 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
     @Override
     public void registerIngredients(IModIngredientRegistration registration) {
         ProductiveBees.LOGGER.info(BeeIngredientHelper.createList().values());
-        registration.register(BEE_INGREDIENT, new ArrayList<>(BeeIngredientHelper.createList().values()), new BeeIngredientHelper(), new BeeIngredientRenderer());
+        registration.register(BEE_INGREDIENT, new ArrayList<>(BeeIngredientHelper.ingredientList.values()), new BeeIngredientHelper(), new BeeIngredientRenderer());
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addRecipes(AdvancedBeehiveRecipeMaker.getRecipes(), CATEGORY_ADVANCED_BEEHIVE_UID);
         registration.addRecipes(BeeBreedingRecipeMaker.getRecipes(), CATEGORY_BEE_BREEDING_UID);
+
+        for(Map.Entry<String, BeeIngredient> entry: BeeIngredientHelper.ingredientList.entrySet()) {
+            registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (entry.getKey().replace("productivebees:", "")));
+        }
     }
 
     public static class BeeIngredient {
         private EntityType<BeeEntity> bee;
+        private int renderType = 0;
 
-        public BeeIngredient(EntityType<BeeEntity> bee) {
+        public BeeIngredient(EntityType<BeeEntity> bee, int renderType) {
             this.bee = bee;
+            this.renderType = renderType;
         }
 
         public EntityType<BeeEntity> getBeeType() {
             return bee;
         }
 
+        public int getRenderType() {
+            return renderType;
+        }
+
         public static ProduciveBeesJeiPlugin.BeeIngredient read(PacketBuffer buffer) {
             String beeName = buffer.readString();
 
-            return new BeeIngredient((EntityType<BeeEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)));
+            return new BeeIngredient((EntityType<BeeEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readInt());
         }
 
         public final void write(PacketBuffer buffer) {
             buffer.writeString("" + this.bee.getRegistryName());
+            buffer.writeInt(this.renderType);
         }
     }
 }

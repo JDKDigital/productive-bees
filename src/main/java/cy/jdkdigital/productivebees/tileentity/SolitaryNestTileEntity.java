@@ -112,9 +112,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
 	    return getProducibleBeeType(world, pos, nest, false);
     }
     public static EntityType<BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest, boolean hatched) {
-//        Dimension dimension = world.getDimension();
-//        Biome biome = world.getBiome(pos);
-
         EntityType<BeeEntity> beeType = nest.getNestingBeeType(world);
 
         // Cuckoo behavior
