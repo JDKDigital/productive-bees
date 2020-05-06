@@ -25,7 +25,7 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature {
 
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, ReplaceBlockConfig featureConfig) {
-        if(rand.nextFloat() > this.probability) {
+        if(!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 

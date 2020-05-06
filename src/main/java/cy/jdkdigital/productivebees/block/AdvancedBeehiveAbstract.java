@@ -81,11 +81,15 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		if (entityNBT != null) {
 			if (entityNBT.contains("Bees")) {
 				ListNBT beeList = entityNBT.getCompound("Bees").getList("Inhabitants", Constants.NBT.TAG_COMPOUND);
-				tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").applyTextStyle(TextFormatting.BOLD));
-				for (int i = 0; i < beeList.size(); ++i) {
-					CompoundNBT tag = beeList.getCompound(i);
-					CompoundNBT beeNBT = tag.getCompound("EntityData");
-					tooltip.add(new TranslationTextComponent("" + beeNBT.getString("id")).applyTextStyle(TextFormatting.GREEN));
+				if (beeList.size() > 0) {
+					tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").applyTextStyle(TextFormatting.BOLD));
+					for (int i = 0; i < beeList.size(); ++i) {
+						CompoundNBT tag = beeList.getCompound(i);
+						CompoundNBT beeNBT = tag.getCompound("EntityData");
+						tooltip.add(new TranslationTextComponent("" + beeNBT.getString("id")).applyTextStyle(TextFormatting.GREEN));
+					}
+				} else {
+					tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.empty"));
 				}
 			}
 		}

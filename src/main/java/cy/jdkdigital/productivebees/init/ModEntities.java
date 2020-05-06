@@ -10,11 +10,16 @@ import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.*;
 import cy.jdkdigital.productivebees.entity.bee.nesting.*;
 import cy.jdkdigital.productivebees.entity.bee.solitary.*;
+import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
@@ -65,14 +70,30 @@ public class ModEntities {
     public static RegistryObject<EntityType<BeeEntity>> RESIN_BEE = createSolitaryBee("resin_bee", ResinBeeEntity::new, 6238757, 11709345);
     public static RegistryObject<EntityType<BeeEntity>> SWEATY_BEE = createSolitaryBee("sweaty_bee", SweatBeeEntity::new, 6238757, 11709345);
 
+    public static RegistryObject<EntityType<BeeEntity>> ALUMINIUM_BEE = createHiveBee("aluminium_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> BRONZE_BEE = createHiveBee("bronze_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> BRASS_BEE = createHiveBee("brass_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> COPPER_BEE = createHiveBee("copper_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> INVAR_BEE = createHiveBee("invar_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> LEAD_BEE = createHiveBee("lead_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> NICKEL_BEE = createHiveBee("nickel_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> RADIOACTIVE_BEE = createHiveBee("radioactive_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> SILVER_BEE = createHiveBee("silver_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> STEEL_BEE = createHiveBee("steel_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> TIN_BEE = createHiveBee("tin_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> TITANIUM_BEE = createHiveBee("titanium_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> TUNGSTEN_BEE = createHiveBee("tungsten_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> ZINC_BEE = createHiveBee("zinc_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> AMBER_BEE = createHiveBee("amber_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createHiveBee(String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor) {
-        return createBee(HIVE_BEES, name, supplier, primaryColor, secondaryColor);
+        return createBee(HIVE_BEES, name, supplier, primaryColor, secondaryColor, ModItemGroups.PRODUCTIVE_BEES);
     }
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createSolitaryBee(String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor) {
-        return createBee(SOLITARY_BEES, name, supplier, primaryColor, secondaryColor);
+        return createBee(SOLITARY_BEES, name, supplier, primaryColor, secondaryColor, ModItemGroups.PRODUCTIVE_BEES);
     }
 
-    public static <E extends BeeEntity> RegistryObject<EntityType<E>> createBee(DeferredRegister<EntityType<?>> registry, String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor) {
+    public static <E extends BeeEntity> RegistryObject<EntityType<E>> createBee(DeferredRegister<EntityType<?>> registry, String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor, ItemGroup itemGroup) {
         EntityType.Builder<E> builder = EntityType.Builder.<E>create(supplier, EntityClassification.CREATURE).size(0.7F, 0.6F);
         if (name.equals("magmatic_bee")) {
             builder.immuneToFire();
@@ -80,8 +101,10 @@ public class ModEntities {
 
         RegistryObject<EntityType<E>> entity = registry.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
 
-        RegistryObject<Item> spawnEgg = ModItems.ITEMS.register("spawn_egg_" + name, () -> new SpawnEgg(entity::get, primaryColor, secondaryColor, new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
-        ModItems.SPAWN_EGGS.add(spawnEgg);
+        if (itemGroup != null) {
+            RegistryObject<Item> spawnEgg = ModItems.ITEMS.register("spawn_egg_" + name, () -> new SpawnEgg(entity::get, primaryColor, secondaryColor, new Item.Properties().group(itemGroup)));
+            ModItems.SPAWN_EGGS.add(spawnEgg);
+        }
 
         return entity;
     }

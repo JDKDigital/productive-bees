@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:creeper_bee",
+  "results": [
+    {
+      "comb_produce": {
+        "tag": "forge:honeycombs/powdery"
+      },
+      "item_produce": {
+        "item": "minecraft:gunpowder"
+      },
+      "min": 1.0,
+      "max": 1.0
+    }
+  ]
+}

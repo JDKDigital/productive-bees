@@ -30,6 +30,6 @@ public class ModTags {
     public static final String WITHER_FLOWERS = "wither_flowers";
 
     public static Tag<Block> getTag(String resourceLocation) {
-        return BlockTags.getCollection().getOrCreate(new ResourceLocation(ProductiveBees.MODID, resourceLocation));
+        return new BlockTags.Wrapper(new ResourceLocation(ProductiveBees.MODID, resourceLocation));
     }
 }

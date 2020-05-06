@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:zombie_bee",
+  "results": [
+    {
+      "comb_produce": {
+        "tag": "forge:honeycombs/rotten"
+      },
+      "item_produce": {
+        "item": "minecraft:rotten_flesh"
+      },
+      "min": 1.0,
+      "max": 2.0
+    }
+  ]
+}

@@ -192,6 +192,7 @@
 	"productivebees.information.attribute.weather_tolerance.any": "Any",
 
 	"productivebees.hive.tooltip.bees": "Bees:",
+	"productivebees.hive.tooltip.empty": "Empty",
 	"productivebees.hive.tooltip.honey_level": "Honey Level: %d",
 	
 	"productivebees.ingredient.description.iron_bee": "Put it in an advanced beehive to get some iron.\n\nDoes not spawn naturally.",

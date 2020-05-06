@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:emerald_bee",
+  "results": [
+    {
+      "comb_produce": {
+        "tag": "forge:honeycombs/emerald"
+      },
+      "item_produce": {
+        "item": "minecraft:emerald"
+      },
+      "min": 1.0,
+      "max": 1.0
+    }
+  ]
+}

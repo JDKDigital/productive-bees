@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import net.minecraft.block.BeehiveBlock;
@@ -11,6 +12,9 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -73,15 +77,11 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 			}
 			int j = 0;
 			for (String beeId: this.container.tileEntity.inhabitantList) {
-
 				if (isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY) && stringCache.containsKey(beeId)) {
 					List<String> tooltipList = new ArrayList<String>() {{add(stringCache.get(beeId).getFormattedText());}};
-
 					tooltipList.add(stringCache.get(beeId + "_mod").applyTextStyle(TextFormatting.ITALIC).applyTextStyle(TextFormatting.BLUE).getFormattedText());
-
 					renderTooltip(tooltipList, mouseX - guiLeft, mouseY - guiTop);
 				}
-
 				j++;
 			}
 		}

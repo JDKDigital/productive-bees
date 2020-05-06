@@ -1,0 +1,13 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:wither_bee",
+  "results": [
+    {
+      "produce": {
+        "item": "minecraft:wither"
+      },
+      "min": 1.0,
+      "max": 1.0
+    }
+  ]
+}

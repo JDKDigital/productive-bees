@@ -14,8 +14,14 @@ import java.util.Map;
 
 public class BeeIngredientHelper implements IIngredientHelper<ProduciveBeesJeiPlugin.BeeIngredient> {
 
-    public static Map<String, ProduciveBeesJeiPlugin.BeeIngredient> ingredientList = new HashMap<>();
+    private static Map<String, ProduciveBeesJeiPlugin.BeeIngredient> ingredientList = new HashMap<>();
 
+    public static Map<String, ProduciveBeesJeiPlugin.BeeIngredient> getOrCreateList() {
+        if (ingredientList.size() > 0) {
+            return ingredientList;
+        }
+        return createList();
+    }
     public static Map<String, ProduciveBeesJeiPlugin.BeeIngredient> createList()
     {
         ingredientList.clear();

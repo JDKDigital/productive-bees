@@ -175,14 +175,15 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 	}
 
-	public static Double getProductionRate(String beeId) {
-		return ProductiveBeesConfig.BEES.itemProductionRates.get().get(beeId);
+	public static Double getProductionRate(String beeId, double defValue) {
+		if (ProductiveBeesConfig.BEES.itemProductionRates.containsKey(beeId)) {
+			return getProductionRate(beeId);
+		}
+		return defValue;
 	}
 
-	public static LootTable getProductionLootTable(World world, String beeId) {
-		ResourceLocation beeRes = new ResourceLocation(beeId);
-		ResourceLocation resourcelocation = new ResourceLocation(beeRes.getNamespace(), "entities/" + beeRes.getPath());
-		return world.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
+	public static Double getProductionRate(String beeId) {
+		return ProductiveBeesConfig.BEES.itemProductionRates.get(beeId).get();
 	}
 
 	public class PollinateGoal extends BeeEntity.PollinateGoal {

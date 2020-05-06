@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:quartz_bee",
+  "results": [
+    {
+      "comb_produce": {
+        "tag": "forge:honeycombs/quartz"
+      },
+      "item_produce": {
+        "item": "minecraft:quartz"
+      },
+      "min": 1.0,
+      "max": 3.0
+    }
+  ]
+}

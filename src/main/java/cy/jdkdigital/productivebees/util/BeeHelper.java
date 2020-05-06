@@ -10,15 +10,20 @@ import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BeeHelper {
@@ -167,5 +172,45 @@ public class BeeHelper {
         }
 
         return new ResourceLocation(ProductiveBees.MODID, babyType + "_bee");
+    }
+
+    public static List<ItemStack> convertProduceToComb(List<ItemStack> inputs) {
+        List<ItemStack> outputs = new ArrayList<>();
+        for (ItemStack stack: inputs) {
+            ProductiveBees.LOGGER.info("convert to comb: " + stack.getItem().getRegistryName());
+
+            switch (stack.getItem().getRegistryName().toString()) {
+                case "minecraft:emerald":
+                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:emerald_honeycomb"))));
+                    break;
+                case "minecraft:diamond":
+                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:diamond_honeycomb"))));
+                    break;
+                case "minecraft:redstone":
+                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:redstone_honeycomb"))));
+                    break;
+                case "minecraft:lapis_lazuli":
+                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:lapis_honeycomb"))));
+                    break;
+                case "minecraft:quartz":
+                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:quartz_honeycomb"))));
+                    break;
+                case "minecraft:ender_pearl":
+                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:ender_honeycomb"))));
+                    break;
+                case "minecraft:iron_ingot":
+                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:iron_honeycomb"))));
+                    break;
+                case "minecraft:gold_ingot":
+                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:gold_honeycomb"))));
+                    break;
+                case "forge:ingots/copper":
+                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft:gold_block"))));
+                    break;
+                default:
+                    outputs.add(new ItemStack(stack.getItem(), stack.getCount()));
+            }
+        }
+        return outputs;
     }
 }

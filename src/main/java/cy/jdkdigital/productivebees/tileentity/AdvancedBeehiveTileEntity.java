@@ -1,5 +1,7 @@
 package cy.jdkdigital.productivebees.tileentity;
 
+import com.google.common.collect.Lists;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
@@ -8,6 +10,9 @@ import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -15,10 +20,12 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -38,15 +45,20 @@ import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider {
 
@@ -96,20 +108,24 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 for (INBT inbt : beeList) {
                     CompoundNBT inb = (CompoundNBT)((CompoundNBT) inbt).get("EntityData");
                     String beeId = inb.getString("id");
+                    int productivity = 0;
+                    if (inb.contains("bee_productivity")) {
+                        productivity = inb.getInt("bee_productivity");
+                    }
 
-                    // TODO, improve performance
-                    EntityType<BeeEntity> entityType = (EntityType<BeeEntity>)ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeId));
-                    BeeEntity bee = entityType.create(world);
-                    bee.read(inb);
-
-                    Double productionRate = ProductiveBeeEntity.getProductionRate(beeId);
+                    Double productionRate = ProductiveBeeEntity.getProductionRate(beeId, 0.25D);
 
                     // Generate bee produce
                     if (productionRate != null && productionRate > 0) {
                         if (world.rand.nextDouble() < productionRate) {
+                            int finalProductivity = productivity;
                             inventoryHandler.ifPresent(inv -> {
-                                getBeeProduce((ServerWorld) world, beeId, bee, pos).forEach((stack) -> {
+                                getBeeProduce(world, beeId).forEach((stack) -> {
                                     if (!stack.isEmpty()) {
+                                        if (finalProductivity > 0) {
+                                            float f = (float) finalProductivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
+                                            stack.grow(Math.round(f));
+                                        }
                                         ((ItemHandler)inv).addOutput(stack);
                                     }
                                 });
@@ -124,8 +140,6 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 EntityType<BeeEntity> beeType = world.rand.nextBoolean() ? ModEntities.SKELETAL_BEE.get() : ModEntities.ZOMBIE_BEE.get();
                 BeeEntity newBee = beeType.create(world);
                 if (newBee != null) {
-                    Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
-//                    spawnBeeInWorldAPosition(world, newBee, pos, direction, null);
                     tryEnterHive(newBee, false);
                 }
             }
@@ -167,18 +181,16 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         super.tick();
 	}
 
-	public static List<ItemStack> getBeeProduce(ServerWorld world, String beeId, BeeEntity bee, BlockPos pos) {
-        LootTable lootTable = ProductiveBeeEntity.getProductionLootTable(world, beeId);
-        LootContext ctx =  new LootContext.Builder(world)
-                .withRandom(world.rand)
-                .withParameter(LootParameters.THIS_ENTITY, bee)
-                .withParameter(LootParameters.POSITION, pos)
-                .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.CRAMMING)
-                .build(LootParameterSets.ENTITY);
+	public static List<ItemStack> getBeeProduce(World world, String beeId) {
+        for(Map.Entry<ResourceLocation, IRecipe<IInventory>> entry: world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE).entrySet()) {
+            AdvancedBeehiveRecipe recipe = (AdvancedBeehiveRecipe) entry.getValue();
+            if (beeId.equals(recipe.ingredient.getBeeType().getRegistryName().toString())) {
+                ProductiveBees.LOGGER.info("getting recipe output " + recipe.outputs);
+                return recipe.outputs;
+            }
+        }
 
-        List<ItemStack> stacks = lootTable.generate(ctx);
-
-        return net.minecraftforge.common.ForgeHooks.modifyLoot(stacks, ctx);
+        return Lists.newArrayList(ItemStack.EMPTY);
     }
 
 	private int getAvailableOutputSlot(IItemHandler handler, ItemStack insertStack) {

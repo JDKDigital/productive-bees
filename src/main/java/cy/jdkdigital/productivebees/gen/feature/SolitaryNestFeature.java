@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.datafixers.Dynamic;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
 import net.minecraft.block.pattern.BlockStateMatcher;
@@ -16,6 +17,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -36,7 +38,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
 
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, ReplaceBlockConfig featureConfig) {
-        if(rand.nextFloat() > this.probability) {
+        if(!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 
@@ -53,6 +55,10 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
         }
 
         return placeNest(world, pos, featureConfig);
+    }
+
+    protected boolean nestShouldGenerate(ReplaceBlockConfig featureConfig) {
+        return ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("enable_" + featureConfig.state.getBlock().getRegistryName()).get();
     }
 
     protected boolean placeNest(IWorld world, BlockPos pos, ReplaceBlockConfig featureConfig) {

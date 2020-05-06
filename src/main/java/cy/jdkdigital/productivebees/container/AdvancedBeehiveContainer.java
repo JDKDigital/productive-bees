@@ -26,10 +26,10 @@ public class AdvancedBeehiveContainer extends AbstractContainer {
 		put(2, new ArrayList<Integer>() {{add(37);add(45);}});
 	}};
 	public static final HashMap<Integer, ArrayList<Integer>> BEE_POSITIONS_EXPANDED = new HashMap<Integer, ArrayList<Integer>>() {{
-		put(0, new ArrayList<Integer>() {{add(19);add(25);}});
+		put(0, new ArrayList<Integer>() {{add(19);add(24);}});
 		put(1, new ArrayList<Integer>() {{add(19);add(45);}});
 		put(2, new ArrayList<Integer>() {{add(37);add(35);}});
-		put(3, new ArrayList<Integer>() {{add(55);add(25);}});
+		put(3, new ArrayList<Integer>() {{add(55);add(24);}});
 		put(4, new ArrayList<Integer>() {{add(55);add(45);}});
 	}};
 	

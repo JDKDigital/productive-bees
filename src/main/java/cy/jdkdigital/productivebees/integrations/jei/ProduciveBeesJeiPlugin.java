@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientHelper;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientRenderer;
+import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -13,15 +14,20 @@ import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 @JeiPlugin
@@ -59,18 +65,20 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
 
     @Override
     public void registerIngredients(IModIngredientRegistration registration) {
-        ProductiveBees.LOGGER.info(BeeIngredientHelper.createList().values());
-        registration.register(BEE_INGREDIENT, new ArrayList<>(BeeIngredientHelper.ingredientList.values()), new BeeIngredientHelper(), new BeeIngredientRenderer());
+        registration.register(BEE_INGREDIENT, new ArrayList<>(BeeIngredientHelper.getOrCreateList().values()), new BeeIngredientHelper(), new BeeIngredientRenderer());
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(AdvancedBeehiveRecipeMaker.getRecipes(), CATEGORY_ADVANCED_BEEHIVE_UID);
         registration.addRecipes(BeeBreedingRecipeMaker.getRecipes(), CATEGORY_BEE_BREEDING_UID);
 
-        for(Map.Entry<String, BeeIngredient> entry: BeeIngredientHelper.ingredientList.entrySet()) {
+        for(Map.Entry<String, BeeIngredient> entry: BeeIngredientHelper.getOrCreateList().entrySet()) {
             registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (entry.getKey().replace("productivebees:", "")));
         }
+
+        RecipeManager recipeManager = Minecraft.getInstance().world.getRecipeManager();
+        Map<ResourceLocation, IRecipe<IInventory>> recipesMap = recipeManager.getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
+        registration.addRecipes(recipesMap.values(), CATEGORY_ADVANCED_BEEHIVE_UID);
     }
 
     public static class BeeIngredient {

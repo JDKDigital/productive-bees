@@ -1,10 +1,26 @@
 package cy.jdkdigital.productivebees;
 
 import com.electronwill.nightconfig.core.Config;
+import com.electronwill.nightconfig.core.file.CommentedFileConfig;
+import com.electronwill.nightconfig.core.io.WritingMode;
+import cy.jdkdigital.productivebees.block.SolitaryNest;
+import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
+import it.unimi.dsi.fastutil.Hash;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @Mod.EventBusSubscriber
 public class ProductiveBeesConfig {
@@ -13,64 +29,72 @@ public class ProductiveBeesConfig {
     public static final ForgeConfigSpec CONFIG;
     public static final General GENERAL = new General(BUILDER);
     public static final Bees BEES = new Bees(BUILDER);
+    public static final WorldGen WORLD_GEN = new WorldGen(BUILDER);
 
     static {
         CONFIG = BUILDER.build();
     }
 
     public static class General {
-        public final ForgeConfigSpec.ConfigValue<Boolean> enableItemConverting;
-        public final ForgeConfigSpec.ConfigValue<Integer> itemTickRate;
+        public final ForgeConfigSpec.BooleanValue enableItemConverting;
+        public final ForgeConfigSpec.IntValue itemTickRate;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
 
             enableItemConverting = builder
-                    .comment("Use items to change the type of a bee.", "If false, productive bees can only be obtained through breeding.")
-                    .define("enableItemConverting", true);
+                    .comment("Use items to change the type of a bee.", "If false, productive bees can only be obtained through breeding. Default false.")
+                    .define("enableItemConverting", false);
 
             itemTickRate = builder
-                    .comment("How often should a bee attempt to generate items while in the hive.")
-                    .define("itemTickRate", 500);
+                    .comment("How often should a bee attempt to generate items while in the hive. Default 500.")
+                    .defineInRange("itemTickRate", 500, 20, Integer.MAX_VALUE);
 
             builder.pop();
         }
     }
 
     public static class Bees {
-        public final ForgeConfigSpec.ConfigValue<Config> itemProductionRates;
+        public final Map<String, ForgeConfigSpec.ConfigValue<Double>> itemProductionRates = new HashMap<>();
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
 
-            Config productionRates = Config.inMemory();
+//            builder.comment("Bee production rates. Default 0.25.");
 
-            productionRates.add("minecraft:bee",  0.25D);
-            productionRates.add("productivebees:creeper_bee", 0.10D);
-            productionRates.add("productivebees:diamond_bee", 0.10D);
-            productionRates.add("productivebees:emerald_bee", 0.05D);
-            productionRates.add("productivebees:ender_bee", 0.05D);
-            productionRates.add("productivebees:glowing_bee", 0.25D);
-            productionRates.add("productivebees:gold_bee", 0.10D);
-            productionRates.add("productivebees:iron_bee", 0.10D);
-            productionRates.add("productivebees:lapis_bee", 0.20D);
-            productionRates.add("productivebees:dye_bee", 0.50D);
-            productionRates.add("productivebees:magmatic_bee", 0.20D);
-            productionRates.add("productivebees:quartz_bee", 0.25D);
-            productionRates.add("productivebees:redstone_bee", 0.25D);
-            productionRates.add("productivebees:skeletal_bee", 0.10D);
-            productionRates.add("productivebees:zombie_bee", 0.10D);
-            productionRates.add("productivebees:wither_bee", 0.01D);
-            productionRates.add("productivebees:blazing_bee", 0.15D);
-            productionRates.add("productivebees:draconic_bee", 0.01D);
-            productionRates.add("productivebees:slimy_bee", 0.30D);
+            itemProductionRates.put("minecraft:bee", builder.defineInRange("minecraft:bee",  0.25D, 0, 1));
 
-            itemProductionRates = builder
-                    .comment("Bee production rates.")
-                    .define("itemProductionRates", productionRates);
+            for(RegistryObject<EntityType<?>> registryObject: ModEntities.HIVE_BEES.getEntries()) {
+                ResourceLocation resourceLocation = registryObject.getId();
+                itemProductionRates.put(resourceLocation + "", builder.defineInRange(resourceLocation + "",  0.25D, 0, 1));
+            }
 
             builder.pop();
         }
+    }
+
+    public static class WorldGen {
+        public final Map<String, ForgeConfigSpec.BooleanValue> nestConfigs = new HashMap<>();
+
+        public WorldGen(ForgeConfigSpec.Builder builder) {
+            builder.push("Worldgen");
+//            builder.comment("Which nests should generate in the world. Nest will still be craftable and attract bees.");
+
+            for (RegistryObject<Block> blockReg: ModBlocks.BLOCKS.getEntries()) {
+                ResourceLocation resName = blockReg.getId();
+                if (resName.toString().contains("_nest")) {
+                    nestConfigs.put("enable_" + resName, builder.define("enable_" + resName, true));
+                }
+            }
+
+            builder.pop();
+        }
+    }
+
+    public static void loadConfig(ForgeConfigSpec config, String path) {
+        final CommentedFileConfig file = CommentedFileConfig.builder(new File(path)).sync().autosave().writingMode(WritingMode.REPLACE).build();
+        file.load();
+        config.setConfig(file);
     }
 
     @SubscribeEvent

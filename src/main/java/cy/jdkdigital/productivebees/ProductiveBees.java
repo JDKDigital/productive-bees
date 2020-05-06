@@ -1,10 +1,10 @@
 package cy.jdkdigital.productivebees;
 
+import com.electronwill.nightconfig.core.Config;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
@@ -12,10 +12,6 @@ import cy.jdkdigital.productivebees.setup.ClientProxy;
 import cy.jdkdigital.productivebees.setup.ClientSetup;
 import cy.jdkdigital.productivebees.setup.IProxy;
 import cy.jdkdigital.productivebees.setup.ServerProxy;
-import cy.jdkdigital.productivebees.world.storage.loot.conditions.EntityIsProductiveBee;
-import cy.jdkdigital.productivebees.world.storage.loot.conditions.ModLoaded;
-import cy.jdkdigital.productivebees.world.storage.loot.functions.ConvertToComb;
-import cy.jdkdigital.productivebees.world.storage.loot.functions.ProductivityBonus;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -28,15 +24,12 @@ import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
-import net.minecraft.world.storage.loot.conditions.LootConditionManager;
-import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
@@ -91,19 +84,10 @@ public final class ProductiveBees {
         modEventBus.addListener(ClientSetup::init);
         modEventBus.addListener(this::preInit);
         modEventBus.addListener(this::loadComplete);
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
-        final CommentedFileConfig configData = CommentedFileConfig.
-                builder(FMLPaths.CONFIGDIR.get().resolve("productivebees.toml")).
-                sync().
-                autosave().
-                writingMode(WritingMode.REPLACE).
-                build();
-
-        configData.load();
-        ProductiveBeesConfig.CONFIG.setConfig(configData);
+        ProductiveBeesConfig.loadConfig(ProductiveBeesConfig.CONFIG, FMLPaths.CONFIGDIR.get().resolve("productivebees-server.toml").toString());
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -133,11 +117,6 @@ public final class ProductiveBees {
 
     public void preInit(FMLCommonSetupEvent event) {
         CapabilityBee.register();
-
-        LootFunctionManager.registerFunction(new ProductivityBonus.Serializer());
-        LootFunctionManager.registerFunction(new ConvertToComb.Serializer());
-        LootConditionManager.registerCondition(new EntityIsProductiveBee.Serializer());
-        LootConditionManager.registerCondition(new ModLoaded.Serializer());
 
         this.fixPOI(event);
     }
@@ -290,4 +269,12 @@ public final class ProductiveBees {
     public static void addToMap(Block block, Map<BlockState, PointOfInterestType> pointOfInterestTypeMap) {
         block.getStateContainer().getValidStates().forEach(state -> pointOfInterestTypeMap.put(state, PointOfInterestType.BEEHIVE));
     }
+
+//    public static class RegistryEvents {
+//        @SubscribeEvent
+//        public static void recipe(final RegistryEvent.Register<IRecipeSerializer<?>> event) {
+//            ProductiveBees.LOGGER.info("REGISTER RECIPE TYPE");
+//            event.getRegistry().register(new AdvancedBeehiveRecipe.Serializer<>(AdvancedBeehiveRecipe::new).setRegistryName(new ResourceLocation(ProductiveBees.MODID, "advanced_beehive")));
+//        }
+//    }
 }

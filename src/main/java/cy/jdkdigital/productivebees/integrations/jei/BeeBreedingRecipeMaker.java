@@ -18,13 +18,13 @@ public class BeeBreedingRecipeMaker {
         List<Object> recipes = new ArrayList<>();
 
         for(Map.Entry<String, Map<String, String>> entry: BeeHelper.breedingMap.entrySet()) {
-            ProduciveBeesJeiPlugin.BeeIngredient mainInput = BeeIngredientHelper.ingredientList.get(ProductiveBees.MODID + ":" + entry.getKey() + "_bee");
+            ProduciveBeesJeiPlugin.BeeIngredient mainInput = BeeIngredientHelper.getOrCreateList().get(ProductiveBees.MODID + ":" + entry.getKey() + "_bee");
             if (mainInput != null) {
                 ResourceLocation regName = mainInput.getBeeType().getRegistryName();
 
                 for (Map.Entry<String, String> beePartner : entry.getValue().entrySet()) {
-                    ProduciveBeesJeiPlugin.BeeIngredient secondInput = BeeIngredientHelper.ingredientList.get(ProductiveBees.MODID + ":" + beePartner.getKey() + "_bee");
-                    ProduciveBeesJeiPlugin.BeeIngredient output = BeeIngredientHelper.ingredientList.get(ProductiveBees.MODID + ":" + beePartner.getValue() + "_bee");
+                    ProduciveBeesJeiPlugin.BeeIngredient secondInput = BeeIngredientHelper.getOrCreateList().get(ProductiveBees.MODID + ":" + beePartner.getKey() + "_bee");
+                    ProduciveBeesJeiPlugin.BeeIngredient output = BeeIngredientHelper.getOrCreateList().get(ProductiveBees.MODID + ":" + beePartner.getValue() + "_bee");
                     if (secondInput != null && output != null) {
                         BeeBreedingRecipe recipe = new BeeBreedingRecipe(regName, Arrays.asList(mainInput, secondInput), output);
                         recipes.add(recipe);
