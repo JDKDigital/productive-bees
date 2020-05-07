@@ -1,21 +1,21 @@
 {
-  "type": "beesourceful:centrifuge",
-  "ingredient": {
-    "tag": "forge:honeycombs/nickel"
-  },
-  "results": [
-    {
-      "tag": "forge:ingots/nickel"
+    "type": "beesourceful:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/nickel"
     },
-    {
-      "tag": "forge:beeswax"
-    }
-  ],
-  "time": 200,
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "beesourceful"
-    }
-  ]
+    "results": [
+        {
+            "tag": "forge:ingots/nickel"
+        },
+        {
+            "tag": "forge:beeswax"
+        }
+    ],
+    "time": 200,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "beesourceful"
+        }
+    ]
 }

@@ -1,22 +1,22 @@
 {
-  "type": "beesourceful:centrifuge",
-  "ingredient": {
-    "tag": "forge:honeycombs/rotten"
-  },
-  "results": [
-    {
-      "tag": "minecraft:rotten_flesh",
-      "count": 2
+    "type": "beesourceful:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/rotten"
     },
-    {
-      "tag": "forge:beeswax"
-    }
-  ],
-  "time": 200,
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "beesourceful"
-    }
-  ]
+    "results": [
+        {
+            "item": "minecraft:rotten_flesh",
+            "count": 2
+        },
+        {
+            "tag": "forge:beeswax"
+        }
+    ],
+    "time": 200,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "beesourceful"
+        }
+    ]
 }

@@ -1,21 +1,21 @@
 {
-  "type": "beesourceful:centrifuge",
-  "ingredient": {
-    "tag": "forge:honeycombs/bronze"
-  },
-  "results": [
-    {
-      "tag": "forge:ingots/bronze"
+    "type": "beesourceful:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/bronze"
     },
-    {
-      "tag": "forge:beeswax"
-    }
-  ],
-  "time": 200,
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "beesourceful"
-    }
-  ]
+    "results": [
+        {
+            "tag": "forge:ingots/bronze"
+        },
+        {
+            "tag": "forge:beeswax"
+        }
+    ],
+    "time": 200,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "beesourceful"
+        }
+    ]
 }

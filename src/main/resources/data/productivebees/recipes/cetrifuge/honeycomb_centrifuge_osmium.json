@@ -1,21 +1,21 @@
 {
-  "type": "beesourceful:centrifuge",
-  "ingredient": {
-    "tag": "forge:honeycombs/osmium"
-  },
-  "results": [
-    {
-      "tag": "forge:ingots/osmium"
+    "type": "beesourceful:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/osmium"
     },
-    {
-      "tag": "forge:beeswax"
-    }
-  ],
-  "time": 200,
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "beesourceful"
-    }
-  ]
+    "results": [
+        {
+            "tag": "forge:ingots/osmium"
+        },
+        {
+            "tag": "forge:beeswax"
+        }
+    ],
+    "time": 200,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "beesourceful"
+        }
+    ]
 }

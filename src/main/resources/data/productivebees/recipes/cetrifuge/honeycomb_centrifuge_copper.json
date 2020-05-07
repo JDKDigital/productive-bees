@@ -1,21 +1,21 @@
 {
-  "type": "beesourceful:centrifuge",
-  "ingredient": {
-    "tag": "forge:honeycombs/copper"
-  },
-  "results": [
-    {
-      "tag": "forge:ingots/copper"
+    "type": "beesourceful:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/copper"
     },
-    {
-      "tag": "forge:beeswax"
-    }
-  ],
-  "time": 200,
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "beesourceful"
-    }
-  ]
+    "results": [
+        {
+            "tag": "forge:ingots/copper"
+        },
+        {
+            "tag": "forge:beeswax"
+        }
+    ],
+    "time": 200,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "beesourceful"
+        }
+    ]
 }
