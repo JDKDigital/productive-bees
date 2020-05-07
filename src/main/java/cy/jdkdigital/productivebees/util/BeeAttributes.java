@@ -21,6 +21,7 @@ public class BeeAttributes {
     public static final BeeAttribute<Integer> WEATHER_TOLERANCE = register("weather_tolerance");
     public static final BeeAttribute<Tag<Block>> FOOD_SOURCE = register("food_source");
     public static final BeeAttribute<Tag<Item>> APHRODISIACS = register("aphrodisiacs");
+    public static final BeeAttribute<Tag<Block>> NESTING_PREFERENCE = register("nesting_preference");
 
     public static Map<BeeAttribute<?>, Map<Integer, String>> keyMap = new HashMap<>();
 

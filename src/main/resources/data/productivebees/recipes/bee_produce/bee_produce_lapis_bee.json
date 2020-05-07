@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:lapis_bee",
+    "results": [
+        {
+            "comb_produce": {
+                "tag": "forge:honeycombs/lapis"
+            },
+            "item_produce": {
+                "item": "minecraft:lapis_lazuli"
+            },
+            "min": 3.0,
+            "max": 7.0
+        }
+    ]
+}

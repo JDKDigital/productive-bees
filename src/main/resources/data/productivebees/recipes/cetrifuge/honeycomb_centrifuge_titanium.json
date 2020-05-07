@@ -1,0 +1,21 @@
+{
+  "type": "beesourceful:centrifuge",
+  "ingredient": {
+    "tag": "forge:honeycombs/titanium"
+  },
+  "results": [
+    {
+      "tag": "forge:ingots/titanium"
+    },
+    {
+      "tag": "forge:beeswax"
+    }
+  ],
+  "time": 200,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "beesourceful"
+    }
+  ]
+}

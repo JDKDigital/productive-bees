@@ -14,8 +14,8 @@ public class DraconicBeeEntity extends EffectHiveBeeEntity implements IBeeEntity
 
 	public DraconicBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
-		this.nestBlockTag = ModTags.getTag(ModTags.DRACONIC_NESTS);
 		beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE || poiType == ModPointOfInterestTypes.DRACONIC_NEST.get();
-		beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.getTag(ModTags.DRACONIC_FLOWERS));
+		beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.DRACONIC_FLOWERS);
+		beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.DRACONIC_NESTS);
 	}
 }

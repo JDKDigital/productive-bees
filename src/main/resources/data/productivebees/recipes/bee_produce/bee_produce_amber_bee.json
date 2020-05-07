@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:amber_bee",
+    "results": [
+        {
+            "comb_produce": {
+                "tag": "forge:honeycombs/amber"
+            },
+            "item_produce": {
+                "tag": "forge:gems/amber"
+            },
+            "min": 1.0,
+            "max": 1.0
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/amber"
+            }
+        }
+    ]
+}

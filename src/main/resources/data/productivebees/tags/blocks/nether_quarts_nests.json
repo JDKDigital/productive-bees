@@ -1,0 +1,7 @@
+{
+    "replace": false,
+    "values": [
+        "productivebees:nether_quartz_nest",
+        "#productivebees:advanced_beehives"
+    ]
+}

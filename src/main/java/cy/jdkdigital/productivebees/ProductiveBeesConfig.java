@@ -56,11 +56,14 @@ public class ProductiveBeesConfig {
 
     public static class Bees {
         public final Map<String, ForgeConfigSpec.ConfigValue<Double>> itemProductionRates = new HashMap<>();
+        public final ForgeConfigSpec.ConfigValue<Boolean> spawnUndeadBees;
+        public final ForgeConfigSpec.ConfigValue<Double> spawnUndeadBeesChance;
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
 
-//            builder.comment("Bee production rates. Default 0.25.");
+            spawnUndeadBees = builder.comment("Spawn skeletal and zombie bees as night?").define("spawnUndeadBees", true);
+            spawnUndeadBeesChance = builder.defineInRange("spawnUndeadBeesChance", 0.01, 0, 1);
 
             itemProductionRates.put("minecraft:bee", builder.defineInRange("minecraft:bee",  0.25D, 0, 1));
 

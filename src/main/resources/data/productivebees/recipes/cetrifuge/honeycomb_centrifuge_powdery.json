@@ -1,0 +1,22 @@
+{
+  "type": "beesourceful:centrifuge",
+  "ingredient": {
+    "tag": "forge:honeycombs/glowing"
+  },
+  "results": [
+    {
+      "tag": "minecraft:gunpowder",
+      "count": 2
+    },
+    {
+      "tag": "forge:beeswax"
+    }
+  ],
+  "time": 200,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "beesourceful"
+    }
+  ]
+}

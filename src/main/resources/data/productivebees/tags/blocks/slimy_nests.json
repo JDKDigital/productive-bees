@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
-        "productivebees:slimy_nest"
+        "productivebees:slimy_nest",
+        "#productivebees:advanced_beehives"
     ]
 }

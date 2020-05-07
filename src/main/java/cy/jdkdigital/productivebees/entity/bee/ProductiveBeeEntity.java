@@ -3,7 +3,12 @@ package cy.jdkdigital.productivebees.entity.bee;
 import com.google.common.collect.Maps;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.entity.bee.nesting.GlowingBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.nesting.MagmaticBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.nesting.QuartzBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.nesting.SlimyBeeEntity;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -43,19 +48,18 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
-	protected Map<BeeAttribute<?>, Object> beeAttributes = Maps.newHashMap();
+	protected Map<BeeAttribute<?>, Object> beeAttributes = new HashMap<>();
 	public Tag<Block> nestBlockTag;
 
-	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> (
-		poiType == PointOfInterestType.BEEHIVE ||
-		poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
-		poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
-		poiType == ModPointOfInterestTypes.DRACONIC_NEST.get()
-	);
+	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> {
+		ProductiveBees.LOGGER.info("checking beehiveInterests: " + poiType);
+		return poiType == PointOfInterestType.BEEHIVE ||
+				poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
+				poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
+	};
 
 	public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
-		this.nestBlockTag = BlockTags.BEEHIVES;
 
 		beeAttributes.put(BeeAttributes.PRODUCTIVITY, world.rand.nextInt(2));
 		beeAttributes.put(BeeAttributes.TEMPER, 1);
@@ -64,6 +68,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		beeAttributes.put(BeeAttributes.TYPE, "hive");
 		beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.FLOWERS);
 		beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
+		beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, BlockTags.BEEHIVES);
 
 		// Goal to make entity follow player, must be registered after init to use bee attributes
 		this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
@@ -112,6 +117,20 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		}
 	}
 
+	public boolean canEnterHive() {
+		if (this.stayOutOfHiveCountdown <= 0 && !this.pollinateGoal.isRunning() && !this.hasStung()) {
+			boolean shouldReturnToHive =
+					this.failedPollinatingTooLong() ||
+					this.hasNectar() ||
+					(this.world.isNightTime() && !canOperateDuringNight()) ||
+					(this.world.isRaining() && !canOperateDuringRain());
+
+			return shouldReturnToHive && !this.isHiveNearFire();
+		} else {
+			return false;
+		}
+	}
+
 	public String getBeeType() {
 		return this.getEntityString().split("[:]")[1].replace("_bee", "");
 	}
@@ -122,6 +141,14 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 
 	public <T> T getAttributeValue(BeeAttribute<T> parameter) {
 		return (T) this.beeAttributes.get(parameter);
+	}
+
+	public boolean canOperateDuringNight() {
+		return getAttributeValue(BeeAttributes.BEHAVIOR) == 0;
+	}
+
+	boolean canOperateDuringRain() {
+		return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 0;
 	}
 
 	@Override
@@ -135,6 +162,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 		tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
 		tag.putString("bee_food_source", this.getAttributeValue(BeeAttributes.FOOD_SOURCE).getId().toString());
 		tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getId().toString());
+		tag.putString("bee_nesting_preference", this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE).getId().toString());
 	}
 
 	@Override
@@ -148,8 +176,20 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 			beeAttributes.put(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
 			beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
 			beeAttributes.put(BeeAttributes.TYPE, tag.getString("bee_type"));
-			beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_food_source"))));
-			beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
+			beeAttributes.put(BeeAttributes.FOOD_SOURCE, new BlockTags.Wrapper(new ResourceLocation(tag.getString("bee_food_source"))));
+			beeAttributes.put(BeeAttributes.APHRODISIACS, new ItemTags.Wrapper(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
+			if (tag.contains("bee_nesting_preference") && !tag.getString("bee_nesting_preference").equals("")) {
+				beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, BlockTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_nesting_preference"))));
+			} else {
+				// TODO Fix for this release, remove later
+				beeAttributes.put(BeeAttributes.NESTING_PREFERENCE,
+						this instanceof SlimyBeeEntity ?  ModTags.SLIMY_NESTS :
+						this instanceof GlowingBeeEntity ?  ModTags.GLOWSTONE_NESTS :
+						this instanceof MagmaticBeeEntity ?  ModTags.NETHER_BRICK_NESTS :
+						this instanceof QuartzBeeEntity ?  ModTags.NETHER_QUARTZ_NESTS :
+						this instanceof SolitaryBeeEntity ? ModTags.SOLITARY_OVERWORLD_NESTS :
+								BlockTags.BEEHIVES);
+			}
 		}
 	}
 
@@ -235,10 +275,16 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 				return false;
 			}
 
+			Tag<Block> nestTag = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE);
+			if (nestTag == null || nestTag.getAllElements().size() == 0) {
+				ProductiveBees.LOGGER.info("no nest tag: " + nestTag.getId());
+				return false;
+			}
+
 			return !ProductiveBeeEntity.this.detachHome() &&
 					ProductiveBeeEntity.this.canEnterHive() &&
 					!this.isCloseEnough(ProductiveBeeEntity.this.hivePos) &&
-					ProductiveBeeEntity.this.world.getBlockState(ProductiveBeeEntity.this.hivePos).isIn(ProductiveBeeEntity.this.nestBlockTag);
+					ProductiveBeeEntity.this.world.getBlockState(ProductiveBeeEntity.this.hivePos).isIn(nestTag);
 		}
 
 		private boolean isCloseEnough(BlockPos pos) {

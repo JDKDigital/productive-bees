@@ -136,7 +136,13 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             }
 
             // Spawn skeletal and zombie bees in available hives
-            if (world.isNightTime() && beeList.size() < MAX_BEES && world.rand.nextFloat() < 0.01F) {
+            if (
+                world.isNightTime() &&
+                ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
+                world.rand.nextDouble() < ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
+                beeList.size() < MAX_BEES &&
+                world.getLightValue(pos) <= 7
+            ) {
                 EntityType<BeeEntity> beeType = world.rand.nextBoolean() ? ModEntities.SKELETAL_BEE.get() : ModEntities.ZOMBIE_BEE.get();
                 BeeEntity newBee = beeType.create(world);
                 if (newBee != null) {

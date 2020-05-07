@@ -16,7 +16,7 @@ public class WitherBeeEntity extends EffectHiveBeeEntity {
 
 	public WitherBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
-		beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.getTag(ModTags.WITHER_FLOWERS));
+		beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.WITHER_FLOWERS);
 	}
 
 	@Override

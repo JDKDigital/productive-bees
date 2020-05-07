@@ -13,7 +13,7 @@ public class BlueBandedBeeEntity extends SolitaryBeeEntity {
         super(entityType, world);
 
         beeAttributes.put(BeeAttributes.TEMPER, 0);
-        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.getTag(ModTags.RIVER_FLOWERS));
+        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.RIVER_FLOWERS);
     }
 
     @Override

@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:redstone_bee",
+    "results": [
+        {
+            "comb_produce": {
+                "tag": "forge:honeycombs/redstone"
+            },
+            "item_produce": {
+                "item": "minecraft:redstone"
+            },
+            "min": 4.0,
+            "max": 5.0
+        }
+    ]
+}

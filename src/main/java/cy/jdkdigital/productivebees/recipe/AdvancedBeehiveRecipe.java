@@ -75,7 +75,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>, IProductiveBe
 
     @Override
     public boolean canFit(int width, int height) {
-        return true;
+        return false;
     }
 
     @Nonnull

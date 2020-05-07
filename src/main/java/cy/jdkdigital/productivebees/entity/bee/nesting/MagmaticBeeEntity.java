@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.entity.bee.nesting;
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.IBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -17,7 +18,8 @@ public class MagmaticBeeEntity extends EffectHiveBeeEntity implements IBeeEntity
 
 	public MagmaticBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
 		super(entityType, world);
-		this.nestBlockTag = ModTags.getTag(ModTags.NETHER_BRICK_NESTS);
+		beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.NETHER_FLOWERS);
+		beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.NETHER_BRICK_NESTS);
 	}
 
 	@Override

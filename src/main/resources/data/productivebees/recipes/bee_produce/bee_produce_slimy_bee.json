@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:slimy_bee",
+    "results": [
+        {
+            "comb_produce": {
+                "item": "minecraft:slime_ball"
+            },
+            "item_produce": {
+                "item": "minecraft:slime_ball"
+            },
+            "min": 1.0,
+            "max": 1.0
+        }
+    ]
+}

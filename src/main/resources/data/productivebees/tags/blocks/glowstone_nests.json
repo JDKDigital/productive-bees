@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
-        "productivebees:glowstone_nest"
+        "productivebees:glowstone_nest",
+        "#productivebees:advanced_beehives"
     ]
 }

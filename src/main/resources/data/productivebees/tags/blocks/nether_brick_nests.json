@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
-        "productivebees:nether_brick_nest"
+        "productivebees:nether_brick_nest",
+        "#productivebees:advanced_beehives"
     ]
 }

@@ -1,0 +1,21 @@
+{
+  "type": "beesourceful:centrifuge",
+  "ingredient": {
+    "tag": "forge:honeycombs/platinum"
+  },
+  "results": [
+    {
+      "tag": "forge:ingots/platinum"
+    },
+    {
+      "tag": "forge:beeswax"
+    }
+  ],
+  "time": 200,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "beesourceful"
+    }
+  ]
+}

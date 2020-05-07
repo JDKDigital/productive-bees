@@ -11,6 +11,6 @@ public class NomadBeeEntity extends SolitaryBeeEntity {
     public NomadBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
 
-        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.getTag(ModTags.ARID_FLOWERS));
+        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.ARID_FLOWERS);
     }
 }

@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:skeletal_bee",
+    "results": [
+        {
+            "comb_produce": {
+                "tag": "forge:honeycombs/bone"
+            },
+            "item_produce": {
+                "item": "minecraft:bone"
+            },
+            "min": 1.0,
+            "max": 2.0
+        }
+    ]
+}
