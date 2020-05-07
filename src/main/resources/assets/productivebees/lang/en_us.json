@@ -284,6 +284,23 @@
 	"productivebees.ingredient.description.neon_cuckoo_bee": "This sneaky bee will lay it's eggs in nests belonging to the Blue Banded Bee.",
 	"productivebees.ingredient.description.nomad_bee": "This sneaky bee will lay it's eggs in nests belonging to the Ashy Mining Bee.",
 	"productivebees.ingredient.description.reed_bee": "Can be found nesting in reeds...",
-	"productivebees.ingredient.description.resin_bee": "Lives in wood using resin to protect its eggs.",
-	"productivebees.ingredient.description.sweaty_bee": "Has not achieved conscience yet."
+	"productivebees.ingredient.description.resin_bee": "Lives in trees using resin to protect its eggs.",
+	"productivebees.ingredient.description.sweaty_bee": "Has not achieved conscience yet.",
+
+	"productivebees.ingredient.description.aluminium_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.bronze_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.brass_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.copper_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.invar_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.lead_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.nickel_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.osmium_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.radioactive_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.silver_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.steel_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.tin_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.titanium_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.tungsten_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.zinc_bee": "[WIP] Textures are coming",
+	"productivebees.ingredient.description.amber_bee": "[WIP] Textures are coming"
 }
