@@ -5,11 +5,8 @@ import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
-import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientHelper;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.BeeEntity;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -19,13 +16,9 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -113,7 +106,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>, IProductiveBe
         public T read(ResourceLocation id, JsonObject json) {
             String beeName = JSONUtils.getString(json, "ingredient");
 
-            ProduciveBeesJeiPlugin.BeeIngredient beeIngredient = BeeIngredientHelper.getOrCreateList().get(beeName);
+            ProduciveBeesJeiPlugin.BeeIngredient beeIngredient = BeeIngredientFactory.getOrCreateList().get(beeName);
 
             JsonArray jsonArray = JSONUtils.getJsonArray(json, "results");
             List<ItemStack> outputs = new ArrayList<>();

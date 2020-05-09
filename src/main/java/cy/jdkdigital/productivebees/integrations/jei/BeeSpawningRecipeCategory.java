@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientHelper;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -22,7 +22,7 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeBreedingRec
     public BeeSpawningRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_bee_breeding.png");
         this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
-        this.icon = guiHelper.createDrawableIngredient(BeeIngredientHelper.getOrCreateList().get(ProductiveBees.MODID + ":iron_bee"));
+        this.icon = guiHelper.createDrawableIngredient(BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":iron_bee"));
     }
 
     @Nonnull

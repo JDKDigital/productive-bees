@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientHelper;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientRenderer;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
@@ -28,7 +29,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 
 @JeiPlugin
@@ -37,12 +37,12 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
     private static final ResourceLocation pluginId = new ResourceLocation(ProductiveBees.MODID, ProductiveBees.MODID);
     public static final ResourceLocation CATEGORY_ADVANCED_BEEHIVE_UID = new ResourceLocation(ProductiveBees.MODID, "advanced_beehive");
     public static final ResourceLocation CATEGORY_BEE_BREEDING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
-    public static final ResourceLocation CATEGORY_CENTRIFUGE_UID = new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
+    public static final ResourceLocation CATEGORY_CENTRIFUGE_UID = new ResourceLocation(ProductiveBees.MODID, "centrifuge");
 
     public static final IIngredientType<ProduciveBeesJeiPlugin.BeeIngredient> BEE_INGREDIENT = () -> ProduciveBeesJeiPlugin.BeeIngredient.class;
 
     public ProduciveBeesJeiPlugin() {
-        BeeIngredientHelper.createList();
+        BeeIngredientFactory.createList();
     }
 
     @Nonnull
@@ -68,14 +68,14 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
 
     @Override
     public void registerIngredients(IModIngredientRegistration registration) {
-        registration.register(BEE_INGREDIENT, new ArrayList<>(BeeIngredientHelper.getOrCreateList().values()), new BeeIngredientHelper(), new BeeIngredientRenderer());
+        registration.register(BEE_INGREDIENT, new ArrayList<>(BeeIngredientFactory.getOrCreateList().values()), new BeeIngredientHelper(), new BeeIngredientRenderer());
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addRecipes(BeeBreedingRecipeMaker.getRecipes(), CATEGORY_BEE_BREEDING_UID);
 
-        for(Map.Entry<String, BeeIngredient> entry: BeeIngredientHelper.getOrCreateList().entrySet()) {
+        for(Map.Entry<String, BeeIngredient> entry: BeeIngredientFactory.getOrCreateList().entrySet()) {
             registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (entry.getKey().replace("productivebees:", "")));
         }
 

@@ -1,8 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
-import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientHelper;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.util.ResourceLocation;
@@ -18,13 +17,13 @@ public class BeeBreedingRecipeMaker {
         List<Object> recipes = new ArrayList<>();
 
         for(Map.Entry<String, Map<String, List<String>>> entry: BeeHelper.breedingMap.entrySet()) {
-            ProduciveBeesJeiPlugin.BeeIngredient mainInput = BeeIngredientHelper.getOrCreateList().get(ProductiveBees.MODID + ":" + entry.getKey() + "_bee");
+            ProduciveBeesJeiPlugin.BeeIngredient mainInput = BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":" + entry.getKey() + "_bee");
             if (mainInput != null) {
                 ResourceLocation regName = mainInput.getBeeType().getRegistryName();
 
                 for (Map.Entry<String, List<String>> beePartner : entry.getValue().entrySet()) {
-                    ProduciveBeesJeiPlugin.BeeIngredient secondInput = BeeIngredientHelper.getOrCreateList().get(ProductiveBees.MODID + ":" + beePartner.getKey() + "_bee");
-                    ProduciveBeesJeiPlugin.BeeIngredient output = BeeIngredientHelper.getOrCreateList().get(ProductiveBees.MODID + ":" + beePartner.getValue().get(0) + "_bee");
+                    ProduciveBeesJeiPlugin.BeeIngredient secondInput = BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":" + beePartner.getKey() + "_bee");
+                    ProduciveBeesJeiPlugin.BeeIngredient output = BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":" + beePartner.getValue().get(0) + "_bee");
                     if (secondInput != null && output != null) {
                         BeeBreedingRecipe recipe = new BeeBreedingRecipe(regName, Arrays.asList(mainInput, secondInput), output);
                         recipes.add(recipe);
