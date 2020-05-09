@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.container;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
+import cy.jdkdigital.productivebees.tileentity.ItemHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
@@ -49,11 +50,11 @@ public class AdvancedBeehiveContainer extends AbstractContainer {
 
 		// Bottle slot
 		this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null, true).ifPresent(bottleHandler -> {
-			addSlot(new SlotItemHandler(bottleHandler, AdvancedBeehiveTileEntity.BOTTLE_SLOT, 86, 17));
+			addSlot(new SlotItemHandler(bottleHandler, ItemHandlerHelper.BOTTLE_SLOT, 86, 17));
 		});
 		// Inventory slots
 		this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-			addSlotBox(inv, AdvancedBeehiveTileEntity.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
+			addSlotBox(inv, ItemHandlerHelper.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
 		});
 
 		layoutPlayerInventorySlots(inventory, 0, 8, 84);

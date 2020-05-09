@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientHelper;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientRenderer;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
+import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -36,6 +37,7 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
     private static final ResourceLocation pluginId = new ResourceLocation(ProductiveBees.MODID, ProductiveBees.MODID);
     public static final ResourceLocation CATEGORY_ADVANCED_BEEHIVE_UID = new ResourceLocation(ProductiveBees.MODID, "advanced_beehive");
     public static final ResourceLocation CATEGORY_BEE_BREEDING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
+    public static final ResourceLocation CATEGORY_CENTRIFUGE_UID = new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
 
     public static final IIngredientType<ProduciveBeesJeiPlugin.BeeIngredient> BEE_INGREDIENT = () -> ProduciveBeesJeiPlugin.BeeIngredient.class;
 
@@ -61,6 +63,7 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
 
         registration.addRecipeCategories(new AdvancedBeehiveRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeBreedingRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new CentrifugeRecipeCategory(guiHelper));
     }
 
     @Override
@@ -77,8 +80,12 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
         }
 
         RecipeManager recipeManager = Minecraft.getInstance().world.getRecipeManager();
-        Map<ResourceLocation, IRecipe<IInventory>> recipesMap = recipeManager.getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
-        registration.addRecipes(recipesMap.values(), CATEGORY_ADVANCED_BEEHIVE_UID);
+
+        Map<ResourceLocation, IRecipe<IInventory>> advancedBeehiveRecipesMap = recipeManager.getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
+        registration.addRecipes(advancedBeehiveRecipesMap.values(), CATEGORY_ADVANCED_BEEHIVE_UID);
+
+        Map<ResourceLocation, IRecipe<IInventory>> centrifugerecipesMap = recipeManager.getRecipes(CentrifugeRecipe.CENTRIFUGE);
+        registration.addRecipes(centrifugerecipesMap.values(), CATEGORY_CENTRIFUGE_UID);
     }
 
     public static class BeeIngredient {

@@ -1,7 +1,5 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
-import com.google.common.collect.Maps;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.entity.bee.nesting.GlowingBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.nesting.MagmaticBeeEntity;
@@ -19,7 +17,10 @@ import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.ItemStack;
@@ -39,7 +40,6 @@ import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
@@ -52,7 +52,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 	public Tag<Block> nestBlockTag;
 
 	protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> {
-		ProductiveBees.LOGGER.info("checking beehiveInterests: " + poiType);
 		return poiType == PointOfInterestType.BEEHIVE ||
 				poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
 				poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
@@ -277,7 +276,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity {
 
 			Tag<Block> nestTag = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE);
 			if (nestTag == null || nestTag.getAllElements().size() == 0) {
-				ProductiveBees.LOGGER.info("no nest tag: " + nestTag.getId());
 				return false;
 			}
 

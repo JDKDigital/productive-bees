@@ -10,67 +10,102 @@ import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class BeeHelper {
-    public static Map<String, Map<String, String>> breedingMap = new HashMap<String, Map<String, String>>() {{
-        put("glowing", new HashMap<String, String>() {{
-            put("chocolate_mining", "redstone");
+    public static Map<String, Map<String, List<String>>> breedingMap = new HashMap<String, Map<String, List<String>>>() {{
+        put("ashy_mining", new HashMap<String, List<String>>() {{
+            put("quartz", Arrays.asList("iron"));
         }});
-        put("chocolate_mining", new HashMap<String, String>() {{
-            put("glowing", "redstone");
+        put("blazing", new HashMap<String, List<String>>() {{
+            put("leafcutter", Arrays.asList("coal"));
         }});
-        put("ashy_mining", new HashMap<String, String>() {{
-            put("quartz", "iron");
+        put("blue_banded", new HashMap<String, List<String>>() {{
+            put("redstone", Arrays.asList("lapis"));
         }});
-        put("mason", new HashMap<String, String>() {{
-            put("leafcutter", "spidey");
-            put("quartz", "gold");
+        put("chocolate_mining", new HashMap<String, List<String>>() {{
+            put("glowing", Arrays.asList("redstone"));
         }});
-        put("leafcutter", new HashMap<String, String>() {{
-            put("mason", "spidey");
+        put("coal", new HashMap<String, List<String>>() {{
+            put("iron", Arrays.asList("steel"));
+            put("ender", Arrays.asList("tungsten"));
         }});
-        put("quartz", new HashMap<String, String>() {{
-            put("mason", "gold");
-            put("ashy_mining", "iron");
+        put("copper", new HashMap<String, List<String>>() {{
+            put("zinc", Arrays.asList("brass"));
+            put("tin", Arrays.asList("bronze"));
         }});
-        put("magmatic", new HashMap<String, String>() {{
-            put("nomad", "blazing");
+        put("creeper", new HashMap<String, List<String>>() {{
+            put("iron", Arrays.asList("radioactive"));
         }});
-        put("nomad", new HashMap<String, String>() {{
-            put("magmatic", "blazing");
+        put("diamond", new HashMap<String, List<String>>() {{
+            put("slimy", Arrays.asList("emerald"));
         }});
-        put("ender", new HashMap<String, String>() {{
-            put("lapis", "diamond");
+        put("ender", new HashMap<String, List<String>>() {{
+            put("lapis", Arrays.asList("diamond"));
+            put("coal", Arrays.asList("tungsten"));
+            put("gold", Arrays.asList("platinum"));
         }});
-        put("lapis", new HashMap<String, String>() {{
-            put("ender", "diamond");
+        put("glowing", new HashMap<String, List<String>>() {{
+            put("chocolate_mining", Arrays.asList("redstone"));
         }});
-        put("diamond", new HashMap<String, String>() {{
-            put("slimy", "emerald");
+        put("gold", new HashMap<String, List<String>>() {{
+            put("ender", Arrays.asList("platinum"));
         }});
-        put("slimy", new HashMap<String, String>() {{
-            put("diamond", "diamond");
+        put("iron", new HashMap<String, List<String>>() {{
+            put("reed", Arrays.asList("copper"));
+            put("coal", Arrays.asList("steel"));
+            put("nickel", Arrays.asList("invar"));
+            put("creeper", Arrays.asList("radioactive"));
         }});
-        put("redstone", new HashMap<String, String>() {{
-            put("blue_banded", "lapis");
+        put("lapis", new HashMap<String, List<String>>() {{
+            put("ender", Arrays.asList("diamond"));
         }});
-        put("blue_banded", new HashMap<String, String>() {{
-            put("redstone", "lapis");
+        put("leafcutter", new HashMap<String, List<String>>() {{
+            put("mason", Arrays.asList("spidey"));
+            put("blazing", Arrays.asList("coal"));
+        }});
+        put("magmatic", new HashMap<String, List<String>>() {{
+            put("nomad", Arrays.asList("blazing"));
+        }});
+        put("mason", new HashMap<String, List<String>>() {{
+            put("leafcutter", Arrays.asList("spidey"));
+            put("quartz", Arrays.asList("gold"));
+        }});
+        put("nickel", new HashMap<String, List<String>>() {{
+            put("iron", Arrays.asList("invar"));
+        }});
+        put("nomad", new HashMap<String, List<String>>() {{
+            put("magmatic", Arrays.asList("blazing"));
+        }});
+        put("slimy", new HashMap<String, List<String>>() {{
+            put("diamond", Arrays.asList("diamond"));
+        }});
+        put("tin", new HashMap<String, List<String>>() {{
+            put("copper", Arrays.asList("bronze"));
+        }});
+        put("quartz", new HashMap<String, List<String>>() {{
+            put("mason", Arrays.asList("gold"));
+            put("ashy_mining", Arrays.asList("iron"));
+        }});
+        put("redstone", new HashMap<String, List<String>>() {{
+            put("blue_banded", Arrays.asList("lapis"));
+        }});
+        put("reed", new HashMap<String, List<String>>() {{
+            put("iron", Arrays.asList("copper"));
+        }});
+        put("zinc", new HashMap<String, List<String>>() {{
+            put("copper", Arrays.asList("brass"));
         }});
     }};
 
@@ -155,7 +190,7 @@ public class BeeHelper {
         }
 
         // Get breeding rules
-        Map<String, String> res = breedingMap.get(beeEntity.getBeeType());
+        Map<String, List<String>> res = breedingMap.get(beeEntity.getBeeType());
 
         // If the two bees are the same type, or no breeding rules exist, create a new of that type
         if (res == null || beeEntity.getBeeType().equals(((ProductiveBeeEntity) targetEntity).getBeeType())) {
@@ -164,7 +199,7 @@ public class BeeHelper {
 
         ProductiveBees.LOGGER.info(res);
 
-        String babyType = res.get(((ProductiveBeeEntity)targetEntity).getBeeType());
+        String babyType = res.get(((ProductiveBeeEntity)targetEntity).getBeeType()).get(0);
 
         // If no specific rules for the target bee exist, create a child of same type
         if (babyType == null) {
@@ -172,45 +207,5 @@ public class BeeHelper {
         }
 
         return new ResourceLocation(ProductiveBees.MODID, babyType + "_bee");
-    }
-
-    public static List<ItemStack> convertProduceToComb(List<ItemStack> inputs) {
-        List<ItemStack> outputs = new ArrayList<>();
-        for (ItemStack stack: inputs) {
-            ProductiveBees.LOGGER.info("convert to comb: " + stack.getItem().getRegistryName());
-
-            switch (stack.getItem().getRegistryName().toString()) {
-                case "minecraft:emerald":
-                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:emerald_honeycomb"))));
-                    break;
-                case "minecraft:diamond":
-                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:diamond_honeycomb"))));
-                    break;
-                case "minecraft:redstone":
-                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:redstone_honeycomb"))));
-                    break;
-                case "minecraft:lapis_lazuli":
-                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:lapis_honeycomb"))));
-                    break;
-                case "minecraft:quartz":
-                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:quartz_honeycomb"))));
-                    break;
-                case "minecraft:ender_pearl":
-                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:ender_honeycomb"))));
-                    break;
-                case "minecraft:iron_ingot":
-                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:iron_honeycomb"))));
-                    break;
-                case "minecraft:gold_ingot":
-                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("beesourceful:gold_honeycomb"))));
-                    break;
-                case "forge:ingots/copper":
-                    outputs.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft:gold_block"))));
-                    break;
-                default:
-                    outputs.add(new ItemStack(stack.getItem(), stack.getCount()));
-            }
-        }
-        return outputs;
     }
 }

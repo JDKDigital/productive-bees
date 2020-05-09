@@ -1,16 +1,11 @@
 package cy.jdkdigital.productivebees;
 
-import com.electronwill.nightconfig.core.Config;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
-import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
-import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
-import it.unimi.dsi.fastutil.Hash;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,6 +33,7 @@ public class ProductiveBeesConfig {
     public static class General {
         public final ForgeConfigSpec.BooleanValue enableItemConverting;
         public final ForgeConfigSpec.IntValue itemTickRate;
+        public final ForgeConfigSpec.IntValue centrifugeProcessingTime;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -49,6 +45,10 @@ public class ProductiveBeesConfig {
             itemTickRate = builder
                     .comment("How often should a bee attempt to generate items while in the hive. Default 500.")
                     .defineInRange("itemTickRate", 500, 20, Integer.MAX_VALUE);
+
+            centrifugeProcessingTime = builder
+                    .comment("How many ticks it takes for process a recipe in the centrifuge. Default 300.")
+                    .defineInRange("centrifugeProcessingTime", 300, 20, Integer.MAX_VALUE);
 
             builder.pop();
         }

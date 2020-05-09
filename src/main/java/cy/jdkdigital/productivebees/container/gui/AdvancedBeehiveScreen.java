@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import net.minecraft.block.BeehiveBlock;
@@ -12,17 +11,12 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.mclanguageprovider.MinecraftModLanguageProvider;
-import net.minecraftforge.fml.mclanguageprovider.MinecraftModLanguageProvider.MinecraftModContainer;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -103,6 +97,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 
 		// Draw honey level
 		int l = 24 / 5 * honeyLevel;
+		ProductiveBees.LOGGER.info("progress: " + l);
 		this.blit(this.guiLeft + 82, this.guiTop + 35, 176, 14, l + 1, 16);
 	}
 

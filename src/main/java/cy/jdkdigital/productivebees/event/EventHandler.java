@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.event;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
+import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.BeeEntity;
@@ -50,5 +51,6 @@ public class EventHandler
     @SubscribeEvent
     public static void recipe(final RegistryEvent.Register<IRecipeSerializer<?>> event) {
         event.getRegistry().register(new AdvancedBeehiveRecipe.Serializer<>(AdvancedBeehiveRecipe::new).setRegistryName(new ResourceLocation(ProductiveBees.MODID, "advanced_beehive")));
+        event.getRegistry().register(new CentrifugeRecipe.Serializer<>(CentrifugeRecipe::new).setRegistryName(new ResourceLocation(ProductiveBees.MODID, "centrifuge")));
     }
 }

@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:platinum_bee",
+    "results": [
+        {
+            "comb_produce": {
+                "tag": "forge:honeycombs/platinum"
+            },
+            "item_produce": {
+                "tag": "forge:ingots/platinum"
+            },
+            "min": 1.0,
+            "max": 1.0
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/platinum"
+            }
+        }
+    ]
+}

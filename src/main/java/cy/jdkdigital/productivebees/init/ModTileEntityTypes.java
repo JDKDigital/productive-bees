@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
+import cy.jdkdigital.productivebees.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.tileentity.DragonEggHiveTileEntity;
 import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -74,5 +75,9 @@ public class ModTileEntityTypes {
 			ModBlocks.SPRUCE_WOOD_NEST.get()
 		).build(null)
 	);
-	
+	public static final RegistryObject<TileEntityType<CentrifugeTileEntity>> CENTRIFUGE = TILE_ENTITY_TYPES.register("centrifuge", () ->
+		TileEntityType.Builder.create(CentrifugeTileEntity::new,
+			ModBlocks.CENTRIFUGE.get()
+		).build(null)
+	);
 }

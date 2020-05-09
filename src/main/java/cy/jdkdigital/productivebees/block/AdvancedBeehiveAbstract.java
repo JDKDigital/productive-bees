@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
@@ -204,6 +205,10 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock {
 		}
 
 		return super.updatePostPlacement(state, direction, state1, world, pos, fireBlockPos);
+	}
+
+	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+		return false;
 	}
 
 	static {

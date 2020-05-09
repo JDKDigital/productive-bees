@@ -2,25 +2,21 @@ package cy.jdkdigital.productivebees.init;
 
 import com.google.common.base.Supplier;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.block.AdvancedBeehive;
-import cy.jdkdigital.productivebees.block.BambooHive;
-import cy.jdkdigital.productivebees.block.DragonEggHive;
-import cy.jdkdigital.productivebees.block.ExpansionBox;
+import cy.jdkdigital.productivebees.block.*;
 import cy.jdkdigital.productivebees.block.nest.*;
 import cy.jdkdigital.productivebees.fluid.HoneyFluid;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -32,6 +28,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 public final class ModBlocks {
 
 	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, ProductiveBees.MODID);
+
+    public static final RegistryObject<Block> CENTRIFUGE = createBlock("centrifuge", () -> new Centrifuge(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F).notSolid()), ModItemGroups.PRODUCTIVE_BEES);
 
     public static final RegistryObject<Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest(Block.Properties.from(Blocks.OAK_LOG)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest(Block.Properties.from(Blocks.OAK_LOG)), ModItemGroups.PRODUCTIVE_BEES);

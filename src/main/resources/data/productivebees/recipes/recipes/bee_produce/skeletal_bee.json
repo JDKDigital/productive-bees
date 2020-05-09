@@ -7,7 +7,7 @@
                 "tag": "forge:honeycombs/bone"
             },
             "item_produce": {
-                "item": "minecraft:bone"
+                "item": "minecraft:bone_meal"
             },
             "min": 1.0,
             "max": 2.0

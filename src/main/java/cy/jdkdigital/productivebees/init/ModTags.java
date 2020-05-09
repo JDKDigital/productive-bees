@@ -1,9 +1,10 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 
@@ -25,6 +26,8 @@ public class ModTags {
     public static final Tag<Block> END_FLOWERS = getTag("end_flowers");
     public static final Tag<Block> DRACONIC_FLOWERS = getTag("draconic_flowers");
     public static final Tag<Block> WITHER_FLOWERS = getTag("wither_flowers");
+
+    public static final Tag<Item> HONEYCOMBS = ItemTags.getCollection().getOrCreate(new ResourceLocation("forge", "honeycombs"));
 
     private static Tag<Block> getTag(String resourceLocation) {
         return new BlockTags.Wrapper(new ResourceLocation(ProductiveBees.MODID, resourceLocation));

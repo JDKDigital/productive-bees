@@ -1,8 +1,5 @@
 package cy.jdkdigital.productivebees;
 
-import com.electronwill.nightconfig.core.Config;
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
