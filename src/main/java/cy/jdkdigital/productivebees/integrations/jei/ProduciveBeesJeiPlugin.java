@@ -50,7 +50,8 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ADVANCED_OAK_BEEHIVE.get()), new ResourceLocation(ProductiveBees.MODID,"advanced_beehive"));
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ADVANCED_OAK_BEEHIVE.get()), CATEGORY_ADVANCED_BEEHIVE_UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.CENTRIFUGE.get()), CATEGORY_CENTRIFUGE_UID);
     }
 
     @Override
@@ -81,7 +82,7 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
         Map<ResourceLocation, IRecipe<IInventory>> advancedBeehiveRecipesMap = recipeManager.getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
         registration.addRecipes(advancedBeehiveRecipesMap.values(), CATEGORY_ADVANCED_BEEHIVE_UID);
 
-        Map<ResourceLocation, IRecipe<IInventory>> centrifugerecipesMap = recipeManager.getRecipes(CentrifugeRecipe.CENTRIFUGE);
-        registration.addRecipes(centrifugerecipesMap.values(), CATEGORY_CENTRIFUGE_UID);
+        Map<ResourceLocation, IRecipe<IInventory>> centrifugeRecipesMap = recipeManager.getRecipes(CentrifugeRecipe.CENTRIFUGE);
+        registration.addRecipes(centrifugeRecipesMap.values(), CATEGORY_CENTRIFUGE_UID);
     }
 }

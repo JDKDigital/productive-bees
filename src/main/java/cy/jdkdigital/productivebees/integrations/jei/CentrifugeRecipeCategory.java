@@ -77,17 +77,19 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull CentrifugeRecipe recipe, @Nonnull IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-        List<ItemStack> outputs = ingredients.getOutputs(VanillaTypes.ITEM).get(0);
+        List<List<ItemStack>> outputs = ingredients.getOutputs(VanillaTypes.ITEM);
 
-        itemStacks.init(0, true, 5, 27);
-        itemStacks.init(1, true, 37, 9);
+        itemStacks.init(0, true, 4, 26);
+        itemStacks.init(1, true, 36, 8);
 
         int startX = 68;
         int startY = 8;
-        IntStream.range(2, outputs.size()+2).forEach((i) -> {
-            if (i > 11) return;
-            itemStacks.init(i, false, startX + ((i-1) * 18), startY + ((int) Math.floor((i-1) / 3) * 18));
+        int offset = ingredients.getInputs(VanillaTypes.ITEM).size();
+        IntStream.range(offset, outputs.size()+offset).forEach((i) -> {
+            if (i > 9 + offset) return;
+            itemStacks.init(i, false, startX + ((i-offset) * 18), startY + ((int) Math.floor(((float)i-offset) / 3.0F) * 18));
         });
+
         itemStacks.set(ingredients);
     }
 }

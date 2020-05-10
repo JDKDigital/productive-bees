@@ -97,7 +97,6 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 
 		// Draw honey level
 		int l = 24 / 5 * honeyLevel;
-		ProductiveBees.LOGGER.info("progress: " + l);
 		this.blit(this.guiLeft + 82, this.guiTop + 35, 176, 14, l + 1, 16);
 	}
 

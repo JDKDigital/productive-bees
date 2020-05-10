@@ -6,7 +6,7 @@
         "bottom": "productivebees:block/centrifuge/bottom",
         "side": "productivebees:block/centrifuge/side",
         "inside": "productivebees:block/centrifuge/inner",
-        "comb": "minecraft:item/honeycomb"
+        "comb": "productivebees:item/honeycombs/iron"
     },
     "elements": [
         {

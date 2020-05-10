@@ -121,7 +121,6 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>, IProductiveBe
                 } else {
                     produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, ingredientKey));
                 }
-                ProductiveBees.LOGGER.info("Produce deserialize: " + ingredientKey + " " + produce);
 
                 ItemStack[] stacks = produce.getMatchingStacks();
 
@@ -139,7 +138,6 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>, IProductiveBe
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
-            ProductiveBees.LOGGER.info("reading bee produce recipe");
             try {
                 BeeIngredient ingredient = BeeIngredient.read(buffer);
                 Map<ItemStack, Pair<Integer, Integer>> outputs = new HashMap<>();
