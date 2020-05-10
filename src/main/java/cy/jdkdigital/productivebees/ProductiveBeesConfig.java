@@ -34,6 +34,7 @@ public class ProductiveBeesConfig {
         public final ForgeConfigSpec.BooleanValue enableItemConverting;
         public final ForgeConfigSpec.IntValue itemTickRate;
         public final ForgeConfigSpec.IntValue centrifugeProcessingTime;
+        public final ForgeConfigSpec.BooleanValue enableCombProduce;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -49,6 +50,10 @@ public class ProductiveBeesConfig {
             centrifugeProcessingTime = builder
                     .comment("How many ticks it takes for process a recipe in the centrifuge. Default 300.")
                     .defineInRange("centrifugeProcessingTime", 300, 20, Integer.MAX_VALUE);
+
+            enableCombProduce = builder
+                    .comment("Bees will create combs instead of raw resource. Combs will need to be processed in a centrifuge. Default true.")
+                    .define("enableCombProduce", true);
 
             builder.pop();
         }

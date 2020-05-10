@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
@@ -112,7 +113,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>, IProductiveBe
 
                 Ingredient produce;
                 String ingredientKey = "item_produce";
-                if (ModList.get().isLoaded("beesourceful")) {
+                if (ProductiveBeesConfig.GENERAL.enableCombProduce.get()) {
                     ingredientKey = "comb_produce";
                 }
                 if (JSONUtils.isJsonArray(json, ingredientKey)) {

@@ -35,7 +35,6 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer> {
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-		int progress = this.container.tileEntity.recipeProgress / ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() * 16;
 
 		assert minecraft != null;
 		minecraft.getTextureManager().bindTexture(GUI_TEXTURE);
@@ -43,7 +42,8 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer> {
 		// Draw main screen
 		this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
-		ProductiveBees.LOGGER.info("progress: " + progress + " progress:" + this.container.tileEntity.recipeProgress);
+		int progress = Math.round((float) this.container.tileEntity.recipeProgress / (float)ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() * 24);
+		ProductiveBees.LOGGER.info("progress: " + progress + " progress:" + this.container.tileEntity.recipeProgress + " total: " + ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get());
 		// Draw progress
 		this.blit(this.guiLeft + 72, this.guiTop + 35, 176, 14, progress + 1, 16);
 	}
