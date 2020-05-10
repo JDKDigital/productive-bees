@@ -67,20 +67,17 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
     public void setIngredients(@Nonnull CentrifugeRecipe recipe, @Nonnull IIngredients ingredients) {
         ingredients.setInputIngredients(Lists.newArrayList(recipe.ingredient, Ingredient.fromItems(Items.GLASS_BOTTLE)));
 
-        List<ItemStack> outputs = new ArrayList<>();
-        outputs.addAll(recipe.output);
-        outputs.add(new ItemStack(Items.HONEY_BOTTLE));
+        List<ItemStack> outputList = new ArrayList<>();
+        recipe.output.forEach((key, value) -> outputList.add(key));
+        outputList.add(new ItemStack(Items.HONEY_BOTTLE));
 
-        ingredients.setOutputs(VanillaTypes.ITEM, outputs);
+        ingredients.setOutputs(VanillaTypes.ITEM, outputList);
     }
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull CentrifugeRecipe recipe, @Nonnull IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
         List<ItemStack> outputs = ingredients.getOutputs(VanillaTypes.ITEM).get(0);
-
-        ProductiveBees.LOGGER.info("ingredient output: " + ingredients.getOutputs(VanillaTypes.ITEM));
-        ProductiveBees.LOGGER.info("ingredient outputs: " + outputs);
 
         itemStacks.init(0, true, 5, 27);
         itemStacks.init(1, true, 37, 9);

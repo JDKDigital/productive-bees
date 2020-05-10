@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
-import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -20,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BeeIngredientRenderer implements IIngredientRenderer<ProduciveBeesJeiPlugin.BeeIngredient> {
+public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient> {
 
     private final Map<Integer, Map<String, Integer>> renderSettings = new HashMap<Integer, Map<String, Integer>>() {{
         put(0, new HashMap<String, Integer>() {{
@@ -40,7 +39,7 @@ public class BeeIngredientRenderer implements IIngredientRenderer<ProduciveBeesJ
     }};
 
     @Override
-    public void render(int xPosition, int yPosition, @Nullable ProduciveBeesJeiPlugin.BeeIngredient beeIngredient) {
+    public void render(int xPosition, int yPosition, @Nullable BeeIngredient beeIngredient) {
         if (beeIngredient == null) {
             return;
         }
@@ -72,7 +71,7 @@ public class BeeIngredientRenderer implements IIngredientRenderer<ProduciveBeesJ
 
     @Nonnull
     @Override
-    public List<String> getTooltip(ProduciveBeesJeiPlugin.BeeIngredient beeIngredient, ITooltipFlag iTooltipFlag) {
+    public List<String> getTooltip(BeeIngredient beeIngredient, ITooltipFlag iTooltipFlag) {
         List<String> list = new ArrayList<>();
         list.add(beeIngredient.getBeeType().getName().getFormattedText());
         list.add(TextFormatting.DARK_GRAY + "" + beeIngredient.getBeeType().getRegistryName());

@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -19,6 +20,7 @@ import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -66,13 +68,17 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     @Override
     public void setIngredients(@Nonnull AdvancedBeehiveRecipe recipe, @Nonnull IIngredients ingredients) {
         ingredients.setInput(ProduciveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient);
-        ingredients.setOutputs(VanillaTypes.ITEM, recipe.outputs);
+
+        List<ItemStack> outputList = new ArrayList<>();
+        recipe.outputs.forEach((key, value) -> outputList.add(key));
+
+        ingredients.setOutputs(VanillaTypes.ITEM, outputList);
     }
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull AdvancedBeehiveRecipe recipe, @Nonnull IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-        IGuiIngredientGroup<ProduciveBeesJeiPlugin.BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProduciveBeesJeiPlugin.BEE_INGREDIENT);
+        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProduciveBeesJeiPlugin.BEE_INGREDIENT);
         List<ItemStack> outputs = ingredients.getOutputs(VanillaTypes.ITEM).get(0);
 
         ingredientStacks.init(0, true, 8, 27);
@@ -93,8 +99,6 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         DecimalFormat decimalFormat = new DecimalFormat("##%");
         String productionChanceString = decimalFormat.format(recipe.chance);
 
-        for(ItemStack itemStack: recipe.outputs) {
-            fontRenderer.drawString(productionChanceString, 38, 46, 0xff808080);
-        }
+        fontRenderer.drawString(productionChanceString, 38, 46, 0xff808080);
     }
 }

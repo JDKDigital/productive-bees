@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/quartz"
+    },
+    "output": [
+        {
+            "item": "minecraft:quartz",
+            "min": 1,
+            "max": 3
+        },
+        {
+            "tag": "forge:beeswax"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:honeycombs/quartz"
+            }
+        }
+    ]
+}

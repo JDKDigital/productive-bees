@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/lapis"
+    },
+    "output": [
+        {
+            "item": "minecraft:lapis_lazuli",
+            "min": 3,
+            "max": 7
+        },
+        {
+            "tag": "forge:beeswax"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:honeycombs/lapis"
+            }
+        }
+    ]
+}

@@ -18,6 +18,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -29,9 +30,12 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CentrifugeTileEntity extends TileEntity implements INamedContainerProvider, ITickableTileEntity {
+    private static final Random rand = new Random();
 
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
@@ -95,19 +99,22 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
     private boolean canProcessRecipe(@Nullable CentrifugeRecipe recipe, IItemHandlerModifiable outputHandler) {
         if (recipe != null) {
             // Check if output slots has space for recipe output
-            List<ItemStack> outputs = Lists.newArrayList();
-            outputs.addAll(recipe.output);
-            outputs.add(new ItemStack(Items.HONEY_BOTTLE));
-            return ((ItemHandlerHelper.ItemHandler) outputHandler).canFitStacks(outputs);
+            List<ItemStack> outputList = Lists.newArrayList();
+            recipe.output.forEach((key, value) -> outputList.add(key));
+            outputList.add(new ItemStack(Items.HONEY_BOTTLE));
+            return ((ItemHandlerHelper.ItemHandler) outputHandler).canFitStacks(outputList);
         }
         return false;
     }
 
     private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler, IItemHandlerModifiable inputHandler) {
         if (this.canProcessRecipe(recipe, invHandler)) {
-            for (ItemStack stack : recipe.output) {
-                ((ItemHandlerHelper.ItemHandler) invHandler).addOutput(stack);
-            }
+            recipe.output.forEach((itemStack, bounds) -> {
+                int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.getLeft()), MathHelper.floor(bounds.getRight()));
+                itemStack.setCount(count);
+                ((ItemHandlerHelper.ItemHandler) invHandler).addOutput(itemStack);
+            });
+
             ((ItemHandlerHelper.ItemHandler) invHandler).addOutput(new ItemStack(Items.HONEY_BOTTLE));
 
             inputHandler.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT).shrink(1);

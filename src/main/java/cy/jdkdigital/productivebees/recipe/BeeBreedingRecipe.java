@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.recipe;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -22,10 +22,10 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>, IProductiveBeesRe
     public static final IRecipeType<BeeBreedingRecipe> BEE_BREEDING = IRecipeType.register(ProductiveBees.MODID + ":bee_breeding");
 
     public final ResourceLocation id;
-    public final List<ProduciveBeesJeiPlugin.BeeIngredient> ingredients;
-    public final ProduciveBeesJeiPlugin.BeeIngredient output;
+    public final List<BeeIngredient> ingredients;
+    public final BeeIngredient output;
 
-    public BeeBreedingRecipe(ResourceLocation id, List<ProduciveBeesJeiPlugin.BeeIngredient> ingredients, ProduciveBeesJeiPlugin.BeeIngredient output) {
+    public BeeBreedingRecipe(ResourceLocation id, List<BeeIngredient> ingredients, BeeIngredient output) {
         this.id = id;
         this.ingredients = ingredients;
         this.output = output;
@@ -81,29 +81,29 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>, IProductiveBeesRe
 
         @Override
         public T read(ResourceLocation id, JsonObject json) {
-            List<ProduciveBeesJeiPlugin.BeeIngredient> ingredients = new ArrayList<>();
-            ProduciveBeesJeiPlugin.BeeIngredient output = null;
+            List<BeeIngredient> ingredients = new ArrayList<>();
+            BeeIngredient output = null;
 
             return this.factory.create(id, ingredients, output);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
-            List<ProduciveBeesJeiPlugin.BeeIngredient> ingredients = new ArrayList<>();
-            ingredients.add(ProduciveBeesJeiPlugin.BeeIngredient.read(buffer));
-            ingredients.add(ProduciveBeesJeiPlugin.BeeIngredient.read(buffer));
-            ProduciveBeesJeiPlugin.BeeIngredient output = ProduciveBeesJeiPlugin.BeeIngredient.read(buffer);
+            List<BeeIngredient> ingredients = new ArrayList<>();
+            ingredients.add(BeeIngredient.read(buffer));
+            ingredients.add(BeeIngredient.read(buffer));
+            BeeIngredient output = BeeIngredient.read(buffer);
             return this.factory.create(id, ingredients, output);
         }
 
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
-            for(ProduciveBeesJeiPlugin.BeeIngredient ingredient: recipe.ingredients) {
+            for(BeeIngredient ingredient: recipe.ingredients) {
                 ingredient.write(buffer);
             }
             recipe.output.write(buffer);
         }
 
         public interface IRecipeFactory<T extends BeeBreedingRecipe> {
-            T create(ResourceLocation id, List<ProduciveBeesJeiPlugin.BeeIngredient> input, ProduciveBeesJeiPlugin.BeeIngredient output);
+            T create(ResourceLocation id, List<BeeIngredient> input, BeeIngredient output);
         }
     }
 }

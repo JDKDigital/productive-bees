@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -63,7 +64,7 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
 
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, BeeBreedingRecipe recipe, IIngredients ingredients) {
-        IGuiIngredientGroup<ProduciveBeesJeiPlugin.BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProduciveBeesJeiPlugin.BEE_INGREDIENT);
+        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProduciveBeesJeiPlugin.BEE_INGREDIENT);
 
         ingredientStacks.init(0, true, 8, 27);
         ingredientStacks.init(1, true, 42, 27);

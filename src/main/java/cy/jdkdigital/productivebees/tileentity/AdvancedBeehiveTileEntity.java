@@ -27,6 +27,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -41,8 +42,10 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider {
+    private static final Random rand = new Random();
 
     private int tickCounter = 0;
     public List<String> inhabitantList = new ArrayList<>();
@@ -176,7 +179,13 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         for(Map.Entry<ResourceLocation, IRecipe<IInventory>> entry: world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE).entrySet()) {
             AdvancedBeehiveRecipe recipe = (AdvancedBeehiveRecipe) entry.getValue();
             if (beeId.equals(recipe.ingredient.getBeeType().getRegistryName().toString())) {
-                return recipe.outputs;
+                List<ItemStack> outputList = new ArrayList<>();
+                recipe.outputs.forEach((itemStack, bounds) -> {
+                    int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.getLeft()), MathHelper.floor(bounds.getRight()));
+                    itemStack.setCount(count);
+                    outputList.add(itemStack);
+                });
+                return outputList;
             }
         }
 

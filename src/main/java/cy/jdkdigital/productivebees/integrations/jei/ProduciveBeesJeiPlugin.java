@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientHelper;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientRenderer;
@@ -17,15 +18,11 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -39,7 +36,7 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
     public static final ResourceLocation CATEGORY_BEE_BREEDING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
     public static final ResourceLocation CATEGORY_CENTRIFUGE_UID = new ResourceLocation(ProductiveBees.MODID, "centrifuge");
 
-    public static final IIngredientType<ProduciveBeesJeiPlugin.BeeIngredient> BEE_INGREDIENT = () -> ProduciveBeesJeiPlugin.BeeIngredient.class;
+    public static final IIngredientType<BeeIngredient> BEE_INGREDIENT = () -> BeeIngredient.class;
 
     public ProduciveBeesJeiPlugin() {
         BeeIngredientFactory.createList();
@@ -86,34 +83,5 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
 
         Map<ResourceLocation, IRecipe<IInventory>> centrifugerecipesMap = recipeManager.getRecipes(CentrifugeRecipe.CENTRIFUGE);
         registration.addRecipes(centrifugerecipesMap.values(), CATEGORY_CENTRIFUGE_UID);
-    }
-
-    public static class BeeIngredient {
-        private EntityType<BeeEntity> bee;
-        private int renderType = 0;
-
-        public BeeIngredient(EntityType<BeeEntity> bee, int renderType) {
-            this.bee = bee;
-            this.renderType = renderType;
-        }
-
-        public EntityType<BeeEntity> getBeeType() {
-            return bee;
-        }
-
-        public int getRenderType() {
-            return renderType;
-        }
-
-        public static ProduciveBeesJeiPlugin.BeeIngredient read(PacketBuffer buffer) {
-            String beeName = buffer.readString();
-
-            return new BeeIngredient((EntityType<BeeEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readInt());
-        }
-
-        public final void write(PacketBuffer buffer) {
-            buffer.writeString("" + this.bee.getRegistryName());
-            buffer.writeInt(this.renderType);
-        }
     }
 }

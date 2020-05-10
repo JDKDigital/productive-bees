@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/ender"
+    },
+    "output": [
+        {
+            "item": "minecraft:ender_pearl",
+            "min": 1,
+            "max": 1
+        },
+        {
+            "tag": "forge:beeswax"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:honeycombs/ender"
+            }
+        }
+    ]
+}
