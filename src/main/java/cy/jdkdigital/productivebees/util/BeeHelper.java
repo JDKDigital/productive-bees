@@ -197,9 +197,11 @@ public class BeeHelper {
             return new ResourceLocation(ProductiveBees.MODID, beeEntity.getBeeType() + "_bee");
         }
 
-        ProductiveBees.LOGGER.info(res);
-
-        String babyType = res.get(((ProductiveBeeEntity)targetEntity).getBeeType()).get(0);
+        String babyType = null;
+        List<String> possibleBreedings = res.get(((ProductiveBeeEntity)targetEntity).getBeeType());
+        if (possibleBreedings != null && possibleBreedings.size() > 0) {
+            babyType = possibleBreedings.get(0);
+        }
 
         // If no specific rules for the target bee exist, create a child of same type
         if (babyType == null) {
