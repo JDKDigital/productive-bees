@@ -27,6 +27,8 @@ public class HoneyTreat extends Item {
         bee.setRevengeTarget(null);
         // Allow entering hive
         bee.setStayOutOfHiveCountdown(0);
+        // Heal
+        bee.heal(bee.getMaxHealth());
 
         itemStack.shrink(1);
 

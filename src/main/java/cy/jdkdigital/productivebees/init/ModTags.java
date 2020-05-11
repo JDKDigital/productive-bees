@@ -9,6 +9,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 
 public class ModTags {
+    public static final Tag<Block> SOLITARY_NESTS = getTag("solitary_nests");
     public static final Tag<Block> SOLITARY_OVERWORLD_NESTS = getTag("solitary_overworld_nests");
     public static final Tag<Block> REED_NESTS = getTag("reed_nests");
     public static final Tag<Block> WOOD_NESTS = getTag("wood_nests");

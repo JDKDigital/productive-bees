@@ -16,7 +16,7 @@ public class GravelNest extends SolitaryNest {
 
     @Override
     public boolean canRepopulateIn(Dimension dimension, Biome biome) {
-        return biome.getCategory().equals(Biome.Category.RIVER) && biome.getTempCategory() != Biome.TempCategory.COLD;
+        return (biome.getCategory().equals(Biome.Category.RIVER) || biome.getCategory().equals(Biome.Category.BEACH)) && biome.getTempCategory() != Biome.TempCategory.COLD;
     }
 
     @Override
