@@ -1,39 +1,47 @@
 package cy.jdkdigital.productivebees.recipe;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
-public class BeeSpawningRecipe implements IRecipe<IInventory>, IProductiveBeesRecipe {
+public class BeeSpawningRecipe implements IRecipe<IInventory> {
 
-    public static final IRecipeType<BeeSpawningRecipe> BEE_BREEDING = IRecipeType.register(ProductiveBees.MODID + ":bee_spawning");
+    public static final IRecipeType<BeeSpawningRecipe> BEE_SPAWNING = IRecipeType.register(ProductiveBees.MODID + ":bee_spawning");
 
     public final ResourceLocation id;
-    public final List<BeeIngredient> ingredients;
-    public final BeeIngredient output;
+    public final Ingredient ingredient;
+    public final List<BeeIngredient> output;
+    public final int repopulationCooldown;
 
-    public BeeSpawningRecipe(ResourceLocation id, List<BeeIngredient> ingredients, BeeIngredient output) {
+    public BeeSpawningRecipe(ResourceLocation id, Ingredient ingredient, List<BeeIngredient> output, int repopulationCooldown) {
         this.id = id;
-        this.ingredients = ingredients;
+        this.ingredient = ingredient;
         this.output = output;
+        this.repopulationCooldown = repopulationCooldown;
     }
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
-        ProductiveBees.LOGGER.info("Comparing recipe: " + inv + " - " + this.ingredients);
         return false;
     }
 
@@ -63,13 +71,13 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>, IProductiveBeesRe
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return null;
+        return ForgeRegistries.RECIPE_SERIALIZERS.getValue(ProduciveBeesJeiPlugin.CATEGORY_BEE_SPAWNING_UID);
     }
 
     @Nonnull
     @Override
     public IRecipeType<?> getType() {
-        return BEE_BREEDING;
+        return BEE_SPAWNING;
     }
 
     public static class Serializer<T extends BeeSpawningRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
@@ -81,29 +89,62 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>, IProductiveBeesRe
 
         @Override
         public T read(ResourceLocation id, JsonObject json) {
-            List<BeeIngredient> ingredients = new ArrayList<>();
-            BeeIngredient output = null;
+            Ingredient ingredient;
+            if (JSONUtils.isJsonArray(json, "ingredient")) {
+                ingredient = Ingredient.deserialize(JSONUtils.getJsonArray(json, "ingredient"));
+            } else {
+                ingredient = Ingredient.deserialize(JSONUtils.getJsonObject(json, "ingredient"));
+            }
 
-            return this.factory.create(id, ingredients, output);
+            JsonArray jsonArray = JSONUtils.getJsonArray(json, "results");
+            List<BeeIngredient> output = new ArrayList<>();
+            jsonArray.forEach(el -> {
+                JsonObject jsonObject = el.getAsJsonObject();
+                String beeName = JSONUtils.getString(jsonObject, "bee");
+                output.add(BeeIngredientFactory.getOrCreateList().get(beeName));
+            });
+
+            int repopulationCooldown = JSONUtils.getInt(json, "repopulation_cooldown", 36000);
+
+            return this.factory.create(id, ingredient, output, repopulationCooldown);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
-            List<BeeIngredient> ingredients = new ArrayList<>();
-            ingredients.add(BeeIngredient.read(buffer));
-            ingredients.add(BeeIngredient.read(buffer));
-            BeeIngredient output = BeeIngredient.read(buffer);
-            return this.factory.create(id, ingredients, output);
+            try {
+                Ingredient ingredient = Ingredient.read(buffer);
+
+                List<BeeIngredient> output = new ArrayList<>();
+                IntStream.range(0, buffer.readInt()).forEach(
+                    i -> output.add(BeeIngredient.read(buffer))
+                );
+
+                int repopulationCooldown = buffer.readInt();
+
+                return this.factory.create(id, ingredient, output, repopulationCooldown);
+            } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error reading recipe from packet.", e);
+                throw e;
+            }
         }
 
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
-            for(BeeIngredient ingredient: recipe.ingredients) {
-                ingredient.write(buffer);
+            try {
+                recipe.ingredient.write(buffer);
+
+                buffer.writeInt(recipe.output.size());
+                for(BeeIngredient beeOutput: recipe.output) {
+                    beeOutput.write(buffer);
+                }
+
+                buffer.writeInt(recipe.repopulationCooldown);
+            } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error writing recipe to packet.", e);
+                throw e;
             }
-            recipe.output.write(buffer);
         }
 
         public interface IRecipeFactory<T extends BeeSpawningRecipe> {
-            T create(ResourceLocation id, List<BeeIngredient> input, BeeIngredient output);
+            T create(ResourceLocation id, Ingredient input, List<BeeIngredient> output, int repopulationCooldown);
         }
     }
 }

@@ -1,0 +1,12 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:slimy_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:slimy_bee"
+        }
+    ],
+    "repopulation_cooldown": 36000
+}

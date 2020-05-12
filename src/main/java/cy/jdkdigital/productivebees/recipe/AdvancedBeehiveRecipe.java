@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import net.minecraft.inventory.IInventory;
@@ -17,17 +18,16 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-
-import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.stream.IntStream;
-
 import org.apache.commons.lang3.tuple.Pair;
 
-public class AdvancedBeehiveRecipe implements IRecipe<IInventory>, IProductiveBeesRecipe {
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.IntStream;
+
+public class AdvancedBeehiveRecipe implements IRecipe<IInventory> {
 
     public static final IRecipeType<AdvancedBeehiveRecipe> ADVANCED_BEEHIVE = IRecipeType.register(ProductiveBees.MODID + ":advanced_beehive");
 
@@ -84,7 +84,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>, IProductiveBe
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return ForgeRegistries.RECIPE_SERIALIZERS.getValue(new ResourceLocation(ProductiveBees.MODID, "advanced_beehive"));
+        return ForgeRegistries.RECIPE_SERIALIZERS.getValue(ProduciveBeesJeiPlugin.CATEGORY_ADVANCED_BEEHIVE_UID);
     }
 
     @Nonnull
@@ -142,7 +142,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>, IProductiveBe
                 BeeIngredient ingredient = BeeIngredient.read(buffer);
                 Map<ItemStack, Pair<Integer, Integer>> outputs = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                        i -> outputs.put(buffer.readItemStack(), Pair.of(buffer.readInt(), buffer.readInt()))
+                    i -> outputs.put(buffer.readItemStack(), Pair.of(buffer.readInt(), buffer.readInt()))
                 );
                 double chance = buffer.readDouble();
                 return this.factory.create(id, ingredient, outputs, chance);
@@ -153,7 +153,6 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>, IProductiveBe
         }
 
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
-            ProductiveBees.LOGGER.info("writing bee produce recipe");
             try {
                 recipe.ingredient.write(buffer);
                 buffer.writeInt(recipe.outputs.size());

@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeeBreedingRecipe implements IRecipe<IInventory>, IProductiveBeesRecipe {
+public class BeeBreedingRecipe implements IRecipe<IInventory> {
 
     public static final IRecipeType<BeeBreedingRecipe> BEE_BREEDING = IRecipeType.register(ProductiveBees.MODID + ":bee_breeding");
 

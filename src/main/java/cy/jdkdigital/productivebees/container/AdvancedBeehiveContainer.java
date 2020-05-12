@@ -11,7 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
@@ -21,12 +20,12 @@ public class AdvancedBeehiveContainer extends AbstractContainer {
 
 	public final AdvancedBeehiveTileEntity tileEntity;
 
-	public static final HashMap<Integer, ArrayList<Integer>> BEE_POSITIONS = new HashMap<Integer, ArrayList<Integer>>() {{
+	public static final HashMap<Integer, List<Integer>> BEE_POSITIONS = new HashMap<Integer, List<Integer>>() {{
 		put(0, new ArrayList<Integer>() {{add(37);add(25);}});
 		put(1, new ArrayList<Integer>() {{add(55);add(35);}});
 		put(2, new ArrayList<Integer>() {{add(37);add(45);}});
 	}};
-	public static final HashMap<Integer, ArrayList<Integer>> BEE_POSITIONS_EXPANDED = new HashMap<Integer, ArrayList<Integer>>() {{
+	public static final HashMap<Integer, List<Integer>> BEE_POSITIONS_EXPANDED = new HashMap<Integer, List<Integer>>() {{
 		put(0, new ArrayList<Integer>() {{add(19);add(24);}});
 		put(1, new ArrayList<Integer>() {{add(19);add(45);}});
 		put(2, new ArrayList<Integer>() {{add(37);add(35);}});
@@ -48,13 +47,12 @@ public class AdvancedBeehiveContainer extends AbstractContainer {
 
 		IItemHandler inventory = new InvWrapper(playerInventory);
 
-		// Bottle slot
-		this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null, true).ifPresent(bottleHandler -> {
-			addSlot(new SlotItemHandler(bottleHandler, ItemHandlerHelper.BOTTLE_SLOT, 86, 17));
-		});
 		// Inventory slots
 		this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
 			addSlotBox(inv, ItemHandlerHelper.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
+
+			// Bottle slot
+			addSlot(new ManualSlotItemHandler((ItemHandlerHelper.ItemHandler) inv, ItemHandlerHelper.BOTTLE_SLOT, 86, 17));
 		});
 
 		layoutPlayerInventorySlots(inventory, 0, 8, 84);

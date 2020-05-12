@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -23,7 +24,9 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.items.CapabilityItemHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class Centrifuge extends ContainerBlock {
@@ -37,29 +40,58 @@ public class Centrifuge extends ContainerBlock {
         this.setDefaultState(this.stateContainer.getBaseState().with(RUNNING, Boolean.valueOf(true)));
     }
 
+    @SuppressWarnings("deprecation")
+    @Nonnull
+    @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return SHAPE;
     }
 
+    @SuppressWarnings("deprecation")
+    @Nonnull
+    @Override
     public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return INSIDE;
     }
 
+    @SuppressWarnings("deprecation")
+    @Nonnull
+    @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onReplaced(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (oldState.getBlock() != newState.getBlock()) {
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if (tileEntity instanceof CentrifugeTileEntity) {
+                // Drop inventory
+                tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                    for (int slot = 0; slot < handler.getSlots(); ++slot) {
+                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                    }
+                });
+            }
+        }
+        super.onReplaced(oldState, worldIn, pos, newState, isMoving);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Nonnull
+    @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!world.isRemote()) {
             final TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof CentrifugeTileEntity) {
                 openGui((ServerPlayerEntity) player, (CentrifugeTileEntity) tileEntity);
             }
-            return ActionResultType.SUCCESS;
         }
-        return ActionResultType.PASS;
+        return ActionResultType.SUCCESS;
     }
 
+    @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(RUNNING);
     }
@@ -80,6 +112,8 @@ public class Centrifuge extends ContainerBlock {
         return new CentrifugeTileEntity();
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
     public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
         return false;
     }

@@ -3,6 +3,7 @@
 
 	"jei.productivebees.advanced_beehive": "Advanced Beehive",
 	"jei.productivebees.bee_breeding": "Bee Breeding",
+	"jei.productivebees.bee_spawning": "Bee Spawning",
 	"jei.productivebees.centrifuge": "Centrifuge",
 
 	"item.productivebees.honey_bucket": "Honey Bucket",
@@ -36,7 +37,7 @@
 	"item.productivebees.spawn_egg_yellow_black_carpenter_bee": "Carpenter Bee Spawn Egg",
 	"item.productivebees.spawn_egg_chocolate_mining_bee": "Chocolate Mining Bee Spawn Egg",
 	"item.productivebees.spawn_egg_digger_bee": "Digger Bee Spawn Egg",
-	"item.productivebees.spawn_egg_leafcutter_bee": "Leaftcutter Bee Spawn Egg",
+	"item.productivebees.spawn_egg_leafcutter_bee": "Leafcutter Bee Spawn Egg",
 	"item.productivebees.spawn_egg_mason_bee": "Mason Bee Spawn Egg",
 	"item.productivebees.spawn_egg_neon_cuckoo_bee": "Neon Cuckoo Bee Spawn Egg",
 	"item.productivebees.spawn_egg_nomad_bee": "Nomad Bee Spawn Egg",
@@ -206,7 +207,7 @@
 	"entity.productivebees.yellow_black_carpenter_bee": "Carpenter Bee",
 	"entity.productivebees.chocolate_mining_bee": "Chocolate Mining Bee",
 	"entity.productivebees.digger_bee": "Digger Bee",
-	"entity.productivebees.leafcutter_bee": "Leaftcutter Bee",
+	"entity.productivebees.leafcutter_bee": "Leafcutter Bee",
 	"entity.productivebees.mason_bee": "Mason Bee",
 	"entity.productivebees.neon_cuckoo_bee": "Neon Cuckoo Bee",
 	"entity.productivebees.nomad_bee": "Nomad Bee",

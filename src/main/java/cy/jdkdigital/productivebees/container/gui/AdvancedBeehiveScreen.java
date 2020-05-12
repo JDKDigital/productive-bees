@@ -52,7 +52,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 		// Draw bees here
 		assert minecraft != null;
 		boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED);
-		HashMap<Integer, ArrayList<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
+		HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
 		if (this.container.tileEntity.inhabitantList.size() > 0) {
 			int i = 0;

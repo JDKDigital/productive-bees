@@ -12,7 +12,6 @@ import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
@@ -48,13 +47,12 @@ public class CentrifugeContainer extends AbstractContainer {
 
 		IItemHandler inventory = new InvWrapper(playerInventory);
 
-		// Comb and bottle slots
-		this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null, true).ifPresent(input -> {
-			addSlot(new SlotItemHandler(input, ItemHandlerHelper.BOTTLE_SLOT, 76, 17));
-			addSlot(new SlotItemHandler(input, ItemHandlerHelper.INPUT_SLOT, 38, 35));
-		});
-		// Inventory slots
 		this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+			// Comb and bottle slots
+			addSlot(new ManualSlotItemHandler((ItemHandlerHelper.ItemHandler) inv, ItemHandlerHelper.BOTTLE_SLOT, 76, 17));
+			addSlot(new ManualSlotItemHandler((ItemHandlerHelper.ItemHandler) inv, ItemHandlerHelper.INPUT_SLOT, 38, 35));
+
+			// Inventory slots
 			addSlotBox(inv, ItemHandlerHelper.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
 		});
 

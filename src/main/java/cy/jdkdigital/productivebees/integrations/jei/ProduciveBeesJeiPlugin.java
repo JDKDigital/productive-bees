@@ -7,6 +7,8 @@ import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFa
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientHelper;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientRenderer;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
+import cy.jdkdigital.productivebees.recipe.BeeSpawningBigRecipe;
+import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -34,6 +36,8 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
     private static final ResourceLocation pluginId = new ResourceLocation(ProductiveBees.MODID, ProductiveBees.MODID);
     public static final ResourceLocation CATEGORY_ADVANCED_BEEHIVE_UID = new ResourceLocation(ProductiveBees.MODID, "advanced_beehive");
     public static final ResourceLocation CATEGORY_BEE_BREEDING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
+    public static final ResourceLocation CATEGORY_BEE_SPAWNING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_spawning");
+    public static final ResourceLocation CATEGORY_BEE_SPAWNING_BIG_UID = new ResourceLocation(ProductiveBees.MODID, "bee_spawning_big");
     public static final ResourceLocation CATEGORY_CENTRIFUGE_UID = new ResourceLocation(ProductiveBees.MODID, "centrifuge");
 
     public static final IIngredientType<BeeIngredient> BEE_INGREDIENT = () -> BeeIngredient.class;
@@ -52,6 +56,8 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.ADVANCED_OAK_BEEHIVE.get()), CATEGORY_ADVANCED_BEEHIVE_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.CENTRIFUGE.get()), CATEGORY_CENTRIFUGE_UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.COARSE_DIRT_NEST.get()), CATEGORY_BEE_SPAWNING_UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.OAK_WOOD_NEST.get()), CATEGORY_BEE_SPAWNING_BIG_UID);
     }
 
     @Override
@@ -62,6 +68,8 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new AdvancedBeehiveRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeBreedingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new CentrifugeRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new BeeSpawningRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new BeeSpawningRecipeBigCategory(guiHelper));
     }
 
     @Override
@@ -84,5 +92,11 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
 
         Map<ResourceLocation, IRecipe<IInventory>> centrifugeRecipesMap = recipeManager.getRecipes(CentrifugeRecipe.CENTRIFUGE);
         registration.addRecipes(centrifugeRecipesMap.values(), CATEGORY_CENTRIFUGE_UID);
+
+        Map<ResourceLocation, IRecipe<IInventory>> beeSpawningRecipesMap = recipeManager.getRecipes(BeeSpawningRecipe.BEE_SPAWNING);
+        registration.addRecipes(beeSpawningRecipesMap.values(), CATEGORY_BEE_SPAWNING_UID);
+
+        Map<ResourceLocation, IRecipe<IInventory>> beeSpawningRecipesBigMap = recipeManager.getRecipes(BeeSpawningBigRecipe.BEE_SPAWNING);
+        registration.addRecipes(beeSpawningRecipesBigMap.values(), CATEGORY_BEE_SPAWNING_BIG_UID);
     }
 }

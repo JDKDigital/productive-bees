@@ -28,7 +28,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
     private final IDrawable icon;
 
     public CentrifugeRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/centrifuge_recipe.png");
+        ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/jei/centrifuge_recipe.png");
         this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.CENTRIFUGE.get()));
     }

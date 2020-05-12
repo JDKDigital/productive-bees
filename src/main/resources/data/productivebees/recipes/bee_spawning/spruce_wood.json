@@ -1,0 +1,21 @@
+{
+    "type": "productivebees:bee_spawning_big",
+    "ingredient": {
+        "item": "productivebees:spruce_wood_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:resin_bee"
+        },
+        {
+            "bee": "productivebees:blue_banded_bee"
+        },
+        {
+            "bee": "productivebees:green_carpenter_bee"
+        },
+        {
+            "bee": "productivebees:yellow_black_carpenter_bee"
+        }
+    ],
+    "repopulation_cooldown": 36000
+}

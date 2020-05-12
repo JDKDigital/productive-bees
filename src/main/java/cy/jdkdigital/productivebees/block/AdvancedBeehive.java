@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.block;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
@@ -119,12 +118,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 						InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
 					}
 				});
-				// Drop bottles
-				((AdvancedBeehiveTileEntity)tileEntity).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null, true).ifPresent(handler -> {
-					for (int slot = 0; slot < handler.getSlots(); ++slot) {
-						InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
-					}
-				});
 			}
 		}
 		super.onReplaced(oldState, worldIn, pos, newState, isMoving);
@@ -138,8 +131,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract {
 		boolean itemUsed = false;
 		if (honeyLevel >= getMaxHoneyLevel()) {
 			if (heldItem.getItem() == Items.SHEARS) {
-				ProductiveBees.LOGGER.info("Used some shears, time to drop a sound @" + player);
-				ProductiveBees.LOGGER.info("" + player.getPosX() + ", " + player.getPosY() + ", " + player.getPosZ());
 				world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 				BeehiveBlock.dropHoneyComb(world, pos);
 				heldItem.damageItem(1, player, (entity) -> {

@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.datafixers.Dynamic;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
@@ -65,7 +64,6 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
         boolean match = placeOntop ? matcher.test(world.getBlockState(pos.down())) : matcher.test(world.getBlockState(pos));
         if (match) {
-//            ProductiveBees.LOGGER.info("Placing nest at " + pos + " - " + featureConfig.state);
             // Check if there's air around and face that way, default to UP
             Direction direction = Direction.UP;
             for(Direction dir : BlockStateProperties.FACING.getAllowedValues()) {
@@ -86,7 +84,6 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
                 EntityType<BeeEntity> beeType = SolitaryNestTileEntity.getProducibleBeeType(world.getWorld(), pos, (SolitaryNest) world.getBlockState(pos).getBlock());
                 BeeEntity newBee = beeType.create(world.getWorld());
                 newBee.setPosition(pos.getX(), pos.getY(), pos.getZ());
-//                ProductiveBees.LOGGER.info(newBee);
                 nestTileEntity.tryEnterHive(newBee, false, world.getRandom().nextInt(599));
             }
 

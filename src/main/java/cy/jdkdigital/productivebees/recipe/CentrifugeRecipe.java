@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
 import cy.jdkdigital.productivebees.tileentity.ItemHandlerHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -22,9 +23,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -76,7 +75,7 @@ public class CentrifugeRecipe implements IRecipe<IInventory> {
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return ForgeRegistries.RECIPE_SERIALIZERS.getValue(new ResourceLocation(ProductiveBees.MODID, "centrifuge"));
+        return ForgeRegistries.RECIPE_SERIALIZERS.getValue(ProduciveBeesJeiPlugin.CATEGORY_CENTRIFUGE_UID);
     }
 
     @Nonnull
@@ -125,7 +124,6 @@ public class CentrifugeRecipe implements IRecipe<IInventory> {
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
-            ProductiveBees.LOGGER.info("reading centrifuge recipe");
             try {
                 Ingredient ingredient = Ingredient.read(buffer);
 
@@ -141,7 +139,6 @@ public class CentrifugeRecipe implements IRecipe<IInventory> {
         }
 
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
-            ProductiveBees.LOGGER.info("writing centrifuge recipe");
             try {
                 recipe.ingredient.write(buffer);
                 buffer.writeInt(recipe.output.size());

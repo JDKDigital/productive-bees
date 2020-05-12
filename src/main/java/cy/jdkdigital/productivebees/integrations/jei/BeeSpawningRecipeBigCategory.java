@@ -23,39 +23,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRecipe> {
+public class BeeSpawningRecipeBigCategory extends BeeSpawningRecipeCategory {
 
     private final IDrawable background;
     private final IDrawable icon;
 
     public static final HashMap<Integer, List<Integer>> BEE_POSITIONS = new HashMap<Integer, List<Integer>>() {{
-        put(0, new ArrayList<Integer>() {{add(79);add(18);}});
-        put(1, new ArrayList<Integer>() {{add(97);add(28);}});
-        put(2, new ArrayList<Integer>() {{add(79);add(38);}});
+        put(0, new ArrayList<Integer>() {{add(66);add(18);}});
+        put(1, new ArrayList<Integer>() {{add(66);add(38);}});
+        put(2, new ArrayList<Integer>() {{add(84);add(28);}});
+        put(3, new ArrayList<Integer>() {{add(102);add(18);}});
+        put(4, new ArrayList<Integer>() {{add(102);add(38);}});
     }};
 
-    public BeeSpawningRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/jei/bee_spawning_recipe.png");
+    public BeeSpawningRecipeBigCategory(IGuiHelper guiHelper) {
+        super(guiHelper);
+        ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/jei/bee_spawning_recipe_big.png");
         this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.COARSE_DIRT_NEST.get()));
+        this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.OAK_WOOD_NEST.get()));
     }
 
     @Nonnull
     @Override
     public ResourceLocation getUid() {
-        return ProduciveBeesJeiPlugin.CATEGORY_BEE_SPAWNING_UID;
-    }
-
-    @Nonnull
-    @Override
-    public Class<? extends BeeSpawningRecipe> getRecipeClass() {
-        return BeeSpawningRecipe.class;
-    }
-
-    @Nonnull
-    @Override
-    public String getTitle() {
-        return I18n.format("jei.productivebees.bee_spawning");
+        return ProduciveBeesJeiPlugin.CATEGORY_BEE_SPAWNING_BIG_UID;
     }
 
     @Nonnull
@@ -68,12 +59,6 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
     @Override
     public IDrawable getIcon() {
         return this.icon;
-    }
-
-    @Override
-    public void setIngredients(BeeSpawningRecipe recipe, IIngredients ingredients) {
-        ingredients.setInputIngredients(Lists.newArrayList(recipe.ingredient));
-        ingredients.setOutputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT, recipe.output);
     }
 
     @Override

@@ -21,8 +21,14 @@ public class GravelNest extends SolitaryNest {
 
     @Override
     public EntityType<BeeEntity> getNestingBeeType(World world) {
-        return  world.getRandom().nextBoolean() ? ModEntities.DIGGER_BEE.get() : (
-                world.getRandom().nextBoolean() ? ModEntities.ASHY_MINING_BEE.get() : ModEntities.CHOCOLATE_MINING_BEE.get()
-        );
+        switch (world.rand.nextInt(3)) {
+            case 0:
+                return ModEntities.CHOCOLATE_MINING_BEE.get();
+            case 1:
+                return ModEntities.ASHY_MINING_BEE.get();
+            case 2:
+            default:
+                return ModEntities.DIGGER_BEE.get();
+        }
     }
 }

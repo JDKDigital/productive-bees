@@ -1,0 +1,15 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:sugar_cane_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:reed_bee"
+        },
+        {
+            "bee": "productivebees:mason_bee"
+        }
+    ],
+    "repopulation_cooldown": 36000
+}

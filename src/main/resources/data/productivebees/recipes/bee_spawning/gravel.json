@@ -1,0 +1,18 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:gravel_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:ashy_mining_bee"
+        },
+        {
+            "bee": "productivebees:chocolate_mining_bee"
+        },
+        {
+            "bee": "productivebees:digger_bee"
+        }
+    ],
+    "repopulation_cooldown": 36000
+}

@@ -30,6 +30,10 @@ public class HoneyTreat extends Item {
         // Heal
         bee.heal(bee.getMaxHealth());
 
+        if (bee.isChild()) {
+            bee.ageUp((int)((float)(-bee.getGrowingAge() / 20) * 0.1F), true);
+        }
+
         itemStack.shrink(1);
 
         BlockPos pos = target.getPosition();

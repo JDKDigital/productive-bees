@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.container;
 
+import cy.jdkdigital.productivebees.tileentity.ItemHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -47,19 +48,22 @@ abstract class AbstractContainer extends Container {
 
     protected int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
         for (int i = 0 ; i < amount ; i++) {
-            addSlot(new SlotItemHandler(handler, index, x, y));
+            if (handler instanceof ItemHandlerHelper.ItemHandler) {
+                addSlot(new ManualSlotItemHandler((ItemHandlerHelper.ItemHandler) handler, index, x, y));
+            } else {
+                addSlot(new SlotItemHandler(handler, index, x, y));
+            }
             x += dx;
             index++;
         }
         return index;
     }
 
-    protected int addSlotBox(IItemHandler handler, int index, int x, int y, int horAmount, int dx, int verAmount, int dy) {
+    protected void addSlotBox(IItemHandler handler, int startIndex, int x, int y, int horAmount, int dx, int verAmount, int dy) {
         for (int j = 0 ; j < verAmount ; j++) {
-            index = addSlotRange(handler, index, x, y, horAmount, dx);
+            startIndex = addSlotRange(handler, startIndex, x, y, horAmount, dx);
             y += dy;
         }
-        return index;
     }
 
     protected void layoutPlayerInventorySlots(IItemHandler inventory, int startIndex, int leftCol, int topRow) {

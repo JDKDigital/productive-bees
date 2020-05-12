@@ -1,0 +1,15 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:stone_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:digger_bee"
+        },
+        {
+            "bee": "productivebees:mason_bee"
+        }
+    ],
+    "repopulation_cooldown": 36000
+}

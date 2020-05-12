@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.event;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
+import cy.jdkdigital.productivebees.recipe.BeeSpawningBigRecipe;
+import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.entity.Entity;
@@ -11,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -50,7 +51,9 @@ public class EventHandler
 
     @SubscribeEvent
     public static void recipe(final RegistryEvent.Register<IRecipeSerializer<?>> event) {
-        event.getRegistry().register(new AdvancedBeehiveRecipe.Serializer<>(AdvancedBeehiveRecipe::new).setRegistryName(new ResourceLocation(ProductiveBees.MODID, "advanced_beehive")));
-        event.getRegistry().register(new CentrifugeRecipe.Serializer<>(CentrifugeRecipe::new).setRegistryName(new ResourceLocation(ProductiveBees.MODID, "centrifuge")));
+        event.getRegistry().register(new AdvancedBeehiveRecipe.Serializer<>(AdvancedBeehiveRecipe::new).setRegistryName(ProduciveBeesJeiPlugin.CATEGORY_ADVANCED_BEEHIVE_UID));
+        event.getRegistry().register(new CentrifugeRecipe.Serializer<>(CentrifugeRecipe::new).setRegistryName(ProduciveBeesJeiPlugin.CATEGORY_CENTRIFUGE_UID));
+        event.getRegistry().register(new BeeSpawningRecipe.Serializer<>(BeeSpawningRecipe::new).setRegistryName(ProduciveBeesJeiPlugin.CATEGORY_BEE_SPAWNING_UID));
+        event.getRegistry().register(new BeeSpawningBigRecipe.Serializer<>(BeeSpawningBigRecipe::new).setRegistryName(ProduciveBeesJeiPlugin.CATEGORY_BEE_SPAWNING_BIG_UID));
     }
 }

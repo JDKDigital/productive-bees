@@ -1,0 +1,12 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:glowstone_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:glowing_bee"
+        }
+    ],
+    "repopulation_cooldown": 36000
+}

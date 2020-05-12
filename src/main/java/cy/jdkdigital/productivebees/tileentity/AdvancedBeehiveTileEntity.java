@@ -35,7 +35,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,13 +50,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     private int tickCounter = 0;
     public List<String> inhabitantList = new ArrayList<>();
 
-	private LazyOptional<IItemHandler> inventoryHandler = LazyOptional.of(() -> ItemHandlerHelper.getOutputHandler(this));
-	private LazyOptional<IItemHandler> inputHandler = LazyOptional.of(() -> new ItemHandlerHelper.ItemHandler(1, this) {
-        @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return slot != ItemHandlerHelper.BOTTLE_SLOT || stack.getItem() == Items.GLASS_BOTTLE;
-        }
-    });
+	private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> ItemHandlerHelper.getInventoryHandler(this, 1));
 
 	public AdvancedBeehiveTileEntity() {
 	    super(ModTileEntityTypes.ADVANCED_BEEHIVE.get());
@@ -148,18 +142,16 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 // Auto harvest if empty bottles are in
                 if (honeyLevel >= 5) {
                     int finalHoneyLevel = honeyLevel;
-                    inputHandler.ifPresent(h -> {
-                        ItemStack bottles = h.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT);
+                    inventoryHandler.ifPresent(inv -> {
+                        ItemStack bottles = inv.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
                             final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
-                            inventoryHandler.ifPresent(inv -> {
-                                boolean addedBottle = ((ItemHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
-                                if (addedBottle) {
-                                    ((ItemHandlerHelper.ItemHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
-                                    bottles.shrink(1);
-                                    world.setBlockState(pos, blockState.with(BeehiveBlock.HONEY_LEVEL, finalHoneyLevel - 5));
-                                }
-                            });
+                            boolean addedBottle = ((ItemHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
+                            if (addedBottle) {
+                                ((ItemHandlerHelper.ItemHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
+                                bottles.shrink(1);
+                                world.setBlockState(pos, blockState.with(BeehiveBlock.HONEY_LEVEL, finalHoneyLevel - 5));
+                            }
                         }
                     });
                     honeyLevel = this.world.getBlockState(this.pos).get(BeehiveBlock.HONEY_LEVEL);
@@ -198,9 +190,6 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
         CompoundNBT invTag = tag.getCompound("inv");
         inventoryHandler.ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
-
-        CompoundNBT bottleTag = tag.getCompound("bottles");
-        inputHandler.ifPresent(bottle -> ((INBTSerializable<CompoundNBT>) bottle).deserializeNBT(bottleTag));
     }
 
     @Override
@@ -212,26 +201,13 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             tag.put("inv", compound);
         });
 
-        inputHandler.ifPresent(bottle -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) bottle).serializeNBT();
-            tag.put("bottles", compound);
-        });
-
         return tag;
     }
 
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-	    return this.getCapability(cap, side, false);
-    }
-
-    @Nonnull
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side, @Nullable boolean getInputHandler) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if (getInputHandler) {
-                return inputHandler.cast();
-            }
             return inventoryHandler.cast();
         }
         return super.getCapability(cap, side);

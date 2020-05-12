@@ -30,7 +30,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     private final IDrawable icon;
 
     public AdvancedBeehiveRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_bee_produce.png");
+        ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/jei/bee_produce_recipe.png");
         this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.ADVANCED_OAK_BEEHIVE.get()));
     }
