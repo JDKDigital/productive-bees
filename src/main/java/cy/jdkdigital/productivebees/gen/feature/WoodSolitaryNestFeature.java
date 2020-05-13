@@ -51,6 +51,11 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature {
         }
 
         if (newPos != null) {
+            // For thicc trees, we need to move the nest to the outside of the tree
+            while (matcher.test(world.getBlockState(newPos.east(1)))) {
+                newPos = newPos.east(1);
+            }
+
             return placeNest(world, newPos, featureConfig);
         }
         return false;

@@ -26,6 +26,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -49,6 +50,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     private static final Random rand = new Random();
 
     private int tickCounter = 0;
+    private int abandonCountdown = 0;
     public List<String> inhabitantList = new ArrayList<>();
 
 	private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> ItemHandlerHelper.getInventoryHandler(this, 1));
@@ -124,6 +126,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
                 world.rand.nextDouble() < ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
                 beeList.size() < MAX_BEES &&
+                beeList.size() + beesOutsideHive() < MAX_BEES &&
                 world.getLight(pos.offset(getBlockState().get(BlockStateProperties.FACING), 1)) <= 7
             ) {
                 EntityType<BeeEntity> beeType = world.rand.nextBoolean() ? ModEntities.SKELETAL_BEE.get() : ModEntities.ZOMBIE_BEE.get();
@@ -165,6 +168,10 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             }
         }
 
+        if (--abandonCountdown < 0) {
+            abandonCountdown = 0;
+        }
+
         super.tick();
 	}
 
@@ -183,6 +190,18 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         }
 
         return Lists.newArrayList(ItemStack.EMPTY);
+    }
+
+    @Override
+    protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, State beeState) {
+        super.beeReleasePostAction(beeEntity, state, beeState);
+
+        // Add to the countdown for it's spot to become available in the hive
+        abandonCountdown += getTimeInHive(true);
+    }
+
+    protected int beesOutsideHive() {
+	    return (int) Math.ceil(abandonCountdown % getTimeInHive(true));
     }
 
     @Override
