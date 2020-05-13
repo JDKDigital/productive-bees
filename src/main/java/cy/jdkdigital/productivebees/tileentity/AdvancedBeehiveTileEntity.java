@@ -25,6 +25,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -123,7 +124,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
                 world.rand.nextDouble() < ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
                 beeList.size() < MAX_BEES &&
-                world.getLightValue(pos) <= 7
+                world.getLight(pos.offset(getBlockState().get(BlockStateProperties.FACING), 1)) <= 7
             ) {
                 EntityType<BeeEntity> beeType = world.rand.nextBoolean() ? ModEntities.SKELETAL_BEE.get() : ModEntities.ZOMBIE_BEE.get();
                 BeeEntity newBee = beeType.create(world);
