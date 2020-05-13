@@ -7,7 +7,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.world.World;
 
-public class NomadBeeEntity extends SolitaryBeeEntity {
+public class NomadBeeEntity extends SolitaryBeeEntity
+{
     public NomadBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
 

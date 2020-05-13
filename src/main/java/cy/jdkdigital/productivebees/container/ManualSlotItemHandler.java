@@ -7,7 +7,8 @@ import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
 
-public class ManualSlotItemHandler extends SlotItemHandler {
+public class ManualSlotItemHandler extends SlotItemHandler
+{
     ItemHandlerHelper.ItemHandler handler;
 
     public ManualSlotItemHandler(ItemHandlerHelper.ItemHandler itemHandler, int index, int xPosition, int yPosition) {

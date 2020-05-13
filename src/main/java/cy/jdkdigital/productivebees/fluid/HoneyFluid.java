@@ -30,8 +30,8 @@ import net.minecraftforge.fluids.FluidAttributes;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class HoneyFluid extends FlowingFluid {
-
+public abstract class HoneyFluid extends FlowingFluid
+{
     @Override
     public Fluid getFlowingFluid() {
         return ModFluids.HONEY_FLOWING.get();
@@ -124,7 +124,8 @@ public abstract class HoneyFluid extends FlowingFluid {
         return 100.0F;
     }
 
-    public static class Flowing extends HoneyFluid {
+    public static class Flowing extends HoneyFluid
+    {
         protected void fillStateContainer(StateContainer.Builder<Fluid, IFluidState> builder) {
             super.fillStateContainer(builder);
             builder.add(LEVEL_1_8);
@@ -139,7 +140,8 @@ public abstract class HoneyFluid extends FlowingFluid {
         }
     }
 
-    public static class Source extends HoneyFluid {
+    public static class Source extends HoneyFluid
+    {
         public int getLevel(IFluidState state) {
             return 8;
         }

@@ -10,7 +10,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableModel<T> {
+public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableModel<T>
+{
     protected final ModelRenderer beeModel;
     protected final ModelRenderer body;
     protected final ModelRenderer rightWing;
@@ -107,7 +108,8 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
             this.frontLegs.rotateAngleX = 0.0F;
             this.midLegs.rotateAngleX = 0.0F;
             this.backLegs.rotateAngleX = 0.0F;
-        } else {
+        }
+        else {
             lvt_8_2_ = p_225597_4_ * 2.1F;
             this.rightWing.rotateAngleY = 0.0F;
             this.rightWing.rotateAngleZ = MathHelper.cos(lvt_8_2_) * 3.1415927F * 0.15F;

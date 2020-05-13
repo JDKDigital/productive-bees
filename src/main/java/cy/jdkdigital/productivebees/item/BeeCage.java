@@ -27,8 +27,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BeeCage extends Item {
-
+public class BeeCage extends Item
+{
     public BeeCage(Properties properties) {
         super(properties);
 
@@ -68,13 +68,14 @@ public class BeeCage extends Item {
             return false;
         }
 
-        BeeEntity target = (BeeEntity)targetIn;
+        BeeEntity target = (BeeEntity) targetIn;
 
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("entity", EntityType.getKey(target.getType()).toString());
         if (target.hasCustomName()) {
             nbt.putString("name", target.getCustomName().getFormattedText());
-        } else {
+        }
+        else {
             nbt.putString("name", target.getName().getFormattedText());
         }
         target.writeWithoutTypeId(nbt);
@@ -95,7 +96,8 @@ public class BeeCage extends Item {
         itemStack.shrink(1);
         if (itemStack.isEmpty()) {
             player.setHeldItem(hand, cageStack);
-        } else if (!player.inventory.addItemStackToInventory(cageStack)) {
+        }
+        else if (!player.inventory.addItemStackToInventory(cageStack)) {
             player.dropItem(cageStack, false);
         }
 
@@ -153,7 +155,8 @@ public class BeeCage extends Item {
                 int temper = tag.getInt("bee_temper");
                 ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).applyTextStyle(getColor(temper));
                 list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
-            } else {
+            }
+            else {
                 String mod = tag.getString("mod");
                 if (mod == "String") {
                     mod = "Minecraft";

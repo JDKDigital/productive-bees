@@ -25,8 +25,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 @EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD)
-public class ModEntities {
-
+public class ModEntities
+{
     public static final DeferredRegister<EntityType<?>> HIVE_BEES = new DeferredRegister<>(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
     public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = new DeferredRegister<>(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
 
@@ -88,6 +88,7 @@ public class ModEntities {
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createHiveBee(String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor) {
         return createBee(HIVE_BEES, name, supplier, primaryColor, secondaryColor, ModItemGroups.PRODUCTIVE_BEES);
     }
+
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createSolitaryBee(String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor) {
         return createBee(SOLITARY_BEES, name, supplier, primaryColor, secondaryColor, ModItemGroups.PRODUCTIVE_BEES);
     }
@@ -109,19 +110,20 @@ public class ModEntities {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void registerRendering()
-    {
-        for(RegistryObject<EntityType<?>> registryObject : HIVE_BEES.getEntries()) {
+    public static void registerRendering() {
+        for (RegistryObject<EntityType<?>> registryObject : HIVE_BEES.getEntries()) {
             EntityType<?> bee = registryObject.get();
             if (bee.getTranslationKey().contains("slimy_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, SlimyBeeRenderer::new);
-            } else if (bee.getTranslationKey().contains("dye_bee")) {
+            }
+            else if (bee.getTranslationKey().contains("dye_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, DyeBeeRenderer::new);
-            } else {
+            }
+            else {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, ProductiveBeeRenderer::new);
             }
         }
-        for(RegistryObject<EntityType<?>> registryObject : SOLITARY_BEES.getEntries()) {
+        for (RegistryObject<EntityType<?>> registryObject : SOLITARY_BEES.getEntries()) {
             EntityType<?> bee = registryObject.get();
             RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends SolitaryBeeEntity>) bee, SolitaryBeeRenderer::new);
         }

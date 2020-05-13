@@ -26,7 +26,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -46,52 +45,53 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider {
+public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider
+{
     private static final Random rand = new Random();
 
     private int tickCounter = 0;
     private int abandonCountdown = 0;
     public List<String> inhabitantList = new ArrayList<>();
 
-	private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> ItemHandlerHelper.getInventoryHandler(this, 1));
+    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> ItemHandlerHelper.getInventoryHandler(this, 1));
 
-	public AdvancedBeehiveTileEntity() {
-	    super(ModTileEntityTypes.ADVANCED_BEEHIVE.get());
+    public AdvancedBeehiveTileEntity() {
+        super(ModTileEntityTypes.ADVANCED_BEEHIVE.get());
         MAX_BEES = 3;
-	}
+    }
 
     /**
-	 * @return The logical-server-side Container for this TileEntity
-	 */
-	@Nonnull
-	@Override
-	public Container createMenu(final int windowId, final PlayerInventory playerInventory, final PlayerEntity player) {
-		return new AdvancedBeehiveContainer(windowId, playerInventory, this);
-	}
+     * @return The logical-server-side Container for this TileEntity
+     */
+    @Nonnull
+    @Override
+    public Container createMenu(final int windowId, final PlayerInventory playerInventory, final PlayerEntity player) {
+        return new AdvancedBeehiveContainer(windowId, playerInventory, this);
+    }
 
-	@Override
-	public ITextComponent getDisplayName() {
-		return new TranslationTextComponent(ModBlocks.ADVANCED_OAK_BEEHIVE.get().getTranslationKey());
-	}
+    @Override
+    public ITextComponent getDisplayName() {
+        return new TranslationTextComponent(ModBlocks.ADVANCED_OAK_BEEHIVE.get().getTranslationKey());
+    }
 
     public boolean isSmoked() {
         return true;
     }
 
-	@Override
-	public void tick() {
-		final World world = this.world;
-		if (world == null || world.isRemote()) {
-			return;
-		}
+    @Override
+    public void tick() {
+        final World world = this.world;
+        if (world == null || world.isRemote()) {
+            return;
+        }
 
-		if (++tickCounter > ProductiveBeesConfig.GENERAL.itemTickRate.get()) {
+        if (++tickCounter > ProductiveBeesConfig.GENERAL.itemTickRate.get()) {
             tickCounter = 0;
 
             ListNBT beeList = this.getBeeListAsNBTList();
             if (beeList.size() > 0) {
                 for (INBT inbt : beeList) {
-                    CompoundNBT inb = (CompoundNBT)((CompoundNBT) inbt).get("EntityData");
+                    CompoundNBT inb = (CompoundNBT) ((CompoundNBT) inbt).get("EntityData");
                     String beeId = inb.getString("id");
                     int productivity = 0;
                     if (inb.contains("bee_productivity")) {
@@ -111,7 +111,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                                             float f = (float) finalProductivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
                                             stack.grow(Math.round(f));
                                         }
-                                        ((ItemHandlerHelper.ItemHandler)inv).addOutput(stack);
+                                        ((ItemHandlerHelper.ItemHandler) inv).addOutput(stack);
                                     }
                                 });
                             });
@@ -122,12 +122,12 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
             // Spawn skeletal and zombie bees in available hives
             if (
-                world.isNightTime() &&
-                ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
-                world.rand.nextDouble() < ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
-                beeList.size() < MAX_BEES &&
-                beeList.size() + beesOutsideHive() < MAX_BEES &&
-                world.getLight(pos.offset(getBlockState().get(BlockStateProperties.FACING), 1)) <= 7
+                    world.isNightTime() &&
+                            ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
+                            world.rand.nextDouble() < ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
+                            beeList.size() < MAX_BEES &&
+                            beeList.size() + beesOutsideHive() < MAX_BEES &&
+                            world.getLight(pos.offset(getBlockState().get(BlockStateProperties.FACING), 1)) <= 7
             ) {
                 EntityType<BeeEntity> beeType = world.rand.nextBoolean() ? ModEntities.SKELETAL_BEE.get() : ModEntities.ZOMBIE_BEE.get();
                 BeeEntity newBee = beeType.create(world);
@@ -173,10 +173,10 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         }
 
         super.tick();
-	}
+    }
 
-	public static List<ItemStack> getBeeProduce(World world, String beeId) {
-        for(Map.Entry<ResourceLocation, IRecipe<IInventory>> entry: world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE).entrySet()) {
+    public static List<ItemStack> getBeeProduce(World world, String beeId) {
+        for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE).entrySet()) {
             AdvancedBeehiveRecipe recipe = (AdvancedBeehiveRecipe) entry.getValue();
             if (beeId.equals(recipe.ingredient.getBeeType().getRegistryName().toString())) {
                 List<ItemStack> outputList = new ArrayList<>();
@@ -201,7 +201,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     protected int beesOutsideHive() {
-	    return (int) Math.ceil(abandonCountdown % getTimeInHive(true));
+        return (int) Math.ceil(abandonCountdown % getTimeInHive(true));
     }
 
     @Override

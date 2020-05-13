@@ -6,8 +6,8 @@ import net.minecraft.nbt.ListNBT;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public interface IInhabitantStorage {
-
+public interface IInhabitantStorage
+{
     @Nonnull
     List<AdvancedBeehiveTileEntityAbstract.Inhabitant> getInhabitants();
 

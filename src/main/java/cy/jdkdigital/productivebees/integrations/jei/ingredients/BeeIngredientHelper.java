@@ -5,8 +5,8 @@ import mezz.jei.api.ingredients.IIngredientHelper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient> {
-
+public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
+{
     @Nullable
     @Override
     public BeeIngredient getMatch(Iterable<BeeIngredient> iterable, BeeIngredient beeIngredient) {
@@ -57,10 +57,10 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient> {
     @Nonnull
     @Override
     public String getErrorInfo(@Nullable BeeIngredient beeIngredient) {
-        if(beeIngredient == null) {
+        if (beeIngredient == null) {
             return "beeingredient:null";
         }
-        if(beeIngredient.getBeeType() == null) {
+        if (beeIngredient.getBeeType() == null) {
             return "beeingredient:bee:null";
         }
         return "beeingredient:" + beeIngredient.getBeeType().getRegistryName();

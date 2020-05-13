@@ -31,8 +31,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 @JeiPlugin
-public class ProduciveBeesJeiPlugin implements IModPlugin {
-
+public class ProduciveBeesJeiPlugin implements IModPlugin
+{
     private static final ResourceLocation pluginId = new ResourceLocation(ProductiveBees.MODID, ProductiveBees.MODID);
     public static final ResourceLocation CATEGORY_ADVANCED_BEEHIVE_UID = new ResourceLocation(ProductiveBees.MODID, "advanced_beehive");
     public static final ResourceLocation CATEGORY_BEE_BREEDING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
@@ -81,7 +81,7 @@ public class ProduciveBeesJeiPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addRecipes(BeeBreedingRecipeMaker.getRecipes(), CATEGORY_BEE_BREEDING_UID);
 
-        for(Map.Entry<String, BeeIngredient> entry: BeeIngredientFactory.getOrCreateList().entrySet()) {
+        for (Map.Entry<String, BeeIngredient> entry : BeeIngredientFactory.getOrCreateList().entrySet()) {
             registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (entry.getKey().replace("productivebees:", "")));
         }
 

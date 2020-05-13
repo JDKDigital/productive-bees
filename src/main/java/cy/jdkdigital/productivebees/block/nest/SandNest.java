@@ -8,7 +8,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.Dimension;
 
-public class SandNest extends SolitaryNest {
+public class SandNest extends SolitaryNest
+{
 
     public SandNest(Properties properties) {
         super(properties);
@@ -21,6 +22,6 @@ public class SandNest extends SolitaryNest {
 
     @Override
     public EntityType<BeeEntity> getNestingBeeType(World world) {
-        return  world.getRandom().nextBoolean() ? ModEntities.ASHY_MINING_BEE.get() : ModEntities.CHOCOLATE_MINING_BEE.get();
+        return world.getRandom().nextBoolean() ? ModEntities.ASHY_MINING_BEE.get() : ModEntities.CHOCOLATE_MINING_BEE.get();
     }
 }

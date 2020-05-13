@@ -17,8 +17,8 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeeBreedingRecipe implements IRecipe<IInventory> {
-
+public class BeeBreedingRecipe implements IRecipe<IInventory>
+{
     public static final IRecipeType<BeeBreedingRecipe> BEE_BREEDING = IRecipeType.register(ProductiveBees.MODID + ":bee_breeding");
 
     public final ResourceLocation id;
@@ -72,7 +72,8 @@ public class BeeBreedingRecipe implements IRecipe<IInventory> {
         return BEE_BREEDING;
     }
 
-    public static class Serializer<T extends BeeBreedingRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
+    public static class Serializer<T extends BeeBreedingRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    {
         final BeeBreedingRecipe.Serializer.IRecipeFactory<T> factory;
 
         public Serializer(BeeBreedingRecipe.Serializer.IRecipeFactory<T> factory) {
@@ -96,13 +97,14 @@ public class BeeBreedingRecipe implements IRecipe<IInventory> {
         }
 
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
-            for(BeeIngredient ingredient: recipe.ingredients) {
+            for (BeeIngredient ingredient : recipe.ingredients) {
                 ingredient.write(buffer);
             }
             recipe.output.write(buffer);
         }
 
-        public interface IRecipeFactory<T extends BeeBreedingRecipe> {
+        public interface IRecipeFactory<T extends BeeBreedingRecipe>
+        {
             T create(ResourceLocation id, List<BeeIngredient> input, BeeIngredient output);
         }
     }

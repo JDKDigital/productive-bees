@@ -7,7 +7,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.world.World;
 
-public class ReedBeeEntity extends SolitaryBeeEntity {
+public class ReedBeeEntity extends SolitaryBeeEntity
+{
     public ReedBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
         beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.REED_NESTS);

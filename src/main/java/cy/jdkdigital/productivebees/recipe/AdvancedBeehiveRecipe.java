@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class AdvancedBeehiveRecipe implements IRecipe<IInventory> {
-
+public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
+{
     public static final IRecipeType<AdvancedBeehiveRecipe> ADVANCED_BEEHIVE = IRecipeType.register(ProductiveBees.MODID + ":advanced_beehive");
 
     public final ResourceLocation id;
@@ -93,7 +93,8 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory> {
         return ADVANCED_BEEHIVE;
     }
 
-    public static class Serializer<T extends AdvancedBeehiveRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
+    public static class Serializer<T extends AdvancedBeehiveRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    {
         final IRecipeFactory<T> factory;
 
         public Serializer(Serializer.IRecipeFactory<T> factory) {
@@ -118,7 +119,8 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory> {
                 }
                 if (JSONUtils.isJsonArray(json, ingredientKey)) {
                     produce = Ingredient.deserialize(JSONUtils.getJsonArray(jsonObject, ingredientKey));
-                } else {
+                }
+                else {
                     produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, ingredientKey));
                 }
 
@@ -142,7 +144,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory> {
                 BeeIngredient ingredient = BeeIngredient.read(buffer);
                 Map<ItemStack, Pair<Integer, Integer>> outputs = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                    i -> outputs.put(buffer.readItemStack(), Pair.of(buffer.readInt(), buffer.readInt()))
+                        i -> outputs.put(buffer.readItemStack(), Pair.of(buffer.readInt(), buffer.readInt()))
                 );
                 double chance = buffer.readDouble();
                 return this.factory.create(id, ingredient, outputs, chance);
@@ -170,7 +172,8 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory> {
             }
         }
 
-        public interface IRecipeFactory<T extends AdvancedBeehiveRecipe> {
+        public interface IRecipeFactory<T extends AdvancedBeehiveRecipe>
+        {
             T create(ResourceLocation id, BeeIngredient input, Map<ItemStack, Pair<Integer, Integer>> output, double chance);
         }
     }

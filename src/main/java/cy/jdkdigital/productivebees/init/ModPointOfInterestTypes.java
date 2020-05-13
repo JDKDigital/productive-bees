@@ -21,7 +21,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public final class ModPointOfInterestTypes {
+public final class ModPointOfInterestTypes
+{
     private static Method blockStatesInjector;
 
     public static final DeferredRegister<PointOfInterestType> POINT_OF_INTEREST_TYPES = new DeferredRegister<>(ForgeRegistries.POI_TYPES, ProductiveBees.MODID);
@@ -65,7 +66,7 @@ public final class ModPointOfInterestTypes {
     private static RegistryObject<PointOfInterestType> register(String name, List<RegistryObject<Block>> blocks, int maxFreeTickets) {
         return register(name, () -> {
             Set<BlockState> blockStates = new HashSet<>();
-            for(RegistryObject<Block> block: blocks) {
+            for (RegistryObject<Block> block : blocks) {
                 blockStates.addAll(getAllStates(block.get()));
             }
             PointOfInterestType poi = new PointOfInterestType(name, blockStates, maxFreeTickets, 1);

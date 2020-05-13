@@ -10,7 +10,8 @@ import net.minecraft.world.storage.loot.RandomValueRange;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BeeAttributes {
+public class BeeAttributes
+{
     public static final RandomValueRange productivityModifier = new RandomValueRange(0, 1);
 
     public static final BeeAttribute<String> TYPE = register("type");
@@ -29,24 +30,28 @@ public class BeeAttributes {
     }
 
     static {
-        keyMap.put(PRODUCTIVITY, new HashMap<Integer, String>() {{
+        keyMap.put(PRODUCTIVITY, new HashMap<Integer, String>()
+        {{
             put(0, "productivebees.information.attribute.productivity.normal");
             put(1, "productivebees.information.attribute.productivity.medium");
             put(2, "productivebees.information.attribute.productivity.high");
             put(3, "productivebees.information.attribute.productivity.very_high");
         }});
-        keyMap.put(TEMPER, new HashMap<Integer, String>() {{
+        keyMap.put(TEMPER, new HashMap<Integer, String>()
+        {{
             put(0, "productivebees.information.attribute.temper.passive");
             put(1, "productivebees.information.attribute.temper.normal");
             put(2, "productivebees.information.attribute.temper.short");
             put(3, "productivebees.information.attribute.temper.hostile");
         }});
-        keyMap.put(BEHAVIOR, new HashMap<Integer, String>() {{
+        keyMap.put(BEHAVIOR, new HashMap<Integer, String>()
+        {{
             put(0, "productivebees.information.attribute.behavior.diurnal");
             put(1, "productivebees.information.attribute.behavior.nocturnal");
             put(2, "productivebees.information.attribute.behavior.metaturnal");
         }});
-        keyMap.put(WEATHER_TOLERANCE, new HashMap<Integer, String>() {{
+        keyMap.put(WEATHER_TOLERANCE, new HashMap<Integer, String>()
+        {{
             put(0, "productivebees.information.attribute.weather_tolerance.none");
             put(1, "productivebees.information.attribute.weather_tolerance.rain");
             put(2, "productivebees.information.attribute.weather_tolerance.any");

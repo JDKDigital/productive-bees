@@ -8,7 +8,8 @@ import net.minecraftforge.fml.RegistryObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BeeIngredientFactory {
+public class BeeIngredientFactory
+{
     private static Map<String, BeeIngredient> ingredientList = new HashMap<>();
 
     public static Map<String, BeeIngredient> getOrCreateList() {
@@ -17,21 +18,21 @@ public class BeeIngredientFactory {
         }
         return createList();
     }
-    public static Map<String, BeeIngredient> createList()
-    {
+
+    public static Map<String, BeeIngredient> createList() {
         ingredientList.clear();
 
         // Add vanilla bee as ingredient
         ingredientList.put(EntityType.BEE.getRegistryName() + "", new BeeIngredient(EntityType.BEE, 0));
 
         // Add hive bees
-        for(RegistryObject<EntityType<?>> registryObject: ModEntities.HIVE_BEES.getEntries()) {
+        for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
             EntityType<BeeEntity> bee = (EntityType<BeeEntity>) registryObject.get();
             ingredientList.put(bee.getRegistryName() + "", new BeeIngredient(bee, 0));
         }
 
         // Add solitary bees
-        for(RegistryObject<EntityType<?>> registryObject: ModEntities.SOLITARY_BEES.getEntries()) {
+        for (RegistryObject<EntityType<?>> registryObject : ModEntities.SOLITARY_BEES.getEntries()) {
             EntityType<BeeEntity> bee = (EntityType<BeeEntity>) registryObject.get();
             ingredientList.put(bee.getRegistryName() + "", new BeeIngredient(bee, 1));
         }

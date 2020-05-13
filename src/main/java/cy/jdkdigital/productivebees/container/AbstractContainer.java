@@ -11,8 +11,8 @@ import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nullable;
 
-abstract class AbstractContainer extends Container {
-
+abstract class AbstractContainer extends Container
+{
     protected AbstractContainer(@Nullable ContainerType<?> type, int id) {
         super(type, id);
     }
@@ -30,12 +30,14 @@ abstract class AbstractContainer extends Container {
                 if (!mergeItemStack(slotStack, containerSlots, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!mergeItemStack(slotStack, 0, containerSlots, false)) {
+            }
+            else if (!mergeItemStack(slotStack, 0, containerSlots, false)) {
                 return ItemStack.EMPTY;
             }
             if (slotStack.getCount() == 0) {
                 slot.putStack(ItemStack.EMPTY);
-            } else {
+            }
+            else {
                 slot.onSlotChanged();
             }
             if (slotStack.getCount() == returnStack.getCount()) {
@@ -47,10 +49,11 @@ abstract class AbstractContainer extends Container {
     }
 
     protected int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
-        for (int i = 0 ; i < amount ; i++) {
+        for (int i = 0; i < amount; i++) {
             if (handler instanceof ItemHandlerHelper.ItemHandler) {
                 addSlot(new ManualSlotItemHandler((ItemHandlerHelper.ItemHandler) handler, index, x, y));
-            } else {
+            }
+            else {
                 addSlot(new SlotItemHandler(handler, index, x, y));
             }
             x += dx;
@@ -60,7 +63,7 @@ abstract class AbstractContainer extends Container {
     }
 
     protected void addSlotBox(IItemHandler handler, int startIndex, int x, int y, int horAmount, int dx, int verAmount, int dy) {
-        for (int j = 0 ; j < verAmount ; j++) {
+        for (int j = 0; j < verAmount; j++) {
             startIndex = addSlotRange(handler, startIndex, x, y, horAmount, dx);
             y += dy;
         }

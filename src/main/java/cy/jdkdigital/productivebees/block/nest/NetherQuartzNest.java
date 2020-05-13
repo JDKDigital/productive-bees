@@ -8,7 +8,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.Dimension;
 
-public class NetherQuartzNest extends SolitaryNest {
+public class NetherQuartzNest extends SolitaryNest
+{
 
     public NetherQuartzNest(Properties properties) {
         super(properties);

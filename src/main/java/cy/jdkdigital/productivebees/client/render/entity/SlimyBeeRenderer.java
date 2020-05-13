@@ -7,10 +7,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class SlimyBeeRenderer extends ProductiveBeeRenderer {
-
-	public SlimyBeeRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new SlimyBeeModel<>(false));
-		this.addLayer(new SlimyGelLayer(this));
-	}
+public class SlimyBeeRenderer extends ProductiveBeeRenderer
+{
+    public SlimyBeeRenderer(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn, new SlimyBeeModel<>(false));
+        this.addLayer(new SlimyGelLayer(this));
+    }
 }

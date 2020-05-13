@@ -12,12 +12,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class BeeBreedingRecipeMaker {
-
+public class BeeBreedingRecipeMaker
+{
     public static List<Object> getRecipes() {
         List<Object> recipes = new ArrayList<>();
 
-        for(Map.Entry<String, Map<String, List<String>>> entry: BeeHelper.breedingMap.entrySet()) {
+        for (Map.Entry<String, Map<String, List<String>>> entry : BeeHelper.breedingMap.entrySet()) {
             BeeIngredient mainInput = BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":" + entry.getKey() + "_bee");
             if (mainInput != null) {
                 ResourceLocation regName = mainInput.getBeeType().getRegistryName();
@@ -30,7 +30,8 @@ public class BeeBreedingRecipeMaker {
                         recipes.add(recipe);
                     }
                 }
-            } else {
+            }
+            else {
                 ProductiveBees.LOGGER.info("No ingredient for " + entry.getKey());
             }
         }

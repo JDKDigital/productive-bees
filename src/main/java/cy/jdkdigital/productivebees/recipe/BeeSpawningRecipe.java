@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class BeeSpawningRecipe implements IRecipe<IInventory> {
-
+public class BeeSpawningRecipe implements IRecipe<IInventory>
+{
     public static final IRecipeType<BeeSpawningRecipe> BEE_SPAWNING = IRecipeType.register(ProductiveBees.MODID + ":bee_spawning");
 
     public final ResourceLocation id;
@@ -80,7 +80,8 @@ public class BeeSpawningRecipe implements IRecipe<IInventory> {
         return BEE_SPAWNING;
     }
 
-    public static class Serializer<T extends BeeSpawningRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
+    public static class Serializer<T extends BeeSpawningRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    {
         final BeeSpawningRecipe.Serializer.IRecipeFactory<T> factory;
 
         public Serializer(BeeSpawningRecipe.Serializer.IRecipeFactory<T> factory) {
@@ -92,7 +93,8 @@ public class BeeSpawningRecipe implements IRecipe<IInventory> {
             Ingredient ingredient;
             if (JSONUtils.isJsonArray(json, "ingredient")) {
                 ingredient = Ingredient.deserialize(JSONUtils.getJsonArray(json, "ingredient"));
-            } else {
+            }
+            else {
                 ingredient = Ingredient.deserialize(JSONUtils.getJsonObject(json, "ingredient"));
             }
 
@@ -115,7 +117,7 @@ public class BeeSpawningRecipe implements IRecipe<IInventory> {
 
                 List<BeeIngredient> output = new ArrayList<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                    i -> output.add(BeeIngredient.read(buffer))
+                        i -> output.add(BeeIngredient.read(buffer))
                 );
 
                 int repopulationCooldown = buffer.readInt();
@@ -132,7 +134,7 @@ public class BeeSpawningRecipe implements IRecipe<IInventory> {
                 recipe.ingredient.write(buffer);
 
                 buffer.writeInt(recipe.output.size());
-                for(BeeIngredient beeOutput: recipe.output) {
+                for (BeeIngredient beeOutput : recipe.output) {
                     beeOutput.write(buffer);
                 }
 
@@ -143,7 +145,8 @@ public class BeeSpawningRecipe implements IRecipe<IInventory> {
             }
         }
 
-        public interface IRecipeFactory<T extends BeeSpawningRecipe> {
+        public interface IRecipeFactory<T extends BeeSpawningRecipe>
+        {
             T create(ResourceLocation id, Ingredient input, List<BeeIngredient> output, int repopulationCooldown);
         }
     }

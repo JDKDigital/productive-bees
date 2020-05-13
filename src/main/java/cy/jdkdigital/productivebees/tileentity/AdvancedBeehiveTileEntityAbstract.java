@@ -35,7 +35,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntity {
+public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntity
+{
     public BlockPos flowerPos = null;
     public int MAX_BEES = 3;
     private LazyOptional<IInhabitantStorage> beeHandler = LazyOptional.of(this::createBeeHandler);
@@ -81,7 +82,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
                     BeehiveTileEntity.State beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveTileEntity.State.HONEY_DELIVERED : BeehiveTileEntity.State.BEE_RELEASED;
                     return this.releaseBee(this.getBlockState(), inhabitant.nbt, null, beeState);
-                } else {
+                }
+                else {
                     inhabitant.ticksInHive += tickCounter;
                 }
                 return false;
@@ -116,7 +118,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                     if (player.getPositionVec().squareDistanceTo(entity.getPositionVec()) <= 16.0D) {
                         if (!this.isSmoked()) {
                             beeEntity.setBeeAttacker(player);
-                        } else {
+                        }
+                        else {
                             beeEntity.setStayOutOfHiveCountdown(400);
                         }
                     }
@@ -173,8 +176,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     public boolean releaseBee(BlockState state, CompoundNBT tag, @Nullable List<Entity> releasedBees, BeehiveTileEntity.State beeState) {
         boolean stayInside =
                 this.world.dimension.isSurfaceWorld() &&
-                (this.world.isNightTime() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
-                (this.world.isRaining() && (beeState != BeehiveTileEntity.State.EMERGENCY || tag.getInt("bee_weather_tolerance") == 0)); // it's raining and the bees is not tolerant
+                        (this.world.isNightTime() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
+                        (this.world.isRaining() && (beeState != BeehiveTileEntity.State.EMERGENCY || tag.getInt("bee_weather_tolerance") == 0)); // it's raining and the bees is not tolerant
 
         if (!this.world.isNightTime() && !this.world.isRaining() && stayInside) {
             ProductiveBees.LOGGER.info("Bee is staying inside during the day: " + tag);
@@ -205,6 +208,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                         }
                     }
                 }
+
                 return spawned;
             }
             return false;
@@ -292,7 +296,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return this.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitants).orElse(new ArrayList<>());
     }
 
-    public static class Inhabitant {
+    public static class Inhabitant
+    {
         public final CompoundNBT nbt;
         public int ticksInHive;
         public final int minOccupationTicks;
@@ -317,7 +322,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     private IInhabitantStorage createBeeHandler() {
-        return new InhabitantStorage() {
+        return new InhabitantStorage()
+        {
             @Override
             public void onContentsChanged() {
                 super.onContentsChanged();

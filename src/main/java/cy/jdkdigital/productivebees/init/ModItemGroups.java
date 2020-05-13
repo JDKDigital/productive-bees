@@ -8,24 +8,25 @@ import net.minecraft.item.Items;
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-public class ModItemGroups {
-	
-	public static final ItemGroup PRODUCTIVE_BEES = new ModItemGroup(ProductiveBees.MODID, () -> new ItemStack(Items.BEE_NEST));
-	
-	public static class ModItemGroup extends ItemGroup {
+public class ModItemGroups
+{
+    public static final ItemGroup PRODUCTIVE_BEES = new ModItemGroup(ProductiveBees.MODID, () -> new ItemStack(Items.BEE_NEST));
 
-		private final Supplier<ItemStack> iconSupplier;
-		
-		public ModItemGroup(@Nonnull final String name, @Nonnull final Supplier<ItemStack> iconSupplier) {
-			super(name);
-			this.iconSupplier = iconSupplier;
-		}
+    public static class ModItemGroup extends ItemGroup
+    {
 
-		@Override
-		public ItemStack createIcon() {
-			return iconSupplier.get();
-		}
-		
-	}
-	
+        private final Supplier<ItemStack> iconSupplier;
+
+        public ModItemGroup(@Nonnull final String name, @Nonnull final Supplier<ItemStack> iconSupplier) {
+            super(name);
+            this.iconSupplier = iconSupplier;
+        }
+
+        @Override
+        public ItemStack createIcon() {
+            return iconSupplier.get();
+        }
+
+    }
+
 }

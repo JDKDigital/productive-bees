@@ -14,11 +14,12 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemHandlerHelper {
+public class ItemHandlerHelper
+{
     public static final int BOTTLE_SLOT = 0;
     public static final int INPUT_SLOT = 1;
 
-    public static final int[] OUTPUT_SLOTS = new int[] {2,3,4,5,6,7,8,9,10};
+    public static final int[] OUTPUT_SLOTS = new int[]{2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     private static int getAvailableOutputSlot(IItemHandler handler, ItemStack insertStack) {
         return getAvailableOutputSlot(handler, insertStack, new ArrayList<>());
@@ -46,7 +47,8 @@ public class ItemHandlerHelper {
         return new ItemHandler(10 + inputSize, tileEntity);
     }
 
-    public static class ItemHandler extends ItemStackHandler {
+    public static class ItemHandler extends ItemStackHandler
+    {
         private TileEntity tileEntity;
 
         public ItemHandler(int size, TileEntity tileEntity) {
@@ -75,7 +77,9 @@ public class ItemHandlerHelper {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
             return isItemValid(slot, stack, true);
-        };
+        }
+
+        ;
 
         public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
             // Always allow an input item into an input slot
@@ -129,7 +133,8 @@ public class ItemHandlerHelper {
                 ItemStack existingStack = this.getStackInSlot(slot);
                 if (existingStack.isEmpty()) {
                     setStackInSlot(slot, new ItemStack(stack.getItem(), stack.getCount()));
-                } else {
+                }
+                else {
                     existingStack.grow(stack.getCount());
                 }
                 onContentsChanged(slot);
@@ -140,7 +145,7 @@ public class ItemHandlerHelper {
 
         public boolean canFitStacks(List<ItemStack> stacks) {
             List<Integer> usedSlots = new ArrayList<>();
-            for(ItemStack stack: stacks) {
+            for (ItemStack stack : stacks) {
                 int slot = getAvailableOutputSlot(this, stack, usedSlots);
                 if (slot == 0) {
                     return false;
@@ -150,8 +155,7 @@ public class ItemHandlerHelper {
         }
 
         @Override
-        public void deserializeNBT(CompoundNBT nbt)
-        {
+        public void deserializeNBT(CompoundNBT nbt) {
             int size = nbt.contains("Size", Constants.NBT.TAG_INT) ? nbt.getInt("Size") : stacks.size();
             if (size < stacks.size()) {
                 nbt.putInt("Size", stacks.size());

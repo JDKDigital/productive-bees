@@ -21,58 +21,59 @@ import net.minecraft.world.server.ServerWorld;
 
 import java.util.Random;
 
-public class SugarCaneNest extends SolitaryNest {
-	protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
+public class SugarCaneNest extends SolitaryNest
+{
+    protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
 
-	public SugarCaneNest(Properties properties) {
-		super(properties);
-	}
+    public SugarCaneNest(Properties properties) {
+        super(properties);
+    }
 
-	@Override
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-		super.tick(state, worldIn, pos, rand);
-		if (!state.isValidPosition(worldIn, pos)) {
-			worldIn.destroyBlock(pos, true);
-		}
-	}
+    @Override
+    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+        super.tick(state, worldIn, pos, rand);
+        if (!state.isValidPosition(worldIn, pos)) {
+            worldIn.destroyBlock(pos, true);
+        }
+    }
 
-	@Override
-	public boolean canRepopulateIn(Dimension dimension, Biome biome) {
-		return dimension.isSurfaceWorld();
-	}
+    @Override
+    public boolean canRepopulateIn(Dimension dimension, Biome biome) {
+        return dimension.isSurfaceWorld();
+    }
 
-	@Override
-	public EntityType<BeeEntity> getNestingBeeType(World world) {
-		switch (world.rand.nextInt(3)) {
-			case 0:
-				return ModEntities.MASON_BEE.get();
-			case 1:
-				return ModEntities.LEAFCUTTER_BEE.get();
-			case 2:
-			default:
-				return ModEntities.REED_BEE.get();
-		}
-	}
+    @Override
+    public EntityType<BeeEntity> getNestingBeeType(World world) {
+        switch (world.rand.nextInt(3)) {
+            case 0:
+                return ModEntities.MASON_BEE.get();
+            case 1:
+                return ModEntities.LEAFCUTTER_BEE.get();
+            case 2:
+            default:
+                return ModEntities.REED_BEE.get();
+        }
+    }
 
-	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return SHAPE;
-	}
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
+    }
 
-	@Override
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (!stateIn.isValidPosition(worldIn, currentPos)) {
-			worldIn.getPendingBlockTicks().scheduleTick(currentPos, this, 1);
-		}
+    @Override
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (!stateIn.isValidPosition(worldIn, currentPos)) {
+            worldIn.getPendingBlockTicks().scheduleTick(currentPos, this, 1);
+        }
 
-		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
-	}
+        return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+    }
 
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		Block block = worldIn.getBlockState(pos.down()).getBlock();
-		if (block == Blocks.SUGAR_CANE) {
-			return true;
-		}
-		return false;
-	}
+    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        Block block = worldIn.getBlockState(pos.down()).getBlock();
+        if (block == Blocks.SUGAR_CANE) {
+            return true;
+        }
+        return false;
+    }
 }

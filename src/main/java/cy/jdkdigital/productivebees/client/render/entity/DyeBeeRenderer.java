@@ -8,28 +8,28 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class DyeBeeRenderer extends ProductiveBeeRenderer {
+public class DyeBeeRenderer extends ProductiveBeeRenderer
+{
+    public DyeBeeRenderer(EntityRendererManager renderManagerIn, ProductiveBeeModel<ProductiveBeeEntity> model) {
+        super(renderManagerIn, model);
+    }
 
-	public DyeBeeRenderer(EntityRendererManager renderManagerIn, ProductiveBeeModel<ProductiveBeeEntity> model) {
-		super(renderManagerIn, model);
-	}
+    public DyeBeeRenderer(EntityRendererManager renderManagerIn) {
+        this(renderManagerIn, new ProductiveBeeModel<>());
+    }
 
-	public DyeBeeRenderer(EntityRendererManager renderManagerIn) {
-		this(renderManagerIn, new ProductiveBeeModel<>());
-	}
+    @Override
+    public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
+        String beeLocation = "bee/" + bee.getBeeType() + "/bee";
 
-	@Override
-	public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
-		String beeLocation = "bee/" + bee.getBeeType() + "/bee";
-		
-		if (bee.isAngry()) {
-			beeLocation = beeLocation + "_angry";
-		}
-		
-		if (bee.hasNectar()) {
-			beeLocation = beeLocation + "_nectar";
-		}
-		
-		return getResLocation(beeLocation);
-	}
+        if (bee.isAngry()) {
+            beeLocation = beeLocation + "_angry";
+        }
+
+        if (bee.hasNectar()) {
+            beeLocation = beeLocation + "_nectar";
+        }
+
+        return getResLocation(beeLocation);
+    }
 }

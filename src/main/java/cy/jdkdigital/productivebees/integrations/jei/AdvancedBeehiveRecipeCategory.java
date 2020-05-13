@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBeehiveRecipe> {
-
+public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBeehiveRecipe>
+{
     private final IDrawable background;
     private final IDrawable icon;
 
@@ -87,9 +87,11 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         int startX = 68;
         int startY = 8;
         int offset = ingredients.getInputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT).size();
-        IntStream.range(offset, outputs.size()+offset).forEach((i) -> {
-            if (i > 9 + offset) return;
-            itemStacks.init(i, false, startX + ((i-offset) * 18), startY + ((int) Math.floor(((float)i-offset) / 3.0F) * 18));
+        IntStream.range(offset, outputs.size() + offset).forEach((i) -> {
+            if (i > 9 + offset) {
+                return;
+            }
+            itemStacks.init(i, false, startX + ((i - offset) * 18), startY + ((int) Math.floor(((float) i - offset) / 3.0F) * 18));
         });
         itemStacks.set(ingredients);
     }

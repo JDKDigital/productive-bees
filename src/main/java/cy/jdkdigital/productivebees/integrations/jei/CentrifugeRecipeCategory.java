@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecipe> {
-
+public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecipe>
+{
     private final IDrawable background;
     private final IDrawable icon;
 
@@ -85,9 +85,11 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         int startX = 68;
         int startY = 8;
         int offset = ingredients.getInputs(VanillaTypes.ITEM).size();
-        IntStream.range(offset, outputs.size()+offset).forEach((i) -> {
-            if (i > 9 + offset) return;
-            itemStacks.init(i, false, startX + ((i-offset) * 18), startY + ((int) Math.floor(((float)i-offset) / 3.0F) * 18));
+        IntStream.range(offset, outputs.size() + offset).forEach((i) -> {
+            if (i > 9 + offset) {
+                return;
+            }
+            itemStacks.init(i, false, startX + ((i - offset) * 18), startY + ((int) Math.floor(((float) i - offset) / 3.0F) * 18));
         });
 
         itemStacks.set(ingredients);

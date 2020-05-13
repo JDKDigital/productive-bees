@@ -13,19 +13,22 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GlowingBeeEntity extends EffectHiveBeeEntity implements IBeeEntity {
+public class GlowingBeeEntity extends EffectHiveBeeEntity implements IBeeEntity
+{
+    public GlowingBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
+        super(entityType, world);
+        beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.GLOWSTONE_NESTS);
+    }
 
-	public GlowingBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
-		super(entityType, world);
-		beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.GLOWSTONE_NESTS);
-	}
+    public float getBrightness() {
+        return 1.0F;
+    }
 
-	public float getBrightness() {
-		return 1.0F;
-	}
-
-	@Override
+    @Override
     public Map<Effect, Integer> getEffects() {
-		return new HashMap<Effect, Integer>() {{put(Effects.BLINDNESS, 200);}};
-	}
+        return new HashMap<Effect, Integer>()
+        {{
+            put(Effects.BLINDNESS, 200);
+        }};
+    }
 }

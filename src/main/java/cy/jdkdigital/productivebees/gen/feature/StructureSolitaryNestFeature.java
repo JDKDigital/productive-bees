@@ -13,7 +13,8 @@ import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import java.util.Random;
 import java.util.function.Function;
 
-public class StructureSolitaryNestFeature extends SolitaryNestFeature {
+public class StructureSolitaryNestFeature extends SolitaryNestFeature
+{
     private final float probability;
     private final int offsetSpan;
 
@@ -25,7 +26,7 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature {
 
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, ReplaceBlockConfig featureConfig) {
-        if(!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
+        if (!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 
@@ -36,9 +37,9 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature {
 
         // Go to nearby structure
         nearby:
-        if(!matcher.test(world.getBlockState(pos))) {
+        if (!matcher.test(world.getBlockState(pos))) {
             // Skip or look around?
-            for(Direction dir : BlockStateProperties.HORIZONTAL_FACING.getAllowedValues()) {
+            for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getAllowedValues()) {
                 if (matcher.test(world.getBlockState(pos.offset(dir, 2)))) {
                     pos = pos.offset(dir, 3);
                     break nearby;
@@ -52,11 +53,11 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature {
 
         // Move to structure edge
         edgeFinding:
-        for(Direction dir : BlockStateProperties.HORIZONTAL_FACING.getAllowedValues()) {
+        for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getAllowedValues()) {
             int i = 0;
-            while(++i <= 5) {
+            while (++i <= 5) {
                 if (world.isAirBlock(pos.offset(dir, i))) {
-                    pos = pos.offset(dir, i-1);
+                    pos = pos.offset(dir, i - 1);
                     break edgeFinding;
                 }
             }

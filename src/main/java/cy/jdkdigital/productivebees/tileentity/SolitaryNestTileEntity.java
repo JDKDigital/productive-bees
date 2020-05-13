@@ -24,8 +24,8 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
-
+public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
+{
     private LazyOptional<IInhabitantStorage> eggHandler = LazyOptional.of(this::createEggHandler);
     protected boolean isSealed = false;
     private int tickCounter = 0;
@@ -35,13 +35,13 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
 
     public int MAX_EGGS = 3;
 
-	public SolitaryNestTileEntity() {
-	    super(ModTileEntityTypes.SOLITARY_NEST.get());
+    public SolitaryNestTileEntity() {
+        super(ModTileEntityTypes.SOLITARY_NEST.get());
         MAX_BEES = 1;
-	}
+    }
 
     public boolean isSealed() {
-	    return isSealed;
+        return isSealed;
     }
 
     @Override
@@ -51,7 +51,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
             if (++nestTickTimer % 47 == 0) { // Does not need to check every tick
                 if (!this.canRepopulate()) {
                     nestTickTimer = 0;
-                } else if (this.canRepopulate() && nestTickTimer > this.getRepopulationCooldown()) {
+                }
+                else if (this.canRepopulate() && nestTickTimer > this.getRepopulationCooldown()) {
                     nestTickTimer = 0;
                     BlockPos pos = this.getPos();
                     Block block = this.getBlockState().getBlock();
@@ -97,7 +98,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
                         if (beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, this.getPos(), direction, -24000)) {
                             return true;
                         }
-                    } else {
+                    }
+                    else {
                         egg.ticksInHive += tickCounter;
                     }
                     return false;
@@ -107,8 +109,9 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
     }
 
     public static EntityType<BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest) {
-	    return getProducibleBeeType(world, pos, nest, false);
+        return getProducibleBeeType(world, pos, nest, false);
     }
+
     public static EntityType<BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest, boolean hatched) {
         EntityType<BeeEntity> beeType = nest.getNestingBeeType(world);
 
@@ -128,13 +131,13 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
     }
 
     protected boolean canRepopulate() {
-        SolitaryNest block = ((SolitaryNest)this.getBlockState().getBlock());
-	    boolean blockConditionsMet = block.canRepopulateIn(world.getDimension(), world.getBiome(this.getPos()));
-	    return hasNoBees() && blockConditionsMet;
+        SolitaryNest block = ((SolitaryNest) this.getBlockState().getBlock());
+        boolean blockConditionsMet = block.canRepopulateIn(world.getDimension(), world.getBiome(this.getPos()));
+        return hasNoBees() && blockConditionsMet;
     }
 
     protected int getRepopulationCooldown() {
-	    return ((SolitaryNest)this.getBlockState().getBlock()).getRepopulationCooldown();
+        return ((SolitaryNest) this.getBlockState().getBlock()).getRepopulationCooldown();
     }
 
     protected int getTimeInHive(boolean hasNectar) {
@@ -161,7 +164,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
     }
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
-	    super.beeReleasePostAction(beeEntity, state, beeState);
+        super.beeReleasePostAction(beeEntity, state, beeState);
 
         // Lay egg
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
@@ -192,7 +195,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
         return this.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
     }
 
-    public static class Egg extends Inhabitant {
+    public static class Egg extends Inhabitant
+    {
 
         public Egg(CompoundNBT nbt, int ticksInHive, int incubationTime) {
             super(nbt, ticksInHive, incubationTime, "");
@@ -208,7 +212,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract {
     }
 
     private IInhabitantStorage createEggHandler() {
-        return new InhabitantStorage() {
+        return new InhabitantStorage()
+        {
             @Override
             public void onContentsChanged() {
                 super.onContentsChanged();

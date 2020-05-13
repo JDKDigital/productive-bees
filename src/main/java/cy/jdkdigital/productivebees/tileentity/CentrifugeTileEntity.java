@@ -34,13 +34,15 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class CentrifugeTileEntity extends TileEntity implements INamedContainerProvider, ITickableTileEntity {
+public class CentrifugeTileEntity extends TileEntity implements INamedContainerProvider, ITickableTileEntity
+{
     private static final Random rand = new Random();
 
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new ItemHandlerHelper.ItemHandler(12, this) {
+    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new ItemHandlerHelper.ItemHandler(12, this)
+    {
         public boolean isInputItem(Item item) {
             return item == Items.GLASS_BOTTLE || ModTags.HONEYCOMBS.contains(item);
         }
@@ -66,7 +68,8 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
                             this.completeRecipeProcessing(recipe, handler);
                         }
                     }
-                } else {
+                }
+                else {
                     this.recipeProgress = 0;
                     world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, false));
                 }

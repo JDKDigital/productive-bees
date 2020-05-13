@@ -11,7 +11,8 @@ import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import java.util.Random;
 import java.util.function.Function;
 
-public class WoodSolitaryNestFeature extends SolitaryNestFeature {
+public class WoodSolitaryNestFeature extends SolitaryNestFeature
+{
     private final float probability;
 
     public WoodSolitaryNestFeature(float probability, Function<Dynamic<?>, ? extends ReplaceBlockConfig> configFactory) {
@@ -21,7 +22,7 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature {
 
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, ReplaceBlockConfig featureConfig) {
-        if(!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
+        if (!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 
@@ -29,7 +30,7 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature {
         pos = pos.up(generator.getGroundHeight());
 
         // Go to ground surface
-        while(pos.getY() < 127 && !world.isAirBlock(pos)) {
+        while (pos.getY() < 127 && !world.isAirBlock(pos)) {
             pos = pos.up();
         }
         // Go up some more
@@ -40,8 +41,8 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature {
 
         BlockPos newPos = null;
         blockFound:
-        for(int x = 0; x < 16; x++) {
-            for(int z = 0; z < 16; z++) {
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
                 newPos = pos.add(x, 0, z);
                 if (matcher.test(world.getBlockState(newPos))) {
                     break blockFound;

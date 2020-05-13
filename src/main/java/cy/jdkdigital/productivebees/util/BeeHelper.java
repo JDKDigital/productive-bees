@@ -23,88 +23,114 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BeeHelper {
-    public static Map<String, Map<String, List<String>>> breedingMap = new HashMap<String, Map<String, List<String>>>() {{
-        put("ashy_mining", new HashMap<String, List<String>>() {{
+public class BeeHelper
+{
+    public static Map<String, Map<String, List<String>>> breedingMap = new HashMap<String, Map<String, List<String>>>()
+    {{
+        put("ashy_mining", new HashMap<String, List<String>>()
+        {{
             put("quartz", Arrays.asList("iron"));
         }});
-        put("blazing", new HashMap<String, List<String>>() {{
+        put("blazing", new HashMap<String, List<String>>()
+        {{
             put("leafcutter", Arrays.asList("coal"));
         }});
-        put("blue_banded", new HashMap<String, List<String>>() {{
+        put("blue_banded", new HashMap<String, List<String>>()
+        {{
             put("redstone", Arrays.asList("lapis"));
         }});
-        put("chocolate_mining", new HashMap<String, List<String>>() {{
+        put("chocolate_mining", new HashMap<String, List<String>>()
+        {{
             put("glowing", Arrays.asList("redstone"));
         }});
-        put("coal", new HashMap<String, List<String>>() {{
+        put("coal", new HashMap<String, List<String>>()
+        {{
             put("iron", Arrays.asList("steel"));
             put("ender", Arrays.asList("tungsten"));
         }});
-        put("copper", new HashMap<String, List<String>>() {{
+        put("copper", new HashMap<String, List<String>>()
+        {{
             put("zinc", Arrays.asList("brass"));
             put("tin", Arrays.asList("bronze"));
         }});
-        put("creeper", new HashMap<String, List<String>>() {{
+        put("creeper", new HashMap<String, List<String>>()
+        {{
             put("iron", Arrays.asList("radioactive"));
         }});
-        put("diamond", new HashMap<String, List<String>>() {{
+        put("diamond", new HashMap<String, List<String>>()
+        {{
             put("slimy", Arrays.asList("emerald"));
         }});
-        put("ender", new HashMap<String, List<String>>() {{
+        put("ender", new HashMap<String, List<String>>()
+        {{
             put("lapis", Arrays.asList("diamond"));
             put("coal", Arrays.asList("tungsten"));
             put("gold", Arrays.asList("platinum"));
         }});
-        put("glowing", new HashMap<String, List<String>>() {{
+        put("glowing", new HashMap<String, List<String>>()
+        {{
             put("chocolate_mining", Arrays.asList("redstone"));
         }});
-        put("gold", new HashMap<String, List<String>>() {{
+        put("gold", new HashMap<String, List<String>>()
+        {{
             put("ender", Arrays.asList("platinum"));
         }});
-        put("iron", new HashMap<String, List<String>>() {{
+        put("iron", new HashMap<String, List<String>>()
+        {{
             put("reed", Arrays.asList("copper"));
             put("coal", Arrays.asList("steel"));
             put("nickel", Arrays.asList("invar"));
             put("creeper", Arrays.asList("radioactive"));
         }});
-        put("lapis", new HashMap<String, List<String>>() {{
+        put("lapis", new HashMap<String, List<String>>()
+        {{
             put("ender", Arrays.asList("diamond"));
         }});
-        put("leafcutter", new HashMap<String, List<String>>() {{
+        put("leafcutter", new HashMap<String, List<String>>()
+        {{
             put("mason", Arrays.asList("spidey"));
             put("blazing", Arrays.asList("coal"));
         }});
-        put("magmatic", new HashMap<String, List<String>>() {{
+        put("magmatic", new HashMap<String, List<String>>()
+        {{
             put("nomad", Arrays.asList("blazing"));
         }});
-        put("mason", new HashMap<String, List<String>>() {{
+        put("mason", new HashMap<String, List<String>>()
+        {{
             put("leafcutter", Arrays.asList("spidey"));
             put("quartz", Arrays.asList("gold"));
         }});
-        put("nickel", new HashMap<String, List<String>>() {{
+        put("nickel", new HashMap<String, List<String>>()
+        {{
             put("iron", Arrays.asList("invar"));
         }});
-        put("nomad", new HashMap<String, List<String>>() {{
+        put("nomad", new HashMap<String, List<String>>()
+        {{
             put("magmatic", Arrays.asList("blazing"));
         }});
-        put("slimy", new HashMap<String, List<String>>() {{
+        put("slimy", new HashMap<String, List<String>>()
+        {{
             put("diamond", Arrays.asList("diamond"));
         }});
-        put("tin", new HashMap<String, List<String>>() {{
+        put("tin", new HashMap<String, List<String>>()
+        {{
             put("copper", Arrays.asList("bronze"));
         }});
-        put("quartz", new HashMap<String, List<String>>() {{
+        put("quartz", new HashMap<String, List<String>>()
+        {{
             put("mason", Arrays.asList("gold"));
             put("ashy_mining", Arrays.asList("iron"));
         }});
-        put("redstone", new HashMap<String, List<String>>() {{
+        put("redstone", new HashMap<String, List<String>>()
+        {{
             put("blue_banded", Arrays.asList("lapis"));
         }});
-        put("reed", new HashMap<String, List<String>>() {{
+        put("reed", new HashMap<String, List<String>>()
+        {{
             put("iron", Arrays.asList("copper"));
         }});
-        put("zinc", new HashMap<String, List<String>>() {{
+        put("zinc", new HashMap<String, List<String>>()
+        {{
             put("copper", Arrays.asList("brass"));
         }});
     }};
@@ -198,7 +224,7 @@ public class BeeHelper {
         }
 
         String babyType = null;
-        List<String> possibleBreedings = res.get(((ProductiveBeeEntity)targetEntity).getBeeType());
+        List<String> possibleBreedings = res.get(((ProductiveBeeEntity) targetEntity).getBeeType());
         if (possibleBreedings != null && possibleBreedings.size() > 0) {
             babyType = possibleBreedings.get(0);
         }

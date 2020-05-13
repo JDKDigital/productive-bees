@@ -5,7 +5,8 @@ import net.minecraft.potion.Effect;
 
 import java.util.Map;
 
-public interface IEffectBeeEntity {
+public interface IEffectBeeEntity
+{
 
     int getEffectCooldown();
 

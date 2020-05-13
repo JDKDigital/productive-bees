@@ -19,17 +19,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient> {
-
-    private final Map<Integer, Map<String, Integer>> renderSettings = new HashMap<Integer, Map<String, Integer>>() {{
-        put(0, new HashMap<String, Integer>() {{
+public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
+{
+    private final Map<Integer, Map<String, Integer>> renderSettings = new HashMap<Integer, Map<String, Integer>>()
+    {{
+        put(0, new HashMap<String, Integer>()
+        {{
             put("scale", 128);
             put("iconX", 14);
             put("iconY", 14);
             put("iconU", 20);
             put("iconV", 20);
         }});
-        put(1, new HashMap<String, Integer>() {{
+        put(1, new HashMap<String, Integer>()
+        {{
             put("scale", 128);
             put("iconX", 12);
             put("iconY", 12);

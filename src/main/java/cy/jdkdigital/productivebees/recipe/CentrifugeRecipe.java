@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class CentrifugeRecipe implements IRecipe<IInventory> {
-
+public class CentrifugeRecipe implements IRecipe<IInventory>
+{
     public static final IRecipeType<CentrifugeRecipe> CENTRIFUGE = IRecipeType.register(ProductiveBees.MODID + ":centrifuge");
 
     public final ResourceLocation id;
@@ -84,7 +84,8 @@ public class CentrifugeRecipe implements IRecipe<IInventory> {
         return CENTRIFUGE;
     }
 
-    public static class Serializer<T extends CentrifugeRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
+    public static class Serializer<T extends CentrifugeRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    {
         final CentrifugeRecipe.Serializer.IRecipeFactory<T> factory;
 
         public Serializer(CentrifugeRecipe.Serializer.IRecipeFactory<T> factory) {
@@ -96,7 +97,8 @@ public class CentrifugeRecipe implements IRecipe<IInventory> {
             Ingredient ingredient;
             if (JSONUtils.isJsonArray(json, "ingredient")) {
                 ingredient = Ingredient.deserialize(JSONUtils.getJsonArray(json, "ingredient"));
-            } else {
+            }
+            else {
                 ingredient = Ingredient.deserialize(JSONUtils.getJsonObject(json, "ingredient"));
             }
 
@@ -104,15 +106,16 @@ public class CentrifugeRecipe implements IRecipe<IInventory> {
             Map<ItemStack, Pair<Integer, Integer>> outputs = new HashMap<>();
             jsonArray.forEach(el -> {
                 JsonObject jsonObject = el.getAsJsonObject();
-                int min = JSONUtils.getInt(jsonObject,"min",1);
-                int max = JSONUtils.getInt(jsonObject,"max",1);
+                int min = JSONUtils.getInt(jsonObject, "min", 1);
+                int max = JSONUtils.getInt(jsonObject, "max", 1);
 
                 if (jsonObject.has("item")) {
-                    String registryname = JSONUtils.getString(jsonObject,"item");
+                    String registryname = JSONUtils.getString(jsonObject, "item");
                     Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryname));
                     outputs.put(new ItemStack(item), Pair.of(min, max));
-                } else if (jsonObject.has("tag")) {
-                    String registryname = JSONUtils.getString(jsonObject,"tag");
+                }
+                else if (jsonObject.has("tag")) {
+                    String registryname = JSONUtils.getString(jsonObject, "tag");
                     Tag<Item> tag = ItemTags.getCollection().getOrCreate(new ResourceLocation(registryname));
                     if (!tag.getAllElements().isEmpty()) {
                         outputs.put(new ItemStack(tag.getAllElements().iterator().next()), Pair.of(min, max));
@@ -129,7 +132,7 @@ public class CentrifugeRecipe implements IRecipe<IInventory> {
 
                 Map<ItemStack, Pair<Integer, Integer>> output = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                    i -> output.put(buffer.readItemStack(), Pair.of(buffer.readInt(), buffer.readInt()))
+                        i -> output.put(buffer.readItemStack(), Pair.of(buffer.readInt(), buffer.readInt()))
                 );
 
                 return this.factory.create(id, ingredient, output);
@@ -154,7 +157,8 @@ public class CentrifugeRecipe implements IRecipe<IInventory> {
             }
         }
 
-        public interface IRecipeFactory<T extends CentrifugeRecipe> {
+        public interface IRecipeFactory<T extends CentrifugeRecipe>
+        {
             T create(ResourceLocation id, Ingredient input, Map<ItemStack, Pair<Integer, Integer>> output);
         }
     }

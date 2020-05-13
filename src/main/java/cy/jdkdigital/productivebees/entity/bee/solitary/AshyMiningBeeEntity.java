@@ -5,7 +5,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.world.World;
 
-public class AshyMiningBeeEntity extends SolitaryBeeEntity {
+public class AshyMiningBeeEntity extends SolitaryBeeEntity
+{
     public AshyMiningBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
     }

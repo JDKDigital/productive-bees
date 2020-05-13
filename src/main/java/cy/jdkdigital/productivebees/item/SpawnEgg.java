@@ -7,20 +7,21 @@ import net.minecraft.nbt.CompoundNBT;
 
 import java.util.function.Supplier;
 
-public class SpawnEgg extends SpawnEggItem {
+public class SpawnEgg extends SpawnEggItem
+{
     private final Supplier<EntityType<?>> entityType;
 
-    public SpawnEgg(Supplier<EntityType<?>> entityType, int primaryColor, int secondaryColor, Item.Properties properties){
+    public SpawnEgg(Supplier<EntityType<?>> entityType, int primaryColor, int secondaryColor, Item.Properties properties) {
         super(null, primaryColor, secondaryColor, properties);
         this.entityType = entityType;
     }
 
     @Override
-    public EntityType<?> getType(CompoundNBT compound){
-        if(compound != null && compound.contains("EntityTag", 10)) {
+    public EntityType<?> getType(CompoundNBT compound) {
+        if (compound != null && compound.contains("EntityTag", 10)) {
             CompoundNBT entityTag = compound.getCompound("EntityTag");
 
-            if(entityTag.contains("id", 8)) {
+            if (entityTag.contains("id", 8)) {
                 return EntityType.byKey(entityTag.getString("id")).orElse(this.entityType.get());
             }
         }

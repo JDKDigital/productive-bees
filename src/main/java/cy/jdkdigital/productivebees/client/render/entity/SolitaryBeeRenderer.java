@@ -10,20 +10,20 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class SolitaryBeeRenderer extends MobRenderer<SolitaryBeeEntity, SolitaryBeeModel<SolitaryBeeEntity>> {
+public class SolitaryBeeRenderer extends MobRenderer<SolitaryBeeEntity, SolitaryBeeModel<SolitaryBeeEntity>>
+{
+    public SolitaryBeeRenderer(EntityRendererManager renderManagerIn, SolitaryBeeModel<SolitaryBeeEntity> model) {
+        super(renderManagerIn, model, 0.7F);
+    }
 
-	public SolitaryBeeRenderer(EntityRendererManager renderManagerIn, SolitaryBeeModel<SolitaryBeeEntity> model) {
-		super(renderManagerIn, model, 0.7F);
-	}
+    public SolitaryBeeRenderer(EntityRendererManager renderManagerIn) {
+        this(renderManagerIn, new SolitaryBeeModel<>());
+    }
 
-	public SolitaryBeeRenderer(EntityRendererManager renderManagerIn) {
-		this(renderManagerIn, new SolitaryBeeModel<>());
-	}
+    @Override
+    public ResourceLocation getEntityTexture(SolitaryBeeEntity bee) {
+        String beeLocation = "bee/" + bee.getBeeType() + "/bee";
 
-	@Override
-	public ResourceLocation getEntityTexture(SolitaryBeeEntity bee) {
-		String beeLocation = "bee/" + bee.getBeeType() + "/bee";
-		
-		return new ResourceLocation(ProductiveBees.MODID + ":textures/entity/" + beeLocation + ".png");
-	}
+        return new ResourceLocation(ProductiveBees.MODID + ":textures/entity/" + beeLocation + ".png");
+    }
 }

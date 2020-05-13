@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.Dimension;
 
-public class StoneNest extends SolitaryNest {
-
+public class StoneNest extends SolitaryNest
+{
     public StoneNest(Properties properties) {
         super(properties);
     }

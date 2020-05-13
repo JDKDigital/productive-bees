@@ -6,7 +6,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class BeeIngredient {
+public class BeeIngredient
+{
     private EntityType<BeeEntity> bee;
     private int renderType = 0;
 

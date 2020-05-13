@@ -9,8 +9,8 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
-public class HoneyTreat extends Item {
-
+public class HoneyTreat extends Item
+{
     public HoneyTreat(Properties properties) {
         super(properties);
     }
@@ -21,7 +21,7 @@ public class HoneyTreat extends Item {
             return false;
         }
 
-        BeeEntity bee = (BeeEntity)target;
+        BeeEntity bee = (BeeEntity) target;
 
         // Stop agro
         bee.setRevengeTarget(null);
@@ -31,7 +31,7 @@ public class HoneyTreat extends Item {
         bee.heal(bee.getMaxHealth());
 
         if (bee.isChild()) {
-            bee.ageUp((int)((float)(-bee.getGrowingAge() / 20) * 0.1F), true);
+            bee.ageUp((int) ((float) (-bee.getGrowingAge() / 20) * 0.1F), true);
         }
 
         itemStack.shrink(1);

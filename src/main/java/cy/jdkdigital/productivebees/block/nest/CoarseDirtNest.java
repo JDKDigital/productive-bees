@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.Dimension;
 
-public class CoarseDirtNest extends SolitaryNest {
-
+public class CoarseDirtNest extends SolitaryNest
+{
     public CoarseDirtNest(Properties properties) {
         super(properties);
     }

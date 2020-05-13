@@ -10,10 +10,12 @@ import net.minecraftforge.common.util.INBTSerializable;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<CompoundNBT> {
+public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<CompoundNBT>
+{
     private List<AdvancedBeehiveTileEntityAbstract.Inhabitant> inhabitantList = Lists.newArrayList();
 
-    public InhabitantStorage() {}
+    public InhabitantStorage() {
+    }
 
     @Nonnull
     @Override
@@ -67,8 +69,7 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
     }
 
     @Override
-    public CompoundNBT serializeNBT()
-    {
+    public CompoundNBT serializeNBT() {
         ListNBT listNBT = getInhabitantListAsListNBT();
         CompoundNBT nbt = new CompoundNBT();
         nbt.put("Inhabitants", listNBT);
@@ -76,8 +77,7 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt)
-    {
+    public void deserializeNBT(CompoundNBT nbt) {
         this.clearInhabitants();
         ListNBT list = nbt.getList("Inhabitants", Constants.NBT.TAG_COMPOUND);
         setInhabitantsFromListNBT(list);
@@ -87,6 +87,7 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
     protected void onLoad() {
 
     }
+
     @Override
     public void onContentsChanged() {
 

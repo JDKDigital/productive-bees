@@ -12,15 +12,18 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WitherBeeEntity extends EffectHiveBeeEntity {
+public class WitherBeeEntity extends EffectHiveBeeEntity
+{
+    public WitherBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
+        super(entityType, world);
+        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.WITHER_FLOWERS);
+    }
 
-	public WitherBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
-		super(entityType, world);
-		beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.WITHER_FLOWERS);
-	}
-
-	@Override
+    @Override
     public Map<Effect, Integer> getEffects() {
-		return new HashMap<Effect, Integer>() {{put(Effects.WITHER, 150);}};
-	}
+        return new HashMap<Effect, Integer>()
+        {{
+            put(Effects.WITHER, 150);
+        }};
+    }
 }

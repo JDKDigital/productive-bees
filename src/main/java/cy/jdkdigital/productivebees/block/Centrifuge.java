@@ -29,7 +29,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Centrifuge extends ContainerBlock {
+public class Centrifuge extends ContainerBlock
+{
     public static final BooleanProperty RUNNING = BooleanProperty.create("running");
 
     private static final VoxelShape INSIDE = makeCuboidShape(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);

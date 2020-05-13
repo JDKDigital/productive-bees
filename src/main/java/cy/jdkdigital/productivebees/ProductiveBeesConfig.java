@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Mod.EventBusSubscriber
-public class ProductiveBeesConfig {
-
+public class ProductiveBeesConfig
+{
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec CONFIG;
     public static final General GENERAL = new General(BUILDER);
@@ -30,7 +30,8 @@ public class ProductiveBeesConfig {
         CONFIG = BUILDER.build();
     }
 
-    public static class General {
+    public static class General
+    {
         public final ForgeConfigSpec.BooleanValue enableItemConverting;
         public final ForgeConfigSpec.IntValue itemTickRate;
         public final ForgeConfigSpec.IntValue centrifugeProcessingTime;
@@ -59,7 +60,8 @@ public class ProductiveBeesConfig {
         }
     }
 
-    public static class Bees {
+    public static class Bees
+    {
         public final Map<String, ForgeConfigSpec.ConfigValue<Double>> itemProductionRates = new HashMap<>();
         public final ForgeConfigSpec.ConfigValue<Boolean> spawnUndeadBees;
         public final ForgeConfigSpec.ConfigValue<Double> spawnUndeadBeesChance;
@@ -70,25 +72,26 @@ public class ProductiveBeesConfig {
             spawnUndeadBees = builder.comment("Spawn skeletal and zombie bees as night?").define("spawnUndeadBees", true);
             spawnUndeadBeesChance = builder.defineInRange("spawnUndeadBeesChance", 0.01, 0, 1);
 
-            itemProductionRates.put("minecraft:bee", builder.defineInRange("minecraft:bee",  0.25D, 0, 1));
+            itemProductionRates.put("minecraft:bee", builder.defineInRange("minecraft:bee", 0.25D, 0, 1));
 
-            for(RegistryObject<EntityType<?>> registryObject: ModEntities.HIVE_BEES.getEntries()) {
+            for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
                 ResourceLocation resourceLocation = registryObject.getId();
-                itemProductionRates.put(resourceLocation + "", builder.defineInRange(resourceLocation + "",  0.85D, 0, 1));
+                itemProductionRates.put(resourceLocation + "", builder.defineInRange(resourceLocation + "", 0.85D, 0, 1));
             }
 
             builder.pop();
         }
     }
 
-    public static class WorldGen {
+    public static class WorldGen
+    {
         public final Map<String, ForgeConfigSpec.BooleanValue> nestConfigs = new HashMap<>();
 
         public WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push("Worldgen");
 //            builder.comment("Which nests should generate in the world. Nest will still be craftable and attract bees.");
 
-            for (RegistryObject<Block> blockReg: ModBlocks.BLOCKS.getEntries()) {
+            for (RegistryObject<Block> blockReg : ModBlocks.BLOCKS.getEntries()) {
                 ResourceLocation resName = blockReg.getId();
                 if (resName.toString().contains("_nest")) {
                     nestConfigs.put("enable_" + resName, builder.define("enable_" + resName, true));

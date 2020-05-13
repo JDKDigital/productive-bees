@@ -11,7 +11,8 @@ import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import java.util.Random;
 import java.util.function.Function;
 
-public class CavernSolitaryNestFeature extends SolitaryNestFeature {
+public class CavernSolitaryNestFeature extends SolitaryNestFeature
+{
     private final float probability;
 
     public CavernSolitaryNestFeature(float probability, Function<Dynamic<?>, ? extends ReplaceBlockConfig> configFactory) {
@@ -21,7 +22,7 @@ public class CavernSolitaryNestFeature extends SolitaryNestFeature {
 
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, ReplaceBlockConfig featureConfig) {
-        if(!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
+        if (!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 
@@ -30,7 +31,7 @@ public class CavernSolitaryNestFeature extends SolitaryNestFeature {
 
         // Go to roof
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
-        while(pos.getY() < 127 && !matcher.test(world.getBlockState(pos))) {
+        while (pos.getY() < 127 && !matcher.test(world.getBlockState(pos))) {
             pos = pos.up();
         }
 

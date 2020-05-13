@@ -50,7 +50,8 @@ import java.util.Set;
 
 @Mod(ProductiveBees.MODID)
 @EventBusSubscriber(modid = ProductiveBees.MODID)
-public final class ProductiveBees {
+public final class ProductiveBees
+{
     public static final String MODID = "productivebees";
 
     public static final IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
@@ -125,33 +126,42 @@ public final class ProductiveBees {
             Biome.Category category = biome.getCategory();
             if (category.equals(Biome.Category.DESERT)) {
                 biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.SAND_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.SAND.getDefaultState(), ModBlocks.SAND_NEST.get().getDefaultState())));
-            } else if (category.equals(Biome.Category.SAVANNA) || category.equals(Biome.Category.TAIGA)) {
+            }
+            else if (category.equals(Biome.Category.SAVANNA) || category.equals(Biome.Category.TAIGA)) {
                 biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.COARSE_DIRT_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.COARSE_DIRT.getDefaultState(), ModBlocks.COARSE_DIRT_NEST.get().getDefaultState())));
                 biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatures.SPRUCE_WOOD_NEST_FEATURE.get().withConfiguration(new ReplaceBlockConfig(Blocks.SPRUCE_LOG.getDefaultState(), ModBlocks.SPRUCE_WOOD_NEST.get().getDefaultState())));
                 biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatures.ACACIA_WOOD_NEST_FEATURE.get().withConfiguration(new ReplaceBlockConfig(Blocks.ACACIA_LOG.getDefaultState(), ModBlocks.ACACIA_WOOD_NEST.get().getDefaultState())));
-            } else if (category.equals(Biome.Category.JUNGLE)) {
+            }
+            else if (category.equals(Biome.Category.JUNGLE)) {
                 biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatures.JUNGLE_WOOD_NEST_FEATURE.get().withConfiguration(new ReplaceBlockConfig(Blocks.JUNGLE_LOG.getDefaultState(), ModBlocks.JUNGLE_WOOD_NEST.get().getDefaultState())));
-            } else if (category.equals(Biome.Category.FOREST)) {
+            }
+            else if (category.equals(Biome.Category.FOREST)) {
                 biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatures.OAK_WOOD_NEST_FEATURE.get().withConfiguration(new ReplaceBlockConfig(Blocks.OAK_LOG.getDefaultState(), ModBlocks.OAK_WOOD_NEST.get().getDefaultState())));
                 biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatures.DARK_OAK_WOOD_NEST_FEATURE.get().withConfiguration(new ReplaceBlockConfig(Blocks.DARK_OAK_LOG.getDefaultState(), ModBlocks.DARK_OAK_WOOD_NEST.get().getDefaultState())));
                 biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatures.BIRCH_WOOD_NEST_FEATURE.get().withConfiguration(new ReplaceBlockConfig(Blocks.BIRCH_LOG.getDefaultState(), ModBlocks.BIRCH_WOOD_NEST.get().getDefaultState())));
-            } else if (category.equals(Biome.Category.EXTREME_HILLS)) {
+            }
+            else if (category.equals(Biome.Category.EXTREME_HILLS)) {
                 biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.STONE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.STONE.getDefaultState(), ModBlocks.STONE_NEST.get().getDefaultState())));
-            } else if (category.equals(Biome.Category.SWAMP)) {
+            }
+            else if (category.equals(Biome.Category.SWAMP)) {
                 biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.SLIMY_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GRASS_BLOCK.getDefaultState(), ModBlocks.SLIMY_NEST.get().getDefaultState())));
-            } else if (category.equals(Biome.Category.NETHER)) {
+            }
+            else if (category.equals(Biome.Category.NETHER)) {
                 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, ModFeatures.GLOWSTONE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GLOWSTONE.getDefaultState(), ModBlocks.GLOWSTONE_NEST.get().getDefaultState())));
                 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ModFeatures.NETHER_QUARTZ_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_QUARTZ_ORE.getDefaultState(), ModBlocks.NETHER_QUARTZ_NEST.get().getDefaultState())));
                 biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.NETHER_FORTRESS_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_BRICKS.getDefaultState(), ModBlocks.NETHER_BRICK_NEST.get().getDefaultState())));
-            } else if (category.equals(Biome.Category.RIVER) || category.equals(Biome.Category.BEACH)) {
+            }
+            else if (category.equals(Biome.Category.RIVER) || category.equals(Biome.Category.BEACH)) {
                 if (biome.getTempCategory() != Biome.TempCategory.COLD) {
                     biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.GRAVEL_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GRAVEL.getDefaultState(), ModBlocks.GRAVEL_NEST.get().getDefaultState())));
                 }
-            } else if (category.equals(Biome.Category.THEEND)) {
+            }
+            else if (category.equals(Biome.Category.THEEND)) {
                 if (biome == Biomes.THE_END) {
                     // Pillar nests
                     biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.OBSIDIAN_PILLAR_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.OBSIDIAN.getDefaultState(), ModBlocks.OBSIDIAN_PILLAR_NEST.get().getDefaultState())));
-                } else {
+                }
+                else {
                     // Must spawn where chorus fruit exist
                     biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.END_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.END_STONE.getDefaultState(), ModBlocks.END_NEST.get().getDefaultState())));
                 }
@@ -169,56 +179,56 @@ public final class ProductiveBees {
 
         // Add all new bee poi, otherwise the vanilla bees wont give a shit about them
         final ImmutableList<Block> BEEHIVES = ImmutableList.of(
-            ModBlocks.OAK_WOOD_NEST.get(),
-            ModBlocks.SPRUCE_WOOD_NEST.get(),
-            ModBlocks.DARK_OAK_WOOD_NEST.get(),
-            ModBlocks.JUNGLE_WOOD_NEST.get(),
-            ModBlocks.BIRCH_WOOD_NEST.get(),
-            ModBlocks.ACACIA_WOOD_NEST.get(),
-            ModBlocks.BAMBOO_HIVE.get(),
-            ModBlocks.STONE_NEST.get(),
-            ModBlocks.SAND_NEST.get(),
-            ModBlocks.COARSE_DIRT_NEST.get(),
-            ModBlocks.GRAVEL_NEST.get(),
-            ModBlocks.SUGAR_CANE_NEST.get(),
-            ModBlocks.SLIMY_NEST.get(),
-            ModBlocks.GLOWSTONE_NEST.get(),
-            ModBlocks.NETHER_QUARTZ_NEST.get(),
-            ModBlocks.NETHER_BRICK_NEST.get(),
-            ModBlocks.END_NEST.get(),
-            ModBlocks.OBSIDIAN_PILLAR_NEST.get(),
-            ModBlocks.DRAGON_EGG_HIVE.get(),
-            ModBlocks.ADVANCED_OAK_BEEHIVE.get(),
-            ModBlocks.ADVANCED_SPRUCE_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BIRCH_BEEHIVE.get(),
-            ModBlocks.ADVANCED_JUNGLE_BEEHIVE.get(),
-            ModBlocks.ADVANCED_ACACIA_BEEHIVE.get(),
-            ModBlocks.ADVANCED_DARK_OAK_BEEHIVE.get(),
-            ModBlocks.ADVANCED_CRIMSON_BEEHIVE.get(),
-            ModBlocks.ADVANCED_WARPED_BEEHIVE.get(),
-            ModBlocks.ADVANCED_SNAKE_BLOCK_BEEHIVE.get(),
-            ModBlocks.ADVANCED_ROSEWOOD_BEEHIVE.get(),
-            ModBlocks.ADVANCED_YUCCA_BEEHIVE.get(),
-            ModBlocks.ADVANCED_KOUSA_BEEHIVE.get(),
-            ModBlocks.ADVANCED_ASPEN_BEEHIVE.get(),
-            ModBlocks.ADVANCED_WILLOW_BEEHIVE.get(),
-            ModBlocks.ADVANCED_WISTERIA_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BAMBOO_BEEHIVE.get(),
-            ModBlocks.ADVANCED_MAPLE_BEEHIVE.get(),
-            ModBlocks.ADVANCED_DRIFTWOOD_BEEHIVE.get(),
-            ModBlocks.ADVANCED_RIVER_BEEHIVE.get(),
-            ModBlocks.ADVANCED_POISE_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_FIR_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_DEAD_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_PALM_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_MAGIC_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_CHERRY_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_UMBRAN_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_WILLOW_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_REDWOOD_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_HELLBARK_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_MAHOGANY_BEEHIVE.get(),
-            ModBlocks.ADVANCED_BOP_JACARANDA_BEEHIVE.get()
+                ModBlocks.OAK_WOOD_NEST.get(),
+                ModBlocks.SPRUCE_WOOD_NEST.get(),
+                ModBlocks.DARK_OAK_WOOD_NEST.get(),
+                ModBlocks.JUNGLE_WOOD_NEST.get(),
+                ModBlocks.BIRCH_WOOD_NEST.get(),
+                ModBlocks.ACACIA_WOOD_NEST.get(),
+                ModBlocks.BAMBOO_HIVE.get(),
+                ModBlocks.STONE_NEST.get(),
+                ModBlocks.SAND_NEST.get(),
+                ModBlocks.COARSE_DIRT_NEST.get(),
+                ModBlocks.GRAVEL_NEST.get(),
+                ModBlocks.SUGAR_CANE_NEST.get(),
+                ModBlocks.SLIMY_NEST.get(),
+                ModBlocks.GLOWSTONE_NEST.get(),
+                ModBlocks.NETHER_QUARTZ_NEST.get(),
+                ModBlocks.NETHER_BRICK_NEST.get(),
+                ModBlocks.END_NEST.get(),
+                ModBlocks.OBSIDIAN_PILLAR_NEST.get(),
+                ModBlocks.DRAGON_EGG_HIVE.get(),
+                ModBlocks.ADVANCED_OAK_BEEHIVE.get(),
+                ModBlocks.ADVANCED_SPRUCE_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BIRCH_BEEHIVE.get(),
+                ModBlocks.ADVANCED_JUNGLE_BEEHIVE.get(),
+                ModBlocks.ADVANCED_ACACIA_BEEHIVE.get(),
+                ModBlocks.ADVANCED_DARK_OAK_BEEHIVE.get(),
+                ModBlocks.ADVANCED_CRIMSON_BEEHIVE.get(),
+                ModBlocks.ADVANCED_WARPED_BEEHIVE.get(),
+                ModBlocks.ADVANCED_SNAKE_BLOCK_BEEHIVE.get(),
+                ModBlocks.ADVANCED_ROSEWOOD_BEEHIVE.get(),
+                ModBlocks.ADVANCED_YUCCA_BEEHIVE.get(),
+                ModBlocks.ADVANCED_KOUSA_BEEHIVE.get(),
+                ModBlocks.ADVANCED_ASPEN_BEEHIVE.get(),
+                ModBlocks.ADVANCED_WILLOW_BEEHIVE.get(),
+                ModBlocks.ADVANCED_WISTERIA_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BAMBOO_BEEHIVE.get(),
+                ModBlocks.ADVANCED_MAPLE_BEEHIVE.get(),
+                ModBlocks.ADVANCED_DRIFTWOOD_BEEHIVE.get(),
+                ModBlocks.ADVANCED_RIVER_BEEHIVE.get(),
+                ModBlocks.ADVANCED_POISE_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_FIR_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_DEAD_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_PALM_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_MAGIC_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_CHERRY_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_UMBRAN_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_WILLOW_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_REDWOOD_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_HELLBARK_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_MAHOGANY_BEEHIVE.get(),
+                ModBlocks.ADVANCED_BOP_JACARANDA_BEEHIVE.get()
         );
 
         Set<Block> newSet = new HashSet<>(TileEntityType.BEEHIVE.validBlocks);

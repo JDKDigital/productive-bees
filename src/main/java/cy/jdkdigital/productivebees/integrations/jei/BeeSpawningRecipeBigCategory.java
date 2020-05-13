@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
-import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
@@ -11,29 +10,47 @@ import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class BeeSpawningRecipeBigCategory extends BeeSpawningRecipeCategory {
-
+public class BeeSpawningRecipeBigCategory extends BeeSpawningRecipeCategory
+{
     private final IDrawable background;
     private final IDrawable icon;
 
-    public static final HashMap<Integer, List<Integer>> BEE_POSITIONS = new HashMap<Integer, List<Integer>>() {{
-        put(0, new ArrayList<Integer>() {{add(66);add(18);}});
-        put(1, new ArrayList<Integer>() {{add(66);add(38);}});
-        put(2, new ArrayList<Integer>() {{add(84);add(28);}});
-        put(3, new ArrayList<Integer>() {{add(102);add(18);}});
-        put(4, new ArrayList<Integer>() {{add(102);add(38);}});
+    public static final HashMap<Integer, List<Integer>> BEE_POSITIONS = new HashMap<Integer, List<Integer>>()
+    {{
+        put(0, new ArrayList<Integer>()
+        {{
+            add(66);
+            add(18);
+        }});
+        put(1, new ArrayList<Integer>()
+        {{
+            add(66);
+            add(38);
+        }});
+        put(2, new ArrayList<Integer>()
+        {{
+            add(84);
+            add(28);
+        }});
+        put(3, new ArrayList<Integer>()
+        {{
+            add(102);
+            add(18);
+        }});
+        put(4, new ArrayList<Integer>()
+        {{
+            add(102);
+            add(38);
+        }});
     }};
 
     public BeeSpawningRecipeBigCategory(IGuiHelper guiHelper) {
@@ -70,11 +87,11 @@ public class BeeSpawningRecipeBigCategory extends BeeSpawningRecipeCategory {
         IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProduciveBeesJeiPlugin.BEE_INGREDIENT);
 
         int offset = ingredients.getInputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT).size();
-        IntStream.range(offset, recipe.output.size()+offset).forEach((i) -> {
-            if (i-offset > 3) {
+        IntStream.range(offset, recipe.output.size() + offset).forEach((i) -> {
+            if (i - offset > 3) {
                 return;
             }
-            List<Integer> pos = BEE_POSITIONS.get(i-offset);
+            List<Integer> pos = BEE_POSITIONS.get(i - offset);
             ingredientStacks.init(i, false, pos.get(0), pos.get(1));
         });
         ingredientStacks.set(ingredients);

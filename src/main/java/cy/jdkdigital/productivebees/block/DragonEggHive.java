@@ -18,7 +18,8 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class DragonEggHive extends AdvancedBeehiveAbstract {
+public class DragonEggHive extends AdvancedBeehiveAbstract
+{
     protected static final VoxelShape SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 
     public DragonEggHive(Block.Properties properties) {

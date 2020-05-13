@@ -20,7 +20,8 @@ import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import java.util.Random;
 import java.util.function.Function;
 
-public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
+public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
+{
     private final float probability;
     private boolean placeOntop;
 
@@ -36,7 +37,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
 
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, ReplaceBlockConfig featureConfig) {
-        if(!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
+        if (!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 
@@ -44,7 +45,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
         pos = pos.south(rand.nextInt(14)).east(rand.nextInt(14));
 
         // Go to surface
-        while(pos.getY() < 50 || !world.isAirBlock(pos)) {
+        while (pos.getY() < 50 || !world.isAirBlock(pos)) {
             pos = pos.up();
         }
 
@@ -66,7 +67,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
         if (match) {
             // Check if there's air around and face that way, default to UP
             Direction direction = Direction.UP;
-            for(Direction dir : BlockStateProperties.FACING.getAllowedValues()) {
+            for (Direction dir : BlockStateProperties.FACING.getAllowedValues()) {
                 BlockPos blockPos = pos.offset(dir, 1);
                 if (world.isAirBlock(blockPos)) {
                     direction = dir;
@@ -79,7 +80,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig> {
 
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof SolitaryNestTileEntity) {
-                SolitaryNestTileEntity nestTileEntity = (SolitaryNestTileEntity)tileEntity;
+                SolitaryNestTileEntity nestTileEntity = (SolitaryNestTileEntity) tileEntity;
 
                 EntityType<BeeEntity> beeType = SolitaryNestTileEntity.getProducibleBeeType(world.getWorld(), pos, (SolitaryNest) world.getBlockState(pos).getBlock());
                 BeeEntity newBee = beeType.create(world.getWorld());
