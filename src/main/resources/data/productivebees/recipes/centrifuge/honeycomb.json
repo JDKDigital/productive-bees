@@ -1,0 +1,11 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "item": "minecraft:honeycomb"
+    },
+    "output": [
+        {
+            "tag": "forge:beeswax"
+        }
+    ]
+}

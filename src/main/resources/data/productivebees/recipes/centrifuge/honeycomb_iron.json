@@ -7,7 +7,8 @@
         {
             "item": "minecraft:iron_ingot",
             "min": 1,
-            "max": 1
+            "max": 1,
+            "chance": 100
         },
         {
             "tag": "forge:beeswax"

@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.tileentity;
 
 import com.google.common.collect.Lists;
+import com.ibm.icu.impl.duration.impl.DataRecord;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
@@ -98,7 +99,11 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
             // Check if output slots has space for recipe output
             List<ItemStack> outputList = Lists.newArrayList();
             outputList.add(new ItemStack(Items.HONEY_BOTTLE));
-            recipe.output.forEach((key, value) -> outputList.add(key));
+            recipe.output.forEach((key, value) -> {
+                // Check for item with max possible output
+                ItemStack item = new ItemStack(key.getItem(), value.get(1).getInt());
+                outputList.add(item);
+            });
             return ((ItemHandlerHelper.ItemHandler) outputHandler).canFitStacks(outputList);
         }
         return false;
@@ -108,10 +113,12 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
         if (this.canProcessRecipe(recipe, invHandler)) {
             ((ItemHandlerHelper.ItemHandler) invHandler).addOutput(new ItemStack(Items.HONEY_BOTTLE));
 
-            recipe.output.forEach((itemStack, bounds) -> {
-                int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.getLeft()), MathHelper.floor(bounds.getRight()));
-                itemStack.setCount(count);
-                ((ItemHandlerHelper.ItemHandler) invHandler).addOutput(itemStack);
+            recipe.output.forEach((itemStack, recipeValues) -> {
+                if (rand.nextInt(100) <= recipeValues.get(2).getInt()) {
+                    int count = MathHelper.nextInt(rand, MathHelper.floor(recipeValues.get(0).getInt()), MathHelper.floor(recipeValues.get(1).getInt()));
+                    itemStack.setCount(count);
+                    ((ItemHandlerHelper.ItemHandler) invHandler).addOutput(itemStack);
+                }
             });
 
             invHandler.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT).shrink(1);

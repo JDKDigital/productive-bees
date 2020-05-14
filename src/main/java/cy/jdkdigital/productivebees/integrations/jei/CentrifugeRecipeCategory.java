@@ -12,6 +12,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -67,11 +68,19 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
     public void setIngredients(@Nonnull CentrifugeRecipe recipe, @Nonnull IIngredients ingredients) {
         ingredients.setInputIngredients(Lists.newArrayList(recipe.ingredient, Ingredient.fromItems(Items.GLASS_BOTTLE)));
 
-        List<ItemStack> outputList = new ArrayList<>();
-        recipe.output.forEach((key, value) -> outputList.add(key));
-        outputList.add(new ItemStack(Items.HONEY_BOTTLE));
+        List<List<ItemStack>> outputList = new ArrayList<>();
+        recipe.output.forEach((key, value) -> {
+            List<ItemStack> innerList = new ArrayList<>();
+            ItemStack item = new ItemStack(key.getItem());
+            IntStream.range(value.get(0).getInt(), value.get(1).getInt()).forEach((i) -> {
+                item.setCount(i);
+                innerList.add(item);
+                innerList.add(new ItemStack(Items.HONEY_BOTTLE));
+            });
+            outputList.add(innerList);
+        });
 
-        ingredients.setOutputs(VanillaTypes.ITEM, outputList);
+        ingredients.setOutputLists(VanillaTypes.ITEM, outputList);
     }
 
     @Override

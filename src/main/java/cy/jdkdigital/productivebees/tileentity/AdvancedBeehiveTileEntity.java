@@ -102,7 +102,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
                     // Generate bee produce
                     if (productionRate != null && productionRate > 0) {
-                        if (world.rand.nextDouble() < productionRate) {
+                        if (world.rand.nextDouble() <= productionRate) {
                             int finalProductivity = productivity;
                             inventoryHandler.ifPresent(inv -> {
                                 getBeeProduce(world, beeId).forEach((stack) -> {
@@ -124,7 +124,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             if (
                     world.isNightTime() &&
                             ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
-                            world.rand.nextDouble() < ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
+                            world.rand.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
                             beeList.size() < MAX_BEES &&
                             beeList.size() + beesOutsideHive() < MAX_BEES &&
                             world.getLight(pos.offset(getBlockState().get(BlockStateProperties.FACING), 1)) <= 7

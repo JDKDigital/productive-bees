@@ -50,7 +50,6 @@ import java.util.stream.Stream;
 public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
 {
     protected Map<BeeAttribute<?>, Object> beeAttributes = new HashMap<>();
-    public Tag<Block> nestBlockTag;
 
     protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> {
         return poiType == PointOfInterestType.BEEHIVE ||
@@ -122,9 +121,9 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         if (this.stayOutOfHiveCountdown <= 0 && !this.pollinateGoal.isRunning() && !this.hasStung()) {
             boolean shouldReturnToHive =
                     this.failedPollinatingTooLong() ||
-                            this.hasNectar() ||
-                            (this.world.isNightTime() && !canOperateDuringNight()) ||
-                            (this.world.isRaining() && !canOperateDuringRain());
+                    this.hasNectar() ||
+                    (this.world.isNightTime() && !canOperateDuringNight()) ||
+                    (this.world.isRaining() && !canOperateDuringRain());
 
             return shouldReturnToHive && !this.isHiveNearFire();
         }
@@ -262,7 +261,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
             else if (ProductiveBeeEntity.this.world.isThundering() && ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) < 2) {
                 return false;
             }
-            else if (ProductiveBeeEntity.this.rand.nextFloat() < 0.7F) {
+            else if (ProductiveBeeEntity.this.rand.nextFloat() <= 0.7F) {
+                // TODO WTF is this for?
                 return false;
             }
             else {

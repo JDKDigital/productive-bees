@@ -198,7 +198,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 if (beeEntity != null) {
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
                     if (spawned) {
-                        if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() < 0.9F) {
+                        if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() <= 0.9F) {
                             beeEntity.setFlowerPos(this.flowerPos);
                         }
                         beeReleasePostAction(beeEntity, state, beeState);

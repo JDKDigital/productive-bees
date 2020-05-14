@@ -12,6 +12,8 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.IntArrayNBT;
+import net.minecraft.nbt.NBTTypes;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
@@ -33,9 +35,9 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
 
     public final ResourceLocation id;
     public final Ingredient ingredient;
-    public final Map<ItemStack, Pair<Integer, Integer>> output;
+    public final Map<ItemStack, IntArrayNBT> output;
 
-    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<ItemStack, Pair<Integer, Integer>> output) {
+    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<ItemStack, IntArrayNBT> output) {
         this.id = id;
         this.ingredient = ingredient;
         this.output = output;
@@ -103,22 +105,25 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
             }
 
             JsonArray jsonArray = JSONUtils.getJsonArray(json, "output");
-            Map<ItemStack, Pair<Integer, Integer>> outputs = new HashMap<>();
+            Map<ItemStack, IntArrayNBT> outputs = new HashMap<>();
             jsonArray.forEach(el -> {
                 JsonObject jsonObject = el.getAsJsonObject();
                 int min = JSONUtils.getInt(jsonObject, "min", 1);
                 int max = JSONUtils.getInt(jsonObject, "max", 1);
+                int chance = JSONUtils.getInt(jsonObject, "chance", 100);
+
+                IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
 
                 if (jsonObject.has("item")) {
                     String registryname = JSONUtils.getString(jsonObject, "item");
                     Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryname));
-                    outputs.put(new ItemStack(item), Pair.of(min, max));
+                    outputs.put(new ItemStack(item), nbt);
                 }
                 else if (jsonObject.has("tag")) {
                     String registryname = JSONUtils.getString(jsonObject, "tag");
                     Tag<Item> tag = ItemTags.getCollection().getOrCreate(new ResourceLocation(registryname));
                     if (!tag.getAllElements().isEmpty()) {
-                        outputs.put(new ItemStack(tag.getAllElements().iterator().next()), Pair.of(min, max));
+                        outputs.put(new ItemStack(tag.getAllElements().iterator().next()), nbt);
                     }
                 }
             });
@@ -130,9 +135,9 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
             try {
                 Ingredient ingredient = Ingredient.read(buffer);
 
-                Map<ItemStack, Pair<Integer, Integer>> output = new HashMap<>();
+                Map<ItemStack, IntArrayNBT> output = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                        i -> output.put(buffer.readItemStack(), Pair.of(buffer.readInt(), buffer.readInt()))
+                    i -> output.put(buffer.readItemStack(), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
                 return this.factory.create(id, ingredient, output);
@@ -148,8 +153,9 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
 
                 recipe.output.forEach((key, value) -> {
                     buffer.writeItemStack(key);
-                    buffer.writeInt(value.getLeft());
-                    buffer.writeInt(value.getRight());
+                    buffer.writeInt(value.get(0).getInt());
+                    buffer.writeInt(value.get(1).getInt());
+                    buffer.writeInt(value.get(2).getInt());
                 });
 
             } catch (Exception e) {
@@ -159,7 +165,7 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends CentrifugeRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, Map<ItemStack, Pair<Integer, Integer>> output);
+            T create(ResourceLocation id, Ingredient input, Map<ItemStack, IntArrayNBT> output);
         }
     }
 }
