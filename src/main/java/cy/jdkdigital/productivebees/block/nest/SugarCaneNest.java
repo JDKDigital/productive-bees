@@ -38,24 +38,6 @@ public class SugarCaneNest extends SolitaryNest
     }
 
     @Override
-    public boolean canRepopulateIn(Dimension dimension, Biome biome) {
-        return dimension.isSurfaceWorld();
-    }
-
-    @Override
-    public EntityType<BeeEntity> getNestingBeeType(World world) {
-        switch (world.rand.nextInt(3)) {
-            case 0:
-                return ModEntities.MASON_BEE.get();
-            case 1:
-                return ModEntities.LEAFCUTTER_BEE.get();
-            case 2:
-            default:
-                return ModEntities.REED_BEE.get();
-        }
-    }
-
-    @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return SHAPE;
     }

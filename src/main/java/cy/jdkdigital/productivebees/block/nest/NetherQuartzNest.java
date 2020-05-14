@@ -19,9 +19,4 @@ public class NetherQuartzNest extends SolitaryNest
     public boolean canRepopulateIn(Dimension dimension, Biome biome) {
         return dimension.isNether();
     }
-
-    @Override
-    public EntityType<BeeEntity> getNestingBeeType(World world) {
-        return ModEntities.QUARTZ_BEE.get();
-    }
 }

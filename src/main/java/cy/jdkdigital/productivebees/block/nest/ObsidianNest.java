@@ -20,9 +20,4 @@ public class ObsidianNest extends SolitaryNest
     public boolean canRepopulateIn(Dimension dimension, Biome biome) {
         return dimension instanceof EndDimension;
     }
-
-    @Override
-    public EntityType<BeeEntity> getNestingBeeType(World world) {
-        return ModEntities.DRACONIC_BEE.get();
-    }
 }

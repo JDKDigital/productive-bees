@@ -18,9 +18,4 @@ public class SlimyNest extends SolitaryNest
     public boolean canRepopulateIn(Dimension dimension, Biome biome) {
         return dimension.isSurfaceWorld() && biome.getCategory().equals(Biome.Category.SWAMP);
     }
-
-    @Override
-    public EntityType<BeeEntity> getNestingBeeType(World world) {
-        return ModEntities.SLIMY_BEE.get();
-    }
 }

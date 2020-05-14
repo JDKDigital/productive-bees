@@ -15,11 +15,6 @@ public class GlowstoneNest extends SolitaryNest
     }
 
     @Override
-    public EntityType<BeeEntity> getNestingBeeType(World world) {
-        return ModEntities.GLOWING_BEE.get();
-    }
-
-    @Override
     public boolean canRepopulateIn(Dimension dimension, Biome biome) {
         return dimension.isNether();
     }

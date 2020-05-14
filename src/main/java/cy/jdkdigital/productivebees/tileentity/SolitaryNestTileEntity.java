@@ -21,6 +21,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,14 +55,13 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                 }
                 else if (this.canRepopulate() && nestTickTimer > this.getRepopulationCooldown()) {
                     nestTickTimer = 0;
-                    BlockPos pos = this.getPos();
                     Block block = this.getBlockState().getBlock();
                     if (block instanceof SolitaryNest) {
-                        EntityType<BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block, true);
-                        BeeEntity newBee = beeType.create(this.world);
-                        if (newBee != null) {
+                        EntityType<BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block);
+                        if (beeType != null) {
+                            BeeEntity newBee = beeType.create(this.world);
                             Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
-                            spawnBeeInWorldAPosition(this.world, newBee, this.pos, direction, null);
+                            spawnBeeInWorldAPosition(this.world, newBee, pos, direction, null);
                         }
                     }
                 }
@@ -108,15 +108,12 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         });
     }
 
+    @Nullable
     public static EntityType<BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest) {
-        return getProducibleBeeType(world, pos, nest, false);
-    }
-
-    public static EntityType<BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest, boolean hatched) {
         EntityType<BeeEntity> beeType = nest.getNestingBeeType(world);
 
         // Cuckoo behavior
-        if (world.getRandom().nextInt(10) == 1) {
+        if (beeType != null && world.getRandom().nextInt(10) == 1) {
             switch (beeType.getRegistryName().getPath()) {
                 case "blue_banded_bee":
                     beeType = ModEntities.NEON_CUCKOO_BEE.get();
@@ -131,8 +128,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     protected boolean canRepopulate() {
-        SolitaryNest block = ((SolitaryNest) this.getBlockState().getBlock());
-        boolean blockConditionsMet = block.canRepopulateIn(world.getDimension(), world.getBiome(this.getPos()));
+        SolitaryNest nest = ((SolitaryNest) this.getBlockState().getBlock());
+        boolean blockConditionsMet = nest.canRepopulateIn(world.getDimension(), world.getBiome(this.getPos()));
         return hasNoBees() && blockConditionsMet;
     }
 

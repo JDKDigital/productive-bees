@@ -26,26 +26,6 @@ public class WoodNest extends SolitaryNest
         this.setDefaultState(this.getDefaultState().with(AXIS, Direction.Axis.Y));
     }
 
-    @Override
-    public boolean canRepopulateIn(Dimension dimension, Biome biome) {
-        return dimension.isSurfaceWorld();
-    }
-
-    @Override
-    public EntityType<BeeEntity> getNestingBeeType(World world) {
-        switch (world.rand.nextInt(3)) {
-            case 0:
-                return ModEntities.RESIN_BEE.get();
-            case 1:
-                return ModEntities.YELLOW_BLACK_CARPENTER_BEE.get();
-            case 2:
-                return ModEntities.BLUE_BANDED_BEE.get();
-            case 3:
-            default:
-                return ModEntities.GREEN_CARPENTER_BEE.get();
-        }
-    }
-
     public BlockState rotate(BlockState state, Rotation rotation) {
         switch (rotation) {
             case COUNTERCLOCKWISE_90:

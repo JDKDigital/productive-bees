@@ -2,14 +2,19 @@ package cy.jdkdigital.productivebees.block;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
 import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -23,7 +28,7 @@ import net.minecraft.world.dimension.Dimension;
 
 import javax.annotation.Nullable;
 
-abstract public class SolitaryNest extends AdvancedBeehiveAbstract
+public class SolitaryNest extends AdvancedBeehiveAbstract
 {
     public SolitaryNest(Properties properties) {
         super(properties);
@@ -34,7 +39,18 @@ abstract public class SolitaryNest extends AdvancedBeehiveAbstract
         return 0;
     }
 
-    abstract public EntityType<BeeEntity> getNestingBeeType(World world);
+    public EntityType<BeeEntity> getNestingBeeType(World world) {
+        ResourceLocation id = this.getRegistryName();
+        IRecipe<?> recipe = world.getRecipeManager().getRecipe(new ResourceLocation(ProductiveBees.MODID, "bee_spawning/" + id.getPath())).orElse(null);
+
+        if (recipe instanceof BeeSpawningRecipe) {
+            BeeSpawningRecipe spawningRecipe = (BeeSpawningRecipe) recipe;
+            BeeIngredient bee = spawningRecipe.output.get(world.rand.nextInt(spawningRecipe.output.size()));
+            return bee.getBeeType();
+        }
+        ProductiveBees.LOGGER.info("No bee spawning recipe found for " + id);
+        return null;
+    }
 
     @Nullable
     @Override
@@ -80,15 +96,19 @@ abstract public class SolitaryNest extends AdvancedBeehiveAbstract
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (!world.isRemote()) {
             SolitaryNestTileEntity tileEntity = (SolitaryNestTileEntity) world.getTileEntity(pos);
-            ProductiveBees.LOGGER.info("Nest tilentity: " + tileEntity);
-            ProductiveBees.LOGGER.info("Nest sealed: " + tileEntity.isSealed());
-            ProductiveBees.LOGGER.info("Bee count: " + tileEntity.getBeeList().size());
-            ProductiveBees.LOGGER.info("Occupants: " + tileEntity.getBeeList());
-            ProductiveBees.LOGGER.info("Egg count: " + tileEntity.getEggs().size());
-            ProductiveBees.LOGGER.info("Eggs: " + tileEntity.getEggListAsNBTList());
-
-            return ActionResultType.PASS;
+            ProductiveBees.LOGGER.debug("Nest tilentity: " + tileEntity);
+            ProductiveBees.LOGGER.debug("Nest sealed: " + tileEntity.isSealed());
+            ProductiveBees.LOGGER.debug("Bee count: " + tileEntity.getBeeList().size());
+            ProductiveBees.LOGGER.debug("Occupants: " + tileEntity.getBeeList());
+            ProductiveBees.LOGGER.debug("Egg count: " + tileEntity.getEggs().size());
+            ProductiveBees.LOGGER.debug("Eggs: " + tileEntity.getEggListAsNBTList());
         }
         return super.onBlockActivated(state, world, pos, player, hand, hit);
     }
+
+//    public static class Properties extends Block.Properties {
+//        private Properties(Material materialIn, MaterialColor mapColorIn) {
+//            super(materialIn, mapColorIn);
+//        }
+//    }
 }
