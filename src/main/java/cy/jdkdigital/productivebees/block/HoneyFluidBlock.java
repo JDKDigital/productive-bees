@@ -3,7 +3,9 @@ package cy.jdkdigital.productivebees.block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.potion.EffectInstance;
@@ -29,8 +31,7 @@ public class HoneyFluidBlock extends FlowingFluidBlock
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos position, Entity entity) {
         if (entity instanceof BeeEntity) {
-            BeeEntity beeEntity = (BeeEntity) entity;
-            beeEntity.addPotionEffect(new EffectInstance(Effects.REGENERATION, 4, 0, false, true));
+            ((BeeEntity) entity).addPotionEffect(new EffectInstance(Effects.REGENERATION, 80, 0, false, true));
         }
 
         super.onEntityCollision(state, world, position, entity);

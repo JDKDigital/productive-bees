@@ -32,6 +32,10 @@ import java.util.Random;
 
 public abstract class HoneyFluid extends FlowingFluid
 {
+    public static final ResourceLocation STILL = new ResourceLocation(ProductiveBees.MODID, "block/honey/still");
+    public static final ResourceLocation FLOWING = new ResourceLocation(ProductiveBees.MODID, "block/honey/flow");
+    public static final ResourceLocation OVERLAY = new ResourceLocation(ProductiveBees.MODID, "block/honey/overlay");
+
     @Override
     public Fluid getFlowingFluid() {
         return ModFluids.HONEY_FLOWING.get();
@@ -59,12 +63,12 @@ public abstract class HoneyFluid extends FlowingFluid
 
     @Override
     protected FluidAttributes createAttributes() {
-        return FluidAttributes.builder(
-                new ResourceLocation(ProductiveBees.MODID, "block/honey/still"),
-                new ResourceLocation(ProductiveBees.MODID, "block/honey/flow"))
-                .overlay(new ResourceLocation(ProductiveBees.MODID, "block/honey/overlay"))
+        return FluidAttributes.builder(STILL, FLOWING)
+                .overlay(OVERLAY)
                 .translationKey("fluid." + ProductiveBees.MODID + ".honey")
-                .color(0xFFFF9116).density(1400).viscosity(6000)
+                .color(0xFFFF9116)
+                .density(3000)
+                .viscosity(6000)
                 .build(ModFluids.HONEY.get());
     }
 

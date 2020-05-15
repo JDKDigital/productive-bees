@@ -219,14 +219,14 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         }
     }
 
-    public static Double getProductionRate(String beeId, double defValue) {
+    public static Double getProductionChance(String beeId, double defValue) {
         if (ProductiveBeesConfig.BEES.itemProductionRates.containsKey(beeId)) {
-            return getProductionRate(beeId);
+            return getProductionChance(beeId);
         }
         return defValue;
     }
 
-    public static Double getProductionRate(String beeId) {
+    public static Double getProductionChance(String beeId) {
         return ProductiveBeesConfig.BEES.itemProductionRates.get(beeId).get();
     }
 

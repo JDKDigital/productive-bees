@@ -134,7 +134,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
                 }
             });
 
-            double chance = ProductiveBeeEntity.getProductionRate(beeName, 0.25D);
+            double chance = ProductiveBeeEntity.getProductionChance(beeName, 0.25D);
 
             return this.factory.create(id, beeIngredient, outputs, chance);
         }

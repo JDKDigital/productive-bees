@@ -21,10 +21,10 @@ public final class ModFluids
 
     public static final DeferredRegister<Fluid> FLUIDS = new DeferredRegister<>(ForgeRegistries.FLUIDS, ProductiveBees.MODID);
 
-    public static final RegistryObject<FlowingFluid> HONEY_FLOWING = createFluid("flowing_honey", HoneyFluid.Flowing::new, ModItemGroups.PRODUCTIVE_BEES, false);
-    public static final RegistryObject<FlowingFluid> HONEY = createFluid("honey", HoneyFluid.Source::new, ModItemGroups.PRODUCTIVE_BEES, true);
+    public static final RegistryObject<FlowingFluid> HONEY = createFluid("honey", HoneyFluid.Source::new, ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<FlowingFluid> HONEY_FLOWING = createFluid("flowing_honey", HoneyFluid.Flowing::new, ModItemGroups.PRODUCTIVE_BEES);
 
-    public static <B extends Fluid> RegistryObject<B> createFluid(String name, Supplier<? extends B> supplier, ItemGroup itemGroup, boolean createItem) {
+    public static <B extends Fluid> RegistryObject<B> createFluid(String name, Supplier<? extends B> supplier, ItemGroup itemGroup) {
         return FLUIDS.register(name, supplier);
     }
 }

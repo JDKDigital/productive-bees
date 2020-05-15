@@ -54,7 +54,7 @@ public final class ModBlocks
     public static final RegistryObject<FlowingFluidBlock> HONEY = createBlock("honey",
             () -> new HoneyFluidBlock(
                     HoneyFluid.Source::new,
-                    Block.Properties.create(ModFluids.MATERIAL_HONEY).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops()
+                    Block.Properties.create(ModFluids.MATERIAL_HONEY).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops().speedFactor(0.3F)
             ),
             ModItemGroups.PRODUCTIVE_BEES,
             false

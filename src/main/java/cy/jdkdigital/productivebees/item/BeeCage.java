@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.client.util.ITooltipFlag;
@@ -94,11 +95,11 @@ public class BeeCage extends Item
         cageStack.setTag(nbt);
 
         itemStack.shrink(1);
-        if (itemStack.isEmpty()) {
-            player.setHeldItem(hand, cageStack);
-        }
-        else if (!player.inventory.addItemStackToInventory(cageStack)) {
+        if (!player.inventory.addItemStackToInventory(cageStack)) {
+            ProductiveBees.LOGGER.info("dropItem: stack:" + cageStack);
             player.dropItem(cageStack, false);
+        } else {
+            ProductiveBees.LOGGER.info("addItemStack: stack:" + cageStack);
         }
 
         player.swingArm(hand);

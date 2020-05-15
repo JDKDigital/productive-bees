@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -47,10 +48,10 @@ import java.util.Random;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider
 {
-    private static final Random rand = new Random();
-
     private int tickCounter = 0;
     private int abandonCountdown = 0;
+
+    // Used for displaying bees in gui
     public List<String> inhabitantList = new ArrayList<>();
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> ItemHandlerHelper.getInventoryHandler(this, 1));
@@ -93,22 +94,18 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 for (INBT inbt : beeList) {
                     CompoundNBT inb = (CompoundNBT) ((CompoundNBT) inbt).get("EntityData");
                     String beeId = inb.getString("id");
-                    int productivity = 0;
-                    if (inb.contains("bee_productivity")) {
-                        productivity = inb.getInt("bee_productivity");
-                    }
 
-                    Double productionRate = ProductiveBeeEntity.getProductionRate(beeId, 0.25D);
+                    Double productionChance = ProductiveBeeEntity.getProductionChance(beeId, 0.25D);
 
                     // Generate bee produce
-                    if (productionRate != null && productionRate > 0) {
-                        if (world.rand.nextDouble() <= productionRate) {
-                            int finalProductivity = productivity;
+                    if (productionChance != null && productionChance > 0) {
+                        if (world.rand.nextDouble() <= productionChance) {
+                            final int productivity = inb.contains("bee_productivity") ? inb.getInt("bee_productivity") : 0;
                             inventoryHandler.ifPresent(inv -> {
-                                getBeeProduce(world, beeId).forEach((stack) -> {
+                                BeeHelper.getBeeProduce(world, beeId).forEach((stack) -> {
                                     if (!stack.isEmpty()) {
-                                        if (finalProductivity > 0) {
-                                            float f = (float) finalProductivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
+                                        if (productivity > 0) {
+                                            float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
                                             stack.grow(Math.round(f));
                                         }
                                         ((ItemHandlerHelper.ItemHandler) inv).addOutput(stack);
@@ -122,12 +119,11 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
             // Spawn skeletal and zombie bees in available hives
             if (
-                    world.isNightTime() &&
-                            ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
-                            world.rand.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
-                            beeList.size() < MAX_BEES &&
-                            beeList.size() + beesOutsideHive() < MAX_BEES &&
-                            world.getLight(pos.offset(getBlockState().get(BlockStateProperties.FACING), 1)) <= 7
+                world.isNightTime() &&
+                ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
+                world.rand.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
+                beeList.size() + beesOutsideHive() < MAX_BEES &&
+                world.getLight(pos.offset(getBlockState().get(BlockStateProperties.FACING), 1)) <= 8
             ) {
                 EntityType<BeeEntity> beeType = world.rand.nextBoolean() ? ModEntities.SKELETAL_BEE.get() : ModEntities.ZOMBIE_BEE.get();
                 BeeEntity newBee = beeType.create(world);
@@ -173,23 +169,6 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         }
 
         super.tick();
-    }
-
-    public static List<ItemStack> getBeeProduce(World world, String beeId) {
-        for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE).entrySet()) {
-            AdvancedBeehiveRecipe recipe = (AdvancedBeehiveRecipe) entry.getValue();
-            if (beeId.equals(recipe.ingredient.getBeeType().getRegistryName().toString())) {
-                List<ItemStack> outputList = new ArrayList<>();
-                recipe.outputs.forEach((itemStack, bounds) -> {
-                    int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.getLeft()), MathHelper.floor(bounds.getRight()));
-                    itemStack.setCount(count);
-                    outputList.add(itemStack);
-                });
-                return outputList;
-            }
-        }
-
-        return Lists.newArrayList(ItemStack.EMPTY);
     }
 
     @Override

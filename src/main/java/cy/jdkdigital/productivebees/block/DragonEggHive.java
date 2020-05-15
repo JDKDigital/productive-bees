@@ -30,10 +30,6 @@ public class DragonEggHive extends AdvancedBeehiveAbstract
         return SHAPE;
     }
 
-    public int getMaxHoneyLevel() {
-        return 0;
-    }
-
     @Nullable
     @Override
     public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
@@ -50,11 +46,9 @@ public class DragonEggHive extends AdvancedBeehiveAbstract
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (!world.isRemote()) {
             DragonEggHiveTileEntity tileEntity = (DragonEggHiveTileEntity) world.getTileEntity(pos);
-            ProductiveBees.LOGGER.info("Nest tilentity: " + tileEntity);
-            ProductiveBees.LOGGER.info("Bee count: " + tileEntity.getBeeList().size());
-            ProductiveBees.LOGGER.info("Occupants: " + tileEntity.getBeeList());
-
-            return ActionResultType.PASS;
+            ProductiveBees.LOGGER.debug("Nest tilentity: " + tileEntity);
+            ProductiveBees.LOGGER.debug("Bee count: " + tileEntity.getBeeList().size());
+            ProductiveBees.LOGGER.debug("Occupants: " + tileEntity.getBeeList());
         }
         return super.onBlockActivated(state, world, pos, player, hand, hit);
     }
