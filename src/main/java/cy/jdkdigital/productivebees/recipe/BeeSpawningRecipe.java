@@ -3,7 +3,7 @@ package cy.jdkdigital.productivebees.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import net.minecraft.inventory.IInventory;
@@ -16,7 +16,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -71,7 +70,7 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return ForgeRegistries.RECIPE_SERIALIZERS.getValue(ProduciveBeesJeiPlugin.CATEGORY_BEE_SPAWNING_UID);
+        return ModRecipeTypes.BEE_SPAWNING.get();
     }
 
     @Nonnull

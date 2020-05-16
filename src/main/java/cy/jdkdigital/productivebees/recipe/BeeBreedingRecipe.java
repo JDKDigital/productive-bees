@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.recipe;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -63,7 +64,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return null;
+        return ModRecipeTypes.BEE_BREEDING.get();
     }
 
     @Nonnull

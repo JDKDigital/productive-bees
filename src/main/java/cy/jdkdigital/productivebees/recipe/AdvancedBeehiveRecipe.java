@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import net.minecraft.inventory.IInventory;
@@ -18,7 +18,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -84,7 +83,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return ForgeRegistries.RECIPE_SERIALIZERS.getValue(ProduciveBeesJeiPlugin.CATEGORY_ADVANCED_BEEHIVE_UID);
+        return ModRecipeTypes.ADVANCED_BEEHIVE.get();
     }
 
     @Nonnull

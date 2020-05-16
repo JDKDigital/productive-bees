@@ -59,6 +59,22 @@ public final class ModBlocks
             ModItemGroups.PRODUCTIVE_BEES,
             false
     );
+
+    public static final RegistryObject<Block> COMB_BLAZING = createBlock("comb_blazing", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_BONE = createBlock("comb_bone", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_DIAMOND = createBlock("comb_diamond", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_EMERALD = createBlock("comb_emerald", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_ENDER = createBlock("comb_ender", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_FOSSILISED = createBlock("comb_fossilised", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_GLOWING = createBlock("comb_glowing", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_GOLD = createBlock("comb_gold", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_IRON = createBlock("comb_iron", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_LAPIS = createBlock("comb_lapis", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_POWDERY = createBlock("comb_powdery", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_QUARTZ = createBlock("comb_quartz", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_REDSTONE = createBlock("comb_redstone", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> COMB_ROTTEN = createBlock("comb_rotten", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ItemGroup.DECORATIONS);
+
     public static final RegistryObject<Block> ADVANCED_OAK_BEEHIVE = createBlock("advanced_oak_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> EXPANSION_BOX_OAK = createBlock("expansion_box_oak", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
 

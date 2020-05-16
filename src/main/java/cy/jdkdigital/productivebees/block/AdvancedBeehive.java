@@ -55,6 +55,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     @Nullable
+    @Override
     public TileEntity createNewTileEntity(IBlockReader world) {
         return new AdvancedBeehiveTileEntity();
     }

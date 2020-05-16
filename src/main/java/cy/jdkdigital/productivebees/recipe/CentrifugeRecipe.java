@@ -3,7 +3,7 @@ package cy.jdkdigital.productivebees.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.integrations.jei.ProduciveBeesJeiPlugin;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.tileentity.ItemHandlerHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -13,7 +13,6 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.IntArrayNBT;
-import net.minecraft.nbt.NBTTypes;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
@@ -22,7 +21,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -77,7 +75,7 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return ForgeRegistries.RECIPE_SERIALIZERS.getValue(ProduciveBeesJeiPlugin.CATEGORY_CENTRIFUGE_UID);
+        return ModRecipeTypes.CENTRIFUGE.get();
     }
 
     @Nonnull
@@ -112,14 +110,14 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
                 int max = JSONUtils.getInt(jsonObject, "max", 1);
                 int chance = JSONUtils.getInt(jsonObject, "chance", 100);
 
-                IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
-
                 if (jsonObject.has("item")) {
+                    IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
                     String registryname = JSONUtils.getString(jsonObject, "item");
                     Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryname));
                     outputs.put(new ItemStack(item), nbt);
                 }
                 else if (jsonObject.has("tag")) {
+                    IntArrayNBT nbt = new IntArrayNBT(new int[]{1, 1, chance});
                     String registryname = JSONUtils.getString(jsonObject, "tag");
                     Tag<Item> tag = ItemTags.getCollection().getOrCreate(new ResourceLocation(registryname));
                     if (!tag.getAllElements().isEmpty()) {

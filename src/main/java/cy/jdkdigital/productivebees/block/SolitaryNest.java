@@ -8,8 +8,6 @@ import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -97,6 +95,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         if (!world.isRemote()) {
             SolitaryNestTileEntity tileEntity = (SolitaryNestTileEntity) world.getTileEntity(pos);
             ProductiveBees.LOGGER.debug("Nest tilentity: " + tileEntity);
+            ProductiveBees.LOGGER.debug("Nest tilentity type: " + tileEntity.getType().getRegistryName());
             ProductiveBees.LOGGER.debug("Nest sealed: " + tileEntity.isSealed());
             ProductiveBees.LOGGER.debug("Bee count: " + tileEntity.getBeeList().size());
             ProductiveBees.LOGGER.debug("Occupants: " + tileEntity.getBeeList());

@@ -63,7 +63,7 @@ public final class ProductiveBees
         MinecraftForge.EVENT_BUS.register(this);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        ModFluids.FLUIDS.register((modEventBus));
+        ModFluids.FLUIDS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModEntities.HIVE_BEES.register(modEventBus);
@@ -71,6 +71,7 @@ public final class ProductiveBees
         ModTileEntityTypes.TILE_ENTITY_TYPES.register(modEventBus);
         ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
+        ModRecipeTypes.RECIPE_SERIALIZERS.register(modEventBus);
         ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.register(modEventBus);
 
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
@@ -276,12 +277,4 @@ public final class ProductiveBees
     public static void addToMap(Block block, Map<BlockState, PointOfInterestType> pointOfInterestTypeMap) {
         block.getStateContainer().getValidStates().forEach(state -> pointOfInterestTypeMap.put(state, PointOfInterestType.BEEHIVE));
     }
-
-//    public static class RegistryEvents {
-//        @SubscribeEvent
-//        public static void recipe(final RegistryEvent.Register<IRecipeSerializer<?>> event) {
-//            ProductiveBees.LOGGER.info("REGISTER RECIPE TYPE");
-//            event.getRegistry().register(new AdvancedBeehiveRecipe.Serializer<>(AdvancedBeehiveRecipe::new).setRegistryName(new ResourceLocation(ProductiveBees.MODID, "advanced_beehive")));
-//        }
-//    }
 }

@@ -1,21 +1,15 @@
 package cy.jdkdigital.productivebees.block.nest;
 
 import cy.jdkdigital.productivebees.block.SolitaryNest;
-import cy.jdkdigital.productivebees.init.ModEntities;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Rotation;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.dimension.Dimension;
 
 public class WoodNest extends SolitaryNest
 {

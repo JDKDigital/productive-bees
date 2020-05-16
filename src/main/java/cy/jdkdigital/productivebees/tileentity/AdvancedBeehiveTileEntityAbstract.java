@@ -46,13 +46,14 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     public AdvancedBeehiveTileEntityAbstract(TileEntityType<?> tileEntityType) {
         super();
+//        this.type = tileEntityType;
         this.tileEntityType = tileEntityType;
     }
 
     @Nonnull
     @Override
     public TileEntityType<?> getType() {
-        return this.tileEntityType;
+        return this.tileEntityType == null ? super.getType() : this.tileEntityType;
     }
 
     public void tick() {

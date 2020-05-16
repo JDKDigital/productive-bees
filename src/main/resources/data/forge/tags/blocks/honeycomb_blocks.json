@@ -1,0 +1,20 @@
+{
+    "replace": false,
+    "values": [
+        "minecraft:honeycomb_block",
+        "productivebees:comb_blazing",
+        "productivebees:comb_bone",
+        "productivebees:comb_diamond",
+        "productivebees:comb_emerald",
+        "productivebees:comb_ender",
+        "productivebees:comb_fossilised",
+        "productivebees:comb_glowing",
+        "productivebees:comb_gold",
+        "productivebees:comb_iron",
+        "productivebees:comb_lapis",
+        "productivebees:comb_powdery",
+        "productivebees:comb_quartz",
+        "productivebees:comb_redstone",
+        "productivebees:comb_rotten"
+    ]
+}

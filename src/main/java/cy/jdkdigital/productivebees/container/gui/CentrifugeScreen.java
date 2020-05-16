@@ -42,6 +42,8 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
         // Draw main screen
         this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
+        // Draw toggle buttons
+
         // Draw progress
         int progress = Math.round((float) this.container.tileEntity.recipeProgress / (float) ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() * 24);
         this.blit(this.guiLeft + 72, this.guiTop + 35, 176, 14, progress + 1, 16);
