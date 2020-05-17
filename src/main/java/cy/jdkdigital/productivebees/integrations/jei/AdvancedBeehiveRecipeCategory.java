@@ -16,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -69,30 +70,40 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     public void setIngredients(@Nonnull AdvancedBeehiveRecipe recipe, @Nonnull IIngredients ingredients) {
         ingredients.setInput(ProduciveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient);
 
-        List<ItemStack> outputList = new ArrayList<>();
-        recipe.outputs.forEach((key, value) -> outputList.add(key));
+        List<List<ItemStack>> outputList = new ArrayList<>();
+        recipe.output.forEach((key, value) -> {
+            List<ItemStack> innerList = new ArrayList<>();
+            IntStream.range(value.get(0).getInt(), value.get(1).getInt() + 1).forEach((i) -> {
+                innerList.add(new ItemStack(key.getItem(), i));
+            });
+            outputList.add(innerList);
+        });
 
-        ingredients.setOutputs(VanillaTypes.ITEM, outputList);
+        ingredients.setOutputLists(VanillaTypes.ITEM, outputList);
     }
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull AdvancedBeehiveRecipe recipe, @Nonnull IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
         IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProduciveBeesJeiPlugin.BEE_INGREDIENT);
-        List<ItemStack> outputs = ingredients.getOutputs(VanillaTypes.ITEM).get(0);
 
+        ProductiveBees.LOGGER.info("All output " + ingredients.getOutputs(VanillaTypes.ITEM));
         ingredientStacks.init(0, true, 6, 28);
         ingredientStacks.set(ingredients);
 
         int startX = 68;
         int startY = 8;
-        int offset = ingredients.getInputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT).size();
-        IntStream.range(offset, outputs.size() + offset).forEach((i) -> {
-            if (i > 9 + offset) {
-                return;
-            }
-            itemStacks.init(i, false, startX + ((i - offset) * 18), startY + ((int) Math.floor(((float) i - offset) / 3.0F) * 18));
-        });
+        if (ingredients.getOutputs(VanillaTypes.ITEM).size() > 0) {
+            List<ItemStack> outputs = ingredients.getOutputs(VanillaTypes.ITEM).iterator().next();
+            int offset = ingredients.getInputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT).size();
+            IntStream.range(offset, outputs.size() + offset).forEach((i) -> {
+                if (i > 9 + offset) {
+                    return;
+                }
+                itemStacks.init(i, false, startX + ((i - offset) * 18), startY + ((int) Math.floor(((float) i - offset) / 3.0F) * 18));
+            });
+        }
+
         itemStacks.set(ingredients);
     }
 

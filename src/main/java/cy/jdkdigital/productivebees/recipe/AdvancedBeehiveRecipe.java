@@ -14,12 +14,12 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -32,13 +32,13 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
 
     public final ResourceLocation id;
     public final BeeIngredient ingredient;
-    public final Map<ItemStack, Pair<Integer, Integer>> outputs;
+    public final Map<ItemStack, IntArrayNBT> output;
     public final double chance;
 
-    public AdvancedBeehiveRecipe(ResourceLocation id, BeeIngredient ingredient, Map<ItemStack, Pair<Integer, Integer>> outputs, double chance) {
+    public AdvancedBeehiveRecipe(ResourceLocation id, BeeIngredient ingredient, Map<ItemStack, IntArrayNBT> output, double chance) {
         this.id = id;
         this.ingredient = ingredient;
-        this.outputs = outputs;
+        this.output = output;
         this.chance = chance;
     }
 
@@ -47,7 +47,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
         return "AdvancedBeehiveRecipe{" +
                 "id=" + id +
                 ", bee=" + ingredient.getBeeType() +
-                ", outputs=" + outputs +
+                ", outputs=" + output +
                 ", chance=" + chance +
                 '}';
     }
@@ -107,7 +107,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
             BeeIngredient beeIngredient = BeeIngredientFactory.getOrCreateList().get(beeName);
 
             JsonArray jsonArray = JSONUtils.getJsonArray(json, "results");
-            Map<ItemStack, Pair<Integer, Integer>> outputs = new HashMap<>();
+            Map<ItemStack, IntArrayNBT> outputs = new HashMap<>();
             jsonArray.forEach(jsonElement -> {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
 
@@ -116,6 +116,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
                 if (ProductiveBeesConfig.GENERAL.enableCombProduce.get()) {
                     ingredientKey = "comb_produce";
                 }
+
                 if (JSONUtils.isJsonArray(json, ingredientKey)) {
                     produce = Ingredient.deserialize(JSONUtils.getJsonArray(jsonObject, ingredientKey));
                 }
@@ -126,10 +127,16 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
                 ItemStack[] stacks = produce.getMatchingStacks();
 
                 if (stacks.length > 0) {
-                    int min = JSONUtils.getInt(jsonObject, "min", 1);
-                    int max = JSONUtils.getInt(jsonObject, "max", 1);
+                    int min = 1;
+                    int max = 1;
+                    if (ingredientKey.equals("item_produce")) {
+                        min = JSONUtils.getInt(jsonObject, "min", 1);
+                        max = JSONUtils.getInt(jsonObject, "max", 1);
+                    }
+                    int chance = JSONUtils.getInt(jsonObject, "chance", 100);
 
-                    outputs.put(stacks[0], Pair.of(min, max));
+                    IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
+                    outputs.put(stacks[0], nbt);
                 }
             });
 
@@ -141,12 +148,12 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
                 BeeIngredient ingredient = BeeIngredient.read(buffer);
-                Map<ItemStack, Pair<Integer, Integer>> outputs = new HashMap<>();
+                Map<ItemStack, IntArrayNBT> output = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                        i -> outputs.put(buffer.readItemStack(), Pair.of(buffer.readInt(), buffer.readInt()))
+                    i -> output.put(buffer.readItemStack(), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
                 double chance = buffer.readDouble();
-                return this.factory.create(id, ingredient, outputs, chance);
+                return this.factory.create(id, ingredient, output, chance);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading recipe from packet.", e);
                 throw e;
@@ -156,12 +163,13 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
             try {
                 recipe.ingredient.write(buffer);
-                buffer.writeInt(recipe.outputs.size());
+                buffer.writeInt(recipe.output.size());
 
-                recipe.outputs.forEach((key, value) -> {
+                recipe.output.forEach((key, value) -> {
                     buffer.writeItemStack(key);
-                    buffer.writeInt(value.getLeft());
-                    buffer.writeInt(value.getRight());
+                    buffer.writeInt(value.get(0).getInt());
+                    buffer.writeInt(value.get(1).getInt());
+                    buffer.writeInt(value.get(2).getInt());
                 });
 
                 buffer.writeDouble(recipe.chance);
@@ -173,7 +181,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends AdvancedBeehiveRecipe>
         {
-            T create(ResourceLocation id, BeeIngredient input, Map<ItemStack, Pair<Integer, Integer>> output, double chance);
+            T create(ResourceLocation id, BeeIngredient input, Map<ItemStack, IntArrayNBT> output, double chance);
         }
     }
 }

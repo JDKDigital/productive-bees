@@ -19,6 +19,7 @@ import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -70,14 +71,12 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         List<List<ItemStack>> outputList = new ArrayList<>();
         recipe.output.forEach((key, value) -> {
             List<ItemStack> innerList = new ArrayList<>();
-            ItemStack item = new ItemStack(key.getItem());
-            IntStream.range(value.get(0).getInt(), value.get(1).getInt()).forEach((i) -> {
-                item.setCount(i);
-                innerList.add(item);
-                innerList.add(new ItemStack(Items.HONEY_BOTTLE));
+            IntStream.range(value.get(0).getInt(), value.get(1).getInt() + 1).forEach((i) -> {
+                innerList.add(new ItemStack(key.getItem(), i));
             });
             outputList.add(innerList);
         });
+        outputList.add(Arrays.asList(new ItemStack(Items.HONEY_BOTTLE)));
 
         ingredients.setOutputLists(VanillaTypes.ITEM, outputList);
     }
@@ -85,21 +84,22 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull CentrifugeRecipe recipe, @Nonnull IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-        List<List<ItemStack>> outputs = ingredients.getOutputs(VanillaTypes.ITEM);
 
         itemStacks.init(0, true, 4, 26);
         itemStacks.init(1, true, 36, 8);
 
         int startX = 68;
         int startY = 8;
-        int offset = ingredients.getInputs(VanillaTypes.ITEM).size();
-        IntStream.range(offset, outputs.size() + offset).forEach((i) -> {
-            if (i > 9 + offset) {
-                return;
-            }
-            itemStacks.init(i, false, startX + ((i - offset) * 18), startY + ((int) Math.floor(((float) i - offset) / 3.0F) * 18));
-        });
-
+        if (ingredients.getOutputs(VanillaTypes.ITEM).size() > 0) {
+            List<ItemStack> outputs = ingredients.getOutputs(VanillaTypes.ITEM).iterator().next();
+            int offset = ingredients.getInputs(VanillaTypes.ITEM).size();
+            IntStream.range(0, outputs.size()).forEach((i) -> {
+                if (i > 9 + offset) {
+                    return;
+                }
+                itemStacks.init(i + offset, false, startX + (i * 18), startY + ((int) Math.floor(((float) i) / 3.0F) * 18));
+            });
+        }
         itemStacks.set(ingredients);
     }
 }

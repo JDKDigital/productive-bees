@@ -44,7 +44,12 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
     @Override
     public boolean matches(IInventory inv, World worldIn) {
         if (this.ingredient.getMatchingStacks().length > 0) {
-            return inv.getStackInSlot(ItemHandlerHelper.INPUT_SLOT).getItem().equals(this.ingredient.getMatchingStacks()[0].getItem());
+            Item invItem = inv.getStackInSlot(ItemHandlerHelper.INPUT_SLOT).getItem();
+            for (ItemStack possibleInput: this.ingredient.getMatchingStacks()) {
+                if (possibleInput.getItem().equals(invItem)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -109,15 +114,14 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
                 int min = JSONUtils.getInt(jsonObject, "min", 1);
                 int max = JSONUtils.getInt(jsonObject, "max", 1);
                 int chance = JSONUtils.getInt(jsonObject, "chance", 100);
+                IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
 
                 if (jsonObject.has("item")) {
-                    IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
                     String registryname = JSONUtils.getString(jsonObject, "item");
                     Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryname));
                     outputs.put(new ItemStack(item), nbt);
                 }
                 else if (jsonObject.has("tag")) {
-                    IntArrayNBT nbt = new IntArrayNBT(new int[]{1, 1, chance});
                     String registryname = JSONUtils.getString(jsonObject, "tag");
                     Tag<Item> tag = ItemTags.getCollection().getOrCreate(new ResourceLocation(registryname));
                     if (!tag.getAllElements().isEmpty()) {

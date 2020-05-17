@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.tileentity;
 
 import com.google.common.collect.Lists;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
@@ -86,11 +87,9 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
         if (currentRecipe != null && currentRecipe.matches(new RecipeWrapper(inputHandler), world)) {
             return currentRecipe;
         }
-        CentrifugeRecipe recipe = world.getRecipeManager().getRecipe(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), this.world).orElse(null);
+        currentRecipe = world.getRecipeManager().getRecipe(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), this.world).orElse(null);
 
-        currentRecipe = recipe;
-
-        return recipe;
+        return currentRecipe;
     }
 
     private boolean canProcessRecipe(@Nullable CentrifugeRecipe recipe, IItemHandlerModifiable outputHandler) {
@@ -122,6 +121,8 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
 
             invHandler.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT).shrink(1);
             invHandler.getStackInSlot(ItemHandlerHelper.INPUT_SLOT).shrink(1);
+        } else {
+            ProductiveBees.LOGGER.info("Cannot process recipe " + recipe);
         }
         recipeProgress = 0;
         this.markDirty();

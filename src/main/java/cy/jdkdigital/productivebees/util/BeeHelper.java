@@ -246,8 +246,8 @@ public class BeeHelper
             AdvancedBeehiveRecipe recipe = (AdvancedBeehiveRecipe) entry.getValue();
             if (beeId.equals(recipe.ingredient.getBeeType().getRegistryName().toString())) {
                 List<ItemStack> outputList = new ArrayList<>();
-                recipe.outputs.forEach((itemStack, bounds) -> {
-                    int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.getLeft()), MathHelper.floor(bounds.getRight()));
+                recipe.output.forEach((itemStack, bounds) -> {
+                    int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
                     itemStack.setCount(count);
                     outputList.add(itemStack);
                 });
