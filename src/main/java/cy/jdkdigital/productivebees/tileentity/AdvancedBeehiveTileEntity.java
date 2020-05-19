@@ -23,6 +23,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -48,8 +49,12 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> ItemHandlerHelper.getInventoryHandler(this, 1));
 
+    public AdvancedBeehiveTileEntity(TileEntityType<?> tileEntityType) {
+        super(tileEntityType);
+    }
+
     public AdvancedBeehiveTileEntity() {
-        super(ModTileEntityTypes.ADVANCED_BEEHIVE.get());
+        this(ModTileEntityTypes.ADVANCED_BEEHIVE.get());
         MAX_BEES = 3;
     }
 

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
+import cy.jdkdigital.productivebees.tileentity.DragonEggHiveTileEntity;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -99,8 +100,9 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
         this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
         // Draw honey level
+        int yOffset = this.container.tileEntity instanceof DragonEggHiveTileEntity ? 17 : 0;
         int l = 24 / 5 * honeyLevel;
-        this.blit(this.guiLeft + 82, this.guiTop + 35, 176, 14, l + 1, 16);
+        this.blit(this.guiLeft + 82, this.guiTop + 35, 176, 14 + yOffset, l + 1, 16);
     }
 
     public static ResourceLocation getBeeTexture(@Nonnull ResourceLocation res, World world) {

@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:iron_bee",
+    "parent2": "productivebees:reed_bee",
+    "offspring": [
+        "productivebees:copper_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:iron_ingot"
+        },
+        {
+            "tag": "forge:ingots/copper"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/copper"
+            }
+        }
+    ]
+}

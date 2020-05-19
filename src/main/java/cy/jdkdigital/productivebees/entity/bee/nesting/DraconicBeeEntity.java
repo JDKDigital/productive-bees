@@ -8,13 +8,32 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.Dimension;
+import net.minecraft.world.dimension.DimensionType;
 
 public class DraconicBeeEntity extends ProductiveBeeEntity
 {
+    public int breathCollectionCooldown;
+
     public DraconicBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
         beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE || poiType == ModPointOfInterestTypes.DRACONIC_NEST.get();
         beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.DRACONIC_FLOWERS);
         beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.DRACONIC_NESTS);
+    }
+
+    @Override
+    public void livingTick() {
+        super.livingTick();
+
+        if (!this.world.isRemote) {
+
+            if (--breathCollectionCooldown == 0) {
+                breathCollectionCooldown = 400;
+                if (this.world.dimension.getType() == DimensionType.THE_END) {
+                    this.setHasNectar(true);
+                }
+            }
+        }
     }
 }

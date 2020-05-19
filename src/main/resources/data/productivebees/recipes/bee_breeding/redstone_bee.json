@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:glowing_bee",
+    "parent2": "productivebees:chocolate_mining_bee",
+    "offspring": [
+        "productivebees:redstone_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:glowstone_dust"
+        },
+        {
+            "item": "minecraft:redstone"
+        }
+    ]
+}

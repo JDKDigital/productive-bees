@@ -94,7 +94,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                     if (egg.ticksInHive > egg.minOccupationTicks) {
                         CompoundNBT tag = egg.nbt;
                         Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
-                        BeeEntity beeEntity = (BeeEntity) EntityType.func_220335_a(tag, this.world, (spawnedEntity) -> spawnedEntity);
+                        BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity);
                         if (beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, this.getPos(), direction, -24000)) {
                             return true;
                         }

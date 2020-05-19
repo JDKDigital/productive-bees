@@ -87,6 +87,7 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
             this.factory = factory;
         }
 
+        @Nonnull
         @Override
         public T read(ResourceLocation id, JsonObject json) {
             Ingredient ingredient;

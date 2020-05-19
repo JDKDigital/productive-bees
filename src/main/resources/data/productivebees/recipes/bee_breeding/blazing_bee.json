@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:magmatic_bee",
+    "parent2": "productivebees:nomad_bee",
+    "offspring": [
+        "productivebees:blazing_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:magma_cream"
+        },
+        {
+            "item": "minecraft:blaze_powder"
+        }
+    ]
+}

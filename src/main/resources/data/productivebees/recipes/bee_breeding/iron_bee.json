@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:quartz_bee",
+    "parent2": "productivebees:ashy_mining_bee",
+    "offspring": [
+        "productivebees:iron_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:quartz"
+        },
+        {
+            "tag": "minecraft:flowers"
+        }
+    ]
+}

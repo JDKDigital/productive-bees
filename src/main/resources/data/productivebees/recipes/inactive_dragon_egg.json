@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CCC",
+        "CEC",
+        "CCC"
+    ],
+    "key": {
+        "C": {
+            "item": "productivebees:draconic_chunk"
+        },
+        "E": {
+            "item": "minecraft:egg"
+        }
+    },
+    "result": {
+        "item": "productivebees:inactive_dragon_egg"
+    }
+}

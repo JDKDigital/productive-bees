@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.event;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.BeeEntity;
@@ -15,11 +16,11 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ProductiveBees.MODID)
 public class EventHandler
 {
     @SubscribeEvent
-    public void entityRightClicked(PlayerInteractEvent.EntityInteract entityInteract) {
+    public static void entityRightClicked(PlayerInteractEvent.EntityInteract entityInteract) {
         ItemStack itemStack = entityInteract.getItemStack();
         Entity entity = entityInteract.getTarget();
 

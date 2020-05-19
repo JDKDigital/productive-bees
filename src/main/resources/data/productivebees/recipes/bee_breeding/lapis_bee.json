@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:redstone_bee",
+    "parent2": "productivebees:blue_banded_bee",
+    "offspring": [
+        "productivebees:lapis_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:redstone"
+        },
+        {
+            "item": "minecraft:lapis"
+        }
+    ]
+}

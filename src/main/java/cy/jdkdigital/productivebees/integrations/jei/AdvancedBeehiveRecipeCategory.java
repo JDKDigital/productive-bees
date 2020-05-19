@@ -16,7 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -87,7 +86,6 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
         IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProduciveBeesJeiPlugin.BEE_INGREDIENT);
 
-        ProductiveBees.LOGGER.info("All output " + ingredients.getOutputs(VanillaTypes.ITEM));
         ingredientStacks.init(0, true, 6, 28);
         ingredientStacks.set(ingredients);
 

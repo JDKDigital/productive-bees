@@ -29,7 +29,7 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
     @Nonnull
     @Override
     public ResourceLocation getUid() {
-        return new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
+        return ProduciveBeesJeiPlugin.CATEGORY_BEE_BREEDING_UID;
     }
 
     @Nonnull
@@ -59,7 +59,7 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
     @Override
     public void setIngredients(BeeBreedingRecipe recipe, IIngredients ingredients) {
         ingredients.setInputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredients);
-        ingredients.setOutput(ProduciveBeesJeiPlugin.BEE_INGREDIENT, recipe.output);
+        ingredients.setOutputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT, recipe.offspring);
     }
 
     @Override

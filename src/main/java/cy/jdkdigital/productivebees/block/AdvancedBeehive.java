@@ -128,7 +128,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         ItemStack heldItem = player.getHeldItem(hand);
-        ItemStack heldItemCopy = heldItem.copy();
         int honeyLevel = state.get(BeehiveBlock.HONEY_LEVEL);
         boolean itemUsed = false;
         if (honeyLevel >= getMaxHoneyLevel()) {
@@ -157,7 +156,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         if (itemUsed) {
             this.takeHoney(world, state, pos);
             if (player instanceof ServerPlayerEntity) {
-                CriteriaTriggers.SAFELY_HARVEST_HONEY.test((ServerPlayerEntity) player, pos, heldItemCopy);
+                CriteriaTriggers.SAFELY_HARVEST_HONEY.test((ServerPlayerEntity) player, pos, heldItem.copy());
             }
         }
         else if (!world.isRemote()) {

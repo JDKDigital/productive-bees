@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:diamond_bee",
+    "parent2": "productivebees:slimy_bee",
+    "offspring": [
+        "productivebees:emerald_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:diamond"
+        },
+        {
+            "item": "minecraft:emerald"
+        }
+    ]
+}

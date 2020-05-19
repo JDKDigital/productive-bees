@@ -195,7 +195,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
             if (!isPositionBlocked || beeState == BeehiveTileEntity.State.EMERGENCY) {
                 // Spawn entity
                 boolean spawned = false;
-                BeeEntity beeEntity = (BeeEntity) EntityType.func_220335_a(tag, this.world, (spawnedEntity) -> spawnedEntity);
+                BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity);
                 if (beeEntity != null) {
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
                     if (spawned) {

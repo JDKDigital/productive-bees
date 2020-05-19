@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:blazing_bee",
+    "parent2": "productivebees:leafcutter_bee",
+    "offspring": [
+        "productivebees:coal_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:blaze_powder"
+        },
+        {
+            "tag": "minecraft:flowers"
+        }
+    ]
+}

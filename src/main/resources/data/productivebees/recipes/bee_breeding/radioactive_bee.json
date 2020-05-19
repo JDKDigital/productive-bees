@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:creeper_bee",
+    "parent2": "productivebees:iron_bee",
+    "offspring": [
+        "productivebees:radioactive_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:gunpowder"
+        },
+        {
+            "item": "minecraft:iron_ingot"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/uranium"
+            }
+        }
+    ]
+}

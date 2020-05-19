@@ -9,6 +9,8 @@
 	"item.productivebees.honey_bucket": "Honey Bucket",
 	"item.productivebees.honey_treat": "Honey Treat",
 	"item.productivebees.bee_cage": "Bee Cage",
+	"item.productivebees.draconic_dust": "Draconic Dust",
+	"item.productivebees.draconic_chunk": "Draconic Chunk",
 
 	"item.productivebees.spawn_egg_iron_bee": "Iron Bee Spawn Egg",
 	"item.productivebees.spawn_egg_gold_bee": "Gold Bee Spawn Egg",
@@ -48,6 +50,7 @@
 	"item.productivebees.spawn_egg_aluminium_bee": "Aluminium Bee Spawn Egg",
 	"item.productivebees.spawn_egg_bronze_bee": "Bronze Bee Spawn Egg",
 	"item.productivebees.spawn_egg_brass_bee": "Brass Bee Spawn Egg",
+	"item.productivebees.spawn_egg_coal_bee": "Coal Bee Spawn Egg",
 	"item.productivebees.spawn_egg_copper_bee": "Copper Bee Spawn Egg",
 	"item.productivebees.spawn_egg_invar_bee": "Invar Bee Spawn Egg",
 	"item.productivebees.spawn_egg_lead_bee": "Lead Bee Spawn Egg",
@@ -68,8 +71,10 @@
 	"item.productivebees.honeycomb_bone": "Bone Comb",
 	"item.productivebees.honeycomb_brazen": "Brazen Comb",
 	"item.productivebees.honeycomb_bronze": "Bronze Comb",
+	"item.productivebees.honeycomb_coal": "Coal Comb",
 	"item.productivebees.honeycomb_copper": "Copper Comb",
 	"item.productivebees.honeycomb_diamond": "Diamond Comb",
+	"item.productivebees.honeycomb_draconic": "Draconic Comb",
 	"item.productivebees.honeycomb_emerald": "Emerald Comb",
 	"item.productivebees.honeycomb_ender": "Ender Comb",
 	"item.productivebees.honeycomb_fossilised": "Fossilised Comb",
@@ -95,6 +100,7 @@
 	"item.productivebees.honeycomb_zinc": "Zinc Comb",
 
 	"block.productivebees.centrifuge": "Centrifuge",
+	"block.productivebees.inactive_dragon_egg": "Inactive Dragon Egg",
 	"block.productivebees.oak_wood_nest": "Oak Nest",
 	"block.productivebees.spruce_wood_nest": "Spruce Nest",
 	"block.productivebees.dark_oak_wood_nest": "Dark Oak Nest",
@@ -184,8 +190,10 @@
 	"block.productivebees.comb_bone": "Bone Comb Block",
 	"block.productivebees.comb_brazen": "Brazen Comb Block",
 	"block.productivebees.comb_bronze": "Bronze Comb Block",
+	"block.productivebees.comb_coal": "Coal Comb Block",
 	"block.productivebees.comb_copper": "Copper Comb Block",
 	"block.productivebees.comb_diamond": "Diamond Comb Block",
+	"block.productivebees.comb_draconic": "Draconic Comb Block",
 	"block.productivebees.comb_emerald": "Emerald Comb Block",
 	"block.productivebees.comb_ender": "Ender Comb Block",
 	"block.productivebees.comb_fossilised": "Fossilised Comb Block",
@@ -250,6 +258,7 @@
 	"entity.productivebees.aluminium_bee": "Aluminium Bee",
 	"entity.productivebees.bronze_bee": "Bronze Bee",
 	"entity.productivebees.brass_bee": "Brass Bee",
+	"entity.productivebees.coal_bee": "Coal Bee",
 	"entity.productivebees.copper_bee": "Copper Bee",
 	"entity.productivebees.invar_bee": "Invar Bee",
 	"entity.productivebees.lead_bee": "Lead Bee",
@@ -316,7 +325,7 @@
 	"productivebees.ingredient.description.creeper_bee": "Explodes!\n...might be the diet.",
 	"productivebees.ingredient.description.zombie_bee": "Be sure to keep your hives well lit to prevent this guy from moving in.",
 	"productivebees.ingredient.description.skeletal_bee": "Be sure to keep your hives well lit to prevent this guy from moving in.",
-	"productivebees.ingredient.description.wither_bee": "Nasty fellow.\nDefinitely because of the diet.",
+	"productivebees.ingredient.description.wither_bee": "Nasty fellow resembling skeletal bees.\nMood is definitely caused by the diet.",
 
 	"productivebees.ingredient.description.ashy_mining_bee": "Prefers dirt, gravel and sand nests.",
 	"productivebees.ingredient.description.blue_banded_bee": "Can be found living inside holes in trees.",
@@ -333,8 +342,9 @@
 	"productivebees.ingredient.description.sweaty_bee": "Has not achieved conscience yet.",
 
 	"productivebees.ingredient.description.aluminium_bee": "",
-	"productivebees.ingredient.description.bronze_bee": "",
 	"productivebees.ingredient.description.brass_bee": "",
+	"productivebees.ingredient.description.bronze_bee": "",
+	"productivebees.ingredient.description.coal_bee": "",
 	"productivebees.ingredient.description.copper_bee": "",
 	"productivebees.ingredient.description.invar_bee": "",
 	"productivebees.ingredient.description.lead_bee": "",
@@ -348,5 +358,7 @@
 	"productivebees.ingredient.description.titanium_bee": "",
 	"productivebees.ingredient.description.tungsten_bee": "",
 	"productivebees.ingredient.description.zinc_bee": "",
-	"productivebees.ingredient.description.amber_bee": ""
+	"productivebees.ingredient.description.amber_bee": "",
+
+	"productivebees.ingredient.description.inactive_dragon_egg": "Something is missing, it's all dried out."
 }

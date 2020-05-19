@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:quartz_bee",
+    "parent2": "productivebees:mason_bee",
+    "offspring": [
+        "productivebees:gold_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:quartz"
+        },
+        {
+            "tag": "minecraft:flowers"
+        }
+    ]
+}

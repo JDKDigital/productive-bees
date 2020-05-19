@@ -1,22 +1,28 @@
 package cy.jdkdigital.productivebees.recipe;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class BeeBreedingRecipe implements IRecipe<IInventory>
 {
@@ -24,17 +30,24 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
 
     public final ResourceLocation id;
     public final List<BeeIngredient> ingredients;
-    public final BeeIngredient output;
+    public final List<BeeIngredient> offspring;
 
-    public BeeBreedingRecipe(ResourceLocation id, List<BeeIngredient> ingredients, BeeIngredient output) {
+    public BeeBreedingRecipe(ResourceLocation id, List<BeeIngredient> ingredients, List<BeeIngredient> offspring) {
         this.id = id;
         this.ingredients = ingredients;
-        this.output = output;
+        this.offspring = offspring;
     }
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
-        ProductiveBees.LOGGER.info("Comparing recipe: " + inv + " - " + this.ingredients);
+        if (inv instanceof BeeHelper.BeeInventory) {
+            String beeName = ((BeeHelper.BeeInventory)inv).getBeeName();
+            for (BeeIngredient parent: ingredients) {
+                if (parent.getBeeType().getRegistryName().getPath().equals(beeName + "_bee")) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -81,32 +94,52 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
             this.factory = factory;
         }
 
+        @Nonnull
         @Override
         public T read(ResourceLocation id, JsonObject json) {
-            List<BeeIngredient> ingredients = new ArrayList<>();
-            BeeIngredient output = null;
+            String parentName1 = JSONUtils.getString(json, "parent1");
+            String parentName2 = JSONUtils.getString(json, "parent2");
 
-            return this.factory.create(id, ingredients, output);
+            List<BeeIngredient> children = new ArrayList<>();
+            JsonArray offspring = JSONUtils.getJsonArray(json, "offspring");
+            offspring.forEach(el -> {
+                String child = el.getAsString();
+                children.add(BeeIngredientFactory.getOrCreateList().get(child));
+            });
+
+            BeeIngredient beeIngredientParent1 = BeeIngredientFactory.getOrCreateList().get(parentName1);
+            BeeIngredient beeIngredientParent2 = BeeIngredientFactory.getOrCreateList().get(parentName2);
+
+            return this.factory.create(id, Arrays.asList(beeIngredientParent1, beeIngredientParent2), children);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             List<BeeIngredient> ingredients = new ArrayList<>();
             ingredients.add(BeeIngredient.read(buffer));
             ingredients.add(BeeIngredient.read(buffer));
-            BeeIngredient output = BeeIngredient.read(buffer);
-            return this.factory.create(id, ingredients, output);
+
+            List<BeeIngredient> offspring = new ArrayList<>();
+            IntStream.range(0, buffer.readInt()).forEach(
+                i -> offspring.add(BeeIngredient.read(buffer))
+            );
+
+            return this.factory.create(id, ingredients, offspring);
         }
 
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
             for (BeeIngredient ingredient : recipe.ingredients) {
                 ingredient.write(buffer);
             }
-            recipe.output.write(buffer);
+
+            buffer.writeInt(recipe.offspring.size());
+            recipe.offspring.forEach((child) -> {
+                child.write(buffer);
+            });
         }
 
         public interface IRecipeFactory<T extends BeeBreedingRecipe>
         {
-            T create(ResourceLocation id, List<BeeIngredient> input, BeeIngredient output);
+            T create(ResourceLocation id, List<BeeIngredient> input, List<BeeIngredient> output);
         }
     }
 }

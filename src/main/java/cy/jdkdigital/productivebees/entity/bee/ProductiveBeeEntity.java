@@ -197,7 +197,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
 
     @Override
     public BeeEntity createChild(AgeableEntity targetEntity) {
-        ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, targetEntity);
+        ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, targetEntity, world);
         if (breedingResult == null) {
             breedingResult = new ResourceLocation(this.getBeeType());
         }
@@ -214,7 +214,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         }
         else {
             // Check specific breeding rules
-            ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, otherAnimal);
+            ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, otherAnimal, world);
             return breedingResult != null && this.isInLove() && otherAnimal.isInLove();
         }
     }

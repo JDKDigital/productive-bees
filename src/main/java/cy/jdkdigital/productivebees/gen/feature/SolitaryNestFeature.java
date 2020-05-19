@@ -77,7 +77,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
             }
 
             // Replace target block with nest
-            boolean result = world.setBlockState(pos, featureConfig.state.with(BlockStateProperties.FACING, direction), 2);
+            boolean result = world.setBlockState(pos, featureConfig.state.with(BlockStateProperties.FACING, direction), 1);
 
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof SolitaryNestTileEntity) {

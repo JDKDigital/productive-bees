@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:ender_bee",
+    "parent2": "productivebees:gold_bee",
+    "offspring": [
+        "productivebees:platinum_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:ender_pearl"
+        },
+        {
+            "item": "minecraft:gold_ingot"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/platinum"
+            }
+        }
+    ]
+}
