@@ -16,6 +16,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -86,7 +87,7 @@ public class DragonEggHiveTileEntity extends AdvancedBeehiveTileEntity
                     inventoryHandler.ifPresent(inv -> {
                         ItemStack bottles = inv.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
-                            final ItemStack filledBottle = new ItemStack(Items.DRAGON_BREATH);
+                            final ItemStack filledBottle = world.getDimension().getType() == DimensionType.THE_END ? new ItemStack(Items.DRAGON_BREATH) : new ItemStack(Items.HONEY_BOTTLE);
                             boolean addedBottle = ((ItemHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
                             if (addedBottle) {
                                 bottles.shrink(1);

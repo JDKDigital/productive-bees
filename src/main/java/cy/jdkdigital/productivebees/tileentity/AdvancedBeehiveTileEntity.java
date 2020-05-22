@@ -69,7 +69,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(ModBlocks.ADVANCED_OAK_BEEHIVE.get().getTranslationKey());
+        return new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey());
     }
 
     public boolean isSmoked() {

@@ -82,7 +82,7 @@ public class ProduciveBeesJeiPlugin implements IModPlugin
     public void registerRecipes(IRecipeRegistration registration) {
         Stream<String> notInfoBees = Stream.of("aluminium", "brass", "bronze", "coal", "copper", "invar", "lead", "nickel", "osmium", "platinum", "radioactive", "silver", "steel", "tin", "titanium", "tungsten", "zinc", "amber");
         for (Map.Entry<String, BeeIngredient> entry : BeeIngredientFactory.getOrCreateList().entrySet()) {
-            if (notInfoBees.noneMatch(entry.getKey()::contains)) {
+            if (notInfoBees.filter(s -> entry.getKey().contains(s)).count() > 0) {
                 registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (entry.getKey().replace("productivebees:", "")));
             }
         }

@@ -35,7 +35,7 @@ public class AdvancedBeehiveContainer extends AbstractContainer
         put(2, new ArrayList<Integer>()
         {{
             add(37);
-            add(45);
+            add(46);
         }});
     }};
     public static final HashMap<Integer, List<Integer>> BEE_POSITIONS_EXPANDED = new HashMap<Integer, List<Integer>>()
@@ -83,10 +83,10 @@ public class AdvancedBeehiveContainer extends AbstractContainer
 
         // Inventory slots
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-            addSlotBox(inv, ItemHandlerHelper.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
-
             // Bottle slot
             addSlot(new ManualSlotItemHandler((ItemHandlerHelper.ItemHandler) inv, ItemHandlerHelper.BOTTLE_SLOT, 86, 17));
+
+            addSlotBox(inv, ItemHandlerHelper.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
         });
 
         layoutPlayerInventorySlots(inventory, 0, 8, 84);

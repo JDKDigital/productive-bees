@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.tileentity.ItemHandlerHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
@@ -125,7 +126,7 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
                     String registryname = JSONUtils.getString(jsonObject, "tag");
                     Tag<Item> tag = ItemTags.getCollection().getOrCreate(new ResourceLocation(registryname));
                     if (!tag.getAllElements().isEmpty()) {
-                        outputs.put(new ItemStack(tag.getAllElements().iterator().next()), nbt);
+                        outputs.put(new ItemStack(tag.getAllElements().stream().findFirst().orElse(Items.AIR)), nbt);
                     }
                 }
             });
