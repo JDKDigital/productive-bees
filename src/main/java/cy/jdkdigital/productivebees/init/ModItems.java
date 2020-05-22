@@ -8,9 +8,7 @@ import cy.jdkdigital.productivebees.item.HoneyTreat;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
