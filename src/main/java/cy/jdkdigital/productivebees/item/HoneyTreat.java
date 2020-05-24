@@ -1,5 +1,7 @@
 package cy.jdkdigital.productivebees.item;
 
+import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,6 +40,17 @@ public class HoneyTreat extends Item
 
         BlockPos pos = target.getPosition();
         target.getEntityWorld().addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+
+        // Improve temper
+        if (bee instanceof ProductiveBeeEntity) {
+            ProductiveBeeEntity productiveBee = (ProductiveBeeEntity) target;
+            int temper = productiveBee.getAttributeValue(BeeAttributes.TEMPER);
+            if (temper > 0) {
+                if (player.world.rand.nextFloat() < 0.05F) {
+                    productiveBee.getBeeAttributes().put(BeeAttributes.TEMPER, --temper);
+                }
+            }
+        }
 
         return true;
     }

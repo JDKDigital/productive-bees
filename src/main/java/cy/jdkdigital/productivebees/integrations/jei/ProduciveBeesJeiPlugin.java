@@ -28,6 +28,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -80,10 +82,11 @@ public class ProduciveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        Stream<String> notInfoBees = Stream.of("aluminium", "brass", "bronze", "coal", "copper", "invar", "lead", "nickel", "osmium", "platinum", "radioactive", "silver", "steel", "tin", "titanium", "tungsten", "zinc", "amber");
+        List<String> notInfoBees = Arrays.asList("aluminium_bee", "brass_bee", "bronze_bee", "coal_bee", "copper_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");
         for (Map.Entry<String, BeeIngredient> entry : BeeIngredientFactory.getOrCreateList().entrySet()) {
-            if (notInfoBees.filter(s -> entry.getKey().contains(s)).count() > 0) {
-                registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (entry.getKey().replace("productivebees:", "")));
+            String beeId = entry.getKey().replace("productivebees:", "");
+            if (!notInfoBees.contains(beeId)) {
+                registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (beeId));
             }
         }
         Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "inactive_dragon_egg"));

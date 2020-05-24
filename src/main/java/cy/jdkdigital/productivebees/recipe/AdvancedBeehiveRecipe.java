@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -54,6 +55,10 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
+        if (inv instanceof BeeHelper.BeeInventory) {
+            String beeName = ((BeeHelper.BeeInventory)inv).getBeeIdentifier();
+            return beeName.equals(ingredient.getBeeType().getRegistryName().toString());
+        }
         return false;
     }
 
@@ -140,7 +145,7 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
                 }
             });
 
-            double chance = ProductiveBeeEntity.getProductionChance(beeName, 0.25D);
+            double chance = ProductiveBeeEntity.getProductionChance(beeName, 0.65D);
 
             return this.factory.create(id, beeIngredient, outputs, chance);
         }

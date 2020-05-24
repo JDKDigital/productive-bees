@@ -16,7 +16,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -27,10 +26,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class BeeHelper
 {
@@ -137,32 +133,58 @@ public class BeeHelper
     }
 
     public static List<ItemStack> getBeeProduce(World world, String beeId) {
-        for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE).entrySet()) {
-            AdvancedBeehiveRecipe recipe = (AdvancedBeehiveRecipe) entry.getValue();
-            if (beeId.equals(recipe.ingredient.getBeeType().getRegistryName().toString())) {
-                List<ItemStack> outputList = new ArrayList<>();
-                recipe.output.forEach((itemStack, bounds) -> {
-                    int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
-                    itemStack.setCount(count);
-                    outputList.add(itemStack);
-                });
-                return outputList;
-            }
+        AdvancedBeehiveRecipe recipe = world.getRecipeManager().getRecipe(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE, new BeeInventory(beeId), world).orElse(null);
+        if (recipe != null) {
+            List<ItemStack> outputList = new ArrayList<>();
+            recipe.output.forEach((itemStack, bounds) -> {
+                int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
+                itemStack.setCount(count);
+                outputList.add(itemStack);
+            });
+            return outputList;
         }
 
         return Lists.newArrayList(ItemStack.EMPTY);
     }
 
-    public static class BeeInventory implements IInventory
-    {
-        private String beeName;
-
-        public BeeInventory(String beeName) {
-            this.beeName = beeName;
+    public static void setOffspringAttributes(ProductiveBeeEntity newBee, ProductiveBeeEntity productiveBeeEntity, AgeableEntity targetEntity) {
+        Map<BeeAttribute<?>, Object> attributeMapParent1 = productiveBeeEntity.getBeeAttributes();
+        Map<BeeAttribute<?>, Object> attributeMapParent2 = new HashMap<>();
+        if (targetEntity instanceof  ProductiveBeeEntity) {
+            attributeMapParent2 = ((ProductiveBeeEntity) targetEntity).getBeeAttributes();
+        } else {
+            // Default bee attributes
+            attributeMapParent2.put(BeeAttributes.PRODUCTIVITY, 0);
+            attributeMapParent2.put(BeeAttributes.TEMPER, 1);
+            attributeMapParent2.put(BeeAttributes.BEHAVIOR, 0);
+            attributeMapParent2.put(BeeAttributes.WEATHER_TOLERANCE, 0);
         }
 
-        public String getBeeName() {
-            return this.beeName;
+        Map<BeeAttribute<?>, Object> attributeMapChild = newBee.getBeeAttributes();
+
+        int parentProductivity = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.PRODUCTIVITY), (int) attributeMapParent2.get(BeeAttributes.PRODUCTIVITY));
+        attributeMapChild.put(BeeAttributes.PRODUCTIVITY, Math.max((int) attributeMapChild.get(BeeAttributes.PRODUCTIVITY), parentProductivity));
+
+        int parentTemper = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.TEMPER), (int) attributeMapParent2.get(BeeAttributes.TEMPER));
+        attributeMapChild.put(BeeAttributes.TEMPER, Math.max((int) attributeMapChild.get(BeeAttributes.TEMPER), parentTemper));
+
+        int parentBehavior = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.BEHAVIOR), (int) attributeMapParent2.get(BeeAttributes.BEHAVIOR));
+        attributeMapChild.put(BeeAttributes.BEHAVIOR, Math.max((int) attributeMapChild.get(BeeAttributes.BEHAVIOR), parentBehavior));
+
+        int parentWeatherTolerance = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
+        attributeMapChild.put(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
+    }
+
+    public static class BeeInventory implements IInventory
+    {
+        private String beeIdentifier;
+
+        public BeeInventory(String beeIdentifier) {
+            this.beeIdentifier = beeIdentifier;
+        }
+
+        public String getBeeIdentifier() {
+            return this.beeIdentifier;
         }
 
         @Override
@@ -172,7 +194,7 @@ public class BeeHelper
 
         @Override
         public boolean isEmpty() {
-            return beeName == null;
+            return beeIdentifier == null;
         }
 
         @Nonnull
@@ -210,7 +232,7 @@ public class BeeHelper
 
         @Override
         public void clear() {
-            this.beeName = null;
+            this.beeIdentifier = null;
         }
     }
 }

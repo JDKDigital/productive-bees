@@ -41,7 +41,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
     @Override
     public boolean matches(IInventory inv, World worldIn) {
         if (inv instanceof BeeHelper.BeeInventory) {
-            String beeName = ((BeeHelper.BeeInventory)inv).getBeeName();
+            String beeName = ((BeeHelper.BeeInventory)inv).getBeeIdentifier();
             for (BeeIngredient parent: ingredients) {
                 if (parent.getBeeType().getRegistryName().getPath().equals(beeName + "_bee")) {
                     return true;

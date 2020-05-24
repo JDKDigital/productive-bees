@@ -1,6 +1,8 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.entity.bee.hive.EnderBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.nesting.GlowingBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.nesting.MagmaticBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.nesting.QuartzBeeEntity;
@@ -99,6 +101,44 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         this.targetSelector.addGoal(2, new BeeEntity.AttackPlayerGoal(this));
     }
 
+    @Override
+    public void livingTick() {
+        super.livingTick();
+
+        if (ticksExisted % 1337 == 0 && getLeashed()) {
+            // Rain tolerance improvements
+            int tolerance = getAttributeValue(BeeAttributes.WEATHER_TOLERANCE);
+            if (tolerance < 2) {
+                if (world.rand.nextFloat() < 0.1F) {
+                    if ((tolerance < 1 && world.isRaining()) || world.isThundering()) {
+                        beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tolerance + 1);
+                    }
+                }
+            }
+            // Behavior improvement
+            int behavior = getAttributeValue(BeeAttributes.BEHAVIOR);
+            if (behavior < 2) {
+                if (world.rand.nextFloat() < 0.1F) {
+                    // If diurnal, it can change to nocturnal
+                    if (behavior < 1 && world.isNightTime()) {
+                        beeAttributes.put(BeeAttributes.BEHAVIOR, 1);
+                    }
+                    // If nocturnal, it can become metaturnal or back to diurnal
+                    else if (behavior == 1 && !world.isNightTime()) {
+                        beeAttributes.put(BeeAttributes.BEHAVIOR, world.rand.nextFloat() < 0.7F ? 2 : 0);
+                    }
+                }
+            }
+
+            // It might die when leashed outside
+            boolean isInDanger = (tolerance < 1 && world.isRaining()) || (behavior < 1 && world.isNightTime());
+            if (isInDanger && world.rand.nextFloat() < 0.1F) {
+                // Do half health damage
+                setHealth(getHealth() - (getMaxHealth() / 2));
+            }
+        }
+    }
+
     public boolean isAngry() {
         return super.isAngry() && getAttributeValue(BeeAttributes.TEMPER) > 0;
     }
@@ -144,6 +184,10 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         return (T) this.beeAttributes.get(parameter);
     }
 
+    public Map<BeeAttribute<?>, Object> getBeeAttributes() {
+        return beeAttributes;
+    }
+
     public boolean canOperateDuringNight() {
         return getAttributeValue(BeeAttributes.BEHAVIOR) == 0;
     }
@@ -186,11 +230,12 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
                 // TODO Fix for this release, remove later
                 beeAttributes.put(BeeAttributes.NESTING_PREFERENCE,
                         this instanceof SlimyBeeEntity ? ModTags.SLIMY_NESTS :
-                                this instanceof GlowingBeeEntity ? ModTags.GLOWSTONE_NESTS :
-                                        this instanceof MagmaticBeeEntity ? ModTags.NETHER_BRICK_NESTS :
-                                                this instanceof QuartzBeeEntity ? ModTags.NETHER_QUARTZ_NESTS :
-                                                        this instanceof SolitaryBeeEntity ? ModTags.SOLITARY_OVERWORLD_NESTS :
-                                                                BlockTags.BEEHIVES);
+                            this instanceof EnderBeeEntity ? ModTags.END_NESTS :
+                                    this instanceof GlowingBeeEntity ? ModTags.GLOWSTONE_NESTS :
+                                            this instanceof MagmaticBeeEntity ? ModTags.NETHER_BRICK_NESTS :
+                                                    this instanceof QuartzBeeEntity ? ModTags.NETHER_QUARTZ_NESTS :
+                                                            this instanceof SolitaryBeeEntity ? ModTags.SOLITARY_OVERWORLD_NESTS :
+                                                                    BlockTags.BEEHIVES);
             }
         }
     }
@@ -201,7 +246,13 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         if (breedingResult == null) {
             breedingResult = new ResourceLocation(this.getBeeType());
         }
-        return (BeeEntity) ForgeRegistries.ENTITIES.getValue(breedingResult).create(world);
+        BeeEntity newBee = (BeeEntity) ForgeRegistries.ENTITIES.getValue(breedingResult).create(world);
+
+        if (newBee instanceof ProductiveBeeEntity) {
+            BeeHelper.setOffspringAttributes((ProductiveBeeEntity) newBee, this, targetEntity);
+        }
+
+        return newBee;
     }
 
     @Override
