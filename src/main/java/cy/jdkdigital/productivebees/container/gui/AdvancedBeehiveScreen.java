@@ -56,6 +56,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
         if (this.container.tileEntity.inhabitantList.size() > 0) {
+            // Bee icons
             int i = 0;
             for (String beeId : this.container.tileEntity.inhabitantList) {
                 if (positions.get(i) == null || beeId.isEmpty()) {
@@ -70,6 +71,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 
                 i++;
             }
+            // Bee Tooltips
             int j = 0;
             for (String beeId : this.container.tileEntity.inhabitantList) {
                 if (isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY) && stringCache.containsKey(beeId)) {
@@ -101,8 +103,8 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 
         // Draw honey level
         int yOffset = this.container.tileEntity instanceof DragonEggHiveTileEntity ? 17 : 0;
-        int l = 24 / 5 * honeyLevel;
-        this.blit(this.guiLeft + 82, this.guiTop + 35, 176, 14 + yOffset, l + 1, 16);
+        int progress = honeyLevel == 0 ? 0 : 27 / 5 * honeyLevel;
+        this.blit(this.guiLeft + 82, this.guiTop + 35, 176, 14 + yOffset, progress, 16);
     }
 
     public static ResourceLocation getBeeTexture(@Nonnull ResourceLocation res, World world) {

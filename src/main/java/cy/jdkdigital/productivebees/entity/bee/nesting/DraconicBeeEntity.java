@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -12,7 +13,7 @@ import net.minecraft.world.dimension.DimensionType;
 
 public class DraconicBeeEntity extends ProductiveBeeEntity
 {
-    public int breathCollectionCooldown;
+    public int breathCollectionCooldown = 600;
 
     public DraconicBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -24,11 +25,9 @@ public class DraconicBeeEntity extends ProductiveBeeEntity
     @Override
     public void livingTick() {
         super.livingTick();
-
         if (!this.world.isRemote) {
-
-            if (--breathCollectionCooldown == 0) {
-                breathCollectionCooldown = 400;
+            if (--breathCollectionCooldown <= 0) {
+                breathCollectionCooldown = 600;
                 if (this.world.dimension.getType() == DimensionType.THE_END) {
                     this.setHasNectar(true);
                 }

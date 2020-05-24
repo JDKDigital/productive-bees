@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
@@ -40,13 +41,14 @@ import java.util.List;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider
 {
-    private int tickCounter = 0;
+    protected int tickCounter = 0;
     private int abandonCountdown = 0;
+    protected boolean hasTicked = false;
 
     // Used for displaying bees in gui
     public List<String> inhabitantList = new ArrayList<>();
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> ItemHandlerHelper.getInventoryHandler(this, 1));
+    protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> ItemHandlerHelper.getInventoryHandler(this, 1));
 
     public AdvancedBeehiveTileEntity(TileEntityType<?> tileEntityType) {
         super(tileEntityType);
@@ -82,38 +84,13 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             return;
         }
 
-        if (++tickCounter > ProductiveBeesConfig.GENERAL.itemTickRate.get()) {
+        if (!hasTicked && ++tickCounter > ProductiveBeesConfig.GENERAL.itemTickRate.get()) {
             tickCounter = 0;
 
-            ListNBT beeList = this.getBeeListAsNBTList();
-            if (beeList.size() > 0) {
-                for (INBT inbt : beeList) {
-                    CompoundNBT inb = (CompoundNBT) ((CompoundNBT) inbt).get("EntityData");
-                    String beeId = inb.getString("id");
-
-                    Double productionChance = ProductiveBeeEntity.getProductionChance(beeId, 0.25D);
-
-                    // Generate bee produce
-                    if (productionChance != null && productionChance > 0) {
-                        if (world.rand.nextDouble() <= productionChance) {
-                            final int productivity = inb.contains("bee_productivity") ? inb.getInt("bee_productivity") : 0;
-                            inventoryHandler.ifPresent(inv -> {
-                                BeeHelper.getBeeProduce(world, beeId).forEach((stack) -> {
-                                    if (!stack.isEmpty()) {
-                                        if (productivity > 0) {
-                                            float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
-                                            stack.grow(Math.round(f));
-                                        }
-                                        ((ItemHandlerHelper.ItemHandler) inv).addOutput(stack);
-                                    }
-                                });
-                            });
-                        }
-                    }
-                }
-            }
+            productionTick();
 
             // Spawn skeletal and zombie bees in available hives
+            ListNBT beeList = this.getBeeListAsNBTList();
             if (
                 world.isNightTime() &&
                 ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
@@ -129,7 +106,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             }
         }
 
-        if (tickCounter % 23 == 0) {
+        if (!hasTicked && tickCounter % 23 == 0) {
             BlockState blockState = this.getBlockState();
 
             if (blockState.getBlock() instanceof AdvancedBeehive) {
@@ -138,7 +115,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 // Auto harvest if empty bottles are in
                 if (honeyLevel >= 5) {
                     int finalHoneyLevel = honeyLevel;
-                    inventoryHandler.ifPresent(inv -> {
+                    this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
                         ItemStack bottles = inv.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
                             final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
@@ -165,6 +142,37 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         }
 
         super.tick();
+        hasTicked = false;
+    }
+
+    protected void productionTick() {
+        ListNBT beeList = this.getBeeListAsNBTList();
+        if (beeList.size() > 0) {
+            for (INBT inbt : beeList) {
+                CompoundNBT inb = (CompoundNBT) ((CompoundNBT) inbt).get("EntityData");
+                String beeId = inb.getString("id");
+
+                Double productionChance = ProductiveBeeEntity.getProductionChance(beeId, 0.65D);
+
+                // Generate bee produce
+                if (productionChance != null && productionChance > 0) {
+                    if (world.rand.nextDouble() <= productionChance) {
+                        final int productivity = inb.contains("bee_productivity") ? inb.getInt("bee_productivity") : 0;
+                        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                            BeeHelper.getBeeProduce(world, beeId).forEach((stack) -> {
+                                if (!stack.isEmpty()) {
+                                    if (productivity > 0) {
+                                        float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
+                                        stack.grow(Math.round(f));
+                                    }
+                                    ((ItemHandlerHelper.ItemHandler) inv).addOutput(stack);
+                                }
+                            });
+                        });
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -184,14 +192,14 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         super.read(tag);
 
         CompoundNBT invTag = tag.getCompound("inv");
-        inventoryHandler.ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
+        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
     }
 
     @Override
     public CompoundNBT write(CompoundNBT tag) {
         super.write(tag);
 
-        inventoryHandler.ifPresent(inv -> {
+        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
             tag.put("inv", compound);
         });

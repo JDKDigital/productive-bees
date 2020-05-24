@@ -23,10 +23,7 @@ public class InactiveDragonEgg extends DragonEggBlock
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         ItemStack heldItem = player.getHeldItem(hand);
-        if (world.isRemote && heldItem.getItem() == Items.DRAGON_BREATH) {
-            // Transform to real dragon egg
-            world.setBlockState(pos, Blocks.DRAGON_EGG.getDefaultState(), 1);
-
+        if (!world.isRemote && heldItem.getItem() == Items.DRAGON_BREATH) {
             BlockPos posUp = pos.up(2);
             for(int i = 0; i < 42; ++i) {
                 double rnd = world.rand.nextDouble();
@@ -38,6 +35,9 @@ public class InactiveDragonEgg extends DragonEggBlock
                 double z = MathHelper.lerp(rnd, posUp.getZ(), pos.getZ()) + (world.rand.nextDouble() - 0.5D) + 0.5D;
                 world.addParticle(ParticleTypes.PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
             }
+
+            // Transform to real dragon egg
+            world.setBlockState(pos, Blocks.DRAGON_EGG.getDefaultState(), 3);
 
             if (!player.isCreative()) {
                 heldItem.shrink(1);

@@ -46,7 +46,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     public AdvancedBeehiveTileEntityAbstract(TileEntityType<?> tileEntityType) {
         super();
-//        this.type = tileEntityType;
         this.tileEntityType = tileEntityType;
     }
 
@@ -224,7 +223,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
             beeEntity.onHoneyDelivered();
             Block block = state.getBlock();
-            if (block.isIn(BlockTags.BEEHIVES) && state.has(BeehiveBlock.HONEY_LEVEL)) {
+            if (state.has(BeehiveBlock.HONEY_LEVEL)) {
                 int honeyLevel = getHoneyLevel(state);
                 int maxHoneyLevel = getMaxHoneyLevel(state);
                 if (honeyLevel < maxHoneyLevel) {

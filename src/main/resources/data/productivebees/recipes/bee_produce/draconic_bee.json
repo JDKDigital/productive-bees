@@ -4,7 +4,7 @@
     "results": [
         {
             "comb_produce": {
-                "comb": "forge:honeycombs/draconic"
+                "tag": "forge:honeycombs/draconic"
             },
             "item_produce": {
                 "item": "productivebees:draconic_dust"
