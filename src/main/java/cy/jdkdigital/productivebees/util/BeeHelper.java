@@ -8,18 +8,25 @@ import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -27,6 +34,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BeeHelper
 {
@@ -132,15 +140,37 @@ public class BeeHelper
         return new ResourceLocation(ProductiveBees.MODID, beeEntity.getBeeType() + "_bee");
     }
 
-    public static List<ItemStack> getBeeProduce(World world, String beeId) {
+    public static List<ItemStack> getBeeProduce(World world, String beeId, BlockPos flowerPos) {
         AdvancedBeehiveRecipe recipe = world.getRecipeManager().getRecipe(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE, new BeeInventory(beeId), world).orElse(null);
+        List<ItemStack> outputList = new ArrayList<>();
         if (recipe != null) {
-            List<ItemStack> outputList = new ArrayList<>();
             recipe.output.forEach((itemStack, bounds) -> {
                 int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
                 itemStack.setCount(count);
                 outputList.add(itemStack);
             });
+            return outputList;
+        }
+        else if (beeId.equals("productivebees:dye_bee")) {
+            if (flowerPos != null) {
+                BlockState flowerBlock = world.getBlockState(flowerPos);
+                Item flowerItem = Item.getItemFromBlock(flowerBlock.getBlock());
+
+                Map<ResourceLocation, IRecipe<CraftingInventory>> recipes = world.getRecipeManager().getRecipes(IRecipeType.CRAFTING);
+                Optional<IRecipe<CraftingInventory>> flowerRecipe = recipes.values().stream().flatMap((craftingRecipe) -> {
+                    AtomicBoolean hasMatchingItem = new AtomicBoolean(false);
+                    for (Ingredient ingredient : craftingRecipe.getIngredients()) {
+                        ItemStack[] stacks = ingredient.getMatchingStacks();
+                        if (stacks.length > 0 && stacks[0].getItem().equals(flowerItem)) {
+                            hasMatchingItem.set(true);
+                            break;
+                        }
+                    }
+                    return Util.streamOptional(hasMatchingItem.get() ? Optional.of(craftingRecipe) : Optional.empty());
+                }).findFirst();
+
+                flowerRecipe.ifPresent(craftingInventoryIRecipe -> outputList.add(craftingInventoryIRecipe.getRecipeOutput()));
+            }
             return outputList;
         }
 

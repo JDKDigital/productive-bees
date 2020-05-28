@@ -297,6 +297,10 @@
 	"productivebees.information.attribute.temper.normal": "Normal",
 	"productivebees.information.attribute.temper.short": "Short",
 	"productivebees.information.attribute.temper.hostile": "Hostile",
+	"productivebees.information.attribute.behavior": "Behavior: %s",
+	"productivebees.information.attribute.behavior.diurnal": "Diurnal",
+	"productivebees.information.attribute.behavior.nocturnal": "Nocturnal",
+	"productivebees.information.attribute.behavior.metaturnal": "Metaturnal",
 
 	"productivebees.information.attribute.weather_tolerance.none": "None",
 	"productivebees.information.attribute.weather_tolerance.rain": "Rain",

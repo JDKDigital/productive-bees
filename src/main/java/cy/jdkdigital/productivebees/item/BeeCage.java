@@ -96,10 +96,7 @@ public class BeeCage extends Item
 
         itemStack.shrink(1);
         if (!player.inventory.addItemStackToInventory(cageStack)) {
-            ProductiveBees.LOGGER.info("dropItem: stack:" + cageStack);
             player.dropItem(cageStack, false);
-        } else {
-            ProductiveBees.LOGGER.info("addItemStack: stack:" + cageStack);
         }
 
         player.swingArm(hand);
@@ -156,13 +153,13 @@ public class BeeCage extends Item
                 int temper = tag.getInt("bee_temper");
                 ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).applyTextStyle(getColor(temper));
                 list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+                int behavior = tag.getInt("bee_behavior");
+                ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).applyTextStyle(getColor(behavior));
+                list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).applyTextStyle(TextFormatting.DARK_GRAY));
             }
             else {
-                String mod = tag.getString("mod");
-                if (mod == "String") {
-                    mod = "Minecraft";
-                }
-                list.add((new StringTextComponent("Mod: " + mod)).applyTextStyle(TextFormatting.DARK_AQUA));
+                list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).applyTextStyle(TextFormatting.DARK_AQUA));
             }
         }
     }
