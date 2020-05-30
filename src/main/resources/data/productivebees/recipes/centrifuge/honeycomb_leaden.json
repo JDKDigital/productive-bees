@@ -1,7 +1,7 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/lead"
+        "tag": "forge:honeycombs/leaden"
     },
     "output": [
         {
@@ -19,7 +19,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:honeycombs/lead"
+                "tag": "forge:honeycombs/leaden"
             }
         }
     ]

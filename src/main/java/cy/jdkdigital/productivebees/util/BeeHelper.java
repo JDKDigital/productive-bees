@@ -169,7 +169,10 @@ public class BeeHelper
                     return Util.streamOptional(hasMatchingItem.get() ? Optional.of(craftingRecipe) : Optional.empty());
                 }).findFirst();
 
-                flowerRecipe.ifPresent(craftingInventoryIRecipe -> outputList.add(craftingInventoryIRecipe.getRecipeOutput()));
+                flowerRecipe.ifPresent(craftingInventoryIRecipe -> {
+                    ItemStack dye = new ItemStack(craftingInventoryIRecipe.getRecipeOutput().getItem(), 1);
+                    outputList.add(dye);
+                });
             }
             return outputList;
         }
