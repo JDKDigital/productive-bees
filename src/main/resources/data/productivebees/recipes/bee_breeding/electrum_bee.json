@@ -1,16 +1,16 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:quartz_bee",
-    "parent2": "productivebees:ashy_mining_bee",
+    "parent1": "productivebees:gold_bee",
+    "parent2": "productivebees:silver_bee",
     "offspring": [
-        "productivebees:copper_bee"
+        "productivebees:electrum_bee"
     ],
     "breeding_items": [
         {
-            "item": "minecraft:iron_ingot"
+            "item": "minecraft:gold_ingot"
         },
         {
-            "tag": "forge:ingots/copper"
+            "tag": "forge:ingots/silver"
         }
     ],
     "conditions": [
@@ -18,7 +18,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/copper"
+                "tag": "forge:ingots/electrum"
             }
         }
     ]

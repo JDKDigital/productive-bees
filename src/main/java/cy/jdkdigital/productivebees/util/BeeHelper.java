@@ -123,20 +123,21 @@ public class BeeHelper
             return new ResourceLocation("minecraft:bee");
         }
 
-        // Get breeding recipe
-        BeeBreedingRecipe recipe = world.getRecipeManager().getRecipe(BeeBreedingRecipe.BEE_BREEDING, new BeeInventory(beeEntity.getBeeType()), world).orElse(null);
-
-        // If the two bees are the same type, or no breeding rules exist, create a new of that type
-        if (recipe == null || beeEntity.getBeeType().equals(((ProductiveBeeEntity) targetEntity).getBeeType())) {
-            return new ResourceLocation(ProductiveBees.MODID, beeEntity.getBeeType() + "_bee");
+        if (!beeEntity.getBeeType().equals(((ProductiveBeeEntity) targetEntity).getBeeType())) {
+            // Get breeding recipes
+            List<BeeBreedingRecipe> recipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING, new BeeInventory(beeEntity.getBeeType(), ((ProductiveBeeEntity) targetEntity).getBeeType()), world);
+            ProductiveBees.LOGGER.info("Recipes::" + recipes);
+            // If the two bees are the same type, or no breeding rules exist, create a new of that type
+            if (!recipes.isEmpty()) {
+                BeeBreedingRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
+                List<BeeIngredient> possibleOffspring = recipe.offspring;
+                if (possibleOffspring != null && possibleOffspring.size() > 0) {
+                    return possibleOffspring.get(rand.nextInt(possibleOffspring.size())).getBeeType().getRegistryName();
+                }
+            }
         }
 
-        List<BeeIngredient> possibleOffspring = recipe.offspring;
-        if (possibleOffspring != null && possibleOffspring.size() > 0) {
-            return possibleOffspring.get(rand.nextInt(possibleOffspring.size())).getBeeType().getRegistryName();
-        }
-
-        // If no specific rules for the target bee exist, create a child of same type
+        // If no specific rules for the target bee exist or the bees are the same type, create a child like the parent
         return new ResourceLocation(ProductiveBees.MODID, beeEntity.getBeeType() + "_bee");
     }
 
@@ -210,14 +211,23 @@ public class BeeHelper
 
     public static class BeeInventory implements IInventory
     {
-        private String beeIdentifier;
+        private List<String> beeIdentifiers = new ArrayList<>();
 
         public BeeInventory(String beeIdentifier) {
-            this.beeIdentifier = beeIdentifier;
+            this.beeIdentifiers.add(beeIdentifier);
+        }
+
+        public BeeInventory(String beeIdentifier1, String beeIdentifier2) {
+            this.beeIdentifiers.add(beeIdentifier1);
+            this.beeIdentifiers.add(beeIdentifier2);
         }
 
         public String getBeeIdentifier() {
-            return this.beeIdentifier;
+            return getBeeIdentifier(0);
+        }
+
+        public String getBeeIdentifier(int index) {
+            return this.beeIdentifiers.get(index);
         }
 
         @Override
@@ -227,7 +237,7 @@ public class BeeHelper
 
         @Override
         public boolean isEmpty() {
-            return beeIdentifier == null;
+            return beeIdentifiers.isEmpty();
         }
 
         @Nonnull
@@ -265,7 +275,7 @@ public class BeeHelper
 
         @Override
         public void clear() {
-            this.beeIdentifier = null;
+            this.beeIdentifiers.clear();
         }
     }
 }

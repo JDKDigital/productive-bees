@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "productivebees:end_stone_nest",
+    "productivebees:obsidian_nest",
+    "productivebees:dragon_egg_hive"
+  ]
+}

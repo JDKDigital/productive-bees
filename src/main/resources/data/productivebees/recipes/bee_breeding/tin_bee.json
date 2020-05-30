@@ -3,14 +3,14 @@
     "parent1": "productivebees:quartz_bee",
     "parent2": "productivebees:ashy_mining_bee",
     "offspring": [
-        "productivebees:copper_bee"
+        "productivebees:tin_bee"
     ],
     "breeding_items": [
         {
             "item": "minecraft:iron_ingot"
         },
         {
-            "tag": "forge:ingots/copper"
+            "tag": "forge:ingots/tin"
         }
     ],
     "conditions": [
@@ -18,7 +18,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/copper"
+                "tag": "forge:ingots/tin"
             }
         }
     ]

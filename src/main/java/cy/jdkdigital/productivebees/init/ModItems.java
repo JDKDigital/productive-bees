@@ -33,6 +33,7 @@ public class ModItems
     public static final RegistryObject<Item> HONEYCOMB_DIAMOND = createItem("honeycomb_diamond", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_DRACONIC = createItem("honeycomb_draconic", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_EMERALD = createItem("honeycomb_emerald", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> HONEYCOMB_ELECTRUM = createItem("honeycomb_electrum", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_ENDER = createItem("honeycomb_ender", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_FOSSILISED = createItem("honeycomb_fossilised", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_GOLD = createItem("honeycomb_gold", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));

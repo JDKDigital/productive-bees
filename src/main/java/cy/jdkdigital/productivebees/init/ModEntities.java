@@ -64,7 +64,7 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> NOMAD_BEE = createSolitaryBee("nomad_bee", NomadBeeEntity::new, 6238757, 14529911);
     public static RegistryObject<EntityType<BeeEntity>> REED_BEE = createSolitaryBee("reed_bee", ReedBeeEntity::new, 6238757, 13806336);
     public static RegistryObject<EntityType<BeeEntity>> RESIN_BEE = createSolitaryBee("resin_bee", ResinBeeEntity::new, 6238757, 13939231);
-    public static RegistryObject<EntityType<BeeEntity>> SWEATY_BEE = createSolitaryBee("sweaty_bee", SweatBeeEntity::new, 6238757, 9748939);
+    public static RegistryObject<EntityType<BeeEntity>> SWEATY_BEE = createSolitaryBee("sweaty_bee", SweatyBeeEntity::new, 6238757, 9748939);
 
     public static RegistryObject<EntityType<BeeEntity>> ALUMINIUM_BEE = createHiveBee("aluminium_bee", ProductiveBeeEntity::new, 9748939, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> AMBER_BEE = createHiveBee("amber_bee", ProductiveBeeEntity::new, 13806336, 15582019);
@@ -72,6 +72,7 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> BRONZE_BEE = createHiveBee("bronze_bee", ProductiveBeeEntity::new, 13939231, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> COAL_BEE = createHiveBee("coal_bee", ProductiveBeeEntity::new, 2237733, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> COPPER_BEE = createHiveBee("copper_bee", ProductiveBeeEntity::new, 14851873, 15582019);
+    public static RegistryObject<EntityType<BeeEntity>> ELECTRUM_BEE = createHiveBee("electrum_bee", ProductiveBeeEntity::new, 16762718, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> INVAR_BEE = createHiveBee("invar_bee", ProductiveBeeEntity::new, 10661549, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> LEAD_BEE = createHiveBee("lead_bee", ProductiveBeeEntity::new, 6241124, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> NICKEL_BEE = createHiveBee("nickel_bee", ProductiveBeeEntity::new, 9429476, 15582019);

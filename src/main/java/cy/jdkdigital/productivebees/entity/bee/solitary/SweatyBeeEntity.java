@@ -5,9 +5,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.world.World;
 
-public class SweatBeeEntity extends SolitaryBeeEntity
+public class SweatyBeeEntity extends SolitaryBeeEntity
 {
-    public SweatBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
+    public SweatyBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
     }
 }
