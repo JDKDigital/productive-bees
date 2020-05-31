@@ -4,6 +4,9 @@ import cy.jdkdigital.productivebees.block.SolitaryNest;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SugarCaneBlock;
+import net.minecraft.fluid.IFluidState;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -12,6 +15,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.IPlantable;
 
 import java.util.Random;
 
@@ -23,6 +27,7 @@ public class SugarCaneNest extends SolitaryNest
         super(properties);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
         super.tick(state, worldIn, pos, rand);
@@ -31,6 +36,7 @@ public class SugarCaneNest extends SolitaryNest
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return SHAPE;
@@ -45,11 +51,13 @@ public class SugarCaneNest extends SolitaryNest
         return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        Block block = worldIn.getBlockState(pos.down()).getBlock();
-        if (block == Blocks.SUGAR_CANE) {
+        BlockState soil = worldIn.getBlockState(pos.down());
+        if (soil.getBlock() == Blocks.SUGAR_CANE || soil.getBlock() instanceof SugarCaneNest) {
             return true;
         }
-        return false;
+        return ((SugarCaneBlock) Blocks.SUGAR_CANE).isValidPosition(state, worldIn, pos);
     }
 }

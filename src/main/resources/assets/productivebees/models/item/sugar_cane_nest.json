@@ -1,3 +1,6 @@
 {
-    "parent": "productivebees:block/nest/sugar_cane_nest"
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "item/sugar_cane"
+    }
 }

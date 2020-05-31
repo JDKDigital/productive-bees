@@ -57,7 +57,7 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
     public void tick() {
         if (!world.isRemote) {
             this.inventoryHandler.ifPresent(handler -> {
-                if (!handler.getStackInSlot(ItemHandlerHelper.INPUT_SLOT).isEmpty() && !handler.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT).isEmpty()) {
+                if (!handler.getStackInSlot(ItemHandlerHelper.INPUT_SLOT).isEmpty()) {
                     CentrifugeRecipe recipe = getRecipe(handler);
                     boolean isValidRecipe = this.canProcessRecipe(recipe, handler);
                     if (isValidRecipe) {
