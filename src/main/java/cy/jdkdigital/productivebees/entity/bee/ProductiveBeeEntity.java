@@ -189,11 +189,15 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
     }
 
     public boolean canOperateDuringNight() {
-        return getAttributeValue(BeeAttributes.BEHAVIOR) == 0;
+        return getAttributeValue(BeeAttributes.BEHAVIOR) > 0;
     }
 
     boolean canOperateDuringRain() {
-        return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 0;
+        return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 1;
+    }
+
+    boolean canOperateDuringThunder() {
+        return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 2;
     }
 
     @Override
@@ -287,7 +291,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
             super();
             this.flowerPredicate = (blockState) -> {
                 Tag<Block> interests = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.FOOD_SOURCE);
-                if (blockState.isIn(interests) && blockState.isIn(BlockTags.TALL_FLOWERS)) {
+                boolean isInterested = blockState.isIn(interests);
+                if (isInterested && blockState.isIn(BlockTags.TALL_FLOWERS)) {
                     if (blockState.getBlock() == Blocks.SUNFLOWER) {
                         return blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
                     }
@@ -295,7 +300,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
                         return true;
                     }
                 }
-                return blockState.isIn(interests);
+                return isInterested;
             };
         }
 
@@ -306,23 +311,25 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
             else if (ProductiveBeeEntity.this.hasNectar()) {
                 return false;
             }
-            else if (ProductiveBeeEntity.this.world.isRaining() && ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 0) {
+            else if (ProductiveBeeEntity.this.world.isRaining() && ProductiveBeeEntity.this.canOperateDuringRain()) {
                 return false;
             }
-            else if (ProductiveBeeEntity.this.world.isThundering() && ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) < 2) {
+            else if (ProductiveBeeEntity.this.world.isThundering() && ProductiveBeeEntity.this.canOperateDuringThunder()) {
                 return false;
             }
             else if (ProductiveBeeEntity.this.rand.nextFloat() <= 0.7F) {
-                // TODO WTF is this for?
                 return false;
             }
             else {
                 Optional<BlockPos> optional = this.getFlower();
                 if (optional.isPresent()) {
                     ProductiveBeeEntity.this.savedFlowerPos = optional.get();
-                    return ProductiveBeeEntity.this.navigator.tryMoveToXYZ((double) ProductiveBeeEntity.this.savedFlowerPos.getX() + 0.5D, (double) ProductiveBeeEntity.this.savedFlowerPos.getY() + 0.5D, (double) ProductiveBeeEntity.this.savedFlowerPos.getZ() + 0.5D, 1.2F);
+                    ProductiveBeeEntity.this.navigator.tryMoveToXYZ((double) ProductiveBeeEntity.this.savedFlowerPos.getX() + 0.5D, (double) ProductiveBeeEntity.this.savedFlowerPos.getY() + 0.5D, (double) ProductiveBeeEntity.this.savedFlowerPos.getZ() + 0.5D, 1.2F);
+                    return true;
                 }
                 else {
+                    // Failing to find a flower will set a cooldown before next attempt
+                    ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewFlower = 70 + world.rand.nextInt(50);
                     return false;
                 }
             }
