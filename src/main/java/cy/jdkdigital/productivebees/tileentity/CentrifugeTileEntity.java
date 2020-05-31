@@ -92,25 +92,30 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
         return currentRecipe;
     }
 
-    private boolean canProcessRecipe(@Nullable CentrifugeRecipe recipe, IItemHandlerModifiable outputHandler) {
+    private boolean canProcessRecipe(@Nullable CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
         if (recipe != null) {
             // Check if output slots has space for recipe output
             List<ItemStack> outputList = Lists.newArrayList();
-            outputList.add(new ItemStack(Items.HONEY_BOTTLE));
+
+            if (invHandler.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT).getCount() > 0) {
+                outputList.add(new ItemStack(Items.HONEY_BOTTLE));
+            }
+
             recipe.output.forEach((key, value) -> {
                 // Check for item with max possible output
                 ItemStack item = new ItemStack(key.getItem(), value.get(1).getInt());
                 outputList.add(item);
             });
-            return ((ItemHandlerHelper.ItemHandler) outputHandler).canFitStacks(outputList);
+            return ((ItemHandlerHelper.ItemHandler) invHandler).canFitStacks(outputList);
         }
         return false;
     }
 
     private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
         if (this.canProcessRecipe(recipe, invHandler)) {
-            ((ItemHandlerHelper.ItemHandler) invHandler).addOutput(new ItemStack(Items.HONEY_BOTTLE));
-
+            if (invHandler.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT).getCount() > 0) {
+                ((ItemHandlerHelper.ItemHandler) invHandler).addOutput(new ItemStack(Items.HONEY_BOTTLE));
+            }
             recipe.output.forEach((itemStack, recipeValues) -> {
                 if (rand.nextInt(100) <= recipeValues.get(2).getInt()) {
                     int count = MathHelper.nextInt(rand, MathHelper.floor(recipeValues.get(0).getInt()), MathHelper.floor(recipeValues.get(1).getInt()));
@@ -121,8 +126,6 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
 
             invHandler.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT).shrink(1);
             invHandler.getStackInSlot(ItemHandlerHelper.INPUT_SLOT).shrink(1);
-        } else {
-            ProductiveBees.LOGGER.info("Cannot process recipe " + recipe);
         }
         recipeProgress = 0;
         this.markDirty();
