@@ -11,7 +11,7 @@
             "chance": 100
         },
         {
-            "tag": "forge:beeswax"
+            "tag": "forge:wax"
         }
     ],
     "conditions": [
@@ -21,6 +21,10 @@
                 "type": "forge:tag_empty",
                 "tag": "forge:honeycombs/osmium"
             }
+        },
+        {
+            "type": "forge:tag_empty",
+            "tag": "forge:dusts/osmium"
         }
     ]
 }
