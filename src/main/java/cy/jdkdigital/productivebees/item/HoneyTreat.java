@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.LivingEntity;
@@ -24,9 +25,8 @@ public class HoneyTreat extends Item
         }
 
         BeeEntity bee = (BeeEntity) target;
-
         // Stop agro
-        bee.setRevengeTarget(null);
+        bee.setAnger(0);
         // Allow entering hive
         bee.setStayOutOfHiveCountdown(0);
         // Heal
