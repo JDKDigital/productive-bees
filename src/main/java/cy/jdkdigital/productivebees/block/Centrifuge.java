@@ -33,8 +33,15 @@ public class Centrifuge extends ContainerBlock
 {
     public static final BooleanProperty RUNNING = BooleanProperty.create("running");
 
-    private static final VoxelShape INSIDE = makeCuboidShape(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
-    protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(), VoxelShapes.or(makeCuboidShape(0.0D, 0.0D, 4.0D, 16.0D, 3.0D, 12.0D), makeCuboidShape(4.0D, 0.0D, 0.0D, 12.0D, 3.0D, 16.0D), makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D), INSIDE), IBooleanFunction.ONLY_FIRST);
+    private static final VoxelShape INSIDE = makeCuboidShape(1.0D, 8.0D, 1.0D, 15.0D, 16.0D, 15.0D);
+    protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(
+            VoxelShapes.fullCube(),
+            VoxelShapes.or(
+                    makeCuboidShape(0.0D, 0.0D, 4.0D, 16.0D, 3.0D, 12.0D),
+                    makeCuboidShape(4.0D, 0.0D, 0.0D, 12.0D, 3.0D, 16.0D),
+                    makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D),
+                    INSIDE
+            ), IBooleanFunction.ONLY_FIRST);
 
     public Centrifuge(Block.Properties properties) {
         super(properties);
