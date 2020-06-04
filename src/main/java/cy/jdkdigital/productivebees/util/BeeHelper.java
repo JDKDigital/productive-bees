@@ -45,52 +45,34 @@ public class BeeHelper
 
         EntityType<BeeEntity> bee = null;
         if (ProductiveBeesConfig.GENERAL.enableItemConverting.get()) {
-
             if (itemStack.getItem() == Items.REDSTONE) {
-                if (!entity.getEntityString().equals("productivebees:redstone_bee")) {
-                    bee = ModEntities.REDSTONE_BEE.get();
-                }
+                bee = ModEntities.REDSTONE_BEE.get();
             }
             else if (itemStack.getItem() == Items.EMERALD) {
-                if (!entity.getEntityString().equals("productivebees:emerald_bee")) {
-                    bee = ModEntities.EMERALD_BEE.get();
-                }
+                bee = ModEntities.EMERALD_BEE.get();
             }
             else if (itemStack.getItem() == Items.LAPIS_LAZULI) {
-                if (!entity.getEntityString().equals("productivebees:lapis_bee")) {
-                    bee = ModEntities.LAPIS_BEE.get();
-                }
+                bee = ModEntities.LAPIS_BEE.get();
             }
             else if (itemStack.getItem() == Items.DIAMOND) {
-                if (!entity.getEntityString().equals("productivebees:diamond_bee")) {
-                    bee = ModEntities.DIAMOND_BEE.get();
-                }
+                bee = ModEntities.DIAMOND_BEE.get();
             }
             else if (itemStack.getItem() == Items.IRON_INGOT) {
-                if (!entity.getEntityString().equals("productivebees:iron_bee")) {
-                    bee = ModEntities.IRON_BEE.get();
-                }
+                bee = ModEntities.IRON_BEE.get();
             }
             else if (itemStack.getItem() == Items.GOLD_INGOT) {
-                if (!entity.getEntityString().equals("productivebees:gold_bee")) {
-                    bee = ModEntities.GOLD_BEE.get();
-                }
+                bee = ModEntities.GOLD_BEE.get();
             }
             else if (itemStack.getItem() == Items.HONEYCOMB) {
-                if (!entity.getEntityString().equals("minecraft:bee")) {
-                    bee = EntityType.BEE;
-                }
+                bee = EntityType.BEE;
             }
         }
+
         if (itemStack.getItem() == Items.TNT) {
-            if (entity.getEntityString().equals("minecraft:bee")) {
-                bee = ModEntities.CREEPER_BEE.get();
-            }
+            bee = ModEntities.CREEPER_BEE.get();
         }
         else if (itemStack.getItem() == Items.WITHER_ROSE) {
-            if (entity.getEntityString().equals("productivebees:skeletal_bee")) {
-                bee = ModEntities.WITHER_BEE.get();
-            }
+            bee = ModEntities.WITHER_BEE.get();
         }
 
         if (bee != null) {
@@ -184,9 +166,10 @@ public class BeeHelper
     public static void setOffspringAttributes(ProductiveBeeEntity newBee, ProductiveBeeEntity productiveBeeEntity, AgeableEntity targetEntity) {
         Map<BeeAttribute<?>, Object> attributeMapParent1 = productiveBeeEntity.getBeeAttributes();
         Map<BeeAttribute<?>, Object> attributeMapParent2 = new HashMap<>();
-        if (targetEntity instanceof  ProductiveBeeEntity) {
+        if (targetEntity instanceof ProductiveBeeEntity) {
             attributeMapParent2 = ((ProductiveBeeEntity) targetEntity).getBeeAttributes();
-        } else {
+        }
+        else {
             // Default bee attributes
             attributeMapParent2.put(BeeAttributes.PRODUCTIVITY, 0);
             attributeMapParent2.put(BeeAttributes.TEMPER, 1);

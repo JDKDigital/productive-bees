@@ -24,6 +24,7 @@ public class ProductiveBeesConfig
     public static final ForgeConfigSpec CONFIG;
     public static final General GENERAL = new General(BUILDER);
     public static final Bees BEES = new Bees(BUILDER);
+    public static final BeeAttributes BEE_ATTRIBUTES = new BeeAttributes(BUILDER);
     public static final WorldGen WORLD_GEN = new WorldGen(BUILDER);
 
     static {
@@ -82,6 +83,23 @@ public class ProductiveBeesConfig
             }
 
             builder.pop();
+        }
+    }
+
+    public static class BeeAttributes
+    {
+        public final ForgeConfigSpec.ConfigValue<Integer> ticks;
+        public final ForgeConfigSpec.ConfigValue<Double> damageChance;
+        public final ForgeConfigSpec.ConfigValue<Double> toleranceChance;
+        public final ForgeConfigSpec.ConfigValue<Double> behaviorChance;
+
+        public BeeAttributes(ForgeConfigSpec.Builder builder) {
+            builder.push("Bee attributes");
+
+            ticks = builder.comment("Number of ticks between attrite improvement attempts").defineInRange("damageChance", 1337, 20, 10000);
+            damageChance = builder.comment("Chance that a bee will take damage while leashed in a hostile environment").defineInRange("damageChance", 0.1, 0, 1);
+            toleranceChance = builder.comment("Chance to increase tolerance (rain or thunder tolerance trait) while leashed in a hostile environment.").defineInRange("toleranceChance", 0.1, 0, 1);
+            behaviorChance = builder.comment("Chance to increase behavior (nocturnal trait) while leashed in a hostile environment.").defineInRange("behaviorChance", 0.1, 0, 1);
         }
     }
 

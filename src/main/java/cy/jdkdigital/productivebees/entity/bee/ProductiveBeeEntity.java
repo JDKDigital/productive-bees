@@ -105,36 +105,31 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
     public void livingTick() {
         super.livingTick();
 
-        if (ticksExisted % 1337 == 0 && getLeashed()) {
+        if (ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.ticks.get() == 0 && getLeashed()) {
             // Rain tolerance improvements
             int tolerance = getAttributeValue(BeeAttributes.WEATHER_TOLERANCE);
-            if (tolerance < 2) {
-                if (world.rand.nextFloat() < 0.1F) {
-                    if ((tolerance < 1 && world.isRaining()) || world.isThundering()) {
-                        beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tolerance + 1);
-                    }
+            if (tolerance < 2 && world.rand.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
+                if ((tolerance < 1 && world.isRaining()) || world.isThundering()) {
+                    beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tolerance + 1);
                 }
             }
             // Behavior improvement
             int behavior = getAttributeValue(BeeAttributes.BEHAVIOR);
-            if (behavior < 2) {
-                if (world.rand.nextFloat() < 0.1F) {
-                    // If diurnal, it can change to nocturnal
-                    if (behavior < 1 && world.isNightTime()) {
-                        beeAttributes.put(BeeAttributes.BEHAVIOR, 1);
-                    }
-                    // If nocturnal, it can become metaturnal or back to diurnal
-                    else if (behavior == 1 && !world.isNightTime()) {
-                        beeAttributes.put(BeeAttributes.BEHAVIOR, world.rand.nextFloat() < 0.7F ? 2 : 0);
-                    }
+            if (behavior < 2 && world.rand.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.behaviorChance.get()) {
+                // If diurnal, it can change to nocturnal
+                if (behavior < 1 && world.isNightTime()) {
+                    beeAttributes.put(BeeAttributes.BEHAVIOR, world.rand.nextFloat() < 0.85F ? 1 : 2);
+                }
+                // If nocturnal, it can become metaturnal or back to diurnal
+                else if (behavior == 1 && !world.isNightTime()) {
+                    beeAttributes.put(BeeAttributes.BEHAVIOR, world.rand.nextFloat() < 0.85F ? 2 : 0);
                 }
             }
 
             // It might die when leashed outside
             boolean isInDanger = (tolerance < 1 && world.isRaining()) || (behavior < 1 && world.isNightTime());
-            if (isInDanger && world.rand.nextFloat() < 0.1F) {
-                // Do half health damage
-                setHealth(getHealth() - (getMaxHealth() / 2));
+            if (isInDanger && world.rand.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
+                setHealth(getHealth() - (getMaxHealth() / 3) - 1);
             }
         }
     }
