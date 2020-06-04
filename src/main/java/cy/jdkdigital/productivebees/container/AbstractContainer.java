@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.tileentity.ItemHandlerHelper;
+import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -72,8 +72,8 @@ abstract class AbstractContainer extends Container
 
     protected int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
         for (int i = 0; i < amount; i++) {
-            if (handler instanceof ItemHandlerHelper.ItemHandler) {
-                addSlot(new ManualSlotItemHandler((ItemHandlerHelper.ItemHandler) handler, index, x, y));
+            if (handler instanceof InventoryHandlerHelper.ItemHandler) {
+                addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) handler, index, x, y));
             }
             else {
                 addSlot(new SlotItemHandler(handler, index, x, y));

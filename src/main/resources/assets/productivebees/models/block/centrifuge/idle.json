@@ -1,5 +1,4 @@
 {
-	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
 		"top": "productivebees:block/centrifuge/top",
@@ -7,8 +6,9 @@
 		"particle": "productivebees:block/centrifuge/side",
 		"side": "productivebees:block/centrifuge/side",
 		"inside": "productivebees:block/centrifuge/inner",
-		"grindstone_round": "productivebees:block/grindstone_round",
-		"grindstone_side": "productivebees:block/grindstone_side"
+		"grindstone_round": "block/grindstone_round",
+		"grindstone_side": "block/grindstone_side",
+		"grindstone_pivot": "block/grindstone_pivot"
 	},
 	"elements": [
 		{
@@ -165,12 +165,12 @@
 			"from": [6, 8, 6],
 			"to": [10, 9, 10],
 			"faces": {
-				"north": {"uv": [0, 0, 4, 1], "texture": "#grindstone_round"},
-				"east": {"uv": [0, 0, 4, 1], "texture": "#grindstone_round"},
-				"south": {"uv": [0, 0, 4, 1], "texture": "#grindstone_round"},
-				"west": {"uv": [0, 0, 4, 1], "texture": "#grindstone_round"},
-				"up": {"uv": [0, 0, 4, 4], "texture": "#grindstone_round"},
-				"down": {"uv": [0, 0, 4, 4], "texture": "#grindstone_round"}
+				"north": {"uv": [0, 0, 4, 1], "texture": "#grindstone_pivot"},
+				"east": {"uv": [0, 0, 4, 1], "texture": "#grindstone_pivot"},
+				"south": {"uv": [0, 0, 4, 1], "texture": "#grindstone_pivot"},
+				"west": {"uv": [0, 0, 4, 1], "texture": "#grindstone_pivot"},
+				"up": {"uv": [0, 0, 4, 4], "texture": "#grindstone_pivot"},
+				"down": {"uv": [0, 0, 4, 4], "texture": "#grindstone_pivot"}
 			}
 		}
 	]

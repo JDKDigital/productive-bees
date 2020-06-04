@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.tileentity.ItemHandlerHelper;
+import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -45,7 +45,7 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
     @Override
     public boolean matches(IInventory inv, World worldIn) {
         if (this.ingredient.getMatchingStacks().length > 0) {
-            Item invItem = inv.getStackInSlot(ItemHandlerHelper.INPUT_SLOT).getItem();
+            Item invItem = inv.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).getItem();
             for (ItemStack possibleInput: this.ingredient.getMatchingStacks()) {
                 if (possibleInput.getItem().equals(invItem)) {
                     return true;

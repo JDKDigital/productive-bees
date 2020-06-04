@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
@@ -48,7 +47,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     // Used for displaying bees in gui
     public List<String> inhabitantList = new ArrayList<>();
 
-    protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> ItemHandlerHelper.getInventoryHandler(this, 1));
+    protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> InventoryHandlerHelper.getInventoryHandler(this, 1));
 
     public AdvancedBeehiveTileEntity(TileEntityType<?> tileEntityType) {
         super(tileEntityType);
@@ -116,12 +115,12 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 if (honeyLevel >= 5) {
                     int finalHoneyLevel = honeyLevel;
                     this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                        ItemStack bottles = inv.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT);
+                        ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
                             final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
-                            boolean addedBottle = ((ItemHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
+                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
                             if (addedBottle) {
-                                ((ItemHandlerHelper.ItemHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
+                                ((InventoryHandlerHelper.ItemHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
                                 bottles.shrink(1);
                                 world.setBlockState(pos, blockState.with(BeehiveBlock.HONEY_LEVEL, finalHoneyLevel - 5));
                             }
@@ -165,7 +164,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                                         float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
                                         stack.grow(Math.round(f));
                                     }
-                                    ((ItemHandlerHelper.ItemHandler) inv).addOutput(stack);
+                                    ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
                                 }
                             });
                         });

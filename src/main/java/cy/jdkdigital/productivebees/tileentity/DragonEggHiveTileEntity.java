@@ -2,29 +2,14 @@ package cy.jdkdigital.productivebees.tileentity;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
-import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class DragonEggHiveTileEntity extends AdvancedBeehiveTileEntity
 {
@@ -55,10 +40,10 @@ public class DragonEggHiveTileEntity extends AdvancedBeehiveTileEntity
                 // Auto harvest if empty bottles are in
                 if (honeyLevel >= 5) {
                     this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                        ItemStack bottles = inv.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT);
+                        ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
                             final ItemStack filledBottle = world.getDimension().getType() == DimensionType.THE_END ? new ItemStack(Items.DRAGON_BREATH) : new ItemStack(Items.HONEY_BOTTLE);
-                            boolean addedBottle = ((ItemHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
+                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
                             if (addedBottle) {
                                 bottles.shrink(1);
                                 world.setBlockState(pos, blockState.with(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));

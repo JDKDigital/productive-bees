@@ -7,6 +7,9 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -14,10 +17,11 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemHandlerHelper
+public class InventoryHandlerHelper
 {
     public static final int BOTTLE_SLOT = 0;
     public static final int INPUT_SLOT = 1;
+    public static final int FLUID_ITEM_OUTPUT_SLOT = 11;
 
     public static final int[] OUTPUT_SLOTS = new int[]{2, 3, 4, 5, 6, 7, 8, 9, 10};
 
@@ -161,6 +165,25 @@ public class ItemHandlerHelper
                 nbt.putInt("Size", stacks.size());
             }
             super.deserializeNBT(nbt);
+        }
+    }
+
+    public static class FluidHandler extends FluidTank implements INBTSerializable<CompoundNBT>
+    {
+        public FluidHandler(int capacity) {
+            super(capacity);
+        }
+
+        @Override
+        public CompoundNBT serializeNBT() {
+            CompoundNBT nbt = new CompoundNBT();
+            this.fluid.writeToNBT(nbt);
+            return nbt;
+        }
+
+        @Override
+        public void deserializeNBT(CompoundNBT nbt) {
+            fluid = FluidStack.loadFluidStackFromNBT(nbt);
         }
     }
 }

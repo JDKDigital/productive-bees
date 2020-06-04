@@ -1,15 +1,23 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.block.Centrifuge;
+import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
+import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
+import cy.jdkdigital.productivebees.init.ModFluids;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.tileentity.CentrifugeTileEntity;
-import cy.jdkdigital.productivebees.tileentity.ItemHandlerHelper;
+import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -37,6 +45,26 @@ public class CentrifugeContainer extends AbstractContainer
         {
             @Override
             public int get() {
+                return tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(fluidHandler -> fluidHandler.getFluidInTank(0).getAmount()).orElse(0);
+            }
+
+            @Override
+            public void set(int value) {
+                tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+                    FluidStack fluid = fluidHandler.getFluidInTank(0);
+                    if (fluid.isEmpty()) {
+                        fluidHandler.fill(new FluidStack(ModFluids.HONEY.get(), value), IFluidHandler.FluidAction.EXECUTE);
+                    } else {
+                        fluid.setAmount(value);
+                    }
+                });
+            }
+        });
+
+        trackInt(new IntReferenceHolder()
+        {
+            @Override
+            public int get() {
                 return tileEntity.recipeProgress;
             }
 
@@ -50,11 +78,12 @@ public class CentrifugeContainer extends AbstractContainer
 
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             // Comb and bottle slots
-            addSlot(new ManualSlotItemHandler((ItemHandlerHelper.ItemHandler) inv, ItemHandlerHelper.BOTTLE_SLOT, 76, 17));
-            addSlot(new ManualSlotItemHandler((ItemHandlerHelper.ItemHandler) inv, ItemHandlerHelper.INPUT_SLOT, 38, 35));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 152, 17));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.INPUT_SLOT, 26, 35));
 
             // Inventory slots
-            addSlotBox(inv, ItemHandlerHelper.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
+            addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 80, 17, 3, 18, 3, 18);
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, 152, 53));
         });
 
         layoutPlayerInventorySlots(inventory, 0, 8, 84);

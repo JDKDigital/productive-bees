@@ -5,9 +5,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
-import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -26,6 +24,10 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
@@ -42,10 +44,29 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new ItemHandlerHelper.ItemHandler(12, this)
+    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
         public boolean isInputItem(Item item) {
-            return item == Items.GLASS_BOTTLE || ModTags.HONEYCOMBS.contains(item);
+            return item == Items.GLASS_BOTTLE || item == Items.BUCKET || ModTags.HONEYCOMBS.contains(item);
+        }
+        public boolean isInputSlotItem(int slot, Item item) {
+            return (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.BUCKET) || (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.GLASS_BOTTLE) || (slot == InventoryHandlerHelper.INPUT_SLOT && ModTags.HONEYCOMBS.contains(item));
+        }
+    });
+
+    public LazyOptional<IFluidHandler> honeyInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
+    {
+        @Override
+        protected void onContentsChanged()
+        {
+            super.onContentsChanged();
+            CentrifugeTileEntity.this.tickFluidTank();
+            CentrifugeTileEntity.this.markDirty();
+        }
+
+        public boolean isFluidValid(FluidStack stack)
+        {
+            return stack.getFluid().isIn(ModTags.HONEY);
         }
     });
 
@@ -56,17 +77,17 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
     @Override
     public void tick() {
         if (!world.isRemote) {
-            this.inventoryHandler.ifPresent(handler -> {
-                if (!handler.getStackInSlot(ItemHandlerHelper.INPUT_SLOT).isEmpty()) {
-                    CentrifugeRecipe recipe = getRecipe(handler);
-                    boolean isValidRecipe = this.canProcessRecipe(recipe, handler);
+            inventoryHandler.ifPresent(invHandler -> {
+                if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty()) {
+                    CentrifugeRecipe recipe = getRecipe(invHandler);
+                    boolean isValidRecipe = this.canProcessRecipe(recipe, invHandler);
                     if (isValidRecipe) {
                         world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
                         int totalTime = ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get();
 
                         if (++this.recipeProgress == totalTime) {
                             recipeProgress = 0;
-                            this.completeRecipeProcessing(recipe, handler);
+                            this.completeRecipeProcessing(recipe, invHandler);
                         }
                     }
                 }
@@ -79,7 +100,7 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
     }
 
     private CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
-        ItemStack input = inputHandler.getStackInSlot(ItemHandlerHelper.INPUT_SLOT);
+        ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
         if (input.isEmpty() || input == ItemStack.EMPTY) {
             return null;
         }
@@ -97,38 +118,65 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
             // Check if output slots has space for recipe output
             List<ItemStack> outputList = Lists.newArrayList();
 
-            if (invHandler.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT).getCount() > 0) {
-                outputList.add(new ItemStack(Items.HONEY_BOTTLE));
-            }
-
             recipe.output.forEach((key, value) -> {
                 // Check for item with max possible output
                 ItemStack item = new ItemStack(key.getItem(), value.get(1).getInt());
                 outputList.add(item);
             });
-            return ((ItemHandlerHelper.ItemHandler) invHandler).canFitStacks(outputList);
+            return ((InventoryHandlerHelper.ItemHandler) invHandler).canFitStacks(outputList);
         }
         return false;
     }
 
     private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
         if (this.canProcessRecipe(recipe, invHandler)) {
-            if (invHandler.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT).getCount() > 0) {
-                ((ItemHandlerHelper.ItemHandler) invHandler).addOutput(new ItemStack(Items.HONEY_BOTTLE));
-            }
+
+            honeyInventory.ifPresent(honeyHandler -> {
+                honeyHandler.fill(new FluidStack(ModFluids.HONEY.get(), 250), IFluidHandler.FluidAction.EXECUTE);
+            });
+
             recipe.output.forEach((itemStack, recipeValues) -> {
                 if (rand.nextInt(100) <= recipeValues.get(2).getInt()) {
                     int count = MathHelper.nextInt(rand, MathHelper.floor(recipeValues.get(0).getInt()), MathHelper.floor(recipeValues.get(1).getInt()));
                     itemStack.setCount(count);
-                    ((ItemHandlerHelper.ItemHandler) invHandler).addOutput(itemStack);
+                    ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack);
                 }
             });
 
-            invHandler.getStackInSlot(ItemHandlerHelper.BOTTLE_SLOT).shrink(1);
-            invHandler.getStackInSlot(ItemHandlerHelper.INPUT_SLOT).shrink(1);
+            invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
         }
         recipeProgress = 0;
         this.markDirty();
+    }
+
+    public void tickFluidTank() {
+        honeyInventory.ifPresent(honeyHandler -> {
+            FluidStack honeyFluid = honeyHandler.getFluidInTank(0);
+            if (honeyFluid.getAmount() >= 250) {
+                inventoryHandler.ifPresent(invHandler -> {
+                    ItemStack fluidContainer = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                    int drainedHoney = 0;
+                    ItemStack outputItem = null;
+                    if (fluidContainer.getItem() == Items.GLASS_BOTTLE) {
+                        drainedHoney = 250;
+                        outputItem = new ItemStack(Items.HONEY_BOTTLE);
+                    }
+                    else if (fluidContainer.getItem() == Items.BUCKET && honeyFluid.getAmount() >= 1000) {
+                        drainedHoney = 1000;
+                        outputItem = new ItemStack(ModItems.HONEY_BUCKET.get());
+                    }
+
+                    if (drainedHoney > 0) {
+                        ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
+                        if (existingOutput.isEmpty() || (existingOutput.getItem() == outputItem.getItem() && existingOutput.getCount() < outputItem.getMaxStackSize())) {
+                            honeyHandler.drain(drainedHoney, IFluidHandler.FluidAction.EXECUTE);
+                            invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
+                            fluidContainer.shrink(1);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -137,8 +185,12 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
 
         CompoundNBT invTag = tag.getCompound("inv");
         inventoryHandler.ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
+
+        CompoundNBT fluidTag = tag.getCompound("fluid");
+        honeyInventory.ifPresent(fluid -> ((INBTSerializable<CompoundNBT>) fluid).deserializeNBT(fluidTag));
     }
 
+    @Nonnull
     @Override
     public CompoundNBT write(CompoundNBT tag) {
         super.write(tag);
@@ -146,6 +198,11 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
         inventoryHandler.ifPresent(inv -> {
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
             tag.put("inv", compound);
+        });
+
+        honeyInventory.ifPresent(fluid -> {
+            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) fluid).serializeNBT();
+            tag.put("fluid", compound);
         });
 
         return tag;
@@ -156,6 +213,9 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return inventoryHandler.cast();
+        }
+        if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return honeyInventory.cast();
         }
         return super.getCapability(cap, side);
     }
