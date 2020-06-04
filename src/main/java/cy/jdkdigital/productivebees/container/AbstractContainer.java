@@ -40,13 +40,14 @@ abstract class AbstractContainer extends Container
 
             // Move from player inv into container
             int inputCount = containerSlots - 9;
-            if (slotStack.getItem() == Items.GLASS_BOTTLE) {
+            if (slotStack.getItem() == Items.GLASS_BOTTLE || slotStack.getItem() == Items.BUCKET) {
                 // Bottles only go into slot 0
-                if (!mergeItemStack(slotStack, 0, 1, false)) {
+                if (!mergeItemStack(slotStack, InventoryHandlerHelper.BOTTLE_SLOT, InventoryHandlerHelper.BOTTLE_SLOT + 1, false)) {
+                    return ItemStack.EMPTY;
                 }
             }
-            if (inputCount == 2 && ModTags.HONEYCOMBS.contains(slotStack.getItem())) {
-                if (!mergeItemStack(slotStack, 1, 2, false)) {
+            if (inputCount >= 2 && ModTags.HONEYCOMBS.contains(slotStack.getItem())) {
+                if (!mergeItemStack(slotStack, InventoryHandlerHelper.INPUT_SLOT, InventoryHandlerHelper.INPUT_SLOT + 1, false)) {
                     return ItemStack.EMPTY;
                 }
             }

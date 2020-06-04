@@ -52,6 +52,12 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
         public boolean isInputSlotItem(int slot, Item item) {
             return (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.BUCKET) || (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.GLASS_BOTTLE) || (slot == InventoryHandlerHelper.INPUT_SLOT && ModTags.HONEYCOMBS.contains(item));
         }
+
+        @Override
+        protected void onContentsChanged(int slot) {
+            CentrifugeTileEntity.this.tickFluidTank();
+            super.onContentsChanged(slot);
+        }
     });
 
     public LazyOptional<IFluidHandler> honeyInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
