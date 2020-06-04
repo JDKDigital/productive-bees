@@ -300,7 +300,7 @@
 	"productivebees.information.attribute.temper": "Temper: %s",
 	"productivebees.information.attribute.temper.passive": "Passive",
 	"productivebees.information.attribute.temper.normal": "Normal",
-	"productivebees.information.attribute.temper.short": "Short",
+	"productivebees.information.attribute.temper.aggressive": "Aggressive",
 	"productivebees.information.attribute.temper.hostile": "Hostile",
 	"productivebees.information.attribute.behavior": "Behavior: %s",
 	"productivebees.information.attribute.behavior.diurnal": "Diurnal",
@@ -316,6 +316,7 @@
 	"productivebees.hive.tooltip.honey_level": "Honey Level: %d",
 	
 	"productivebees.ingredient.description.iron_bee": "Put it in an advanced beehive to get some iron.\n\nDoes not spawn naturally.",
+	"productivebees.ingredient.description.coal_bee": "Put it in an advanced beehive to get some coal.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.gold_bee": "Put it in an advanced beehive to get some gold.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.redstone_bee": "Put it in an advanced beehive to get some redstone.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.lapis_bee": "Put it in an advanced beehive to get some lapis.\n\nDoes not spawn naturally.",
@@ -329,7 +330,7 @@
 	"productivebees.ingredient.description.blazing_bee": "Put it in an advanced beehive to get some blaze powder.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.slimy_bee": "Lives in swamp areas.",
 	"productivebees.ingredient.description.ender_bee": "Only likes the sweet nectar of the chorus flowers from it's native home.\nPut it in an advanced beehive to get some ender pearls.\n\nSpawns naturally in the end making it's nest inside end blocks.",
-	"productivebees.ingredient.description.draconic_bee": "Illusive",
+	"productivebees.ingredient.description.draconic_bee": "The produce from this illusive bee can be turned into dragon eggs.",
 
 	"productivebees.ingredient.description.creeper_bee": "Explodes!\n...might be the diet.",
 	"productivebees.ingredient.description.zombie_bee": "Be sure to keep your hives well lit to prevent this guy from moving in.",
@@ -353,7 +354,6 @@
 	"productivebees.ingredient.description.aluminium_bee": "",
 	"productivebees.ingredient.description.brass_bee": "",
 	"productivebees.ingredient.description.bronze_bee": "",
-	"productivebees.ingredient.description.coal_bee": "",
 	"productivebees.ingredient.description.copper_bee": "",
 	"productivebees.ingredient.description.electrum_bee": "",
 	"productivebees.ingredient.description.invar_bee": "",
@@ -370,5 +370,14 @@
 	"productivebees.ingredient.description.zinc_bee": "",
 	"productivebees.ingredient.description.amber_bee": "",
 
-	"productivebees.ingredient.description.inactive_dragon_egg": "Something is missing, it's all dried out."
+	"productivebees.ingredient.description.inactive_dragon_egg": "Looks cool, but something is missing. Try pouring some dragon stuff on it.",
+	"productivebees.ingredient.description.sand_nest": "Bees native to deserts are attracted to this nest.",
+	"productivebees.ingredient.description.gravel_nest": "Bees native to warm rivers and beaches are attracted to this nest.",
+	"productivebees.ingredient.description.coarse_dirt_nest": "This nest will attract bees in any overworld biome.",
+	"productivebees.ingredient.description.wood_nest": "This nest will attract bees in any overworld biome.",
+	"productivebees.ingredient.description.end_stone_nest": "This nest attracts bees native to the end.",
+	"productivebees.ingredient.description.obsidian_nest": "Tough living environment only suitable for some bees native to the end.",
+	"productivebees.ingredient.description.glowstone_nest": "Attracts glowing bees in the nether",
+	"productivebees.ingredient.description.nether_brick_nest": "Attracts magmatic bees in the nether",
+	"productivebees.ingredient.description.nether_quartz_nest": "Attracts crystalline bees in the nether"
 }

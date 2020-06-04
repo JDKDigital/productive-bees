@@ -23,6 +23,7 @@ public class ModTags
     public static final Tag<Block> END_NESTS = getTag("end_nests");
     public static final Tag<Block> DRACONIC_NESTS = getTag("draconic_nests");
 
+    public static final Tag<Block> FOREST_FLOWERS = getTag("forest_flowers");
     public static final Tag<Block> ARID_FLOWERS = getTag("arid_flowers");
     public static final Tag<Block> SWAMP_FLOWERS = getTag("swamp_flowers");
     public static final Tag<Block> RIVER_FLOWERS = getTag("river_flowers");

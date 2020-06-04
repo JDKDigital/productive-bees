@@ -18,6 +18,7 @@ public class DraconicBeeEntity extends ProductiveBeeEntity
     public DraconicBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
         beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE || poiType == ModPointOfInterestTypes.DRACONIC_NEST.get();
+        beeAttributes.put(BeeAttributes.TEMPER, 2);
         beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.DRACONIC_FLOWERS);
         beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.DRACONIC_NESTS);
     }

@@ -41,7 +41,7 @@ public class BeeAttributes
         {{
             put(0, "productivebees.information.attribute.temper.passive");
             put(1, "productivebees.information.attribute.temper.normal");
-            put(2, "productivebees.information.attribute.temper.short");
+            put(2, "productivebees.information.attribute.temper.aggressive");
             put(3, "productivebees.information.attribute.temper.hostile");
         }});
         keyMap.put(BEHAVIOR, new HashMap<Integer, String>()
