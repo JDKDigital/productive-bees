@@ -306,7 +306,7 @@
 	"productivebees.information.attribute.behavior.diurnal": "Diurnal",
 	"productivebees.information.attribute.behavior.nocturnal": "Nocturnal",
 	"productivebees.information.attribute.behavior.metaturnal": "Metaturnal",
-
+	"productivebees.information.attribute.weather_tolerance": "Weather Tolerance: %s",
 	"productivebees.information.attribute.weather_tolerance.none": "None",
 	"productivebees.information.attribute.weather_tolerance.rain": "Rain",
 	"productivebees.information.attribute.weather_tolerance.any": "Any",

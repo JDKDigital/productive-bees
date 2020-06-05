@@ -38,7 +38,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
 
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, ReplaceBlockConfig featureConfig) {
-        if (!nestShouldGenerate(featureConfig) || rand.nextFloat() > this.probability) {
+        if (nestShouldNotGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 
@@ -57,8 +57,8 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
         return placeNest(world, pos, featureConfig);
     }
 
-    protected boolean nestShouldGenerate(ReplaceBlockConfig featureConfig) {
-        return ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("enable_" + featureConfig.state.getBlock().getRegistryName()).get();
+    protected boolean nestShouldNotGenerate(ReplaceBlockConfig featureConfig) {
+        return !ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("enable_" + featureConfig.state.getBlock().getRegistryName()).get();
     }
 
     protected boolean placeNest(IWorld world, BlockPos pos, ReplaceBlockConfig featureConfig) {

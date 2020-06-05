@@ -37,6 +37,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue itemTickRate;
         public final ForgeConfigSpec.IntValue centrifugeProcessingTime;
         public final ForgeConfigSpec.BooleanValue enableCombProduce;
+        public final ForgeConfigSpec.IntValue nestRepopulationCooldown;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -57,15 +58,19 @@ public class ProductiveBeesConfig
                     .comment("Bees will create combs instead of raw resource. Combs will need to be processed in a centrifuge. Default true.")
                     .define("enableCombProduce", true);
 
+            nestRepopulationCooldown = builder
+                    .comment("Cooldown for when an abandoned nest will spawn a new inhabitant")
+                    .defineInRange("nestRepopulationCooldown", 36000, 20, Integer.MAX_VALUE);
+
             builder.pop();
         }
     }
 
     public static class Bees
     {
-        public final ForgeConfigSpec.ConfigValue<Boolean> spawnUndeadBees;
-        public final ForgeConfigSpec.ConfigValue<Double> spawnUndeadBeesChance;
-        public final Map<String, ForgeConfigSpec.ConfigValue<Double>> itemProductionRates = new HashMap<>();
+        public final ForgeConfigSpec.BooleanValue spawnUndeadBees;
+        public final ForgeConfigSpec.DoubleValue spawnUndeadBeesChance;
+        public final Map<String, ForgeConfigSpec.DoubleValue> itemProductionRates = new HashMap<>();
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
@@ -88,18 +93,20 @@ public class ProductiveBeesConfig
 
     public static class BeeAttributes
     {
-        public final ForgeConfigSpec.ConfigValue<Integer> ticks;
-        public final ForgeConfigSpec.ConfigValue<Double> damageChance;
-        public final ForgeConfigSpec.ConfigValue<Double> toleranceChance;
-        public final ForgeConfigSpec.ConfigValue<Double> behaviorChance;
+        public final ForgeConfigSpec.IntValue ticks;
+        public final ForgeConfigSpec.DoubleValue damageChance;
+        public final ForgeConfigSpec.DoubleValue toleranceChance;
+        public final ForgeConfigSpec.DoubleValue behaviorChance;
 
         public BeeAttributes(ForgeConfigSpec.Builder builder) {
             builder.push("Bee attributes");
 
-            ticks = builder.comment("Number of ticks between attrite improvement attempts").defineInRange("damageChance", 1337, 20, 10000);
+            ticks = builder.comment("Number of ticks between attribute improvement attempts").defineInRange("ticks", 1337, 20, Integer.MAX_VALUE);
             damageChance = builder.comment("Chance that a bee will take damage while leashed in a hostile environment").defineInRange("damageChance", 0.1, 0, 1);
             toleranceChance = builder.comment("Chance to increase tolerance (rain or thunder tolerance trait) while leashed in a hostile environment.").defineInRange("toleranceChance", 0.1, 0, 1);
             behaviorChance = builder.comment("Chance to increase behavior (nocturnal trait) while leashed in a hostile environment.").defineInRange("behaviorChance", 0.1, 0, 1);
+
+            builder.pop();
         }
     }
 
@@ -109,7 +116,7 @@ public class ProductiveBeesConfig
 
         public WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push("Worldgen");
-//            builder.comment("Which nests should generate in the world. Nest will still be craftable and attract bees.");
+            builder.comment("Which nests should generate in the world. Nest will still be craftable and attract bees when placed in the world.");
 
             for (RegistryObject<Block> blockReg : ModBlocks.BLOCKS.getEntries()) {
                 ResourceLocation resName = blockReg.getId();

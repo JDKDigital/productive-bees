@@ -150,9 +150,9 @@ public class BeeCage extends Item
                 ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).applyTextStyle(getColor(productivity));
                 list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).applyTextStyle(TextFormatting.DARK_GRAY));
 
-                int temper = tag.getInt("bee_temper");
-                ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).applyTextStyle(getColor(temper));
-                list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+                int tolerance = tag.getInt("bee_weather_tolerance");
+                ITextComponent tolerance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).applyTextStyle(getColor(tolerance));
+                list.add((new TranslationTextComponent("productivebees.information.attribute.weather_tolerance", tolerance_value)).applyTextStyle(TextFormatting.DARK_GRAY));
 
                 int behavior = tag.getInt("bee_behavior");
                 ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).applyTextStyle(getColor(behavior));

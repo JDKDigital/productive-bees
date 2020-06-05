@@ -86,10 +86,6 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         return dimension.isSurfaceWorld();
     }
 
-    public int getRepopulationCooldown() {
-        return 36000; // 30 minutes
-    }
-
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (!world.isRemote()) {

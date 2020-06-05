@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
@@ -134,7 +135,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     protected int getRepopulationCooldown() {
-        return ((SolitaryNest) this.getBlockState().getBlock()).getRepopulationCooldown();
+        return ProductiveBeesConfig.GENERAL.nestRepopulationCooldown.get();
     }
 
     protected int getTimeInHive(boolean hasNectar) {
