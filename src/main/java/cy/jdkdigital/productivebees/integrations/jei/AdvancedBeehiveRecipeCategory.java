@@ -38,7 +38,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     @Nonnull
     @Override
     public ResourceLocation getUid() {
-        return ProduciveBeesJeiPlugin.CATEGORY_ADVANCED_BEEHIVE_UID;
+        return ProductiveBeesJeiPlugin.CATEGORY_ADVANCED_BEEHIVE_UID;
     }
 
     @Nonnull
@@ -67,7 +67,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
 
     @Override
     public void setIngredients(@Nonnull AdvancedBeehiveRecipe recipe, @Nonnull IIngredients ingredients) {
-        ingredients.setInput(ProduciveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient);
+        ingredients.setInput(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient);
 
         List<List<ItemStack>> outputList = new ArrayList<>();
         recipe.output.forEach((key, value) -> {
@@ -84,7 +84,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull AdvancedBeehiveRecipe recipe, @Nonnull IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProduciveBeesJeiPlugin.BEE_INGREDIENT);
+        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
 
         ingredientStacks.init(0, true, 6, 28);
         ingredientStacks.set(ingredients);
@@ -93,7 +93,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         int startY = 8;
         if (ingredients.getOutputs(VanillaTypes.ITEM).size() > 0) {
             List<ItemStack> outputs = ingredients.getOutputs(VanillaTypes.ITEM).iterator().next();
-            int offset = ingredients.getInputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT).size();
+            int offset = ingredients.getInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT).size();
             IntStream.range(offset, outputs.size() + offset).forEach((i) -> {
                 if (i > 9 + offset) {
                     return;

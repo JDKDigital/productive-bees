@@ -29,7 +29,7 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
     @Nonnull
     @Override
     public ResourceLocation getUid() {
-        return ProduciveBeesJeiPlugin.CATEGORY_BEE_BREEDING_UID;
+        return ProductiveBeesJeiPlugin.CATEGORY_BEE_BREEDING_UID;
     }
 
     @Nonnull
@@ -58,13 +58,13 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
 
     @Override
     public void setIngredients(BeeBreedingRecipe recipe, IIngredients ingredients) {
-        ingredients.setInputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredients);
-        ingredients.setOutputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT, recipe.offspring);
+        ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredients);
+        ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.offspring);
     }
 
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, BeeBreedingRecipe recipe, IIngredients ingredients) {
-        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProduciveBeesJeiPlugin.BEE_INGREDIENT);
+        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
 
         ingredientStacks.init(0, true, 8, 27);
         ingredientStacks.init(1, true, 42, 27);

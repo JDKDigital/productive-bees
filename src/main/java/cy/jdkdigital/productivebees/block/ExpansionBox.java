@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.block;
 
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
+import cy.jdkdigital.productivebees.tileentity.DragonEggHiveTileEntity;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -43,6 +44,10 @@ public class ExpansionBox extends Block
         BlockPos posDown = pos.down();
         BlockState blockStateBelow = world.getBlockState(posDown);
         Block blockBelow = blockStateBelow.getBlock();
+
+        if (blockBelow instanceof DragonEggHive) {
+            return;
+        }
 
         if (!isRemoved) {
             // Set this block to expanded if there's an advanced beehive below and the block has not been removed
@@ -95,7 +100,7 @@ public class ExpansionBox extends Block
         if (!worldIn.isRemote) {
             // Open the beehive below, if there is one
             final TileEntity tileEntity = worldIn.getTileEntity(pos.down());
-            if (tileEntity instanceof AdvancedBeehiveTileEntity) {
+            if (tileEntity instanceof AdvancedBeehiveTileEntity && !(tileEntity instanceof DragonEggHiveTileEntity)) {
                 Block block = tileEntity.getBlockState().getBlock();
                 ((AdvancedBeehive) block).openGui((ServerPlayerEntity) player, (AdvancedBeehiveTileEntity) tileEntity);
             }

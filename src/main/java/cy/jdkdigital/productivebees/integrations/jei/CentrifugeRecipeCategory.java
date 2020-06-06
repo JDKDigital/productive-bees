@@ -13,13 +13,10 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -37,7 +34,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
     @Nonnull
     @Override
     public ResourceLocation getUid() {
-        return ProduciveBeesJeiPlugin.CATEGORY_CENTRIFUGE_UID;
+        return ProductiveBeesJeiPlugin.CATEGORY_CENTRIFUGE_UID;
     }
 
     @Nonnull
@@ -66,7 +63,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
 
     @Override
     public void setIngredients(@Nonnull CentrifugeRecipe recipe, @Nonnull IIngredients ingredients) {
-        ingredients.setInputIngredients(Lists.newArrayList(recipe.ingredient, Ingredient.fromItems(Items.GLASS_BOTTLE)));
+        ingredients.setInputIngredients(Lists.newArrayList(recipe.ingredient));
 
         List<List<ItemStack>> outputList = new ArrayList<>();
         recipe.output.forEach((key, value) -> {
@@ -76,7 +73,6 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
             });
             outputList.add(innerList);
         });
-        outputList.add(Arrays.asList(new ItemStack(Items.HONEY_BOTTLE)));
 
         ingredients.setOutputLists(VanillaTypes.ITEM, outputList);
     }
@@ -86,7 +82,6 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
 
         itemStacks.init(0, true, 4, 26);
-        itemStacks.init(1, true, 36, 8);
 
         int startX = 68;
         int startY = 8;

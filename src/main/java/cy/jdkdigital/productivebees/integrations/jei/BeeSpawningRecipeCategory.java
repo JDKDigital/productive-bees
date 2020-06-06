@@ -55,7 +55,7 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
     @Nonnull
     @Override
     public ResourceLocation getUid() {
-        return ProduciveBeesJeiPlugin.CATEGORY_BEE_SPAWNING_UID;
+        return ProductiveBeesJeiPlugin.CATEGORY_BEE_SPAWNING_UID;
     }
 
     @Nonnull
@@ -85,7 +85,7 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
     @Override
     public void setIngredients(BeeSpawningRecipe recipe, IIngredients ingredients) {
         ingredients.setInputIngredients(Lists.newArrayList(recipe.ingredient));
-        ingredients.setOutputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT, recipe.output);
+        ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.output);
     }
 
     @Override
@@ -94,9 +94,9 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
         itemStacks.init(0, true, 4, 26);
         itemStacks.set(ingredients);
 
-        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProduciveBeesJeiPlugin.BEE_INGREDIENT);
+        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
 
-        int offset = ingredients.getInputs(ProduciveBeesJeiPlugin.BEE_INGREDIENT).size();
+        int offset = ingredients.getInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT).size();
         IntStream.range(offset, recipe.output.size() + offset).forEach((i) -> {
             if (i - offset > 3) {
                 return;

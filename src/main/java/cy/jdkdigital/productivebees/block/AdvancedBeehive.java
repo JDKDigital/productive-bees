@@ -35,7 +35,6 @@ import javax.annotation.Nullable;
 
 public class AdvancedBeehive extends AdvancedBeehiveAbstract
 {
-
     public static final BooleanProperty EXPANDED = BooleanProperty.create("expanded");
 
     public AdvancedBeehive(final Properties properties) {
@@ -67,6 +66,9 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     public void updateState(World world, BlockPos pos, BlockState state, boolean isRemoved) {
+        if (this instanceof DragonEggHive) {
+            return;
+        }
         BlockPos posUp = pos.up();
         BlockState blockStateAbove = world.getBlockState(posUp);
         Block blockAbove = blockStateAbove.getBlock();
@@ -85,7 +87,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
                     // Set honey state based on the beehive below
                     .with(ExpansionBox.HAS_HONEY, !isRemoved && state.get(BeehiveBlock.HONEY_LEVEL) >= getMaxHoneyLevel()), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
         }
-
     }
 
     @Override

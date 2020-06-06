@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 @JeiPlugin
-public class ProduciveBeesJeiPlugin implements IModPlugin
+public class ProductiveBeesJeiPlugin implements IModPlugin
 {
     private static final ResourceLocation pluginId = new ResourceLocation(ProductiveBees.MODID, ProductiveBees.MODID);
     public static final ResourceLocation CATEGORY_ADVANCED_BEEHIVE_UID = new ResourceLocation(ProductiveBees.MODID, "advanced_beehive");
@@ -45,7 +45,7 @@ public class ProduciveBeesJeiPlugin implements IModPlugin
 
     public static final IIngredientType<BeeIngredient> BEE_INGREDIENT = () -> BeeIngredient.class;
 
-    public ProduciveBeesJeiPlugin() {
+    public ProductiveBeesJeiPlugin() {
         BeeIngredientFactory.createList();
     }
 
@@ -82,20 +82,6 @@ public class ProduciveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        List<String> notInfoBees = Arrays.asList("aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");
-        for (Map.Entry<String, BeeIngredient> entry : BeeIngredientFactory.getOrCreateList().entrySet()) {
-            String beeId = entry.getKey().replace("productivebees:", "");
-            if (!notInfoBees.contains(beeId)) {
-                registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (beeId));
-            }
-        }
-
-        List<String> itemInfos = Arrays.asList("inactive_dragon_egg", "sand_nest", "gravel_nest", "coarse_dirt_nest", "wood_nest", "end_stone_nest", "obsidian_nest", "glowstone_nest", "nether_brick_nest", "nether_quartz_nest");
-        for (String itemName: itemInfos) {
-            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, itemName));
-            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, "productivebees.ingredient.description." + itemName);
-        }
-
         RecipeManager recipeManager = Minecraft.getInstance().world.getRecipeManager();
 
         // Beehive bee produce recipes
@@ -112,5 +98,20 @@ public class ProduciveBeesJeiPlugin implements IModPlugin
         // Breeding recipes
         Map<ResourceLocation, IRecipe<IInventory>> beeBreedingRecipeMap = recipeManager.getRecipes(BeeBreedingRecipe.BEE_BREEDING);
         registration.addRecipes(beeBreedingRecipeMap.values(), CATEGORY_BEE_BREEDING_UID);
+
+        // Ingredient descriptions
+        List<String> notInfoBees = Arrays.asList("minecraft:bee", "aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");
+        for (Map.Entry<String, BeeIngredient> entry : BeeIngredientFactory.getOrCreateList().entrySet()) {
+            String beeId = entry.getKey().replace("productivebees:", "");
+            if (!notInfoBees.contains(beeId)) {
+                registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (beeId));
+            }
+        }
+
+        List<String> itemInfos = Arrays.asList("inactive_dragon_egg", "sand_nest", "gravel_nest", "coarse_dirt_nest", "oak_wood_nest", "spruce_wood_nest", "acacia_wood_nest", "dark_oak_wood_nest", "jungle_wood_nest", "birch_wood_nest", "end_stone_nest", "obsidian_nest", "glowstone_nest", "nether_brick_nest", "nether_quartz_nest");
+        for (String itemName: itemInfos) {
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, itemName));
+            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, "productivebees.ingredient.description." + itemName);
+        }
     }
 }
