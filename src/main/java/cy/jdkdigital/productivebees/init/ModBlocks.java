@@ -73,6 +73,25 @@ public final class ModBlocks
     public static final RegistryObject<Block> COMB_REDSTONE = createBlock("comb_redstone", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_ROTTEN = createBlock("comb_rotten", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
 
+    public static final RegistryObject<Block> COMB_AMBER = createBlock("comb_amber", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_BAUXITE = createBlock("comb_bauxite", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_BRAZEN = createBlock("comb_brazen", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_BRONZE = createBlock("comb_bronze", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_COPPER = createBlock("comb_copper", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_ELECTRUM = createBlock("comb_electrum", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_INVAR = createBlock("comb_invar", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_LEADEN = createBlock("comb_leaden", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_NICKEL = createBlock("comb_nickel", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_OSMIUM = createBlock("comb_osmium", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_PLATINUM = createBlock("comb_platinum", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_RADIOACTIVE = createBlock("comb_radioactive", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_SILVER = createBlock("comb_silver", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_STEEL = createBlock("comb_steel", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_TIN = createBlock("comb_tin", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_TITANIUM = createBlock("comb_titanium", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_TUNGSTEN = createBlock("comb_tungsten", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_ZINC = createBlock("comb_zinc", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
+
     public static final RegistryObject<Block> ADVANCED_OAK_BEEHIVE = createBlock("advanced_oak_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> EXPANSION_BOX_OAK = createBlock("expansion_box_oak", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
 

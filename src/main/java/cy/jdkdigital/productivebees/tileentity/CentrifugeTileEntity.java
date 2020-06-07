@@ -43,6 +43,7 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
 
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
+    private int tankTick = 0;
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
@@ -52,12 +53,6 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
         public boolean isInputSlotItem(int slot, Item item) {
             return (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.BUCKET) || (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.GLASS_BOTTLE) || (slot == InventoryHandlerHelper.INPUT_SLOT && ModTags.HONEYCOMBS.contains(item));
         }
-
-        @Override
-        protected void onContentsChanged(int slot) {
-            CentrifugeTileEntity.this.tickFluidTank();
-            super.onContentsChanged(slot);
-        }
     });
 
     public LazyOptional<IFluidHandler> honeyInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
@@ -66,7 +61,6 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
         protected void onContentsChanged()
         {
             super.onContentsChanged();
-            CentrifugeTileEntity.this.tickFluidTank();
             CentrifugeTileEntity.this.markDirty();
         }
 
@@ -102,6 +96,10 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
                     world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, false));
                 }
             });
+            if (++this.tankTick > 20) {
+                this.tankTick = 0;
+                tickFluidTank();
+            }
         }
     }
 
@@ -160,24 +158,24 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
             FluidStack honeyFluid = honeyHandler.getFluidInTank(0);
             if (honeyFluid.getAmount() >= 250) {
                 inventoryHandler.ifPresent(invHandler -> {
-                    ItemStack fluidContainer = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                    ItemStack honeyContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                     int drainedHoney = 0;
                     ItemStack outputItem = null;
-                    if (fluidContainer.getItem() == Items.GLASS_BOTTLE) {
+                    if (honeyContainerItem.getItem() == Items.GLASS_BOTTLE) {
                         drainedHoney = 250;
                         outputItem = new ItemStack(Items.HONEY_BOTTLE);
                     }
-                    else if (fluidContainer.getItem() == Items.BUCKET && honeyFluid.getAmount() >= 1000) {
+                    else if (honeyContainerItem.getItem() == Items.BUCKET && honeyFluid.getAmount() >= 1000) {
                         drainedHoney = 1000;
                         outputItem = new ItemStack(ModItems.HONEY_BUCKET.get());
                     }
 
-                    if (drainedHoney > 0) {
+                    if (drainedHoney > 0 && honeyContainerItem.getCount() > 0) {
                         ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
                         if (existingOutput.isEmpty() || (existingOutput.getItem() == outputItem.getItem() && existingOutput.getCount() < outputItem.getMaxStackSize())) {
+                            honeyContainerItem.shrink(1);
                             honeyHandler.drain(drainedHoney, IFluidHandler.FluidAction.EXECUTE);
                             invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
-                            fluidContainer.shrink(1);
                         }
                     }
                 });

@@ -86,7 +86,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         int startX = 68;
         int startY = 8;
         if (ingredients.getOutputs(VanillaTypes.ITEM).size() > 0) {
-            List<ItemStack> outputs = ingredients.getOutputs(VanillaTypes.ITEM).iterator().next();
+            List<List<ItemStack>> outputs = ingredients.getOutputs(VanillaTypes.ITEM);
             int offset = ingredients.getInputs(VanillaTypes.ITEM).size();
             IntStream.range(0, outputs.size()).forEach((i) -> {
                 if (i > 9 + offset) {
