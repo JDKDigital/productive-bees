@@ -212,6 +212,7 @@ public final class ProductiveBees
                 ModBlocks.ADVANCED_YUCCA_BEEHIVE.get(),
                 ModBlocks.ADVANCED_KOUSA_BEEHIVE.get(),
                 ModBlocks.ADVANCED_ASPEN_BEEHIVE.get(),
+                ModBlocks.ADVANCED_GRIMWOOD_BEEHIVE.get(),
                 ModBlocks.ADVANCED_WILLOW_BEEHIVE.get(),
                 ModBlocks.ADVANCED_WISTERIA_BEEHIVE.get(),
                 ModBlocks.ADVANCED_BAMBOO_BEEHIVE.get(),
@@ -253,6 +254,7 @@ public final class ProductiveBees
         addToMap(ModBlocks.ADVANCED_YUCCA_BEEHIVE.get(), map);
         addToMap(ModBlocks.ADVANCED_KOUSA_BEEHIVE.get(), map);
         addToMap(ModBlocks.ADVANCED_ASPEN_BEEHIVE.get(), map);
+        addToMap(ModBlocks.ADVANCED_GRIMWOOD_BEEHIVE.get(), map);
         addToMap(ModBlocks.ADVANCED_WILLOW_BEEHIVE.get(), map);
         addToMap(ModBlocks.ADVANCED_WISTERIA_BEEHIVE.get(), map);
         addToMap(ModBlocks.ADVANCED_BAMBOO_BEEHIVE.get(), map);

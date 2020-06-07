@@ -29,6 +29,7 @@ public class ModTileEntityTypes
                     ModBlocks.ADVANCED_YUCCA_BEEHIVE.get(),
                     ModBlocks.ADVANCED_KOUSA_BEEHIVE.get(),
                     ModBlocks.ADVANCED_ASPEN_BEEHIVE.get(),
+                    ModBlocks.ADVANCED_GRIMWOOD_BEEHIVE.get(),
                     ModBlocks.ADVANCED_WILLOW_BEEHIVE.get(),
                     ModBlocks.ADVANCED_WISTERIA_BEEHIVE.get(),
                     ModBlocks.ADVANCED_BAMBOO_BEEHIVE.get(),
