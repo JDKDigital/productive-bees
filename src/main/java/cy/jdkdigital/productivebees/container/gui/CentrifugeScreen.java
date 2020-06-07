@@ -32,7 +32,20 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         this.font.drawString(this.title.getFormattedText(), 8.0F, 6.0F, 4210752);
         this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
-        // https://gist.github.com/gigaherz/f61fe604f38e27afad4d1553bc6cf311
+
+        // Draw fluid tank
+        this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+            int fluidAmount = fluidHandler.getFluidInTank(0).getAmount();
+
+            // Honey fluid level tooltip
+            if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
+                List<String> tooltipList = new ArrayList<String>()
+                {{
+                    add("Honey: " + fluidAmount + "mb");
+                }};
+                renderTooltip(tooltipList, mouseX - guiLeft, mouseY - guiTop);
+            }
+        });
     }
 
     @Override
@@ -56,15 +69,6 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
             int fluidAmount = fluidHandler.getFluidInTank(0).getAmount();
             int fluidLevel = (int) (fluidAmount * (52 / 10000f));
             this.blit(this.guiLeft + 140, this.guiTop + 69, 176, 66, 4, -1 * fluidLevel);
-
-            // Honey fluid level tooltip
-            if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
-                List<String> tooltipList = new ArrayList<String>()
-                {{
-                    add("Honey: " + fluidAmount + "mb");
-                }};
-                renderTooltip(tooltipList, mouseX, mouseY);
-            }
         });
     }
 }
