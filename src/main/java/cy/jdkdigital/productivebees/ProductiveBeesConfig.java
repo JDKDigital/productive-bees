@@ -93,19 +93,21 @@ public class ProductiveBeesConfig
 
     public static class BeeAttributes
     {
-        public final ForgeConfigSpec.IntValue ticks;
+        public final ForgeConfigSpec.IntValue leashedTicks;
         public final ForgeConfigSpec.DoubleValue damageChance;
         public final ForgeConfigSpec.DoubleValue toleranceChance;
         public final ForgeConfigSpec.DoubleValue behaviorChance;
+        public final ForgeConfigSpec.IntValue effectTicks;
 
         public BeeAttributes(ForgeConfigSpec.Builder builder) {
             builder.push("Bee attributes");
 
-            ticks = builder.comment("Number of ticks between attribute improvement attempts").defineInRange("ticks", 1337, 20, Integer.MAX_VALUE);
+            leashedTicks = builder.comment("Number of ticks between attribute improvement attempts").defineInRange("ticks", 1337, 20, Integer.MAX_VALUE);
             damageChance = builder.comment("Chance that a bee will take damage while leashed in a hostile environment").defineInRange("damageChance", 0.1, 0, 1);
             toleranceChance = builder.comment("Chance to increase tolerance (rain or thunder tolerance trait) while leashed in a hostile environment.").defineInRange("toleranceChance", 0.1, 0, 1);
             behaviorChance = builder.comment("Chance to increase behavior (nocturnal trait) while leashed in a hostile environment.").defineInRange("behaviorChance", 0.1, 0, 1);
 
+            effectTicks = builder.comment("Number of ticks between effects on nearby entities").defineInRange("ticks", 2337, 20, Integer.MAX_VALUE);
             builder.pop();
         }
     }

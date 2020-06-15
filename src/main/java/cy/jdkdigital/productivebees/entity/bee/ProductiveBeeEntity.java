@@ -12,6 +12,7 @@ import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeEffect;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -25,10 +26,13 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -36,7 +40,9 @@ import net.minecraft.tags.Tag;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.village.PointOfInterest;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
@@ -64,12 +70,14 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
 
         beeAttributes.put(BeeAttributes.PRODUCTIVITY, world.rand.nextInt(2));
         beeAttributes.put(BeeAttributes.TEMPER, 1);
+        beeAttributes.put(BeeAttributes.ENDURANCE, 1);
         beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
         beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 0);
         beeAttributes.put(BeeAttributes.TYPE, "hive");
         beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.FLOWERS);
         beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
         beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, BlockTags.BEEHIVES);
+        beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<>()));
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
@@ -105,7 +113,23 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
     public void livingTick() {
         super.livingTick();
 
-        if (ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.ticks.get() == 0 && getLeashed()) {
+        // Positive effect to nearby entities
+        if (!world.isRemote && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
+            BeeEffect effect = getAttributeValue(BeeAttributes.EFFECTS);
+            if (effect.getEffects().size() > 0) {
+                List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, (new AxisAlignedBB(new BlockPos(ProductiveBeeEntity.this))).grow(8.0D, 6.0D, 8.0D));
+                if (players.size() > 0) {
+                    players.forEach(playerEntity -> {
+                        effect.getEffects().forEach((potionEffect, duration) -> {
+                            playerEntity.addPotionEffect(new EffectInstance(potionEffect, duration));
+                        });
+                    });
+                }
+            }
+        }
+
+        // Attribute improvement while leashed
+        if (!world.isRemote && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0 && getLeashed()) {
             // Rain tolerance improvements
             int tolerance = getAttributeValue(BeeAttributes.WEATHER_TOLERANCE);
             if (tolerance < 2 && world.rand.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
@@ -156,9 +180,9 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         if (this.stayOutOfHiveCountdown <= 0 && !this.pollinateGoal.isRunning() && !this.hasStung()) {
             boolean shouldReturnToHive =
                     this.failedPollinatingTooLong() ||
-                    this.hasNectar() ||
-                    (this.world.isNightTime() && !canOperateDuringNight()) ||
-                    (this.world.isRaining() && !canOperateDuringRain());
+                            this.hasNectar() ||
+                            (this.world.isNightTime() && !canOperateDuringNight()) ||
+                            (this.world.isRaining() && !canOperateDuringRain());
 
             return shouldReturnToHive && !this.isHiveNearFire();
         }
@@ -200,6 +224,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         super.writeAdditional(tag);
 
         tag.putInt("bee_productivity", this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
+        tag.putInt("bee_endurance", this.getAttributeValue(BeeAttributes.ENDURANCE));
         tag.putInt("bee_temper", this.getAttributeValue(BeeAttributes.TEMPER));
         tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
         tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
@@ -207,6 +232,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         tag.putString("bee_food_source", this.getAttributeValue(BeeAttributes.FOOD_SOURCE).getId().toString());
         tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getId().toString());
         tag.putString("bee_nesting_preference", this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE).getId().toString());
+        tag.put("bee_effects", this.getAttributeValue(BeeAttributes.EFFECTS).serializeNBT());
     }
 
     @Override
@@ -216,6 +242,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         if (tag.contains("bee_productivity")) {
             beeAttributes.clear();
             beeAttributes.put(BeeAttributes.PRODUCTIVITY, tag.getInt("bee_productivity"));
+            beeAttributes.put(BeeAttributes.ENDURANCE, tag.contains("bee_endurance") ? tag.getInt("bee_endurance") : 1);
             beeAttributes.put(BeeAttributes.TEMPER, tag.getInt("bee_temper"));
             beeAttributes.put(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
             beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
@@ -229,14 +256,26 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
                 // TODO Fix for this release, remove later
                 beeAttributes.put(BeeAttributes.NESTING_PREFERENCE,
                         this instanceof SlimyBeeEntity ? ModTags.SLIMY_NESTS :
-                            this instanceof EnderBeeEntity ? ModTags.END_NESTS :
-                                    this instanceof GlowingBeeEntity ? ModTags.GLOWSTONE_NESTS :
-                                            this instanceof MagmaticBeeEntity ? ModTags.NETHER_BRICK_NESTS :
-                                                    this instanceof QuartzBeeEntity ? ModTags.NETHER_QUARTZ_NESTS :
-                                                            this instanceof SolitaryBeeEntity ? ModTags.SOLITARY_OVERWORLD_NESTS :
-                                                                    BlockTags.BEEHIVES);
+                                this instanceof EnderBeeEntity ? ModTags.END_NESTS :
+                                        this instanceof GlowingBeeEntity ? ModTags.GLOWSTONE_NESTS :
+                                                this instanceof MagmaticBeeEntity ? ModTags.NETHER_BRICK_NESTS :
+                                                        this instanceof QuartzBeeEntity ? ModTags.NETHER_QUARTZ_NESTS :
+                                                                this instanceof SolitaryBeeEntity ? ModTags.SOLITARY_OVERWORLD_NESTS :
+                                                                        BlockTags.BEEHIVES);
+            }
+            if (tag.contains("bee_effects")) {
+                beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect((CompoundNBT) tag.get("bee_effects")));
+            }
+            else {
+                beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<>()));
             }
         }
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_" + this.getBeeType() + "_bee"));
+        return new ItemStack(item);
     }
 
     @Override

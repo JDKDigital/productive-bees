@@ -33,6 +33,7 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> IRON_BEE = createHiveBee("iron_bee", ProductiveBeeEntity::new, 6238757, 13487565);
     public static RegistryObject<EntityType<BeeEntity>> GOLD_BEE = createHiveBee("gold_bee", ProductiveBeeEntity::new, 6238757, 15582019);
 
+    public static RegistryObject<EntityType<BeeEntity>> COAL_BEE = createHiveBee("coal_bee", ProductiveBeeEntity::new, 2237733, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> REDSTONE_BEE = createHiveBee("redstone_bee", ProductiveBeeEntity::new, 6238757, 13645345);
     public static RegistryObject<EntityType<BeeEntity>> LAPIS_BEE = createHiveBee("lapis_bee", ProductiveBeeEntity::new, 6238757, 4276966);
     public static RegistryObject<EntityType<BeeEntity>> EMERALD_BEE = createHiveBee("emerald_bee", ProductiveBeeEntity::new, 6238757, 3000655);
@@ -70,7 +71,6 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> AMBER_BEE = createHiveBee("amber_bee", ProductiveBeeEntity::new, 13806336, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> BRASS_BEE = createHiveBee("brass_bee", ProductiveBeeEntity::new, 11309338, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> BRONZE_BEE = createHiveBee("bronze_bee", ProductiveBeeEntity::new, 13939231, 15582019);
-    public static RegistryObject<EntityType<BeeEntity>> COAL_BEE = createHiveBee("coal_bee", ProductiveBeeEntity::new, 2237733, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> COPPER_BEE = createHiveBee("copper_bee", ProductiveBeeEntity::new, 14851873, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> ELECTRUM_BEE = createHiveBee("electrum_bee", ProductiveBeeEntity::new, 16762718, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> INVAR_BEE = createHiveBee("invar_bee", ProductiveBeeEntity::new, 10661549, 15582019);
