@@ -67,8 +67,8 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
         // Draw fluid tank
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
             int fluidAmount = fluidHandler.getFluidInTank(0).getAmount();
-            int fluidLevel = (int) (fluidAmount * (52 / 10000f));
-            this.blit(this.guiLeft + 140, this.guiTop + 69, 176, 66, 4, -1 * fluidLevel);
+            int fluidLevel = (int) (fluidAmount * (52 / 10000F));
+            this.blit(this.guiLeft + 140, this.guiTop + 69, 176, 69, 4, -1 * fluidLevel);
         });
     }
 }

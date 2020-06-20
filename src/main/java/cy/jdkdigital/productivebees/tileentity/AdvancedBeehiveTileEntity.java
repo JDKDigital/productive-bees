@@ -154,20 +154,24 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 Double productionChance = ProductiveBeeEntity.getProductionChance(beeId, 0.65D);
 
                 // Generate bee produce
-                if (productionChance != null && productionChance > 0) {
+                boolean hasNectar = inb.getBoolean("HasNectar");
+                if (hasNectar && productionChance != null && productionChance > 0) {
                     if (world.rand.nextDouble() <= productionChance) {
-                        final int productivity = inb.contains("bee_productivity") ? inb.getInt("bee_productivity") : 0;
-                        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                            BeeHelper.getBeeProduce(world, beeId, this.flowerPos).forEach((stack) -> {
-                                if (!stack.isEmpty()) {
-                                    if (productivity > 0) {
-                                        float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
-                                        stack.grow(Math.round(f));
+                        final int behavior = inb.contains("bee_behavior") ? inb.getInt("bee_behavior") : 0;
+                        if (behavior == 2 || (world.isNightTime() && behavior == 1) || (!world.isNightTime() && behavior == 0)) {
+                            final int productivity = inb.contains("bee_productivity") ? inb.getInt("bee_productivity") : 0;
+                            this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                                BeeHelper.getBeeProduce(world, beeId, this.flowerPos).forEach((stack) -> {
+                                    if (!stack.isEmpty()) {
+                                        if (productivity > 0) {
+                                            float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
+                                            stack.grow(Math.round(f));
+                                        }
+                                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
                                     }
-                                    ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
-                                }
+                                });
                             });
-                        });
+                        }
                     }
                 }
             }
