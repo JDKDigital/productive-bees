@@ -11,6 +11,7 @@
 	"item.productivebees.bee_cage": "Bee Cage",
 	"item.productivebees.draconic_dust": "Draconic Dust",
 	"item.productivebees.draconic_chunk": "Draconic Chunk",
+	"item.productivebees.wither_skull_chip": "Wither Skull Chip",
 
 	"item.productivebees.spawn_egg_iron_bee": "Iron Bee Spawn Egg",
 	"item.productivebees.spawn_egg_gold_bee": "Gold Bee Spawn Egg",
@@ -87,6 +88,7 @@
 	"item.productivebees.honeycomb_iron": "Iron Comb",
 	"item.productivebees.honeycomb_lapis": "Lapis Comb",
 	"item.productivebees.honeycomb_leaden": "Leaden Comb",
+	"item.productivebees.honeycomb_magmatic": "Magmatic Comb",
 	"item.productivebees.honeycomb_nickel": "Nickel Comb",
 	"item.productivebees.honeycomb_osmium": "Osmium Comb",
 	"item.productivebees.honeycomb_platinum": "Platinum Comb",
@@ -96,10 +98,12 @@
 	"item.productivebees.honeycomb_redstone": "Redstone Comb",
 	"item.productivebees.honeycomb_rotten": "Rotten Comb",
 	"item.productivebees.honeycomb_silver": "Silver Comb",
+	"item.productivebees.honeycomb_slimy": "Slimy Comb",
 	"item.productivebees.honeycomb_steel": "Steel Comb",
 	"item.productivebees.honeycomb_tin": "Tin Comb",
 	"item.productivebees.honeycomb_titanium": "Titanium Comb",
 	"item.productivebees.honeycomb_tungsten": "Tungsten Comb",
+	"item.productivebees.honeycomb_withered": "Withered Comb",
 	"item.productivebees.honeycomb_zinc": "Zinc Comb",
 
 	"block.productivebees.centrifuge": "Centrifuge",
@@ -209,6 +213,7 @@
 	"block.productivebees.comb_iron": "Iron Comb Block",
 	"block.productivebees.comb_lapis": "Lapis Comb Block",
 	"block.productivebees.comb_leaden": "Leaden Comb Block",
+	"block.productivebees.comb_magmatic": "Magmatic Comb Block",
 	"block.productivebees.comb_nickel": "Nickel Comb Block",
 	"block.productivebees.comb_osmium": "Osmium Comb Block",
 	"block.productivebees.comb_platinum": "Platinum Comb Block",
@@ -218,12 +223,14 @@
 	"block.productivebees.comb_redstone": "Redstone Comb Block",
 	"block.productivebees.comb_rotten": "Rotten Comb Block",
 	"block.productivebees.comb_silver": "Silver Comb Block",
+	"block.productivebees.comb_slimy": "Slimy Comb Block",
 	"block.productivebees.comb_steel": "Steel Comb Block",
 	"block.productivebees.comb_tin": "Tin Comb Block",
 	"block.productivebees.comb_titanium": "Titanium Comb Block",
 	"block.productivebees.comb_tungsten": "Tungsten Comb Block",
+	"block.productivebees.comb_withered": "Withered Comb Block",
 	"block.productivebees.comb_zinc": "Zinc Comb Block",
-	
+
 	"fluid.productivebees.honey": "Honey",
 
 	"entity.productivebees.iron_bee": "Iron Bee",

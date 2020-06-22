@@ -92,7 +92,6 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
             SolitaryNestTileEntity tileEntity = (SolitaryNestTileEntity) world.getTileEntity(pos);
             ProductiveBees.LOGGER.debug("Nest tilentity: " + tileEntity);
             ProductiveBees.LOGGER.debug("Nest tilentity type: " + tileEntity.getType().getRegistryName());
-            ProductiveBees.LOGGER.debug("Nest sealed: " + tileEntity.isSealed());
             ProductiveBees.LOGGER.debug("Bee count: " + tileEntity.getBeeList().size());
             ProductiveBees.LOGGER.debug("Occupants: " + tileEntity.getBeeList());
             ProductiveBees.LOGGER.debug("Egg count: " + tileEntity.getEggs().size());

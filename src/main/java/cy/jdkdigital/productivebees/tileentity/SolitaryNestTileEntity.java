@@ -29,7 +29,6 @@ import java.util.List;
 public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 {
     private LazyOptional<IInhabitantStorage> eggHandler = LazyOptional.of(this::createEggHandler);
-    protected boolean isSealed = false;
     private int tickCounter = 0;
 
     // Used for calculating if a new bee should move in
@@ -40,10 +39,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     public SolitaryNestTileEntity() {
         super(ModTileEntityTypes.SOLITARY_NEST.get());
         MAX_BEES = 1;
-    }
-
-    public boolean isSealed() {
-        return isSealed;
     }
 
     @Override
@@ -68,13 +63,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                 }
             }
 
-            eggHandler.ifPresent(h -> {
-                // Once nest is empty of eggs, unseal it
-                if (h.getInhabitants().isEmpty()) {
-                    this.isSealed = false;
-                }
-            });
-
             if (tickCounter++ % 97 == 0) {
                 this.tickEggs();
                 tickCounter = 0;
@@ -85,27 +73,18 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     private void tickEggs() {
         eggHandler.ifPresent(h -> {
-            // Once nest is empty of eggs, unseal it
-            if (h.getInhabitants().isEmpty()) {
-                this.isSealed = false;
-            }
-            // Check if eggs need to hatch from sealed hive
-            if (this.isSealed) {
-                h.getInhabitants().removeIf((egg) -> {
-                    if (egg.ticksInHive > egg.minOccupationTicks) {
-                        CompoundNBT tag = egg.nbt;
-                        Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
-                        BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity);
-                        if (beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, this.getPos(), direction, -24000)) {
-                            return true;
-                        }
-                    }
-                    else {
-                        egg.ticksInHive += tickCounter;
-                    }
-                    return false;
-                });
-            }
+            h.getInhabitants().removeIf((egg) -> {
+                if (egg.ticksInHive > egg.minOccupationTicks) {
+                    CompoundNBT tag = egg.nbt;
+                    Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
+                    BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity);
+                    return beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, this.getPos(), direction, -24000);
+                }
+                else {
+                    egg.ticksInHive += tickCounter;
+                }
+                return false;
+            });
         });
     }
 
@@ -172,10 +151,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                     beeEntity.writeUnlessPassenger(compoundNBT);
 
                     h.addInhabitant(new Egg(compoundNBT, 0, this.getRepopulationCooldown() * this.getEggs().size()));
-                    // Once nest is full of eggs, seal it and set the "mother" bee to die
+                    // Kill off mother bee after filling the hive with eggs
                     if (h.getInhabitants().size() == MAX_EGGS) {
-                        this.isSealed = true;
-                        // Kill off mother bee after filling the hive with eggs
                         beeEntity.hivePos = null;
                         beeEntity.setHasStung(true);
                     }
@@ -195,7 +172,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     public static class Egg extends Inhabitant
     {
-
         public Egg(CompoundNBT nbt, int ticksInHive, int incubationTime) {
             super(nbt, ticksInHive, incubationTime, "");
         }

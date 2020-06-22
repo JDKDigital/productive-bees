@@ -21,6 +21,7 @@
         "#forge:honeycombs/iron",
         "#forge:honeycombs/lapis",
         "#forge:honeycombs/leaden",
+        "#forge:honeycombs/magmatic",
         "#forge:honeycombs/nickel",
         "#forge:honeycombs/osmium",
         "#forge:honeycombs/platinum",
@@ -30,10 +31,12 @@
         "#forge:honeycombs/redstone",
         "#forge:honeycombs/rotten",
         "#forge:honeycombs/silver",
+        "#forge:honeycombs/slimy",
         "#forge:honeycombs/steel",
         "#forge:honeycombs/tin",
         "#forge:honeycombs/titanium",
         "#forge:honeycombs/tungsten",
+        "#forge:honeycombs/withered",
         "#forge:honeycombs/zinc"
     ]
 }
