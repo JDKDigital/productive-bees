@@ -20,6 +20,8 @@ import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -84,8 +86,18 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
     }
 
     @Override
+    protected void registerAttributes() {
+        super.registerAttributes();
+
+        // Give health boost based on endurance
+        if (getAttributeValue(BeeAttributes.ENDURANCE) != 1) {
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(BeeAttributes.HEALTH_MODS.get(getAttributeValue(BeeAttributes.ENDURANCE)));
+        }
+    }
+
+    @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.399999976158142D, true));
+        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
         // Resting goal!
         this.goalSelector.addGoal(1, new BeeEntity.EnterBeehiveGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, ProductiveBeeEntity.class));
@@ -158,14 +170,17 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         }
     }
 
+    @Override
     public boolean isAngry() {
         return super.isAngry() && getAttributeValue(BeeAttributes.TEMPER) > 0;
     }
 
+    @Override
     public boolean isFlowers(BlockPos pos) {
         return this.world.isBlockPresent(pos) && this.world.getBlockState(pos).getBlock().isIn(getAttributeValue(BeeAttributes.FOOD_SOURCE));
     }
 
+    @Override
     public boolean isHiveValid() {
         if (!this.hasHive()) {
             return false;
@@ -176,6 +191,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         }
     }
 
+    @Override
     public boolean canEnterHive() {
         if (this.stayOutOfHiveCountdown <= 0 && !this.pollinateGoal.isRunning() && !this.hasStung()) {
             boolean shouldReturnToHive =
@@ -191,12 +207,22 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         }
     }
 
-    public String getBeeType() {
-        return this.getEntityString().split("[:]")[1].replace("_bee", "");
+    @Override
+    public void setHasStung(boolean hasStung) {
+        if (hasStung && getAttributeValue(BeeAttributes.ENDURANCE) ==3) {
+            // 50% chance to not loose stinger
+            hasStung = world.rand.nextBoolean();
+        }
+        super.setHasStung(hasStung);
     }
 
+    @Override
     public boolean isBreedingItem(ItemStack itemStack) {
         return itemStack.getItem().isIn(getAttributeValue(BeeAttributes.APHRODISIACS));
+    }
+
+    public String getBeeType() {
+        return this.getEntityString().split("[:]")[1].replace("_bee", "");
     }
 
     public <T> T getAttributeValue(BeeAttribute<T> parameter) {

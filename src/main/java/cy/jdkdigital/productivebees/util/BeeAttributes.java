@@ -2,13 +2,13 @@ package cy.jdkdigital.productivebees.util;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.Block;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.Item;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.RandomValueRange;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class BeeAttributes
 {
@@ -24,6 +24,15 @@ public class BeeAttributes
     public static final BeeAttribute<Tag<Item>> APHRODISIACS = register("aphrodisiacs");
     public static final BeeAttribute<Tag<Block>> NESTING_PREFERENCE = register("nesting_preference");
     public static final BeeAttribute<BeeEffect> EFFECTS = register("effect");
+
+    private static final UUID HEALTH_MOD_ID_WEAK = UUID.fromString("productivebees:healt_mod_modifier_weak");
+    private static final UUID HEALTH_MOD_ID_MEDIUM = UUID.fromString("productivebees:healt_mod_modifier_medium");
+    private static final UUID HEALTH_MOD_ID_STRONG = UUID.fromString("productivebees:healt_mod_modifier_strong");
+    public static final Map<Integer, AttributeModifier> HEALTH_MODS = new HashMap<Integer, AttributeModifier>() {{
+        put(0, (new AttributeModifier(HEALTH_MOD_ID_WEAK, "Health mod weak", 0.85F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
+        put(2, (new AttributeModifier(HEALTH_MOD_ID_MEDIUM, "Health mod medium", 1.15F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
+        put(3, (new AttributeModifier(HEALTH_MOD_ID_STRONG, "Health health mod strong", 1.5F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
+    }};
 
     public static Map<BeeAttribute<?>, Map<Integer, String>> keyMap = new HashMap<>();
 
