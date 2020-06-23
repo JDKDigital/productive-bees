@@ -4,7 +4,7 @@
     "results": [
         {
             "comb_produce": {
-                "item": "minecraft:slime_ball"
+                "tag": "forge:honeycombs/slimy"
             },
             "item_produce": {
                 "item": "minecraft:slime_ball"

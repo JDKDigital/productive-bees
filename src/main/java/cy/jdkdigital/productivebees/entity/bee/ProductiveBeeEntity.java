@@ -72,7 +72,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
 
         beeAttributes.put(BeeAttributes.PRODUCTIVITY, world.rand.nextInt(2));
         beeAttributes.put(BeeAttributes.TEMPER, 1);
-        beeAttributes.put(BeeAttributes.ENDURANCE, 1);
+        beeAttributes.put(BeeAttributes.ENDURANCE, world.rand.nextInt(3));
         beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
         beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 0);
         beeAttributes.put(BeeAttributes.TYPE, "hive");
@@ -83,21 +83,17 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
-    }
-
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
 
         // Give health boost based on endurance
         if (getAttributeValue(BeeAttributes.ENDURANCE) != 1) {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(BeeAttributes.HEALTH_MODS.get(getAttributeValue(BeeAttributes.ENDURANCE)));
+            this.heal(this.getMaxHealth());
         }
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
+        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.399999976158142D, true));
         // Resting goal!
         this.goalSelector.addGoal(1, new BeeEntity.EnterBeehiveGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, ProductiveBeeEntity.class));

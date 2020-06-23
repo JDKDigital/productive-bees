@@ -25,13 +25,13 @@ public class BeeAttributes
     public static final BeeAttribute<Tag<Block>> NESTING_PREFERENCE = register("nesting_preference");
     public static final BeeAttribute<BeeEffect> EFFECTS = register("effect");
 
-    private static final UUID HEALTH_MOD_ID_WEAK = UUID.fromString("productivebees:healt_mod_modifier_weak");
-    private static final UUID HEALTH_MOD_ID_MEDIUM = UUID.fromString("productivebees:healt_mod_modifier_medium");
-    private static final UUID HEALTH_MOD_ID_STRONG = UUID.fromString("productivebees:healt_mod_modifier_strong");
+    private static final UUID HEALTH_MOD_ID_WEAK = UUID.nameUUIDFromBytes("productivebees:healt_mod_modifier_weak".getBytes());
+    private static final UUID HEALTH_MOD_ID_MEDIUM = UUID.nameUUIDFromBytes("productivebees:healt_mod_modifier_medium".getBytes());
+    private static final UUID HEALTH_MOD_ID_STRONG = UUID.nameUUIDFromBytes("productivebees:healt_mod_modifier_strong".getBytes());
     public static final Map<Integer, AttributeModifier> HEALTH_MODS = new HashMap<Integer, AttributeModifier>() {{
-        put(0, (new AttributeModifier(HEALTH_MOD_ID_WEAK, "Health mod weak", 0.85F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
-        put(2, (new AttributeModifier(HEALTH_MOD_ID_MEDIUM, "Health mod medium", 1.15F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
-        put(3, (new AttributeModifier(HEALTH_MOD_ID_STRONG, "Health health mod strong", 1.5F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
+        put(0, (new AttributeModifier(HEALTH_MOD_ID_WEAK, "Health mod weak", 0.30F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
+        put(2, (new AttributeModifier(HEALTH_MOD_ID_MEDIUM, "Health mod medium", 0.6F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
+        put(3, (new AttributeModifier(HEALTH_MOD_ID_STRONG, "Health health mod strong", 1.0F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
     }};
 
     public static Map<BeeAttribute<?>, Map<Integer, String>> keyMap = new HashMap<>();
