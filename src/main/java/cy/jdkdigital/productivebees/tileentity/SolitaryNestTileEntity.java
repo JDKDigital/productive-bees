@@ -117,9 +117,9 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         return ProductiveBeesConfig.GENERAL.nestRepopulationCooldown.get();
     }
 
-    protected int getTimeInHive(boolean hasNectar) {
+    protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
         // When the bee returns with nectar, it will produce an egg cell and will stay a while
-        return hasNectar ? 12000 : 600;
+        return hasNectar && beeEntity != null && !beeEntity.isChild() ? 12000 : 600;
     }
 
     public void read(CompoundNBT tag) {
@@ -144,7 +144,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         super.beeReleasePostAction(beeEntity, state, beeState);
 
         // Lay egg
-        if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
+        if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED && !beeEntity.isChild()) {
             eggHandler.ifPresent(h -> {
                 if (h.getInhabitants().size() < MAX_EGGS) {
                     CompoundNBT compoundNBT = new CompoundNBT();

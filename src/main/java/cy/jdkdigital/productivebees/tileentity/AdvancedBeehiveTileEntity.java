@@ -183,11 +183,11 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         super.beeReleasePostAction(beeEntity, state, beeState);
 
         // Add to the countdown for it's spot to become available in the hive
-        abandonCountdown += getTimeInHive(true);
+        abandonCountdown += getTimeInHive(true, beeEntity);
     }
 
     protected int beesOutsideHive() {
-        return (int) Math.ceil(abandonCountdown % getTimeInHive(true));
+        return (int) Math.ceil(abandonCountdown % getTimeInHive(true, null));
     }
 
     @Override

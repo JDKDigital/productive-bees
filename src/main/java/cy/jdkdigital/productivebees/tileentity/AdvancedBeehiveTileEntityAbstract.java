@@ -91,7 +91,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         });
     }
 
-    protected int getTimeInHive(boolean hasNectar) {
+    protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
         return hasNectar ? 2400 : 600;
     }
 
@@ -151,10 +151,10 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 entity.removePassengers();
                 CompoundNBT compoundNBT = new CompoundNBT();
                 entity.writeUnlessPassenger(compoundNBT);
-                h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar), entity.getName().getFormattedText()));
                 if (this.world != null) {
                     if (entity instanceof BeeEntity) {
                         BeeEntity beeEntity = (BeeEntity) entity;
+                        h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), entity.getName().getFormattedText()));
                         if (beeEntity.hasFlower() && (!this.hasFlowerPos() || this.world.rand.nextBoolean())) {
                             this.flowerPos = beeEntity.getFlowerPos();
                         }
