@@ -39,6 +39,7 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> EMERALD_BEE = createHiveBee("emerald_bee", ProductiveBeeEntity::new, 6238757, 3000655);
     public static RegistryObject<EntityType<BeeEntity>> DIAMOND_BEE = createHiveBee("diamond_bee", ProductiveBeeEntity::new, 6238757, 4055009);
     public static RegistryObject<EntityType<BeeEntity>> DYE_BEE = createHiveBee("dye_bee", ProductiveBeeEntity::new, 6238757, 15582019);
+    public static RegistryObject<EntityType<BeeEntity>> LUMBER_BEE = createHiveBee("lumber_bee", LumberBeeEntity::new, 9615358, 8306542);
 
     public static RegistryObject<EntityType<BeeEntity>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBeeEntity::new, 6238757, 894731);
     public static RegistryObject<EntityType<BeeEntity>> ZOMBIE_BEE = createHiveBee("zombie_bee", ZombieBeeEntity::new, 6238757, 7969893);

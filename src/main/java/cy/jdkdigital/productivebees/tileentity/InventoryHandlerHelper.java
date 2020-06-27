@@ -1,6 +1,10 @@
 package cy.jdkdigital.productivebees.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.item.WoodChip;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -37,8 +41,16 @@ public class InventoryHandlerHelper
             }
             ItemStack stack = handler.getStackInSlot(slot);
             int stackSizeLimit = stack.getMaxStackSize();
-            if (stack.getItem() == insertStack.getItem() && (stack.getCount() + insertStack.getCount()) <= stackSizeLimit) {
-                return slot;
+            if (stack.getItem().equals(insertStack.getItem()) && (stack.getCount() + insertStack.getCount()) <= stackSizeLimit) {
+                // Check tag
+                if (WoodChip.getWoodBlock(insertStack) != null) {
+                    Block block = WoodChip.getWoodBlock(stack);
+                    if (block != null && block.equals(WoodChip.getWoodBlock(insertStack))) {
+                        return slot;
+                    }
+                } else {
+                    return slot;
+                }
             }
             if (stack.isEmpty() && emptySlot == 0) {
                 emptySlot = slot;
@@ -82,8 +94,6 @@ public class InventoryHandlerHelper
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
             return isItemValid(slot, stack, true);
         }
-
-        ;
 
         public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
             // Always allow an input item into an input slot
@@ -136,7 +146,12 @@ public class InventoryHandlerHelper
             if (slot > 0) {
                 ItemStack existingStack = this.getStackInSlot(slot);
                 if (existingStack.isEmpty()) {
-                    setStackInSlot(slot, new ItemStack(stack.getItem(), stack.getCount()));
+                    ItemStack insertStack = new ItemStack(stack.getItem(), stack.getCount());
+                    Block stackBlock = WoodChip.getWoodBlock(stack);
+                    if (stackBlock != null && !stackBlock.equals(Blocks.AIR)) {
+                        insertStack = WoodChip.getStack(WoodChip.getWoodBlock(stack), stack.getCount());
+                    }
+                    setStackInSlot(slot, insertStack);
                 }
                 else {
                     existingStack.grow(stack.getCount());

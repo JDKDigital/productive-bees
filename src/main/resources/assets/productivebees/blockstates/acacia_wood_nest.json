@@ -1,7 +1,25 @@
 {
     "variants": {
-        "axis=y":    { "model": "productivebees:block/nest/acacia_wood_nest" },
-        "axis=z":     { "model": "productivebees:block/nest/acacia_wood_nest_vertical", "x": 90 },
-        "axis=x":     { "model": "productivebees:block/nest/acacia_wood_nest_vertical", "x": 90, "y": 90 }
+        "axis=y,facing=north":   { "model": "productivebees:block/nest/acacia_wood_nest", "y": 270 },
+        "axis=y,facing=east":    { "model": "productivebees:block/nest/acacia_wood_nest"  },
+        "axis=y,facing=south":   { "model": "productivebees:block/nest/acacia_wood_nest", "y": 90  },
+        "axis=y,facing=west":    { "model": "productivebees:block/nest/acacia_wood_nest", "y": 180  },
+        "axis=y,facing=up":   { "model": "productivebees:block/nest/acacia_wood_nest", "y": 270 },
+        "axis=y,facing=down":   { "model": "productivebees:block/nest/acacia_wood_nest", "y": 270 },
+
+        "axis=z,facing=east":   { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90 },
+        "axis=z,facing=west":   { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90, "y": 180 },
+        "axis=z,facing=north":   { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90 },
+        "axis=z,facing=south":   { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90 },
+
+        "axis=x,facing=north":    { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90, "y": 90, "z": 90  },
+        "axis=x,facing=south":    { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90, "y": 270, "z": 90  },
+        "axis=x,facing=east":    { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90, "y": 90, "z": 90  },
+        "axis=x,facing=west":    { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90, "y": 90, "z": 90  },
+
+        "axis=z,facing=up":    { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90},
+        "axis=z,facing=down":    { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90},
+        "axis=x,facing=up":   { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90, "y": 90, "z": 90},
+        "axis=x,facing=down":   { "model": "productivebees:block/nest/acacia_wood_nest", "x": 90, "y": 90, "z": 90}
     }
 }

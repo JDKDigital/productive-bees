@@ -3,8 +3,10 @@ package cy.jdkdigital.productivebees.init;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
 import cy.jdkdigital.productivebees.item.BeeCage;
 import cy.jdkdigital.productivebees.item.HoneyTreat;
+import cy.jdkdigital.productivebees.item.WoodChip;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
@@ -63,7 +65,7 @@ public class ModItems
     public static final RegistryObject<Item> DRACONIC_DUST = createItem("draconic_dust", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> DRACONIC_CHUNK = createItem("draconic_chunk", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> WITHER_SKULL_CHIP = createItem("wither_skull_chip", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> WOOD_CHIP = createItem("wood_chip", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> WOOD_CHIP = createItem("wood_chip", () -> new WoodChip((new Item.Properties().setISTER(() -> WoodChipRenderer::new)).group(ModItemGroups.PRODUCTIVE_BEES)));
 
     public static final RegistryObject<Item> ADV_BREED_BEE = createItem("adv_breed_bee", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ADV_BREED_ALL_BEES = createItem("adv_breed_all_bees", () -> new Item(new Item.Properties()));

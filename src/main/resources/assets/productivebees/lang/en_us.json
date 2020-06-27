@@ -6,6 +6,8 @@
 	"jei.productivebees.bee_spawning": "Bee Spawning",
 	"jei.productivebees.centrifuge": "Centrifuge",
 
+	"item.productivebees.wood_chip": "Wood Chip",
+	"item.productivebees.wood_chip.named": "%s Wood Chip",
 	"item.productivebees.honey_bucket": "Honey Bucket",
 	"item.productivebees.honey_treat": "Honey Treat",
 	"item.productivebees.bee_cage": "Bee Cage",
@@ -20,6 +22,7 @@
 	"item.productivebees.spawn_egg_emerald_bee": "Emerald Bee Spawn Egg",
 	"item.productivebees.spawn_egg_diamond_bee": "Diamond Bee Spawn Egg",
 	"item.productivebees.spawn_egg_dye_bee": "Dye Bee Spawn Egg",
+	"item.productivebees.spawn_egg_lumber_bee": "Lumber Bee Spawn Egg",
 
 	"item.productivebees.spawn_egg_glowing_bee": "Glowing Bee Spawn Egg",
 	"item.productivebees.spawn_egg_quartz_bee": "Crystalline Bee Spawn Egg",
@@ -240,6 +243,7 @@
 	"entity.productivebees.emerald_bee": "Emerald Bee",
 	"entity.productivebees.diamond_bee": "Diamond Bee",
 	"entity.productivebees.dye_bee": "Dye Bee",
+	"entity.productivebees.lumber_bee": "Lumber Bee",
 
 	"entity.productivebees.glowing_bee": "Glowing Bee",
 	"entity.productivebees.quartz_bee": "Crystalline Bee",
@@ -332,6 +336,7 @@
 	"productivebees.ingredient.description.emerald_bee": "Put it in an advanced beehive to get some emeralds.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.diamond_bee": "Put it in an advanced beehive to get some diamonds.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.dye_bee": "Brings home more flowery bits than just nectar.",
+	"productivebees.ingredient.description.lumber_bee": "Has n healthy obsession with wood.",
 
 	"productivebees.ingredient.description.glowing_bee": "Put it in an advanced beehive to get some glowstone.\n\nSpawn naturally in the nether making it's nest inside glowstone blocks.",
 	"productivebees.ingredient.description.quartz_bee": "Put it in an advanced beehive to get some nether quartz.\n\nSpawn naturally in the nether making it's nest inside nether quartz ore.",

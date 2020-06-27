@@ -1,13 +1,13 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:blazing_bee",
-    "parent2": "productivebees:leafcutter_bee",
+    "parent1": "productivebees:yellow_black_carpenter_bee",
+    "parent2": "productivebees:green_carpenter_bee",
     "offspring": [
-        "productivebees:coal_bee"
+        "productivebees:lumber_bee"
     ],
     "breeding_items": [
         {
-            "item": "minecraft:blaze_powder"
+            "tag": "minecraft:logs"
         },
         {
             "tag": "minecraft:flowers"

@@ -55,10 +55,14 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
-        if (inv instanceof BeeHelper.BeeInventory) {
+        if (inv instanceof BeeHelper.BeeInventory && ingredient != null) {
             String beeName = ((BeeHelper.BeeInventory)inv).getBeeIdentifier();
             return beeName.equals(ingredient.getBeeType().getRegistryName().toString());
         }
+        if (ingredient == null) {
+            ProductiveBees.LOGGER.info(id + " is null");
+        }
+
         return false;
     }
 

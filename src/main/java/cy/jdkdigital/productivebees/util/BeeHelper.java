@@ -5,7 +5,9 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.item.WoodChip;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
 import net.minecraft.block.BlockState;
@@ -23,6 +25,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -125,14 +128,23 @@ public class BeeHelper
 
     public static List<ItemStack> getBeeProduce(World world, String beeId, BlockPos flowerPos) {
         AdvancedBeehiveRecipe recipe = world.getRecipeManager().getRecipe(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE, new BeeInventory(beeId), world).orElse(null);
-        List<ItemStack> outputList = new ArrayList<>();
+        List<ItemStack> outputList = Lists.newArrayList(ItemStack.EMPTY);
         if (recipe != null) {
             recipe.output.forEach((itemStack, bounds) -> {
                 int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
                 itemStack.setCount(count);
                 outputList.add(itemStack);
             });
-            return outputList;
+        }
+        else if (beeId.equals("productivebees:lumber_bee")) {
+            if (flowerPos != null) {
+                BlockState flowerBlock = world.getBlockState(flowerPos);
+
+                if (flowerBlock.getBlock().isIn(BlockTags.LOGS)) {
+                    ItemStack woodChip = WoodChip.getStack(flowerBlock.getBlock(), world.rand.nextInt(3));
+                    outputList.add(woodChip);
+                }
+            }
         }
         else if (beeId.equals("productivebees:dye_bee")) {
             if (flowerPos != null) {
@@ -157,10 +169,9 @@ public class BeeHelper
                     outputList.add(dye);
                 });
             }
-            return outputList;
         }
 
-        return Lists.newArrayList(ItemStack.EMPTY);
+        return outputList;
     }
 
     public static void setOffspringAttributes(ProductiveBeeEntity newBee, ProductiveBeeEntity productiveBeeEntity, AgeableEntity targetEntity) {
