@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.entity.bee.hive;
+package cy.jdkdigital.productivebees.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.entity.bee.IBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ISolitaryBeeEntity;
@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
-public class EnderBeeEntity extends ProductiveBeeEntity implements IBeeEntity, ISolitaryBeeEntity
+public class EnderBeeEntity extends ProductiveBeeEntity
 {
     private int teleportCooldown = 150;
 

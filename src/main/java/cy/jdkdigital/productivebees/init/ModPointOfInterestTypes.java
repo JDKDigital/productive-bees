@@ -38,6 +38,7 @@ public final class ModPointOfInterestTypes
         blocks.add(ModBlocks.NETHER_BRICK_NEST);
         blocks.add(ModBlocks.NETHER_QUARTZ_NEST);
         blocks.add(ModBlocks.GLOWSTONE_NEST);
+        blocks.add(ModBlocks.SUGAR_CANE_NEST);
         blocks.add(ModBlocks.END_NEST);
         blocks.add(ModBlocks.OAK_WOOD_NEST);
         blocks.add(ModBlocks.BIRCH_WOOD_NEST);

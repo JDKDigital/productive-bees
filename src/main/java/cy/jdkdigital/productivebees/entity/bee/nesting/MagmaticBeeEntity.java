@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.IBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
@@ -16,7 +15,7 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 
-public class MagmaticBeeEntity extends EffectHiveBeeEntity implements IBeeEntity
+public class MagmaticBeeEntity extends EffectHiveBeeEntity
 {
     private int lavaDuration = 0;
     private BlockPos lavaPosition = null;

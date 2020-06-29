@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.entity.bee.hive.EnderBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.nesting.EnderBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.nesting.GlowingBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.nesting.MagmaticBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.nesting.QuartzBeeEntity;
@@ -21,7 +21,6 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;

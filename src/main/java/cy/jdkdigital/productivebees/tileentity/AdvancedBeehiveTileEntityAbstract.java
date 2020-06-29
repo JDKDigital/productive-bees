@@ -151,15 +151,16 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 entity.removePassengers();
                 CompoundNBT compoundNBT = new CompoundNBT();
                 entity.writeUnlessPassenger(compoundNBT);
-                if (this.world != null) {
-                    if (entity instanceof BeeEntity) {
-                        BeeEntity beeEntity = (BeeEntity) entity;
-                        h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), entity.getName().getFormattedText()));
-                        if (beeEntity.hasFlower() && (!this.hasFlowerPos() || this.world.rand.nextBoolean())) {
-                            this.flowerPos = beeEntity.getFlowerPos();
-                        }
-                    }
 
+                if (entity instanceof BeeEntity) {
+                    BeeEntity beeEntity = (BeeEntity) entity;
+                    h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), entity.getName().getFormattedText()));
+                    if (beeEntity.hasFlower() && (!this.hasFlowerPos() || (this.world != null && this.world.rand.nextBoolean()))) {
+                        this.flowerPos = beeEntity.getFlowerPos();
+                    }
+                }
+
+                if (this.world != null) {
                     BlockPos pos = this.getPos();
                     this.world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_ENTER, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }

@@ -56,6 +56,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                         EntityType<BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block);
                         if (beeType != null) {
                             BeeEntity newBee = beeType.create(this.world);
+                            newBee.setHealth(newBee.getMaxHealth());
                             Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
                             spawnBeeInWorldAPosition(this.world, newBee, pos, direction, null);
                         }

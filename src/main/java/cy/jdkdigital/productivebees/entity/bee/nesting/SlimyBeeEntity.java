@@ -1,8 +1,6 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.IBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.ISolitaryBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.EntityType;
@@ -18,7 +16,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SlimyBeeEntity extends EffectHiveBeeEntity implements IBeeEntity, ISolitaryBeeEntity
+public class SlimyBeeEntity extends EffectHiveBeeEntity
 {
     public SlimyBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);

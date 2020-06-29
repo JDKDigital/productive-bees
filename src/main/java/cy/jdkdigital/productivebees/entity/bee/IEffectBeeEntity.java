@@ -7,7 +7,6 @@ import java.util.Map;
 
 public interface IEffectBeeEntity
 {
-
     int getEffectCooldown();
 
     void attackTarget(LivingEntity target);
