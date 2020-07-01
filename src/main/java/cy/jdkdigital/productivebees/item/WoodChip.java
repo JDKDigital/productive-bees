@@ -51,7 +51,7 @@ public class WoodChip extends Item
         return null;
     }
 
-    private static String getWoodType(ItemStack stack) {
+    public static String getWoodType(ItemStack stack) {
         return stack.getOrCreateTag().getString(WOOD_KEY);
     }
 
