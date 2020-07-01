@@ -1,0 +1,10 @@
+{
+    "type": "productivebees:wood_chip",
+    "wood": "upgrade_aquatic:river_log",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "upgrade_aquatic"
+        }
+    ]
+}

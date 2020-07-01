@@ -1,75 +1,88 @@
 package cy.jdkdigital.productivebees.recipe;
 
-import com.google.gson.JsonArray;
+import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
+import cy.jdkdigital.productivebees.item.WoodChip;
+import net.minecraft.block.Block;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.JSONUtils;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.IntStream;
 
-public class CentrifugeRecipe implements IRecipe<IInventory>
+public class WoodChipRecipe implements ICraftingRecipe
 {
-    public static final IRecipeType<CentrifugeRecipe> CENTRIFUGE = IRecipeType.register(ProductiveBees.MODID + ":centrifuge");
-
     public final ResourceLocation id;
-    public final Ingredient ingredient;
-    public final Map<ItemStack, IntArrayNBT> output;
+    public final ItemStack chip;
+    public final ItemStack output;
+    public final Integer count;
 
-    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<ItemStack, IntArrayNBT> output) {
+    public WoodChipRecipe(ResourceLocation id, ItemStack chip, ItemStack output, Integer count) {
         this.id = id;
-        this.ingredient = ingredient;
+        this.chip = chip;
         this.output = output;
+        this.count = count;
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
-        if (this.ingredient.getMatchingStacks().length > 0) {
-            Item invItem = inv.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).getItem();
-            for (ItemStack possibleInput: this.ingredient.getMatchingStacks()) {
-                if (possibleInput.getItem().equals(invItem)) {
-                    return true;
+    public boolean matches(CraftingInventory inv, World worldIn) {
+        Block chipBlock = WoodChip.getWoodBlock(chip);
+
+        int matchingStacks = 0;
+        for(int j = 0; j < inv.getSizeInventory(); ++j) {
+            ItemStack itemstack = inv.getStackInSlot(j);
+            if (!itemstack.isEmpty()) {
+                if (itemstack.getItem().equals(ModItems.WOOD_CHIP.get()) && WoodChip.getWoodBlock(itemstack).equals(chipBlock)) {
+                    matchingStacks++;
+                } else {
+                    return false;
                 }
             }
         }
-        return false;
+
+        return matchingStacks == count;
     }
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
-        return ItemStack.EMPTY;
+    public ItemStack getCraftingResult(CraftingInventory inv) {
+        return output.copy();
     }
 
     @Override
     public boolean canFit(int width, int height) {
-        return false;
+        int min = count > 4 ? 3 : 2;
+        return width >= min && height >= min;
     }
 
     @Nonnull
     @Override
     public ItemStack getRecipeOutput() {
-        return ItemStack.EMPTY;
+        return output.copy();
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        NonNullList<Ingredient> list = NonNullList.create();
+
+        for (int i = 0; i < count; i++) {
+            list.add(Ingredient.fromStacks(chip.copy()));
+        }
+
+        return list;
     }
 
     @Nonnull
@@ -81,69 +94,31 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return ModRecipeTypes.CENTRIFUGE.get();
+        return ModRecipeTypes.WOOD_CHIP.get();
     }
 
-    @Nonnull
-    @Override
-    public IRecipeType<?> getType() {
-        return CENTRIFUGE;
-    }
-
-    public static class Serializer<T extends CentrifugeRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends WoodChipRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
     {
-        final CentrifugeRecipe.Serializer.IRecipeFactory<T> factory;
+        final WoodChipRecipe.Serializer.IRecipeFactory<T> factory;
 
-        public Serializer(CentrifugeRecipe.Serializer.IRecipeFactory<T> factory) {
+        public Serializer(WoodChipRecipe.Serializer.IRecipeFactory<T> factory) {
             this.factory = factory;
         }
 
         @Override
         public T read(ResourceLocation id, JsonObject json) {
-            Ingredient ingredient;
-            if (JSONUtils.isJsonArray(json, "ingredient")) {
-                ingredient = Ingredient.deserialize(JSONUtils.getJsonArray(json, "ingredient"));
-            }
-            else {
-                ingredient = Ingredient.deserialize(JSONUtils.getJsonObject(json, "ingredient"));
-            }
+            String registryName = JSONUtils.getString(json, "wood");
 
-            JsonArray jsonArray = JSONUtils.getJsonArray(json, "output");
-            Map<ItemStack, IntArrayNBT> outputs = new HashMap<>();
-            jsonArray.forEach(el -> {
-                JsonObject jsonObject = el.getAsJsonObject();
-                int min = JSONUtils.getInt(jsonObject, "min", 1);
-                int max = JSONUtils.getInt(jsonObject, "max", 1);
-                int chance = JSONUtils.getInt(jsonObject, "chance", 100);
-                IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
+            ItemStack in = WoodChip.getStack(registryName, 1);
+            ItemStack out = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryName)));
+            Integer count = JSONUtils.getInt(json, "count", 9);
 
-                if (jsonObject.has("item")) {
-                    String registryname = JSONUtils.getString(jsonObject, "item");
-                    Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryname));
-                    outputs.put(new ItemStack(item), nbt);
-                }
-                else if (jsonObject.has("tag")) {
-                    String registryname = JSONUtils.getString(jsonObject, "tag");
-                    Tag<Item> tag = ItemTags.getCollection().getOrCreate(new ResourceLocation(registryname));
-                    if (!tag.getAllElements().isEmpty()) {
-                        outputs.put(new ItemStack(tag.getAllElements().stream().findFirst().orElse(Items.AIR)), nbt);
-                    }
-                }
-            });
-
-            return this.factory.create(id, ingredient, outputs);
+            return this.factory.create(id, in, out, count);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                Ingredient ingredient = Ingredient.read(buffer);
-
-                Map<ItemStack, IntArrayNBT> output = new HashMap<>();
-                IntStream.range(0, buffer.readInt()).forEach(
-                    i -> output.put(buffer.readItemStack(), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
-                );
-
-                return this.factory.create(id, ingredient, output);
+                return this.factory.create(id, buffer.readItemStack(), buffer.readItemStack(), buffer.readInt());
             } catch (Exception e) {
                 throw e;
             }
@@ -151,24 +126,17 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
 
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
             try {
-                recipe.ingredient.write(buffer);
-                buffer.writeInt(recipe.output.size());
-
-                recipe.output.forEach((key, value) -> {
-                    buffer.writeItemStack(key);
-                    buffer.writeInt(value.get(0).getInt());
-                    buffer.writeInt(value.get(1).getInt());
-                    buffer.writeInt(value.get(2).getInt());
-                });
-
+                buffer.writeItemStack(recipe.chip);
+                buffer.writeItemStack(recipe.output);
+                buffer.writeInt(recipe.count);
             } catch (Exception e) {
                 throw e;
             }
         }
 
-        public interface IRecipeFactory<T extends CentrifugeRecipe>
+        public interface IRecipeFactory<T extends WoodChipRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, Map<ItemStack, IntArrayNBT> output);
+            T create(ResourceLocation id, ItemStack chip, ItemStack output, Integer count);
         }
     }
 }

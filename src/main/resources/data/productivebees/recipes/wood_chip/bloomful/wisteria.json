@@ -1,0 +1,10 @@
+{
+    "type": "productivebees:wood_chip",
+    "wood": "bloomful:wisteria_log",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "bloomful"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "type": "productivebees:wood_chip",
+    "wood": "endergetic:poise_log",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "endergetic"
+        }
+    ]
+}

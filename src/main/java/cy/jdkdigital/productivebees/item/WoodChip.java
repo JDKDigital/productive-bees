@@ -21,6 +21,8 @@ public class WoodChip extends Item
 
     public WoodChip(Properties properties) {
         super(properties);
+
+        // "parent": "builtin/entity",
     }
 
     public static ItemStack getStack(Block block) {
@@ -28,18 +30,25 @@ public class WoodChip extends Item
     }
 
     public static ItemStack getStack(Block block, int count) {
+        return getStack(block.getRegistryName().toString(), count);
+    }
+
+    public static ItemStack getStack(String blockName, int count) {
         ItemStack result = new ItemStack(ModItems.WOOD_CHIP.get(), count);
-        setWoodBlock(result, block);
+        setWoodBlock(result, blockName);
         return result;
     }
 
-    public static void setWoodBlock(ItemStack stack, Block block) {
-        stack.getOrCreateTag().putString(WOOD_KEY, block.getRegistryName().toString());
+    public static void setWoodBlock(ItemStack stack, String blockName) {
+        stack.getOrCreateTag().putString(WOOD_KEY, blockName);
     }
 
     @Nullable
     public static Block getWoodBlock(ItemStack stack) {
-        return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(getWoodType(stack)));
+        if (!getWoodType(stack).isEmpty()) {
+            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(getWoodType(stack)));
+        }
+        return null;
     }
 
     private static String getWoodType(ItemStack stack) {
@@ -61,7 +70,9 @@ public class WoodChip extends Item
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
             BlockTags.LOGS.getAllElements().forEach(block -> {
-                items.add(getStack(block));
+                if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") &&  !block.getRegistryName().getPath().contains("stripped")) {
+                    items.add(getStack(block));
+                }
             });
         }
     }

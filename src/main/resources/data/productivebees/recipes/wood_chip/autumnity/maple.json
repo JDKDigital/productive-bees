@@ -1,0 +1,10 @@
+{
+    "type": "productivebees:wood_chip",
+    "wood": "autumnity:maple_log",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "autumnity"
+        }
+    ]
+}

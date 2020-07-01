@@ -1,0 +1,10 @@
+{
+    "type": "productivebees:wood_chip",
+    "wood": "biomesoplenty:umbran_log",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "biomesoplenty"
+        }
+    ]
+}
