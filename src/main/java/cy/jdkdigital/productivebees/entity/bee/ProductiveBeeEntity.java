@@ -176,17 +176,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
     }
 
     @Override
-    public boolean isHiveValid() {
-        if (!this.hasHive()) {
-            return false;
-        }
-        else {
-            TileEntity tileentity = this.world.getTileEntity(this.hivePos);
-            return tileentity instanceof BeehiveTileEntity;
-        }
-    }
-
-    @Override
     public boolean canEnterHive() {
         if (this.stayOutOfHiveCountdown <= 0 && !this.pollinateGoal.isRunning() && !this.hasStung()) {
             boolean shouldReturnToHive =

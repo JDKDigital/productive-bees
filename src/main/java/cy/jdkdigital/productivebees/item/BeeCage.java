@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.item;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -135,7 +136,7 @@ public class BeeCage extends Item
         super.addInformation(stack, world, list, flag);
 
         CompoundNBT tag = stack.getTag();
-        if (tag != null) {
+        if (tag != null && Screen.hasShiftDown()) {
             boolean hasStung = tag.getBoolean("HasStung");
             if (hasStung) {
                 list.add(new TranslationTextComponent("productivebees.information.health.dying").applyTextStyle(TextFormatting.RED).applyTextStyle(TextFormatting.ITALIC));
@@ -161,6 +162,8 @@ public class BeeCage extends Item
             else {
                 list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).applyTextStyle(TextFormatting.DARK_AQUA));
             }
+        } else {
+            list.add(new TranslationTextComponent("productivebees.information.hold_shift").applyTextStyle(TextFormatting.WHITE));
         }
     }
 
