@@ -24,7 +24,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
 
         String beeLocation = "bee/" + bee.getBeeType() + "/" + num + "/bee";
 
-        if (bee.isAngry()) {
+        if (bee.func_233678_J__()) {
             beeLocation = beeLocation + "_angry";
         }
 

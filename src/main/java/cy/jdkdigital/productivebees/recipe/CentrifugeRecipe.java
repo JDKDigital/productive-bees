@@ -15,6 +15,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.JSONUtils;
@@ -124,9 +125,9 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
                 }
                 else if (jsonObject.has("tag")) {
                     String registryname = JSONUtils.getString(jsonObject, "tag");
-                    Tag<Item> tag = ItemTags.getCollection().getOrCreate(new ResourceLocation(registryname));
-                    if (!tag.getAllElements().isEmpty()) {
-                        outputs.put(new ItemStack(tag.getAllElements().stream().findFirst().orElse(Items.AIR)), nbt);
+                    ITag<Item> tag = ItemTags.getCollection().getOrCreate(new ResourceLocation(registryname));
+                    if (!tag.func_230236_b_().isEmpty()) {
+                        outputs.put(new ItemStack(tag.func_230236_b_().stream().findFirst().orElse(Items.AIR)), nbt);
                     }
                 }
             });

@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import net.minecraft.block.Block;
@@ -87,7 +86,7 @@ public class InventoryHandlerHelper
         }
 
         public boolean isInputSlotItem(int slot, Item item) {
-            return (slot == BOTTLE_SLOT && item == Items.GLASS_BOTTLE) || (slot == INPUT_SLOT && ModTags.HONEYCOMBS.contains(item));
+            return (slot == BOTTLE_SLOT && item == Items.GLASS_BOTTLE) || (slot == INPUT_SLOT && ModTags.HONEYCOMBS.func_230235_a_(item));
         }
 
         @Override

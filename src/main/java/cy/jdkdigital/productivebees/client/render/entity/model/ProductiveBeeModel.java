@@ -97,7 +97,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         this.rightAntenae.rotateAngleX = 0.0F;
         this.beeModel.rotateAngleX = 0.0F;
         this.beeModel.rotationPointY = 19.0F;
-        boolean lvt_7_1_ = entity.onGround && entity.getMotion().lengthSquared() < 1.0E-7D;
+        boolean lvt_7_1_ = entity.func_233570_aj_() && entity.getMotion().lengthSquared() < 1.0E-7D;
         float lvt_8_2_;
         if (lvt_7_1_) {
             this.rightWing.rotateAngleY = -0.2618F;
@@ -124,7 +124,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
             this.beeModel.rotateAngleZ = 0.0F;
         }
 
-        if (!entity.isAngry()) {
+        if (!entity.func_233678_J__()) {
             this.beeModel.rotateAngleX = 0.0F;
             this.beeModel.rotateAngleY = 0.0F;
             this.beeModel.rotateAngleZ = 0.0F;

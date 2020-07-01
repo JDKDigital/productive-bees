@@ -237,7 +237,7 @@ public final class ProductiveBees
         newSet.addAll(BEEHIVES);
         TileEntityType.BEEHIVE.validBlocks = newSet;
 
-        PointOfInterestType.BEEHIVE.blockStates = BlockTags.BEEHIVES.getAllElements().stream().flatMap((map) -> map.getStateContainer().getValidStates().stream()).collect(ImmutableSet.toImmutableSet());
+        PointOfInterestType.BEEHIVE.blockStates = BlockTags.BEEHIVES.func_230236_b_().stream().flatMap((map) -> map.getStateContainer().getValidStates().stream()).collect(ImmutableSet.toImmutableSet());
 
         Map<BlockState, PointOfInterestType> map = new HashMap<>();
         addToMap(Blocks.BEEHIVE, map);

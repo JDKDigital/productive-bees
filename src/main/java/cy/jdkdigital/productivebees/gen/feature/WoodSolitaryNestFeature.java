@@ -1,40 +1,40 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.pattern.BlockStateMatcher;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.function.Function;
 
 public class WoodSolitaryNestFeature extends SolitaryNestFeature
 {
     private final float probability;
 
-    public WoodSolitaryNestFeature(float probability, Function<Dynamic<?>, ? extends ReplaceBlockConfig> configFactory) {
+    public WoodSolitaryNestFeature(float probability, Codec<ReplaceBlockConfig> configFactory) {
         super(probability, configFactory, false);
         this.probability = probability;
     }
 
     @Override
-    public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, ReplaceBlockConfig featureConfig) {
+    public boolean func_230362_a_(@Nonnull ISeedReader world, @Nonnull StructureManager structureManager, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
         if (nestShouldNotGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 
         // Get to ground level
-        pos = pos.up(generator.getGroundHeight());
+        blockPos = blockPos.up(chunkGenerator.getGroundHeight());
 
         // Go to ground surface
-        while (pos.getY() < 127 && !world.isAirBlock(pos)) {
-            pos = pos.up();
+        while (blockPos.getY() < 127 && !world.isAirBlock(blockPos)) {
+            blockPos = blockPos.up();
         }
         // Go up some more
-        pos = pos.up(rand.nextInt(4));
+        blockPos = blockPos.up(rand.nextInt(4));
 
         // Locate tree log in chunk
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
@@ -43,7 +43,7 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
         blockFound:
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                newPos = pos.add(x, 0, z);
+                newPos = blockPos.add(x, 0, z);
                 if (matcher.test(world.getBlockState(newPos))) {
                     break blockFound;
                 }

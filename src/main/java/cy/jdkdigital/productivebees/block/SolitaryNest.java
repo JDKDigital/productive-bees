@@ -21,8 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.dimension.Dimension;
 
 import javax.annotation.Nullable;
 
@@ -82,8 +80,8 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         builder.add(BlockStateProperties.FACING, BeehiveBlock.HONEY_LEVEL);
     }
 
-    public boolean canRepopulateIn(Dimension dimension, Biome biome) {
-        return dimension.isSurfaceWorld();
+    public boolean canRepopulateIn(World world) {
+        return true;
     }
 
     @Override
@@ -99,10 +97,4 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         }
         return super.onBlockActivated(state, world, pos, player, hand, hit);
     }
-
-//    public static class Properties extends Block.Properties {
-//        private Properties(Material materialIn, MaterialColor mapColorIn) {
-//            super(materialIn, mapColorIn);
-//        }
-//    }
 }

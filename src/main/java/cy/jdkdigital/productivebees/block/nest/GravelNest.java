@@ -1,8 +1,6 @@
 package cy.jdkdigital.productivebees.block.nest;
 
 import cy.jdkdigital.productivebees.block.SolitaryNest;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.dimension.Dimension;
 
 public class GravelNest extends SolitaryNest
 {
@@ -10,8 +8,8 @@ public class GravelNest extends SolitaryNest
         super(properties);
     }
 
-    @Override
-    public boolean canRepopulateIn(Dimension dimension, Biome biome) {
-        return (biome.getCategory().equals(Biome.Category.RIVER) || biome.getCategory().equals(Biome.Category.BEACH)) && biome.getTempCategory() != Biome.TempCategory.COLD;
-    }
+//    @Override
+//    public boolean canRepopulateIn(Dimension dimension, Biome biome) {
+//        return (biome.getCategory().equals(Biome.Category.RIVER) || biome.getCategory().equals(Biome.Category.BEACH)) && biome.getTempCategory() != Biome.TempCategory.COLD;
+//    }
 }

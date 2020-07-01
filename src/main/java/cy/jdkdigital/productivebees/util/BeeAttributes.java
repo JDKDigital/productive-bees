@@ -4,11 +4,14 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.Block;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.Item;
+import net.minecraft.loot.RandomValueRange;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagRegistry;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.RandomValueRange;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class BeeAttributes
 {
@@ -20,18 +23,18 @@ public class BeeAttributes
     public static final BeeAttribute<Integer> TEMPER = register("temper");
     public static final BeeAttribute<Integer> BEHAVIOR = register("behavior");
     public static final BeeAttribute<Integer> WEATHER_TOLERANCE = register("weather_tolerance");
-    public static final BeeAttribute<Tag<Block>> FOOD_SOURCE = register("food_source");
-    public static final BeeAttribute<Tag<Item>> APHRODISIACS = register("aphrodisiacs");
-    public static final BeeAttribute<Tag<Block>> NESTING_PREFERENCE = register("nesting_preference");
+    public static final BeeAttribute<TagRegistry.NamedTag<Block>> FOOD_SOURCE = register("food_source");
+    public static final BeeAttribute<TagRegistry.NamedTag<Item>> APHRODISIACS = register("aphrodisiacs");
+    public static final BeeAttribute<TagRegistry.NamedTag<Block>> NESTING_PREFERENCE = register("nesting_preference");
     public static final BeeAttribute<BeeEffect> EFFECTS = register("effect");
 
-    private static final UUID HEALTH_MOD_ID_WEAK = UUID.nameUUIDFromBytes("productivebees:healt_mod_modifier_weak".getBytes());
-    private static final UUID HEALTH_MOD_ID_MEDIUM = UUID.nameUUIDFromBytes("productivebees:healt_mod_modifier_medium".getBytes());
-    private static final UUID HEALTH_MOD_ID_STRONG = UUID.nameUUIDFromBytes("productivebees:healt_mod_modifier_strong".getBytes());
+    private static final UUID HEALTH_MOD_ID_WEAK = UUID.nameUUIDFromBytes("productivebees:health_mod_modifier_weak".getBytes());
+    private static final UUID HEALTH_MOD_ID_MEDIUM = UUID.nameUUIDFromBytes("productivebees:health_mod_modifier_medium".getBytes());
+    private static final UUID HEALTH_MOD_ID_STRONG = UUID.nameUUIDFromBytes("productivebees:health_mod_modifier_strong".getBytes());
     public static final Map<Integer, AttributeModifier> HEALTH_MODS = new HashMap<Integer, AttributeModifier>() {{
-        put(0, (new AttributeModifier(HEALTH_MOD_ID_WEAK, "Health mod weak", 0.30F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
-        put(2, (new AttributeModifier(HEALTH_MOD_ID_MEDIUM, "Health mod medium", 0.6F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
-        put(3, (new AttributeModifier(HEALTH_MOD_ID_STRONG, "Health health mod strong", 1.0F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
+        put(0, (new AttributeModifier(HEALTH_MOD_ID_WEAK, "Health mod weak", 0.30F, AttributeModifier.Operation.MULTIPLY_BASE)));
+        put(2, (new AttributeModifier(HEALTH_MOD_ID_MEDIUM, "Health mod medium", 0.6F, AttributeModifier.Operation.MULTIPLY_BASE)));
+        put(3, (new AttributeModifier(HEALTH_MOD_ID_STRONG, "Health health mod strong", 1.0F, AttributeModifier.Operation.MULTIPLY_BASE)));
     }};
 
     public static Map<BeeAttribute<?>, Map<Integer, String>> keyMap = new HashMap<>();

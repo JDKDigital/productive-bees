@@ -4,7 +4,9 @@ import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.world.World;
 
@@ -17,10 +19,9 @@ public class BlueBandedBeeEntity extends SolitaryBeeEntity
         beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.RIVER_FLOWERS);
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.75F);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4F);
+    public static AttributeModifierMap.MutableAttribute func_234182_eX_() {
+        return MobEntity.func_233666_p_()
+                .func_233815_a_(Attributes.field_233822_e_, 0.75D)
+                .func_233815_a_(Attributes.field_233821_d_, 0.4D);
     }
 }

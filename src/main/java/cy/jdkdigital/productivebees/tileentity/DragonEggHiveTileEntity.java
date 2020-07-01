@@ -8,7 +8,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public class DragonEggHiveTileEntity extends AdvancedBeehiveTileEntity
@@ -42,7 +41,7 @@ public class DragonEggHiveTileEntity extends AdvancedBeehiveTileEntity
                     this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
                         ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
-                            final ItemStack filledBottle = world.getDimension().getType() == DimensionType.THE_END ? new ItemStack(Items.DRAGON_BREATH) : new ItemStack(Items.HONEY_BOTTLE);
+                            final ItemStack filledBottle = world.func_234923_W_() == World.field_234920_i_ ? new ItemStack(Items.DRAGON_BREATH) : new ItemStack(Items.HONEY_BOTTLE);
                             boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
                             if (addedBottle) {
                                 bottles.shrink(1);

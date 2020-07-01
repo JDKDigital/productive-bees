@@ -13,6 +13,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.particles.ParticleTypes;
@@ -33,7 +35,6 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
@@ -76,18 +77,18 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         if (stateNBT != null) {
             if (stateNBT.contains("honey_level")) {
                 String honeyLevel = stateNBT.getString("honey_level");
-                tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.honey_level", honeyLevel).applyTextStyle(TextFormatting.GOLD));
+                tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.honey_level", honeyLevel).func_240699_a_(TextFormatting.GOLD)); // func_240699_a_
             }
         }
         if (entityNBT != null) {
             if (entityNBT.contains("Bees")) {
                 ListNBT beeList = entityNBT.getCompound("Bees").getList("Inhabitants", Constants.NBT.TAG_COMPOUND);
                 if (beeList.size() > 0) {
-                    tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").applyTextStyle(TextFormatting.BOLD));
+                    tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").func_240699_a_(TextFormatting.BOLD));
                     for (int i = 0; i < beeList.size(); ++i) {
                         CompoundNBT tag = beeList.getCompound(i);
                         CompoundNBT beeNBT = tag.getCompound("EntityData");
-                        tooltip.add(new TranslationTextComponent("" + beeNBT.getString("id")).applyTextStyle(TextFormatting.GREEN));
+                        tooltip.add(new TranslationTextComponent("" + beeNBT.getString("id")).func_240699_a_(TextFormatting.GREEN));
                     }
                 }
                 else {
@@ -115,7 +116,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         if (state.getFluidState().isEmpty() && world.rand.nextFloat() >= 0.3F) {
             VoxelShape shape = state.getCollisionShape(world, pos);
             double shapeEnd = shape.getEnd(Direction.Axis.Y);
-            if (shapeEnd >= 1.0D && !state.isIn(BlockTags.IMPERMEABLE)) {
+            if (shapeEnd >= 1.0D && !state.getBlock().isIn(BlockTags.IMPERMEABLE)) {
                 double shapeStart = shape.getStart(Direction.Axis.Y);
                 if (shapeStart > 0.0D) {
                     this.addHoneyParticle(world, pos, shape, (double) pos.getY() + shapeStart - 0.05D);
@@ -125,7 +126,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
                     BlockState stateDown = world.getBlockState(posDown);
                     VoxelShape shapeDown = stateDown.getCollisionShape(world, posDown);
                     double shapeDownEnd = shapeDown.getEnd(Direction.Axis.Y);
-                    if ((shapeDownEnd < 1.0D || !stateDown.isCollisionShapeOpaque(world, posDown)) && stateDown.getFluidState().isEmpty()) {
+                    if ((shapeDownEnd < 1.0D || !stateDown.func_235785_r_(world, posDown)) && stateDown.getFluidState().isEmpty()) {
                         this.addHoneyParticle(world, pos, shape, (double) pos.getY() - 0.05D);
                     }
                 }
@@ -186,7 +187,8 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         super.onBlockHarvested(world, pos, state, player);
     }
 
-    public List<ItemStack> getDrops(BlockState state, net.minecraft.world.storage.loot.LootContext.Builder builder) {
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         Entity entity = builder.get(LootParameters.THIS_ENTITY);
         if (entity instanceof TNTEntity || entity instanceof CreeperEntity || entity instanceof WitherSkullEntity || entity instanceof WitherEntity || entity instanceof TNTMinecartEntity) {
             TileEntity tileEntity = builder.get(LootParameters.BLOCK_ENTITY);

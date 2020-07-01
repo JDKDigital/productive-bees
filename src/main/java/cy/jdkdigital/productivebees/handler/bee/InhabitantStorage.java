@@ -47,7 +47,7 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
         ListNBT listNBT = new ListNBT();
 
         for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : this.getInhabitants()) {
-            inhabitant.nbt.removeUniqueId("UUID");
+            inhabitant.nbt.remove("UUID");
             CompoundNBT tag = new CompoundNBT();
             tag.put("EntityData", inhabitant.nbt);
             tag.putInt("TicksInHive", inhabitant.ticksInHive);

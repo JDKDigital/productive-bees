@@ -60,7 +60,7 @@ public class WoodChip extends Item
     public ITextComponent getDisplayName(@Nonnull ItemStack stack) {
         Block block = getWoodBlock(stack);
         if (block != null) {
-            ITextComponent entityName = block.getNameTextComponent();
+            ITextComponent entityName = block.func_235333_g_(); // getNameTextComponent
             return new TranslationTextComponent(this.getTranslationKey() + ".named", entityName);
         }
         return super.getDisplayName(stack);
@@ -69,7 +69,7 @@ public class WoodChip extends Item
     @Override
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
-            BlockTags.LOGS.getAllElements().forEach(block -> {
+            BlockTags.LOGS.func_230236_b_().forEach(block -> {
                 if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") &&  !block.getRegistryName().getPath().contains("stripped")) {
                     items.add(getStack(block));
                 }

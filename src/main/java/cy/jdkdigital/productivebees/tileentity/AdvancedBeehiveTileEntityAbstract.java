@@ -16,7 +16,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -117,7 +116,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                     BeeEntity beeEntity = (BeeEntity) entity;
                     if (player.getPositionVec().squareDistanceTo(entity.getPositionVec()) <= 16.0D) {
                         if (!this.isSmoked()) {
-                            beeEntity.setBeeAttacker(player);
+                            beeEntity.setAttackTarget(player);
                         }
                         else {
                             beeEntity.setStayOutOfHiveCountdown(400);
@@ -154,7 +153,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
                 if (entity instanceof BeeEntity) {
                     BeeEntity beeEntity = (BeeEntity) entity;
-                    h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), entity.getName().getFormattedText()));
+                    h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), entity.getName().getUnformattedComponentText()));
                     if (beeEntity.hasFlower() && (!this.hasFlowerPos() || (this.world != null && this.world.rand.nextBoolean()))) {
                         this.flowerPos = beeEntity.getFlowerPos();
                     }
@@ -170,39 +169,39 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         });
     }
 
-    public void tryEnterHive(Entity beeEntity, boolean hasNectar) {
+    public void tryEnterHive(@Nonnull Entity beeEntity, boolean hasNectar) {
         this.tryEnterHive(beeEntity, hasNectar, 0);
     }
 
-    public boolean releaseBee(BlockState state, CompoundNBT tag, @Nullable List<Entity> releasedBees, BeehiveTileEntity.State beeState) {
+    public boolean releaseBee(BlockState blockState, CompoundNBT tag, @Nullable List<Entity> releasedBees, BeehiveTileEntity.State beeState) {
         boolean stayInside =
-                this.world.dimension.isSurfaceWorld() &&
+                this.world.func_234923_W_() == World.field_234918_g_ &&
                         (this.world.isNightTime() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
                         (this.world.isRaining() && (beeState != BeehiveTileEntity.State.EMERGENCY || tag.getInt("bee_weather_tolerance") == 0)); // it's raining and the bees is not tolerant
 
         if (!this.world.isNightTime() && !this.world.isRaining() && stayInside) {
-            ProductiveBees.LOGGER.info("Bee is staying inside during the day: " + tag);
+            ProductiveBees.LOGGER.debug("Bee is staying inside during the day: " + tag);
         }
 
         if (!stayInside) {
             BlockPos pos = this.getPos();
             tag.remove("Passengers");
             tag.remove("Leash");
-            tag.removeUniqueId("UUID");
-            Direction direction = state.has(BlockStateProperties.FACING) ? state.get(BlockStateProperties.FACING) : state.get(BeehiveBlock.FACING);
+            tag.remove("UUID");
+            Direction direction = blockState.func_235901_b_(BlockStateProperties.FACING) ? blockState.get(BlockStateProperties.FACING) : blockState.get(BeehiveBlock.FACING);
             BlockPos offset = pos.offset(direction);
             boolean isPositionBlocked = !this.world.getBlockState(offset).getCollisionShape(this.world, offset).isEmpty();
             if (!isPositionBlocked || beeState == BeehiveTileEntity.State.EMERGENCY) {
                 // Spawn entity
                 boolean spawned = false;
-                BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity);
+                BeeEntity beeEntity = (BeeEntity) EntityType.func_220335_a(tag, this.world, (spawnedEntity) -> spawnedEntity); // loadEntityAndExecute
                 if (beeEntity != null) {
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
                     if (spawned) {
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() <= 0.9F) {
                             beeEntity.setFlowerPos(this.flowerPos);
                         }
-                        beeReleasePostAction(beeEntity, state, beeState);
+                        beeReleasePostAction(beeEntity, blockState, beeState);
 
                         if (releasedBees != null) {
                             releasedBees.add(beeEntity);
@@ -224,7 +223,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
             beeEntity.onHoneyDelivered();
             Block block = state.getBlock();
-            if (state.has(BeehiveBlock.HONEY_LEVEL)) {
+            if (state.func_235901_b_(BeehiveBlock.HONEY_LEVEL)) {
                 int honeyLevel = getHoneyLevel(state);
                 int maxHoneyLevel = getMaxHoneyLevel(state);
                 if (honeyLevel < maxHoneyLevel) {
@@ -248,8 +247,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return block instanceof AdvancedBeehiveAbstract ? ((AdvancedBeehiveAbstract) block).getMaxHoneyLevel() : 5;
     }
 
-    public void read(CompoundNBT tag) {
-        super.read(tag);
+    public void func_230337_a_(BlockState blockState, CompoundNBT tag) { // read
+        super.func_230337_a_(blockState, tag);
 
         CompoundNBT beeTag = tag.getCompound("Bees");
         beeHandler.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(beeTag));
@@ -305,7 +304,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         public final String localizedName;
 
         public Inhabitant(CompoundNBT nbt, int ticksInHive, int minOccupationTicks, String localizedName) {
-            nbt.removeUniqueId("UUID");
+            nbt.remove("UUID");
             this.nbt = nbt;
             this.ticksInHive = ticksInHive;
             this.minOccupationTicks = minOccupationTicks;

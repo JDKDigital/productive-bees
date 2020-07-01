@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.item.BeeCage;
 import cy.jdkdigital.productivebees.item.HoneyTreat;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import net.minecraft.item.BucketItem;
-import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -18,7 +17,7 @@ import java.util.List;
 
 public class ModItems
 {
-    public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, ProductiveBees.MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ProductiveBees.MODID);
     public static final List<RegistryObject<Item>> SPAWN_EGGS = Lists.newArrayList();
 
     public static final RegistryObject<Item> HONEY_BUCKET = createItem("honey_bucket", () -> new BucketItem(ModFluids.HONEY, new Item.Properties().maxStackSize(1).group(ModItemGroups.PRODUCTIVE_BEES)));

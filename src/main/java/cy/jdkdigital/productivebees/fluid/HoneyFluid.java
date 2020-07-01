@@ -8,7 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
@@ -19,10 +19,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidAttributes;
@@ -52,7 +49,7 @@ public abstract class HoneyFluid extends FlowingFluid
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(World worldIn, BlockPos pos, IFluidState state, Random random) {
+    public void animateTick(World worldIn, BlockPos pos, FluidState state, Random random) {
         BlockPos blockpos = pos.up();
         if (worldIn.getBlockState(blockpos).isAir() && !worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
             if (random.nextInt(100) == 0) {
@@ -82,12 +79,12 @@ public abstract class HoneyFluid extends FlowingFluid
         this.triggerEffects(world, pos);
     }
 
-    public int getSlopeFindDistance(IWorldReader world) {
-        return world.getDimension().doesWaterVaporize() ? 6 : 3;
+    public int getSlopeFindDistance(IWorldReader worldIn) {
+        return worldIn.func_230315_m_().func_236040_e_() ? 6 : 3;
     }
 
     @Override
-    public BlockState getBlockState(IFluidState state) {
+    public BlockState getBlockState(FluidState state) {
         return ModBlocks.HONEY.get().getDefaultState().with(FlowingFluidBlock.LEVEL, getLevelFromState(state));
     }
 
@@ -95,21 +92,21 @@ public abstract class HoneyFluid extends FlowingFluid
         return fluidIn == ModFluids.HONEY.get() || fluidIn == ModFluids.HONEY_FLOWING.get();
     }
 
-    public int getLevelDecreasePerBlock(IWorldReader world) {
-        return world.getDimension().doesWaterVaporize() ? 1 : 2;
+    public int getLevelDecreasePerBlock(IWorldReader worldIn) {
+        return worldIn.func_230315_m_().func_236040_e_() ? 1 : 2;
     }
 
-    public boolean canDisplace(IFluidState state, IBlockReader world, BlockPos pos, Fluid fluid, Direction direction) {
-        return state.getActualHeight(world, pos) >= 0.44444445F && fluid.isIn(FluidTags.WATER);
+    public boolean canDisplace(FluidState state, IBlockReader worldIn, BlockPos pos, Fluid fluid, Direction direction) {
+        return state.getActualHeight(worldIn, pos) >= 0.44444445F && fluid.isIn(FluidTags.WATER);
     }
 
-    public int getTickRate(IWorldReader world) {
-        return world.getDimension().isNether() ? 10 : 30;
+    public int getTickRate(IWorldReader worldIn) {
+        return worldIn.func_230315_m_().func_236040_e_() ? 10 : 30;
     }
 
-    public int func_215667_a(World world, BlockPos pos, IFluidState state, IFluidState ifluidstate) {
+    public int func_215667_a(World world, BlockPos pos, FluidState state, FluidState FluidState) {
         int i = this.getTickRate(world);
-        if (!state.isEmpty() && !ifluidstate.isEmpty() && !state.get(FALLING) && !ifluidstate.get(FALLING) && ifluidstate.getActualHeight(world, pos) > state.getActualHeight(world, pos) && world.getRandom().nextInt(4) != 0) {
+        if (!state.isEmpty() && !FluidState.isEmpty() && !state.get(FALLING) && !FluidState.get(FALLING) && FluidState.getActualHeight(world, pos) > state.getActualHeight(world, pos) && world.getRandom().nextInt(4) != 0) {
             i *= 4;
         }
 
@@ -130,27 +127,27 @@ public abstract class HoneyFluid extends FlowingFluid
 
     public static class Flowing extends HoneyFluid
     {
-        protected void fillStateContainer(StateContainer.Builder<Fluid, IFluidState> builder) {
+        protected void fillStateContainer(StateContainer.Builder<Fluid, FluidState> builder) {
             super.fillStateContainer(builder);
             builder.add(LEVEL_1_8);
         }
 
-        public int getLevel(IFluidState state) {
+        public int getLevel(FluidState state) {
             return state.get(LEVEL_1_8);
         }
 
-        public boolean isSource(IFluidState state) {
+        public boolean isSource(FluidState state) {
             return false;
         }
     }
 
     public static class Source extends HoneyFluid
     {
-        public int getLevel(IFluidState state) {
+        public int getLevel(FluidState state) {
             return 8;
         }
 
-        public boolean isSource(IFluidState state) {
+        public boolean isSource(FluidState state) {
             return true;
         }
     }

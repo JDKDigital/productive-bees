@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
@@ -10,6 +11,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 import javax.annotation.Nonnull;
@@ -42,7 +45,7 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
     }};
 
     @Override
-    public void render(int xPosition, int yPosition, @Nullable BeeIngredient beeIngredient) {
+    public void render(MatrixStack matrixStack, int xPosition, int yPosition, @Nullable BeeIngredient beeIngredient) {
         if (beeIngredient == null) {
             return;
         }
@@ -74,10 +77,10 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 
     @Nonnull
     @Override
-    public List<String> getTooltip(BeeIngredient beeIngredient, ITooltipFlag iTooltipFlag) {
-        List<String> list = new ArrayList<>();
-        list.add(beeIngredient.getBeeType().getName().getFormattedText());
-        list.add(TextFormatting.DARK_GRAY + "" + beeIngredient.getBeeType().getRegistryName());
+    public List<ITextComponent> getTooltip(BeeIngredient beeIngredient, ITooltipFlag iTooltipFlag) {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(beeIngredient.getBeeType().getName());
+        list.add(new StringTextComponent(beeIngredient.getBeeType().getRegistryName().toString()).func_240699_a_(TextFormatting.DARK_GRAY));
         return list;
     }
 }

@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.util;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootParameter;
+import net.minecraft.loot.LootParameter;
+
+import javax.annotation.Nonnull;
 
 public class BeeAttribute<T> extends LootParameter<T>
 {
@@ -9,6 +11,8 @@ public class BeeAttribute<T> extends LootParameter<T>
         super(id);
     }
 
+    @Override
+    @Nonnull
     public String toString() {
         return "<bee_attribute " + this.getId() + ">";
     }

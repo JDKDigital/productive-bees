@@ -4,14 +4,13 @@ import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -99,7 +98,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     @Override
-    public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid) {
+    public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid) {
         boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
 
         if (!world.isRemote()) {
@@ -156,9 +155,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
         if (itemUsed) {
             this.takeHoney(world, state, pos);
-            if (player instanceof ServerPlayerEntity) {
-                CriteriaTriggers.SAFELY_HARVEST_HONEY.test((ServerPlayerEntity) player, pos, heldItem.copy());
-            }
         }
         else if (!world.isRemote()) {
             final TileEntity tileEntity = world.getTileEntity(pos);

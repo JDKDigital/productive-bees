@@ -25,7 +25,7 @@ abstract public class EffectHiveBeeEntity extends ProductiveBeeEntity implements
             if (--attackCooldown < 0) {
                 attackCooldown = 0;
             }
-            if (attackCooldown == 0 && isAngry() && this.getAttackTarget() != null && this.getAttackTarget().getDistanceSq(this) < 4.0D) {
+            if (attackCooldown == 0 && func_233678_J__() && this.getAttackTarget() != null && this.getAttackTarget().getDistanceSq(this) < 4.0D) {
                 attackCooldown = getEffectCooldown();
                 attackTarget(this.getAttackTarget());
             }

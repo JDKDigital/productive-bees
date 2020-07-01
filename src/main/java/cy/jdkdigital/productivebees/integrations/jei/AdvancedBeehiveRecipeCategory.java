@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
@@ -17,6 +18,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
@@ -106,11 +108,11 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     }
 
     @Override
-    public void draw(AdvancedBeehiveRecipe recipe, double mouseX, double mouseY) {
+    public void draw(AdvancedBeehiveRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
         FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
         DecimalFormat decimalFormat = new DecimalFormat("##%");
         String productionChanceString = decimalFormat.format(recipe.chance);
 
-        fontRenderer.drawString(productionChanceString, 38, 46, 0xff808080);
+        fontRenderer.func_238422_b_(matrixStack, new TranslationTextComponent(productionChanceString), 38, 46, 0xff808080);
     }
 }

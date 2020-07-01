@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
@@ -44,7 +43,7 @@ public class BeeHelper
     private static final Random rand = new Random();
 
     public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, World world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
-        BlockPos pos = entity.getPosition();
+        BlockPos pos = entity.func_233580_cy_();
 
         EntityType<BeeEntity> bee = null;
         if (ProductiveBeesConfig.GENERAL.enableItemConverting.get()) {

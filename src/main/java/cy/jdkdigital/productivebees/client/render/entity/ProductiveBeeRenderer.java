@@ -29,7 +29,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
     public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
         String beeLocation = "bee/" + bee.getBeeType() + "/bee";
 
-        if (bee.isAngry()) {
+        if (bee.func_233678_J__()) {
             beeLocation = beeLocation + "_angry";
         }
 

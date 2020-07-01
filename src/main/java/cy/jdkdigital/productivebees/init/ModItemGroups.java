@@ -14,7 +14,6 @@ public class ModItemGroups
 
     public static class ModItemGroup extends ItemGroup
     {
-
         private final Supplier<ItemStack> iconSupplier;
 
         public ModItemGroup(@Nonnull final String name, @Nonnull final Supplier<ItemStack> iconSupplier) {
@@ -22,11 +21,10 @@ public class ModItemGroups
             this.iconSupplier = iconSupplier;
         }
 
+        @Nonnull
         @Override
         public ItemStack createIcon() {
             return iconSupplier.get();
         }
-
     }
-
 }

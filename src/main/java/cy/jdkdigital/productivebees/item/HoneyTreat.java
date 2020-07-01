@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.item;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.LivingEntity;
@@ -9,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
@@ -19,14 +19,14 @@ public class HoneyTreat extends Item
     }
 
     @Override
-    public boolean itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity target, Hand hand) {
+    public ActionResultType itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity target, Hand hand) {
         if (target.getEntityWorld().isRemote() || (!(target instanceof BeeEntity) || !target.isAlive())) {
-            return false;
+            return ActionResultType.PASS;
         }
 
         BeeEntity bee = (BeeEntity) target;
         // Stop agro
-        bee.setAnger(0);
+        bee.func_230260_a__(0); // setAnger
         // Allow entering hive
         bee.setStayOutOfHiveCountdown(0);
         // Heal
@@ -38,7 +38,7 @@ public class HoneyTreat extends Item
 
         itemStack.shrink(1);
 
-        BlockPos pos = target.getPosition();
+        BlockPos pos = target.func_233580_cy_(); // getPosition
         target.getEntityWorld().addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
 
         // Improve temper
@@ -52,6 +52,6 @@ public class HoneyTreat extends Item
             }
         }
 
-        return true;
+        return ActionResultType.CONSUME;
     }
 }

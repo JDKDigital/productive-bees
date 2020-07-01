@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.container.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
@@ -14,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -39,19 +41,20 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+    public void func_230430_a_(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.func_230446_a_(matrixStack);
+        super.func_230430_a_(matrixStack, mouseX, mouseY, partialTicks);
+        this.func_230459_a_(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        this.font.drawString(this.title.getFormattedText(), 8.0F, 6.0F, 4210752);
-        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
+    protected void func_230451_b_(MatrixStack matrixStack, int mouseX, int mouseY) { // drawGuiContainerForegroundLayer
+        assert field_230706_i_ != null;
+
+        this.field_230712_o_.func_238422_b_(matrixStack, this.field_230704_d_, 8.0F, 6.0F, 4210752);
+        this.field_230712_o_.func_238422_b_(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
 
         // Draw bees here
-        assert minecraft != null;
         boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED);
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
@@ -63,11 +66,11 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                     continue;
                 }
                 ResourceLocation beeTexture = getBeeTexture(beeId, this.container.tileEntity.getWorld());
-                minecraft.getTextureManager().bindTexture(beeTexture);
-                blit(positions.get(i).get(0), positions.get(i).get(1), 20, 20, 14, 14, 128, 128);
+                field_230706_i_.textureManager.bindTexture(beeTexture);
+                func_238463_a_(matrixStack, positions.get(i).get(0), positions.get(i).get(1), 20, 20, 14, 14, 128, 128);
 
-                minecraft.getTextureManager().bindTexture(GUI_TEXTURE_BEE_OVERLAY);
-                blit(positions.get(i).get(0), positions.get(i).get(1), 0, 0, 14, 14, 14, 14);
+                field_230706_i_.textureManager.bindTexture(GUI_TEXTURE_BEE_OVERLAY);
+                func_238463_a_(matrixStack, positions.get(i).get(0), positions.get(i).get(1), 0, 0, 14, 14, 14, 14);
 
                 i++;
             }
@@ -75,12 +78,12 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             int j = 0;
             for (String beeId : this.container.tileEntity.inhabitantList) {
                 if (isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY) && stringCache.containsKey(beeId)) {
-                    List<String> tooltipList = new ArrayList<String>()
+                    List<ITextComponent> tooltipList = new ArrayList<ITextComponent>()
                     {{
-                        add(stringCache.get(beeId).getFormattedText());
+                        add(stringCache.get(beeId));
                     }};
-                    tooltipList.add(stringCache.get(beeId + "_mod").applyTextStyle(TextFormatting.ITALIC).applyTextStyle(TextFormatting.BLUE).getFormattedText());
-                    renderTooltip(tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                    tooltipList.add(stringCache.get(beeId + "_mod"));
+                    func_238654_b_(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
                 }
                 j++;
             }
@@ -89,22 +92,22 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+    protected void func_230450_a_(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) { // drawGuiContainerBackgroundLayer
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED);
         int honeyLevel = this.container.tileEntity.getBlockState().get(BeehiveBlock.HONEY_LEVEL);
 
-        assert minecraft != null;
-        minecraft.getTextureManager().bindTexture(expanded ? GUI_TEXTURE_EXPANDED : GUI_TEXTURE);
+        assert field_230706_i_ != null;
+        field_230706_i_.textureManager.bindTexture(expanded ? GUI_TEXTURE_EXPANDED : GUI_TEXTURE);
 
         // Draw main screen
-        this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        func_238474_b_(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
         // Draw honey level
         int yOffset = this.container.tileEntity instanceof DragonEggHiveTileEntity ? 17 : 0;
         int progress = honeyLevel == 0 ? 0 : 27 / 5 * honeyLevel;
-        this.blit(this.guiLeft + 82, this.guiTop + 35, 176, 14 + yOffset, progress, 16);
+        func_238474_b_(matrixStack, this.guiLeft + 82, this.guiTop + 35, 176, 14 + yOffset, progress, 16);
     }
 
     public static ResourceLocation getBeeTexture(@Nonnull ResourceLocation res, World world) {

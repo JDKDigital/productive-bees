@@ -1,16 +1,12 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.block.Centrifuge;
-import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
-import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivebees.init.ModFluids;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;

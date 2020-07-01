@@ -46,7 +46,7 @@ abstract class AbstractContainer extends Container
                     return ItemStack.EMPTY;
                 }
             }
-            if (inputCount >= 2 && ModTags.HONEYCOMBS.contains(slotStack.getItem())) {
+            if (inputCount >= 2 && ModTags.HONEYCOMBS.func_230235_a_(slotStack.getItem())) {
                 if (!mergeItemStack(slotStack, InventoryHandlerHelper.INPUT_SLOT, InventoryHandlerHelper.INPUT_SLOT + 1, false)) {
                     return ItemStack.EMPTY;
                 }

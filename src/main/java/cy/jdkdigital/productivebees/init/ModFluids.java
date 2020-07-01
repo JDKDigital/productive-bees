@@ -19,7 +19,7 @@ public final class ModFluids
 {
     public static final Material MATERIAL_HONEY = (new Material.Builder(MaterialColor.ORANGE_TERRACOTTA)).doesNotBlockMovement().liquid().notSolid().replaceable().liquid().build();
 
-    public static final DeferredRegister<Fluid> FLUIDS = new DeferredRegister<>(ForgeRegistries.FLUIDS, ProductiveBees.MODID);
+    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ProductiveBees.MODID);
 
     public static final RegistryObject<FlowingFluid> HONEY = createFluid("honey", HoneyFluid.Source::new, ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<FlowingFluid> HONEY_FLOWING = createFluid("flowing_honey", HoneyFluid.Flowing::new, ModItemGroups.PRODUCTIVE_BEES);

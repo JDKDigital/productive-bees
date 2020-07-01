@@ -21,7 +21,7 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     @Nonnull
     @Override
     public String getDisplayName(BeeIngredient beeIngredient) {
-        return beeIngredient.getBeeType().getName().getFormattedText();
+        return beeIngredient.getBeeType().getName().getString();
     }
 
     @Nonnull

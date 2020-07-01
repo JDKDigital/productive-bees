@@ -398,5 +398,7 @@
 	"productivebees.ingredient.description.obsidian_nest": "Tough living environment only suitable for some bees native to the end.",
 	"productivebees.ingredient.description.glowstone_nest": "Attracts glowing bees in the nether",
 	"productivebees.ingredient.description.nether_brick_nest": "Attracts magmatic bees in the nether",
-	"productivebees.ingredient.description.nether_quartz_nest": "Attracts crystalline bees in the nether"
+	"productivebees.ingredient.description.nether_quartz_nest": "Attracts crystalline bees in the nether",
+
+	"productivebees.screen.honey_level": "Honey: %imb"
 }

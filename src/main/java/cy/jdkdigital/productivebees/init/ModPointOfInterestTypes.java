@@ -25,7 +25,7 @@ public final class ModPointOfInterestTypes
 {
     private static Method blockStatesInjector;
 
-    public static final DeferredRegister<PointOfInterestType> POINT_OF_INTEREST_TYPES = new DeferredRegister<>(ForgeRegistries.POI_TYPES, ProductiveBees.MODID);
+    public static final DeferredRegister<PointOfInterestType> POINT_OF_INTEREST_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, ProductiveBees.MODID);
 
     public static final RegistryObject<PointOfInterestType> SOLITARY_HIVE = register("solitary_hive", ModBlocks.BAMBOO_HIVE, 0);
     public static final RegistryObject<PointOfInterestType> SOLITARY_NEST = register("solitary_nest", () -> {

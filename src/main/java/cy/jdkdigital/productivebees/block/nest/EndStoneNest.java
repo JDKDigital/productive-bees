@@ -1,9 +1,6 @@
 package cy.jdkdigital.productivebees.block.nest;
 
 import cy.jdkdigital.productivebees.block.SolitaryNest;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.dimension.Dimension;
-import net.minecraft.world.dimension.EndDimension;
 
 public class EndStoneNest extends SolitaryNest
 {
@@ -11,8 +8,8 @@ public class EndStoneNest extends SolitaryNest
         super(properties);
     }
 
-    @Override
-    public boolean canRepopulateIn(Dimension dimension, Biome biome) {
-        return dimension instanceof EndDimension;
-    }
+//    @Override
+//    public boolean canRepopulateIn(World world) {
+//        return dimension.func_236063_b_() instanceof DimensionType.field_236001_e_.get();
+//    }
 }

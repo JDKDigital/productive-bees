@@ -8,7 +8,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 
 public class DraconicBeeEntity extends ProductiveBeeEntity
 {
@@ -28,7 +27,7 @@ public class DraconicBeeEntity extends ProductiveBeeEntity
         if (!this.world.isRemote) {
             if (--breathCollectionCooldown <= 0) {
                 breathCollectionCooldown = 600;
-                if (this.world.dimension.getType() == DimensionType.THE_END) {
+                if (this.world.func_234923_W_() == World.field_234920_i_) {
                     this.setHasNectar(true);
                 }
             }
