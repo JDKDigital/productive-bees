@@ -301,6 +301,7 @@
 	"advancements.husbandry.breed_all_productive_bees.title": "They call me Melittologist",
 	"advancements.husbandry.breed_all_productive_bees.description": "Breed all the productive bees",
 
+	"productivebees.information.hold_shift": "Hold shift for more info",
 	"productivebees.information.health.dying": "Dying",
 	"productivebees.information.attribute.type": "Type: %s",
 	"productivebees.information.attribute.type.hive": "Hive",

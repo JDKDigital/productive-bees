@@ -174,7 +174,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     public static class Egg extends Inhabitant
     {
         public Egg(CompoundNBT nbt, int ticksInHive, int incubationTime) {
-            super(nbt, ticksInHive, incubationTime, "");
+            super(nbt, ticksInHive, incubationTime, null, "");
         }
 
         @Override

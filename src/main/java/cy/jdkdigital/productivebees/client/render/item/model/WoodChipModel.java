@@ -22,7 +22,14 @@ public class WoodChipModel extends Model
         this.textureHeight = 14;
 
         this.plate = new ModelRenderer(this, 0, 0);
-        this.plate.addBox(-4.0F, -7.0F, -2.0F, 8.0F, 14.0F, 1.0F, 0.0F);
+        this.plate.addBox(5.0F, 1.0F, 0.0F, 9.0F, 12.0F, 1.0F, 0.0F);
+        this.plate.addBox(6.0F, 0.0F, 0.0F, 8.0F, 1.0F, 1.0F, 0.0F);
+        this.plate.addBox(4.0F, 2.0F, 0.0F, 5.0F, 8.0F, 1.0F, 0.0F);
+        this.plate.addBox(3.0F, 3.0F, 0.0F, 4.0F, 5.0F, 1.0F, 0.0F);
+        this.plate.addBox(9.0F, 3.0F, 0.0F, 10.0F, 10.0F, 1.0F, 0.0F);
+        this.plate.addBox(10.0F, 4.0F, 0.0F, 11.0F, 7.0F, 1.0F, 0.0F);
+        this.plate.addBox(5.0F, 12.0F, 0.0F, 8.0F, 13.0F, 1.0F, 0.0F);
+        this.plate.addBox(6.0F, 13.0F, 0.0F, 7.0F, 14.0F, 1.0F, 0.0F);
     }
 
     public void render(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {

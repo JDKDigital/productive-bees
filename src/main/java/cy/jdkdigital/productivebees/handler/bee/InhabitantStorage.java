@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -51,6 +53,9 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
             CompoundNBT tag = new CompoundNBT();
             tag.put("EntityData", inhabitant.nbt);
             tag.putInt("TicksInHive", inhabitant.ticksInHive);
+            if (inhabitant.flowerPos != null) {
+                tag.put("FlowerPos", NBTUtil.writeBlockPos(inhabitant.flowerPos));
+            }
             tag.putInt("MinOccupationTicks", inhabitant.minOccupationTicks);
             tag.putString("Name", inhabitant.localizedName);
             listNBT.add(tag);
@@ -63,7 +68,8 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
     public void setInhabitantsFromListNBT(ListNBT list) {
         for (int i = 0; i < list.size(); ++i) {
             CompoundNBT tag = list.getCompound(i);
-            AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant = new AdvancedBeehiveTileEntityAbstract.Inhabitant(tag.getCompound("EntityData"), tag.getInt("TicksInHive"), tag.getInt("MinOccupationTicks"), tag.getString("Name"));
+            BlockPos flowerPos = tag.contains("FlowerPos") ? NBTUtil.readBlockPos(tag.getCompound("FlowerPos")) : null;
+            AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant = new AdvancedBeehiveTileEntityAbstract.Inhabitant(tag.getCompound("EntityData"), tag.getInt("TicksInHive"), tag.getInt("MinOccupationTicks"), flowerPos, tag.getString("Name"));
             this.addInhabitant(inhabitant);
         }
     }

@@ -36,7 +36,6 @@ import java.util.List;
 
 public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntity
 {
-    public BlockPos flowerPos = null;
     public int MAX_BEES = 3;
     private LazyOptional<IInhabitantStorage> beeHandler = LazyOptional.of(this::createBeeHandler);
     private TileEntityType<?> tileEntityType;
@@ -153,7 +152,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
                 if (entity instanceof BeeEntity) {
                     BeeEntity beeEntity = (BeeEntity) entity;
-                    h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), entity.getName().getUnformattedComponentText()));
+                    h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), ((BeeEntity) entity).getFlowerPos(), entity.getName().getString()));
                     if (beeEntity.hasFlower() && (!this.hasFlowerPos() || (this.world != null && this.world.rand.nextBoolean()))) {
                         this.flowerPos = beeEntity.getFlowerPos();
                     }
@@ -301,13 +300,15 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         public final CompoundNBT nbt;
         public int ticksInHive;
         public final int minOccupationTicks;
+        public final BlockPos flowerPos;
         public final String localizedName;
 
-        public Inhabitant(CompoundNBT nbt, int ticksInHive, int minOccupationTicks, String localizedName) {
+        public Inhabitant(CompoundNBT nbt, int ticksInHive, int minOccupationTicks, BlockPos flowerPos, String localizedName) {
             nbt.remove("UUID");
             this.nbt = nbt;
             this.ticksInHive = ticksInHive;
             this.minOccupationTicks = minOccupationTicks;
+            this.flowerPos = flowerPos;
             this.localizedName = localizedName;
         }
 
@@ -315,6 +316,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         public String toString() {
             return "Bee{" +
                     "ticksInHive=" + ticksInHive +
+                    "flowerPos=" + flowerPos +
                     ", minOccupationTicks=" + minOccupationTicks +
                     ", nbt=" + nbt +
                     '}';

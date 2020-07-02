@@ -21,9 +21,11 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -148,20 +150,22 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         ListNBT beeList = this.getBeeListAsNBTList();
         if (beeList.size() > 0) {
             for (INBT inbt : beeList) {
-                CompoundNBT inb = (CompoundNBT) ((CompoundNBT) inbt).get("EntityData");
-                String beeId = inb.getString("id");
+                CompoundNBT NBT = ((CompoundNBT) inbt);
+                CompoundNBT entityNBT = (CompoundNBT) NBT.get("EntityData");
+                String beeId = entityNBT.getString("id");
 
                 Double productionChance = ProductiveBeeEntity.getProductionChance(beeId, 0.65D);
 
                 // Generate bee produce
-                boolean hasNectar = inb.getBoolean("HasNectar");
+                boolean hasNectar = entityNBT.getBoolean("HasNectar");
                 if (hasNectar && productionChance != null && productionChance > 0) {
                     if (world.rand.nextDouble() <= productionChance) {
-                        final int behavior = inb.contains("bee_behavior") ? inb.getInt("bee_behavior") : 0;
+                        final int behavior = entityNBT.contains("bee_behavior") ? entityNBT.getInt("bee_behavior") : 0;
                         if (behavior == 2 || (world.isNightTime() && behavior == 1) || (!world.isNightTime() && behavior == 0)) {
-                            final int productivity = inb.contains("bee_productivity") ? inb.getInt("bee_productivity") : 0;
+                            final int productivity = entityNBT.contains("bee_productivity") ? entityNBT.getInt("bee_productivity") : 0;
                             this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                                BeeHelper.getBeeProduce(world, beeId, this.flowerPos).forEach((stack) -> {
+                                BlockPos flowerBlockPos = NBT.contains("FlowerPos") ? NBTUtil.readBlockPos(NBT.getCompound("FlowerPos")) : this.flowerPos;
+                                BeeHelper.getBeeProduce(world, beeId, flowerBlockPos).forEach((stack) -> {
                                     if (!stack.isEmpty()) {
                                         if (productivity > 0) {
                                             float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
