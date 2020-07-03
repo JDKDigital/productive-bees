@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.item.BeeCage;
 import cy.jdkdigital.productivebees.item.HoneyTreat;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import net.minecraft.item.BucketItem;
-import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

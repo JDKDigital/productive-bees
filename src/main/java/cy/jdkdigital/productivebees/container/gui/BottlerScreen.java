@@ -2,8 +2,7 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.container.CentrifugeContainer;
+import cy.jdkdigital.productivebees.container.BottlerContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -13,11 +12,11 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
+public class BottlerScreen extends ContainerScreen<BottlerContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/centrifuge.png");
+    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/bottler.png");
 
-    public CentrifugeScreen(CentrifugeContainer container, PlayerInventory inv, ITextComponent titleIn) {
+    public BottlerScreen(BottlerContainer container, PlayerInventory inv, ITextComponent titleIn) {
         super(container, inv, titleIn);
     }
 
@@ -57,10 +56,6 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
         // Draw main screen
         this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-
-        // Draw progress
-        int progress = (int) (this.container.tileEntity.recipeProgress * (24 / (float)ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get()));
-        this.blit(this.guiLeft + 49, this.guiTop + 35, 176, 0, progress + 1, 16);
 
         // Draw fluid tank
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {

@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;

@@ -1,7 +1,5 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
-import cy.jdkdigital.productivebees.entity.bee.IBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.ISolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;

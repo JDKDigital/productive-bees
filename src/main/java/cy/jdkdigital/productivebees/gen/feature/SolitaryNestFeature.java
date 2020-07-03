@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.datafixers.Dynamic;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;

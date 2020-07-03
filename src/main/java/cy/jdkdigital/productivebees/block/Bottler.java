@@ -1,7 +1,8 @@
 package cy.jdkdigital.productivebees.block;
 
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import cy.jdkdigital.productivebees.tileentity.CentrifugeTileEntity;
+import cy.jdkdigital.productivebees.tileentity.BottlerTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -9,7 +10,7 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.pathfinding.PathType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -23,29 +24,29 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Centrifuge extends ContainerBlock
+public class Bottler extends ContainerBlock
 {
-    public static final BooleanProperty RUNNING = BooleanProperty.create("running");
+    public static final BooleanProperty HAS_BOTTLE = BooleanProperty.create("has_bottle");
 
-    private static final VoxelShape INSIDE = makeCuboidShape(1.0D, 7.0D, 1.0D, 15.0D, 16.0D, 15.0D);
     protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(
             VoxelShapes.fullCube(),
             VoxelShapes.or(
                     makeCuboidShape(0.0D, 0.0D, 3.0D, 16.0D, 3.0D, 13.0D),
                     makeCuboidShape(3.0D, 0.0D, 0.0D, 13.0D, 3.0D, 16.0D),
-                    makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 3.0D, 15.0D),
-                    INSIDE
+                    makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 3.0D, 15.0D)
             ), IBooleanFunction.ONLY_FIRST);
 
-    public Centrifuge(Block.Properties properties) {
+    public Bottler(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(RUNNING, Boolean.valueOf(true)));
+        this.setDefaultState(this.stateContainer.getBaseState().with(HAS_BOTTLE, Boolean.valueOf(true)));
     }
 
     @SuppressWarnings("deprecation")
@@ -53,13 +54,6 @@ public class Centrifuge extends ContainerBlock
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return SHAPE;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Nonnull
-    @Override
-    public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return INSIDE;
     }
 
     @SuppressWarnings("deprecation")
@@ -74,7 +68,7 @@ public class Centrifuge extends ContainerBlock
     public void onReplaced(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (oldState.getBlock() != newState.getBlock()) {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if (tileEntity instanceof CentrifugeTileEntity) {
+            if (tileEntity instanceof BottlerTileEntity) {
                 // Drop inventory
                 tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
@@ -92,8 +86,23 @@ public class Centrifuge extends ContainerBlock
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!world.isRemote()) {
             final TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof CentrifugeTileEntity) {
-                openGui((ServerPlayerEntity) player, (CentrifugeTileEntity) tileEntity);
+            ItemStack heldItem = player.getHeldItem(handIn);
+            boolean itemUsed = false;
+
+            if (tileEntity != null) {
+                if (heldItem.getItem().isIn(ModTags.HONEY_BUCKETS)) {
+                    tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+                        FluidUtil.interactWithFluidHandler(player, handIn, world, pos, null);
+                    });
+
+                    itemUsed = true;
+                }
+
+                if (!itemUsed) {
+                    if (tileEntity instanceof BottlerTileEntity) {
+                        openGui((ServerPlayerEntity) player, (BottlerTileEntity) tileEntity);
+                    }
+                }
             }
         }
         return ActionResultType.SUCCESS;
@@ -101,7 +110,7 @@ public class Centrifuge extends ContainerBlock
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(RUNNING);
+        builder.add(HAS_BOTTLE);
     }
 
     @Override
@@ -112,21 +121,15 @@ public class Centrifuge extends ContainerBlock
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.CENTRIFUGE.get().create();
+        return ModTileEntityTypes.BOTTLER.get().create();
     }
 
     @Nullable
     public TileEntity createNewTileEntity(IBlockReader world) {
-        return new CentrifugeTileEntity();
+        return new BottlerTileEntity();
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-        return false;
-    }
-
-    public void openGui(ServerPlayerEntity player, CentrifugeTileEntity tileEntity) {
+    public void openGui(ServerPlayerEntity player, BottlerTileEntity tileEntity) {
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> {
             packetBuffer.writeBlockPos(tileEntity.getPos());
         });

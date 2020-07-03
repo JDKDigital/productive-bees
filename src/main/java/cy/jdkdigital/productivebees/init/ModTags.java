@@ -33,6 +33,7 @@ public class ModTags
     public static final Tag<Block> WITHER_FLOWERS = getTag("wither_flowers");
 
     public static final Tag<Item> HONEYCOMBS = ItemTags.getCollection().getOrCreate(new ResourceLocation("forge", "honeycombs"));
+    public static final Tag<Item> HONEY_BUCKETS = ItemTags.getCollection().getOrCreate(new ResourceLocation("forge", "honey_buckets"));
 
     public static final Tag<Fluid> HONEY = FluidTags.getCollection().getOrCreate(new ResourceLocation("forge", "honey"));
 
