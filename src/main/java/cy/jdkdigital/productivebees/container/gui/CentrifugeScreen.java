@@ -19,8 +19,8 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 {
     private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/centrifuge.png");
 
-    public CentrifugeScreen(CentrifugeContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
-        super(screenContainer, inv, titleIn);
+    public CentrifugeScreen(CentrifugeContainer container, PlayerInventory inv, ITextComponent titleIn) {
+        super(container, inv, titleIn);
     }
 
     @Override
@@ -59,8 +59,6 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
         // Draw main screen
         func_238474_b_(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-
-        // Draw toggle buttons
 
         // Draw progress
         int progress = (int) (this.container.tileEntity.recipeProgress * (24 / (float)ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get()));

@@ -4,7 +4,10 @@ import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
-import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModFluids;
+import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,15 +17,11 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -36,19 +35,21 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class CentrifugeTileEntity extends TileEntity implements INamedContainerProvider, ITickableTileEntity
+public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedContainerProvider
 {
     private static final Random rand = new Random();
 
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
-    private int tankTick = 0;
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
+        @Override
         public boolean isInputItem(Item item) {
             return item == Items.GLASS_BOTTLE || item == Items.BUCKET || ModTags.HONEYCOMBS.func_230235_a_(item);
         }
+
+        @Override
         public boolean isInputSlotItem(int slot, Item item) {
             return (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.BUCKET) || (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.GLASS_BOTTLE) || (slot == InventoryHandlerHelper.INPUT_SLOT && ModTags.HONEYCOMBS.func_230235_a_(item));
         }
@@ -63,6 +64,7 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
             CentrifugeTileEntity.this.markDirty();
         }
 
+        @Override
         public boolean isFluidValid(FluidStack stack)
         {
             return stack.getFluid().isIn(ModTags.HONEY);
@@ -95,11 +97,8 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
                     world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, false));
                 }
             });
-            if (++this.tankTick > 20) {
-                this.tankTick = 0;
-                tickFluidTank();
-            }
         }
+        super.tick();
     }
 
     private CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
@@ -150,65 +149,6 @@ public class CentrifugeTileEntity extends TileEntity implements INamedContainerP
         }
         recipeProgress = 0;
         this.markDirty();
-    }
-
-    public void tickFluidTank() {
-        honeyInventory.ifPresent(honeyHandler -> {
-            FluidStack honeyFluid = honeyHandler.getFluidInTank(0);
-            if (honeyFluid.getAmount() >= 250) {
-                inventoryHandler.ifPresent(invHandler -> {
-                    ItemStack honeyContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
-                    int drainedHoney = 0;
-                    ItemStack outputItem = null;
-                    if (honeyContainerItem.getItem() == Items.GLASS_BOTTLE) {
-                        drainedHoney = 250;
-                        outputItem = new ItemStack(Items.HONEY_BOTTLE);
-                    }
-                    else if (honeyContainerItem.getItem() == Items.BUCKET && honeyFluid.getAmount() >= 1000) {
-                        drainedHoney = 1000;
-                        outputItem = new ItemStack(ModItems.HONEY_BUCKET.get());
-                    }
-
-                    if (drainedHoney > 0 && honeyContainerItem.getCount() > 0) {
-                        ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
-                        if (existingOutput.isEmpty() || (existingOutput.getItem() == outputItem.getItem() && existingOutput.getCount() < outputItem.getMaxStackSize())) {
-                            honeyContainerItem.shrink(1);
-                            honeyHandler.drain(drainedHoney, IFluidHandler.FluidAction.EXECUTE);
-                            invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    @Override
-    public void func_230337_a_(BlockState state, CompoundNBT tag) {
-        super.func_230337_a_(state, tag);
-
-        CompoundNBT invTag = tag.getCompound("inv");
-        inventoryHandler.ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
-
-        CompoundNBT fluidTag = tag.getCompound("fluid");
-        honeyInventory.ifPresent(fluid -> ((INBTSerializable<CompoundNBT>) fluid).deserializeNBT(fluidTag));
-    }
-
-    @Nonnull
-    @Override
-    public CompoundNBT write(CompoundNBT tag) {
-        super.write(tag);
-
-        inventoryHandler.ifPresent(inv -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
-            tag.put("inv", compound);
-        });
-
-        honeyInventory.ifPresent(fluid -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) fluid).serializeNBT();
-            tag.put("fluid", compound);
-        });
-
-        return tag;
     }
 
     @Nonnull

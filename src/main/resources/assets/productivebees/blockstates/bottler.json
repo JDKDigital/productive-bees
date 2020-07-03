@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "has_bottle=false": { "model": "productivebees:block/bottler/empty" },
+        "has_bottle=true": { "model": "productivebees:block/bottler/empty" }
+    }
+}
