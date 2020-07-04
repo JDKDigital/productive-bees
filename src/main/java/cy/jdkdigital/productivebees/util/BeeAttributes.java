@@ -5,6 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.Item;
 import net.minecraft.loot.RandomValueRange;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagRegistry;
 import net.minecraft.util.ResourceLocation;
@@ -23,9 +25,9 @@ public class BeeAttributes
     public static final BeeAttribute<Integer> TEMPER = register("temper");
     public static final BeeAttribute<Integer> BEHAVIOR = register("behavior");
     public static final BeeAttribute<Integer> WEATHER_TOLERANCE = register("weather_tolerance");
-    public static final BeeAttribute<TagRegistry.NamedTag<Block>> FOOD_SOURCE = register("food_source");
-    public static final BeeAttribute<TagRegistry.NamedTag<Item>> APHRODISIACS = register("aphrodisiacs");
-    public static final BeeAttribute<TagRegistry.NamedTag<Block>> NESTING_PREFERENCE = register("nesting_preference");
+    public static final BeeAttribute<INamedTag<Block>> FOOD_SOURCE = register("food_source");
+    public static final BeeAttribute<INamedTag<Item>> APHRODISIACS = register("aphrodisiacs");
+    public static final BeeAttribute<INamedTag<Block>> NESTING_PREFERENCE = register("nesting_preference");
     public static final BeeAttribute<BeeEffect> EFFECTS = register("effect");
 
     private static final UUID HEALTH_MOD_ID_WEAK = UUID.nameUUIDFromBytes("productivebees:health_mod_modifier_weak".getBytes());

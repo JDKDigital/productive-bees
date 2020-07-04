@@ -29,7 +29,7 @@ public class ZombieBeeEntity extends EffectHiveBeeEntity
         }};
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234182_eX_() {
+    public static AttributeModifierMap.MutableAttribute getDefaultAttributes() {
         return MobEntity.func_233666_p_()
                 .func_233815_a_(Attributes.field_233822_e_, 0.4D)
                 .func_233815_a_(Attributes.field_233821_d_, 0.2D);

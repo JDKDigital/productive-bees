@@ -13,6 +13,7 @@ import cy.jdkdigital.productivebees.entity.bee.solitary.*;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -96,7 +97,7 @@ public class ModEntities
     }
 
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createBee(DeferredRegister<EntityType<?>> registry, String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor, ItemGroup itemGroup) {
-        EntityType.Builder<E> builder = EntityType.Builder.<E>create(supplier, EntityClassification.CREATURE).size(0.7F, 0.6F);
+        EntityType.Builder<E> builder = EntityType.Builder.<E>create(supplier, EntityClassification.CREATURE).size(0.7F, 0.6F).func_233606_a_(8);
         if (name.equals("magmatic_bee")) {
             builder.immuneToFire();
         }

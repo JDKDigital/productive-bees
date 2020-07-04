@@ -133,7 +133,7 @@ public class BeeCage extends Item
         super.addInformation(stack, world, list, flag);
 
         CompoundNBT tag = stack.getTag();
-        if (tag != null && Screen.hasShiftDown()) {
+        if (tag != null && Screen.func_231173_s_()) {
             boolean hasStung = tag.getBoolean("HasStung");
             if (hasStung) {
                 list.add(new TranslationTextComponent("productivebees.information.health.dying").func_240699_a_(TextFormatting.RED).func_240699_a_(TextFormatting.ITALIC));
@@ -160,7 +160,7 @@ public class BeeCage extends Item
                 list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).func_240699_a_(TextFormatting.DARK_AQUA));
             }
         } else {
-            list.add(new TranslationTextComponent("productivebees.information.hold_shift").applyTextStyle(TextFormatting.WHITE));
+            list.add(new TranslationTextComponent("productivebees.information.hold_shift").func_240699_a_(TextFormatting.WHITE));
         }
     }
 

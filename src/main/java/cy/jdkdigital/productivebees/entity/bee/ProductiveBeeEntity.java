@@ -14,6 +14,7 @@ import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
@@ -158,6 +159,10 @@ public class ProductiveBeeEntity extends BeeEntity
         }
     }
 
+    public static AttributeModifierMap.MutableAttribute getDefaultAttributes() {
+        return BeeEntity.func_234182_eX_();
+    }
+
     @Override
     // isAngry
     public boolean func_233678_J__() {
@@ -251,9 +256,9 @@ public class ProductiveBeeEntity extends BeeEntity
             beeAttributes.put(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
             beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
             beeAttributes.put(BeeAttributes.TYPE, tag.getString("bee_type"));
-            beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_food_source"))));
-            beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
-            beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, BlockTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_nesting_preference"))));
+            beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.makeWrapperTag(tag.getString("bee_food_source")));
+            beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.makeWrapperTag(tag.getString("bee_aphrodisiac")));
+            beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, BlockTags.makeWrapperTag(tag.getString("bee_nesting_preference")));
             beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect((CompoundNBT) tag.get("bee_effects")));
         }
     }

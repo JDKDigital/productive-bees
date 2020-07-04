@@ -1,14 +1,8 @@
 package cy.jdkdigital.productivebees.event;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.hive.ZombieBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.solitary.BlueBandedBeeEntity;
-import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -18,9 +12,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -49,12 +41,5 @@ public class EventHandler
                 entity.remove();
             }
         }
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void entityTypeEvent(final RegistryEvent.Register<EntityType<?>> event) {
-        ProductiveBees.LOGGER.info("Registering GlobalEntityTypeAttributes");
-        GlobalEntityTypeAttributes.put(EntityType.BEE, ZombieBeeEntity.func_234182_eX_().func_233813_a_());
-        GlobalEntityTypeAttributes.put(EntityType.BEE, BlueBandedBeeEntity.func_234182_eX_().func_233813_a_());
     }
 }
