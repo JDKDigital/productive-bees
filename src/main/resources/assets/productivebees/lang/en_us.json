@@ -123,6 +123,7 @@
 	"block.productivebees.bamboo_hive": "Bamboo Nest",
 	"block.productivebees.stone_nest": "Stone Nest",
 	"block.productivebees.sand_nest": "Sand Nest",
+	"block.productivebees.snow_nest": "Snow Nest",
 	"block.productivebees.coarse_dirt_nest": "Dirt Nest",
 	"block.productivebees.gravel_nest": "Gravel Nest",
 	"block.productivebees.sugar_cane_nest": "Reed Nest",
@@ -390,6 +391,7 @@
 
 	"productivebees.ingredient.description.inactive_dragon_egg": "Looks cool, but something is missing. Try pouring some dragon stuff on it.",
 	"productivebees.ingredient.description.sand_nest": "Bees native to deserts are attracted to this nest.",
+	"productivebees.ingredient.description.snow_nest": "Bees native to colder areas are attracted to this nest.",
 	"productivebees.ingredient.description.gravel_nest": "Bees native to warm rivers and beaches are attracted to this nest.",
 	"productivebees.ingredient.description.coarse_dirt_nest": "This nest will attract bees in any overworld biome.",
 	"productivebees.ingredient.description.oak_wood_nest": "This nest will attract bees in any overworld biome.",

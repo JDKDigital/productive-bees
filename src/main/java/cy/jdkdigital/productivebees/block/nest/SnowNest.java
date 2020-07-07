@@ -4,14 +4,14 @@ import cy.jdkdigital.productivebees.block.SolitaryNest;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.Dimension;
 
-public class SandNest extends SolitaryNest
+public class SnowNest extends SolitaryNest
 {
-    public SandNest(Properties properties) {
+    public SnowNest(Properties properties) {
         super(properties);
     }
 
     @Override
     public boolean canRepopulateIn(Dimension dimension, Biome biome) {
-        return dimension.isSurfaceWorld() && biome.getCategory().equals(Biome.Category.DESERT);
+        return biome.getCategory().equals(Biome.Category.EXTREME_HILLS) || biome.getTempCategory() == Biome.TempCategory.COLD;
     }
 }

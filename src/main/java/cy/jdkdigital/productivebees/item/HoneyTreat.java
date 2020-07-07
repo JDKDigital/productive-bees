@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -66,10 +67,9 @@ public class HoneyTreat extends Item
 
     @Override
     public boolean itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity target, Hand hand) {
-        if (target.getEntityWorld().isRemote() || (!(target instanceof BeeEntity) || !target.isAlive())) {
+        if (target.getEntityWorld().isRemote() || !(target instanceof BeeEntity) || !target.isAlive()) {
             return false;
         }
-
 
         BeeEntity bee = (BeeEntity) target;
         // Stop agro
