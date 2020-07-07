@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
-import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
+import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
@@ -172,7 +172,11 @@ public final class ProductiveBees
     }
 
     private void fixPOI(final FMLCommonSetupEvent event) {
-        ImmutableList<Block> BEEHIVES = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehiveAbstract).collect(ImmutableList.toImmutableList());
+        for (RegistryObject<PointOfInterestType> poi : ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.getEntries()) {
+            ModPointOfInterestTypes.fixPOITypeBlockStates(poi.get());
+        }
+
+        ImmutableList<Block> BEEHIVES = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive).collect(ImmutableList.toImmutableList());
         PointOfInterestType.BEEHIVE.blockStates = this.makePOIStatesMutable(PointOfInterestType.BEEHIVE.blockStates);
         BEEHIVES.stream().forEach((block) -> {
             block.getStateContainer().getValidStates().forEach(state -> {

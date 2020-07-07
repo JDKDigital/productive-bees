@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.client.Minecraft;
@@ -14,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.CapabilityItemHandler;
-import org.apache.logging.log4j.util.ProcessIdUtil;
 
 @OnlyIn(Dist.CLIENT)
 public class CentrifugeTileEntityRenderer extends TileEntityRenderer<CentrifugeTileEntity>

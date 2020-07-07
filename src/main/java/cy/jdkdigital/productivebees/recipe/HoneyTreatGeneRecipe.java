@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.recipe;
 
 import com.google.gson.JsonObject;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.item.Gene;

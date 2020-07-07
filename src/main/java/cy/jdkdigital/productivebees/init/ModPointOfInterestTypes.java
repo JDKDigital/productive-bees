@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.init;
 
-import com.google.common.collect.ImmutableSet;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
