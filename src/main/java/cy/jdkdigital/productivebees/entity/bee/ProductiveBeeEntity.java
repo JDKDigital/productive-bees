@@ -79,7 +79,7 @@ public class ProductiveBeeEntity extends BeeEntity
 
         // Give health boost based on endurance
         if (getAttributeValue(BeeAttributes.ENDURANCE) != 1) {
-            this.getAttribute(Attributes.field_233818_a_).func_233767_b_(BeeAttributes.HEALTH_MODS.get(getAttributeValue(BeeAttributes.ENDURANCE)));
+            this.getAttribute(Attributes.MAX_HEALTH).func_233767_b_(BeeAttributes.HEALTH_MODS.get(getAttributeValue(BeeAttributes.ENDURANCE)));
             this.heal(this.getMaxHealth());
         }
     }
@@ -238,9 +238,9 @@ public class ProductiveBeeEntity extends BeeEntity
         tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
         tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
-        tag.putString("bee_food_source", this.getAttributeValue(BeeAttributes.FOOD_SOURCE).func_230234_a_().toString()); // getId()
-        tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).func_230234_a_().toString());
-        tag.putString("bee_nesting_preference", this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE).func_230234_a_().toString());
+        tag.putString("bee_food_source", this.getAttributeValue(BeeAttributes.FOOD_SOURCE).getName().toString());
+        tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getName().toString());
+        tag.putString("bee_nesting_preference", this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE).getName().toString());
         tag.put("bee_effects", this.getAttributeValue(BeeAttributes.EFFECTS).serializeNBT());
     }
 
@@ -373,7 +373,7 @@ public class ProductiveBeeEntity extends BeeEntity
             }
 
             ITag<Block> nestTag = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE);
-            if (nestTag == null || nestTag.func_230236_b_().size() == 0) { // getAllElements
+            if (nestTag == null || nestTag.getAllElements().size() == 0) { // getAllElements
                 return false;
             }
 

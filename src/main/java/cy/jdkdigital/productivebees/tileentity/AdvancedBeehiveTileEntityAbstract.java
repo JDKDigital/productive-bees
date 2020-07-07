@@ -246,8 +246,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return block instanceof AdvancedBeehiveAbstract ? ((AdvancedBeehiveAbstract) block).getMaxHoneyLevel() : 5;
     }
 
-    public void func_230337_a_(BlockState blockState, CompoundNBT tag) { // read
-        super.func_230337_a_(blockState, tag);
+    public void read(BlockState blockState, CompoundNBT tag) {
+        super.read(blockState, tag);
 
         CompoundNBT beeTag = tag.getCompound("Bees");
         beeHandler.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(beeTag));

@@ -65,8 +65,8 @@ public abstract class FluidTankTileEntity extends TileEntity implements ITickabl
     }
 
     @Override
-    public void func_230337_a_(BlockState state, CompoundNBT tag) {
-        super.func_230337_a_(state, tag);
+    public void read(BlockState state, CompoundNBT tag) {
+        super.read(state, tag);
 
         CompoundNBT invTag = tag.getCompound("inv");
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));

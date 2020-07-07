@@ -41,18 +41,18 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     }
 
     @Override
-    public void func_230430_a_(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.func_230446_a_(matrixStack);
-        super.func_230430_a_(matrixStack, mouseX, mouseY, partialTicks);
-        this.func_230459_a_(matrixStack, mouseX, mouseY);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrixStack);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.func_230451_b_(matrixStack, mouseX, mouseY);
     }
 
     @Override
     protected void func_230451_b_(MatrixStack matrixStack, int mouseX, int mouseY) { // drawGuiContainerForegroundLayer
-        assert field_230706_i_ != null;
+        assert minecraft != null;
 
-        this.field_230712_o_.func_238422_b_(matrixStack, this.field_230704_d_, 8.0F, 6.0F, 4210752);
-        this.field_230712_o_.func_238422_b_(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
+        this.font.func_238422_b_(matrixStack, this.title, 8.0F, 6.0F, 4210752);
+        this.font.func_238422_b_(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
 
         // Draw bees here
         boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED);
@@ -66,11 +66,11 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                     continue;
                 }
                 ResourceLocation beeTexture = getBeeTexture(beeId, this.container.tileEntity.getWorld());
-                field_230706_i_.textureManager.bindTexture(beeTexture);
-                func_238463_a_(matrixStack, positions.get(i).get(0), positions.get(i).get(1), 20, 20, 14, 14, 128, 128);
+                minecraft.textureManager.bindTexture(beeTexture);
+                blit(matrixStack, positions.get(i).get(0), positions.get(i).get(1), 20, 20, 14, 14, 128, 128);
 
-                field_230706_i_.textureManager.bindTexture(GUI_TEXTURE_BEE_OVERLAY);
-                func_238463_a_(matrixStack, positions.get(i).get(0), positions.get(i).get(1), 0, 0, 14, 14, 14, 14);
+                minecraft.textureManager.bindTexture(GUI_TEXTURE_BEE_OVERLAY);
+                blit(matrixStack, positions.get(i).get(0), positions.get(i).get(1), 0, 0, 14, 14, 14, 14);
 
                 i++;
             }
@@ -83,7 +83,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                         add(stringCache.get(beeId));
                     }};
                     tooltipList.add(stringCache.get(beeId + "_mod"));
-                    func_238654_b_(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                    renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
                 }
                 j++;
             }
@@ -98,16 +98,16 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
         boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED);
         int honeyLevel = this.container.tileEntity.getBlockState().get(BeehiveBlock.HONEY_LEVEL);
 
-        assert field_230706_i_ != null;
-        field_230706_i_.textureManager.bindTexture(expanded ? GUI_TEXTURE_EXPANDED : GUI_TEXTURE);
+        assert minecraft != null;
+        minecraft.textureManager.bindTexture(expanded ? GUI_TEXTURE_EXPANDED : GUI_TEXTURE);
 
         // Draw main screen
-        func_238474_b_(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        blit(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
         // Draw honey level
         int yOffset = this.container.tileEntity instanceof DragonEggHiveTileEntity ? 17 : 0;
         int progress = honeyLevel == 0 ? 0 : 27 / 5 * honeyLevel;
-        func_238474_b_(matrixStack, this.guiLeft + 82, this.guiTop + 35, 176, 14 + yOffset, progress, 16);
+        blit(matrixStack, this.guiLeft + 82, this.guiTop + 35, 176, 14 + yOffset, progress, 16);
     }
 
     public static ResourceLocation getBeeTexture(@Nonnull ResourceLocation res, World world) {

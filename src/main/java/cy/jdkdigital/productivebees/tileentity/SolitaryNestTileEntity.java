@@ -123,8 +123,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         return hasNectar && beeEntity != null && !beeEntity.isChild() ? 12000 : 600;
     }
 
-    public void func_230337_a_(BlockState blockState, CompoundNBT tag) { // read
-        super.func_230337_a_(blockState, tag);
+    public void read(BlockState blockState, CompoundNBT tag) {
+        super.read(blockState, tag);
 
         CompoundNBT eggTag = tag.getCompound("Eggs");
         eggHandler.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(eggTag));

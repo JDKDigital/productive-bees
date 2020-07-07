@@ -23,16 +23,16 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
     }
 
     @Override
-    public void func_230430_a_(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.func_230446_a_(matrixStack);
-        super.func_230430_a_(matrixStack, mouseX, mouseY, partialTicks);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrixStack);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.func_230459_a_(matrixStack, mouseX, mouseY);
     }
 
     @Override
     protected void func_230451_b_(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.field_230712_o_.func_238422_b_(matrixStack, this.field_230704_d_, 8.0F, 6.0F, 4210752);
-        this.field_230712_o_.func_238422_b_(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
+        this.font.func_238422_b_(matrixStack, this.title, 8.0F, 6.0F, 4210752);
+        this.font.func_238422_b_(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
 
         // Draw fluid tank
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
@@ -44,7 +44,7 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
                 {{
                     add(new TranslationTextComponent("productivebees.screen.honey_level", fluidAmount));
                 }};
-                func_238654_b_(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }
         });
     }
@@ -53,17 +53,17 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
     protected void func_230450_a_(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        assert field_230706_i_ != null;
-        field_230706_i_.textureManager.bindTexture(GUI_TEXTURE);
+        assert minecraft != null;
+        minecraft.textureManager.bindTexture(GUI_TEXTURE);
 
         // Draw main screen
-        func_238474_b_(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        blit(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
         // Draw fluid tank
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
             int fluidAmount = fluidHandler.getFluidInTank(0).getAmount();
             int fluidLevel = (int) (fluidAmount * (52 / 10000F));
-            func_238474_b_(matrixStack, this.guiLeft + 140, this.guiTop + 69, 176, 69, 4, -1 * fluidLevel);
+            blit(matrixStack, this.guiLeft + 140, this.guiTop + 69, 176, 69, 4, -1 * fluidLevel);
         });
     }
 }

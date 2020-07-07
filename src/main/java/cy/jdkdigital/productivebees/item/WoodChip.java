@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -60,7 +61,7 @@ public class WoodChip extends Item
     public ITextComponent getDisplayName(@Nonnull ItemStack stack) {
         Block block = getWoodBlock(stack);
         if (block != null) {
-            ITextComponent entityName = block.func_235333_g_(); // getNameTextComponent
+            IFormattableTextComponent entityName = block.getTranslatedName();
             return new TranslationTextComponent(this.getTranslationKey() + ".named", entityName);
         }
         return super.getDisplayName(stack);
@@ -69,7 +70,7 @@ public class WoodChip extends Item
     @Override
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
-            BlockTags.LOGS.func_230236_b_().forEach(block -> {
+            BlockTags.LOGS.getAllElements().forEach(block -> {
                 if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") &&  !block.getRegistryName().getPath().contains("stripped")) {
                     items.add(getStack(block));
                 }

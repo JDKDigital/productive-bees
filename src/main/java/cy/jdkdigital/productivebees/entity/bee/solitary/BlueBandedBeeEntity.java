@@ -22,7 +22,7 @@ public class BlueBandedBeeEntity extends SolitaryBeeEntity
 
     public static AttributeModifierMap.MutableAttribute getDefaultAttributes() {
         return MobEntity.func_233666_p_()
-                .func_233815_a_(Attributes.field_233822_e_, 0.75D)
-                .func_233815_a_(Attributes.field_233821_d_, 0.4D);
+                .func_233815_a_(Attributes.FLYING_SPEED, 0.75D)
+                .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.4D);
     }
 }

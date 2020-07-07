@@ -133,7 +133,7 @@ public class BeeCage extends Item
         super.addInformation(stack, world, list, flag);
 
         CompoundNBT tag = stack.getTag();
-        if (tag != null && Screen.func_231173_s_()) {
+        if (tag != null && Screen.hasShiftDown()) {
             boolean hasStung = tag.getBoolean("HasStung");
             if (hasStung) {
                 list.add(new TranslationTextComponent("productivebees.information.health.dying").func_240699_a_(TextFormatting.RED).func_240699_a_(TextFormatting.ITALIC));

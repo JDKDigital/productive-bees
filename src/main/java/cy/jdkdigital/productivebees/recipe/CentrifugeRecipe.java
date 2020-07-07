@@ -126,8 +126,8 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
                 else if (jsonObject.has("tag")) {
                     String registryname = JSONUtils.getString(jsonObject, "tag");
                     ITag<Item> tag = ItemTags.getCollection().getOrCreate(new ResourceLocation(registryname));
-                    if (!tag.func_230236_b_().isEmpty()) {
-                        outputs.put(new ItemStack(tag.func_230236_b_().stream().findFirst().orElse(Items.AIR)), nbt);
+                    if (!tag.getAllElements().isEmpty()) {
+                        outputs.put(new ItemStack(tag.getAllElements().stream().findFirst().orElse(Items.AIR)), nbt);
                     }
                 }
             });
