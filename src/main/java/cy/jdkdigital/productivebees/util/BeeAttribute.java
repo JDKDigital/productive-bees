@@ -10,6 +10,6 @@ public class BeeAttribute<T> extends LootParameter<T>
     }
 
     public String toString() {
-        return "<bee_attribute " + this.getId() + ">";
+        return this.getId().getPath();
     }
 }

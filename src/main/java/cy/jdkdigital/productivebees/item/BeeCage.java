@@ -166,7 +166,7 @@ public class BeeCage extends Item
         }
     }
 
-    private static TextFormatting getColor(String type) {
+    public static TextFormatting getColor(String type) {
         switch (type) {
             case "hive":
                 return TextFormatting.YELLOW;
@@ -176,7 +176,7 @@ public class BeeCage extends Item
         return TextFormatting.WHITE;
     }
 
-    private static TextFormatting getColor(int level) {
+    public static TextFormatting getColor(int level) {
         switch (level) {
             case -3:
                 return TextFormatting.RED;

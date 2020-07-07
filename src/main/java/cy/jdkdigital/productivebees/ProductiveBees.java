@@ -2,6 +2,8 @@ package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
@@ -43,16 +45,14 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Mod(ProductiveBees.MODID)
 @EventBusSubscriber(modid = ProductiveBees.MODID)
 public final class ProductiveBees
 {
     public static final String MODID = "productivebees";
+    public static final Random rand = new Random();
 
     public static final IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
@@ -174,109 +174,21 @@ public final class ProductiveBees
     }
 
     private void fixPOI(final FMLCommonSetupEvent event) {
-        for (RegistryObject<PointOfInterestType> poi : ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.getEntries()) {
-            ModPointOfInterestTypes.fixPOITypeBlockStates(poi.get());
-        }
-
-        // Add all new bee poi, otherwise the vanilla bees wont give a shit about them
-        final ImmutableList<Block> BEEHIVES = ImmutableList.of(
-                ModBlocks.OAK_WOOD_NEST.get(),
-                ModBlocks.SPRUCE_WOOD_NEST.get(),
-                ModBlocks.DARK_OAK_WOOD_NEST.get(),
-                ModBlocks.JUNGLE_WOOD_NEST.get(),
-                ModBlocks.BIRCH_WOOD_NEST.get(),
-                ModBlocks.ACACIA_WOOD_NEST.get(),
-                ModBlocks.BAMBOO_HIVE.get(),
-                ModBlocks.STONE_NEST.get(),
-                ModBlocks.SAND_NEST.get(),
-                ModBlocks.COARSE_DIRT_NEST.get(),
-                ModBlocks.GRAVEL_NEST.get(),
-                ModBlocks.SUGAR_CANE_NEST.get(),
-                ModBlocks.SLIMY_NEST.get(),
-                ModBlocks.GLOWSTONE_NEST.get(),
-                ModBlocks.NETHER_QUARTZ_NEST.get(),
-                ModBlocks.NETHER_BRICK_NEST.get(),
-                ModBlocks.END_NEST.get(),
-                ModBlocks.OBSIDIAN_PILLAR_NEST.get(),
-                ModBlocks.DRAGON_EGG_HIVE.get(),
-                ModBlocks.ADVANCED_OAK_BEEHIVE.get(),
-                ModBlocks.ADVANCED_SPRUCE_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BIRCH_BEEHIVE.get(),
-                ModBlocks.ADVANCED_JUNGLE_BEEHIVE.get(),
-                ModBlocks.ADVANCED_ACACIA_BEEHIVE.get(),
-                ModBlocks.ADVANCED_DARK_OAK_BEEHIVE.get(),
-                ModBlocks.ADVANCED_CRIMSON_BEEHIVE.get(),
-                ModBlocks.ADVANCED_WARPED_BEEHIVE.get(),
-                ModBlocks.ADVANCED_SNAKE_BLOCK_BEEHIVE.get(),
-                ModBlocks.ADVANCED_ROSEWOOD_BEEHIVE.get(),
-                ModBlocks.ADVANCED_YUCCA_BEEHIVE.get(),
-                ModBlocks.ADVANCED_KOUSA_BEEHIVE.get(),
-                ModBlocks.ADVANCED_ASPEN_BEEHIVE.get(),
-                ModBlocks.ADVANCED_GRIMWOOD_BEEHIVE.get(),
-                ModBlocks.ADVANCED_WILLOW_BEEHIVE.get(),
-                ModBlocks.ADVANCED_WISTERIA_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BAMBOO_BEEHIVE.get(),
-                ModBlocks.ADVANCED_MAPLE_BEEHIVE.get(),
-                ModBlocks.ADVANCED_DRIFTWOOD_BEEHIVE.get(),
-                ModBlocks.ADVANCED_RIVER_BEEHIVE.get(),
-                ModBlocks.ADVANCED_POISE_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_FIR_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_DEAD_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_PALM_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_MAGIC_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_CHERRY_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_UMBRAN_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_WILLOW_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_REDWOOD_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_HELLBARK_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_MAHOGANY_BEEHIVE.get(),
-                ModBlocks.ADVANCED_BOP_JACARANDA_BEEHIVE.get()
-        );
-
-        Set<Block> newSet = new HashSet<>(TileEntityType.BEEHIVE.validBlocks);
-        newSet.addAll(BEEHIVES);
-        TileEntityType.BEEHIVE.validBlocks = newSet;
-
-        PointOfInterestType.BEEHIVE.blockStates = BlockTags.BEEHIVES.getAllElements().stream().flatMap((map) -> map.getStateContainer().getValidStates().stream()).collect(ImmutableSet.toImmutableSet());
-
-        Map<BlockState, PointOfInterestType> map = new HashMap<>();
-        addToMap(Blocks.BEEHIVE, map);
-        addToMap(ModBlocks.ADVANCED_OAK_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_SPRUCE_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BIRCH_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_JUNGLE_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_ACACIA_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_DARK_OAK_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_CRIMSON_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_WARPED_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_SNAKE_BLOCK_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_ROSEWOOD_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_YUCCA_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_KOUSA_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_ASPEN_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_GRIMWOOD_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_WILLOW_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_WISTERIA_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BAMBOO_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_MAPLE_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_DRIFTWOOD_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_RIVER_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_POISE_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_FIR_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_DEAD_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_PALM_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_MAGIC_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_CHERRY_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_UMBRAN_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_WILLOW_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_REDWOOD_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_HELLBARK_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_MAHOGANY_BEEHIVE.get(), map);
-        addToMap(ModBlocks.ADVANCED_BOP_JACARANDA_BEEHIVE.get(), map);
-        PointOfInterestType.POIT_BY_BLOCKSTATE.putAll(map);
+        ImmutableList<Block> BEEHIVES = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehiveAbstract).collect(ImmutableList.toImmutableList());
+        PointOfInterestType.BEEHIVE.blockStates = this.makePOIStatesMutable(PointOfInterestType.BEEHIVE.blockStates);
+        BEEHIVES.stream().forEach((block) -> {
+            block.getStateContainer().getValidStates().forEach(state -> {
+                PointOfInterestType.POIT_BY_BLOCKSTATE.put(state, PointOfInterestType.BEEHIVE);
+                PointOfInterestType.BEEHIVE.blockStates.add(state);
+            });
+        });
     }
 
-    public static void addToMap(Block block, Map<BlockState, PointOfInterestType> pointOfInterestTypeMap) {
-        block.getStateContainer().getValidStates().forEach(state -> pointOfInterestTypeMap.put(state, PointOfInterestType.BEEHIVE));
+    private Set<BlockState> makePOIStatesMutable(Set<BlockState> toCopy) {
+        Set<BlockState> copy = Sets.newHashSet();
+        toCopy.forEach((state) -> {
+            copy.add(state);
+        });
+        return copy;
     }
 }

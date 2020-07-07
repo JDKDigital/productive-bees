@@ -25,7 +25,6 @@ public class SpawnEgg extends SpawnEggItem
                 return EntityType.byKey(entityTag.getString("id")).orElse(this.entityType.get());
             }
         }
-
         return this.entityType.get();
     }
 }

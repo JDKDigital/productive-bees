@@ -4,9 +4,7 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
-import cy.jdkdigital.productivebees.item.BeeCage;
-import cy.jdkdigital.productivebees.item.HoneyTreat;
-import cy.jdkdigital.productivebees.item.WoodChip;
+import cy.jdkdigital.productivebees.item.*;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -23,6 +21,8 @@ public class ModItems
     public static final RegistryObject<Item> HONEY_BUCKET = createItem("honey_bucket", () -> new BucketItem(ModFluids.HONEY, new Item.Properties().maxStackSize(1).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> BEE_CAGE = createItem("bee_cage", () -> new BeeCage(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEY_TREAT = createItem("honey_treat", () -> new HoneyTreat(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> GENE_BOTTLE = createItem("gene_bottle", () -> new GeneBottle(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> GENE = createItem("gene", () -> new Gene(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
 
     public static final RegistryObject<Item> HONEYCOMB_AMBER = createItem("honeycomb_amber", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_BAUXITE = createItem("honeycomb_bauxite", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));

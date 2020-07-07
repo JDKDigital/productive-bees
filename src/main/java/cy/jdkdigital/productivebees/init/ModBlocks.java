@@ -25,7 +25,7 @@ public final class ModBlocks
 {
     public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, ProductiveBees.MODID);
 
-    public static final RegistryObject<Block> BOTTLER = createBlock("bottler", () -> new Bottler(Block.Properties.from(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> BOTTLER = createBlock("bottler", () -> new Bottler(Block.Properties.from(Blocks.CAULDRON).notSolid()), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> CENTRIFUGE = createBlock("centrifuge", () -> new Centrifuge(Block.Properties.from(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> INACTIVE_DRAGON_EGG = createBlock("inactive_dragon_egg", () -> new InactiveDragonEgg(Block.Properties.from(Blocks.DRAGON_EGG)), ModItemGroups.PRODUCTIVE_BEES);
 

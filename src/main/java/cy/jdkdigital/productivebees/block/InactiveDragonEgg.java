@@ -43,7 +43,7 @@ public class InactiveDragonEgg extends DragonEggBlock
                 heldItem.shrink(1);
             }
 
-            return ActionResultType.CONSUME;
+            return ActionResultType.SUCCESS;
         }
         return ActionResultType.PASS;
     }

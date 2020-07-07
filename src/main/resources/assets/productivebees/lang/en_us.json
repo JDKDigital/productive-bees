@@ -10,6 +10,8 @@
 	"item.productivebees.wood_chip.named": "%s Wood Chip",
 	"item.productivebees.honey_bucket": "Honey Bucket",
 	"item.productivebees.honey_treat": "Honey Treat",
+	"item.productivebees.gene_bottle": "Squashed Bee Material",
+	"item.productivebees.gene": "Gene Sample",
 	"item.productivebees.bee_cage": "Bee Cage",
 	"item.productivebees.draconic_dust": "Draconic Dust",
 	"item.productivebees.draconic_chunk": "Draconic Chunk",
@@ -110,6 +112,7 @@
 	"item.productivebees.honeycomb_zinc": "Zinc Comb",
 
 	"block.productivebees.centrifuge": "Centrifuge",
+	"block.productivebees.bottler": "Bottler",
 	"block.productivebees.inactive_dragon_egg": "Inactive Dragon Egg",
 	"block.productivebees.oak_wood_nest": "Oak Nest",
 	"block.productivebees.spruce_wood_nest": "Spruce Nest",

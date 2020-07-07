@@ -1,9 +1,9 @@
 package cy.jdkdigital.productivebees.tileentity;
 
 import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.item.Gene;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -45,6 +45,14 @@ public class InventoryHandlerHelper
                 if (WoodChip.getWoodBlock(insertStack) != null) {
                     Block block = WoodChip.getWoodBlock(stack);
                     if (block != null && block.equals(WoodChip.getWoodBlock(insertStack))) {
+                        return slot;
+                    }
+                } else if(!Gene.getAttributeName(insertStack).isEmpty()) {
+                    if (
+                        Gene.getAttributeName(stack).equals(Gene.getAttributeName(insertStack)) &&
+                        Gene.getValue(stack).equals(Gene.getValue(insertStack)) &&
+                        Gene.getPurity(stack).equals(Gene.getPurity(insertStack))
+                    ) {
                         return slot;
                     }
                 } else {
@@ -145,12 +153,7 @@ public class InventoryHandlerHelper
             if (slot > 0) {
                 ItemStack existingStack = this.getStackInSlot(slot);
                 if (existingStack.isEmpty()) {
-                    ItemStack insertStack = new ItemStack(stack.getItem(), stack.getCount());
-                    Block stackBlock = WoodChip.getWoodBlock(stack);
-                    if (stackBlock != null && !stackBlock.equals(Blocks.AIR)) {
-                        insertStack = WoodChip.getStack(WoodChip.getWoodBlock(stack), stack.getCount());
-                    }
-                    setStackInSlot(slot, insertStack);
+                    setStackInSlot(slot, stack.copy());
                 }
                 else {
                     existingStack.grow(stack.getCount());

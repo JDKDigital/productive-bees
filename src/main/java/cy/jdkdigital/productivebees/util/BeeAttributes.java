@@ -16,6 +16,9 @@ public class BeeAttributes
 {
     public static final RandomValueRange productivityModifier = new RandomValueRange(0, 1);
 
+    private static Map<String, BeeAttribute<?>> map = new HashMap<>();
+    public static Map<BeeAttribute<?>, Map<Integer, String>> keyMap = new HashMap<>();
+
     public static final BeeAttribute<String> TYPE = register("type");
     public static final BeeAttribute<Integer> PRODUCTIVITY = register("productivity");
     public static final BeeAttribute<Integer> ENDURANCE = register("endurance");
@@ -36,10 +39,12 @@ public class BeeAttributes
         put(3, (new AttributeModifier(HEALTH_MOD_ID_STRONG, "Health health mod strong", 1.0F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
     }};
 
-    public static Map<BeeAttribute<?>, Map<Integer, String>> keyMap = new HashMap<>();
+    private static <T> BeeAttribute<T> register(String name) {
+        BeeAttribute<T> attribute = new BeeAttribute<T>(new ResourceLocation(ProductiveBees.MODID, name));
 
-    private static <T> BeeAttribute<T> register(String resourceLocation) {
-        return new BeeAttribute<T>(new ResourceLocation(ProductiveBees.MODID, resourceLocation));
+        map.put(name, attribute);
+
+        return attribute;
     }
 
     static {
@@ -76,5 +81,9 @@ public class BeeAttributes
             put(1, "productivebees.information.attribute.weather_tolerance.rain");
             put(2, "productivebees.information.attribute.weather_tolerance.any");
         }});
+    }
+
+    public static BeeAttribute<?> getAttributeByName(String name) {
+        return map.get(name);
     }
 }

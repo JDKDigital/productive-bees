@@ -71,6 +71,7 @@ public class WoodChipRecipe implements ICraftingRecipe
         return output.copy();
     }
 
+    @Nonnull
     @Override
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> list = NonNullList.create();
