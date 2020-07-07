@@ -1,15 +1,15 @@
 package cy.jdkdigital.productivebees.tileentity;
 
 import com.google.common.collect.Lists;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
-import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModFluids;
-import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivebees.item.Gene;
+import cy.jdkdigital.productivebees.item.GeneBottle;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
-import net.minecraft.block.BlockState;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -17,6 +17,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -51,7 +52,10 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
         @Override
         public boolean isInputSlotItem(int slot, Item item) {
-            return (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.BUCKET) || (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.GLASS_BOTTLE) || (slot == InventoryHandlerHelper.INPUT_SLOT && ModTags.HONEYCOMBS.contains(item));
+            return (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.BUCKET) ||
+                    (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.GLASS_BOTTLE) ||
+                    (slot == InventoryHandlerHelper.INPUT_SLOT && ModTags.HONEYCOMBS.contains(item)) ||
+                    (slot == InventoryHandlerHelper.INPUT_SLOT && item.equals(ModItems.GENE_BOTTLE.get()));
         }
     });
 
@@ -80,15 +84,27 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         if (!world.isRemote) {
             inventoryHandler.ifPresent(invHandler -> {
                 if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty()) {
-                    CentrifugeRecipe recipe = getRecipe(invHandler);
-                    boolean isValidRecipe = this.canProcessRecipe(recipe, invHandler);
-                    if (isValidRecipe) {
+                    // Process gene bottles
+                    ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+                    if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {
                         world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
                         int totalTime = ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get();
 
                         if (++this.recipeProgress == totalTime) {
                             recipeProgress = 0;
-                            this.completeRecipeProcessing(recipe, invHandler);
+                            this.completeGeneProcessing(invHandler);
+                        }
+                    } else {
+                        CentrifugeRecipe recipe = getRecipe(invHandler);
+                        boolean isValidRecipe = this.canProcessRecipe(recipe, invHandler);
+                        if (isValidRecipe) {
+                            world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
+                            int totalTime = ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get();
+
+                            if (++this.recipeProgress == totalTime) {
+                                recipeProgress = 0;
+                                this.completeRecipeProcessing(recipe, invHandler);
+                            }
                         }
                     }
                 }
@@ -147,6 +163,39 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
             invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
         }
+        recipeProgress = 0;
+        this.markDirty();
+    }
+
+    private void completeGeneProcessing(IItemHandlerModifiable invHandler) {
+        ItemStack geneBottle = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+
+        CompoundNBT entityData = GeneBottle.getGenesTag(geneBottle);
+        ProductiveBees.LOGGER.info("Data: " + entityData);
+        int productivity = entityData.getInt("bee_productivity");
+        int tolerance = entityData.getInt("bee_weather_tolerance");
+        int behavior = entityData.getInt("bee_behavior");
+        int endurance = entityData.getInt("bee_endurance");
+        int temper = entityData.getInt("bee_temper");
+
+        if (rand.nextFloat() > 0.85F) {
+            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.PRODUCTIVITY, productivity));
+        }
+        if (rand.nextFloat() > 0.85F) {
+            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, tolerance));
+        }
+        if (rand.nextFloat() > 0.85F) {
+            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.BEHAVIOR, behavior));
+        }
+        if (rand.nextFloat() > 0.85F) {
+            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.ENDURANCE, endurance));
+        }
+        if (rand.nextFloat() > 0.85F) {
+            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.TEMPER, temper));
+        }
+
+        invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
+
         recipeProgress = 0;
         this.markDirty();
     }

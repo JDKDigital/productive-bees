@@ -1,6 +1,8 @@
 package cy.jdkdigital.productivebees.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -22,8 +24,6 @@ public class WoodChip extends Item
 
     public WoodChip(Properties properties) {
         super(properties);
-
-        // "parent": "builtin/entity",
     }
 
     public static ItemStack getStack(Block block) {
@@ -70,11 +70,15 @@ public class WoodChip extends Item
     @Override
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
-            BlockTags.LOGS.getAllElements().forEach(block -> {
-                if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") &&  !block.getRegistryName().getPath().contains("stripped")) {
-                    items.add(getStack(block));
-                }
-            });
+            try {
+                BlockTags.LOGS.getAllElements().forEach(block -> {
+                    if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") &&  !block.getRegistryName().getPath().contains("stripped")) {
+                        items.add(getStack(block));
+                    }
+                });
+            } catch (IllegalStateException ise) {
+                // tag not initialized yet
+            }
         }
     }
 }

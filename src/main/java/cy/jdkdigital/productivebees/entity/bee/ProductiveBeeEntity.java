@@ -212,6 +212,10 @@ public class ProductiveBeeEntity extends BeeEntity
         return (T) this.beeAttributes.get(parameter);
     }
 
+    public void setAttributeValue(BeeAttribute<?> parameter, Integer value) {
+        this.beeAttributes.put(parameter, value);
+    }
+
     public Map<BeeAttribute<?>, Object> getBeeAttributes() {
         return beeAttributes;
     }

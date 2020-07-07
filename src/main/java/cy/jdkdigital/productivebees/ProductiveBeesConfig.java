@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
+import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import net.minecraft.block.Block;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +40,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue centrifugeProcessingTime;
         public final ForgeConfigSpec.BooleanValue enableCombProduce;
         public final ForgeConfigSpec.IntValue nestRepopulationCooldown;
+        public final ForgeConfigSpec.ConfigValue<String> woodChipLogsBlacklist;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -61,6 +64,10 @@ public class ProductiveBeesConfig
             nestRepopulationCooldown = builder
                     .comment("Cooldown for when an abandoned nest will spawn a new inhabitant")
                     .defineInRange("nestRepopulationCooldown", 36000, 20, Integer.MAX_VALUE);
+
+            woodChipLogsBlacklist = builder
+                    .comment("Comma separated list of block names to exclude from the list of woodchips")
+                    .define("woodChipLogsBlacklist", "atmospheric:crustose_log");
 
             builder.pop();
         }

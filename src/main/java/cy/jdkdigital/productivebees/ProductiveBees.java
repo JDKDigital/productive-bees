@@ -48,6 +48,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Random;
 import java.util.Set;
 
 @Mod(ProductiveBees.MODID)
@@ -55,6 +56,7 @@ import java.util.Set;
 public final class ProductiveBees
 {
     public static final String MODID = "productivebees";
+    public static final Random rand = new Random();
 
     public static final IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
