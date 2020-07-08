@@ -65,7 +65,7 @@ public class ProductiveBeesConfig
 
             woodChipLogsBlacklist = builder
                     .comment("Comma separated list of block names to exclude from the list of woodchips")
-                    .define("woodChipLogsBlacklist", "atmospheric:crustose_log");
+                    .define("woodChipLogsBlacklist", "atmospheric:crustose_log,forbidden_arcanus:edelwood_log");
 
             builder.pop();
         }
