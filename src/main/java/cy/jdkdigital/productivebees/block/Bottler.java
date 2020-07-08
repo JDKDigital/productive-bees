@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.block;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.tileentity.BottlerTileEntity;

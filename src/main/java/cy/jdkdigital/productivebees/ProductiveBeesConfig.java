@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
-import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import net.minecraft.block.Block;
@@ -15,7 +14,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +65,7 @@ public class ProductiveBeesConfig
 
             woodChipLogsBlacklist = builder
                     .comment("Comma separated list of block names to exclude from the list of woodchips")
-                    .define("woodChipLogsBlacklist", "atmospheric:crustose_log");
+                    .define("woodChipLogsBlacklist", "atmospheric:crustose_log,forbidden_arcanus:edelwood_log");
 
             builder.pop();
         }

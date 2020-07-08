@@ -14,6 +14,7 @@ public class ModTags
     public static final INamedTag<Block> SOLITARY_NESTS = getTag("solitary_nests");
     public static final INamedTag<Block> SOLITARY_OVERWORLD_NESTS = getTag("solitary_overworld_nests");
     public static final INamedTag<Block> REED_NESTS = getTag("reed_nests");
+    public static final INamedTag<Block> COLD_NESTS = getTag("cold_nests");
     public static final INamedTag<Block> WOOD_NESTS = getTag("wood_nests");
     public static final INamedTag<Block> SLIMY_NESTS = getTag("slimy_nests");
     public static final INamedTag<Block> GLOWSTONE_NESTS = getTag("glowstone_nests");
@@ -25,6 +26,7 @@ public class ModTags
     public static final INamedTag<Block> FOREST_FLOWERS = getTag("forest_flowers");
     public static final INamedTag<Block> ARID_FLOWERS = getTag("arid_flowers");
     public static final INamedTag<Block> SWAMP_FLOWERS = getTag("swamp_flowers");
+    public static final INamedTag<Block> SNOW_FLOWERS = getTag("snow_flowers");
     public static final INamedTag<Block> RIVER_FLOWERS = getTag("river_flowers");
     public static final INamedTag<Block> NETHER_FLOWERS = getTag("nether_flowers");
     public static final INamedTag<Block> END_FLOWERS = getTag("end_flowers");

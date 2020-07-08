@@ -1,0 +1,12 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:snow_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:sweaty_bee"
+        }
+    ],
+    "repopulation_cooldown": 26000
+}

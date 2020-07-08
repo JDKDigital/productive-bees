@@ -24,7 +24,6 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HoneyTreat extends Item
 {
@@ -67,10 +66,9 @@ public class HoneyTreat extends Item
 
     @Override
     public ActionResultType itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity target, Hand hand) {
-        if (target.getEntityWorld().isRemote() || (!(target instanceof BeeEntity) || !target.isAlive())) {
+        if (target.getEntityWorld().isRemote() || !(target instanceof BeeEntity) || !target.isAlive()) {
             return ActionResultType.PASS;
         }
-
 
         BeeEntity bee = (BeeEntity) target;
         // Stop agro

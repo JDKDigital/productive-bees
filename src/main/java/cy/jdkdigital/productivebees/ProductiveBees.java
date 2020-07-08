@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
-import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
+import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.ZombieBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.solitary.BlueBandedBeeEntity;
@@ -67,6 +67,7 @@ public final class ProductiveBees
         MinecraftForge.EVENT_BUS.register(this);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
@@ -76,7 +77,6 @@ public final class ProductiveBees
         ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
         ModRecipeTypes.RECIPE_SERIALIZERS.register(modEventBus);
-        ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.register(modEventBus);
 
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
             modEventBus.addListener(EventPriority.LOWEST, this::registerItemColors);
@@ -161,6 +161,8 @@ public final class ProductiveBees
             }
             else if (category.equals(Biome.Category.EXTREME_HILLS)) {
                 biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.STONE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.STONE.getDefaultState(), ModBlocks.STONE_NEST.get().getDefaultState())));
+                biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.SNOW_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.SNOW.getDefaultState(), ModBlocks.SNOW_NEST.get().getDefaultState())));
+                biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.SNOW_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.SNOW_BLOCK.getDefaultState(), ModBlocks.SNOW_NEST.get().getDefaultState())));
             }
             else if (category.equals(Biome.Category.SWAMP)) {
                 biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.SLIMY_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GRASS_BLOCK.getDefaultState(), ModBlocks.SLIMY_NEST.get().getDefaultState())));
@@ -192,7 +194,11 @@ public final class ProductiveBees
     }
 
     private void fixPOI(final FMLCommonSetupEvent event) {
-        ImmutableList<Block> BEEHIVES = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehiveAbstract).collect(ImmutableList.toImmutableList());
+        for (RegistryObject<PointOfInterestType> poi : ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.getEntries()) {
+            ModPointOfInterestTypes.fixPOITypeBlockStates(poi.get());
+        }
+
+        ImmutableList<Block> BEEHIVES = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive).collect(ImmutableList.toImmutableList());
         PointOfInterestType.BEEHIVE.blockStates = this.makePOIStatesMutable(PointOfInterestType.BEEHIVE.blockStates);
         BEEHIVES.stream().forEach((block) -> {
             block.getStateContainer().getValidStates().forEach(state -> {

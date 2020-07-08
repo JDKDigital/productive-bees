@@ -55,6 +55,7 @@ public class ModTileEntityTypes
     public static final RegistryObject<TileEntityType<SolitaryNestTileEntity>> SOLITARY_NEST = TILE_ENTITY_TYPES.register("solitary_nest", () ->
             TileEntityType.Builder.create(SolitaryNestTileEntity::new,
                     ModBlocks.SAND_NEST.get(),
+                    ModBlocks.SNOW_NEST.get(),
                     ModBlocks.STONE_NEST.get(),
                     ModBlocks.COARSE_DIRT_NEST.get(),
                     ModBlocks.GRAVEL_NEST.get(),

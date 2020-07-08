@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.init;
 
-import com.google.common.collect.ImmutableSet;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -27,11 +26,12 @@ public final class ModPointOfInterestTypes
 
     public static final DeferredRegister<PointOfInterestType> POINT_OF_INTEREST_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, ProductiveBees.MODID);
 
-    public static final RegistryObject<PointOfInterestType> SOLITARY_HIVE = register("solitary_hive", ModBlocks.BAMBOO_HIVE, 0);
+    public static final RegistryObject<PointOfInterestType> SOLITARY_HIVE = register("solitary_hive", ModBlocks.BAMBOO_HIVE, 1);
     public static final RegistryObject<PointOfInterestType> SOLITARY_NEST = register("solitary_nest", () -> {
         List<RegistryObject<Block>> blocks = new ArrayList<>();
         blocks.add(ModBlocks.STONE_NEST);
         blocks.add(ModBlocks.SAND_NEST);
+        blocks.add(ModBlocks.SNOW_NEST);
         blocks.add(ModBlocks.COARSE_DIRT_NEST);
         blocks.add(ModBlocks.GRAVEL_NEST);
         blocks.add(ModBlocks.SLIMY_NEST);
@@ -46,13 +46,14 @@ public final class ModPointOfInterestTypes
         blocks.add(ModBlocks.DARK_OAK_WOOD_NEST);
         blocks.add(ModBlocks.ACACIA_WOOD_NEST);
         return blocks;
-    }, 0);
+    }, 1);
+
     public static final RegistryObject<PointOfInterestType> DRACONIC_NEST = register("draconic_nest", () -> {
         List<RegistryObject<Block>> blocks = new ArrayList<>();
         blocks.add(ModBlocks.DRAGON_EGG_HIVE);
         blocks.add(ModBlocks.OBSIDIAN_PILLAR_NEST);
         return blocks;
-    }, 0);
+    }, 1);
 
     private static RegistryObject<PointOfInterestType> register(String name, RegistryObject<Block> block, int maxFreeTickets) {
         List<RegistryObject<Block>> blocks = new ArrayList<>();
@@ -68,19 +69,14 @@ public final class ModPointOfInterestTypes
         return register(name, () -> {
             Set<BlockState> blockStates = new HashSet<>();
             for (RegistryObject<Block> block : blocks) {
-                blockStates.addAll(getAllStates(block.get()));
+                blockStates.addAll(PointOfInterestType.getAllStates(block.get()));
             }
-            PointOfInterestType poi = new PointOfInterestType(name, blockStates, maxFreeTickets, 1);
-            return poi;
+            return new PointOfInterestType(name, blockStates, maxFreeTickets, 1);
         });
     }
 
     private static RegistryObject<PointOfInterestType> register(String name, Supplier<PointOfInterestType> supplier) {
         return POINT_OF_INTEREST_TYPES.register(name, supplier);
-    }
-
-    private static Set<BlockState> getAllStates(Block block) {
-        return ImmutableSet.copyOf(block.getStateContainer().getValidStates());
     }
 
     public static void fixPOITypeBlockStates(PointOfInterestType poiType) {

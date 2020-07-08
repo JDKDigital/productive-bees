@@ -4,7 +4,6 @@ import cy.jdkdigital.productivebees.block.SolitaryNest;
 
 public class SandNest extends SolitaryNest
 {
-
     public SandNest(Properties properties) {
         super(properties);
     }
