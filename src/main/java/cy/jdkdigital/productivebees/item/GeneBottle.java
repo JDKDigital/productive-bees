@@ -29,10 +29,10 @@ public class GeneBottle extends Item
     public static void setGenes(ItemStack stack, Entity target) {
         CompoundNBT nbt = new CompoundNBT();
         if (target.hasCustomName()) {
-            nbt.putString("name", target.getCustomName().getFormattedText());
+            nbt.putString("name", target.getCustomName().getString());
         }
         else {
-            nbt.putString("name", target.getName().getFormattedText());
+            nbt.putString("name", target.getName().getString());
         }
         target.writeWithoutTypeId(nbt);
 

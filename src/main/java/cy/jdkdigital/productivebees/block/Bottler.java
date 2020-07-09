@@ -130,11 +130,6 @@ public class Bottler extends ContainerBlock
         return new BottlerTileEntity();
     }
 
-    @Override
-    public int tickRate(IWorldReader world) {
-        return 40;
-    }
-
     public void openGui(ServerPlayerEntity player, BottlerTileEntity tileEntity) {
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> {
             packetBuffer.writeBlockPos(tileEntity.getPos());

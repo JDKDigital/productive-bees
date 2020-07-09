@@ -10,6 +10,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -71,8 +72,8 @@ public class Gene extends Item
 
         Integer value = getValue(stack);
 
-        ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(Gene.getAttribute(stack)).get(value)).applyTextStyle(BeeCage.getColor(value));
-        list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translated_value)).applyTextStyle(TextFormatting.DARK_GRAY).appendText(" (" + getPurity(stack) + "%)"));
+        ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(Gene.getAttribute(stack)).get(value)).func_240699_a_(BeeCage.getColor(value));
+        list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translated_value)).func_240699_a_(TextFormatting.DARK_GRAY).func_230529_a_(new StringTextComponent(" (" + getPurity(stack) + "%)")));
     }
 
     @Override

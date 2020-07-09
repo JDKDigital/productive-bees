@@ -18,6 +18,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -128,14 +129,14 @@ public class HoneyTreat extends Item
 
                         Integer value = Gene.getValue(insertedGene);
 
-                        ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(Gene.getAttribute(insertedGene)).get(value)).applyTextStyle(BeeCage.getColor(value));
+                        ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(Gene.getAttribute(insertedGene)).get(value)).func_240699_a_(BeeCage.getColor(value));
                         list.add(
-                            (new TranslationTextComponent("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translated_value)).applyTextStyle(TextFormatting.DARK_GRAY).appendText(" (" + purity + "%)")
+                            (new TranslationTextComponent("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translated_value)).func_240699_a_(TextFormatting.DARK_GRAY).func_230529_a_(new StringTextComponent(" (" + purity + "%)"))
                         );
                     });
                 }
                 else {
-                    list.add(new TranslationTextComponent("productivebees.information.hold_shift").applyTextStyle(TextFormatting.WHITE));
+                    list.add(new TranslationTextComponent("productivebees.information.hold_shift").func_240699_a_(TextFormatting.WHITE));
                 }
             }
         }
