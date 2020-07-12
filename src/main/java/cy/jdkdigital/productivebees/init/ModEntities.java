@@ -27,8 +27,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 @EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEntities
 {
-    public static final DeferredRegister<EntityType<?>> HIVE_BEES = new DeferredRegister<>(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
-    public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = new DeferredRegister<>(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
+    public static final DeferredRegister<EntityType<?>> HIVE_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
+    public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
 
     public static RegistryObject<EntityType<BeeEntity>> IRON_BEE = createHiveBee("iron_bee", ProductiveBeeEntity::new, 6238757, 13487565);
     public static RegistryObject<EntityType<BeeEntity>> GOLD_BEE = createHiveBee("gold_bee", ProductiveBeeEntity::new, 6238757, 15582019);
@@ -40,6 +40,7 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> DIAMOND_BEE = createHiveBee("diamond_bee", ProductiveBeeEntity::new, 6238757, 4055009);
     public static RegistryObject<EntityType<BeeEntity>> DYE_BEE = createHiveBee("dye_bee", ProductiveBeeEntity::new, 6238757, 15582019);
     public static RegistryObject<EntityType<BeeEntity>> LUMBER_BEE = createHiveBee("lumber_bee", LumberBeeEntity::new, 9615358, 8306542);
+    public static RegistryObject<EntityType<BeeEntity>> RANCHER_BEE = createHiveBee("rancher_bee", RancherBeeEntity::new, 9615358, 8306342);
 
     public static RegistryObject<EntityType<BeeEntity>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBeeEntity::new, 6238757, 894731);
     public static RegistryObject<EntityType<BeeEntity>> ZOMBIE_BEE = createHiveBee("zombie_bee", ZombieBeeEntity::new, 6238757, 7969893);

@@ -37,6 +37,7 @@ public class Bottler extends ContainerBlock
 {
     public static final BooleanProperty HAS_BOTTLE = BooleanProperty.create("has_bottle");
 
+    private static final VoxelShape INSIDE = makeCuboidShape(1.0D, 7.0D, 1.0D, 15.0D, 16.0D, 15.0D);
     protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(
             VoxelShapes.fullCube(),
             VoxelShapes.or(
@@ -47,7 +48,7 @@ public class Bottler extends ContainerBlock
 
     public Bottler(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(HAS_BOTTLE, Boolean.valueOf(true)));
+        this.setDefaultState(this.stateContainer.getBaseState().with(HAS_BOTTLE, Boolean.FALSE));
     }
 
     @SuppressWarnings("deprecation")

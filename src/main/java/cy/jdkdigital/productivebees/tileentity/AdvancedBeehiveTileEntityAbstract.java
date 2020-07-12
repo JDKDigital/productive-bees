@@ -94,8 +94,12 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     public void markDirty() {
-        if (this.isNearFire()) {
-            this.angerBees(null, this.world.getBlockState(this.getPos()), BeehiveTileEntity.State.EMERGENCY);
+        if (this.world != null) {
+            if (this.isNearFire()) {
+                this.angerBees(null, this.world.getBlockState(this.getPos()), BeehiveTileEntity.State.EMERGENCY);
+            }
+
+            world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 2);
         }
 
         super.markDirty();
@@ -221,7 +225,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         // Deliver honey on the way out
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
             beeEntity.onHoneyDelivered();
-            Block block = state.getBlock();
             if (state.has(BeehiveBlock.HONEY_LEVEL)) {
                 int honeyLevel = getHoneyLevel(state);
                 int maxHoneyLevel = getMaxHoneyLevel(state);

@@ -35,11 +35,13 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
     public final ResourceLocation id;
     public final Ingredient ingredient;
     public final Map<ItemStack, IntArrayNBT> output;
+    public final boolean requireBottle;
 
-    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<ItemStack, IntArrayNBT> output) {
+    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<ItemStack, IntArrayNBT> output, boolean requireBottle) {
         this.id = id;
         this.ingredient = ingredient;
         this.output = output;
+        this.requireBottle = requireBottle;
     }
 
     @Override
@@ -131,7 +133,9 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
                 }
             });
 
-            return this.factory.create(id, ingredient, outputs);
+            boolean requireBottle = JSONUtils.getBoolean(json, "require_bottle", false);
+
+            return this.factory.create(id, ingredient, outputs, requireBottle);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
@@ -143,7 +147,9 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
                     i -> output.put(buffer.readItemStack(), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
-                return this.factory.create(id, ingredient, output);
+                boolean requireBottle = buffer.readBoolean();
+
+                return this.factory.create(id, ingredient, output, requireBottle);
             } catch (Exception e) {
                 throw e;
             }
@@ -161,6 +167,8 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
                     buffer.writeInt(value.get(2).getInt());
                 });
 
+                buffer.writeBoolean(recipe.requireBottle);
+
             } catch (Exception e) {
                 throw e;
             }
@@ -168,7 +176,7 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends CentrifugeRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, Map<ItemStack, IntArrayNBT> output);
+            T create(ResourceLocation id, Ingredient input, Map<ItemStack, IntArrayNBT> output, boolean requireBottle);
         }
     }
 }

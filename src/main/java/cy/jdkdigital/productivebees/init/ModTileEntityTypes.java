@@ -79,6 +79,11 @@ public class ModTileEntityTypes
                     ModBlocks.CENTRIFUGE.get()
             ).build(null)
     );
+    public static final RegistryObject<TileEntityType<PoweredCentrifugeTileEntity>> POWERED_CENTRIFUGE = TILE_ENTITY_TYPES.register("powered_centrifuge", () ->
+            TileEntityType.Builder.create(PoweredCentrifugeTileEntity::new,
+                    ModBlocks.POWERED_CENTRIFUGE.get()
+            ).build(null)
+    );
     public static final RegistryObject<TileEntityType<BottlerTileEntity>> BOTTLER = TILE_ENTITY_TYPES.register("bottler", () ->
             TileEntityType.Builder.create(BottlerTileEntity::new,
                     ModBlocks.BOTTLER.get()

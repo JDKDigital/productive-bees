@@ -5,11 +5,13 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
+import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.item.Gene;
 import cy.jdkdigital.productivebees.item.GeneBottle;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -18,6 +20,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -33,10 +38,11 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedContainerProvider
+public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickable
 {
     private static final Random rand = new Random();
 
@@ -79,31 +85,40 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         super(ModTileEntityTypes.CENTRIFUGE.get());
     }
 
+    public CentrifugeTileEntity(TileEntityType<?> type) {
+        super(type);
+    }
+
+    public int getProcessingTime() {
+        return ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get();
+    }
+
     @Override
     public void tick() {
-        if (!world.isRemote) {
+        if (world != null && !world.isRemote) {
             inventoryHandler.ifPresent(invHandler -> {
-                if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty()) {
+                if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty() && canOperate()) {
                     // Process gene bottles
                     ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
                     if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {
                         world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
-                        int totalTime = ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get();
+                        int totalTime = getProcessingTime();
 
                         if (++this.recipeProgress == totalTime) {
-                            recipeProgress = 0;
                             this.completeGeneProcessing(invHandler);
+                            recipeProgress = 0;
+                            this.markDirty();
                         }
                     } else {
                         CentrifugeRecipe recipe = getRecipe(invHandler);
-                        boolean isValidRecipe = this.canProcessRecipe(recipe, invHandler);
-                        if (isValidRecipe) {
+                        if (canProcessRecipe(recipe, invHandler)) {
                             world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
-                            int totalTime = ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get();
+                            int totalTime = getProcessingTime();
 
                             if (++this.recipeProgress == totalTime) {
-                                recipeProgress = 0;
                                 this.completeRecipeProcessing(recipe, invHandler);
+                                recipeProgress = 0;
+                                this.markDirty();
                             }
                         }
                     }
@@ -117,9 +132,21 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         super.tick();
     }
 
+    protected boolean canOperate() {
+        return true;
+    }
+
+    @Override
+    public void markDirty() {
+        super.markDirty();
+        if (this.world != null) {
+            world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 2);
+        }
+    }
+
     private CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-        if (input.isEmpty() || input == ItemStack.EMPTY) {
+        if (input.isEmpty() || input == ItemStack.EMPTY || world == null) {
             return null;
         }
 
@@ -131,7 +158,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         return currentRecipe;
     }
 
-    private boolean canProcessRecipe(@Nullable CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
+    protected boolean canProcessRecipe(@Nullable CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
         if (recipe != null) {
             // Check if output slots has space for recipe output
             List<ItemStack> outputList = Lists.newArrayList();
@@ -147,7 +174,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     }
 
     private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
-        if (this.canProcessRecipe(recipe, invHandler)) {
+        if (canProcessRecipe(recipe, invHandler)) {
 
             honeyInventory.ifPresent(honeyHandler -> {
                 honeyHandler.fill(new FluidStack(ModFluids.HONEY.get(), 250), IFluidHandler.FluidAction.EXECUTE);
@@ -163,41 +190,54 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
             invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
         }
-        recipeProgress = 0;
-        this.markDirty();
     }
 
     private void completeGeneProcessing(IItemHandlerModifiable invHandler) {
         ItemStack geneBottle = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
 
         CompoundNBT entityData = GeneBottle.getGenesTag(geneBottle);
-        ProductiveBees.LOGGER.info("Data: " + entityData);
-        int productivity = entityData.getInt("bee_productivity");
-        int tolerance = entityData.getInt("bee_weather_tolerance");
-        int behavior = entityData.getInt("bee_behavior");
-        int endurance = entityData.getInt("bee_endurance");
-        int temper = entityData.getInt("bee_temper");
 
-        if (rand.nextFloat() > 0.85F) {
-            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.PRODUCTIVITY, productivity));
-        }
-        if (rand.nextFloat() > 0.85F) {
-            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, tolerance));
-        }
-        if (rand.nextFloat() > 0.85F) {
-            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.BEHAVIOR, behavior));
-        }
-        if (rand.nextFloat() > 0.85F) {
-            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.ENDURANCE, endurance));
-        }
-        if (rand.nextFloat() > 0.85F) {
-            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.TEMPER, temper));
+        List<String> attributes = new ArrayList<String>() {{
+            add("productivity");
+            add("weather_tolerance");
+            add("behavior");
+            add("endurance");
+            add("temper");
+        }};
+
+        double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.genExtractChance.get();
+        for (String attributeName: attributes) {
+            if (rand.nextDouble() <= chance) {
+                int value = entityData.getInt("bee_" + attributeName);
+                ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.getAttributeByName(attributeName), value));
+            }
         }
 
         invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
+    }
 
-        recipeProgress = 0;
-        this.markDirty();
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket(){
+        CompoundNBT tag = new CompoundNBT();
+
+        inventoryHandler.ifPresent(inv -> {
+            ItemStack inputStack = inv.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+
+            tag.put("input", inputStack.serializeNBT());
+        });
+
+        return new SUpdateTileEntityPacket(getPos(), -1, tag);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt){
+        CompoundNBT tag = pkt.getNbtCompound();
+
+        if (tag.contains("input")) {
+            inventoryHandler.ifPresent(inv -> {
+                inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, ItemStack.read((CompoundNBT) tag.get("input")));
+            });
+        }
     }
 
     @Nonnull

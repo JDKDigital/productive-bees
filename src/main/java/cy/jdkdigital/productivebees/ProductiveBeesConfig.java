@@ -36,6 +36,8 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.BooleanValue enableItemConverting;
         public final ForgeConfigSpec.IntValue itemTickRate;
         public final ForgeConfigSpec.IntValue centrifugeProcessingTime;
+        public final ForgeConfigSpec.IntValue centrifugePoweredProcessingTime;
+        public final ForgeConfigSpec.IntValue centrifugePowerUse;
         public final ForgeConfigSpec.BooleanValue enableCombProduce;
         public final ForgeConfigSpec.IntValue nestRepopulationCooldown;
         public final ForgeConfigSpec.ConfigValue<String> woodChipLogsBlacklist;
@@ -54,6 +56,14 @@ public class ProductiveBeesConfig
             centrifugeProcessingTime = builder
                     .comment("How many ticks it takes for process a recipe in the centrifuge. Default 300.")
                     .defineInRange("centrifugeProcessingTime", 300, 20, Integer.MAX_VALUE);
+
+            centrifugePoweredProcessingTime = builder
+                    .comment("How many ticks it takes for process a recipe in the powerd centrifuge. Default 100.")
+                    .defineInRange("centrifugePoweredProcessingTime", 100, 20, Integer.MAX_VALUE);
+
+            centrifugePowerUse = builder
+                    .comment("How much FE to use per tick for a powered centrifuge when processing an item. Default 10.")
+                    .defineInRange("centrifugePowerUse", 10, 1, Integer.MAX_VALUE);
 
             enableCombProduce = builder
                     .comment("Bees will create combs instead of raw resource. Combs will need to be processed in a centrifuge. Default true.")
@@ -102,6 +112,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.DoubleValue damageChance;
         public final ForgeConfigSpec.DoubleValue toleranceChance;
         public final ForgeConfigSpec.DoubleValue behaviorChance;
+        public final ForgeConfigSpec.DoubleValue genExtractChance;
         public final ForgeConfigSpec.IntValue effectTicks;
 
         public BeeAttributes(ForgeConfigSpec.Builder builder) {
@@ -111,6 +122,7 @@ public class ProductiveBeesConfig
             damageChance = builder.comment("Chance that a bee will take damage while leashed in a hostile environment").defineInRange("damageChance", 0.1, 0, 1);
             toleranceChance = builder.comment("Chance to increase tolerance (rain or thunder tolerance trait) while leashed in a hostile environment.").defineInRange("toleranceChance", 0.1, 0, 1);
             behaviorChance = builder.comment("Chance to increase behavior (nocturnal trait) while leashed in a hostile environment.").defineInRange("behaviorChance", 0.1, 0, 1);
+            genExtractChance = builder.comment("Chance to extract genes from a bottle of bee material.").defineInRange("genExtractChance", 0.85, 0, 1);
 
             effectTicks = builder.comment("Number of ticks between effects on nearby entities").defineInRange("ticks", 2337, 20, Integer.MAX_VALUE);
             builder.pop();

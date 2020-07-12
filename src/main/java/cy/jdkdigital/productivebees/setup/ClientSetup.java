@@ -20,6 +20,7 @@ public class ClientSetup
     public static void init(final FMLClientSetupEvent event) {
         ScreenManager.registerFactory(ModContainerTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveScreen::new);
         ScreenManager.registerFactory(ModContainerTypes.CENTRIFUGE.get(), CentrifugeScreen::new);
+        ScreenManager.registerFactory(ModContainerTypes.POWERED_CENTRIFUGE.get(), CentrifugeScreen::new);
         ScreenManager.registerFactory(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
 
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);

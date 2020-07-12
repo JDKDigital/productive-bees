@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.Bottler;
 import cy.jdkdigital.productivebees.container.BottlerContainer;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
@@ -72,10 +73,12 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
     public void markDirty() {
         super.markDirty();
 
-        inventoryHandler.ifPresent(inv -> {
-            boolean hasBottle = !inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty();
-            world.setBlockState(pos, this.getBlockState().with(Bottler.HAS_BOTTLE, hasBottle));
-        });
+        if (world != null) {
+            inventoryHandler.ifPresent(inv -> {
+                boolean hasBottle = !inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty();
+                world.setBlockState(pos, this.getBlockState().with(Bottler.HAS_BOTTLE, hasBottle));
+            });
+        }
     }
 
     public BottlerTileEntity() {

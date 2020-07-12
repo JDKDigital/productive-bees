@@ -171,15 +171,8 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     public void openGui(ServerPlayerEntity player, AdvancedBeehiveTileEntity tileEntity) {
-        tileEntity.inhabitantList.clear();
-        tileEntity.getCapability(CapabilityBee.BEE).ifPresent(handler -> {
-            for (AdvancedBeehiveTileEntityAbstract.Inhabitant bee : handler.getInhabitants()) {
-                tileEntity.inhabitantList.add(bee.nbt.getString("id"));
-            }
-        });
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> {
             packetBuffer.writeBlockPos(tileEntity.getPos());
-            packetBuffer.writeString(String.join(",", tileEntity.inhabitantList));
         });
     }
 }

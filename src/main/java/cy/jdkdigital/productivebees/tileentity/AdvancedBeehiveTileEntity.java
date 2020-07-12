@@ -1,9 +1,11 @@
 package cy.jdkdigital.productivebees.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -22,6 +24,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -38,6 +42,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider
@@ -60,15 +65,13 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         MAX_BEES = 3;
     }
 
-    /**
-     * @return The logical-server-side Container for this TileEntity
-     */
     @Nonnull
     @Override
     public Container createMenu(final int windowId, final PlayerInventory playerInventory, final PlayerEntity player) {
         return new AdvancedBeehiveContainer(windowId, playerInventory, this);
     }
 
+    @Nonnull
     @Override
     public ITextComponent getDisplayName() {
         return new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey());
@@ -202,6 +205,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
     }
 
+    @Nonnull
     @Override
     public CompoundNBT write(CompoundNBT tag) {
         super.write(tag);
@@ -212,6 +216,32 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         });
 
         return tag;
+    }
+
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        CompoundNBT tag = new CompoundNBT();
+
+        inhabitantList.clear();
+        getCapability(CapabilityBee.BEE).ifPresent(handler -> {
+            for (AdvancedBeehiveTileEntityAbstract.Inhabitant bee : handler.getInhabitants()) {
+                inhabitantList.add(bee.nbt.getString("id"));
+            }
+        });
+        tag.putString("bees", String.join(",", inhabitantList));
+
+        return new SUpdateTileEntityPacket(getPos(), -1, tag);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt){
+        CompoundNBT tag = pkt.getNbtCompound();
+
+        if (tag.contains("bees")) {
+            inventoryHandler.ifPresent(inv -> {
+                inhabitantList = Arrays.asList(tag.getString("bees").split(","));
+            });
+        }
     }
 
     @Nonnull

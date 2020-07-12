@@ -97,8 +97,6 @@ public class AdvancedBeehiveContainer extends AbstractContainer
         Objects.requireNonNull(data, "data cannot be null!");
         final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
         if (tileAtPos instanceof AdvancedBeehiveTileEntity) {
-            List<String> inhabitantList = Arrays.asList(data.readString().split(","));
-            ((AdvancedBeehiveTileEntity) tileAtPos).inhabitantList = inhabitantList;
             return (AdvancedBeehiveTileEntity) tileAtPos;
         }
         throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);

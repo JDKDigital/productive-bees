@@ -8,6 +8,7 @@
 
 	"item.productivebees.wood_chip": "Wood Chip",
 	"item.productivebees.wood_chip.named": "%s Wood Chip",
+	"item.productivebees.milk_bottle": "Milk Bottle",
 	"item.productivebees.honey_bucket": "Honey Bucket",
 	"item.productivebees.honey_treat": "Honey Treat",
 	"item.productivebees.gene_bottle": "Squashed Bee Material",
@@ -25,6 +26,7 @@
 	"item.productivebees.spawn_egg_diamond_bee": "Diamond Bee Spawn Egg",
 	"item.productivebees.spawn_egg_dye_bee": "Dye Bee Spawn Egg",
 	"item.productivebees.spawn_egg_lumber_bee": "Lumber Bee Spawn Egg",
+	"item.productivebees.spawn_egg_rancher_bee": "Rancher Bee Spawn Egg",
 
 	"item.productivebees.spawn_egg_glowing_bee": "Glowing Bee Spawn Egg",
 	"item.productivebees.spawn_egg_quartz_bee": "Crystalline Bee Spawn Egg",
@@ -35,7 +37,7 @@
 	"item.productivebees.spawn_egg_draconic_bee": "Draconic Bee Spawn Egg",
 
 	"item.productivebees.spawn_egg_creeper_bee": "Explosive Bee Spawn Egg",
-	"item.productivebees.spawn_egg_zombie_bee": "Zombie Bee Spawn Egg",
+	"item.productivebees.spawn_egg_zombie_bee": "ZomBee Spawn Egg",
 	"item.productivebees.spawn_egg_skeletal_bee": "Skeletal Bee Spawn Egg",
 	"item.productivebees.spawn_egg_wither_bee": "Withered Bee Spawn Egg",
 
@@ -94,6 +96,7 @@
 	"item.productivebees.honeycomb_lapis": "Lapis Comb",
 	"item.productivebees.honeycomb_leaden": "Leaden Comb",
 	"item.productivebees.honeycomb_magmatic": "Magmatic Comb",
+	"item.productivebees.honeycomb_milky": "Milky Comb",
 	"item.productivebees.honeycomb_nickel": "Nickel Comb",
 	"item.productivebees.honeycomb_osmium": "Osmium Comb",
 	"item.productivebees.honeycomb_platinum": "Platinum Comb",
@@ -112,6 +115,7 @@
 	"item.productivebees.honeycomb_zinc": "Zinc Comb",
 
 	"block.productivebees.centrifuge": "Centrifuge",
+	"block.productivebees.powered_centrifuge": "Powered Centrifuge",
 	"block.productivebees.bottler": "Bottler",
 	"block.productivebees.inactive_dragon_egg": "Inactive Dragon Egg",
 	"block.productivebees.oak_wood_nest": "Oak Nest",
@@ -221,6 +225,7 @@
 	"block.productivebees.comb_lapis": "Lapis Comb Block",
 	"block.productivebees.comb_leaden": "Leaden Comb Block",
 	"block.productivebees.comb_magmatic": "Magmatic Comb Block",
+	"block.productivebees.comb_milky": "Milky Comb Block",
 	"block.productivebees.comb_nickel": "Nickel Comb Block",
 	"block.productivebees.comb_osmium": "Osmium Comb Block",
 	"block.productivebees.comb_platinum": "Platinum Comb Block",
@@ -248,6 +253,7 @@
 	"entity.productivebees.diamond_bee": "Diamond Bee",
 	"entity.productivebees.dye_bee": "Dye Bee",
 	"entity.productivebees.lumber_bee": "Lumber Bee",
+	"entity.productivebees.rancher_bee": "Rancher Bee",
 
 	"entity.productivebees.glowing_bee": "Glowing Bee",
 	"entity.productivebees.quartz_bee": "Crystalline Bee",
@@ -258,7 +264,7 @@
 	"entity.productivebees.draconic_bee": "Draconic Bee",
 
 	"entity.productivebees.creeper_bee": "Explosive Bee",
-	"entity.productivebees.zombie_bee": "Zombie Bee",
+	"entity.productivebees.zombie_bee": "ZomBee",
 	"entity.productivebees.skeletal_bee": "Skeletal Bee",
 	"entity.productivebees.wither_bee": "Withered Bee",
 
@@ -328,6 +334,11 @@
 	"productivebees.information.attribute.weather_tolerance.none": "None",
 	"productivebees.information.attribute.weather_tolerance.rain": "Rain",
 	"productivebees.information.attribute.weather_tolerance.any": "Any",
+	"productivebees.information.attribute.endurance": "Endurance: %s",
+	"productivebees.information.attribute.endurance.weak": "Weak",
+	"productivebees.information.attribute.endurance.normal": "Normal",
+	"productivebees.information.attribute.endurance.medium": "Medium",
+	"productivebees.information.attribute.endurance.strong": "Strong",
 
 	"productivebees.hive.tooltip.bees": "Bees:",
 	"productivebees.hive.tooltip.empty": "Empty",
@@ -341,7 +352,8 @@
 	"productivebees.ingredient.description.emerald_bee": "Put it in an advanced beehive to get some emeralds.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.diamond_bee": "Put it in an advanced beehive to get some diamonds.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.dye_bee": "Brings home more flowery bits than just nectar.",
-	"productivebees.ingredient.description.lumber_bee": "Has n healthy obsession with wood.",
+	"productivebees.ingredient.description.lumber_bee": "Has a healthy obsession with wood.",
+	"productivebees.ingredient.description.rancher_bee": "In bee-school it's nickname was BooBee.",
 
 	"productivebees.ingredient.description.glowing_bee": "Put it in an advanced beehive to get some glowstone.\n\nSpawn naturally in the nether making it's nest inside glowstone blocks.",
 	"productivebees.ingredient.description.quartz_bee": "Put it in an advanced beehive to get some nether quartz.\n\nSpawn naturally in the nether making it's nest inside nether quartz ore.",

@@ -93,7 +93,6 @@ public final class ProductiveBees
         ModBlocks.registerRendering();
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void registerItemColors(ColorHandlerEvent.Item event) {
         for (RegistryObject<Item> items : ModItems.SPAWN_EGGS) {
             if (ObfuscationReflectionHelper.getPrivateValue(RegistryObject.class, items, "value") != null) {
@@ -105,7 +104,6 @@ public final class ProductiveBees
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void registerBlockColors(ColorHandlerEvent.Block event) {
         event.getBlockColors().register((blockState, lightReader, pos, i) -> {
             return lightReader != null && pos != null ? BiomeColors.getGrassColor(lightReader, pos) : -1;

@@ -1,0 +1,6 @@
+{
+    "parent": "productivebees:block/centrifuge/running",
+    "textures": {
+        "side": "productivebees:block/centrifuge/powered_side"
+    }
+}

@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.entity.bee.hive.RancherBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.nesting.*;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -11,12 +12,10 @@ import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -46,6 +45,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -354,10 +354,10 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
             else if (ProductiveBeeEntity.this.hasNectar()) {
                 return false;
             }
-            else if (ProductiveBeeEntity.this.world.isRaining() && ProductiveBeeEntity.this.canOperateDuringRain()) {
+            else if (ProductiveBeeEntity.this.world.isRaining() && !ProductiveBeeEntity.this.canOperateDuringRain()) {
                 return false;
             }
-            else if (ProductiveBeeEntity.this.world.isThundering() && ProductiveBeeEntity.this.canOperateDuringThunder()) {
+            else if (ProductiveBeeEntity.this.world.isThundering() && !ProductiveBeeEntity.this.canOperateDuringThunder()) {
                 return false;
             }
             else if (ProductiveBeeEntity.this.rand.nextFloat() <= 0.7F) {
@@ -371,11 +371,38 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
                     return true;
                 }
                 else {
-                    // Failing to find a flower will set a cooldown before next attempt
+                    // Failing to find a target will set a cooldown before next attempt
                     ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewFlower = 70 + world.rand.nextInt(50);
                     return false;
                 }
             }
+        }
+
+        @Nonnull
+        @Override
+        public Optional<BlockPos> getFlower() {
+            if (ProductiveBeeEntity.this instanceof RancherBeeEntity) {
+                ProductiveBees.LOGGER.info("RancherBeeEntity getFlower");
+                return findEntities(RancherBeeEntity.predicate, 5D);
+            }
+            return super.getFlower();
+        }
+
+        private Optional<BlockPos> findEntities(Predicate<Entity> predicate, double distance) {
+            BlockPos blockpos = new BlockPos(ProductiveBeeEntity.this);
+            BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+
+            List<Entity> ranchables = world.getEntitiesInAABBexcluding(ProductiveBeeEntity.this, (new AxisAlignedBB(blockpos).grow(distance, distance, distance)), predicate);
+            ProductiveBees.LOGGER.info("ranchables: " + ranchables);
+            if (ranchables.size() > 0) {
+                CreatureEntity entity = (CreatureEntity) ranchables.get(0);
+                entity.getNavigator().setSpeed(0);
+                blockpos$mutable.setPos(entity);
+                ProductiveBees.LOGGER.info("first " + entity + " - " + blockpos$mutable);
+                return Optional.of(blockpos$mutable);
+            }
+
+            return Optional.empty();
         }
     }
 
