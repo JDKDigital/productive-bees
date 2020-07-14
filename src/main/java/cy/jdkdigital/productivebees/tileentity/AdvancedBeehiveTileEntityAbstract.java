@@ -183,7 +183,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                         (this.world.isRaining() && (beeState != BeehiveTileEntity.State.EMERGENCY || tag.getInt("bee_weather_tolerance") == 0)); // it's raining and the bees is not tolerant
 
         if (!this.world.isNightTime() && !this.world.isRaining() && stayInside) {
-            ProductiveBees.LOGGER.info("Bee is staying inside during the day: " + tag);
+            ProductiveBees.LOGGER.debug("Bee is staying inside during the day: " + tag);
         }
 
         if (!stayInside) {

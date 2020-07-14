@@ -110,7 +110,6 @@ public class BeeHelper
         if (!beeEntity.getBeeType().equals(((ProductiveBeeEntity) targetEntity).getBeeType())) {
             // Get breeding recipes
             List<BeeBreedingRecipe> recipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING, new BeeInventory(beeEntity.getBeeType(), ((ProductiveBeeEntity) targetEntity).getBeeType()), world);
-            ProductiveBees.LOGGER.info("Recipes::" + recipes);
             // If the two bees are the same type, or no breeding rules exist, create a new of that type
             if (!recipes.isEmpty()) {
                 BeeBreedingRecipe recipe = recipes.get(rand.nextInt(recipes.size()));

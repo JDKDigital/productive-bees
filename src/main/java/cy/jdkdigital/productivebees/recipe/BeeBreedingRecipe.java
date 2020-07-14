@@ -40,15 +40,12 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
-        ProductiveBees.LOGGER.info("matching recipe " + this.offspring);
         if (inv instanceof BeeHelper.BeeInventory) {
             String beeName1 = ((BeeHelper.BeeInventory)inv).getBeeIdentifier(0);
             String beeName2 = ((BeeHelper.BeeInventory)inv).getBeeIdentifier(1);
-            ProductiveBees.LOGGER.info("matching recipe for " + beeName1 + " an " + beeName2);
             boolean matches = true;
             for (BeeIngredient parent: ingredients) {
                 String parentName = parent.getBeeType().getRegistryName().getPath();
-                ProductiveBees.LOGGER.info("checking " + parentName);
                 if (!parentName.equals(beeName1 + "_bee") && !parentName.equals(beeName2 + "_bee")) {
                     matches = false;
                     break;

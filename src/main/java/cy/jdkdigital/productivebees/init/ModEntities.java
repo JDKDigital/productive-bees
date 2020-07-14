@@ -1,10 +1,7 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.client.render.entity.DyeBeeRenderer;
-import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
-import cy.jdkdigital.productivebees.client.render.entity.SlimyBeeRenderer;
-import cy.jdkdigital.productivebees.client.render.entity.SolitaryBeeRenderer;
+import cy.jdkdigital.productivebees.client.render.entity.*;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.*;
@@ -121,6 +118,9 @@ public class ModEntities
             }
             else if (bee.getTranslationKey().contains("dye_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, DyeBeeRenderer::new);
+            }
+            else if (bee.getTranslationKey().contains("rancher_bee")) {
+                RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, RancherBeeRenderer::new);
             }
             else {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, ProductiveBeeRenderer::new);

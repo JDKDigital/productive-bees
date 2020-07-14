@@ -381,7 +381,6 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         @Override
         public Optional<BlockPos> getFlower() {
             if (ProductiveBeeEntity.this instanceof RancherBeeEntity) {
-                ProductiveBees.LOGGER.info("RancherBeeEntity getFlower");
                 return findEntities(RancherBeeEntity.predicate, 5D);
             }
             return super.getFlower();
@@ -392,12 +391,10 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
             BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
             List<Entity> ranchables = world.getEntitiesInAABBexcluding(ProductiveBeeEntity.this, (new AxisAlignedBB(blockpos).grow(distance, distance, distance)), predicate);
-            ProductiveBees.LOGGER.info("ranchables: " + ranchables);
             if (ranchables.size() > 0) {
                 CreatureEntity entity = (CreatureEntity) ranchables.get(0);
                 entity.getNavigator().setSpeed(0);
                 blockpos$mutable.setPos(entity);
-                ProductiveBees.LOGGER.info("first " + entity + " - " + blockpos$mutable);
                 return Optional.of(blockpos$mutable);
             }
 

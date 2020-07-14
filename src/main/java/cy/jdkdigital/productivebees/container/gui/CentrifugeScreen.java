@@ -90,7 +90,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
         // Draw energy level
         this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
-            int energyLevel = (int) (energyAmount * (52 / 1000F));
+            int energyLevel = (int) (energyAmount * (52 / 10000F));
             this.blit(this.guiLeft + 8, this.guiTop + 69, 180, 69, 4, -1 * energyLevel);
         });
     }
