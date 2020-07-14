@@ -1,0 +1,31 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "RBR",
+        "ICI",
+        "RBR"
+    ],
+    "key": {
+        "R": {
+            "item": "minecraft:redstone"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "B": {
+            "item": "mekanism:basic_control_circuit"
+        },
+        "C": {
+            "item": "productivebees:centrifuge"
+        }
+    },
+    "result": {
+        "item": "productivebees:powered_centrifuge"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mekanism"
+        }
+    ]
+}

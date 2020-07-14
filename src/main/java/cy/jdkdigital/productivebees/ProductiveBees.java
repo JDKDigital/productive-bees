@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.entity.bee.hive.ZombieBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.solitary.BlueBandedBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.item.SpawnEgg;
 import cy.jdkdigital.productivebees.setup.ClientProxy;
 import cy.jdkdigital.productivebees.setup.ClientSetup;
 import cy.jdkdigital.productivebees.setup.IProxy;
@@ -18,16 +17,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.item.Item;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -37,9 +32,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -79,9 +72,8 @@ public final class ProductiveBees
         ModRecipeTypes.RECIPE_SERIALIZERS.register(modEventBus);
 
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
-            modEventBus.addListener(EventPriority.LOWEST, this::registerItemColors);
-            modEventBus.addListener(EventPriority.LOWEST, this::registerBlockColors);
-            modEventBus.addListener(EventPriority.LOWEST, this::setupClient);
+            modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerItemColors);
+            modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerBlockColors);
         });
 
         modEventBus.addListener(ClientSetup::init);
@@ -91,31 +83,6 @@ public final class ProductiveBees
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
         ProductiveBeesConfig.loadConfig(ProductiveBeesConfig.CONFIG, FMLPaths.CONFIGDIR.get().resolve("productivebees-server.toml").toString());
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private void setupClient(final FMLClientSetupEvent event) {
-        ModEntities.registerRendering();
-        ModBlocks.registerRendering();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private void registerItemColors(ColorHandlerEvent.Item event) {
-        for (RegistryObject<Item> items : ModItems.SPAWN_EGGS) {
-            if (ObfuscationReflectionHelper.getPrivateValue(RegistryObject.class, items, "value") != null) {
-                Item item = items.get();
-                if (item instanceof SpawnEgg) {
-                    event.getItemColors().register((itemColor, itemsIn) -> ((SpawnEgg) item).getColor(itemsIn), item);
-                }
-            }
-        }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private void registerBlockColors(ColorHandlerEvent.Block event) {
-        event.getBlockColors().register((blockState, lightReader, pos, i) -> {
-            return lightReader != null && pos != null ? BiomeColors.getGrassColor(lightReader, pos) : -1;
-        }, ModBlocks.SUGAR_CANE_NEST.get());
     }
 
     public void preInit(FMLCommonSetupEvent event) {

@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "RCR"
+    ],
+    "key": {
+        "R": {
+            "item": "minecraft:redstone"
+        },
+        "C": {
+            "item": "productivebees:centrifuge"
+        }
+    },
+    "result": {
+        "item": "productivebees:powered_centrifuge"
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:mod_loaded",
+                "modid": "mekanism"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:mod_loaded",
+                "modid": "silents_mechanisms"
+            }
+        }
+    ]
+}

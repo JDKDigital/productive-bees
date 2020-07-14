@@ -92,13 +92,13 @@ public class BeeCage extends Item
         ItemStack cageStack = new ItemStack(itemStack.getItem());
         cageStack.setTag(nbt);
 
-        itemStack.shrink(1);
         if (!player.inventory.addItemStackToInventory(cageStack)) {
             player.dropItem(cageStack, false);
         }
 
         player.swingArm(hand);
 
+        itemStack.shrink(1);
         target.remove(true);
 
         return ActionResultType.CONSUME;

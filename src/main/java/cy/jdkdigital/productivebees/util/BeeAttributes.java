@@ -33,9 +33,9 @@ public class BeeAttributes
     public static final BeeAttribute<INamedTag<Block>> NESTING_PREFERENCE = register("nesting_preference");
     public static final BeeAttribute<BeeEffect> EFFECTS = register("effect");
 
-    private static final UUID HEALTH_MOD_ID_WEAK = UUID.nameUUIDFromBytes("productivebees:health_mod_modifier_weak".getBytes());
-    private static final UUID HEALTH_MOD_ID_MEDIUM = UUID.nameUUIDFromBytes("productivebees:health_mod_modifier_medium".getBytes());
-    private static final UUID HEALTH_MOD_ID_STRONG = UUID.nameUUIDFromBytes("productivebees:health_mod_modifier_strong".getBytes());
+    private static final UUID HEALTH_MOD_ID_WEAK = UUID.nameUUIDFromBytes("productivebees:health_modifier_weak".getBytes());
+    private static final UUID HEALTH_MOD_ID_MEDIUM = UUID.nameUUIDFromBytes("productivebees:health_modifier_medium".getBytes());
+    private static final UUID HEALTH_MOD_ID_STRONG = UUID.nameUUIDFromBytes("productivebees:health_modifier_strong".getBytes());
     public static final Map<Integer, AttributeModifier> HEALTH_MODS = new HashMap<Integer, AttributeModifier>() {{
         put(0, (new AttributeModifier(HEALTH_MOD_ID_WEAK, "Health mod weak", 0.30F, AttributeModifier.Operation.MULTIPLY_BASE)));
         put(2, (new AttributeModifier(HEALTH_MOD_ID_MEDIUM, "Health mod medium", 0.6F, AttributeModifier.Operation.MULTIPLY_BASE)));

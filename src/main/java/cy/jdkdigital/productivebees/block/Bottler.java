@@ -47,7 +47,7 @@ public class Bottler extends ContainerBlock
 
     public Bottler(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(HAS_BOTTLE, Boolean.valueOf(true)));
+        this.setDefaultState(this.stateContainer.getBaseState().with(HAS_BOTTLE, Boolean.FALSE));
     }
 
     @SuppressWarnings("deprecation")

@@ -1,0 +1,27 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/milky"
+    },
+    "output": [
+        {
+            "item": "productivebees:milk_bottle",
+            "min": 1,
+            "max": 1,
+            "chance": 80
+        },
+        {
+            "tag": "forge:wax"
+        }
+    ],
+    "require_bottle": true,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:honeycombs/milky"
+            }
+        }
+    ]
+}

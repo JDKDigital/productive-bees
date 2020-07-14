@@ -45,7 +45,7 @@ public class Centrifuge extends ContainerBlock
 
     public Centrifuge(Block.Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(RUNNING, Boolean.valueOf(true)));
+        this.setDefaultState(this.stateContainer.getBaseState().with(RUNNING, Boolean.FALSE));
     }
 
     @SuppressWarnings("deprecation")

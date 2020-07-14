@@ -14,7 +14,10 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class AdvancedBeehiveContainer extends AbstractContainer
 {
@@ -97,8 +100,6 @@ public class AdvancedBeehiveContainer extends AbstractContainer
         Objects.requireNonNull(data, "data cannot be null!");
         final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
         if (tileAtPos instanceof AdvancedBeehiveTileEntity) {
-            List<String> inhabitantList = Arrays.asList(data.readString().split(","));
-            ((AdvancedBeehiveTileEntity) tileAtPos).inhabitantList = inhabitantList;
             return (AdvancedBeehiveTileEntity) tileAtPos;
         }
         throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);

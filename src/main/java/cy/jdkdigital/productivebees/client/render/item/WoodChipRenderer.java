@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.client.render.item;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.item.model.WoodChipModel;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.item.WoodChip;
@@ -106,8 +105,6 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
 
         List<BakedQuad> quads = model.getQuads(woodBlock.getDefaultState(), Direction.NORTH, new Random());
         if (quads.isEmpty()) {
-            ProductiveBees.LOGGER.error("No quads for " + woodName + " state:" + woodBlock.getDefaultState());
-            ProductiveBees.LOGGER.error("model:" + model);
             return null;
         }
 

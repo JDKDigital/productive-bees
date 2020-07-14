@@ -29,7 +29,7 @@ public class CentrifugeTileEntityRenderer extends TileEntityRenderer<CentrifugeT
                 double d = (time / 50) % 360;
                 double shownItemCount = Math.ceil(stack.getCount() / 4F);
                 for(int i = 0; i < shownItemCount; ++i) {
-                    double angle = d + 360D / shownItemCount * i;
+                    double angle = -d + 360D / shownItemCount * i;
                     double dX = Math.sin(Math.toRadians(angle)) * 0.25D;
                     double dZ = Math.cos(Math.toRadians(angle)) * 0.25D;
 

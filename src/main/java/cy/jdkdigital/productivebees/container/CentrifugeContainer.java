@@ -5,8 +5,10 @@ import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.tileentity.PoweredCentrifugeTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
@@ -19,24 +21,30 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class CentrifugeContainer extends AbstractContainer
 {
     public final CentrifugeTileEntity tileEntity;
 
-    private final IWorldPosCallable canInteractWithCallable;
+    public final IWorldPosCallable canInteractWithCallable;
 
     public CentrifugeContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
     public CentrifugeContainer(final int windowId, final PlayerInventory playerInventory, final CentrifugeTileEntity tileEntity) {
-        super(ModContainerTypes.CENTRIFUGE.get(), windowId);
+        this(ModContainerTypes.CENTRIFUGE.get(), windowId, playerInventory, tileEntity);
+    }
+
+    public CentrifugeContainer(@Nullable ContainerType<?> type, final int windowId, final PlayerInventory playerInventory, final CentrifugeTileEntity tileEntity) {
+        super(type, windowId);
 
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
+        // Honey
         trackInt(new IntReferenceHolder()
         {
             @Override
@@ -89,6 +97,9 @@ public class CentrifugeContainer extends AbstractContainer
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
         final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
+        if (tileAtPos instanceof PoweredCentrifugeTileEntity) {
+            return (PoweredCentrifugeTileEntity) tileAtPos;
+        }
         if (tileAtPos instanceof CentrifugeTileEntity) {
             return (CentrifugeTileEntity) tileAtPos;
         }

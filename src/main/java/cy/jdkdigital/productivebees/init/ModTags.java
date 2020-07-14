@@ -2,9 +2,11 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tags.ItemTags;
@@ -37,6 +39,8 @@ public class ModTags
     public static final INamedTag<Item> HONEY_BUCKETS = ItemTags.makeWrapperTag("forge:honey_buckets");
 
     public static final INamedTag<Fluid> HONEY = FluidTags.makeWrapperTag("forge:honey");
+
+    public static final INamedTag<EntityType<?>> RANCHABLES = EntityTypeTags.func_232896_a_(ProductiveBees.MODID + ":" + "ranchables");
 
     private static INamedTag<Block> getTag(String resourceLocation) {
         return BlockTags.makeWrapperTag(ProductiveBees.MODID + ":" + resourceLocation);
