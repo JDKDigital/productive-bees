@@ -44,10 +44,12 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.func_230459_a_(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void func_230451_b_(MatrixStack matrixStack, int mouseX, int mouseY) { // drawGuiContainerForegroundLayer
+    protected void func_230459_a_(MatrixStack matrixStack, int mouseX, int mouseY) { // drawGuiContainerForegroundLayer
+        super.func_230459_a_(matrixStack, mouseX, mouseY);
         assert minecraft != null;
 
         this.font.func_238422_b_(matrixStack, this.title, 8.0F, 6.0F, 4210752);
@@ -66,10 +68,10 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                 }
                 ResourceLocation beeTexture = getBeeTexture(beeId, this.container.tileEntity.getWorld());
                 minecraft.textureManager.bindTexture(beeTexture);
-                blit(matrixStack, positions.get(i).get(0), positions.get(i).get(1), 20, 20, 14, 14, 128, 128);
+                blit(matrixStack, positions.get(i).get(0) + guiLeft, positions.get(i).get(1) + guiTop, 20, 20, 14, 14, 128, 128);
 
                 minecraft.textureManager.bindTexture(GUI_TEXTURE_BEE_OVERLAY);
-                blit(matrixStack, positions.get(i).get(0), positions.get(i).get(1), 0, 0, 14, 14, 14, 14);
+                blit(matrixStack, positions.get(i).get(0) + guiLeft, positions.get(i).get(1) + guiTop, 0, 0, 14, 14, 14, 14);
 
                 i++;
             }
@@ -82,7 +84,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                         add(stringCache.get(beeId));
                     }};
                     tooltipList.add(stringCache.get(beeId + "_mod"));
-                    renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                    renderTooltip(matrixStack, tooltipList, mouseX, mouseY);
                 }
                 j++;
             }
