@@ -51,7 +51,12 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
 
     public AdvancedBeehiveAbstract(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(BeehiveBlock.HONEY_LEVEL, 0).with(BlockStateProperties.FACING, Direction.NORTH));
+        BlockState state = this.stateContainer.getBaseState().with(BlockStateProperties.FACING, Direction.NORTH);
+
+        if (state.has(BeehiveBlock.HONEY_LEVEL)) {
+            this.setDefaultState(state.with(BeehiveBlock.HONEY_LEVEL, 0));
+        }
+        this.setDefaultState(state);
     }
 
     public int getMaxHoneyLevel() {

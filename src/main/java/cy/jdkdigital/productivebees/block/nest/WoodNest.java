@@ -39,7 +39,7 @@ public class WoodNest extends SolitaryNest
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(BlockStateProperties.FACING, BeehiveBlock.HONEY_LEVEL, AXIS);
+        builder.add(BlockStateProperties.FACING, AXIS);
     }
 
     @Override

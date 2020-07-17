@@ -1,7 +1,6 @@
 {
     "parent": "block/orientable_with_bottom",
     "textures": {
-        "particle": "buzzierbees:block/jungle_beehive_side",
         "bottom": "buzzierbees:block/jungle_beehive_end",
         "top": "buzzierbees:block/jungle_beehive_end",
         "front": "buzzierbees:block/jungle_beehive_side",

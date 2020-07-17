@@ -1,0 +1,10 @@
+{
+    "parent": "block/orientable_with_bottom",
+    "textures": {
+        "particle": "buzzierbees:block/acacia_beehive_side",
+        "bottom": "buzzierbees:block/acacia_beehive_end",
+        "top": "buzzierbees:block/acacia_beehive_end",
+        "front": "buzzierbees:block/acacia_beehive_front_honey",
+        "side": "buzzierbees:block/acacia_beehive_side"
+    }
+}

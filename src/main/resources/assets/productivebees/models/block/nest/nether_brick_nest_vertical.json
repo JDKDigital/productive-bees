@@ -1,7 +1,7 @@
 {
     "parent": "block/orientable_vertical",
     "textures": {
-        "front": "productivebees:block/nest/nether_brick",
+        "front": "productivebees:block/nest/nether_bricks",
         "side": "block/nether_bricks"
     }
 }
