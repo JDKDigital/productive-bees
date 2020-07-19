@@ -17,6 +17,7 @@ import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.util.INameable;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -24,7 +25,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -34,13 +37,15 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
 
     public final ResourceLocation id;
     public final Ingredient ingredient;
-    public final Map<ItemStack, IntArrayNBT> output;
+    public final Map<Item, IntArrayNBT> itemOutput;
+    public final Map<Tag<Item>, IntArrayNBT> tagOutput;
     public final boolean requireBottle;
 
-    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<ItemStack, IntArrayNBT> output, boolean requireBottle) {
+    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<Item, IntArrayNBT> itemOutput, Map<Tag<Item>, IntArrayNBT> tagOutput, boolean requireBottle) {
         this.id = id;
         this.ingredient = ingredient;
-        this.output = output;
+        this.itemOutput = itemOutput;
+        this.tagOutput = tagOutput;
         this.requireBottle = requireBottle;
     }
 
@@ -72,6 +77,25 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
     @Override
     public ItemStack getRecipeOutput() {
         return ItemStack.EMPTY;
+    }
+
+    public Map<ItemStack, IntArrayNBT> getRecipeOutputs() {
+        Map<ItemStack, IntArrayNBT> output = new HashMap<>();
+
+        if (!itemOutput.isEmpty()) {
+            itemOutput.forEach((item, intNBTS) -> {
+                output.put(new ItemStack(item), intNBTS);
+            });
+        }
+        if (!tagOutput.isEmpty()) {
+            tagOutput.forEach((tag, intNBTS) -> {
+                if (!tag.getAllElements().isEmpty()) {
+                    output.put(new ItemStack(tag.getAllElements().stream().findFirst().orElse(Items.AIR)), intNBTS);
+                }
+            });
+        }
+
+        return output;
     }
 
     @Nonnull
@@ -111,7 +135,8 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
             }
 
             JsonArray jsonArray = JSONUtils.getJsonArray(json, "output");
-            Map<ItemStack, IntArrayNBT> outputs = new HashMap<>();
+            Map<Item, IntArrayNBT> itemOutputs = new HashMap<>();
+            Map<Tag<Item>, IntArrayNBT> tagOutputs = new HashMap<>();
             jsonArray.forEach(el -> {
                 JsonObject jsonObject = el.getAsJsonObject();
                 int min = JSONUtils.getInt(jsonObject, "min", 1);
@@ -122,34 +147,37 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
                 if (jsonObject.has("item")) {
                     String registryname = JSONUtils.getString(jsonObject, "item");
                     Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryname));
-                    outputs.put(new ItemStack(item), nbt);
+                    itemOutputs.put(item, nbt);
                 }
                 else if (jsonObject.has("tag")) {
                     String registryname = JSONUtils.getString(jsonObject, "tag");
                     Tag<Item> tag = ItemTags.getCollection().getOrCreate(new ResourceLocation(registryname));
-                    if (!tag.getAllElements().isEmpty()) {
-                        outputs.put(new ItemStack(tag.getAllElements().stream().findFirst().orElse(Items.AIR)), nbt);
-                    }
+                    tagOutputs.put(tag, nbt);
                 }
             });
 
             boolean requireBottle = JSONUtils.getBoolean(json, "require_bottle", false);
 
-            return this.factory.create(id, ingredient, outputs, requireBottle);
+            return this.factory.create(id, ingredient, itemOutputs, tagOutputs, requireBottle);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
                 Ingredient ingredient = Ingredient.read(buffer);
 
-                Map<ItemStack, IntArrayNBT> output = new HashMap<>();
+                Map<Item, IntArrayNBT> itemOutput = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                    i -> output.put(buffer.readItemStack(), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
+                    i -> itemOutput.put(buffer.readItemStack().getItem(), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
+                );
+
+                Map<Tag<Item>, IntArrayNBT> tagOutput = new HashMap<>();
+                IntStream.range(0, buffer.readInt()).forEach(
+                    i -> tagOutput.put(ItemTags.getCollection().getOrCreate(buffer.readResourceLocation()), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
                 boolean requireBottle = buffer.readBoolean();
 
-                return this.factory.create(id, ingredient, output, requireBottle);
+                return this.factory.create(id, ingredient, itemOutput, tagOutput, requireBottle);
             } catch (Exception e) {
                 throw e;
             }
@@ -158,10 +186,19 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
             try {
                 recipe.ingredient.write(buffer);
-                buffer.writeInt(recipe.output.size());
+                buffer.writeInt(recipe.itemOutput.size());
 
-                recipe.output.forEach((key, value) -> {
-                    buffer.writeItemStack(key);
+                recipe.itemOutput.forEach((key, value) -> {
+                    buffer.writeItemStack(new ItemStack(key));
+                    buffer.writeInt(value.get(0).getInt());
+                    buffer.writeInt(value.get(1).getInt());
+                    buffer.writeInt(value.get(2).getInt());
+                });
+
+                buffer.writeInt(recipe.tagOutput.size());
+
+                recipe.tagOutput.forEach((key, value) -> {
+                    buffer.writeResourceLocation(key.getId());
                     buffer.writeInt(value.get(0).getInt());
                     buffer.writeInt(value.get(1).getInt());
                     buffer.writeInt(value.get(2).getInt());
@@ -176,7 +213,7 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends CentrifugeRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, Map<ItemStack, IntArrayNBT> output, boolean requireBottle);
+            T create(ResourceLocation id, Ingredient input, Map<Item, IntArrayNBT> itemOutput, Map<Tag<Item>, IntArrayNBT> tagOutput, boolean requireBottle);
         }
     }
 }
