@@ -66,7 +66,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         ingredients.setInputIngredients(Lists.newArrayList(recipe.ingredient));
 
         List<List<ItemStack>> outputList = new ArrayList<>();
-        recipe.output.forEach((key, value) -> {
+        recipe.getRecipeOutputs().forEach((key, value) -> {
             List<ItemStack> innerList = new ArrayList<>();
             IntStream.range(value.get(0).getInt(), value.get(1).getInt() + 1).forEach((i) -> {
                 innerList.add(new ItemStack(key.getItem(), i));

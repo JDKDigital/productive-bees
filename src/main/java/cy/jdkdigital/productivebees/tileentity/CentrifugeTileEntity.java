@@ -161,7 +161,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             // Check if output slots has space for recipe output
             List<ItemStack> outputList = Lists.newArrayList();
 
-            recipe.output.forEach((key, value) -> {
+            recipe.getRecipeOutputs().forEach((key, value) -> {
                 // Check for item with max possible output
                 ItemStack item = new ItemStack(key.getItem(), value.get(1).getInt());
                 outputList.add(item);
@@ -178,7 +178,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                 honeyHandler.fill(new FluidStack(ModFluids.HONEY.get(), 250), IFluidHandler.FluidAction.EXECUTE);
             });
 
-            recipe.output.forEach((itemStack, recipeValues) -> {
+            recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
                 if (rand.nextInt(100) <= recipeValues.get(2).getInt()) {
                     int count = MathHelper.nextInt(rand, MathHelper.floor(recipeValues.get(0).getInt()), MathHelper.floor(recipeValues.get(1).getInt()));
                     itemStack.setCount(count);
