@@ -53,7 +53,7 @@ public class BambooHive extends AdvancedBeehiveAbstract
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(BlockStateProperties.FACING, BeehiveBlock.HONEY_LEVEL, AXIS);
+        builder.add(BlockStateProperties.FACING, AXIS);
     }
 
     public BlockState getStateForPlacement(BlockItemUseContext context) {

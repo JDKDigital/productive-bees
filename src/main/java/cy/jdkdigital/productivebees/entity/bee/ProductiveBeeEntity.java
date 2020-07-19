@@ -377,14 +377,14 @@ public class ProductiveBeeEntity extends BeeEntity
         }
 
         private Optional<BlockPos> findEntities(Predicate<Entity> predicate, double distance) {
-            BlockPos blockpos = new BlockPos(ProductiveBeeEntity.this);
+            BlockPos blockpos = new BlockPos(ProductiveBeeEntity.this.getPositionVec());
             BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
             List<Entity> ranchables = world.getEntitiesInAABBexcluding(ProductiveBeeEntity.this, (new AxisAlignedBB(blockpos).grow(distance, distance, distance)), predicate);
             if (ranchables.size() > 0) {
                 CreatureEntity entity = (CreatureEntity) ranchables.get(0);
                 entity.getNavigator().setSpeed(0);
-                blockpos$mutable.setPos(entity);
+                blockpos$mutable.setPos(entity.getPosX(), entity.getPosY(), entity.getPosZ());
                 return Optional.of(blockpos$mutable);
             }
 

@@ -51,7 +51,10 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
-            args '--mod', 'productivebees', '--all', '--output', file('src/generated/resources/')
+
+            args '--mod', 'productivebees', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
+            environment 'target', 'fmluserdevdata'
             mods {
                 productivebees {
                     source sourceSets.main
@@ -62,13 +65,16 @@ minecraft {
 }
 
 repositories {
+    flatDir {
+        dirs 'mods'
+    }
     maven {
         name = "JEI Maven"
         url "http://dvs1.progwml6.com/files/maven"
     }
     maven {
         name = "HWYLA"
-        url "http://maven.tehnut.info"
+        url "http://maven.tehnut.info/"
     }
 }
 
@@ -81,6 +87,12 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${mcversion}:${jei_version}")
 
 //    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
+
+    implementation fg.deobf('mods:Mekanism-1.16.1:10.0.1.424')
+//    implementation fg.deobf('mods:SilentLib-1.15.2:4.6.3+55')
+//    implementation fg.deobf('mods:SilentMechanisms-1.15.2:0.7.2+52')
+//    implementation fg.deobf('mods:Abnormals-Core-1.15.2:1.0.6')
+//    implementation fg.deobf('mods:Buzzier-Bees-1.15.2:1.5.2')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
