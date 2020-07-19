@@ -108,7 +108,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
 
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (state.get(BeehiveBlock.HONEY_LEVEL) >= MAX_HONEY_LEVEL) {
+        if (state.has(BeehiveBlock.HONEY_LEVEL) && state.get(BeehiveBlock.HONEY_LEVEL) >= MAX_HONEY_LEVEL) {
             for (int i = 0; i < random.nextInt(1) + 1; ++i) {
                 this.dripHoney(world, pos, state);
             }
@@ -167,7 +167,10 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
                 AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract) tileEntity;
-                int honeyLevel = state.get(BeehiveBlock.HONEY_LEVEL);
+                int honeyLevel = 0;
+                if (state.has(BeehiveBlock.HONEY_LEVEL)) {
+                    honeyLevel = state.get(BeehiveBlock.HONEY_LEVEL);
+                }
                 boolean hasBees = !beehiveTileEntity.hasNoBees();
                 if (!hasBees && honeyLevel == 0) {
                     return;
