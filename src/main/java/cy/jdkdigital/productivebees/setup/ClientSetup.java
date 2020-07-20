@@ -29,6 +29,7 @@ public class ClientSetup
         ScreenManager.registerFactory(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
 
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.POWERED_CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.BOTTLER.get(), BottlerTileEntityRenderer::new);
 
         ModEntities.registerRendering();
