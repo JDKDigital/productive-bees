@@ -92,7 +92,7 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
                     }
                 } catch (IllegalStateException ise) {
                     // Tag not initialized
-                    ProductiveBees.LOGGER.warn("Tag " + tag.getName() + " not initialized");
+                    ProductiveBees.LOGGER.debug("Tag " + tag.getName() + " not initialized");
                 }
             });
         }

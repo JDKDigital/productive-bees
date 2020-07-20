@@ -404,7 +404,7 @@ public class ProductiveBeeEntity extends BeeEntity
             }
 
             ITag<Block> nestTag = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE);
-            if (nestTag == null || nestTag.getAllElements().size() == 0) { // getAllElements
+            if (nestTag == null || nestTag.getAllElements().size() == 0) {
                 return false;
             }
 
