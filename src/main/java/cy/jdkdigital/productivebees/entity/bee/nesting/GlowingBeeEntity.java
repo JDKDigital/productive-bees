@@ -17,6 +17,7 @@ public class GlowingBeeEntity extends EffectHiveBeeEntity
     public GlowingBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
         beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.GLOWSTONE_NESTS);
+        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.GLOWING_FLOWERS);
     }
 
     public float getBrightness() {
