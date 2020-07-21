@@ -1,0 +1,12 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:nether_gold_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:gold_bee"
+        }
+    ],
+    "repopulation_cooldown": 36000
+}

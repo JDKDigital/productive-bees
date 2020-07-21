@@ -88,11 +88,7 @@ dependencies {
 
 //    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
 
-    implementation fg.deobf('mods:Mekanism-1.16.1:10.0.1.424')
-//    implementation fg.deobf('mods:SilentLib-1.15.2:4.6.3+55')
-//    implementation fg.deobf('mods:SilentMechanisms-1.15.2:0.7.2+52')
-//    implementation fg.deobf('mods:Abnormals-Core-1.15.2:1.0.6')
-//    implementation fg.deobf('mods:Buzzier-Bees-1.15.2:1.5.2')
+//    implementation fg.deobf('mods:Mekanism-1.16.1:10.0.1.424')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
