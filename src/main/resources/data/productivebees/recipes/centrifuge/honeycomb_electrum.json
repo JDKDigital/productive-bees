@@ -19,7 +19,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:honeycombs/electrum"
+                "tag": "forge:ingots/electrum"
             }
         },
         {
