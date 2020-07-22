@@ -1,0 +1,12 @@
+{
+    "replace": false,
+    "values": [
+        "minecraft:iron_ore",
+        "minecraft:iron_block",
+        "minecraft:iron_bars",
+        "minecraft:iron_door",
+        "minecraft:iron_trapdoor",
+        "minecraft:cauldron",
+        "minecraft:hopper"
+    ]
+}

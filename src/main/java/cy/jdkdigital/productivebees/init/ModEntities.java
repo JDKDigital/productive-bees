@@ -10,7 +10,6 @@ import cy.jdkdigital.productivebees.entity.bee.solitary.*;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -28,7 +27,7 @@ public class ModEntities
     public static final DeferredRegister<EntityType<?>> HIVE_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
     public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
 
-    public static RegistryObject<EntityType<BeeEntity>> IRON_BEE = createHiveBee("iron_bee", ProductiveBeeEntity::new, 6238757, 13487565);
+    public static RegistryObject<EntityType<BeeEntity>> IRON_BEE = createHiveBee("iron_bee", IronBeeEntity::new, 6238757, 13487565);
     public static RegistryObject<EntityType<BeeEntity>> GOLD_BEE = createHiveBee("gold_bee", GoldBeeEntity::new, 6238757, 15582019);
 
     public static RegistryObject<EntityType<BeeEntity>> COAL_BEE = createHiveBee("coal_bee", ProductiveBeeEntity::new, 2237733, 15582019);

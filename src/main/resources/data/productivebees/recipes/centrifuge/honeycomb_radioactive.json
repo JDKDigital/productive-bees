@@ -19,7 +19,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:honeycombs/radioactive"
+                "tag": "forge:ingots/uranium"
             }
         },
         {

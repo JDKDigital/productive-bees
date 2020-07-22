@@ -14,14 +14,5 @@
             "tag": "forge:wax"
         }
     ],
-    "require_bottle": true,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:honeycombs/milky"
-            }
-        }
-    ]
+    "require_bottle": true
 }

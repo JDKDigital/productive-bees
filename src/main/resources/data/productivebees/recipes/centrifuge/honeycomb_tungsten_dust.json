@@ -19,13 +19,6 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:honeycombs/tungsten"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
                 "tag": "forge:dusts/tungsten"
             }
         }

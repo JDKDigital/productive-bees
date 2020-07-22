@@ -34,6 +34,7 @@ public class ModTags
     public static final INamedTag<Block> GLOWING_FLOWERS = getTag("glowing_flowers");
     public static final INamedTag<Block> NETHER_FLOWERS = getTag("nether_flowers");
     public static final INamedTag<Block> GILDED_FLOWERS = getTag("gilded_flowers");
+    public static final INamedTag<Block> FERRIC_FLOWERS = getTag("ferric_flowers");
     public static final INamedTag<Block> END_FLOWERS = getTag("end_flowers");
     public static final INamedTag<Block> DRACONIC_FLOWERS = getTag("draconic_flowers");
     public static final INamedTag<Block> WITHER_FLOWERS = getTag("wither_flowers");
