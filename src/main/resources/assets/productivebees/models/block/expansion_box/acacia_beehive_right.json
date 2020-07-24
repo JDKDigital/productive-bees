@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/expansion_box",
+  "textures": {
+    "particle": "buzzierbees:block/acacia_beehive_side",
+    "bottom": "productivebees:block/advanced_beehive/vertical/acacia_beehive_end_left",
+    "top": "productivebees:block/advanced_beehive/vertical/acacia_beehive_end_left",
+    "side": "buzzierbees:block/acacia_beehive_side",
+    "front": "productivebees:block/advanced_beehive/vertical/acacia_beehive_side_right",
+    "back": "productivebees:block/advanced_beehive/vertical/acacia_beehive_side_left"
+  }
+}

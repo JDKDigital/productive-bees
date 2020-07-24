@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
@@ -99,7 +100,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
                 world.rand.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
                 beeList.size() + beesOutsideHive() < MAX_BEES &&
-                world.getLight(pos.offset(getBlockState().get(BlockStateProperties.FACING), 1)) <= 8
+                world.getLight(pos.offset(getBlockState().get(BeehiveBlock.FACING), 1)) <= 8
             ) {
                 EntityType<BeeEntity> beeType = world.rand.nextBoolean() ? ModEntities.SKELETAL_BEE.get() : ModEntities.ZOMBIE_BEE.get();
                 BeeEntity newBee = beeType.create(world);
@@ -134,7 +135,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 }
 
                 // Update any attached expansion box if the honey level reaches max
-                if (blockState.get(AdvancedBeehive.EXPANDED) && honeyLevel >= getMaxHoneyLevel(blockState)) {
+                if (blockState.get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE && honeyLevel >= getMaxHoneyLevel(blockState)) {
                     ((AdvancedBeehive) blockState.getBlock()).updateState(world, this.getPos(), blockState, false);
                 }
             }

@@ -51,12 +51,6 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
 
     public AdvancedBeehiveAbstract(Properties properties) {
         super(properties);
-        BlockState state = this.stateContainer.getBaseState().with(BlockStateProperties.FACING, Direction.NORTH);
-
-        if (state.has(BeehiveBlock.HONEY_LEVEL)) {
-            this.setDefaultState(state.with(BeehiveBlock.HONEY_LEVEL, 0));
-        }
-        this.setDefaultState(state);
     }
 
     public int getMaxHoneyLevel() {
@@ -147,14 +141,6 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
     @OnlyIn(Dist.CLIENT)
     private void addHoneyParticle(World world, double d1, double d2, double d3, double d4, double d5) {
         world.addParticle(ParticleTypes.DRIPPING_HONEY, MathHelper.lerp(world.rand.nextDouble(), d1, d2), d5, MathHelper.lerp(world.rand.nextDouble(), d3, d4), 0.0D, 0.0D, 0.0D);
-    }
-
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(BlockStateProperties.FACING, context.getPlacementHorizontalFacing().getOpposite());
-    }
-
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(BeehiveBlock.HONEY_LEVEL, BlockStateProperties.FACING);
     }
 
     @Nonnull

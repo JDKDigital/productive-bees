@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/advanced_hive",
+  "textures": {
+    "particle": "buzzierbees:block/oak_beehive_side",
+    "bottom": "productivebees:block/advanced_beehive/vertical/oak_beehive_end_right",
+    "top": "productivebees:block/advanced_beehive/vertical/oak_beehive_end_right",
+    "side": "buzzierbees:block/oak_beehive_side",
+    "front": "productivebees:block/advanced_beehive/vertical/oak_beehive_front_left",
+    "back": "productivebees:block/advanced_beehive/vertical/oak_beehive_side_right"
+  }
+}

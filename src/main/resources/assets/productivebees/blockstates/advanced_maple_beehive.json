@@ -1,76 +1,364 @@
 {
-    "variants": {
-        "facing=north,honey_level=0,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive" },
-        "facing=south,honey_level=0,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 180 },
-        "facing=west,honey_level=0,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 270 },
-        "facing=east,honey_level=0,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 90 },
-        "facing=up,honey_level=0,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "x": 180 },
-        "facing=down,honey_level=0,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive" },
-        "facing=north,honey_level=1,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive" },
-        "facing=south,honey_level=1,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 180 },
-        "facing=west,honey_level=1,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 270 },
-        "facing=east,honey_level=1,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 90 },
-        "facing=up,honey_level=1,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "x": 180 },
-        "facing=down,honey_level=1,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive" },
-        "facing=north,honey_level=2,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive" },
-        "facing=south,honey_level=2,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 180 },
-        "facing=west,honey_level=2,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 270 },
-        "facing=east,honey_level=2,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 90 },
-        "facing=up,honey_level=2,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "x": 180 },
-        "facing=down,honey_level=2,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive" },
-        "facing=north,honey_level=3,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive" },
-        "facing=south,honey_level=3,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 180 },
-        "facing=west,honey_level=3,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 270 },
-        "facing=east,honey_level=3,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 90 },
-        "facing=up,honey_level=3,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "x": 180 },
-        "facing=down,honey_level=3,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive" },
-        "facing=north,honey_level=4,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive" },
-        "facing=south,honey_level=4,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 180 },
-        "facing=west,honey_level=4,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 270 },
-        "facing=east,honey_level=4,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "y": 90 },
-        "facing=up,honey_level=4,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive", "x": 180 },
-        "facing=down,honey_level=4,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive" },
-        "facing=north,honey_level=5,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive_honey" },
-        "facing=south,honey_level=5,expanded=false": { "model": "productivebees:block/advanced_beehive/small/maple_beehive_honey", "y": 180 },
-        "facing=west,honey_level=5,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive_honey", "y": 270 },
-        "facing=east,honey_level=5,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive_honey", "y": 90 },
-        "facing=up,honey_level=5,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive_honey", "x": 180 },
-        "facing=down,honey_level=5,expanded=false":  { "model": "productivebees:block/advanced_beehive/small/maple_beehive_honey" },
-        "facing=north,honey_level=0,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive" },
-        "facing=south,honey_level=0,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 180 },
-        "facing=west,honey_level=0,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 270 },
-        "facing=east,honey_level=0,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 90 },
-        "facing=up,honey_level=0,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "x": 180 },
-        "facing=down,honey_level=0,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive" },
-        "facing=north,honey_level=1,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive" },
-        "facing=south,honey_level=1,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 180 },
-        "facing=west,honey_level=1,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 270 },
-        "facing=east,honey_level=1,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 90 },
-        "facing=up,honey_level=1,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "x": 180 },
-        "facing=down,honey_level=1,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive" },
-        "facing=north,honey_level=2,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive" },
-        "facing=south,honey_level=2,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 180 },
-        "facing=west,honey_level=2,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 270 },
-        "facing=east,honey_level=2,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 90 },
-        "facing=up,honey_level=2,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "x": 180 },
-        "facing=down,honey_level=2,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive" },
-        "facing=north,honey_level=3,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive" },
-        "facing=south,honey_level=3,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 180 },
-        "facing=west,honey_level=3,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 270 },
-        "facing=east,honey_level=3,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 90 },
-        "facing=up,honey_level=3,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "x": 180 },
-        "facing=down,honey_level=3,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive" },
-        "facing=north,honey_level=4,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive" },
-        "facing=south,honey_level=4,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 180 },
-        "facing=west,honey_level=4,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 270 },
-        "facing=east,honey_level=4,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "y": 90 },
-        "facing=up,honey_level=4,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive", "x": 180 },
-        "facing=down,honey_level=4,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive" },
-        "facing=north,honey_level=5,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive_honey" },
-        "facing=south,honey_level=5,expanded=true": { "model": "productivebees:block/advanced_beehive/maple_beehive_honey", "y": 180 },
-        "facing=west,honey_level=5,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive_honey", "y": 270 },
-        "facing=east,honey_level=5,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive_honey", "y": 90 },
-        "facing=up,honey_level=5,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive_honey", "x": 180 },
-        "facing=down,honey_level=5,expanded=true":  { "model": "productivebees:block/advanced_beehive/maple_beehive_honey" }
+  "variants": {
+    "expanded=none,facing=north,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive"
+    },
+    "expanded=up,facing=north,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive"
+    },
+    "expanded=left,facing=north,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left"
+    },
+    "expanded=right,facing=north,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right"
+    },
+    "expanded=none,facing=south,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 180
+    },
+    "expanded=up,facing=south,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 180
+    },
+    "expanded=left,facing=south,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 180
+    },
+    "expanded=right,facing=south,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 180
+    },
+    "expanded=none,facing=west,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 270
+    },
+    "expanded=up,facing=west,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 270
+    },
+    "expanded=left,facing=west,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 270
+    },
+    "expanded=right,facing=west,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 270
+    },
+    "expanded=none,facing=east,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 90
+    },
+    "expanded=up,facing=east,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 90
+    },
+    "expanded=left,facing=east,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 90
+    },
+    "expanded=right,facing=east,honey_level=0": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 90
+    },
+    "expanded=none,facing=north,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive"
+    },
+    "expanded=up,facing=north,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive"
+    },
+    "expanded=left,facing=north,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left"
+    },
+    "expanded=right,facing=north,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right"
+    },
+    "expanded=none,facing=south,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 180
+    },
+    "expanded=up,facing=south,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 180
+    },
+    "expanded=left,facing=south,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 180
+    },
+    "expanded=right,facing=south,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 180
+    },
+    "expanded=none,facing=west,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 270
+    },
+    "expanded=up,facing=west,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 270
+    },
+    "expanded=left,facing=west,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 270
+    },
+    "expanded=right,facing=west,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 270
+    },
+    "expanded=none,facing=east,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 90
+    },
+    "expanded=up,facing=east,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 90
+    },
+    "expanded=left,facing=east,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 90
+    },
+    "expanded=right,facing=east,honey_level=1": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 90
+    },
+    "expanded=none,facing=north,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive"
+    },
+    "expanded=up,facing=north,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive"
+    },
+    "expanded=left,facing=north,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left"
+    },
+    "expanded=right,facing=north,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right"
+    },
+    "expanded=none,facing=south,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 180
+    },
+    "expanded=up,facing=south,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 180
+    },
+    "expanded=left,facing=south,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 180
+    },
+    "expanded=right,facing=south,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 180
+    },
+    "expanded=none,facing=west,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 270
+    },
+    "expanded=up,facing=west,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 270
+    },
+    "expanded=left,facing=west,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 270
+    },
+    "expanded=right,facing=west,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 270
+    },
+    "expanded=none,facing=east,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 90
+    },
+    "expanded=up,facing=east,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 90
+    },
+    "expanded=left,facing=east,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 90
+    },
+    "expanded=right,facing=east,honey_level=2": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 90
+    },
+    "expanded=none,facing=north,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive"
+    },
+    "expanded=up,facing=north,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive"
+    },
+    "expanded=left,facing=north,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left"
+    },
+    "expanded=right,facing=north,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right"
+    },
+    "expanded=none,facing=south,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 180
+    },
+    "expanded=up,facing=south,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 180
+    },
+    "expanded=left,facing=south,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 180
+    },
+    "expanded=right,facing=south,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 180
+    },
+    "expanded=none,facing=west,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 270
+    },
+    "expanded=up,facing=west,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 270
+    },
+    "expanded=left,facing=west,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 270
+    },
+    "expanded=right,facing=west,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 270
+    },
+    "expanded=none,facing=east,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 90
+    },
+    "expanded=up,facing=east,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 90
+    },
+    "expanded=left,facing=east,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 90
+    },
+    "expanded=right,facing=east,honey_level=3": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 90
+    },
+    "expanded=none,facing=north,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive"
+    },
+    "expanded=up,facing=north,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive"
+    },
+    "expanded=left,facing=north,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left"
+    },
+    "expanded=right,facing=north,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right"
+    },
+    "expanded=none,facing=south,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 180
+    },
+    "expanded=up,facing=south,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 180
+    },
+    "expanded=left,facing=south,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 180
+    },
+    "expanded=right,facing=south,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 180
+    },
+    "expanded=none,facing=west,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 270
+    },
+    "expanded=up,facing=west,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 270
+    },
+    "expanded=left,facing=west,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 270
+    },
+    "expanded=right,facing=west,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 270
+    },
+    "expanded=none,facing=east,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive",
+      "y": 90
+    },
+    "expanded=up,facing=east,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive",
+      "y": 90
+    },
+    "expanded=left,facing=east,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left",
+      "y": 90
+    },
+    "expanded=right,facing=east,honey_level=4": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right",
+      "y": 90
+    },
+    "expanded=none,facing=north,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive_honey"
+    },
+    "expanded=up,facing=north,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_honey"
+    },
+    "expanded=left,facing=north,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left_honey"
+    },
+    "expanded=right,facing=north,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right_honey"
+    },
+    "expanded=none,facing=south,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive_honey",
+      "y": 180
+    },
+    "expanded=up,facing=south,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_honey",
+      "y": 180
+    },
+    "expanded=left,facing=south,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left_honey",
+      "y": 180
+    },
+    "expanded=right,facing=south,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right_honey",
+      "y": 180
+    },
+    "expanded=none,facing=west,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive_honey",
+      "y": 270
+    },
+    "expanded=up,facing=west,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_honey",
+      "y": 270
+    },
+    "expanded=left,facing=west,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left_honey",
+      "y": 270
+    },
+    "expanded=right,facing=west,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right_honey",
+      "y": 270
+    },
+    "expanded=none,facing=east,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/small/maple_beehive_honey",
+      "y": 90
+    },
+    "expanded=up,facing=east,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_honey",
+      "y": 90
+    },
+    "expanded=left,facing=east,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_left_honey",
+      "y": 90
+    },
+    "expanded=right,facing=east,honey_level=5": {
+      "model": "productivebees:block/advanced_beehive/maple_beehive_right_honey",
+      "y": 90
     }
+  }
 }

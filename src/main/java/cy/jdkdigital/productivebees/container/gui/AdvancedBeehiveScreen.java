@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
+import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.tileentity.DragonEggHiveTileEntity;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.client.Minecraft;
@@ -52,7 +53,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 
         // Draw bees here
         assert minecraft != null;
-        boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED);
+        boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
         if (this.container.tileEntity.inhabitantList.size() > 0) {
@@ -92,7 +93,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED);
+        boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
         int honeyLevel = this.container.tileEntity.getBlockState().get(BeehiveBlock.HONEY_LEVEL);
 
         assert minecraft != null;
