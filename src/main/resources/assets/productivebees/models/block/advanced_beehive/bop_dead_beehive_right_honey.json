@@ -2,10 +2,10 @@
   "parent": "productivebees:block/advanced_hive",
   "textures": {
     "particle": "buzzierbees:block/bop_dead_beehive_side",
-    "bottom": "productivebees:block/advanced_beehive/vertical/bop_dead_beehive_end_right",
-    "top": "productivebees:block/advanced_beehive/vertical/bop_dead_beehive_end_right",
+    "bottom": "productivebees:block/advanced_beehive/horizontal/bop_dead_beehive_end_right",
+    "top": "productivebees:block/advanced_beehive/horizontal/bop_dead_beehive_end_right",
     "side": "buzzierbees:block/bop_dead_beehive_side",
-    "front": "productivebees:block/advanced_beehive/vertical/bop_dead_beehive_front_left_honey",
-    "back": "productivebees:block/advanced_beehive/vertical/bop_dead_beehive_side_right"
+    "front": "productivebees:block/advanced_beehive/horizontal/bop_dead_beehive_front_left_honey",
+    "back": "productivebees:block/advanced_beehive/horizontal/bop_dead_beehive_side_right"
   }
 }

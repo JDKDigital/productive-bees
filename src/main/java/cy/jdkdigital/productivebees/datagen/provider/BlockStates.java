@@ -88,15 +88,15 @@ public class BlockStates extends BlockStateProvider
         ResourceLocation front_up = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_front");
         ResourceLocation front_honey_up = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_front_honey");
 
-        ResourceLocation top_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_end_left");
-        ResourceLocation side_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_side_left");
-        ResourceLocation front_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_front_right");
-        ResourceLocation front_honey_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_front_right_honey");
+        ResourceLocation top_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_end_left");
+        ResourceLocation side_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_side_left");
+        ResourceLocation front_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_front_right");
+        ResourceLocation front_honey_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_front_right_honey");
 
-        ResourceLocation top_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_end_right");
-        ResourceLocation side_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_side_right");
-        ResourceLocation front_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_front_left");
-        ResourceLocation front_honey_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_front_left_honey");
+        ResourceLocation top_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_end_right");
+        ResourceLocation side_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_side_right");
+        ResourceLocation front_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_front_left");
+        ResourceLocation front_honey_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_front_left_honey");
 
         ResourceLocation parent = new ResourceLocation(ProductiveBees.MODID, "block/advanced_hive");
 
@@ -166,10 +166,10 @@ public class BlockStates extends BlockStateProvider
         ResourceLocation topVanilla = new ResourceLocation("block/beehive_end");
 //        ResourceLocation front_honey = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side_top_honey");
 
-        ResourceLocation top_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_end_left");
-        ResourceLocation side_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_side_left");
-        ResourceLocation top_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_end_right");
-        ResourceLocation side_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/vertical/" + simpleName + "_side_right");
+        ResourceLocation top_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_end_left");
+        ResourceLocation side_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_side_left");
+        ResourceLocation top_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_end_right");
+        ResourceLocation side_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_side_right");
 
         ResourceLocation parent = new ResourceLocation(ProductiveBees.MODID, "block/expansion_box");
 
