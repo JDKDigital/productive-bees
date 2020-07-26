@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.block;
 
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
@@ -10,16 +11,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
@@ -27,16 +26,21 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 
 public class AdvancedBeehive extends AdvancedBeehiveAbstract
 {
-    public static final BooleanProperty EXPANDED = BooleanProperty.create("expanded");
+    public static final EnumProperty<VerticalHive> EXPANDED = EnumProperty.create("expanded", VerticalHive.class);
 
     public AdvancedBeehive(final Properties properties) {
         super(properties);
-        this.setDefaultState(this.getDefaultState().with(EXPANDED, false));
+        this.setDefaultState(this.getDefaultState()
+            .with(BeehiveBlock.FACING, Direction.NORTH)
+            .with(EXPANDED, VerticalHive.NONE)
+            .with(BeehiveBlock.HONEY_LEVEL, 0)
+        );
     }
 
     @Override
@@ -57,33 +61,84 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(BeehiveBlock.FACING, context.getPlacementHorizontalFacing().getOpposite());
+    }
+
+    @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        super.fillStateContainer(builder);
-        builder.add(EXPANDED);
+        builder.add(EXPANDED, BeehiveBlock.HONEY_LEVEL, BeehiveBlock.FACING);
     }
 
     public void updateState(World world, BlockPos pos, BlockState state, boolean isRemoved) {
         if (this instanceof DragonEggHive) {
             return;
         }
-        BlockPos posUp = pos.up();
-        BlockState blockStateAbove = world.getBlockState(posUp);
-        Block blockAbove = blockStateAbove.getBlock();
 
-        if (!isRemoved) {
-            // Set this block to expanded if there's an expansion box on top and the block has not been removed
-            world.setBlockState(pos, state.with(EXPANDED, blockAbove instanceof ExpansionBox), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
-            ((AdvancedBeehiveTileEntity) world.getTileEntity(pos)).MAX_BEES = world.getBlockState(pos).get(EXPANDED) ? 5 : 3;
+        Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentBox(world, pos);
+        if (pair != null) {
+            Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
+            BlockPos boxPos = posAndDirection.getLeft();
+
+            VerticalHive directionProperty = AdvancedBeehive.calculateExpandedDirection(world, pos, isRemoved);
+
+            if (!isRemoved) {
+                updateStateWithDirection(world, pos, state, directionProperty);
+            }
+            ((ExpansionBox) pair.getRight().getBlock()).updateStateWithDirection(world, boxPos, pair.getRight(), directionProperty);
         }
-        if (blockAbove instanceof ExpansionBox) {
-            // Set this block to expanded if there's an advanced beehive below and the block has not been removed
-            world.setBlockState(posUp, blockStateAbove
-                    .with(AdvancedBeehive.EXPANDED, !isRemoved)
-                    // Fix expansion box direction to match the beehive
-                    .with(BlockStateProperties.FACING, state.get(BlockStateProperties.FACING))
-                    // Set honey state based on the beehive below
-                    .with(ExpansionBox.HAS_HONEY, !isRemoved && state.get(BeehiveBlock.HONEY_LEVEL) >= getMaxHoneyLevel()), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+    }
+
+    public void updateStateWithDirection(World world, BlockPos pos, BlockState state, VerticalHive directionProperty) {
+        world.setBlockState(pos, state.with(AdvancedBeehive.EXPANDED, directionProperty), Constants.BlockFlags.DEFAULT);
+        ((AdvancedBeehiveTileEntity) world.getTileEntity(pos)).MAX_BEES = world.getBlockState(pos).get(EXPANDED) != VerticalHive.NONE ? 5 : 3;
+    }
+
+    public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentBox(World world, BlockPos pos) {
+        for(Direction direction: BlockStateProperties.FACING.getAllowedValues()) {
+            if (direction == Direction.DOWN) {
+                continue;
+            }
+            BlockPos newPos = pos.offset(direction);
+            BlockState blockStateAtPos = world.getBlockState(newPos);
+
+            Block blockAtPos = blockStateAtPos.getBlock();
+            if (blockAtPos instanceof ExpansionBox) {
+                return Pair.of(Pair.of(newPos, direction), blockStateAtPos);
+            }
         }
+        return null;
+    }
+
+    public static VerticalHive calculateExpandedDirection(World world, BlockPos pos, boolean isRemoved) {
+        Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentBox(world, pos);
+
+        VerticalHive directionProperty = VerticalHive.NONE;
+        if (!isRemoved && pair != null) {
+            BlockState state = world.getBlockState(pos);
+            Direction hiveDirection = state.get(BeehiveBlock.FACING);
+            Direction boxDirection = pair.getLeft().getRight();
+
+            Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
+            BlockPos boxPos = posAndDirection.getLeft();
+
+            boolean isValidExpandedPos = pos.getY() != boxPos.getY();
+            if (!isValidExpandedPos && (hiveDirection == Direction.NORTH || hiveDirection == Direction.SOUTH)) {
+                isValidExpandedPos = boxDirection == Direction.WEST || boxDirection == Direction.EAST;
+            }
+            else if (!isValidExpandedPos && (hiveDirection == Direction.WEST || hiveDirection == Direction.EAST)) {
+                isValidExpandedPos = boxDirection == Direction.SOUTH || boxDirection == Direction.NORTH;
+            }
+
+            if (isValidExpandedPos) {
+                directionProperty =
+                    pos.getY() != boxPos.getY() ? VerticalHive.UP : (
+                    pos.getX() < boxPos.getX() || pos.getZ() < boxPos.getZ() ? VerticalHive.RIGHT : (
+                    pos.getX() > boxPos.getX() || pos.getZ() > boxPos.getZ() ? VerticalHive.LEFT : (
+                VerticalHive.NONE)));
+            }
+        }
+        return directionProperty;
     }
 
     @Override

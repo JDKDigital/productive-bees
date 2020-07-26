@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/advanced_hive",
+  "textures": {
+    "particle": "buzzierbees:block/driftwood_beehive_side",
+    "bottom": "productivebees:block/advanced_beehive/horizontal/driftwood_beehive_end_right",
+    "top": "productivebees:block/advanced_beehive/horizontal/driftwood_beehive_end_right",
+    "side": "buzzierbees:block/driftwood_beehive_side",
+    "front": "productivebees:block/advanced_beehive/horizontal/driftwood_beehive_front_left",
+    "back": "productivebees:block/advanced_beehive/horizontal/driftwood_beehive_side_right"
+  }
+}

@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.block.ExpansionBox;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -81,53 +82,127 @@ public class BlockStates extends BlockStateProvider
     private void registerAdvancedHive(Block block, ResourceLocation name) {
         String simpleName = name.getPath().replace("advanced_", "");
 
-        ResourceLocation side = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side");
-        ResourceLocation front = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_front");
+        ResourceLocation side = new ResourceLocation("buzzierbees", "block/" + simpleName + "_side");
         ResourceLocation top = new ResourceLocation("buzzierbees", "block/" + simpleName + "_end");
-        ResourceLocation front_honey = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_front_honey");
+        ResourceLocation side_up = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side");
+        ResourceLocation front_up = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_front");
+        ResourceLocation front_honey_up = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_front_honey");
 
-        BlockModelBuilder model = models().orientableWithBottom("block/advanced_beehive/" + name.getPath(), side, front, top, top);
-        BlockModelBuilder modelHoney = models().orientableWithBottom("block/advanced_beehive/" + name.getPath() + "_honey", side, front_honey, top, top);
-        ModelFile.UncheckedModelFile bbModel = new BlockModelBuilder.UncheckedModelFile("productivebees:block/advanced_beehive/small/" + simpleName);
-        ModelFile.UncheckedModelFile bbModelHoney = new BlockModelBuilder.UncheckedModelFile("productivebees:block/advanced_beehive/small/" + simpleName + "_honey");
+        ResourceLocation top_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_end_left");
+        ResourceLocation side_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_side_left");
+        ResourceLocation front_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_front_right");
+        ResourceLocation front_honey_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_front_right_honey");
 
-        this.directionalBlock(block, state -> {
-            if (!state.get(AdvancedBeehive.EXPANDED)) {
-                if (state.get(BeehiveBlock.HONEY_LEVEL) == 5) {
-                    return bbModelHoney;
-                }
-                return bbModel;
-            } else {
+        ResourceLocation top_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_end_right");
+        ResourceLocation side_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_side_right");
+        ResourceLocation front_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_front_left");
+        ResourceLocation front_honey_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_front_left_honey");
+
+        ResourceLocation parent = new ResourceLocation(ProductiveBees.MODID, "block/advanced_hive");
+
+        // Left vertical state
+        BlockModelBuilder modelLeft = models().withExistingParent("block/advanced_beehive/" + simpleName + "_left", parent)
+                .texture("particle", side).texture("bottom", top_left).texture("top", top_left).texture("side", side).texture("front", front_left).texture("back", side_left);
+        BlockModelBuilder modelLeftHoney = models().withExistingParent("block/advanced_beehive/" + simpleName + "_left_honey", parent)
+                .texture("particle", side).texture("bottom", top_left).texture("top", top_left).texture("side", side).texture("front", front_honey_left).texture("back", side_left);
+
+        // Right vertical state
+        BlockModelBuilder modelRight = models().withExistingParent("block/advanced_beehive/" + simpleName + "_right", parent)
+                .texture("particle", side).texture("bottom", top_right).texture("top", top_right).texture("side", side).texture("front", front_right).texture("back", side_right);
+        BlockModelBuilder modelrighthoney = models().withExistingParent("block/advanced_beehive/" + simpleName + "_right_honey", parent)
+                .texture("particle", side).texture("bottom", top_right).texture("top", top_right).texture("side", side).texture("front", front_honey_right).texture("back", side_right);
+
+        // Horizontal state
+        BlockModelBuilder model = models().withExistingParent("block/advanced_beehive/" + simpleName, parent)
+                .texture("particle", side).texture("bottom", top).texture("top", top).texture("side", side_up).texture("front", front_up).texture("back", side_up);
+        BlockModelBuilder modelHoney = models().withExistingParent("block/advanced_beehive/" + simpleName + "_honey", parent)
+                .texture("particle", side).texture("bottom", top).texture("top", top).texture("side", side_up).texture("front", front_honey_up).texture("back", side_up);
+
+        // Un-expanded
+        ModelFile.UncheckedModelFile smallModel = new BlockModelBuilder.UncheckedModelFile("productivebees:block/advanced_beehive/small/" + simpleName);
+        ModelFile.UncheckedModelFile smallModelHoney = new BlockModelBuilder.UncheckedModelFile("productivebees:block/advanced_beehive/small/" + simpleName + "_honey");
+        if (simpleName.equals("oak_beehive")) {
+            smallModel = new BlockModelBuilder.UncheckedModelFile("block/beehive");
+            smallModelHoney = new BlockModelBuilder.UncheckedModelFile("block/beehive_honey");
+        }
+        ModelFile.UncheckedModelFile finalSmallModelHoney = smallModelHoney;
+        ModelFile.UncheckedModelFile finalSmallModel = smallModel;
+
+        this.horizontalFaceBlock(block, state -> {
+            if (state.get(AdvancedBeehive.EXPANDED) == VerticalHive.UP) {
                 if (state.get(BeehiveBlock.HONEY_LEVEL) == 5) {
                     return modelHoney;
                 }
                 return model;
             }
+            else if (state.get(AdvancedBeehive.EXPANDED) == VerticalHive.LEFT) {
+                if (state.get(BeehiveBlock.HONEY_LEVEL) == 5) {
+                    return modelLeftHoney;
+                }
+                return modelLeft;
+            }
+            else if (state.get(AdvancedBeehive.EXPANDED) == VerticalHive.RIGHT) {
+                if (state.get(BeehiveBlock.HONEY_LEVEL) == 5) {
+                    return modelrighthoney;
+                }
+                return modelRight;
+            }
+            if (state.get(BeehiveBlock.HONEY_LEVEL) == 5) {
+                return finalSmallModelHoney;
+            }
+            return finalSmallModel;
         });
     }
 
     private void registerExpansionBox(Block block, ResourceLocation name) {
         String simpleName = name.getPath().replace("expansion_box_", "") + "_beehive";
 
+        boolean isOak = simpleName.equals("oak_beehive");
+
+        ResourceLocation sideUp = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side_top");
         ResourceLocation sideSmall = new ResourceLocation("buzzierbees", "block/" + simpleName + "_side");
-        ResourceLocation side = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side_top");
-        ResourceLocation front = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side_top");
         ResourceLocation top = new ResourceLocation("buzzierbees", "block/" + simpleName + "_end");
-        ResourceLocation front_honey = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side_top_honey");
+        ResourceLocation sideVanilla = new ResourceLocation("block/beehive_side");
+        ResourceLocation topVanilla = new ResourceLocation("block/beehive_end");
+//        ResourceLocation front_honey = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side_top_honey");
 
-        BlockModelBuilder model = models().orientableWithBottom("block/expansion_box/" + name.getPath(), side, front, top, top);
-        BlockModelBuilder modelSmall = models().orientableWithBottom("block/expansion_box/" + name.getPath() + "_small", sideSmall, front, top, top);
-        BlockModelBuilder modelHoney = models().orientableWithBottom("block/expansion_box/" + name.getPath() + "_honey", side, front_honey, top, top);
+        ResourceLocation top_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_end_left");
+        ResourceLocation side_left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_side_left");
+        ResourceLocation top_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_end_right");
+        ResourceLocation side_right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/horizontal/" + simpleName + "_side_right");
 
-        this.directionalBlock(block, state -> {
-            if (!state.get(AdvancedBeehive.EXPANDED)) {
-                return modelSmall;
-            } else {
-                if (state.get(ExpansionBox.HAS_HONEY)) {
-                    return modelHoney;
-                }
-                return model;
+        ResourceLocation parent = new ResourceLocation(ProductiveBees.MODID, "block/expansion_box");
+
+        // Left vertical state
+        BlockModelBuilder modelLeft = models().withExistingParent("block/expansion_box/" + simpleName + "_left", parent)
+                .texture("particle", isOak ? sideVanilla : sideSmall).texture("bottom", top_right).texture("top", top_right).texture("side", isOak ? sideVanilla : sideSmall).texture("front", side_left).texture("back", side_right);
+
+        // Right vertical state
+        BlockModelBuilder modelRight = models().withExistingParent("block/expansion_box/" + simpleName + "_right", parent)
+                .texture("particle", isOak ? sideVanilla : sideSmall).texture("bottom", top_left).texture("top", top_left).texture("side", isOak ? sideVanilla : sideSmall).texture("front", side_right).texture("back", side_left);
+
+
+        BlockModelBuilder modelUp = models().orientableWithBottom("block/expansion_box/" + simpleName, sideUp, sideUp, top, top);
+        BlockModelBuilder modelSmall = models().orientableWithBottom("block/expansion_box/" + simpleName + "_small", sideSmall, sideUp, top, top);
+//        BlockModelBuilder modelHoney = models().orientableWithBottom("block/expansion_box/" + name.getPath() + "_honey", side, front_honey, top, top);
+        if (isOak) {
+            modelUp = models().orientableWithBottom("block/expansion_box/" + simpleName, sideUp, sideUp, topVanilla, topVanilla);
+            modelSmall = models().orientableWithBottom("block/expansion_box/" + simpleName + "_small", sideVanilla, sideVanilla, topVanilla, topVanilla);
+        }
+
+        BlockModelBuilder finalModelSmall = modelSmall;
+        BlockModelBuilder finalModelUp = modelUp;
+        this.horizontalFaceBlock(block, state -> {
+            if (state.get(AdvancedBeehive.EXPANDED) == VerticalHive.UP) {
+                return finalModelUp;
             }
+            else if (state.get(AdvancedBeehive.EXPANDED) == VerticalHive.LEFT) {
+                return modelLeft;
+            }
+            else if (state.get(AdvancedBeehive.EXPANDED) == VerticalHive.RIGHT) {
+                return modelRight;
+            }
+            return finalModelSmall;
         });
     }
 

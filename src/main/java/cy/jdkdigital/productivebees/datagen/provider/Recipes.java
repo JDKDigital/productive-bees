@@ -16,6 +16,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalAdvancement;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import net.minecraftforge.common.data.ForgeItemTagsProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Consumer;
@@ -28,6 +29,25 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+        addCentrifugeRecipe(consumer);
+        addBottlerRecipe(consumer);
+
+    }
+
+    private void addBottlerRecipe(Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.CENTRIFUGE.get())
+                .patternLine("ISI")
+                .patternLine("IGI")
+                .patternLine("III")
+                .key('I', Items.IRON_INGOT)
+                .key('G', ItemTags.getCollection().getOrCreate(new ResourceLocation("forge:glass")))
+                .key('S', Items.SMOOTH_STONE_SLAB)
+                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                .addCriterion("items", InventoryChangeTrigger.Instance.forItems(Items.SMOOTH_STONE_SLAB, Items.IRON_INGOT))
+                .build(consumer);
+    }
+
+    private void addCentrifugeRecipe(Consumer<IFinishedRecipe> consumer) {
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.CENTRIFUGE.get())
             .patternLine("I I")
             .patternLine("IGI")

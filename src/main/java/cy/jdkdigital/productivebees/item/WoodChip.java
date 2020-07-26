@@ -59,8 +59,7 @@ public class WoodChip extends Item
     public ITextComponent getDisplayName(@Nonnull ItemStack stack) {
         Block block = getWoodBlock(stack);
         if (block != null) {
-            IFormattableTextComponent entityName = block.getTranslatedName();
-            return new TranslationTextComponent(this.getTranslationKey() + ".named", entityName);
+            return new TranslationTextComponent(this.getTranslationKey() + ".named", new TranslationTextComponent(block.getTranslationKey()));
         }
         return super.getDisplayName(stack);
     }
