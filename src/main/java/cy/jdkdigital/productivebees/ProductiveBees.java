@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
@@ -35,6 +36,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -145,21 +148,23 @@ public final class ProductiveBees
             ModPointOfInterestTypes.fixPOITypeBlockStates(poi.get());
         }
 
-        ImmutableList<Block> BEEHIVES = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive).collect(ImmutableList.toImmutableList());
         PointOfInterestType.BEEHIVE.blockStates = this.makePOIStatesMutable(PointOfInterestType.BEEHIVE.blockStates);
-        BEEHIVES.stream().forEach((block) -> {
-            block.getStateContainer().getValidStates().forEach(state -> {
+        ImmutableList<Block> BEEHIVES = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive).collect(ImmutableList.toImmutableList());
+        for (Block block: BEEHIVES) {
+            for (BlockState state: block.getStateContainer().getValidStates()) {
                 PointOfInterestType.POIT_BY_BLOCKSTATE.put(state, PointOfInterestType.BEEHIVE);
-                PointOfInterestType.BEEHIVE.blockStates.add(state);
-            });
-        });
+                try {
+                    PointOfInterestType.BEEHIVE.blockStates.add(state);
+                } catch (Exception e) {
+                    LOGGER.warn("Could not add blockstate to beehive POI " + state);
+                }
+            };
+        };
     }
 
     private Set<BlockState> makePOIStatesMutable(Set<BlockState> toCopy) {
         Set<BlockState> copy = Sets.newHashSet();
-        toCopy.forEach((state) -> {
-            copy.add(state);
-        });
+        copy.addAll(toCopy);
         return copy;
     }
 }
