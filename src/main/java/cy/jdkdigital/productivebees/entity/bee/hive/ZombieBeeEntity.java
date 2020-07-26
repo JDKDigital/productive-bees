@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.entity.bee.hive;
 
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -30,7 +31,7 @@ public class ZombieBeeEntity extends EffectHiveBeeEntity
     }
 
     public static AttributeModifierMap.MutableAttribute getDefaultAttributes() {
-        return MobEntity.func_233666_p_()
+        return ProductiveBeeEntity.getDefaultAttributes()
                 .func_233815_a_(Attributes.FLYING_SPEED, 0.4D)
                 .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.2D);
     }

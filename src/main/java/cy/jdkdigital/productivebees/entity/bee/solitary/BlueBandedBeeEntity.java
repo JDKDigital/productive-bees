@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.entity.bee.solitary;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -21,7 +22,7 @@ public class BlueBandedBeeEntity extends SolitaryBeeEntity
     }
 
     public static AttributeModifierMap.MutableAttribute getDefaultAttributes() {
-        return MobEntity.func_233666_p_()
+        return ProductiveBeeEntity.getDefaultAttributes()
                 .func_233815_a_(Attributes.FLYING_SPEED, 0.75D)
                 .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.4D);
     }
