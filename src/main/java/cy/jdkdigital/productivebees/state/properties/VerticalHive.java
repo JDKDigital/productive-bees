@@ -2,6 +2,8 @@ package cy.jdkdigital.productivebees.state.properties;
 
 import net.minecraft.util.IStringSerializable;
 
+import javax.annotation.Nonnull;
+
 public enum VerticalHive implements IStringSerializable
 {
     NONE("none"),
@@ -15,11 +17,18 @@ public enum VerticalHive implements IStringSerializable
         this.name = name;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
     public String toString() {
         return this.name;
     }
 
-    public String getName() {
+    @Nonnull
+    @Override
+    public String getString() {
         return this.name;
     }
 }

@@ -89,7 +89,6 @@ dependencies {
 //    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
 
 //    implementation fg.deobf('mods:Mekanism-1.16.1:10.0.1.424')
-    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
 
 //    implementation fg.deobf('mods:Mekanism-1.15.2:9.10.9.422')
 //    implementation fg.deobf('mods:SilentLib-1.15.2:4.6.3+55')
