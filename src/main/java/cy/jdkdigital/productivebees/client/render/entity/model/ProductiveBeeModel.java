@@ -96,7 +96,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         this.stinger.showModel = !entity.hasStung();
     }
 
-    public void setRotationAngles(T entity, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
+    public void setRotationAngles(T entity, float var2, float var3, float var4, float var5, float var6) {
         this.rightWing.rotateAngleX = 0.0F;
         this.leftAntenae.rotateAngleX = 0.0F;
         this.rightAntenae.rotateAngleX = 0.0F;
@@ -115,7 +115,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
             this.backLegs.rotateAngleX = 0.0F;
         }
         else {
-            lvt_8_2_ = p_225597_4_ * 2.1F;
+            lvt_8_2_ = var4 * 2.1F;
             this.rightWing.rotateAngleY = 0.0F;
             this.rightWing.rotateAngleZ = MathHelper.cos(lvt_8_2_) * 3.1415927F * 0.15F;
             this.leftWing.rotateAngleX = this.rightWing.rotateAngleX;
@@ -134,13 +134,13 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
             this.beeModel.rotateAngleY = 0.0F;
             this.beeModel.rotateAngleZ = 0.0F;
             if (!lvt_7_1_) {
-                lvt_8_2_ = MathHelper.cos(p_225597_4_ * 0.18F);
+                lvt_8_2_ = MathHelper.cos(var4 * 0.18F);
                 this.beeModel.rotateAngleX = 0.1F + lvt_8_2_ * 3.1415927F * 0.025F;
                 this.leftAntenae.rotateAngleX = lvt_8_2_ * 3.1415927F * 0.03F;
                 this.rightAntenae.rotateAngleX = lvt_8_2_ * 3.1415927F * 0.03F;
                 this.frontLegs.rotateAngleX = -lvt_8_2_ * 3.1415927F * 0.1F + 0.3926991F;
                 this.backLegs.rotateAngleX = -lvt_8_2_ * 3.1415927F * 0.05F + 0.7853982F;
-                this.beeModel.rotationPointY = 19.0F - MathHelper.cos(p_225597_4_ * 0.18F) * 0.9F;
+                this.beeModel.rotationPointY = 19.0F - MathHelper.cos(var4 * 0.18F) * 0.9F;
             }
         }
 

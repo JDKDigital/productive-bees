@@ -1,6 +1,8 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,23 +27,23 @@ public class HoarderBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
         beeModel.addChild(abdomen);
     }
 
-    public void setRotationAngles(T beeEntity, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
-        float lvt_7_1_ = p_225597_4_ - (float)beeEntity.ticksExisted;
-        float lvt_8_1_ = (0.5F + beeEntity.getClientPeekAmount(lvt_7_1_)) * 3.1415927F;
+    public void setRotationAngles(T entity, float var2, float var3, float var4, float var5, float var6) {
+        super.setRotationAngles(entity, var2, var3, var4, var5, var6);
+        assert entity instanceof HoarderBeeEntity;
+
+        HoarderBeeEntity beeEntity = (HoarderBeeEntity) entity;
+
+        float time = var4 - (float)beeEntity.ticksExisted;
+        float lvt_8_1_ = (0.5F + beeEntity.getClientPeekAmount(time)) * 3.1415927F;
         float lvt_9_1_ = -1.0F + MathHelper.sin(lvt_8_1_);
-        float lvt_10_1_ = 0.0F;
-        if (lvt_8_1_ > 3.1415927F) {
-            lvt_10_1_ = MathHelper.sin(p_225597_4_ * 0.1F) * 0.7F;
-        }
 
-        this.lid.setRotationPoint(0.0F, 16.0F + MathHelper.sin(lvt_8_1_) * 8.0F + lvt_10_1_, 0.0F);
-        if (beeEntity.getClientPeekAmount(lvt_7_1_) > 0.3F) {
-            this.lid.rotateAngleY = lvt_9_1_ * lvt_9_1_ * lvt_9_1_ * lvt_9_1_ * 3.1415927F * 0.125F;
+        ProductiveBees.LOGGER.info("sine: " + MathHelper.sin(lvt_8_1_));
+
+        this.abdomen.setRotationPoint(0.0F, 0.0F, 8.0F + MathHelper.sin(lvt_8_1_) * 8.0F);
+        if (beeEntity.getClientPeekAmount(time) > 0.3F) {
+            this.abdomen.rotateAngleZ = lvt_9_1_ * lvt_9_1_ * lvt_9_1_ * lvt_9_1_ * 3.1415927F * 0.125F;
         } else {
-            this.lid.rotateAngleY = 0.0F;
+            this.abdomen.rotateAngleZ = 0.0F;
         }
-
-        this.head.rotateAngleX = p_225597_6_ * 0.017453292F;
-        this.head.rotateAngleY = p_225597_5_ * 0.017453292F;
     }
 }
