@@ -47,12 +47,17 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
             addBodyParts();
         }
     }
-
     protected void addBodyParts() {
+        addBodyParts(true);
+    }
+
+    protected void addBodyParts(boolean withBody) {
         this.beeModel.setRotationPoint(0.0F, 19.0F, 0.0F);
         this.body.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.beeModel.addChild(this.body);
-        this.body.addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F, 0.0F);
+        if (withBody) {
+            this.body.addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F, 0.0F);
+        }
         this.stinger.addBox(0.0F, -1.0F, 5.0F, 0.0F, 1.0F, 2.0F, 0.0F);
         this.body.addChild(this.stinger);
         this.leftAntenae.setRotationPoint(0.0F, -2.0F, -5.0F);
