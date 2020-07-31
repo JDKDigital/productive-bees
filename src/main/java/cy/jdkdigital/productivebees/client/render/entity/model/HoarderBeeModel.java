@@ -20,9 +20,9 @@ public class HoarderBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
 
         addBodyParts(false);
 
-        body.setTextureOffset(3, 3).addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 7.0F, 0.0F, false);
+        body.setTextureOffset(3, 3).addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 7.0F, 0.0F);
 
-        abdomen.setTextureOffset(38, 0).addBox(-3.5F, -4.0F, 1.0F, 7.0F, 7.0F, 4.0F, 0.0F, false);
+        abdomen.setTextureOffset(38, 7).addBox(-3.5F, -4.0F, 1.0F, 7.0F, 7.0F, 4.0F, 0.0F);
 
         beeModel.addChild(abdomen);
     }
@@ -37,13 +37,13 @@ public class HoarderBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
         float lvt_8_1_ = (0.5F + beeEntity.getClientPeekAmount(time)) * 3.1415927F;
         float lvt_9_1_ = -1.0F + MathHelper.sin(lvt_8_1_);
 
-        ProductiveBees.LOGGER.info("sine: " + MathHelper.sin(lvt_8_1_));
-
-        this.abdomen.setRotationPoint(0.0F, 0.0F, 8.0F + MathHelper.sin(lvt_8_1_) * 8.0F);
+        abdomen.setRotationPoint(0.0F, 0.0F, 3.0F + MathHelper.sin(lvt_8_1_) * 3.0F);
+        stinger.setRotationPoint(0.0F, 0.0F, 3.0F + MathHelper.sin(lvt_8_1_) * 3.0F);
         if (beeEntity.getClientPeekAmount(time) > 0.3F) {
-            this.abdomen.rotateAngleZ = lvt_9_1_ * lvt_9_1_ * lvt_9_1_ * lvt_9_1_ * 3.1415927F * 0.125F;
+            abdomen.rotateAngleZ = lvt_9_1_ * lvt_9_1_ * lvt_9_1_ * lvt_9_1_ * 3.1415927F * 0.125F;
         } else {
-            this.abdomen.rotateAngleZ = 0.0F;
+            abdomen.rotateAngleZ = 0.0F;
         }
+        stinger.rotateAngleZ = abdomen.rotateAngleZ;
     }
 }

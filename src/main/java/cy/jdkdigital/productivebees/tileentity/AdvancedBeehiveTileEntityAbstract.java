@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.tileentity;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
+import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
@@ -27,6 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -90,6 +92,9 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
+        if (beeEntity instanceof HoarderBeeEntity) {
+            return 100;
+        }
         return hasNectar ? 2400 : 600;
     }
 
@@ -199,6 +204,17 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 boolean spawned = false;
                 BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity);
                 if (beeEntity != null) {
+                    // Hoarder bees should leave their item behind
+                    if (beeEntity instanceof HoarderBeeEntity) {
+                        if (((HoarderBeeEntity) beeEntity).holdsItem()) {
+                            getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                                if (((InventoryHandlerHelper.ItemHandler) inv).addOutput(((HoarderBeeEntity) beeEntity).getItem())) {
+                                    ((HoarderBeeEntity) beeEntity).clearInventory();
+                                }
+                            });
+                        }
+                    }
+
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
                     if (spawned) {
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() <= 0.9F) {

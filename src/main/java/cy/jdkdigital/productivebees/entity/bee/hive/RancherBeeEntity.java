@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.entity.bee.hive;
 
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -15,7 +17,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class RancherBeeEntity extends EffectHiveBeeEntity
+public class RancherBeeEntity extends ProductiveBeeEntity
 {
     public CreatureEntity target = null;
 
@@ -25,6 +27,7 @@ public class RancherBeeEntity extends EffectHiveBeeEntity
 
     public RancherBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
+        beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 1);
     }
 
     @Override

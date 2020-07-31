@@ -40,7 +40,7 @@ abstract public class EffectHiveBeeEntity extends ProductiveBeeEntity implements
     public void attackTarget(LivingEntity target) {
         if (getEffects() != null) {
             for (Map.Entry<Effect, Integer> entry : getEffects().entrySet()) {
-                target.addPotionEffect(new EffectInstance(entry.getKey(), entry.getValue()));
+                target.addPotionEffect(new EffectInstance(entry.getKey(), entry.getValue(), 1));
             }
         }
     }

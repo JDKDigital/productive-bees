@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
@@ -166,7 +167,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                         final int behavior = entityNBT.contains("bee_behavior") ? entityNBT.getInt("bee_behavior") : 0;
                         if (behavior == 2 || (world.isNightTime() && behavior == 1) || (!world.isNightTime() && behavior == 0)) {
                             final int productivity = entityNBT.contains("bee_productivity") ? entityNBT.getInt("bee_productivity") : 0;
-                            this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                            getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
                                 BlockPos flowerBlockPos = NBT.contains("FlowerPos") ? NBTUtil.readBlockPos(NBT.getCompound("FlowerPos")) : this.flowerPos;
                                 BeeHelper.getBeeProduce(world, beeId, flowerBlockPos).forEach((stack) -> {
                                     if (!stack.isEmpty()) {

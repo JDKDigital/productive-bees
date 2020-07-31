@@ -3,12 +3,12 @@ package cy.jdkdigital.productivebees.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
@@ -17,7 +17,6 @@ import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
-import net.minecraft.util.INameable;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -25,10 +24,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 public class CentrifugeRecipe implements IRecipe<IInventory>
@@ -90,7 +87,8 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
         if (!tagOutput.isEmpty()) {
             tagOutput.forEach((tag, intNBTS) -> {
                 if (!tag.getAllElements().isEmpty()) {
-                    output.put(new ItemStack(tag.getAllElements().stream().findFirst().orElse(Items.AIR)), intNBTS);
+                    Item preferredItem = getPreferredItemByMod(tag, ForgeRegistryEntry::getRegistryName);
+                    output.put(new ItemStack(preferredItem), intNBTS);
                 }
             });
         }
@@ -114,6 +112,27 @@ public class CentrifugeRecipe implements IRecipe<IInventory>
     @Override
     public IRecipeType<?> getType() {
         return CENTRIFUGE;
+    }
+
+    public static <T> T getPreferredItemByMod(Tag<T> tag, Function<T, ResourceLocation> getName) {
+        Collection<T> list = tag.getAllElements();
+        T preferredItem = null;
+        int currBest = ProductiveBees.modPreference.size();
+        for(T item : list) {
+            ResourceLocation rl = getName.apply(item);
+            if(rl != null) {
+                String modId = rl.getNamespace();
+                int priority = 100;
+                if (ProductiveBees.modPreference.containsKey(modId)) {
+                    priority = ProductiveBees.modPreference.get(modId);
+                };
+                if (preferredItem == null || (priority >= 0 && priority < currBest)) {
+                    preferredItem = item;
+                    currBest = priority;
+                }
+            }
+        }
+        return preferredItem;
     }
 
     public static class Serializer<T extends CentrifugeRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>

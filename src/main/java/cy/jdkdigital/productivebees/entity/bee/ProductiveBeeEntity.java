@@ -86,7 +86,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.399999976158142D, true));
+        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
         // Resting goal!
         this.goalSelector.addGoal(1, new BeeEntity.EnterBeehiveGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, ProductiveBeeEntity.class));
@@ -114,7 +114,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
     public void livingTick() {
         super.livingTick();
 
-        // Positive effect to nearby entities
+        // "Positive" effect to nearby players
         if (!world.isRemote && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getAttributeValue(BeeAttributes.EFFECTS);
             if (effect.getEffects().size() > 0) {
@@ -448,9 +448,9 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         }
     }
 
-    class UpdateNestGoal extends BeeEntity.UpdateBeehiveGoal
+    public class UpdateNestGoal extends BeeEntity.UpdateBeehiveGoal
     {
-        private UpdateNestGoal() {
+        public UpdateNestGoal() {
             super();
         }
 
