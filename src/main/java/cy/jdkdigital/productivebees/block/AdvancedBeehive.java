@@ -134,8 +134,8 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
             if (isValidExpandedPos) {
                 directionProperty =
                     pos.getY() != boxPos.getY() ? VerticalHive.UP : (
-                    pos.getX() < boxPos.getX() || pos.getZ() < boxPos.getZ() ? VerticalHive.LEFT : (
-                    pos.getX() > boxPos.getX() || pos.getZ() > boxPos.getZ() ? VerticalHive.RIGHT : (
+                    pos.getX() < boxPos.getX() || pos.getZ() < boxPos.getZ() ? hiveDirection == Direction.NORTH || hiveDirection == Direction.EAST ? VerticalHive.LEFT : VerticalHive.RIGHT : (
+                    pos.getX() > boxPos.getX() || pos.getZ() > boxPos.getZ() ? hiveDirection == Direction.NORTH || hiveDirection == Direction.EAST ? VerticalHive.RIGHT : VerticalHive.LEFT : (
                 VerticalHive.NONE)));
             }
         }

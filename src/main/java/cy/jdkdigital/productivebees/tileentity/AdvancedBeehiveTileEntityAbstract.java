@@ -35,6 +35,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntity
 {
@@ -205,18 +206,21 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity);
                 if (beeEntity != null) {
                     // Hoarder bees should leave their item behind
+                    AtomicBoolean hasOffloaded = new AtomicBoolean(true);
                     if (beeEntity instanceof HoarderBeeEntity) {
                         if (((HoarderBeeEntity) beeEntity).holdsItem()) {
                             getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
                                 if (((InventoryHandlerHelper.ItemHandler) inv).addOutput(((HoarderBeeEntity) beeEntity).getItem())) {
                                     ((HoarderBeeEntity) beeEntity).clearInventory();
+                                } else {
+                                    hasOffloaded.set(false);
                                 }
                             });
                         }
                     }
 
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
-                    if (spawned) {
+                    if (spawned && hasOffloaded.get()) {
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() <= 0.9F) {
                             beeEntity.setFlowerPos(this.flowerPos);
                         }
