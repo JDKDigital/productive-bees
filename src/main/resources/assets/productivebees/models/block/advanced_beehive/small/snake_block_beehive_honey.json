@@ -1,10 +1,10 @@
 {
     "parent": "block/orientable_with_bottom",
     "textures": {
-        "particle": "buzzierbees:block/snake_block_beehive_side",
-        "bottom": "buzzierbees:block/snake_block_beehive_end",
-        "top": "buzzierbees:block/snake_block_beehive_end",
-        "front": "buzzierbees:block/snake_block_beehive_front_honey",
-        "side": "buzzierbees:block/snake_block_beehive_side"
+        "particle": "buzzier_bees:block/snake_block_beehive_side",
+        "bottom": "buzzier_bees:block/snake_block_beehive_end",
+        "top": "buzzier_bees:block/snake_block_beehive_end",
+        "front": "buzzier_bees:block/snake_block_beehive_front_honey",
+        "side": "buzzier_bees:block/snake_block_beehive_side"
     }
 }

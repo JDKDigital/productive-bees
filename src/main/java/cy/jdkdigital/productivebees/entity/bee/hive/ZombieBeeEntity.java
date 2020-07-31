@@ -32,7 +32,7 @@ public class ZombieBeeEntity extends EffectHiveBeeEntity
 
     public static AttributeModifierMap.MutableAttribute getDefaultAttributes() {
         return ProductiveBeeEntity.getDefaultAttributes()
-                .func_233815_a_(Attributes.FLYING_SPEED, 0.4D)
-                .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.2D);
+                .createMutableAttribute(Attributes.FLYING_SPEED, 0.4D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.2D);
     }
 }

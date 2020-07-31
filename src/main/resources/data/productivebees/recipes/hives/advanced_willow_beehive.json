@@ -10,7 +10,7 @@
             "item": "swampexpansion:willow_planks"
         },
         "H": {
-            "item": "buzzierbees:willow_beehive"
+            "item": "buzzier_bees:willow_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -28,7 +28,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "buzzierbees"
+            "modid": "buzzier_bees"
         },
         {
             "type": "forge:mod_loaded",

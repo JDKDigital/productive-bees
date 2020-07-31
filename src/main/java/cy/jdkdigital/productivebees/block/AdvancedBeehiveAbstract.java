@@ -76,18 +76,18 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         if (stateNBT != null) {
             if (stateNBT.contains("honey_level")) {
                 String honeyLevel = stateNBT.getString("honey_level");
-                tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.honey_level", honeyLevel).func_240699_a_(TextFormatting.GOLD)); // func_240699_a_
+                tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.honey_level", honeyLevel).mergeStyle(TextFormatting.GOLD)); // mergeStyle
             }
         }
         if (entityNBT != null) {
             if (entityNBT.contains("Bees")) {
                 ListNBT beeList = entityNBT.getCompound("Bees").getList("Inhabitants", Constants.NBT.TAG_COMPOUND);
                 if (beeList.size() > 0) {
-                    tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").func_240699_a_(TextFormatting.BOLD));
+                    tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").mergeStyle(TextFormatting.BOLD));
                     for (int i = 0; i < beeList.size(); ++i) {
                         CompoundNBT tag = beeList.getCompound(i);
                         CompoundNBT beeNBT = tag.getCompound("EntityData");
-                        tooltip.add(new TranslationTextComponent("" + beeNBT.getString("id")).func_240699_a_(TextFormatting.GREEN));
+                        tooltip.add(new TranslationTextComponent("" + beeNBT.getString("id")).mergeStyle(TextFormatting.GREEN));
                     }
                 }
                 else {
@@ -103,7 +103,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
 
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (state.func_235901_b_(BeehiveBlock.HONEY_LEVEL) && state.get(BeehiveBlock.HONEY_LEVEL) >= MAX_HONEY_LEVEL) {
+        if (state.hasProperty(BeehiveBlock.HONEY_LEVEL) && state.get(BeehiveBlock.HONEY_LEVEL) >= MAX_HONEY_LEVEL) {
             for (int i = 0; i < random.nextInt(1) + 1; ++i) {
                 this.dripHoney(world, pos, state);
             }
@@ -125,7 +125,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
                     BlockState stateDown = world.getBlockState(posDown);
                     VoxelShape shapeDown = stateDown.getCollisionShape(world, posDown);
                     double shapeDownEnd = shapeDown.getEnd(Direction.Axis.Y);
-                    if ((shapeDownEnd < 1.0D || !stateDown.func_235785_r_(world, posDown)) && stateDown.getFluidState().isEmpty()) {
+                    if ((shapeDownEnd < 1.0D || !stateDown.hasOpaqueCollisionShape(world, posDown)) && stateDown.getFluidState().isEmpty()) {
                         this.addHoneyParticle(world, pos, shape, (double) pos.getY() - 0.05D);
                     }
                 }
@@ -155,7 +155,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
             if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
                 AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract) tileEntity;
                 int honeyLevel = 0;
-                if (state.func_235901_b_(BeehiveBlock.HONEY_LEVEL)) {
+                if (state.hasProperty(BeehiveBlock.HONEY_LEVEL)) {
                     honeyLevel = state.get(BeehiveBlock.HONEY_LEVEL);
                 }
                 boolean hasBees = !beehiveTileEntity.hasNoBees();

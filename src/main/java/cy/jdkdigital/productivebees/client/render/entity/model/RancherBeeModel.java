@@ -13,14 +13,9 @@ public class RancherBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
     public RancherBeeModel()  {
         super(false);
 
-        hat = new ModelRenderer(this);
-
         addBodyParts();
-    }
 
-    protected void addBodyParts() {
-        super.addBodyParts();
-
+        hat = new ModelRenderer(this);
         hat.setRotationPoint(2.5F, -4.5F, -5.0F);
         hat.setTextureOffset(25, 8).addBox(-7.0F, 0.0F, -1.0F, 9.0F, 1.0F, 9.0F, 0.0F, false);
         hat.setTextureOffset(29, 12).addBox(-5.0F, -2.0F, 1.0F, 5.0F, 2.0F, 5.0F, 0.0F, false);

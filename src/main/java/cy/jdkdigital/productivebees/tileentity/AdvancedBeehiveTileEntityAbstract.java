@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.tileentity;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
+import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
@@ -27,6 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -90,6 +92,9 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
+        if (beeEntity instanceof HoarderBeeEntity) {
+            return 100;
+        }
         return hasNectar ? 2400 : 600;
     }
 
@@ -117,7 +122,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 Entity entity = (Entity) entityIterator.next();
                 if (entity instanceof BeeEntity) {
                     BeeEntity beeEntity = (BeeEntity) entity;
-                    if (player.getPositionVec().squareDistanceTo(entity.getPositionVec()) <= 16.0D) {
+                    if (player.getPosition().distanceSq(entity.getPosition()) <= 16.0D) {
                         if (!this.isSmoked()) {
                             beeEntity.setAttackTarget(player);
                         }
@@ -191,14 +196,25 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
             tag.remove("Passengers");
             tag.remove("Leash");
             tag.remove("UUID");
-            Direction direction = blockState.func_235901_b_(BlockStateProperties.FACING) ? blockState.get(BlockStateProperties.FACING) : blockState.get(BeehiveBlock.FACING);
+            Direction direction = blockState.hasProperty(BlockStateProperties.FACING) ? blockState.get(BlockStateProperties.FACING) : blockState.get(BeehiveBlock.FACING);
             BlockPos offset = pos.offset(direction);
             boolean isPositionBlocked = !this.world.getBlockState(offset).getCollisionShape(this.world, offset).isEmpty();
             if (!isPositionBlocked || beeState == BeehiveTileEntity.State.EMERGENCY) {
                 // Spawn entity
                 boolean spawned = false;
-                BeeEntity beeEntity = (BeeEntity) EntityType.func_220335_a(tag, this.world, (spawnedEntity) -> spawnedEntity); // loadEntityAndExecute
+                BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity); // loadEntityAndExecute
                 if (beeEntity != null) {
+                    // Hoarder bees should leave their item behind
+                    if (beeEntity instanceof HoarderBeeEntity) {
+                        if (((HoarderBeeEntity) beeEntity).holdsItem()) {
+                            getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                                if (((InventoryHandlerHelper.ItemHandler) inv).addOutput(((HoarderBeeEntity) beeEntity).getItem())) {
+                                    ((HoarderBeeEntity) beeEntity).clearInventory();
+                                }
+                            });
+                        }
+                    }
+
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
                     if (spawned) {
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() <= 0.9F) {
@@ -225,7 +241,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         // Deliver honey on the way out
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
             beeEntity.onHoneyDelivered();
-            if (state.func_235901_b_(BeehiveBlock.HONEY_LEVEL)) {
+            if (state.hasProperty(BeehiveBlock.HONEY_LEVEL)) {
                 int honeyLevel = getHoneyLevel(state);
                 int maxHoneyLevel = getMaxHoneyLevel(state);
                 if (honeyLevel < maxHoneyLevel) {

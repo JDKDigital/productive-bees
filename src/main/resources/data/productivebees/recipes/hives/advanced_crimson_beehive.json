@@ -10,7 +10,7 @@
             "item": "minecraft:crimson_planks"
         },
         "H": {
-            "item": "buzzierbees:crimson_beehive"
+            "item": "buzzier_bees:crimson_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -28,7 +28,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "buzzierbees"
+            "modid": "buzzier_bees"
         }
     ]
 }

@@ -42,10 +42,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @Mod(ProductiveBees.MODID)
 @EventBusSubscriber(modid = ProductiveBees.MODID)
@@ -57,6 +54,8 @@ public final class ProductiveBees
     public static final IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
     public static final Logger LOGGER = LogManager.getLogger();
+
+    public static Map<String, Integer> modPreference = new HashMap<>();
 
     public ProductiveBees() {
         // Register ourselves for server and other game events we are interested in
@@ -86,6 +85,11 @@ public final class ProductiveBees
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
         ProductiveBeesConfig.loadConfig(ProductiveBeesConfig.CONFIG, FMLPaths.CONFIGDIR.get().resolve("productivebees-server.toml").toString());
+
+        int priority = 0;
+        for(String modId: ProductiveBeesConfig.GENERAL.preferredTagSource.get()) {
+            modPreference.put(modId, ++priority);
+        }
     }
 
     public void preInit(FMLCommonSetupEvent event) {
@@ -95,14 +99,14 @@ public final class ProductiveBees
             //Entity attribute assignments
             for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
                 EntityType<ProductiveBeeEntity> bee = (EntityType<ProductiveBeeEntity>) registryObject.get();
-                GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().func_233813_a_());
+                GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().create());
             }
             for (RegistryObject<EntityType<?>> registryObject : ModEntities.SOLITARY_BEES.getEntries()) {
                 EntityType<ProductiveBeeEntity> bee = (EntityType<ProductiveBeeEntity>) registryObject.get();
-                GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().func_233813_a_());
+                GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().create());
             }
-            GlobalEntityTypeAttributes.put(ModEntities.ZOMBIE_BEE.get(), ZombieBeeEntity.getDefaultAttributes().func_233813_a_());
-            GlobalEntityTypeAttributes.put(ModEntities.BLUE_BANDED_BEE.get(), BlueBandedBeeEntity.getDefaultAttributes().func_233813_a_());
+            GlobalEntityTypeAttributes.put(ModEntities.ZOMBIE_BEE.get(), ZombieBeeEntity.getDefaultAttributes().create());
+            GlobalEntityTypeAttributes.put(ModEntities.BLUE_BANDED_BEE.get(), BlueBandedBeeEntity.getDefaultAttributes().create());
         });
 
         this.fixPOI(event);

@@ -103,14 +103,14 @@ public final class ModBlocks
     public static final RegistryObject<Block> ADVANCED_OAK_BEEHIVE = createBlock("advanced_oak_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> EXPANSION_BOX_OAK = createBlock("expansion_box_oak", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
 
-    public static final RegistryObject<Block> ADVANCED_SPRUCE_BEEHIVE = createBlockCompat("buzzierbees", "advanced_spruce_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> ADVANCED_BIRCH_BEEHIVE = createBlockCompat("buzzierbees", "advanced_birch_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> ADVANCED_JUNGLE_BEEHIVE = createBlockCompat("buzzierbees", "advanced_jungle_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> ADVANCED_ACACIA_BEEHIVE = createBlockCompat("buzzierbees", "advanced_acacia_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> ADVANCED_DARK_OAK_BEEHIVE = createBlockCompat("buzzierbees", "advanced_dark_oak_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> ADVANCED_CRIMSON_BEEHIVE = createBlockCompat("buzzierbees", "advanced_crimson_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), null);
-    public static final RegistryObject<Block> ADVANCED_WARPED_BEEHIVE = createBlockCompat("buzzierbees", "advanced_warped_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), null);
-    public static final RegistryObject<Block> ADVANCED_SNAKE_BLOCK_BEEHIVE = createBlockCompat("buzzierbees", "advanced_snake_block_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.DARK_PRISMARINE)), null);
+    public static final RegistryObject<Block> ADVANCED_SPRUCE_BEEHIVE = createBlockCompat("buzzier_bees", "advanced_spruce_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> ADVANCED_BIRCH_BEEHIVE = createBlockCompat("buzzier_bees", "advanced_birch_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> ADVANCED_JUNGLE_BEEHIVE = createBlockCompat("buzzier_bees", "advanced_jungle_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> ADVANCED_ACACIA_BEEHIVE = createBlockCompat("buzzier_bees", "advanced_acacia_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> ADVANCED_DARK_OAK_BEEHIVE = createBlockCompat("buzzier_bees", "advanced_dark_oak_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> ADVANCED_CRIMSON_BEEHIVE = createBlockCompat("buzzier_bees", "advanced_crimson_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> ADVANCED_WARPED_BEEHIVE = createBlockCompat("buzzier_bees", "advanced_warped_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> ADVANCED_SNAKE_BLOCK_BEEHIVE = createBlockCompat("buzzier_bees", "advanced_snake_block_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.DARK_PRISMARINE)), null);
 
     public static final RegistryObject<Block> ADVANCED_ROSEWOOD_BEEHIVE = createBlockCompatBB("atmospheric", "advanced_rosewood_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> ADVANCED_YUCCA_BEEHIVE = createBlockCompatBB("atmospheric", "advanced_yucca_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
@@ -136,14 +136,14 @@ public final class ModBlocks
     public static final RegistryObject<Block> ADVANCED_BOP_MAHOGANY_BEEHIVE = createBlockCompatBB("biomesoplenty", "advanced_bop_mahogany_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> ADVANCED_BOP_JACARANDA_BEEHIVE = createBlockCompatBB("biomesoplenty", "advanced_bop_jacaranda_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
 
-    public static final RegistryObject<Block> EXPANSION_BOX_SPRUCE = createBlockCompat("buzzierbees", "expansion_box_spruce", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> EXPANSION_BOX_BIRCH = createBlockCompat("buzzierbees", "expansion_box_birch", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> EXPANSION_BOX_JUNGLE = createBlockCompat("buzzierbees", "expansion_box_jungle", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> EXPANSION_BOX_ACACIA = createBlockCompat("buzzierbees", "expansion_box_acacia", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> EXPANSION_BOX_DARK_OAK = createBlockCompat("buzzierbees", "expansion_box_dark_oak", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> EXPANSION_BOX_CRIMSON = createBlockCompat("buzzierbees", "expansion_box_crimson", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), null);
-    public static final RegistryObject<Block> EXPANSION_BOX_WARPED = createBlockCompat("buzzierbees", "expansion_box_warped", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), null);
-    public static final RegistryObject<Block> EXPANSION_BOX_SNAKE_BLOCK = createBlockCompat("buzzierbees", "expansion_box_snake_block", () -> new ExpansionBox(Block.Properties.from(Blocks.DARK_PRISMARINE)), null);
+    public static final RegistryObject<Block> EXPANSION_BOX_SPRUCE = createBlockCompat("buzzier_bees", "expansion_box_spruce", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> EXPANSION_BOX_BIRCH = createBlockCompat("buzzier_bees", "expansion_box_birch", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> EXPANSION_BOX_JUNGLE = createBlockCompat("buzzier_bees", "expansion_box_jungle", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> EXPANSION_BOX_ACACIA = createBlockCompat("buzzier_bees", "expansion_box_acacia", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> EXPANSION_BOX_DARK_OAK = createBlockCompat("buzzier_bees", "expansion_box_dark_oak", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> EXPANSION_BOX_CRIMSON = createBlockCompat("buzzier_bees", "expansion_box_crimson", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), null);
+    public static final RegistryObject<Block> EXPANSION_BOX_WARPED = createBlockCompat("buzzier_bees", "expansion_box_warped", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), null);
+    public static final RegistryObject<Block> EXPANSION_BOX_SNAKE_BLOCK = createBlockCompat("buzzier_bees", "expansion_box_snake_block", () -> new ExpansionBox(Block.Properties.from(Blocks.DARK_PRISMARINE)), null);
 
     public static final RegistryObject<Block> EXPANSION_BOX_ROSEWOOD = createBlockCompatBB("atmospheric", "expansion_box_rosewood", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> EXPANSION_BOX_YUCCA = createBlockCompatBB("atmospheric", "expansion_box_yucca", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
@@ -170,7 +170,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> EXPANSION_BOX_BOP_JACARANDA = createBlockCompatBB("biomesoplenty", "expansion_box_bop_jacaranda", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
 
     public static <B extends Block> RegistryObject<B> createBlockCompatBB(String mod, String name, Supplier<? extends B> supplier, ItemGroup itemGroup) {
-        return createBlockCompat(mod, name, supplier, ModList.get().isLoaded("buzzierbees") ? itemGroup : null);
+        return createBlockCompat(mod, name, supplier, ModList.get().isLoaded("buzzier_bees") ? itemGroup : null);
     }
 
     public static <B extends Block> RegistryObject<B> createBlockCompat(String mod, String name, Supplier<? extends B> supplier, ItemGroup itemGroup) {

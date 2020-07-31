@@ -125,7 +125,7 @@ public class BeeCage extends Item
         }
 
         String entityId = stack.getTag().getString("name");
-        return new TranslationTextComponent(this.getTranslationKey()).func_230529_a_(new StringTextComponent(" (" + entityId + ")")); // appendText
+        return new TranslationTextComponent(this.getTranslationKey()).append(new StringTextComponent(" (" + entityId + ")"));
     }
 
     @Override
@@ -136,31 +136,31 @@ public class BeeCage extends Item
         if (tag != null && Screen.hasShiftDown()) {
             boolean hasStung = tag.getBoolean("HasStung");
             if (hasStung) {
-                list.add(new TranslationTextComponent("productivebees.information.health.dying").func_240699_a_(TextFormatting.RED).func_240699_a_(TextFormatting.ITALIC));
+                list.add(new TranslationTextComponent("productivebees.information.health.dying").mergeStyle(TextFormatting.RED).mergeStyle(TextFormatting.ITALIC));
             }
 
             if (tag.getBoolean("isProductiveBee")) {
                 String type = tag.getString("bee_type");
-                ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).func_240699_a_(getColor(type));
-                list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).func_240699_a_(TextFormatting.DARK_GRAY));
+                ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).mergeStyle(getColor(type));
+                list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).mergeStyle(TextFormatting.DARK_GRAY));
 
                 int productivity = tag.getInt("bee_productivity");
-                ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).func_240699_a_(getColor(productivity));
-                list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).func_240699_a_(TextFormatting.DARK_GRAY));
+                ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).mergeStyle(getColor(productivity));
+                list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).mergeStyle(TextFormatting.DARK_GRAY));
 
                 int tolerance = tag.getInt("bee_weather_tolerance");
-                ITextComponent tolerance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).func_240699_a_(getColor(tolerance));
-                list.add((new TranslationTextComponent("productivebees.information.attribute.weather_tolerance", tolerance_value)).func_240699_a_(TextFormatting.DARK_GRAY));
+                ITextComponent tolerance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).mergeStyle(getColor(tolerance));
+                list.add((new TranslationTextComponent("productivebees.information.attribute.weather_tolerance", tolerance_value)).mergeStyle(TextFormatting.DARK_GRAY));
 
                 int behavior = tag.getInt("bee_behavior");
-                ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).func_240699_a_(getColor(behavior));
-                list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).func_240699_a_(TextFormatting.DARK_GRAY));
+                ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).mergeStyle(getColor(behavior));
+                list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).mergeStyle(TextFormatting.DARK_GRAY));
             }
             else {
-                list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).func_240699_a_(TextFormatting.DARK_AQUA));
+                list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).mergeStyle(TextFormatting.DARK_AQUA));
             }
         } else {
-            list.add(new TranslationTextComponent("productivebees.information.hold_shift").func_240699_a_(TextFormatting.WHITE));
+            list.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE));
         }
     }
 

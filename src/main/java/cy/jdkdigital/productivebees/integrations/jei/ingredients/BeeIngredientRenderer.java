@@ -80,7 +80,7 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
     public List<ITextComponent> getTooltip(BeeIngredient beeIngredient, ITooltipFlag iTooltipFlag) {
         List<ITextComponent> list = new ArrayList<>();
         list.add(beeIngredient.getBeeType().getName());
-        list.add(new StringTextComponent(beeIngredient.getBeeType().getRegistryName().toString()).func_240699_a_(TextFormatting.DARK_GRAY));
+        list.add(new StringTextComponent(beeIngredient.getBeeType().getRegistryName().toString()).mergeStyle(TextFormatting.DARK_GRAY));
         return list;
     }
 }

@@ -50,7 +50,7 @@ public class MagmaticBeeEntity extends EffectHiveBeeEntity
     public void attackTarget(LivingEntity target) {
         if (this.isAlive()) {
             // Place flowing lava on the targets location
-            this.lavaPosition = target.func_233580_cy_();
+            this.lavaPosition = target.getPosition();
             this.lavaDuration = 100;
             this.world.setBlockState(lavaPosition, Blocks.LAVA.getDefaultState().getBlockState(), 11);
         }

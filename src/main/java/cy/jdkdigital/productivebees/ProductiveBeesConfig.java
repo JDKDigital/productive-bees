@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
+import com.google.common.collect.ImmutableList;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import net.minecraft.block.Block;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.config.ModConfig;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Mod.EventBusSubscriber
@@ -41,6 +43,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.BooleanValue enableCombProduce;
         public final ForgeConfigSpec.IntValue nestRepopulationCooldown;
         public final ForgeConfigSpec.ConfigValue<String> woodChipLogsBlacklist;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -76,6 +79,10 @@ public class ProductiveBeesConfig
             woodChipLogsBlacklist = builder
                     .comment("Comma separated list of block names to exclude from the list of woodchips")
                     .define("woodChipLogsBlacklist", "atmospheric:crustose_log,forbidden_arcanus:edelwood_log");
+
+            preferredTagSource = builder
+                    .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from. Eg: mekanism,silents_mekanism,immersiveengineering")
+                    .defineList("preferredOres", ImmutableList.of(ProductiveBees.MODID), obj -> obj.toString().length() > 1);
 
             builder.pop();
         }

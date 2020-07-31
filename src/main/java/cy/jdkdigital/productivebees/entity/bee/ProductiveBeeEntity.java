@@ -82,14 +82,14 @@ public class ProductiveBeeEntity extends BeeEntity
 
         // Give health boost based on endurance
         if (getAttributeValue(BeeAttributes.ENDURANCE) != 1) {
-            this.getAttribute(Attributes.MAX_HEALTH).func_233767_b_(BeeAttributes.HEALTH_MODS.get(getAttributeValue(BeeAttributes.ENDURANCE)));
+            this.getAttribute(Attributes.MAX_HEALTH).applyPersistentModifier(BeeAttributes.HEALTH_MODS.get(getAttributeValue(BeeAttributes.ENDURANCE)));
             this.heal(this.getMaxHealth());
         }
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.399999976158142D, true));
+        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
         // Resting goal!
         this.goalSelector.addGoal(1, new BeeEntity.EnterBeehiveGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, ProductiveBeeEntity.class));
@@ -117,11 +117,11 @@ public class ProductiveBeeEntity extends BeeEntity
     public void livingTick() {
         super.livingTick();
 
-        // Positive effect to nearby entities
+        // "Positive" effect to nearby players
         if (!world.isRemote && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getAttributeValue(BeeAttributes.EFFECTS);
             if (effect.getEffects().size() > 0) {
-                List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, (new AxisAlignedBB(new BlockPos(ProductiveBeeEntity.this.getPositionVec()))).grow(8.0D, 6.0D, 8.0D));
+                List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, (new AxisAlignedBB(new BlockPos(ProductiveBeeEntity.this.getPosition()))).grow(8.0D, 6.0D, 8.0D));
                 if (players.size() > 0) {
                     players.forEach(playerEntity -> {
                         effect.getEffects().forEach((potionEffect, duration) -> {
@@ -377,7 +377,7 @@ public class ProductiveBeeEntity extends BeeEntity
         }
 
         private Optional<BlockPos> findEntities(Predicate<Entity> predicate, double distance) {
-            BlockPos blockpos = new BlockPos(ProductiveBeeEntity.this.getPositionVec());
+            BlockPos blockpos = ProductiveBeeEntity.this.getPosition();
             BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
             List<Entity> ranchables = world.getEntitiesInAABBexcluding(ProductiveBeeEntity.this, (new AxisAlignedBB(blockpos).grow(distance, distance, distance)), predicate);
@@ -438,9 +438,9 @@ public class ProductiveBeeEntity extends BeeEntity
         }
     }
 
-    class UpdateNestGoal extends BeeEntity.UpdateBeehiveGoal
+    public class UpdateNestGoal extends BeeEntity.UpdateBeehiveGoal
     {
-        private UpdateNestGoal() {
+        public UpdateNestGoal() {
             super();
         }
 
@@ -465,7 +465,7 @@ public class ProductiveBeeEntity extends BeeEntity
         }
 
         private List<BlockPos> getNearbyFreeNests() {
-            BlockPos pos = new BlockPos(ProductiveBeeEntity.this.getPositionVec());
+            BlockPos pos = ProductiveBeeEntity.this.getPosition();
 
             PointOfInterestManager poiManager = ((ServerWorld) ProductiveBeeEntity.this.world).getPointOfInterestManager();
 

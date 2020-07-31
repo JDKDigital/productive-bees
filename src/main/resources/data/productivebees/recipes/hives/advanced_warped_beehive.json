@@ -10,7 +10,7 @@
             "item": "minecraft:warped_planks"
         },
         "H": {
-            "item": "buzzierbees:warped_beehive"
+            "item": "buzzier_bees:warped_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -28,7 +28,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "buzzierbees"
+            "modid": "buzzier_bees"
         }
     ]
 }

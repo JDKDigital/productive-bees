@@ -10,7 +10,7 @@
             "item": "minecraft:dark_oak_planks"
         },
         "H": {
-            "item": "buzzierbees:dark_oak_beehive"
+            "item": "buzzier_bees:dark_oak_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -28,7 +28,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "buzzierbees"
+            "modid": "buzzier_bees"
         }
     ]
 }

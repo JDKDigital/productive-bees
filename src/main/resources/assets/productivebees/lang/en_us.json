@@ -27,6 +27,7 @@
 	"item.productivebees.spawn_egg_dye_bee": "Dye Bee Spawn Egg",
 	"item.productivebees.spawn_egg_lumber_bee": "Lumber Bee Spawn Egg",
 	"item.productivebees.spawn_egg_rancher_bee": "Rancher Bee Spawn Egg",
+	"item.productivebees.spawn_egg_hoarder_bee": "Hoarder Bee Spawn Egg",
 
 	"item.productivebees.spawn_egg_glowing_bee": "Glowing Bee Spawn Egg",
 	"item.productivebees.spawn_egg_quartz_bee": "Crystalline Bee Spawn Egg",
@@ -254,6 +255,7 @@
 	"entity.productivebees.dye_bee": "Dye Bee",
 	"entity.productivebees.lumber_bee": "Lumber Bee",
 	"entity.productivebees.rancher_bee": "Rancher Bee",
+	"entity.productivebees.hoarder_bee": "Hoarder Bee",
 
 	"entity.productivebees.glowing_bee": "Glowing Bee",
 	"entity.productivebees.quartz_bee": "Crystalline Bee",

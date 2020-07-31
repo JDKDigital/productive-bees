@@ -10,7 +10,7 @@
             "item": "minecraft:acacia_planks"
         },
         "H": {
-            "item": "buzzierbees:acacia_beehive"
+            "item": "buzzier_bees:acacia_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -28,7 +28,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "buzzierbees"
+            "modid": "buzzier_bees"
         }
     ]
 }

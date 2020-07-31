@@ -95,8 +95,8 @@ dependencies {
 //    implementation fg.deobf('mods:SilentMechanisms-1.15.2:0.7.2+52')
 //    implementation fg.deobf('mods:JAOPCA-1.15.2:3.2.0.11')
 //    implementation fg.deobf('mods:pokecube-aio-1.15.2:2.8.3')
-//    implementation fg.deobf('mods:Abnormals-Core-1.15.2:1.0.6')
-//    implementation fg.deobf('mods:Buzzier-Bees-1.15.2:1.5.2')
+    implementation fg.deobf('mods:Abnormals-Core-1.16.1:v2.0.0')
+    implementation fg.deobf('mods:Buzzier-Bees-1.16.1:2.0.0')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

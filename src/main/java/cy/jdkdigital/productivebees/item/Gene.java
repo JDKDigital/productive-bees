@@ -72,8 +72,8 @@ public class Gene extends Item
 
         Integer value = getValue(stack);
 
-        ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(Gene.getAttribute(stack)).get(value)).func_240699_a_(BeeCage.getColor(value));
-        list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translated_value)).func_240699_a_(TextFormatting.DARK_GRAY).func_230529_a_(new StringTextComponent(" (" + getPurity(stack) + "%)")));
+        ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(Gene.getAttribute(stack)).get(value)).mergeStyle(BeeCage.getColor(value));
+        list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translated_value)).mergeStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + getPurity(stack) + "%)")));
     }
 
     @Override

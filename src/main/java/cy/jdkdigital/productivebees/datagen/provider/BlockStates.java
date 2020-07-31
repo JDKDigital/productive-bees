@@ -82,8 +82,8 @@ public class BlockStates extends BlockStateProvider
     private void registerAdvancedHive(Block block, ResourceLocation name) {
         String simpleName = name.getPath().replace("advanced_", "");
 
-        ResourceLocation side = new ResourceLocation("buzzierbees", "block/" + simpleName + "_side");
-        ResourceLocation top = new ResourceLocation("buzzierbees", "block/" + simpleName + "_end");
+        ResourceLocation side = new ResourceLocation("buzzier_bees", "block/" + simpleName + "_side");
+        ResourceLocation top = new ResourceLocation("buzzier_bees", "block/" + simpleName + "_end");
         ResourceLocation side_up = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side");
         ResourceLocation front_up = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_front");
         ResourceLocation front_honey_up = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_front_honey");
@@ -160,8 +160,8 @@ public class BlockStates extends BlockStateProvider
         boolean isOak = simpleName.equals("oak_beehive");
 
         ResourceLocation sideUp = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side_top");
-        ResourceLocation sideSmall = new ResourceLocation("buzzierbees", "block/" + simpleName + "_side");
-        ResourceLocation top = new ResourceLocation("buzzierbees", "block/" + simpleName + "_end");
+        ResourceLocation sideSmall = new ResourceLocation("buzzier_bees", "block/" + simpleName + "_side");
+        ResourceLocation top = new ResourceLocation("buzzier_bees", "block/" + simpleName + "_end");
         ResourceLocation sideVanilla = new ResourceLocation("block/beehive_side");
         ResourceLocation topVanilla = new ResourceLocation("block/beehive_end");
 //        ResourceLocation front_honey = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + simpleName + "_side_top_honey");

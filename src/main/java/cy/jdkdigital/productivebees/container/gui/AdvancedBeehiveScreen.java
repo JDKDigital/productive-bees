@@ -49,7 +49,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     }
 
     @Override
-    protected void func_230459_a_(MatrixStack matrixStack, int mouseX, int mouseY) { // drawGuiContainerForegroundLayer
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
         super.func_230459_a_(matrixStack, mouseX, mouseY);
         assert minecraft != null;
 
@@ -95,7 +95,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     }
 
     @Override
-    protected void func_230450_a_(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) { // drawGuiContainerBackgroundLayer
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;

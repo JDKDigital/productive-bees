@@ -1,9 +1,9 @@
 {
   "parent": "block/orientable_with_bottom",
   "textures": {
-    "side": "buzzierbees:block/grimwood_beehive_side",
+    "side": "buzzier_bees:block/grimwood_beehive_side",
     "front": "productivebees:block/advanced_beehive/grimwood_beehive_side_top",
-    "bottom": "buzzierbees:block/grimwood_beehive_end",
-    "top": "buzzierbees:block/grimwood_beehive_end"
+    "bottom": "buzzier_bees:block/grimwood_beehive_end",
+    "top": "buzzier_bees:block/grimwood_beehive_end"
   }
 }

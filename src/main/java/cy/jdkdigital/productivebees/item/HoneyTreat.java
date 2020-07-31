@@ -73,7 +73,7 @@ public class HoneyTreat extends Item
 
         BeeEntity bee = (BeeEntity) target;
         // Stop agro
-        bee.func_230260_a__(0); // setAnger
+        bee.setAngerTime(0);
         // Allow entering hive
         bee.setStayOutOfHiveCountdown(0);
         // Heal
@@ -85,7 +85,7 @@ public class HoneyTreat extends Item
 
         itemStack.shrink(1);
 
-        BlockPos pos = target.func_233580_cy_(); // getPosition
+        BlockPos pos = target.getPosition();
         target.getEntityWorld().addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
 
         // Improve temper
@@ -129,14 +129,14 @@ public class HoneyTreat extends Item
 
                         Integer value = Gene.getValue(insertedGene);
 
-                        ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(Gene.getAttribute(insertedGene)).get(value)).func_240699_a_(BeeCage.getColor(value));
+                        ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(Gene.getAttribute(insertedGene)).get(value)).mergeStyle(BeeCage.getColor(value));
                         list.add(
-                            (new TranslationTextComponent("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translated_value)).func_240699_a_(TextFormatting.DARK_GRAY).func_230529_a_(new StringTextComponent(" (" + purity + "%)"))
+                            (new TranslationTextComponent("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translated_value)).mergeStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + purity + "%)"))
                         );
                     });
                 }
                 else {
-                    list.add(new TranslationTextComponent("productivebees.information.hold_shift").func_240699_a_(TextFormatting.WHITE));
+                    list.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE));
                 }
             }
         }

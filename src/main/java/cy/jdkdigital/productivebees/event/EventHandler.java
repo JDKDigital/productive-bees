@@ -27,7 +27,7 @@ public class EventHandler
         if (!itemStack.isEmpty() && entity instanceof BeeEntity) {
             World world = entityInteract.getWorld();
             PlayerEntity player = entityInteract.getPlayer();
-            BlockPos pos = entity.func_233580_cy_(); // getPosition()
+            BlockPos pos = entity.getPosition();
             Hand hand = entityInteract.getHand();
 
             BeeEntity newBee = BeeHelper.itemInteract((BeeEntity) entity, itemStack, world, entity.serializeNBT(), player, hand, entity.getHorizontalFacing());

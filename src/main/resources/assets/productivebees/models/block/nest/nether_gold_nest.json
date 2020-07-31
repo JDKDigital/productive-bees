@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "block/nether_gold_ore",
+        "front": "productivebees:block/nest/nether_gold_ore",
+        "side": "block/nether_gold_ore"
+    }
+}

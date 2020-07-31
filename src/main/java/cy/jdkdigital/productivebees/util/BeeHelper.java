@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.hive.SkeletalBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.item.WoodChip;
@@ -43,7 +44,7 @@ public class BeeHelper
     private static final Random rand = new Random();
 
     public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, World world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
-        BlockPos pos = entity.func_233580_cy_();
+        BlockPos pos = entity.getPosition();
 
         EntityType<BeeEntity> bee = null;
         if (ProductiveBeesConfig.GENERAL.enableItemConverting.get()) {
@@ -70,14 +71,20 @@ public class BeeHelper
             }
         }
 
-        if (itemStack.getItem() == Items.TNT) {
+        if (entity.getClass().equals(BeeEntity.class) && itemStack.getItem() == Items.TNT) {
             bee = ModEntities.CREEPER_BEE.get();
         }
-        else if (itemStack.getItem() == Items.WITHER_ROSE) {
+        else if (entity instanceof SkeletalBeeEntity && itemStack.getItem() == Items.WITHER_ROSE) {
             bee = ModEntities.WITHER_BEE.get();
+        }
+        else if (entity.getClass().equals(BeeEntity.class) && itemStack.getItem() == Items.SHULKER_SHELL) {
+            bee = ModEntities.HOARDER_BEE.get();
         }
 
         if (bee != null) {
+            if (!player.isCreative()) {
+                itemStack.shrink(1);
+            }
             return BeeHelper.prepareBeeSpawn(bee, world, nbt, player, pos, direction, entity.getGrowingAge());
         }
         return null;
