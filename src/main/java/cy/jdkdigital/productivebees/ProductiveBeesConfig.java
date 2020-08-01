@@ -54,7 +54,7 @@ public class ProductiveBeesConfig
 
             itemTickRate = builder
                     .comment("How often should a bee attempt to generate items while in the hive. Default 500.")
-                    .defineInRange("itemTickRate", 500, 20, Integer.MAX_VALUE);
+                    .defineInRange("itemTickRate", 1500, 20, Integer.MAX_VALUE);
 
             centrifugeProcessingTime = builder
                     .comment("How many ticks it takes for process a recipe in the centrifuge. Default 300.")

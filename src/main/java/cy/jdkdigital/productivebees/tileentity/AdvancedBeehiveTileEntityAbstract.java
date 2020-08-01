@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.tileentity;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
+import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
@@ -162,6 +163,10 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
                 if (entity instanceof BeeEntity) {
                     BeeEntity beeEntity = (BeeEntity) entity;
+                    if (beeEntity instanceof SolitaryBeeEntity) {
+                        ((SolitaryBeeEntity) beeEntity).hasHadNest = true;
+                    }
+
                     h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), ((BeeEntity) entity).getFlowerPos(), entity.getName().getFormattedText()));
                     if (beeEntity.hasFlower() && (!this.hasFlowerPos() || (this.world != null && this.world.rand.nextBoolean()))) {
                         this.flowerPos = beeEntity.getFlowerPos();
