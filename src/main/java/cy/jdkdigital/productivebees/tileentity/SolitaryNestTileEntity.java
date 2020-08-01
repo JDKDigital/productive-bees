@@ -24,6 +24,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
@@ -74,18 +75,21 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     private void tickEggs() {
         eggHandler.ifPresent(h -> {
-            h.getInhabitants().removeIf((egg) -> {
+            Iterator<Inhabitant> inhabitantIterator = h.getInhabitants().iterator();
+            while (inhabitantIterator.hasNext()) {
+                AdvancedBeehiveTileEntityAbstract.Inhabitant egg = inhabitantIterator.next();
                 if (egg.ticksInHive > egg.minOccupationTicks) {
                     CompoundNBT tag = egg.nbt;
                     Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
                     BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity);
-                    return beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, this.getPos(), direction, -24000);
+                    if (beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, this.getPos(), direction, -24000)) {
+                        inhabitantIterator.remove();
+                    }
                 }
                 else {
                     egg.ticksInHive += tickCounter;
                 }
-                return false;
-            });
+            }
         });
     }
 
