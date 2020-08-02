@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.tileentity;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
+import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
@@ -35,6 +36,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntity
 {
@@ -78,16 +80,19 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     private void tickBees() {
         beeHandler.ifPresent(h -> {
-            h.getInhabitants().removeIf((inhabitant) -> {
+            Iterator<AdvancedBeehiveTileEntityAbstract.Inhabitant> inhabitantIterator = h.getInhabitants().iterator();
+            while (inhabitantIterator.hasNext()) {
+                AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant = inhabitantIterator.next();
                 if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
                     BeehiveTileEntity.State beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveTileEntity.State.HONEY_DELIVERED : BeehiveTileEntity.State.BEE_RELEASED;
-                    return this.releaseBee(this.getBlockState(), inhabitant.nbt, null, beeState);
+                    if(this.releaseBee(this.getBlockState(), inhabitant.nbt, null, beeState)) {
+                        inhabitantIterator.remove();
+                    }
                 }
                 else {
                     inhabitant.ticksInHive += tickCounter;
                 }
-                return false;
-            });
+            }
         });
     }
 
@@ -161,6 +166,10 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
                 if (entity instanceof BeeEntity) {
                     BeeEntity beeEntity = (BeeEntity) entity;
+                    if (beeEntity instanceof SolitaryBeeEntity) {
+                        ((SolitaryBeeEntity) beeEntity).hasHadNest = true;
+                    }
+
                     h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), ((BeeEntity) entity).getFlowerPos(), entity.getName().getString()));
                     if (beeEntity.hasFlower() && (!this.hasFlowerPos() || (this.world != null && this.world.rand.nextBoolean()))) {
                         this.flowerPos = beeEntity.getFlowerPos();
@@ -205,18 +214,21 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity); // loadEntityAndExecute
                 if (beeEntity != null) {
                     // Hoarder bees should leave their item behind
+                    AtomicBoolean hasOffloaded = new AtomicBoolean(true);
                     if (beeEntity instanceof HoarderBeeEntity) {
                         if (((HoarderBeeEntity) beeEntity).holdsItem()) {
                             getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
                                 if (((InventoryHandlerHelper.ItemHandler) inv).addOutput(((HoarderBeeEntity) beeEntity).getItem())) {
                                     ((HoarderBeeEntity) beeEntity).clearInventory();
+                                } else {
+                                    hasOffloaded.set(false);
                                 }
                             });
                         }
                     }
 
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
-                    if (spawned) {
+                    if (spawned && hasOffloaded.get()) {
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() <= 0.9F) {
                             beeEntity.setFlowerPos(this.flowerPos);
                         }
