@@ -80,7 +80,7 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
     @Nonnull
     @Override
     public ItemStack getCraftingResult(CraftingInventory inv) {
-        // Combine genes wit honey treat+
+        // Combine genes with honey treat
         ItemStack treat = null;
         List<ItemStack> genes = new ArrayList<>();
 
@@ -100,6 +100,7 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
             genes.forEach(gene -> {
                 HoneyTreat.addGene(honeyTreat, gene);
             });
+            honeyTreat.setCount(1);
 
             return honeyTreat;
         }

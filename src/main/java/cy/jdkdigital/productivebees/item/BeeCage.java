@@ -107,12 +107,17 @@ public class BeeCage extends Item
     }
 
     @Nullable
-    public Entity getEntityFromStack(ItemStack stack, World world, boolean withInfo) {
-        EntityType type = EntityType.byKey(stack.getTag().getString("entity")).orElse(null);
+    public static Entity getEntityFromStack(ItemStack stack, World world, boolean withInfo) {
+        return getEntityFromStack(stack.getOrCreateTag(), world, withInfo);
+    }
+
+    @Nullable
+    public static Entity getEntityFromStack(CompoundNBT tag, World world, boolean withInfo) {
+        EntityType<?> type = EntityType.byKey(tag.getString("entity")).orElse(null);
         if (type != null) {
             Entity entity = type.create(world);
             if (withInfo) {
-                entity.read(stack.getTag());
+                entity.read(tag);
             }
             return entity;
         }
@@ -135,34 +140,37 @@ public class BeeCage extends Item
         super.addInformation(stack, world, list, flag);
 
         CompoundNBT tag = stack.getTag();
-        if (tag != null && Screen.hasShiftDown()) {
-            boolean hasStung = tag.getBoolean("HasStung");
-            if (hasStung) {
-                list.add(new TranslationTextComponent("productivebees.information.health.dying").applyTextStyle(TextFormatting.RED).applyTextStyle(TextFormatting.ITALIC));
-            }
+        if (tag != null) {
+            if (Screen.hasShiftDown()) {
+                boolean hasStung = tag.getBoolean("HasStung");
+                if (hasStung) {
+                    list.add(new TranslationTextComponent("productivebees.information.health.dying").applyTextStyle(TextFormatting.RED).applyTextStyle(TextFormatting.ITALIC));
+                }
 
-            if (tag.getBoolean("isProductiveBee")) {
-                String type = tag.getString("bee_type");
-                ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).applyTextStyle(getColor(type));
-                list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+                if (tag.getBoolean("isProductiveBee")) {
+                    String type = tag.getString("bee_type");
+                    ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).applyTextStyle(getColor(type));
+                    list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).applyTextStyle(TextFormatting.DARK_GRAY));
 
-                int productivity = tag.getInt("bee_productivity");
-                ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).applyTextStyle(getColor(productivity));
-                list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+                    int productivity = tag.getInt("bee_productivity");
+                    ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).applyTextStyle(getColor(productivity));
+                    list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).applyTextStyle(TextFormatting.DARK_GRAY));
 
-                int tolerance = tag.getInt("bee_weather_tolerance");
-                ITextComponent tolerance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).applyTextStyle(getColor(tolerance));
-                list.add((new TranslationTextComponent("productivebees.information.attribute.weather_tolerance", tolerance_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+                    int tolerance = tag.getInt("bee_weather_tolerance");
+                    ITextComponent tolerance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).applyTextStyle(getColor(tolerance));
+                    list.add((new TranslationTextComponent("productivebees.information.attribute.weather_tolerance", tolerance_value)).applyTextStyle(TextFormatting.DARK_GRAY));
 
-                int behavior = tag.getInt("bee_behavior");
-                ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).applyTextStyle(getColor(behavior));
-                list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+                    int behavior = tag.getInt("bee_behavior");
+                    ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).applyTextStyle(getColor(behavior));
+                    list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+                }
+                else {
+                    list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).applyTextStyle(TextFormatting.DARK_AQUA));
+                }
             }
             else {
-                list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).applyTextStyle(TextFormatting.DARK_AQUA));
+                list.add(new TranslationTextComponent("productivebees.information.hold_shift").applyTextStyle(TextFormatting.WHITE));
             }
-        } else {
-            list.add(new TranslationTextComponent("productivebees.information.hold_shift").applyTextStyle(TextFormatting.WHITE));
         }
     }
 
