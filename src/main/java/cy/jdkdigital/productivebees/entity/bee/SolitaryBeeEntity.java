@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 public class SolitaryBeeEntity extends ProductiveBeeEntity
 {
     public boolean hasHadNest = false;
-    private int tickswWithoutNest = 12000;
+    private int ticksWithoutNest = 12000;
 
     public SolitaryBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -29,7 +29,7 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
         super.tick();
 
         // Kill off the bee if it hasn't found a nest within 10 minutes
-        if (!hasHadNest && --tickswWithoutNest < 0) {
+        if (!hasHadNest && --ticksWithoutNest < 0) {
             setHasStung(true);
         }
     }
