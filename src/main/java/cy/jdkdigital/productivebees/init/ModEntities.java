@@ -2,15 +2,21 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.*;
+import cy.jdkdigital.productivebees.entity.BeeBombEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.*;
 import cy.jdkdigital.productivebees.entity.bee.nesting.*;
 import cy.jdkdigital.productivebees.entity.bee.solitary.*;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,8 +30,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 @EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEntities
 {
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
     public static final DeferredRegister<EntityType<?>> HIVE_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
     public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
+
+    public static RegistryObject<EntityType<ProjectileItemEntity>> BEE_BOMB = createEntity("bee_bomb", BeeBombEntity::new);
 
     public static RegistryObject<EntityType<BeeEntity>> IRON_BEE = createHiveBee("iron_bee", IronBeeEntity::new, 6238757, 13487565);
     public static RegistryObject<EntityType<BeeEntity>> GOLD_BEE = createHiveBee("gold_bee", GoldBeeEntity::new, 6238757, 15582019);
@@ -110,6 +119,14 @@ public class ModEntities
         return entity;
     }
 
+    public static <E extends Entity> RegistryObject<EntityType<E>> createEntity(String name, EntityType.IFactory<E> supplier) {
+        EntityType.Builder<E> builder = EntityType.Builder.<E>create(supplier, EntityClassification.MISC).size(0.25F, 0.25F);
+
+        RegistryObject<EntityType<E>> entity = ENTITIES.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
+
+        return entity;
+    }
+
     @OnlyIn(Dist.CLIENT)
     public static void registerRendering() {
         for (RegistryObject<EntityType<?>> registryObject : HIVE_BEES.getEntries()) {
@@ -134,5 +151,8 @@ public class ModEntities
             EntityType<?> bee = registryObject.get();
             RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends SolitaryBeeEntity>) bee, SolitaryBeeRenderer::new);
         }
+
+        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+        RenderingRegistry.registerEntityRenderingHandler(BEE_BOMB.get(), entity -> new SpriteRenderer<>(entity, itemRenderer));
     }
 }

@@ -44,6 +44,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue nestRepopulationCooldown;
         public final ForgeConfigSpec.ConfigValue<String> woodChipLogsBlacklist;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
+        public final ForgeConfigSpec.IntValue numberOfBeesPerBomb;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -83,6 +84,10 @@ public class ProductiveBeesConfig
             preferredTagSource = builder
                     .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from. Eg: mekanism,silents_mekanism,immersiveengineering")
                     .defineList("preferredOres", ImmutableList.of(ProductiveBees.MODID), obj -> obj.toString().length() > 1);
+
+            numberOfBeesPerBomb = builder
+                    .comment("How many bees can fit in a bee bom. Default is 10")
+                    .defineInRange("numberOfBeesPerBomb", 10, 1, 50);
 
             builder.pop();
         }

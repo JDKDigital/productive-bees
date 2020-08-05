@@ -68,6 +68,7 @@ public final class ProductiveBees
         ModBlocks.BLOCKS.register(modEventBus);
         ModEntities.HIVE_BEES.register(modEventBus);
         ModEntities.SOLITARY_BEES.register(modEventBus);
+        ModEntities.ENTITIES.register(modEventBus);
         ModTileEntityTypes.TILE_ENTITY_TYPES.register(modEventBus);
         ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);

@@ -1,0 +1,17 @@
+{
+	"parent": "productivebees:bee_bomb",
+	"overrides": [
+		{
+			"predicate": {
+				"loaded": 0
+			},
+			"model": "productivebees:item/bee_bomb"
+		},
+		{
+			"predicate": {
+				"loaded": 1
+			},
+			"model": "productivebees:item/bee_bomb_loaded_angry"
+		}
+	]
+}
