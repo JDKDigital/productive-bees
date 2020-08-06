@@ -42,7 +42,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
             // Honey fluid level tooltip
             if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
-                List<ITextComponent> tooltipList = new ArrayList<ITextComponent>()
+                List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>()
                 {{
                     add(new TranslationTextComponent("productivebees.screen.honey_level", fluidAmount));
                 }};
@@ -55,7 +55,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
             // Energy level tooltip
             if (isPointInRegion(7, 16, 6, 54, mouseX, mouseY)) {
-                List<ITextComponent> tooltipList = new ArrayList<ITextComponent>()
+                List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>()
                 {{
                     add(new TranslationTextComponent("productivebees.screen.energy_level",  energyAmount));
                 }};

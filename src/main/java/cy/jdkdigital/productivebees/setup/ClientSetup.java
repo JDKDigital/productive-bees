@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
 import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
 import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
 import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivebees.item.BeeBomb;
 import cy.jdkdigital.productivebees.item.BeeCage;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
 import net.minecraft.client.gui.ScreenManager;
@@ -32,6 +33,7 @@ public class ClientSetup
         ScreenManager.registerFactory(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
 
         ItemModelsProperties.func_239418_a_(ModItems.BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
+        ItemModelsProperties.func_239418_a_(ModItems.BEE_BOMB.get(), new ResourceLocation("loaded"), (stack, world, entity) -> BeeBomb.isLoaded(stack) ? 1.0F : 0.0F);
 
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.POWERED_CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);

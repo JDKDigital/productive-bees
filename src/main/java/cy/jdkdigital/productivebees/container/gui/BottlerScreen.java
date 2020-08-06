@@ -40,7 +40,7 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
 
             // Honey fluid level tooltip
             if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
-                List<ITextComponent> tooltipList = new ArrayList<ITextComponent>()
+                List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>()
                 {{
                     add(new TranslationTextComponent("productivebees.screen.honey_level", fluidAmount));
                 }};

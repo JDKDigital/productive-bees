@@ -422,6 +422,6 @@
 	"productivebees.ingredient.description.nether_brick_nest": "Attracts magmatic bees in the nether",
 	"productivebees.ingredient.description.nether_quartz_nest": "Attracts crystalline bees in the nether",
 
-	"productivebees.screen.honey_level": "Honey: %imb",
-	"productivebees.screen.energy_level": "Energy: %iFE"
+	"productivebees.screen.honey_level": "Honey: %smb",
+	"productivebees.screen.energy_level": "Energy: %sFE"
 }

@@ -11,6 +11,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagRegistry;
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -86,6 +87,7 @@ public class BeeAttributes
         }});
     }
 
+    @Nullable
     public static BeeAttribute<?> getAttributeByName(String name) {
         return map.get(name);
     }

@@ -29,8 +29,6 @@ public class BeeBomb extends Item
 
     public BeeBomb(Properties properties) {
         super(properties);
-
-        this.addPropertyOverride(new ResourceLocation("loaded"), (itemStack, world, entity) -> isLoaded(itemStack) ? 1.0F : 0.0F);
     }
 
     public static boolean isLoaded(ItemStack itemStack) {
@@ -61,7 +59,7 @@ public class BeeBomb extends Item
         if (!world.isRemote) {
             BeeBombEntity bombEntity = new BeeBombEntity(world, player);
             bombEntity.setItem(item);
-            bombEntity.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+            bombEntity.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
             world.addEntity(bombEntity);
         }
 
@@ -77,13 +75,13 @@ public class BeeBomb extends Item
         ListNBT beeList = BeeBomb.getBees(stack);
         if (!beeList.isEmpty()) {
             if (Screen.hasShiftDown()) {
-                list.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").applyTextStyle(TextFormatting.DARK_AQUA));
+                list.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").mergeStyle(TextFormatting.DARK_AQUA));
                 for (INBT bee : beeList) {
                     String beeType = ((CompoundNBT) bee).getString("entity");
-                    list.add(new StringTextComponent(beeType).applyTextStyle(TextFormatting.GOLD));
+                    list.add(new StringTextComponent(beeType).mergeStyle(TextFormatting.GOLD));
                 }
             } else {
-                list.add(new TranslationTextComponent("productivebees.information.hold_shift").applyTextStyle(TextFormatting.WHITE));
+                list.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE));
             }
         }
     }

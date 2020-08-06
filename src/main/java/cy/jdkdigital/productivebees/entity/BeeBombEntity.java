@@ -83,10 +83,10 @@ public class BeeBombEntity extends ProjectileItemEntity
                     beeEntity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
                     if (isAngry && beeEntity instanceof BeeEntity) {
                         if (entity instanceof PlayerEntity) {
-                            ((BeeEntity) beeEntity).setBeeAttacker(entity);
+                            ((BeeEntity) beeEntity).setAngerTarget(entity.getUniqueID());
                         }
                         else {
-                            ((BeeEntity) beeEntity).setAnger(400 + this.rand.nextInt(400));
+                            ((BeeEntity) beeEntity).setAngerTime(400 + this.rand.nextInt(400));
                         }
                     }
 

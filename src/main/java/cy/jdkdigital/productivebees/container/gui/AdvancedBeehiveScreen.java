@@ -49,7 +49,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
+    protected void func_230459_a_(MatrixStack matrixStack, int mouseX, int mouseY) {
         super.func_230459_a_(matrixStack, mouseX, mouseY);
         assert minecraft != null;
 
@@ -134,7 +134,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             modName = "Minecraft";
         }
 
-        stringCache.put(beeId + "_mod", new StringTextComponent(modName));
+        stringCache.put(beeId + "_mod", new StringTextComponent(modName).mergeStyle(TextFormatting.BLUE).mergeStyle(TextFormatting.ITALIC));
 
         return beeTextureLocations.get(beeId);
     }
