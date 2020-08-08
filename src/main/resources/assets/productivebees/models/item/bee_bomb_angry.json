@@ -1,5 +1,5 @@
 {
-	"parent": "productivebees:bee_bomb",
+	"parent": "productivebees:item/bee_bomb",
 	"overrides": [
 		{
 			"predicate": {

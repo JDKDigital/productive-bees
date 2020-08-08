@@ -1,5 +1,5 @@
 {
-	"parent": "item/generated",
+	"parent": "productivebees:item/bee_cage",
 	"textures": {
 		"layer0": "productivebees:item/bee_cage/bee_cage_filled"
 	}

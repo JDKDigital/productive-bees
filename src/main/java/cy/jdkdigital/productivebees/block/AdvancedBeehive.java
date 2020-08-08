@@ -217,6 +217,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
             final TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveTileEntity) {
                 this.updateState(world, pos, state, false);
+                world.notifyBlockUpdate(pos, state, state, Constants.BlockFlags.DEFAULT);
                 openGui((ServerPlayerEntity) player, (AdvancedBeehiveTileEntity) tileEntity);
             }
         }
