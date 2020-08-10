@@ -1,35 +1,35 @@
 {
-  "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "productivebees:honey_treat"
-    ]
-  },
-  "criteria": {
-    "has_item": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "minecraft:honeycomb"
-          },
-          {
-            "item": "minecraft:honey_bottle"
-          }
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "productivebees:honey_treat"
         ]
-      }
     },
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "productivebees:honey_treat"
-      }
-    }
-  },
-  "requirements": [
-    [
-      "has_item",
-      "has_the_recipe"
+    "criteria": {
+        "has_item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minecraft:honeycomb"
+                    },
+                    {
+                        "item": "minecraft:honey_bottle"
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "productivebees:honey_treat"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_item",
+            "has_the_recipe"
+        ]
     ]
-  ]
 }

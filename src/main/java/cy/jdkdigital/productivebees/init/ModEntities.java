@@ -50,15 +50,15 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> HOARDER_BEE = createHiveBee("hoarder_bee", HoarderBeeEntity::new, 9615358, 8306149);
 
     public static RegistryObject<EntityType<BeeEntity>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBeeEntity::new, 6238757, 894731);
-    public static RegistryObject<EntityType<BeeEntity>> ZOMBIE_BEE = createHiveBee("zombie_bee", ZombieBeeEntity::new, 6238757, 7969893);
     public static RegistryObject<EntityType<BeeEntity>> ENDER_BEE = createHiveBee("ender_bee", EnderBeeEntity::new, 6238757, 1447446);
-    public static RegistryObject<EntityType<BeeEntity>> SKELETAL_BEE = createHiveBee("skeletal_bee", SkeletalBeeEntity::new, 6238757, 12698049);
     public static RegistryObject<EntityType<BeeEntity>> WITHER_BEE = createHiveBee("wither_bee", WitherBeeEntity::new, 6238757, 1315860);
+    public static RegistryObject<EntityType<BeeEntity>> BLAZING_BEE = createHiveBee("blazing_bee", BlazingBeeEntity::new, 6238757, 16763648);
 
+    public static RegistryObject<EntityType<BeeEntity>> ZOMBIE_BEE = createHiveBee("zombie_bee", ZombieBeeEntity::new, 6238757, 7969893);
+    public static RegistryObject<EntityType<BeeEntity>> SKELETAL_BEE = createHiveBee("skeletal_bee", SkeletalBeeEntity::new, 6238757, 12698049);
     public static RegistryObject<EntityType<BeeEntity>> GLOWING_BEE = createHiveBee("glowing_bee", GlowingBeeEntity::new, 6238757, 16579584);
     public static RegistryObject<EntityType<BeeEntity>> QUARTZ_BEE = createHiveBee("quartz_bee", QuartzBeeEntity::new, 6238757, 15657702);
     public static RegistryObject<EntityType<BeeEntity>> MAGMATIC_BEE = createHiveBee("magmatic_bee", MagmaticBeeEntity::new, 6238757, 3407872);
-    public static RegistryObject<EntityType<BeeEntity>> BLAZING_BEE = createHiveBee("blazing_bee", BlazingBeeEntity::new, 6238757, 16763648);
     public static RegistryObject<EntityType<BeeEntity>> DRACONIC_BEE = createHiveBee("draconic_bee", DraconicBeeEntity::new, 6238757, 1842204);
     public static RegistryObject<EntityType<BeeEntity>> SLIMY_BEE = createHiveBee("slimy_bee", SlimyBeeEntity::new, 6238757, 8306542);
 

@@ -110,8 +110,9 @@ public class ExpansionBox extends Block
             if (pair != null) {
                 final TileEntity tileEntity = worldIn.getTileEntity(pair.getLeft().getLeft());
                 if (tileEntity instanceof AdvancedBeehiveTileEntity) {
-                    Block block = tileEntity.getBlockState().getBlock();
-                    ((AdvancedBeehive) block).openGui((ServerPlayerEntity) player, (AdvancedBeehiveTileEntity) tileEntity);
+                    BlockState blockState = tileEntity.getBlockState();
+                    worldIn.notifyBlockUpdate(pos, blockState, blockState, Constants.BlockFlags.DEFAULT);
+                    ((AdvancedBeehive) blockState.getBlock()).openGui((ServerPlayerEntity) player, (AdvancedBeehiveTileEntity) tileEntity);
                 }
             }
         }

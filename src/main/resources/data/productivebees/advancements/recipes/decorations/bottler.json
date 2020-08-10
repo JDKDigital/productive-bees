@@ -2,7 +2,7 @@
     "parent": "minecraft:recipes/root",
     "rewards": {
         "recipes": [
-            "productivebees:nether_brick_nest"
+            "productivebees:bottler"
         ]
     },
     "criteria": {
@@ -11,7 +11,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "minecraft:nether_bricks"
+                        "item": "minecraft:smooth_stone_slab"
                     }
                 ]
             }
@@ -19,7 +19,7 @@
         "has_the_recipe": {
             "trigger": "minecraft:recipe_unlocked",
             "conditions": {
-                "recipe": "productivebees:nether_brick_nest"
+                "recipe": "productivebees:bottler"
             }
         }
     },
