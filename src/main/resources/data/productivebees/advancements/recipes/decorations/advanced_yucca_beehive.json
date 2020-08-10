@@ -1,35 +1,35 @@
 {
-  "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "productivebees:advanced_yucca_beehive",
-      "productivebees:expansion_box_yucca"
-    ]
-  },
-  "criteria": {
-    "has_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "buzzierbees:yucca_beehive"
-          }
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "productivebees:advanced_yucca_beehive",
+            "productivebees:expansion_box_yucca"
         ]
-      }
     },
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "productivebees:advanced_yucca_beehive"
-      }
-    }
-  },
-  "requirements": [
-    [
-      "has_beehive",
-      "has_the_recipe"
-    ]
-  ],
+    "criteria": {
+        "has_beehive": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "buzzierbees:yucca_beehive"
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "productivebees:advanced_yucca_beehive"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_beehive",
+            "has_the_recipe"
+        ]
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",
