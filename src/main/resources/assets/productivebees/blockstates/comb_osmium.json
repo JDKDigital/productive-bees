@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/osmium" }
+        "": {
+            "model": "productivebees:block/comb/osmium"
+        }
     }
 }

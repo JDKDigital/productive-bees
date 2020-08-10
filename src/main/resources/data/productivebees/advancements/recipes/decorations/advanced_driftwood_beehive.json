@@ -1,40 +1,36 @@
 {
-  "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "productivebees:advanced_driftwood_beehive",
-      "productivebees:expansion_box_driftwood"
-    ]
-  },
-  "criteria": {
-    "has_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "buzzier_bees:driftwood_beehive"
-          }
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "productivebees:advanced_driftwood_beehive",
+            "productivebees:expansion_box_driftwood"
         ]
-      }
     },
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "productivebees:advanced_driftwood_beehive"
-      }
-    }
-  },
-  "requirements": [
-    [
-      "has_beehive",
-      "has_the_recipe"
-    ]
-  ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "buzzier_bees"
+    "criteria": {
+        "has_beehive": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "upgrade_aquatic:driftwood_beehive"
+                    }
+                ]
+            }
         },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "productivebees:advanced_driftwood_beehive"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_beehive",
+            "has_the_recipe"
+        ]
+    ],
+    "conditions": [
         {
             "type": "forge:mod_loaded",
             "modid": "upgrade_aquatic"

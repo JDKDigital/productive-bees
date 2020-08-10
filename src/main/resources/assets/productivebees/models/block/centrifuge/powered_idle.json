@@ -1,6 +1,6 @@
 {
-	"parent": "productivebees:block/centrifuge/idle",
-	"textures": {
-		"side": "productivebees:block/centrifuge/powered_side"
-	}
+    "parent": "productivebees:block/centrifuge/idle",
+    "textures": {
+        "side": "productivebees:block/centrifuge/powered_side"
+    }
 }

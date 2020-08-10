@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/bauxite" }
+        "": {
+            "model": "productivebees:block/comb/bauxite"
+        }
     }
 }

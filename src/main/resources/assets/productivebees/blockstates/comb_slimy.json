@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/slimy" }
+        "": {
+            "model": "productivebees:block/comb/slimy"
+        }
     }
 }

@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/tin" }
+        "": {
+            "model": "productivebees:block/comb/tin"
+        }
     }
 }

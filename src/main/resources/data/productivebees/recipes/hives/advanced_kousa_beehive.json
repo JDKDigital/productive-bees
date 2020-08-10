@@ -10,7 +10,7 @@
             "item": "atmospheric:kousa_planks"
         },
         "H": {
-            "item": "buzzier_bees:kousa_beehive"
+            "item": "atmospheric:kousa_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -26,10 +26,6 @@
         "item": "productivebees:advanced_kousa_beehive"
     },
     "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "buzzier_bees"
-        },
         {
             "type": "forge:mod_loaded",
             "modid": "atmospheric"

@@ -12,7 +12,7 @@
       "conditions": {
         "items": [
           {
-            "item": "buzzier_bees:bop_hellbark_beehive"
+            "item": "minecraft:beehive"
           }
         ]
       }
@@ -31,10 +31,6 @@
     ]
   ],
     "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "buzzier_bees"
-        },
         {
             "type": "forge:mod_loaded",
             "modid": "biomesoplenty"

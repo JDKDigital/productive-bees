@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/withered" }
+        "": {
+            "model": "productivebees:block/comb/withered"
+        }
     }
 }

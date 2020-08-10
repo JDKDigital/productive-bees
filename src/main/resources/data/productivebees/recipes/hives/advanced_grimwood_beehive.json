@@ -10,7 +10,7 @@
             "item": "atmospheric:grimwood_planks"
         },
         "H": {
-            "item": "buzzier_bees:grimwood_beehive"
+            "item": "atmospheric:grimwood_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -26,10 +26,6 @@
         "item": "productivebees:advanced_grimwood_beehive"
     },
     "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "buzzier_bees"
-        },
         {
             "type": "forge:mod_loaded",
             "modid": "atmospheric"

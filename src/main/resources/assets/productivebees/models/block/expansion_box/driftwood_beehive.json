@@ -1,9 +1,9 @@
 {
-  "parent": "block/orientable_with_bottom",
-  "textures": {
-    "side": "productivebees:block/advanced_beehive/driftwood_beehive_side_top",
-    "front": "productivebees:block/advanced_beehive/driftwood_beehive_side_top",
-    "bottom": "buzzier_bees:block/driftwood_beehive_end",
-    "top": "buzzier_bees:block/driftwood_beehive_end"
-  }
+    "parent": "block/orientable_with_bottom",
+    "textures": {
+        "side": "productivebees:block/advanced_beehive/driftwood_beehive_side_top",
+        "front": "productivebees:block/advanced_beehive/driftwood_beehive_side_top",
+        "bottom": "buzzier_bees:block/driftwood_beehive_end",
+        "top": "buzzier_bees:block/driftwood_beehive_end"
+    }
 }

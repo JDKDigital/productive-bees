@@ -1,9 +1,9 @@
 {
-  "parent": "block/orientable_with_bottom",
-  "textures": {
-    "side": "block/beehive_side",
-    "front": "block/beehive_side",
-    "bottom": "block/beehive_end",
-    "top": "block/beehive_end"
-  }
+    "parent": "block/orientable_with_bottom",
+    "textures": {
+        "side": "block/beehive_side",
+        "front": "block/beehive_side",
+        "bottom": "block/beehive_end",
+        "top": "block/beehive_end"
+    }
 }

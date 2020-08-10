@@ -10,7 +10,7 @@
             "item": "biomesoplenty:willow_planks"
         },
         "H": {
-            "item": "buzzier_bees:bop_willow_beehive"
+            "item": "minecraft:beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -26,10 +26,6 @@
         "item": "productivebees:advanced_bop_willow_beehive"
     },
     "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "buzzier_bees"
-        },
         {
             "type": "forge:mod_loaded",
             "modid": "biomesoplenty"

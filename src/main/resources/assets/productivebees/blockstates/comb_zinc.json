@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/zinc" }
+        "": {
+            "model": "productivebees:block/comb/zinc"
+        }
     }
 }

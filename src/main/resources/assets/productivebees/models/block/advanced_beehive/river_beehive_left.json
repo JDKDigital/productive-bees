@@ -1,11 +1,11 @@
 {
-  "parent": "productivebees:block/advanced_hive",
-  "textures": {
-    "particle": "buzzier_bees:block/river_beehive_side",
-    "bottom": "productivebees:block/advanced_beehive/horizontal/river_beehive_end_left",
-    "top": "productivebees:block/advanced_beehive/horizontal/river_beehive_end_left",
-    "side": "buzzier_bees:block/river_beehive_side",
-    "front": "productivebees:block/advanced_beehive/horizontal/river_beehive_front_right",
-    "back": "productivebees:block/advanced_beehive/horizontal/river_beehive_side_left"
-  }
+    "parent": "productivebees:block/advanced_hive",
+    "textures": {
+        "particle": "buzzier_bees:block/river_beehive_side",
+        "bottom": "productivebees:block/advanced_beehive/horizontal/river_beehive_end_left",
+        "top": "productivebees:block/advanced_beehive/horizontal/river_beehive_end_left",
+        "side": "buzzier_bees:block/river_beehive_side",
+        "front": "productivebees:block/advanced_beehive/horizontal/river_beehive_front_right",
+        "back": "productivebees:block/advanced_beehive/horizontal/river_beehive_side_left"
+    }
 }

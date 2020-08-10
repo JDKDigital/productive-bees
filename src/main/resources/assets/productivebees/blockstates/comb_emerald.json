@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/emerald" }
+        "": {
+            "model": "productivebees:block/comb/emerald"
+        }
     }
 }

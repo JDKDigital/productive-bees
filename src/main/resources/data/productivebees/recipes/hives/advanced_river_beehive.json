@@ -10,7 +10,7 @@
             "item": "upgrade_aquatic:river_planks"
         },
         "H": {
-            "item": "buzzier_bees:river_beehive"
+            "item": "upgrade_aquatic:river_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -26,10 +26,6 @@
         "item": "productivebees:advanced_river_beehive"
     },
     "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "buzzier_bees"
-        },
         {
             "type": "forge:mod_loaded",
             "modid": "upgrade_aquatic"

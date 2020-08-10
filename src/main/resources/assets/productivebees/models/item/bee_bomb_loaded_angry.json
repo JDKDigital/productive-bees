@@ -1,6 +1,6 @@
 {
-	"parent": "item/generated",
-	"textures": {
-		"layer0": "productivebees:item/bee_bomb_loaded"
-	}
+    "parent": "productivebees:item/bee_bomb",
+    "textures": {
+        "layer0": "productivebees:item/bee_bomb_loaded"
+    }
 }

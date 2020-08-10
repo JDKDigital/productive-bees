@@ -1,6 +1,6 @@
 {
-	"parent": "item/generated",
-	"textures": {
-		"layer0": "productivebees:item/honeycombs/ender"
-	}
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "productivebees:item/honeycombs/ender"
+    }
 }

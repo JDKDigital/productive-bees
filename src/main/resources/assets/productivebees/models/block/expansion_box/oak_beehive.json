@@ -1,9 +1,9 @@
 {
-  "parent": "block/orientable_with_bottom",
-  "textures": {
-    "side": "productivebees:block/advanced_beehive/oak_beehive_side_top",
-    "front": "productivebees:block/advanced_beehive/oak_beehive_side_top",
-    "bottom": "block/beehive_end",
-    "top": "block/beehive_end"
-  }
+    "parent": "block/orientable_with_bottom",
+    "textures": {
+        "side": "productivebees:block/advanced_beehive/oak_beehive_side_top",
+        "front": "productivebees:block/advanced_beehive/oak_beehive_side_top",
+        "bottom": "block/beehive_end",
+        "top": "block/beehive_end"
+    }
 }

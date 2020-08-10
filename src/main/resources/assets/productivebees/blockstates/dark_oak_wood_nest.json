@@ -1,7 +1,16 @@
 {
     "variants": {
-        "axis=y":    { "model": "productivebees:block/nest/dark_oak_wood_nest" },
-        "axis=z":     { "model": "productivebees:block/nest/dark_oak_wood_nest_vertical", "x": 90 },
-        "axis=x":     { "model": "productivebees:block/nest/dark_oak_wood_nest_vertical", "x": 90, "y": 90 }
+        "axis=y": {
+            "model": "productivebees:block/nest/dark_oak_wood_nest"
+        },
+        "axis=z": {
+            "model": "productivebees:block/nest/dark_oak_wood_nest_vertical",
+            "x": 90
+        },
+        "axis=x": {
+            "model": "productivebees:block/nest/dark_oak_wood_nest_vertical",
+            "x": 90,
+            "y": 90
+        }
     }
 }

@@ -10,7 +10,7 @@
             "item": "minecraft:dark_prismarine"
         },
         "H": {
-            "item": "buzzier_bees:snake_block_beehive"
+            "item": "minecraft:beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"

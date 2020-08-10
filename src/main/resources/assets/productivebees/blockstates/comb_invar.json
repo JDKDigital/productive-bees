@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/invar" }
+        "": {
+            "model": "productivebees:block/comb/invar"
+        }
     }
 }

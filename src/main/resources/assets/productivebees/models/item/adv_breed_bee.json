@@ -1,6 +1,6 @@
 {
-	"parent": "item/generated",
-	"textures": {
-		"layer0": "productivebees:advancements/iron_bee"
-	}
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "productivebees:advancements/iron_bee"
+    }
 }

@@ -1,11 +1,11 @@
 {
-  "parent": "productivebees:block/advanced_hive",
-  "textures": {
-    "particle": "buzzier_bees:block/bop_mahogany_beehive_side",
-    "bottom": "buzzier_bees:block/bop_mahogany_beehive_end",
-    "top": "buzzier_bees:block/bop_mahogany_beehive_end",
-    "side": "productivebees:block/advanced_beehive/bop_mahogany_beehive_side",
-    "front": "productivebees:block/advanced_beehive/bop_mahogany_beehive_front_honey",
-    "back": "productivebees:block/advanced_beehive/bop_mahogany_beehive_side"
-  }
+    "parent": "productivebees:block/advanced_hive",
+    "textures": {
+        "particle": "buzzier_bees:block/bop_mahogany_beehive_side",
+        "bottom": "buzzier_bees:block/bop_mahogany_beehive_end",
+        "top": "buzzier_bees:block/bop_mahogany_beehive_end",
+        "side": "productivebees:block/advanced_beehive/bop_mahogany_beehive_side",
+        "front": "productivebees:block/advanced_beehive/bop_mahogany_beehive_front_honey",
+        "back": "productivebees:block/advanced_beehive/bop_mahogany_beehive_side"
+    }
 }
