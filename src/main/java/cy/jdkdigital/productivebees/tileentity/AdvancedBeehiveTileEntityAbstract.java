@@ -281,7 +281,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         super.read(blockState, tag);
 
         CompoundNBT beeTag = tag.getCompound("Bees");
-        ProductiveBees.LOGGER.info("bees deserialized: " + beeTag);
         beeHandler.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(beeTag));
     }
 
@@ -292,7 +291,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         beeHandler.ifPresent(h -> {
             tag.remove("Bees");
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
-            ProductiveBees.LOGGER.info("bees serialized: " + compound);
             tag.put("Bees", compound);
         });
 
