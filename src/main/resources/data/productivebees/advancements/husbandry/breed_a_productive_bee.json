@@ -72,14 +72,6 @@
                 }
             }
         },
-        "": {
-            "trigger": "minecraft:bred_animals",
-            "conditions": {
-                "child": {
-                    "type": "productivebees:"
-                }
-            }
-        },
         "dye_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
