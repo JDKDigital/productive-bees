@@ -179,7 +179,7 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     public boolean canEnterHive() {
-        if (this.stayOutOfHiveCountdown <= 0 && !this.pollinateGoal.isRunning() && !this.hasStung()) {
+        if (this.stayOutOfHiveCountdown <= 0 && !this.pollinateGoal.isRunning() && !this.hasStung() && this.getAttackTarget() == null) {
             boolean shouldReturnToHive =
                     this.failedPollinatingTooLong() ||
                             this.hasNectar() ||
