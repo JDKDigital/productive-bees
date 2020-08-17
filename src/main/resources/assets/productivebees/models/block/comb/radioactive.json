@@ -1,6 +1,3 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "productivebees:block/comb/radioactive"
-    }
+    "parent": "productivebees:block/comb/base"
 }

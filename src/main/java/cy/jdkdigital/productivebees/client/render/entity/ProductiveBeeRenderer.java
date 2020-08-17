@@ -2,6 +2,9 @@ package cy.jdkdigital.productivebees.client.render.entity;
 
 import com.google.common.collect.Maps;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.client.render.entity.layers.AbdomenLayer;
+import cy.jdkdigital.productivebees.client.render.entity.layers.ColorLayer;
+import cy.jdkdigital.productivebees.client.render.entity.layers.PollenLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -23,11 +26,18 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
 
     public ProductiveBeeRenderer(EntityRendererManager renderManagerIn) {
         this(renderManagerIn, new ProductiveBeeModel<>());
+        addLayer(new ColorLayer(this));
+        addLayer(new AbdomenLayer(this));
+        addLayer(new PollenLayer(this));
     }
 
     @Override
     public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
         String beeLocation = "bee/" + bee.getBeeType() + "/bee";
+
+        if (bee.getPrimaryColor() != null) {
+            beeLocation = "bee/base/bee";
+        }
 
         if (bee.isAngry()) {
             beeLocation = beeLocation + "_angry";
@@ -42,7 +52,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
 
     protected ResourceLocation getResLocation(String beeLocation) {
         if (!cachedResourceLocations.containsKey(beeLocation)) {
-            cachedResourceLocations.put(beeLocation, new ResourceLocation(ProductiveBees.MODID + ":textures/entity/" + beeLocation + ".png"));
+            cachedResourceLocations.put(beeLocation, new ResourceLocation(ProductiveBees.MODID, "textures/entity/" + beeLocation + ".png"));
         }
         return cachedResourceLocations.get(beeLocation);
     }

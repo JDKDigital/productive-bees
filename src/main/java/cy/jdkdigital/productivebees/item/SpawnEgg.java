@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.CompoundNBT;
 
+import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class SpawnEgg extends SpawnEggItem
@@ -16,6 +17,7 @@ public class SpawnEgg extends SpawnEggItem
         this.entityType = entityType;
     }
 
+    @Nonnull
     @Override
     public EntityType<?> getType(CompoundNBT compound) {
         if (compound != null && compound.contains("EntityTag", 10)) {

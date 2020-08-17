@@ -45,7 +45,9 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -59,6 +61,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
                 poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
                 poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
     };
+    private Color primaryColor = null;
+    private Color secondaryColor = null;
 
     public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -325,6 +329,19 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
 
     public static Double getProductionChance(String beeId) {
         return ProductiveBeesConfig.BEES.itemProductionRates.get(beeId).get();
+    }
+
+    public void setColor(Color primary, Color secondary) {
+        this.primaryColor = primary;
+        this.secondaryColor = secondary;
+    }
+
+    public Color getPrimaryColor() {
+        return primaryColor;
+    }
+
+    public Color getSecondaryColor() {
+        return secondaryColor;
     }
 
     public class PollinateGoal extends BeeEntity.PollinateGoal
