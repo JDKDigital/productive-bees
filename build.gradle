@@ -90,11 +90,6 @@ dependencies {
 
 //    implementation fg.deobf('mods:Mekanism-1.16.1:10.0.1.424')
 
-//    implementation fg.deobf('mods:Mekanism-1.15.2:9.10.9.422')
-//    implementation fg.deobf('mods:SilentLib-1.15.2:4.6.3+55')
-//    implementation fg.deobf('mods:SilentMechanisms-1.15.2:0.7.2+52')
-//    implementation fg.deobf('mods:JAOPCA-1.15.2:3.2.0.11')
-//    implementation fg.deobf('mods:pokecube-aio-1.15.2:2.8.3')
     implementation fg.deobf('mods:Abnormals-Core-1.16.1:v2.0.0')
     implementation fg.deobf('mods:Buzzier-Bees-1.16.1:2.0.0')
     implementation fg.deobf('mods:pneumaticcraft-repressurized-1.16.1:2.0.0-4')

@@ -1,6 +1,3 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "productivebees:block/comb/iron"
-    }
+    "parent": "productivebees:block/comb/base"
 }

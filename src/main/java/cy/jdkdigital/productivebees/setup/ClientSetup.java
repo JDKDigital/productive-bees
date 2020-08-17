@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.setup;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.block.CombBlock;
 import cy.jdkdigital.productivebees.client.render.block.BottlerTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.CentrifugeTileEntityRenderer;
 import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
@@ -9,8 +10,12 @@ import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.item.BeeBomb;
 import cy.jdkdigital.productivebees.item.BeeCage;
+import cy.jdkdigital.productivebees.item.HoneyComb;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
@@ -44,19 +49,38 @@ public class ClientSetup
     }
 
     public static void registerItemColors(final ColorHandlerEvent.Item event) {
-        for (RegistryObject<Item> items : ModItems.SPAWN_EGGS) {
-            if (ObfuscationReflectionHelper.getPrivateValue(RegistryObject.class, items, "value") != null) {
-                Item item = items.get();
+        ItemColors colors = event.getItemColors();
+        for (RegistryObject<Item> eggItem : ModItems.SPAWN_EGGS) {
+            if (ObfuscationReflectionHelper.getPrivateValue(RegistryObject.class, eggItem, "value") != null) {
+                Item item = eggItem.get();
                 if (item instanceof SpawnEgg) {
-                    event.getItemColors().register((itemColor, itemsIn) -> ((SpawnEgg) item).getColor(itemsIn), item);
+                    colors.register((itemColor, tintIndex) -> ((SpawnEgg) item).getColor(tintIndex), item);
                 }
+            }
+        }
+
+        // Honeycomb colors
+        for (RegistryObject<Item> registryItem : ModItems.ITEMS.getEntries()) {
+            Item item = registryItem.get();
+            if (item instanceof HoneyComb) {
+                ProductiveBees.LOGGER.info("Setting item color for " + item + " to " + ((HoneyComb) item).getColor());
+                colors.register((itemColor, tintIndex) -> ((HoneyComb) item).getColor(), item);
             }
         }
     }
 
     public static void registerBlockColors(final ColorHandlerEvent.Block event) {
-        event.getBlockColors().register((blockState, lightReader, pos, i) -> {
+        BlockColors colors = event.getBlockColors();
+        colors.register((blockState, lightReader, pos, tintIndex) -> {
             return lightReader != null && pos != null ? BiomeColors.getGrassColor(lightReader, pos) : -1;
         }, ModBlocks.SUGAR_CANE_NEST.get());
+
+        for (RegistryObject<Block> registryBlock : ModBlocks.BLOCKS.getEntries()) {
+            Block block = registryBlock.get();
+            if (block instanceof CombBlock) {
+                ProductiveBees.LOGGER.info("Setting block color for " + block + " to " + ((CombBlock) block).getColor());
+                colors.register((blockState, lightReader, pos, tintIndex) -> ((CombBlock) block).getColor(), block);
+            }
+        }
     }
 }
