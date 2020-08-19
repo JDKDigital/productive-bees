@@ -16,7 +16,6 @@ import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -24,9 +23,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.*;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 

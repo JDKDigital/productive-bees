@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;

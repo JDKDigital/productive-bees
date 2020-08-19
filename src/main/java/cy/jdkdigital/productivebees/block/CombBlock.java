@@ -1,10 +1,9 @@
 package cy.jdkdigital.productivebees.block;
 
+import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.awt.*;
 
 public class CombBlock extends Block
 {
@@ -12,7 +11,7 @@ public class CombBlock extends Block
 
     public CombBlock(Properties properties, String colorCode) {
         super(properties);
-        this.color = Color.decode(colorCode).getRGB();
+        this.color = ColorUtil.hexToInt(colorCode);
     }
 
     @OnlyIn(Dist.CLIENT)

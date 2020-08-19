@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.util;
 
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.loot.LootParameter;
+import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 

@@ -78,8 +78,9 @@ public class ClientSetup
         for (RegistryObject<Block> registryBlock : ModBlocks.BLOCKS.getEntries()) {
             Block block = registryBlock.get();
             if (block instanceof CombBlock) {
-                ProductiveBees.LOGGER.info("Setting block color for " + block + " to " + ((CombBlock) block).getColor());
-                colors.register((blockState, lightReader, pos, tintIndex) -> ((CombBlock) block).getColor(), block);
+                final int color = ((CombBlock) block).getColor();
+                ProductiveBees.LOGGER.info("Setting block color for " + block + " to " + color);
+                colors.register((blockState, lightReader, pos, tintIndex) -> color, block);
             }
         }
     }
