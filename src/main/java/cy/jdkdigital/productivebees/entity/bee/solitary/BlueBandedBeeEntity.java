@@ -1,12 +1,10 @@
 package cy.jdkdigital.productivebees.entity.bee.solitary;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.passive.BeeEntity;

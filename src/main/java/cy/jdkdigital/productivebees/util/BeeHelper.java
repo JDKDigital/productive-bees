@@ -33,6 +33,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,7 +44,7 @@ public class BeeHelper
 {
     private static final Random rand = new Random();
 
-    public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, World world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
+    public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, ServerWorld world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
         BlockPos pos = entity.getPosition();
 
         EntityType<BeeEntity> bee = null;
@@ -90,7 +91,7 @@ public class BeeHelper
         return null;
     }
 
-    public static BeeEntity prepareBeeSpawn(EntityType<BeeEntity> beeType, World world, @Nullable CompoundNBT nbt, @Nullable PlayerEntity player, BlockPos pos, Direction direction, int age) {
+    public static BeeEntity prepareBeeSpawn(EntityType<BeeEntity> beeType, ServerWorld world, @Nullable CompoundNBT nbt, @Nullable PlayerEntity player, BlockPos pos, Direction direction, int age) {
         BeeEntity bee = beeType.create(world, nbt, null, player, pos, SpawnReason.CONVERSION, true, true);
 
         if (bee != null) {

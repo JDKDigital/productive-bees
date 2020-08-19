@@ -1,10 +1,9 @@
 package cy.jdkdigital.productivebees.item;
 
+import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.awt.*;
 
 public class HoneyComb extends Item
 {
@@ -12,7 +11,7 @@ public class HoneyComb extends Item
 
     public HoneyComb(Properties properties, String colorCode) {
         super(properties);
-        this.color = Color.decode(colorCode).getRGB();
+        this.color = ColorUtil.hexToInt(colorCode);
     }
 
     @OnlyIn(Dist.CLIENT)

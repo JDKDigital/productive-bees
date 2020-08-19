@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.datagen.provider;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
-import cy.jdkdigital.productivebees.block.ExpansionBox;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.block.BeehiveBlock;
