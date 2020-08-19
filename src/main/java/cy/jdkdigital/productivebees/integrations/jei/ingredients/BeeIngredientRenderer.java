@@ -1,22 +1,14 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -24,9 +16,7 @@ import net.minecraft.util.text.TextFormatting;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 {
@@ -51,7 +41,6 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
                     scaledSize = scaledSize * 0.85F;
                 }
 
-                MatrixStack matrixStack = new MatrixStack();
                 matrixStack.push();
                 matrixStack.translate(7 + xPosition, 17 + yPosition, 1.5);
                 matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));

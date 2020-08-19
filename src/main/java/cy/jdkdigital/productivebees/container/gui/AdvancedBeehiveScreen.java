@@ -70,7 +70,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                         add(stringCache.get(beeId));
                     }};
                     tooltipList.add(stringCache.get(beeId + "_mod"));
-                    renderTooltip(matrixStack, tooltipList, mouseX, mouseY);
+                    renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
                 }
                 j++;
             }
