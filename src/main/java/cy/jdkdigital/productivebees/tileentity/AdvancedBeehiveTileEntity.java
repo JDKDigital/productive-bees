@@ -28,6 +28,7 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -92,8 +93,6 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         if (!hasTicked && ++tickCounter > ProductiveBeesConfig.GENERAL.itemTickRate.get()) {
             tickCounter = 0;
 
-            productionTick();
-
             // Spawn skeletal and zombie bees in available hives
             ListNBT beeList = this.getBeeListAsNBTList();
             if (
@@ -150,47 +149,33 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         hasTicked = false;
     }
 
-    protected void productionTick() {
-        ListNBT beeList = this.getBeeListAsNBTList();
-        if (beeList.size() > 0) {
-            for (INBT inbt : beeList) {
-                CompoundNBT NBT = ((CompoundNBT) inbt);
-                CompoundNBT entityNBT = (CompoundNBT) NBT.get("EntityData");
-                String beeId = entityNBT.getString("id");
-
-                Double productionChance = ProductiveBeeEntity.getProductionChance(beeId, 0.65D);
-
-                // Generate bee produce
-                boolean hasNectar = entityNBT.getBoolean("HasNectar");
-                if (hasNectar && productionChance != null && productionChance > 0) {
-                    if (world.rand.nextDouble() <= productionChance) {
-                        final int behavior = entityNBT.contains("bee_behavior") ? entityNBT.getInt("bee_behavior") : 0;
-                        if (behavior == 2 || (world.isNightTime() && behavior == 1) || (!world.isNightTime() && behavior == 0)) {
-                            final int productivity = entityNBT.contains("bee_productivity") ? entityNBT.getInt("bee_productivity") : 0;
-                            getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                                BlockPos flowerBlockPos = NBT.contains("FlowerPos") ? NBTUtil.readBlockPos(NBT.getCompound("FlowerPos")) : this.flowerPos;
-                                BeeHelper.getBeeProduce(world, beeId, flowerBlockPos).forEach((stack) -> {
-                                    if (!stack.isEmpty()) {
-                                        if (productivity > 0) {
-                                            float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
-                                            stack.grow(Math.round(f));
-                                        }
-                                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
-                                    }
-                                });
-                            });
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     @Override
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, State beeState) {
         super.beeReleasePostAction(beeEntity, state, beeState);
 
+        String beeId = beeEntity.getEntityString();
+        Double productionChance = ProductiveBeeEntity.getProductionChance(beeId, 0.95D);
+
+        // Generate bee produce
+        if (world != null && beeEntity instanceof ProductiveBeeEntity && beeState == BeehiveTileEntity.State.HONEY_DELIVERED && productionChance != null && productionChance > 0) {
+            if (world.rand.nextDouble() <= productionChance) {
+                getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                    BeeHelper.getBeeProduce(world, beeId, beeEntity.getFlowerPos()).forEach((stack) -> {
+                        if (!stack.isEmpty()) {
+                            int productivity = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
+                            if (productivity > 0) {
+                                float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
+                                stack.grow(Math.round(f));
+                            }
+                            ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
+                        }
+                    });
+                });
+            }
+        }
+
         // Add to the countdown for it's spot to become available in the hive
+        // this prevents other bees from moving in straight away
         abandonCountdown += getTimeInHive(true, beeEntity);
     }
 

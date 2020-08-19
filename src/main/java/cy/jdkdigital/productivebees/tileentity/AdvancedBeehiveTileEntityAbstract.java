@@ -229,7 +229,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
                     spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
                     if (spawned && hasOffloaded.get()) {
-                        if (this.hasFlowerPos() && !beeEntity.hasFlower() && this.world.rand.nextFloat() <= 0.9F) {
+                        if (this.hasFlowerPos() && !beeEntity.hasFlower() && (beeEntity.getEntityString().contains("dye_bee") || this.world.rand.nextFloat() <= 0.9F)) {
                             beeEntity.setFlowerPos(this.flowerPos);
                         }
                         beeReleasePostAction(beeEntity, state, beeState);

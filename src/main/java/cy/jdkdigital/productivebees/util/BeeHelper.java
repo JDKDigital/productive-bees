@@ -146,7 +146,7 @@ public class BeeHelper
                 BlockState flowerBlock = world.getBlockState(flowerPos);
 
                 if (flowerBlock.getBlock().isIn(BlockTags.LOGS)) {
-                    ItemStack woodChip = WoodChip.getStack(flowerBlock.getBlock(), world.rand.nextInt(3));
+                    ItemStack woodChip = WoodChip.getStack(flowerBlock.getBlock(), world.rand.nextInt(6) + 1);
                     outputList.add(woodChip);
                 }
             }

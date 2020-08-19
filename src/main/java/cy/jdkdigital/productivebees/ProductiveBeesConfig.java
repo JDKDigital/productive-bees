@@ -111,7 +111,7 @@ public class ProductiveBeesConfig
             for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
                 ResourceLocation resourceLocation = registryObject.getId();
                 builder.comment("Production chance for " + resourceLocation);
-                itemProductionRates.put(resourceLocation + "", builder.defineInRange(resourceLocation + "", 0.65D, 0, 1));
+                itemProductionRates.put(resourceLocation + "", builder.defineInRange(resourceLocation + "", 0.95D, 0, 1));
             }
 
             builder.pop();
