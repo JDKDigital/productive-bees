@@ -3,6 +3,7 @@
 
 	"jei.productivebees.advanced_beehive": "Advanced Beehive",
 	"jei.productivebees.bee_breeding": "Bee Breeding",
+	"jei.productivebees.bee_conversion": "Item Bee Conversion",
 	"jei.productivebees.bee_spawning": "Bee Spawning",
 	"jei.productivebees.centrifuge": "Centrifuge",
 
@@ -358,6 +359,7 @@
 	"productivebees.ingredient.description.dye_bee": "Brings home more flowery bits than just nectar.",
 	"productivebees.ingredient.description.lumber_bee": "Has a healthy obsession with wood.",
 	"productivebees.ingredient.description.rancher_bee": "In bee-school it's nickname was BooBee.",
+	"productivebees.ingredient.description.hoarder_bee": "If you leave your items on the ground, this bee will collect and store them in its hive.",
 
 	"productivebees.ingredient.description.glowing_bee": "Put it in an advanced beehive to get some glowstone.\n\nSpawn naturally in the nether making it's nest inside glowstone blocks.",
 	"productivebees.ingredient.description.quartz_bee": "Put it in an advanced beehive to get some nether quartz.\n\nSpawn naturally in the nether making it's nest inside nether quartz ore.",

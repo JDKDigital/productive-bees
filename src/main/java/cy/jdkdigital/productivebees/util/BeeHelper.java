@@ -10,6 +10,9 @@ import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
+import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
+import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
+import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
@@ -33,6 +36,8 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,39 +51,13 @@ public class BeeHelper
     public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, World world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
         BlockPos pos = entity.getPosition();
 
+        // Conversion recipes
         EntityType<BeeEntity> bee = null;
-        if (ProductiveBeesConfig.GENERAL.enableItemConverting.get()) {
-            if (itemStack.getItem() == Items.REDSTONE) {
-                bee = ModEntities.REDSTONE_BEE.get();
-            }
-            else if (itemStack.getItem() == Items.EMERALD) {
-                bee = ModEntities.EMERALD_BEE.get();
-            }
-            else if (itemStack.getItem() == Items.LAPIS_LAZULI) {
-                bee = ModEntities.LAPIS_BEE.get();
-            }
-            else if (itemStack.getItem() == Items.DIAMOND) {
-                bee = ModEntities.DIAMOND_BEE.get();
-            }
-            else if (itemStack.getItem() == Items.IRON_INGOT) {
-                bee = ModEntities.IRON_BEE.get();
-            }
-            else if (itemStack.getItem() == Items.GOLD_INGOT) {
-                bee = ModEntities.GOLD_BEE.get();
-            }
-            else if (itemStack.getItem() == Items.HONEYCOMB) {
-                bee = EntityType.BEE;
-            }
-        }
-
-        if (entity.getClass().equals(BeeEntity.class) && itemStack.getItem() == Items.TNT) {
-            bee = ModEntities.CREEPER_BEE.get();
-        }
-        else if (entity instanceof SkeletalBeeEntity && itemStack.getItem() == Items.WITHER_ROSE) {
-            bee = ModEntities.WITHER_BEE.get();
-        }
-        else if (entity.getClass().equals(BeeEntity.class) && itemStack.getItem() == Items.SHULKER_SHELL) {
-            bee = ModEntities.HOARDER_BEE.get();
+        List<BeeConversionRecipe> recipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION, new IdentifierInventory(entity.getEntityString(), itemStack.getItem().getRegistryName() + ""), world);
+        ProductiveBees.LOGGER.info("Convrsion recipes: " + recipes);
+        if (!recipes.isEmpty()) {
+            BeeConversionRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
+            bee = recipe.result.getBeeType();
         }
 
         if (bee != null) {
@@ -116,7 +95,7 @@ public class BeeHelper
 
         if (!beeEntity.getBeeType().equals(((ProductiveBeeEntity) targetEntity).getBeeType())) {
             // Get breeding recipes
-            List<BeeBreedingRecipe> recipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING, new BeeInventory(beeEntity.getBeeType(), ((ProductiveBeeEntity) targetEntity).getBeeType()), world);
+            List<BeeBreedingRecipe> recipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING, new IdentifierInventory(beeEntity.getBeeType(), ((ProductiveBeeEntity) targetEntity).getBeeType()), world);
             // If the two bees are the same type, or no breeding rules exist, create a new of that type
             if (!recipes.isEmpty()) {
                 BeeBreedingRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
@@ -132,7 +111,7 @@ public class BeeHelper
     }
 
     public static List<ItemStack> getBeeProduce(World world, String beeId, BlockPos flowerPos) {
-        AdvancedBeehiveRecipe recipe = world.getRecipeManager().getRecipe(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE, new BeeInventory(beeId), world).orElse(null);
+        AdvancedBeehiveRecipe recipe = world.getRecipeManager().getRecipe(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE, new IdentifierInventory(beeId), world).orElse(null);
         List<ItemStack> outputList = Lists.newArrayList(ItemStack.EMPTY);
         if (recipe != null) {
             recipe.output.forEach((itemStack, bounds) -> {
@@ -208,25 +187,25 @@ public class BeeHelper
         attributeMapChild.put(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
     }
 
-    public static class BeeInventory implements IInventory
+    public static class IdentifierInventory implements IInventory
     {
-        private List<String> beeIdentifiers = new ArrayList<>();
+        private List<String> identifiers = new ArrayList<>();
 
-        public BeeInventory(String beeIdentifier) {
-            this.beeIdentifiers.add(beeIdentifier);
+        public IdentifierInventory(String identifier) {
+            this.identifiers.add(identifier);
         }
 
-        public BeeInventory(String beeIdentifier1, String beeIdentifier2) {
-            this.beeIdentifiers.add(beeIdentifier1);
-            this.beeIdentifiers.add(beeIdentifier2);
+        public IdentifierInventory(String identifier1, String identifier2) {
+            this.identifiers.add(identifier1);
+            this.identifiers.add(identifier2);
         }
 
-        public String getBeeIdentifier() {
-            return getBeeIdentifier(0);
+        public String getIdentifier() {
+            return getIdentifier(0);
         }
 
-        public String getBeeIdentifier(int index) {
-            return this.beeIdentifiers.get(index);
+        public String getIdentifier(int index) {
+            return this.identifiers.get(index);
         }
 
         @Override
@@ -236,7 +215,7 @@ public class BeeHelper
 
         @Override
         public boolean isEmpty() {
-            return beeIdentifiers.isEmpty();
+            return identifiers.isEmpty();
         }
 
         @Nonnull
@@ -274,7 +253,7 @@ public class BeeHelper
 
         @Override
         public void clear() {
-            this.beeIdentifiers.clear();
+            this.identifiers.clear();
         }
     }
 }

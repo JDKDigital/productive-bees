@@ -36,6 +36,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     private static final ResourceLocation pluginId = new ResourceLocation(ProductiveBees.MODID, ProductiveBees.MODID);
     public static final ResourceLocation CATEGORY_ADVANCED_BEEHIVE_UID = new ResourceLocation(ProductiveBees.MODID, "advanced_beehive");
     public static final ResourceLocation CATEGORY_BEE_BREEDING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
+    public static final ResourceLocation CATEGORY_BEE_CONVERSION_UID = new ResourceLocation(ProductiveBees.MODID, "bee_conversion");
     public static final ResourceLocation CATEGORY_BEE_SPAWNING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_spawning");
     public static final ResourceLocation CATEGORY_BEE_SPAWNING_BIG_UID = new ResourceLocation(ProductiveBees.MODID, "bee_spawning_big");
     public static final ResourceLocation CATEGORY_CENTRIFUGE_UID = new ResourceLocation(ProductiveBees.MODID, "centrifuge");
@@ -68,6 +69,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
         registration.addRecipeCategories(new AdvancedBeehiveRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeBreedingRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new BeeConversionRecipeCategory(guiHelper));
         registration.addRecipeCategories(new CentrifugeRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeBigCategory(guiHelper));
@@ -101,6 +103,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Breeding recipes
         Map<ResourceLocation, IRecipe<IInventory>> beeBreedingRecipeMap = recipeManager.getRecipes(BeeBreedingRecipe.BEE_BREEDING);
         registration.addRecipes(beeBreedingRecipeMap.values(), CATEGORY_BEE_BREEDING_UID);
+        // Bee conversion recipes
+        Map<ResourceLocation, IRecipe<IInventory>> beeConversionRecipeMap = recipeManager.getRecipes(BeeConversionRecipe.BEE_CONVERSION);
+        registration.addRecipes(beeConversionRecipeMap.values(), CATEGORY_BEE_CONVERSION_UID);
 
         // Ingredient descriptions
         List<String> notInfoBees = Arrays.asList("minecraft:bee", "aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");

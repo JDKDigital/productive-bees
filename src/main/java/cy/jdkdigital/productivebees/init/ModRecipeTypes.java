@@ -18,6 +18,7 @@ public final class ModRecipeTypes
     public static final RegistryObject<IRecipeSerializer<?>> ADVANCED_BEEHIVE = createRecipeType("advanced_beehive", () -> new AdvancedBeehiveRecipe.Serializer<>(AdvancedBeehiveRecipe::new));
     public static final RegistryObject<IRecipeSerializer<?>> CENTRIFUGE = createRecipeType("centrifuge", () -> new CentrifugeRecipe.Serializer<>(CentrifugeRecipe::new));
     public static final RegistryObject<IRecipeSerializer<?>> BEE_BREEDING = createRecipeType("bee_breeding", () -> new BeeBreedingRecipe.Serializer<>(BeeBreedingRecipe::new));
+    public static final RegistryObject<IRecipeSerializer<?>> BEE_CONVERSION = createRecipeType("bee_conversion", () -> new BeeConversionRecipe.Serializer<>(BeeConversionRecipe::new));
     public static final RegistryObject<IRecipeSerializer<?>> BEE_SPAWNING = createRecipeType("bee_spawning", () -> new BeeSpawningRecipe.Serializer<>(BeeSpawningRecipe::new));
     public static final RegistryObject<IRecipeSerializer<?>> BEE_SPAWNING_BIG = createRecipeType("bee_spawning_big", () -> new BeeSpawningBigRecipe.Serializer<>(BeeSpawningBigRecipe::new));
     public static final RegistryObject<IRecipeSerializer<?>> WOOD_CHIP = createRecipeType("wood_chip", () -> new WoodChipRecipe.Serializer<>(WoodChipRecipe::new));
