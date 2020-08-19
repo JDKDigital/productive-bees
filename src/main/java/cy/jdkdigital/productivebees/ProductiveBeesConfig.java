@@ -50,7 +50,7 @@ public class ProductiveBeesConfig
             builder.push("General");
 
             enableItemConverting = builder
-                    .comment("Use items to change the type of a bee.", "If false, productive bees can only be obtained through breeding. Default false.")
+                    .comment("[UNUSED] Use items to change the type of a bee.", "If false, productive bees can only be obtained through breeding. Default false.")
                     .define("enableItemConverting", false);
 
             itemTickRate = builder
@@ -78,7 +78,7 @@ public class ProductiveBeesConfig
                     .defineInRange("nestRepopulationCooldown", 36000, 20, Integer.MAX_VALUE);
 
             woodChipLogsBlacklist = builder
-                    .comment("Comma separated list of block names to exclude from the list of woodchips")
+                    .comment("[UNUSED] Comma separated list of block names to exclude from the list of woodchips")
                     .define("woodChipLogsBlacklist", "atmospheric:crustose_log,forbidden_arcanus:edelwood_log");
 
             preferredTagSource = builder
@@ -111,7 +111,7 @@ public class ProductiveBeesConfig
             for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
                 ResourceLocation resourceLocation = registryObject.getId();
                 builder.comment("Production chance for " + resourceLocation);
-                itemProductionRates.put(resourceLocation + "", builder.defineInRange(resourceLocation + "", 0.65D, 0, 1));
+                itemProductionRates.put(resourceLocation + "", builder.defineInRange(resourceLocation + "", 0.95D, 0, 1));
             }
 
             builder.pop();
