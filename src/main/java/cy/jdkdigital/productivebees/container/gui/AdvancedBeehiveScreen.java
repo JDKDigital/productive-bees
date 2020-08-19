@@ -14,9 +14,9 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -52,8 +52,8 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
         assert minecraft != null;
 
-        this.font.func_238422_b_(matrixStack, this.title, 8.0F, 6.0F, 4210752);
-        this.font.func_238422_b_(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
+        this.font.func_243248_b(matrixStack, this.title, 8.0F, 6.0F, 4210752);
+        this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
 
         // Draw bees here
         boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
@@ -80,12 +80,12 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             int j = 0;
             for (String beeId : this.container.tileEntity.inhabitantList) {
                 if (isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY) && stringCache.containsKey(beeId)) {
-                    List<ITextComponent> tooltipList = new ArrayList<ITextComponent>()
+                    List<IReorderingProcessor> tooltipList = new ArrayList<IReorderingProcessor>()
                     {{
-                        add(stringCache.get(beeId));
+                        add(stringCache.get(beeId).func_241878_f());
                     }};
-                    tooltipList.add(stringCache.get(beeId + "_mod"));
-                    renderTooltip(matrixStack, tooltipList, mouseX, mouseY);
+                    tooltipList.add(stringCache.get(beeId + "_mod").func_241878_f());
+                    renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
                 }
                 j++;
             }

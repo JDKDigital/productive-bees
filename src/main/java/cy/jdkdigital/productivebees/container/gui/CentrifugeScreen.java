@@ -6,9 +6,9 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -34,17 +34,17 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.func_238422_b_(matrixStack, this.title, 8.0F, 6.0F, 4210752);
-        this.font.func_238422_b_(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
+        this.font.func_243248_b(matrixStack, this.title, 8.0F, 6.0F, 4210752);
+        this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
 
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
             int fluidAmount = handler.getFluidInTank(0).getAmount();
 
             // Honey fluid level tooltip
             if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
-                List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>()
+                List<IReorderingProcessor> tooltipList = new ArrayList<IReorderingProcessor>()
                 {{
-                    add(new TranslationTextComponent("productivebees.screen.honey_level", fluidAmount));
+                    add(new TranslationTextComponent("productivebees.screen.honey_level", fluidAmount).func_241878_f());
                 }};
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }
@@ -55,9 +55,9 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
             // Energy level tooltip
             if (isPointInRegion(7, 16, 6, 54, mouseX, mouseY)) {
-                List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>()
+                List<IReorderingProcessor> tooltipList = new ArrayList<IReorderingProcessor>()
                 {{
-                    add(new TranslationTextComponent("productivebees.screen.energy_level",  energyAmount));
+                    add(new TranslationTextComponent("productivebees.screen.energy_level",  energyAmount).func_241878_f());
                 }};
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }

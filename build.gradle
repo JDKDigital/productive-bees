@@ -85,14 +85,6 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${mcversion}:${jei_version}:api")
     // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${mcversion}:${jei_version}")
-
-//    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
-
-//    implementation fg.deobf('mods:Mekanism-1.16.1:10.0.1.424')
-
-    implementation fg.deobf('mods:Abnormals-Core-1.16.1:v2.0.0')
-    implementation fg.deobf('mods:Buzzier-Bees-1.16.1:2.0.0')
-    implementation fg.deobf('mods:pneumaticcraft-repressurized-1.16.1:2.0.0-4')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

@@ -14,6 +14,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Collection;
 
@@ -113,8 +114,8 @@ public class CreeperBeeEntity extends EffectHiveBeeEntity
     /**
      * Called when a lightning bolt hits the entity.
      */
-    public void onStruckByLightning(LightningBoltEntity lightningBolt) {
-        super.onStruckByLightning(lightningBolt);
+    public void func_241841_a(ServerWorld world, LightningBoltEntity lightningBolt) { // onStruckByLightning
+        super.func_241841_a(world, lightningBolt);
         this.dataManager.set(POWERED, true);
     }
 }

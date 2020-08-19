@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.datagen.provider;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModItemGroups;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
@@ -12,11 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.ConditionalAdvancement;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
-import net.minecraftforge.common.data.ForgeItemTagsProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Consumer;
@@ -40,9 +36,9 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .patternLine("IGI")
                 .patternLine("III")
                 .key('I', Items.IRON_INGOT)
-                .key('G', ItemTags.getCollection().getOrCreate(new ResourceLocation("forge:glass")))
+                .key('G', ItemTags.getCollection().func_241834_b(new ResourceLocation("forge:glass"))) // getOrCreate
                 .key('S', Items.SMOOTH_STONE_SLAB)
-                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                .setGroup(ProductiveBees.MODID)
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(Items.SMOOTH_STONE_SLAB, Items.IRON_INGOT))
                 .build(consumer);
     }
@@ -54,7 +50,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
             .patternLine("III")
             .key('I', Items.IRON_INGOT)
             .key('G', Items.GRINDSTONE)
-            .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+            .setGroup(ProductiveBees.MODID)
             .addCriterion("items", InventoryChangeTrigger.Instance.forItems(Items.GRINDSTONE, Items.IRON_INGOT))
             .build(consumer);
 
@@ -68,7 +64,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .patternLine("RCR")
                 .key('R', Items.REDSTONE)
                 .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                .setGroup(ProductiveBees.MODID)
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), Items.REDSTONE))
                 ::build
         )
@@ -87,7 +83,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .key('I', Items.IRON_INGOT)
                 .key('B', basicCircuit)
                 .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                .setGroup(ProductiveBees.MODID)
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), basicCircuit))
                 ::build
         )
@@ -102,10 +98,10 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .patternLine("ICI")
                 .patternLine("RBR")
                 .key('R', Items.REDSTONE)
-                .key('I', ItemTags.getCollection().getOrCreate(new ResourceLocation("forge", "ingots/bismuth_brass")))
+                .key('I', ItemTags.getCollection().func_241834_b(new ResourceLocation("forge", "ingots/bismuth_brass"))) // getOrCreate
                 .key('B', machineFrame)
                 .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                .setGroup(ProductiveBees.MODID)
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), machineFrame))
                 ::build
         )

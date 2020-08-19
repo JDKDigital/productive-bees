@@ -113,6 +113,6 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         DecimalFormat decimalFormat = new DecimalFormat("##%");
         String productionChanceString = decimalFormat.format(recipe.chance);
 
-        fontRenderer.func_238422_b_(matrixStack, new TranslationTextComponent(productionChanceString), 38, 46, 0xff808080);
+        fontRenderer.func_238422_b_(matrixStack, new TranslationTextComponent(productionChanceString).func_241878_f(), 38, 46, 0xff808080);
     }
 }

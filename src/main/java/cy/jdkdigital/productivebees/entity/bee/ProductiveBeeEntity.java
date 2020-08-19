@@ -49,8 +49,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -281,7 +281,7 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     @Override
-    public BeeEntity createChild(AgeableEntity targetEntity) {
+    public BeeEntity func_241840_a(ServerWorld world, AgeableEntity targetEntity) { // createChild
         ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, targetEntity, world);
         if (breedingResult == null) {
             breedingResult = new ResourceLocation(this.getBeeType());
