@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
@@ -56,8 +57,13 @@ public class ClientSetup
         for (RegistryObject<Item> registryItem : ModItems.ITEMS.getEntries()) {
             Item item = registryItem.get();
             if (item instanceof HoneyComb) {
-                ProductiveBees.LOGGER.info("Setting item color for " + item + " to " + ((HoneyComb) item).getColor());
                 colors.register((itemColor, tintIndex) -> ((HoneyComb) item).getColor(), item);
+            }
+            else if (item instanceof BlockItem) {
+                Block block = ((BlockItem) item).getBlock();
+                if (block instanceof CombBlock) {
+                    colors.register((itemColor, tintIndex) -> ((CombBlock) block).getColor(), item);
+                }
             }
         }
     }
@@ -71,7 +77,6 @@ public class ClientSetup
         for (RegistryObject<Block> registryBlock : ModBlocks.BLOCKS.getEntries()) {
             Block block = registryBlock.get();
             if (block instanceof CombBlock) {
-                ProductiveBees.LOGGER.info("Setting block color for " + block + " to " + ((CombBlock) block).getColor());
                 colors.register((blockState, lightReader, pos, tintIndex) -> ((CombBlock) block).getColor(), block);
             }
         }
