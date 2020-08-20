@@ -146,6 +146,8 @@ public class AdvancedBeehiveRecipe implements IRecipe<IInventory>
 
                     IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
                     outputs.put(stacks[0], nbt);
+                } else {
+                    ProductiveBees.LOGGER.debug("Empty " + ingredientKey + " recipe " + id);
                 }
             });
 

@@ -116,8 +116,7 @@ public class BeeHelper
         if (recipe != null) {
             recipe.output.forEach((itemStack, bounds) -> {
                 int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
-                itemStack.setCount(count);
-                outputList.add(itemStack);
+                outputList.add(new ItemStack(itemStack.getItem(), count));
             });
         }
         else if (beeId.equals("productivebees:lumber_bee")) {
