@@ -64,6 +64,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> COMB_BLAZING = createBlock("comb_blazing", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_BONE = createBlock("comb_bone", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_DIAMOND = createBlock("comb_diamond", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#3ddfe1"), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_NETHERITE = createBlock("comb_netherite", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#4d494d"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_DRACONIC = createBlock("comb_draconic", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_EMERALD = createBlock("comb_emerald", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#26ac43"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_ENDER = createBlock("comb_ender", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
@@ -185,7 +186,11 @@ public final class ModBlocks
     public static <B extends Block> RegistryObject<B> createBlock(String name, Supplier<? extends B> supplier, ItemGroup itemGroup, boolean createItem) {
         RegistryObject<B> block = BLOCKS.register(name, supplier);
         if (createItem) {
-            ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().group(itemGroup)));
+            Item.Properties properties = new Item.Properties().group(itemGroup);
+            if (name.equals("comb_netherite")) {
+                properties.isBurnable();
+            }
+            ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
         }
         return block;
     }

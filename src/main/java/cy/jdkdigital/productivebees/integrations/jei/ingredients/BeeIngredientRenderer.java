@@ -1,16 +1,14 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
+import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -18,61 +16,44 @@ import net.minecraft.util.text.TextFormatting;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 {
-    private final Map<Integer, Map<String, Integer>> renderSettings = new HashMap<Integer, Map<String, Integer>>()
-    {{
-        put(0, new HashMap<String, Integer>()
-        {{
-            put("scale", 128);
-            put("iconX", 14);
-            put("iconY", 14);
-            put("iconU", 20);
-            put("iconV", 20);
-        }});
-        put(1, new HashMap<String, Integer>()
-        {{
-            put("scale", 128);
-            put("iconX", 12);
-            put("iconY", 12);
-            put("iconU", 20);
-            put("iconV", 20);
-        }});
-    }};
-
     @Override
     public void render(MatrixStack matrixStack, int xPosition, int yPosition, @Nullable BeeIngredient beeIngredient) {
         if (beeIngredient == null) {
             return;
         }
-        RenderSystem.enableBlend();
-        RenderSystem.enableAlphaTest();
 
-        ResourceLocation resLocation = AdvancedBeehiveScreen.getBeeTexture(beeIngredient.getBeeType().getRegistryName(), ProductiveBees.proxy.getClientWorld());
-        Minecraft.getInstance().getTextureManager().bindTexture(resLocation);
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.world != null) {
 
-        Map<String, Integer> iconSettings = renderSettings.get(beeIngredient.getRenderType());
+            BeeEntity bee = beeIngredient.getBeeType().create(minecraft.world);
 
-        float scale = (float) 1 / iconSettings.get("scale");
-        int iconX = iconSettings.get("iconX");
-        int iconY = iconSettings.get("iconY");
-        int iconU = iconSettings.get("iconU");
-        int iconV = iconSettings.get("iconV");
 
-        BufferBuilder renderBuffer = Tessellator.getInstance().getBuffer();
-        renderBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        renderBuffer.pos(xPosition, yPosition + iconY, 0D).tex((iconU) * scale, (iconV + iconY) * scale).endVertex();
-        renderBuffer.pos(xPosition + iconX, yPosition + iconY, 0D).tex((iconU + iconX) * scale, (iconV + iconY) * scale).endVertex();
-        renderBuffer.pos(xPosition + iconX, yPosition, 0D).tex((iconU + iconX) * scale, (iconV) * scale).endVertex();
-        renderBuffer.pos(xPosition, yPosition, 0D).tex((iconU) * scale, (iconV) * scale).endVertex();
-        Tessellator.getInstance().draw();
+            if (minecraft.player != null && bee != null) {
+                bee.ticksExisted = minecraft.player.ticksExisted;
+                bee.renderYawOffset = -15;
 
-        RenderSystem.disableAlphaTest();
-        RenderSystem.disableBlend();
+                float scaledSize = 28;
+                if (bee instanceof SolitaryBeeEntity) {
+                    scaledSize = scaledSize * 0.85F;
+                }
+
+                matrixStack.push();
+                matrixStack.translate(7 + xPosition, 17 + yPosition, 1.5);
+                matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
+                matrixStack.translate(0.0F, -0.2F, 1);
+                matrixStack.scale(scaledSize, scaledSize, 32);
+
+                EntityRendererManager entityrenderermanager = minecraft.getRenderManager();
+                IRenderTypeBuffer.Impl buffer = minecraft.getRenderTypeBuffers().getBufferSource();
+                entityrenderermanager.renderEntityStatic(bee, 0, 0, 0.0D, minecraft.getRenderPartialTicks(), 1, matrixStack, buffer, 15728880);
+                buffer.finish();
+                matrixStack.pop();
+            }
+        }
     }
 
     @Nonnull

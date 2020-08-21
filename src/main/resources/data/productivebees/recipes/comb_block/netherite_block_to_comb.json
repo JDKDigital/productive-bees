@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_netherite"
+        }
+    ],
+    "result": {
+        "item": "productivebees:honeycomb_netherite",
+        "count": 4
+    }
+}

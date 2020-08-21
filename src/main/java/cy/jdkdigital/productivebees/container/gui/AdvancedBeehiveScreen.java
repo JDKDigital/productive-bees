@@ -8,14 +8,15 @@ import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.tileentity.DragonEggHiveTileEntity;
 import net.minecraft.block.BeehiveBlock;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -34,7 +35,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     private static final ResourceLocation GUI_TEXTURE_EXPANDED = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_expanded.png");
     private static final ResourceLocation GUI_TEXTURE_BEE_OVERLAY = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_bee_overlay.png");
 
-    private static HashMap<String, ResourceLocation> beeTextureLocations = new HashMap<>();
+    private static HashMap<String, Entity> beeCache = new HashMap<>();
     private static HashMap<String, ITextComponent> stringCache = new HashMap<>();
 
     public AdvancedBeehiveScreen(AdvancedBeehiveContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
@@ -61,21 +62,6 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
         if (this.container.tileEntity.inhabitantList.size() > 0) {
-            // Bee icons
-            int i = 0;
-            for (String beeId : this.container.tileEntity.inhabitantList) {
-                if (positions.get(i) == null || beeId.isEmpty()) {
-                    continue;
-                }
-                ResourceLocation beeTexture = getBeeTexture(beeId, this.container.tileEntity.getWorld());
-                minecraft.textureManager.bindTexture(beeTexture);
-                blit(matrixStack, positions.get(i).get(0), positions.get(i).get(1), 20, 20, 14, 14, 128, 128);
-
-                minecraft.textureManager.bindTexture(GUI_TEXTURE_BEE_OVERLAY);
-                blit(matrixStack, positions.get(i).get(0), positions.get(i).get(1), 0, 0, 14, 14, 14, 14);
-
-                i++;
-            }
             // Bee Tooltips
             int j = 0;
             for (String beeId : this.container.tileEntity.inhabitantList) {
@@ -104,43 +90,71 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
         minecraft.textureManager.bindTexture(expanded ? GUI_TEXTURE_EXPANDED : GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        blit(matrixStack, getGuiLeft(), getGuiTop(), 0, 0, this.xSize, this.ySize);
+        HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
         // Draw honey level
         int yOffset = this.container.tileEntity instanceof DragonEggHiveTileEntity ? 17 : 0;
         int progress = honeyLevel == 0 ? 0 : 27 / 5 * honeyLevel;
-        blit(matrixStack, this.guiLeft + 82, this.guiTop + 35, 176, 14 + yOffset, progress, 16);
+        blit(matrixStack, getGuiLeft() + 82, getGuiTop() + 35, 176, 14 + yOffset, progress, 16);
+
+        if (this.container.tileEntity.inhabitantList.size() > 0) {
+            // Bees
+            int i = 0;
+            for (String beeId : this.container.tileEntity.inhabitantList) {
+                if (beeId.isEmpty()) {
+                    continue;
+                }
+
+                BeeEntity bee = (BeeEntity) getBee(beeId, this.container.tileEntity.getWorld());
+
+                if (minecraft.player != null && bee != null) {
+                    bee.ticksExisted = minecraft.player.ticksExisted;
+                    bee.renderYawOffset = -15;
+
+                    matrixStack.push();
+                    matrixStack.translate(7 + getGuiLeft() + positions.get(i).get(0), 17 + getGuiTop() + positions.get(i).get(1), 1.5D);
+                    matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
+                    matrixStack.translate(0.0F, -0.2F, 1);
+                    matrixStack.scale(28, 28, 32);
+
+                    EntityRendererManager entityrenderermanager = minecraft.getRenderManager();
+                    IRenderTypeBuffer.Impl buffer = minecraft.getRenderTypeBuffers().getBufferSource();
+                    entityrenderermanager.renderEntityStatic(bee, 0, 0, 0.0D, minecraft.getRenderPartialTicks(), 1, matrixStack, buffer, 15728880);
+                    buffer.finish();
+
+                    matrixStack.pop();
+                }
+
+                i++;
+            }
+        }
     }
 
-    public static ResourceLocation getBeeTexture(@Nonnull ResourceLocation res, World world) {
+    public static Entity getBee(@Nonnull ResourceLocation res, World world) {
         String beeId = res.toString();
-        if (beeTextureLocations.get(beeId) != null) {
-            return beeTextureLocations.get(beeId);
+        if (beeCache.get(beeId) != null) {
+            return beeCache.get(beeId);
         }
         Entity bee = ForgeRegistries.ENTITIES.getValue(res).create(world);
+        beeCache.put(beeId, bee);
 
-        EntityRendererManager manager = Minecraft.getInstance().getRenderManager();
-        EntityRenderer renderer = manager.getRenderer(bee);
-
-        ResourceLocation resource = renderer.getEntityTexture(bee);
-        beeTextureLocations.put(beeId, resource);
-        stringCache.put(beeId, bee.getDisplayName());
-
-        String modId = resource.getNamespace();
+        String modId = res.getNamespace();
         String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
 
         if (modId.equals("minecraft")) {
             modName = "Minecraft";
         }
 
+        stringCache.put(beeId, bee.getDisplayName());
         stringCache.put(beeId + "_mod", new StringTextComponent(modName).mergeStyle(TextFormatting.BLUE).mergeStyle(TextFormatting.ITALIC));
 
-        return beeTextureLocations.get(beeId);
+        return bee;
     }
 
-    public static ResourceLocation getBeeTexture(String beeId, World world) {
+    public static Entity getBee(String beeId, World world) {
         ResourceLocation resLocation = new ResourceLocation(beeId);
 
-        return getBeeTexture(resLocation, world);
+        return getBee(resLocation, world);
     }
 }

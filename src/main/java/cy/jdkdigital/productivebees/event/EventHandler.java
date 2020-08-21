@@ -25,8 +25,8 @@ public class EventHandler
         ItemStack itemStack = entityInteract.getItemStack();
         Entity entity = entityInteract.getTarget();
 
-        if (!itemStack.isEmpty() && entity instanceof BeeEntity) {
-            World world = entityInteract.getWorld();
+        World world = entityInteract.getWorld();
+        if (!itemStack.isEmpty() && entity instanceof BeeEntity && !world.isRemote) {
             PlayerEntity player = entityInteract.getPlayer();
             BlockPos pos = entity.getPosition();
             Hand hand = entityInteract.getHand();
