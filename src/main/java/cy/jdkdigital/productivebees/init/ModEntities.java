@@ -50,6 +50,8 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> LUMBER_BEE = createHiveBee("lumber_bee", LumberBeeEntity::new, 8306542, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> RANCHER_BEE = createHiveBee("rancher_bee", RancherBeeEntity::new, 9615358, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> HOARDER_BEE = createHiveBee("hoarder_bee", HoarderBeeEntity::new, 8306149, 6238757);
+    public static RegistryObject<EntityType<BeeEntity>> FARMER_BEE = createHiveBee("farmer_bee", FarmerBeeEntity::new, 9615358, 6238757);
+    public static RegistryObject<EntityType<BeeEntity>> CARTOGRAPHER_BEE = createHiveBee("cartographer_bee", ProductiveBeeEntity::new, 9615358, 6238757);
 
     public static RegistryObject<EntityType<BeeEntity>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBeeEntity::new, 894731, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> ENDER_BEE = createHiveBee("ender_bee", EnderBeeEntity::new, 1447446, 6238757);
@@ -149,7 +151,7 @@ public class ModEntities
             else if (bee.getTranslationKey().contains("dye_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, DyeBeeRenderer::new);
             }
-            else if (bee.getTranslationKey().contains("rancher_bee")) {
+            else if (bee.getTranslationKey().contains("rancher_bee") || bee.getTranslationKey().contains("farmer_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, RancherBeeRenderer::new);
             }
             else if (bee.getTranslationKey().contains("hoarder_bee")) {
