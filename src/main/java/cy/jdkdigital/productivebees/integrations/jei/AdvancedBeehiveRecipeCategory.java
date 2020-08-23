@@ -70,7 +70,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         ingredients.setInput(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient);
 
         List<List<ItemStack>> outputList = new ArrayList<>();
-        recipe.output.forEach((key, value) -> {
+        recipe.getRecipeOutputs().forEach((key, value) -> {
             List<ItemStack> innerList = new ArrayList<>();
             IntStream.range(value.get(0).getInt(), value.get(1).getInt() + 1).forEach((i) -> {
                 innerList.add(new ItemStack(key.getItem(), i));
@@ -107,10 +107,10 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
 
     @Override
     public void draw(AdvancedBeehiveRecipe recipe, double mouseX, double mouseY) {
-        FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-        DecimalFormat decimalFormat = new DecimalFormat("##%");
-        String productionChanceString = decimalFormat.format(recipe.chance);
-
-        fontRenderer.drawString(productionChanceString, 38, 46, 0xff808080);
+//        FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+//        DecimalFormat decimalFormat = new DecimalFormat("##%");
+//        String productionChanceString = decimalFormat.format(recipe.chance);
+//
+//        fontRenderer.drawString(productionChanceString, 38, 46, 0xff808080);
     }
 }

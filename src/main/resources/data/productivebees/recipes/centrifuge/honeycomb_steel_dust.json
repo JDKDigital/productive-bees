@@ -3,15 +3,19 @@
     "ingredient": {
         "tag": "forge:honeycombs/steel"
     },
-    "output": [
+    "outputs": [
         {
-            "tag": "forge:dusts/steel",
+            "item": {
+                "tag": "forge:dusts/steel"
+            },
             "min": 1,
             "max": 1,
             "chance": 100
         },
         {
-            "tag": "forge:wax"
+            "item": {
+                "tag": "forge:wax"
+            }
         }
     ],
     "conditions": [

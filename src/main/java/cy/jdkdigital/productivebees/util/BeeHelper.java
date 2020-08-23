@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.SkeletalBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.integrations.jei.ProductiveBeesJeiPlugin;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
@@ -54,7 +55,7 @@ public class BeeHelper
         // Conversion recipes
         EntityType<BeeEntity> bee = null;
         List<BeeConversionRecipe> recipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION, new IdentifierInventory(entity.getEntityString(), itemStack.getItem().getRegistryName() + ""), world);
-        ProductiveBees.LOGGER.info("Convrsion recipes: " + recipes);
+
         if (!recipes.isEmpty()) {
             BeeConversionRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
             bee = recipe.result.getBeeType();
@@ -111,10 +112,20 @@ public class BeeHelper
     }
 
     public static List<ItemStack> getBeeProduce(World world, String beeId, BlockPos flowerPos) {
-        AdvancedBeehiveRecipe recipe = world.getRecipeManager().getRecipe(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE, new IdentifierInventory(beeId), world).orElse(null);
+        AdvancedBeehiveRecipe matchedRecipe = null;
+
+        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
+        IInventory beeInv = new IdentifierInventory(beeId);
+        for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
+            AdvancedBeehiveRecipe recipe = (AdvancedBeehiveRecipe) entry.getValue();
+            if (recipe.matches(beeInv, world)) {
+                matchedRecipe = recipe;
+            }
+        }
+
         List<ItemStack> outputList = Lists.newArrayList(ItemStack.EMPTY);
-        if (recipe != null) {
-            recipe.output.forEach((itemStack, bounds) -> {
+        if (matchedRecipe != null) {
+            matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
                 int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
                 outputList.add(new ItemStack(itemStack.getItem(), count));
             });

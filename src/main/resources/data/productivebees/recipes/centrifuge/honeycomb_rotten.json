@@ -3,15 +3,19 @@
     "ingredient": {
         "tag": "forge:honeycombs/rotten"
     },
-    "output": [
+    "outputs": [
         {
-            "item": "minecraft:rotten_flesh",
+            "item": {
+                "item": "minecraft:rotten_flesh"
+            },
             "min": 1,
             "max": 2,
             "chance": 100
         },
         {
-            "tag": "forge:wax"
+            "item": {
+                "tag": "forge:wax"
+            }
         }
     ]
 }
