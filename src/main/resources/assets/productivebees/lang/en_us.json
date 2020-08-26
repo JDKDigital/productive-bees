@@ -21,6 +21,7 @@
 	"item.productivebees.draconic_chunk": "Draconic Chunk",
 	"item.productivebees.wither_skull_chip": "Wither Skull Chip",
 
+	"item.productivebees.spawn_egg_configurable": "%s Bee Spawn Egg",
 	"item.productivebees.spawn_egg_iron_bee": "Iron Bee Spawn Egg",
 	"item.productivebees.spawn_egg_gold_bee": "Gold Bee Spawn Egg",
 	"item.productivebees.spawn_egg_redstone_bee": "Redstone Bee Spawn Egg",
@@ -33,7 +34,6 @@
 	"item.productivebees.spawn_egg_hoarder_bee": "Hoarder Bee Spawn Egg",
 	"item.productivebees.spawn_egg_farmer_bee": "Farmer Bee Spawn Egg",
 	"item.productivebees.spawn_egg_cartographer_bee": "Cartographer Bee Spawn Egg",
-
 	"item.productivebees.spawn_egg_glowing_bee": "Glowing Bee Spawn Egg",
 	"item.productivebees.spawn_egg_quartz_bee": "Crystalline Bee Spawn Egg",
 	"item.productivebees.spawn_egg_magmatic_bee": "Magmatic Bee Spawn Egg",
@@ -41,12 +41,10 @@
 	"item.productivebees.spawn_egg_slimy_bee": "Slimy Bee Spawn Egg",
 	"item.productivebees.spawn_egg_ender_bee": "Ender Bee Spawn Egg",
 	"item.productivebees.spawn_egg_draconic_bee": "Draconic Bee Spawn Egg",
-
 	"item.productivebees.spawn_egg_creeper_bee": "Explosive Bee Spawn Egg",
 	"item.productivebees.spawn_egg_zombie_bee": "ZomBee Spawn Egg",
 	"item.productivebees.spawn_egg_skeletal_bee": "Skeletal Bee Spawn Egg",
 	"item.productivebees.spawn_egg_wither_bee": "Withered Bee Spawn Egg",
-
 	"item.productivebees.spawn_egg_ashy_mining_bee": "Ashy Mining Bee Spawn Egg",
 	"item.productivebees.spawn_egg_blue_banded_bee": "Blue Banded Bee Spawn Egg",
 	"item.productivebees.spawn_egg_green_carpenter_bee": "Carpenter Bee Spawn Egg",
@@ -60,7 +58,6 @@
 	"item.productivebees.spawn_egg_reed_bee": "Reed Bee Spawn Egg",
 	"item.productivebees.spawn_egg_resin_bee": "Resin Bee Spawn Egg",
 	"item.productivebees.spawn_egg_sweaty_bee": "Sweaty Bee Spawn Egg",
-
 	"item.productivebees.spawn_egg_aluminium_bee": "Aluminium Bee Spawn Egg",
 	"item.productivebees.spawn_egg_bronze_bee": "Bronze Bee Spawn Egg",
 	"item.productivebees.spawn_egg_brass_bee": "Brass Bee Spawn Egg",
@@ -81,6 +78,7 @@
 	"item.productivebees.spawn_egg_zinc_bee": "Zinc Bee Spawn Egg",
 	"item.productivebees.spawn_egg_amber_bee": "Amber Bee Spawn Egg",
 
+	"item.productivebees.honeycomb_configurable": "%s Comb",
 	"item.productivebees.honeycomb_amber": "Amber Comb",
 	"item.productivebees.honeycomb_bauxite": "Bauxite Comb",
 	"item.productivebees.honeycomb_blazing": "Blazing Comb",
@@ -210,6 +208,7 @@
 	"block.productivebees.expansion_box_bop_mahogany": "Mahogany Expansion Box",
 	"block.productivebees.expansion_box_bop_jacaranda": "Jacaranda Expansion Box",
 
+	"block.productivebees.comb_configurable": "%s Comb Block",
 	"block.productivebees.comb_amber": "Amber Comb Block",
 	"block.productivebees.comb_bauxite": "Bauxite Comb Block",
 	"block.productivebees.comb_blazing": "Blazing Comb Block",
@@ -251,6 +250,7 @@
 
 	"fluid.productivebees.honey": "Honey",
 
+	"entity.productivebees.bee_configurable": "%s Bee",
 	"entity.productivebees.iron_bee": "Iron Bee",
 	"entity.productivebees.gold_bee": "Gold Bee",
 	"entity.productivebees.redstone_bee": "Redstone Bee",
@@ -263,7 +263,6 @@
 	"entity.productivebees.hoarder_bee": "Hoarder Bee",
 	"entity.productivebees.farmer_bee": "Farmer Bee",
 	"entity.productivebees.cartographer_bee": "Cartographer Bee",
-
 	"entity.productivebees.glowing_bee": "Glowing Bee",
 	"entity.productivebees.quartz_bee": "Crystalline Bee",
 	"entity.productivebees.magmatic_bee": "Magmatic Bee",
@@ -271,12 +270,10 @@
 	"entity.productivebees.slimy_bee": "Slimy Bee",
 	"entity.productivebees.ender_bee": "Ender Bee",
 	"entity.productivebees.draconic_bee": "Draconic Bee",
-
 	"entity.productivebees.creeper_bee": "Explosive Bee",
 	"entity.productivebees.zombie_bee": "ZomBee",
 	"entity.productivebees.skeletal_bee": "Skeletal Bee",
 	"entity.productivebees.wither_bee": "Withered Bee",
-
 	"entity.productivebees.ashy_mining_bee": "Ashy Mining Bee",
 	"entity.productivebees.blue_banded_bee": "Blue Banded Bee",
 	"entity.productivebees.green_carpenter_bee": "Carpenter Bee",
@@ -290,7 +287,6 @@
 	"entity.productivebees.reed_bee": "Reed Bee",
 	"entity.productivebees.resin_bee": "Resin Bee",
 	"entity.productivebees.sweaty_bee": "Sweaty Bee",
-
 	"entity.productivebees.aluminium_bee": "Aluminium Bee",
 	"entity.productivebees.bronze_bee": "Bronze Bee",
 	"entity.productivebees.brass_bee": "Brass Bee",

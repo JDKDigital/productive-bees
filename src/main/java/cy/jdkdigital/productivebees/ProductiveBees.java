@@ -1,18 +1,15 @@
 package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.setup.ClientProxy;
-import cy.jdkdigital.productivebees.setup.ClientSetup;
-import cy.jdkdigital.productivebees.setup.IProxy;
-import cy.jdkdigital.productivebees.setup.ServerProxy;
+import cy.jdkdigital.productivebees.setup.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
@@ -31,13 +28,17 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 @Mod(ProductiveBees.MODID)
 @EventBusSubscriber(modid = ProductiveBees.MODID)
@@ -55,6 +56,7 @@ public final class ProductiveBees
     public ProductiveBees() {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.register(modEventBus);
@@ -75,8 +77,8 @@ public final class ProductiveBees
         });
 
         modEventBus.addListener(ClientSetup::init);
-        modEventBus.addListener(this::preInit);
-        modEventBus.addListener(this::loadComplete);
+        modEventBus.addListener(this::onCommonSetup);
+        modEventBus.addListener(this::onLoadComplete);
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
@@ -88,13 +90,18 @@ public final class ProductiveBees
         }
     }
 
-    public void preInit(FMLCommonSetupEvent event) {
+    public void onServerStarting(FMLServerAboutToStartEvent event) {
+        IReloadableResourceManager manager = event.getServer().getResourceManager();
+        manager.addReloadListener(BeeReloadListener.INSTANCE);
+    }
+
+    public void onCommonSetup(FMLCommonSetupEvent event) {
         CapabilityBee.register();
 
         this.fixPOI(event);
     }
 
-    public void loadComplete(FMLLoadCompleteEvent event) {
+    public void onLoadComplete(FMLLoadCompleteEvent event) {
         DeferredWorkQueue.runLater(() -> {
             // Add biome features
             for (Biome biome : ForgeRegistries.BIOMES) {

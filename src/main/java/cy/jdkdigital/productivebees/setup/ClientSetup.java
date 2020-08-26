@@ -8,7 +8,7 @@ import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
 import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
 import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.item.HoneyComb;
+import cy.jdkdigital.productivebees.item.Honeycomb;
 import cy.jdkdigital.productivebees.item.SpawnEgg;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
@@ -48,7 +48,7 @@ public class ClientSetup
             if (ObfuscationReflectionHelper.getPrivateValue(RegistryObject.class, eggItem, "value") != null) {
                 Item item = eggItem.get();
                 if (item instanceof SpawnEgg) {
-                    colors.register((itemColor, tintIndex) -> ((SpawnEgg) item).getColor(tintIndex), item);
+                    colors.register((stack, tintIndex) -> ((SpawnEgg) item).getColor(tintIndex, stack), item);
                 }
             }
         }
@@ -56,13 +56,13 @@ public class ClientSetup
         // Honeycomb colors
         for (RegistryObject<Item> registryItem : ModItems.ITEMS.getEntries()) {
             Item item = registryItem.get();
-            if (item instanceof HoneyComb) {
-                colors.register((itemColor, tintIndex) -> ((HoneyComb) item).getColor(), item);
+            if (item instanceof Honeycomb) {
+                colors.register((stack, tintIndex) -> ((Honeycomb) item).getColor(stack), item);
             }
             else if (item instanceof BlockItem) {
                 Block block = ((BlockItem) item).getBlock();
                 if (block instanceof CombBlock) {
-                    colors.register((itemColor, tintIndex) -> ((CombBlock) block).getColor(), item);
+                    colors.register((stack, tintIndex) -> ((CombBlock) block).getColor(stack), item);
                 }
             }
         }
@@ -77,7 +77,7 @@ public class ClientSetup
         for (RegistryObject<Block> registryBlock : ModBlocks.BLOCKS.getEntries()) {
             Block block = registryBlock.get();
             if (block instanceof CombBlock) {
-                colors.register((blockState, lightReader, pos, tintIndex) -> ((CombBlock) block).getColor(), block);
+                colors.register((blockState, lightReader, pos, tintIndex) -> ((CombBlock) block).getColor(lightReader, pos), block);
             }
         }
     }

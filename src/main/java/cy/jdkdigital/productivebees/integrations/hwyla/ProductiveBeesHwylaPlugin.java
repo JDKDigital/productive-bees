@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.integrations.hwyla;
 
-import cy.jdkdigital.productivebees.init.ModTags;
 import mcp.mobius.waila.api.*;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;

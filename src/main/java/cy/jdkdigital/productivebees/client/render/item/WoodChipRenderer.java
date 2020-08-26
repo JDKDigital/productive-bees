@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.client.render.item;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import cy.jdkdigital.productivebees.client.render.item.model.WoodChipModel;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import net.minecraft.block.Block;
@@ -27,7 +26,6 @@ import java.util.Random;
 public class WoodChipRenderer extends ItemStackTileEntityRenderer
 {
     private static HashMap<String, TextureAtlasSprite> woodTextureLocations = new HashMap<>();
-    private final WoodChipModel model = new WoodChipModel();
 
     private void add(IVertexBuilder builder, MatrixStack matrixStack, float x, float y, float z, float u, float v) {
         builder.pos(matrixStack.getLast().getMatrix(), x, y, z)
@@ -84,8 +82,6 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
                     addBox(builder, matrixStack, sprite, 10, 4, 11, 7);
                     addBox(builder, matrixStack, sprite, 5, 12, 8, 13);
                     addBox(builder, matrixStack, sprite, 6, 13, 7, 14);
-
-//                this.model.render(matrixStack, builder, packedLightIn, packedUV, 1, 1, 1, 1);
 
                     matrixStack.pop();
                 }

@@ -46,8 +46,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -336,12 +336,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         this.secondaryColor = secondary;
     }
 
-    public Color getPrimaryColor() {
-        return primaryColor;
-    }
-
-    public Color getSecondaryColor() {
-        return secondaryColor;
+    public Color getColor(int tintIndex) {
+        return tintIndex == 0 ? primaryColor : secondaryColor;
     }
 
     public class PollinateGoal extends BeeEntity.PollinateGoal
