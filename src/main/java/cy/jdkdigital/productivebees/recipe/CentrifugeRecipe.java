@@ -57,6 +57,11 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
         return false;
     }
 
+    @Override
+    public boolean isDynamic() {
+        return true;
+    }
+
     @Nonnull
     @Override
     public ItemStack getCraftingResult(IInventory inv) {

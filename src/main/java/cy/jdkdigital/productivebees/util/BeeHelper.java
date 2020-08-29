@@ -114,12 +114,6 @@ public class BeeHelper
         return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
     }
 
-    public static boolean hasBreedingResult(ProductiveBeeEntity beeEntity, AgeableEntity targetEntity, World world) {
-        List<BeeBreedingRecipe> recipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING, new IdentifierInventory(beeEntity, (BeeEntity) targetEntity), world);
-
-        return !recipes.isEmpty();
-    }
-
     public static List<ItemStack> getBeeProduce(World world, String beeId, BlockPos flowerPos) {
         AdvancedBeehiveRecipe matchedRecipe = null;
 
