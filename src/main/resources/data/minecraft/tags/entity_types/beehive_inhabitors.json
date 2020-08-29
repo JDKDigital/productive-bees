@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "productivebees:configurable_bee",
     "productivebees:iron_bee",
     "productivebees:gold_bee",
     "productivebees:coal_bee",

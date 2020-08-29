@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -9,7 +11,9 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,13 +30,15 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.world != null) {
+            BeeEntity bee = beeIngredient.getBeeEntity().create(minecraft.world);
 
-            BeeEntity bee = beeIngredient.getBeeType().create(minecraft.world);
-
+            if (bee instanceof ConfigurableBeeEntity) {
+                ((ConfigurableBeeEntity)bee).setBeeType(beeIngredient.getBeeType().toString());
+            }
 
             if (minecraft.player != null && bee != null) {
                 bee.ticksExisted = minecraft.player.ticksExisted;
-                bee.renderYawOffset = -15;
+                bee.renderYawOffset = -20;
 
                 float scaledSize = 28;
                 if (bee instanceof SolitaryBeeEntity) {
@@ -59,8 +65,13 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
     @Override
     public List<String> getTooltip(BeeIngredient beeIngredient, ITooltipFlag iTooltipFlag) {
         List<String> list = new ArrayList<>();
-        list.add(beeIngredient.getBeeType().getName().getFormattedText());
-        list.add(TextFormatting.DARK_GRAY + "" + beeIngredient.getBeeType().getRegistryName());
+        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType());
+        if (nbt != null) {
+            list.add(new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")).getFormattedText());
+        } else {
+            list.add(beeIngredient.getBeeEntity().getName().getFormattedText());
+        }
+        list.add(TextFormatting.DARK_GRAY + "" + beeIngredient.getBeeType());
         return list;
     }
 }

@@ -1,6 +1,9 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientHelper;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -11,7 +14,7 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     @Override
     public BeeIngredient getMatch(Iterable<BeeIngredient> iterable, BeeIngredient beeIngredient) {
         for (BeeIngredient ingredient : iterable) {
-            if (ingredient.getBeeType().getRegistryName() == beeIngredient.getBeeType().getRegistryName()) {
+            if (ingredient.getBeeType() == beeIngredient.getBeeType()) {
                 return ingredient;
             }
         }
@@ -21,13 +24,17 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     @Nonnull
     @Override
     public String getDisplayName(BeeIngredient beeIngredient) {
-        return beeIngredient.getBeeType().getName().getFormattedText();
+        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType());
+        if (nbt != null) {
+            return new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")).getFormattedText();
+        }
+        return beeIngredient.getBeeEntity().getName().getFormattedText();
     }
 
     @Nonnull
     @Override
     public String getUniqueId(BeeIngredient beeIngredient) {
-        return "beeingredient:" + beeIngredient.getBeeType().getRegistryName();
+        return "beeingredient:" + beeIngredient.getBeeType();
     }
 
     @Nonnull
@@ -39,19 +46,19 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     @Nonnull
     @Override
     public String getModId(BeeIngredient beeIngredient) {
-        return beeIngredient.getBeeType().getRegistryName().getNamespace();
+        return beeIngredient.getBeeType().getNamespace();
     }
 
     @Nonnull
     @Override
     public String getResourceId(BeeIngredient beeIngredient) {
-        return beeIngredient.getBeeType().getRegistryName().getPath();
+        return beeIngredient.getBeeType().getPath();
     }
 
     @Nonnull
     @Override
     public BeeIngredient copyIngredient(BeeIngredient beeIngredient) {
-        return new BeeIngredient(beeIngredient.getBeeType(), beeIngredient.getRenderType());
+        return new BeeIngredient(beeIngredient.getBeeEntity(), beeIngredient.getBeeType(), beeIngredient.getRenderType());
     }
 
     @Nonnull
@@ -60,9 +67,9 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
         if (beeIngredient == null) {
             return "beeingredient:null";
         }
-        if (beeIngredient.getBeeType() == null) {
+        if (beeIngredient.getBeeEntity() == null) {
             return "beeingredient:bee:null";
         }
-        return "beeingredient:" + beeIngredient.getBeeType().getRegistryName();
+        return "beeingredient:" + beeIngredient.getBeeType();
     }
 }

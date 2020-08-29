@@ -36,14 +36,14 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         return 0;
     }
 
-    public EntityType<BeeEntity> getNestingBeeType(World world) {
+    public EntityType<? extends BeeEntity> getNestingBeeType(World world) {
         ResourceLocation id = this.getRegistryName();
         IRecipe<?> recipe = world.getRecipeManager().getRecipe(new ResourceLocation(ProductiveBees.MODID, "bee_spawning/" + id.getPath())).orElse(null);
 
         if (recipe instanceof BeeSpawningRecipe) {
             BeeSpawningRecipe spawningRecipe = (BeeSpawningRecipe) recipe;
             BeeIngredient bee = spawningRecipe.output.get(world.rand.nextInt(spawningRecipe.output.size()));
-            return bee.getBeeType();
+            return bee.getBeeEntity();
         }
         ProductiveBees.LOGGER.info("No bee spawning recipe found for " + id);
         return null;

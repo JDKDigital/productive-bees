@@ -66,6 +66,7 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
 
     @Override
     public void setInhabitantsFromListNBT(ListNBT list) {
+        clearInhabitants();
         for (int i = 0; i < list.size(); ++i) {
             CompoundNBT tag = list.getCompound(i);
             BlockPos flowerPos = tag.contains("FlowerPos") ? NBTUtil.readBlockPos(tag.getCompound("FlowerPos")) : null;

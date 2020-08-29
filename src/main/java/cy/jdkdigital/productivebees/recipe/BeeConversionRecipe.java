@@ -42,7 +42,7 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
             String beeName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(0);
             String itemName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(1);
 
-            String parentName = source.getBeeType().getRegistryName().toString();
+            String parentName = source.getBeeType().toString();
 
             boolean matchesItem = false;
             for (ItemStack stack : this.item.getMatchingStacks()) {

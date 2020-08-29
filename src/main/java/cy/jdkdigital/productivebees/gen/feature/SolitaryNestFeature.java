@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.datafixers.Dynamic;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
@@ -81,8 +82,8 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof SolitaryNestTileEntity) {
                 SolitaryNestTileEntity nestTileEntity = (SolitaryNestTileEntity) tileEntity;
-//                ProductiveBees.LOGGER.debug("Placed nest at " + pos + " " + featureConfig.state);
-                EntityType<BeeEntity> beeType = SolitaryNestTileEntity.getProducibleBeeType(world.getWorld(), pos, (SolitaryNest) world.getBlockState(pos).getBlock());
+                ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + featureConfig.state);
+                EntityType<? extends BeeEntity> beeType = SolitaryNestTileEntity.getProducibleBeeType(world.getWorld(), pos, (SolitaryNest) world.getBlockState(pos).getBlock());
                 if (beeType != null) {
                     BeeEntity newBee = beeType.create(world.getWorld());
                     newBee.setHealth(newBee.getMaxHealth());

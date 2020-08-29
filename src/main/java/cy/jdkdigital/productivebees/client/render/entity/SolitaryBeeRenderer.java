@@ -22,7 +22,7 @@ public class SolitaryBeeRenderer extends MobRenderer<SolitaryBeeEntity, Solitary
 
     @Override
     public ResourceLocation getEntityTexture(SolitaryBeeEntity bee) {
-        String beeLocation = "bee/" + bee.getBeeType() + "/bee";
+        String beeLocation = "bee/" + bee.getBeeName() + "/bee";
 
         return new ResourceLocation(ProductiveBees.MODID + ":textures/entity/" + beeLocation + ".png");
     }

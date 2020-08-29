@@ -28,7 +28,7 @@ public abstract class TagOutputRecipe
             itemOutput.forEach((ingredient, intNBTS) -> {
                 ItemStack preferredItem = getPreferredItemByMod(ingredient);
                 if (preferredItem != null && !preferredItem.getItem().equals(Items.BARRIER)) {
-                    output.put(new ItemStack(preferredItem.getItem()), intNBTS.copy());
+                    output.put(preferredItem.copy(), intNBTS.copy());
                 }
             });
         }
@@ -36,7 +36,7 @@ public abstract class TagOutputRecipe
             tagOutput.forEach((ingredient, intNBTS) -> {
                 ItemStack preferredItem = getPreferredItemByMod(ingredient);
                 if (preferredItem != null && !preferredItem.getItem().equals(Items.BARRIER)) {
-                    output.put(new ItemStack(preferredItem.getItem()), intNBTS.copy());
+                    output.put(preferredItem.copy(), intNBTS.copy());
                 }
             });
         }

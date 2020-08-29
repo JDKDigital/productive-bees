@@ -54,7 +54,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                     nestTickTimer = 0;
                     Block block = this.getBlockState().getBlock();
                     if (block instanceof SolitaryNest) {
-                        EntityType<BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block);
+                        EntityType<? extends BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block);
                         if (beeType != null) {
                             BeeEntity newBee = beeType.create(this.world);
                             newBee.setHealth(newBee.getMaxHealth());
@@ -94,8 +94,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     @Nullable
-    public static EntityType<BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest) {
-        EntityType<BeeEntity> beeType = nest.getNestingBeeType(world);
+    public static EntityType<? extends BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest) {
+        EntityType<? extends BeeEntity> beeType = nest.getNestingBeeType(world);
 
         // Cuckoo behavior
         if (beeType != null && world.getRandom().nextInt(10) == 1) {

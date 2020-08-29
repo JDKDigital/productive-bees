@@ -26,7 +26,6 @@ public class ColorLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveBee
 
             ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/primary.png");
             renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, packedLightIn, bee, primaryColor[0], primaryColor[1], primaryColor[2]);
-            // /summon productivebees:gold_bee ~ ~ ~ {NoAI:1}
         }
     }
 }

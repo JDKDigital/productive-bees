@@ -5,25 +5,24 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
+import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
+import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.tileentity.DragonEggHiveTileEntity;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,10 +31,6 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 {
     private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive.png");
     private static final ResourceLocation GUI_TEXTURE_EXPANDED = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_expanded.png");
-    private static final ResourceLocation GUI_TEXTURE_BEE_OVERLAY = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_bee_overlay.png");
-
-    private static HashMap<String, Entity> beeCache = new HashMap<>();
-    private static HashMap<String, ITextComponent> stringCache = new HashMap<>();
 
     public AdvancedBeehiveScreen(AdvancedBeehiveContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
@@ -58,21 +53,30 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
         boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
-        if (this.container.tileEntity.inhabitantList.size() > 0) {
+        this.container.tileEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {
             // Bee Tooltips
             int j = 0;
-            for (String beeId : this.container.tileEntity.inhabitantList) {
-                if (isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY) && stringCache.containsKey(beeId)) {
+            for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
+                BeeEntity bee = (BeeEntity) EntityType.loadEntityAndExecute(inhabitant.nbt, this.container.tileEntity.getWorld(), (spawnedEntity) -> spawnedEntity);
+
+                if (bee != null && isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
                     List<String> tooltipList = new ArrayList<String>()
                     {{
-                        add(stringCache.get(beeId).getFormattedText());
+                        add(bee.getName().getFormattedText());
                     }};
-                    tooltipList.add(stringCache.get(beeId + "_mod").applyTextStyle(TextFormatting.ITALIC).applyTextStyle(TextFormatting.BLUE).getFormattedText());
+
+                    String modId = new ResourceLocation(bee.getEntityString()).getNamespace();
+                    String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
+
+                    if (modId.equals("minecraft")) {
+                        modName = "Minecraft";
+                    }
+                    tooltipList.add(new StringTextComponent(modName).applyTextStyle(TextFormatting.ITALIC).applyTextStyle(TextFormatting.BLUE).getFormattedText());
                     renderTooltip(tooltipList, mouseX - guiLeft, mouseY - guiTop);
                 }
                 j++;
             }
-        }
+        });
         // https://gist.github.com/gigaherz/f61fe604f38e27afad4d1553bc6cf311
     }
 
@@ -95,19 +99,14 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
         int progress = honeyLevel == 0 ? 0 : 27 / 5 * honeyLevel;
         this.blit(getGuiLeft() + 82, getGuiTop() + 35, 176, 14 + yOffset, progress, 16);
 
-        if (this.container.tileEntity.inhabitantList.size() > 0) {
+        this.container.tileEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {
             // Bees
             int i = 0;
-            for (String beeId : this.container.tileEntity.inhabitantList) {
-                if (beeId.isEmpty()) {
-                    continue;
-                }
-
-                BeeEntity bee = (BeeEntity) getBee(beeId, this.container.tileEntity.getWorld());
-
+            for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
+                BeeEntity bee = (BeeEntity) EntityType.loadEntityAndExecute(inhabitant.nbt, this.container.tileEntity.getWorld(), (spawnedEntity) -> spawnedEntity);
                 if (minecraft.player != null && bee != null) {
                     bee.ticksExisted = minecraft.player.ticksExisted;
-                    bee.renderYawOffset = -15;
+                    bee.renderYawOffset = -20;
 
                     MatrixStack matrixStack = new MatrixStack();
                     matrixStack.push();
@@ -126,33 +125,6 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 
                 i++;
             }
-        }
-    }
-
-    public static Entity getBee(@Nonnull ResourceLocation res, World world) {
-        String beeId = res.toString();
-        if (beeCache.get(beeId) != null) {
-            return beeCache.get(beeId);
-        }
-        Entity bee = ForgeRegistries.ENTITIES.getValue(res).create(world);
-        beeCache.put(beeId, bee);
-
-        String modId = res.getNamespace();
-        String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
-
-        if (modId.equals("minecraft")) {
-            modName = "Minecraft";
-        }
-
-        stringCache.put(beeId, bee.getDisplayName());
-        stringCache.put(beeId + "_mod", new StringTextComponent(modName));
-
-        return bee;
-    }
-
-    public static Entity getBee(String beeId, World world) {
-        ResourceLocation resLocation = new ResourceLocation(beeId);
-
-        return getBee(resLocation, world);
+        });
     }
 }

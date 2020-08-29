@@ -22,7 +22,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
     public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
         int num = sum(bee.getEntityId());
 
-        String beeLocation = "bee/" + bee.getBeeType() + "/" + num + "/bee";
+        String beeLocation = "bee/" + bee.getBeeName() + "/" + num + "/bee";
 
         if (bee.isAngry()) {
             beeLocation = beeLocation + "_angry";

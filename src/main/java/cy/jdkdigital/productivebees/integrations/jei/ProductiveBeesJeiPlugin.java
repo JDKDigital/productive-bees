@@ -83,6 +83,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         registration.useNbtForSubtypes(ModItems.WOOD_CHIP.get());
+        registration.useNbtForSubtypes(ModItems.CONFIGURABLE_HONEYCOMB.get());
+        registration.useNbtForSubtypes(ModItems.CONFIGURABLE_SPAWN_EGG.get());
+        registration.useNbtForSubtypes(ModItems.CONFIGURABLE_COMB_BLOCK.get());
     }
 
     @Override

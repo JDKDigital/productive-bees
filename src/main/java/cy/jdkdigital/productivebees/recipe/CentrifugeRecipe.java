@@ -3,10 +3,11 @@ package cy.jdkdigital.productivebees.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModItemGroups;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -42,9 +43,13 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
     @Override
     public boolean matches(IInventory inv, World worldIn) {
         if (this.ingredient.getMatchingStacks().length > 0) {
-            Item invItem = inv.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).getItem();
-            for (ItemStack possibleInput: this.ingredient.getMatchingStacks()) {
-                if (possibleInput.getItem().equals(invItem)) {
+            ItemStack invStack = inv.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+
+            for (ItemStack stack: this.ingredient.getMatchingStacks()) {
+                if (stack.getItem().equals(invStack.getItem())) {
+                    if (stack.hasTag() && invStack.hasTag()) {
+                        return stack.getTag().equals(invStack.getTag());
+                    }
                     return true;
                 }
             }
@@ -102,6 +107,13 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
                 ingredient = Ingredient.deserialize(JSONUtils.getJsonArray(json, "ingredient"));
             } else {
                 ingredient = Ingredient.deserialize(JSONUtils.getJsonObject(json, "ingredient"));
+            }
+
+            String type = JSONUtils.getString(json, "comb_type", "");
+            if (!type.isEmpty()) {
+                ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
+                ModItemGroups.ModItemGroup.setTag(type, stack);
+                ingredient = Ingredient.fromStacks(stack);
             }
 
             JsonArray jsonArray = JSONUtils.getJsonArray(json, "outputs");

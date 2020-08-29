@@ -3,9 +3,11 @@ package cy.jdkdigital.productivebees.item;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -36,11 +38,6 @@ public class SpawnEgg extends SpawnEggItem
             }
         }
         return this.entityType.get();
-    }
-
-    @Override
-    public ActionResultType onItemUse(ItemUseContext p_195939_1_) {
-        return super.onItemUse(p_195939_1_);
     }
 
     @OnlyIn(Dist.CLIENT)

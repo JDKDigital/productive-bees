@@ -36,21 +36,23 @@ public class ModItemGroups
         @Override
         public void fill(@Nonnull NonNullList<ItemStack> items) {
             for (Map.Entry<ResourceLocation, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+                String beeType = entry.getKey().toString();
+
                 // Add spawn egg item
                 ItemStack egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
-                setTag(entry.getKey().toString(), egg);
+                setTag(beeType, egg);
 
                 items.add(egg);
 
                 // Add comb item
                 ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                setTag(entry.getKey().toString(), comb);
+                setTag(beeType, comb);
 
                 items.add(comb);
 
                 // Add comb block
                 ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-                setTag(entry.getKey().toString(), combBlock);
+                setTag(beeType, combBlock);
 
                 items.add(combBlock);
             }

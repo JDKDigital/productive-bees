@@ -1,0 +1,29 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:diamond_bee",
+    "parent2": "productivebees:wither_bee",
+    "offspring": [
+        "productivebees:allthemodium"
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:nuggets/allthemodium"
+        },
+        {
+            "tag": "forge:nuggets/allthemodium"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:nuggets/allthemodium"
+            }
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "allthemodium"
+        }
+    ]
+}
