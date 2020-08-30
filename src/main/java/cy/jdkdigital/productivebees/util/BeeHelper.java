@@ -1,10 +1,12 @@
 package cy.jdkdigital.productivebees.util;
 
 import com.google.common.collect.Lists;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
@@ -85,7 +87,17 @@ public class BeeHelper
 
     public static BeeEntity getBreedingResult(ProductiveBeeEntity beeEntity, AgeableEntity targetEntity, World world) {
         // Get breeding recipes
-        List<BeeBreedingRecipe> recipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING, new IdentifierInventory(beeEntity, (BeeEntity) targetEntity), world);
+        List<BeeBreedingRecipe> recipes = new ArrayList<>();
+
+        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING);
+        IInventory beeInv = new IdentifierInventory(beeEntity, (BeeEntity) targetEntity);
+        for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
+            BeeBreedingRecipe recipe = (BeeBreedingRecipe) entry.getValue();
+            if (recipe.matches(beeInv, world)) {
+                recipes.add(recipe);
+            }
+        }
+
         if (!recipes.isEmpty()) {
             BeeBreedingRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
             List<Lazy<BeeIngredient>> possibleOffspring = recipe.offspring;
@@ -114,8 +126,21 @@ public class BeeHelper
         return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
     }
 
-    public static List<ItemStack> getBeeProduce(World world, String beeId, BlockPos flowerPos) {
+    public static List<ItemStack> getBeeProduce(World world, BeeEntity beeEntity) {
         AdvancedBeehiveRecipe matchedRecipe = null;
+        BlockPos flowerPos = beeEntity.getFlowerPos();
+
+        String beeId = beeEntity.getEntityString();
+        if (beeEntity instanceof ConfigurableBeeEntity) {
+            beeId = ((ConfigurableBeeEntity) beeEntity).getBeeType();
+        }
+
+        ProductiveBees.LOGGER.info("datamanager: " + beeEntity.getDataManager().getAll());
+
+        ResourceLocation id = new ResourceLocation(beeId);
+        if (id.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
+            return Collections.singletonList(ResourcefulBeesCompat.getHoneyComb(id.getPath()));
+        }
 
         Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
         IInventory beeInv = new IdentifierInventory(beeId);

@@ -144,18 +144,16 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         super.beeReleasePostAction(beeEntity, state, beeState);
 
         // Generate bee produce
-        if (world != null && beeEntity instanceof ProductiveBeeEntity && beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
+        if (world != null && beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
             getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                String beeId = beeEntity.getEntityString();
-                if (beeEntity instanceof ConfigurableBeeEntity) {
-                    beeId = ((ConfigurableBeeEntity) beeEntity).getBeeType();
-                }
-                BeeHelper.getBeeProduce(world, beeId, beeEntity.getFlowerPos()).forEach((stack) -> {
+                BeeHelper.getBeeProduce(world, beeEntity).forEach((stack) -> {
                     if (!stack.isEmpty()) {
-                        int productivity = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
-                        if (productivity > 0) {
-                            float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
-                            stack.grow(Math.round(f));
+                        if (beeEntity instanceof ProductiveBeeEntity) {
+                            int productivity = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
+                            if (productivity > 0) {
+                                float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
+                                stack.grow(Math.round(f));
+                            }
                         }
                         ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
                     }
