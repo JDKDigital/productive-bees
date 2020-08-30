@@ -1,16 +1,16 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:iron_bee",
-    "parent2": "productivebees:neon_cuckoo_bee",
+    "parent1": "productivebees:osmium",
+    "parent2": "productivebees:glowing_bee",
     "offspring": [
-        "productivebees:osmium"
+        "productivebees:refined_glowstone"
     ],
     "breeding_items": [
         {
-            "item": "minecraft:iron_ingot"
+            "tag": "forge:ingots/osmium"
         },
         {
-            "tag": "forge:ingots/osmium"
+            "tag": "minecraft:glowstone"
         }
     ],
     "conditions": [

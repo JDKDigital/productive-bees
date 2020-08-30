@@ -135,7 +135,7 @@ public class BeeHelper
             beeId = ((ConfigurableBeeEntity) beeEntity).getBeeType();
         }
 
-        ProductiveBees.LOGGER.info("datamanager: " + beeEntity.getDataManager().getAll());
+//        ProductiveBees.LOGGER.info("datamanager: " + beeEntity.getDataManager().getAll());
 
         ResourceLocation id = new ResourceLocation(beeId);
         if (id.getNamespace().equals(ResourcefulBeesCompat.MODID)) {

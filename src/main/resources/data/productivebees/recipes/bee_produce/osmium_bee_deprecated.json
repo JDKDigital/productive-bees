@@ -1,11 +1,10 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:configurable_bee",
-    "bee_type": "productivebees:osmium",
+    "ingredient": "productivebees:osmium_bee",
     "results": [
         {
             "comb_produce": {
-                "item": "productivebees:configurable_honeycomb"
+                "tag": "forge:honeycombs/osmium"
             },
             "item_produce": {
                 "tag": "forge:ingots/osmium"
@@ -21,10 +20,6 @@
                 "type": "forge:tag_empty",
                 "tag": "forge:ingots/osmium"
             }
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mekanism"
         }
     ]
 }

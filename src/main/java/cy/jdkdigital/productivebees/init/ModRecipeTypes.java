@@ -24,7 +24,8 @@ public final class ModRecipeTypes
     public static final RegistryObject<IRecipeSerializer<?>> WOOD_CHIP = createRecipeType("wood_chip", () -> new WoodChipRecipe.Serializer<>(WoodChipRecipe::new));
     public static final RegistryObject<IRecipeSerializer<?>> GENE_TREAT = createRecipeType("gene_treat", () -> new HoneyTreatGeneRecipe.Serializer<>(HoneyTreatGeneRecipe::new));
     public static final RegistryObject<IRecipeSerializer<?>> BEE_CAGE_BOMB = createRecipeType("bee_cage_bomb", () -> new BeeBombBeeCageRecipe.Serializer<>(BeeBombBeeCageRecipe::new));
-    public static final RegistryObject<IRecipeSerializer<?>> CONFIGURABLE_COMB = createRecipeType("configurable_comb", () -> new ConfigurableCombRecipe.Serializer<>(ConfigurableCombRecipe::new));
+    public static final RegistryObject<IRecipeSerializer<?>> CONFIGURABLE_HONEYCOMB = createRecipeType("configurable_honeycomb", () -> new ConfigurableHoneycombRecipe.Serializer<>(ConfigurableHoneycombRecipe::new));
+    public static final RegistryObject<IRecipeSerializer<?>> CONFIGURABLE_COMB_BLOCK = createRecipeType("configurable_comb_block", () -> new ConfigurableCombBlockRecipe.Serializer<>(ConfigurableCombBlockRecipe::new));
 
     public static <B extends IRecipeSerializer<?>> RegistryObject<B> createRecipeType(String name, Supplier<? extends B> supplier) {
         return RECIPE_SERIALIZERS.register(name, supplier);
