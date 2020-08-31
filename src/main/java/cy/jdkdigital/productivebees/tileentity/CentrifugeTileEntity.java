@@ -250,7 +250,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
         if (tag.contains("input")) {
             inventoryHandler.ifPresent(inv -> {
-                inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, ItemStack.read((CompoundNBT) tag.get("input")));
+                inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, ItemStack.read(tag.getCompound("input")));
             });
         }
     }

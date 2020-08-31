@@ -248,11 +248,17 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
                 if (!items.isEmpty()) {
                     ItemEntity nearestItem = null;
                     double nearestItemDistance = 0;
+                    int i = 0;
                     for (ItemEntity item: items) {
                         double distance = item.getPosition().distanceSq(HoarderBeeEntity.this.getPosition());
                         if (nearestItemDistance == 0 || distance < nearestItemDistance) {
                             nearestItemDistance = distance;
                             nearestItem = item;
+                        }
+
+                        // Don't look at more than 10 items
+                        if (++i > 10) {
+                            break;
                         }
                     }
 

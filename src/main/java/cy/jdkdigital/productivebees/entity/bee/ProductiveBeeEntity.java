@@ -66,6 +66,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
     private Color primaryColor = null;
     private Color secondaryColor = null;
 
+    FollowParentGoal followParentGoal;
+
     public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
 
@@ -100,7 +102,8 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
         this.pollinateGoal = new ProductiveBeeEntity.PollinateGoal();
         this.goalSelector.addGoal(4, this.pollinateGoal);
 
-        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.25D));
+        this.followParentGoal = new FollowParentGoal(this, 1.25D);
+        this.goalSelector.addGoal(5, this.followParentGoal);
 
         this.goalSelector.addGoal(5, new ProductiveBeeEntity.UpdateNestGoal());
         this.findBeehiveGoal = new ProductiveBeeEntity.FindNestGoal();
@@ -295,7 +298,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
                                                                         BlockTags.BEEHIVES);
             }
             if (tag.contains("bee_effects")) {
-                beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect((CompoundNBT) tag.get("bee_effects")));
+                beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(tag.getCompound("bee_effects")));
             }
             else {
                 beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<>()));
