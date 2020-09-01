@@ -1,0 +1,29 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:crystalline_bee",
+    "parent2": "productivebees:ender_bee",
+    "offspring": [
+        "productivebees:spacial"
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:gems/certus_quartz"
+        },
+        {
+            "item": "minecraft:ender_pearl"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/certus_quartz"
+            }
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "appliedenergistics2"
+        }
+    ]
+}

@@ -3,7 +3,7 @@
     "parent1": "productivebees:iron_bee",
     "parent2": "productivebees:neon_cuckoo_bee",
     "offspring": [
-        "productivebees:osmium_bee"
+        "productivebees:osmium"
     ],
     "breeding_items": [
         {
@@ -20,6 +20,10 @@
                 "type": "forge:tag_empty",
                 "tag": "forge:ingots/osmium"
             }
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mekanism"
         }
     ]
 }

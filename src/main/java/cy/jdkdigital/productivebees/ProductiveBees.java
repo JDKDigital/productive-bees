@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
@@ -9,10 +8,7 @@ import cy.jdkdigital.productivebees.entity.bee.hive.ZombieBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.solitary.BlueBandedBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.setup.ClientProxy;
-import cy.jdkdigital.productivebees.setup.ClientSetup;
-import cy.jdkdigital.productivebees.setup.IProxy;
-import cy.jdkdigital.productivebees.setup.ServerProxy;
+import cy.jdkdigital.productivebees.setup.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -25,6 +21,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -42,7 +39,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 @Mod(ProductiveBees.MODID)
 @EventBusSubscriber(modid = ProductiveBees.MODID)
@@ -60,6 +60,7 @@ public final class ProductiveBees
     public ProductiveBees() {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.register(modEventBus);
@@ -80,8 +81,8 @@ public final class ProductiveBees
         });
 
         modEventBus.addListener(ClientSetup::init);
-        modEventBus.addListener(this::preInit);
-        modEventBus.addListener(this::loadComplete);
+        modEventBus.addListener(this::onCommonSetup);
+        modEventBus.addListener(this::onLoadComplete);
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
@@ -93,7 +94,11 @@ public final class ProductiveBees
         }
     }
 
-    public void preInit(FMLCommonSetupEvent event) {
+    public void onServerStarting(AddReloadListenerEvent event) {
+        event.addListener(BeeReloadListener.INSTANCE);
+    }
+
+    public void onCommonSetup(FMLCommonSetupEvent event) {
         CapabilityBee.register();
 
         DeferredWorkQueue.runLater(() -> {
@@ -113,7 +118,7 @@ public final class ProductiveBees
         this.fixPOI(event);
     }
 
-    public void loadComplete(FMLLoadCompleteEvent event) {
+    public void onLoadComplete(FMLLoadCompleteEvent event) {
         DeferredWorkQueue.runLater(() -> {
             // Add biome features
             for (Biome biome : ForgeRegistries.BIOMES) {

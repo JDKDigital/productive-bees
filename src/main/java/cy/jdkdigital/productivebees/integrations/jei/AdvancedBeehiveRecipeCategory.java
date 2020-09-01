@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
@@ -13,15 +12,11 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -69,13 +64,15 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
 
     @Override
     public void setIngredients(@Nonnull AdvancedBeehiveRecipe recipe, @Nonnull IIngredients ingredients) {
-        ingredients.setInput(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient);
+        ingredients.setInput(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient.get());
 
         List<List<ItemStack>> outputList = new ArrayList<>();
-        recipe.output.forEach((key, value) -> {
+        recipe.getRecipeOutputs().forEach((stack, value) -> {
             List<ItemStack> innerList = new ArrayList<>();
             IntStream.range(value.get(0).getInt(), value.get(1).getInt() + 1).forEach((i) -> {
-                innerList.add(new ItemStack(key.getItem(), i));
+                ItemStack newStack = stack.copy();
+                newStack.setCount(i);
+                innerList.add(newStack);
             });
             outputList.add(innerList);
         });
@@ -108,11 +105,11 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     }
 
     @Override
-    public void draw(AdvancedBeehiveRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
-        FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-        DecimalFormat decimalFormat = new DecimalFormat("##%");
-        String productionChanceString = decimalFormat.format(recipe.chance);
-
-        fontRenderer.func_238422_b_(matrixStack, new TranslationTextComponent(productionChanceString), 38, 46, 0xff808080);
+    public void draw(AdvancedBeehiveRecipe recipe, double mouseX, double mouseY) {
+//        FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+//        DecimalFormat decimalFormat = new DecimalFormat("##%");
+//        String productionChanceString = decimalFormat.format(recipe.chance);
+//
+//        fontRenderer.drawString(productionChanceString, 38, 46, 0xff808080);
     }
 }

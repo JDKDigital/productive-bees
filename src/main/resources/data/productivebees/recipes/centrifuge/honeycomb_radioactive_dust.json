@@ -3,15 +3,19 @@
     "ingredient": {
         "tag": "forge:honeycombs/radioactive"
     },
-    "output": [
+    "outputs": [
         {
-            "tag": "forge:dusts/uranium",
+            "item": {
+                "tag": "forge:dusts/uranium"
+            },
             "min": 1,
             "max": 1,
             "chance": 60
         },
         {
-            "tag": "forge:wax"
+            "item": {
+                "tag": "forge:wax"
+            }
         }
     ],
     "conditions": [

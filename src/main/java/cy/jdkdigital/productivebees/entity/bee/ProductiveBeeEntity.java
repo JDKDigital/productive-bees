@@ -29,13 +29,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -49,8 +52,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -66,6 +69,8 @@ public class ProductiveBeeEntity extends BeeEntity
     };
     private Color primaryColor = null;
     private Color secondaryColor = null;
+
+    FollowParentGoal followParentGoal;
 
     public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -101,7 +106,8 @@ public class ProductiveBeeEntity extends BeeEntity
         this.pollinateGoal = new ProductiveBeeEntity.PollinateGoal();
         this.goalSelector.addGoal(4, this.pollinateGoal);
 
-        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.25D));
+        this.followParentGoal = new FollowParentGoal(this, 1.25D);
+        this.goalSelector.addGoal(5, this.followParentGoal);
 
         this.goalSelector.addGoal(5, new ProductiveBeeEntity.UpdateNestGoal());
         this.findBeehiveGoal = new ProductiveBeeEntity.FindNestGoal();
@@ -211,8 +217,13 @@ public class ProductiveBeeEntity extends BeeEntity
         return itemStack.getItem().isIn(getAttributeValue(BeeAttributes.APHRODISIACS));
     }
 
-    public String getBeeType() {
-        return this.getEntityString().split("[:]")[1].replace("_bee", "");
+    public String getBeeName() {
+        return getBeeName(true);
+    }
+
+    public String getBeeName(boolean stripName) {
+        String type = this.getEntityString().split("[:]")[1];
+        return stripName ? type.replace("_bee", "") : type;
     }
 
     public <T> T getAttributeValue(BeeAttribute<T> parameter) {
@@ -237,6 +248,23 @@ public class ProductiveBeeEntity extends BeeEntity
 
     boolean canOperateDuringThunder() {
         return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 2;
+    }
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return source.equals(DamageSource.SWEET_BERRY_BUSH) || super.isInvulnerableTo(source);
+    }
+
+    @Nonnull
+    @Override
+    protected PathNavigator createNavigator(@Nonnull World worldIn) {
+        PathNavigator navigator = super.createNavigator(world);
+
+        if (navigator instanceof FlyingPathNavigator) {
+            navigator.setCanSwim(false);
+            ((FlyingPathNavigator) navigator).setCanEnterDoors(false);
+        }
+        return navigator;
     }
 
     @Override
@@ -270,23 +298,19 @@ public class ProductiveBeeEntity extends BeeEntity
             beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.makeWrapperTag(tag.getString("bee_food_source")));
             beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.makeWrapperTag(tag.getString("bee_aphrodisiac")));
             beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, BlockTags.makeWrapperTag(tag.getString("bee_nesting_preference")));
-            beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect((CompoundNBT) tag.get("bee_effects")));
+            beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(tag.getCompound("bee_effects")));
         }
     }
 
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
-        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_" + this.getBeeType() + "_bee"));
+        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_" + this.getBeeName(false)));
         return new ItemStack(item);
     }
 
     @Override
     public BeeEntity createChild(AgeableEntity targetEntity) {
-        ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, targetEntity, world);
-        if (breedingResult == null) {
-            breedingResult = new ResourceLocation(this.getBeeType());
-        }
-        BeeEntity newBee = (BeeEntity) ForgeRegistries.ENTITIES.getValue(breedingResult).create(world);
+        BeeEntity newBee = BeeHelper.getBreedingResult(this, targetEntity, world);
 
         if (newBee instanceof ProductiveBeeEntity) {
             BeeHelper.setOffspringAttributes((ProductiveBeeEntity) newBee, this, targetEntity);
@@ -296,7 +320,7 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     @Override
-    public boolean canMateWith(AnimalEntity otherAnimal) {
+    public boolean canMateWith(@Nonnull AnimalEntity otherAnimal) {
         if (otherAnimal == this) {
             return false;
         }
@@ -304,21 +328,8 @@ public class ProductiveBeeEntity extends BeeEntity
             return false;
         }
         else {
-            // Check specific breeding rules
-            ResourceLocation breedingResult = BeeHelper.getBreedingResult(this, otherAnimal, world);
-            return breedingResult != null && this.isInLove() && otherAnimal.isInLove();
+            return this.isInLove() && otherAnimal.isInLove();
         }
-    }
-
-    public static Double getProductionChance(String beeId, double defValue) {
-        if (ProductiveBeesConfig.BEES.itemProductionRates.containsKey(beeId)) {
-            return getProductionChance(beeId);
-        }
-        return defValue;
-    }
-
-    public static Double getProductionChance(String beeId) {
-        return ProductiveBeesConfig.BEES.itemProductionRates.get(beeId).get();
     }
 
     public void setColor(Color primary, Color secondary) {
@@ -326,12 +337,8 @@ public class ProductiveBeeEntity extends BeeEntity
         this.secondaryColor = secondary;
     }
 
-    public Color getPrimaryColor() {
-        return primaryColor;
-    }
-
-    public Color getSecondaryColor() {
-        return secondaryColor;
+    public Color getColor(int tintIndex) {
+        return tintIndex == 0 ? primaryColor : secondaryColor;
     }
 
     public class PollinateGoal extends BeeEntity.PollinateGoal

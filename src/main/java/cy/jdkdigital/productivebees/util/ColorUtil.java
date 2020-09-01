@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.util;
 
 import java.awt.*;
 
-    public class ColorUtil
+public class ColorUtil
 {
     public static int hexToInt(String hex) {
         Color color = Color.decode(hex);

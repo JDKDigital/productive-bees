@@ -1,0 +1,30 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:unobtainium",
+    "results": [
+        {
+            "comb_produce": {
+                "item": "productivebees:configurable_honeycomb"
+            },
+            "item_produce": {
+                "tag": "forge:nuggets/unobtainium"
+            },
+            "min": 1.0,
+            "max": 2.0
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:nuggets/unobtainium"
+            }
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "allthemodium"
+        }
+    ]
+}

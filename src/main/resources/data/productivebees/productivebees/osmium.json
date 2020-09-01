@@ -1,0 +1,10 @@
+{
+    "primaryColor": "#4c9db6",
+    "secondaryColor": "#804f40",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mekanism"
+        }
+    ]
+}

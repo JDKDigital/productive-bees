@@ -2,6 +2,7 @@
     "replace": false,
     "values": [
         "minecraft:honeycomb",
+        "productivebees:configurable_honeycomb",
         "#forge:honeycombs/amber",
         "#forge:honeycombs/bauxite",
         "#forge:honeycombs/blazing",

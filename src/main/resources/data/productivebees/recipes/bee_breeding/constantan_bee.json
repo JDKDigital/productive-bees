@@ -1,0 +1,32 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:copper_bee",
+    "parent2": "productivebees:nickel_bee",
+    "offspring": [
+        "productivebees:constantan"
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:ingots/copper"
+        },
+        {
+            "tag": "forge:ingots/nickel"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/copper"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/nickel"
+            }
+        }
+    ]
+}

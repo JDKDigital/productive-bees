@@ -3,9 +3,11 @@
     "ingredient": {
         "item": "minecraft:honeycomb"
     },
-    "output": [
+    "outputs": [
         {
-            "tag": "forge:wax"
+            "item": {
+                "tag": "forge:wax"
+            }
         }
     ]
 }

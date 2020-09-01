@@ -3,15 +3,19 @@
     "ingredient": {
         "tag": "forge:honeycombs/lapis"
     },
-    "output": [
+    "outputs": [
         {
-            "tag": "forge:dusts/lapis_lazuli",
+            "item": {
+                "tag": "forge:dusts/lapis_lazuli"
+            },
             "min": 3,
             "max": 7,
             "chance": 100
         },
         {
-            "tag": "forge:wax"
+            "item": {
+                "tag": "forge:wax"
+            }
         }
     ],
     "conditions": [

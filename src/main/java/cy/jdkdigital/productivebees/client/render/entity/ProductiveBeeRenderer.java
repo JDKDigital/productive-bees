@@ -33,9 +33,9 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
 
     @Override
     public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
-        String beeLocation = "bee/" + bee.getBeeType() + "/bee";
+        String beeLocation = "bee/" + bee.getBeeName() + "/bee";
 
-        if (bee.getPrimaryColor() != null) {
+        if (bee.getColor(0) != null) {
             beeLocation = "bee/base/bee";
         }
 

@@ -1,0 +1,10 @@
+{
+    "primaryColor": "#bc2feb",
+    "secondaryColor": "#2e237b",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "allthemodium"
+        }
+    ]
+}

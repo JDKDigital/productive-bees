@@ -3,15 +3,19 @@
     "ingredient": {
         "tag": "forge:honeycombs/redstone"
     },
-    "output": [
+    "outputs": [
         {
-            "item": "minecraft:redstone",
+            "item": {
+                "item": "minecraft:redstone"
+            },
             "min": 3,
             "max": 5,
             "chance": 100
         },
         {
-            "tag": "forge:wax"
+            "item": {
+                "tag": "forge:wax"
+            }
         }
     ]
 }

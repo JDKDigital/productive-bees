@@ -12,8 +12,11 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.Lazy;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRecipe>
 {
@@ -58,8 +61,18 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
 
     @Override
     public void setIngredients(BeeBreedingRecipe recipe, IIngredients ingredients) {
-        ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredients);
-        ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.offspring);
+        List<BeeIngredient> recipeIngredients = new ArrayList<>();
+        for (Lazy<BeeIngredient> ingredient : recipe.ingredients) {
+            recipeIngredients.add(ingredient.get());
+        }
+
+        List<BeeIngredient> recipeOutputs = new ArrayList<>();
+        for (Lazy<BeeIngredient> ingredient : recipe.offspring) {
+            recipeOutputs.add(ingredient.get());
+        }
+
+        ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipeIngredients);
+        ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipeOutputs);
     }
 
     @Override

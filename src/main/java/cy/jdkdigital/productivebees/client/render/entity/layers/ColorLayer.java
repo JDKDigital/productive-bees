@@ -21,12 +21,11 @@ public class ColorLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveBee
     }
 
     public void render(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, ProductiveBeeEntity bee, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (bee.getPrimaryColor() != null) {
-            float[] primaryColor = bee.getPrimaryColor().getComponents(null);
+        if (bee.getColor(0) != null) {
+            float[] primaryColor = bee.getColor(0).getComponents(null);
 
             ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/primary.png");
             renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, packedLightIn, bee, primaryColor[0], primaryColor[1], primaryColor[2]);
-            // /summon productivebees:gold_bee ~ ~ ~ {NoAI:1}
         }
     }
 }

@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.tileentity;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
+import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
@@ -38,18 +39,12 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider
 {
     protected int tickCounter = 0;
     private int abandonCountdown = 0;
     protected boolean hasTicked = false;
-
-    // Used for displaying bees in gui
-    public List<String> inhabitantList = new ArrayList<>();
 
     protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> InventoryHandlerHelper.getInventoryHandler(this, 1));
 
@@ -148,25 +143,22 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, State beeState) {
         super.beeReleasePostAction(beeEntity, state, beeState);
 
-        String beeId = beeEntity.getEntityString();
-        Double productionChance = ProductiveBeeEntity.getProductionChance(beeId, 0.95D);
-
         // Generate bee produce
-        if (world != null && beeEntity instanceof ProductiveBeeEntity && beeState == BeehiveTileEntity.State.HONEY_DELIVERED && productionChance != null && productionChance > 0) {
-            if (world.rand.nextDouble() <= productionChance) {
-                getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                    BeeHelper.getBeeProduce(world, beeId, beeEntity.getFlowerPos()).forEach((stack) -> {
-                        if (!stack.isEmpty()) {
+        if (world != null && beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
+            getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                BeeHelper.getBeeProduce(world, beeEntity).forEach((stack) -> {
+                    if (!stack.isEmpty()) {
+                        if (beeEntity instanceof ProductiveBeeEntity) {
                             int productivity = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
                             if (productivity > 0) {
                                 float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
                                 stack.grow(Math.round(f));
                             }
-                            ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
                         }
-                    });
+                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
+                    }
                 });
-            }
+            });
         }
 
         // Add to the countdown for it's spot to become available in the hive
@@ -203,13 +195,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     public SUpdateTileEntityPacket getUpdatePacket() {
         CompoundNBT tag = new CompoundNBT();
 
-        inhabitantList.clear();
-        getCapability(CapabilityBee.BEE).ifPresent(handler -> {
-            for (AdvancedBeehiveTileEntityAbstract.Inhabitant bee : handler.getInhabitants()) {
-                inhabitantList.add(bee.nbt.getString("id"));
-            }
-        });
-        tag.putString("bees", String.join(",", inhabitantList));
+        tag.put("bees", getBeeListAsNBTList());
 
         return new SUpdateTileEntityPacket(getPos(), -1, tag);
     }
@@ -219,8 +205,8 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         CompoundNBT tag = pkt.getNbtCompound();
 
         if (tag.contains("bees")) {
-            inventoryHandler.ifPresent(inv -> {
-                inhabitantList = Arrays.asList(tag.getString("bees").split(","));
+            getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {
+                inhabitantHandler.setInhabitantsFromListNBT((ListNBT) tag.get("bees"));
             });
         }
     }

@@ -3,15 +3,19 @@
     "ingredient": {
         "tag": "forge:honeycombs/bauxite"
     },
-    "output": [
+    "outputs": [
         {
-            "tag": "forge:dusts/aluminum",
+            "item": {
+                "tag": "forge:dusts/aluminum"
+            },
             "min": 1,
             "max": 1,
             "chance": 100
         },
         {
-            "tag": "forge:wax"
+            "item": {
+                "tag": "forge:wax"
+            }
         }
     ],
     "conditions": [
