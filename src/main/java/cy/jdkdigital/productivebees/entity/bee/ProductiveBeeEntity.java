@@ -35,6 +35,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -239,6 +240,11 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
 
     boolean canOperateDuringThunder() {
         return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 2;
+    }
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return source.equals(DamageSource.SWEET_BERRY_BUSH) || super.isInvulnerableTo(source);
     }
 
     @Nonnull

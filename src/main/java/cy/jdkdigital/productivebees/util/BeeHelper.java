@@ -50,18 +50,22 @@ public class BeeHelper
         BlockPos pos = entity.getPosition();
 
         // Conversion recipes
-        EntityType<? extends BeeEntity> bee = null;
-        List<BeeConversionRecipe> recipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION, new IdentifierInventory(entity.getEntityString(), itemStack.getItem().getRegistryName() + ""), world);
+        BeeEntity bee = null;
+        List<BeeConversionRecipe> recipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION, new IdentifierInventory(entity, itemStack.getItem().getRegistryName() + ""), world);
 
         if (!recipes.isEmpty()) {
             BeeConversionRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
-            bee = recipe.result.get().getBeeEntity();
+            bee = recipe.result.get().getBeeEntity().create(world);
+            if (bee instanceof ConfigurableBeeEntity) {
+                ((ConfigurableBeeEntity) bee).setBeeType(recipe.result.get().getBeeType().toString());
+            }
         }
 
         if (bee != null) {
             if (!player.isCreative()) {
                 itemStack.shrink(1);
             }
+
             return BeeHelper.prepareBeeSpawn(bee, world, nbt, player, pos, direction, entity.getGrowingAge());
         }
         return null;
@@ -69,7 +73,10 @@ public class BeeHelper
 
     public static BeeEntity prepareBeeSpawn(EntityType<? extends BeeEntity> beeType, World world, @Nullable CompoundNBT nbt, @Nullable PlayerEntity player, BlockPos pos, Direction direction, int age) {
         BeeEntity bee = beeType.create(world, nbt, null, player, pos, SpawnReason.CONVERSION, true, true);
+        return prepareBeeSpawn(bee, world, nbt, player, pos, direction, age);
+    }
 
+    public static BeeEntity prepareBeeSpawn(BeeEntity bee, World world, @Nullable CompoundNBT nbt, @Nullable PlayerEntity player, BlockPos pos, Direction direction, int age) {
         if (bee != null) {
             double x = (double) pos.getX() + (double) direction.getXOffset();
             double y = (double) pos.getY() + 0.5D - (double) (bee.getHeight() / 2.0F);
@@ -243,6 +250,15 @@ public class BeeHelper
             String identifier2 = bee1.getEntityString();
             if (bee2 instanceof ConfigurableBeeEntity) {
                 identifier2 = ((ConfigurableBeeEntity) bee2).getBeeType();
+            }
+            this.identifiers.add(identifier1);
+            this.identifiers.add(identifier2);
+        }
+
+        public IdentifierInventory(BeeEntity bee1, String identifier2) {
+            String identifier1 = bee1.getEntityString();
+            if (bee1 instanceof ConfigurableBeeEntity) {
+                identifier1 = ((ConfigurableBeeEntity) bee1).getBeeType();
             }
             this.identifiers.add(identifier1);
             this.identifiers.add(identifier2);

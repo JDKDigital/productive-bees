@@ -36,8 +36,8 @@ public class WitherBeeEntity extends EffectHiveBeeEntity
     }
 
     @Override
-    public boolean isInvulnerableTo(@Nonnull DamageSource damageSource) {
-        return damageSource == DamageSource.WITHER || super.isInvulnerableTo(damageSource);
+    public boolean isInvulnerableTo(@Nonnull DamageSource source) {
+        return source.equals(DamageSource.WITHER) || super.isInvulnerableTo(source);
     }
 
     @Override
