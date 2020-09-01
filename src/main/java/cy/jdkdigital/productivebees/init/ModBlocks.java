@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.*;
 import cy.jdkdigital.productivebees.block.nest.*;
 import cy.jdkdigital.productivebees.fluid.HoneyFluid;
+import cy.jdkdigital.productivebees.item.CombBlockItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
@@ -60,6 +61,8 @@ public final class ModBlocks
             ModItemGroups.PRODUCTIVE_BEES,
             false
     );
+
+    public static final RegistryObject<Block> CONFIGURABLE_COMB = createBlock("configurable_comb", () -> new ConfigurableCombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#c8df24"), ModItemGroups.PRODUCTIVE_BEES);
 
     public static final RegistryObject<Block> COMB_BLAZING = createBlock("comb_blazing", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_BONE = createBlock("comb_bone", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
@@ -187,10 +190,15 @@ public final class ModBlocks
         RegistryObject<B> block = BLOCKS.register(name, supplier);
         if (createItem) {
             Item.Properties properties = new Item.Properties().group(itemGroup);
-            if (name.equals("comb_netherite")) {
-                properties.isImmuneToFire();
+
+            if (name.equals("configurable_comb")) {
+                ModItems.CONFIGURABLE_COMB_BLOCK = ModItems.ITEMS.register(name, () -> new CombBlockItem(block.get(), properties));
+            } else {
+                if (name.equals("comb_netherite")) {
+                    properties.isImmuneToFire();
+                }
+                ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
             }
-            ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
         }
         return block;
     }

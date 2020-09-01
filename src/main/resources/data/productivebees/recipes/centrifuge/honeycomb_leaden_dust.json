@@ -3,15 +3,19 @@
     "ingredient": {
         "tag": "forge:honeycombs/leaden"
     },
-    "output": [
+    "outputs": [
         {
-            "tag": "forge:dusts/lead",
+            "item": {
+                "tag": "forge:dusts/lead"
+            },
             "min": 1,
             "max": 1,
             "chance": 100
         },
         {
-            "tag": "forge:wax"
+            "item": {
+                "tag": "forge:wax"
+            }
         }
     ],
     "conditions": [

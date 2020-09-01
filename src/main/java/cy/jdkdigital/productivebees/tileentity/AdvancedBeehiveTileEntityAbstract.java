@@ -299,7 +299,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     @Nonnull
     public ListNBT getBeeListAsNBTList() {
-        return this.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
+        return getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
     }
 
     public static boolean spawnBeeInWorldAPosition(World world, BeeEntity entity, BlockPos pos, Direction direction, @Nullable Integer age) {

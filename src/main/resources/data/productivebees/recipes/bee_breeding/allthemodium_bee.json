@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:netherite_bee",
+    "parent2": "productivebees:wither_bee",
+    "offspring": [
+        "productivebees:allthemodium"
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:nuggets/allthemodium"
+        },
+        {
+            "tag": "forge:nuggets/allthemodium"
+        }
+    ]
+}

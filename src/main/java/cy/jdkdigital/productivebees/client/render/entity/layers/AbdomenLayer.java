@@ -21,8 +21,8 @@ public class AbdomenLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
     }
 
     public void render(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, ProductiveBeeEntity bee, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (bee.getSecondaryColor() != null) {
-            float[] primaryColor = bee.getSecondaryColor()  .getComponents(null);
+        if (bee.getColor(1) != null) {
+            float[] primaryColor = bee.getColor(1)  .getComponents(null);
 
             ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/abdomen.png");
             renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, packedLightIn, bee, primaryColor[0], primaryColor[1], primaryColor[2]);

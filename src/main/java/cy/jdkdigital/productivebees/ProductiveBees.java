@@ -8,10 +8,7 @@ import cy.jdkdigital.productivebees.entity.bee.hive.ZombieBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.solitary.BlueBandedBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.setup.ClientProxy;
-import cy.jdkdigital.productivebees.setup.ClientSetup;
-import cy.jdkdigital.productivebees.setup.IProxy;
-import cy.jdkdigital.productivebees.setup.ServerProxy;
+import cy.jdkdigital.productivebees.setup.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -19,6 +16,7 @@ import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -57,6 +55,7 @@ public final class ProductiveBees
     public ProductiveBees() {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.register(modEventBus);
@@ -77,8 +76,8 @@ public final class ProductiveBees
         });
 
         modEventBus.addListener(ClientSetup::init);
-        modEventBus.addListener(this::preInit);
-        modEventBus.addListener(this::loadComplete);
+        modEventBus.addListener(this::onCommonSetup);
+        modEventBus.addListener(this::onLoadComplete);
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
@@ -90,7 +89,11 @@ public final class ProductiveBees
         }
     }
 
-    public void preInit(FMLCommonSetupEvent event) {
+    public void onServerStarting(AddReloadListenerEvent event) {
+        event.addListener(BeeReloadListener.INSTANCE);
+    }
+
+    public void onCommonSetup(FMLCommonSetupEvent event) {
         CapabilityBee.register();
 
         DeferredWorkQueue.runLater(() -> {
@@ -110,7 +113,7 @@ public final class ProductiveBees
         this.fixPOI(event);
     }
 
-    public void loadComplete(FMLLoadCompleteEvent event) {
+    public void onLoadComplete(FMLLoadCompleteEvent event) {
         // Biome stuff not working yet in forge 33
 //        DeferredWorkQueue.runLater(() -> {
 //            // Add biome features

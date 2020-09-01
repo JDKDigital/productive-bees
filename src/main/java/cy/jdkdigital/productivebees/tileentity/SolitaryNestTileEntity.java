@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.tileentity;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
+import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
@@ -54,7 +55,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                     nestTickTimer = 0;
                     Block block = this.getBlockState().getBlock();
                     if (block instanceof SolitaryNest) {
-                        EntityType<BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block);
+                        EntityType<? extends BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block);
                         if (beeType != null) {
                             BeeEntity newBee = beeType.create(this.world);
                             newBee.setHealth(newBee.getMaxHealth());
@@ -82,7 +83,10 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                     CompoundNBT tag = egg.nbt;
                     Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
                     BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity);
-                    if (beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, this.getPos(), direction, -24000)) {
+                    if (beeEntity instanceof SolitaryBeeEntity) {
+                        ((SolitaryBeeEntity) beeEntity).setBirthNest(getPos());
+                    }
+                    if (beeEntity != null && spawnBeeInWorldAPosition(this.world, beeEntity, getPos(), direction, -24000)) {
                         inhabitantIterator.remove();
                     }
                 }
@@ -94,8 +98,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     @Nullable
-    public static EntityType<BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest) {
-        EntityType<BeeEntity> beeType = nest.getNestingBeeType(world);
+    public static EntityType<? extends BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest) {
+        EntityType<? extends BeeEntity> beeType = nest.getNestingBeeType(world);
 
         // Cuckoo behavior
         if (beeType != null && world.getRandom().nextInt(10) == 1) {
@@ -124,7 +128,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
         // When the bee returns with nectar, it will produce an egg cell and will stay a while
-        return hasNectar && beeEntity != null && !beeEntity.isChild() ? 12000 : 600;
+        return hasNectar && beeEntity != null && !beeEntity.isChild() ? 12000 : 6000;
     }
 
     public void read(BlockState blockState, CompoundNBT tag) {

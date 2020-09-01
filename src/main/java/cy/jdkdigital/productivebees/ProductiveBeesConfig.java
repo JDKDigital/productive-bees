@@ -4,9 +4,7 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.ImmutableList;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModEntities;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -42,7 +40,6 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue centrifugePowerUse;
         public final ForgeConfigSpec.BooleanValue enableCombProduce;
         public final ForgeConfigSpec.IntValue nestRepopulationCooldown;
-        public final ForgeConfigSpec.ConfigValue<String> woodChipLogsBlacklist;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
         public final ForgeConfigSpec.IntValue numberOfBeesPerBomb;
 
@@ -77,10 +74,6 @@ public class ProductiveBeesConfig
                     .comment("Cooldown for when an abandoned nest will spawn a new inhabitant")
                     .defineInRange("nestRepopulationCooldown", 36000, 20, Integer.MAX_VALUE);
 
-            woodChipLogsBlacklist = builder
-                    .comment("[UNUSED] Comma separated list of block names to exclude from the list of woodchips")
-                    .define("woodChipLogsBlacklist", "atmospheric:crustose_log,forbidden_arcanus:edelwood_log");
-
             preferredTagSource = builder
                     .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from. Eg: mekanism,silents_mekanism,immersiveengineering")
                     .defineList("preferredOres", ImmutableList.of(ProductiveBees.MODID), obj -> obj.toString().length() > 1);
@@ -97,22 +90,12 @@ public class ProductiveBeesConfig
     {
         public final ForgeConfigSpec.BooleanValue spawnUndeadBees;
         public final ForgeConfigSpec.DoubleValue spawnUndeadBeesChance;
-        public final Map<String, ForgeConfigSpec.DoubleValue> itemProductionRates = new HashMap<>();
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
 
             spawnUndeadBees = builder.comment("Spawn skeletal and zombie bees as night?").define("spawnUndeadBees", true);
             spawnUndeadBeesChance = builder.defineInRange("spawnUndeadBeesChance", 0.01, 0, 1);
-
-            builder.comment("Production chance for all bees who can produce items inside advanced hives.", "The final production rate also depends on General.itemTickRate");
-            builder.comment("Production chance for vanilla bees");
-            itemProductionRates.put("minecraft:bee", builder.defineInRange("minecraft:bee", 0.65D, 0, 1));
-            for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
-                ResourceLocation resourceLocation = registryObject.getId();
-                builder.comment("Production chance for " + resourceLocation);
-                itemProductionRates.put(resourceLocation + "", builder.defineInRange(resourceLocation + "", 0.95D, 0, 1));
-            }
 
             builder.pop();
         }

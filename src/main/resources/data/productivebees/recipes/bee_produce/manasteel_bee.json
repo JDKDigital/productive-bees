@@ -1,0 +1,30 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:manasteel",
+    "results": [
+        {
+            "comb_produce": {
+                "item": "productivebees:configurable_honeycomb"
+            },
+            "item_produce": {
+                "tag": "forge:ingots/manasteel"
+            },
+            "min": 1.0,
+            "max": 1.0
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/manasteel"
+            }
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "botania"
+        }
+    ]
+}

@@ -11,17 +11,20 @@ import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -38,6 +41,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity
@@ -153,6 +157,16 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         }
         currentRecipe = world.getRecipeManager().getRecipe(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), this.world).orElse(null);
 
+        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(CentrifugeRecipe.CENTRIFUGE);
+        IInventory inv = new RecipeWrapper(inputHandler);
+        for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
+            CentrifugeRecipe recipe = (CentrifugeRecipe) entry.getValue();
+            if (recipe.matches(inv, world)) {
+                currentRecipe = recipe;
+                break;
+            }
+        }
+
         return currentRecipe;
     }
 
@@ -233,7 +247,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
         if (tag.contains("input")) {
             inventoryHandler.ifPresent(inv -> {
-                inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, ItemStack.read((CompoundNBT) tag.get("input")));
+                inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, ItemStack.read(tag.getCompound("input")));
             });
         }
     }

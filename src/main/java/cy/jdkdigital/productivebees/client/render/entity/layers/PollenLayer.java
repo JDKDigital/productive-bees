@@ -21,7 +21,7 @@ public class PollenLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveBe
     }
 
     public void render(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, ProductiveBeeEntity bee, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (bee.getPrimaryColor() != null && bee.hasNectar()) {
+        if (bee.getColor(0) != null && bee.hasNectar()) {
             ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/pollen.png");
             renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, packedLightIn, bee, 1.0F, 1.0F, 1.0F);
         }

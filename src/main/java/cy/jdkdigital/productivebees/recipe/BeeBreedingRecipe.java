@@ -16,6 +16,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -29,10 +30,10 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
     public static final IRecipeType<BeeBreedingRecipe> BEE_BREEDING = IRecipeType.register(ProductiveBees.MODID + ":bee_breeding");
 
     public final ResourceLocation id;
-    public final List<BeeIngredient> ingredients;
-    public final List<BeeIngredient> offspring;
+    public final List<Lazy<BeeIngredient>> ingredients;
+    public final List<Lazy<BeeIngredient>> offspring;
 
-    public BeeBreedingRecipe(ResourceLocation id, List<BeeIngredient> ingredients, List<BeeIngredient> offspring) {
+    public BeeBreedingRecipe(ResourceLocation id, List<Lazy<BeeIngredient>> ingredients, List<Lazy<BeeIngredient>> offspring) {
         this.id = id;
         this.ingredients = ingredients;
         this.offspring = offspring;
@@ -43,15 +44,20 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
         if (inv instanceof BeeHelper.IdentifierInventory) {
             String beeName1 = ((BeeHelper.IdentifierInventory)inv).getIdentifier(0);
             String beeName2 = ((BeeHelper.IdentifierInventory)inv).getIdentifier(1);
-            boolean matches = true;
-            for (BeeIngredient parent: ingredients) {
-                String parentName = parent.getBeeType().getRegistryName().getPath();
-                if (!parentName.equals(beeName1 + "_bee") && !parentName.equals(beeName2 + "_bee")) {
-                    matches = false;
-                    break;
+            ProductiveBees.LOGGER.info("match breeding " + beeName1 + " - " + beeName2);
+            for (Lazy<BeeIngredient> parent: ingredients) {
+                if (parent.get() != null) {
+                    String parentName = parent.get().getBeeType().toString();
+                    ProductiveBees.LOGGER.info("parentName " + parentName);
+                    if (!parentName.equals(beeName1) && !parentName.equals(beeName2)) {
+                        return false;
+                    }
+                } else {
+                    ProductiveBees.LOGGER.warn("Bee not found in breeding recipe " + parent);
+                    return false;
                 }
             }
-            return matches;
+            return true;
         }
         return false;
     }
@@ -105,46 +111,48 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
             String parentName1 = JSONUtils.getString(json, "parent1");
             String parentName2 = JSONUtils.getString(json, "parent2");
 
-            List<BeeIngredient> children = new ArrayList<>();
+            List<Lazy<BeeIngredient>> children = new ArrayList<>();
             JsonArray offspring = JSONUtils.getJsonArray(json, "offspring");
             offspring.forEach(el -> {
                 String child = el.getAsString();
-                children.add(BeeIngredientFactory.getOrCreateList().get(child));
+                children.add(Lazy.of(BeeIngredientFactory.getIngredient(child)));
             });
 
-            BeeIngredient beeIngredientParent1 = BeeIngredientFactory.getOrCreateList().get(parentName1);
-            BeeIngredient beeIngredientParent2 = BeeIngredientFactory.getOrCreateList().get(parentName2);
+            Lazy<BeeIngredient> beeIngredientParent1 = Lazy.of(BeeIngredientFactory.getIngredient(parentName1));
+            Lazy<BeeIngredient> beeIngredientParent2 = Lazy.of(BeeIngredientFactory.getIngredient(parentName2));
+
+            ProductiveBees.LOGGER.info("breeding recipe " + id + " - " + beeIngredientParent1 + beeIngredientParent2 + children);
 
             return this.factory.create(id, Arrays.asList(beeIngredientParent1, beeIngredientParent2), children);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
-            List<BeeIngredient> ingredients = new ArrayList<>();
-            ingredients.add(BeeIngredient.read(buffer));
-            ingredients.add(BeeIngredient.read(buffer));
+            List<Lazy<BeeIngredient>> ingredients = new ArrayList<>();
+            ingredients.add(Lazy.of(() -> BeeIngredient.read(buffer)));
+            ingredients.add(Lazy.of(() -> BeeIngredient.read(buffer)));
 
-            List<BeeIngredient> offspring = new ArrayList<>();
+            List<Lazy<BeeIngredient>> offspring = new ArrayList<>();
             IntStream.range(0, buffer.readInt()).forEach(
-                i -> offspring.add(BeeIngredient.read(buffer))
+                i -> offspring.add(Lazy.of(() -> BeeIngredient.read(buffer)))
             );
 
             return this.factory.create(id, ingredients, offspring);
         }
 
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
-            for (BeeIngredient ingredient : recipe.ingredients) {
-                ingredient.write(buffer);
+            for (Lazy<BeeIngredient> ingredient : recipe.ingredients) {
+                ingredient.get().write(buffer);
             }
 
             buffer.writeInt(recipe.offspring.size());
             recipe.offspring.forEach((child) -> {
-                child.write(buffer);
+                child.get().write(buffer);
             });
         }
 
         public interface IRecipeFactory<T extends BeeBreedingRecipe>
         {
-            T create(ResourceLocation id, List<BeeIngredient> input, List<BeeIngredient> output);
+            T create(ResourceLocation id, List<Lazy<BeeIngredient>> input, List<Lazy<BeeIngredient>> output);
         }
     }
 }

@@ -16,6 +16,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -25,11 +26,11 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
     public static final IRecipeType<BeeConversionRecipe> BEE_CONVERSION = IRecipeType.register(ProductiveBees.MODID + ":bee_conversion");
 
     public final ResourceLocation id;
-    public final BeeIngredient source;
-    public final BeeIngredient result;
+    public final Lazy<BeeIngredient> source;
+    public final Lazy<BeeIngredient> result;
     public final Ingredient item;
 
-    public BeeConversionRecipe(ResourceLocation id, BeeIngredient ingredients, BeeIngredient result, Ingredient item) {
+    public BeeConversionRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredients, Lazy<BeeIngredient> result, Ingredient item) {
         this.id = id;
         this.source = ingredients;
         this.result = result;
@@ -42,7 +43,7 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
             String beeName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(0);
             String itemName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(1);
 
-            String parentName = source.getBeeType().getRegistryName().toString();
+            String parentName = source.get().getBeeType().toString();
 
             boolean matchesItem = false;
             for (ItemStack stack : this.item.getMatchingStacks()) {
@@ -105,8 +106,8 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
             String source = JSONUtils.getString(json, "source");
             String result = JSONUtils.getString(json, "result");
 
-            BeeIngredient sourceBee = BeeIngredientFactory.getOrCreateList().get(source);
-            BeeIngredient resultBee = BeeIngredientFactory.getOrCreateList().get(result);
+            Lazy<BeeIngredient> sourceBee = Lazy.of(BeeIngredientFactory.getIngredient(source));
+            Lazy<BeeIngredient> resultBee = Lazy.of(BeeIngredientFactory.getIngredient(result));
 
             Ingredient item;
             if (JSONUtils.isJsonArray(json, "ingredient")) {
@@ -120,18 +121,18 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
-            return this.factory.create(id, BeeIngredient.read(buffer), BeeIngredient.read(buffer), Ingredient.read(buffer));
+            return this.factory.create(id, Lazy.of(() -> BeeIngredient.read(buffer)), Lazy.of(() -> BeeIngredient.read(buffer)), Ingredient.read(buffer));
         }
 
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
-            recipe.source.write(buffer);
-            recipe.result.write(buffer);
+            recipe.source.get().write(buffer);
+            recipe.result.get().write(buffer);
             recipe.item.write(buffer);
         }
 
         public interface IRecipeFactory<T extends BeeConversionRecipe>
         {
-            T create(ResourceLocation id, BeeIngredient input, BeeIngredient output, Ingredient item);
+            T create(ResourceLocation id, Lazy<BeeIngredient> input, Lazy<BeeIngredient> output, Ingredient item);
         }
     }
 }

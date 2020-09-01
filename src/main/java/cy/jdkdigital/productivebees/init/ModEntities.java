@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.init;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.*;
 import cy.jdkdigital.productivebees.entity.BeeBombEntity;
+import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.*;
@@ -47,10 +48,13 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> EMERALD_BEE = createColoredHiveBee("emerald_bee", ProductiveBeeEntity::new, "#26ac43", "#804f40");
     public static RegistryObject<EntityType<BeeEntity>> DIAMOND_BEE = createColoredHiveBee("diamond_bee", ProductiveBeeEntity::new, "#3ddfe1", "#804f40");
     public static RegistryObject<EntityType<BeeEntity>> NETHERITE_BEE = createColoredHiveBee("netherite_bee", NetheriteBeeEntity::new, "#4d494d", "#804f40");
+
     public static RegistryObject<EntityType<BeeEntity>> DYE_BEE = createHiveBee("dye_bee", ProductiveBeeEntity::new, 16768648, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> LUMBER_BEE = createHiveBee("lumber_bee", LumberBeeEntity::new, 8306542, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> RANCHER_BEE = createHiveBee("rancher_bee", RancherBeeEntity::new, 9615358, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> HOARDER_BEE = createHiveBee("hoarder_bee", HoarderBeeEntity::new, 8306149, 6238757);
+    public static RegistryObject<EntityType<BeeEntity>> FARMER_BEE = createHiveBee("farmer_bee", FarmerBeeEntity::new, 9615358, 6238757);
+    public static RegistryObject<EntityType<BeeEntity>> CARTOGRAPHER_BEE = createHiveBee("cartographer_bee", ProductiveBeeEntity::new, 9615358, 6238757);
 
     public static RegistryObject<EntityType<BeeEntity>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBeeEntity::new, 894731, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> ENDER_BEE = createHiveBee("ender_bee", EnderBeeEntity::new, 1447446, 6238757);
@@ -98,6 +102,8 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> TUNGSTEN_BEE = createColoredHiveBee("tungsten_bee", ProductiveBeeEntity::new, "#616669", "#804f40");
     public static RegistryObject<EntityType<BeeEntity>> ZINC_BEE = createColoredHiveBee("zinc_bee", ProductiveBeeEntity::new, "#E9EBE7", "#804f40");
 
+    public static RegistryObject<EntityType<ConfigurableBeeEntity>> CONFIGURABLE_BEE = createColoredHiveBee("configurable_bee", ConfigurableBeeEntity::new, "#73ffb9", "#0f5c7a");
+
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createColoredHiveBee(String name, EntityType.IFactory<E> supplier, String primaryColor, String secondaryColor) {
         Color primary = Color.decode(primaryColor);
         Color secondary = Color.decode(secondaryColor);
@@ -126,8 +132,12 @@ public class ModEntities
 
         if (itemGroup != null) {
             RegistryObject<Item> spawnEgg = ModItems.ITEMS.register("spawn_egg_" + name, () -> new SpawnEgg(entity::get, secondaryColor, primaryColor, new Item.Properties().group(itemGroup)));
+            if (name.equals("configurable_bee")) {
+                ModItems.CONFIGURABLE_SPAWN_EGG = spawnEgg;
+            }
             ModItems.SPAWN_EGGS.add(spawnEgg);
         }
+
 
         return entity;
     }
@@ -150,7 +160,7 @@ public class ModEntities
             else if (bee.getTranslationKey().contains("dye_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, DyeBeeRenderer::new);
             }
-            else if (bee.getTranslationKey().contains("rancher_bee")) {
+            else if (bee.getTranslationKey().contains("rancher_bee") || bee.getTranslationKey().contains("farmer_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, RancherBeeRenderer::new);
             }
             else if (bee.getTranslationKey().contains("hoarder_bee")) {

@@ -1,0 +1,139 @@
+package cy.jdkdigital.productivebees.recipe;
+
+import com.google.gson.JsonObject;
+import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.ICraftingRecipe;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.JSONUtils;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistryEntry;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ConfigurableCombBlockRecipe implements ICraftingRecipe
+{
+    public final ResourceLocation id;
+    public final Integer count;
+
+    public ConfigurableCombBlockRecipe(ResourceLocation id, Integer count) {
+        this.id = id;
+        this.count = count;
+    }
+
+    @Override
+    public boolean matches(CraftingInventory inv, World worldIn) {
+        List<ItemStack> stacks = getItemsInInventory(inv);
+
+        // If we have one configurable comb block, it's valid
+        if (stacks.size() == 1 && stacks.get(0).getItem().equals(ModItems.CONFIGURABLE_COMB_BLOCK.get())) {
+            return stacks.get(0).hasTag();
+        }
+
+        return false;
+    }
+
+    @Nonnull
+    @Override
+    public ItemStack getCraftingResult(CraftingInventory inv) {
+        List<ItemStack> stacks = getItemsInInventory(inv);
+
+        if (stacks.size() > 0) {
+            ItemStack inStack = stacks.get(0);
+
+            ItemStack outStack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), count);
+
+            outStack.setTag(inStack.getTag());
+
+            return outStack;
+        }
+        return ItemStack.EMPTY;
+    }
+
+    private List<ItemStack> getItemsInInventory(CraftingInventory inv) {
+        List<ItemStack> stacks = new ArrayList<>();
+        for (int j = 0; j < inv.getSizeInventory(); ++j) {
+            ItemStack itemstack = inv.getStackInSlot(j);
+            if (!itemstack.isEmpty()) {
+                stacks.add(itemstack);
+            }
+        }
+        return stacks;
+    }
+
+    @Override
+    public boolean canFit(int width, int height) {
+        return true;
+    }
+
+    @Nonnull
+    @Override
+    public ItemStack getRecipeOutput() {
+        return new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), count);
+    }
+
+    @Nonnull
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        NonNullList<Ingredient> nonnulllist = NonNullList.create();
+        nonnulllist.add(Ingredient.fromItems(ModItems.CONFIGURABLE_COMB_BLOCK.get()));
+        return nonnulllist;
+    }
+
+    @Nonnull
+    @Override
+    public ResourceLocation getId() {
+        return this.id;
+    }
+
+    @Nonnull
+    @Override
+    public IRecipeSerializer<?> getSerializer() {
+        return ModRecipeTypes.CONFIGURABLE_COMB_BLOCK.get();
+    }
+
+    public static class Serializer<T extends ConfigurableCombBlockRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    {
+        final ConfigurableCombBlockRecipe.Serializer.IRecipeFactory<T> factory;
+
+        public Serializer(ConfigurableCombBlockRecipe.Serializer.IRecipeFactory<T> factory) {
+            this.factory = factory;
+        }
+
+        @Override
+        public T read(ResourceLocation id, JsonObject json) {
+            Integer count = JSONUtils.getInt(json, "count", 4);
+
+            return this.factory.create(id, count);
+        }
+
+        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+            try {
+                return this.factory.create(id, buffer.readInt());
+            } catch (Exception e) {
+                throw e;
+            }
+        }
+
+        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+            try {
+                buffer.writeInt(recipe.count);
+            } catch (Exception e) {
+                throw e;
+            }
+        }
+
+        public interface IRecipeFactory<T extends ConfigurableCombBlockRecipe>
+        {
+            T create(ResourceLocation id, Integer count);
+        }
+    }
+}

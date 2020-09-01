@@ -16,7 +16,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -63,8 +62,8 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
 
     @Override
     public void setIngredients(BeeConversionRecipe recipe, IIngredients ingredients) {
-        ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.source));
-        ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.result));
+        ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.source.get()));
+        ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.result.get()));
         ingredients.setInputs(VanillaTypes.ITEM, Arrays.asList(recipe.item.getMatchingStacks()));
     }
 

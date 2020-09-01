@@ -3,15 +3,19 @@
     "ingredient": {
         "tag": "forge:honeycombs/emerald"
     },
-    "output": [
+    "outputs": [
         {
-            "item": "minecraft:emerald",
+            "item": {
+                "item": "minecraft:emerald"
+            },
             "min": 1,
             "max": 1,
             "chance": 100
         },
         {
-            "tag": "forge:wax"
+            "item": {
+                "tag": "forge:wax"
+            }
         }
     ],
     "conditions": [

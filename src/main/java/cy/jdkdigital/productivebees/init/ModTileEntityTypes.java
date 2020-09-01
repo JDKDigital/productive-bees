@@ -89,4 +89,9 @@ public class ModTileEntityTypes
                     ModBlocks.BOTTLER.get()
             ).build(null)
     );
+    public static final RegistryObject<TileEntityType<CombBlockTileEntity>> COMB_BLOCK = TILE_ENTITY_TYPES.register("comb_block", () ->
+            TileEntityType.Builder.create(CombBlockTileEntity::new,
+                    ModBlocks.CONFIGURABLE_COMB.get()
+            ).build(null)
+    );
 }

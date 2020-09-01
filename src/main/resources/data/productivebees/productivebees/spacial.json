@@ -1,0 +1,10 @@
+{
+    "primaryColor": "#dfe5f6",
+    "secondaryColor": "#93c7ff",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "appliedenergistics2"
+        }
+    ]
+}

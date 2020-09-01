@@ -50,7 +50,7 @@ public class BeeEffect implements INBTSerializable<CompoundNBT>
         this.effects = new HashMap<>();
         IntStream.range(0, tag.getInt("i")).forEach(
             i -> {
-                CompoundNBT effectTag = (CompoundNBT) tag.get("effect_" + i);
+                CompoundNBT effectTag = tag.getCompound("effect_" + i);
                 String effectName = effectTag.getString("effect");
 
                 Effect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(effectName));

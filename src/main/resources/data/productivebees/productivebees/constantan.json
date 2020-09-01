@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#fc8669",
+    "secondaryColor": "#884739",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/constantan"
+            }
+        }
+    ]
+}

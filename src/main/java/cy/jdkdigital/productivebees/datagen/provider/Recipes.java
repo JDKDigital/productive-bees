@@ -1,18 +1,21 @@
 package cy.jdkdigital.productivebees.datagen.provider;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.block.CombBlock;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModItemGroups;
+import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
-import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.block.Block;
+import net.minecraft.data.*;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Consumer;
@@ -27,7 +30,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
         addCentrifugeRecipe(consumer);
         addBottlerRecipe(consumer);
-
+        addCombRecipes(consumer);
     }
 
     private void addBottlerRecipe(Consumer<IFinishedRecipe> consumer) {
@@ -36,9 +39,9 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .patternLine("IGI")
                 .patternLine("III")
                 .key('I', Items.IRON_INGOT)
-                .key('G', ItemTags.getCollection().func_241834_b(new ResourceLocation("forge:glass"))) // getOrCreate
+                .key('G', ItemTags.getCollection().getOrCreate(new ResourceLocation("forge:glass")))
                 .key('S', Items.SMOOTH_STONE_SLAB)
-                .setGroup(ProductiveBees.MODID)
+                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(Items.SMOOTH_STONE_SLAB, Items.IRON_INGOT))
                 .build(consumer);
     }
@@ -50,7 +53,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
             .patternLine("III")
             .key('I', Items.IRON_INGOT)
             .key('G', Items.GRINDSTONE)
-            .setGroup(ProductiveBees.MODID)
+            .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
             .addCriterion("items", InventoryChangeTrigger.Instance.forItems(Items.GRINDSTONE, Items.IRON_INGOT))
             .build(consumer);
 
@@ -64,7 +67,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .patternLine("RCR")
                 .key('R', Items.REDSTONE)
                 .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ProductiveBees.MODID)
+                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), Items.REDSTONE))
                 ::build
         )
@@ -83,7 +86,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .key('I', Items.IRON_INGOT)
                 .key('B', basicCircuit)
                 .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ProductiveBees.MODID)
+                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), basicCircuit))
                 ::build
         )
@@ -98,13 +101,33 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .patternLine("ICI")
                 .patternLine("RBR")
                 .key('R', Items.REDSTONE)
-                .key('I', ItemTags.getCollection().func_241834_b(new ResourceLocation("forge", "ingots/bismuth_brass"))) // getOrCreate
+                .key('I', ItemTags.getCollection().getOrCreate(new ResourceLocation("forge", "ingots/bismuth_brass")))
                 .key('B', machineFrame)
                 .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ProductiveBees.MODID)
+                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), machineFrame))
                 ::build
         )
         .build(consumer, new ResourceLocation(ProductiveBees.MODID, "powered_centrifuge_silents_mechanisms"));
+    }
+
+    private void addCombRecipes(Consumer<IFinishedRecipe> consumer) {
+        for (RegistryObject<Item> registryItem : ModItems.ITEMS.getEntries()) {
+            Item item = registryItem.get();
+            if (item instanceof BlockItem) {
+                Block block = ((BlockItem) item).getBlock();
+                if (block instanceof CombBlock) {
+                    String name = block.getRegistryName().getPath().replace("comb_", "");
+                    Item combItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "honeycomb_" + name));
+                    ShapelessRecipeBuilder.shapelessRecipe(item).addIngredient(combItem, 4)
+                            .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                            .build(consumer, new ResourceLocation(ProductiveBees.MODID, name + "block_to_comb"));
+
+                    ShapelessRecipeBuilder.shapelessRecipe(combItem, 4).addIngredient(item)
+                            .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                            .build(consumer, new ResourceLocation(ProductiveBees.MODID, name + "comb_to_block"));
+                }
+            }
+        }
     }
 }

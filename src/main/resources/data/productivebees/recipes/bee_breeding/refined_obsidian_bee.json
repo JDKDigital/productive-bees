@@ -1,0 +1,29 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:osmium",
+    "parent2": "productivebees:obsidian",
+    "offspring": [
+        "productivebees:refined_obsidian"
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:ingots/osmium"
+        },
+        {
+            "item": "minecraft:obsidian"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/osmium"
+            }
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mekanism"
+        }
+    ]
+}
