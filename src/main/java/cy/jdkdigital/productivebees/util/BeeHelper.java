@@ -55,7 +55,7 @@ public class BeeHelper
 
         if (!recipes.isEmpty()) {
             BeeConversionRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
-            bee = recipe.result.getBeeEntity();
+            bee = recipe.result.get().getBeeEntity();
         }
 
         if (bee != null) {

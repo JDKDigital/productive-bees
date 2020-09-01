@@ -1,6 +1,6 @@
 {
-    "primaryColor": "#f0b400",
-    "secondaryColor": "#804f40",
+    "primaryColor": "#feee7c",
+    "secondaryColor": "#bb8d23",
     "conditions": [
         {
             "type": "forge:mod_loaded",

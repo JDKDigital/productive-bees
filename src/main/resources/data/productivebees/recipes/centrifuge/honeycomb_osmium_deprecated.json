@@ -1,17 +1,16 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/osmium"
     },
-    "comb_type": "productivebees:osmium",
     "outputs": [
         {
             "item": {
-                "tag": "forge:dusts/osmium"
+                "tag": "forge:ingots/osmium"
             },
             "min": 1,
             "max": 1,
-            "chance": 90
+            "chance": 100
         },
         {
             "item": {
@@ -24,12 +23,12 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:dusts/osmium"
+                "tag": "forge:ingots/osmium"
             }
         },
         {
-            "type": "forge:mod_loaded",
-            "modid": "mekanism"
+            "type": "forge:tag_empty",
+            "tag": "forge:dusts/osmium"
         }
     ]
 }

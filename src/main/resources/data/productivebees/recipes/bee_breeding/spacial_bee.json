@@ -1,16 +1,16 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:osmium",
-    "parent2": "productivebees:glowing_bee",
+    "parent1": "productivebees:crystalline_bee",
+    "parent2": "productivebees:ender_bee",
     "offspring": [
-        "productivebees:refined_glowstone"
+        "productivebees:spacial"
     ],
     "breeding_items": [
         {
-            "tag": "forge:ingots/osmium"
+            "tag": "forge:gems/certus_quartz"
         },
         {
-            "item": "minecraft:glowstone"
+            "item": "minecraft:ender_pearl"
         }
     ],
     "conditions": [
@@ -18,12 +18,12 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/osmium"
+                "tag": "forge:gems/certus_quartz"
             }
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "mekanism"
+            "modid": "appliedenergistics2"
         }
     ]
 }

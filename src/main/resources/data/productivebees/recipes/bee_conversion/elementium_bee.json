@@ -1,0 +1,14 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:terrasteel",
+    "result": "productivebees:elementium",
+    "item": {
+        "tag": "forge:ingots/elementium"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "botania"
+        }
+    ]
+}

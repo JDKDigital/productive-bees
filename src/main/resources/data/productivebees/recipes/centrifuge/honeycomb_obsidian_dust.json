@@ -3,14 +3,14 @@
     "ingredient": {
         "item": "productivebees:configurable_honeycomb"
     },
-    "comb_type": "productivebees:osmium",
+    "comb_type": "productivebees:obsidian",
     "outputs": [
         {
             "item": {
-                "tag": "forge:dusts/osmium"
+                "tag": "forge:dusts/obsidian"
             },
             "min": 1,
-            "max": 1,
+            "max": 3,
             "chance": 90
         },
         {
@@ -24,12 +24,8 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:dusts/osmium"
+                "tag": "forge:dusts/obsidian"
             }
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mekanism"
         }
     ]
 }

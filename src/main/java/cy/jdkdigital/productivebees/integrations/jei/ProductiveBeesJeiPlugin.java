@@ -142,19 +142,23 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             ResourceLocation idCombBlock = new ResourceLocation(beeType + "_comb");
 
             // Add comb item
-            ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), count);
+            ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
             ModItemGroups.ModItemGroup.setTag(beeType, comb);
-            NonNullList<Ingredient> combOutput = NonNullList.create();
-            combOutput.add(Ingredient.fromStacks(comb));
+            NonNullList<Ingredient> combInput = NonNullList.create();
+            for (int i = 0; i < count; i++) {
+                combInput.add(Ingredient.fromStacks(comb));
+            }
 
             // Add comb block
             ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
             ModItemGroups.ModItemGroup.setTag(beeType, combBlock);
-            NonNullList<Ingredient> combBlockOutput = NonNullList.create();
-            combBlockOutput.add(Ingredient.fromStacks(combBlock));
+            NonNullList<Ingredient> combBlockInput = NonNullList.create();
+            combBlockInput.add(Ingredient.fromStacks(combBlock));
 
-            recipes.put(idComb, new ShapelessRecipe(idComb, "", combBlock, combOutput));
-            recipes.put(idCombBlock, new ShapelessRecipe(idCombBlock, "", comb, combBlockOutput));
+            recipes.put(idComb, new ShapelessRecipe(idComb, "", combBlock, combInput));
+            ItemStack combOutput = comb.copy();
+            combOutput.setCount(count);
+            recipes.put(idCombBlock, new ShapelessRecipe(idCombBlock, "", combOutput, combBlockInput));
         }
         registration.addRecipes(recipes.values(), VanillaRecipeCategoryUid.CRAFTING);
     }

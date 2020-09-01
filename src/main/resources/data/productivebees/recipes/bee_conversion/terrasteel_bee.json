@@ -1,0 +1,14 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:manasteel",
+    "result": "productivebees:terrasteel",
+    "item": {
+        "tag": "forge:ingots/terrasteel"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "botania"
+        }
+    ]
+}
