@@ -5,7 +5,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
+import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.tileentity.DragonEggHiveTileEntity;
@@ -16,13 +19,16 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +47,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.func_230459_a_(matrixStack, mouseX, mouseY);
+        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
@@ -60,24 +66,34 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             // Bee Tooltips
             int j = 0;
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
-                BeeEntity bee = (BeeEntity) EntityType.loadEntityAndExecute(inhabitant.nbt, this.container.tileEntity.getWorld(), (spawnedEntity) -> spawnedEntity);
+                CompoundNBT nbt = inhabitant.nbt;
 
-                if (bee != null && isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
-                    List<ITextProperties> tooltipList = new ArrayList<ITextProperties>()
-                    {{
-                        add(bee.getDisplayName());
-                    }};
+                Lazy<BeeIngredient> ingredient = Lazy.of(BeeIngredientFactory.getIngredient(nbt.getString("id")));
 
-                    String modId = new ResourceLocation(bee.getEntityString()).getNamespace();
-                    String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
+                if (ingredient.get() != null) {
+                    BeeEntity bee = ingredient.get().getBeeEntity().create(this.container.tileEntity.getWorld());
 
-                    if (modId.equals("minecraft")) {
-                        modName = "Minecraft";
+                    if (bee instanceof ConfigurableBeeEntity) {
+                        ((ConfigurableBeeEntity) bee).setBeeType(ingredient.get().getBeeType().toString());
                     }
-                    tooltipList.add(new StringTextComponent(modName).mergeStyle(TextFormatting.ITALIC).mergeStyle(TextFormatting.BLUE));
-                    renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+
+                    if (bee != null && isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
+                        List<ITextProperties> tooltipList = new ArrayList<ITextProperties>()
+                        {{
+                            add(bee.getName());
+                        }};
+
+                        String modId = new ResourceLocation(bee.getEntityString()).getNamespace();
+                        String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
+
+                        if (modId.equals("minecraft")) {
+                            modName = "Minecraft";
+                        }
+                        tooltipList.add(new StringTextComponent(modName).mergeStyle(TextFormatting.ITALIC).mergeStyle(TextFormatting.BLUE));
+                        renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                    }
+                    j++;
                 }
-                j++;
             }
         });
         // https://gist.github.com/gigaherz/f61fe604f38e27afad4d1553bc6cf311
@@ -106,23 +122,33 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             // Bees
             int i = 0;
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
-                BeeEntity bee = (BeeEntity) EntityType.loadEntityAndExecute(inhabitant.nbt, this.container.tileEntity.getWorld(), (spawnedEntity) -> spawnedEntity);
-                if (minecraft.player != null && bee != null) {
-                    bee.ticksExisted = minecraft.player.ticksExisted;
-                    bee.renderYawOffset = -20;
+                CompoundNBT nbt = inhabitant.nbt;
 
-                    matrixStack.push();
-                    matrixStack.translate(7 + getGuiLeft() + positions.get(i).get(0), 17 + getGuiTop() + positions.get(i).get(1), 1.5D);
-                    matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
-                    matrixStack.translate(0.0F, -0.2F, 1);
-                    matrixStack.scale(28, 28, 32);
+                Lazy<BeeIngredient> ingredient = Lazy.of(BeeIngredientFactory.getIngredient(nbt.getString("id")));
 
-                    EntityRendererManager entityrenderermanager = minecraft.getRenderManager();
-                    IRenderTypeBuffer.Impl buffer = minecraft.getRenderTypeBuffers().getBufferSource();
-                    entityrenderermanager.renderEntityStatic(bee, 0, 0, 0.0D, minecraft.getRenderPartialTicks(), 1, matrixStack, buffer, 15728880);
-                    buffer.finish();
+                if (minecraft.player != null && ingredient.get() != null) {
+                    BeeEntity bee = ingredient.get().getBeeEntity().create(this.container.tileEntity.getWorld());
+                    if (bee instanceof ConfigurableBeeEntity) {
+                        ((ConfigurableBeeEntity) bee).setBeeType(ingredient.get().getBeeType().toString());
+                    }
 
-                    matrixStack.pop();
+                    if (bee != null) {
+                        bee.ticksExisted = minecraft.player.ticksExisted;
+                        bee.renderYawOffset = -20;
+
+                        matrixStack.push();
+                        matrixStack.translate(7 + getGuiLeft() + positions.get(i).get(0), 17 + getGuiTop() + positions.get(i).get(1), 1.5D);
+                        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
+                        matrixStack.translate(0.0F, -0.2F, 1);
+                        matrixStack.scale(28, 28, 32);
+
+                        EntityRendererManager entityrenderermanager = minecraft.getRenderManager();
+                        IRenderTypeBuffer.Impl buffer = minecraft.getRenderTypeBuffers().getBufferSource();
+                        entityrenderermanager.renderEntityStatic(bee, 0, 0, 0.0D, minecraft.getRenderPartialTicks(), 1, matrixStack, buffer, 15728880);
+                        buffer.finish();
+
+                        matrixStack.pop();
+                    }
                 }
 
                 i++;

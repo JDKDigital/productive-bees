@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.util;
 
 import com.google.common.collect.Lists;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
@@ -98,6 +99,7 @@ public class BeeHelper
 
         Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING);
         IInventory beeInv = new IdentifierInventory(beeEntity, (BeeEntity) targetEntity);
+        ProductiveBees.LOGGER.info("inv: " + beeInv);
         for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
             BeeBreedingRecipe recipe = (BeeBreedingRecipe) entry.getValue();
             if (recipe.matches(beeInv, world)) {
@@ -247,7 +249,7 @@ public class BeeHelper
             if (bee1 instanceof ConfigurableBeeEntity) {
                 identifier1 = ((ConfigurableBeeEntity) bee1).getBeeType();
             }
-            String identifier2 = bee1.getEntityString();
+            String identifier2 = bee2.getEntityString();
             if (bee2 instanceof ConfigurableBeeEntity) {
                 identifier2 = ((ConfigurableBeeEntity) bee2).getBeeType();
             }

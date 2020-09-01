@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.setup;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.client.resources.JsonReloadListener;
@@ -29,17 +29,17 @@ public class BeeReloadListener extends JsonReloadListener
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonObject> dataMap, @Nonnull IResourceManager resourceManager, IProfiler profiler) {
+    protected void apply(Map<ResourceLocation, JsonElement> dataMap, @Nonnull IResourceManager resourceManager, IProfiler profiler) {
         profiler.startSection("BeeReloadListener");
-        for (Map.Entry<ResourceLocation, JsonObject> entry : dataMap.entrySet()) {
+        for (Map.Entry<ResourceLocation, JsonElement> entry : dataMap.entrySet()) {
             ResourceLocation id = entry.getKey();
 
-            if (!CraftingHelper.processConditions(entry.getValue(), "conditions")) {
+            if (!CraftingHelper.processConditions(entry.getValue().getAsJsonObject(), "conditions")) {
                 ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as it's conditions were not met", id);
                 continue;
             }
 
-            CompoundNBT nbt = BeeCreator.create(id, entry.getValue());
+            CompoundNBT nbt = BeeCreator.create(id, entry.getValue().getAsJsonObject());
 
             BEE_DATA.remove(id);
             BEE_DATA.put(id, nbt);

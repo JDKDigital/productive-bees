@@ -195,7 +195,7 @@ public final class ModBlocks
                 ModItems.CONFIGURABLE_COMB_BLOCK = ModItems.ITEMS.register(name, () -> new CombBlockItem(block.get(), properties));
             } else {
                 if (name.equals("comb_netherite")) {
-                    properties.isBurnable();
+                    properties.isImmuneToFire();
                 }
                 ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
             }

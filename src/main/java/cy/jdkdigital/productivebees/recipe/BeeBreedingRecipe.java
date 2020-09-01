@@ -44,9 +44,11 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
         if (inv instanceof BeeHelper.IdentifierInventory) {
             String beeName1 = ((BeeHelper.IdentifierInventory)inv).getIdentifier(0);
             String beeName2 = ((BeeHelper.IdentifierInventory)inv).getIdentifier(1);
+            ProductiveBees.LOGGER.info("match breeding " + beeName1 + " - " + beeName2);
             for (Lazy<BeeIngredient> parent: ingredients) {
                 if (parent.get() != null) {
                     String parentName = parent.get().getBeeType().toString();
+                    ProductiveBees.LOGGER.info("parentName " + parentName);
                     if (!parentName.equals(beeName1) && !parentName.equals(beeName2)) {
                         return false;
                     }
@@ -118,6 +120,8 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
 
             Lazy<BeeIngredient> beeIngredientParent1 = Lazy.of(BeeIngredientFactory.getIngredient(parentName1));
             Lazy<BeeIngredient> beeIngredientParent2 = Lazy.of(BeeIngredientFactory.getIngredient(parentName2));
+
+            ProductiveBees.LOGGER.info("breeding recipe " + id + " - " + beeIngredientParent1 + beeIngredientParent2 + children);
 
             return this.factory.create(id, Arrays.asList(beeIngredientParent1, beeIngredientParent2), children);
         }

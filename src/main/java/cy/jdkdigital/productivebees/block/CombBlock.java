@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.block;
 
-import cy.jdkdigital.productivebees.util.ColorUtil;
 import cy.jdkdigital.productivebees.item.CombBlockItem;
+import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;

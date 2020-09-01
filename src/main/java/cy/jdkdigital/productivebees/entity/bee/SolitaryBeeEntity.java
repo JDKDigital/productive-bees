@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -12,7 +11,7 @@ import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -84,7 +83,7 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
             if (SolitaryBeeEntity.this.hasHadNest || SolitaryBeeEntity.this.birthNest == null) {
                 return false;
             }
-            Vec3d vec3d = new Vec3d(SolitaryBeeEntity.this.birthNest);
+            Vector3d vec3d = Vector3d.copyCenteredHorizontally(SolitaryBeeEntity.this.birthNest);
             double distanceToHome = vec3d.distanceTo(SolitaryBeeEntity.this.getPositionVec());
 
             return distanceToHome >= 25;
@@ -93,7 +92,7 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
         public void tick() {
             if (SolitaryBeeEntity.this.birthNest != null) {
                 if (SolitaryBeeEntity.this.navigator.noPath()) {
-                    Vec3d vec3d = new Vec3d(SolitaryBeeEntity.this.birthNest);
+                    Vector3d vec3d = Vector3d.copyCenteredHorizontally(SolitaryBeeEntity.this.birthNest);
                     SolitaryBeeEntity.this.navigator.tryMoveToXYZ(vec3d.x, vec3d.y, vec3d.z, 1.0D);
                 }
             }

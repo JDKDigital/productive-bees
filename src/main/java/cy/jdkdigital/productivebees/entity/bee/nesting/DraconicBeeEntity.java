@@ -27,7 +27,7 @@ public class DraconicBeeEntity extends ProductiveBeeEntity
         if (!this.world.isRemote) {
             if (--breathCollectionCooldown <= 0) {
                 breathCollectionCooldown = 600;
-                if (this.world.func_234923_W_() == World.field_234920_i_) {
+                if (this.world.getDimensionKey() == World.THE_END) {
                     this.setHasNectar(true);
                 }
             }

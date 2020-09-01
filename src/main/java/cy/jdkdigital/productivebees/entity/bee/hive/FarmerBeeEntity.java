@@ -14,7 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
@@ -92,7 +92,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
             }
             return
                 FarmerBeeEntity.this.targetHarvestPos != null &&
-                !FarmerBeeEntity.this.isAngry() &&
+                !FarmerBeeEntity.this.func_233678_J__() &&
                 !FarmerBeeEntity.this.isWithinDistance(FarmerBeeEntity.this.targetHarvestPos, 2);
         }
 
@@ -129,7 +129,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
 
         @Override
         public boolean shouldExecute() {
-            if (!FarmerBeeEntity.this.isAngry()) {
+            if (!FarmerBeeEntity.this.func_233678_J__()) {
                 List<BlockPos> harvestablesNearby = FarmerBeeEntity.this.findHarvestablesNearby(10);
 
                 if (!harvestablesNearby.isEmpty()) {
@@ -154,7 +154,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
 
         @Override
         public boolean shouldContinueExecuting() {
-            return FarmerBeeEntity.this.targetHarvestPos != null && FarmerBeeEntity.this.hasHive() && !FarmerBeeEntity.this.isAngry();
+            return FarmerBeeEntity.this.targetHarvestPos != null && FarmerBeeEntity.this.hasHive() && !FarmerBeeEntity.this.func_233678_J__();
         }
 
         public void startExecuting() {
@@ -169,7 +169,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                     FarmerBeeEntity.this.targetHarvestPos = null;
                 }
                 else {
-                    Vec3d vec3d = (new Vec3d(FarmerBeeEntity.this.targetHarvestPos)).add(0.5D, (double) 0.6F, 0.5D);
+                    Vector3d vec3d = (Vector3d.copyCenteredHorizontally(FarmerBeeEntity.this.targetHarvestPos)).add(0.5D, (double) 0.6F, 0.5D);
                     double distanceToTarget = vec3d.distanceTo(FarmerBeeEntity.this.getPositionVec());
 
                     if (distanceToTarget > 1.0D) {
@@ -201,7 +201,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
             }
         }
 
-        private void moveToNextTarget(Vec3d nextTarget) {
+        private void moveToNextTarget(Vector3d nextTarget) {
             FarmerBeeEntity.this.getMoveHelper().setMoveTo(nextTarget.getX(), nextTarget.getY(), nextTarget.getZ(), 1.0F);
         }
     }

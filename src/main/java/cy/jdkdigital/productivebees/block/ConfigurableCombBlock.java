@@ -13,8 +13,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.ILightReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -30,7 +30,7 @@ public class ConfigurableCombBlock extends CombBlock
     }
 
     @OnlyIn(Dist.CLIENT)
-    public int getColor(ILightReader world, BlockPos pos) {
+    public int getColor(IBlockDisplayReader world, BlockPos pos) {
         if (world != null && pos != null) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof CombBlockTileEntity) {

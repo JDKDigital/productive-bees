@@ -310,6 +310,9 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     public BeeEntity createChild(AgeableEntity targetEntity) {
+        ProductiveBees.LOGGER.info("Find breed recipe between");
+        ProductiveBees.LOGGER.info(this);
+        ProductiveBees.LOGGER.info(targetEntity);
         BeeEntity newBee = BeeHelper.getBreedingResult(this, targetEntity, world);
 
         if (newBee instanceof ProductiveBeeEntity) {
