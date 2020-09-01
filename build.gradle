@@ -69,6 +69,9 @@ repositories {
         dirs 'mods'
     }
     maven {
+        url 'https://www.dogforce-games.com/maven/'
+    }
+    maven {
         name = "JEI Maven"
         url "http://dvs1.progwml6.com/files/maven"
     }
@@ -92,7 +95,7 @@ dependencies {
 
     implementation fg.deobf('mods:Abnormals-Core-1.16.1:v2.0.0')
     implementation fg.deobf('mods:Buzzier-Bees-1.16.1:2.0.0')
-    implementation fg.deobf('mods:pneumaticcraft-repressurized-1.16.1:2.0.0-4')
+//    implementation fg.deobf('mods:pneumaticcraft-repressurized-1.16.1:2.0.0-4')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
