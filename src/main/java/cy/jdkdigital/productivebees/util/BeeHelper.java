@@ -247,7 +247,7 @@ public class BeeHelper
             if (bee1 instanceof ConfigurableBeeEntity) {
                 identifier1 = ((ConfigurableBeeEntity) bee1).getBeeType();
             }
-            String identifier2 = bee1.getEntityString();
+            String identifier2 = bee2.getEntityString();
             if (bee2 instanceof ConfigurableBeeEntity) {
                 identifier2 = ((ConfigurableBeeEntity) bee2).getBeeType();
             }
