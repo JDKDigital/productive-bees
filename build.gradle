@@ -69,6 +69,9 @@ repositories {
         dirs 'mods'
     }
     maven {
+        url 'https://www.dogforce-games.com/maven/'
+    }
+    maven {
         name = "JEI Maven"
         url "http://dvs1.progwml6.com/files/maven"
     }
@@ -93,7 +96,7 @@ jar {
         attributes([
             "Specification-Title": "Productive Bees",
             "Specification-Vendor": "productivebees",
-            "Specification-Version": "1", // We are version 1 of ourselves
+            "Specification-Version": "0.3", // We are version 1 of ourselves
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"productivebees",

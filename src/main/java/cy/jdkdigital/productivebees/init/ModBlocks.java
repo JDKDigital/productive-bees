@@ -188,7 +188,7 @@ public final class ModBlocks
         if (createItem) {
             Item.Properties properties = new Item.Properties().group(itemGroup);
             if (name.equals("comb_netherite")) {
-                properties.isBurnable();
+                properties.isImmuneToFire();
             }
             ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
         }

@@ -192,7 +192,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     public boolean releaseBee(BlockState blockState, CompoundNBT tag, @Nullable List<Entity> releasedBees, BeehiveTileEntity.State beeState) {
         boolean stayInside =
-                this.world.func_234923_W_() == World.field_234918_g_ &&
+                this.world.getDimensionKey() == World.OVERWORLD &&
                         (this.world.isNightTime() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
                         (this.world.isRaining() && (beeState != BeehiveTileEntity.State.EMERGENCY || tag.getInt("bee_weather_tolerance") == 0)); // it's raining and the bees is not tolerant
 
