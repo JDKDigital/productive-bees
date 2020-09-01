@@ -39,9 +39,9 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .patternLine("IGI")
                 .patternLine("III")
                 .key('I', Items.IRON_INGOT)
-                .key('G', ItemTags.getCollection().getOrCreate(new ResourceLocation("forge:glass")))
+                .key('G', ItemTags.getCollection().func_241834_b(new ResourceLocation("forge:glass")))
                 .key('S', Items.SMOOTH_STONE_SLAB)
-                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                .setGroup(ProductiveBees.MODID)
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(Items.SMOOTH_STONE_SLAB, Items.IRON_INGOT))
                 .build(consumer);
     }
@@ -53,7 +53,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
             .patternLine("III")
             .key('I', Items.IRON_INGOT)
             .key('G', Items.GRINDSTONE)
-            .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+            .setGroup(ProductiveBees.MODID)
             .addCriterion("items", InventoryChangeTrigger.Instance.forItems(Items.GRINDSTONE, Items.IRON_INGOT))
             .build(consumer);
 
@@ -67,7 +67,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .patternLine("RCR")
                 .key('R', Items.REDSTONE)
                 .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                .setGroup(ProductiveBees.MODID)
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), Items.REDSTONE))
                 ::build
         )
@@ -86,7 +86,7 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .key('I', Items.IRON_INGOT)
                 .key('B', basicCircuit)
                 .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                .setGroup(ProductiveBees.MODID)
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), basicCircuit))
                 ::build
         )
@@ -101,10 +101,10 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                 .patternLine("ICI")
                 .patternLine("RBR")
                 .key('R', Items.REDSTONE)
-                .key('I', ItemTags.getCollection().getOrCreate(new ResourceLocation("forge", "ingots/bismuth_brass")))
+                .key('I', ItemTags.getCollection().func_241834_b(new ResourceLocation("forge", "ingots/bismuth_brass")))
                 .key('B', machineFrame)
                 .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                .setGroup(ProductiveBees.MODID)
                 .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), machineFrame))
                 ::build
         )
@@ -120,11 +120,11 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
                     String name = block.getRegistryName().getPath().replace("comb_", "");
                     Item combItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "honeycomb_" + name));
                     ShapelessRecipeBuilder.shapelessRecipe(item).addIngredient(combItem, 4)
-                            .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                            .setGroup(ProductiveBees.MODID)
                             .build(consumer, new ResourceLocation(ProductiveBees.MODID, name + "block_to_comb"));
 
                     ShapelessRecipeBuilder.shapelessRecipe(combItem, 4).addIngredient(item)
-                            .setGroup(ModItemGroups.PRODUCTIVE_BEES.getTabLabel())
+                            .setGroup(ProductiveBees.MODID)
                             .build(consumer, new ResourceLocation(ProductiveBees.MODID, name + "comb_to_block"));
                 }
             }
