@@ -121,13 +121,23 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
-            return this.factory.create(id, Lazy.of(() -> BeeIngredient.read(buffer)), Lazy.of(() -> BeeIngredient.read(buffer)), Ingredient.read(buffer));
+            try {
+                return this.factory.create(id, Lazy.of(() -> BeeIngredient.read(buffer)), Lazy.of(() -> BeeIngredient.read(buffer)), Ingredient.read(buffer));
+            } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error reading bee conversion recipe to packet.", e);
+                throw e;
+            }
         }
 
         public void write(@Nonnull PacketBuffer buffer, T recipe) {
-            recipe.source.get().write(buffer);
-            recipe.result.get().write(buffer);
-            recipe.item.write(buffer);
+            try {
+                recipe.source.get().write(buffer);
+                recipe.result.get().write(buffer);
+                recipe.item.write(buffer);
+            } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error writing bee conversion recipe to packet.", e);
+                throw e;
+            }
         }
 
         public interface IRecipeFactory<T extends BeeConversionRecipe>

@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.util;
 import com.google.gson.JsonObject;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.text.WordUtils;
 
 import java.awt.*;
 
@@ -22,7 +21,13 @@ public class BeeCreator
         return data;
     }
 
-    private static String idToName(String id) {
-        return WordUtils.capitalizeFully(id.replace("_", " "));
+    public static String idToName(String givenString) {
+        String[] arr = givenString.split(" ");
+        StringBuilder sb = new StringBuilder();
+
+        for (String s : arr) {
+            sb.append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).append(" ");
+        }
+        return sb.toString().trim();
     }
 }

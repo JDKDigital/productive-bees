@@ -1,6 +1,6 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:crystalline_bee",
+    "parent1": "productivebees:quartz_bee",
     "parent2": "productivebees:ender_bee",
     "offspring": [
         "productivebees:spacial"

@@ -169,6 +169,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
                 return this.factory.create(id, ingredient, itemOutput, tagOutput, requireBottle);
             } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error reading centrifuge recipe to packet.", e);
                 throw e;
             }
         }
@@ -197,6 +198,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
                 buffer.writeBoolean(recipe.requireBottle);
 
             } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error writing centrifuge recipe to packet.", e);
                 throw e;
             }
         }
