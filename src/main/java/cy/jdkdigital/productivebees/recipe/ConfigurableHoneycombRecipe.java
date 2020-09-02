@@ -136,6 +136,7 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
             try {
                 return this.factory.create(id, buffer.readInt());
             } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error reading config honeycomb recipe to packet.", e);
                 throw e;
             }
         }
@@ -144,6 +145,7 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
             try {
                 buffer.writeInt(recipe.count);
             } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error reading config honeycomb recipe to packet.", e);
                 throw e;
             }
         }
