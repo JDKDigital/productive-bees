@@ -124,7 +124,7 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
 
                 return this.factory.create(id, ingredient, output, repopulationCooldown);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading recipe from packet.", e);
+                ProductiveBees.LOGGER.error("Error reading bee spawning recipe from packet.", e);
                 throw e;
             }
         }
@@ -140,7 +140,7 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
 
                 buffer.writeInt(recipe.repopulationCooldown);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing recipe to packet.", e);
+                ProductiveBees.LOGGER.error("Error writing bee spawning recipe to packet.", e);
                 throw e;
             }
         }

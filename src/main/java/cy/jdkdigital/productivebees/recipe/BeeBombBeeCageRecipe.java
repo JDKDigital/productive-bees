@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.recipe;
 
 import com.google.gson.JsonObject;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
@@ -156,6 +157,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
             try {
                 return this.factory.create(id, buffer.readItemStack());
             } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error reading bee bomb cage recipe to packet.", e);
                 throw e;
             }
         }
@@ -164,6 +166,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
             try {
                 buffer.writeItemStack(recipe.beeBomb);
             } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error writing bee bomb cage recipe to packet.", e);
                 throw e;
             }
         }

@@ -176,7 +176,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
 
                 return this.factory.create(id, Lazy.of(() -> ingredient), itemOutput, tagOutput);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading recipe from packet.", e);
+                ProductiveBees.LOGGER.error("Error reading beehive produce recipe from packet.", e);
                 throw e;
             }
         }
@@ -203,7 +203,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
                 });
 
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing recipe to packet.", e);
+                ProductiveBees.LOGGER.error("Error writing beehive produce recipe to packet.", e);
                 throw e;
             }
         }
