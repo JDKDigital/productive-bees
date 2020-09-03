@@ -68,13 +68,12 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
                 CompoundNBT nbt = inhabitant.nbt;
 
-                Lazy<BeeIngredient> ingredient = Lazy.of(BeeIngredientFactory.getIngredient(nbt.getString("id")));
+                BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
 
-                if (ingredient.get() != null) {
-                    BeeEntity bee = ingredient.get().getBeeEntity().create(this.container.tileEntity.getWorld());
-
-                    if (bee instanceof ConfigurableBeeEntity) {
-                        ((ConfigurableBeeEntity) bee).setBeeType(ingredient.get().getBeeType().toString());
+                if (ingredient != null) {
+                    BeeEntity bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
+                    if (bee instanceof ConfigurableBeeEntity && nbt.contains("type")) {
+                        ((ConfigurableBeeEntity) bee).setBeeType(nbt.getString("type"));
                     }
 
                     if (bee != null && isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
@@ -124,12 +123,12 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
                 CompoundNBT nbt = inhabitant.nbt;
 
-                Lazy<BeeIngredient> ingredient = Lazy.of(BeeIngredientFactory.getIngredient(nbt.getString("id")));
+                BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
 
-                if (minecraft.player != null && ingredient.get() != null) {
-                    BeeEntity bee = ingredient.get().getBeeEntity().create(this.container.tileEntity.getWorld());
-                    if (bee instanceof ConfigurableBeeEntity) {
-                        ((ConfigurableBeeEntity) bee).setBeeType(ingredient.get().getBeeType().toString());
+                if (minecraft.player != null && ingredient != null) {
+                    BeeEntity bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
+                    if (bee instanceof ConfigurableBeeEntity && nbt.contains("type")) {
+                        ((ConfigurableBeeEntity) bee).setBeeType(nbt.getString("type"));
                     }
 
                     if (bee != null) {

@@ -40,7 +40,7 @@ public class ModEntities
     public static RegistryObject<EntityType<ProjectileItemEntity>> BEE_BOMB = createEntity("bee_bomb", BeeBombEntity::new);
 
     public static RegistryObject<EntityType<BeeEntity>> IRON_BEE = createColoredHiveBee("iron_bee", IronBeeEntity::new, "#cdcdcd", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> GOLD_BEE = createColoredHiveBee("gold_bee", GoldBeeEntity::new, "#c8df24", "#804f40");
+    public static RegistryObject<EntityType<BeeEntity>> GOLD_BEE = createColoredHiveBee("gold_bee", GoldBeeEntity::new, "#fffd6e", "#804f40");
 
     public static RegistryObject<EntityType<BeeEntity>> COAL_BEE = createColoredHiveBee("coal_bee", ProductiveBeeEntity::new, "#222525", "#804f40");
     public static RegistryObject<EntityType<BeeEntity>> REDSTONE_BEE = createColoredHiveBee("redstone_bee", ProductiveBeeEntity::new, "#d03621", "#804f40");
