@@ -114,12 +114,19 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         Map<ResourceLocation, IRecipe<IInventory>> beeConversionRecipeMap = recipeManager.getRecipes(BeeConversionRecipe.BEE_CONVERSION);
         registration.addRecipes(beeConversionRecipeMap.values(), CATEGORY_BEE_CONVERSION_UID);
 
-        // Ingredient descriptions
+        // Bee ingredient descriptions
         List<String> notInfoBees = Arrays.asList("minecraft:bee", "configurable_bee", "aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");
         for (Map.Entry<String, BeeIngredient> entry : BeeIngredientFactory.getOrCreateList().entrySet()) {
             String beeId = entry.getKey().replace("productivebees:", "");
             if (!notInfoBees.contains(beeId)) {
-                registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (beeId));
+                if (entry.getValue().isConfigurable()) {
+                    CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(entry.getKey()));
+                    if (nbt.contains("description")) {
+                        registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, nbt.getString("description"));
+                    }
+                } else {
+                    registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (beeId));
+                }
             }
         }
 

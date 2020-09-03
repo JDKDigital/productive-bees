@@ -157,7 +157,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
             try {
                 return this.factory.create(id, buffer.readItemStack());
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee bomb cage recipe to packet.", e);
+                ProductiveBees.LOGGER.error("Error reading bee bomb cage recipe from packet. " + id, e);
                 throw e;
             }
         }
@@ -166,7 +166,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
             try {
                 buffer.writeItemStack(recipe.beeBomb);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee bomb cage recipe to packet.", e);
+                ProductiveBees.LOGGER.error("Error writing bee bomb cage recipe to packet. " + recipe.getId(), e);
                 throw e;
             }
         }

@@ -17,12 +17,15 @@ public class BeeCreator
         data.putInt("secondaryColor", secondary.getRGB());
         data.putString("id", id.toString());
         data.putString("name", idToName(id.getPath()));
+        if (json.has("description")) {
+            data.putString("description", json.get("description").getAsString());
+        }
 
         return data;
     }
 
     public static String idToName(String givenString) {
-        String[] arr = givenString.split(" ");
+        String[] arr = givenString.replace("_", " ").split(" ");
         StringBuilder sb = new StringBuilder();
 
         for (String s : arr) {

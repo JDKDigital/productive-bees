@@ -124,7 +124,7 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
             try {
                 return this.factory.create(id, Lazy.of(() -> BeeIngredient.read(buffer)), Lazy.of(() -> BeeIngredient.read(buffer)), Ingredient.read(buffer));
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee conversion recipe to packet.", e);
+                ProductiveBees.LOGGER.error("Error reading bee conversion recipe from packet. " + id, e);
                 throw e;
             }
         }
@@ -135,7 +135,7 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
                 recipe.result.get().write(buffer);
                 recipe.item.write(buffer);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee conversion recipe to packet.", e);
+                ProductiveBees.LOGGER.error("Error writing bee conversion recipe to packet. " + recipe.getId(), e);
                 throw e;
             }
         }
