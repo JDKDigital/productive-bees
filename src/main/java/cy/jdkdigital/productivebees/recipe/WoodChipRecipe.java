@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.recipe;
 
 import com.google.gson.JsonObject;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.item.WoodChip;
@@ -118,6 +119,7 @@ public class WoodChipRecipe implements ICraftingRecipe
             try {
                 return this.factory.create(id, buffer.readInt());
             } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error reading woodchip recipe from packet. " + id, e);
                 throw e;
             }
         }
@@ -126,6 +128,7 @@ public class WoodChipRecipe implements ICraftingRecipe
             try {
                 buffer.writeInt(recipe.count);
             } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error writing woodchip recipe to packet. " + recipe.getId(), e);
                 throw e;
             }
         }
