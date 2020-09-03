@@ -120,8 +120,6 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
             Lazy<BeeIngredient> beeIngredientParent1 = Lazy.of(BeeIngredientFactory.getIngredient(parentName1));
             Lazy<BeeIngredient> beeIngredientParent2 = Lazy.of(BeeIngredientFactory.getIngredient(parentName2));
 
-            ProductiveBees.LOGGER.info("breeding recipe " + id + " - " + beeIngredientParent1 + beeIngredientParent2 + children);
-
             return this.factory.create(id, Arrays.asList(beeIngredientParent1, beeIngredientParent2), children);
         }
 

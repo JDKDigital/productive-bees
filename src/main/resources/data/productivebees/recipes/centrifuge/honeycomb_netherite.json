@@ -3,7 +3,7 @@
     "ingredient": {
         "tag": "forge:honeycombs/netherite"
     },
-    "output": [
+    "outputs": [
         {
             "item": {
                 "item": "minecraft:netherite_scrap"
