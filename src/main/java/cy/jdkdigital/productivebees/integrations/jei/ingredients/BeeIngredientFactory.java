@@ -49,7 +49,7 @@ public class BeeIngredientFactory
         for (Map.Entry<ResourceLocation, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
             String beeType = entry.getKey().toString();
             EntityType<ConfigurableBeeEntity> bee = ModEntities.CONFIGURABLE_BEE.get();
-            addBee(beeType, new BeeIngredient(bee, new ResourceLocation(beeType), 0));
+            addBee(beeType, new BeeIngredient(bee, new ResourceLocation(beeType), 0, true));
         }
 
         return ingredientList;

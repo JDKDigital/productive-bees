@@ -138,7 +138,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
 
                 return this.factory.create(id, ingredients, offspring);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee breeding recipe to packet.", e);
+                ProductiveBees.LOGGER.error("Error reading bee breeding recipe from packet. " + id, e);
                 throw e;
             }
         }
@@ -164,7 +164,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                     }
                 });
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee breeding recipe to packet.", e);
+                ProductiveBees.LOGGER.error("Error writing bee breeding recipe to packet. " + recipe.getId(), e);
                 throw e;
             }
         }

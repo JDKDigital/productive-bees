@@ -159,6 +159,7 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
             try {
                 return this.factory.create(id, buffer.readItemStack());
             } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error reading honey treat gene recipe from packet. " + id, e);
                 throw e;
             }
         }
@@ -167,6 +168,7 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
             try {
                 buffer.writeItemStack(recipe.honeyTreat);
             } catch (Exception e) {
+                ProductiveBees.LOGGER.error("Error writing honey treat gene recipe to packet. " + recipe.getId(), e);
                 throw e;
             }
         }

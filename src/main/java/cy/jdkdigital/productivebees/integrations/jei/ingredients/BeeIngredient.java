@@ -11,6 +11,7 @@ public class BeeIngredient
     private EntityType<? extends BeeEntity> bee;
     private ResourceLocation beeType;
     private int renderType = 0;
+    private boolean configurable = false;
 
     public BeeIngredient(EntityType<? extends BeeEntity> bee, int renderType) {
         this.bee = bee;
@@ -20,6 +21,12 @@ public class BeeIngredient
     public BeeIngredient(EntityType<? extends BeeEntity> bee, ResourceLocation beeType, int renderType) {
         this(bee, renderType);
         this.beeType = beeType;
+    }
+
+    public BeeIngredient(EntityType<? extends BeeEntity> bee, ResourceLocation beeType, int renderType, boolean isConfigurable) {
+        this(bee, renderType);
+        this.beeType = beeType;
+        this.configurable = isConfigurable;
     }
 
     public EntityType<? extends BeeEntity> getBeeEntity() {
@@ -52,5 +59,9 @@ public class BeeIngredient
                 ", beeType=" + beeType +
                 ", renderType=" + renderType +
                 '}';
+    }
+
+    public boolean isConfigurable() {
+        return configurable;
     }
 }
