@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#0f1318",
+    "secondaryColor": "#181e25",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/biotite"
+            }
+        }
+    ]
+}

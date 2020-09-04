@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:nomad_bee",
+    "parent2": "productivebees:reed_bee",
+    "offspring": [
+        "productivebees:silicon"
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:silicon"
+        },
+        {
+            "tag": "forge:silicon"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:silicon"
+            }
+        }
+    ]
+}
