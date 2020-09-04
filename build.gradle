@@ -100,7 +100,7 @@ dependencies {
 //    implementation fg.deobf('mods:Botania-1.16.1:403')
 //    implementation fg.deobf('mods:allthemodium-1.0.4-1.16.1:32.0.107')
 //    implementation fg.deobf('mods:Mekanism-1.16.1:10.0.9.432')
-//    implementation fg.deobf('mods:appliedenergistics2-8.0.0:beta.2')
+    implementation fg.deobf('mods:byg-1.16.2:1.0.4')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
