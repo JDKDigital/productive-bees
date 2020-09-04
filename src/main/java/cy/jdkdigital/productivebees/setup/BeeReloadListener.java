@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.network.PacketHandler;
+import cy.jdkdigital.productivebees.network.packets.BeesMessage;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.nbt.CompoundNBT;
@@ -46,6 +48,7 @@ public class BeeReloadListener extends JsonReloadListener
 
             ProductiveBees.LOGGER.debug("Adding to bee data " + id);
         }
+        PacketHandler.sendToAllPlayers(new BeesMessage(BeeReloadListener.INSTANCE.getData()));
         profiler.endStartSection("BeeReloadListener");
     }
 
@@ -55,5 +58,9 @@ public class BeeReloadListener extends JsonReloadListener
 
     public Map<ResourceLocation, CompoundNBT> getData() {
         return BEE_DATA;
+    }
+
+    public void setData(Map<ResourceLocation, CompoundNBT> data) {
+        BEE_DATA = data;
     }
 }

@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.setup.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -97,6 +98,7 @@ public final class ProductiveBees
 
     public void onCommonSetup(FMLCommonSetupEvent event) {
         CapabilityBee.register();
+        PacketHandler.init();
 
         this.fixPOI(event);
     }

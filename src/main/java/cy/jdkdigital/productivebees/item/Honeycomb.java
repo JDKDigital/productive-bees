@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.item;
 
+import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.item.Item;
@@ -15,6 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
+import java.util.Map;
 
 public class Honeycomb extends Item
 {
@@ -59,6 +61,28 @@ public class Honeycomb extends Item
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (!this.equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
             super.fillItemGroup(group, items);
+        } else {
+            for (Map.Entry<ResourceLocation, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+                String beeType = entry.getKey().toString();
+
+                // Add spawn egg item
+                ItemStack egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
+                ModItemGroups.ModItemGroup.setTag(beeType, egg);
+
+                items.add(egg);
+
+                // Add comb item
+                ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
+                ModItemGroups.ModItemGroup.setTag(beeType, comb);
+
+                items.add(comb);
+
+                // Add comb block
+                ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
+                ModItemGroups.ModItemGroup.setTag(beeType, combBlock);
+
+                items.add(combBlock);
+            }
         }
     }
 }

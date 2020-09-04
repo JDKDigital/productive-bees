@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.item;
 
+import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.entity.EntityType;
@@ -16,6 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class SpawnEgg extends SpawnEggItem
@@ -69,6 +71,16 @@ public class SpawnEgg extends SpawnEggItem
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (!this.equals(ModItems.CONFIGURABLE_SPAWN_EGG.get())) {
             super.fillItemGroup(group, items);
+        } else {
+            for (Map.Entry<ResourceLocation, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+                String beeType = entry.getKey().toString();
+
+                // Add spawn egg item
+                ItemStack egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
+                ModItemGroups.ModItemGroup.setTag(beeType, egg);
+
+                items.add(egg);
+            }
         }
     }
 }
