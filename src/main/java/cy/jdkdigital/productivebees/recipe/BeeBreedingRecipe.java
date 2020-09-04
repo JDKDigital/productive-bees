@@ -126,13 +126,17 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
                 List<Lazy<BeeIngredient>> ingredients = new ArrayList<>();
-                ingredients.add(Lazy.of(() -> BeeIngredient.read(buffer)));
-                ingredients.add(Lazy.of(() -> BeeIngredient.read(buffer)));
+
+                BeeIngredient ing1 = BeeIngredient.read(buffer);
+                BeeIngredient ing2 = BeeIngredient.read(buffer);
+                ingredients.add(Lazy.of(() -> ing1));
+                ingredients.add(Lazy.of(() -> ing2));
 
                 List<Lazy<BeeIngredient>> offspring = new ArrayList<>();
-                IntStream.range(0, buffer.readInt()).forEach(
-                        i -> offspring.add(Lazy.of(() -> BeeIngredient.read(buffer)))
-                );
+                IntStream.range(0, buffer.readInt()).forEach(i -> {
+                    BeeIngredient result = BeeIngredient.read(buffer);
+                    offspring.add(Lazy.of(() -> result));
+                });
 
                 return this.factory.create(id, ingredients, offspring);
             } catch (Exception e) {

@@ -122,7 +122,9 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                return this.factory.create(id, Lazy.of(() -> BeeIngredient.read(buffer)), Lazy.of(() -> BeeIngredient.read(buffer)), Ingredient.read(buffer));
+                BeeIngredient source = BeeIngredient.read(buffer);
+                BeeIngredient result = BeeIngredient.read(buffer);
+                return this.factory.create(id, Lazy.of(() -> source), Lazy.of(() -> result), Ingredient.read(buffer));
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee conversion recipe from packet. " + id, e);
                 throw e;
