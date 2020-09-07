@@ -33,6 +33,9 @@ public class BeeIngredient
         return bee;
     }
 
+    /**
+     * productivebees:osmium, prouctivebees:iron_bee
+     */
     public ResourceLocation getBeeType() {
         return beeType != null ? beeType : bee.getRegistryName();
     }
