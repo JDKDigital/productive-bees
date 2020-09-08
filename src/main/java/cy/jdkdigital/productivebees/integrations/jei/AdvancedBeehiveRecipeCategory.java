@@ -89,12 +89,12 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         ingredientStacks.set(ingredients);
 
         int startX = 68;
-        int startY = 8;
+        int startY = 26;
         if (ingredients.getOutputs(VanillaTypes.ITEM).size() > 0) {
             List<ItemStack> outputs = ingredients.getOutputs(VanillaTypes.ITEM).iterator().next();
             int offset = ingredients.getInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT).size();
             IntStream.range(offset, outputs.size() + offset).forEach((i) -> {
-                if (i > 9 + offset) {
+                if (i > 3 + offset) {
                     return;
                 }
                 itemStacks.init(i, false, startX + ((i - offset) * 18), startY + ((int) Math.floor(((float) i - offset) / 3.0F) * 18));

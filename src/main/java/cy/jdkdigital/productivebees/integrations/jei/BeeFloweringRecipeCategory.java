@@ -86,7 +86,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         ingredientStacks.set(0, ingredients.getInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT).get(0));
 
         IGuiItemStackGroup itemStacks = iRecipeLayout.getItemStacks();
-        itemStacks.init(1, true, 26, 50);
+        itemStacks.init(1, true, 26, 51);
         itemStacks.set(1, ingredients.getInputs(VanillaTypes.ITEM).get(0));
     }
 
