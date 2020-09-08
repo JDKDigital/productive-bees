@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.event;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.crafting.conditions.BeeExistsCondition;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.BeesMessage;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -10,12 +11,18 @@ import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.crafting.*;
+import net.minecraftforge.common.crafting.conditions.*;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -47,10 +54,17 @@ public class EventHandler
             }
         }
     }
+
     @SubscribeEvent
     public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (!event.getWorld().isRemote && event.getEntity() instanceof ServerPlayerEntity) {
             PacketHandler.sendToPlayer(new BeesMessage(BeeReloadListener.INSTANCE.getData()), (ServerPlayerEntity) event.getEntity());
         }
+    }
+
+    @SubscribeEvent
+    public static void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event)
+    {
+        CraftingHelper.register(BeeExistsCondition.Serializer.INSTANCE);
     }
 }

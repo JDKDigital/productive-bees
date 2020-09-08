@@ -29,11 +29,8 @@
             }
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/constantan"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:constantan"
         }
     ]
 }

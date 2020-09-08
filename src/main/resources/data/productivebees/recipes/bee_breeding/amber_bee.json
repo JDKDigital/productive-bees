@@ -7,7 +7,7 @@
     ],
     "breeding_items": [
         {
-            "tag": "minecraft:flowers"
+            "item": "minecraft:quartz"
         },
         {
             "tag": "forge:gems/amber"

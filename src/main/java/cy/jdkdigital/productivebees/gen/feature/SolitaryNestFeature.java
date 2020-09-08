@@ -25,15 +25,23 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
 {
     private final float probability;
     private boolean placeOntop;
+    private int yMin;
+    private int yMax;
 
     public SolitaryNestFeature(float probability, Function<Dynamic<?>, ? extends ReplaceBlockConfig> configFactory) {
         this(probability, configFactory, false);
     }
 
     public SolitaryNestFeature(float probability, Function<Dynamic<?>, ? extends ReplaceBlockConfig> configFactory, boolean placeOntop) {
+        this(probability, configFactory, placeOntop, 0, 50);
+    }
+
+    public SolitaryNestFeature(float probability, Function<Dynamic<?>, ? extends ReplaceBlockConfig> configFactory, boolean placeOntop, int yMin, int yMax) {
         super(configFactory);
         this.probability = probability;
         this.placeOntop = placeOntop;
+        this.yMin = yMin;
+        this.yMax = yMax;
     }
 
     @Override
@@ -45,8 +53,11 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
         // Get random block in chunk
         pos = pos.south(rand.nextInt(14)).east(rand.nextInt(14));
 
+        // Go to yMin
+        pos = pos.up(yMin);
+
         // Go to surface
-        while (pos.getY() < 50 || !world.isAirBlock(pos)) {
+        while (pos.getY() < yMax || !world.isAirBlock(pos)) {
             pos = pos.up();
         }
 
