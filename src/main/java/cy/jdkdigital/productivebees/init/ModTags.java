@@ -42,7 +42,11 @@ public class ModTags
 
     public static final Tag<EntityType<?>> RANCHABLES = EntityTypeTags.getCollection().getOrCreate(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
 
-    private static Tag<Block> getTag(String resourceLocation) {
-        return new BlockTags.Wrapper(new ResourceLocation(ProductiveBees.MODID, resourceLocation));
+    public static Tag<Block> getTag(String name) {
+        return getTag(new ResourceLocation(ProductiveBees.MODID, name));
+    }
+
+    public static Tag<Block> getTag(ResourceLocation resourceLocation) {
+        return BlockTags.getCollection().getOrCreate(resourceLocation);
     }
 }

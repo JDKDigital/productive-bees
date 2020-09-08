@@ -81,6 +81,7 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> RESIN_BEE = createSolitaryBee("resin_bee", ResinBeeEntity::new, 13939231, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> SWEATY_BEE = createSolitaryBee("sweaty_bee", SweatyBeeEntity::new, 9748939, 6238757);
 
+    // @deprecated
     public static RegistryObject<EntityType<BeeEntity>> ALUMINIUM_BEE = createColoredHiveBee("aluminium_bee", ProductiveBeeEntity::new, "#A4A6B1", "#804f40");
     public static RegistryObject<EntityType<BeeEntity>> AMBER_BEE = createColoredHiveBee("amber_bee", ProductiveBeeEntity::new, "#d2ab00", "#804f40");
     public static RegistryObject<EntityType<BeeEntity>> BRASS_BEE = createColoredHiveBee("brass_bee", ProductiveBeeEntity::new, "#DAAA4C", "#804f40");

@@ -1,9 +1,12 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -19,6 +22,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
@@ -116,7 +120,10 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()){
             Tag<Block> blockTag = BlockTags.getCollection().getOrCreate(new ResourceLocation("flowers"));
             if (entry.getValue().isConfigurable()) {
-                // Get from config
+                CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType());
+                if (nbt.contains("flowerTag")) {
+                    blockTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
+                }
             } else {
                 blockTag = flowering.get(entry.getValue().getBeeType().toString());
             }
