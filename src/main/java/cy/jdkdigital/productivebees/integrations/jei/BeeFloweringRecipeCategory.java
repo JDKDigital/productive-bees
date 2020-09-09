@@ -1,9 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -15,20 +12,14 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.runtime.IIngredientManager;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.fluids.FluidStack;
 
 import java.util.*;
 
@@ -106,8 +97,8 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         flowering.put("productivebees:ender_bee", ModTags.END_FLOWERS);
         flowering.put("productivebees:glowing_bee", ModTags.GLOWING_FLOWERS);
         flowering.put("productivebees:gold_bee", ModTags.GILDED_FLOWERS);
-        flowering.put("productivebees:magmatic_bee", ModTags.NETHER_FLOWERS);
-        flowering.put("productivebees:quartz_bee", ModTags.NETHER_FLOWERS);
+        flowering.put("productivebees:magmatic_bee", ModTags.MAGMATIC_FLOWERS);
+        flowering.put("productivebees:quartz_bee", ModTags.CRYSTALLINE_FLOWERS);
         flowering.put("productivebees:slimy_bee", ModTags.SWAMP_FLOWERS);
         flowering.put("productivebees:blue_banded_bee", ModTags.RIVER_FLOWERS);
         flowering.put("productivebees:green_carpenter_bee", ModTags.FOREST_FLOWERS);

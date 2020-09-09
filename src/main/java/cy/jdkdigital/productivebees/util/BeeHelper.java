@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.util;
 
 import com.google.common.collect.Lists;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;

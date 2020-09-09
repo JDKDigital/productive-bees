@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.item;
 
-import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.entity.EntityType;
@@ -17,7 +16,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class SpawnEgg extends SpawnEggItem

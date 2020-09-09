@@ -361,7 +361,7 @@ public class ProductiveBeeEntity extends BeeEntity implements IBeeEntity
                 Tag<Block> interests;
                 if (ProductiveBeeEntity.this instanceof ConfigurableBeeEntity) {
                     CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(((ConfigurableBeeEntity) ProductiveBeeEntity.this).getBeeType()));
-                    if (nbt.contains("flowerTag")) {
+                    if (nbt != null && nbt.contains("flowerTag")) {
                         interests = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
                     } else {
                         interests = BlockTags.FLOWERS;

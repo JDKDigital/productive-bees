@@ -7,7 +7,7 @@
     ],
     "breeding_items": [
         {
-            "item": "minecraft:magma"
+            "item": "minecraft:magma_block"
         },
         {
             "item": "minecraft:snow"

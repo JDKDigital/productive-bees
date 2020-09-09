@@ -16,10 +16,10 @@ public class QuartzBeeEntity extends ProductiveBeeEntity
 {
     public QuartzBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
-        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.NETHER_FLOWERS);
+        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.CRYSTALLINE_FLOWERS);
         beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.NETHER_QUARTZ_NESTS);
         beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<Effect, Integer>() {{
-            put(Effects.RESISTANCE, 200);
+            put(Effects.RESISTANCE, 600);
         }}));
     }
 }

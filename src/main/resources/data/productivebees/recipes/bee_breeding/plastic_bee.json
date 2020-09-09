@@ -1,6 +1,6 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:green_carpenter_bee",
+    "parent1": "productivebees:resin_bee",
     "parent2": "productivebees:lumber_bee",
     "offspring": [
         "productivebees:plastic"

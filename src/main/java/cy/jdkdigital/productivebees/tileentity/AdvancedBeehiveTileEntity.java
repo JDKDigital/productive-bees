@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.tileentity;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
-import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;

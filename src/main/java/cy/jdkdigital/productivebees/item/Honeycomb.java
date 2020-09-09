@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.item;
 
-import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.item.Item;
@@ -16,7 +15,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
-import java.util.Map;
 
 public class Honeycomb extends Item
 {

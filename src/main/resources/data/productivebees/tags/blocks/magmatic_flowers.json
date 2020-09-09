@@ -1,7 +1,8 @@
 {
     "replace": false,
     "values": [
-        "#minecraft:flowers",
+        "minecraft:magma_block",
         "minecraft:nether_wart"
+        "minecraft:nether_wart_block"
     ]
 }
