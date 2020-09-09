@@ -1,0 +1,16 @@
+{
+    "name": "Advanced Hives",
+    "icon": "minecraft:writable_book",
+    "category": "productivebees:hives",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Advanced hives gives you a better overview of what is going on in your hives as well as enabling automation. Advanced hives has a GUI which can be accessed by right clicking the hive or any attached $(l:hives/expansion_boxes)expansion boxes$(/l)."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:hives/advanced_oak_beehive",
+            "text": "There are many variants of advanced beehives available depending on which other mods you have installed."
+        }
+    ]
+}
