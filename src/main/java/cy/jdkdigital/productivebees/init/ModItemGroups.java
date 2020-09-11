@@ -59,9 +59,6 @@ public class ModItemGroups
             }
 
             super.fill(items);
-
-            // Refresh search index
-            Minecraft.getInstance().populateSearchTreeManager();
         }
 
         public static void setTag(String type, ItemStack stack) {

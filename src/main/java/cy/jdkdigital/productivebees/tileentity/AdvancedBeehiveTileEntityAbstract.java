@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -213,6 +214,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 boolean spawned = false;
                 BeeEntity beeEntity = (BeeEntity) EntityType.loadEntityAndExecute(tag, this.world, (spawnedEntity) -> spawnedEntity);
                 if (beeEntity != null) {
+
                     // Hoarder bees should leave their item behind
                     AtomicBoolean hasOffloaded = new AtomicBoolean(true);
                     if (beeEntity instanceof HoarderBeeEntity) {
@@ -316,6 +318,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         }
         // Check if the entity is in beehive_inhabitors tag
         if (entity.getType().isContained(EntityTypeTags.BEEHIVE_INHABITORS)) {
+            entity = BeeHelper.convertToConfigurable(entity);
             world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_EXIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return world.addEntity(entity);
         }

@@ -112,7 +112,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
             int chance = value.get(2).getInt();
             if (chance < 100) {
                 String text = chance < 1 ? "<1%" : chance + "%";
-                font.drawString(text, 68 + 19 * i.get(), 26 + 18, 16777215);
+                font.drawString(text, 68 + 19 * i.get(), 27 + 18, 16777215);
                 i.getAndIncrement();
             }
         });

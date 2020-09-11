@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.item;
 
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -53,6 +54,9 @@ public class BeeCage extends Item
         BlockPos pos = context.getPos();
 
         Entity entity = getEntityFromStack(stack, worldIn, true);
+
+        entity = BeeHelper.convertToConfigurable((BeeEntity) entity);
+
         BlockPos blockPos = pos.offset(context.getFace());
         entity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
         worldIn.addEntity(entity);

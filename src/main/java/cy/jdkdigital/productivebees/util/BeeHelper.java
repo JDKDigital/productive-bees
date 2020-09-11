@@ -1,10 +1,13 @@
 package cy.jdkdigital.productivebees.util;
 
 import com.google.common.collect.Lists;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
 import cy.jdkdigital.productivebees.item.WoodChip;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
@@ -13,6 +16,7 @@ import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.BeeEntity;
@@ -231,6 +235,23 @@ public class BeeHelper
 
         int parentWeatherTolerance = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
         attributeMapChild.put(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
+    }
+
+    public static BeeEntity convertToConfigurable(BeeEntity entity) {
+        if (entity instanceof ProductiveBeeEntity && !(entity instanceof ConfigurableBeeEntity) && !(entity instanceof SolitaryBeeEntity) ) {
+            String name = ProductiveBees.MODID + ":" + ((ProductiveBeeEntity) entity).getBeeName();
+            BeeIngredient configuredBee = BeeIngredientFactory.getIngredient(name).get();
+            if (configuredBee != null && configuredBee.isConfigurable()) {
+                CompoundNBT tag = new CompoundNBT();
+                entity.writeWithoutTypeId(tag);
+
+                ConfigurableBeeEntity newEntity = (ConfigurableBeeEntity) configuredBee.getBeeEntity().create(entity.world);
+                newEntity.read(tag);
+                newEntity.setBeeType(name);
+                return newEntity;
+            }
+        }
+        return entity;
     }
 
     public static class IdentifierInventory implements IInventory
