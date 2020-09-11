@@ -1,0 +1,11 @@
+{
+    "name": "Transferring Genes",
+    "icon": "minecraft:writable_book",
+    "category": "productivebees:genetics",
+    "pages": [
+        {
+            "type": "text",
+            "text": ""
+        }
+    ]
+}

@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.entity.bee.hive.ZombieBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.solitary.BlueBandedBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.setup.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -100,6 +101,7 @@ public final class ProductiveBees
 
     public void onCommonSetup(FMLCommonSetupEvent event) {
         CapabilityBee.register();
+        PacketHandler.init();
 
         DeferredWorkQueue.runLater(() -> {
             //Entity attribute assignments
@@ -150,7 +152,8 @@ public final class ProductiveBees
                 }
                 else if (category.equals(Biome.Category.NETHER)) {
                     biome.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, ModFeatures.GLOWSTONE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GLOWSTONE.getDefaultState(), ModBlocks.GLOWSTONE_NEST.get().getDefaultState())));
-                    biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ModFeatures.NETHER_QUARTZ_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_QUARTZ_ORE.getDefaultState(), ModBlocks.NETHER_QUARTZ_NEST.get().getDefaultState())));
+                    biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.NETHER_QUARTZ_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_QUARTZ_ORE.getDefaultState(), ModBlocks.NETHER_QUARTZ_NEST.get().getDefaultState())));
+                    biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.NETHER_QUARTZ_NEST_HIGH.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_QUARTZ_ORE.getDefaultState(), ModBlocks.NETHER_QUARTZ_NEST.get().getDefaultState())));
                     biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.NETHER_FORTRESS_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.NETHER_BRICKS.getDefaultState(), ModBlocks.NETHER_BRICK_NEST.get().getDefaultState())));
                 }
                 else if (category.equals(Biome.Category.RIVER) || category.equals(Biome.Category.BEACH)) {

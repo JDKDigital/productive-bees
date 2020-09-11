@@ -1,16 +1,17 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:aluminium_bee",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:aluminium",
     "results": [
         {
             "comb_produce": {
-                "tag": "forge:honeycombs/bauxite"
+                "item": "productivebees:configurable_honeycomb"
             },
             "item_produce": {
-                "tag": "forge:ingots/aluminum"
+                "tag": "forge:ingots/aluminium"
             },
-            "min": 1.0,
-            "max": 1.0
+            "min": 1,
+            "max": 1
         }
     ],
     "conditions": [
@@ -18,7 +19,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/aluminum"
+                "tag": "forge:ingots/aluminium"
             }
         }
     ]

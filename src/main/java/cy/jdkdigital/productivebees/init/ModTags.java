@@ -10,6 +10,7 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
 
 public class ModTags
 {
@@ -32,7 +33,8 @@ public class ModTags
     public static final INamedTag<Block> SNOW_FLOWERS = getTag("snow_flowers");
     public static final INamedTag<Block> RIVER_FLOWERS = getTag("river_flowers");
     public static final INamedTag<Block> GLOWING_FLOWERS = getTag("glowing_flowers");
-    public static final INamedTag<Block> NETHER_FLOWERS = getTag("nether_flowers");
+    public static final INamedTag<Block> MAGMATIC_FLOWERS = getTag("magmatic_flowers");
+    public static final INamedTag<Block> CRYSTALLINE_FLOWERS = getTag("crystalline_flowers");
     public static final INamedTag<Block> GILDED_FLOWERS = getTag("gilded_flowers");
     public static final INamedTag<Block> FERRIC_FLOWERS = getTag("ferric_flowers");
     public static final INamedTag<Block> END_FLOWERS = getTag("end_flowers");
@@ -44,9 +46,14 @@ public class ModTags
 
     public static final INamedTag<Fluid> HONEY = FluidTags.makeWrapperTag("forge:honey");
 
-    public static final INamedTag<EntityType<?>> RANCHABLES = EntityTypeTags.func_232896_a_(ProductiveBees.MODID + ":" + "ranchables");
+    public static final INamedTag<EntityType<?>> RANCHABLES = EntityTypeTags.func_232896_a_(ProductiveBees.MODID + ":ranchables");
+    public static final INamedTag<EntityType<?>> DEPRECATED_BEES = EntityTypeTags.func_232896_a_(ProductiveBees.MODID + ":deprecated_bees");
 
-    private static INamedTag<Block> getTag(String resourceLocation) {
-        return BlockTags.makeWrapperTag(ProductiveBees.MODID + ":" + resourceLocation);
+    public static INamedTag<Block> getTag(String name) {
+        return BlockTags.makeWrapperTag(ProductiveBees.MODID + ":" + name);
+    }
+
+    public static INamedTag<Block> getTag(ResourceLocation resourceLocation) {
+        return BlockTags.makeWrapperTag(resourceLocation.toString());
     }
 }

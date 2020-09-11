@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.*;
 import cy.jdkdigital.productivebees.entity.BeeBombEntity;
 import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.DeprecatedBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.*;
@@ -41,7 +42,6 @@ public class ModEntities
 
     public static RegistryObject<EntityType<BeeEntity>> IRON_BEE = createColoredHiveBee("iron_bee", IronBeeEntity::new, "#cdcdcd", "#804f40");
     public static RegistryObject<EntityType<BeeEntity>> GOLD_BEE = createColoredHiveBee("gold_bee", GoldBeeEntity::new, "#fffd6e", "#804f40");
-
     public static RegistryObject<EntityType<BeeEntity>> COAL_BEE = createColoredHiveBee("coal_bee", ProductiveBeeEntity::new, "#222525", "#804f40");
     public static RegistryObject<EntityType<BeeEntity>> REDSTONE_BEE = createColoredHiveBee("redstone_bee", ProductiveBeeEntity::new, "#d03621", "#804f40");
     public static RegistryObject<EntityType<BeeEntity>> LAPIS_BEE = createColoredHiveBee("lapis_bee", ProductiveBeeEntity::new, "#3537bc", "#804f40");
@@ -83,24 +83,25 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> RESIN_BEE = createSolitaryBee("resin_bee", ResinBeeEntity::new, 13939231, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> SWEATY_BEE = createSolitaryBee("sweaty_bee", SweatyBeeEntity::new, 9748939, 6238757);
 
-    public static RegistryObject<EntityType<BeeEntity>> ALUMINIUM_BEE = createColoredHiveBee("aluminium_bee", ProductiveBeeEntity::new, "#A4A6B1", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> AMBER_BEE = createColoredHiveBee("amber_bee", ProductiveBeeEntity::new, "#d2ab00", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> BRASS_BEE = createColoredHiveBee("brass_bee", ProductiveBeeEntity::new, "#DAAA4C", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> BRONZE_BEE = createColoredHiveBee("bronze_bee", ProductiveBeeEntity::new, "#C98C52", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> COPPER_BEE = createColoredHiveBee("copper_bee", ProductiveBeeEntity::new, "#F48702", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> ELECTRUM_BEE = createColoredHiveBee("electrum_bee", ProductiveBeeEntity::new, "#D5BB4F", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> INVAR_BEE = createColoredHiveBee("invar_bee", ProductiveBeeEntity::new, "#ADB7B2", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> LEAD_BEE = createColoredHiveBee("lead_bee", ProductiveBeeEntity::new, "#677193", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> NICKEL_BEE = createColoredHiveBee("nickel_bee", ProductiveBeeEntity::new, "#D8CC93", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> OSMIUM_BEE = createColoredHiveBee("osmium_bee", ProductiveBeeEntity::new, "#4c9db6", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> PLATINUM_BEE = createColoredHiveBee("platinum_bee", ProductiveBeeEntity::new, "#6FEAEF", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> RADIOACTIVE_BEE = createColoredHiveBee("radioactive_bee", ProductiveBeeEntity::new, "#60AE11", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> SILVER_BEE = createColoredHiveBee("silver_bee", ProductiveBeeEntity::new, "#A9DBE5", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> STEEL_BEE = createColoredHiveBee("steel_bee", ProductiveBeeEntity::new, "#737373", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> TIN_BEE = createColoredHiveBee("tin_bee", ProductiveBeeEntity::new, "#9ABDD6", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> TITANIUM_BEE = createColoredHiveBee("titanium_bee", ProductiveBeeEntity::new, "#D0D1DA", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> TUNGSTEN_BEE = createColoredHiveBee("tungsten_bee", ProductiveBeeEntity::new, "#616669", "#804f40");
-    public static RegistryObject<EntityType<BeeEntity>> ZINC_BEE = createColoredHiveBee("zinc_bee", ProductiveBeeEntity::new, "#E9EBE7", "#804f40");
+    // @deprecated
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> ALUMINIUM_BEE = createColoredHiveBee("aluminium_bee", DeprecatedBeeEntity::new, "#A4A6B1", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> AMBER_BEE = createColoredHiveBee("amber_bee", DeprecatedBeeEntity::new, "#d2ab00", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> BRASS_BEE = createColoredHiveBee("brass_bee", DeprecatedBeeEntity::new, "#DAAA4C", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> BRONZE_BEE = createColoredHiveBee("bronze_bee", DeprecatedBeeEntity::new, "#C98C52", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> COPPER_BEE = createColoredHiveBee("copper_bee", DeprecatedBeeEntity::new, "#F48702", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> ELECTRUM_BEE = createColoredHiveBee("electrum_bee", DeprecatedBeeEntity::new, "#D5BB4F", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> INVAR_BEE = createColoredHiveBee("invar_bee", DeprecatedBeeEntity::new, "#ADB7B2", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> LEAD_BEE = createColoredHiveBee("lead_bee", DeprecatedBeeEntity::new, "#677193", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> NICKEL_BEE = createColoredHiveBee("nickel_bee", DeprecatedBeeEntity::new, "#D8CC93", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> OSMIUM_BEE = createColoredHiveBee("osmium_bee", DeprecatedBeeEntity::new, "#4c9db6", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> PLATINUM_BEE = createColoredHiveBee("platinum_bee", DeprecatedBeeEntity::new, "#6FEAEF", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> RADIOACTIVE_BEE = createColoredHiveBee("radioactive_bee", DeprecatedBeeEntity::new, "#60AE11", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> SILVER_BEE = createColoredHiveBee("silver_bee", DeprecatedBeeEntity::new, "#A9DBE5", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> STEEL_BEE = createColoredHiveBee("steel_bee", DeprecatedBeeEntity::new, "#737373", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> TIN_BEE = createColoredHiveBee("tin_bee", DeprecatedBeeEntity::new, "#9ABDD6", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> TITANIUM_BEE = createColoredHiveBee("titanium_bee", DeprecatedBeeEntity::new, "#D0D1DA", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> TUNGSTEN_BEE = createColoredHiveBee("tungsten_bee", DeprecatedBeeEntity::new, "#616669", "#804f40");
+    public static RegistryObject<EntityType<DeprecatedBeeEntity>> ZINC_BEE = createColoredHiveBee("zinc_bee", DeprecatedBeeEntity::new, "#E9EBE7", "#804f40");
 
     public static RegistryObject<EntityType<ConfigurableBeeEntity>> CONFIGURABLE_BEE = createColoredHiveBee("configurable_bee", ConfigurableBeeEntity::new, "#73ffb9", "#0f5c7a");
 

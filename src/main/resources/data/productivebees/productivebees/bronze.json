@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#C98C52",
+    "secondaryColor": "#804f40",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/bronze"
+            }
+        }
+    ]
+}

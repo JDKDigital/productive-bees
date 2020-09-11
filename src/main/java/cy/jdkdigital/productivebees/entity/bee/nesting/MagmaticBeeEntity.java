@@ -22,7 +22,7 @@ public class MagmaticBeeEntity extends EffectHiveBeeEntity
 
     public MagmaticBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
-        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.NETHER_FLOWERS);
+        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.MAGMATIC_FLOWERS);
         beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.NETHER_BRICK_NESTS);
         beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<Effect, Integer>() {{
             put(Effects.FIRE_RESISTANCE, 400);

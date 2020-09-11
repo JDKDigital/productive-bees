@@ -44,6 +44,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final ResourceLocation CATEGORY_BEE_SPAWNING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_spawning");
     public static final ResourceLocation CATEGORY_BEE_SPAWNING_BIG_UID = new ResourceLocation(ProductiveBees.MODID, "bee_spawning_big");
     public static final ResourceLocation CATEGORY_CENTRIFUGE_UID = new ResourceLocation(ProductiveBees.MODID, "centrifuge");
+    public static final ResourceLocation CATEGORY_BEE_FLOWERING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_flowering");
 
     public static final IIngredientType<BeeIngredient> BEE_INGREDIENT = () -> BeeIngredient.class;
 
@@ -77,6 +78,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCategories(new CentrifugeRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeBigCategory(guiHelper));
+        registration.addRecipeCategories(new BeeFloweringRecipeCategory(guiHelper));
     }
 
     @Override
@@ -114,9 +116,10 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         Map<ResourceLocation, IRecipe<IInventory>> beeConversionRecipeMap = recipeManager.getRecipes(BeeConversionRecipe.BEE_CONVERSION);
         registration.addRecipes(beeConversionRecipeMap.values(), CATEGORY_BEE_CONVERSION_UID);
 
-        // Bee ingredient descriptions
+        // Bee ingredient descriptions and flowering requirements
         List<String> notInfoBees = Arrays.asList("minecraft:bee", "configurable_bee", "aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");
-        for (Map.Entry<String, BeeIngredient> entry : BeeIngredientFactory.getOrCreateList().entrySet()) {
+        Map<String, BeeIngredient> beeList = BeeIngredientFactory.getOrCreateList();
+        for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             String beeId = entry.getKey().replace("productivebees:", "");
             if (!notInfoBees.contains(beeId)) {
                 if (entry.getValue().isConfigurable()) {
@@ -128,7 +131,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                     registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (beeId));
                 }
             }
+
         }
+        registration.addRecipes(BeeFloweringRecipeCategory.getFlowersRecipes(beeList), CATEGORY_BEE_FLOWERING_UID);
 
         List<String> itemInfos = Arrays.asList("inactive_dragon_egg", "sand_nest", "snow_nest", "gravel_nest", "coarse_dirt_nest", "oak_wood_nest", "spruce_wood_nest", "acacia_wood_nest", "dark_oak_wood_nest", "jungle_wood_nest", "birch_wood_nest", "end_stone_nest", "obsidian_nest", "glowstone_nest", "nether_brick_nest", "nether_quartz_nest");
         for (String itemName: itemInfos) {
