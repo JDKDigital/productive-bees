@@ -1,16 +1,17 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:lead_bee",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:lead",
     "results": [
         {
             "comb_produce": {
-                "tag": "forge:honeycombs/leaden"
+                "item": "productivebees:configurable_honeycomb"
             },
             "item_produce": {
                 "tag": "forge:ingots/lead"
             },
-            "min": 1.0,
-            "max": 1.0
+            "min": 1,
+            "max": 1
         }
     ],
     "conditions": [

@@ -33,6 +33,9 @@ public class BeeIngredient
         return bee;
     }
 
+    /**
+     * productivebees:osmium, prouctivebees:iron_bee
+     */
     public ResourceLocation getBeeType() {
         return beeType != null ? beeType : bee.getRegistryName();
     }
@@ -44,12 +47,14 @@ public class BeeIngredient
     public static BeeIngredient read(PacketBuffer buffer) {
         String beeName = buffer.readString();
 
-        return new BeeIngredient((EntityType<? extends BeeEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readInt());
+        return new BeeIngredient((EntityType<? extends BeeEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readResourceLocation(), buffer.readInt(), buffer.readBoolean());
     }
 
     public final void write(PacketBuffer buffer) {
-        buffer.writeString("" + this.bee.getRegistryName());
-        buffer.writeInt(this.renderType);
+        buffer.writeString("" + bee.getRegistryName());
+        buffer.writeResourceLocation(beeType);
+        buffer.writeInt(renderType);
+        buffer.writeBoolean(configurable);
     }
 
     @Override

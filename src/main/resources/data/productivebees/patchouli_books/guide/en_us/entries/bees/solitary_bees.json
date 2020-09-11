@@ -1,0 +1,19 @@
+{
+    "name": "Solitary Bees",
+    "icon": "minecraft:writable_book",
+    "category": "productivebees:bees",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Solitary bees can be found spawning from solitary nests in the overworld. Nests are generated during world gen or can be crafted and placec in the world manually. Each nest will spawn it's own variety of solitary bees and some of them need to be placed in specific biomes. Most solitary bees will not live in hives and do not produce any combs, but they have useful genetics for breeding."
+        },
+        {
+            "type": "text",
+            "text": "Bees found in nether or end nests will live in hives.$(br2)Empty nests will attract a solitary bee after a while as long as the nest is in the correct biome and loaded.$(br2)Solitary bees lay eggs in their nest each time they return with nectar from flowers. Once a nest has 3 eggs, the parent bee die and the eggs will hatch with new fresh child bees."
+        },
+        {
+            "type": "text",
+            "text": "Some solitary bees can only be obtained this way as they are so called cuckoo bees that lay their eggs in other bees nests."
+        }
+    ]
+}

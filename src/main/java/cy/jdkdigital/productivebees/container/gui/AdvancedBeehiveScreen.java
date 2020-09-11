@@ -25,7 +25,6 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.fml.ModList;
 
 import java.util.ArrayList;

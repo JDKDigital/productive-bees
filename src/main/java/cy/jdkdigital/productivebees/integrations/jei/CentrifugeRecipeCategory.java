@@ -11,6 +11,8 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -18,6 +20,7 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecipe>
@@ -86,17 +89,32 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         itemStacks.init(0, true, 4, 26);
 
         int startX = 68;
-        int startY = 8;
+        int startY = 26;
         if (ingredients.getOutputs(VanillaTypes.ITEM).size() > 0) {
             List<List<ItemStack>> outputs = ingredients.getOutputs(VanillaTypes.ITEM);
             int offset = ingredients.getInputs(VanillaTypes.ITEM).size();
             IntStream.range(0, outputs.size()).forEach((i) -> {
-                if (i > 9 + offset) {
+                if (i > 3 + offset) {
                     return;
                 }
                 itemStacks.init(i + offset, false, startX + (i * 18), startY + ((int) Math.floor(((float) i) / 3.0F) * 18));
             });
         }
         itemStacks.set(ingredients);
+    }
+
+    @Override
+    public void draw(CentrifugeRecipe recipe, double mouseX, double mouseY) {
+        FontRenderer font = Minecraft.getInstance().fontRenderer;
+
+        AtomicInteger i = new AtomicInteger();
+        recipe.getRecipeOutputs().forEach((stack, value) -> {
+            int chance = value.get(2).getInt();
+            if (chance < 100) {
+                String text = chance < 1 ? "<1%" : chance + "%";
+                font.drawString(text, 68 + 19 * i.get(), 27 + 18, 16777215);
+                i.getAndIncrement();
+            }
+        });
     }
 }

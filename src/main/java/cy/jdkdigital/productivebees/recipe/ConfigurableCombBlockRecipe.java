@@ -8,10 +8,8 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -81,13 +79,13 @@ public class ConfigurableCombBlockRecipe implements ICraftingRecipe
         return new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), count);
     }
 
-    @Nonnull
-    @Override
-    public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> nonnulllist = NonNullList.create();
-        nonnulllist.add(Ingredient.fromItems(ModItems.CONFIGURABLE_COMB_BLOCK.get()));
-        return nonnulllist;
-    }
+//    @Nonnull
+//    @Override
+//    public NonNullList<Ingredient> getIngredients() {
+//        NonNullList<Ingredient> nonnulllist = NonNullList.create();
+//        nonnulllist.add(Ingredient.fromItems(ModItems.CONFIGURABLE_COMB_BLOCK.get()));
+//        return nonnulllist;
+//    }
 
     @Nonnull
     @Override

@@ -4,6 +4,8 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.entity.bee.hive.RancherBeeEntity;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
+import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -346,14 +348,24 @@ public class ProductiveBeeEntity extends BeeEntity
         public PollinateGoal() {
             super();
             this.flowerPredicate = (blockState) -> {
-                ITag<Block> interests = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.FOOD_SOURCE);
-                boolean isInterested = blockState.getBlock().isIn(interests);
-                if (isInterested && blockState.getBlock().isIn(BlockTags.TALL_FLOWERS)) {
-                    if (blockState.getBlock() == Blocks.SUNFLOWER) {
-                        return blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
+                boolean isInterested = false;
+                ITag<Block> interests;
+                if (ProductiveBeeEntity.this instanceof ConfigurableBeeEntity) {
+                    CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(((ConfigurableBeeEntity) ProductiveBeeEntity.this).getBeeType()));
+                    if (nbt != null && nbt.contains("flowerTag")) {
+                        interests = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
+                    } else {
+                        interests = BlockTags.FLOWERS;
                     }
-                    else {
-                        return true;
+                } else {
+                    interests = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.FOOD_SOURCE);
+                }
+                if (interests != null) {
+                    isInterested = blockState.isIn(interests);
+                    if (isInterested && blockState.isIn(BlockTags.TALL_FLOWERS)) {
+                        if (blockState.getBlock() == Blocks.SUNFLOWER) {
+                            isInterested = blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
+                        }
                     }
                 }
                 return isInterested;

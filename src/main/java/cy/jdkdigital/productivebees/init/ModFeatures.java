@@ -24,7 +24,8 @@ public class ModFeatures
     public static final RegistryObject<Feature<ReplaceBlockConfig>> SLIMY_NEST = register("slimy_nest", () -> new SolitaryNestFeature(0.10F, ReplaceBlockConfig.field_236604_a_, true));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> SUGAR_CANE_NEST = register("sugar_cane_nest", () -> new ReedSolitaryNestFeature(0.70F, ReplaceBlockConfig.field_236604_a_));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> GLOWSTONE_NEST = register("glowstone_nest", () -> new CavernSolitaryNestFeature(0.90F, ReplaceBlockConfig.field_236604_a_));
-    public static final RegistryObject<Feature<ReplaceBlockConfig>> NETHER_QUARTZ_NEST = register("nether_quartz_nest", () -> new OreSolitaryNestFeature(1.00F, ReplaceBlockConfig.field_236604_a_, 10, 128));
+    public static final RegistryObject<Feature<ReplaceBlockConfig>> NETHER_QUARTZ_NEST = register("nether_quartz_nest", () -> new OreSolitaryNestFeature(0.50F, ReplaceBlockConfig.field_236604_a_, 10, 70));
+    public static final RegistryObject<Feature<ReplaceBlockConfig>> NETHER_QUARTZ_NEST_HIGH = register("nether_quartz_nest_high", () -> new OreSolitaryNestFeature(1.00F, ReplaceBlockConfig.field_236604_a_, 70, 100));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> NETHER_FORTRESS_NEST = register("nether_fortress_nest", () -> new StructureSolitaryNestFeature(0.90F, ReplaceBlockConfig.field_236604_a_, 35));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> END_NEST = register("end_nest", () -> new SolitaryNestFeature(0.15F, ReplaceBlockConfig.field_236604_a_));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> OBSIDIAN_PILLAR_NEST = register("obsidian_pillar_nest", () -> new StructureSolitaryNestFeature(1.00F, ReplaceBlockConfig.field_236604_a_, 25));

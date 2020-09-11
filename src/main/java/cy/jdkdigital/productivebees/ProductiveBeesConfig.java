@@ -72,7 +72,7 @@ public class ProductiveBeesConfig
 
             nestRepopulationCooldown = builder
                     .comment("Cooldown for when an abandoned nest will spawn a new inhabitant")
-                    .defineInRange("nestRepopulationCooldown", 36000, 20, Integer.MAX_VALUE);
+                    .defineInRange("nestRepopulationCooldown", 3600, 20, Integer.MAX_VALUE);
 
             preferredTagSource = builder
                     .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from. Eg: mekanism,silents_mekanism,immersiveengineering")

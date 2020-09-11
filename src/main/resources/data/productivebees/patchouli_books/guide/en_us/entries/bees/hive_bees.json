@@ -1,0 +1,15 @@
+{
+    "name": "Hive Bees",
+    "icon": "minecraft:writable_book",
+    "category": "productivebees:bees",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Hive bees, like the vanilla bee, lives in hives and produce honey and resources. They have to live in advanced hives to produce resource combs. Most hive bees are bred from solitary bees and other hive bees but some are made by giving a specific item to a bee. All bee recipes can be found in JEI."
+        },
+        {
+            "type": "text",
+            "text": "Each hive bee has it's own particular flower need in order to produce resources. For instance, an Iron Bee needs something made of iron nearby it's hive. All flowering requirements can be found with JEI."
+        }
+    ]
+}

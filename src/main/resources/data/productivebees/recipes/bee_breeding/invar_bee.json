@@ -3,7 +3,7 @@
     "parent1": "productivebees:iron_bee",
     "parent2": "productivebees:nickel_bee",
     "offspring": [
-        "productivebees:invar_bee"
+        "productivebees:invar"
     ],
     "breeding_items": [
         {
@@ -19,6 +19,13 @@
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:ingots/nickel"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/invar"
             }
         }
     ]

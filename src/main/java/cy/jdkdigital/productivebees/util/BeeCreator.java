@@ -20,6 +20,9 @@ public class BeeCreator
         if (json.has("description")) {
             data.putString("description", json.get("description").getAsString());
         }
+        if (json.has("flowerTag")) {
+            data.putString("flowerTag", json.get("flowerTag").getAsString());
+        }
 
         return data;
     }

@@ -3,11 +3,11 @@
     "parent1": "productivebees:quartz_bee",
     "parent2": "productivebees:resin_bee",
     "offspring": [
-        "productivebees:amber_bee"
+        "productivebees:amber"
     ],
     "breeding_items": [
         {
-            "tag": "minecraft:flowers"
+            "item": "minecraft:quartz"
         },
         {
             "tag": "forge:gems/amber"
