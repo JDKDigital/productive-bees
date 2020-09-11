@@ -2,10 +2,7 @@
     "replace": false,
     "values": [
         "minecraft:quartz_block",
-        "minecraft:quartz_bricks",
         "minecraft:quartz_pillar",
-        "minecraft:quartz_slap",
-        "minecraft:quartz_stairs",
         "minecraft:nether_quartz_ore"
     ]
 }

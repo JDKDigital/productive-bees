@@ -3,7 +3,7 @@
     "parent1": "productivebees:iron_bee",
     "parent2": "productivebees:coal_bee",
     "offspring": [
-        "productivebees:steel_bee"
+        "productivebees:steel"
     ],
     "breeding_items": [
         {

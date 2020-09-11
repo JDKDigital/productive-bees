@@ -65,9 +65,13 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.getBee()));
 
         List<ItemStack> stacks = new ArrayList<>();
-        for (Block block: recipe.blockTag.getAllElements() ) {
-            ItemStack item = new ItemStack(block.asItem());
-            stacks.add(item);
+        try {
+            for (Block block: recipe.blockTag.getAllElements() ) {
+                ItemStack item = new ItemStack(block.asItem());
+                stacks.add(item);
+            }
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.error("Failed to find flowering requirements for " + recipe.getBee());
         }
         List<List<ItemStack>> items = new ArrayList<>();
         items.add(stacks);
@@ -115,7 +119,8 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 if (nbt.contains("flowerTag")) {
                     blockTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
                 }
-            } else {
+            }
+            else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
                 blockTag = flowering.get(entry.getValue().getBeeType().toString());
             }
 

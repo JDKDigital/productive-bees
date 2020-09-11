@@ -81,13 +81,13 @@ public class ConfigurableCombBlockRecipe implements ICraftingRecipe
         return new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), count);
     }
 
-    @Nonnull
-    @Override
-    public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> nonnulllist = NonNullList.create();
-        nonnulllist.add(Ingredient.fromItems(ModItems.CONFIGURABLE_COMB_BLOCK.get()));
-        return nonnulllist;
-    }
+//    @Nonnull
+//    @Override
+//    public NonNullList<Ingredient> getIngredients() {
+//        NonNullList<Ingredient> nonnulllist = NonNullList.create();
+//        nonnulllist.add(Ingredient.fromItems(ModItems.CONFIGURABLE_COMB_BLOCK.get()));
+//        return nonnulllist;
+//    }
 
     @Nonnull
     @Override

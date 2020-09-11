@@ -1,0 +1,35 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "item": "productivebees:configurable_honeycomb"
+    },
+    "comb_type": "productivebees:aluminium",
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:ingots/aluminum"
+            },
+            "min": 1,
+            "max": 1,
+            "chance": 90
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/aluminum"
+            }
+        },
+        {
+            "type": "forge:tag_empty",
+            "tag": "forge:dusts/aluminium"
+        }
+    ]
+}

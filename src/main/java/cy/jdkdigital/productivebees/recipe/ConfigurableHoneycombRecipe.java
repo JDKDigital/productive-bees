@@ -64,9 +64,6 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
             ItemStack inStack = stacks.get(0);
 
             ItemStack outStack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-            if (inStack.getItem().equals(ModItems.CONFIGURABLE_COMB_BLOCK.get())) {
-                outStack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), count);
-            }
 
             outStack.setTag(inStack.getTag());
 
@@ -100,7 +97,9 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
     @Override
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> nonnulllist = NonNullList.create();
-        nonnulllist.add(Ingredient.fromStacks(new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), count)));
+        for (int i = 0; i < count; i++) {
+            nonnulllist.add(Ingredient.fromStacks(new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get())));
+        }
         return nonnulllist;
     }
 

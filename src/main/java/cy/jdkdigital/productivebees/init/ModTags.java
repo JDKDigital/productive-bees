@@ -42,6 +42,7 @@ public class ModTags
     public static final Tag<Fluid> HONEY = FluidTags.getCollection().getOrCreate(new ResourceLocation("forge", "honey"));
 
     public static final Tag<EntityType<?>> RANCHABLES = EntityTypeTags.getCollection().getOrCreate(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
+    public static final Tag<EntityType<?>> DEPRECATED_BEES = EntityTypeTags.getCollection().getOrCreate(new ResourceLocation(ProductiveBees.MODID, "deprecated_bees"));
 
     public static Tag<Block> getTag(String name) {
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));

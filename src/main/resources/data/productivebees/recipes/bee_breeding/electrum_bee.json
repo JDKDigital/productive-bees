@@ -3,7 +3,7 @@
     "parent1": "productivebees:gold_bee",
     "parent2": "productivebees:silver_bee",
     "offspring": [
-        "productivebees:electrum_bee"
+        "productivebees:electrum"
     ],
     "breeding_items": [
         {
@@ -14,6 +14,13 @@
         }
     ],
     "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/silver"
+            }
+        },
         {
             "type": "forge:not",
             "value": {

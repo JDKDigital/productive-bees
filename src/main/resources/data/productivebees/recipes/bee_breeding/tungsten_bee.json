@@ -3,7 +3,7 @@
     "parent1": "productivebees:ender_bee",
     "parent2": "productivebees:coal_bee",
     "offspring": [
-        "productivebees:tungsten_bee"
+        "productivebees:tungsten"
     ],
     "breeding_items": [
         {

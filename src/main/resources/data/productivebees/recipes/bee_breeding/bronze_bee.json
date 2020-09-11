@@ -3,7 +3,7 @@
     "parent1": "productivebees:copper_bee",
     "parent2": "productivebees:tin_bee",
     "offspring": [
-        "productivebees:bronze_bee"
+        "productivebees:bronze"
     ],
     "breeding_items": [
         {
@@ -14,6 +14,20 @@
         }
     ],
     "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/copper"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/tin"
+            }
+        },
         {
             "type": "forge:not",
             "value": {
