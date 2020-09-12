@@ -48,7 +48,6 @@ public class BeeReloadListener extends JsonReloadListener
 
             ProductiveBees.LOGGER.debug("Adding to bee data " + id);
         }
-        PacketHandler.sendToAllPlayers(new BeesMessage(BeeReloadListener.INSTANCE.getData()));
         profiler.endStartSection("BeeReloadListener");
     }
 

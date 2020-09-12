@@ -47,11 +47,4 @@ public class EventHandler
             }
         }
     }
-
-    @SubscribeEvent
-    public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if (!event.getWorld().isRemote && event.getEntity() instanceof ServerPlayerEntity) {
-            PacketHandler.sendToPlayer(new BeesMessage(BeeReloadListener.INSTANCE.getData()), (ServerPlayerEntity) event.getEntity());
-        }
-    }
 }

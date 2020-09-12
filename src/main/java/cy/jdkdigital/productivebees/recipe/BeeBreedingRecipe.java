@@ -150,7 +150,8 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                 for (Lazy<BeeIngredient> ingredient : recipe.ingredients) {
                     if (ingredient.get() != null) {
                         ingredient.get().write(buffer);
-                    } else {
+                    }
+                    else {
                         ProductiveBees.LOGGER.error("Bee breeding recipe ingredient missing " + recipe.getId() + " - " + ingredient);
                     }
                 }

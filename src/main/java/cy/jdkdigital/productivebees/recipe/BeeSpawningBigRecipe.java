@@ -7,6 +7,7 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.Lazy;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -15,7 +16,7 @@ public class BeeSpawningBigRecipe extends BeeSpawningRecipe
 {
     public static final IRecipeType<BeeSpawningBigRecipe> BEE_SPAWNING = IRecipeType.register(ProductiveBees.MODID + ":bee_spawning_big");
 
-    public BeeSpawningBigRecipe(ResourceLocation id, Ingredient ingredient, List<BeeIngredient> output, int repopulationCooldown) {
+    public BeeSpawningBigRecipe(ResourceLocation id, Ingredient ingredient, List<Lazy<BeeIngredient>> output, int repopulationCooldown) {
         super(id, ingredient, output, repopulationCooldown);
     }
 

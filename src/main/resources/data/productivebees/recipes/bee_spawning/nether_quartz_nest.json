@@ -8,5 +8,5 @@
             "bee": "productivebees:quartz_bee"
         }
     ],
-    "repopulation_cooldown": 36000
+    "repopulation_cooldown": 24000
 }

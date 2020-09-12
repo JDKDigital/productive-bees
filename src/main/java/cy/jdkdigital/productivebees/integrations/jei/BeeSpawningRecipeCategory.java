@@ -15,6 +15,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.Lazy;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -85,7 +86,11 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
     @Override
     public void setIngredients(BeeSpawningRecipe recipe, IIngredients ingredients) {
         ingredients.setInputIngredients(Lists.newArrayList(recipe.ingredient));
-        ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.output);
+        List<BeeIngredient> ingredientList = new ArrayList<>();
+        for (Lazy<BeeIngredient> lazyIng: recipe.output) {
+            ingredientList.add(lazyIng.get());
+        }
+        ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, ingredientList);
     }
 
     @Override

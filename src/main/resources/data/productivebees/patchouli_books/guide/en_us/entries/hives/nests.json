@@ -1,0 +1,11 @@
+{
+    "name": "Nests",
+    "icon": "minecraft:writable_book",
+    "category": "productivebees:hives",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Nests can be found scattered around the world and will each be the home of 1 solitary bee. Nests can be picked up with the bee inside by breaking it, no need to silk touch. To clear a nest of it's bee and any eggs you simply need to craft it with itself."
+        }
+    ]
+}

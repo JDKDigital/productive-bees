@@ -6,7 +6,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/aluminium"
+                "tag": "forge:ingots/aluminum"
             }
         }
     ]

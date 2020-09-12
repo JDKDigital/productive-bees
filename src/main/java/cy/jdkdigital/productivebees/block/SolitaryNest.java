@@ -42,7 +42,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
         if (recipe instanceof BeeSpawningRecipe) {
             BeeSpawningRecipe spawningRecipe = (BeeSpawningRecipe) recipe;
-            BeeIngredient bee = spawningRecipe.output.get(world.rand.nextInt(spawningRecipe.output.size()));
+            BeeIngredient bee = spawningRecipe.output.get(world.rand.nextInt(spawningRecipe.output.size())).get();
             return bee.getBeeEntity();
         }
         ProductiveBees.LOGGER.info("No bee spawning recipe found for " + id);
