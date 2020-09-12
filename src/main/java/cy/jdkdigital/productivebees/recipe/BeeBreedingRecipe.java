@@ -160,8 +160,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                 recipe.offspring.forEach((child) -> {
                     if (child.get() != null) {
                         child.get().write(buffer);
-                    }
-                    else {
+                    } else {
                         ProductiveBees.LOGGER.error("Bee breeding recipe child missing " + recipe.getId() + " - " + child);
                     }
                 });

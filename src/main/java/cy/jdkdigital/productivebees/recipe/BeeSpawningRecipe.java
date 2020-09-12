@@ -16,6 +16,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -29,10 +30,10 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
 
     public final ResourceLocation id;
     public final Ingredient ingredient;
-    public final List<BeeIngredient> output;
+    public final List<Lazy<BeeIngredient>> output;
     public final int repopulationCooldown;
 
-    public BeeSpawningRecipe(ResourceLocation id, Ingredient ingredient, List<BeeIngredient> output, int repopulationCooldown) {
+    public BeeSpawningRecipe(ResourceLocation id, Ingredient ingredient, List<Lazy<BeeIngredient>> output, int repopulationCooldown) {
         this.id = id;
         this.ingredient = ingredient;
         this.output = output;
@@ -99,11 +100,12 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
             }
 
             JsonArray jsonArray = JSONUtils.getJsonArray(json, "results");
-            List<BeeIngredient> output = new ArrayList<>();
+            List<Lazy<BeeIngredient>> output = new ArrayList<>();
             jsonArray.forEach(el -> {
                 JsonObject jsonObject = el.getAsJsonObject();
                 String beeName = JSONUtils.getString(jsonObject, "bee");
-                output.add(BeeIngredientFactory.getOrCreateList().get(beeName));
+                Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
+                output.add(beeIngredient);
             });
 
             int repopulationCooldown = JSONUtils.getInt(json, "repopulation_cooldown", 36000);
@@ -115,9 +117,12 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
             try {
                 Ingredient ingredient = Ingredient.read(buffer);
 
-                List<BeeIngredient> output = new ArrayList<>();
+                List<Lazy<BeeIngredient>> output = new ArrayList<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                        i -> output.add(BeeIngredient.read(buffer))
+                    i -> {
+                        BeeIngredient ing = BeeIngredient.read(buffer);
+                        output.add(Lazy.of(() -> ing));
+                    }
                 );
 
                 int repopulationCooldown = buffer.readInt();
@@ -134,8 +139,12 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
                 recipe.ingredient.write(buffer);
 
                 buffer.writeInt(recipe.output.size());
-                for (BeeIngredient beeOutput : recipe.output) {
-                    beeOutput.write(buffer);
+                for (Lazy<BeeIngredient> beeOutput : recipe.output) {
+                    if (beeOutput.get() != null) {
+                        beeOutput.get().write(buffer);
+                    } else {
+                        ProductiveBees.LOGGER.error("Bee spawning recipe output missing " + recipe.getId() + " - " + beeOutput);
+                    }
                 }
 
                 buffer.writeInt(recipe.repopulationCooldown);
@@ -147,7 +156,7 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends BeeSpawningRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, List<BeeIngredient> output, int repopulationCooldown);
+            T create(ResourceLocation id, Ingredient input, List<Lazy<BeeIngredient>> output, int repopulationCooldown);
         }
     }
 }

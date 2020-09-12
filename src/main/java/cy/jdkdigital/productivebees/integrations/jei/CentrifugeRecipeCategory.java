@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
@@ -104,7 +105,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
     }
 
     @Override
-    public void draw(CentrifugeRecipe recipe, double mouseX, double mouseY) {
+    public void draw(CentrifugeRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
         FontRenderer font = Minecraft.getInstance().fontRenderer;
 
         AtomicInteger i = new AtomicInteger();
@@ -112,7 +113,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
             int chance = value.get(2).getInt();
             if (chance < 100) {
                 String text = chance < 1 ? "<1%" : chance + "%";
-                font.drawString(text, 68 + 19 * i.get(), 27 + 18, 16777215);
+                font.drawString(matrixStack, text, 68 + 19 * i.get(), 27 + 18, 16777215);
                 i.getAndIncrement();
             }
         });

@@ -25,6 +25,7 @@ public class PacketHandler
     }
 
     public static void sendToPlayer(BeesMessage message, ServerPlayerEntity player) {
+        ProductiveBees.LOGGER.info("sending bee list to " + player.getDisplayName());
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
     }
 

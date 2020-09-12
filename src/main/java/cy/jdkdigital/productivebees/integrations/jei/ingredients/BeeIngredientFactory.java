@@ -34,8 +34,12 @@ public class BeeIngredientFactory
             // Add hive bees
             for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
                 EntityType<? extends BeeEntity> bee = (EntityType<? extends BeeEntity>) registryObject.get();
-                if (bee.isContained(ModTags.DEPRECATED_BEES)) {
-                    continue;
+                try {
+                    if (bee.isContained(ModTags.DEPRECATED_BEES)) {
+                        continue;
+                    }
+                } catch (Exception e) {
+                    // ignore
                 }
                 addBee(bee.getRegistryName().toString(), new BeeIngredient(bee, 0));
             }
