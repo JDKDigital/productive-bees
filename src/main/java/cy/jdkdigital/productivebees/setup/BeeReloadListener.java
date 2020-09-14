@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.network.PacketHandler;
+import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.nbt.CompoundNBT;
@@ -43,6 +45,12 @@ public class BeeReloadListener extends JsonReloadListener
 
             BEE_DATA.remove(id);
             BEE_DATA.put(id, nbt);
+
+            try {
+                PacketHandler.sendToAllPlayers(new Messages.BeesMessage(BeeReloadListener.INSTANCE.getData()));
+            } catch (Exception e) {
+                // ignore on server lad when the server is not ready to send messages
+            }
 
             ProductiveBees.LOGGER.debug("Adding to bee data " + id);
         }
