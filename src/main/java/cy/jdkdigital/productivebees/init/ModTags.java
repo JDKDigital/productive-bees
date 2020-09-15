@@ -47,7 +47,6 @@ public class ModTags
     public static final INamedTag<Fluid> HONEY = FluidTags.makeWrapperTag("forge:honey");
 
     public static final INamedTag<EntityType<?>> RANCHABLES = EntityTypeTags.func_232896_a_(ProductiveBees.MODID + ":ranchables");
-    public static final INamedTag<EntityType<?>> DEPRECATED_BEES = EntityTypeTags.func_232896_a_(ProductiveBees.MODID + ":deprecated_bees");
 
     public static INamedTag<Block> getTag(String name) {
         return BlockTags.makeWrapperTag(ProductiveBees.MODID + ":" + name);

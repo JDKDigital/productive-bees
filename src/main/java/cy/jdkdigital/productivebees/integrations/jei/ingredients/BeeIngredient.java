@@ -52,7 +52,7 @@ public class BeeIngredient
 
     public final void write(PacketBuffer buffer) {
         buffer.writeString("" + bee.getRegistryName());
-        buffer.writeResourceLocation(beeType);
+        buffer.writeResourceLocation(getBeeType());
         buffer.writeInt(renderType);
         buffer.writeBoolean(configurable);
     }

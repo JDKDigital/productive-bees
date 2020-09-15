@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:copper_bee",
-    "parent2": "productivebees:zinc_bee",
+    "parent1": "productivebees:copper",
+    "parent2": "productivebees:zinc",
     "offspring": [
         "productivebees:brass"
     ],
