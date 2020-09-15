@@ -18,7 +18,7 @@ import java.util.function.Function;
 
 public class TopPlugin implements Function<ITheOneProbe, Void>
 {
-    ITextComponent formattedName = new StringTextComponent("Productive Bees").applyTextStyle(TextFormatting.BLUE).applyTextStyle(TextFormatting.ITALIC);
+    ITextComponent formattedName = new StringTextComponent("Productive Bees").mergeStyle(TextFormatting.BLUE).mergeStyle(TextFormatting.ITALIC);
 
     @Nullable
     @Override
