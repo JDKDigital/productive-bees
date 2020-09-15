@@ -83,7 +83,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerIngredients(IModIngredientRegistration registration) {
-        registration.register(BEE_INGREDIENT, new ArrayList<>(BeeIngredientFactory.getOrCreateList().values()), new BeeIngredientHelper(), new BeeIngredientRenderer());
+        registration.register(BEE_INGREDIENT, new ArrayList<>(BeeIngredientFactory.getOrCreateList(true).values()), new BeeIngredientHelper(), new BeeIngredientRenderer());
     }
 
     @Override
@@ -116,8 +116,8 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         Map<ResourceLocation, IRecipe<IInventory>> beeConversionRecipeMap = recipeManager.getRecipes(BeeConversionRecipe.BEE_CONVERSION);
         registration.addRecipes(beeConversionRecipeMap.values(), CATEGORY_BEE_CONVERSION_UID);
 
-        // Bee ingredient descriptions and flowering requirements
-        List<String> notInfoBees = Arrays.asList("minecraft:bee", "configurable_bee", "aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");
+        // Bee ingredient descriptions
+        List<String> notInfoBees = Arrays.asList("minecraft:bee", "configurable_bee", "aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "electrum_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");
         Map<String, BeeIngredient> beeList = BeeIngredientFactory.getOrCreateList();
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             String beeId = entry.getKey().replace("productivebees:", "");
@@ -133,6 +133,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             }
 
         }
+        // Bee flowering requirements
         registration.addRecipes(BeeFloweringRecipeCategory.getFlowersRecipes(beeList), CATEGORY_BEE_FLOWERING_UID);
 
         List<String> itemInfos = Arrays.asList("inactive_dragon_egg", "sand_nest", "snow_nest", "gravel_nest", "coarse_dirt_nest", "oak_wood_nest", "spruce_wood_nest", "acacia_wood_nest", "dark_oak_wood_nest", "jungle_wood_nest", "birch_wood_nest", "end_stone_nest", "obsidian_nest", "glowstone_nest", "nether_brick_nest", "nether_quartz_nest");
