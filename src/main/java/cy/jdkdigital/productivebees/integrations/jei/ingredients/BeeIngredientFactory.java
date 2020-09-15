@@ -10,13 +10,31 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
 public class BeeIngredientFactory
 {
     private static Map<String, BeeIngredient> ingredientList = new HashMap<>();
+
+    public static Map<String, BeeIngredient> getOrCreateList(boolean removeDeprecated) {
+        Map<String, BeeIngredient> list = new HashMap<>();
+        if (removeDeprecated) {
+            List<String> excludedBees = Arrays.asList("configurable_bee", "aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "electrum_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");
+            for (Map.Entry<String, BeeIngredient> entry : createList().entrySet()) {
+                String beeId = entry.getKey().replace("productivebees:", "");
+                if (!excludedBees.contains(beeId)) {
+                    list.put(entry.getKey(), entry.getValue());
+                }
+            }
+        } else {
+            list = createList();
+        }
+        return list;
+    }
 
     public static Map<String, BeeIngredient> getOrCreateList() {
         return createList();
@@ -34,13 +52,6 @@ public class BeeIngredientFactory
             // Add hive bees
             for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
                 EntityType<? extends BeeEntity> bee = (EntityType<? extends BeeEntity>) registryObject.get();
-                try {
-                    if (bee.isContained(ModTags.DEPRECATED_BEES)) {
-                        continue;
-                    }
-                } catch (Exception e) {
-                    // ignore
-                }
                 addBee(bee.getRegistryName().toString(), new BeeIngredient(bee, 0));
             }
 
