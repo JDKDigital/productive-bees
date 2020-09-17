@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_breeding",
     "parent1": "productivebees:ender_bee",
-    "parent2": "productivebees:coal_bee",
+    "parent2": "productivebees:coal",
     "offspring": [
         "productivebees:tungsten"
     ],

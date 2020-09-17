@@ -1,6 +1,6 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:iron_bee",
+    "parent1": "productivebees:iron",
     "parent2": "productivebees:blue_banded_bee",
     "offspring": [
         "productivebees:lead"

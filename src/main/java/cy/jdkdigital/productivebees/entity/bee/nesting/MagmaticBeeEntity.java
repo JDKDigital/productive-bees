@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.ExpirableBee;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
@@ -15,8 +16,9 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 
-public class MagmaticBeeEntity extends EffectHiveBeeEntity
+public class MagmaticBeeEntity extends EffectHiveBeeEntity implements ExpirableBee
 {
+    public boolean hasHadNest = false;
     private int lavaDuration = 0;
     private BlockPos lavaPosition = null;
 
@@ -54,5 +56,15 @@ public class MagmaticBeeEntity extends EffectHiveBeeEntity
             this.lavaDuration = 100;
             this.world.setBlockState(lavaPosition, Blocks.LAVA.getDefaultState().getBlockState(), 11);
         }
+    }
+
+    @Override
+    public void setHasHadNest(boolean hadNest) {
+        this.hasHadNest = hadNest;
+    }
+
+    @Override
+    public boolean getHasHadNest() {
+        return hasHadNest;
     }
 }

@@ -23,7 +23,7 @@ public class BeeIngredientFactory
     public static Map<String, BeeIngredient> getOrCreateList(boolean removeDeprecated) {
         Map<String, BeeIngredient> list = new HashMap<>();
         if (removeDeprecated) {
-            List<String> excludedBees = Arrays.asList("configurable_bee", "aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "electrum_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");
+            List<String> excludedBees = Arrays.asList("configurable_bee", "aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "electrum_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee", "iron_bee", "gold_bee", "redstone_bee", "coal_bee", "lapis_bee", "emerald_bee", "diamond_bee");
             for (Map.Entry<String, BeeIngredient> entry : createList().entrySet()) {
                 String beeId = entry.getKey().replace("productivebees:", "");
                 if (!excludedBees.contains(beeId)) {

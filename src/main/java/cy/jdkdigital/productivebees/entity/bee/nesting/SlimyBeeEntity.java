@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.ExpirableBee;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.EntityType;
@@ -16,8 +17,10 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SlimyBeeEntity extends EffectHiveBeeEntity
+public class SlimyBeeEntity extends EffectHiveBeeEntity implements ExpirableBee
 {
+    public boolean hasHadNest = false;
+
     public SlimyBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
         beeAttributes.put(BeeAttributes.TEMPER, 0);
@@ -52,5 +55,15 @@ public class SlimyBeeEntity extends EffectHiveBeeEntity
     @Override
     protected ResourceLocation getLootTable() {
         return EntityType.SLIME.getLootTable();
+    }
+
+    @Override
+    public void setHasHadNest(boolean hadNest) {
+        this.hasHadNest = hadNest;
+    }
+
+    @Override
+    public boolean getHasHadNest() {
+        return hasHadNest;
     }
 }

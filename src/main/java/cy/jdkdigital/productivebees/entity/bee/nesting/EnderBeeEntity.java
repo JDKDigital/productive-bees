@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
+import cy.jdkdigital.productivebees.entity.bee.ExpirableBee;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -13,8 +14,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
-public class EnderBeeEntity extends ProductiveBeeEntity
+public class EnderBeeEntity extends ProductiveBeeEntity implements ExpirableBee
 {
+    public boolean hasHadNest = false;
     private int teleportCooldown = 150;
 
     public EnderBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
@@ -41,7 +43,7 @@ public class EnderBeeEntity extends ProductiveBeeEntity
         super.updateAITasks();
     }
 
-    private boolean teleportTo(double x, double y, double z) {
+    private void teleportTo(double x, double y, double z) {
         BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable(x, y, z);
 
         while (blockpos$mutable.getY() > 0 && !this.world.getBlockState(blockpos$mutable).getMaterial().blocksMovement()) {
@@ -57,9 +59,17 @@ public class EnderBeeEntity extends ProductiveBeeEntity
                     this.world.playSound(null, this.prevPosX, this.prevPosY, this.prevPosZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT, this.getSoundCategory(), 0.3F, 1.0F);
                     this.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 0.2F, 1.0F);
                 }
-                return teleported;
             }
         }
-        return false;
+    }
+
+    @Override
+    public void setHasHadNest(boolean hadNest) {
+        this.hasHadNest = hadNest;
+    }
+
+    @Override
+    public boolean getHasHadNest() {
+        return hasHadNest;
     }
 }
