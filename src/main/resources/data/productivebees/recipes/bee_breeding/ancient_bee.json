@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:gold",
+    "parent2": "productivebees:diamond",
+    "offspring": [
+        "productivebees:netherite_bee"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:gold_ingot"
+        },
+        {
+            "tag": "minecraft:diamond"
+        }
+    ]
+}
