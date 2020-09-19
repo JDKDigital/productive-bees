@@ -14,7 +14,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModTags
 {
-    public static final INamedTag<Block> SOLITARY_NESTS = getTag("solitary_nests");
     public static final INamedTag<Block> SOLITARY_OVERWORLD_NESTS = getTag("solitary_overworld_nests");
     public static final INamedTag<Block> REED_NESTS = getTag("reed_nests");
     public static final INamedTag<Block> COLD_NESTS = getTag("cold_nests");

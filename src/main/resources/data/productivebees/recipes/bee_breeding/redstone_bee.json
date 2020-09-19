@@ -3,7 +3,7 @@
     "parent1": "productivebees:glowing_bee",
     "parent2": "productivebees:chocolate_mining_bee",
     "offspring": [
-        "productivebees:redstone_bee"
+        "productivebees:redstone"
     ],
     "breeding_items": [
         {

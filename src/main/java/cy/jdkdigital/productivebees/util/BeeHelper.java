@@ -47,7 +47,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BeeHelper
 {
-    private static final Random rand = new Random();
+    public static final Random rand = new Random();
 
     public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, ServerWorld world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
         BlockPos pos = entity.getPosition();

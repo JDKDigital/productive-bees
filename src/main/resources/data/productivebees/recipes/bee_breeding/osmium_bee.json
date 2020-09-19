@@ -1,6 +1,6 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:iron_bee",
+    "parent1": "productivebees:iron",
     "parent2": "productivebees:neon_cuckoo_bee",
     "offspring": [
         "productivebees:osmium"

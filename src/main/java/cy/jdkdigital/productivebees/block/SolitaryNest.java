@@ -11,9 +11,12 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -95,5 +98,17 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
             ProductiveBees.LOGGER.debug("Eggs: " + tileEntity.getEggListAsNBTList());
         }
         return super.onBlockActivated(state, world, pos, player, hand, hit);
+    }
+
+    @Override
+    public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+        ItemStack heldItem = player.getHeldItemMainhand();
+        if (heldItem.getItem().equals(Items.STICK)) {
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if (tileEntity instanceof SolitaryNestTileEntity) {
+                ((SolitaryNestTileEntity) tileEntity).angerBees(player, state, BeehiveTileEntity.State.BEE_RELEASED);
+            }
+        }
+        super.onBlockClicked(state, worldIn, pos, player);
     }
 }
