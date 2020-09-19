@@ -136,6 +136,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                             if (beeEntity instanceof ProductiveBeeEntity) {
                                 int temper = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.TEMPER);
                                 if (temper == 0 || (temper == 1 && BeeHelper.rand.nextFloat() < .5)) {
+                                    beeEntity.setStayOutOfHiveCountdown(400);
                                     break;
                                 }
                             }
