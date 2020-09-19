@@ -16,11 +16,10 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class SolitaryBeeEntity extends ProductiveBeeEntity
+public class SolitaryBeeEntity extends ProductiveBeeEntity implements ExpirableBee
 {
     private BlockPos birthNest;
     public boolean hasHadNest = false;
-    private int ticksWithoutNest = 12000;
 
     public SolitaryBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -32,11 +31,6 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
     @Override
     public void tick() {
         super.tick();
-
-        // Kill off the bee if it hasn't found a nest within 10 minutes
-        if (!hasHadNest && --ticksWithoutNest < 0) {
-            setHasStung(true);
-        }
     }
 
     protected void registerGoals() {
@@ -56,7 +50,6 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
     public void writeAdditional(CompoundNBT tag) {
         super.writeAdditional(tag);
 
-        tag.putBoolean("hasHadNest", hasHadNest);
         if (birthNest != null) {
             tag.put("birthNest", NBTUtil.writeBlockPos(birthNest));
         }
@@ -66,7 +59,6 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
     public void readAdditional(CompoundNBT tag) {
         super.readAdditional(tag);
 
-        hasHadNest = tag.contains("hasHadNest") && tag.getBoolean("hasHadNest");
         if (tag.contains("birthNest")) {
             birthNest = NBTUtil.readBlockPos(tag.getCompound("birthNest"));
         }
@@ -74,6 +66,16 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
 
     public void setBirthNest(BlockPos birthNest) {
         this.birthNest = birthNest;
+    }
+
+    @Override
+    public void setHasHadNest(boolean hadNest) {
+        this.hasHadNest = hadNest;
+    }
+
+    @Override
+    public boolean getHasHadNest() {
+        return hasHadNest;
     }
 
     public class HomesickGoal extends Goal {

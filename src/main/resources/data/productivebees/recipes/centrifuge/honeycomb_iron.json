@@ -1,8 +1,9 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/iron"
+        "item": "productivebees:configurable_honeycomb"
     },
+    "comb_type": "productivebees:iron",
     "outputs": [
         {
             "item": {

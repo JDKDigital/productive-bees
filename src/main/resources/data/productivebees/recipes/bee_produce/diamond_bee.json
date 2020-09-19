@@ -1,10 +1,11 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:diamond_bee",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:diamond",
     "results": [
         {
             "comb_produce": {
-                "tag": "forge:honeycombs/diamond"
+                "item": "productivebees:configurable_honeycomb"
             },
             "item_produce": {
                 "item": "minecraft:diamond"

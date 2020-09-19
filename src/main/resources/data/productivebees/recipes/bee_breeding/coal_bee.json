@@ -3,7 +3,7 @@
     "parent1": "productivebees:blazing_bee",
     "parent2": "productivebees:leafcutter_bee",
     "offspring": [
-        "productivebees:coal_bee"
+        "productivebees:coal"
     ],
     "breeding_items": [
         {

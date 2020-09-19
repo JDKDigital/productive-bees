@@ -1,6 +1,6 @@
 {
     "type": "productivebees:bee_conversion",
-    "source": "productivebees:iron_bee",
+    "source": "productivebees:iron",
     "result": "productivebees:manasteel",
     "item": {
         "item": "botania:black_lotus"

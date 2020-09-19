@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.entity.bee.EffectHiveBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.ExpirableBee;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
@@ -13,8 +14,10 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GlowingBeeEntity extends EffectHiveBeeEntity
+public class GlowingBeeEntity extends EffectHiveBeeEntity implements ExpirableBee
 {
+    public boolean hasHadNest = false;
+
     public GlowingBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
         beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.GLOWING_NESTS);
@@ -34,5 +37,15 @@ public class GlowingBeeEntity extends EffectHiveBeeEntity
         {{
             put(Effects.BLINDNESS, 450);
         }};
+    }
+
+    @Override
+    public void setHasHadNest(boolean hadNest) {
+        this.hasHadNest = hadNest;
+    }
+
+    @Override
+    public boolean getHasHadNest() {
+        return hasHadNest;
     }
 }

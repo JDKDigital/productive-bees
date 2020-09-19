@@ -1,5 +1,5 @@
 {
-    "type": "pFroductivebees:centrifuge",
+    "type": "productivebees:centrifuge",
     "ingredient": {
         "item": "productivebees:configurable_honeycomb"
     },

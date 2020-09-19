@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:diamond_bee",
-    "parent2": "productivebees:iron_bee",
+    "parent1": "productivebees:diamond",
+    "parent2": "productivebees:iron",
     "offspring": [
         "productivebees:titanium"
     ],

@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_breeding",
     "parent1": "productivebees:ender_bee",
-    "parent2": "productivebees:gold_bee",
+    "parent2": "productivebees:gold",
     "offspring": [
         "productivebees:platinum"
     ],

@@ -1,9 +1,9 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:diamond_bee",
+    "parent1": "productivebees:diamond",
     "parent2": "productivebees:slimy_bee",
     "offspring": [
-        "productivebees:emerald_bee"
+        "productivebees:emerald"
     ],
     "breeding_items": [
         {

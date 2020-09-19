@@ -1,10 +1,11 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:lapis_bee",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:lapis",
     "results": [
         {
             "comb_produce": {
-                "tag": "forge:honeycombs/lapis"
+                "item": "productivebees:configurable_honeycomb"
             },
             "item_produce": {
                 "item": "minecraft:lapis_lazuli"

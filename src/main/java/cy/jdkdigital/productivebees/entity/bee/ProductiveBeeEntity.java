@@ -172,6 +172,14 @@ public class ProductiveBeeEntity extends BeeEntity
                 setHealth(getHealth() - (getMaxHealth() / 3) - 1);
             }
         }
+
+        // Kill off expirable bees if it hasn't found a nest within 10 minutes
+        if (this instanceof ExpirableBee) {
+            ExpirableBee exBee = ((ExpirableBee) this);
+            if (!((ExpirableBee) this).getHasHadNest() && exBee.ticksWithoutNest < ticksExisted ) {
+                setHasStung(true);
+            }
+        }
     }
 
     public static AttributeModifierMap.MutableAttribute getDefaultAttributes() {
@@ -283,6 +291,10 @@ public class ProductiveBeeEntity extends BeeEntity
         tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getName().toString());
         tag.putString("bee_nesting_preference", this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE).getName().toString());
         tag.put("bee_effects", this.getAttributeValue(BeeAttributes.EFFECTS).serializeNBT());
+
+        if (this instanceof ExpirableBee) {
+            tag.putBoolean("hasHadNest", ((ExpirableBee) this).getHasHadNest());
+        }
     }
 
     @Override
@@ -301,6 +313,10 @@ public class ProductiveBeeEntity extends BeeEntity
             beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.makeWrapperTag(tag.getString("bee_aphrodisiac")));
             beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, BlockTags.makeWrapperTag(tag.getString("bee_nesting_preference")));
             beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(tag.getCompound("bee_effects")));
+        }
+
+        if (this instanceof ExpirableBee) {
+            ((ExpirableBee) this).setHasHadNest(tag.contains("hasHadNest") && tag.getBoolean("hasHadNest"));
         }
     }
 

@@ -1,0 +1,27 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/gold"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "minecraft:gold_ingot"
+            },
+            "min": 1,
+            "max": 1,
+            "chance": 100
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:tag_empty",
+            "tag": "forge:dusts/gold"
+        }
+    ]
+}
