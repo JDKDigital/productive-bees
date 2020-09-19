@@ -3,11 +3,13 @@ package cy.jdkdigital.productivebees.tileentity;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
+import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
@@ -130,6 +132,13 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                     BeeEntity beeEntity = (BeeEntity) entity;
                     if (player.getPositionVec().squareDistanceTo(entity.getPositionVec()) <= 16.0D) {
                         if (!this.isSmoked()) {
+                            // Check temper
+                            if (beeEntity instanceof ProductiveBeeEntity) {
+                                int temper = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.TEMPER);
+                                if (temper == 0 || (temper == 1 && BeeHelper.rand.nextFloat() < .5)) {
+                                    break;
+                                }
+                            }
                             beeEntity.setBeeAttacker(player);
                         }
                         else {
