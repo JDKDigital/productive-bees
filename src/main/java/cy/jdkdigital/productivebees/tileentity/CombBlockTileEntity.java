@@ -52,4 +52,17 @@ public class CombBlockTileEntity extends TileEntity
         tag.putString("type", type);
         return super.write(tag);
     }
+
+    @Nonnull
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tag = super.getUpdateTag();
+        tag.putString("type", type);
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+        this.type = tag.getString("type");
+    }
 }
