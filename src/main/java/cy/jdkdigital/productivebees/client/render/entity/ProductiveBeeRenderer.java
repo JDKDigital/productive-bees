@@ -31,10 +31,10 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
 
     @Override
     public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
-        String textureLocation = "textures/entity/bee/" + bee.getBeeName() + "/bee";
+        String textureLocation = ProductiveBees.MODID + ":textures/entity/bee/" + bee.getBeeName() + "/bee";
 
         if (bee.getColor(0) != null) {
-            textureLocation = "textures/entity/bee/base/bee";
+            textureLocation = ProductiveBees.MODID + ":textures/entity/bee/base/bee";
         }
 
         if (bee instanceof ConfigurableBeeEntity) {
@@ -51,6 +51,6 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
             textureLocation = textureLocation + "_nectar";
         }
 
-        return new ResourceLocation(ProductiveBees.MODID, textureLocation + ".png");
+        return new ResourceLocation(textureLocation + ".png");
     }
 }

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -22,7 +23,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
     public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
         int num = sum(bee.getEntityId());
 
-        String beeLocation = "bee/" + bee.getBeeName() + "/" + num + "/bee";
+        String beeLocation = "textures/entity/bee/" + bee.getBeeName() + "/" + num + "/bee";
 
         if (bee.isAngry()) {
             beeLocation = beeLocation + "_angry";
@@ -32,7 +33,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
             beeLocation = beeLocation + "_nectar";
         }
 
-        return getResLocation(beeLocation);
+        return new ResourceLocation(ProductiveBees.MODID, beeLocation);
     }
 
     private int sum(int num) {
