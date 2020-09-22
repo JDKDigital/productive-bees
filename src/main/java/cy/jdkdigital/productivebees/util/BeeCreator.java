@@ -9,20 +9,31 @@ import java.awt.*;
 public class BeeCreator
 {
     public static CompoundNBT create(ResourceLocation id, JsonObject json) {
-        Color primary = Color.decode(json.get("primaryColor").getAsString());
-        Color secondary = Color.decode(json.get("secondaryColor").getAsString());
-
         CompoundNBT data = new CompoundNBT();
+
+        data.putString("id", id.toString());
+
+        Color primary = Color.decode(json.has("primaryColor") ? json.get("primaryColor").getAsString() : "#edc343");
+        Color secondary = Color.decode(json.has("secondaryColor") ? json.get("secondaryColor").getAsString() : "#804f40");
         data.putInt("primaryColor", primary.getRGB());
         data.putInt("secondaryColor", secondary.getRGB());
-        data.putString("id", id.toString());
-        data.putString("name", idToName(id.getPath()));
+
+        data.putString("name", json.has("name") ? json.get("name").getAsString() : idToName(id.getPath()));
+
         if (json.has("description")) {
             data.putString("description", json.get("description").getAsString());
         }
         if (json.has("flowerTag")) {
             data.putString("flowerTag", json.get("flowerTag").getAsString());
         }
+        if (json.has("beeTexture")) {
+            data.putString("beeTexture", json.get("beeTexture").getAsString());
+        }
+        if (json.has("attackResponse")) {
+            data.putString("attackResponse", json.get("attackResponse").getAsString());
+        }
+
+        data.putBoolean("createComb", !json.has("createComb") || json.get("createComb").getAsBoolean());
 
         return data;
     }

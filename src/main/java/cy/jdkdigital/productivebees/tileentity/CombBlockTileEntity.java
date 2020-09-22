@@ -62,7 +62,7 @@ public class CombBlockTileEntity extends TileEntity
     }
 
     @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+    public void handleUpdateTag(CompoundNBT tag) {
         this.type = tag.getString("type");
     }
 }

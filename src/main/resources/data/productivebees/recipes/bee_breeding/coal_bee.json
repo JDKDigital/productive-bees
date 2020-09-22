@@ -1,6 +1,6 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:blazing_bee",
+    "parent1": "productivebees:blazing",
     "parent2": "productivebees:leafcutter_bee",
     "offspring": [
         "productivebees:coal"

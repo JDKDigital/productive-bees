@@ -2,13 +2,8 @@ package cy.jdkdigital.productivebees.entity.bee;
 
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.world.World;
-
-import java.util.Map;
 
 abstract public class EffectHiveBeeEntity extends ProductiveBeeEntity implements IEffectBeeEntity
 {
@@ -26,26 +21,9 @@ abstract public class EffectHiveBeeEntity extends ProductiveBeeEntity implements
                 attackCooldown = 0;
             }
             if (attackCooldown == 0 && func_233678_J__() && this.getAttackTarget() != null && this.getAttackTarget().getDistanceSq(this) < 4.0D) {
-                attackCooldown = getEffectCooldown();
+                attackCooldown = getEffectCooldown(getAttributeValue(BeeAttributes.TEMPER));
                 attackTarget(this.getAttackTarget());
             }
         }
-    }
-
-    public int getEffectCooldown() {
-        int temper = getAttributeValue(BeeAttributes.TEMPER);
-        return temper > 0 ? 400 / temper : 400;
-    }
-
-    public void attackTarget(LivingEntity target) {
-        if (getEffects() != null) {
-            for (Map.Entry<Effect, Integer> entry : getEffects().entrySet()) {
-                target.addPotionEffect(new EffectInstance(entry.getKey(), entry.getValue(), 1));
-            }
-        }
-    }
-
-    public Map<Effect, Integer> getEffects() {
-        return null;
     }
 }
