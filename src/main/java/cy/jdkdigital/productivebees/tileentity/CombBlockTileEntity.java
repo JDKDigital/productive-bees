@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.tileentity;
 
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -61,7 +62,7 @@ public class CombBlockTileEntity extends TileEntity
     }
 
     @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+    public void handleUpdateTag(CompoundNBT tag) {
         this.type = tag.getString("type");
     }
 }

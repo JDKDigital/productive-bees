@@ -46,16 +46,18 @@ public class ModItemGroups
                 items.add(egg);
 
                 // Add comb item
-                ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                setTag(beeType, comb);
+                if (entry.getValue().getBoolean("createComb")) {
+                    ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
+                    setTag(beeType, comb);
 
-                items.add(comb);
+                    items.add(comb);
 
-                // Add comb block
-                ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-                setTag(beeType, combBlock);
+                    // Add comb block
+                    ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
+                    setTag(beeType, combBlock);
 
-                items.add(combBlock);
+                    items.add(combBlock);
+                }
             }
 
             super.fill(items);
