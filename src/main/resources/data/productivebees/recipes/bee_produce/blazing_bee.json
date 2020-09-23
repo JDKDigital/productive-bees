@@ -1,6 +1,6 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:blazing_bee",
+    "ingredient": "productivebees:blazing",
     "results": [
         {
             "comb_produce": {
