@@ -9,5 +9,8 @@
                 "tag": "forge:ingots/platinum"
             }
         }
-    ]
+    ],
+    "attributes": {
+        "endurance": 2
+    }
 }

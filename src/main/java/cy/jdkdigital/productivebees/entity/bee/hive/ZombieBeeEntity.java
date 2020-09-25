@@ -20,7 +20,7 @@ public class ZombieBeeEntity extends EffectHiveBeeEntity
     }
 
     @Override
-    public Map<Effect, Integer> getEffects() {
+    public Map<Effect, Integer> getAggressiveEffects() {
         return new HashMap<Effect, Integer>()
         {{
             put(Effects.HUNGER, 220);
