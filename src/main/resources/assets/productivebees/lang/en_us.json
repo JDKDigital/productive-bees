@@ -347,6 +347,7 @@
 	"productivebees.information.attribute.endurance.normal": "Normal",
 	"productivebees.information.attribute.endurance.medium": "Medium",
 	"productivebees.information.attribute.endurance.strong": "Strong",
+	"productivebees.information.upgrade.unconfigured": "Unconfigured",
 
 	"productivebees.hive.tooltip.bees": "Bees:",
 	"productivebees.hive.tooltip.empty": "Empty",

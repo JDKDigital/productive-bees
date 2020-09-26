@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "C C",
+        " B ",
+        "C C"
+    ],
+    "key": {
+        "B": {
+            "item": "productivebees:upgrade_base"
+        },
+        "C": {
+            "tag": "forge:storage_blocks/honeycombs"
+        }
+    },
+    "result": {
+        "item": "productivebees:upgrade_comb_block"
+    }
+}
