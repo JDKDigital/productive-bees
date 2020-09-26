@@ -6,7 +6,7 @@
     "outputs": [
         {
             "item": {
-                "item": "minecraft:glowstone_dust"
+                "tag": "forge:dusts/glowstone"
             },
             "min": 1,
             "max": 1,

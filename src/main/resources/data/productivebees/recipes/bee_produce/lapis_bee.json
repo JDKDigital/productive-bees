@@ -8,7 +8,7 @@
                 "item": "productivebees:configurable_honeycomb"
             },
             "item_produce": {
-                "item": "minecraft:lapis_lazuli"
+                "tag": "forge:gems/lapis"
             },
             "min": 3.0,
             "max": 7.0

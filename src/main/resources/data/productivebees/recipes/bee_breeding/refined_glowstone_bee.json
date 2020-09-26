@@ -10,7 +10,7 @@
             "tag": "forge:ingots/osmium"
         },
         {
-            "item": "minecraft:glowstone"
+            "tag": "forge:dusts/glowstone"
         }
     ],
     "conditions": [

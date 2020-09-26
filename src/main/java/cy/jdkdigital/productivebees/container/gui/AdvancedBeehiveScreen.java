@@ -59,7 +59,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
                 BeeEntity bee = (BeeEntity) EntityType.loadEntityAndExecute(inhabitant.nbt, this.container.tileEntity.getWorld(), (spawnedEntity) -> spawnedEntity);
 
-                if (bee != null && isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
+                if (bee != null && positions.containsKey(j) && isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
                     List<String> tooltipList = new ArrayList<String>()
                     {{
                         add(bee.getName().getFormattedText());
@@ -104,7 +104,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             int i = 0;
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
                 BeeEntity bee = (BeeEntity) EntityType.loadEntityAndExecute(inhabitant.nbt, this.container.tileEntity.getWorld(), (spawnedEntity) -> spawnedEntity);
-                if (minecraft.player != null && bee != null) {
+                if (minecraft.player != null && bee != null && positions.containsKey(i)) {
                     bee.ticksExisted = minecraft.player.ticksExisted;
                     bee.renderYawOffset = -20;
 

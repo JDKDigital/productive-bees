@@ -7,7 +7,7 @@
     "outputs": [
         {
             "item": {
-                "item": "minecraft:diamond"
+                "tag": "forge:gems/diamond"
             },
             "min": 1,
             "max": 1,

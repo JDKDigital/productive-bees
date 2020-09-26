@@ -10,7 +10,7 @@
             "item": "minecraft:smooth_stone_slab"
         },
         "I": {
-            "item": "minecraft:iron_ingot"
+            "tag": "forge:ingots/iron"
         },
         "G": {
             "tag": "forge:glass"
