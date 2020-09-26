@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.network.packets;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
@@ -42,7 +43,9 @@ public class Messages
             context.get().enqueueWork(() -> {
                 BeeReloadListener.INSTANCE.setData(message.data);
                 // Trigger jei reload
-                net.minecraftforge.client.ForgeHooksClient.onRecipesUpdated(new RecipeManager());
+                ProductiveBees.LOGGER.debug("trigger recipe reload");
+                RecipeManager manager = ProductiveBees.proxy.getClientWorld().getRecipeManager();
+                net.minecraftforge.client.ForgeHooksClient.onRecipesUpdated(manager);
             });
             context.get().setPacketHandled(true);
         }
