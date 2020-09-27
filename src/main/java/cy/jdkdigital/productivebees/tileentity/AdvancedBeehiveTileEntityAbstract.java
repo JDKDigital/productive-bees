@@ -100,10 +100,11 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
-        if (beeEntity instanceof HoarderBeeEntity) {
-            return 100;
-        }
-        return hasNectar ? 2400 : 600;
+        return 200;
+//        if (beeEntity instanceof ProductiveBeeEntity) {
+//            return ((ProductiveBeeEntity) beeEntity).getTimeInHive(hasNectar);
+//        }
+//        return hasNectar ? 2400 : 600;
     }
 
     public void markDirty() {

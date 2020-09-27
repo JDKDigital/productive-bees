@@ -1,10 +1,17 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
+import com.resourcefulbees.resourcefulbees.api.ICustomBee;
+import com.resourcefulbees.resourcefulbees.api.beedata.*;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.RancherBeeEntity;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.item.Honeycomb;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
@@ -50,9 +57,11 @@ import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.List;
 import java.util.*;
@@ -65,9 +74,11 @@ public class ProductiveBeeEntity extends BeeEntity
     protected Map<BeeAttribute<?>, Object> beeAttributes = new HashMap<>();
 
     protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> {
+        PointOfInterestType rbTiered = ForgeRegistries.POI_TYPES.getValue(new ResourceLocation("resourcefulbees", "tiered_beehive_poi"));
         return poiType == PointOfInterestType.BEEHIVE ||
                 poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
-                poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
+                poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
+                poiType == rbTiered;
     };
     private Color primaryColor = null;
     private Color secondaryColor = null;
@@ -227,12 +238,16 @@ public class ProductiveBeeEntity extends BeeEntity
         return itemStack.getItem().isIn(getAttributeValue(BeeAttributes.APHRODISIACS));
     }
 
+    public String getBeeType() {
+        return getEntityString();
+    }
+
     public String getBeeName() {
         return getBeeName(true);
     }
 
     public String getBeeName(boolean stripName) {
-        String type = this.getEntityString().split("[:]")[1];
+        String type = getBeeType().split("[:]")[1];
         return stripName ? type.replace("_bee", "") : type;
     }
 
@@ -258,6 +273,10 @@ public class ProductiveBeeEntity extends BeeEntity
 
     boolean canOperateDuringThunder() {
         return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 2;
+    }
+
+    public int getTimeInHive(boolean hasNectar) {
+        return hasNectar ? 2400 : 600;
     }
 
     @Override

@@ -47,6 +47,12 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity implements ExpirableB
     }
 
     @Override
+    public int getTimeInHive(boolean hasNectar) {
+        // When the bee returns with nectar, it will produce an egg cell and will stay a while
+        return hasNectar && !this.isChild() ? 12000 : hasNectar ? 6000 : 1200;
+    }
+
+    @Override
     public void writeAdditional(CompoundNBT tag) {
         super.writeAdditional(tag);
 

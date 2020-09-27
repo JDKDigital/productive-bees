@@ -126,11 +126,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         return ProductiveBeesConfig.GENERAL.nestRepopulationCooldown.get();
     }
 
-    protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
-        // When the bee returns with nectar, it will produce an egg cell and will stay a while
-        return hasNectar && beeEntity != null && !beeEntity.isChild() ? 12000 : 6000;
-    }
-
     public void read(BlockState blockState, CompoundNBT tag) {
         super.read(blockState, tag);
 

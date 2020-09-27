@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;

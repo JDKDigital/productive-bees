@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.block;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.tileentity.CombBlockTileEntity;
@@ -64,6 +65,7 @@ public class ConfigurableCombBlock extends CombBlock
         if (tileEntity instanceof CombBlockTileEntity) {
             CompoundNBT tag = stack.getChildTag("EntityTag");
             if (tag != null && tag.contains("type")) {
+                ProductiveBees.LOGGER.info("set type for new block " + tag);
                 ((CombBlockTileEntity) tileEntity).setType(tag.getString("type"));
             }
         }
@@ -71,7 +73,7 @@ public class ConfigurableCombBlock extends CombBlock
 
     @Override
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
-        ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get(), 1);
+        ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof CombBlockTileEntity) {
             String type = ((CombBlockTileEntity) tileEntity).getCombType();

@@ -94,6 +94,10 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         }
     }
 
+    public int getTimeInHive(boolean hasNectar) {
+        return 100;
+    }
+
     public int getPeekTick() {
         return this.dataManager.get(PEEK_TICK);
     }
