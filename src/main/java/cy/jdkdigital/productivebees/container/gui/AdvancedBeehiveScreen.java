@@ -59,7 +59,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
                 BeeEntity bee = (BeeEntity) EntityType.loadEntityAndExecute(inhabitant.nbt, this.container.tileEntity.getWorld(), (spawnedEntity) -> spawnedEntity);
 
-                if (bee != null && positions.containsKey(j) && isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
+                if (bee != null && positions.containsKey(j) && isPointInRegion(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
                     List<String> tooltipList = new ArrayList<String>()
                     {{
                         add(bee.getName().getFormattedText());
@@ -92,12 +92,12 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
         // Draw main screen
-        this.blit(getGuiLeft(), getGuiTop(), 0, 0, this.xSize, this.ySize);
+        this.blit(getGuiLeft() - (expanded ? 13 : 0), getGuiTop(), 0, 0, this.xSize + (expanded ? 26 : 0), this.ySize);
 
         // Draw honey level
         int yOffset = this.container.tileEntity instanceof DragonEggHiveTileEntity ? 17 : 0;
         int progress = honeyLevel == 0 ? 0 : 27 / 5 * honeyLevel;
-        this.blit(getGuiLeft() + 82, getGuiTop() + 35, 176, 14 + yOffset, progress, 16);
+        this.blit(getGuiLeft() + 82 - (expanded ? 13 : 0), getGuiTop() + 35, 176 + (expanded ? 26 : 0), 94 + yOffset, progress, 16);
 
         this.container.tileEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {
             // Bees
@@ -110,7 +110,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 
                     MatrixStack matrixStack = new MatrixStack();
                     matrixStack.push();
-                    matrixStack.translate(7 + getGuiLeft() + positions.get(i).get(0), 17 + getGuiTop() + positions.get(i).get(1), 1.5D);
+                    matrixStack.translate(7 + getGuiLeft() + positions.get(i).get(0) - (expanded ? 13 : 0), 17 + getGuiTop() + positions.get(i).get(1), 1.5D);
                     matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
                     matrixStack.translate(0.0F, -0.2F, 1);
                     matrixStack.scale(28, 28, 32);

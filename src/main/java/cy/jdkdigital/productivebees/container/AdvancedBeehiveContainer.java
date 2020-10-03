@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
+import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
@@ -81,18 +82,23 @@ public class AdvancedBeehiveContainer extends AbstractContainer
 
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
+        boolean expanded = this.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
 
         IItemHandler inventory = new InvWrapper(playerInventory);
 
         // Inventory slots
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             // Bottle slot
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 86, 17));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 86 - (expanded ? 13 : 0), 17));
 
-            addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116, 17, 3, 18, 3, 18);
+            addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116 - (expanded ? 13 : 0), 17, 3, 18, 3, 18);
         });
 
-        layoutPlayerInventorySlots(inventory, 0, 8, 84);
+        this.tileEntity.upgradeHandler.ifPresent(upgradeHandler -> {
+            addSlotBox(upgradeHandler, 0, 178 - (expanded ? 13 : 0), 8, 1, 18, 4, 18);
+        });
+
+        layoutPlayerInventorySlots(inventory, 0, 8 - (expanded ? 13 : 0), 84);
     }
 
     private static AdvancedBeehiveTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
