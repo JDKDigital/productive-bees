@@ -1,14 +1,13 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:configurable_bee",
-    "bee_type": "productivebees:wither",
+    "ingredient": "productivebees:ghostly_bee",
     "results": [
         {
             "comb_produce": {
-                "tag": "forge:honeycombs/withered"
+                "tag": "forge:honeycombs/ghostly"
             },
             "item_produce": {
-                "item": "productivebees:wither_skull_chip"
+                "item": "minecraft:ghast_tear"
             },
             "min": 1.0,
             "max": 1.0

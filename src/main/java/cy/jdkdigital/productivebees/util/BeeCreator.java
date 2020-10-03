@@ -52,7 +52,7 @@ public class BeeCreator
         }
         if (json.has("passiveEffects")) {
             Map<Effect, Integer> effects = new HashMap<>();
-            for(JsonElement el: json.get("attributes").getAsJsonArray()) {
+            for(JsonElement el: json.get("passiveEffects").getAsJsonArray()) {
                 JsonObject effect = el.getAsJsonObject();
                 effects.put(ForgeRegistries.POTIONS.getValue(new ResourceLocation(effect.get("effect").getAsString())), effect.get("duration").getAsInt());
             }

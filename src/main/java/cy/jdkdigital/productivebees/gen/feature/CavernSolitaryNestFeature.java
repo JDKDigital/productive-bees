@@ -14,10 +14,12 @@ import java.util.function.Function;
 public class CavernSolitaryNestFeature extends SolitaryNestFeature
 {
     private final float probability;
+    private boolean top;
 
-    public CavernSolitaryNestFeature(float probability, Function<Dynamic<?>, ? extends ReplaceBlockConfig> configFactory) {
+    public CavernSolitaryNestFeature(float probability, Function<Dynamic<?>, ? extends ReplaceBlockConfig> configFactory, boolean top) {
         super(probability, configFactory);
         this.probability = probability;
+        this.top = top;
     }
 
     @Override
@@ -33,6 +35,14 @@ public class CavernSolitaryNestFeature extends SolitaryNestFeature
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
         while (pos.getY() < 127 && !matcher.test(world.getBlockState(pos))) {
             pos = pos.up();
+        }
+
+        if (top) {
+            // Go to surface
+            while (pos.getY() < 127 || !world.isAirBlock(pos)) {
+                pos = pos.up();
+            }
+            pos = pos.down();
         }
 
         return placeNest(world, pos, featureConfig);

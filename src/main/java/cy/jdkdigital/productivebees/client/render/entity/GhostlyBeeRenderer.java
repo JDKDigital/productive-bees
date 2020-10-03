@@ -1,0 +1,24 @@
+package cy.jdkdigital.productivebees.client.render.entity;
+
+import cy.jdkdigital.productivebees.client.render.entity.model.GhostlyBeeModel;
+import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
+
+@OnlyIn(Dist.CLIENT)
+public class GhostlyBeeRenderer extends ProductiveBeeRenderer
+{
+    public GhostlyBeeRenderer(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn, new GhostlyBeeModel<>());
+    }
+
+    @Nullable
+    @Override
+    protected RenderType func_230042_a_(ProductiveBeeEntity entity, boolean p_230042_2_, boolean p_230042_3_) {
+        return RenderType.getEntityTranslucent(this.getEntityTexture(entity));
+    }
+}

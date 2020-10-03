@@ -74,22 +74,32 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         return this.dataManager.get(TYPE);
     }
 
-    @Override
-    public <T> T getAttributeValue(BeeAttribute<T> parameter) {
-        String attributeName = parameter.toString();
-        if (getNBTData().contains(attributeName)) {
-            if (attributeName.equals("effect")) {
-                return (T) new BeeEffect(getNBTData().getCompound(attributeName));
-            }
-            return (T) getNBTData().get(attributeName);
+    public void setAttributes() {
+        CompoundNBT nbt = getNBTData();
+        if (nbt.contains(("productivity"))) {
+            beeAttributes.put(BeeAttributes.PRODUCTIVITY, nbt.getInt("productivity"));
         }
-        return super.getAttributeValue(parameter);
+        if (nbt.contains(("temper"))) {
+            beeAttributes.put(BeeAttributes.TEMPER, nbt.getInt("temper"));
+        }
+        if (nbt.contains(("endurance"))) {
+            beeAttributes.put(BeeAttributes.ENDURANCE, nbt.getInt("endurance"));
+        }
+        if (nbt.contains(("behavior"))) {
+            beeAttributes.put(BeeAttributes.BEHAVIOR, nbt.getInt("behavior"));
+        }
+        if (nbt.contains(("weather_tolerance"))) {
+            beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, nbt.getInt("weather_tolerance"));
+        }
+        if (nbt.contains(("effect"))) {
+            beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(nbt.getCompound("effect")));
+        }
     }
 
     @Override
     public Color getColor(int tintIndex) {
         CompoundNBT nbt = getNBTData();
-        if (nbt != null && nbt.contains("primaryColor")) {
+        if (nbt.contains("primaryColor")) {
             return tintIndex == 0 ? new Color(nbt.getInt("primaryColor")) : new Color(nbt.getInt("secondaryColor"));
         }
         return super.getColor(tintIndex);
@@ -99,7 +109,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     @Override
     protected ITextComponent getProfessionName() {
         CompoundNBT nbt = getNBTData();
-        if (nbt != null && nbt.contains("name")) {
+        if (nbt.contains("name")) {
             return new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name"));
         }
         return super.getProfessionName();
@@ -124,12 +134,13 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     protected CompoundNBT getNBTData() {
-        return BeeReloadListener.INSTANCE.getData(new ResourceLocation(getBeeType()));
+        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(getBeeType()));
+
+        return nbt != null ? nbt : new CompoundNBT();
     }
 
     public boolean hasBeeTexture() {
-        CompoundNBT nbt = getNBTData();
-        return nbt != null && nbt.contains("beeTexture");
+        return getNBTData().contains("beeTexture");
     }
 
     public String getBeeTexture() {

@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_breeding",
     "parent1": "productivebees:lapis",
-    "parent2": "productivebees:skeletal_bee",
+    "parent2": "productivebees:skeletal",
     "offspring": [
         "productivebees:dye_bee"
     ],

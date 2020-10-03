@@ -64,6 +64,7 @@ public class ModTileEntityTypes
                     ModBlocks.NETHER_QUARTZ_NEST.get(),
                     ModBlocks.NETHER_BRICK_NEST.get(),
                     ModBlocks.GLOWSTONE_NEST.get(),
+                    ModBlocks.SOUL_SAND_NEST.get(),
                     ModBlocks.END_NEST.get(),
                     ModBlocks.OBSIDIAN_PILLAR_NEST.get(),
                     ModBlocks.OAK_WOOD_NEST.get(),

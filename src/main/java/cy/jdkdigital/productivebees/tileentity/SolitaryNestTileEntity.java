@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
@@ -8,15 +9,18 @@ import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -48,12 +52,12 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         if (this.world != null && !this.world.isRemote) {
             // Check if the nest has been abandoned and spawn a bee if it has
             if (++nestTickTimer % 47 == 0) { // Does not need to check every tick
+                Block block = this.getBlockState().getBlock();
                 if (!this.canRepopulate()) {
                     nestTickTimer = 0;
                 }
-                else if (this.canRepopulate() && nestTickTimer > this.getRepopulationCooldown()) {
+                else if (this.canRepopulate() && nestTickTimer > this.getRepopulationCooldown(block)) {
                     nestTickTimer = 0;
-                    Block block = this.getBlockState().getBlock();
                     if (block instanceof SolitaryNest) {
                         EntityType<? extends BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block);
                         if (beeType != null) {
@@ -122,7 +126,11 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         return hasNoBees() && blockConditionsMet;
     }
 
-    protected int getRepopulationCooldown() {
+    protected int getRepopulationCooldown(Block block) {
+        IRecipe<?> recipe = world.getRecipeManager().getRecipe(new ResourceLocation(ProductiveBees.MODID, "bee_spawning/" + block.getRegistryName().getPath())).orElse(null);
+        if (recipe instanceof BeeSpawningRecipe) {
+            return ((BeeSpawningRecipe) recipe).repopulationCooldown;
+        }
         return ProductiveBeesConfig.GENERAL.nestRepopulationCooldown.get();
     }
 
@@ -159,7 +167,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                     CompoundNBT compoundNBT = new CompoundNBT();
                     beeEntity.writeUnlessPassenger(compoundNBT);
 
-                    h.addInhabitant(new Egg(compoundNBT, 0, this.getRepopulationCooldown() * this.getEggs().size()));
+                    h.addInhabitant(new Egg(compoundNBT, 0, this.getRepopulationCooldown(state.getBlock()) * this.getEggs().size()));
                     // Kill off mother bee after filling the hive with eggs
                     if (h.getInhabitants().size() == MAX_EGGS) {
                         beeEntity.hivePos = null;
