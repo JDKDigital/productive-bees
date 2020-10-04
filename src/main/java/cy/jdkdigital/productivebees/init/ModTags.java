@@ -40,18 +40,18 @@ public class ModTags
     public static final INamedTag<Block> DRACONIC_FLOWERS = getTag("draconic_flowers");
     public static final INamedTag<Block> WITHER_FLOWERS = getTag("wither_flowers");
 
-    public static final INamedTag<Item> HONEYCOMBS = ItemTags.makeWrapperTag("forge:honeycombs");
-    public static final INamedTag<Item> HONEY_BUCKETS = ItemTags.makeWrapperTag("forge:honey_buckets");
+    public static final INamedTag<Item> HONEYCOMBS = ItemTags.createOptional(new ResourceLocation("forge", "honeycombs"));
+    public static final INamedTag<Item> HONEY_BUCKETS = ItemTags.createOptional(new ResourceLocation("forge", "honey_buckets"));
 
-    public static final INamedTag<Fluid> HONEY = FluidTags.makeWrapperTag("forge:honey");
+    public static final INamedTag<Fluid> HONEY = FluidTags.createOptional(new ResourceLocation("forge", "honey"));
 
-    public static final INamedTag<EntityType<?>> RANCHABLES = EntityTypeTags.func_232896_a_(ProductiveBees.MODID + ":ranchables");
+    public static final INamedTag<EntityType<?>> RANCHABLES = EntityTypeTags.createOptional(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
 
     public static INamedTag<Block> getTag(String name) {
-        return BlockTags.makeWrapperTag(ProductiveBees.MODID + ":" + name);
+        return getTag(new ResourceLocation(ProductiveBees.MODID, name));
     }
 
     public static INamedTag<Block> getTag(ResourceLocation resourceLocation) {
-        return BlockTags.makeWrapperTag(resourceLocation.toString());
+        return BlockTags.createOptional(resourceLocation);
     }
 }
