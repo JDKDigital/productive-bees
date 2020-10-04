@@ -205,7 +205,16 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     public boolean isFlowers(BlockPos pos) {
-        return this.world.isBlockPresent(pos) && this.world.getBlockState(pos).getBlock().isIn(getAttributeValue(BeeAttributes.FOOD_SOURCE));
+        ITag<Block> flower = BlockTags.FLOWERS;
+        if (this instanceof ConfigurableBeeEntity) {
+            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(((ConfigurableBeeEntity) this).getBeeType()));
+            if (nbt != null && nbt.contains("flowerTag")) {
+                flower = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
+            }
+        } else {
+            flower = getAttributeValue(BeeAttributes.FOOD_SOURCE);
+        }
+        return this.world.isBlockPresent(pos) && this.world.getBlockState(pos).getBlock().isIn(flower);
     }
 
     @Override
@@ -384,13 +393,12 @@ public class ProductiveBeeEntity extends BeeEntity
             super();
             this.flowerPredicate = (blockState) -> {
                 boolean isInterested = false;
-                ITag<Block> interests;
+
+                ITag<Block> interests = BlockTags.FLOWERS;
                 if (ProductiveBeeEntity.this instanceof ConfigurableBeeEntity) {
                     CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(((ConfigurableBeeEntity) ProductiveBeeEntity.this).getBeeType()));
                     if (nbt != null && nbt.contains("flowerTag")) {
                         interests = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
-                    } else {
-                        interests = BlockTags.FLOWERS;
                     }
                 } else {
                     interests = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.FOOD_SOURCE);

@@ -3,7 +3,7 @@
     "parent1": "productivebees:magmatic_bee",
     "parent2": "productivebees:nomad_bee",
     "offspring": [
-        "productivebees:blazing_bee"
+        "productivebees:blazing"
     ],
     "breeding_items": [
         {
