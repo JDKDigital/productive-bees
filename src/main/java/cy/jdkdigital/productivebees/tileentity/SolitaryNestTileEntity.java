@@ -179,12 +179,12 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     public List<Inhabitant> getEggs() {
-        return this.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitants).orElse(new ArrayList<>());
+        return eggHandler.map(IInhabitantStorage::getInhabitants).orElse(new ArrayList<>());
     }
 
     @Nonnull
     public ListNBT getEggListAsNBTList() {
-        return this.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
+        return eggHandler.map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
     }
 
     public static class Egg extends Inhabitant
