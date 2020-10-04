@@ -6,7 +6,7 @@
     "outputs": [
         {
             "item": {
-                "item": "minecraft:redstone"
+                "tag": "forge:dusts/redstone"
             },
             "min": 3,
             "max": 5,

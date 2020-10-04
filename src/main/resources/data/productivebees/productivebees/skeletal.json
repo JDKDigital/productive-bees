@@ -1,0 +1,7 @@
+{
+    "beeTexture": "productivebees:textures/entity/bee/skeletal/bee",
+    "createComb": false,
+    "attributes": {
+        "behavior": 1
+    }
+}

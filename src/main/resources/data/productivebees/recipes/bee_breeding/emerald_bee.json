@@ -7,10 +7,10 @@
     ],
     "breeding_items": [
         {
-            "item": "minecraft:diamond"
+            "tag": "forge:gems/diamond"
         },
         {
-            "item": "minecraft:emerald"
+            "tag": "forge:gems/emerald"
         }
     ]
 }

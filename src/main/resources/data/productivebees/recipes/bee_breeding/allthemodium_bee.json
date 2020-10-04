@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_breeding",
     "parent1": "productivebees:netherite_bee",
-    "parent2": "productivebees:wither_bee",
+    "parent2": "productivebees:wither",
     "offspring": [
         "productivebees:allthemodium"
     ],

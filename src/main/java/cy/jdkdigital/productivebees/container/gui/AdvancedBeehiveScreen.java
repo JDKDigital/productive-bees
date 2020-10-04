@@ -66,14 +66,13 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                 CompoundNBT nbt = inhabitant.nbt;
 
                 BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
-
                 if (ingredient != null) {
                     BeeEntity bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
                     if (bee instanceof ConfigurableBeeEntity && nbt.contains("type")) {
                         ((ConfigurableBeeEntity) bee).setBeeType(nbt.getString("type"));
                     }
 
-                    if (bee != null && isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
+                    if (bee != null && positions.containsKey(j) && isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
                         List<ITextProperties> tooltipList = new ArrayList<ITextProperties>()
                         {{
                             add(bee.getName());
@@ -106,13 +105,13 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
         minecraft.textureManager.bindTexture(expanded ? GUI_TEXTURE_EXPANDED : GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, getGuiLeft(), getGuiTop(), 0, 0, this.xSize, this.ySize);
+        blit(matrixStack, getGuiLeft() - (expanded ? 13 : 0), getGuiTop(), 0, 0, this.xSize + (expanded ? 26 : 0), this.ySize);
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
         // Draw honey level
         int yOffset = this.container.tileEntity instanceof DragonEggHiveTileEntity ? 17 : 0;
         int progress = honeyLevel == 0 ? 0 : 27 / 5 * honeyLevel;
-        blit(matrixStack, getGuiLeft() + 82, getGuiTop() + 35, 176, 14 + yOffset, progress, 16);
+        blit(matrixStack, getGuiLeft() + 82 - (expanded ? 13 : 0), getGuiTop() + 35, 176 + (expanded ? 26 : 0), 14 + yOffset, progress, 16);
 
         this.container.tileEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {
             // Bees
@@ -133,7 +132,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                         bee.renderYawOffset = -20;
 
                         matrixStack.push();
-                        matrixStack.translate(7 + getGuiLeft() + positions.get(i).get(0), 17 + getGuiTop() + positions.get(i).get(1), 1.5D);
+                        matrixStack.translate(7 + getGuiLeft() + positions.get(i).get(0) - (expanded ? 13 : 0), 17 + getGuiTop() + positions.get(i).get(1), 1.5D);
                         matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
                         matrixStack.translate(0.0F, -0.2F, 1);
                         matrixStack.scale(28, 28, 32);

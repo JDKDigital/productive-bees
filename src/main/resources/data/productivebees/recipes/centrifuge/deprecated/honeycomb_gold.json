@@ -6,7 +6,7 @@
     "outputs": [
         {
             "item": {
-                "item": "minecraft:gold_ingot"
+                "tag": "forge:ingots/gold"
             },
             "min": 1,
             "max": 1,

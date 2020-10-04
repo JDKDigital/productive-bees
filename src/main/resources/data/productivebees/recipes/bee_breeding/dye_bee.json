@@ -1,13 +1,13 @@
 {
     "type": "productivebees:bee_breeding",
     "parent1": "productivebees:lapis",
-    "parent2": "productivebees:skeletal_bee",
+    "parent2": "productivebees:skeletal",
     "offspring": [
         "productivebees:dye_bee"
     ],
     "breeding_items": [
         {
-            "item": "minecraft:lapis"
+            "tag": "forge:gems/lapis"
         },
         {
             "item": "minecraft:bone_meal"

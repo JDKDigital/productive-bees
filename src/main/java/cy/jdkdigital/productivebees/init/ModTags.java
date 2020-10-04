@@ -23,6 +23,7 @@ public class ModTags
     public static final INamedTag<Block> NETHER_QUARTZ_NESTS = getTag("nether_quarts_nests");
     public static final INamedTag<Block> NETHER_GOLD_NESTS = getTag("nether_quarts_nests");
     public static final INamedTag<Block> NETHER_BRICK_NESTS = getTag("nether_brick_nests");
+    public static final INamedTag<Block> SOUL_SAND_NESTS = getTag("soul_sand_nests");
     public static final INamedTag<Block> END_NESTS = getTag("end_nests");
     public static final INamedTag<Block> DRACONIC_NESTS = getTag("draconic_nests");
 
@@ -34,6 +35,7 @@ public class ModTags
     public static final INamedTag<Block> GLOWING_FLOWERS = getTag("glowing_flowers");
     public static final INamedTag<Block> MAGMATIC_FLOWERS = getTag("magmatic_flowers");
     public static final INamedTag<Block> CRYSTALLINE_FLOWERS = getTag("crystalline_flowers");
+    public static final INamedTag<Block> SOULED_FLOWERS = getTag("souled_flowers");
     public static final INamedTag<Block> GILDED_FLOWERS = getTag("gilded_flowers");
     public static final INamedTag<Block> FERRIC_FLOWERS = getTag("ferric_flowers");
     public static final INamedTag<Block> END_FLOWERS = getTag("end_flowers");

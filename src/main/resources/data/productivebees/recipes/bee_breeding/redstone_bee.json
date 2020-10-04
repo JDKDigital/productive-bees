@@ -7,10 +7,10 @@
     ],
     "breeding_items": [
         {
-            "item": "minecraft:glowstone_dust"
+            "tag": "forge:dusts/glowstone"
         },
         {
-            "item": "minecraft:redstone"
+            "tag": "forge:dusts/redstone"
         }
     ]
 }

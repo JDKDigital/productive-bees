@@ -1,5 +1,7 @@
 package cy.jdkdigital.productivebees.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.item.Gene;
 import cy.jdkdigital.productivebees.item.WoodChip;
@@ -55,6 +57,13 @@ public class InventoryHandlerHelper
                     ) {
                         return slot;
                     }
+                } else if(stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get()) || stack.getItem().equals(ModItems.CONFIGURABLE_COMB_BLOCK.get())) {
+                    String existingType = stack.getOrCreateTag().contains("type") ? stack.getOrCreateTag().getString("type") : "";
+                    String insertType = insertStack.getOrCreateTag().contains("type") ? insertStack.getOrCreateTag().getString("type") : "";
+                    ProductiveBees.LOGGER.info("insert config stack " + stack.getTag().equals(insertStack.getTag()) + " - " + stack.getTag() + " - " + insertStack.getTag());
+                    if (stack.getTag().equals(insertStack.getTag())) {
+                        return slot;
+                    }
                 } else {
                     return slot;
                 }
@@ -64,10 +73,6 @@ public class InventoryHandlerHelper
             }
         }
         return emptySlot;
-    }
-
-    public static ItemHandler getInventoryHandler(TileEntity tileEntity, int inputSize) {
-        return new ItemHandler(10 + inputSize, tileEntity);
     }
 
     public static class ItemHandler extends ItemStackHandler

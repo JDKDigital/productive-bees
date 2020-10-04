@@ -173,7 +173,7 @@ public class ProductiveBeeEntity extends BeeEntity
             }
         }
 
-        // Kill off expirable bees if it hasn't found a nest within 10 minutes
+        // Kill off expirable bee if it hasn't found a nest within 10 minutes
         if (this instanceof ExpirableBee) {
             ExpirableBee exBee = ((ExpirableBee) this);
             if (!((ExpirableBee) this).getHasHadNest() && exBee.ticksWithoutNest < ticksExisted ) {

@@ -14,6 +14,7 @@ import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
@@ -61,6 +62,7 @@ public class BeeHelper
             bee = recipe.result.get().getBeeEntity().create(world);
             if (bee instanceof ConfigurableBeeEntity) {
                 ((ConfigurableBeeEntity) bee).setBeeType(recipe.result.get().getBeeType().toString());
+                ((ConfigurableBeeEntity) bee).setAttributes();
             }
         }
 
@@ -72,11 +74,6 @@ public class BeeHelper
             return BeeHelper.prepareBeeSpawn(bee, world, nbt, player, pos, direction, entity.getGrowingAge());
         }
         return null;
-    }
-
-    public static BeeEntity prepareBeeSpawn(EntityType<? extends BeeEntity> beeType, ServerWorld world, @Nullable CompoundNBT nbt, @Nullable PlayerEntity player, BlockPos pos, Direction direction, int age) {
-        BeeEntity bee = beeType.create(world, nbt, null, player, pos, SpawnReason.CONVERSION, true, true);
-        return prepareBeeSpawn(bee, world, nbt, player, pos, direction, age);
     }
 
     public static BeeEntity prepareBeeSpawn(BeeEntity bee, ServerWorld world, @Nullable CompoundNBT nbt, @Nullable PlayerEntity player, BlockPos pos, Direction direction, int age) {
@@ -95,13 +92,13 @@ public class BeeHelper
         return null;
     }
 
-    public static BeeEntity getBreedingResult(ProductiveBeeEntity beeEntity, AgeableEntity targetEntity, World world) {
+    public static BeeEntity getBreedingResult(BeeEntity beeEntity, AgeableEntity targetEntity, World world) {
+        IInventory beeInv = new IdentifierInventory(beeEntity, (BeeEntity) targetEntity);
+
         // Get breeding recipes
         List<BeeBreedingRecipe> recipes = new ArrayList<>();
 
         Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING);
-        IInventory beeInv = new IdentifierInventory(beeEntity, (BeeEntity) targetEntity);
-        ProductiveBees.LOGGER.info("inv: " + beeInv);
         for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
             BeeBreedingRecipe recipe = (BeeBreedingRecipe) entry.getValue();
             if (recipe.matches(beeInv, world)) {
@@ -117,18 +114,20 @@ public class BeeHelper
                 BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
                 if (newBee instanceof ConfigurableBeeEntity) {
                     ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
+                    ((ConfigurableBeeEntity) newBee).setAttributes();
                 }
                 return newBee;
             }
         }
 
-        // Check if bee is configurable
+        // Check if bee is configurable and make a new of same type
         if (beeEntity instanceof ConfigurableBeeEntity) {
             ResourceLocation type = new ResourceLocation(((ConfigurableBeeEntity) beeEntity).getBeeType());
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(type);
             if (nbt != null) {
                 ConfigurableBeeEntity newBee = ModEntities.CONFIGURABLE_BEE.get().create(world);
                 newBee.setBeeType(type.toString());
+                newBee.setAttributes();
                 return newBee;
             }
         }
@@ -145,8 +144,6 @@ public class BeeHelper
         if (beeEntity instanceof ConfigurableBeeEntity) {
             beeId = ((ConfigurableBeeEntity) beeEntity).getBeeType();
         }
-
-//        ProductiveBees.LOGGER.info("datamanager: " + beeEntity.getDataManager().getAll());
 
         ResourceLocation id = new ResourceLocation(beeId);
         if (id.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
@@ -217,6 +214,7 @@ public class BeeHelper
         }
         else {
             // Default bee attributes
+            // @TODO load from config
             attributeMapParent2.put(BeeAttributes.PRODUCTIVITY, 0);
             attributeMapParent2.put(BeeAttributes.TEMPER, 1);
             attributeMapParent2.put(BeeAttributes.BEHAVIOR, 0);
