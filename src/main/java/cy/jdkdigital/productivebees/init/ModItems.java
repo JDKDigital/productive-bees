@@ -4,8 +4,12 @@ import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
 import cy.jdkdigital.productivebees.item.*;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -42,6 +46,7 @@ public class ModItems
     public static final RegistryObject<Item> HONEYCOMB_ENDER = createItem("honeycomb_ender", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_FOSSILISED = createItem("honeycomb_fossilised", () -> new Honeycomb((new Item.Properties()).group(null), "#222525"));
     public static final RegistryObject<Item> HONEYCOMB_GOLD = createItem("honeycomb_gold", () -> new Honeycomb((new Item.Properties()).group(null), "#c8df24"));
+    public static final RegistryObject<Item> HONEYCOMB_GHOSTLY = createItem("honeycomb_ghostly", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_GLOWING = createItem("honeycomb_glowing", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_INVAR = createItem("honeycomb_invar", () -> new Honeycomb((new Item.Properties()).group(null), "#ADB7B2"));
     public static final RegistryObject<Item> HONEYCOMB_IRON = createItem("honeycomb_iron", () -> new Honeycomb((new Item.Properties()).group(null), "#cdcdcd"));
@@ -77,7 +82,7 @@ public class ModItems
     public static final RegistryObject<Item> UPGRADE_TIME = createItem("upgrade_time", () -> new UpgradeItem((new Item.Properties().maxStackSize(1)).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_BREEDING = createItem("upgrade_breeding", () -> new UpgradeItem((new Item.Properties().maxStackSize(1)).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_COMB_BLOCK = createItem("upgrade_comb_block", () -> new UpgradeItem((new Item.Properties().maxStackSize(1)).group(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> UPGRADE_BIOME_MOD = createItem("upgrade_biome_mod", () -> new BiomeModUpgradeItem((new Item.Properties().maxStackSize(1)).group(null)));
+//    public static final RegistryObject<Item> UPGRADE_BIOME_MOD = createItem("upgrade_biome_mod", () -> new BiomeModUpgradeItem((new Item.Properties().maxStackSize(1)).group(null)));
     public static final RegistryObject<Item> UPGRADE_ANTI_TELEPORT = createItem("upgrade_anti_teleport", () -> new UpgradeItem((new Item.Properties().maxStackSize(1)).group(ModItemGroups.PRODUCTIVE_BEES)));
 
     public static final RegistryObject<Item> ADV_BREED_BEE = createItem("adv_breed_bee", () -> new Item(new Item.Properties()));

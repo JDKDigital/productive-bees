@@ -38,7 +38,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     private int tickCounter = 0;
 
     // Used for calculating if a new bee should move in
-    private int nestTickTimer = 0;
+    public int nestTickTimer = 24000;
 
     public int MAX_EGGS = 3;
 
@@ -51,13 +51,10 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     public void tick() {
         if (this.world != null && !this.world.isRemote) {
             // Check if the nest has been abandoned and spawn a bee if it has
-            if (++nestTickTimer % 47 == 0) { // Does not need to check every tick
-                Block block = this.getBlockState().getBlock();
-                if (!this.canRepopulate()) {
-                    nestTickTimer = 0;
-                }
-                else if (this.canRepopulate() && nestTickTimer > this.getRepopulationCooldown(block)) {
-                    nestTickTimer = 0;
+            Block block = this.getBlockState().getBlock();
+            if (--nestTickTimer <= 0) {
+                nestTickTimer = this.getRepopulationCooldown(block);
+                if (this.canRepopulate()) {
                     if (block instanceof SolitaryNest) {
                         EntityType<? extends BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block);
                         if (beeType != null) {
@@ -126,7 +123,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         return hasNoBees() && blockConditionsMet;
     }
 
-    protected int getRepopulationCooldown(Block block) {
+    public int getRepopulationCooldown(Block block) {
         IRecipe<?> recipe = world.getRecipeManager().getRecipe(new ResourceLocation(ProductiveBees.MODID, "bee_spawning/" + block.getRegistryName().getPath())).orElse(null);
         if (recipe instanceof BeeSpawningRecipe) {
             return ((BeeSpawningRecipe) recipe).repopulationCooldown;
@@ -159,6 +156,9 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
         super.beeReleasePostAction(beeEntity, state, beeState);
+
+        // reset repopulation cooldown
+        nestTickTimer = this.getRepopulationCooldown(state.getBlock());
 
         // Lay egg
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED && !beeEntity.isChild()) {

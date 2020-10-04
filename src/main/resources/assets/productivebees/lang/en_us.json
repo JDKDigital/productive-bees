@@ -104,6 +104,7 @@
 	"item.productivebees.honeycomb_fossilised": "Fossilised Comb",
 	"item.productivebees.honeycomb_gold": "Gold Comb",
 	"item.productivebees.honeycomb_glowing": "Glowing Comb",
+	"item.productivebees.honeycomb_ghostly": "Ghostly Comb",
 	"item.productivebees.honeycomb_invar": "Invar Comb",
 	"item.productivebees.honeycomb_iron": "Iron Comb",
 	"item.productivebees.honeycomb_lapis": "Lapis Comb",
@@ -236,6 +237,7 @@
 	"block.productivebees.comb_fossilised": "Fossilised Comb Block",
 	"block.productivebees.comb_gold": "Gold Comb Block",
 	"block.productivebees.comb_glowing": "Glowing Comb Block",
+	"block.productivebees.comb_ghostly": "Ghostly Comb Block",
 	"block.productivebees.comb_invar": "Invar Comb Block",
 	"block.productivebees.comb_iron": "Iron Comb Block",
 	"block.productivebees.comb_lapis": "Lapis Comb Block",
@@ -426,5 +428,6 @@
 	"productivebees.ingredient.description.soul_sand_nest": "Attracts ghostly bees in the nether. Nest must be placed in the nether to attract bees.",
 
 	"productivebees.top.solitary.bee": "Inhabitant: %s",
-	"productivebees.top.solitary.egg_count": "Eggs: %s"
+	"productivebees.top.solitary.egg_count": "Eggs: %s",
+	"productivebees.top.solitary.repopulation_countdown": "Repopulation cooldown"
 }

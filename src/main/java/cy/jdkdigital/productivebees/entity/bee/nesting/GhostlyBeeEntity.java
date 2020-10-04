@@ -19,6 +19,7 @@ public class GhostlyBeeEntity extends ProductiveBeeEntity implements ExpirableBe
         super(entityType, world);
         beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.SOULED_FLOWERS);
         beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.SOUL_SAND_NESTS);
+        beeAttributes.put(BeeAttributes.BEHAVIOR, 1);
     }
 
     @Override

@@ -33,10 +33,17 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                             .item(new ItemStack(blockState.getBlock().asItem()))
                             .vertical()
                             .itemLabel(new ItemStack(blockState.getBlock().asItem()))
-                            .text(formattedName)
-                            .text(new TranslationTextComponent("productivebees.top.solitary.bee", nest.getBeeCount() > 0 ? nest.getBeeList().get(0).localizedName : " - "))
-                            .text(new TranslationTextComponent("productivebees.top.solitary.egg_count", nest.getEggs().size()))
-                            .progress(nest.getBeeCount() > 0 ? nest.getBeeList().get(0).minOccupationTicks - nest.getBeeList().get(0).ticksInHive : 0, nest.getBeeCount() > 0 ? nest.getBeeList().get(0).minOccupationTicks : 0);
+                            .text(formattedName);
+                    probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.bee", nest.getBeeCount() > 0 ? nest.getBeeList().get(0).localizedName : " - "));
+                    if (nest.getEggs().size() > 0) {
+                        probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.egg_count", nest.getEggs().size()));
+                    }
+                    if (nest.getBeeCount() > 0) {
+                        probeInfo.progress(nest.getBeeList().get(0).minOccupationTicks - nest.getBeeList().get(0).ticksInHive, nest.getBeeList().get(0).minOccupationTicks);
+                    } else {
+                        probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown"));
+                        probeInfo.progress(nest.nestTickTimer, nest.getRepopulationCooldown(blockState.getBlock()));
+                    }
                     return true;
                 }
             }

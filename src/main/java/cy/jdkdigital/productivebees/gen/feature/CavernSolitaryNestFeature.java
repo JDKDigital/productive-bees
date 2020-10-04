@@ -39,7 +39,7 @@ public class CavernSolitaryNestFeature extends SolitaryNestFeature
 
         if (top) {
             // Go to surface
-            while (pos.getY() < 127 || !world.isAirBlock(pos)) {
+            while (pos.getY() < 127 && !world.isAirBlock(pos)) {
                 pos = pos.up();
             }
             pos = pos.down();

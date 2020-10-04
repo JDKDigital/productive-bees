@@ -1,7 +1,7 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/ghastly"
+        "tag": "forge:honeycombs/ghostly"
     },
     "outputs": [
         {

@@ -21,15 +21,15 @@ public class BiomeModUpgradeItem extends UpgradeItem
         super(properties);
     }
 
-    public static ItemStack getStack(String biome) {
-        ItemStack stack = new ItemStack(ModItems.UPGRADE_BIOME_MOD.get());
-
-        CompoundNBT nbt = new CompoundNBT();
-        nbt.putString("biome", biome);
-        stack.getOrCreateTag().put(KEY, nbt);
-
-        return stack;
-    }
+//    public static ItemStack getStack(String biome) {
+//        ItemStack stack = new ItemStack(ModItems.UPGRADE_BIOME_MOD.get());
+//
+//        CompoundNBT nbt = new CompoundNBT();
+//        nbt.putString("biome", biome);
+//        stack.getOrCreateTag().put(KEY, nbt);
+//
+//        return stack;
+//    }
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
