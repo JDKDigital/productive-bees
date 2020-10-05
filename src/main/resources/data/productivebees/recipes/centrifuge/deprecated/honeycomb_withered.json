@@ -1,9 +1,8 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/withered"
     },
-    "comb_type": "productivebees:withered",
     "outputs": [
         {
             "item": {
