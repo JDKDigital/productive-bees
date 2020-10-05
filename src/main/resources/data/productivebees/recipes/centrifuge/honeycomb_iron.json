@@ -7,7 +7,7 @@
     "outputs": [
         {
             "item": {
-                "item": "minecraft:iron_ingot"
+                "tag": "forge:ingots/iron"
             },
             "min": 1,
             "max": 1,

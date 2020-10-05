@@ -56,12 +56,12 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> HOARDER_BEE = createHiveBee("hoarder_bee", HoarderBeeEntity::new, 8306149, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> FARMER_BEE = createHiveBee("farmer_bee", FarmerBeeEntity::new, 9615358, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> CARTOGRAPHER_BEE = createHiveBee("cartographer_bee", ProductiveBeeEntity::new, 9615358, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-
     public static RegistryObject<EntityType<BeeEntity>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBeeEntity::new, 894731, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<BeeEntity>> WITHER_BEE = createHiveBee("wither_bee", WitherBeeEntity::new, 1315860, 6238757, ModItemGroups.PRODUCTIVE_BEES);
+
+    public static RegistryObject<EntityType<BeeEntity>> WITHER_BEE = createHiveBee("wither_bee", WitherBeeEntity::new, 1315860, 6238757, null);
     public static RegistryObject<EntityType<BeeEntity>> BLAZING_BEE = createHiveBee("blazing_bee", BlazingBeeEntity::new, 16763648, 6238757, null);
-    public static RegistryObject<EntityType<BeeEntity>> ZOMBIE_BEE = createHiveBee("zombie_bee", ZombieBeeEntity::new, 7969893, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<BeeEntity>> SKELETAL_BEE = createHiveBee("skeletal_bee", SkeletalBeeEntity::new, 12698049, 6238757, ModItemGroups.PRODUCTIVE_BEES);
+    public static RegistryObject<EntityType<BeeEntity>> ZOMBIE_BEE = createHiveBee("zombie_bee", ZombieBeeEntity::new, 7969893, 6238757, null);
+    public static RegistryObject<EntityType<BeeEntity>> SKELETAL_BEE = createHiveBee("skeletal_bee", SkeletalBeeEntity::new, 12698049, 6238757, null);
 
     public static RegistryObject<EntityType<BeeEntity>> ENDER_BEE = createHiveBee("ender_bee", EnderBeeEntity::new, 1447446, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> GLOWING_BEE = createHiveBee("glowing_bee", GlowingBeeEntity::new, 16579584, 6238757, ModItemGroups.PRODUCTIVE_BEES);
@@ -69,6 +69,7 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> MAGMATIC_BEE = createHiveBee("magmatic_bee", MagmaticBeeEntity::new, 3407872, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> DRACONIC_BEE = createHiveBee("draconic_bee", DraconicBeeEntity::new, 1842204, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> SLIMY_BEE = createHiveBee("slimy_bee", SlimyBeeEntity::new, 8306542, 6238757, ModItemGroups.PRODUCTIVE_BEES);
+    public static RegistryObject<EntityType<BeeEntity>> GHOSTLY_BEE = createHiveBee("ghostly_bee", GhostlyBeeEntity::new, 8306542, 6238757, ModItemGroups.PRODUCTIVE_BEES);
 
     public static RegistryObject<EntityType<BeeEntity>> ASHY_MINING_BEE = createSolitaryBee("ashy_mining_bee", SolitaryBeeEntity::new, 11709345, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> BLUE_BANDED_BEE = createSolitaryBee("blue_banded_bee", BlueBandedBeeEntity::new, 9615358, 6238757);
@@ -158,6 +159,9 @@ public class ModEntities
             EntityType<?> bee = registryObject.get();
             if (bee.getTranslationKey().contains("slimy_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, SlimyBeeRenderer::new);
+            }
+            else if (bee.getTranslationKey().contains("ghostly_bee")) {
+                RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, GhostlyBeeRenderer::new);
             }
             else if (bee.getTranslationKey().contains("dye_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, DyeBeeRenderer::new);

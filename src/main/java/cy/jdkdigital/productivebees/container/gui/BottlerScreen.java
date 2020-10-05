@@ -43,7 +43,7 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
             if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
                 List<IReorderingProcessor> tooltipList = new ArrayList<IReorderingProcessor>()
                 {{
-                    add(new TranslationTextComponent("productivebees.screen.honey_level", fluidAmount).func_241878_f());
+                    add(new TranslationTextComponent("productivebees.screen.honey_level", fluidAmount + "mb").func_241878_f());
                 }};
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }
@@ -64,7 +64,7 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
             int fluidAmount = fluidHandler.getFluidInTank(0).getAmount();
             int fluidLevel = (int) (fluidAmount * (52 / 10000F));
-            blit(matrixStack, this.guiLeft + 140, this.guiTop + 69, 176, 69, 4, -1 * fluidLevel);
+            blit(matrixStack, this.guiLeft + 140, this.guiTop + 69 - fluidLevel, 176, 17, 4, fluidLevel);
         });
     }
 }

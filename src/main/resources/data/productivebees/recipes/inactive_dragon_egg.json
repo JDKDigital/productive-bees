@@ -10,7 +10,7 @@
             "item": "productivebees:draconic_chunk"
         },
         "E": {
-            "item": "minecraft:egg"
+            "tag": "forge:eggs"
         }
     },
     "result": {

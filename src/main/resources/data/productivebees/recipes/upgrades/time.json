@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CHC",
+        "HBH",
+        "CHC"
+    ],
+    "key": {
+        "B": {
+            "item": "productivebees:upgrade_base"
+        },
+        "H": {
+            "item": "minecraft:clock"
+        },
+        "C": {
+            "tag": "forge:storage_blocks/honeycombs"
+        }
+    },
+    "result": {
+        "item": "productivebees:upgrade_time"
+    }
+}

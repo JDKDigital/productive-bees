@@ -1,4 +1,7 @@
 {
     "primaryColor": "#3ddfe1",
-    "secondaryColor": "#804f40"
+    "secondaryColor": "#804f40",
+    "attributes": {
+        "endurance": 2
+    }
 }

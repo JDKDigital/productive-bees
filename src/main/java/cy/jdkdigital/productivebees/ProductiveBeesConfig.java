@@ -26,6 +26,7 @@ public class ProductiveBeesConfig
     public static final Bees BEES = new Bees(BUILDER);
     public static final BeeAttributes BEE_ATTRIBUTES = new BeeAttributes(BUILDER);
     public static final WorldGen WORLD_GEN = new WorldGen(BUILDER);
+    public static final Upgrades UPGRADES = new Upgrades(BUILDER);
 
     static {
         CONFIG = BUILDER.build();
@@ -71,7 +72,7 @@ public class ProductiveBeesConfig
                     .define("enableCombProduce", true);
 
             nestRepopulationCooldown = builder
-                    .comment("Cooldown for when an abandoned nest will spawn a new inhabitant")
+                    .comment("Deprecated: Moved to spawning recipe.")
                     .defineInRange("nestRepopulationCooldown", 3600, 20, Integer.MAX_VALUE);
 
             preferredTagSource = builder
@@ -138,6 +139,25 @@ public class ProductiveBeesConfig
                     nestConfigs.put("enable_" + resName, builder.define("enable_" + resName, true));
                 }
             }
+
+            builder.pop();
+        }
+    }
+
+    public static class Upgrades
+    {
+        public final ForgeConfigSpec.DoubleValue timeBonus;
+        public final ForgeConfigSpec.DoubleValue combBlockTimeodifier;
+        public final ForgeConfigSpec.DoubleValue productivityMultiplier;
+        public final ForgeConfigSpec.DoubleValue breedingChance;
+
+        public Upgrades(ForgeConfigSpec.Builder builder) {
+            builder.push("Hive Upgrades");
+
+            timeBonus = builder.comment("Time bonus gained from time upgrade. 0.2 means 20% reduction of a bee's time inside the hive.").defineInRange("timeBonus", 0.2, 0, 1);
+            combBlockTimeodifier = builder.comment("Time penalty from installing the comb block upgrade. 1.4 means 140% increase of a bee's time inside the hive.").defineInRange("combBlockTimeodifier", 1.4, 1, Integer.MAX_VALUE);
+            productivityMultiplier = builder.comment("Multiplier per productivity upgrade installed in the hive.").defineInRange("productivityMultiplier", 1.8, 1, Integer.MAX_VALUE);
+            breedingChance = builder.comment("Chance for a bee to produce an offspring after a hive visit.").defineInRange("breedingChance", 0.05, 0, 1);
 
             builder.pop();
         }

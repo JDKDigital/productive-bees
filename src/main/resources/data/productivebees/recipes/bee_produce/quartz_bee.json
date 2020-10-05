@@ -7,7 +7,7 @@
                 "tag": "forge:honeycombs/quartz"
             },
             "item_produce": {
-                "item": "minecraft:quartz"
+                "tag": "forge:gems/quartz"
             },
             "min": 1.0,
             "max": 3.0

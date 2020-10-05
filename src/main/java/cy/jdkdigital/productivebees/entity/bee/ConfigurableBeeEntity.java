@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.entity.bee;
 
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeEffect;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -10,6 +11,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -17,6 +22,8 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffectBeeEntity
 {
@@ -63,10 +70,32 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         return this.dataManager.get(TYPE);
     }
 
+    public void setAttributes() {
+        CompoundNBT nbt = getNBTData();
+        if (nbt.contains(("productivity"))) {
+            beeAttributes.put(BeeAttributes.PRODUCTIVITY, nbt.getInt("productivity"));
+        }
+        if (nbt.contains(("temper"))) {
+            beeAttributes.put(BeeAttributes.TEMPER, nbt.getInt("temper"));
+        }
+        if (nbt.contains(("endurance"))) {
+            beeAttributes.put(BeeAttributes.ENDURANCE, nbt.getInt("endurance"));
+        }
+        if (nbt.contains(("behavior"))) {
+            beeAttributes.put(BeeAttributes.BEHAVIOR, nbt.getInt("behavior"));
+        }
+        if (nbt.contains(("weather_tolerance"))) {
+            beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, nbt.getInt("weather_tolerance"));
+        }
+        if (nbt.contains(("effect"))) {
+            beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(nbt.getCompound("effect")));
+        }
+    }
+
     @Override
     public Color getColor(int tintIndex) {
         CompoundNBT nbt = getNBTData();
-        if (nbt != null && nbt.contains("primaryColor")) {
+        if (nbt.contains("primaryColor")) {
             return tintIndex == 0 ? new Color(nbt.getInt("primaryColor")) : new Color(nbt.getInt("secondaryColor"));
         }
         return super.getColor(tintIndex);
@@ -76,7 +105,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     @Override
     protected ITextComponent getProfessionName() {
         CompoundNBT nbt = getNBTData();
-        if (nbt != null && nbt.contains("name")) {
+        if (nbt.contains("name")) {
             return new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name"));
         }
         return super.getProfessionName();
@@ -100,16 +129,59 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         compound.putString("type", getBeeType());
     }
 
+    protected CompoundNBT getNBTData() {
+        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(getBeeType()));
+
+        return nbt != null ? nbt : new CompoundNBT();
+    }
+
     public boolean hasBeeTexture() {
-        CompoundNBT nbt = getNBTData();
-        return nbt != null && nbt.contains("beeTexture");
+        return getNBTData().contains("beeTexture");
     }
 
     public String getBeeTexture() {
         return getNBTData().getString("beeTexture");
     }
 
-    protected CompoundNBT getNBTData() {
-        return BeeReloadListener.INSTANCE.getData(new ResourceLocation(getBeeType()));
+    // Effect bees
+    private boolean isWithered() {
+        return getNBTData().contains("withered") && getNBTData().getBoolean("withered");
+    }
+    private boolean hasMunchies() {
+        return getNBTData().contains("munchies") && getNBTData().getBoolean("munchies");
+    }
+
+    @Override
+    public Map<Effect, Integer> getAggressiveEffects() {
+        if (isWithered()) {
+            return new HashMap<Effect, Integer>()
+            {{
+                put(Effects.WITHER, 350);
+            }};
+        }
+        if (hasMunchies()) {
+            return new HashMap<Effect, Integer>()
+            {{
+                put(Effects.HUNGER, 530);
+            }};
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean isInvulnerableTo(@Nonnull DamageSource source) {
+        if (isWithered()) {
+            return source.equals(DamageSource.WITHER) || super.isInvulnerableTo(source);
+        }
+        return super.isInvulnerableTo(source);
+    }
+
+    @Override
+    public boolean isPotionApplicable(EffectInstance effect) {
+        if (isWithered()) {
+            return effect.getPotion() != Effects.WITHER && super.isPotionApplicable(effect);
+        }
+        return super.isPotionApplicable(effect);
     }
 }

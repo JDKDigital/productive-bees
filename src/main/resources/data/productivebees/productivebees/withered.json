@@ -1,0 +1,16 @@
+{
+    "beeTexture": "productivebees:textures/entity/bee/wither/bee",
+    "createComb": false,
+    "flowerTag": "productivebees:wither_flowers",
+    "attributes": {
+        "temper": 2,
+        "behavior": 1
+    },
+    "withered": true,
+    "passiveEffects": [
+        {
+            "effect": "minecraft:wither",
+            "duration": 150
+        }
+    ]
+}

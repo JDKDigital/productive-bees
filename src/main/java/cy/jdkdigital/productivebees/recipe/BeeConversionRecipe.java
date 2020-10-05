@@ -39,7 +39,7 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
-        if (inv instanceof BeeHelper.IdentifierInventory) {
+        if (inv instanceof BeeHelper.IdentifierInventory && source.get() != null) {
             String beeName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(0);
             String itemName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(1);
 
@@ -54,6 +54,7 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
 
             return parentName.equals(beeName) && matchesItem;
         }
+        ProductiveBees.LOGGER.warn("conversion recipe source is null " + this);
         return false;
     }
 

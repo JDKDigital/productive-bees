@@ -7,7 +7,7 @@
     ],
     "breeding_items": [
         {
-            "item": "minecraft:gold_ingot"
+            "tag": "forge:ingots/gold"
         },
         {
             "tag": "forge:ingots/silver"
