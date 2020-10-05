@@ -72,7 +72,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                         ((ConfigurableBeeEntity) bee).setBeeType(nbt.getString("type"));
                     }
 
-                    if (bee != null && positions.containsKey(j) && isPointInRegion(positions.get(j).get(0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
+                    if (bee != null && positions.containsKey(j) && isPointInRegion(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
                         List<ITextProperties> tooltipList = new ArrayList<ITextProperties>()
                         {{
                             add(bee.getName());

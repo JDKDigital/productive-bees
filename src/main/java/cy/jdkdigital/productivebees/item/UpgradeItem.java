@@ -40,6 +40,6 @@ public class UpgradeItem extends Item
                 break;
         }
 
-        tooltip.add(new TranslationTextComponent("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).applyTextStyle(TextFormatting.GOLD));
+        tooltip.add(new TranslationTextComponent("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).mergeStyle(TextFormatting.GOLD));
     }
 }

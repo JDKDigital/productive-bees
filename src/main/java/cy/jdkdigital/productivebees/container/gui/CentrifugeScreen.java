@@ -43,7 +43,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
             if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
                 List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>()
                 {{
-                    add(new TranslationTextComponent("productivebees.screen.honey_level", fluidAmount));
+                    add(new TranslationTextComponent("productivebees.screen.honey_level", fluidAmount + "mb"));
                 }};
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }
@@ -56,7 +56,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
             if (isPointInRegion(7, 16, 6, 54, mouseX, mouseY)) {
                 List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>()
                 {{
-                    add(new TranslationTextComponent("productivebees.screen.energy_level",  energyAmount));
+                    add(new TranslationTextComponent("productivebees.screen.energy_level",  energyAmount + "FE"));
                 }};
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }
@@ -86,14 +86,14 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
             int fluidAmount = handler.getFluidInTank(0).getAmount();
             int fluidLevel = (int) (fluidAmount * (52 / 10000F));
-            blit(matrixStack, this.guiLeft + 140, this.guiTop + 69, 176, 69, 4, -1 * fluidLevel);
+            blit(matrixStack, this.guiLeft + 140, this.guiTop + 69 - fluidLevel, 176, 17, 4, fluidLevel);
         });
 
         // Draw energy level
         this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52 / 10000F));
-            blit(matrixStack, this.guiLeft + 8, this.guiTop + 69, 180, 69, 4, -1 * energyLevel);
+            blit(matrixStack, this.guiLeft + 8, this.guiTop + 69 - energyLevel, 180, 17, 4, energyLevel);
         });
     }
 }

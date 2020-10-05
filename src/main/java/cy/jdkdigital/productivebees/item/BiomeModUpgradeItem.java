@@ -39,9 +39,9 @@ public class BiomeModUpgradeItem extends UpgradeItem
             CompoundNBT data = stack.getOrCreateTag().getCompound(KEY);
             if (data.contains("biome")) {
                 String biome = data.getString("biome");
-                tooltip.add(new StringTextComponent(biome).applyTextStyle(TextFormatting.GOLD));
+                tooltip.add(new StringTextComponent(biome).mergeStyle(TextFormatting.GOLD));
             } else {
-                tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.unconfigured").applyTextStyle(TextFormatting.WHITE));
+                tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.unconfigured").mergeStyle(TextFormatting.WHITE));
             }
         }
     }

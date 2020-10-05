@@ -373,7 +373,9 @@
 	"productivebees.hive.tooltip.bees": "Bees:",
 	"productivebees.hive.tooltip.empty": "Empty",
 	"productivebees.hive.tooltip.honey_level": "Honey Level: %s",
-	
+	"productivebees.screen.honey_level": "Honey: %s",
+	"productivebees.screen.energy_level": "Energy: %s",
+
 	"productivebees.ingredient.description.iron_bee": "Put it in an advanced beehive to get some iron.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.coal_bee": "Put it in an advanced beehive to get some coal.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.gold_bee": "Put it in an advanced beehive to get some gold.\n\nDoes not spawn naturally.",
