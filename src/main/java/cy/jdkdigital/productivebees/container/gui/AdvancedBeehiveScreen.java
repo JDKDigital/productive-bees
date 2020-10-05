@@ -145,7 +145,6 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                         matrixStack.pop();
                     }
                 }
-
                 i++;
             }
         });

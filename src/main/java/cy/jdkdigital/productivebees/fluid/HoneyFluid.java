@@ -83,7 +83,7 @@ public abstract class HoneyFluid extends FlowingFluid
     }
 
     public int getSlopeFindDistance(IWorldReader worldIn) {
-        return worldIn.func_230315_m_().func_236040_e_() ? 6 : 3;
+        return worldIn.getDimensionType().isUltrawarm()  ? 6 : 3;
     }
 
     @Override
@@ -96,7 +96,7 @@ public abstract class HoneyFluid extends FlowingFluid
     }
 
     public int getLevelDecreasePerBlock(IWorldReader worldIn) {
-        return worldIn.func_230315_m_().func_236040_e_() ? 1 : 2;
+        return worldIn.getDimensionType().isUltrawarm() ? 1 : 2;
     }
 
     public boolean canDisplace(FluidState state, IBlockReader worldIn, BlockPos pos, Fluid fluid, Direction direction) {
@@ -104,7 +104,7 @@ public abstract class HoneyFluid extends FlowingFluid
     }
 
     public int getTickRate(IWorldReader worldIn) {
-        return worldIn.func_230315_m_().func_236040_e_() ? 10 : 30;
+        return worldIn.getDimensionType().isUltrawarm() ? 10 : 30;
     }
 
     public int func_215667_a(World world, BlockPos pos, FluidState state, FluidState FluidState) {

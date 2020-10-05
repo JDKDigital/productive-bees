@@ -32,7 +32,6 @@ public class ResourcefulConfigurableBeeEntity extends ConfigurableBeeEntity impl
         boolean hasComb = false;
         ItemStack combProduce = null;
         for(ItemStack stack: produce) {
-            ProductiveBees.LOGGER.info("produce " + stack);
             if (stack.getItem() instanceof Honeycomb || stack.getItem().getRegistryName().getPath().contains("honeycomb_")) {
                 combProduce = stack;
                 hasComb = true;
@@ -55,17 +54,14 @@ public class ResourcefulConfigurableBeeEntity extends ConfigurableBeeEntity impl
                 new TraitData(false)
         ).createCustomBee();
 
-        ProductiveBees.LOGGER.info(this + " hasComb " + hasComb);
         if (hasComb) {
             ItemStack finalCombProduce = combProduce;
             data.setCombSupplier(() -> {
-                ProductiveBees.LOGGER.info("combsupplier get " + finalCombProduce);
                 return finalCombProduce;
             });
             ItemStack finalCombBlockProduce = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
             finalCombBlockProduce.setTag(combProduce.getTag());
             data.setCombBlockItemSupplier(() -> {
-                ProductiveBees.LOGGER.info("combblocksupplier get " + finalCombBlockProduce);
                 return finalCombBlockProduce;
             });
         }
@@ -76,7 +72,6 @@ public class ResourcefulConfigurableBeeEntity extends ConfigurableBeeEntity impl
 
     @Override
     public ICustomBee createSelectedChild(CustomBeeData customBeeData) {
-        ProductiveBees.LOGGER.info("createSelectedChild: " + customBeeData.getName());
         BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(customBeeData.getName()).get();
         if (beeIngredient != null) {
             BeeEntity newBee = beeIngredient.getBeeEntity().create(world);

@@ -223,7 +223,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
                 ++this.ticks;
                 if (this.ticks > 600) {
                     HoarderBeeEntity.this.targetItemPos = null;
-                } else if (!HoarderBeeEntity.this.navigator.func_226337_n_()) {
+                } else if (!HoarderBeeEntity.this.navigator.noPath()) {
                     BlockPos itemPos = HoarderBeeEntity.this.targetItemPos;
                     HoarderBeeEntity.this.navigator.tryMoveToXYZ(itemPos.getX(), itemPos.getY(), itemPos.getZ(), 1.0D);
                 }

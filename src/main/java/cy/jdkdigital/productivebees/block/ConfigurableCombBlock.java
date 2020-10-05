@@ -65,7 +65,6 @@ public class ConfigurableCombBlock extends CombBlock
         if (tileEntity instanceof CombBlockTileEntity) {
             CompoundNBT tag = stack.getChildTag("EntityTag");
             if (tag != null && tag.contains("type")) {
-                ProductiveBees.LOGGER.info("set type for new block " + tag);
                 ((CombBlockTileEntity) tileEntity).setType(tag.getString("type"));
             }
         }

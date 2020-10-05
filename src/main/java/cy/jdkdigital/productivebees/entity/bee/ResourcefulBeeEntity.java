@@ -32,7 +32,6 @@ public class ResourcefulBeeEntity extends ProductiveBeeEntity implements Resourc
         boolean hasComb = false;
         ItemStack combProduce = null;
         for(ItemStack stack: produce) {
-            ProductiveBees.LOGGER.info("produce " + stack);
             if (stack.getItem() instanceof Honeycomb || stack.getItem().getRegistryName().getPath().contains("honeycomb_")) {
                 combProduce = stack;
                 hasComb = true;
@@ -55,16 +54,13 @@ public class ResourcefulBeeEntity extends ProductiveBeeEntity implements Resourc
                 new TraitData(false)
         ).createCustomBee();
 
-        ProductiveBees.LOGGER.info(this + " hasComb " + hasComb);
         if (hasComb) {
             ItemStack finalCombProduce = combProduce;
             data.setCombSupplier(() -> {
-                ProductiveBees.LOGGER.info("combsupplier get " + finalCombProduce);
                 return finalCombProduce;
             });
             // Fallback to comb produce for non-configurable bees
             data.setCombBlockItemSupplier(() -> {
-                ProductiveBees.LOGGER.info("combblocksupplier get " + finalCombProduce);
                 return finalCombProduce;
             });
         }
@@ -75,7 +71,6 @@ public class ResourcefulBeeEntity extends ProductiveBeeEntity implements Resourc
 
     @Override
     public ICustomBee createSelectedChild(CustomBeeData customBeeData) {
-        ProductiveBees.LOGGER.info("createSelectedChild: " + customBeeData.getName());
         BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(customBeeData.getName()).get();
         if (beeIngredient != null) {
             BeeEntity newBee = beeIngredient.getBeeEntity().create(world);

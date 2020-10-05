@@ -111,7 +111,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                 ++this.ticks;
                 if (this.ticks > 600) {
                     FarmerBeeEntity.this.targetHarvestPos = null;
-                } else if (!FarmerBeeEntity.this.navigator.func_226337_n_()) {
+                } else if (!FarmerBeeEntity.this.navigator.noPath()) {
                     BlockPos blockPos = FarmerBeeEntity.this.targetHarvestPos;
                     FarmerBeeEntity.this.navigator.tryMoveToXYZ(blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0D);
                 }

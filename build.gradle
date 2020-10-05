@@ -97,7 +97,7 @@ dependencies {
     // compile against the JEI API but do not include it at runtime
     compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
     // at runtime, use the full JEI jar
-//    runtimeOnly fg.deobf("mezz.jei:jei-${mcversion}:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
 
     compileOnly fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}:api")
     runtime fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}")

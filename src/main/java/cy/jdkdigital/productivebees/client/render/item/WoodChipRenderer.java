@@ -104,7 +104,7 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
             return null;
         }
 
-        TextureAtlasSprite sprite = quads.iterator().next().func_187508_a();
+        TextureAtlasSprite sprite = quads.iterator().next().getSprite();
 
         woodTextureLocations.put(woodName, sprite);
 

@@ -35,6 +35,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -236,7 +237,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             // Breed this bee with a random bee inside
             Inhabitant otherBeeInhabitant = getBeeList().get(world.rand.nextInt(getBeeCount()));
             BeeEntity otherBee = (BeeEntity) EntityType.loadEntityAndExecute(otherBeeInhabitant.nbt, world, (spawnedEntity) -> spawnedEntity);
-            BeeEntity offspring = BeeHelper.getBreedingResult(beeEntity, otherBee, world);
+            BeeEntity offspring = BeeHelper.getBreedingResult(beeEntity, otherBee, (ServerWorld) world);
             if (offspring instanceof ProductiveBeeEntity && beeEntity instanceof ProductiveBeeEntity) {
                 BeeHelper.setOffspringAttributes((ProductiveBeeEntity) offspring, (ProductiveBeeEntity) beeEntity, otherBee);
             }
