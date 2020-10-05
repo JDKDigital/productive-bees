@@ -29,7 +29,7 @@ public class SlimyBeeEntity extends EffectHiveBeeEntity implements ExpirableBee
     }
 
     @Override
-    public Map<Effect, Integer> getEffects() {
+    public Map<Effect, Integer> getAggressiveEffects() {
         return new HashMap<Effect, Integer>()
         {{
             put(Effects.SLOWNESS, 200);

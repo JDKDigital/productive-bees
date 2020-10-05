@@ -33,7 +33,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
             beeLocation = beeLocation + "_nectar";
         }
 
-        return new ResourceLocation(ProductiveBees.MODID, beeLocation);
+        return new ResourceLocation(ProductiveBees.MODID, beeLocation + ".png");
     }
 
     private int sum(int num) {

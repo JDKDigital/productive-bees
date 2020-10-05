@@ -1,10 +1,16 @@
 package cy.jdkdigital.productivebees.util;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BeeCreator
 {
@@ -31,6 +37,26 @@ public class BeeCreator
         }
         if (json.has("attackResponse")) {
             data.putString("attackResponse", json.get("attackResponse").getAsString());
+        }
+        if (json.has("attributes")) {
+            for(Map.Entry<String, JsonElement> entry: json.get("attributes").getAsJsonObject().entrySet()) {
+                switch (entry.getKey()) {
+                    case "productivity":
+                    case "endurance":
+                    case "temper":
+                    case "behavior":
+                    case "weather_tolerance":
+                        data.putInt(entry.getKey(), entry.getValue().getAsInt());
+                }
+            }
+        }
+        if (json.has("passiveEffects")) {
+            Map<Effect, Integer> effects = new HashMap<>();
+            for(JsonElement el: json.get("passiveEffects").getAsJsonArray()) {
+                JsonObject effect = el.getAsJsonObject();
+                effects.put(ForgeRegistries.POTIONS.getValue(new ResourceLocation(effect.get("effect").getAsString())), effect.get("duration").getAsInt());
+            }
+            data.put("effect", new BeeEffect(effects).serializeNBT());
         }
 
         data.putBoolean("createComb", !json.has("createComb") || json.get("createComb").getAsBoolean());

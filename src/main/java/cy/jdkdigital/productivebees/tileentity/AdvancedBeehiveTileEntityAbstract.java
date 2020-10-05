@@ -262,6 +262,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
         beeEntity.resetTicksWithoutNectar();
+        beeEntity.heal(1);
 
         // Deliver honey on the way out
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {

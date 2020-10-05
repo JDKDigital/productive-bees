@@ -1,12 +1,15 @@
 package cy.jdkdigital.productivebees.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.item.UpgradeItem;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
@@ -18,6 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -27,6 +31,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -35,9 +40,12 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider
 {
@@ -45,7 +53,23 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     private int abandonCountdown = 0;
     protected boolean hasTicked = false;
 
-    protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> InventoryHandlerHelper.getInventoryHandler(this, 1));
+    protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(11, this));
+    public LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(4, this) {
+        @Override
+        public boolean isInputItem(Item item) {
+            return item instanceof UpgradeItem;
+        }
+
+        @Override
+        public boolean isInputSlot(int slot) {
+            return true;
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+            return isInputItem(stack.getItem()) && isInputSlot(slot);
+        }
+    });
 
     public AdvancedBeehiveTileEntity(TileEntityType<?> tileEntityType) {
         super(tileEntityType);
@@ -138,6 +162,26 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         hasTicked = false;
     }
 
+    public int getUpgradeCount(Item item) {
+        AtomicInteger numberOfUpgrades = new AtomicInteger();
+        upgradeHandler.ifPresent(handler -> {
+            IntStream.range(0, 4).forEach(slot -> {
+                ItemStack stack = handler.getStackInSlot(slot);
+                if (stack.getItem().equals(item)) {
+                    numberOfUpgrades.getAndIncrement();
+                }
+            });
+        });
+        return numberOfUpgrades.get();
+    }
+
+    @Override
+    protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
+        int combBlockUpgrades = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get());
+        int timeUpgrades = getUpgradeCount(ModItems.UPGRADE_TIME.get());
+        return (int) (super.getTimeInHive(hasNectar, beeEntity) * (1 - (timeUpgrades * ProductiveBeesConfig.UPGRADES.timeBonus.get())) * (combBlockUpgrades > 0 ? (ProductiveBeesConfig.UPGRADES.combBlockTimeodifier.get()) : 1));
+    }
+
     @Override
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, State beeState) {
         super.beeReleasePostAction(beeEntity, state, beeState);
@@ -145,7 +189,8 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         // Generate bee produce
         if (world != null && beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
             getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                BeeHelper.getBeeProduce(world, beeEntity).forEach((stack) -> {
+                BeeHelper.getBeeProduce(world, beeEntity).forEach((stackIn) -> {
+                    ItemStack stack = stackIn.copy();
                     if (!stack.isEmpty()) {
                         if (beeEntity instanceof ProductiveBeeEntity) {
                             int productivity = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
@@ -154,10 +199,50 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                                 stack.grow(Math.round(f));
                             }
                         }
+                        // Apply upgrades
+                        int productivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
+                        if (productivityUpgrades > 0) {
+                            int newCount = (int) (stack.getCount() * ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * productivityUpgrades);
+                            stack.setCount(newCount);
+                        }
+
+                        // Change to comb block
+                        int combBlockUpgrades = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get());
+                        if (combBlockUpgrades > 0) {
+                            ItemStack newStack = null;
+                            if (stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
+                                newStack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get(), stack.getCount());
+                                newStack.setTag(stack.getTag());
+                            } else {
+                                ResourceLocation rl = stack.getItem().getRegistryName();
+                                Item newItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(rl.getNamespace(), rl.getPath().replace("honey", ""))); // honeycomb_glowing -> comb_glowing
+                                if (newItem != null) {
+                                    newStack = new ItemStack(newItem, stack.getCount());
+                                }
+                            }
+                            if (newStack != null) {
+                                stack = newStack;
+                            }
+                        }
                         ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
                     }
                 });
             });
+        }
+
+        // Produce offspring if breeding upgrade is installed
+        int breedingUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
+        if (breedingUpgrades > 0 && !beeEntity.isChild() && getBeeCount() > 0 && world.rand.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
+            // Breed this bee with a random bee inside
+            Inhabitant otherBeeInhabitant = getBeeList().get(world.rand.nextInt(getBeeCount()));
+            BeeEntity otherBee = (BeeEntity) EntityType.loadEntityAndExecute(otherBeeInhabitant.nbt, world, (spawnedEntity) -> spawnedEntity);
+            BeeEntity offspring = BeeHelper.getBreedingResult(beeEntity, otherBee, world);
+            if (offspring instanceof ProductiveBeeEntity && beeEntity instanceof ProductiveBeeEntity) {
+                BeeHelper.setOffspringAttributes((ProductiveBeeEntity) offspring, (ProductiveBeeEntity) beeEntity, otherBee);
+            }
+            offspring.setGrowingAge(-24000);
+            offspring.setLocationAndAngles(beeEntity.getPosX(), beeEntity.getPosY(), beeEntity.getPosZ(), 0.0F, 0.0F);
+            world.addEntity(offspring);
         }
 
         // Add to the countdown for it's spot to become available in the hive
@@ -175,6 +260,9 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
         CompoundNBT invTag = tag.getCompound("inv");
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
+
+        CompoundNBT upgradesTag = tag.getCompound("upgrades");
+        upgradeHandler.ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(upgradesTag));
     }
 
     @Nonnull
@@ -185,6 +273,11 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
             tag.put("inv", compound);
+        });
+
+        upgradeHandler.ifPresent(inv -> {
+            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
+            tag.put("upgrades", compound);
         });
 
         return tag;

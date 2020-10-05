@@ -7,10 +7,10 @@
     ],
     "breeding_items": [
         {
-            "item": "minecraft:redstone"
+            "tag": "forge:dusts/redstone"
         },
         {
-            "item": "minecraft:lapis"
+            "tag": "forge:gems/lapis"
         }
     ]
 }

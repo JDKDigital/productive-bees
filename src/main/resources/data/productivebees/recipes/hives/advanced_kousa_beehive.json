@@ -19,7 +19,7 @@
             "item": "minecraft:campfire"
         },
         "S": {
-            "item": "minecraft:shears"
+            "tag": "forge:shears"
         }
     },
     "result": {

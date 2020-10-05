@@ -91,7 +91,17 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
     public void updateStateWithDirection(World world, BlockPos pos, BlockState state, VerticalHive directionProperty) {
         world.setBlockState(pos, state.with(AdvancedBeehive.EXPANDED, directionProperty), Constants.BlockFlags.DEFAULT);
-        ((AdvancedBeehiveTileEntity) world.getTileEntity(pos)).MAX_BEES = world.getBlockState(pos).get(EXPANDED) != VerticalHive.NONE ? 5 : 3;
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof AdvancedBeehiveTileEntity) {
+            ((AdvancedBeehiveTileEntity) te).MAX_BEES = world.getBlockState(pos).get(EXPANDED) != VerticalHive.NONE ? 5 : 3;
+            if (directionProperty.equals(VerticalHive.NONE)) {
+                ((AdvancedBeehiveTileEntity) te).upgradeHandler.ifPresent(handler -> {
+                    for (int slot = 0; slot < handler.getSlots(); ++slot) {
+                        InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                    }
+                });
+            }
+        }
     }
 
     public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentBox(World world, BlockPos pos) {
@@ -169,6 +179,11 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
             if (tileEntity instanceof AdvancedBeehiveTileEntity) {
                 // Drop inventory
                 tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                    for (int slot = 0; slot < handler.getSlots(); ++slot) {
+                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                    }
+                });
+                ((AdvancedBeehiveTileEntity) tileEntity).upgradeHandler.ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
                         InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }

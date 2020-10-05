@@ -1,7 +1,6 @@
 {
     "replace": false,
     "values": [
-        "minecraft:honeycomb_block",
         "productivebees:comb_amber",
         "productivebees:comb_bauxite",
         "productivebees:comb_blazing",
@@ -16,6 +15,7 @@
         "productivebees:comb_ender",
         "productivebees:comb_fossilised",
         "productivebees:comb_glowing",
+        "productivebees:comb_ghostly",
         "productivebees:comb_gold",
         "productivebees:comb_invar",
         "productivebees:comb_iron",

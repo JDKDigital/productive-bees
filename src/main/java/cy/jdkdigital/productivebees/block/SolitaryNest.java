@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.block;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
@@ -96,7 +97,16 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
             ProductiveBees.LOGGER.debug("Occupants: " + tileEntity.getBeeList());
             ProductiveBees.LOGGER.debug("Egg count: " + tileEntity.getEggs().size());
             ProductiveBees.LOGGER.debug("Eggs: " + tileEntity.getEggListAsNBTList());
+
+            ItemStack heldItem = player.getHeldItem(hand);
+            if (heldItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
+                tileEntity.nestTickTimer = (int) (tileEntity.nestTickTimer * 0.9);
+                if (!player.isCreative()) {
+                    heldItem.shrink(1);
+                }
+            }
         }
+
         return super.onBlockActivated(state, world, pos, player, hand, hit);
     }
 

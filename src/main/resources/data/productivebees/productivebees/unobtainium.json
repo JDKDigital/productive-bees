@@ -6,5 +6,8 @@
             "type": "forge:mod_loaded",
             "modid": "allthemodium"
         }
-    ]
+    ],
+    "attributes": {
+        "endurance": 3
+    }
 }
