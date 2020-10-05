@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_breeding",
     "parent1": "productivebees:diamond",
-    "parent2": "productivebees:wither",
+    "parent2": "productivebees:withered",
     "offspring": [
         "productivebees:allthemodium"
     ],

@@ -1,7 +1,7 @@
 {
     "type": "productivebees:advanced_beehive",
     "ingredient": "productivebees:configurable_bee",
-    "bee_type": "productivebees:wither",
+    "bee_type": "productivebees:withered",
     "results": [
         {
             "comb_produce": {
