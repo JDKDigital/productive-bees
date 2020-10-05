@@ -3,10 +3,7 @@ package cy.jdkdigital.productivebees.init;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.*;
 import cy.jdkdigital.productivebees.entity.BeeBombEntity;
-import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.DeprecatedBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
+import cy.jdkdigital.productivebees.entity.bee.*;
 import cy.jdkdigital.productivebees.entity.bee.hive.*;
 import cy.jdkdigital.productivebees.entity.bee.nesting.*;
 import cy.jdkdigital.productivebees.entity.bee.solitary.*;
@@ -23,6 +20,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -104,7 +103,7 @@ public class ModEntities
     public static RegistryObject<EntityType<DeprecatedBeeEntity>> TUNGSTEN_BEE = createColoredHiveBee("tungsten_bee", DeprecatedBeeEntity::new, "#616669", "#804f40", null);
     public static RegistryObject<EntityType<DeprecatedBeeEntity>> ZINC_BEE = createColoredHiveBee("zinc_bee", DeprecatedBeeEntity::new, "#E9EBE7", "#804f40", null);
 
-    public static RegistryObject<EntityType<ConfigurableBeeEntity>> CONFIGURABLE_BEE = createColoredHiveBee("configurable_bee", ConfigurableBeeEntity::new, "#73ffb9", "#0f5c7a", ModItemGroups.PRODUCTIVE_BEES);
+    public static RegistryObject<EntityType<ConfigurableBeeEntity>> CONFIGURABLE_BEE = createColoredHiveBee("configurable_bee", ModList.get().isLoaded("resourcefulbees") ? ResourcefulConfigurableBeeEntity::new : ConfigurableBeeEntity::new, "#73ffb9", "#0f5c7a", ModItemGroups.PRODUCTIVE_BEES);
 
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createColoredHiveBee(String name, EntityType.IFactory<E> supplier, String primaryColor, String secondaryColor, ItemGroup itemGroup) {
         Color primary = Color.decode(primaryColor);
@@ -126,6 +125,7 @@ public class ModEntities
 
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createBee(DeferredRegister<EntityType<?>> registry, String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor, ItemGroup itemGroup) {
         EntityType.Builder<E> builder = EntityType.Builder.<E>create(supplier, EntityClassification.CREATURE).size(0.7F, 0.6F).func_233606_a_(8);
+
         if (name.equals("magmatic_bee") || name.equals("netherite_bee") || name.equals("blazing_bee")) {
             builder.immuneToFire();
         }

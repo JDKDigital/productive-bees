@@ -105,7 +105,8 @@ dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
-    implementation fg.deobf('mods:resourcefulbees-1.16.3:0.5.0a')
+//    implementation fg.deobf('mods:resourcefulbees-1.16.3:0.5.0a')
+    compileOnly fg.deobf('mods:resourcefulbees-1.16.3:0.5.0a')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

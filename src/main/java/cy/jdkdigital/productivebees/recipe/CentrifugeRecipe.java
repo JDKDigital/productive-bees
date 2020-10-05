@@ -47,6 +47,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
             for (ItemStack stack: this.ingredient.getMatchingStacks()) {
                 if (stack.getItem().equals(invStack.getItem())) {
+                    // Check configurable honeycombs
                     if (stack.hasTag() && invStack.hasTag()) {
                         return stack.getTag().equals(invStack.getTag());
                     }
