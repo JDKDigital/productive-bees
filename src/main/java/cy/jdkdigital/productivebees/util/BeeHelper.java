@@ -92,7 +92,7 @@ public class BeeHelper
         return null;
     }
 
-    public static BeeEntity getBreedingResult(ProductiveBeeEntity beeEntity, AgeableEntity targetEntity, ServerWorld world) {
+    public static BeeEntity getBreedingResult(BeeEntity beeEntity, AgeableEntity targetEntity, ServerWorld world) {
         IInventory beeInv = new IdentifierInventory(beeEntity, (BeeEntity) targetEntity);
 
         // Get breeding recipes
