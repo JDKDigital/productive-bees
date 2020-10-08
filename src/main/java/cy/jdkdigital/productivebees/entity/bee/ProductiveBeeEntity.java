@@ -224,9 +224,13 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     public void setHasStung(boolean hasStung) {
-        if (hasStung && getAttributeValue(BeeAttributes.ENDURANCE) ==3) {
+        if (hasStung && getAttributeValue(BeeAttributes.ENDURANCE) == 2) {
             // 50% chance to not loose stinger
             hasStung = world.rand.nextBoolean();
+        }
+        if (hasStung && getAttributeValue(BeeAttributes.ENDURANCE) == 3) {
+            // 80% chance to not loose stinger
+            hasStung = world.rand.nextFloat() < .2;
         }
         super.setHasStung(hasStung);
     }
