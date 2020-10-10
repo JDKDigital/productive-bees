@@ -1,0 +1,11 @@
+{
+    "name": "Wild Bees",
+    "icon": "minecraft:writable_book",
+    "category": "productivebees:bees",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Wild bees, like solitary bees, live in nests found around the world but unlike solitary bees they will gladly move into a hive as well. Wild bees live primarily in the nether and the end."
+        }
+    ]
+}

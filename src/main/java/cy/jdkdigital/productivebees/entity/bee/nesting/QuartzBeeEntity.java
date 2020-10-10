@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
-import cy.jdkdigital.productivebees.entity.bee.ExpirableBee;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -13,10 +12,8 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 
-public class QuartzBeeEntity extends ProductiveBeeEntity implements ExpirableBee
+public class QuartzBeeEntity extends ProductiveBeeEntity
 {
-    public boolean hasHadNest = false;
-
     public QuartzBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
         beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.CRYSTALLINE_FLOWERS);
@@ -24,15 +21,5 @@ public class QuartzBeeEntity extends ProductiveBeeEntity implements ExpirableBee
         beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<Effect, Integer>() {{
             put(Effects.RESISTANCE, 600);
         }}));
-    }
-
-    @Override
-    public void setHasHadNest(boolean hadNest) {
-        this.hasHadNest = hadNest;
-    }
-
-    @Override
-    public boolean getHasHadNest() {
-        return hasHadNest;
     }
 }

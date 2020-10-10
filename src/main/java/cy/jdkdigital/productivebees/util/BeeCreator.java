@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;

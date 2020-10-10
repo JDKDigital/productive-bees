@@ -97,8 +97,6 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
             ProductiveBees.LOGGER.debug("Nest tilentity type: " + tileEntity.getType().getRegistryName());
             ProductiveBees.LOGGER.debug("Bee count: " + tileEntity.getBeeList().size());
             ProductiveBees.LOGGER.debug("Occupants: " + tileEntity.getBeeList());
-            ProductiveBees.LOGGER.debug("Egg count: " + tileEntity.getEggs().size());
-            ProductiveBees.LOGGER.debug("Eggs: " + tileEntity.getEggListAsNBTList());
 
             ItemStack heldItem = player.getHeldItem(hand);
             if (heldItem.getItem().equals(ModItems.HONEY_TREAT.get())) {

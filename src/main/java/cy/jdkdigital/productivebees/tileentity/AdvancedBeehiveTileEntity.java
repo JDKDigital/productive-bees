@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;

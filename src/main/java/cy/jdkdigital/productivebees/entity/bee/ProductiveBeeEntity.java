@@ -168,14 +168,6 @@ public class ProductiveBeeEntity extends BeeEntity
                 setHealth(getHealth() - (getMaxHealth() / 3) - 1);
             }
         }
-
-        // Kill off expirable bee if it hasn't found a nest within 10 minutes
-        if (this instanceof ExpirableBee) {
-            ExpirableBee exBee = ((ExpirableBee) this);
-            if (!((ExpirableBee) this).getHasHadNest() && exBee.ticksWithoutNest < ticksExisted ) {
-                setHasStung(true);
-            }
-        }
     }
 
     @Override
@@ -295,10 +287,6 @@ public class ProductiveBeeEntity extends BeeEntity
         tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getId().toString());
         tag.putString("bee_nesting_preference", this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE).getId().toString());
         tag.put("bee_effects", this.getAttributeValue(BeeAttributes.EFFECTS).serializeNBT());
-
-        if (this instanceof ExpirableBee) {
-            tag.putBoolean("hasHadNest", ((ExpirableBee) this).getHasHadNest());
-        }
     }
 
     @Override
@@ -335,10 +323,6 @@ public class ProductiveBeeEntity extends BeeEntity
             else {
                 beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<>()));
             }
-        }
-
-        if (this instanceof ExpirableBee) {
-            ((ExpirableBee) this).setHasHadNest(tag.contains("hasHadNest") && tag.getBoolean("hasHadNest"));
         }
     }
 
