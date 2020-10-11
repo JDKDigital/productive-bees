@@ -3,9 +3,12 @@ package cy.jdkdigital.productivebees.tileentity;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
+import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -22,7 +25,7 @@ import javax.annotation.Nullable;
 
 public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 {
-    // Used for calculating if a new bee should move in
+    // Used for calculating if a new bee should move in (initial value, will be overriden by recipe value)
     public int nestTickTimer = 24000;
 
     public SolitaryNestTileEntity() {
@@ -39,7 +42,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                 nestTickTimer = this.getRepopulationCooldown(block);
                 if (this.canRepopulate()) {
                     if (block instanceof SolitaryNest) {
-                        EntityType<? extends BeeEntity> beeType = getProducibleBeeType(world, pos, (SolitaryNest) block);
+                        EntityType<? extends BeeEntity> beeType = ((SolitaryNest) block).getNestingBeeType(world);
                         if (beeType != null) {
                             BeeEntity newBee = beeType.create(this.world);
                             newBee.setHealth(newBee.getMaxHealth());
@@ -51,25 +54,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
             }
         }
         super.tick();
-    }
-
-    @Nullable
-    public static EntityType<? extends BeeEntity> getProducibleBeeType(World world, BlockPos pos, SolitaryNest nest) {
-        EntityType<? extends BeeEntity> beeType = nest.getNestingBeeType(world);
-
-        // Cuckoo behavior
-        if (beeType != null && world.getRandom().nextInt(10) == 1) {
-            switch (beeType.getRegistryName().getPath()) {
-                case "blue_banded_bee":
-                    beeType = ModEntities.NEON_CUCKOO_BEE.get();
-                    break;
-                case "ashy_mining_bee":
-                    beeType = ModEntities.NOMAD_BEE.get();
-                    break;
-            }
-        }
-
-        return beeType;
     }
 
     protected boolean canRepopulate() {
@@ -87,12 +71,31 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
-        // When the bee returns with nectar, it will produce an egg cell and will stay a while
         return hasNectar && beeEntity != null && !beeEntity.isChild() ? 12000 : 6000;
     }
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
         super.beeReleasePostAction(beeEntity, state, beeState);
+
+        // Produce offspring if breeding upgrade is installed
+        if (!beeEntity.isChild() && beeState == BeehiveTileEntity.State.HONEY_DELIVERED && world.rand.nextFloat() <= 0.1f) {
+            // Cuckoo behavior
+            BeeEntity offspring = null;
+            switch (beeEntity.getEntityString()) {
+                case "productivebees:blue_banded_bee":
+                    offspring = ModEntities.NEON_CUCKOO_BEE.get().create(world);
+                    break;
+                case "productivebees:ashy_mining_bee":
+                    offspring = ModEntities.NOMAD_BEE.get().create(world);
+                    break;
+            }
+
+            if (offspring != null) {
+                offspring.setGrowingAge(-24000);
+                offspring.setLocationAndAngles(beeEntity.getPosX(), beeEntity.getPosY(), beeEntity.getPosZ(), 0.0F, 0.0F);
+                world.addEntity(offspring);
+            }
+        }
 
         // reset repopulation cooldown
         nestTickTimer = this.getRepopulationCooldown(state.getBlock());
