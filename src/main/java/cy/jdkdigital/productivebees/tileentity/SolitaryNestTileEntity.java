@@ -3,23 +3,17 @@ package cy.jdkdigital.productivebees.tileentity;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
-import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
@@ -42,9 +36,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                 nestTickTimer = this.getRepopulationCooldown(block);
                 if (this.canRepopulate()) {
                     if (block instanceof SolitaryNest) {
-                        EntityType<? extends BeeEntity> beeType = ((SolitaryNest) block).getNestingBeeType(world);
-                        if (beeType != null) {
-                            BeeEntity newBee = beeType.create(this.world);
+                        BeeEntity newBee = ((SolitaryNest) block).getNestingBeeType(world);
+                        if (newBee != null) {
                             newBee.setHealth(newBee.getMaxHealth());
                             Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
                             spawnBeeInWorldAPosition(this.world, newBee, pos, direction, null);
@@ -77,7 +70,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
         super.beeReleasePostAction(beeEntity, state, beeState);
 
-        // Produce offspring if breeding upgrade is installed
         if (!beeEntity.isChild() && beeState == BeehiveTileEntity.State.HONEY_DELIVERED && world.rand.nextFloat() <= 0.1f) {
             // Cuckoo behavior
             BeeEntity offspring = null;

@@ -39,7 +39,7 @@ abstract class AbstractContainer extends Container
             }
 
             // Move from player inv into container
-            int inputCount = containerSlots - 9;
+            int inputCount = containerSlots > 9 ? containerSlots - 9 : containerSlots / 2;
             if (slotStack.getItem() == Items.GLASS_BOTTLE || slotStack.getItem() == Items.BUCKET) {
                 // Bottles only go into slot 0
                 if (!mergeItemStack(slotStack, InventoryHandlerHelper.BOTTLE_SLOT, InventoryHandlerHelper.BOTTLE_SLOT + 1, false)) {

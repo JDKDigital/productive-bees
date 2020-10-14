@@ -1,6 +1,7 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:slimy_bee",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:slimy",
     "results": [
         {
             "comb_produce": {

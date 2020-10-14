@@ -18,7 +18,6 @@ import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
 public class EnderBeeEntity extends ProductiveBeeEntity
 {
-    public boolean hasHadNest = false;
     private int teleportCooldown = 250;
 
     public EnderBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {

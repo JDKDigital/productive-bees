@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.item;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import net.minecraft.block.BeehiveBlock;
@@ -56,7 +55,7 @@ public class NestLocator extends Item
 
             @OnlyIn(Dist.CLIENT)
             public float call(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity player) {
-                if (hasPosition(stack)) {
+                if ((player != null || stack.isOnItemFrame()) && hasPosition(stack)) {
                     boolean flag = player != null;
                     Entity entity = flag ? player : stack.getItemFrame();
                     if (world == null) {
@@ -222,7 +221,6 @@ public class NestLocator extends Item
             }
             else {
                 // Clear nest config
-                ProductiveBees.LOGGER.info("Clear nest config");
 //                setNestBlock(stack, null);
             }
             return ActionResult.resultSuccess(player.getHeldItem(hand));
@@ -248,7 +246,6 @@ public class NestLocator extends Item
         BlockPos.getAllInBox(pos.add(-distance, -distance, -distance), pos.add(distance, distance, distance)).forEach(blockPos -> {
             BlockState state = world.getBlockState(blockPos);
             if (predicate.test(state.getBlock())) {
-                ProductiveBees.LOGGER.info("found nest at " + blockPos + " " + world.getBlockState(blockPos));
                 double distanceToNest = playerPos.distanceTo(new Vec3d(blockPos));
                 if (!nearbyNestPositions.containsKey(distanceToNest)) {
                     nearbyNestPositions.put(distanceToNest, new BlockPos(blockPos));

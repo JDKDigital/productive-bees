@@ -7,7 +7,6 @@ import cy.jdkdigital.productivebees.entity.bee.nesting.*;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
@@ -199,8 +198,7 @@ public class ProductiveBeeEntity extends BeeEntity
                             (this.world.isRaining() && !canOperateDuringRain());
 
             return shouldReturnToHive && !this.isHiveNearFire();
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -481,15 +479,14 @@ public class ProductiveBeeEntity extends BeeEntity
         }
 
         protected void addPossibleHives(BlockPos pos) {
-            this.possibleHives.add(pos);
-
             TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(pos);
-            int maxBees = 3;
-            if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-                maxBees = ((AdvancedBeehiveTileEntityAbstract) tileEntity).MAX_BEES;
-            }
-            while (this.possibleHives.size() > maxBees) {
-                this.possibleHives.remove(0);
+            Tag<Block> nestTag = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE);
+            if (tileEntity != null && tileEntity.getBlockState().isIn(nestTag)) {
+                this.possibleHives.add(pos);
+
+                while (this.possibleHives.size() > 3) {
+                    this.possibleHives.remove(0);
+                }
             }
         }
     }
@@ -504,7 +501,7 @@ public class ProductiveBeeEntity extends BeeEntity
             ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewHive = 200;
             List<BlockPos> nearbyNests = this.getNearbyFreeNests();
             if (!nearbyNests.isEmpty()) {
-                Iterator iterator = nearbyNests.iterator();
+                Iterator<BlockPos> iterator = nearbyNests.iterator();
                 BlockPos blockPos;
                 do {
                     if (!iterator.hasNext()) {
@@ -513,7 +510,7 @@ public class ProductiveBeeEntity extends BeeEntity
                         return;
                     }
 
-                    blockPos = (BlockPos) iterator.next();
+                    blockPos = iterator.next();
                 } while (ProductiveBeeEntity.this.findBeehiveGoal.isPossibleHive(blockPos));
 
                 ProductiveBeeEntity.this.hivePos = blockPos;

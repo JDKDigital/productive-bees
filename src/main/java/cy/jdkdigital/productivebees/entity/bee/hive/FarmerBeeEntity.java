@@ -186,7 +186,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                                 BlockPos pos = harvestablesNearby.iterator().next();
 
                                 // right click if certain mods are installed
-                                if ((ModList.get().isLoaded("pamhc2crops") || ModList.get().isLoaded("simplefarming")) && world instanceof ServerWorld) {
+                                if ((ModList.get().isLoaded("pamhc2crops") || ModList.get().isLoaded("simplefarming") || ModList.get().isLoaded("reap")) && world instanceof ServerWorld) {
                                     PlayerEntity fakePlayer = FakePlayerFactory.get((ServerWorld) world, new GameProfile(null, "farmer_bee"));
                                     ForgeHooks.onRightClickBlock(fakePlayer, Hand.MAIN_HAND, pos, FarmerBeeEntity.this.getAdjustedHorizontalFacing());
                                 } else {

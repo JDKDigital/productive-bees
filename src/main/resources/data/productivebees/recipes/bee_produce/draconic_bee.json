@@ -1,6 +1,7 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:draconic_bee",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:draconic",
     "results": [
         {
             "comb_produce": {

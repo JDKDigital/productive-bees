@@ -1,6 +1,6 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:ender_bee",
+    "parent1": "productivebees:ender",
     "parent2": "productivebees:gold",
     "offspring": [
         "productivebees:platinum"

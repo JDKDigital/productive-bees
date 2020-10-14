@@ -1,0 +1,11 @@
+{
+    "primaryColor": "#eeeeee",
+    "beeTexture": "productivebees:textures/entity/bee/ghostly/bee",
+    "createComb": false,
+    "translucent": true,
+    "attributes": {
+        "behavior": 1
+    },
+    "flowerTag": "productivebees:souled_flowers",
+    "nestingPreference": "productivebees:soul_sand_nests"
+}

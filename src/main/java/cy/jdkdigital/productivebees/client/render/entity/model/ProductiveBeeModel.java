@@ -23,6 +23,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
     protected final ModelRenderer stinger;
     protected final ModelRenderer leftAntenna;
     protected final ModelRenderer rightAntenna;
+    protected final ModelRenderer innards;
     protected float bodyPitch;
 
     public ProductiveBeeModel() {
@@ -43,6 +44,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         this.frontLegs = new ModelRenderer(this);
         this.middleLegs = new ModelRenderer(this);
         this.backLegs = new ModelRenderer(this);
+        this.innards = new ModelRenderer(this, 34, 0);
 
         if (addBodyParts) {
             addBodyParts();
@@ -89,6 +91,10 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         this.backLegs.setRotationPoint(1.5F, 3.0F, 2.0F);
         this.body.addChild(this.backLegs);
         this.backLegs.addBox("backLegBox", -5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F, 26, 5);
+
+        this.innards.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.innards.addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F);
+        this.body.addChild(this.innards);
     }
 
     public void setLivingAnimations(T entity, float p_212843_2_, float p_212843_3_, float p_212843_4_) {

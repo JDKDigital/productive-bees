@@ -1,9 +1,9 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "C C",
-        " B ",
-        "C C"
+        "CCC",
+        "CBC",
+        "CCC"
     ],
     "key": {
         "B": {
@@ -15,5 +15,11 @@
     },
     "result": {
         "item": "productivebees:upgrade_comb_block"
-    }
+    },
+    "conditions": [
+        {
+            "type": "forge:tag_empty",
+            "tag": "forge:storage_blocks/wax"
+        }
+    ]
 }

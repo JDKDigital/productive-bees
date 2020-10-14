@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:quartz_bee",
-    "parent2": "productivebees:draconic_bee",
+    "parent1": "productivebees:crystalline",
+    "parent2": "productivebees:draconic",
     "offspring": [
         "productivebees:ender_biotite"
     ],

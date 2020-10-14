@@ -1,0 +1,15 @@
+{
+    "primaryColor": "#d06a1b",
+    "secondaryColor": "#100000",
+    "beeTexture": "productivebees:textures/entity/bee/magmatic/bee",
+    "createComb": false,
+    "flowerTag": "productivebees:magmatic_flowers",
+    "nestingPreference": "productivebees:nether_brick_nests",
+    "attackResponse": "lava",
+    "passiveEffects": [
+        {
+            "effect": "minecraft:fire_resistance",
+            "duration": 400
+        }
+    ]
+}

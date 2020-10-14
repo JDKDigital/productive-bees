@@ -1,0 +1,31 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CWC",
+        "WBW",
+        "CWC"
+    ],
+    "key": {
+        "B": {
+            "item": "productivebees:upgrade_base"
+        },
+        "C": {
+            "tag": "forge:storage_blocks/honeycombs"
+        },
+        "W": {
+            "tag": "forge:storage_blocks/wax"
+        }
+    },
+    "result": {
+        "item": "productivebees:upgrade_comb_block"
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/wax"
+            }
+        }
+    ]
+}

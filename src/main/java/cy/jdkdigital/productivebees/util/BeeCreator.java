@@ -31,12 +31,26 @@ public class BeeCreator
         if (json.has("flowerTag")) {
             data.putString("flowerTag", json.get("flowerTag").getAsString());
         }
+        if (json.has("nestingPreference")) {
+            data.putString("nestingPreference", json.get("nestingPreference").getAsString());
+        }
         if (json.has("beeTexture")) {
             data.putString("beeTexture", json.get("beeTexture").getAsString());
         }
         if (json.has("attackResponse")) {
             data.putString("attackResponse", json.get("attackResponse").getAsString());
         }
+
+        data.putString("renderer", json.has("renderer") ? json.get("renderer").getAsString() : "default");
+
+        data.putBoolean("translucent", (json.has("translucent") && json.get("translucent").getAsBoolean()) || data.getString("renderer").equals("translucent_with_center"));
+        data.putBoolean("withered", json.has("withered") && json.get("withered").getAsBoolean());
+        data.putBoolean("blinding", json.has("blinding") && json.get("blinding").getAsBoolean());
+        data.putBoolean("draconic", json.has("draconic") && json.get("draconic").getAsBoolean());
+        data.putBoolean("slimy", json.has("slimy") && json.get("slimy").getAsBoolean());
+        data.putBoolean("teleporting", json.has("teleporting") && json.get("teleporting").getAsBoolean());
+        data.putBoolean("munchies", json.has("munchies") && json.get("munchies").getAsBoolean());
+
         if (json.has("attributes")) {
             for(Map.Entry<String, JsonElement> entry: json.get("attributes").getAsJsonObject().entrySet()) {
                 switch (entry.getKey()) {
