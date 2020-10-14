@@ -63,6 +63,19 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
         return false;
     }
 
+    @Override
+    public Map<ItemStack, IntArrayNBT> getRecipeOutputs() {
+        Map<ItemStack, IntArrayNBT> output = super.getRecipeOutputs();
+
+        for(Map.Entry<ItemStack, IntArrayNBT> entry: output.entrySet()) {
+            if (entry.getKey().getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB) && ingredient.get().isConfigurable()) {
+                ModItemGroups.ModItemGroup.setTag(ingredient.get().getBeeType().toString(), entry.getKey());
+            }
+        }
+
+        return output;
+    }
+
     @Nonnull
     @Override
     public ItemStack getCraftingResult(IInventory inv) {
@@ -136,11 +149,11 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
                     produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, ingredientKey));
                 }
 
-                if (!beeType.isEmpty() && ingredientKey.equals("comb_produce")) {
-                    ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                    ModItemGroups.ModItemGroup.setTag(beeType, stack);
-                    produce = Ingredient.fromStacks(stack);
-                }
+//                if (!beeType.isEmpty() && ingredientKey.equals("comb_produce")) {
+//                    ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
+//                    ModItemGroups.ModItemGroup.setTag(beeType, stack);
+//                    produce = Ingredient.fromStacks(stack);
+//                }
 
                 int min = 1;
                 int max = 1;

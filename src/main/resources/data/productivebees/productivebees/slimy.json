@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#2ff757",
+    "secondaryColor": "#6238757",
+    "beeTexture": "productivebees:textures/entity/bee/slimy/bee",
+    "renderer": "translucent_with_center",
+    "createComb": false,
+    "attributes": {
+        "temper": 0
+    },
+    "slimy": true,
+    "flowerTag": "productivebees:swamp_flowers",
+    "nestingPreference": "productivebees:slimy_nests"
+}

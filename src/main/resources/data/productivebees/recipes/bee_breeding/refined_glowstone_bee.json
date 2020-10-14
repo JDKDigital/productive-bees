@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_breeding",
     "parent1": "productivebees:osmium",
-    "parent2": "productivebees:glowing_bee",
+    "parent2": "productivebees:glowing",
     "offspring": [
         "productivebees:refined_glowstone"
     ],

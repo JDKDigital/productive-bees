@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
-import cy.jdkdigital.productivebees.entity.bee.ExpirableBee;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -10,9 +9,8 @@ import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 
-public class DraconicBeeEntity extends ProductiveBeeEntity implements ExpirableBee
+public class DraconicBeeEntity extends ProductiveBeeEntity
 {
-    public boolean hasHadNest = false;
     public int breathCollectionCooldown = 600;
 
     public DraconicBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
@@ -34,15 +32,5 @@ public class DraconicBeeEntity extends ProductiveBeeEntity implements ExpirableB
                 }
             }
         }
-    }
-
-    @Override
-    public void setHasHadNest(boolean hadNest) {
-        this.hasHadNest = hadNest;
-    }
-
-    @Override
-    public boolean getHasHadNest() {
-        return hasHadNest;
     }
 }

@@ -21,6 +21,7 @@ public abstract class TagOutputRecipe
         this.itemOutput = itemOutput;
         this.tagOutput = tagOutput;
     }
+
     public Map<ItemStack, IntArrayNBT> getRecipeOutputs() {
         Map<ItemStack, IntArrayNBT> output = new HashMap<>();
 

@@ -35,9 +35,6 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                             .itemLabel(new ItemStack(blockState.getBlock().asItem()))
                             .text(formattedName);
                     probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.bee", nest.getBeeCount() > 0 ? nest.getBeeList().get(0).localizedName : " - "));
-                    if (nest.getEggs().size() > 0) {
-                        probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.egg_count", nest.getEggs().size()));
-                    }
                     if (nest.getBeeCount() > 0) {
                         probeInfo.progress(nest.getBeeList().get(0).minOccupationTicks - nest.getBeeList().get(0).ticksInHive, nest.getBeeList().get(0).minOccupationTicks);
                     } else {

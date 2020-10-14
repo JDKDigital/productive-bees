@@ -1,8 +1,13 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
+import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -11,14 +16,23 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -28,17 +42,25 @@ import java.util.Map;
 public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffectBeeEntity
 {
     private int attackCooldown = 0;
+    public int breathCollectionCooldown = 600;
+    private int teleportCooldown = 250;
 
     public static final DataParameter<String> TYPE = EntityDataManager.createKey(ConfigurableBeeEntity.class, DataSerializers.STRING);
 
     public ConfigurableBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
+
+        beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE ||
+                poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
+                poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
+                (poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic());
     }
 
     @Override
     public void livingTick() {
         super.livingTick();
         if (!this.world.isRemote) {
+            --teleportCooldown;
             if (--attackCooldown < 0) {
                 attackCooldown = 0;
             }
@@ -46,8 +68,57 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                 attackCooldown = getEffectCooldown(getAttributeValue(BeeAttributes.TEMPER));
                 attackTarget(this.getAttackTarget());
             }
+
+            // Draconic bees
+            if (--breathCollectionCooldown <= 0) {
+                breathCollectionCooldown = 600;
+                if (isDraconic() && this.world.getDimensionKey() == World.THE_END) {
+                    this.setHasNectar(true);
+                }
+            }
+
+            if (ticksExisted % 100 == 0 && isSlimy()) {
+                int i = 1;
+                for (int j = 0; j < i * 8; ++j) {
+                    float f = this.rand.nextFloat() * ((float) Math.PI * 2F);
+                    float f1 = this.rand.nextFloat() * 0.5F + 0.5F;
+                    float f2 = MathHelper.sin(f) * (float) i * 0.5F * f1;
+                    float f3 = MathHelper.cos(f) * (float) i * 0.5F * f1;
+                    this.world.addParticle(ParticleTypes.ITEM_SLIME, this.getPosX() + (double) f2, this.getPosY(), this.getPosZ() + (double) f3, 0.0D, 0.0D, 0.0D);
+                }
+            }
         }
     }
+
+    @Override
+    protected void updateAITasks() {
+        // Teleport to active path
+        if (this.teleportCooldown <= 0 && null != this.navigator.getPath()) {
+            if (isTeleporting()) {
+                if (this.hasHive()) {
+                    TileEntity te = world.getTileEntity(this.getHivePos());
+                    if (te instanceof AdvancedBeehiveTileEntity) {
+                        int antiTeleportUpgrades = ((AdvancedBeehiveTileEntity) te).getUpgradeCount(ModItems.UPGRADE_ANTI_TELEPORT.get());
+                        if (antiTeleportUpgrades > 0) {
+                            this.teleportCooldown = 10000;
+                            super.updateAITasks();
+                            return;
+                        }
+                    }
+                }
+                BlockPos pos = this.navigator.getPath().getTarget();
+                teleportTo(pos.getX(), pos.getY(), pos.getZ());
+            }
+            this.teleportCooldown = 250;
+        }
+
+        super.updateAITasks();
+    }
+
+//    @Override
+//    public boolean isBurning() {
+//        return this.isAngry();
+//    }
 
     public void attackTarget(LivingEntity target) {
         if (this.isAlive() && getNBTData().contains("attackResponse")) {
@@ -89,6 +160,9 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         }
         if (nbt.contains(("effect"))) {
             beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(nbt.getCompound("effect")));
+        }
+        if (nbt.contains(("nestingPreference"))) {
+            beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.getTag(new ResourceLocation(nbt.getString("nestingPreference"))));
         }
     }
 
@@ -143,12 +217,37 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         return getNBTData().getString("beeTexture");
     }
 
-    // Effect bees
-    private boolean isWithered() {
-        return getNBTData().contains("withered") && getNBTData().getBoolean("withered");
+    public String getRenderer() {
+        return getNBTData().getString("renderer");
     }
-    private boolean hasMunchies() {
-        return getNBTData().contains("munchies") && getNBTData().getBoolean("munchies");
+
+    // Effect bees
+    public boolean isWithered() {
+        return getNBTData().getBoolean("withered");
+    }
+
+    public boolean isTranslucent() {
+        return getNBTData().getBoolean("translucent");
+    }
+
+    public boolean isBlinding() {
+        return getNBTData().getBoolean("blinding");
+    }
+
+    public boolean isDraconic() {
+        return getNBTData().getBoolean("draconic");
+    }
+
+    public boolean isSlimy() {
+        return getNBTData().getBoolean("slimy");
+    }
+
+    public boolean isTeleporting() {
+        return getNBTData().getBoolean("teleporting");
+    }
+
+    public boolean hasMunchies() {
+        return getNBTData().getBoolean("munchies");
     }
 
     @Override
@@ -165,14 +264,23 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                 put(Effects.HUNGER, 530);
             }};
         }
+        if (isBlinding()) {
+            return new HashMap<Effect, Integer>()
+            {{
+                put(Effects.BLINDNESS, 450);
+            }};
+        }
 
         return null;
     }
 
     @Override
     public boolean isInvulnerableTo(@Nonnull DamageSource source) {
-        if (isWithered()) {
-            return source.equals(DamageSource.WITHER) || super.isInvulnerableTo(source);
+        if (isWithered() && source.equals(DamageSource.WITHER)) {
+            return true;
+        }
+        if (isTranslucent() && (source.equals(DamageSource.IN_WALL) || source.equals(DamageSource.ANVIL))) {
+            return true;
         }
         return super.isInvulnerableTo(source);
     }
@@ -183,5 +291,25 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             return effect.getPotion() != Effects.WITHER && super.isPotionApplicable(effect);
         }
         return super.isPotionApplicable(effect);
+    }
+
+    private void teleportTo(double x, double y, double z) {
+        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable(x, y, z);
+
+        while (blockpos$mutable.getY() > 0 && !this.world.getBlockState(blockpos$mutable).getMaterial().blocksMovement()) {
+            blockpos$mutable.move(Direction.DOWN);
+        }
+
+        BlockState blockstate = this.world.getBlockState(blockpos$mutable);
+        if (blockstate.getMaterial().blocksMovement()) {
+            EnderTeleportEvent event = new EnderTeleportEvent(this, x, y, z, 0);
+            if (!MinecraftForge.EVENT_BUS.post(event)) {
+                boolean teleported = this.attemptTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
+                if (teleported) {
+                    this.world.playSound(null, this.prevPosX, this.prevPosY, this.prevPosZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT, this.getSoundCategory(), 0.3F, 1.0F);
+                    this.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 0.2F, 1.0F);
+                }
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ public class GhostlyBeeRenderer extends ProductiveBeeRenderer
 
     @Nullable
     @Override
-    protected RenderType func_230496_a_(ProductiveBeeEntity entity, boolean p_230496_2_, boolean p_230496_3_, boolean p_230496_4_) {
+    protected RenderType func_230496_a_(ProductiveBeeEntity entity, boolean b1, boolean b2, boolean b3) {
         return RenderType.getEntityTranslucent(this.getEntityTexture(entity));
     }
 }

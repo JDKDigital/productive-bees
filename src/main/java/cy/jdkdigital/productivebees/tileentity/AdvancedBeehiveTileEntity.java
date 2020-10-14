@@ -1,9 +1,9 @@
 package cy.jdkdigital.productivebees.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
+import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
@@ -115,9 +115,16 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 beeList.size() + beesOutsideHive() < MAX_BEES &&
                 world.getLight(pos.offset(getBlockState().get(BeehiveBlock.FACING), 1)) <= 8
             ) {
-                EntityType<BeeEntity> beeType = world.rand.nextBoolean() ? ModEntities.SKELETAL_BEE.get() : ModEntities.ZOMBIE_BEE.get();
-                BeeEntity newBee = beeType.create(world);
+                EntityType<ConfigurableBeeEntity> beeType = ModEntities.CONFIGURABLE_BEE.get();
+                ConfigurableBeeEntity newBee = beeType.create(world);
                 if (newBee != null) {
+                    if (world.rand.nextBoolean()) {
+                        newBee.setBeeType("productivebees:skeletal");
+                    }
+                    else {
+                        newBee.setBeeType("productivebees:zombie");
+                    }
+
                     tryEnterHive(newBee, false);
                 }
             }

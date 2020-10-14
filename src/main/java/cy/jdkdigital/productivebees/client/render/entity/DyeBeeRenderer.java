@@ -8,6 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
 public class DyeBeeRenderer extends ProductiveBeeRenderer
 {
@@ -19,6 +21,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
         this(renderManagerIn, new ProductiveBeeModel<>());
     }
 
+    @Nonnull
     @Override
     public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
         int num = sum(bee.getEntityId());

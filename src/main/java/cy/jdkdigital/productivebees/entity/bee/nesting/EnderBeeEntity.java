@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.entity.bee.nesting;
 
-import cy.jdkdigital.productivebees.entity.bee.ExpirableBee;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -17,9 +16,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
-public class EnderBeeEntity extends ProductiveBeeEntity implements ExpirableBee
+public class EnderBeeEntity extends ProductiveBeeEntity
 {
-    public boolean hasHadNest = false;
     private int teleportCooldown = 250;
 
     public EnderBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
@@ -75,15 +73,5 @@ public class EnderBeeEntity extends ProductiveBeeEntity implements ExpirableBee
                 }
             }
         }
-    }
-
-    @Override
-    public void setHasHadNest(boolean hadNest) {
-        this.hasHadNest = hadNest;
-    }
-
-    @Override
-    public boolean getHasHadNest() {
-        return hasHadNest;
     }
 }

@@ -9,7 +9,9 @@ import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class OreSolitaryNestFeature extends SolitaryNestFeature
 {
@@ -30,7 +32,7 @@ public class OreSolitaryNestFeature extends SolitaryNestFeature
 
     @Override
     public boolean func_230362_a_(@Nonnull ISeedReader world, @Nonnull StructureManager structureManager, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
-        if (rand.nextFloat() > this.probability) {
+        if (nestShouldNotGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 
@@ -42,9 +44,23 @@ public class OreSolitaryNestFeature extends SolitaryNestFeature
 
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
         while (blockPos.getY() < yMax) {
-            blockPos = blockPos.up();
+            blockPos = blockPos.up(2);
             if (matcher.test(world.getBlockState(blockPos))) {
-                placeNest(world, blockPos, featureConfig);
+                // Find air
+                int d = 3;
+                List<BlockPos> blockList = BlockPos.getAllInBox(blockPos.add(-d, -d, -d), blockPos.add(d, d, d)).map(BlockPos::toImmutable).collect(Collectors.toList());
+                for (BlockPos pos: blockList) {
+                    if (world.isAirBlock(pos)) {
+                        // Find block around that air pos
+                        List<BlockPos> aroundAir = BlockPos.getAllInBox(pos.add(-1, -1, -1), pos.add(1, 1, 1)).map(BlockPos::toImmutable).collect(Collectors.toList());
+                        for (BlockPos airPos: aroundAir) {
+                            if (matcher.test(world.getBlockState(airPos))) {
+                                placeNest(world, blockPos, featureConfig);
+                                return true;
+                            }
+                        }
+                    }
+                }
             }
         }
 
