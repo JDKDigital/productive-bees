@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
+        "productivebees:configurable_comb",
         "productivebees:comb_amber",
         "productivebees:comb_bauxite",
         "productivebees:comb_blazing",

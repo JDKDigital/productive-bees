@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "I",
+        "C",
+        "N"
+    ],
+    "key": {
+        "I": {
+            "item": "minecraft:iron_bars"
+        },
+        "C": {
+            "item": "minecraft:compass"
+        },
+        "N": {
+            "item": "minecraft:note_block"
+        }
+    },
+    "result": {
+        "item": "productivebees:nest_locator"
+    }
+}

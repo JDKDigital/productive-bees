@@ -1,4 +1,5 @@
 {
+    "primaryColor": "#ffc300",
     "beeTexture": "productivebees:textures/entity/bee/blazing/bee",
     "createComb": false,
     "attackResponse": "fire"

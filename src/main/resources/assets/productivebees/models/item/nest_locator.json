@@ -1,0 +1,41 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "productivebees:item/nest_locator/00"
+	},
+	"overrides": [
+		{ "predicate": { "angle": 0.000000 }, "model": "productivebees:item/nest_locator" },
+		{ "predicate": { "angle": 0.015625 }, "model": "productivebees:item/nest_locator/17" },
+		{ "predicate": { "angle": 0.046875 }, "model": "productivebees:item/nest_locator/18" },
+		{ "predicate": { "angle": 0.078125 }, "model": "productivebees:item/nest_locator/19" },
+		{ "predicate": { "angle": 0.109375 }, "model": "productivebees:item/nest_locator/20" },
+		{ "predicate": { "angle": 0.140625 }, "model": "productivebees:item/nest_locator/21" },
+		{ "predicate": { "angle": 0.171875 }, "model": "productivebees:item/nest_locator/22" },
+		{ "predicate": { "angle": 0.203125 }, "model": "productivebees:item/nest_locator/23" },
+		{ "predicate": { "angle": 0.234375 }, "model": "productivebees:item/nest_locator/24" },
+		{ "predicate": { "angle": 0.265625 }, "model": "productivebees:item/nest_locator/25" },
+		{ "predicate": { "angle": 0.296875 }, "model": "productivebees:item/nest_locator/26" },
+		{ "predicate": { "angle": 0.328125 }, "model": "productivebees:item/nest_locator/27" },
+		{ "predicate": { "angle": 0.359375 }, "model": "productivebees:item/nest_locator/28" },
+		{ "predicate": { "angle": 0.390625 }, "model": "productivebees:item/nest_locator/29" },
+		{ "predicate": { "angle": 0.421875 }, "model": "productivebees:item/nest_locator/30" },
+		{ "predicate": { "angle": 0.453125 }, "model": "productivebees:item/nest_locator/31" },
+		{ "predicate": { "angle": 0.484375 }, "model": "productivebees:item/nest_locator/00" },
+		{ "predicate": { "angle": 0.515625 }, "model": "productivebees:item/nest_locator/01" },
+		{ "predicate": { "angle": 0.546875 }, "model": "productivebees:item/nest_locator/02" },
+		{ "predicate": { "angle": 0.578125 }, "model": "productivebees:item/nest_locator/03" },
+		{ "predicate": { "angle": 0.609375 }, "model": "productivebees:item/nest_locator/04" },
+		{ "predicate": { "angle": 0.640625 }, "model": "productivebees:item/nest_locator/05" },
+		{ "predicate": { "angle": 0.671875 }, "model": "productivebees:item/nest_locator/06" },
+		{ "predicate": { "angle": 0.703125 }, "model": "productivebees:item/nest_locator/07" },
+		{ "predicate": { "angle": 0.734375 }, "model": "productivebees:item/nest_locator/08" },
+		{ "predicate": { "angle": 0.765625 }, "model": "productivebees:item/nest_locator/09" },
+		{ "predicate": { "angle": 0.796875 }, "model": "productivebees:item/nest_locator/10" },
+		{ "predicate": { "angle": 0.828125 }, "model": "productivebees:item/nest_locator/11" },
+		{ "predicate": { "angle": 0.859375 }, "model": "productivebees:item/nest_locator/12" },
+		{ "predicate": { "angle": 0.890625 }, "model": "productivebees:item/nest_locator/13" },
+		{ "predicate": { "angle": 0.921875 }, "model": "productivebees:item/nest_locator/14" },
+		{ "predicate": { "angle": 0.953125 }, "model": "productivebees:item/nest_locator/15" },
+		{ "predicate": { "angle": 0.984375 }, "model": "productivebees:item/nest_locator" }
+	]
+}

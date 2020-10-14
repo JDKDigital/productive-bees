@@ -19,11 +19,13 @@ import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.*;
@@ -82,6 +84,7 @@ public final class ProductiveBees
 
         modEventBus.addListener(ClientSetup::init);
         modEventBus.addListener(this::onInterModEnqueue);
+        modEventBus.addGenericListener(Feature.class, this::onRegisterFeatures);
         modEventBus.addListener(this::onCommonSetup);
 
         // Config loading
@@ -102,6 +105,11 @@ public final class ProductiveBees
 
     public void onServerStarting(AddReloadListenerEvent event) {
         event.addListener(BeeReloadListener.INSTANCE);
+    }
+
+    public void onRegisterFeatures(final RegistryEvent.Register<Feature<?>> event)
+    {
+        ModFeatures.registerFeatures(event);
     }
 
     public void onCommonSetup(FMLCommonSetupEvent event) {

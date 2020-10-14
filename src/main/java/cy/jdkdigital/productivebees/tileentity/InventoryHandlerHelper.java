@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.item.Gene;

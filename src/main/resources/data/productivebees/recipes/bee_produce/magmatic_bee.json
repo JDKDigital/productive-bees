@@ -1,6 +1,7 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:magmatic_bee",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:magmatic_bee",
     "results": [
         {
             "comb_produce": {

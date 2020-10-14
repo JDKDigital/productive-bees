@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.client.render.entity.layers;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
+import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
@@ -22,6 +23,11 @@ public class AbdomenLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
 
     public void render(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, ProductiveBeeEntity bee, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (bee.getColor(1) != null) {
+            if (bee instanceof ConfigurableBeeEntity) {
+                if (((ConfigurableBeeEntity) bee).hasBeeTexture()) {
+                    return;
+                }
+            }
             float[] primaryColor = bee.getColor(1)  .getComponents(null);
 
             ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/abdomen.png");

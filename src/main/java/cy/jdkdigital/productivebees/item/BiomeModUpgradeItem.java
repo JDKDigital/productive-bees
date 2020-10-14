@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.item;
 
-import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;

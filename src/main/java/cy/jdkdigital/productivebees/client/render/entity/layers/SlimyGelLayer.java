@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class SlimyGelLayer<T extends ProductiveBeeEntity> extends LayerRenderer<T, SlimyBeeModel<T>>
+public class SlimyGelLayer <T extends ProductiveBeeEntity> extends LayerRenderer<T, SlimyBeeModel<T>>
 {
     private final EntityModel<T> slimyBeeModel = new SlimyBeeModel<T>(true);
 

@@ -6,7 +6,6 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.SolitaryNest;
 import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
 import net.minecraft.block.pattern.BlockStateMatcher;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -82,9 +81,8 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
             if (tileEntity instanceof SolitaryNestTileEntity) {
                 SolitaryNestTileEntity nestTileEntity = (SolitaryNestTileEntity) tileEntity;
                 ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + featureConfig.state);
-                EntityType<? extends BeeEntity> beeType = SolitaryNestTileEntity.getProducibleBeeType(world.getWorld(), pos, (SolitaryNest) world.getBlockState(pos).getBlock());
-                if (beeType != null) {
-                    BeeEntity newBee = beeType.create(world.getWorld());
+                BeeEntity newBee = ((SolitaryNest) world.getBlockState(pos).getBlock()).getNestingBeeType(world.getWorld());
+                if (newBee != null) {
                     newBee.setHealth(newBee.getMaxHealth());
                     newBee.setPosition(pos.getX(), pos.getY(), pos.getZ());
                     nestTileEntity.tryEnterHive(newBee, false, world.getRandom().nextInt(599));

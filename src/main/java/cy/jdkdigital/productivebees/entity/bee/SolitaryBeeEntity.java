@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class SolitaryBeeEntity extends ProductiveBeeEntity implements ExpirableBee
+public class SolitaryBeeEntity extends ProductiveBeeEntity
 {
     private BlockPos birthNest;
     public boolean hasHadNest = false;
@@ -68,20 +68,6 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity implements ExpirableB
         if (tag.contains("birthNest")) {
             birthNest = NBTUtil.readBlockPos(tag.getCompound("birthNest"));
         }
-    }
-
-    public void setBirthNest(BlockPos birthNest) {
-        this.birthNest = birthNest;
-    }
-
-    @Override
-    public void setHasHadNest(boolean hadNest) {
-        this.hasHadNest = hadNest;
-    }
-
-    @Override
-    public boolean getHasHadNest() {
-        return hasHadNest;
     }
 
     public class HomesickGoal extends Goal {

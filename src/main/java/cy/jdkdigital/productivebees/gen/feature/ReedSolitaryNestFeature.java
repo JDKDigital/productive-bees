@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.pattern.BlockStateMatcher;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
@@ -23,7 +22,7 @@ public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
 
     @Override
     public boolean func_241855_a(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
-        if (rand.nextFloat() > this.probability) {
+        if (nestShouldNotGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 

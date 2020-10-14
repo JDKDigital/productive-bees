@@ -1,6 +1,7 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:glowing_bee",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:glowing",
     "results": [
         {
             "comb_produce": {
