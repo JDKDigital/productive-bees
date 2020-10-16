@@ -241,7 +241,11 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     public String getBeeName(boolean stripName) {
-        String type = getBeeType().split("[:]")[1];
+        String[] types = getBeeType().split("[:]");
+        String type = types[0];
+        if (types.length > 1) {
+            type = types[1];
+        }
         return stripName ? type.replace("_bee", "") : type;
     }
 

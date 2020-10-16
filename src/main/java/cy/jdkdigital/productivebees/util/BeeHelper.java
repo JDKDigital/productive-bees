@@ -236,6 +236,9 @@ public class BeeHelper
     public static BeeEntity convertToConfigurable(BeeEntity entity) {
         if (entity instanceof ProductiveBeeEntity && !(entity instanceof ConfigurableBeeEntity) && !(entity instanceof SolitaryBeeEntity) ) {
             String name = ProductiveBees.MODID + ":" + ((ProductiveBeeEntity) entity).getBeeName();
+            if (name.equals("productivebees:wither")) {
+                name = "productivebees:withered";
+            }
             BeeIngredient configuredBee = BeeIngredientFactory.getIngredient(name).get();
             if (configuredBee != null && configuredBee.isConfigurable()) {
                 CompoundNBT tag = new CompoundNBT();

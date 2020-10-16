@@ -68,7 +68,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
         Map<ItemStack, IntArrayNBT> output = super.getRecipeOutputs();
 
         for(Map.Entry<ItemStack, IntArrayNBT> entry: output.entrySet()) {
-            if (entry.getKey().getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB) && ingredient.get().isConfigurable()) {
+            if (entry.getKey().getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get()) && ingredient.get().isConfigurable()) {
                 ModItemGroups.ModItemGroup.setTag(ingredient.get().getBeeType().toString(), entry.getKey());
             }
         }
