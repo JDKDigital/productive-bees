@@ -57,7 +57,7 @@ public class InventoryHandlerHelper
                         return slot;
                     }
                 } else if(stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get()) || stack.getItem().equals(ModItems.CONFIGURABLE_COMB_BLOCK.get())) {
-                    if (stack.getTag().equals(insertStack.getTag())) {
+                    if (stack.hasTag() && insertStack.hasTag() && stack.getTag().equals(insertStack.getTag())) {
                         return slot;
                     }
                 } else {
