@@ -44,7 +44,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         if (recipe instanceof BeeSpawningRecipe) {
             BeeSpawningRecipe spawningRecipe = (BeeSpawningRecipe) recipe;
             BeeIngredient beeIngreient = spawningRecipe.output.get(world.rand.nextInt(spawningRecipe.output.size())).get();
-            BeeEntity bee = beeIngreient.getBeeEntity().create(world.getWorld());
+            BeeEntity bee = beeIngreient.getBeeEntity().create(world);
             if (bee instanceof ConfigurableBeeEntity) {
                 ((ConfigurableBeeEntity) bee).setBeeType(beeIngreient.getBeeType().toString());
                 ((ConfigurableBeeEntity) bee).setAttributes();
