@@ -16,7 +16,7 @@ public class ModTags
     public static final Tag<Block> WOOD_NESTS = getTag("wood_nests");
     public static final Tag<Block> SLIMY_NESTS = getTag("slimy_nests");
     public static final Tag<Block> GLOWSTONE_NESTS = getTag("glowstone_nests");
-    public static final Tag<Block> NETHER_QUARTZ_NESTS = getTag("nether_quarts_nests");
+    public static final Tag<Block> NETHER_QUARTZ_NESTS = getTag("nether_quartz_nests");
     public static final Tag<Block> NETHER_BRICK_NESTS = getTag("nether_brick_nests");
     public static final Tag<Block> SOUL_SAND_NESTS = getTag("soul_sand_nests");
     public static final Tag<Block> END_NESTS = getTag("end_nests");
