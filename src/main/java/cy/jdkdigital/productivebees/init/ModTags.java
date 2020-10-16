@@ -20,8 +20,8 @@ public class ModTags
     public static final INamedTag<Block> WOOD_NESTS = getTag("wood_nests");
     public static final INamedTag<Block> SLIMY_NESTS = getTag("slimy_nests");
     public static final INamedTag<Block> GLOWING_NESTS = getTag("glowstone_nests");
-    public static final INamedTag<Block> NETHER_QUARTZ_NESTS = getTag("nether_quarts_nests");
-    public static final INamedTag<Block> NETHER_GOLD_NESTS = getTag("nether_quarts_nests");
+    public static final INamedTag<Block> NETHER_QUARTZ_NESTS = getTag("nether_quartz_nests");
+    public static final INamedTag<Block> NETHER_GOLD_NESTS = getTag("nether_gold_nests");
     public static final INamedTag<Block> NETHER_BRICK_NESTS = getTag("nether_brick_nests");
     public static final INamedTag<Block> SOUL_SAND_NESTS = getTag("soul_sand_nests");
     public static final INamedTag<Block> END_NESTS = getTag("end_nests");
@@ -50,10 +50,16 @@ public class ModTags
     public static final INamedTag<EntityType<?>> RANCHABLES = EntityTypeTags.createOptional(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
 
     public static INamedTag<Block> getTag(String name) {
+        if (name.equals("nether_quarts_nests")) {
+            name = "nether_quartz_nests";
+        }
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));
     }
 
     public static INamedTag<Block> getTag(ResourceLocation resourceLocation) {
+        if (resourceLocation.getPath().equals("nether_quarts_nests")) {
+            resourceLocation = new ResourceLocation(ProductiveBees.MODID, "nether_quartz_nests");
+        }
         return BlockTags.createOptional(resourceLocation);
     }
 }

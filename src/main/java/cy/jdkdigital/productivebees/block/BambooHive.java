@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.block;
 
+import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.tileentity.SolitaryHiveTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -25,6 +26,12 @@ public class BambooHive extends AdvancedBeehiveAbstract
 
     public int getMaxHoneyLevel() {
         return 0;
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return ModTileEntityTypes.SOLITARY_HIVE.get().create();
     }
 
     @Nullable

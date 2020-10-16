@@ -52,6 +52,11 @@ public class ModTileEntityTypes
                     ModBlocks.DRAGON_EGG_HIVE.get()
             ).build(null)
     );
+    public static final RegistryObject<TileEntityType<SolitaryHiveTileEntity>> SOLITARY_HIVE = TILE_ENTITY_TYPES.register("solitary_hive", () ->
+            TileEntityType.Builder.create(SolitaryHiveTileEntity::new,
+                    ModBlocks.BAMBOO_HIVE.get()
+            ).build(null)
+    );
     public static final RegistryObject<TileEntityType<SolitaryNestTileEntity>> SOLITARY_NEST = TILE_ENTITY_TYPES.register("solitary_nest", () ->
             TileEntityType.Builder.create(SolitaryNestTileEntity::new,
                     ModBlocks.SAND_NEST.get(),
