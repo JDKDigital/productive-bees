@@ -303,10 +303,10 @@ public class ProductiveBeeEntity extends BeeEntity
             beeAttributes.put(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
             beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
             beeAttributes.put(BeeAttributes.TYPE, tag.getString("bee_type"));
-            beeAttributes.put(BeeAttributes.FOOD_SOURCE, new BlockTags.Wrapper(new ResourceLocation(tag.getString("bee_food_source"))));
+            beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.getTag(new ResourceLocation(tag.getString("bee_food_source"))));
             beeAttributes.put(BeeAttributes.APHRODISIACS, new ItemTags.Wrapper(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
             if (tag.contains("bee_nesting_preference") && !tag.getString("bee_nesting_preference").equals("")) {
-                beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, BlockTags.getCollection().getOrCreate(new ResourceLocation(tag.getString("bee_nesting_preference"))));
+                beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.getTag(new ResourceLocation(tag.getString("bee_nesting_preference"))));
             }
             else {
                 // TODO Fix for this release, remove later

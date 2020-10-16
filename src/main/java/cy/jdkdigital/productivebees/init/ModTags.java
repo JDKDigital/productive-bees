@@ -45,10 +45,16 @@ public class ModTags
     public static final Tag<EntityType<?>> RANCHABLES = EntityTypeTags.getCollection().getOrCreate(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
 
     public static Tag<Block> getTag(String name) {
+        if (name.equals("nether_quarts_nests")) {
+            name = "nether_quartz_nests";
+        }
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));
     }
 
     public static Tag<Block> getTag(ResourceLocation resourceLocation) {
+        if (resourceLocation.getPath().equals("nether_quarts_nests")) {
+            resourceLocation = new ResourceLocation(ProductiveBees.MODID, "nether_quartz_nests");
+        }
         return BlockTags.getCollection().getOrCreate(resourceLocation);
     }
 }
