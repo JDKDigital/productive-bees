@@ -12,6 +12,7 @@ import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.BeehiveTileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 
@@ -21,6 +22,11 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 {
     // Used for calculating if a new bee should move in (initial value, will be overriden by recipe value)
     public int nestTickTimer = 24000;
+
+    public SolitaryNestTileEntity(TileEntityType<?> tileEntityType) {
+        super(tileEntityType);
+        MAX_BEES = 1;
+    }
 
     public SolitaryNestTileEntity() {
         super(ModTileEntityTypes.SOLITARY_NEST.get());
