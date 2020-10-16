@@ -312,9 +312,9 @@ public class ProductiveBeeEntity extends BeeEntity
             beeAttributes.put(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
             beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
             beeAttributes.put(BeeAttributes.TYPE, tag.getString("bee_type"));
-            beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.makeWrapperTag(tag.getString("bee_food_source")));
+            beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.getTag(new ResourceLocation(tag.getString("bee_food_source"))));
             beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.makeWrapperTag(tag.getString("bee_aphrodisiac")));
-            beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, BlockTags.makeWrapperTag(tag.getString("bee_nesting_preference")));
+            beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.getTag(new ResourceLocation(tag.getString("bee_nesting_preference"))));
             beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(tag.getCompound("bee_effects")));
         }
     }

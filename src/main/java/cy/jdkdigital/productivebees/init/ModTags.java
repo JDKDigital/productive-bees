@@ -50,10 +50,16 @@ public class ModTags
     public static final INamedTag<EntityType<?>> RANCHABLES = EntityTypeTags.func_232896_a_(ProductiveBees.MODID + ":ranchables");
 
     public static INamedTag<Block> getTag(String name) {
+        if (name.equals("nether_quarts_nests")) {
+            name = "nether_quartz_nests";
+        }
         return BlockTags.makeWrapperTag(ProductiveBees.MODID + ":" + name);
     }
 
     public static INamedTag<Block> getTag(ResourceLocation resourceLocation) {
+        if (resourceLocation.getPath().equals("nether_quarts_nests")) {
+            resourceLocation = new ResourceLocation(ProductiveBees.MODID, "nether_quartz_nests");
+        }
         return BlockTags.makeWrapperTag(resourceLocation.toString());
     }
 }
