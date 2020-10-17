@@ -27,7 +27,7 @@ public class UpgradeItem extends Item
         double value = 0.0F;
         switch (upgradeType) {
             case "upgrade_productivity":
-                value = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get();
+                value = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() - 1d;
                 break;
             case "upgrade_breeding":
                 value = ProductiveBeesConfig.UPGRADES.breedingChance.get();

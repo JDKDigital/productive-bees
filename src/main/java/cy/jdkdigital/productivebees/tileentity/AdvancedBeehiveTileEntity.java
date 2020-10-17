@@ -215,7 +215,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                         int productivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
                         if (productivityUpgrades > 0) {
                             double upgradeMod = (stack.getCount() * (ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * (float) productivityUpgrades));
-                            stack.grow(Math.round((float) upgradeMod));
+                            stack.setCount(Math.round((float) upgradeMod));
                         }
 
                         // Change to comb block

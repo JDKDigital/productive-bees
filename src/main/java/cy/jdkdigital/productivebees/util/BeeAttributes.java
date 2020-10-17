@@ -14,8 +14,6 @@ import java.util.UUID;
 
 public class BeeAttributes
 {
-    public static final RandomValueRange productivityModifier = new RandomValueRange(0, 1);
-
     private static Map<String, BeeAttribute<?>> map = new HashMap<>();
     public static Map<BeeAttribute<?>, Map<Integer, String>> keyMap = new HashMap<>();
 
