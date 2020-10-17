@@ -147,7 +147,7 @@ public class ProductiveBeesConfig
     public static class Upgrades
     {
         public final ForgeConfigSpec.DoubleValue timeBonus;
-        public final ForgeConfigSpec.DoubleValue combBlockTimeodifier;
+        public final ForgeConfigSpec.DoubleValue combBlockTimeModifier;
         public final ForgeConfigSpec.DoubleValue productivityMultiplier;
         public final ForgeConfigSpec.DoubleValue breedingChance;
 
@@ -155,7 +155,7 @@ public class ProductiveBeesConfig
             builder.push("Hive Upgrades");
 
             timeBonus = builder.comment("Time bonus gained from time upgrade. 0.2 means 20% reduction of a bee's time inside the hive.").defineInRange("timeBonus", 0.2, 0, 1);
-            combBlockTimeodifier = builder.comment("Time penalty from installing the comb block upgrade. 1.4 means 140% increase of a bee's time inside the hive.").defineInRange("combBlockTimeodifier", 1.4, 1, Integer.MAX_VALUE);
+            combBlockTimeModifier = builder.comment("Time penalty from installing the comb block upgrade. .4 means 40% increase of a bee's time inside the hive.").defineInRange("combBlockTimeModifier", .4, 0, 1);
             productivityMultiplier = builder.comment("Multiplier per productivity upgrade installed in the hive.").defineInRange("productivityMultiplier", 1.8, 1, Integer.MAX_VALUE);
             breedingChance = builder.comment("Chance for a bee to produce an offspring after a hive visit.").defineInRange("breedingChance", 0.05, 0, 1);
 
