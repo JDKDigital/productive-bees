@@ -186,7 +186,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
         int combBlockUpgrades = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get());
         int timeUpgrades = getUpgradeCount(ModItems.UPGRADE_TIME.get());
-        return (int) (super.getTimeInHive(hasNectar, beeEntity) * (1 - (timeUpgrades * ProductiveBeesConfig.UPGRADES.timeBonus.get())) * (combBlockUpgrades > 0 ? (ProductiveBeesConfig.UPGRADES.combBlockTimeodifier.get()) : 1));
+        return (int) (super.getTimeInHive(hasNectar, beeEntity) * Math.pow(1 - ProductiveBeesConfig.UPGRADES.timeBonus.get(), timeUpgrades) * (combBlockUpgrades > 0 ? (ProductiveBeesConfig.UPGRADES.combBlockTimeodifier.get()) : 1));
     }
 
     @Override
@@ -199,20 +199,22 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 BeeHelper.getBeeProduce(world, beeEntity).forEach((stackIn) -> {
                     ItemStack stack = stackIn.copy();
                     if (!stack.isEmpty()) {
+                        // get productivity
+                        float production = 0;
                         if (beeEntity instanceof ProductiveBeeEntity) {
                             int productivity = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
                             if (productivity > 0) {
-                                float f = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
-                                stack.grow(Math.round(f));
+                                production = (float) productivity * stack.getCount() * BeeAttributes.productivityModifier.generateFloat(world.rand);
                             }
                         }
                         // Apply upgrades
                         int productivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
                         if (productivityUpgrades > 0) {
-                            int newCount = (int) (stack.getCount() * ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * productivityUpgrades);
-                            stack.setCount(newCount);
+                            production *= (float) (ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * productivityUpgrades);
                         }
-
+                        // Apply to stack
+                        stack.grow(Math.round(production));
+                        
                         // Change to comb block
                         int combBlockUpgrades = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get());
                         if (combBlockUpgrades > 0) {
