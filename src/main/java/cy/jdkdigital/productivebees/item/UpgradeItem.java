@@ -36,7 +36,7 @@ public class UpgradeItem extends Item
                 value = ProductiveBeesConfig.UPGRADES.timeBonus.get();
                 break;
             case "upgrade_comb_block":
-                value = ProductiveBeesConfig.UPGRADES.combBlockTimeodifier.get();
+                value = ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
                 break;
         }
 
