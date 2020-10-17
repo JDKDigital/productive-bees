@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
+import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -7,6 +8,7 @@ import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
@@ -85,6 +87,17 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                     float f2 = MathHelper.sin(f) * (float) i * 0.5F * f1;
                     float f3 = MathHelper.cos(f) * (float) i * 0.5F * f1;
                     this.world.addParticle(ParticleTypes.ITEM_SLIME, this.getPosX() + (double) f2, this.getPosY(), this.getPosZ() + (double) f3, 0.0D, 0.0D, 0.0D);
+                }
+            }
+
+            if (ticksExisted % 20 == 0 && hasNectar() && isRedstoned()) {
+                for (int i = 1; i <= 2; ++i) {
+                    BlockPos beePosDown = this.getPosition().down(i);
+                    if (world.isAirBlock(beePosDown)) {
+                        BlockState redstoneState = ModBlocks.INVISIBLE_REDSTONE_BLOCK.get().getDefaultState();
+                        world.setBlockState(beePosDown, redstoneState, 3);
+                        world.getPendingBlockTicks().scheduleTick(beePosDown, redstoneState.getBlock(), 20);
+                    }
                 }
             }
         }
@@ -236,6 +249,10 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public boolean isDraconic() {
         return getNBTData().getBoolean("draconic");
+    }
+
+    public boolean isRedstoned() {
+        return getNBTData().getBoolean("redstoned");
     }
 
     public boolean isSlimy() {
