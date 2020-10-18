@@ -335,6 +335,14 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     @Override
+    protected void onGrowingAdult() {
+        super.onGrowingAdult();
+
+        BlockPos pos = this.getPosition();
+        this.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    @Override
     public BeeEntity createChild(AgeableEntity targetEntity) {
         BeeEntity newBee = BeeHelper.getBreedingResult(this, targetEntity, world);
 

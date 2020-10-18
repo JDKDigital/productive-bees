@@ -48,12 +48,18 @@ public class ModTags
         if (name.equals("nether_quarts_nests")) {
             name = "nether_quartz_nests";
         }
+        else if (name.equals("glowtone_nests")) {
+            name = "glowstone_nests";
+        }
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));
     }
 
     public static Tag<Block> getTag(ResourceLocation resourceLocation) {
         if (resourceLocation.getPath().equals("nether_quarts_nests")) {
             resourceLocation = new ResourceLocation(ProductiveBees.MODID, "nether_quartz_nests");
+        }
+        else if (resourceLocation.getPath().equals("glowtone_nests")) {
+            resourceLocation = new ResourceLocation(ProductiveBees.MODID, "glowstone_nests");
         }
         return BlockTags.getCollection().getOrCreate(resourceLocation);
     }
