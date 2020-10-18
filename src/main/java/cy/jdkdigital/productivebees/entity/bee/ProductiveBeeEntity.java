@@ -326,6 +326,14 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     @Override
+    protected void onGrowingAdult() {
+        super.onGrowingAdult();
+
+        BlockPos pos = this.getPosition();
+        this.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    @Override
     public BeeEntity createChild(AgeableEntity targetEntity) {
         ProductiveBees.LOGGER.info("Find breed recipe between");
         ProductiveBees.LOGGER.info(this);
