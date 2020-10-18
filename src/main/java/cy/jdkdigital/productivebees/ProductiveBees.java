@@ -138,52 +138,52 @@ public final class ProductiveBees
         Biome.Category category = event.getCategory();
         // Add biome features
         if (category.equals(Biome.Category.DESERT)) {
-            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModFeatures.SAND_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.SAND.getDefaultState(), ModBlocks.SAND_NEST.get().getDefaultState())));
+            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.SAND_NEST_FEATURE);
         }
         else if (category.equals(Biome.Category.SAVANNA) || category.equals(Biome.Category.TAIGA)) {
-            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.COARSE_DIRT_NEST_FEATURE.get());
-            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.SPRUCE_WOOD_NEST_FEATURE.get());
-            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.ACACIA_WOOD_NEST_FEATURE.get());
+            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.COARSE_DIRT_NEST_FEATURE);
+            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.SPRUCE_WOOD_NEST_FEATURE);
+            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.ACACIA_WOOD_NEST_FEATURE);
         }
         else if (category.equals(Biome.Category.JUNGLE)) {
-            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.JUNGLE_WOOD_NEST_FEATURE.get());
+            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.JUNGLE_WOOD_NEST_FEATURE);
         }
         else if (category.equals(Biome.Category.FOREST)) {
-            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.OAK_WOOD_NEST_FEATURE.get());
-            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.DARK_OAK_WOOD_NEST_FEATURE.get());
-            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.BIRCH_WOOD_NEST_FEATURE.get());
+            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.OAK_WOOD_NEST_FEATURE);
+            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.DARK_OAK_WOOD_NEST_FEATURE);
+            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.BIRCH_WOOD_NEST_FEATURE);
         }
         else if (category.equals(Biome.Category.EXTREME_HILLS)) {
-            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.STONE_NEST_FEATURE.get());
-            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.SNOW_NEST_FEATURE.get());
-            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.SNOW_NEST_BLOCK_FEATURE.get());
+            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.STONE_NEST_FEATURE);
+            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.SNOW_NEST_FEATURE);
+            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.SNOW_NEST_BLOCK_FEATURE);
         }
         else if (category.equals(Biome.Category.SWAMP)) {
-            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.SLIMY_NEST_FEATURE.get());
+            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.SLIMY_NEST_FEATURE);
         }
         else if (category.equals(Biome.Category.NETHER)) {
-            event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, ModConfiguredFeatures.GLOWSTONE_NEST_FEATURE.get());
-            event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ModConfiguredFeatures.NETHER_QUARTZ_NEST_FEATURE.get());
-            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.NETHER_QUARTZ_NEST_HIGH_FEATURE.get());
-            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.NETHER_FORTRESS_NEST_FEATURE.get());
-            event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, ModConfiguredFeatures.SOUL_SAND_NEST_FEATURE.get());
+            event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, ModConfiguredFeatures.GLOWSTONE_NEST_FEATURE);
+            event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ModConfiguredFeatures.NETHER_QUARTZ_NEST_FEATURE);
+            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.NETHER_QUARTZ_NEST_HIGH_FEATURE);
+            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.NETHER_FORTRESS_NEST_FEATURE);
+            event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, ModConfiguredFeatures.SOUL_SAND_NEST_FEATURE);
         }
         else if (category.equals(Biome.Category.RIVER) || category.equals(Biome.Category.BEACH)) {
             if (event.getClimate().temperatureModifier != Biome.TemperatureModifier.FROZEN) {
-                event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.GRAVEL_NEST_FEATURE.get());
+                event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.GRAVEL_NEST_FEATURE);
             }
         }
         else if (category.equals(Biome.Category.THEEND)) {
             if (event.getName().getPath().equals("the_end")) {
                 // Pillar nests
-                event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.OBSIDIAN_PILLAR_NEST_FEATURE.get());
+                event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.OBSIDIAN_PILLAR_NEST_FEATURE);
             } else {
                 // Must spawn where chorus fruit exist
-                event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.END_NEST_FEATURE.get());
+                event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.END_NEST_FEATURE);
             }
         }
         if (!category.equals(Biome.Category.THEEND) && !category.equals(Biome.Category.NETHER)) {
-            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.SUGAR_CANE_NEST_FEATURE.get());
+            event.getGeneration().withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.SUGAR_CANE_NEST_FEATURE);
         }
     }
 
