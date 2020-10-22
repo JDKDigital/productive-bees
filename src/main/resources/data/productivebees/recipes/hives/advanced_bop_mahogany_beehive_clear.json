@@ -14,8 +14,17 @@
             "modid": "buzzierbees"
         },
         {
-            "type": "forge:mod_loaded",
-            "modid": "biomesoplenty"
+            "type": "forge:or",
+            "values": [
+                {
+                    "type": "forge:mod_loaded",
+                    "modid": "biomesoplenty"
+                },
+                {
+                    "type": "forge:mod_loaded",
+                    "modid": "byg"
+                }
+            ]
         }
     ]
 }

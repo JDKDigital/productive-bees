@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "WWW",
+        "WCW",
+        "WWW"
+    ],
+    "key": {
+        "W": {
+            "item": "byg:palm_planks"
+        },
+        "C": {
+            "item": "minecraft:honeycomb"
+        }
+    },
+    "result": {
+        "item": "productivebees:expansion_box_bop_palm"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "buzzierbees"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        }
+    ]
+}

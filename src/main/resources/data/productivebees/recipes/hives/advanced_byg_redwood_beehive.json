@@ -1,0 +1,38 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "WWW",
+        "CHC",
+        "FWS"
+    ],
+    "key": {
+        "W": {
+            "item": "byg:redwood_planks"
+        },
+        "H": {
+            "item": "buzzierbees:bop_redwood_beehive"
+        },
+        "C": {
+            "item": "minecraft:honeycomb"
+        },
+        "F": {
+            "item": "minecraft:campfire"
+        },
+        "S": {
+            "tag": "forge:shears"
+        }
+    },
+    "result": {
+        "item": "productivebees:advanced_bop_redwood_beehive"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "buzzierbees"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        }
+    ]
+}

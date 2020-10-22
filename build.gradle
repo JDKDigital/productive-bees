@@ -101,6 +101,7 @@ dependencies {
 
     compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
 
+    implementation fg.deobf('mods:byg:1.0.11')
     implementation fg.deobf('mods:Mekanism-1.15.2:9.10.9.422')
     implementation fg.deobf('mods:allthemodium-1.0.4-1.15.2:31.2.36')
     implementation fg.deobf('mods:curios-FORGE-1.15.2:2.0.2.6')
