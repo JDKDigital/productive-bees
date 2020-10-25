@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.entity.bee.hive.CupidBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.hive.RancherBeeEntity;
 import cy.jdkdigital.productivebees.entity.bee.nesting.*;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
@@ -427,11 +428,9 @@ public class ProductiveBeeEntity extends BeeEntity
                     ProductiveBeeEntity.this.navigator.tryMoveToXYZ((double) ProductiveBeeEntity.this.savedFlowerPos.getX() + 0.5D, (double) ProductiveBeeEntity.this.savedFlowerPos.getY() + 0.5D, (double) ProductiveBeeEntity.this.savedFlowerPos.getZ() + 0.5D, 1.2F);
                     return true;
                 }
-                else {
-                    // Failing to find a target will set a cooldown before next attempt
-                    ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewFlower = 70 + world.rand.nextInt(50);
-                    return false;
-                }
+                // Failing to find a target will set a cooldown before next attempt
+                ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewFlower = 70 + world.rand.nextInt(50);
+                return false;
             }
         }
 
@@ -440,6 +439,8 @@ public class ProductiveBeeEntity extends BeeEntity
         public Optional<BlockPos> getFlower() {
             if (ProductiveBeeEntity.this instanceof RancherBeeEntity) {
                 return findEntities(RancherBeeEntity.predicate, 5D);
+            } else if (ProductiveBeeEntity.this instanceof CupidBeeEntity) {
+                return findEntities(CupidBeeEntity.predicate, 5D);
             }
             return super.getFlower();
         }

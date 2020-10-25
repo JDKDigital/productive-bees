@@ -11,8 +11,10 @@ import cy.jdkdigital.productivebees.util.BeeEffect;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -142,7 +144,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                     target.setFire(200);
                 case "lava":
                     // Place flowing lava on the targets location
-                    this.world.setBlockState(target.getPosition(), Blocks.LAVA.getDefaultState().getBlockState(), 11);
+                    this.world.setBlockState(target.getPosition(), Blocks.LAVA.getDefaultState(), 11);
             }
         }
     }
@@ -197,6 +199,13 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             return new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name"));
         }
         return super.getProfessionName();
+    }
+
+    @Nonnull
+    @Override
+    public EntitySize getSize(Pose poseIn) {
+        CompoundNBT nbt = getNBTData();
+        return super.getSize(poseIn).scale(nbt.getFloat("size"));
     }
 
     @Override

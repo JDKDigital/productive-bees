@@ -52,7 +52,7 @@ public class MagmaticBeeEntity extends EffectHiveBeeEntity
             // Place flowing lava on the targets location
             this.lavaPosition = target.getPosition();
             this.lavaDuration = 100;
-            this.world.setBlockState(lavaPosition, Blocks.LAVA.getDefaultState().getBlockState(), 11);
+            this.world.setBlockState(lavaPosition, Blocks.LAVA.getDefaultState(), 11);
         }
     }
 }

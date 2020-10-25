@@ -1,6 +1,6 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:ender_bee",
+    "ingredient": "productivebees:ender",
     "results": [
         {
             "comb_produce": {

@@ -122,7 +122,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         } else {
             this.rightWing.rotateAngleY = 0.0F;
             // maxSpeed - (sizeMod - minSize)/(maxSize - minSize) * (maxSpeed - minSpeed)
-            this.rightWing.rotateAngleZ = MathHelper.cos(ageInTicks % 98000 * 2.8F) * FAKE_PI * 0.15F;
+            this.rightWing.rotateAngleZ = MathHelper.cos(ageInTicks % 98000 * 2.1F) * FAKE_PI * 0.15F;
             this.leftWing.rotateAngleX = this.rightWing.rotateAngleX;
             this.leftWing.rotateAngleY = this.rightWing.rotateAngleY;
             this.leftWing.rotateAngleZ = -this.rightWing.rotateAngleZ;
