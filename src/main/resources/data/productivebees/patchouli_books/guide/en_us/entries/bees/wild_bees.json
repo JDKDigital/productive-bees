@@ -80,6 +80,16 @@
         {
             "type": "entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:draconic'}"
+        },
+        {
+            "type": "text",
+            "title": "Sugarbag Bee",
+            "text": "This little stingless bee can bee found in warm areas. It produces a special type of super delicious comb.",
+            "anchor": "sugarbag"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:sugarbag'}"
         }
     ]
 }

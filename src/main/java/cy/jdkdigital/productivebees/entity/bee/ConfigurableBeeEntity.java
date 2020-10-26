@@ -58,7 +58,8 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE ||
                 poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
                 poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
-                (poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic());
+                (poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic()) ||
+                (poiType == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals("productivebees:sugarbag"));
     }
 
     @Override

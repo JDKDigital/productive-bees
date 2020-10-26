@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "top": "productivebees:block/nest/sugarbag_top",
+    "bottom": "productivebees:block/nest/sugarbag_bottom",
+    "side": "productivebees:block/nest/sugarbag_side",
+    "front": "productivebees:block/nest/sugarbag_front",
+    "particle": "productivebees:block/nest/sugarbag_side"
+  }
+}

@@ -1,6 +1,7 @@
 {
     "primaryColor": "#fad87d",
     "secondaryColor": "#5f2525",
+    "size": 0.9,
     "beeTexture": "productivebees:textures/entity/bee/glowing/bee",
     "createComb": false,
     "blinding": true,

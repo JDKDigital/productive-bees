@@ -32,7 +32,7 @@
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "byg"
+            "modid": "byg_"
         }
     ]
 }

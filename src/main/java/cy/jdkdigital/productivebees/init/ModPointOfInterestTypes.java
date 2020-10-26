@@ -56,6 +56,12 @@ public final class ModPointOfInterestTypes
         return blocks;
     }, 1);
 
+    public static final RegistryObject<PointOfInterestType> SUGARBAG_NEST = register("sugarbag_nest", () -> {
+        List<RegistryObject<Block>> blocks = new ArrayList<>();
+        blocks.add(ModBlocks.SUGARBAG_NEST);
+        return blocks;
+    }, 1);
+
     private static RegistryObject<PointOfInterestType> register(String name, RegistryObject<Block> block, int maxFreeTickets) {
         List<RegistryObject<Block>> blocks = new ArrayList<>();
         blocks.add(block);

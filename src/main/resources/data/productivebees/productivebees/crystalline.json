@@ -1,6 +1,7 @@
 {
     "primaryColor": "#ede5dd",
     "secondaryColor": "#804f40",
+    "size": 0.9,
     "beeTexture": "productivebees:textures/entity/bee/quartz/bee",
     "createComb": false,
     "attributes": {

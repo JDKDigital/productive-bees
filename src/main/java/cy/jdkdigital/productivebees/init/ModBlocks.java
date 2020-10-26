@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.block.*;
 import cy.jdkdigital.productivebees.block.nest.*;
 import cy.jdkdigital.productivebees.fluid.HoneyFluid;
 import cy.jdkdigital.productivebees.item.CombBlockItem;
+import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
@@ -106,6 +107,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> COMB_TUNGSTEN = createBlock("comb_tungsten", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#616669"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_ZINC = createBlock("comb_zinc", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#E9EBE7"), ModItemGroups.PRODUCTIVE_BEES);
 
+    public static final RegistryObject<Block> SUGARBAG_NEST = createBlock("sugarbag_nest", () -> new SugarbagNest(Block.Properties.from(Blocks.BEE_NEST)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> ADVANCED_OAK_BEEHIVE = createBlock("advanced_oak_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> EXPANSION_BOX_OAK = createBlock("expansion_box_oak", () -> new ExpansionBox(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
 
