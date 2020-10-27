@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import cy.jdkdigital.productivebees.block.Bottler;
-import cy.jdkdigital.productivebees.tileentity.BottlerTileEntity;
+import cy.jdkdigital.productivebees.common.block.Bottler;
+import cy.jdkdigital.productivebees.common.tileentity.BottlerTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Vector3f;

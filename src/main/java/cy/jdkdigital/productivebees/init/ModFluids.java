@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.fluid.HoneyFluid;
+import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FlowingFluid;

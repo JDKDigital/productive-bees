@@ -6,7 +6,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.Item;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.RandomValueRange;
 
 import java.util.HashMap;
 import java.util.Map;

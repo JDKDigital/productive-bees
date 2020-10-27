@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.client.render.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.model.SolitaryBeeModel;
-import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;

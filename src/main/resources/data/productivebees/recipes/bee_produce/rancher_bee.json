@@ -3,14 +3,9 @@
     "ingredient": "productivebees:rancher_bee",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/milky"
-            },
-            "item_produce": {
-                "tag": "productivebees:milk_bottle"
-            },
-            "min": 1.0,
-            "max": 1.0
+            }
         }
     ]
 }

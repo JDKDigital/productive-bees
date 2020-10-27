@@ -1,15 +1,15 @@
 package cy.jdkdigital.productivebees.setup;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.block.CombBlock;
 import cy.jdkdigital.productivebees.client.render.block.BottlerTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.CentrifugeTileEntityRenderer;
+import cy.jdkdigital.productivebees.common.block.CombBlock;
+import cy.jdkdigital.productivebees.common.item.Honeycomb;
+import cy.jdkdigital.productivebees.common.item.SpawnEgg;
 import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
 import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
 import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.item.Honeycomb;
-import cy.jdkdigital.productivebees.item.SpawnEgg;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.color.BlockColors;

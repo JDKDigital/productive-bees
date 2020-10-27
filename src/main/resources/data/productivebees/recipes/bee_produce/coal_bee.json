@@ -4,11 +4,8 @@
     "bee_type": "productivebees:coal",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "item": "productivebees:configurable_honeycomb"
-            },
-            "item_produce": {
-                "item": "minecraft:coal"
             },
             "min": 1.0,
             "max": 2.0

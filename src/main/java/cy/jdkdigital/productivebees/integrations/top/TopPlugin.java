@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.integrations.top;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.tileentity.CentrifugeTileEntity;
-import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
+import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
+import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
 import mcjty.theoneprobe.api.ITheOneProbe;
 import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.item.ItemStack;

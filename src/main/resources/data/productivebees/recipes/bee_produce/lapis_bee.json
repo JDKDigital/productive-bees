@@ -4,14 +4,9 @@
     "bee_type": "productivebees:lapis",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "item": "productivebees:configurable_honeycomb"
-            },
-            "item_produce": {
-                "tag": "forge:gems/lapis"
-            },
-            "min": 3.0,
-            "max": 7.0
+            }
         }
     ]
 }

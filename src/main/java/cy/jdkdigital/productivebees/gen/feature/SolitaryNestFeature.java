@@ -3,20 +3,18 @@ package cy.jdkdigital.productivebees.gen.feature;
 import com.mojang.datafixers.Dynamic;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.block.SolitaryNest;
-import cy.jdkdigital.productivebees.block.nest.WoodNest;
-import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.block.SolitaryNest;
+import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
-import cy.jdkdigital.productivebees.tileentity.SugarbagNestTileEntity;
+import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
+import cy.jdkdigital.productivebees.common.tileentity.SugarbagNestTileEntity;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.pattern.BlockStateMatcher;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -29,7 +27,6 @@ import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 
 import java.util.Random;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 
 public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
 {
