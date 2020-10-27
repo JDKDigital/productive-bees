@@ -14,7 +14,6 @@ import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.BlockItem;

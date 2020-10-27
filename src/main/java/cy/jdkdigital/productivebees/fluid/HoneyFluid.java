@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.common.fluid;
+package cy.jdkdigital.productivebees.fluid;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;

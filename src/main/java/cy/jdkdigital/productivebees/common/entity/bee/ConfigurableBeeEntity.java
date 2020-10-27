@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -105,6 +106,11 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                     }
                 }
             }
+
+            // Kill unconfigured bees
+            if (getBeeType().isEmpty() && isAlive()) {
+                attackEntityFrom(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
+            }
         }
     }
 
@@ -168,6 +174,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public void setBeeType(String data) {
         this.dataManager.set(TYPE, data);
+        recalculateSize();
     }
 
     public String getBeeType() {
@@ -222,6 +229,10 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     @Override
     public EntitySize getSize(Pose poseIn) {
         CompoundNBT nbt = getNBTData();
+        ProductiveBees.LOGGER.info("bee size " + getBeeType() + " - " + nbt);
+        if (getBeeType().isEmpty()) {
+            throw new RuntimeException("NO FUKING SIZE");
+        }
         return super.getSize(poseIn).scale(nbt.getFloat("size"));
     }
 
