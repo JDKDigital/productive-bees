@@ -1,9 +1,7 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
-import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
-import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
+import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -19,6 +17,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
@@ -48,6 +47,9 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     private int attackCooldown = 0;
     public int breathCollectionCooldown = 600;
     private int teleportCooldown = 250;
+
+    // Color calc cache
+    private static Map<Integer, float[]> colorCache = new HashMap<>();
 
     public static final DataParameter<String> TYPE = EntityDataManager.createKey(ConfigurableBeeEntity.class, DataSerializers.STRING);
 
@@ -107,10 +109,25 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     @Override
+    public void addParticle(World worldIn, double xMin, double xMax, double zMin, double zMax, double posY, IParticleData particleData) {
+        NectarParticleType particle = ModParticles.COLORED_FALLING_NECTAR.get();
+
+        if (hasParticleColor()) {
+            Integer color = getParticleColor();
+            if (!colorCache.containsKey(color)) {
+                colorCache.put(color, (new Color(color)).getComponents(null));
+            }
+            particle.setColor(colorCache.get(color));
+        }
+
+        worldIn.addParticle(particle, MathHelper.lerp(worldIn.rand.nextDouble(), xMin, xMax), posY, MathHelper.lerp(worldIn.rand.nextDouble(), zMin, zMax), 0.0D, 0.0D, 0.0D);
+    }
+
+    @Override
     protected void updateAITasks() {
         // Teleport to active path
-        if (this.teleportCooldown <= 0 && null != this.navigator.getPath()) {
-            if (isTeleporting()) {
+        if (this.teleportCooldown <= 0) {
+            if (null != this.navigator.getPath() && isTeleporting()) {
                 if (this.hasHive()) {
                     TileEntity te = world.getTileEntity(this.getHivePos());
                     if (te instanceof AdvancedBeehiveTileEntity) {
@@ -275,6 +292,14 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public boolean hasMunchies() {
         return getNBTData().getBoolean("munchies");
+    }
+
+    public boolean hasParticleColor() {
+        return getNBTData().contains("particleColor");
+    }
+
+    public Integer getParticleColor() {
+        return getNBTData().getInt("particleColor");
     }
 
     @Override

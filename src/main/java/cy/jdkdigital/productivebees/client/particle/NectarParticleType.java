@@ -1,33 +1,61 @@
-package net.minecraft.particles;
+package cy.jdkdigital.productivebees.client.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.util.registry.Registry;
+import net.minecraftforge.registries.ForgeRegistries;
 
-public class BasicParticleType extends ParticleType<BasicParticleType> implements IParticleData {
-   private static final IParticleData.IDeserializer<BasicParticleType> DESERIALIZER = new IParticleData.IDeserializer<BasicParticleType>() {
-      public BasicParticleType deserialize(ParticleType<BasicParticleType> particleTypeIn, StringReader reader) throws CommandSyntaxException {
-         return (BasicParticleType)particleTypeIn;
-      }
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-      public BasicParticleType read(ParticleType<BasicParticleType> particleTypeIn, PacketBuffer buffer) {
-         return (BasicParticleType)particleTypeIn;
-      }
-   };
+public class NectarParticleType extends ParticleType<NectarParticleType> implements IParticleData
+{
+    private float[] color = null;
 
-   public BasicParticleType(boolean alwaysShow) {
-      super(alwaysShow, DESERIALIZER);
-   }
+    private static final IDeserializer<NectarParticleType> DESERIALIZER = new IDeserializer<NectarParticleType>()
+    {
+        @Nonnull
+        @Override
+        public NectarParticleType deserialize(@Nonnull ParticleType<NectarParticleType> particleTypeIn, @Nonnull StringReader reader) throws CommandSyntaxException {
+            return (NectarParticleType) particleTypeIn;
+        }
 
-   public ParticleType<BasicParticleType> getType() {
-      return this;
-   }
+        @Nonnull
+        @Override
+        public NectarParticleType read(@Nonnull ParticleType<NectarParticleType> particleTypeIn, @Nonnull PacketBuffer buffer) {
+            return (NectarParticleType) particleTypeIn;
+        }
+    };
 
-   public void write(PacketBuffer buffer) {
-   }
+    public NectarParticleType() {
+        super(false, DESERIALIZER);
+    }
 
-   public String getParameters() {
-      return Registry.PARTICLE_TYPE.getKey(this).toString();
-   }
+    public void setColor(float[] color) {
+        this.color = color;
+    }
+
+    @Nullable
+    public float[] getColor() {
+        return this.color;
+    }
+
+    @Nonnull
+    @Override
+    public ParticleType<NectarParticleType> getType() {
+        return this;
+    }
+
+    @Override
+    public void write(@Nonnull PacketBuffer buffer) {
+    }
+
+    @Nonnull
+    @Override
+    public String getParameters() {
+        return ForgeRegistries.PARTICLE_TYPES.getKey(this).toString();
+    }
 }

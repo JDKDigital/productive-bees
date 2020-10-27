@@ -70,11 +70,13 @@ public final class ProductiveBees
         ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
         ModRecipeTypes.RECIPE_SERIALIZERS.register(modEventBus);
+        ModParticles.PARTICLE_TYPES.register(modEventBus);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             modEventBus.addListener(ClientSetup::init);
             modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerItemColors);
             modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerBlockColors);
+            modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerParticles);
         });
 
         modEventBus.addListener(this::onInterModEnqueue);

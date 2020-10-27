@@ -37,6 +37,9 @@ public class BeeCreator
         if (json.has("beeTexture")) {
             data.putString("beeTexture", json.get("beeTexture").getAsString());
         }
+        if (json.has("particleColor")) {
+            data.putInt("particleColor", Color.decode(json.get("particleColor").getAsString()).getRGB());
+        }
         if (json.has("attackResponse")) {
             data.putString("attackResponse", json.get("attackResponse").getAsString());
         }
