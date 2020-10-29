@@ -73,10 +73,4 @@ public class EventHandler
             PacketHandler.sendToPlayer(new Messages.BeesMessage(BeeReloadListener.INSTANCE.getData()), (ServerPlayerEntity) event.getEntity());
         }
     }
-
-    @SubscribeEvent
-    public static void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event)
-    {
-        CraftingHelper.register(FluidTagEmptyCondition.Serializer.INSTANCE);
-    }
 }

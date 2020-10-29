@@ -14,9 +14,6 @@ public class BeeEffect implements INBTSerializable<CompoundNBT>
 {
     private Map<Effect, Integer> effects = new HashMap<>();
 
-    public BeeEffect() {
-    }
-
     public BeeEffect(Map<Effect, Integer> effects) {
         this.effects = effects;
     }

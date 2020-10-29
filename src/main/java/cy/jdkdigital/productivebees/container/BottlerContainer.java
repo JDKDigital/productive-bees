@@ -1,10 +1,10 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.common.block.Bottler;
-import cy.jdkdigital.productivebees.init.ModContainerTypes;
-import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.common.tileentity.BottlerTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.init.ModContainerTypes;
+import cy.jdkdigital.productivebees.init.ModFluids;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;

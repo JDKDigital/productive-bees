@@ -94,16 +94,6 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
 
         // Hardcoded for now until bees are moved to config
         Map<String, Tag<Block>> flowering = new HashMap<>();
-        flowering.put("productivebees:iron_bee", ModTags.FERRIC_FLOWERS);
-        flowering.put("productivebees:lumber_bee", BlockTags.LOGS);
-        flowering.put("productivebees:wither_bee", ModTags.WITHER_FLOWERS);
-        flowering.put("productivebees:draconic_bee", ModTags.DRACONIC_FLOWERS);
-        flowering.put("productivebees:ender_bee", ModTags.END_FLOWERS);
-        flowering.put("productivebees:glowing_bee", ModTags.GLOWING_FLOWERS);
-        flowering.put("productivebees:gold_bee", ModTags.GILDED_FLOWERS);
-        flowering.put("productivebees:magmatic_bee", ModTags.MAGMATIC_FLOWERS);
-        flowering.put("productivebees:quartz_bee", ModTags.CRYSTALLINE_FLOWERS);
-        flowering.put("productivebees:slimy_bee", ModTags.SWAMP_FLOWERS);
         flowering.put("productivebees:blue_banded_bee", ModTags.RIVER_FLOWERS);
         flowering.put("productivebees:green_carpenter_bee", ModTags.FOREST_FLOWERS);
         flowering.put("productivebees:nomad_bee", ModTags.ARID_FLOWERS);
@@ -115,7 +105,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()){
             Tag<Block> blockTag = BlockTags.getCollection().getOrCreate(new ResourceLocation("flowers"));
             if (entry.getValue().isConfigurable()) {
-                CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType());
+                CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
                 if (nbt.contains("flowerTag")) {
                     blockTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
                 }

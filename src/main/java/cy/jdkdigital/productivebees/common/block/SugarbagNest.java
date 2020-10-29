@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.common.tileentity.SugarbagNestTileEntity;
+import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;

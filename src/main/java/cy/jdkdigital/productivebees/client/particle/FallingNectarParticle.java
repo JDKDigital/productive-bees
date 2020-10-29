@@ -1,11 +1,9 @@
 package cy.jdkdigital.productivebees.client.particle;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.client.particle.DripParticle;
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.world.World;
@@ -13,8 +11,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class FallingNectarParticle extends DripParticle

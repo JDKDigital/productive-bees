@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.common.entity.bee.EffectHiveBeeEntity;
-import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
@@ -21,8 +20,6 @@ public class SlimyBeeEntity extends EffectHiveBeeEntity
     public SlimyBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
         beeAttributes.put(BeeAttributes.TEMPER, 0);
-        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.SWAMP_FLOWERS);
-        beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.SLIMY_NESTS);
     }
 
     @Override

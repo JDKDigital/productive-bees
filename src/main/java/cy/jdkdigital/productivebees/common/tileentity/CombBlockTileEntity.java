@@ -31,7 +31,7 @@ public class CombBlockTileEntity extends TileEntity
 
     public int getColor() {
         if (type != null) {
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(type));
+            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(type);
             if (nbt != null) {
                 return nbt.getInt("primaryColor");
             }

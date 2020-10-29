@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.common.tileentity.CombBlockTileEntity;
 import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.common.tileentity.CombBlockTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -42,7 +42,7 @@ public class ConfigurableCombBlock extends CombBlock
 
     @Override
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
-        if (!this.equals(ForgeRegistries.ITEMS.getValue(this.getRegistryName()))) {
+        if (!this.equals(ForgeRegistries.BLOCKS.getValue(this.getRegistryName()))) {
             super.fillItemGroup(group, items);
         }
     }

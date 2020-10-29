@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
+import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

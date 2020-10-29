@@ -100,8 +100,8 @@ public class BeeIngredientFactory
         }
 
         // Add configured bees
-        for (Map.Entry<ResourceLocation, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
-            String beeType = entry.getKey().toString();
+        for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+            String beeType = entry.getKey();
             EntityType<ConfigurableBeeEntity> bee = ModEntities.CONFIGURABLE_BEE.get();
             addBee(beeType, new BeeIngredient(bee, new ResourceLocation(beeType), 0, true));
         }

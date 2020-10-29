@@ -33,19 +33,19 @@ public class Gene extends Item
     }
 
     public static ItemStack getStack(BeeAttribute<?> attribute, int value, int count) {
-        return getStack(attribute.toString(), value, count);
+        return getStack(attribute, value, count, ProductiveBees.rand.nextInt(40) + 15);
     }
 
-    public static ItemStack getStack(String attributeId, int value, int count) {
+    public static ItemStack getStack(BeeAttribute<?> attribute, int value, int count, int purity) {
         ItemStack result = new ItemStack(ModItems.GENE.get(), count);
-        setAttribute(result, attributeId, value);
+        setAttribute(result, attribute.toString(), value, purity);
         return result;
     }
 
-    public static void setAttribute(ItemStack stack, String attributeId, int value) {
+    public static void setAttribute(ItemStack stack, String attributeId, int value, int purity) {
         stack.getOrCreateTag().putString(ATTRIBUTE_KEY, attributeId);
         stack.getOrCreateTag().putInt(VALUE_KEY, value);
-        stack.getOrCreateTag().putInt(PURITY_KEY, ProductiveBees.rand.nextInt(40) + 15);
+        stack.getOrCreateTag().putInt(PURITY_KEY, purity);
     }
 
     public static BeeAttribute<?> getAttribute(ItemStack stack) {

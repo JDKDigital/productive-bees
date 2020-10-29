@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.PoweredCentrifugeTileEntity;
+import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;

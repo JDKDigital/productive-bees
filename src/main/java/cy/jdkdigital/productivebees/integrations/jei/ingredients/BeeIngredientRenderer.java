@@ -65,7 +65,7 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
     @Override
     public List<String> getTooltip(BeeIngredient beeIngredient, ITooltipFlag iTooltipFlag) {
         List<String> list = new ArrayList<>();
-        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType());
+        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
             list.add(new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")).getFormattedText());
         } else {

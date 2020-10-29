@@ -2,8 +2,10 @@ package cy.jdkdigital.productivebees.common.tileentity;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
@@ -81,11 +83,11 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             CentrifugeTileEntity.this.markDirty();
         }
 
-        @Override
-        public boolean isFluidValid(FluidStack stack)
-        {
-            return stack.getFluid().isIn(ModTags.HONEY);
-        }
+//        @Override
+//        public boolean isFluidValid(FluidStack stack)
+//        {
+//            return stack.getFluid().isIn(ModTags.HONEY);
+//        }
     });
 
     public CentrifugeTileEntity() {
@@ -206,6 +208,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
             if (fluidOutput != null) {
                 fluidInventory.ifPresent(fluidHandler -> {
+                    ProductiveBees.LOGGER.info("insert fluid " + fluidOutput.getSecond() + " - " + fluidOutput.getFirst().getRegistryName());
                     fluidHandler.fill(new FluidStack(fluidOutput.getFirst(), fluidOutput.getSecond()), IFluidHandler.FluidAction.EXECUTE);
                 });
             }

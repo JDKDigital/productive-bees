@@ -1,4 +1,6 @@
 {
     "primaryColor": "#3537bc",
-    "secondaryColor": "#804f40"
+    "secondaryColor": "#804f40",
+    "particleColor": "#3537bc",
+    "flowerTag": "forge:storage_blocks/lapis"
 }

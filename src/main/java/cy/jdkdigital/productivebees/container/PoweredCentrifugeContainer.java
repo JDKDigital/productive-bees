@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.common.block.PoweredCentrifuge;
-import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivebees.common.tileentity.PoweredCentrifugeTileEntity;
+import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
@@ -27,26 +27,26 @@ public class PoweredCentrifugeContainer extends CentrifugeContainer
 
         this.tileEntity = tileEntity;
 
-        // Energy
-        trackInt(new IntReferenceHolder()
-        {
-            @Override
-            public int get() {
-                return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
-            }
-
-            @Override
-            public void set(int value) {
-                tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
-                    if (handler.getEnergyStored() > 0) {
-                        handler.extractEnergy(handler.getEnergyStored(), false);
-                    }
-                    if (value > 0) {
-                        handler.receiveEnergy(value, false);
-                    }
-                });
-            }
-        });
+//        // Energy
+//        trackInt(new IntReferenceHolder()
+//        {
+//            @Override
+//            public int get() {
+//                return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+//            }
+//
+//            @Override
+//            public void set(int value) {
+//                tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+//                    if (handler.getEnergyStored() > 0) {
+//                        handler.extractEnergy(handler.getEnergyStored(), false);
+//                    }
+//                    if (value > 0) {
+//                        handler.receiveEnergy(value, false);
+//                    }
+//                });
+//            }
+//        });
     }
 
     private static PoweredCentrifugeTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {

@@ -34,7 +34,7 @@ public class Honeycomb extends Item
     public int getColor(ItemStack stack) {
         CompoundNBT tag = stack.getChildTag("EntityTag");
         if (tag != null && tag.contains("type")) {
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(tag.getString("type")));
+            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
                 return nbt.getInt("primaryColor");
             }
@@ -47,7 +47,7 @@ public class Honeycomb extends Item
     public ITextComponent getDisplayName(ItemStack stack) {
         CompoundNBT tag = stack.getChildTag("EntityTag");
         if (tag != null && tag.contains("type")) {
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(tag.getString("type")));
+            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
                 return new TranslationTextComponent("item.productivebees.honeycomb_configurable", nbt.getString("name"));
             }

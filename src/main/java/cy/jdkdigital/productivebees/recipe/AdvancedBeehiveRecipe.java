@@ -135,10 +135,10 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
             jsonArray.forEach(jsonElement -> {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-                String ingredientKey = JSONUtils.hasField(json, "item") ? "item" : "comb_produce";
+                String ingredientKey = jsonObject.has("item") ? "item" : "comb_produce";
 
                 Ingredient produce;
-                if (JSONUtils.isJsonArray(json, ingredientKey)) {
+                if (JSONUtils.isJsonArray(jsonObject, ingredientKey)) {
                     produce = Ingredient.deserialize(JSONUtils.getJsonArray(jsonObject, ingredientKey));
                 } else {
                     produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, ingredientKey));

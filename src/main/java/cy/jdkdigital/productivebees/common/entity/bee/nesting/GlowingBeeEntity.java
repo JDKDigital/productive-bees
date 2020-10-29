@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.common.entity.bee.EffectHiveBeeEntity;
-import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
 import net.minecraft.entity.EntityType;
@@ -17,11 +16,6 @@ public class GlowingBeeEntity extends EffectHiveBeeEntity
 {
     public GlowingBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
-        beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.GLOWSTONE_NESTS);
-        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.GLOWING_FLOWERS);
-        beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<Effect, Integer>() {{
-            put(Effects.GLOWING, 150);
-        }}));
     }
 
     public float getBrightness() {

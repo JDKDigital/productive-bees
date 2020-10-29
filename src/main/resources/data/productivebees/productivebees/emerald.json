@@ -1,5 +1,7 @@
 {
     "primaryColor": "#26ac43",
     "secondaryColor": "#804f40",
-    "size": 0.6
+    "particleColor": "#26ac43",
+    "size": 0.6,
+    "flowerTag": "forge:storage_blocks/emerald"
 }

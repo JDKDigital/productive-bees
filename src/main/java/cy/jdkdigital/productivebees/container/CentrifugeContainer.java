@@ -1,11 +1,11 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
-import cy.jdkdigital.productivebees.init.ModContainerTypes;
-import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.common.tileentity.PoweredCentrifugeTileEntity;
+import cy.jdkdigital.productivebees.init.ModContainerTypes;
+import cy.jdkdigital.productivebees.init.ModFluids;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
@@ -45,25 +45,25 @@ public class CentrifugeContainer extends AbstractContainer
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
         // Honey
-        trackInt(new IntReferenceHolder()
-        {
-            @Override
-            public int get() {
-                return tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(fluidHandler -> fluidHandler.getFluidInTank(0).getAmount()).orElse(0);
-            }
-
-            @Override
-            public void set(int value) {
-                tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
-                    FluidStack fluid = fluidHandler.getFluidInTank(0);
-                    if (fluid.isEmpty()) {
-                        fluidHandler.fill(new FluidStack(ModFluids.HONEY.get(), value), IFluidHandler.FluidAction.EXECUTE);
-                    } else {
-                        fluid.setAmount(value);
-                    }
-                });
-            }
-        });
+//        trackInt(new IntReferenceHolder()
+////        {
+////            @Override
+////            public int get() {
+////                return tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(fluidHandler -> fluidHandler.getFluidInTank(0).getAmount()).orElse(0);
+////            }
+////
+////            @Override
+////            public void set(int value) {
+////                tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+////                    FluidStack fluid = fluidHandler.getFluidInTank(0);
+////                    if (fluid.isEmpty()) {
+////                        fluidHandler.fill(new FluidStack(ModFluids.HONEY.get(), value), IFluidHandler.FluidAction.EXECUTE);
+////                    } else {
+////                        fluid.setAmount(value);
+////                    }
+////                });
+////            }
+////        });
 
         trackInt(new IntReferenceHolder()
         {

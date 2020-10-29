@@ -4,10 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.CupidBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBeeEntity;
-import cy.jdkdigital.productivebees.common.entity.bee.nesting.*;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
-import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
@@ -79,10 +76,7 @@ public class ProductiveBeeEntity extends BeeEntity
         beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
         beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 0);
         beeAttributes.put(BeeAttributes.TYPE, "hive");
-        beeAttributes.put(BeeAttributes.FOOD_SOURCE, BlockTags.FLOWERS);
         beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
-        beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, BlockTags.BEEHIVES);
-        beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<>()));
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
@@ -127,8 +121,8 @@ public class ProductiveBeeEntity extends BeeEntity
 
         // "Positive" effect to nearby players
         if (!world.isRemote && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
-            BeeEffect effect = getAttributeValue(BeeAttributes.EFFECTS);
-            if (effect.getEffects().size() > 0) {
+            BeeEffect effect = getBeeEffect();
+            if (effect != null && effect.getEffects().size() > 0) {
                 List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, (new AxisAlignedBB(new BlockPos(ProductiveBeeEntity.this))).grow(8.0D, 6.0D, 8.0D));
                 if (players.size() > 0) {
                     players.forEach(playerEntity -> {
@@ -177,16 +171,7 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     public boolean isFlowers(BlockPos pos) {
-        Tag<Block> flower = BlockTags.FLOWERS;
-        if (this instanceof ConfigurableBeeEntity) {
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(((ConfigurableBeeEntity) this).getBeeType()));
-            if (nbt != null && nbt.contains("flowerTag")) {
-                flower = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
-            }
-        } else {
-            flower = getAttributeValue(BeeAttributes.FOOD_SOURCE);
-        }
-        return this.world.isBlockPresent(pos) && this.world.getBlockState(pos).getBlock().isIn(flower);
+        return this.world.isBlockPresent(pos) && this.world.getBlockState(pos).getBlock().isIn(getFlowerTag());
     }
 
     @Override
@@ -286,10 +271,7 @@ public class ProductiveBeeEntity extends BeeEntity
         tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
         tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
-        tag.putString("bee_food_source", this.getAttributeValue(BeeAttributes.FOOD_SOURCE).getId().toString());
         tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getId().toString());
-        tag.putString("bee_nesting_preference", this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE).getId().toString());
-        tag.put("bee_effects", this.getAttributeValue(BeeAttributes.EFFECTS).serializeNBT());
     }
 
     @Override
@@ -304,28 +286,7 @@ public class ProductiveBeeEntity extends BeeEntity
             beeAttributes.put(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
             beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
             beeAttributes.put(BeeAttributes.TYPE, tag.getString("bee_type"));
-            beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.getTag(new ResourceLocation(tag.getString("bee_food_source"))));
             beeAttributes.put(BeeAttributes.APHRODISIACS, new ItemTags.Wrapper(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
-            if (tag.contains("bee_nesting_preference") && !tag.getString("bee_nesting_preference").equals("")) {
-                beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.getTag(new ResourceLocation(tag.getString("bee_nesting_preference"))));
-            }
-            else {
-                // TODO Fix for this release, remove later
-                beeAttributes.put(BeeAttributes.NESTING_PREFERENCE,
-                        this instanceof SlimyBeeEntity ? ModTags.SLIMY_NESTS :
-                                this instanceof EnderBeeEntity ? ModTags.END_NESTS :
-                                        this instanceof GlowingBeeEntity ? ModTags.GLOWSTONE_NESTS :
-                                                this instanceof MagmaticBeeEntity ? ModTags.NETHER_BRICK_NESTS :
-                                                        this instanceof QuartzBeeEntity ? ModTags.NETHER_QUARTZ_NESTS :
-                                                                this instanceof SolitaryBeeEntity ? ModTags.SOLITARY_OVERWORLD_NESTS :
-                                                                        BlockTags.BEEHIVES);
-            }
-            if (tag.contains("bee_effects")) {
-                beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(tag.getCompound("bee_effects")));
-            }
-            else {
-                beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<>()));
-            }
         }
     }
 
@@ -341,7 +302,12 @@ public class ProductiveBeeEntity extends BeeEntity
 
         if (!this.isChild()) {
             BlockPos pos = this.getPosition();
-            this.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
+            if (world.isAirBlock(pos)) {
+                this.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
+            } else if (world.isAirBlock(pos.down())) {
+                pos = pos.down();
+                this.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
+            }
         }
     }
 
@@ -378,27 +344,29 @@ public class ProductiveBeeEntity extends BeeEntity
         return tintIndex == 0 ? primaryColor : secondaryColor;
     }
 
+    public Tag<Block> getFlowerTag() {
+        return BlockTags.FLOWERS;
+    }
+
+    public Tag<Block> getNestingTag() {
+        return BlockTags.BEEHIVES;
+    }
+
+    public BeeEffect getBeeEffect() {
+        return null;
+    }
+
     public class PollinateGoal extends BeeEntity.PollinateGoal
     {
         public PollinateGoal() {
             super();
             this.flowerPredicate = (blockState) -> {
                 boolean isInterested = false;
-                Tag<Block> interests = BlockTags.FLOWERS;
-                if (ProductiveBeeEntity.this instanceof ConfigurableBeeEntity) {
-                    CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(((ConfigurableBeeEntity) ProductiveBeeEntity.this).getBeeType()));
-                    if (nbt != null && nbt.contains("flowerTag")) {
-                        interests = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
-                    }
-                } else {
-                    interests = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.FOOD_SOURCE);
-                }
-                if (interests != null) {
-                    isInterested = blockState.isIn(interests);
-                    if (isInterested && blockState.isIn(BlockTags.TALL_FLOWERS)) {
-                        if (blockState.getBlock() == Blocks.SUNFLOWER) {
-                            isInterested = blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
-                        }
+                Tag<Block> interests = ProductiveBeeEntity.this.getFlowerTag();
+                isInterested = blockState.isIn(interests);
+                if (isInterested && blockState.isIn(BlockTags.TALL_FLOWERS)) {
+                    if (blockState.getBlock() == Blocks.SUNFLOWER) {
+                        isInterested = blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
                     }
                 }
                 return isInterested;
@@ -472,7 +440,7 @@ public class ProductiveBeeEntity extends BeeEntity
                 return false;
             }
 
-            Tag<Block> nestTag = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE);
+            Tag<Block> nestTag = ProductiveBeeEntity.this.getNestingTag();
             if (nestTag == null || nestTag.getAllElements().size() == 0) {
                 return false;
             }
@@ -495,7 +463,7 @@ public class ProductiveBeeEntity extends BeeEntity
 
         protected void addPossibleHives(BlockPos pos) {
             TileEntity tileEntity = ProductiveBeeEntity.this.world.getTileEntity(pos);
-            Tag<Block> nestTag = ProductiveBeeEntity.this.getAttributeValue(BeeAttributes.NESTING_PREFERENCE);
+            Tag<Block> nestTag = ProductiveBeeEntity.this.getNestingTag();
             if (tileEntity != null && tileEntity.getBlockState().isIn(nestTag)) {
                 this.possibleHives.add(pos);
 

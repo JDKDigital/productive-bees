@@ -24,7 +24,7 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     @Nonnull
     @Override
     public String getDisplayName(BeeIngredient beeIngredient) {
-        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType());
+        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
             return new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")).getFormattedText();
         }

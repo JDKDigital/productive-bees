@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.integrations.resourcefulbees;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -15,7 +16,7 @@ public class ResourcefulBeesCompat
 
     public static ItemStack getHoneyComb(String type) {
         Item combItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, "resourceful_honeycomb_block"));
-        if (combItem != null) {
+        if (combItem != Items.AIR) {
             ItemStack itemStack = new ItemStack(combItem);
             itemStack.setTag(createHoneycombItemTag(type));
             return itemStack;

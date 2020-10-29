@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import cy.jdkdigital.productivebees.common.entity.bee.EffectHiveBeeEntity;
-import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
 import net.minecraft.entity.EntityType;
@@ -21,10 +20,6 @@ public class WitherBeeEntity extends EffectHiveBeeEntity
     public WitherBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
         beeAttributes.put(BeeAttributes.TEMPER, 2);
-        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.WITHER_FLOWERS);
-        beeAttributes.put(BeeAttributes.EFFECTS, new BeeEffect(new HashMap<Effect, Integer>() {{
-            put(Effects.WITHER, 150);
-        }}));
     }
 
     @Override

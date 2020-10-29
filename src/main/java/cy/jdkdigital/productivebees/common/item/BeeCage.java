@@ -153,6 +153,7 @@ public class BeeCage extends Item
                 }
 
                 if (tag.getBoolean("isProductiveBee")) {
+
                     String type = tag.getString("bee_type");
                     ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).applyTextStyle(getColor(type));
                     list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).applyTextStyle(TextFormatting.DARK_GRAY));
@@ -169,16 +170,22 @@ public class BeeCage extends Item
                     ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).applyTextStyle(getColor(behavior));
                     list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).applyTextStyle(TextFormatting.DARK_GRAY));
 
+                    int endurance = tag.getInt("bee_endurance");
+                    ITextComponent endurance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.ENDURANCE).get(endurance)).applyTextStyle(getColor(endurance));
+                    list.add((new TranslationTextComponent("productivebees.information.attribute.endurance", endurance_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+                    int temper = tag.getInt("bee_temper");
+                    ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).applyTextStyle(getColor(temper));
+                    list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
                     if (tag.contains("HivePos")) {
                         BlockPos hivePos = NBTUtil.readBlockPos(tag.getCompound("HivePos"));
                         list.add(new StringTextComponent("Home position: " + hivePos.getX() + ", " + hivePos.getY() + ", " + hivePos.getZ()));
                     }
-                }
-                else {
+                } else {
                     list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).applyTextStyle(TextFormatting.DARK_AQUA));
                 }
-            }
-            else {
+            } else {
                 list.add(new TranslationTextComponent("productivebees.information.hold_shift").applyTextStyle(TextFormatting.WHITE));
             }
         }

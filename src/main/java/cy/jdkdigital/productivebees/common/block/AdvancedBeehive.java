@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
-import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;

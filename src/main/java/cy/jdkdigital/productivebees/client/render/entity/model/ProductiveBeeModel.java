@@ -1,6 +1,9 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.entity.model.ModelUtils;
@@ -25,6 +28,8 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
     protected final ModelRenderer rightAntenna;
     protected final ModelRenderer innards;
     protected float bodyPitch;
+
+    private float beeSize = 1.0f;
 
     public ProductiveBeeModel() {
         this(true);
@@ -152,6 +157,15 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         if (this.bodyPitch > 0.0F) {
             this.body.rotateAngleX = ModelUtils.func_228283_a_(this.body.rotateAngleX, 3.0915928F, this.bodyPitch);
         }
+
+        beeSize = 1.0f;
+        if (entity instanceof ConfigurableBeeEntity) {
+            beeSize = beeSize * ((ConfigurableBeeEntity) entity).getSizeModifier();
+        }
+
+        if (this.isChild) {
+            beeSize /= 2;
+        }
     }
 
     protected Iterable<ModelRenderer> getHeadParts() {
@@ -160,5 +174,14 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
 
     protected Iterable<ModelRenderer> getBodyParts() {
         return ImmutableList.of(this.body);
+    }
+
+    @Override
+    public void render(MatrixStack matrixStackIn, IVertexBuilder renderBuffer, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        matrixStackIn.push();
+        matrixStackIn.translate(0, 1.5 - beeSize * 1.5, 0);
+        matrixStackIn.scale(beeSize, beeSize, beeSize);
+        super.render(matrixStackIn, renderBuffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        matrixStackIn.pop();
     }
 }

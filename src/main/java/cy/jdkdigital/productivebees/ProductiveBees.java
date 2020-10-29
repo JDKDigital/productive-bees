@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
+import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
@@ -19,6 +20,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.*;
@@ -91,6 +93,8 @@ public final class ProductiveBees
         for(String modId: ProductiveBeesConfig.GENERAL.preferredTagSource.get()) {
             modPreference.put(modId, ++priority);
         }
+
+        CraftingHelper.register(FluidTagEmptyCondition.Serializer.INSTANCE);
     }
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {

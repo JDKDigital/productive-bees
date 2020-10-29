@@ -1,6 +1,7 @@
 {
     "primaryColor": "#fffd6e",
     "secondaryColor": "#804f40",
+    "particleColor": "#fffd6e",
     "flowerTag": "productivebees:gilded_flowers",
     "attributes": {
         "endurance": 0

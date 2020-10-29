@@ -44,7 +44,7 @@ public class SpawnEgg extends SpawnEggItem
     public int getColor(int tintIndex, ItemStack stack) {
         CompoundNBT tag = stack.getChildTag("EntityTag");
         if (tag != null && tag.contains("type")) {
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(tag.getString("type")));
+            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
                 return tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("secondaryColor");
             }
@@ -57,7 +57,7 @@ public class SpawnEgg extends SpawnEggItem
     public ITextComponent getDisplayName(ItemStack stack) {
         CompoundNBT tag = stack.getChildTag("EntityTag");
         if (tag != null && tag.contains("type")) {
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(tag.getString("type")));
+            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
                 return new TranslationTextComponent("item.productivebees.spawn_egg_configurable", nbt.getString("name"));
             }

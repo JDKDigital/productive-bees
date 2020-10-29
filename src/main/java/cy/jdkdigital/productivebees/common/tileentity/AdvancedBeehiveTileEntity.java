@@ -227,7 +227,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                             } else {
                                 ResourceLocation rl = stack.getItem().getRegistryName();
                                 Item newItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(rl.getNamespace(), rl.getPath().replace("honey", ""))); // honeycomb_glowing -> comb_glowing
-                                if (newItem != null) {
+                                if (newItem != Items.AIR) {
                                     newStack = new ItemStack(newItem, stack.getCount());
                                 }
                             }

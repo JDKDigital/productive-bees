@@ -1,10 +1,8 @@
 package cy.jdkdigital.productivebees.common.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
@@ -22,8 +20,6 @@ public class EnderBeeEntity extends ProductiveBeeEntity
 
     public EnderBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
-        beeAttributes.put(BeeAttributes.FOOD_SOURCE, ModTags.END_FLOWERS);
-        beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.END_NESTS);
     }
 
     @Override

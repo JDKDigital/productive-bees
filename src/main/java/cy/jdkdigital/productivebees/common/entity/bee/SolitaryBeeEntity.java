@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.entity.bee;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Pose;
@@ -10,6 +11,7 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -25,7 +27,6 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
         super(entityType, world);
         beehiveInterests = (poiType) -> poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() || poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
         beeAttributes.put(BeeAttributes.TYPE, "solitary");
-        beeAttributes.put(BeeAttributes.NESTING_PREFERENCE, ModTags.SOLITARY_OVERWORLD_NESTS);
     }
 
     @Override
@@ -62,6 +63,11 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
         if (tag.contains("birthNest")) {
             birthNest = NBTUtil.readBlockPos(tag.getCompound("birthNest"));
         }
+    }
+
+    @Override
+    public Tag<Block> getNestingTag() {
+        return ModTags.SOLITARY_OVERWORLD_NESTS;
     }
 
     public class HomesickGoal extends Goal {

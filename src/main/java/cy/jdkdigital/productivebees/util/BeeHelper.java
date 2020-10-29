@@ -119,7 +119,7 @@ public class BeeHelper
         // Check if bee is configurable and make a new of same type
         if (beeEntity instanceof ConfigurableBeeEntity) {
             ResourceLocation type = new ResourceLocation(((ConfigurableBeeEntity) beeEntity).getBeeType());
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(type);
+            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(type.toString());
             if (nbt != null) {
                 ConfigurableBeeEntity newBee = ModEntities.CONFIGURABLE_BEE.get().create(world);
                 newBee.setBeeType(type.toString());

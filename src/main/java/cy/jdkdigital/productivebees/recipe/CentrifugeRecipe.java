@@ -4,11 +4,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
+import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -22,6 +24,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -88,11 +91,14 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
     @Nullable
     public Pair<Fluid, Integer> getFluidOutputs() {
         for(Map.Entry<String, Integer> entry: fluidOutput.entrySet()) {
+            ProductiveBees.LOGGER.info("loading fluid " + entry.getKey());
             // Try loading from fluid registry
             Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(entry.getKey()));
 
+            ProductiveBees.LOGGER.info("loaded fluid " + fluid);
+
             // Try loading fluid from fluid tag
-            if (fluid == null) {
+            if (fluid == Fluids.EMPTY) {
                 try {
                     Tag<Fluid> fluidTag = FluidTags.getCollection().get(new ResourceLocation(entry.getKey()));
                     if (fluidTag.getAllElements().size() > 0) {
@@ -103,7 +109,10 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
                 }
             }
 
-            if (fluid != null) {
+            if (fluid != Fluids.EMPTY) {
+//                if (fluid instanceof FlowingFluid) {
+//                    fluid = ((FlowingFluid) fluid).getStillFluid();
+//                }
                 return Pair.of(fluid, entry.getValue());
             }
         }
