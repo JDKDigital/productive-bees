@@ -123,7 +123,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             String beeId = entry.getKey().replace("productivebees:", "");
             if (!notInfoBees.contains(beeId)) {
                 if (entry.getValue().isConfigurable()) {
-                    CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(new ResourceLocation(entry.getKey()));
+                    CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getKey());
                     if (nbt.contains("description")) {
                         registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, nbt.getString("description"));
                     }
@@ -149,8 +149,8 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             count = ((ConfigurableHoneycombRecipe) honeycombRecipe.get()).count;
         }
         Map<ResourceLocation, ShapelessRecipe> recipes = new HashMap<>();
-        for (Map.Entry<ResourceLocation, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
-            String beeType = entry.getKey().toString();
+        for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+            String beeType = entry.getKey();
             ResourceLocation idComb = new ResourceLocation(beeType + "_honeycomb");
             ResourceLocation idCombBlock = new ResourceLocation(beeType + "_comb");
 

@@ -4,14 +4,9 @@
     "bee_type": "productivebees:magmatic",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/magmatic"
-            },
-            "item_produce": {
-                "item": "minecraft:magma_cream"
-            },
-            "min": 1.0,
-            "max": 1.0
+            }
         }
     ]
 }

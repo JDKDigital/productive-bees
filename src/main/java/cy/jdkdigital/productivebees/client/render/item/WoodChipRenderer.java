@@ -2,8 +2,8 @@ package cy.jdkdigital.productivebees.client.render.item;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.item.WoodChip;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;

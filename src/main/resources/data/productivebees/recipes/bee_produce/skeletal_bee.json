@@ -4,14 +4,9 @@
     "bee_type": "productivebees:skeletal",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/bone"
-            },
-            "item_produce": {
-                "item": "minecraft:bone_meal"
-            },
-            "min": 1.0,
-            "max": 2.0
+            }
         }
     ]
 }

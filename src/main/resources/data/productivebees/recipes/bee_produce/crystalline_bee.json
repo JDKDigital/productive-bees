@@ -4,14 +4,9 @@
     "bee_type": "productivebees:crystalline",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/quartz"
-            },
-            "item_produce": {
-                "tag": "forge:gems/quartz"
-            },
-            "min": 1.0,
-            "max": 3.0
+            }
         }
     ]
 }

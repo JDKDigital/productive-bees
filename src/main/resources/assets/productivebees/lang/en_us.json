@@ -136,6 +136,7 @@
 	"block.productivebees.powered_centrifuge": "Powered Centrifuge",
 	"block.productivebees.bottler": "Bottler",
 	"block.productivebees.inactive_dragon_egg": "Inactive Dragon Egg",
+	"block.productivebees.sugarbag_nest": "Sugarbag Nest",
 	"block.productivebees.oak_wood_nest": "Oak Nest",
 	"block.productivebees.spruce_wood_nest": "Spruce Nest",
 	"block.productivebees.dark_oak_wood_nest": "Dark Oak Nest",
@@ -376,8 +377,9 @@
 	"productivebees.hive.tooltip.bees": "Bees:",
 	"productivebees.hive.tooltip.empty": "Empty",
 	"productivebees.hive.tooltip.honey_level": "Honey Level: %s",
-	"productivebees.screen.honey_level": "Honey: %s",
+	"productivebees.screen.fluid_level": "%s: %s",
 	"productivebees.screen.energy_level": "Energy: %s",
+	"productivebees.screen.empty": "Empty",
 
 	"productivebees.ingredient.description.iron_bee": "Put it in an advanced beehive to get some iron.\n\nDoes not spawn naturally.",
 	"productivebees.ingredient.description.coal_bee": "Put it in an advanced beehive to get some coal.\n\nDoes not spawn naturally.",

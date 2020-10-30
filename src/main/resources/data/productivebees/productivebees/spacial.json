@@ -1,6 +1,7 @@
 {
     "primaryColor": "#dfe5f6",
     "secondaryColor": "#93c7ff",
+    "size": 0.7,
     "conditions": [
         {
             "type": "forge:mod_loaded",

@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -34,8 +33,8 @@ public class ModItemGroups
 
         @Override
         public void fill(@Nonnull NonNullList<ItemStack> items) {
-            for (Map.Entry<ResourceLocation, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
-                String beeType = entry.getKey().toString();
+            for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+                String beeType = entry.getKey();
 
                 // Add spawn egg item
                 ItemStack egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());

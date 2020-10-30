@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "PPP",
+        "HHH",
+        "PPP"
+    ],
+    "key": {
+        "P": {
+            "item": "byg:blue_enchanted_planks"
+        },
+        "H": {
+            "item": "minecraft:honeycomb"
+        }
+    },
+    "result": {
+        "item": "buzzierbees:bop_magic_beehive"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "buzzierbees"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        }
+    ]
+}

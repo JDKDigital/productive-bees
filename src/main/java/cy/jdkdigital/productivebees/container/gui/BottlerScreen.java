@@ -42,7 +42,7 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
             if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
                 List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>()
                 {{
-                    add(new TranslationTextComponent("productivebees.screen.honey_level", fluidAmount + "mb"));
+                    add(new TranslationTextComponent("productivebees.screen.fluid_level", "Honey", fluidAmount + "mb"));
                 }};
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }

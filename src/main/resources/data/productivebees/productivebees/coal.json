@@ -1,4 +1,6 @@
 {
     "primaryColor": "#222525",
-    "secondaryColor": "#804f40"
+    "secondaryColor": "#804f40",
+    "particleColor": "#222525",
+    "size": 0.5
 }

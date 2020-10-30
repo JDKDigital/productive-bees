@@ -1,5 +1,10 @@
 # Productive Bees
 
+<a href="https://www.curseforge.com/minecraft/mc-mods/productivebees/files"><img src="https://img.shields.io/badge/Available%20for-MC%201.15.2,%201.16.1,%201.16.3-c70039" alt="Supported Versions"></a>
+<a href="https://github.com/JDKDigital/productive-bees/blob/master/LICENSE"><img src="https://img.shields.io/github/license/JDKDigital/productive-bees?style=flat&color=900c3f" alt="License"></a>
+<a href="https://discord.gg/v2fVahY"><img src="https://img.shields.io/discord/756513972282195969?color=844685&label=Feedback%20%26%20Help&style=flat" alt="Discord"></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/productivebees"><img src="http://cf.way2muchnoise.eu/short_productivebees.svg" alt="Curseforge Downloads"></a><br><br>
+
 Here bee puns
 
 ### Modifying Productive Bees
@@ -34,3 +39,52 @@ By default it takes 4 honeycombs to make a comb block. To change the count you n
 #### Changing solitary bee spawns 
 
 Recipes in `productivebees/recipes/bee_spawning` can be overridden to change which bees spawn from which nest. The repopulation cooldown can also be defined here.
+
+
+
+## gradle.properties
+### 1.15.2
+```
+org.gradle.jvmargs=-Xmx3G
+org.gradle.daemon=false
+
+version=1.15.2-0.4.1.4
+mcversion=1.15.2
+forgeversion=1.15.2-31.2.36
+mcp_mappings=20200813-1.15.1
+
+jei_version=6.0.2.12
+patchouli_version=1.15.2-1.2-35.2
+hwyla_version=1.10.8-B72_1.15.2
+top_version=1.15:1.15-2.0.6-6
+```
+### 1.16.1
+```
+org.gradle.jvmargs=-Xmx4G
+org.gradle.daemon=false
+
+version=1.16.1-0.4.1.4
+mcversion=1.16.1
+forgeversion=1.16.1-32.0.108
+mcp_mappings=20200820-1.16.1
+
+jei_version=7.0.0.3
+patchouli_version=1.16-39
+hwyla_version=1.10.9-B76_1.16.1
+top_version=1.16:1.16-3.0.1-beta-4
+```
+### 1.16.3
+```
+org.gradle.jvmargs=-Xmx3G
+org.gradle.daemon=false
+
+version=1.16.3-0.4.1.4
+mcversion=1.16.3
+forgeversion=1.16.3-34.1.23
+mcp_mappings=20200916-1.16.2
+
+jei_version=1.16.3:7.5.0.42
+patchouli_version=1.16-43-SNAPSHOT
+hwyla_version=1.10.9-B76_1.16.1
+top_version=1.16:1.16-3.0.4-beta-7
+```

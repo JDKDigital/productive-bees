@@ -15,11 +15,9 @@ import java.util.Map;
 public abstract class TagOutputRecipe
 {
     public final Map<Ingredient, IntArrayNBT> itemOutput;
-    public final Map<Ingredient, IntArrayNBT> tagOutput;
 
-    public TagOutputRecipe(Map<Ingredient, IntArrayNBT> itemOutput, Map<Ingredient, IntArrayNBT> tagOutput) {
+    public TagOutputRecipe(Map<Ingredient, IntArrayNBT> itemOutput) {
         this.itemOutput = itemOutput;
-        this.tagOutput = tagOutput;
     }
 
     public Map<ItemStack, IntArrayNBT> getRecipeOutputs() {
@@ -27,14 +25,6 @@ public abstract class TagOutputRecipe
 
         if (!itemOutput.isEmpty()) {
             itemOutput.forEach((ingredient, intNBTS) -> {
-                ItemStack preferredItem = getPreferredItemByMod(ingredient);
-                if (preferredItem != null && !preferredItem.getItem().equals(Items.BARRIER)) {
-                    output.put(preferredItem.copy(), intNBTS.copy());
-                }
-            });
-        }
-        if (!tagOutput.isEmpty()) {
-            tagOutput.forEach((ingredient, intNBTS) -> {
                 ItemStack preferredItem = getPreferredItemByMod(ingredient);
                 if (preferredItem != null && !preferredItem.getItem().equals(Items.BARRIER)) {
                     output.put(preferredItem.copy(), intNBTS.copy());

@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.container;
 
+import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;

@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
@@ -36,8 +35,8 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
     public final ResourceLocation id;
     public final Lazy<BeeIngredient> ingredient;
 
-    public AdvancedBeehiveRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredient, Map<Ingredient, IntArrayNBT> itemOutput, Map<Ingredient, IntArrayNBT> tagOutput) {
-        super(itemOutput, tagOutput);
+    public AdvancedBeehiveRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredient, Map<Ingredient, IntArrayNBT> itemOutput) {
+        super(itemOutput);
         this.id = id;
         this.ingredient = ingredient;
     }
@@ -131,47 +130,29 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
             Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
 
             Map<Ingredient, IntArrayNBT> itemOutputs = new HashMap<>();
-            Map<Ingredient, IntArrayNBT> tagOutputs = new HashMap<>();
 
             JsonArray jsonArray = JSONUtils.getJsonArray(json, "results");
             jsonArray.forEach(jsonElement -> {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-                String ingredientKey = "item_produce";
-                if (ProductiveBeesConfig.GENERAL.enableCombProduce.get()) {
-                    ingredientKey = "comb_produce";
-                }
+                String ingredientKey = jsonObject.has("item") ? "item" : "comb_produce";
 
                 Ingredient produce;
-                if (JSONUtils.isJsonArray(json, ingredientKey)) {
+                if (JSONUtils.isJsonArray(jsonObject, ingredientKey)) {
                     produce = Ingredient.deserialize(JSONUtils.getJsonArray(jsonObject, ingredientKey));
                 } else {
                     produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, ingredientKey));
                 }
 
-//                if (!beeType.isEmpty() && ingredientKey.equals("comb_produce")) {
-//                    ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-//                    ModItemGroups.ModItemGroup.setTag(beeType, stack);
-//                    produce = Ingredient.fromStacks(stack);
-//                }
-
-                int min = 1;
-                int max = 1;
-                if (ingredientKey.equals("item_produce")) {
-                    min = JSONUtils.getInt(jsonObject, "min", 1);
-                    max = JSONUtils.getInt(jsonObject, "max", 1);
-                }
+                int min = JSONUtils.getInt(jsonObject, "min", 1);
+                int max = JSONUtils.getInt(jsonObject, "max", 1);
                 int outputChance = JSONUtils.getInt(jsonObject, "chance", 100);
                 IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, outputChance});
 
-                if (ingredientKey.equals("item_produce")) {
-                    itemOutputs.put(produce, nbt);
-                } else {
-                    tagOutputs.put(produce, nbt);
-                }
+                itemOutputs.put(produce, nbt);
             });
 
-            return this.factory.create(id, beeIngredient, itemOutputs, tagOutputs);
+            return this.factory.create(id, beeIngredient, itemOutputs);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
@@ -182,12 +163,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
                     i -> itemOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
-                Map<Ingredient, IntArrayNBT> tagOutput = new HashMap<>();
-                IntStream.range(0, buffer.readInt()).forEach(
-                    i -> tagOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
-                );
-
-                return this.factory.create(id, Lazy.of(() -> ingredient), itemOutput, tagOutput);
+                return this.factory.create(id, Lazy.of(() -> ingredient), itemOutput);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading beehive produce recipe from packet. " + id, e);
                 throw e;
@@ -209,16 +185,6 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
                     buffer.writeInt(value.get(1).getInt());
                     buffer.writeInt(value.get(2).getInt());
                 });
-
-                buffer.writeInt(recipe.tagOutput.size());
-
-                recipe.tagOutput.forEach((key, value) -> {
-                    key.write(buffer);
-                    buffer.writeInt(value.get(0).getInt());
-                    buffer.writeInt(value.get(1).getInt());
-                    buffer.writeInt(value.get(2).getInt());
-                });
-
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing beehive produce recipe to packet. " + recipe.getId(), e);
                 throw e;
@@ -227,7 +193,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
 
         public interface IRecipeFactory<T extends AdvancedBeehiveRecipe>
         {
-            T create(ResourceLocation id, Lazy<BeeIngredient> input, Map<Ingredient, IntArrayNBT> itemOutput, Map<Ingredient, IntArrayNBT> tagOutput);
+            T create(ResourceLocation id, Lazy<BeeIngredient> input, Map<Ingredient, IntArrayNBT> itemOutput);
         }
     }
 }

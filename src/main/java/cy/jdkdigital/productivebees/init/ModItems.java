@@ -3,8 +3,9 @@ package cy.jdkdigital.productivebees.init;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
-import cy.jdkdigital.productivebees.item.*;
+import cy.jdkdigital.productivebees.common.item.*;
 import net.minecraft.item.BucketItem;
+import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -15,7 +16,10 @@ import java.util.function.Supplier;
 
 public class ModItems
 {
+    public static final Food SUGARBAG = (new Food.Builder()).hunger(3).saturation(0.2F).build();
+
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ProductiveBees.MODID);
+
     public static final List<RegistryObject<Item>> SPAWN_EGGS = Lists.newArrayList();
 
     public static final RegistryObject<Item> HONEY_BUCKET = createItem("honey_bucket", () -> new BucketItem(ModFluids.HONEY, new Item.Properties().maxStackSize(1).group(ModItemGroups.PRODUCTIVE_BEES)));
@@ -27,6 +31,7 @@ public class ModItems
     public static final RegistryObject<Item> BEE_BOMB = createItem("bee_bomb", () -> new BeeBomb(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> BEE_BOMB_ANGRY = createItem("bee_bomb_angry", () -> new BeeBombAngry(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> NEST_LOCATOR = createItem("nest_locator", () -> new NestLocator(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> SUGARBAG_HONEYCOMB = createItem("sugarbag_honeycomb", () -> new Item((new Item.Properties().food(SUGARBAG)).group(ModItemGroups.PRODUCTIVE_BEES)));
 
     public static final RegistryObject<Item> CONFIGURABLE_HONEYCOMB = createItem("configurable_honeycomb", () -> new Honeycomb((new Item.Properties()).group(null), "#d2ab00"));
     public static final RegistryObject<Item> HONEYCOMB_AMBER = createItem("honeycomb_amber", () -> new Honeycomb((new Item.Properties()).group(null), "#d2ab00"));

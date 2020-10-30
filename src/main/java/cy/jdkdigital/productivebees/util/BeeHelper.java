@@ -2,14 +2,14 @@ package cy.jdkdigital.productivebees.util;
 
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
+import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
-import cy.jdkdigital.productivebees.item.WoodChip;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
@@ -120,7 +120,7 @@ public class BeeHelper
         // Check if bee is configurable and make a new of same type
         if (beeEntity instanceof ConfigurableBeeEntity) {
             ResourceLocation type = new ResourceLocation(((ConfigurableBeeEntity) beeEntity).getBeeType());
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(type);
+            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(type.toString());
             if (nbt != null) {
                 ConfigurableBeeEntity newBee = ModEntities.CONFIGURABLE_BEE.get().create(world);
                 newBee.setBeeType(type.toString());

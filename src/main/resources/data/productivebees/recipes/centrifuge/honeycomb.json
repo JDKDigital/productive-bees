@@ -8,6 +8,12 @@
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "fluid": "mekanism:brine"
+            },
+            "amount": 50
         }
     ]
 }

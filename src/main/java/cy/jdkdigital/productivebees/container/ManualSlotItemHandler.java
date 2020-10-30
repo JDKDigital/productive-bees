@@ -1,6 +1,6 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;

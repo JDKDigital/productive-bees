@@ -68,7 +68,7 @@ public class ProductiveBeesConfig
                     .defineInRange("centrifugePowerUse", 10, 1, Integer.MAX_VALUE);
 
             enableCombProduce = builder
-                    .comment("Bees will create combs instead of raw resource. Combs will need to be processed in a centrifuge. Default true.")
+                    .comment("[DEPRECATED] Bees will create combs instead of raw resource. Combs will need to be processed in a centrifuge. Default true.")
                     .define("enableCombProduce", true);
 
             nestRepopulationCooldown = builder

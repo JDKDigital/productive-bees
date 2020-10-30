@@ -4,14 +4,10 @@
     "bee_type": "productivebees:draconic",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/draconic"
             },
-            "item_produce": {
-                "item": "productivebees:draconic_dust"
-            },
-            "min": 1.0,
-            "max": 1.0
+            "chance": 80
         }
     ]
 }

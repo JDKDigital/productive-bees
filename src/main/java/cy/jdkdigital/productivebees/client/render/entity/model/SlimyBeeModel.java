@@ -1,6 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
 public class SlimyBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeModel<T>

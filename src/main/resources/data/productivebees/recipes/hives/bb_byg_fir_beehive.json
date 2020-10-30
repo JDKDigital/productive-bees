@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "PPP",
+        "HHH",
+        "PPP"
+    ],
+    "key": {
+        "P": {
+            "item": "byg:fir_planks"
+        },
+        "H": {
+            "item": "minecraft:honeycomb"
+        }
+    },
+    "result": {
+        "item": "buzzierbees:bop_fir_beehive"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "buzzierbees"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "byg"
+        }
+    ]
+}

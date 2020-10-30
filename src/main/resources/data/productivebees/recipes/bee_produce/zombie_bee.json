@@ -4,14 +4,9 @@
     "bee_type": "productivebees:zombie",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/rotten"
-            },
-            "item_produce": {
-                "item": "minecraft:rotten_flesh"
-            },
-            "min": 1.0,
-            "max": 2.0
+            }
         }
     ]
 }

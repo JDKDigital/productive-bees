@@ -1,6 +1,7 @@
 {
     "primaryColor": "#1c1c1c",
     "secondaryColor": "#5f2525",
+    "particleColor": "#cc00fa",
     "beeTexture": "productivebees:textures/entity/bee/draconic/bee",
     "createComb": false,
     "attributes": {

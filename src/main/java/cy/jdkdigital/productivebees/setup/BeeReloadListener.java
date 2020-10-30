@@ -23,7 +23,7 @@ public class BeeReloadListener extends JsonReloadListener
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     public static final BeeReloadListener INSTANCE = new BeeReloadListener();
-    private Map<ResourceLocation, CompoundNBT> BEE_DATA = new HashMap<>();
+    private Map<String, CompoundNBT> BEE_DATA = new HashMap<>();
 
     public BeeReloadListener()
     {
@@ -43,8 +43,8 @@ public class BeeReloadListener extends JsonReloadListener
 
             CompoundNBT nbt = BeeCreator.create(id, entry.getValue().getAsJsonObject());
 
-            BEE_DATA.remove(id);
-            BEE_DATA.put(id, nbt);
+            BEE_DATA.remove(id.toString());
+            BEE_DATA.put(id.toString(), nbt);
 
             ProductiveBees.LOGGER.debug("Adding to bee data " + id);
         }
@@ -56,15 +56,15 @@ public class BeeReloadListener extends JsonReloadListener
         profiler.endStartSection("BeeReloadListener");
     }
 
-    public CompoundNBT getData(ResourceLocation id) {
+    public CompoundNBT getData(String id) {
         return BEE_DATA.get(id);
     }
 
-    public Map<ResourceLocation, CompoundNBT> getData() {
+    public Map<String, CompoundNBT> getData() {
         return BEE_DATA;
     }
 
-    public void setData(Map<ResourceLocation, CompoundNBT> data) {
+    public void setData(Map<String, CompoundNBT> data) {
         BEE_DATA = data;
     }
 }

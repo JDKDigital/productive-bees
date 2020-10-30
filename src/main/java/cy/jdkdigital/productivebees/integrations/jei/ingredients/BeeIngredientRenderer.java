@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.SolitaryBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
@@ -25,7 +25,7 @@ import java.util.List;
 public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 {
     @Override
-    public void render(MatrixStack matrixStack, int xPosition, int yPosition, @Nullable BeeIngredient beeIngredient) {
+    public void render(@Nonnull MatrixStack matrixStack, int xPosition, int yPosition, @Nullable BeeIngredient beeIngredient) {
         if (beeIngredient == null) {
             return;
         }
@@ -66,7 +66,7 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
     @Override
     public List<ITextComponent> getTooltip(BeeIngredient beeIngredient, ITooltipFlag iTooltipFlag) {
         List<ITextComponent> list = new ArrayList<>();
-        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType());
+        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
             list.add(new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")));
         } else {

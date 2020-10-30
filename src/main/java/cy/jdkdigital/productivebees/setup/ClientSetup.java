@@ -1,15 +1,17 @@
 package cy.jdkdigital.productivebees.setup;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.block.CombBlock;
+import cy.jdkdigital.productivebees.client.particle.FallingNectarParticle;
 import cy.jdkdigital.productivebees.client.render.block.BottlerTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.CentrifugeTileEntityRenderer;
+import cy.jdkdigital.productivebees.common.block.CombBlock;
+import cy.jdkdigital.productivebees.common.item.*;
 import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
 import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
 import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.item.*;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
@@ -26,6 +28,7 @@ import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -149,5 +152,9 @@ public class ClientSetup
                 colors.register((blockState, lightReader, pos, tintIndex) -> ((CombBlock) block).getColor(lightReader, pos), block);
             }
         }
+    }
+
+    public static void registerParticles(final ParticleFactoryRegisterEvent event) {
+        Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_FALLING_NECTAR.get(), FallingNectarParticle.FallingNectarFactory::new);
     }
 }
