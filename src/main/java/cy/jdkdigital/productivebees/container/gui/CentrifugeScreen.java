@@ -53,7 +53,6 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
                 List<String> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
-                    ProductiveBees.LOGGER.info("tank contents " + fluidStack + " " + fluidStack.getFluid().getRegistryName() + " - " + fluidStack.getTranslationKey());
                     tooltipList.add(new TranslationTextComponent(fluidStack.getTranslationKey()).getString() + " " + fluidStack.getAmount() + "mb");
                 } else {
                     tooltipList.add(new TranslationTextComponent("empty").getString());
@@ -96,6 +95,13 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
         int progress = (int) (this.container.tileEntity.recipeProgress * (24 / (float) this.container.tileEntity.getProcessingTime()));
         this.blit(this.guiLeft + 49, this.guiTop + 35, 176, 0, progress + 1, 16);
 
+        // Draw energy level
+        this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+            int energyAmount = handler.getEnergyStored();
+            int energyLevel = (int) (energyAmount * (52 / 10000F));
+            this.blit(this.guiLeft + 8, this.guiTop + 69, 180, 69, 4, -1 * energyLevel);
+        });
+
         // Draw fluid tank
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
@@ -109,13 +115,6 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
                 resetColor();
             }
-        });
-
-        // Draw energy level
-        this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
-            int energyAmount = handler.getEnergyStored();
-            int energyLevel = (int) (energyAmount * (52 / 10000F));
-            this.blit(this.guiLeft + 8, this.guiTop + 69, 180, 69, 4, -1 * energyLevel);
         });
     }
 

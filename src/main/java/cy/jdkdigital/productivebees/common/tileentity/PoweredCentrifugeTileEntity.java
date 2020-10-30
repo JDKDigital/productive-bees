@@ -70,7 +70,7 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
 
         if (tag.contains("energy")) {
             energyHandler.ifPresent(handler -> {
-                handler.receiveEnergy(tag.getInt("input"), false);
+                handler.receiveEnergy(tag.getInt("energy"), false);
             });
         }
     }

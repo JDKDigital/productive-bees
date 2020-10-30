@@ -18,6 +18,7 @@ import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
@@ -33,6 +34,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -57,6 +59,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
+    public int fluidId = 0;
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
@@ -80,14 +83,9 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         protected void onContentsChanged()
         {
             super.onContentsChanged();
+            CentrifugeTileEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
             CentrifugeTileEntity.this.markDirty();
         }
-
-//        @Override
-//        public boolean isFluidValid(FluidStack stack)
-//        {
-//            return stack.getFluid().isIn(ModTags.HONEY);
-//        }
     });
 
     public CentrifugeTileEntity() {
@@ -187,7 +185,15 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                 ItemStack item = new ItemStack(key.getItem(), value.get(1).getInt());
                 outputList.add(item);
             });
-            return ((InventoryHandlerHelper.ItemHandler) invHandler).canFitStacks(outputList);
+
+            // Allow overfilling of fluid but don't process if the tank has a different fluid
+            boolean fluidFlag = false;
+            Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
+            if (fluidOutput != null) {
+                fluidFlag = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid().isEquivalentTo(fluidOutput.getFirst())).orElse(false);
+            }
+
+            return fluidFlag && ((InventoryHandlerHelper.ItemHandler) invHandler).canFitStacks(outputList);
         }
         return false;
     }
@@ -208,7 +214,6 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
             if (fluidOutput != null) {
                 fluidInventory.ifPresent(fluidHandler -> {
-                    ProductiveBees.LOGGER.info("insert fluid " + fluidOutput.getSecond() + " - " + fluidOutput.getFirst().getRegistryName());
                     fluidHandler.fill(new FluidStack(fluidOutput.getFirst(), fluidOutput.getSecond()), IFluidHandler.FluidAction.EXECUTE);
                 });
             }
@@ -240,27 +245,11 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     }
 
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket(){
-        CompoundNBT tag = new CompoundNBT();
+    public void read(CompoundNBT tag) {
+        super.read(tag);
 
-        inventoryHandler.ifPresent(inv -> {
-            ItemStack inputStack = inv.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-
-            tag.put("input", inputStack.serializeNBT());
-        });
-
-        return new SUpdateTileEntityPacket(getPos(), -1, tag);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt){
-        CompoundNBT tag = pkt.getNbtCompound();
-
-        if (tag.contains("input")) {
-            inventoryHandler.ifPresent(inv -> {
-                inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, ItemStack.read(tag.getCompound("input")));
-            });
-        }
+        Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
+        fluidId = Registry.FLUID.getId(fluid);
     }
 
     @Nonnull
