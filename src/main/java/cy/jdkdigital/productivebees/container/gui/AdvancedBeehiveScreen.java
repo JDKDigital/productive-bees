@@ -121,7 +121,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
 
                 BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
 
-                if (minecraft.player != null && ingredient != null) {
+                if (minecraft.player != null && ingredient != null && positions.containsKey(i)) {
                     BeeEntity bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
                     if (bee instanceof ConfigurableBeeEntity && nbt.contains("type")) {
                         ((ConfigurableBeeEntity) bee).setBeeType(nbt.getString("type"));

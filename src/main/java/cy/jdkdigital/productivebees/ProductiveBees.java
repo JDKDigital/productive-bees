@@ -84,7 +84,6 @@ public final class ProductiveBees
         });
 
         modEventBus.addListener(this::onInterModEnqueue);
-        modEventBus.addGenericListener(Feature.class, this::onRegisterFeatures);
         modEventBus.addListener(this::onCommonSetup);
         modEventBus.addListener(this::onLoadComplete);
 
@@ -106,11 +105,6 @@ public final class ProductiveBees
 
     public void onServerStarting(AddReloadListenerEvent event) {
         event.addListener(BeeReloadListener.INSTANCE);
-    }
-
-    public void onRegisterFeatures(final RegistryEvent.Register<Feature<?>> event)
-    {
-        ModFeatures.registerFeatures(event);
     }
 
     public void onCommonSetup(FMLCommonSetupEvent event) {
