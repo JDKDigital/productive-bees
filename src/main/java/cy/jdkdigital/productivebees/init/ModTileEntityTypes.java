@@ -60,6 +60,12 @@ public class ModTileEntityTypes
             ).build(null)
     );
 
+    public static final RegistryObject<TileEntityType<SolitaryHiveTileEntity>> SOLITARY_HIVE = TILE_ENTITY_TYPES.register("solitary_hive", () ->
+            TileEntityType.Builder.create(SolitaryHiveTileEntity::new,
+                    ModBlocks.BAMBOO_HIVE.get()
+            ).build(null)
+    );
+
     public static final RegistryObject<TileEntityType<SolitaryNestTileEntity>> SOLITARY_NEST = TILE_ENTITY_TYPES.register("solitary_nest", () ->
             TileEntityType.Builder.create(SolitaryNestTileEntity::new,
                     ModBlocks.SAND_NEST.get(),
@@ -81,6 +87,42 @@ public class ModTileEntityTypes
                     ModBlocks.DARK_OAK_WOOD_NEST.get(),
                     ModBlocks.ACACIA_WOOD_NEST.get(),
                     ModBlocks.SPRUCE_WOOD_NEST.get()
+            ).build(null)
+    );
+
+    public static final RegistryObject<TileEntityType<ExpansionBoxTileEntity>> EXPANSION_BOX = TILE_ENTITY_TYPES.register("expansion_box", () ->
+            TileEntityType.Builder.create(ExpansionBoxTileEntity::new,
+                    ModBlocks.EXPANSION_BOX_SPRUCE.get(),
+                    ModBlocks.EXPANSION_BOX_BIRCH.get(),
+                    ModBlocks.EXPANSION_BOX_JUNGLE.get(),
+                    ModBlocks.EXPANSION_BOX_ACACIA.get(),
+                    ModBlocks.EXPANSION_BOX_DARK_OAK.get(),
+                    ModBlocks.EXPANSION_BOX_CRIMSON.get(),
+                    ModBlocks.EXPANSION_BOX_WARPED.get(),
+                    ModBlocks.EXPANSION_BOX_SNAKE_BLOCK.get(),
+                    ModBlocks.EXPANSION_BOX_ROSEWOOD.get(),
+                    ModBlocks.EXPANSION_BOX_YUCCA.get(),
+                    ModBlocks.EXPANSION_BOX_KOUSA.get(),
+                    ModBlocks.EXPANSION_BOX_ASPEN.get(),
+                    ModBlocks.EXPANSION_BOX_GRIMWOOD.get(),
+                    ModBlocks.EXPANSION_BOX_WILLOW.get(),
+                    ModBlocks.EXPANSION_BOX_WISTERIA.get(),
+                    ModBlocks.EXPANSION_BOX_BAMBOO.get(),
+                    ModBlocks.EXPANSION_BOX_MAPLE.get(),
+                    ModBlocks.EXPANSION_BOX_DRIFTWOOD.get(),
+                    ModBlocks.EXPANSION_BOX_RIVER.get(),
+                    ModBlocks.EXPANSION_BOX_POISE.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_FIR.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_DEAD.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_PALM.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_MAGIC.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_CHERRY.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_UMBRAN.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_WILLOW.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_REDWOOD.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_HELLBARK.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_MAHOGANY.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_JACARANDA.get()
             ).build(null)
     );
 
