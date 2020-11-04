@@ -314,7 +314,11 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         return getNBTData().getString("renderer");
     }
 
-    // Effect bees
+    // Traits
+    public boolean isFireproof() {
+        return getNBTData().getBoolean("fireproof");
+    }
+
     public boolean isWithered() {
         return getNBTData().getBoolean("withered");
     }
@@ -388,7 +392,13 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         if (isWithered() && source.equals(DamageSource.WITHER)) {
             return true;
         }
+        if (isDraconic() && source.equals(DamageSource.DRAGON_BREATH)) {
+            return true;
+        }
         if (isTranslucent() && (source.equals(DamageSource.IN_WALL) || source.equals(DamageSource.ANVIL))) {
+            return true;
+        }
+        if (isFireproof() && (source.equals(DamageSource.HOT_FLOOR) || source.equals(DamageSource.IN_FIRE) || source.equals(DamageSource.ON_FIRE) || source.equals(DamageSource.LAVA))) {
             return true;
         }
         return super.isInvulnerableTo(source);

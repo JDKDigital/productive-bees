@@ -6,12 +6,14 @@ import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
+import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.BeehiveTileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 
@@ -22,9 +24,13 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     // Used for calculating if a new bee should move in (initial value, will be overriden by recipe value)
     public int nestTickTimer = 24000;
 
-    public SolitaryNestTileEntity() {
-        super(ModTileEntityTypes.SOLITARY_NEST.get());
+    public SolitaryNestTileEntity(TileEntityType<?> tileEntityType) {
+        super(tileEntityType);
         MAX_BEES = 1;
+    }
+
+    public SolitaryNestTileEntity() {
+        this(ModTileEntityTypes.SOLITARY_NEST.get());
     }
 
     @Override
@@ -61,10 +67,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
             return ((BeeSpawningRecipe) recipe).repopulationCooldown;
         }
         return ProductiveBeesConfig.GENERAL.nestRepopulationCooldown.get();
-    }
-
-    protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
-        return hasNectar && beeEntity != null && !beeEntity.isChild() ? 12000 : 6000;
     }
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {

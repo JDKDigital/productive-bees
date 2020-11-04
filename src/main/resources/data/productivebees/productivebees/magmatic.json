@@ -7,6 +7,7 @@
     "flowerTag": "productivebees:magmatic_flowers",
     "nestingPreference": "productivebees:nether_brick_nests",
     "attackResponse": "lava",
+    "fireproof": true,
     "passiveEffects": [
         {
             "effect": "minecraft:fire_resistance",
