@@ -96,7 +96,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         if (te instanceof AdvancedBeehiveTileEntity) {
             ((AdvancedBeehiveTileEntity) te).MAX_BEES = world.getBlockState(pos).get(EXPANDED) != VerticalHive.NONE ? 5 : 3;
             if (directionProperty.equals(VerticalHive.NONE)) {
-                ((AdvancedBeehiveTileEntity) te).upgradeHandler.ifPresent(handler -> {
+                ((AdvancedBeehiveTileEntity) te).getUpgradeHandler().ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
                         InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
@@ -184,7 +184,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
                         InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
-                ((AdvancedBeehiveTileEntity) tileEntity).upgradeHandler.ifPresent(handler -> {
+                ((AdvancedBeehiveTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
                         InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }

@@ -7,6 +7,8 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
@@ -22,6 +24,7 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
@@ -132,7 +135,7 @@ public class BeeHelper
         return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
     }
 
-    public static List<ItemStack> getBeeProduce(World world, BeeEntity beeEntity) {
+    public static List<ItemStack> getBeeProduce(World world, BeeEntity beeEntity, boolean hasCombBlockUpgrade) {
         AdvancedBeehiveRecipe matchedRecipe = null;
         BlockPos flowerPos = beeEntity.getFlowerPos();
 
@@ -161,6 +164,9 @@ public class BeeHelper
                 int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
                 ItemStack stack = itemStack.copy();
                 stack.setCount(count);
+                if (hasCombBlockUpgrade) {
+                    stack = convertToCombBlock(stack);
+                }
                 outputList.add(stack);
             });
         }
@@ -200,6 +206,26 @@ public class BeeHelper
         }
 
         return outputList;
+    }
+
+    private static ItemStack convertToCombBlock(ItemStack stack) {
+        // Change to comb block
+        ItemStack newStack = null;
+        if (stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
+            newStack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get(), stack.getCount());
+            newStack.setTag(stack.getTag());
+        } else {
+            ResourceLocation rl = stack.getItem().getRegistryName();
+            Item newItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(rl.getNamespace(), rl.getPath().replace("honey", ""))); // honeycomb_glowing -> comb_glowing
+            if (newItem != Items.AIR) {
+                newStack = new ItemStack(newItem, stack.getCount());
+            }
+        }
+        if (newStack != null) {
+            stack = newStack;
+        }
+
+        return stack;
     }
 
     public static void setOffspringAttributes(ProductiveBeeEntity newBee, ProductiveBeeEntity productiveBeeEntity, AgeableEntity targetEntity) {

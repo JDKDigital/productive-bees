@@ -94,7 +94,7 @@ public class AdvancedBeehiveContainer extends AbstractContainer
             addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116 - (expanded ? 13 : 0), 17, 3, 18, 3, 18);
         });
 
-        this.tileEntity.upgradeHandler.ifPresent(upgradeHandler -> {
+        this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
             addSlotBox(upgradeHandler, 0, 178 - (expanded ? 13 : 0), 8, 1, 18, 4, 18);
         });
 

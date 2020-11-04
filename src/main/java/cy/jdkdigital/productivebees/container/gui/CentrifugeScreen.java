@@ -49,7 +49,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
             FluidStack fluidStack = handler.getFluidInTank(0);
 
             // Fluid level tooltip
-            if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
+            if (isPointInRegion(129, 16, 6, 54, mouseX, mouseY)) {
                 List<String> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
@@ -66,7 +66,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
             int energyAmount = handler.getEnergyStored();
 
             // Energy level tooltip
-            if (isPointInRegion(7, 16, 6, 54, mouseX, mouseY)) {
+            if (isPointInRegion(- 5, 16, 6, 54, mouseX, mouseY)) {
                 List<String> tooltipList = new ArrayList<String>()
                 {{
                     add("Energy: " + energyAmount + "FE");
@@ -89,17 +89,17 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
         }
 
         // Draw main screen
-        this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        this.blit(this.guiLeft - 13, this.guiTop, 0, 0, this.xSize + 26, this.ySize);
 
         // Draw progress
         int progress = (int) (this.container.tileEntity.recipeProgress * (24 / (float) this.container.tileEntity.getProcessingTime()));
-        this.blit(this.guiLeft + 49, this.guiTop + 35, 176, 0, progress + 1, 16);
+        this.blit(this.guiLeft + 36, this.guiTop + 35, 202, 52, progress + 1, 16);
 
         // Draw energy level
         this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52 / 10000F));
-            this.blit(this.guiLeft + 8, this.guiTop + 69, 180, 69, 4, -1 * energyLevel);
+            this.blit(this.guiLeft - 5, this.guiTop + 69, 206, 52, 4, -1 * energyLevel);
         });
 
         // Draw fluid tank
@@ -111,7 +111,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
                 setColors(fluidStack);
 
-                drawTiledSprite(this.guiLeft + 140, this.guiTop + 69, 0, 4, fluidLevel, getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
+                drawTiledSprite(this.guiLeft + 127, this.guiTop + 69, 0, 4, fluidLevel, getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
 
                 resetColor();
             }

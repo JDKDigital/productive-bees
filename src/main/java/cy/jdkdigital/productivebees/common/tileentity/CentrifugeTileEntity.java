@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
+import cy.jdkdigital.productivebees.common.item.UpgradeItem;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -48,12 +49,9 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
-public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity
+public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity, UpgradeableTileEntity
 {
     private static final Random rand = new Random();
 
@@ -77,7 +75,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         }
     });
 
-    public LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
+    protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
     {
         @Override
         protected void onContentsChanged()
@@ -88,6 +86,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         }
     });
 
+    protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
+
     public CentrifugeTileEntity() {
         super(ModTileEntityTypes.CENTRIFUGE.get());
     }
@@ -97,7 +97,13 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     }
 
     public int getProcessingTime() {
-        return ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get();
+        double combBlockUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) * ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
+        double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
+
+        return (int) (
+            ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() *
+            Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier)
+        );
     }
 
     @Override
@@ -141,6 +147,11 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
     protected boolean canOperate() {
         return true;
+    }
+
+    @Override
+    public LazyOptional<IItemHandlerModifiable> getUpgradeHandler() {
+        return upgradeHandler;
     }
 
     @Override
