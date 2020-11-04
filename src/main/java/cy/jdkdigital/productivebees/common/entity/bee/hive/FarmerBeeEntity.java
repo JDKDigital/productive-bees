@@ -5,10 +5,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
@@ -28,8 +25,7 @@ import java.util.stream.Collectors;
 
 public class FarmerBeeEntity extends ProductiveBeeEntity
 {
-    @Nullable
-    public BlockPos targetHarvestPos = null;
+    private BlockPos targetHarvestPos = null;
 
     public FarmerBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -37,32 +33,13 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new StingGoal(this, 1.4D, true));
-        // Resting goal!
-        this.goalSelector.addGoal(1, new EnterBeehiveGoal());
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, FarmerBeeEntity.class));
+        registerBaseGoals();
 
-        this.pollinateGoal = new PollinateGoal();
-        this.goalSelector.addGoal(4, this.pollinateGoal);
-        // Pickup item goal
+        // Harvest crop goal
         this.goalSelector.addGoal(4, new HarvestCropGoal());
 
-        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.25D));
-
-        this.goalSelector.addGoal(5, new UpdateNestGoal());
-        this.findBeehiveGoal = new FindNestGoal();
-        this.goalSelector.addGoal(5, this.findBeehiveGoal);
-
-        this.findFlowerGoal = new FindFlowerGoal();
-        this.goalSelector.addGoal(6, this.findFlowerGoal);
-        // Move to item goal and pick it up
-        this.goalSelector.addGoal(6, new LocateItemGoal());
-
-        this.goalSelector.addGoal(8, new WanderGoal());
-        this.goalSelector.addGoal(9, new SwimGoal(this));
-
-        this.targetSelector.addGoal(1, (new AngerGoal(this)).setCallsForHelp());
-        this.targetSelector.addGoal(2, new AttackPlayerGoal(this));
+        // Locate crop goal
+        this.goalSelector.addGoal(6, new LocateCropGoal());
     }
 
     public List<BlockPos> findHarvestablesNearby(double distance) {
@@ -96,14 +73,8 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                 !FarmerBeeEntity.this.isWithinDistance(FarmerBeeEntity.this.targetHarvestPos, 2);
         }
 
-        @Override
-        public boolean shouldContinueExecuting() {
-            return shouldExecute();
-        }
-
         public void startExecuting() {
             this.ticks = 0;
-            super.startExecuting();
         }
 
         public void tick() {
@@ -123,7 +94,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
         }
     }
 
-    public class LocateItemGoal extends Goal
+    public class LocateCropGoal extends Goal
     {
         private int ticks = 0;
 
@@ -169,18 +140,15 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                     FarmerBeeEntity.this.targetHarvestPos = null;
                 }
                 else {
-                    Vec3d vec3d = (new Vec3d(FarmerBeeEntity.this.targetHarvestPos)).add(0.5D, (double) 0.6F, 0.5D);
+                    Vec3d vec3d = (new Vec3d(FarmerBeeEntity.this.targetHarvestPos)).add(0.5D, 0.6F, 0.5D);
                     double distanceToTarget = vec3d.distanceTo(FarmerBeeEntity.this.getPositionVec());
 
                     if (distanceToTarget > 1.0D) {
                         this.moveToNextTarget(vec3d);
-                    }
-                    else {
+                    } else {
                         if (distanceToTarget > 0.1D && ticks > 600) {
                             FarmerBeeEntity.this.targetHarvestPos = null;
-                        }
-                        else {
-                            // Pick up item
+                        } else {
                             List<BlockPos> harvestablesNearby = FarmerBeeEntity.this.findHarvestablesNearby(0);
                             if (!harvestablesNearby.isEmpty()) {
                                 BlockPos pos = harvestablesNearby.iterator().next();
@@ -203,20 +171,6 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
 
         private void moveToNextTarget(Vec3d nextTarget) {
             FarmerBeeEntity.this.getMoveHelper().setMoveTo(nextTarget.getX(), nextTarget.getY(), nextTarget.getZ(), 1.0F);
-        }
-    }
-
-    public class PollinateGoal extends BeeEntity.PollinateGoal
-    {
-        public boolean canBeeStart() {
-            return false;
-        }
-    }
-
-    public class FindFlowerGoal extends BeeEntity.FindFlowerGoal
-    {
-        public boolean canBeeStart() {
-            return false;
         }
     }
 }

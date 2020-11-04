@@ -5,7 +5,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.inventory.Inventory;
@@ -29,7 +28,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class HoarderBeeEntity extends ProductiveBeeEntity
@@ -37,7 +35,6 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
     protected static final DataParameter<Byte> PEEK_TICK = EntityDataManager.createKey(HoarderBeeEntity.class, DataSerializers.BYTE);
     private float prevPeekAmount;
     private float peekAmount = 1.0F;
-    @Nullable
     public BlockPos targetItemPos = null;
     private final Inventory inventory = new Inventory(1);
 
@@ -47,32 +44,15 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
-        // Resting goal!
-        this.goalSelector.addGoal(1, new BeeEntity.EnterBeehiveGoal());
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, HoarderBeeEntity.class));
+        registerBaseGoals();
 
-        this.pollinateGoal = new PollinateGoal();
-        this.goalSelector.addGoal(4, this.pollinateGoal);
+        this.goalSelector.removeGoal(this.breedGoal);
+
         // Pickup item goal
         this.goalSelector.addGoal(4, new PickupItemGoal());
 
-        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.25D));
-
-        this.goalSelector.addGoal(5, new ProductiveBeeEntity.UpdateNestGoal());
-        this.findBeehiveGoal = new ProductiveBeeEntity.FindNestGoal();
-        this.goalSelector.addGoal(5, this.findBeehiveGoal);
-
-        this.findFlowerGoal = new FindFlowerGoal();
-        this.goalSelector.addGoal(6, this.findFlowerGoal);
         // Move to item goal and pick it up
         this.goalSelector.addGoal(6, new LocateItemGoal());
-
-        this.goalSelector.addGoal(8, new BeeEntity.WanderGoal());
-        this.goalSelector.addGoal(9, new SwimGoal(this));
-
-        this.targetSelector.addGoal(1, (new BeeEntity.AngerGoal(this)).setCallsForHelp());
-        this.targetSelector.addGoal(2, new BeeEntity.AttackPlayerGoal(this));
     }
 
     @Override
@@ -334,20 +314,6 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
 
         private void moveToNextTarget(Vec3d nextTarget) {
             HoarderBeeEntity.this.getMoveHelper().setMoveTo(nextTarget.getX(), nextTarget.getY(), nextTarget.getZ(), 1.0F);
-        }
-    }
-
-    public class PollinateGoal extends BeeEntity.PollinateGoal
-    {
-        public boolean canBeeStart() {
-            return false;
-        }
-    }
-
-    public class FindFlowerGoal extends BeeEntity.FindFlowerGoal
-    {
-        public boolean canBeeStart() {
-            return false;
         }
     }
 }

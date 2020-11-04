@@ -65,7 +65,8 @@ public class ProductiveBeeEntity extends BeeEntity
     private Color primaryColor = null;
     private Color secondaryColor = null;
 
-    FollowParentGoal followParentGoal;
+    protected FollowParentGoal followParentGoal;
+    protected BreedGoal breedGoal;
 
     public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -90,13 +91,23 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
-        // Resting goal!
-        this.goalSelector.addGoal(1, new BeeEntity.EnterBeehiveGoal());
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, ProductiveBeeEntity.class));
+        registerBaseGoals();
 
         this.pollinateGoal = new ProductiveBeeEntity.PollinateGoal();
         this.goalSelector.addGoal(4, this.pollinateGoal);
+
+        this.findFlowerGoal = new BeeEntity.FindFlowerGoal();
+        this.goalSelector.addGoal(6, this.findFlowerGoal);
+
+        this.goalSelector.addGoal(7, new BeeEntity.FindPollinationTargetGoal());
+    }
+
+    protected void registerBaseGoals() {
+        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
+        this.goalSelector.addGoal(1, new BeeEntity.EnterBeehiveGoal());
+
+        this.breedGoal = new BreedGoal(this, 1.0D, ProductiveBeeEntity.class);
+        this.goalSelector.addGoal(2, this.breedGoal);
 
         this.followParentGoal = new FollowParentGoal(this, 1.25D);
         this.goalSelector.addGoal(5, this.followParentGoal);
@@ -105,9 +116,6 @@ public class ProductiveBeeEntity extends BeeEntity
         this.findBeehiveGoal = new ProductiveBeeEntity.FindNestGoal();
         this.goalSelector.addGoal(5, this.findBeehiveGoal);
 
-        this.findFlowerGoal = new BeeEntity.FindFlowerGoal();
-        this.goalSelector.addGoal(6, this.findFlowerGoal);
-        this.goalSelector.addGoal(7, new BeeEntity.FindPollinationTargetGoal());
         this.goalSelector.addGoal(8, new BeeEntity.WanderGoal());
         this.goalSelector.addGoal(9, new SwimGoal(this));
 
