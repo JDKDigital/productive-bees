@@ -6,6 +6,6 @@
     "attributes": {
         "behavior": 1
     },
-    "flowerTag": "productivebees:souled_flowers",
+    "flowerTag": "productivebees:flowers/souled_flowers",
     "nestingPreference": "productivebees:soul_sand_nests"
 }

@@ -8,7 +8,7 @@
     "attributes": {
         "endurance": 2
     },
-    "flowerTag": "productivebees:crystalline_flowers",
+    "flowerTag": "productivebees:flowers/crystalline_flowers",
     "nestingPreference": "productivebees:nether_quartz_nests",
     "passiveEffects": [
         {

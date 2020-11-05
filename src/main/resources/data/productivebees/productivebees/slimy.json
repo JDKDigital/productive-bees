@@ -9,6 +9,6 @@
         "temper": 0
     },
     "slimy": true,
-    "flowerTag": "productivebees:swamp_flowers",
+    "flowerTag": "productivebees:flowers/swamp_flowers",
     "nestingPreference": "productivebees:slimy_nests"
 }
