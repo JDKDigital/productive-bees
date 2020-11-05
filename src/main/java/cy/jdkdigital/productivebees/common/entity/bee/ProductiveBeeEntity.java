@@ -2,14 +2,17 @@ package cy.jdkdigital.productivebees.common.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.CupidBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBeeEntity;
+import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.*;
@@ -20,6 +23,7 @@ import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -37,18 +41,22 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.village.PointOfInterest;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -179,7 +187,35 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     public boolean isFlowers(BlockPos pos) {
-        return this.world.isBlockPresent(pos) && this.world.getBlockState(pos).getBlock().isIn(getFlowerTag());
+        if (!world.isBlockPresent(pos)) {
+            return false;
+        }
+
+        Block flowerBlock = this.world.getBlockState(pos).getBlock();
+
+        return (
+                flowerBlock.isIn(getFlowerTag()) ||
+                (
+                    flowerBlock instanceof Feeder && isValidFeeder(pos)
+                )
+            );
+    }
+
+    private boolean isValidFeeder(BlockPos pos) {
+        TileEntity tile = world.getTileEntity(pos);
+        AtomicBoolean hasValidBlock = new AtomicBoolean(false);
+        if (tile instanceof FeederTileEntity) {
+            tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                Tag<Block> flowerTag = getFlowerTag();
+                for (int slot = 0; slot < handler.getSlots(); ++slot) {
+                    Item slotItem = handler.getStackInSlot(slot).getItem();
+                    if (slotItem instanceof BlockItem && ((BlockItem) slotItem).getBlock().isIn(flowerTag)) {
+                        hasValidBlock.set(true);
+                    }
+                }
+            });
+        }
+        return hasValidBlock.get();
     }
 
     @Override
@@ -366,19 +402,25 @@ public class ProductiveBeeEntity extends BeeEntity
 
     public class PollinateGoal extends BeeEntity.PollinateGoal
     {
-        public PollinateGoal() {
-            super();
-            this.flowerPredicate = (blockState) -> {
-                boolean isInterested = false;
-                Tag<Block> interests = ProductiveBeeEntity.this.getFlowerTag();
+        public Predicate<BlockPos> flowerPredicate = (blockPos) -> {
+            BlockState blockState = ProductiveBeeEntity.this.world.getBlockState(blockPos);
+            Tag<Block> interests = ProductiveBeeEntity.this.getFlowerTag();
+            boolean isInterested;
+            if (blockState.getBlock() instanceof Feeder) {
+                isInterested = ProductiveBeeEntity.this.isValidFeeder(blockPos);
+            } else {
                 isInterested = blockState.isIn(interests);
                 if (isInterested && blockState.isIn(BlockTags.TALL_FLOWERS)) {
                     if (blockState.getBlock() == Blocks.SUNFLOWER) {
                         isInterested = blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
                     }
                 }
-                return isInterested;
-            };
+            }
+            return isInterested;
+        };
+
+        public PollinateGoal() {
+            super();
         }
 
         public boolean canBeeStart() {
@@ -418,7 +460,38 @@ public class ProductiveBeeEntity extends BeeEntity
             } else if (ProductiveBeeEntity.this instanceof CupidBeeEntity) {
                 return findEntities(CupidBeeEntity.predicate, 5D);
             }
-            return super.getFlower();
+            return this.findFlower(this.flowerPredicate, 5);
+        }
+
+        private MutableBoundingBox box = null;
+        private Optional<BlockPos> findFlower(Predicate<BlockPos> predicate, int distance) {
+            BlockPos blockpos = new BlockPos(ProductiveBeeEntity.this);
+            BlockPos.Mutable mutableBlockPos = new BlockPos.Mutable(0,0,0);
+
+            if (box == null)
+                box = MutableBoundingBox.createProper(blockpos.getX() + distance , blockpos.getY() + distance , blockpos.getZ() + distance, blockpos.getX() - distance, blockpos.getY() - distance, blockpos.getZ() - distance);
+            else {
+                box.maxX = blockpos.getX() + distance;
+                box.maxY = blockpos.getY() + distance;
+                box.maxZ = blockpos.getZ() + distance;
+                box.minX = blockpos.getX() - distance;
+                box.minY = blockpos.getY() - distance;
+                box.minZ = blockpos.getZ() - distance;
+            }
+            AtomicReference<Double> lastDistance = new AtomicReference<>(100.0D);
+            BlockPos.getAllInBox(box).filter(predicate).forEach(blockPos -> {
+                TileEntity tile = world.getTileEntity(blockPos);
+                double currDistance = blockpos.distanceSq(blockPos);
+                if (currDistance < lastDistance.get()){
+                    lastDistance.set(currDistance);
+                    mutableBlockPos.setPos(blockPos);
+                }
+            });
+            if (lastDistance.get() < 100) {
+                return Optional.of(mutableBlockPos);
+            }
+
+            return Optional.empty();
         }
 
         private Optional<BlockPos> findEntities(Predicate<Entity> predicate, double distance) {

@@ -4,12 +4,15 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.FallingNectarParticle;
 import cy.jdkdigital.productivebees.client.render.block.BottlerTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.CentrifugeTileEntityRenderer;
+import cy.jdkdigital.productivebees.client.render.block.FeederTileEntityRenderer;
 import cy.jdkdigital.productivebees.common.block.CombBlock;
 import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.common.item.SpawnEgg;
+import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
 import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
 import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
 import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
+import cy.jdkdigital.productivebees.container.gui.FeederScreen;
 import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -36,10 +39,12 @@ public class ClientSetup
         ScreenManager.registerFactory(ModContainerTypes.CENTRIFUGE.get(), CentrifugeScreen::new);
         ScreenManager.registerFactory(ModContainerTypes.POWERED_CENTRIFUGE.get(), CentrifugeScreen::new);
         ScreenManager.registerFactory(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
+        ScreenManager.registerFactory(ModContainerTypes.FEEDER.get(), FeederScreen::new);
 
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.POWERED_CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.BOTTLER.get(), BottlerTileEntityRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.FEEDER.get(), FeederTileEntityRenderer::new);
 
         ModEntities.registerRendering();
         ModBlocks.registerRendering();
