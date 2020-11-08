@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.block;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.tileentity.BottlerTileEntity;
@@ -10,6 +11,7 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -86,16 +88,15 @@ public class Bottler extends ContainerBlock
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!world.isRemote()) {
             final TileEntity tileEntity = world.getTileEntity(pos);
-            ItemStack heldItem = player.getHeldItem(handIn);
-            boolean itemUsed = false;
 
             if (tileEntity != null) {
-                if (heldItem.getItem().isIn(ModTags.HONEY_BUCKETS)) {
-                    tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
-                        FluidUtil.interactWithFluidHandler(player, handIn, world, pos, null);
-                    });
+                ItemStack heldItem = player.getHeldItem(handIn);
+                boolean itemUsed = false;
 
-                    itemUsed = true;
+                if (heldItem.getItem() instanceof BucketItem) {
+                    if (FluidUtil.interactWithFluidHandler(player, handIn, world, pos, null)) {
+                        itemUsed = true;
+                    }
                 }
 
                 if (!itemUsed) {

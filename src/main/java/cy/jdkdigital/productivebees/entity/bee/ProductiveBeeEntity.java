@@ -339,8 +339,10 @@ public class ProductiveBeeEntity extends BeeEntity
     protected void onGrowingAdult() {
         super.onGrowingAdult();
 
-        BlockPos pos = this.getPosition();
-        this.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
+        if (!this.isChild()) {
+            BlockPos pos = this.getPosition();
+            this.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
+        }
     }
 
     @Override

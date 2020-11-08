@@ -2,6 +2,9 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.resourcefulbees.resourcefulbees.api.beedata.CustomBeeData;
+import com.resourcefulbees.resourcefulbees.lib.BeeConstants;
+import com.resourcefulbees.resourcefulbees.registry.BeeRegistry;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
@@ -9,6 +12,7 @@ import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.tileentity.DragonEggHiveTileEntity;
@@ -16,6 +20,7 @@ import net.minecraft.block.BeehiveBlock;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundNBT;
@@ -26,6 +31,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,14 +71,23 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
                 CompoundNBT nbt = inhabitant.nbt;
 
-                BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
-                if (ingredient != null) {
-                    BeeEntity bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
+                ResourceLocation rLoc = new ResourceLocation(nbt.getString("id"));
+                BeeEntity bee;
+                if (rLoc.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
+                    CustomBeeData beeData = BeeRegistry.getRegistry().getBeeData(rLoc.getPath().replace("_bee", ""));
+                    EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(beeData.getEntityTypeRegistryID());
+                    bee = (BeeEntity) entityType.create(this.container.tileEntity.getWorld());
+                } else {
+                    BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
+                    bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
+                }
+
+                if (bee != null) {
                     if (bee instanceof ConfigurableBeeEntity && nbt.contains("type")) {
                         ((ConfigurableBeeEntity) bee).setBeeType(nbt.getString("type"));
                     }
 
-                    if (bee != null && positions.containsKey(j) && isPointInRegion(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
+                    if (positions.containsKey(j) && isPointInRegion(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
                         List<IReorderingProcessor> tooltipList = new ArrayList<IReorderingProcessor>()
                         {{
                             add(bee.getName().func_241878_f());
@@ -119,31 +134,40 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
                 CompoundNBT nbt = inhabitant.nbt;
 
-                BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
+                ResourceLocation rLoc = new ResourceLocation(nbt.getString("id"));
+                BeeEntity bee;
+                float scaledSize = 28;
+                if (rLoc.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
+                    CustomBeeData beeData = BeeRegistry.getRegistry().getBeeData(rLoc.getPath().replace("_bee", ""));
+                    EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(beeData.getEntityTypeRegistryID());
+                    bee = (BeeEntity) entityType.create(this.container.tileEntity.getWorld());
+                    scaledSize = 20 / beeData.getSizeModifier();
+                } else {
+                    BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
+                    bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
+                }
 
-                if (minecraft.player != null && ingredient != null) {
-                    BeeEntity bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
+                if (minecraft.player != null && bee != null) {
                     if (bee instanceof ConfigurableBeeEntity && nbt.contains("type")) {
                         ((ConfigurableBeeEntity) bee).setBeeType(nbt.getString("type"));
                     }
 
-                    if (bee != null) {
-                        bee.ticksExisted = minecraft.player.ticksExisted;
-                        bee.renderYawOffset = -20;
+                    bee.ticksExisted = minecraft.player.ticksExisted;
+                    bee.renderYawOffset = -20;
 
-                        matrixStack.push();
-                        matrixStack.translate(7 + getGuiLeft() + positions.get(i).get(0) - (expanded ? 13 : 0), 17 + getGuiTop() + positions.get(i).get(1), 1.5D);
-                        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
-                        matrixStack.translate(0.0F, -0.2F, 1);
-                        matrixStack.scale(28, 28, 32);
+                    matrixStack.push();
+                    matrixStack.translate(7 + getGuiLeft() + positions.get(i).get(0) - (expanded ? 13 : 0), 17 + getGuiTop() + positions.get(i).get(1), 1.5D);
+                    matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
+                    matrixStack.translate(0.0F, -0.2F, 1);
 
-                        EntityRendererManager entityrenderermanager = minecraft.getRenderManager();
-                        IRenderTypeBuffer.Impl buffer = minecraft.getRenderTypeBuffers().getBufferSource();
-                        entityrenderermanager.renderEntityStatic(bee, 0, 0, 0.0D, minecraft.getRenderPartialTicks(), 1, matrixStack, buffer, 15728880);
-                        buffer.finish();
+                    matrixStack.scale(scaledSize, scaledSize, 32);
 
-                        matrixStack.pop();
-                    }
+                    EntityRendererManager entityrenderermanager = minecraft.getRenderManager();
+                    IRenderTypeBuffer.Impl buffer = minecraft.getRenderTypeBuffers().getBufferSource();
+                    entityrenderermanager.renderEntityStatic(bee, 0, 0, 0.0D, minecraft.getRenderPartialTicks(), 1, matrixStack, buffer, 15728880);
+                    buffer.finish();
+
+                    matrixStack.pop();
                 }
                 i++;
             }

@@ -104,6 +104,7 @@ public final class ProductiveBees
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {
+        BeeReloadListener.recipeManager = event.getDataPackRegistries().getRecipeManager();
         event.addListener(BeeReloadListener.INSTANCE);
     }
 

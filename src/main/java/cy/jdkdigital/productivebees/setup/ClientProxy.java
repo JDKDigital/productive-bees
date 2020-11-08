@@ -7,12 +7,12 @@ import net.minecraft.world.World;
 public class ClientProxy implements IProxy
 {
     @Override
-    public World getClientWorld() {
+    public World getWorld() {
         return Minecraft.getInstance().world;
     }
 
     @Override
-    public PlayerEntity getClientPlayer() {
+    public PlayerEntity getPlayer() {
         return Minecraft.getInstance().player;
     }
 }

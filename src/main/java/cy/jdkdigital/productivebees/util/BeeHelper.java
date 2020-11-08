@@ -13,7 +13,9 @@ import cy.jdkdigital.productivebees.item.WoodChip;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
+import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.passive.BeeEntity;
@@ -25,7 +27,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -36,12 +40,16 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class BeeHelper
 {
@@ -143,8 +151,8 @@ public class BeeHelper
         }
 
         ResourceLocation id = new ResourceLocation(beeId);
-        if (id.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
-            return Collections.singletonList(ResourcefulBeesCompat.getHoneyComb(id.getPath()));
+        if (ModList.get().isLoaded(ResourcefulBeesCompat.MODID) && id.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
+            return Collections.singletonList(ResourcefulBeesCompat.getHoneyComb(beeEntity));
         }
 
         Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
@@ -203,6 +211,33 @@ public class BeeHelper
         return outputList;
     }
 
+    public static CentrifugeRecipe getCentrifugeRecipe(RecipeManager recipeManager, IItemHandlerModifiable inputHandler) {
+        ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+        World world = ProductiveBees.proxy.getWorld();
+
+        CentrifugeRecipe recipe = null;
+        if (ModList.get().isLoaded(ResourcefulBeesCompat.MODID) && input.getItem().getRegistryName().getNamespace().equals(ResourcefulBeesCompat.MODID)) {
+            IItemHandlerModifiable rBeesHandler = new InventoryHandlerHelper.ItemHandler(1);
+            rBeesHandler.setStackInSlot(0, input);
+            com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe rec = recipeManager.getRecipe(com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe.CENTRIFUGE_RECIPE_TYPE, new RecipeWrapper(rBeesHandler), world).orElse(null);
+            if (rec != null) {
+                Map<Ingredient, IntArrayNBT> itemOutputs = new HashMap<>();
+                for (Pair<ItemStack, Float> pair : rec.outputs) {
+                    if (!pair.getLeft().isEmpty()) {
+                        int count = pair.getLeft().getCount();
+                        IntArrayNBT nbt = new IntArrayNBT(new int[]{count, count, (int) (pair.getRight() * 100)});
+
+                        itemOutputs.put(Ingredient.fromStacks(pair.getLeft()), nbt);
+                    }
+                }
+                recipe = new CentrifugeRecipe(new ResourceLocation(ResourcefulBeesCompat.MODID, rec.getId().getPath() + "_converted"), rec.ingredient, itemOutputs, new HashMap<>(), false);
+            }
+        } else {
+            recipe = recipeManager.getRecipe(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), world).orElse(null);
+        }
+        return recipe;
+    }
+
     public static void setOffspringAttributes(ProductiveBeeEntity newBee, ProductiveBeeEntity productiveBeeEntity, AgeableEntity targetEntity) {
         Map<BeeAttribute<?>, Object> attributeMapParent1 = productiveBeeEntity.getBeeAttributes();
         Map<BeeAttribute<?>, Object> attributeMapParent2 = new HashMap<>();
@@ -238,6 +273,8 @@ public class BeeHelper
             String name = ProductiveBees.MODID + ":" + ((ProductiveBeeEntity) entity).getBeeName();
             if (name.equals("productivebees:wither")) {
                 name = "productivebees:withered";
+            } else if (name.equals("productivebees:quartz")) {
+                name = "productivebees:crystalline";
             }
             BeeIngredient configuredBee = BeeIngredientFactory.getIngredient(name).get();
             if (configuredBee != null && configuredBee.isConfigurable()) {

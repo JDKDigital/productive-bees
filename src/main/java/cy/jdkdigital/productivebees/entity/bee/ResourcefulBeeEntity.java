@@ -2,12 +2,11 @@ package cy.jdkdigital.productivebees.entity.bee;
 
 import com.resourcefulbees.resourcefulbees.api.ICustomBee;
 import com.resourcefulbees.resourcefulbees.api.beedata.*;
-import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.item.Honeycomb;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.ItemStack;
@@ -70,15 +69,7 @@ public class ResourcefulBeeEntity extends ProductiveBeeEntity implements Resourc
     }
 
     @Override
-    public ICustomBee createSelectedChild(CustomBeeData customBeeData) {
-        BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(customBeeData.getName()).get();
-        if (beeIngredient != null) {
-            BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
-            if (newBee instanceof ConfigurableBeeEntity) {
-                ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
-            }
-            return (ICustomBee) newBee;
-        }
+    public AgeableEntity createSelectedChild(CustomBeeData customBeeData) {
         return null;
     }
 }

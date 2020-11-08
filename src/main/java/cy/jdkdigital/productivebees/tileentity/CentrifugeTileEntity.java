@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.tileentity;
 
 import com.google.common.collect.Lists;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
@@ -9,6 +10,7 @@ import cy.jdkdigital.productivebees.item.Gene;
 import cy.jdkdigital.productivebees.item.GeneBottle;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -55,15 +57,20 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     {
         @Override
         public boolean isInputItem(Item item) {
-            return item == Items.GLASS_BOTTLE || item == Items.BUCKET || ModTags.HONEYCOMBS.contains(item);
+            boolean isInput = item == Items.GLASS_BOTTLE || item == Items.BUCKET || ModTags.HONEYCOMBS.contains(item) || item == ModItems.GENE_BOTTLE.get();
+            if (!isInput) {
+                // Check by looking up a centrifuge recipe for the item
+                IItemHandlerModifiable inputHandler = new InventoryHandlerHelper.ItemHandler(2);
+                inputHandler.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, new ItemStack(item));
+                isInput = BeeHelper.getCentrifugeRecipe(world.getRecipeManager(), inputHandler) != null;
+            }
+            return isInput;
         }
 
         @Override
         public boolean isInputSlotItem(int slot, Item item) {
-            return (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.BUCKET) ||
-                    (slot == InventoryHandlerHelper.BOTTLE_SLOT && item == Items.GLASS_BOTTLE) ||
-                    (slot == InventoryHandlerHelper.INPUT_SLOT && ModTags.HONEYCOMBS.contains(item)) ||
-                    (slot == InventoryHandlerHelper.INPUT_SLOT && item.equals(ModItems.GENE_BOTTLE.get()));
+            return (item == Items.GLASS_BOTTLE || item == Items.BUCKET) ? slot == InventoryHandlerHelper.BOTTLE_SLOT :
+                    (slot == InventoryHandlerHelper.INPUT_SLOT && isInputItem(item));
         }
     });
 
@@ -155,7 +162,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         if (currentRecipe != null && currentRecipe.matches(new RecipeWrapper(inputHandler), world)) {
             return currentRecipe;
         }
-        currentRecipe = world.getRecipeManager().getRecipe(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), this.world).orElse(null);
+
+        currentRecipe = BeeHelper.getCentrifugeRecipe(world.getRecipeManager(), inputHandler);
 
         Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(CentrifugeRecipe.CENTRIFUGE);
         IInventory inv = new RecipeWrapper(inputHandler);

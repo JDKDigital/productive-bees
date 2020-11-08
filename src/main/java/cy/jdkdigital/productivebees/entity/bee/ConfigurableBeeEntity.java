@@ -141,7 +141,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                     target.setFire(200);
                 case "lava":
                     // Place flowing lava on the targets location
-                    this.world.setBlockState(target.getPosition(), Blocks.LAVA.getDefaultState().getBlockState(), 11);
+                    this.world.setBlockState(target.getPosition(), Blocks.LAVA.getDefaultState(), 11);
             }
         }
     }

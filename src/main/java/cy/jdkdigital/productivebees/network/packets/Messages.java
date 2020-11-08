@@ -44,7 +44,7 @@ public class Messages
                 BeeReloadListener.INSTANCE.setData(message.data);
                 // Trigger jei reload
                 ProductiveBees.LOGGER.debug("trigger recipe reload");
-                RecipeManager manager = ProductiveBees.proxy.getClientWorld().getRecipeManager();
+                RecipeManager manager = ProductiveBees.proxy.getWorld().getRecipeManager();
                 net.minecraftforge.client.ForgeHooksClient.onRecipesUpdated(manager);
             });
             context.get().setPacketHandled(true);

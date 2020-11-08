@@ -4,15 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.client.resources.JsonReloadListener;
+import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -20,6 +23,7 @@ import java.util.Map;
 
 public class BeeReloadListener extends JsonReloadListener
 {
+    public static RecipeManager recipeManager;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     public static final BeeReloadListener INSTANCE = new BeeReloadListener();
@@ -33,6 +37,7 @@ public class BeeReloadListener extends JsonReloadListener
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> dataMap, @Nonnull IResourceManager resourceManager, IProfiler profiler) {
         profiler.startSection("BeeReloadListener");
+        Map<ResourceLocation, CompoundNBT> data = new HashMap<>();
         for (Map.Entry<ResourceLocation, JsonElement> entry : dataMap.entrySet()) {
             ResourceLocation id = entry.getKey();
 
@@ -43,13 +48,26 @@ public class BeeReloadListener extends JsonReloadListener
 
             CompoundNBT nbt = BeeCreator.create(id, entry.getValue().getAsJsonObject());
 
-            BEE_DATA.remove(id);
-            BEE_DATA.put(id, nbt);
+            data.remove(id);
+            data.put(id, nbt);
 
             ProductiveBees.LOGGER.debug("Adding to bee data " + id);
+
+            // Create ResourcefulBees centrifuge recipes
+            if (ModList.get().isLoaded(ResourcefulBeesCompat.MODID) && nbt.getBoolean("createComb")) {
+                ResourcefulBeesCompat.createCentrifugeRecipes(getRecipeManager(), id);
+            }
         }
+
+        INSTANCE.setData(data);
+
+        // Normal combs
+        if (ModList.get().isLoaded(ResourcefulBeesCompat.MODID)) {
+            ResourcefulBeesCompat.createCentrifugeRecipesFromItems(getRecipeManager());
+        }
+
         try {
-            PacketHandler.sendToAllPlayers(new Messages.BeesMessage(BeeReloadListener.INSTANCE.getData()));
+            PacketHandler.sendToAllPlayers(new Messages.BeesMessage(INSTANCE.getData()));
         } catch (Exception e) {
             // ignore on server lad when the server is not ready to send messages
         }
@@ -66,5 +84,14 @@ public class BeeReloadListener extends JsonReloadListener
 
     public void setData(Map<ResourceLocation, CompoundNBT> data) {
         BEE_DATA = data;
+    }
+
+    public static RecipeManager getRecipeManager() {
+        if (!recipeManager.recipes.getClass().equals(HashMap.class)) {
+            recipeManager.recipes = new HashMap<>(recipeManager.recipes);
+            recipeManager.recipes.replaceAll((t, v) -> new HashMap<>(recipeManager.recipes.get(t)));
+        }
+
+        return recipeManager;
     }
 }

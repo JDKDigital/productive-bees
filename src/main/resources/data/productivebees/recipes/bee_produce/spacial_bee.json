@@ -16,13 +16,6 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/certus_quarts"
-            }
-        },
-        {
             "type": "forge:mod_loaded",
             "modid": "appliedenergistics2"
         }

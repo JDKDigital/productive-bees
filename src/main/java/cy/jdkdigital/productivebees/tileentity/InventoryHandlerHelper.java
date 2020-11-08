@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.item.Gene;
@@ -18,6 +19,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +77,11 @@ public class InventoryHandlerHelper
     {
         private TileEntity tileEntity;
 
-        public ItemHandler(int size, TileEntity tileEntity) {
+        public ItemHandler(int size) {
+            this(size, null);
+        }
+
+        public ItemHandler(int size, @Nullable TileEntity tileEntity) {
             super(size);
             this.tileEntity = tileEntity;
         }
@@ -83,7 +89,9 @@ public class InventoryHandlerHelper
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            tileEntity.markDirty();
+            if (tileEntity != null) {
+                tileEntity.markDirty();
+            }
         }
 
         public boolean isInputSlot(int slot) {
@@ -95,7 +103,7 @@ public class InventoryHandlerHelper
         }
 
         public boolean isInputSlotItem(int slot, Item item) {
-            return (slot == BOTTLE_SLOT && item == Items.GLASS_BOTTLE) || (slot == INPUT_SLOT && ModTags.HONEYCOMBS.contains(item));
+            return item == Items.GLASS_BOTTLE ? slot == BOTTLE_SLOT : (slot == INPUT_SLOT && isInputItem(item));
         }
 
         @Override

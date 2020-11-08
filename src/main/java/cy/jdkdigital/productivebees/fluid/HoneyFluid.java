@@ -66,7 +66,7 @@ public abstract class HoneyFluid extends FlowingFluid
         return FluidAttributes.builder(STILL, FLOWING)
                 .overlay(OVERLAY)
                 .translationKey("fluid." + ProductiveBees.MODID + ".honey")
-                .color(0xFFFF9116)
+                .color(0xffffc916)
                 .density(3000)
                 .viscosity(6000)
                 .build(ModFluids.HONEY.get());
