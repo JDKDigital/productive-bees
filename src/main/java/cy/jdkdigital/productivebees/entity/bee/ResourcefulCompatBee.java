@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
 import com.resourcefulbees.resourcefulbees.api.ICustomBee;
-import com.resourcefulbees.resourcefulbees.api.beedata.CustomBeeData;
 
 public interface ResourcefulCompatBee extends ICustomBee
 {

@@ -47,6 +47,7 @@ public class ResourcefulConfigurableBeeEntity extends ConfigurableBeeEntity impl
                         .setPrimaryColor(String.format("#%06x", getColor(0).getRGB() & 0xFFFFFF))
                         .setSecondaryColor(String.format("#%06x", getColor(1).getRGB() & 0xFFFFFF))
                         .createColorData(),
+                new CombatData.Builder(true).create(),
                 new CentrifugeData.Builder(false, null).createCentrifugeData(),
                 new BreedData.Builder(false).createBreedData(),
                 new SpawnData.Builder(false).createSpawnData(),

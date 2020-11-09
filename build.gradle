@@ -108,7 +108,7 @@ dependencies {
     implementation fg.deobf('mods:CTM-MC1.16.1:1.1.1.5')
     implementation fg.deobf('mods:Mekanism-1.16.3:10.0.12.437')
     // testing
-    implementation fg.deobf('mods:resourcefulbees-1.16.3:0.5.3b')
+    implementation fg.deobf('mods:resourcefulbees-1.16.3:0.5.5b')
     // build
 //    compileOnly fg.deobf('mods:resourcefulbees-1.16.3:0.5.0a')
 }

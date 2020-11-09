@@ -1,11 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.hive.BlazingBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.hive.SkeletalBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.hive.WitherBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.hive.ZombieBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.nesting.*;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.entity.EntityType;

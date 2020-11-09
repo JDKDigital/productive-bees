@@ -1,9 +1,6 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
-import com.resourcefulbees.resourcefulbees.api.ICustomBee;
 import com.resourcefulbees.resourcefulbees.api.beedata.*;
-import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.item.Honeycomb;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.entity.AgeableEntity;
@@ -47,6 +44,7 @@ public class ResourcefulBeeEntity extends ProductiveBeeEntity implements Resourc
                         .setPrimaryColor(String.format("#%06x", getColor(0).getRGB() & 0xFFFFFF))
                         .setSecondaryColor(String.format("#%06x", getColor(1).getRGB() & 0xFFFFFF))
                         .createColorData(),
+                new CombatData.Builder(true).create(),
                 new CentrifugeData.Builder(false, null).createCentrifugeData(),
                 new BreedData.Builder(false).createBreedData(),
                 new SpawnData.Builder(false).createSpawnData(),
@@ -55,13 +53,9 @@ public class ResourcefulBeeEntity extends ProductiveBeeEntity implements Resourc
 
         if (hasComb) {
             ItemStack finalCombProduce = combProduce;
-            data.setCombSupplier(() -> {
-                return finalCombProduce;
-            });
+            data.setCombSupplier(() -> finalCombProduce);
             // Fallback to comb produce for non-configurable bees
-            data.setCombBlockItemSupplier(() -> {
-                return finalCombProduce;
-            });
+            data.setCombBlockItemSupplier(() -> finalCombProduce);
         }
 
         customBeeData = data;

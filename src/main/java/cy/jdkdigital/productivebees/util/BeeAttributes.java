@@ -4,7 +4,6 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.Block;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.Item;
-import net.minecraft.loot.RandomValueRange;
 import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.util.ResourceLocation;
 

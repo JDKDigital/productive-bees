@@ -83,7 +83,20 @@ public class ResourcefulBeesCompat
         IRecipe<?> honeycombBlockCentrifuge = centrifugeHoneyCombBlockRecipe(recipeManager, beeType);
 
         ProductiveBees.LOGGER.info("create compat comb item recipe for " + honeycombCentrifuge.getId());
+
+        com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe rec = ((com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe) honeycombCentrifuge);
+        for(int i = 0; i < 3; i++){
+            Pair<ItemStack, Float> output = rec.outputs.get(i);
+            ProductiveBees.LOGGER.info("with output " + output.getLeft().copy());
+        }
+
         ProductiveBees.LOGGER.info("create compat comb block recipe for " + honeycombBlockCentrifuge.getId());
+
+        com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe recc = ((com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe) honeycombBlockCentrifuge);
+        for(int i = 0; i < 3; i++){
+            Pair<ItemStack, Float> output = recc.outputs.get(i);
+            ProductiveBees.LOGGER.info("with output " + output.getLeft().copy());
+        }
 
         recipeManager.recipes.computeIfAbsent(honeycombCentrifuge.getType(), t -> new HashMap<>()).put(honeycombCentrifuge.getId(), honeycombCentrifuge);
         recipeManager.recipes.computeIfAbsent(honeycombBlockCentrifuge.getType(), t -> new HashMap<>()).put(honeycombBlockCentrifuge.getId(), honeycombBlockCentrifuge);
@@ -120,6 +133,9 @@ public class ResourcefulBeesCompat
 
     private static IRecipe<?> centrifugeRecipe(CentrifugeRecipe recipe, ItemStack comb, ResourceLocation beeType) {
         List<Pair<ItemStack, Float>> outputList = getRecipeOutput(recipe, 1);
+
+//        List<Pair<ItemStack, Float>> outputList = new ArrayList<>();
+//        outputList.add(Pair.of(new ItemStack(Items.GOLD_INGOT, ProductiveBees.rand.nextInt(20)), 1f));
 
         return new com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe(
                 new ResourceLocation(beeType.getNamespace(), beeType.getPath() + "_rbees_comb_centrifuge"),
