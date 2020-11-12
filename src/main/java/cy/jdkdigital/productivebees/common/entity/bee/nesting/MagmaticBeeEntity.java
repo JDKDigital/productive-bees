@@ -1,18 +1,12 @@
 package cy.jdkdigital.productivebees.common.entity.bee.nesting;
 
 import cy.jdkdigital.productivebees.common.entity.bee.EffectHiveBeeEntity;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
-import cy.jdkdigital.productivebees.util.BeeEffect;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.HashMap;
 
 public class MagmaticBeeEntity extends EffectHiveBeeEntity
 {

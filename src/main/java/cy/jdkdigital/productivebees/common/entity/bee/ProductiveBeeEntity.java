@@ -16,10 +16,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -129,6 +126,10 @@ public class ProductiveBeeEntity extends BeeEntity
 
         this.targetSelector.addGoal(1, (new BeeEntity.AngerGoal(this)).setCallsForHelp());
         this.targetSelector.addGoal(2, new BeeEntity.AttackPlayerGoal(this));
+
+        // Empty default goals
+        this.pollinateGoal = new EmptyPollinateGoal();
+        this.findFlowerGoal = new EmptyFindFlowerGoal();
     }
 
     @Override
@@ -196,17 +197,15 @@ public class ProductiveBeeEntity extends BeeEntity
         return (
                 flowerBlock.isIn(getFlowerTag()) ||
                 (
-                    flowerBlock instanceof Feeder && isValidFeeder(pos)
+                    flowerBlock instanceof Feeder && isValidFeeder(world.getTileEntity(pos), getFlowerTag())
                 )
             );
     }
 
-    private boolean isValidFeeder(BlockPos pos) {
-        TileEntity tile = world.getTileEntity(pos);
+    public static boolean isValidFeeder(TileEntity tile, Tag<Block> flowerTag) {
         AtomicBoolean hasValidBlock = new AtomicBoolean(false);
         if (tile instanceof FeederTileEntity) {
             tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                Tag<Block> flowerTag = getFlowerTag();
                 for (int slot = 0; slot < handler.getSlots(); ++slot) {
                     Item slotItem = handler.getStackInSlot(slot).getItem();
                     if (slotItem instanceof BlockItem && ((BlockItem) slotItem).getBlock().isIn(flowerTag)) {
@@ -407,7 +406,7 @@ public class ProductiveBeeEntity extends BeeEntity
             Tag<Block> interests = ProductiveBeeEntity.this.getFlowerTag();
             boolean isInterested;
             if (blockState.getBlock() instanceof Feeder) {
-                isInterested = ProductiveBeeEntity.this.isValidFeeder(blockPos);
+                isInterested = isValidFeeder(world.getTileEntity(blockPos), ProductiveBeeEntity.this.getFlowerTag());
             } else {
                 isInterested = blockState.isIn(interests);
                 if (isInterested && blockState.isIn(BlockTags.TALL_FLOWERS)) {
@@ -480,7 +479,6 @@ public class ProductiveBeeEntity extends BeeEntity
             }
             AtomicReference<Double> lastDistance = new AtomicReference<>(100.0D);
             BlockPos.getAllInBox(box).filter(predicate).forEach(blockPos -> {
-                TileEntity tile = world.getTileEntity(blockPos);
                 double currDistance = blockpos.distanceSq(blockPos);
                 if (currDistance < lastDistance.get()){
                     lastDistance.set(currDistance);
@@ -600,6 +598,19 @@ public class ProductiveBeeEntity extends BeeEntity
     {
         public ProductiveTemptGoal(CreatureEntity entity, double speed) {
             super(entity, speed, false, Ingredient.fromTag(getAttributeValue(BeeAttributes.APHRODISIACS)));
+        }
+    }
+
+    public class EmptyPollinateGoal extends PollinateGoal {
+        @Override
+        public boolean shouldExecute() {
+            return false;
+        }
+    }
+    public class EmptyFindFlowerGoal extends FindFlowerGoal {
+        @Override
+        public boolean shouldExecute() {
+            return false;
         }
     }
 }

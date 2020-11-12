@@ -1,8 +1,11 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.container.FeederContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -13,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -23,6 +27,8 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeederTileEntity extends FluidTankTileEntity implements INamedContainerProvider
 {
@@ -41,6 +47,23 @@ public class FeederTileEntity extends FluidTankTileEntity implements INamedConta
 
     public FeederTileEntity() {
         super(ModTileEntityTypes.FEEDER.get());
+    }
+
+    public Block getRandomBlockFromInventory(Tag<Block> tag) {
+        return inventoryHandler.map(h -> {
+            List<Block> possibleBlocks = new ArrayList<>();
+            for (int slot = 0; slot < h.getSlots(); ++slot) {
+                Item slotItem = h.getStackInSlot(slot).getItem();
+                if (slotItem instanceof BlockItem) {
+                    Block itemBlock = ((BlockItem) slotItem).getBlock();
+                    if (itemBlock.isIn(tag)) {
+                        possibleBlocks.add(itemBlock);
+                    }
+                }
+            }
+
+            return possibleBlocks.get(ProductiveBees.rand.nextInt(possibleBlocks.size()));
+        }).orElse(Blocks.AIR);
     }
 
     @Nonnull

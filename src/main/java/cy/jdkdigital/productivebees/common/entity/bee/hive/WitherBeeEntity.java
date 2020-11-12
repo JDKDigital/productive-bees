@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import cy.jdkdigital.productivebees.common.entity.bee.EffectHiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
-import cy.jdkdigital.productivebees.util.BeeEffect;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.potion.Effect;

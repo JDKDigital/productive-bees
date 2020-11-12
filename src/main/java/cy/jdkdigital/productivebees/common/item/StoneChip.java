@@ -1,25 +1,19 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-public class WoodChip extends Item
+public class StoneChip extends WoodChip
 {
-    protected static final String KEY = "productivebees_woodtype";
-
-    public WoodChip(Properties properties) {
+    public StoneChip(Properties properties) {
         super(properties);
     }
 
@@ -32,25 +26,9 @@ public class WoodChip extends Item
     }
 
     public static ItemStack getStack(String blockName, int count) {
-        ItemStack result = new ItemStack(ModItems.WOOD_CHIP.get(), count);
+        ItemStack result = new ItemStack(ModItems.STONE_CHIP.get(), count);
         setBlock(result, blockName);
         return result;
-    }
-
-    public static void setBlock(ItemStack stack, String blockName) {
-        stack.getOrCreateTag().putString(KEY, blockName);
-    }
-
-    @Nullable
-    public static Block getBlock(ItemStack stack) {
-        if (!getBlockType(stack).isEmpty()) {
-            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(getBlockType(stack)));
-        }
-        return null;
-    }
-
-    public static String getBlockType(ItemStack stack) {
-        return stack.getOrCreateTag().getString(KEY);
     }
 
     @Override
@@ -67,8 +45,8 @@ public class WoodChip extends Item
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
             try {
-                BlockTags.LOGS.getAllElements().forEach(block -> {
-                    if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") &&  !block.getRegistryName().getPath().contains("stripped")) {
+                ModTags.QUARRY.getAllElements().forEach(block -> {
+                    if (block.getRegistryName() != null && !block.getRegistryName().getPath().contains("infested")) {
                         items.add(getStack(block));
                     }
                 });

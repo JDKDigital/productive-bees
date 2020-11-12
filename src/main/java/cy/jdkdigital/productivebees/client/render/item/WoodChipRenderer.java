@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.client.render.item;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
-import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -25,9 +24,9 @@ import java.util.Random;
 
 public class WoodChipRenderer extends ItemStackTileEntityRenderer
 {
-    private static HashMap<String, TextureAtlasSprite> woodTextureLocations = new HashMap<>();
+    private static HashMap<String, TextureAtlasSprite> blockTextureLocations = new HashMap<>();
 
-    private void add(IVertexBuilder builder, MatrixStack matrixStack, float x, float y, float z, float u, float v) {
+    protected void add(IVertexBuilder builder, MatrixStack matrixStack, float x, float y, float z, float u, float v) {
         builder.pos(matrixStack.getLast().getMatrix(), x, y, z)
                 .color(1.0f, 1.0f, 1.0f, 1.0f)
                 .tex(u, v)
@@ -35,8 +34,8 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
                 .normal(1, 0, 0)
                 .endVertex();
     }
-    
-    private void addBox(IVertexBuilder builder, MatrixStack matrixStack, TextureAtlasSprite sprite, int fromX, int fromY, int toX, int toY) {
+
+    protected void addBox(IVertexBuilder builder, MatrixStack matrixStack, TextureAtlasSprite sprite, int fromX, int fromY, int toX, int toY) {
         float startX = fromX / 16f;
         float startY = fromY / 16f;
         float endX = toX / 16f;
@@ -57,12 +56,12 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
     public void render(ItemStack itemStack, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int packedLightIn, int packedUV) {
         Item item = itemStack.getItem();
 
-        if (item == ModItems.WOOD_CHIP.get()) {
+        if (item instanceof WoodChip) {
             IVertexBuilder builder = renderTypeBuffer.getBuffer(RenderType.getCutout());
 
-            Block woodBlock = WoodChip.getWoodBlock(itemStack);
+            Block woodBlock = WoodChip.getBlock(itemStack);
             if (woodBlock != null && woodBlock != Blocks.AIR) {
-                TextureAtlasSprite sprite = getWoodSprite(woodBlock);
+                TextureAtlasSprite sprite = getBlockSprite(woodBlock);
 
                 if (sprite != null) {
                     matrixStack.push();
@@ -89,24 +88,24 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
         }
     }
 
-    private static TextureAtlasSprite getWoodSprite(@Nonnull Block woodBlock) {
-        String woodName = woodBlock.getRegistryName().toString();
-        if (woodTextureLocations.get(woodName) != null) {
-            return woodTextureLocations.get(woodName);
+    protected static TextureAtlasSprite getBlockSprite(@Nonnull Block block) {
+        String woodName = block.getRegistryName().toString();
+        if (blockTextureLocations.get(woodName) != null) {
+            return blockTextureLocations.get(woodName);
         }
 
         BlockRendererDispatcher manager = Minecraft.getInstance().getBlockRendererDispatcher();
-        IBakedModel model = manager.getModelForState(woodBlock.getDefaultState());
+        IBakedModel model = manager.getModelForState(block.getDefaultState());
 
-        List<BakedQuad> quads = model.getQuads(woodBlock.getDefaultState(), Direction.NORTH, new Random());
+        List<BakedQuad> quads = model.getQuads(block.getDefaultState(), Direction.NORTH, new Random());
         if (quads.isEmpty()) {
             return null;
         }
 
         TextureAtlasSprite sprite = quads.iterator().next().func_187508_a();
 
-        woodTextureLocations.put(woodName, sprite);
+        blockTextureLocations.put(woodName, sprite);
 
-        return woodTextureLocations.get(woodName);
+        return blockTextureLocations.get(woodName);
     }
 }

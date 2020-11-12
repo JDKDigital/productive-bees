@@ -2,10 +2,13 @@ package cy.jdkdigital.productivebees.util;
 
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
+import cy.jdkdigital.productivebees.common.item.StoneChip;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
+import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -16,7 +19,9 @@ import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,6 +35,8 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -50,18 +57,20 @@ public class BeeHelper
     public static final Random rand = new Random();
 
     public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, World world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
-        BlockPos pos = entity.getPosition();
-
         // Conversion recipes
         BeeEntity bee = null;
-        List<BeeConversionRecipe> recipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION, new IdentifierInventory(entity, itemStack.getItem().getRegistryName() + ""), world);
 
-        if (!recipes.isEmpty()) {
-            BeeConversionRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
-            bee = recipe.result.get().getBeeEntity().create(world);
-            if (bee instanceof ConfigurableBeeEntity) {
-                ((ConfigurableBeeEntity) bee).setBeeType(recipe.result.get().getBeeType().toString());
-                ((ConfigurableBeeEntity) bee).setAttributes();
+        if (!entity.isChild()) {
+            List<BeeConversionRecipe> recipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION, new IdentifierInventory(entity, itemStack.getItem().getRegistryName() + ""), world);
+
+            if (!recipes.isEmpty()) {
+                BeeConversionRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
+                ProductiveBees.LOGGER.info("recipe " + recipe.getId());
+                bee = recipe.result.get().getBeeEntity().create(world);
+                if (bee instanceof ConfigurableBeeEntity) {
+                    ((ConfigurableBeeEntity) bee).setBeeType(recipe.result.get().getBeeType().toString());
+                    ((ConfigurableBeeEntity) bee).setAttributes();
+                }
             }
         }
 
@@ -69,8 +78,7 @@ public class BeeHelper
             if (!player.isCreative()) {
                 itemStack.shrink(1);
             }
-
-            return BeeHelper.prepareBeeSpawn(bee, world, nbt, player, pos, direction, entity.getGrowingAge());
+            return BeeHelper.prepareBeeSpawn(bee, world, nbt, player, entity.getPosition(), direction, entity.getGrowingAge());
         }
         return null;
     }
@@ -172,18 +180,34 @@ public class BeeHelper
         }
         else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
-                BlockState flowerBlock = world.getBlockState(flowerPos);
+                Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.LOGS, hasCombBlockUpgrade);
 
-                if (flowerBlock.getBlock().isIn(BlockTags.LOGS)) {
-                    ItemStack woodChip = WoodChip.getStack(flowerBlock.getBlock(), world.rand.nextInt(6) + 1);
-                    outputList.add(woodChip);
+                ItemStack woodChip;
+                if (hasCombBlockUpgrade) {
+                    woodChip = new ItemStack(flowerBlock.asItem());
+                } else {
+                    woodChip = WoodChip.getStack(flowerBlock, world.rand.nextInt(6) + 1);
                 }
+                outputList.add(woodChip);
+            }
+        }
+        else if (beeId.equals("productivebees:quarry_bee")) {
+            if (flowerPos != null) {
+                Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.QUARRY, hasCombBlockUpgrade);
+
+                ItemStack stoneChip;
+                if (hasCombBlockUpgrade) {
+                    stoneChip = new ItemStack(flowerBlock.asItem());
+                } else {
+                    stoneChip = StoneChip.getStack(flowerBlock, world.rand.nextInt(6) + 1);
+                }
+                outputList.add(stoneChip);
             }
         }
         else if (beeId.equals("productivebees:dye_bee")) {
             if (flowerPos != null) {
                 BlockState flowerBlock = world.getBlockState(flowerPos);
-                Item flowerItem = Item.getItemFromBlock(flowerBlock.getBlock());
+                Item flowerItem = flowerBlock.getBlock().asItem();
 
                 Map<ResourceLocation, IRecipe<CraftingInventory>> recipes = world.getRecipeManager().getRecipes(IRecipeType.CRAFTING);
                 Optional<IRecipe<CraftingInventory>> flowerRecipe = recipes.values().stream().flatMap((craftingRecipe) -> {
@@ -228,16 +252,28 @@ public class BeeHelper
         return stack;
     }
 
+    private static Block getFloweringBlock(World world, BlockPos flowerPos, Tag<Block> tag, boolean hasCombBlockUpgrade) {
+        BlockState flowerBlockState = world.getBlockState(flowerPos);
+        Block flowerBlock = flowerBlockState.getBlock();
+
+        if (flowerBlock instanceof Feeder) {
+            TileEntity feederTile = world.getTileEntity(flowerPos);
+            if (feederTile instanceof FeederTileEntity && ProductiveBeeEntity.isValidFeeder(feederTile, tag)) {
+                return ((FeederTileEntity) feederTile).getRandomBlockFromInventory(tag);
+            }
+        }
+        return Blocks.AIR;
+    }
+
     public static void setOffspringAttributes(ProductiveBeeEntity newBee, ProductiveBeeEntity productiveBeeEntity, AgeableEntity targetEntity) {
         Map<BeeAttribute<?>, Object> attributeMapParent1 = productiveBeeEntity.getBeeAttributes();
         Map<BeeAttribute<?>, Object> attributeMapParent2 = new HashMap<>();
         if (targetEntity instanceof ProductiveBeeEntity) {
             attributeMapParent2 = ((ProductiveBeeEntity) targetEntity).getBeeAttributes();
-        }
-        else {
+        } else {
             // Default bee attributes
-            // @TODO load from config
             attributeMapParent2.put(BeeAttributes.PRODUCTIVITY, 0);
+            attributeMapParent2.put(BeeAttributes.ENDURANCE, 0);
             attributeMapParent2.put(BeeAttributes.TEMPER, 1);
             attributeMapParent2.put(BeeAttributes.BEHAVIOR, 0);
             attributeMapParent2.put(BeeAttributes.WEATHER_TOLERANCE, 0);
@@ -247,6 +283,9 @@ public class BeeHelper
 
         int parentProductivity = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.PRODUCTIVITY), (int) attributeMapParent2.get(BeeAttributes.PRODUCTIVITY));
         attributeMapChild.put(BeeAttributes.PRODUCTIVITY, Math.max((int) attributeMapChild.get(BeeAttributes.PRODUCTIVITY), parentProductivity));
+
+        int parentEndurance = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.ENDURANCE), (int) attributeMapParent2.get(BeeAttributes.ENDURANCE));
+        attributeMapChild.put(BeeAttributes.ENDURANCE, Math.max((int) attributeMapChild.get(BeeAttributes.ENDURANCE), parentEndurance));
 
         int parentTemper = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.TEMPER), (int) attributeMapParent2.get(BeeAttributes.TEMPER));
         attributeMapChild.put(BeeAttributes.TEMPER, Math.max((int) attributeMapChild.get(BeeAttributes.TEMPER), parentTemper));
@@ -263,6 +302,8 @@ public class BeeHelper
             String name = ProductiveBees.MODID + ":" + ((ProductiveBeeEntity) entity).getBeeName();
             if (name.equals("productivebees:wither")) {
                 name = "productivebees:withered";
+            } else if (name.equals("productivebees:quartz")) {
+                name = "productivebees:crystalline";
             }
             BeeIngredient configuredBee = BeeIngredientFactory.getIngredient(name).get();
             if (configuredBee != null && configuredBee.isConfigurable()) {
