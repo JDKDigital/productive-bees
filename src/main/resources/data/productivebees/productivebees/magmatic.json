@@ -5,7 +5,7 @@
     "beeTexture": "productivebees:textures/entity/bee/magmatic/bee",
     "createComb": false,
     "flowerTag": "productivebees:flowers/magmatic_flowers",
-    "nestingPreference": "productivebees:nether_brick_nests",
+    "nestingPreference": "productivebees:nests/nether_brick_nests",
     "attackResponse": "lava",
     "fireproof": true,
     "passiveEffects": [

@@ -10,5 +10,5 @@
     },
     "draconic": true,
     "flowerTag": "productivebees:flowers/draconic_flowers",
-    "nestingPreference": "productivebees:draconic_nests"
+    "nestingPreference": "productivebees:nests/draconic_nests"
 }

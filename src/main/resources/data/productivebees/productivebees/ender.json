@@ -10,5 +10,5 @@
     },
     "teleporting": true,
     "flowerTag": "productivebees:flowers/end_flowers",
-    "nestingPreference": "productivebees:end_nests"
+    "nestingPreference": "productivebees:nests/end_nests"
 }

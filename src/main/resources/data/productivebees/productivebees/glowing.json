@@ -7,7 +7,7 @@
     "createComb": false,
     "blinding": true,
     "flowerTag": "productivebees:flowers/glowing_flowers",
-    "nestingPreference": "productivebees:glowstone_nests",
+    "nestingPreference": "productivebees:nests/glowstone_nests",
     "passiveEffects": [
         {
             "effect": "minecraft:glowing",

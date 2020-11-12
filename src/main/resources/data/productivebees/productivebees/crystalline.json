@@ -9,7 +9,7 @@
         "endurance": 2
     },
     "flowerTag": "productivebees:flowers/crystalline_flowers",
-    "nestingPreference": "productivebees:nether_quartz_nests",
+    "nestingPreference": "productivebees:nests/nether_quartz_nests",
     "passiveEffects": [
         {
             "effect": "minecraft:resistance",

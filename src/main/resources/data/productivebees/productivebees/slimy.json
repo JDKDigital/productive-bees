@@ -10,5 +10,5 @@
     },
     "slimy": true,
     "flowerTag": "productivebees:flowers/swamp_flowers",
-    "nestingPreference": "productivebees:slimy_nests"
+    "nestingPreference": "productivebees:nests/slimy_nests"
 }
