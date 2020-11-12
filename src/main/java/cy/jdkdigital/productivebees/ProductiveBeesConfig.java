@@ -77,10 +77,10 @@ public class ProductiveBeesConfig
 
             preferredTagSource = builder
                     .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from. Eg: mekanism,silents_mekanism,immersiveengineering")
-                    .defineList("preferredOres", ImmutableList.of(ProductiveBees.MODID), obj -> obj.toString().length() > 1);
+                    .defineList("preferredOres", ImmutableList.of(ProductiveBees.MODID, "immersiveengineering", "create", "mekanism", "silents_mechanisms"), obj -> obj.toString().length() > 1);
 
             numberOfBeesPerBomb = builder
-                    .comment("How many bees can fit in a bee bom. Default is 10")
+                    .comment("How many bees can fit in a bee bomb. Default is 10")
                     .defineInRange("numberOfBeesPerBomb", 10, 1, 50);
 
             builder.pop();

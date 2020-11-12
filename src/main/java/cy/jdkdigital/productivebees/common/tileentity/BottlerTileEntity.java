@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
 import cy.jdkdigital.productivebees.container.BottlerContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -24,7 +23,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -39,32 +37,18 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
         @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            if (slot == InventoryHandlerHelper.BOTTLE_SLOT || slot == InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT) {
-                return super.isItemValid(slot, stack);
-            }
-            return false;
-        }
-
-        @Override
-        public boolean isInputItem(Item item) {
-            return item == Items.GLASS_BOTTLE;
+        public boolean isInputSlotItem(int slot, Item item) {
+            return slot == InventoryHandlerHelper.BOTTLE_SLOT;
         }
     });
 
-    public LazyOptional<IFluidHandler> honeyInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
+    public LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
     {
         @Override
         protected void onContentsChanged()
         {
             super.onContentsChanged();
             BottlerTileEntity.this.markDirty();
-        }
-
-        @Override
-        public boolean isFluidValid(FluidStack stack)
-        {
-            return stack.getFluid().isIn(ModTags.HONEY);
         }
     });
 
@@ -74,7 +58,8 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
 
         if (world != null) {
             inventoryHandler.ifPresent(inv -> {
-                boolean hasBottle = !inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty();
+                ItemStack stack = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                boolean hasBottle = !stack.isEmpty() && stack.getItem().equals(Items.GLASS_BOTTLE);
                 world.setBlockState(pos, this.getBlockState().with(Bottler.HAS_BOTTLE, hasBottle));
             });
         }
@@ -94,7 +79,7 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
                 ProductiveBeeEntity bee = bees.iterator().next();
                 inventoryHandler.ifPresent(inv -> {
                     ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
-                    if (!bottles.isEmpty() && bee.isAlive()) {
+                    if (!bottles.isEmpty() && bottles.getItem().equals(Items.GLASS_BOTTLE) && bee.isAlive()) {
                         ItemStack geneBottle = GeneBottle.getStack(bee);
                         Block.spawnAsEntity(world, pos.up(), geneBottle);
 
@@ -115,7 +100,7 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
             return inventoryHandler.cast();
         }
         if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return honeyInventory.cast();
+            return fluidInventory.cast();
         }
         return super.getCapability(cap, side);
     }

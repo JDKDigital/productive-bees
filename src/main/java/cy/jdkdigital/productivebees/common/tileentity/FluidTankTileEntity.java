@@ -1,6 +1,6 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
-import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModFluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -8,7 +8,9 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -25,7 +27,7 @@ public abstract class FluidTankTileEntity extends TileEntity implements ITickabl
 
     @Override
     public void tick() {
-        if (!world.isRemote) {
+        if (world != null && !world.isRemote) {
             if (++this.tankTick > 20) {
                 this.tankTick = 0;
                 tickFluidTank();
@@ -34,28 +36,43 @@ public abstract class FluidTankTileEntity extends TileEntity implements ITickabl
     }
 
     public void tickFluidTank() {
-        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(honeyHandler -> {
-            FluidStack honeyFluid = honeyHandler.getFluidInTank(0);
-            if (honeyFluid.getAmount() >= 250) {
+        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+            FluidStack fluidStack = fluidHandler.getFluidInTank(0);
+            if (fluidStack.getAmount() >= 0) {
                 this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(invHandler -> {
-                    ItemStack honeyContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
-                    int drainedHoney = 0;
-                    ItemStack outputItem = null;
-                    if (honeyContainerItem.getItem() == Items.GLASS_BOTTLE) {
-                        drainedHoney = 250;
-                        outputItem = new ItemStack(Items.HONEY_BOTTLE);
-                    }
-                    else if (honeyContainerItem.getItem() == Items.BUCKET && honeyFluid.getAmount() >= 1000) {
-                        drainedHoney = 1000;
-                        outputItem = new ItemStack(ModItems.HONEY_BUCKET.get());
-                    }
+                    ItemStack fluidContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                    ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
+                    if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {
+                        ItemStack outputItem = null;
+                        if (fluidContainerItem.getItem() == Items.GLASS_BOTTLE && fluidStack.getAmount() >= 250 && fluidStack.getFluid().isEquivalentTo(ModFluids.HONEY.get())) {
+                            outputItem = new ItemStack(Items.HONEY_BOTTLE);
+                        }
+                        else {
+                            FluidActionResult fillResult = FluidUtil.tryFillContainer(fluidContainerItem, fluidHandler, Integer.MAX_VALUE, null, true);
+                            if (fillResult.isSuccess()) {
+                                outputItem = fillResult.getResult();
+                            }
+                        }
 
-                    if (drainedHoney > 0 && honeyContainerItem.getCount() > 0) {
-                        ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
-                        if (existingOutput.isEmpty() || (existingOutput.getItem() == outputItem.getItem() && existingOutput.getCount() < outputItem.getMaxStackSize())) {
-                            honeyContainerItem.shrink(1);
-                            honeyHandler.drain(drainedHoney, IFluidHandler.FluidAction.EXECUTE);
-                            invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
+                        if (outputItem != null) {
+                            if (invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, true).equals(ItemStack.EMPTY)) {
+                                boolean bottleOutput = outputItem.getItem().equals(Items.HONEY_BOTTLE);
+                                int drainedFluid = bottleOutput ? 250 : 0;
+
+                                if (outputItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()) {
+                                    drainedFluid = outputItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(h -> h.getFluidInTank(0).getAmount()).orElse(0);
+                                }
+                                fluidHandler.drain(drainedFluid, IFluidHandler.FluidAction.EXECUTE);
+
+                                // If item container is full or internal tank is empty, move the item to the output @TODO doesn't work
+                                boolean doneFilling = outputItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(h -> h.getTankCapacity(0) > h.getFluidInTank(0).getAmount()).orElse(true);
+                                if (bottleOutput || doneFilling) {
+                                    fluidContainerItem.shrink(1);
+                                    invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
+                                } else {
+                                    invHandler.insertItem(InventoryHandlerHelper.BOTTLE_SLOT, outputItem, false);
+                                }
+                            }
                         }
                     }
                 });

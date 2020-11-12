@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:block",
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "functions": [
+                        {
+                            "function": "minecraft:copy_nbt",
+                            "source": "block_entity",
+                            "ops": [
+                                {
+                                    "source": "type",
+                                    "target": "EntityTag.type",
+                                    "op": "replace"
+                                }
+                            ]
+                        }
+                    ],
+                    "name": "productivebees:configurable_comb"
+                }
+            ],
+            "conditions": [
+                {
+                    "condition": "minecraft:survives_explosion"
+                }
+            ]
+        }
+    ]
+}

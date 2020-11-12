@@ -7,6 +7,8 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 import java.util.ArrayList;
@@ -33,15 +35,19 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
         this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
 
         // Draw fluid tank
-        this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
-            int fluidAmount = fluidHandler.getFluidInTank(0).getAmount();
+        this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
+            FluidStack fluidStack = handler.getFluidInTank(0);
 
             // Honey fluid level tooltip
             if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
-                List<String> tooltipList = new ArrayList<String>()
-                {{
-                    add("Honey: " + fluidAmount + "mb");
-                }};
+                List<String> tooltipList = new ArrayList<String>();
+
+                if (fluidStack.getAmount() > 0) {
+                    tooltipList.add(new TranslationTextComponent(fluidStack.getTranslationKey()).getString() + " " + fluidStack.getAmount() + "mb");
+                } else {
+                    tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").getString());
+                }
+
                 renderTooltip(tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }
         });
@@ -58,10 +64,18 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
         this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
         // Draw fluid tank
-        this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
-            int fluidAmount = fluidHandler.getFluidInTank(0).getAmount();
-            int fluidLevel = (int) (fluidAmount * (52 / 10000F));
-            this.blit(this.guiLeft + 140, this.guiTop + 69, 176, 69, 4, -1 * fluidLevel);
+        this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
+            FluidStack fluidStack = handler.getFluidInTank(0);
+
+            if (fluidStack.getAmount() > 0) {
+                int fluidLevel = (int) (fluidStack.getAmount() * (52 / 10000F));
+
+                FluidContainerUtil.setColors(fluidStack);
+
+                FluidContainerUtil.drawTiledSprite(this.guiLeft + 140, this.guiTop + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
+
+                FluidContainerUtil.resetColor();
+            }
         });
     }
 }

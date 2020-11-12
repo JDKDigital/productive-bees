@@ -144,6 +144,12 @@ public class ModTileEntityTypes
             ).build(null)
     );
 
+    public static final RegistryObject<TileEntityType<FeederTileEntity>> FEEDER = TILE_ENTITY_TYPES.register("feeder", () ->
+            TileEntityType.Builder.create(FeederTileEntity::new,
+                    ModBlocks.FEEDER.get()
+            ).build(null)
+    );
+
     public static final RegistryObject<TileEntityType<CombBlockTileEntity>> COMB_BLOCK = TILE_ENTITY_TYPES.register("comb_block", () ->
             TileEntityType.Builder.create(CombBlockTileEntity::new,
                     ModBlocks.CONFIGURABLE_COMB.get()

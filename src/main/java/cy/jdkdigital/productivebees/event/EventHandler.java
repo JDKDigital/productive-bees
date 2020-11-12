@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.event;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -13,15 +12,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -35,6 +31,8 @@ public class EventHandler
     public static void entityRightClicked(PlayerInteractEvent.EntityInteract entityInteract) {
         ItemStack itemStack = entityInteract.getItemStack();
         Entity entity = entityInteract.getTarget();
+
+        ProductiveBees.LOGGER.info("entityRightClicked " + itemStack);
 
         if (!itemStack.isEmpty() && entity instanceof BeeEntity) {
             World world = entityInteract.getWorld();

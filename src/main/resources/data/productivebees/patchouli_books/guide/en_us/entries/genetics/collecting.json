@@ -1,6 +1,6 @@
 {
     "name": "Collecting Genes",
-    "icon": "minecraft:writable_book",
+    "icon": "productivebees:gene",
     "category": "productivebees:genetics",
     "pages": [
         {

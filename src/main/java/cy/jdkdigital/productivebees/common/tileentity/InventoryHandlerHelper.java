@@ -73,7 +73,7 @@ public class InventoryHandlerHelper
 
     public static class ItemHandler extends ItemStackHandler
     {
-        private TileEntity tileEntity;
+        protected TileEntity tileEntity;
 
         public ItemHandler(int size, TileEntity tileEntity) {
             super(size);
@@ -83,7 +83,9 @@ public class InventoryHandlerHelper
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            tileEntity.markDirty();
+            if (tileEntity != null) {
+                tileEntity.markDirty();
+            }
         }
 
         public boolean isInputSlot(int slot) {
@@ -95,7 +97,7 @@ public class InventoryHandlerHelper
         }
 
         public boolean isInputSlotItem(int slot, Item item) {
-            return (slot == BOTTLE_SLOT && item == Items.GLASS_BOTTLE) || (slot == INPUT_SLOT && ModTags.HONEYCOMBS.contains(item));
+            return (slot == BOTTLE_SLOT && item == Items.GLASS_BOTTLE);
         }
 
         @Override

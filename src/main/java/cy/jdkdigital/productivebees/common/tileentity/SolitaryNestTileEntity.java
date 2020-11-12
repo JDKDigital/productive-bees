@@ -6,7 +6,6 @@ import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
-import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.passive.BeeEntity;
@@ -16,8 +15,6 @@ import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-
-import javax.annotation.Nullable;
 
 public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 {

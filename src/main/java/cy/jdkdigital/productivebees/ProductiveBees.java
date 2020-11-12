@@ -91,7 +91,9 @@ public final class ProductiveBees
 
         int priority = 0;
         for(String modId: ProductiveBeesConfig.GENERAL.preferredTagSource.get()) {
-            modPreference.put(modId, ++priority);
+            if (ModList.get().isLoaded(modId)) {
+                modPreference.put(modId, ++priority);
+            }
         }
 
         CraftingHelper.register(FluidTagEmptyCondition.Serializer.INSTANCE);

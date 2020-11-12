@@ -1,0 +1,11 @@
+{
+    "name": "Getting Started",
+    "icon": "minecraft:writable_book",
+    "category": "productivebees:genetics",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Grab your shears and."
+        }
+    ]
+}

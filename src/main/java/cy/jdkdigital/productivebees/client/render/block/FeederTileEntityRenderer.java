@@ -2,9 +2,6 @@ package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.datafixers.util.Pair;
-import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.block.Bottler;
-import cy.jdkdigital.productivebees.common.tileentity.BottlerTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -12,9 +9,8 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.tags.ItemTags;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -67,12 +63,15 @@ public class FeederTileEntityRenderer extends TileEntityRenderer<FeederTileEntit
 
                     if (slotStack.isEmpty()) continue;
 
+                    boolean isFlower = slotStack.getItem().isIn(ItemTags.FLOWERS);
                     Pair<Float, Float> pos = POSITIONS.get(filledSlots).get(slot);
+                    float rotation = isFlower ? 90F : 35.0F * slot;
+                    float zScale = isFlower ? 0.775F : 0.575F;
 
                     matrixStackIn.push();
                     matrixStackIn.translate(pos.getFirst(), 0.52D, pos.getSecond());
-                    matrixStackIn.rotate(Vector3f.XP.rotationDegrees(35.0F * slot));
-                    matrixStackIn.scale(0.575F, 0.575F, 0.575F);
+                    matrixStackIn.rotate(Vector3f.XP.rotationDegrees(rotation));
+                    matrixStackIn.scale(0.575F, zScale, 0.575F);
                     Minecraft.getInstance().getItemRenderer().renderItem(slotStack, ItemCameraTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
                     matrixStackIn.pop();
                 }

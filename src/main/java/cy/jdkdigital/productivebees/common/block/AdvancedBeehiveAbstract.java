@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameRules;
@@ -82,8 +83,9 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
                     tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").applyTextStyle(TextFormatting.BOLD));
                     for (int i = 0; i < beeList.size(); ++i) {
                         CompoundNBT tag = beeList.getCompound(i);
-                        CompoundNBT beeNBT = tag.getCompound("EntityData");
-                        tooltip.add(new TranslationTextComponent("" + beeNBT.getString("id")).applyTextStyle(TextFormatting.GREEN));
+                        String name = tag.getString("Name");
+
+                        tooltip.add(new StringTextComponent(name).applyTextStyle(TextFormatting.GREEN));
                     }
                 }
                 else {

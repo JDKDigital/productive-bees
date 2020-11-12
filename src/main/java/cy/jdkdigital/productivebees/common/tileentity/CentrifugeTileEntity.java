@@ -2,20 +2,17 @@ package cy.jdkdigital.productivebees.common.tileentity;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
-import cy.jdkdigital.productivebees.common.item.UpgradeItem;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
@@ -33,6 +30,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
@@ -49,7 +47,11 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity, UpgradeableTileEntity
 {
@@ -58,6 +60,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
     public int fluidId = 0;
+    private int transferCooldown = -1;
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
@@ -68,8 +71,12 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
         @Override
         public boolean isInputSlotItem(int slot, Item item) {
-            return (slot == InventoryHandlerHelper.BOTTLE_SLOT && (item == Items.BUCKET || item == Items.GLASS_BOTTLE)) ||
-                    (slot == InventoryHandlerHelper.INPUT_SLOT && ModTags.HONEYCOMBS.contains(item) || item.equals(ModItems.GENE_BOTTLE.get()));
+            return slot == InventoryHandlerHelper.BOTTLE_SLOT || (
+                slot == InventoryHandlerHelper.INPUT_SLOT &&
+                (
+                    item.equals(ModItems.GENE_BOTTLE.get()) || CentrifugeTileEntity.this.canProcessItemStack(new ItemStack(item))
+                )
+            );
         }
     });
 
@@ -122,7 +129,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                         }
                     } else {
                         CentrifugeRecipe recipe = getRecipe(invHandler);
-                        if (canProcessRecipe(recipe, invHandler, true)) {
+                        if (canProcessRecipe(recipe, invHandler)) {
                             world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
                             int totalTime = getProcessingTime();
 
@@ -133,14 +140,44 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     this.recipeProgress = 0;
                     world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, false));
+                }
+
+                // Pull items dropped ontop
+                if (--transferCooldown <= 0) {
+                    transferCooldown = 20;
+                    pullItems(invHandler);
                 }
             });
         }
         super.tick();
+    }
+
+    private void pullItems(IItemHandlerModifiable invHandler) {
+        for(ItemEntity itementity : getCaptureItems()) {
+            if (canProcessItemStack(itementity.getItem())) {
+                captureItem(invHandler, itementity);
+            }
+        }
+    }
+
+    private List<ItemEntity> getCaptureItems() {
+        assert world != null;
+
+        return Centrifuge.COLLECTION_AREA_SHAPE.toBoundingBoxList().stream().flatMap((blockPos) -> world.getEntitiesWithinAABB(ItemEntity.class, blockPos.offset(pos.getX(), pos.getY(), pos.getZ()), EntityPredicates.IS_ALIVE).stream()).collect(Collectors.toList());
+    }
+
+    private static void captureItem(IItemHandlerModifiable invHandler, ItemEntity itemEntity) {
+        ItemStack insertStack = itemEntity.getItem().copy();
+        ItemStack leftoverStack = invHandler.insertItem(InventoryHandlerHelper.INPUT_SLOT, insertStack, false);
+
+        if (leftoverStack.isEmpty()) {
+            itemEntity.remove();
+        } else {
+            itemEntity.setItem(leftoverStack);
+        }
     }
 
     protected boolean canOperate() {
@@ -161,15 +198,12 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     }
 
     public boolean canProcessItemStack(ItemStack stack) {
-        IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(1, null);
-        inv.setStackInSlot(0, stack);
+        IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(2, null);
+        inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, stack);
 
         CentrifugeRecipe recipe = getRecipe(inv);
 
-        if (recipe != null) {
-            return canProcessRecipe(recipe, inv, false);
-        }
-        return false;
+        return recipe != null;
     }
 
     private CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
@@ -196,7 +230,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         return currentRecipe;
     }
 
-    protected boolean canProcessRecipe(@Nullable CentrifugeRecipe recipe, IItemHandlerModifiable invHandler, boolean checkInvSpace) {
+    protected boolean canProcessRecipe(@Nullable CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
         if (recipe != null) {
             // Check if output slots has space for recipe output
             List<ItemStack> outputList = Lists.newArrayList();
@@ -211,16 +245,16 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             boolean fluidFlag = false;
             Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
             if (fluidOutput != null) {
-                fluidFlag = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid().isEquivalentTo(fluidOutput.getFirst())).orElse(false);
+                fluidFlag = fluidInventory.map(h -> h.getFluidInTank(0).isEmpty() || h.getFluidInTank(0).getFluid().isEquivalentTo(fluidOutput.getFirst())).orElse(false);
             }
 
-            return fluidFlag && (!checkInvSpace || ((InventoryHandlerHelper.ItemHandler) invHandler).canFitStacks(outputList));
+            return fluidFlag && ((InventoryHandlerHelper.ItemHandler) invHandler).canFitStacks(outputList);
         }
         return false;
     }
 
     private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
-        if (canProcessRecipe(recipe, invHandler, true)) {
+        if (canProcessRecipe(recipe, invHandler)) {
 
             recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
                 if (rand.nextInt(100) <= recipeValues.get(2).getInt()) {
