@@ -2,13 +2,13 @@
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
         {
-            "item": "minecraft:wooden_sword"
+            "item": "minecraft:iron_sword"
         },
         {
-            "item": "minecraft:sand"
+            "item": "minecraft:slime_block"
         }
     ],
     "result": {
-        "item": "productivebees:sand_nest"
+        "item": "productivebees:slimy_nest"
     }
 }

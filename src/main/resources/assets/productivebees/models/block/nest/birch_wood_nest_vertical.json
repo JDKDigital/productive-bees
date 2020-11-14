@@ -1,9 +1,0 @@
-{
-    "parent": "productivebees:block/nest/wood_nest_vertical",
-    "textures": {
-        "particle": "block/birch_log",
-        "end": "block/birch_log_top",
-        "side": "block/birch_log",
-        "front": "productivebees:block/nest/wood/birch"
-    }
-}

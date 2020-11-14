@@ -72,6 +72,7 @@ public class ProductiveBeeEntity extends BeeEntity
 
     protected FollowParentGoal followParentGoal;
     protected BreedGoal breedGoal;
+    protected EnterBeehiveGoal enterHiveGoal;
 
     public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -109,7 +110,9 @@ public class ProductiveBeeEntity extends BeeEntity
 
     protected void registerBaseGoals() {
         this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
-        this.goalSelector.addGoal(1, new BeeEntity.EnterBeehiveGoal());
+
+        this.enterHiveGoal = new BeeEntity.EnterBeehiveGoal();
+        this.goalSelector.addGoal(1, this.enterHiveGoal);
 
         this.breedGoal = new BreedGoal(this, 1.0D, ProductiveBeeEntity.class);
         this.goalSelector.addGoal(2, this.breedGoal);
@@ -456,8 +459,6 @@ public class ProductiveBeeEntity extends BeeEntity
         public Optional<BlockPos> getFlower() {
             if (ProductiveBeeEntity.this instanceof RancherBeeEntity) {
                 return findEntities(RancherBeeEntity.predicate, 5D);
-            } else if (ProductiveBeeEntity.this instanceof CupidBeeEntity) {
-                return findEntities(CupidBeeEntity.predicate, 5D);
             }
             return this.findFlower(this.flowerPredicate, 5);
         }

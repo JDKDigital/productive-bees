@@ -32,8 +32,6 @@ public class EventHandler
         ItemStack itemStack = entityInteract.getItemStack();
         Entity entity = entityInteract.getTarget();
 
-        ProductiveBees.LOGGER.info("entityRightClicked " + itemStack);
-
         if (!itemStack.isEmpty() && entity instanceof BeeEntity) {
             World world = entityInteract.getWorld();
             PlayerEntity player = entityInteract.getPlayer();

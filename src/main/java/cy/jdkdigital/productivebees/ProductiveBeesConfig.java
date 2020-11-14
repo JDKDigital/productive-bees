@@ -91,12 +91,19 @@ public class ProductiveBeesConfig
     {
         public final ForgeConfigSpec.BooleanValue spawnUndeadBees;
         public final ForgeConfigSpec.DoubleValue spawnUndeadBeesChance;
+        public final ForgeConfigSpec.IntValue cupidBeeAnimalsPerPollination;
+        public final ForgeConfigSpec.IntValue cupidBeeAnimalDensity;
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
 
             spawnUndeadBees = builder.comment("Spawn skeletal and zombie bees as night?").define("spawnUndeadBees", true);
             spawnUndeadBeesChance = builder.defineInRange("spawnUndeadBeesChance", 0.01, 0, 1);
+
+            cupidBeeAnimalsPerPollination = builder.comment("How many animals a CuBee can breed per pollination").defineInRange("cupidBeeAnimalsPerPollination", 5, 0, Integer.MAX_VALUE);
+            cupidBeeAnimalDensity = builder.comment("How densely populated should an areas need to be for the CuBee to stop breeding. The value approximates how many animals can be in a 10x10 area around the bee.").defineInRange("cupidBeeAnimalDensity", 20, 0, Integer.MAX_VALUE);
+
+
 
             builder.pop();
         }

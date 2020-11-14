@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.hive.CupidBeeEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -22,19 +23,21 @@ public class PollenLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveBe
     }
 
     public void render(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, ProductiveBeeEntity bee, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (bee.getColor(0) != null && bee.hasNectar()) {
-            float[] colors = new float[]{1.0F, 1.0F, 1.0F};
-            if (bee instanceof ConfigurableBeeEntity) {
-                if (((ConfigurableBeeEntity) bee).hasBeeTexture()) {
-                    return;
+        if (bee.hasNectar()) {
+            if (bee.getColor(0) != null) {
+                float[] colors = new float[]{1.0F, 1.0F, 1.0F};
+                if (bee instanceof ConfigurableBeeEntity) {
+                    if (((ConfigurableBeeEntity) bee).hasBeeTexture()) {
+                        return;
+                    }
+                    if (((ConfigurableBeeEntity) bee).hasParticleColor()) {
+                        colors = ((ConfigurableBeeEntity) bee).getParticleColor();
+                    }
                 }
-                if (((ConfigurableBeeEntity) bee).hasParticleColor()) {
-                    colors = ((ConfigurableBeeEntity) bee).getParticleColor();
-                }
-            }
 
-            ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/pollen.png");
-            renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, packedLightIn, bee, colors[0], colors[1], colors[2]);
+                ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/pollen.png");
+                renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, packedLightIn, bee, colors[0], colors[1], colors[2]);
+            }
         }
     }
 }
