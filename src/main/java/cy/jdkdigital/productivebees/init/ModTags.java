@@ -24,9 +24,9 @@ public class ModTags
     public static final INamedTag<Block> SWAMP_FLOWERS = getTag("flowers/swamp_flowers");
     public static final INamedTag<Block> SNOW_FLOWERS = getTag("flowers/snow_flowers");
     public static final INamedTag<Block> RIVER_FLOWERS = getTag("flowers/river_flowers");
+    public static final INamedTag<Block> QUARRY = getTag("flowers/quarry");
 
     public static final INamedTag<Item> HONEYCOMBS = ItemTags.makeWrapperTag("forge:honeycombs");
-    public static final INamedTag<Item> HONEY_BUCKETS = ItemTags.makeWrapperTag("forge:honey_buckets");
 
     public static final INamedTag<Fluid> HONEY = FluidTags.makeWrapperTag("forge:honey");
 

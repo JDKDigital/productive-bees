@@ -8,5 +8,6 @@
         "endurance": 2
     },
     "attackResponse": "fire",
+    "fireproof": true,
     "flowerTag": "forge:storage_blocks/netherite"
 }

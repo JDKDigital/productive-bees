@@ -20,7 +20,6 @@ import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -90,11 +89,8 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
     @Nullable
     public Pair<Fluid, Integer> getFluidOutputs() {
         for(Map.Entry<String, Integer> entry: fluidOutput.entrySet()) {
-            ProductiveBees.LOGGER.info("loading fluid " + entry.getKey());
             // Try loading from fluid registry
             Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(entry.getKey()));
-
-            ProductiveBees.LOGGER.info("loaded fluid " + fluid);
 
             // Try loading fluid from fluid tag
             if (fluid == Fluids.EMPTY) {
@@ -109,9 +105,6 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
             }
 
             if (fluid != Fluids.EMPTY) {
-//                if (fluid instanceof FlowingFluid) {
-//                    fluid = ((FlowingFluid) fluid).getStillFluid();
-//                }
                 return Pair.of(fluid, entry.getValue());
             }
         }

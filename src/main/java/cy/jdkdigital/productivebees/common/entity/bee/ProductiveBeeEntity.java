@@ -2,14 +2,16 @@ package cy.jdkdigital.productivebees.common.entity.bee;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.common.entity.bee.hive.CupidBeeEntity;
+import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBeeEntity;
+import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.AgeableEntity;
@@ -25,6 +27,7 @@ import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -36,25 +39,28 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
-import net.minecraft.tags.ITag.INamedTag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.village.PointOfInterest;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -71,7 +77,9 @@ public class ProductiveBeeEntity extends BeeEntity
     private Color primaryColor = null;
     private Color secondaryColor = null;
 
-    FollowParentGoal followParentGoal;
+    protected FollowParentGoal followParentGoal;
+    protected BreedGoal breedGoal;
+    protected EnterBeehiveGoal enterHiveGoal;
 
     public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -96,13 +104,25 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
-        // Resting goal!
-        this.goalSelector.addGoal(1, new BeeEntity.EnterBeehiveGoal());
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, ProductiveBeeEntity.class));
+        registerBaseGoals();
 
         this.pollinateGoal = new ProductiveBeeEntity.PollinateGoal();
         this.goalSelector.addGoal(4, this.pollinateGoal);
+
+        this.findFlowerGoal = new BeeEntity.FindFlowerGoal();
+        this.goalSelector.addGoal(6, this.findFlowerGoal);
+
+        this.goalSelector.addGoal(7, new BeeEntity.FindPollinationTargetGoal());
+    }
+
+    protected void registerBaseGoals() {
+        this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
+
+        this.enterHiveGoal = new BeeEntity.EnterBeehiveGoal();
+        this.goalSelector.addGoal(1, this.enterHiveGoal);
+
+        this.breedGoal = new BreedGoal(this, 1.0D, ProductiveBeeEntity.class);
+        this.goalSelector.addGoal(2, this.breedGoal);
 
         this.followParentGoal = new FollowParentGoal(this, 1.25D);
         this.goalSelector.addGoal(5, this.followParentGoal);
@@ -111,14 +131,15 @@ public class ProductiveBeeEntity extends BeeEntity
         this.findBeehiveGoal = new ProductiveBeeEntity.FindNestGoal();
         this.goalSelector.addGoal(5, this.findBeehiveGoal);
 
-        this.findFlowerGoal = new BeeEntity.FindFlowerGoal();
-        this.goalSelector.addGoal(6, this.findFlowerGoal);
-        this.goalSelector.addGoal(7, new BeeEntity.FindPollinationTargetGoal());
         this.goalSelector.addGoal(8, new BeeEntity.WanderGoal());
         this.goalSelector.addGoal(9, new SwimGoal(this));
 
         this.targetSelector.addGoal(1, (new BeeEntity.AngerGoal(this)).setCallsForHelp());
         this.targetSelector.addGoal(2, new BeeEntity.AttackPlayerGoal(this));
+
+        // Empty default goals
+        this.pollinateGoal = new EmptyPollinateGoal();
+        this.findFlowerGoal = new EmptyFindFlowerGoal();
     }
 
     @Override
@@ -182,7 +203,33 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     public boolean isFlowers(BlockPos pos) {
-        return this.world.isBlockPresent(pos) && this.world.getBlockState(pos).getBlock().isIn(getFlowerTag());
+        if (!world.isBlockPresent(pos)) {
+            return false;
+        }
+
+        Block flowerBlock = this.world.getBlockState(pos).getBlock();
+
+        return (
+                flowerBlock.isIn(getFlowerTag()) ||
+                (
+                    flowerBlock instanceof Feeder && isValidFeeder(world.getTileEntity(pos), getFlowerTag())
+                )
+            );
+    }
+
+    public static boolean isValidFeeder(TileEntity tile, ITag<Block> flowerTag) {
+        AtomicBoolean hasValidBlock = new AtomicBoolean(false);
+        if (tile instanceof FeederTileEntity) {
+            tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                for (int slot = 0; slot < handler.getSlots(); ++slot) {
+                    Item slotItem = handler.getStackInSlot(slot).getItem();
+                    if (slotItem instanceof BlockItem && ((BlockItem) slotItem).getBlock().isIn(flowerTag)) {
+                        hasValidBlock.set(true);
+                    }
+                }
+            });
+        }
+        return hasValidBlock.get();
     }
 
     @Override
@@ -369,19 +416,25 @@ public class ProductiveBeeEntity extends BeeEntity
 
     public class PollinateGoal extends BeeEntity.PollinateGoal
     {
-        public PollinateGoal() {
-            super();
-            this.flowerPredicate = (blockState) -> {
-                boolean isInterested = false;
-                ITag<Block> interests = ProductiveBeeEntity.this.getFlowerTag();
+        public Predicate<BlockPos> flowerPredicate = (blockPos) -> {
+            BlockState blockState = ProductiveBeeEntity.this.world.getBlockState(blockPos);
+            ITag<Block> interests = ProductiveBeeEntity.this.getFlowerTag();
+            boolean isInterested;
+            if (blockState.getBlock() instanceof Feeder) {
+                isInterested = isValidFeeder(world.getTileEntity(blockPos), ProductiveBeeEntity.this.getFlowerTag());
+            } else {
                 isInterested = blockState.isIn(interests);
                 if (isInterested && blockState.isIn(BlockTags.TALL_FLOWERS)) {
                     if (blockState.getBlock() == Blocks.SUNFLOWER) {
                         isInterested = blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
                     }
                 }
-                return isInterested;
-            };
+            }
+            return isInterested;
+        };
+
+        public PollinateGoal() {
+            super();
         }
 
         public boolean canBeeStart() {
@@ -418,10 +471,38 @@ public class ProductiveBeeEntity extends BeeEntity
         public Optional<BlockPos> getFlower() {
             if (ProductiveBeeEntity.this instanceof RancherBeeEntity) {
                 return findEntities(RancherBeeEntity.predicate, 5D);
-            } else if (ProductiveBeeEntity.this instanceof CupidBeeEntity) {
-                return findEntities(CupidBeeEntity.predicate, 5D);
             }
-            return super.getFlower();
+            return this.findFlower(this.flowerPredicate, 5);
+        }
+
+        private MutableBoundingBox box = null;
+        private Optional<BlockPos> findFlower(Predicate<BlockPos> predicate, int distance) {
+            BlockPos blockpos = ProductiveBeeEntity.this.getPosition();
+            BlockPos.Mutable mutableBlockPos = new BlockPos.Mutable(0,0,0);
+
+            if (box == null)
+                box = MutableBoundingBox.createProper(blockpos.getX() + distance , blockpos.getY() + distance , blockpos.getZ() + distance, blockpos.getX() - distance, blockpos.getY() - distance, blockpos.getZ() - distance);
+            else {
+                box.maxX = blockpos.getX() + distance;
+                box.maxY = blockpos.getY() + distance;
+                box.maxZ = blockpos.getZ() + distance;
+                box.minX = blockpos.getX() - distance;
+                box.minY = blockpos.getY() - distance;
+                box.minZ = blockpos.getZ() - distance;
+            }
+            AtomicReference<Double> lastDistance = new AtomicReference<>(100.0D);
+            BlockPos.getAllInBox(box).filter(predicate).forEach(blockPos -> {
+                double currDistance = blockpos.distanceSq(blockPos);
+                if (currDistance < lastDistance.get()){
+                    lastDistance.set(currDistance);
+                    mutableBlockPos.setPos(blockPos);
+                }
+            });
+            if (lastDistance.get() < 100) {
+                return Optional.of(mutableBlockPos);
+            }
+
+            return Optional.empty();
         }
 
         private Optional<BlockPos> findEntities(Predicate<Entity> predicate, double distance) {
@@ -530,6 +611,19 @@ public class ProductiveBeeEntity extends BeeEntity
     {
         public ProductiveTemptGoal(CreatureEntity entity, double speed) {
             super(entity, speed, false, Ingredient.fromTag(getAttributeValue(BeeAttributes.APHRODISIACS)));
+        }
+    }
+
+    public class EmptyPollinateGoal extends PollinateGoal {
+        @Override
+        public boolean shouldExecute() {
+            return false;
+        }
+    }
+    public class EmptyFindFlowerGoal extends FindFlowerGoal {
+        @Override
+        public boolean shouldExecute() {
+            return false;
         }
     }
 }

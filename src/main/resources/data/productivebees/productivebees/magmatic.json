@@ -4,9 +4,10 @@
     "particleColor": "#d06a1b",
     "beeTexture": "productivebees:textures/entity/bee/magmatic/bee",
     "createComb": false,
-    "flowerTag": "productivebees:magmatic_flowers",
-    "nestingPreference": "productivebees:nether_brick_nests",
+    "flowerTag": "productivebees:flowers/magmatic_flowers",
+    "nestingPreference": "productivebees:nests/nether_brick_nests",
     "attackResponse": "lava",
+    "fireproof": true,
     "passiveEffects": [
         {
             "effect": "minecraft:fire_resistance",

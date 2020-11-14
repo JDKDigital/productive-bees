@@ -41,11 +41,20 @@
         {
             "type": "text",
             "title": "Lumber Bee",
-            "text": "Nibbled on nearby wood and collects wood chips in it's hive. Wood chips can be crafted into logs."
+            "text": "Nibble on nearby wood and collects wood chips in it's hive. Wood chips can be crafted into logs."
         },
         {
             "type": "entity",
             "entity": "productivebees:lumber_bee"
+        },
+        {
+            "type": "text",
+            "title": "Quarry Bee",
+            "text": "Nibble on nearby stone, sand or gravel and collects stone chips in it's hive. Stone chips can be crafted into it's counterpart block."
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:quarry_bee"
         },
         {
             "type": "text",
@@ -59,7 +68,7 @@
         {
             "type": "text",
             "title": "CuBeed",
-            "text": "Get's animals in the mood for loving."
+            "text": "The pheromones secreted from this bee gets animals in the mood."
         },
         {
             "type": "entity",

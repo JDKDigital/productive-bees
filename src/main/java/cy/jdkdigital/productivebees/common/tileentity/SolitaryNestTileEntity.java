@@ -16,12 +16,10 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 
-import javax.annotation.Nullable;
-
 public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 {
     // Used for calculating if a new bee should move in (initial value, will be overriden by recipe value)
-    public int nestTickTimer = 24000;
+    private int nestTickTimer = -1;
 
     public SolitaryNestTileEntity(TileEntityType<?> tileEntityType) {
         super(tileEntityType);
@@ -34,11 +32,10 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     @Override
     public void tick() {
-        if (this.world != null && !this.world.isRemote) {
-            // Check if the nest has been abandoned and spawn a bee if it has
+        if (this.world != null && !this.world.isRemote && nestTickTimer > 0) {
+            // Check if the nest has been activated and spawn a bee if it has
             Block block = this.getBlockState().getBlock();
             if (--nestTickTimer <= 0) {
-                nestTickTimer = this.getRepopulationCooldown(block);
                 if (this.canRepopulate()) {
                     if (block instanceof SolitaryNest) {
                         BeeEntity newBee = ((SolitaryNest) block).getNestingBeeType(world);
@@ -46,6 +43,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                             newBee.setHealth(newBee.getMaxHealth());
                             Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
                             spawnBeeInWorldAPosition(this.world, newBee, pos, direction, null);
+                            ProductiveBees.LOGGER.info("repopulating nest with " + newBee + " at " + pos + " - " + block);
                         }
                     }
                 }
@@ -68,8 +66,12 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         return ProductiveBeesConfig.GENERAL.nestRepopulationCooldown.get();
     }
 
-    protected int getTimeInHive(boolean hasNectar, @Nullable BeeEntity beeEntity) {
-        return hasNectar && beeEntity != null && !beeEntity.isChild() ? 12000 : 6000;
+    public void setNestCooldown(int cooldown) {
+        nestTickTimer = cooldown;
+    }
+
+    public int getNestTickCooldown() {
+        return nestTickTimer;
     }
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
@@ -90,11 +92,12 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
             if (offspring != null) {
                 offspring.setGrowingAge(-24000);
                 offspring.setLocationAndAngles(beeEntity.getPosX(), beeEntity.getPosY(), beeEntity.getPosZ(), 0.0F, 0.0F);
+                ProductiveBees.LOGGER.info("make cuckoo bee");
                 world.addEntity(offspring);
             }
         }
 
         // reset repopulation cooldown
-        nestTickTimer = this.getRepopulationCooldown(state.getBlock());
+        nestTickTimer = -1;
     }
 }

@@ -1,9 +1,9 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
 import cy.jdkdigital.productivebees.common.item.Gene;
+import cy.jdkdigital.productivebees.common.item.UpgradeItem;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,12 +40,11 @@ public class InventoryHandlerHelper
                 continue;
             }
             ItemStack stack = handler.getStackInSlot(slot);
-            int stackSizeLimit = stack.getMaxStackSize();
-            if (stack.getItem().equals(insertStack.getItem()) && (stack.getCount() + insertStack.getCount()) <= stackSizeLimit) {
+            if (stack.getItem().equals(insertStack.getItem()) && (stack.getCount() + insertStack.getCount()) <= stack.getMaxStackSize()) {
                 // Check tag
-                if (WoodChip.getWoodBlock(insertStack) != null) {
-                    Block block = WoodChip.getWoodBlock(stack);
-                    if (block != null && block.equals(WoodChip.getWoodBlock(insertStack))) {
+                if (WoodChip.getBlock(insertStack) != null) {
+                    Block block = WoodChip.getBlock(stack);
+                    if (block != null && block.equals(WoodChip.getBlock(insertStack))) {
                         return slot;
                     }
                 } else if(!Gene.getAttributeName(insertStack).isEmpty()) {
@@ -73,7 +72,7 @@ public class InventoryHandlerHelper
 
     public static class ItemHandler extends ItemStackHandler
     {
-        private TileEntity tileEntity;
+        protected TileEntity tileEntity;
 
         public ItemHandler(int size, TileEntity tileEntity) {
             super(size);
@@ -83,7 +82,9 @@ public class InventoryHandlerHelper
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            tileEntity.markDirty();
+            if (tileEntity != null) {
+                tileEntity.markDirty();
+            }
         }
 
         public boolean isInputSlot(int slot) {
@@ -95,7 +96,7 @@ public class InventoryHandlerHelper
         }
 
         public boolean isInputSlotItem(int slot, Item item) {
-            return (slot == BOTTLE_SLOT && item == Items.GLASS_BOTTLE) || (slot == INPUT_SLOT && ModTags.HONEYCOMBS.contains(item));
+            return (slot == BOTTLE_SLOT && item == Items.GLASS_BOTTLE);
         }
 
         @Override
@@ -185,6 +186,29 @@ public class InventoryHandlerHelper
             super.deserializeNBT(nbt);
         }
     }
+
+    public static class UpgradeHandler extends ItemHandler {
+
+        public UpgradeHandler(int size, TileEntity tileEntity) {
+            super(size, tileEntity);
+        }
+
+        @Override
+        public boolean isInputItem(Item item) {
+            return item instanceof UpgradeItem;
+        }
+
+        @Override
+        public boolean isInputSlot(int slot) {
+            return true;
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+            return isInputItem(stack.getItem()) && isInputSlot(slot);
+        }
+    }
+
 
     public static class FluidHandler extends FluidTank implements INBTSerializable<CompoundNBT>
     {

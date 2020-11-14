@@ -51,16 +51,22 @@ public class BeeCage extends Item
         World worldIn = context.getWorld();
         BlockPos pos = context.getPos();
 
-        Entity entity = getEntityFromStack(stack, worldIn, true);
+        BeeEntity entity = getEntityFromStack(stack, worldIn, true);
 
-        entity = BeeHelper.convertToConfigurable((BeeEntity) entity);
+        entity = BeeHelper.convertToConfigurable(entity);
 
-        BlockPos blockPos = pos.offset(context.getFace());
-        entity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
-        worldIn.addEntity(entity);
+        if (entity != null) {
+            if (context.getPlayer() != null && context.getPlayer().isSneaking()) {
+                entity.hivePos = null;
+            }
 
-        // Delete stack
-        context.getPlayer().inventory.deleteStack(stack);
+            BlockPos blockPos = pos.offset(context.getFace());
+            entity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
+            worldIn.addEntity(entity);
+
+            // Delete stack
+            context.getPlayer().inventory.deleteStack(stack);
+        }
 
         return ActionResultType.SUCCESS;
     }
@@ -109,19 +115,21 @@ public class BeeCage extends Item
     }
 
     @Nullable
-    public static Entity getEntityFromStack(ItemStack stack, World world, boolean withInfo) {
+    public static BeeEntity getEntityFromStack(ItemStack stack, World world, boolean withInfo) {
         return getEntityFromStack(stack.getOrCreateTag(), world, withInfo);
     }
 
     @Nullable
-    public static Entity getEntityFromStack(CompoundNBT tag, World world, boolean withInfo) {
+    public static BeeEntity getEntityFromStack(CompoundNBT tag, World world, boolean withInfo) {
         EntityType<?> type = EntityType.byKey(tag.getString("entity")).orElse(null);
         if (type != null) {
             Entity entity = type.create(world);
             if (withInfo) {
                 entity.read(tag);
             }
-            return entity;
+            if (entity instanceof BeeEntity) {
+                return (BeeEntity) entity;
+            }
         }
         return null;
     }

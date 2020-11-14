@@ -43,6 +43,9 @@ public class Centrifuge extends ContainerBlock
                     INSIDE
             ), IBooleanFunction.ONLY_FIRST);
 
+    private static VoxelShape BLOCK_ABOVE_SHAPE = Block.makeCuboidShape(0.0D, 16.0D, 0.0D, 16.0D, 32.0D, 16.0D);
+    public static VoxelShape COLLECTION_AREA_SHAPE = VoxelShapes.or(INSIDE, BLOCK_ABOVE_SHAPE);
+
     public Centrifuge(Block.Properties properties) {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(RUNNING, Boolean.FALSE));

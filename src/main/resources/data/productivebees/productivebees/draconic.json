@@ -9,6 +9,6 @@
         "endurance": 2
     },
     "draconic": true,
-    "flowerTag": "productivebees:draconic_flowers",
-    "nestingPreference": "productivebees:draconic_nests"
+    "flowerTag": "productivebees:flowers/draconic_flowers",
+    "nestingPreference": "productivebees:nests/draconic_nests"
 }

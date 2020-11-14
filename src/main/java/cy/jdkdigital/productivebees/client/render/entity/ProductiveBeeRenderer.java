@@ -29,9 +29,10 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         addLayer(new ColorLayer(this));
         addLayer(new AbdomenLayer(this));
         addLayer(new PollenLayer(this));
+//        addLayer(new SantaHatLayer(this));
     }
 
-    @Nullable
+    @Nullable   
     @Override
     protected RenderType func_230496_a_(ProductiveBeeEntity bee, boolean b1, boolean b2, boolean b3) {
         if (bee instanceof ConfigurableBeeEntity) {

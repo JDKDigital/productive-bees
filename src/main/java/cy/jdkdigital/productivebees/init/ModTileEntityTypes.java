@@ -90,6 +90,42 @@ public class ModTileEntityTypes
             ).build(null)
     );
 
+    public static final RegistryObject<TileEntityType<ExpansionBoxTileEntity>> EXPANSION_BOX = TILE_ENTITY_TYPES.register("expansion_box", () ->
+            TileEntityType.Builder.create(ExpansionBoxTileEntity::new,
+                    ModBlocks.EXPANSION_BOX_SPRUCE.get(),
+                    ModBlocks.EXPANSION_BOX_BIRCH.get(),
+                    ModBlocks.EXPANSION_BOX_JUNGLE.get(),
+                    ModBlocks.EXPANSION_BOX_ACACIA.get(),
+                    ModBlocks.EXPANSION_BOX_DARK_OAK.get(),
+                    ModBlocks.EXPANSION_BOX_CRIMSON.get(),
+                    ModBlocks.EXPANSION_BOX_WARPED.get(),
+                    ModBlocks.EXPANSION_BOX_SNAKE_BLOCK.get(),
+                    ModBlocks.EXPANSION_BOX_ROSEWOOD.get(),
+                    ModBlocks.EXPANSION_BOX_YUCCA.get(),
+                    ModBlocks.EXPANSION_BOX_KOUSA.get(),
+                    ModBlocks.EXPANSION_BOX_ASPEN.get(),
+                    ModBlocks.EXPANSION_BOX_GRIMWOOD.get(),
+                    ModBlocks.EXPANSION_BOX_WILLOW.get(),
+                    ModBlocks.EXPANSION_BOX_WISTERIA.get(),
+                    ModBlocks.EXPANSION_BOX_BAMBOO.get(),
+                    ModBlocks.EXPANSION_BOX_MAPLE.get(),
+                    ModBlocks.EXPANSION_BOX_DRIFTWOOD.get(),
+                    ModBlocks.EXPANSION_BOX_RIVER.get(),
+                    ModBlocks.EXPANSION_BOX_POISE.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_FIR.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_DEAD.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_PALM.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_MAGIC.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_CHERRY.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_UMBRAN.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_WILLOW.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_REDWOOD.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_HELLBARK.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_MAHOGANY.get(),
+                    ModBlocks.EXPANSION_BOX_BOP_JACARANDA.get()
+            ).build(null)
+    );
+
     public static final RegistryObject<TileEntityType<CentrifugeTileEntity>> CENTRIFUGE = TILE_ENTITY_TYPES.register("centrifuge", () ->
             TileEntityType.Builder.create(CentrifugeTileEntity::new,
                     ModBlocks.CENTRIFUGE.get()
@@ -105,6 +141,12 @@ public class ModTileEntityTypes
     public static final RegistryObject<TileEntityType<BottlerTileEntity>> BOTTLER = TILE_ENTITY_TYPES.register("bottler", () ->
             TileEntityType.Builder.create(BottlerTileEntity::new,
                     ModBlocks.BOTTLER.get()
+            ).build(null)
+    );
+
+    public static final RegistryObject<TileEntityType<FeederTileEntity>> FEEDER = TILE_ENTITY_TYPES.register("feeder", () ->
+            TileEntityType.Builder.create(FeederTileEntity::new,
+                    ModBlocks.FEEDER.get()
             ).build(null)
     );
 

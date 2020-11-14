@@ -5,12 +5,11 @@ import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.PoweredCentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -39,9 +38,6 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
                 handler.extractEnergy(ProductiveBeesConfig.GENERAL.centrifugePowerUse.get(), false);
             });
         }
-//        energyHandler.ifPresent(handler -> {
-//            handler.receiveEnergy(50, false);
-//        });
     }
 
     public int getProcessingTime() {
@@ -54,19 +50,20 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
     }
 
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket(){
-        CompoundNBT tag = new CompoundNBT();
+    @Nonnull
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tag = this.serializeNBT();
 
         energyHandler.ifPresent(handler -> {
             tag.putInt("energy", handler.getEnergyStored());
         });
 
-        return new SUpdateTileEntityPacket(getPos(), -1, tag);
+        return tag;
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt){
-        CompoundNBT tag = pkt.getNbtCompound();
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+        deserializeNBT(tag);
 
         if (tag.contains("energy")) {
             energyHandler.ifPresent(handler -> {

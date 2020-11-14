@@ -3,16 +3,9 @@ package cy.jdkdigital.productivebees.container.gui;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
-import mekanism.client.render.MekanismRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldVertexBufferUploader;
-import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -20,6 +13,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -52,10 +46,11 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
             // Fluid level tooltip
             if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
                 List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>();
+
                 if (fluidStack.getAmount() > 0) {
                     tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getUnformattedComponentText(), fluidStack.getAmount() + "mb"));
                 } else {
-                    tooltipList.add(new TranslationTextComponent("productivebees.screen.empty"));
+                    tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty"));
                 }
 
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
@@ -66,12 +61,22 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
             int energyAmount = handler.getEnergyStored();
 
             // Energy level tooltip
-            if (isPointInRegion(7, 16, 6, 54, mouseX, mouseY)) {
-                List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>()
-                {{
-                    add(new TranslationTextComponent("productivebees.screen.energy_level",  energyAmount + "FE"));
-                }};
+            if (isPointInRegion(- 5, 16, 6, 54, mouseX, mouseY)) {
+                List<TranslationTextComponent> tooltipList = new ArrayList<>();
+                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level",  energyAmount + "FE"));
+
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+            }
+        });
+
+        this.container.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+            if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
+                if (isPointInRegion(138, 16, 18, 18, mouseX, mouseY)) {
+                    List<TranslationTextComponent> tooltipList = new ArrayList<>();
+                    tooltipList.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.input_item"));
+
+                    renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                }
             }
         });
     }
@@ -89,17 +94,17 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
         }
 
         // Draw main screen
-        blit(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        blit(matrixStack, this.guiLeft - 13, this.guiTop, 0, 0, this.xSize + 26, this.ySize);
 
         // Draw progress
         int progress = (int) (this.container.tileEntity.recipeProgress * (24 / (float) this.container.tileEntity.getProcessingTime()));
-        blit(matrixStack, this.guiLeft + 49, this.guiTop + 35, 176, 0, progress + 1, 16);
+        blit(matrixStack, this.guiLeft + 35, this.guiTop + 35, 202, 52, progress + 1, 16);
 
         // Draw energy level
         this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52 / 10000F));
-            blit(matrixStack, this.guiLeft + 8, this.guiTop + 69 - energyLevel, 180, 17, 4, energyLevel);
+            blit(matrixStack, this.guiLeft - 5, this.guiTop + 69, 206, 52, 4, -1 * energyLevel);
         });
 
         // Draw fluid tank
@@ -109,99 +114,12 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
             if (fluidStack.getAmount() > 0) {
                 int fluidLevel = (int) (fluidStack.getAmount() * (52 / 10000F));
 
-                setColors(fluidStack);
+                FluidContainerUtil.setColors(fluidStack);
 
-                drawTiledSprite(this.guiLeft + 140, this.guiTop + 69, 0, 4, fluidLevel, getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
+                FluidContainerUtil.drawTiledSprite(this.guiLeft + 127, this.guiTop + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
 
-                resetColor();
+                FluidContainerUtil.resetColor();
             }
         });
-    }
-
-    public static float getRed(int color) {
-        return (float)(color >> 16 & 255) / 255.0F;
-    }
-
-    public static float getGreen(int color) {
-        return (float)(color >> 8 & 255) / 255.0F;
-    }
-
-    public static float getBlue(int color) {
-        return (float)(color & 255) / 255.0F;
-    }
-
-    public static float getAlpha(int color) {
-        return (float)(color >> 24 & 255) / 255.0F;
-    }
-
-    public static void setColors(int color) {
-        RenderSystem.color4f(getRed(color), getGreen(color), getBlue(color), getAlpha(color));
-    }
-
-    public static void setColors(@Nonnull FluidStack fluid) {
-        if (!fluid.isEmpty()) {
-            setColors(fluid.getFluid().getAttributes().getColor(fluid));
-        }
-    }
-
-    public static void resetColor() {
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-    }
-
-    public static void drawTiledSprite(int xPosition, int yPosition, int yOffset, int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel) {
-        if (desiredWidth != 0 && desiredHeight != 0 && textureWidth != 0 && textureHeight != 0) {
-            MekanismRenderer.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-            int xTileCount = desiredWidth / textureWidth;
-            int xRemainder = desiredWidth - xTileCount * textureWidth;
-            int yTileCount = desiredHeight / textureHeight;
-            int yRemainder = desiredHeight - yTileCount * textureHeight;
-            int yStart = yPosition + yOffset;
-            float uMin = sprite.getMinU();
-            float uMax = sprite.getMaxU();
-            float vMin = sprite.getMinV();
-            float vMax = sprite.getMaxV();
-            float uDif = uMax - uMin;
-            float vDif = vMax - vMin;
-            RenderSystem.enableBlend();
-            RenderSystem.enableAlphaTest();
-            BufferBuilder vertexBuffer = Tessellator.getInstance().getBuffer();
-            vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-
-            for(int xTile = 0; xTile <= xTileCount; ++xTile) {
-                int width = xTile == xTileCount ? xRemainder : textureWidth;
-                if (width == 0) {
-                    break;
-                }
-
-                int x = xPosition + xTile * textureWidth;
-                int maskRight = textureWidth - width;
-                int shiftedX = x + textureWidth - maskRight;
-                float uMaxLocal = uMax - uDif * (float)maskRight / (float)textureWidth;
-
-                for(int yTile = 0; yTile <= yTileCount; ++yTile) {
-                    int height = yTile == yTileCount ? yRemainder : textureHeight;
-                    if (height == 0) {
-                        break;
-                    }
-
-                    int y = yStart - (yTile + 1) * textureHeight;
-                    int maskTop = textureHeight - height;
-                    float vMaxLocal = vMax - vDif * (float)maskTop / (float)textureHeight;
-                    vertexBuffer.pos(x, y + textureHeight, zLevel).tex(uMin, vMaxLocal).endVertex();
-                    vertexBuffer.pos(shiftedX, y + textureHeight, zLevel).tex(uMaxLocal, vMaxLocal).endVertex();
-                    vertexBuffer.pos(shiftedX, y + maskTop, zLevel).tex(uMaxLocal, vMin).endVertex();
-                    vertexBuffer.pos(x, y + maskTop, zLevel).tex(uMin, vMin).endVertex();
-                }
-            }
-
-            vertexBuffer.finishDrawing();
-            WorldVertexBufferUploader.draw(vertexBuffer);
-            RenderSystem.disableAlphaTest();
-            RenderSystem.disableBlend();
-        }
-    }
-
-    public static TextureAtlasSprite getSprite(ResourceLocation spriteLocation) {
-        return Minecraft.getInstance().getAtlasSpriteGetter(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(spriteLocation);
     }
 }

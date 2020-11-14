@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.init;
 
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.client.render.item.StoneChipRenderer;
 import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
 import cy.jdkdigital.productivebees.common.item.*;
 import net.minecraft.item.BucketItem;
@@ -78,6 +79,7 @@ public class ModItems
     public static final RegistryObject<Item> DRACONIC_CHUNK = createItem("draconic_chunk", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> WITHER_SKULL_CHIP = createItem("wither_skull_chip", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> WOOD_CHIP = createItem("wood_chip", () -> new WoodChip((new Item.Properties().setISTER(() -> WoodChipRenderer::new)).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> STONE_CHIP = createItem("stone_chip", () -> new StoneChip((new Item.Properties().setISTER(() -> StoneChipRenderer::new)).group(ModItemGroups.PRODUCTIVE_BEES)));
 
     // Hive upgrades
     public static final RegistryObject<Item> UPGRADE_BASE = createItem("upgrade_base", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));

@@ -8,5 +8,5 @@
     },
     "stinger": false,
     "size": 0.3,
-    "nestingPreference": "productivebees:sugarbag_nests"
+    "nestingPreference": "productivebees:nests/sugarbag_nests"
 }

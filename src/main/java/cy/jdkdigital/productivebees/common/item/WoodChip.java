@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 
 public class WoodChip extends Item
 {
-    private static final String WOOD_KEY = "productivebees_woodtype";
+    protected static final String KEY = "productivebees_woodtype";
 
     public WoodChip(Properties properties) {
         super(properties);
@@ -33,30 +33,30 @@ public class WoodChip extends Item
 
     public static ItemStack getStack(String blockName, int count) {
         ItemStack result = new ItemStack(ModItems.WOOD_CHIP.get(), count);
-        setWoodBlock(result, blockName);
+        setBlock(result, blockName);
         return result;
     }
 
-    public static void setWoodBlock(ItemStack stack, String blockName) {
-        stack.getOrCreateTag().putString(WOOD_KEY, blockName);
+    public static void setBlock(ItemStack stack, String blockName) {
+        stack.getOrCreateTag().putString(KEY, blockName);
     }
 
     @Nullable
-    public static Block getWoodBlock(ItemStack stack) {
-        if (!getWoodType(stack).isEmpty()) {
-            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(getWoodType(stack)));
+    public static Block getBlock(ItemStack stack) {
+        if (!getBlockType(stack).isEmpty()) {
+            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(getBlockType(stack)));
         }
         return null;
     }
 
-    public static String getWoodType(ItemStack stack) {
-        return stack.getOrCreateTag().getString(WOOD_KEY);
+    public static String getBlockType(ItemStack stack) {
+        return stack.getOrCreateTag().getString(KEY);
     }
 
     @Override
     @Nonnull
     public ITextComponent getDisplayName(@Nonnull ItemStack stack) {
-        Block block = getWoodBlock(stack);
+        Block block = getBlock(stack);
         if (block != null) {
             return new TranslationTextComponent(this.getTranslationKey() + ".named", new TranslationTextComponent(block.getTranslationKey()));
         }

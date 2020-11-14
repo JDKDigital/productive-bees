@@ -9,6 +9,6 @@
         "endurance": 1
     },
     "teleporting": true,
-    "flowerTag": "productivebees:end_flowers",
-    "nestingPreference": "productivebees:end_nests"
+    "flowerTag": "productivebees:flowers/end_flowers",
+    "nestingPreference": "productivebees:nests/end_nests"
 }
