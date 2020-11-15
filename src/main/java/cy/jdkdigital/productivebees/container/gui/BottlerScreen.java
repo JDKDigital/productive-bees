@@ -40,12 +40,12 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
 
-            // Honey fluid level tooltip
+            // Fluid level tooltip
             if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getUnformattedComponentText(), fluidStack.getAmount() + "mb").func_241878_f());
+                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").func_241878_f());
                 } else {
                     tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").func_241878_f());
                 }

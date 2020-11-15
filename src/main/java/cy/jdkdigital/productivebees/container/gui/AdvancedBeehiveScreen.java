@@ -134,7 +134,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                 CompoundNBT nbt = inhabitant.nbt;
 
                 ResourceLocation rLoc = new ResourceLocation(nbt.getString("id"));
-                BeeEntity bee;
+                BeeEntity bee = null;
                 float scaledSize = 28;
                 if (this.container.tileEntity.getWorld() != null) {
                     if (rLoc.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
