@@ -15,11 +15,6 @@
                                     "source": "Bees",
                                     "target": "BlockEntityTag.Bees",
                                     "op": "replace"
-                                },
-                                {
-                                    "source": "Eggs",
-                                    "target": "BlockEntityTag.Eggs",
-                                    "op": "replace"
                                 }
                             ]
                         }

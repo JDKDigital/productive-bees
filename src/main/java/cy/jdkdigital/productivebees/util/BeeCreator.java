@@ -37,13 +37,18 @@ public class BeeCreator
         if (json.has("beeTexture")) {
             data.putString("beeTexture", json.get("beeTexture").getAsString());
         }
+        if (json.has("particleColor")) {
+            data.putInt("particleColor", Color.decode(json.get("particleColor").getAsString()).getRGB());
+        }
         if (json.has("attackResponse")) {
             data.putString("attackResponse", json.get("attackResponse").getAsString());
         }
 
         data.putString("renderer", json.has("renderer") ? json.get("renderer").getAsString() : "default");
+        data.putFloat("size", json.has("size") ? json.get("size").getAsFloat() : 1.0f);
 
         data.putBoolean("translucent", (json.has("translucent") && json.get("translucent").getAsBoolean()) || data.getString("renderer").equals("translucent_with_center"));
+        data.putBoolean("fireproof", json.has("fireproof") && json.get("fireproof").getAsBoolean());
         data.putBoolean("withered", json.has("withered") && json.get("withered").getAsBoolean());
         data.putBoolean("blinding", json.has("blinding") && json.get("blinding").getAsBoolean());
         data.putBoolean("draconic", json.has("draconic") && json.get("draconic").getAsBoolean());

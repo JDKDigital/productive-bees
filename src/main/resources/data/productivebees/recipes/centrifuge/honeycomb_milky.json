@@ -16,7 +16,18 @@
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "tag": "forge:honey"
+            },
+            "amount": 0
         }
     ],
-    "require_bottle": true
+    "conditions": [
+        {
+            "type": "productivebees:fluid_tag_empty",
+            "tag": "forge:milk"
+        }
+    ]
 }

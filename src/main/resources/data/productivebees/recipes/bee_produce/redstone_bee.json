@@ -4,14 +4,9 @@
     "bee_type": "productivebees:redstone",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "item": "productivebees:configurable_honeycomb"
-            },
-            "item_produce": {
-                "tag": "forge:dusts/redstone"
-            },
-            "min": 4.0,
-            "max": 5.0
+            }
         }
     ]
 }

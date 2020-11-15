@@ -4,14 +4,9 @@
     "bee_type": "productivebees:allthemodium",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "item": "productivebees:configurable_honeycomb"
-            },
-            "item_produce": {
-                "tag": "forge:nuggets/allthemodium"
-            },
-            "min": 1.0,
-            "max": 2.0
+            }
         }
     ],
     "conditions": [

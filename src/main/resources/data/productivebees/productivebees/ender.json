@@ -1,12 +1,14 @@
 {
     "primaryColor": "#161616",
     "secondaryColor": "#6238757",
+    "particleColor": "#cc00fa",
+    "size": 0.8,
     "beeTexture": "productivebees:textures/entity/bee/ender/bee",
     "createComb": false,
     "attributes": {
         "endurance": 1
     },
     "teleporting": true,
-    "flowerTag": "productivebees:end_flowers",
-    "nestingPreference": "productivebees:end_nests"
+    "flowerTag": "productivebees:flowers/end_flowers",
+    "nestingPreference": "productivebees:nests/end_nests"
 }

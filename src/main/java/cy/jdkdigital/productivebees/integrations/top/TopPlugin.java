@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.integrations.top;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.tileentity.CentrifugeTileEntity;
-import cy.jdkdigital.productivebees.tileentity.SolitaryNestTileEntity;
+import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
+import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
 import mcjty.theoneprobe.api.ITheOneProbe;
 import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.item.ItemStack;
@@ -34,12 +34,16 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                             .vertical()
                             .itemLabel(new ItemStack(blockState.getBlock().asItem()))
                             .text(formattedName);
-                    probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.bee", nest.getBeeCount() > 0 ? nest.getBeeList().get(0).localizedName : " - "));
                     if (nest.getBeeCount() > 0) {
+                        probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.bee", nest.getBeeList().get(0).localizedName));
                         probeInfo.progress(nest.getBeeList().get(0).minOccupationTicks - nest.getBeeList().get(0).ticksInHive, nest.getBeeList().get(0).minOccupationTicks);
                     } else {
-                        probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown"));
-                        probeInfo.progress(nest.nestTickTimer, nest.getRepopulationCooldown(blockState.getBlock()));
+                        if (nest.getNestTickCooldown() > 0) {
+                            probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown"));
+                            probeInfo.progress(nest.getNestTickCooldown() / 20, nest.getRepopulationCooldown(blockState.getBlock()) / 20);
+                        } else {
+                            probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown_inactive"));
+                        }
                     }
                     return true;
                 }

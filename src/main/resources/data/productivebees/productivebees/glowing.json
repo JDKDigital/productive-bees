@@ -1,11 +1,13 @@
 {
     "primaryColor": "#fad87d",
     "secondaryColor": "#5f2525",
+    "particleColor": "#fad87d",
+    "size": 0.9,
     "beeTexture": "productivebees:textures/entity/bee/glowing/bee",
     "createComb": false,
     "blinding": true,
-    "flowerTag": "productivebees:glowing_flowers",
-    "nestingPreference": "productivebees:glowstone_nests",
+    "flowerTag": "productivebees:flowers/glowing_flowers",
+    "nestingPreference": "productivebees:nests/glowstone_nests",
     "passiveEffects": [
         {
             "effect": "minecraft:glowing",

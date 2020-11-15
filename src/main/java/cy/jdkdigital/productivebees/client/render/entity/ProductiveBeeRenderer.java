@@ -5,8 +5,8 @@ import cy.jdkdigital.productivebees.client.render.entity.layers.AbdomenLayer;
 import cy.jdkdigital.productivebees.client.render.entity.layers.ColorLayer;
 import cy.jdkdigital.productivebees.client.render.entity.layers.PollenLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
-import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -29,9 +29,10 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         addLayer(new ColorLayer(this));
         addLayer(new AbdomenLayer(this));
         addLayer(new PollenLayer(this));
+//        addLayer(new SantaHatLayer(this));
     }
 
-    @Nullable
+    @Nullable   
     @Override
     protected RenderType func_230496_a_(ProductiveBeeEntity bee, boolean b1, boolean b2, boolean b3) {
         if (bee instanceof ConfigurableBeeEntity) {

@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.block.PoweredCentrifuge;
+import cy.jdkdigital.productivebees.common.block.PoweredCentrifuge;
+import cy.jdkdigital.productivebees.common.tileentity.PoweredCentrifugeTileEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
-import cy.jdkdigital.productivebees.tileentity.PoweredCentrifugeTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;

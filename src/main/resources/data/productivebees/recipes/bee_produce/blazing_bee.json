@@ -3,14 +3,9 @@
     "ingredient": "productivebees:blazing",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/blazing"
-            },
-            "item_produce": {
-                "item": "minecraft:blaze_powder"
-            },
-            "min": 1.0,
-            "max": 1.0
+            }
         }
     ]
 }

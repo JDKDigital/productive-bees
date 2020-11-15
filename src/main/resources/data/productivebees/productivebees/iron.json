@@ -1,5 +1,6 @@
 {
     "primaryColor": "#cdcdcd",
     "secondaryColor": "#804f40",
-    "flowerTag": "productivebees:ferric_flowers"
+    "particleColor": "#b6b6b6",
+    "flowerTag": "productivebees:flowers/ferric_flowers"
 }

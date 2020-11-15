@@ -1,10 +1,11 @@
 package cy.jdkdigital.productivebees.entity.bee;
 
 import com.resourcefulbees.resourcefulbees.api.beedata.*;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
-import cy.jdkdigital.productivebees.item.Honeycomb;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
@@ -27,7 +28,7 @@ public class ResourcefulConfigurableBeeEntity extends ConfigurableBeeEntity impl
         if (customBeeData != null) {
             return customBeeData;
         }
-        List<ItemStack> produce = BeeHelper.getBeeProduce(world, this);
+        List<ItemStack> produce = BeeHelper.getBeeProduce(world, this, false);
         boolean hasComb = false;
         ItemStack combProduce = null;
         for(ItemStack stack: produce) {

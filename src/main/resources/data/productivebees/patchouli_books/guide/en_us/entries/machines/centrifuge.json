@@ -1,6 +1,6 @@
 {
     "name": "Centrifuge",
-    "icon": "minecraft:writable_book",
+    "icon": "productivebees:centrifuge",
     "category": "productivebees:machines",
     "pages": [
         {

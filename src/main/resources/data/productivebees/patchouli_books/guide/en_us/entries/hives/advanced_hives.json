@@ -5,7 +5,7 @@
     "pages": [
         {
             "type": "text",
-            "text": "Advanced hives gives you a better overview of what is going on in your hives as well as enabling automation. Advanced hives has a GUI which can be accessed by right clicking the hive or any attached $(l:hives/expansion_boxes)expansion boxes$(/l)."
+            "text": "Advanced hives gives you a better overview of what is going on in your hives as well as enabling automation. It is not required to have campfires near the hive before harvesting, the advanced hives are so comfortable they bees inside will not get angry even if you break the hive. Advanced hives has a GUI which can be accessed by right clicking the hive or any attached $(l:hives/expansion_boxes)expansion boxes$(/l)."
         },
         {
             "type": "crafting",

@@ -3,7 +3,7 @@
     "ingredient": "productivebees:ender",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/ender"
             }
         }

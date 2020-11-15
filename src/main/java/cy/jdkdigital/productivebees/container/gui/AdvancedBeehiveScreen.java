@@ -5,16 +5,16 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.resourcefulbees.resourcefulbees.api.beedata.CustomBeeData;
 import com.resourcefulbees.resourcefulbees.registry.BeeRegistry;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.block.AdvancedBeehive;
+import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
+import cy.jdkdigital.productivebees.common.tileentity.DragonEggHiveTileEntity;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
-import cy.jdkdigital.productivebees.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
-import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
-import cy.jdkdigital.productivebees.tileentity.DragonEggHiveTileEntity;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -136,17 +136,22 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                 ResourceLocation rLoc = new ResourceLocation(nbt.getString("id"));
                 BeeEntity bee;
                 float scaledSize = 28;
-                if (rLoc.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
-                    CustomBeeData beeData = BeeRegistry.getRegistry().getBeeData(rLoc.getPath().replace("_bee", ""));
-                    EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(beeData.getEntityTypeRegistryID());
-                    bee = (BeeEntity) entityType.create(this.container.tileEntity.getWorld());
-                    scaledSize = 20 / beeData.getSizeModifier();
-                } else {
-                    BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
-                    bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
+                if (this.container.tileEntity.getWorld() != null) {
+                    if (rLoc.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
+                        CustomBeeData beeData = BeeRegistry.getRegistry().getBeeData(rLoc.getPath().replace("_bee", ""));
+                        EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(beeData.getEntityTypeRegistryID());
+                        bee = (BeeEntity) entityType.create(this.container.tileEntity.getWorld());
+                        scaledSize = 20 / beeData.getSizeModifier();
+                    }
+                    else {
+                        BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
+                        if (ingredient != null) {
+                            bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
+                        }
+                    }
                 }
 
-                if (minecraft.player != null && bee != null) {
+                if (minecraft.player != null && bee != null && positions.containsKey(i)) {
                     if (bee instanceof ConfigurableBeeEntity && nbt.contains("type")) {
                         ((ConfigurableBeeEntity) bee).setBeeType(nbt.getString("type"));
                     }

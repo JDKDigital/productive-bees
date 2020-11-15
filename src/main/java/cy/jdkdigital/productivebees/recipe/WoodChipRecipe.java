@@ -2,9 +2,9 @@ package cy.jdkdigital.productivebees.recipe;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.item.WoodChip;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.inventory.CraftingInventory;
@@ -42,10 +42,10 @@ public class WoodChipRecipe implements ICraftingRecipe
             if (!itemstack.isEmpty()) {
                 // Set the recipe criteria to the first wood chip
                 if (chipBlock == null && itemstack.getItem().equals(ModItems.WOOD_CHIP.get())) {
-                    chipBlock = WoodChip.getWoodBlock(itemstack);
+                    chipBlock = WoodChip.getBlock(itemstack);
                 }
 
-                if (itemstack.getItem().equals(ModItems.WOOD_CHIP.get()) && WoodChip.getWoodBlock(itemstack).equals(chipBlock)) {
+                if (itemstack.getItem().equals(ModItems.WOOD_CHIP.get()) && WoodChip.getBlock(itemstack).equals(chipBlock)) {
                     matchingStacks++;
                 } else {
                     return false;
@@ -61,7 +61,7 @@ public class WoodChipRecipe implements ICraftingRecipe
     public ItemStack getCraftingResult(CraftingInventory inv) {
         ItemStack stack = inv.getStackInSlot(0);
 
-        return new ItemStack(WoodChip.getWoodBlock(stack));
+        return new ItemStack(WoodChip.getBlock(stack));
     }
 
     @Override

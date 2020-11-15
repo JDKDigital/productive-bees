@@ -1,0 +1,12 @@
+{
+    "primaryColor": "#000000",
+    "secondaryColor": "#6238757",
+    "particleColor": "#99bf02",
+    "createComb": false,
+    "attributes": {
+        "temper": 0
+    },
+    "stinger": false,
+    "size": 0.3,
+    "nestingPreference": "productivebees:nests/sugarbag_nests"
+}

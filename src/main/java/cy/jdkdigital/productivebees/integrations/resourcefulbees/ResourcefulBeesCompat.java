@@ -3,11 +3,11 @@ package cy.jdkdigital.productivebees.integrations.resourcefulbees;
 import com.resourcefulbees.resourcefulbees.api.ICustomBee;
 import com.resourcefulbees.resourcefulbees.config.Config;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.recipe.ConfigurableHoneycombRecipe;
-import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.passive.BeeEntity;
@@ -77,11 +77,15 @@ public class ResourcefulBeesCompat
     }
 
     public static void createCentrifugeRecipes(RecipeManager recipeManager, ResourceLocation beeType) {
-        IRecipe<?> honeycombCentrifuge = centrifugeRecipe(recipeManager, beeType);
-        IRecipe<?> honeycombBlockCentrifuge = centrifugeHoneyCombBlockRecipe(recipeManager, beeType);
+        try {
+            IRecipe<?> honeycombCentrifuge = centrifugeRecipe(recipeManager, beeType);
+            IRecipe<?> honeycombBlockCentrifuge = centrifugeHoneyCombBlockRecipe(recipeManager, beeType);
 
-        recipeManager.recipes.computeIfAbsent(honeycombCentrifuge.getType(), t -> new HashMap<>()).put(honeycombCentrifuge.getId(), honeycombCentrifuge);
-        recipeManager.recipes.computeIfAbsent(honeycombBlockCentrifuge.getType(), t -> new HashMap<>()).put(honeycombBlockCentrifuge.getId(), honeycombBlockCentrifuge);
+            recipeManager.recipes.computeIfAbsent(honeycombCentrifuge.getType(), t -> new HashMap<>()).put(honeycombCentrifuge.getId(), honeycombCentrifuge);
+            recipeManager.recipes.computeIfAbsent(honeycombBlockCentrifuge.getType(), t -> new HashMap<>()).put(honeycombBlockCentrifuge.getId(), honeycombBlockCentrifuge);
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.debug("Failed to register compat recipes for {}", beeType.toString());
+        }
     }
 
     private static IRecipe<?> centrifugeRecipe(RecipeManager recipeManager, ResourceLocation beeType) {

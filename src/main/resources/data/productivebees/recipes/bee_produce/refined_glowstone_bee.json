@@ -4,14 +4,9 @@
     "bee_type": "productivebees:refined_glowstone",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "item": "productivebees:configurable_honeycomb"
-            },
-            "item_produce": {
-                "tag": "forge:ingots/refined_glowstone"
-            },
-            "min": 1.0,
-            "max": 1.0
+            }
         }
     ],
     "conditions": [

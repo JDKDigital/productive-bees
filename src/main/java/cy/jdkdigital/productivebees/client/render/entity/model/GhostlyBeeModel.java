@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.client.render.entity.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 
 public class GhostlyBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeModel<T>
 {

@@ -1,13 +1,15 @@
 {
     "primaryColor": "#ede5dd",
     "secondaryColor": "#804f40",
+    "particleColor": "#ede5dd",
+    "size": 0.9,
     "beeTexture": "productivebees:textures/entity/bee/quartz/bee",
     "createComb": false,
     "attributes": {
         "endurance": 2
     },
-    "flowerTag": "productivebees:crystalline_flowers",
-    "nestingPreference": "productivebees:nether_quartz_nests",
+    "flowerTag": "productivebees:flowers/crystalline_flowers",
+    "nestingPreference": "productivebees:nests/nether_quartz_nests",
     "passiveEffects": [
         {
             "effect": "minecraft:resistance",

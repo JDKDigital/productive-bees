@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.hive.HoarderBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBeeEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;

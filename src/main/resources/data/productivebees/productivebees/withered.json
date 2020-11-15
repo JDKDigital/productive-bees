@@ -1,8 +1,9 @@
 {
     "primaryColor": "#141414",
+    "particleColor": "#141414",
     "beeTexture": "productivebees:textures/entity/bee/wither/bee",
     "createComb": false,
-    "flowerTag": "productivebees:wither_flowers",
+    "flowerTag": "productivebees:flowers/wither_flowers",
     "attributes": {
         "temper": 2,
         "behavior": 1

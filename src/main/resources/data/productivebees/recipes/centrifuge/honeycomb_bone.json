@@ -16,6 +16,12 @@
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "tag": "forge:honey"
+            },
+            "amount": 50
         }
     ]
 }

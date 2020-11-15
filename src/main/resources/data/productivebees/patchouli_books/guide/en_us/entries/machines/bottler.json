@@ -1,6 +1,6 @@
 {
     "name": "Bottler",
-    "icon": "minecraft:writable_book",
+    "icon": "productivebees:bottler",
     "category": "productivebees:machines",
     "pages": [
         {

@@ -4,14 +4,9 @@
     "bee_type": "productivebees:glowing",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/glowing"
-            },
-            "item_produce": {
-                "tag": "forge:dusts/glowstone"
-            },
-            "min": 1.0,
-            "max": 1.0
+            }
         }
     ]
 }

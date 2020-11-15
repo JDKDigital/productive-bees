@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import cy.jdkdigital.productivebees.tileentity.CentrifugeTileEntity;
-import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
+import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -27,7 +27,8 @@ public class CentrifugeTileEntityRenderer extends TileEntityRenderer<CentrifugeT
             if (!stack.isEmpty()) {
                 long time = System.currentTimeMillis();
                 double d = (time / 50) % 360;
-                double shownItemCount = Math.ceil(stack.getCount() / 4F);
+                int stackCount = stack.getCount();
+                double shownItemCount = stackCount < 20 ? stackCount : 20 + Math.ceil((stackCount - 20) / 4F);
                 for(int i = 0; i < shownItemCount; ++i) {
                     double angle = -d + 360D / shownItemCount * i;
                     double dX = Math.sin(Math.toRadians(angle)) * 0.25D;
@@ -36,7 +37,7 @@ public class CentrifugeTileEntityRenderer extends TileEntityRenderer<CentrifugeT
                     matrixStackIn.push();
                     matrixStackIn.translate(0.5D + dX, 0.6375D, 0.5D + dZ);
                     matrixStackIn.rotate(Vector3f.YP.rotationDegrees((float) angle + 90F));
-                    matrixStackIn.scale(0.4F, 0.4F, 0.4F);
+                    matrixStackIn.scale(0.35F, 0.35F, 0.35F);
                     Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
                     matrixStackIn.pop();
                 }

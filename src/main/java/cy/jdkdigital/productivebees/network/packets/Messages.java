@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.HashMap;
@@ -17,24 +16,24 @@ public class Messages
 {
     public static class BeesMessage
     {
-        public Map<ResourceLocation, CompoundNBT> data;
+        public Map<String, CompoundNBT> data;
 
-        public BeesMessage(Map<ResourceLocation, CompoundNBT> data) {
+        public BeesMessage(Map<String, CompoundNBT> data) {
             this.data = data;
         }
 
         public static void encode(BeesMessage message, PacketBuffer buffer) {
             buffer.writeInt(message.data.size());
-            for (Map.Entry<ResourceLocation, CompoundNBT> entry : message.data.entrySet()) {
-                buffer.writeResourceLocation(entry.getKey());
+            for (Map.Entry<String, CompoundNBT> entry : message.data.entrySet()) {
+                buffer.writeString(entry.getKey());
                 buffer.writeCompoundTag(entry.getValue());
             }
         }
 
         public static BeesMessage decode(PacketBuffer buffer) {
-            Map<ResourceLocation, CompoundNBT> data = new HashMap<>();
+            Map<String, CompoundNBT> data = new HashMap<>();
             IntStream.range(0, buffer.readInt()).forEach(i -> {
-                data.put(buffer.readResourceLocation(), buffer.readCompoundTag());
+                data.put(buffer.readString(), buffer.readCompoundTag());
             });
             return new BeesMessage(data);
         }

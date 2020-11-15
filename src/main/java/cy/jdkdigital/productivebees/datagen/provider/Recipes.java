@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.datagen.provider;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.block.CombBlock;
+import cy.jdkdigital.productivebees.common.block.CombBlock;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;

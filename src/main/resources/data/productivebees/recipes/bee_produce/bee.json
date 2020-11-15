@@ -1,0 +1,11 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "minecraft:bee",
+    "results": [
+        {
+            "item": {
+                "item": "minecraft:honeycomb"
+            }
+        }
+    ]
+}

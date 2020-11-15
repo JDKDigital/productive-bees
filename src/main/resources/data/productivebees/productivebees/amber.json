@@ -1,6 +1,7 @@
 {
     "primaryColor": "#d2ab00",
     "secondaryColor": "#804f40",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

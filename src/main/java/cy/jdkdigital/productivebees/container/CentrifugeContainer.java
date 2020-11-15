@@ -1,18 +1,18 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.block.Centrifuge;
+import cy.jdkdigital.productivebees.common.block.Centrifuge;
+import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
+import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
-import cy.jdkdigital.productivebees.init.ModFluids;
-import cy.jdkdigital.productivebees.tileentity.CentrifugeTileEntity;
-import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
-import cy.jdkdigital.productivebees.tileentity.PoweredCentrifugeTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
+import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -44,24 +44,34 @@ public class CentrifugeContainer extends AbstractContainer
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
-        // Honey
-        trackInt(new IntReferenceHolder()
-        {
+        trackIntArray(new IIntArray() {
             @Override
-            public int get() {
-                return tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(fluidHandler -> fluidHandler.getFluidInTank(0).getAmount()).orElse(0);
+            public int get(int i) {
+                return i == 0 ?
+                        tileEntity.fluidId :
+                        tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(fluidHandler -> fluidHandler.getFluidInTank(0).getAmount()).orElse(0);
             }
 
             @Override
-            public void set(int value) {
-                tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
-                    FluidStack fluid = fluidHandler.getFluidInTank(0);
-                    if (fluid.isEmpty()) {
-                        fluidHandler.fill(new FluidStack(ModFluids.HONEY.get(), value), IFluidHandler.FluidAction.EXECUTE);
-                    } else {
-                        fluid.setAmount(value);
-                    }
-                });
+            public void set(int i, int value) {
+                switch (i) {
+                    case 0:
+                        tileEntity.fluidId = value;
+                    case 1:
+                        tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+                            FluidStack fluid = fluidHandler.getFluidInTank(0);
+                            if (fluid.isEmpty()) {
+                                fluidHandler.fill(new FluidStack(Registry.FLUID.getByValue(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
+                            } else {
+                                fluid.setAmount(value);
+                            }
+                        });
+                }
+            }
+
+            @Override
+            public int size() {
+                return 2;
             }
         });
 
@@ -82,24 +92,25 @@ public class CentrifugeContainer extends AbstractContainer
 
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             // Comb and bottle slots
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 152, 17));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.INPUT_SLOT, 26, 35));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 139, 17));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.INPUT_SLOT, 13, 35));
 
             // Inventory slots
-            addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 80, 17, 3, 18, 3, 18);
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, 152, 53));
+            addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 67, 17, 3, 18, 3, 18);
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, 139, 53));
         });
 
-        layoutPlayerInventorySlots(inventory, 0, 8, 84);
+        this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
+            addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
+        });
+
+        layoutPlayerInventorySlots(inventory, 0, - 5, 84);
     }
 
     private static CentrifugeTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
         final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
-        if (tileAtPos instanceof PoweredCentrifugeTileEntity) {
-            return (PoweredCentrifugeTileEntity) tileAtPos;
-        }
         if (tileAtPos instanceof CentrifugeTileEntity) {
             return (CentrifugeTileEntity) tileAtPos;
         }

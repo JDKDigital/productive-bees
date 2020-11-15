@@ -1,6 +1,6 @@
 package cy.jdkdigital.productivebees.handler.bee;
 
-import cy.jdkdigital.productivebees.tileentity.AdvancedBeehiveTileEntityAbstract;
+import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
 import net.minecraft.nbt.ListNBT;
 
 import javax.annotation.Nonnull;

@@ -4,14 +4,9 @@
     "bee_type": "productivebees:withered",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/withered"
-            },
-            "item_produce": {
-                "item": "productivebees:wither_skull_chip"
-            },
-            "min": 1.0,
-            "max": 1.0
+            }
         }
     ]
 }

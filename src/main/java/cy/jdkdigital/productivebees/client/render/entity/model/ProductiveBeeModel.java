@@ -1,7 +1,10 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
 import com.google.common.collect.ImmutableList;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.entity.model.ModelUtils;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -10,7 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableModel<T>
+public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableModel<T> implements IHasBeeHat
 {
     protected float FAKE_PI = 3.1415927F;
     protected final ModelRenderer body;
@@ -24,7 +27,10 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
     protected final ModelRenderer leftAntenna;
     protected final ModelRenderer rightAntenna;
     protected final ModelRenderer innards;
+    protected final ModelRenderer santaHat;
     protected float bodyPitch;
+
+    private float beeSize = 1.0f;
 
     public ProductiveBeeModel() {
         this(true);
@@ -45,11 +51,13 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         this.middleLegs = new ModelRenderer(this);
         this.backLegs = new ModelRenderer(this);
         this.innards = new ModelRenderer(this, 34, 0);
+        this.santaHat = new ModelRenderer(this);
 
         if (addBodyParts) {
             addBodyParts();
         }
     }
+
     protected void addBodyParts() {
         addBodyParts(true);
     }
@@ -122,7 +130,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         } else {
             this.rightWing.rotateAngleY = 0.0F;
             // maxSpeed - (sizeMod - minSize)/(maxSize - minSize) * (maxSpeed - minSpeed)
-            this.rightWing.rotateAngleZ = MathHelper.cos(ageInTicks % 98000 * 2.8F) * FAKE_PI * 0.15F;
+            this.rightWing.rotateAngleZ = MathHelper.cos(ageInTicks % 98000 * 2.1F) * FAKE_PI * 0.15F;
             this.leftWing.rotateAngleX = this.rightWing.rotateAngleX;
             this.leftWing.rotateAngleY = this.rightWing.rotateAngleY;
             this.leftWing.rotateAngleZ = -this.rightWing.rotateAngleZ;
@@ -152,6 +160,15 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         if (this.bodyPitch > 0.0F) {
             this.body.rotateAngleX = ModelUtils.func_228283_a_(this.body.rotateAngleX, 3.0915928F, this.bodyPitch);
         }
+
+        beeSize = 1.0f;
+        if (entity instanceof ConfigurableBeeEntity) {
+            beeSize = beeSize * ((ConfigurableBeeEntity) entity).getSizeModifier();
+        }
+
+        if (this.isChild) {
+            beeSize /= 2;
+        }
     }
 
     protected Iterable<ModelRenderer> getHeadParts() {
@@ -160,5 +177,50 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
 
     protected Iterable<ModelRenderer> getBodyParts() {
         return ImmutableList.of(this.body);
+    }
+
+    @Override
+    public void render(MatrixStack matrixStackIn, IVertexBuilder renderBuffer, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        matrixStackIn.push();
+        matrixStackIn.translate(0, 1.5 - beeSize * 1.5, 0);
+        matrixStackIn.scale(beeSize, beeSize, beeSize);
+        super.render(matrixStackIn, renderBuffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        matrixStackIn.pop();
+    }
+
+    @Override
+    public ModelRenderer getModelHat() {
+        return santaHat;
+    }
+
+    private void addSantaHat() {
+        santaHat.setRotationPoint(0.0F, 24.0F, 0.0F);
+        santaHat.setTextureOffset(0, 54).addBox(-5.0F, -10.0F, -6.0F, 9.0F, 1.0F, 9.0F, 0.0F, false);
+        santaHat.setTextureOffset(36, 54).addBox(-4.0F, -13.0F, -5.0F, 7.0F, 3.0F, 7.0F, 0.0F, false);
+
+        ModelRenderer box2 = new ModelRenderer(this);
+        box2.setRotationPoint(7.0F, 0.0F, 0.0F);
+        santaHat.addChild(box2);
+        setRotationAngle(box2, 0.1309F, 0.1309F, 0.0F);
+        box2.setTextureOffset(39, 54).addBox(-10.0F, -16.0F, -3.5F, 5.0F, 4.0F, 5.0F, 0.0F, false);
+
+        ModelRenderer box3 = new ModelRenderer(this);
+        box3.setRotationPoint(2.0F, 2.0F, 3.0F);
+        santaHat.addChild(box3);
+        setRotationAngle(box3, 0.3054F, 0.0873F, 0.0436F);
+        box3.setTextureOffset(41, 58).addBox(-5.0F, -20.0F, -1.5F, 3.0F, 3.0F, 3.0F, 0.0F, false);
+
+        ModelRenderer box4 = new ModelRenderer(this);
+        box4.setRotationPoint(0.0F, -3.0F, 7.0F);
+        santaHat.addChild(box4);
+        setRotationAngle(box4,0.3927F, 0.0F, 0.0F);
+        box4.setTextureOffset(45, 60).addBox(-2.0F, -18.0F, -4.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
+        box4.setTextureOffset(18, 60).addBox(-2.5F, -19.5F, -4.4224F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+    }
+
+    public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+        modelRenderer.rotateAngleX = x;
+        modelRenderer.rotateAngleY = y;
+        modelRenderer.rotateAngleZ = z;
     }
 }

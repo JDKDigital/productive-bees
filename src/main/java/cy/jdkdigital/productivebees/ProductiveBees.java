@@ -2,10 +2,11 @@ package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
-import cy.jdkdigital.productivebees.block.AdvancedBeehive;
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.hive.ZombieBeeEntity;
-import cy.jdkdigital.productivebees.entity.bee.solitary.BlueBandedBeeEntity;
+import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
+import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.hive.ZombieBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
@@ -21,6 +22,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -74,11 +76,13 @@ public final class ProductiveBees
         ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
         ModRecipeTypes.RECIPE_SERIALIZERS.register(modEventBus);
+        ModParticles.PARTICLE_TYPES.register(modEventBus);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             modEventBus.addListener(ClientSetup::init);
             modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerItemColors);
             modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerBlockColors);
+            modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerParticles);
         });
 
         modEventBus.addListener(this::onInterModEnqueue);
@@ -91,8 +95,12 @@ public final class ProductiveBees
 
         int priority = 0;
         for(String modId: ProductiveBeesConfig.GENERAL.preferredTagSource.get()) {
-            modPreference.put(modId, ++priority);
+            if (ModList.get().isLoaded(modId)) {
+                modPreference.put(modId, ++priority);
+            }
         }
+
+        CraftingHelper.register(FluidTagEmptyCondition.Serializer.INSTANCE);
     }
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {

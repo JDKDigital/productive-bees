@@ -2,11 +2,14 @@ package cy.jdkdigital.productivebees.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.tileentity.InventoryHandlerHelper;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -15,12 +18,16 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -31,13 +38,13 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
     public final ResourceLocation id;
     public final Ingredient ingredient;
-    public final boolean requireBottle;
+    public final Map<String, Integer> fluidOutput;
 
-    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<Ingredient, IntArrayNBT> itemOutput, Map<Ingredient, IntArrayNBT> tagOutput, boolean requireBottle) {
-        super(itemOutput, tagOutput);
+    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<Ingredient, IntArrayNBT> itemOutput, Map<String, Integer> fluidOutput) {
+        super(itemOutput);
         this.id = id;
         this.ingredient = ingredient;
-        this.requireBottle = requireBottle;
+        this.fluidOutput = fluidOutput;
     }
 
     @Override
@@ -78,6 +85,32 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
     @Override
     public ItemStack getRecipeOutput() {
         return ItemStack.EMPTY;
+    }
+
+    @Nullable
+    public Pair<Fluid, Integer> getFluidOutputs() {
+        for(Map.Entry<String, Integer> entry: fluidOutput.entrySet()) {
+            // Try loading from fluid registry
+            Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(entry.getKey()));
+
+            // Try loading fluid from fluid tag
+            if (fluid == Fluids.EMPTY) {
+                try {
+                    ITag<Fluid> fluidTag = FluidTags.getCollection().get(new ResourceLocation(entry.getKey()));
+                    if (fluidTag.getAllElements().size() > 0) {
+                        fluid = fluidTag.getAllElements().iterator().next();
+                    }
+                } catch (Exception e) {
+                    // Who cares
+                }
+            }
+
+            if (fluid != Fluids.EMPTY) {
+                return Pair.of(fluid, entry.getValue());
+            }
+        }
+
+        return null;
     }
 
     @Nonnull
@@ -124,32 +157,45 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
             JsonArray jsonArray = JSONUtils.getJsonArray(json, "outputs");
             Map<Ingredient, IntArrayNBT> itemOutputs = new HashMap<>();
-            Map<Ingredient, IntArrayNBT> tagOutputs = new HashMap<>();
+            Map<String, Integer> fluidOutputs = new HashMap<>();
             jsonArray.forEach(el -> {
                 JsonObject jsonObject = el.getAsJsonObject();
-                int min = JSONUtils.getInt(jsonObject, "min", 1);
-                int max = JSONUtils.getInt(jsonObject, "max", 1);
-                int chance = JSONUtils.getInt(jsonObject, "chance", 100);
-                IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
-
-                Ingredient produce;
-                if (JSONUtils.isJsonArray(json, "item")) {
-                    produce = Ingredient.deserialize(JSONUtils.getJsonArray(jsonObject, "item"));
-                } else {
-                    produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, "item"));
-                }
-
                 if (jsonObject.has("item")) {
+                    int min = JSONUtils.getInt(jsonObject, "min", 1);
+                    int max = JSONUtils.getInt(jsonObject, "max", 1);
+                    int chance = JSONUtils.getInt(jsonObject, "chance", 100);
+                    IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
+
+                    Ingredient produce;
+                    if (JSONUtils.isJsonArray(jsonObject, "item")) {
+                        produce = Ingredient.deserialize(JSONUtils.getJsonArray(jsonObject, "item"));
+                    }
+                    else {
+                        produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, "item"));
+                    }
+
                     itemOutputs.put(produce, nbt);
-                }
-                else if (jsonObject.has("tag")) {
-                    tagOutputs.put(produce, nbt);
+                } else if (jsonObject.has("fluid")) {
+                    int amount = JSONUtils.getInt(jsonObject, "amount", 250);
+
+                    JsonObject fluid = JSONUtils.getJsonObject(jsonObject, "fluid");
+                    String fluidResourceLocation = "";
+                    if (fluid.has("tag")) {
+                        fluidResourceLocation = JSONUtils.getString(fluid, "tag");
+                    } else if (fluid.has("fluid")) {
+                        fluidResourceLocation = JSONUtils.getString(fluid, "fluid");
+                    }
+
+                    fluidOutputs.put(fluidResourceLocation, amount);
                 }
             });
 
-            boolean requireBottle = JSONUtils.getBoolean(json, "require_bottle", false);
+            // Default fluid output
+            if (fluidOutputs.isEmpty()) {
+                fluidOutputs.put("forge:honey", 250);
+            }
 
-            return this.factory.create(id, ingredient, itemOutputs, tagOutputs, requireBottle);
+            return this.factory.create(id, ingredient, itemOutputs, fluidOutputs);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
@@ -161,21 +207,19 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
                     i -> itemOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
-                Map<Ingredient, IntArrayNBT> tagOutput = new HashMap<>();
+                Map<String, Integer> fluidOutput = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                    i -> tagOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
+                    i -> fluidOutput.put(buffer.readString(), buffer.readInt())
                 );
 
-                boolean requireBottle = buffer.readBoolean();
-
-                return this.factory.create(id, ingredient, itemOutput, tagOutput, requireBottle);
+                return this.factory.create(id, ingredient, itemOutput, fluidOutput);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading centrifuge recipe from packet. " + id, e);
                 throw e;
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void write(@Nonnull PacketBuffer buffer, @Nonnull T recipe) {
             try {
                 recipe.ingredient.write(buffer);
                 buffer.writeInt(recipe.itemOutput.size());
@@ -187,16 +231,11 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
                     buffer.writeInt(value.get(2).getInt());
                 });
 
-                buffer.writeInt(recipe.tagOutput.size());
-
-                recipe.tagOutput.forEach((key, value) -> {
-                    key.write(buffer);
-                    buffer.writeInt(value.get(0).getInt());
-                    buffer.writeInt(value.get(1).getInt());
-                    buffer.writeInt(value.get(2).getInt());
+                buffer.writeInt(recipe.fluidOutput.size());
+                recipe.fluidOutput.forEach((key, value) -> {
+                    buffer.writeString(key);
+                    buffer.writeInt(value);
                 });
-
-                buffer.writeBoolean(recipe.requireBottle);
 
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing centrifuge recipe to packet. " + recipe.getId(), e);
@@ -206,7 +245,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
         public interface IRecipeFactory<T extends CentrifugeRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, Map<Ingredient, IntArrayNBT> itemOutput, Map<Ingredient, IntArrayNBT> tagOutput, boolean requireBottle);
+            T create(ResourceLocation id, Ingredient input, Map<Ingredient, IntArrayNBT> itemOutput, Map<String, Integer> fluidOutput);
         }
     }
 }

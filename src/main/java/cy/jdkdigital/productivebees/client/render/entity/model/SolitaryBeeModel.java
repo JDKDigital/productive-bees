@@ -1,6 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import cy.jdkdigital.productivebees.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 
 public class SolitaryBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeModel<T>
 {

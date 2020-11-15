@@ -2,12 +2,16 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.*;
-import cy.jdkdigital.productivebees.entity.BeeBombEntity;
-import cy.jdkdigital.productivebees.entity.bee.*;
-import cy.jdkdigital.productivebees.entity.bee.hive.*;
-import cy.jdkdigital.productivebees.entity.bee.nesting.*;
-import cy.jdkdigital.productivebees.entity.bee.solitary.*;
-import cy.jdkdigital.productivebees.item.SpawnEgg;
+import cy.jdkdigital.productivebees.common.entity.BeeBombEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.DeprecatedBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.hive.*;
+import cy.jdkdigital.productivebees.common.entity.bee.nesting.*;
+import cy.jdkdigital.productivebees.common.entity.bee.solitary.*;
+import cy.jdkdigital.productivebees.common.item.SpawnEgg;
+import cy.jdkdigital.productivebees.entity.bee.ResourcefulConfigurableBeeEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
@@ -38,7 +42,7 @@ public class ModEntities
 
     public static RegistryObject<EntityType<ProjectileItemEntity>> BEE_BOMB = createEntity("bee_bomb", BeeBombEntity::new);
 
-    public static RegistryObject<EntityType<BeeEntity>> NETHERITE_BEE = createColoredHiveBee("netherite_bee", NetheriteBeeEntity::new, "#4d494d", "#804f40", ModItemGroups.PRODUCTIVE_BEES);
+    public static RegistryObject<EntityType<BeeEntity>> NETHERITE_BEE = createColoredHiveBee("netherite_bee", DeprecatedBeeEntity::new, "#4d494d", "#804f40", null);
 
     public static RegistryObject<EntityType<BeeEntity>> IRON_BEE = createColoredHiveBee("iron_bee", DeprecatedBeeEntity::new, "#cdcdcd", "#804f40", null);
     public static RegistryObject<EntityType<BeeEntity>> GOLD_BEE = createColoredHiveBee("gold_bee", DeprecatedBeeEntity::new, "#c8df24", "#804f40", null);
@@ -50,11 +54,13 @@ public class ModEntities
 
     public static RegistryObject<EntityType<BeeEntity>> DYE_BEE = createHiveBee("dye_bee", ProductiveBeeEntity::new, 16768648, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> LUMBER_BEE = createHiveBee("lumber_bee", LumberBeeEntity::new, 8306542, 6238757, ModItemGroups.PRODUCTIVE_BEES);
+    public static RegistryObject<EntityType<BeeEntity>> QUARRY_BEE = createHiveBee("quarry_bee", QuarryBeeEntity::new, 7566195, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> RANCHER_BEE = createHiveBee("rancher_bee", RancherBeeEntity::new, 9615358, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> HOARDER_BEE = createHiveBee("hoarder_bee", HoarderBeeEntity::new, 8306149, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> FARMER_BEE = createHiveBee("farmer_bee", FarmerBeeEntity::new, 9615358, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> CARTOGRAPHER_BEE = createHiveBee("cartographer_bee", ProductiveBeeEntity::new, 9615358, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBeeEntity::new, 894731, 6238757, ModItemGroups.PRODUCTIVE_BEES);
+    public static RegistryObject<EntityType<BeeEntity>> CUPID_BEE = createHiveBee("cupid_bee", CupidBeeEntity::new, 894731, 6238757, ModItemGroups.PRODUCTIVE_BEES);
 
     public static RegistryObject<EntityType<BeeEntity>> WITHER_BEE = createHiveBee("wither_bee", WitherBeeEntity::new, 1315860, 6238757, null);
     public static RegistryObject<EntityType<BeeEntity>> BLAZING_BEE = createHiveBee("blazing_bee", BlazingBeeEntity::new, 16763648, 6238757, null);

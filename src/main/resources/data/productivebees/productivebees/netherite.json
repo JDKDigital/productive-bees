@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#4d494d",
+    "secondaryColor": "#804f40",
+    "particleColor": "#4d494d",
+    "name": "Ancient",
+    "size": 0.7,
+    "attributes": {
+        "endurance": 2
+    },
+    "attackResponse": "fire",
+    "fireproof": true,
+    "flowerTag": "forge:storage_blocks/netherite"
+}
