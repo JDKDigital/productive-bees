@@ -43,7 +43,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                             newBee.setHealth(newBee.getMaxHealth());
                             Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
                             spawnBeeInWorldAPosition(this.world, newBee, pos, direction, null);
-                            ProductiveBees.LOGGER.info("repopulating nest with " + newBee + " at " + pos + " - " + block);
                         }
                     }
                 }
@@ -92,7 +91,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
             if (offspring != null) {
                 offspring.setGrowingAge(-24000);
                 offspring.setLocationAndAngles(beeEntity.getPosX(), beeEntity.getPosY(), beeEntity.getPosZ(), 0.0F, 0.0F);
-                ProductiveBees.LOGGER.info("make cuckoo bee");
                 world.addEntity(offspring);
             }
         }

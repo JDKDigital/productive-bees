@@ -65,7 +65,6 @@ public class BeeHelper
 
             if (!recipes.isEmpty()) {
                 BeeConversionRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
-                ProductiveBees.LOGGER.info("recipe " + recipe.getId());
                 bee = recipe.result.get().getBeeEntity().create(world);
                 if (bee instanceof ConfigurableBeeEntity) {
                     ((ConfigurableBeeEntity) bee).setBeeType(recipe.result.get().getBeeType().toString());
