@@ -49,6 +49,7 @@ public class BeeIngredientFactory
                 "lapis_bee",
                 "emerald_bee",
                 "diamond_bee",
+                "netherite_bee",
                 "wither_bee",
                 "blazing_bee",
                 "zombie_bee",

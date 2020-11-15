@@ -49,7 +49,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getUnformattedComponentText(), fluidStack.getAmount() + "mb").func_241878_f());
+                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").func_241878_f());
                 } else {
                     tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").func_241878_f());
                 }

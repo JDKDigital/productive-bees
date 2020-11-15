@@ -15,7 +15,7 @@ public class QuarryBeeEntity extends ProductiveBeeEntity
         super(entityType, world);
     }
 
-    public ITag.INamedTag<Block> getFlowerTag() {
+    public ITag<Block> getFlowerTag() {
         return ModTags.QUARRY;
     }
 }
