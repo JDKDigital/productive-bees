@@ -46,7 +46,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
                 List<String> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(new TranslationTextComponent(fluidStack.getTranslationKey()).getString() + " " + fluidStack.getAmount() + "mb");
+                    tooltipList.add(new TranslationTextComponent(fluidStack.getTranslationKey()).getString() + ": " + fluidStack.getAmount() + "mb");
                 } else {
                     tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").getString());
                 }
