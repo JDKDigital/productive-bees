@@ -90,7 +90,6 @@ public class ProductiveBeeEntity extends BeeEntity
         beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
         beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 0);
         beeAttributes.put(BeeAttributes.TYPE, "hive");
-        beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
@@ -260,10 +259,10 @@ public class ProductiveBeeEntity extends BeeEntity
         super.setHasStung(hasStung);
     }
 
-    @Override
-    public boolean isBreedingItem(ItemStack itemStack) {
-        return itemStack.getItem().isIn(getAttributeValue(BeeAttributes.APHRODISIACS));
-    }
+//    @Override
+//    public boolean isBreedingItem(ItemStack itemStack) {
+//        return itemStack.getItem().isIn(getAttributeValue(BeeAttributes.APHRODISIACS));
+//    }
 
     public String getBeeName() {
         return getBeeName(true);
@@ -329,7 +328,6 @@ public class ProductiveBeeEntity extends BeeEntity
         tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
         tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
-        tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getName().toString());
     }
 
     @Override
@@ -344,7 +342,6 @@ public class ProductiveBeeEntity extends BeeEntity
             beeAttributes.put(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
             beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
             beeAttributes.put(BeeAttributes.TYPE, tag.getString("bee_type"));
-            beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.makeWrapperTag(tag.getString("bee_aphrodisiac")));
         }
     }
 
@@ -419,17 +416,23 @@ public class ProductiveBeeEntity extends BeeEntity
         public Predicate<BlockPos> flowerPredicate = (blockPos) -> {
             BlockState blockState = ProductiveBeeEntity.this.world.getBlockState(blockPos);
             ITag<Block> interests = ProductiveBeeEntity.this.getFlowerTag();
-            boolean isInterested;
-            if (blockState.getBlock() instanceof Feeder) {
-                isInterested = isValidFeeder(world.getTileEntity(blockPos), ProductiveBeeEntity.this.getFlowerTag());
-            } else {
-                isInterested = blockState.isIn(interests);
-                if (isInterested && blockState.isIn(BlockTags.TALL_FLOWERS)) {
-                    if (blockState.getBlock() == Blocks.SUNFLOWER) {
-                        isInterested = blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
+            boolean isInterested = false;
+            try {
+                if (blockState.getBlock() instanceof Feeder) {
+                    isInterested = isValidFeeder(world.getTileEntity(blockPos), ProductiveBeeEntity.this.getFlowerTag());
+                }
+                else {
+                    isInterested = blockState.isIn(interests);
+                    if (isInterested && blockState.isIn(BlockTags.TALL_FLOWERS)) {
+                        if (blockState.getBlock() == Blocks.SUNFLOWER) {
+                            isInterested = blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
+                        }
                     }
                 }
+            } catch (Exception e) {
+                // early tag access
             }
+
             return isInterested;
         };
 
@@ -610,7 +613,7 @@ public class ProductiveBeeEntity extends BeeEntity
     public class ProductiveTemptGoal extends TemptGoal
     {
         public ProductiveTemptGoal(CreatureEntity entity, double speed) {
-            super(entity, speed, false, Ingredient.fromTag(getAttributeValue(BeeAttributes.APHRODISIACS)));
+            super(entity, speed, false, Ingredient.fromTag(ItemTags.FLOWERS));
         }
     }
 

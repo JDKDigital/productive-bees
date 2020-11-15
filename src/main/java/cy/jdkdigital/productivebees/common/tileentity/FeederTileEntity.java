@@ -51,7 +51,7 @@ public class FeederTileEntity extends FluidTankTileEntity implements INamedConta
         super(ModTileEntityTypes.FEEDER.get());
     }
 
-    public Block getRandomBlockFromInventory(ITag.INamedTag<Block> tag) {
+    public Block getRandomBlockFromInventory(ITag<Block> tag) {
         return inventoryHandler.map(h -> {
             List<Block> possibleBlocks = new ArrayList<>();
             for (int slot = 0; slot < h.getSlots(); ++slot) {

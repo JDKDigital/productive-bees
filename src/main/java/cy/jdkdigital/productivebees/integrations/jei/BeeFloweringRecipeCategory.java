@@ -18,7 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag.INamedTag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.*;
@@ -93,7 +93,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         List<Recipe> recipes = new ArrayList<>();
 
         // Hardcoded for now until bees are moved to config
-        Map<String, INamedTag<Block>> flowering = new HashMap<>();
+        Map<String, ITag<Block>> flowering = new HashMap<>();
         flowering.put("productivebees:blue_banded_bee", ModTags.RIVER_FLOWERS);
         flowering.put("productivebees:green_carpenter_bee", ModTags.FOREST_FLOWERS);
         flowering.put("productivebees:nomad_bee", ModTags.ARID_FLOWERS);
@@ -103,7 +103,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         flowering.put("productivebees:yellow_black_carpenter_bee", ModTags.FOREST_FLOWERS);
 
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()){
-            INamedTag<Block> blockTag = BlockTags.FLOWERS;
+            ITag<Block> blockTag = BlockTags.FLOWERS;
             if (entry.getValue().isConfigurable()) {
                 CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
                 if (nbt.contains("flowerTag")) {
@@ -123,14 +123,14 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
 
         private final BeeIngredient bee;
 
-        private final INamedTag<Block> blockTag;
+        private final ITag<Block> blockTag;
 
-        public Recipe(INamedTag<Block> blockTag, BeeIngredient bee) {
+        public Recipe(ITag<Block> blockTag, BeeIngredient bee) {
             this.blockTag = blockTag;
             this.bee = bee;
         }
 
-        public INamedTag<?> getTag() { return blockTag; }
+        public ITag<?> getTag() { return blockTag; }
         public BeeIngredient getBee() { return this.bee; }
     }
 }

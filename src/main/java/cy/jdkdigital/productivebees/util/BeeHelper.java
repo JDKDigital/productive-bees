@@ -253,7 +253,7 @@ public class BeeHelper
         return stack;
     }
 
-    private static Block getFloweringBlock(World world, BlockPos flowerPos, ITag.INamedTag<Block> tag, boolean hasCombBlockUpgrade) {
+    private static Block getFloweringBlock(World world, BlockPos flowerPos, ITag<Block> tag, boolean hasCombBlockUpgrade) {
         BlockState flowerBlockState = world.getBlockState(flowerPos);
         Block flowerBlock = flowerBlockState.getBlock();
 

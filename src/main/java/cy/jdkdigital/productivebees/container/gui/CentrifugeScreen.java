@@ -44,11 +44,11 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
             FluidStack fluidStack = handler.getFluidInTank(0);
 
             // Fluid level tooltip
-            if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
+            if (isPointInRegion(129, 16, 6, 54, mouseX, mouseY)) {
                 List<TranslationTextComponent> tooltipList = new ArrayList<TranslationTextComponent>();
 
                 if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getUnformattedComponentText(), fluidStack.getAmount() + "mb"));
+                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb"));
                 } else {
                     tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty"));
                 }
@@ -104,7 +104,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
         this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52 / 10000F));
-            blit(matrixStack, this.guiLeft - 5, this.guiTop + 69, 206, 52, 4, -1 * energyLevel);
+            blit(matrixStack, this.guiLeft - 5, this.guiTop + 69, 206, 0, 4, -1 * energyLevel);
         });
 
         // Draw fluid tank
