@@ -91,7 +91,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 world.isNightTime() &&
                 ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
                 world.rand.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
-                beeList.size() + beesOutsideHive() > 0 &&
+                beeList.size() + beesOutsideHive() == 0 &&
                 world.getLight(pos.offset(getBlockState().get(BeehiveBlock.FACING), 1)) <= 8
             ) {
                 EntityType<ConfigurableBeeEntity> beeType = ModEntities.CONFIGURABLE_BEE.get();
