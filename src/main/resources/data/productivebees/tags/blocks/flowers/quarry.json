@@ -4,6 +4,8 @@
         "#forge:stone",
         "#forge:sand",
         "#forge:gravel",
-        "minecraft:clay"
+        "minecraft:clay",
+        "minecraft:blackstone",
+        "minecraft:basalt"
     ]
 }
