@@ -91,7 +91,6 @@ public final class ProductiveBees
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
-        ProductiveBeesConfig.loadConfig(ProductiveBeesConfig.CONFIG, FMLPaths.CONFIGDIR.get().resolve("productivebees-server.toml").toString());
 
         int priority = 0;
         for(String modId: ProductiveBeesConfig.GENERAL.preferredTagSource.get()) {
