@@ -14,12 +14,12 @@
         }
     },
     "result": {
-        "item": "buzzierbees:willow_beehive"
+        "item": "buzzier_bees:willow_beehive"
     },
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "buzzierbees"
+            "modid": "buzzier_bees"
         },
         {
             "type": "forge:mod_loaded",

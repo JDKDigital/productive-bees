@@ -10,7 +10,7 @@
             "item": "byg:blue_enchanted_planks"
         },
         "H": {
-            "item": "buzzierbees:bop_magic_beehive"
+            "item": "buzzier_bees:bop_magic_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -28,7 +28,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "buzzierbees"
+            "modid": "buzzier_bees"
         },
         {
             "type": "forge:mod_loaded",
