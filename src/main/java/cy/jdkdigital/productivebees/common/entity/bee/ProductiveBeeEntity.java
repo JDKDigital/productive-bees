@@ -546,8 +546,16 @@ public class ProductiveBeeEntity extends BeeEntity
             }
 
             ITag<Block> nestTag = ProductiveBeeEntity.this.getNestingTag();
-            if (nestTag == null || nestTag.getAllElements().size() == 0) {
-                return false;
+            try {
+                if (nestTag == null || nestTag.getAllElements().size() == 0) {
+                    return false;
+                }
+            } catch (Exception e) {
+                String bee = ProductiveBeeEntity.this.getEntityString();
+                if (ProductiveBeeEntity.this instanceof ConfigurableBeeEntity) {
+                    bee = ((ConfigurableBeeEntity) ProductiveBeeEntity.this).getBeeType();
+                }
+                ProductiveBees.LOGGER.debug("Nesting tag for " + bee + " not found. Looking for " + nestTag.toString());
             }
 
             return !ProductiveBeeEntity.this.detachHome() &&

@@ -133,14 +133,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
-            try {
-                buffer.writeInt(0);
-            } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing gene recipe to packet. " + recipe.getId(), e);
-                throw e;
-            }
-        }
+        public void write(@Nonnull PacketBuffer buffer, T recipe) {}
 
         public interface IRecipeFactory<T extends CombineGeneRecipe>
         {
