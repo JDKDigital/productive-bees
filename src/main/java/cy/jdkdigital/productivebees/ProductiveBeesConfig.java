@@ -170,12 +170,6 @@ public class ProductiveBeesConfig
         }
     }
 
-    public static void loadConfig(ForgeConfigSpec config, String path) {
-        final CommentedFileConfig file = CommentedFileConfig.builder(new File(path)).sync().autosave().writingMode(WritingMode.REPLACE).build();
-        file.load();
-        config.setConfig(file);
-    }
-
     @SubscribeEvent
     public static void onLoad(final ModConfig.Loading configEvent) {
     }
