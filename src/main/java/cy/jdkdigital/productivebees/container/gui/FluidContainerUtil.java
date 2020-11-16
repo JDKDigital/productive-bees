@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import mekanism.client.render.MekanismRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -48,7 +47,7 @@ class FluidContainerUtil
 
     public static void drawTiledSprite(int xPosition, int yPosition, int yOffset, int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel) {
         if (desiredWidth != 0 && desiredHeight != 0 && textureWidth != 0 && textureHeight != 0) {
-            MekanismRenderer.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+            bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
             int xTileCount = desiredWidth / textureWidth;
             int xRemainder = desiredWidth - xTileCount * textureWidth;
             int yTileCount = desiredHeight / textureHeight;
@@ -101,5 +100,9 @@ class FluidContainerUtil
 
     public static TextureAtlasSprite getSprite(ResourceLocation spriteLocation) {
         return Minecraft.getInstance().getAtlasSpriteGetter(AtlasTexture.LOCATION_BLOCKS_TEXTURE).apply(spriteLocation);
+    }
+
+    public static void bindTexture(ResourceLocation texture) {
+        Minecraft.getInstance().textureManager.bindTexture(texture);
     }
 }

@@ -60,7 +60,7 @@ public class ProductiveBeesConfig
                     .defineInRange("centrifugeProcessingTime", 300, 20, Integer.MAX_VALUE);
 
             centrifugePoweredProcessingTime = builder
-                    .comment("How many ticks it takes for process a recipe in the powerd centrifuge. Default 100.")
+                    .comment("How many ticks it takes for process a recipe in the powered centrifuge. Default 100.")
                     .defineInRange("centrifugePoweredProcessingTime", 100, 20, Integer.MAX_VALUE);
 
             centrifugePowerUse = builder
@@ -168,12 +168,6 @@ public class ProductiveBeesConfig
 
             builder.pop();
         }
-    }
-
-    public static void loadConfig(ForgeConfigSpec config, String path) {
-        final CommentedFileConfig file = CommentedFileConfig.builder(new File(path)).sync().autosave().writingMode(WritingMode.REPLACE).build();
-        file.load();
-        config.setConfig(file);
     }
 
     @SubscribeEvent
