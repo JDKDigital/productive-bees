@@ -8,7 +8,7 @@
 Here bee puns
 
 ### Modifying Productive Bees
-Most aspects of Productive Bees can be modified with a data pack.
+Most aspects of Productive Bees can be modified with a data pack. An example datapack can be found here [1.15.2-1.16.1](https://github.com/JDKDigital/productive-bees/tree/master/pb_datapack) and here [1.16.3-1.16.4](https://github.com/JDKDigital/productive-bees/tree/dev-1.16.3/pb_datapack)
 
 #### Adding or removing bees
 
@@ -73,7 +73,7 @@ patchouli_version=1.16-39
 hwyla_version=1.10.9-B76_1.16.1
 top_version=1.16:1.16-3.0.1-beta-4
 ```
-### 1.16.3
+### 1.16.3+
 ```
 org.gradle.jvmargs=-Xmx3G
 org.gradle.daemon=false
