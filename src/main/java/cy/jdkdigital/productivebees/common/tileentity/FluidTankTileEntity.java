@@ -94,18 +94,19 @@ public abstract class FluidTankTileEntity extends TileEntity implements ITickabl
     @Nonnull
     @Override
     public CompoundNBT write(CompoundNBT tag) {
-        super.write(tag);
+        tag = super.write(tag);
 
+        CompoundNBT finalTag = tag;
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
-            tag.put("inv", compound);
+            finalTag.put("inv", compound);
         });
 
         this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluid -> {
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) fluid).serializeNBT();
-            tag.put("fluid", compound);
+            finalTag.put("fluid", compound);
         });
 
-        return tag;
+        return finalTag;
     }
 }
