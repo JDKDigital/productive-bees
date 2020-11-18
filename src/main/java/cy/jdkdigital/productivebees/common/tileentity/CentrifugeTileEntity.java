@@ -74,12 +74,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
         @Override
         public boolean isInputSlotItem(int slot, Item item) {
-            return slot == InventoryHandlerHelper.BOTTLE_SLOT || (
-                slot == InventoryHandlerHelper.INPUT_SLOT &&
-                (
-                    item.equals(ModItems.GENE_BOTTLE.get()) || CentrifugeTileEntity.this.canProcessItemStack(new ItemStack(item))
-                )
-            );
+            boolean isProcessableItem = item.equals(ModItems.GENE_BOTTLE.get()) || CentrifugeTileEntity.this.canProcessItemStack(new ItemStack(item));
+            return (slot == InventoryHandlerHelper.BOTTLE_SLOT && !isProcessableItem) || (slot == InventoryHandlerHelper.INPUT_SLOT && isProcessableItem);
         }
     });
 
@@ -128,7 +124,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                         world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
                         int totalTime = getProcessingTime();
 
-                        if (++this.recipeProgress == totalTime) {
+                        if (++this.recipeProgress >= totalTime) {
                             this.completeGeneProcessing(invHandler);
                             recipeProgress = 0;
                             this.markDirty();
@@ -139,7 +135,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                             world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
                             int totalTime = getProcessingTime();
 
-                            if (++this.recipeProgress == totalTime) {
+                            if (++this.recipeProgress >= totalTime) {
                                 this.completeRecipeProcessing(recipe, invHandler);
                                 recipeProgress = 0;
                                 this.markDirty();
