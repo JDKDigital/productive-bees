@@ -1,6 +1,7 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:netherite_bee",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:netherite",
     "results": [
         {
             "item": {

@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.PoweredCentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,7 +42,9 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
     }
 
     public int getProcessingTime() {
-        return ProductiveBeesConfig.GENERAL.centrifugePoweredProcessingTime.get();
+        return (int) (
+            ProductiveBeesConfig.GENERAL.centrifugePoweredProcessingTime.get() * getProcessingTimeModifier()
+        );
     }
 
     protected boolean canOperate() {

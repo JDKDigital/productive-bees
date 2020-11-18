@@ -3,7 +3,7 @@
     "parent1": "productivebees:gold",
     "parent2": "productivebees:diamond",
     "offspring": [
-        "productivebees:netherite_bee"
+        "productivebees:netherite"
     ],
     "breeding_items": [
         {
