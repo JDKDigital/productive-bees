@@ -1,16 +1,12 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:netherite_bee",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:netherite",
     "results": [
         {
-            "comb_produce": {
+            "item": {
                 "tag": "forge:honeycombs/netherite"
-            },
-            "item_produce": {
-                "item": "minecraft:netherite_scrap"
-            },
-            "min": 1.0,
-            "max": 1.0
+            }
         }
     ]
 }
