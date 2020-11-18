@@ -1,0 +1,33 @@
+{
+    "primaryColor": "#f2f24f",
+    "secondaryColor": "#d0581f",
+    "particleColor": "#f2f24f",
+    "tex_comment": "If you have a custom texture for the bee, if not the base texture will be used with the colors",
+    "beeTexture": "productivebees:textures/entity/bee/base/bee",
+    "createComb": true,
+    "attackResponse_comment": "attackResponse options: fire, lava",
+    "attackResponse": "fire",
+    "flowerTag_comment": "Which flowers the bee require for pollination. Can be any block tag. The one used here can be found in this datapack",
+    "flowerTag": "productivebees:example_flowers",
+    "nestingPreference_comment": "Add this if the bee should be able to live in a nest. All bees can also live in hives.",
+    "nestingPreference": "productivebees:nests/nether_quartz_nests",
+    "size:": 1.0,
+    "teleporting": true,
+    "fireproof": true,
+    "translucent": false,
+    "draconic": true,
+    "redstoned": true,
+    "slimy": true,
+    "withered": true,
+    "blinding": true,
+    "munchies": false,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:mod_loaded",
+                "tag": "productivebees"
+            }
+        }
+    ]
+}
