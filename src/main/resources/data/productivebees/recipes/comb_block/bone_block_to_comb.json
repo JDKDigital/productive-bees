@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "item": "productivebees:honeycomb_bone",
+        "tag": "forge:honeycombs/bone",
         "count": 4
     }
 }

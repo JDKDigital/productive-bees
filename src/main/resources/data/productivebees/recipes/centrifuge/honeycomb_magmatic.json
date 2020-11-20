@@ -1,16 +1,13 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/magmatic"
     },
-    "comb_type": "productivebees:magmatic",
     "outputs": [
         {
             "item": {
                 "item": "minecraft:magma_cream"
             },
-            "min": 1,
-            "max": 1,
             "chance": 50
         },
         {

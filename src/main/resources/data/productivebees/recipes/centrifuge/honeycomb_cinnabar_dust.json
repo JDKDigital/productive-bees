@@ -1,19 +1,24 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/cinnabar"
     },
-    "comb_type": "productivebees:cinnabar",
     "outputs": [
         {
             "item": {
                 "tag": "forge:dusts/cinnabar"
-            }
+            },
         },
         {
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "tag": "forge:honey"
+            },
+            "amount": 150
         }
     ],
     "conditions": [

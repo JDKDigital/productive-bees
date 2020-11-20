@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_electrum"
+        }
+    ],
+    "result": {
+        "tag": "forge:honeycombs/electrum",
+        "count": 4
+    }
+}

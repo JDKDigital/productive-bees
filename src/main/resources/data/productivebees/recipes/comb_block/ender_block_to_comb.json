@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "item": "productivebees:honeycomb_ender",
+        "tag": "forge:honeycombs/ender",
         "count": 4
     }
 }

@@ -1,15 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "HH",
-    "HH"
-  ],
-  "key": {
-    "H": {
-      "tag": "forge:honeycombs/glowing"
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "HH",
+        "HH"
+    ],
+    "key": {
+        "H": {
+            "tag": "forge:honeycombs/glowing"
+        }
+    },
+    "result": {
+        "item": "productivebees:comb_glowing"
     }
-  },
-  "result": {
-    "item": "productivebees:comb_glowing"
-  }
 }

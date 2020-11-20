@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "item": "productivebees:honeycomb_lapis",
+        "tag": "forge:honeycombs/lapis",
         "count": 4
     }
 }

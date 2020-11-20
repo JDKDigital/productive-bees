@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "item": "productivebees:honeycomb_rotten",
+        "tag": "forge:honeycombs/rotten",
         "count": 4
     }
 }

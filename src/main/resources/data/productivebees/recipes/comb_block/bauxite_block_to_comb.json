@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_bauxite"
+        }
+    ],
+    "result": {
+        "tag": "forge:honeycombs/bauxite",
+        "count": 4
+    }
+}

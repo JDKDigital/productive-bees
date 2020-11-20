@@ -1,0 +1,24 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/fossilised"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "minecraft:coal"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:tag_empty",
+            "tag": "forge:dusts/coal"
+        }
+    ]
+}

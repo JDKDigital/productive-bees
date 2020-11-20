@@ -107,6 +107,8 @@ dependencies {
 //    implementation fg.deobf('mods:curios-FORGE-1.15.2:2.0.2.6')
 //    implementation fg.deobf('mods:Patchouli-1.15.2:1.2-35')
 //    implementation fg.deobf('mods:Botania-r1.15:388')
+    implementation fg.deobf('mods:Lollipop-1.15.2:1.0.16')
+    implementation fg.deobf('mods:Powah-1.15.2:1.1.14')
     implementation fg.deobf('mods:appliedenergistics2-1.15:7.0.2')
     implementation fg.deobf('mods:SilentLib-1.15.2:4.6.6+59')
     implementation fg.deobf('mods:SilentGems-1.15.2:3.6.2+98')

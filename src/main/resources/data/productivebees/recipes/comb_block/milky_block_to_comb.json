@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "item": "productivebees:honeycomb_milky",
+        "tag": "forge:honeycombs/milky",
         "count": 4
     }
 }

@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_refined_glowstone"
+        }
+    ],
+    "result": {
+        "tag": "forge:honeycombs/refined_glowstone",
+        "count": 4
+    }
+}

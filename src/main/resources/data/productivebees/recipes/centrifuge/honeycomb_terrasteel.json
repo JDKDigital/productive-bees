@@ -1,7 +1,7 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/terrasteel"
     },
     "comb_type": "productivebees:terrasteel",
     "outputs": [
@@ -20,13 +20,6 @@
         }
     ],
     "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:nuggets/terrasteel"
-            }
-        },
         {
             "type": "forge:mod_loaded",
             "modid": "botania"

@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_enderium"
+        }
+    ],
+    "result": {
+        "tag": "forge:honeycombs/enderium",
+        "count": 4
+    }
+}

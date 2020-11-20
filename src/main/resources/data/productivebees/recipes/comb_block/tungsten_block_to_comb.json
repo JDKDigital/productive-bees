@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_tungsten"
+        }
+    ],
+    "result": {
+        "tag": "forge:honeycombs/tungsten",
+        "count": 4
+    }
+}

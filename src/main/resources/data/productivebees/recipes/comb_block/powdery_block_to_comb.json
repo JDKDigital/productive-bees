@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "item": "productivebees:honeycomb_powdery",
+        "tag": "forge:honeycombs/powdery",
         "count": 4
     }
 }
