@@ -9,6 +9,7 @@ Here bee puns
 
 ### Modifying Productive Bees
 Most aspects of Productive Bees can be modified with a data pack. An example datapack can be found here [1.15.2-1.16.1](https://github.com/JDKDigital/productive-bees/tree/master/pb_datapack) and here [1.16.3-1.16.4](https://github.com/JDKDigital/productive-bees/tree/dev-1.16.3/pb_datapack)
+Datapacks must be put in the datapacks folder inside the world folder and be enabled using the `/datapack enable` command.
 
 #### Adding or removing bees
 

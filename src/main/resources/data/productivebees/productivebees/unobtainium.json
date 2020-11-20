@@ -1,13 +1,13 @@
 {
     "primaryColor": "#bc2feb",
     "secondaryColor": "#2e237b",
+    "attributes": {
+        "endurance": 3
+    },
     "conditions": [
         {
             "type": "forge:mod_loaded",
             "modid": "allthemodium"
         }
-    ],
-    "attributes": {
-        "endurance": 3
-    }
+    ]
 }

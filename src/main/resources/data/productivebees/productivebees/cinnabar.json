@@ -1,0 +1,15 @@
+{
+    "primaryColor": "#d73e4a",
+    "secondaryColor": "#710626",
+    "particleColor": "#ff7883",
+    "flowerTag": "forge:storage_blocks/cinnabar",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/cinnabar"
+            }
+        }
+    ]
+}

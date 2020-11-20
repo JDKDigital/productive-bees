@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -102,15 +103,13 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         flowering.put("productivebees:sweaty_bee", ModTags.SNOW_FLOWERS);
         flowering.put("productivebees:yellow_black_carpenter_bee", ModTags.FOREST_FLOWERS);
 
+        Tag<Block> defaultBlockTag = BlockTags.getCollection().getOrCreate(new ResourceLocation("flowers"));
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()){
-            Tag<Block> blockTag = BlockTags.getCollection().getOrCreate(new ResourceLocation("flowers"));
+            Tag<Block> blockTag = defaultBlockTag;
             if (entry.getValue().isConfigurable()) {
                 CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
-                if (nbt.contains("flowerTag")) {
-                    blockTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
-                }
-            }
-            else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
+                blockTag = ConfigurableBeeEntity.getFlowerFromNBT(nbt);
+            } else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
                 blockTag = flowering.get(entry.getValue().getBeeType().toString());
             }
 
@@ -130,7 +129,12 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
             this.bee = bee;
         }
 
-        public Tag<?> getTag() { return blockTag; }
-        public BeeIngredient getBee() { return this.bee; }
+        public Tag<?> getTag() {
+            return blockTag;
+        }
+
+        public BeeIngredient getBee() {
+            return this.bee;
+        }
     }
 }

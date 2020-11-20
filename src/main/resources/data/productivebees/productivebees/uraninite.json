@@ -1,0 +1,12 @@
+{
+    "primaryColor": "#00FF00",
+    "secondaryColor": "#008000",
+    "particleColor": "#7CFC00",
+    "size": 0.8,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "powah"
+        }
+    ]
+}

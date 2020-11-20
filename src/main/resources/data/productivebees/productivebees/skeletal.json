@@ -2,6 +2,7 @@
     "primaryColor": "#c1c1c1",
     "beeTexture": "productivebees:textures/entity/bee/skeletal/bee",
     "createComb": false,
+    "flowerBlock": "minecraft:bone_block",
     "attributes": {
         "behavior": 1
     }

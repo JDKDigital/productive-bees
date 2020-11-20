@@ -1,0 +1,21 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:lumium",
+    "results": [
+        {
+            "item": {
+                "item": "productivebees:configurable_honeycomb"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/lumium"
+            }
+        }
+    ]
+}

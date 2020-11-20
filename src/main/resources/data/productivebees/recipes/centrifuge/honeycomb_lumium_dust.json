@@ -3,12 +3,13 @@
     "ingredient": {
         "item": "productivebees:configurable_honeycomb"
     },
-    "comb_type": "productivebees:iron",
+    "comb_type": "productivebees:lumium",
     "outputs": [
         {
             "item": {
-                "tag": "forge:dusts/iron"
-            }
+                "tag": "forge:dusts/lumium"
+            },
+            "chance": 90
         },
         {
             "item": {
@@ -21,7 +22,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:dusts/iron"
+                "tag": "forge:dusts/lumium"
             }
         }
     ]

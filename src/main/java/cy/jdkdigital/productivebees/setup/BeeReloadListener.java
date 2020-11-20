@@ -36,9 +36,14 @@ public class BeeReloadListener extends JsonReloadListener
         for (Map.Entry<ResourceLocation, JsonObject> entry : dataMap.entrySet()) {
             ResourceLocation id = entry.getKey();
 
-            if (!CraftingHelper.processConditions(entry.getValue(), "conditions")) {
-                ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as it's conditions were not met", id);
-                continue;
+            try {
+                if (!CraftingHelper.processConditions(entry.getValue(), "conditions")) {
+                    ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as it's conditions were not met", id);
+                    continue;
+                }
+            } catch (Exception e) {
+                ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as it's conditions were invalid", id);
+                throw e;
             }
 
             CompoundNBT nbt = BeeCreator.create(id, entry.getValue());

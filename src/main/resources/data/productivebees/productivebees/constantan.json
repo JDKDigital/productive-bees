@@ -1,6 +1,7 @@
 {
     "primaryColor": "#fc8669",
     "secondaryColor": "#884739",
+    "flowerTag": "forge:storage_blocks/constantan",
     "conditions": [
         {
             "type": "forge:not",

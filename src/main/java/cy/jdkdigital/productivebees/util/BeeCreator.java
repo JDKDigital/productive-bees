@@ -30,6 +30,8 @@ public class BeeCreator
         }
         if (json.has("flowerTag")) {
             data.putString("flowerTag", json.get("flowerTag").getAsString());
+        } else if (json.has("flowerBlock")) {
+            data.putString("flowerBlock", json.get("flowerBlock").getAsString());
         }
         if (json.has("nestingPreference")) {
             data.putString("nestingPreference", json.get("nestingPreference").getAsString());

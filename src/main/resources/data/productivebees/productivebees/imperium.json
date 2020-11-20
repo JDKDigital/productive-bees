@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#007FDB",
+    "secondaryColor": "#804f40",
+    "particleColor": "#007FDB",
+    "size": 0.8,
+    "flowerBlock": "mysticalagriculture:imperium_block",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

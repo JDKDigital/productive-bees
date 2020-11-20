@@ -261,7 +261,7 @@ public class BeeHelper
                 return ((FeederTileEntity) feederTile).getRandomBlockFromInventory(tag);
             }
         }
-        return Blocks.AIR;
+        return flowerBlock;
     }
 
     public static void setOffspringAttributes(ProductiveBeeEntity newBee, ProductiveBeeEntity productiveBeeEntity, AgeableEntity targetEntity) {

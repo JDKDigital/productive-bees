@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#008C23",
+    "secondaryColor": "#804f40",
+    "particleColor": "#008C23",
+    "size": 0.8,
+    "flowerBlock": "mysticalagriculture:prudentium_block",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}
