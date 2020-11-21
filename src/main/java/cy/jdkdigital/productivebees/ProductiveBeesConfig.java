@@ -76,8 +76,8 @@ public class ProductiveBeesConfig
                     .defineInRange("nestRepopulationCooldown", 3600, 20, Integer.MAX_VALUE);
 
             preferredTagSource = builder
-                    .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from. Eg: mekanism,silents_mekanism,immersiveengineering")
-                    .defineList("preferredOres", ImmutableList.of(ProductiveBees.MODID, "immersiveengineering", "create", "mekanism", "silents_mechanisms"), obj -> obj.toString().length() > 1);
+                    .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from.")
+                    .defineList("preferredTagSource", ImmutableList.of(ProductiveBees.MODID, "thermal", "immersiveengineering", "create", "mekanism", "silents_mechanisms"), obj -> true);
 
             numberOfBeesPerBomb = builder
                     .comment("How many bees can fit in a bee bomb. Default is 10")

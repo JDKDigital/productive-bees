@@ -498,6 +498,6 @@
 
 	"productivebees.top.solitary.bee": "Inhabitant: %s",
 	"productivebees.top.solitary.egg_count": "Eggs: %s",
-	"productivebees.top.solitary.repopulation_countdown": "Repopulation cooldown",
+	"productivebees.top.solitary.repopulation_countdown": "Repopulation cooldown %s",
 	"productivebees.top.solitary.repopulation_countdown_inactive": "Nest is empty. Use a honey treat to attract a bee."
 }
