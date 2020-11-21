@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/redstone",
+        "item": "productivebees:honeycomb_redstone",
         "count": 4
     }
 }

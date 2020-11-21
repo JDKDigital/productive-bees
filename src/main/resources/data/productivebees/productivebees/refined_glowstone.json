@@ -2,6 +2,7 @@
     "primaryColor": "#feee7c",
     "secondaryColor": "#bb8d23",
     "description": "This bee will produce refined glowstone",
+    "createComb": false,
     "conditions": [
         {
             "type": "forge:mod_loaded",

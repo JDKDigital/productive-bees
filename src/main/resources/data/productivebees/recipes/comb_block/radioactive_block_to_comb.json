@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/radioactive",
+        "item": "productivebees:honeycomb_radioactive",
         "count": 4
     }
 }

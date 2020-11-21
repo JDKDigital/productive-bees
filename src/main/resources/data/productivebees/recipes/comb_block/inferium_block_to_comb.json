@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/inferium",
+        "item": "productivebees:honeycomb_inferium",
         "count": 4
     }
 }

@@ -24,7 +24,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
     @Nonnull
     @Override
     public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
-        int num = sum(bee.getEntityId());
+        int num = bee.getRenderStatic() ? 1 : sum(bee.getEntityId(), 3);
 
         String beeLocation = "textures/entity/bee/" + bee.getBeeName() + "/" + num + "/bee";
 
@@ -39,12 +39,12 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
         return new ResourceLocation(ProductiveBees.MODID, beeLocation + ".png");
     }
 
-    private int sum(int num) {
+    private int sum(int num, int max) {
         double sum = 0;
         while (num > 0) {
             sum = sum + num % 10;
             num = num / 10;
         }
-        return sum > 9 ? sum((int) sum) : (int) Math.ceil(sum / 3);
+        return sum > 9 ? sum((int) sum, max) : (int) Math.ceil(sum / max);
     }
 }

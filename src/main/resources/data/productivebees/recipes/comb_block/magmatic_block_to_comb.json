@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/magmatic",
+        "item": "productivebees:honeycomb_magmatic",
         "count": 4
     }
 }

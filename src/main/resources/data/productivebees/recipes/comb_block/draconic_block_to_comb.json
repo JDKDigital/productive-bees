@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/draconic",
+        "item": "productivebees:honeycomb_draconic",
         "count": 4
     }
 }

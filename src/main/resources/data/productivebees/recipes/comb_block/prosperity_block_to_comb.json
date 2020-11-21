@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/prosperity",
+        "item": "productivebees:honeycomb_prosperity",
         "count": 4
     }
 }

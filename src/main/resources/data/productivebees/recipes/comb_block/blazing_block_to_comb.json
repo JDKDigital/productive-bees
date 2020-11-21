@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/blazing",
+        "item": "productivebees:honeycomb_blazing",
         "count": 4
     }
 }

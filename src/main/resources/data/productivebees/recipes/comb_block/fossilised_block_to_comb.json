@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/fossilised",
+        "item": "productivebees:honeycomb_fossilised",
         "count": 4
     }
 }

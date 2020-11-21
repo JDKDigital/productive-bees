@@ -1,6 +1,7 @@
 {
     "primaryColor": "#0f1318",
     "secondaryColor": "#181e25",
+    "createComb": false,
     "size": 0.8,
     "conditions": [
         {

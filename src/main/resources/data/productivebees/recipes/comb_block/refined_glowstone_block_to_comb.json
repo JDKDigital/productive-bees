@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/refined_glowstone",
+        "item": "productivebees:honeycomb_refined_glowstone",
         "count": 4
     }
 }

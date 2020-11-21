@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/tin",
+        "item": "productivebees:honeycomb_tin",
         "count": 4
     }
 }

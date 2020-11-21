@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/plastic",
+        "item": "productivebees:honeycomb_plastic",
         "count": 4
     }
 }

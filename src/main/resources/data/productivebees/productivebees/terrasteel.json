@@ -1,6 +1,7 @@
 {
     "primaryColor": "#49cc1d",
     "secondaryColor": "#804f40",
+    "createComb": false,
     "conditions": [
         {
             "type": "forge:mod_loaded",

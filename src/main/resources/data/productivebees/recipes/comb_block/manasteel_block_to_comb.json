@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/manasteel",
+        "item": "productivebees:honeycomb_manasteel",
         "count": 4
     }
 }

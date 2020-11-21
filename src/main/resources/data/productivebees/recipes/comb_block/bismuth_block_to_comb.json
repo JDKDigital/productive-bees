@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/bismuth",
+        "item": "productivebees:honeycomb_bismuth",
         "count": 4
     }
 }

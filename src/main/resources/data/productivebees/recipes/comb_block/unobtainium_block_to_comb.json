@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/unobtainium",
+        "item": "productivebees:honeycomb_unobtainium",
         "count": 4
     }
 }

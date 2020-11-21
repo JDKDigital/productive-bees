@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/electrum",
+        "item": "productivebees:honeycomb_electrum",
         "count": 4
     }
 }

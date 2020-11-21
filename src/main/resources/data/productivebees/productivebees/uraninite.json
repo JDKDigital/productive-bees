@@ -2,6 +2,7 @@
     "primaryColor": "#00FF00",
     "secondaryColor": "#008000",
     "particleColor": "#7CFC00",
+    "createComb": false,
     "size": 0.8,
     "conditions": [
         {

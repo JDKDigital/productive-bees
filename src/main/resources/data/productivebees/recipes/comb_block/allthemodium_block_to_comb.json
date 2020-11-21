@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/allthemodium",
+        "item": "productivebees:honeycomb_allthemodium",
         "count": 4
     }
 }

@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/bronze",
+        "item": "productivebees:honeycomb_bronze",
         "count": 4
     }
 }

@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/osmium",
+        "item": "productivebees:honeycomb_osmium",
         "count": 4
     }
 }

@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/enderium",
+        "item": "productivebees:honeycomb_enderium",
         "count": 4
     }
 }

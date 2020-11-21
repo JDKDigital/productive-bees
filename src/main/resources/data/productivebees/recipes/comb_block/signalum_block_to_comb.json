@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/signalum",
+        "item": "productivebees:honeycomb_signalum",
         "count": 4
     }
 }

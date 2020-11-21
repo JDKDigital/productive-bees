@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/obsidian",
+        "item": "productivebees:honeycomb_obsidian",
         "count": 4
     }
 }

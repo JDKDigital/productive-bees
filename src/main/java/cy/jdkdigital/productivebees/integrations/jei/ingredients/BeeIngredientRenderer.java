@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientRenderer;
@@ -34,6 +35,10 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 
             if (bee instanceof ConfigurableBeeEntity) {
                 ((ConfigurableBeeEntity)bee).setBeeType(beeIngredient.getBeeType().toString());
+            }
+
+            if (bee instanceof ProductiveBeeEntity) {
+                ((ProductiveBeeEntity)bee).setRenderStatic();
             }
 
             if (minecraft.player != null && bee != null) {

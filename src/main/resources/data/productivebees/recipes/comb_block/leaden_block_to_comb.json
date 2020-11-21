@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/leaden",
+        "item": "productivebees:honeycomb_leaden",
         "count": 4
     }
 }

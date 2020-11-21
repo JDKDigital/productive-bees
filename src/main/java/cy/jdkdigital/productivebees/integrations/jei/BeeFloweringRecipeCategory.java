@@ -72,7 +72,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 stacks.add(item);
             }
         } catch (Exception e) {
-            ProductiveBees.LOGGER.error("Failed to find flowering requirements for " + recipe.getBee());
+            ProductiveBees.LOGGER.warn("Failed to find flowering requirements for " + recipe.getBee());
         }
         List<List<ItemStack>> items = new ArrayList<>();
         items.add(stacks);
@@ -105,7 +105,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
 
         Tag<Block> defaultBlockTag = BlockTags.getCollection().getOrCreate(new ResourceLocation("flowers"));
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()){
-            Tag<Block> blockTag = defaultBlockTag;
+            Tag<Block> blockTag = null;
             if (entry.getValue().isConfigurable()) {
                 CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
                 blockTag = ConfigurableBeeEntity.getFlowerFromNBT(nbt);
@@ -113,7 +113,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 blockTag = flowering.get(entry.getValue().getBeeType().toString());
             }
 
-            recipes.add(new Recipe(blockTag, entry.getValue()));
+            recipes.add(new Recipe(blockTag == null ? defaultBlockTag : blockTag, entry.getValue()));
         }
         return recipes;
     }

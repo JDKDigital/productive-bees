@@ -4,6 +4,7 @@
     "particleColor": "#dde8ae",
     "blinding": true,
     "flowerTag": "forge:storage_blocks/lumium",
+    "createComb": false,
     "conditions": [
         {
             "type": "forge:not",

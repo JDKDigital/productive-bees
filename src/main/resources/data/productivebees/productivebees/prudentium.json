@@ -4,6 +4,7 @@
     "particleColor": "#008C23",
     "size": 0.8,
     "flowerBlock": "mysticalagriculture:prudentium_block",
+    "createComb": false,
     "conditions": [
         {
             "type": "forge:mod_loaded",

@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/titanium",
+        "item": "productivebees:honeycomb_titanium",
         "count": 4
     }
 }

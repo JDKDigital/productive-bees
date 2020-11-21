@@ -4,6 +4,7 @@
     "particleColor": "#C40000",
     "size": 0.8,
     "flowerBlock": "mysticalagriculture:supremium_block",
+    "createComb": false,
     "conditions": [
         {
             "type": "forge:mod_loaded",

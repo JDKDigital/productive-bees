@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/elementium",
+        "item": "productivebees:honeycomb_elementium",
         "count": 4
     }
 }

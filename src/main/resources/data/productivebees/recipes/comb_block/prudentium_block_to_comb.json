@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/prudentium",
+        "item": "productivebees:honeycomb_prudentium",
         "count": 4
     }
 }

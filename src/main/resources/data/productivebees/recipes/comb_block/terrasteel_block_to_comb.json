@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/terrasteel",
+        "item": "productivebees:honeycomb_terrasteel",
         "count": 4
     }
 }

@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/brazen",
+        "item": "productivebees:honeycomb_brazen",
         "count": 4
     }
 }

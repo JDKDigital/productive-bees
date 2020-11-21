@@ -263,8 +263,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     public static Tag<Block> getFlowerFromNBT(CompoundNBT nbt) {
         if (nbt.contains("flowerTag")) {
             return ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
-        }
-        if (nbt.contains("flowerBlock")) {
+        } else if (nbt.contains("flowerBlock")) {
             ResourceLocation flowerBlockRLoc = new ResourceLocation(nbt.getString("flowerBlock"));
             if (!ModTags.tagCache.containsKey(flowerBlockRLoc)) {
                 Block flowerBlock = ForgeRegistries.BLOCKS.getValue(flowerBlockRLoc);

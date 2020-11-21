@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/supremium",
+        "item": "productivebees:honeycomb_supremium",
         "count": 4
     }
 }

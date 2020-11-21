@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/nickel",
+        "item": "productivebees:honeycomb_nickel",
         "count": 4
     }
 }

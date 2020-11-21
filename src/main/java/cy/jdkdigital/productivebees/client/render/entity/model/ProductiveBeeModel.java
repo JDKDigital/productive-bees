@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableModel<T> implements IHasBeeHat
+public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableModel<T>
 {
     protected float FAKE_PI = 3.1415927F;
     protected final ModelRenderer body;
@@ -103,6 +103,8 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         this.innards.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.innards.addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F);
         this.body.addChild(this.innards);
+
+        addSantaHat();
     }
 
     public void setLivingAnimations(T entity, float p_212843_2_, float p_212843_3_, float p_212843_4_) {
@@ -188,13 +190,8 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         matrixStackIn.pop();
     }
 
-    @Override
-    public ModelRenderer getModelHat() {
-        return santaHat;
-    }
-
     private void addSantaHat() {
-        santaHat.setRotationPoint(0.0F, 24.0F, 0.0F);
+        santaHat.setRotationPoint(.5F, 5.0F, 0.0F);
         santaHat.setTextureOffset(0, 54).addBox(-5.0F, -10.0F, -6.0F, 9.0F, 1.0F, 9.0F, 0.0F, false);
         santaHat.setTextureOffset(36, 54).addBox(-4.0F, -13.0F, -5.0F, 7.0F, 3.0F, 7.0F, 0.0F, false);
 
@@ -214,8 +211,9 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         box4.setRotationPoint(0.0F, -3.0F, 7.0F);
         santaHat.addChild(box4);
         setRotationAngle(box4,0.3927F, 0.0F, 0.0F);
-        box4.setTextureOffset(45, 60).addBox(-2.0F, -18.0F, -4.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-        box4.setTextureOffset(18, 60).addBox(-2.5F, -19.5F, -4.4224F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+        box4.setTextureOffset(18, 60).addBox(-2.5F, -18.5F, -4.4224F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+
+        this.torso.addChild(this.santaHat);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

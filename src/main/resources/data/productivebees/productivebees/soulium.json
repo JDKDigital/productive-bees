@@ -4,6 +4,7 @@
     "particleColor": "#301b10",
     "size": 0.8,
     "flowerBlock": "mysticalagriculture:soulium_block",
+    "createComb": false,
     "conditions": [
         {
             "type": "forge:mod_loaded",

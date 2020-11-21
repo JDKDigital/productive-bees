@@ -1,1 +1,14 @@
-{"primaryColor":"#737373","secondaryColor":"#804f40","conditions":[{"type":"forge:not","value":{"type":"forge:tag_empty","tag":"forge:ingots/steel"}}]}
+{
+    "primaryColor": "#737373",
+    "secondaryColor": "#804f40",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/steel"
+            }
+        }
+    ]
+}

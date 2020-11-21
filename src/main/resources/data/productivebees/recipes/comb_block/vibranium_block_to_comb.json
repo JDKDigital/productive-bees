@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/vibranium",
+        "item": "productivebees:honeycomb_vibranium",
         "count": 4
     }
 }

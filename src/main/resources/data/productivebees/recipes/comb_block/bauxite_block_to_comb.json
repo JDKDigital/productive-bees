@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/bauxite",
+        "item": "productivebees:honeycomb_bauxite",
         "count": 4
     }
 }

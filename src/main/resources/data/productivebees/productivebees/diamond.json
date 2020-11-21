@@ -2,6 +2,7 @@
     "primaryColor": "#3ddfe1",
     "secondaryColor": "#804f40",
     "particleColor": "#3ddfe1",
+    "createComb": false,
     "size": 0.6,
     "attributes": {
         "endurance": 2

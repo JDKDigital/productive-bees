@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/spacial",
+        "item": "productivebees:honeycomb_spacial",
         "count": 4
     }
 }

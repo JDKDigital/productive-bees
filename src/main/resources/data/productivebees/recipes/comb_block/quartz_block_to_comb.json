@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/quartz",
+        "item": "productivebees:honeycomb_quartz",
         "count": 4
     }
 }

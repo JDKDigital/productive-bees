@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/uraninite",
+        "item": "productivebees:honeycomb_uraninite",
         "count": 4
     }
 }

@@ -1,6 +1,7 @@
 {
     "primaryColor": "#E9EBE7",
     "secondaryColor": "#804f40",
+    "createComb": false,
     "conditions": [
         {
             "type": "forge:not",

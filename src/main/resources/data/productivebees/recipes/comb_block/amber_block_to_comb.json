@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/amber",
+        "item": "productivebees:honeycomb_amber",
         "count": 4
     }
 }

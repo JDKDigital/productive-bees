@@ -6,7 +6,7 @@
         }
     ],
     "result": {
-        "tag": "forge:honeycombs/ender_biotite",
+        "item": "productivebees:honeycomb_ender_biotite",
         "count": 4
     }
 }
