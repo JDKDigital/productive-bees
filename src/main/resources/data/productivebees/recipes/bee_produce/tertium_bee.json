@@ -1,11 +1,11 @@
 {
     "type": "productivebees:advanced_beehive",
     "ingredient": "productivebees:configurable_bee",
-    "bee_type": "productivebees:inferium",
+    "bee_type": "productivebees:tertium",
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/inferium"
+                "tag": "forge:honeycombs/tertium"
             }
         }
     ],

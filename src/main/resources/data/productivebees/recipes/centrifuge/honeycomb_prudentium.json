@@ -1,0 +1,26 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/prudentium"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mysticalagriculture:prudentium_essence"
+            },
+            "min": 3,
+            "max": 6
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

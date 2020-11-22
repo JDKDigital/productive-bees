@@ -1,0 +1,26 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/tertium"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mysticalagriculture:tertium_essence"
+            },
+            "min": 2,
+            "max": 5
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}
