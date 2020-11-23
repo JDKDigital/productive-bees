@@ -1,16 +1,14 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.client.render.entity.layers.AbdomenLayer;
-import cy.jdkdigital.productivebees.client.render.entity.layers.ColorLayer;
-import cy.jdkdigital.productivebees.client.render.entity.layers.PollenLayer;
-import cy.jdkdigital.productivebees.client.render.entity.layers.SantaHatLayer;
+import cy.jdkdigital.productivebees.client.render.entity.layers.*;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.SpiderEyesLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,6 +29,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
             this.isChristmas = true;
         }
+//        this.isChristmas = true;
     }
 
     public ProductiveBeeRenderer(EntityRendererManager renderManagerIn) {
@@ -41,9 +40,10 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         if (this.isChristmas) {
             addLayer(new SantaHatLayer(this));
         }
+        addLayer(new GlowingInnardsLayer(this));
     }
 
-    @Nullable   
+    @Nullable
     @Override
     protected RenderType func_230042_a_(ProductiveBeeEntity bee, boolean b1, boolean b2) {
         if (bee instanceof ConfigurableBeeEntity) {

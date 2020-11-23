@@ -377,6 +377,10 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         return getNBTData().contains("particleColor");
     }
 
+    public boolean hasGlowingInnards() {
+        return getNBTData().getBoolean("glowingInnards");
+    }
+
     public float[] getParticleColor() {
         Integer color = getNBTData().getInt("particleColor");
         if (!colorCache.containsKey(color)) {

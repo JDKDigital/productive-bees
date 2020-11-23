@@ -71,39 +71,11 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         }
         this.stinger.addBox(0.0F, -1.0F, 5.0F, 0.0F, 1.0F, 2.0F, 0.0F);
         this.torso.addChild(this.stinger);
-        this.leftAntenna.setRotationPoint(0.0F, -2.0F, -5.0F);
-        this.leftAntenna.addBox(1.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F, 0.0F);
-        this.rightAntenna.setRotationPoint(0.0F, -2.0F, -5.0F);
-        this.rightAntenna.addBox(-2.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F, 0.0F);
-        this.torso.addChild(this.leftAntenna);
-        this.torso.addChild(this.rightAntenna);
-        this.rightWing.setRotationPoint(-1.5F, -4.0F, -3.0F);
-        this.rightWing.rotateAngleX = 0.0F;
-        this.rightWing.rotateAngleY = -0.2618F;
-        this.rightWing.rotateAngleZ = 0.0F;
-        this.body.addChild(this.rightWing);
-        this.rightWing.addBox(-9.0F, 0.0F, 0.0F, 9.0F, 0.0F, 6.0F, 0.001F);
-        this.leftWing.setRotationPoint(1.5F, -4.0F, -3.0F);
-        this.leftWing.rotateAngleX = 0.0F;
-        this.leftWing.rotateAngleY = 0.2618F;
-        this.leftWing.rotateAngleZ = 0.0F;
-        this.leftWing.mirror = true;
-        this.body.addChild(this.leftWing);
-        this.leftWing.addBox(0.0F, 0.0F, 0.0F, 9.0F, 0.0F, 6.0F, 0.001F);
-        this.frontLegs.setRotationPoint(1.5F, 3.0F, -2.0F);
-        this.body.addChild(this.frontLegs);
-        this.frontLegs.addBox("frontLegBox", -5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F, 26, 1);
-        this.middleLegs.setRotationPoint(1.5F, 3.0F, 0.0F);
-        this.body.addChild(this.middleLegs);
-        this.middleLegs.addBox("midLegBox", -5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F, 26, 3);
-        this.backLegs.setRotationPoint(1.5F, 3.0F, 2.0F);
-        this.body.addChild(this.backLegs);
-        this.backLegs.addBox("backLegBox", -5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F, 26, 5);
 
-        this.innards.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.innards.addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F);
-        this.body.addChild(this.innards);
-
+        addAntenna();
+        addWings();
+        addLegs();
+        addInnards();
         addSantaHat();
     }
 
@@ -188,6 +160,49 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         matrixStackIn.scale(beeSize, beeSize, beeSize);
         super.render(matrixStackIn, renderBuffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         matrixStackIn.pop();
+    }
+
+    private void addAntenna() {
+        this.leftAntenna.setRotationPoint(0.0F, -2.0F, -5.0F);
+        this.leftAntenna.addBox(1.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F, 0.0F);
+        this.rightAntenna.setRotationPoint(0.0F, -2.0F, -5.0F);
+        this.rightAntenna.addBox(-2.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F, 0.0F);
+        this.torso.addChild(this.leftAntenna);
+        this.torso.addChild(this.rightAntenna);
+    }
+
+    private void addWings() {
+        this.rightWing.setRotationPoint(-1.5F, -4.0F, -3.0F);
+        this.rightWing.rotateAngleX = 0.0F;
+        this.rightWing.rotateAngleY = -0.2618F;
+        this.rightWing.rotateAngleZ = 0.0F;
+        this.body.addChild(this.rightWing);
+        this.rightWing.addBox(-9.0F, 0.0F, 0.0F, 9.0F, 0.0F, 6.0F, 0.001F);
+        this.leftWing.setRotationPoint(1.5F, -4.0F, -3.0F);
+        this.leftWing.rotateAngleX = 0.0F;
+        this.leftWing.rotateAngleY = 0.2618F;
+        this.leftWing.rotateAngleZ = 0.0F;
+        this.leftWing.mirror = true;
+        this.body.addChild(this.leftWing);
+        this.leftWing.addBox(0.0F, 0.0F, 0.0F, 9.0F, 0.0F, 6.0F, 0.001F);
+    }
+
+    private void addLegs() {
+        this.frontLegs.setRotationPoint(1.5F, 3.0F, -2.0F);
+        this.body.addChild(this.frontLegs);
+        this.frontLegs.addBox("frontLegBox", -5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F, 26, 1);
+        this.middleLegs.setRotationPoint(1.5F, 3.0F, 0.0F);
+        this.body.addChild(this.middleLegs);
+        this.middleLegs.addBox("midLegBox", -5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F, 26, 3);
+        this.backLegs.setRotationPoint(1.5F, 3.0F, 2.0F);
+        this.body.addChild(this.backLegs);
+        this.backLegs.addBox("backLegBox", -5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F, 26, 5);
+    }
+
+    private void addInnards() {
+        this.innards.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.innards.addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F);
+        this.body.addChild(this.innards);
     }
 
     private void addSantaHat() {

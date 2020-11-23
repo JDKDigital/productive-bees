@@ -8,6 +8,9 @@ import cy.jdkdigital.productivebees.common.item.*;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
+import net.minecraft.item.Rarity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -17,7 +20,17 @@ import java.util.function.Supplier;
 
 public class ModItems
 {
-    public static final Food SUGARBAG = (new Food.Builder()).hunger(3).saturation(0.2F).build();
+    public static final Food SUGARBAG = (new Food.Builder()).hunger(3).saturation(0.2F).setAlwaysEdible()
+            .effect(() -> new EffectInstance(Effects.REGENERATION, 1200, 1), 0.2f)
+            .effect(() -> new EffectInstance(Effects.ABSORPTION, 1200, 1), 0.1f)
+            .effect(() -> new EffectInstance(Effects.FIRE_RESISTANCE, 1200, 1), 0.3f)
+            .effect(() -> new EffectInstance(Effects.HASTE, 1200, 1), 0.1f)
+            .effect(() -> new EffectInstance(Effects.HEALTH_BOOST, 1200, 1), 0.1f)
+            .effect(() -> new EffectInstance(Effects.STRENGTH, 1200, 1), 0.1f)
+            .effect(() -> new EffectInstance(Effects.SPEED, 1200, 1), 0.1f)
+            .effect(() -> new EffectInstance(Effects.RESISTANCE, 1200, 1), 0.2f)
+            .effect(() -> new EffectInstance(Effects.LUCK, 1200, 1), 0.1f)
+            .build();
 
     public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, ProductiveBees.MODID);
     public static final List<RegistryObject<Item>> SPAWN_EGGS = Lists.newArrayList();
@@ -31,7 +44,7 @@ public class ModItems
     public static final RegistryObject<Item> BEE_BOMB = createItem("bee_bomb", () -> new BeeBomb(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> BEE_BOMB_ANGRY = createItem("bee_bomb_angry", () -> new BeeBombAngry(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> NEST_LOCATOR = createItem("nest_locator", () -> new NestLocator(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> SUGARBAG_HONEYCOMB = createItem("sugarbag_honeycomb", () -> new Item((new Item.Properties().food(SUGARBAG)).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> SUGARBAG_HONEYCOMB = createItem("sugarbag_honeycomb", () -> new Item((new Item.Properties().food(SUGARBAG).rarity(Rarity.EPIC)).group(ModItemGroups.PRODUCTIVE_BEES)));
 
     public static final RegistryObject<Item> CONFIGURABLE_HONEYCOMB = createItem("configurable_honeycomb", () -> new Honeycomb((new Item.Properties()).group(null), "#d2ab00"));
 

@@ -50,6 +50,7 @@ public class BeeCreator
         data.putFloat("size", json.has("size") ? json.get("size").getAsFloat() : 1.0f);
 
         data.putBoolean("translucent", (json.has("translucent") && json.get("translucent").getAsBoolean()) || data.getString("renderer").equals("translucent_with_center"));
+        data.putBoolean("glowingInnards", json.has("glowingInnards") && json.get("glowingInnards").getAsBoolean());
         data.putBoolean("fireproof", json.has("fireproof") && json.get("fireproof").getAsBoolean());
         data.putBoolean("withered", json.has("withered") && json.get("withered").getAsBoolean());
         data.putBoolean("blinding", json.has("blinding") && json.get("blinding").getAsBoolean());

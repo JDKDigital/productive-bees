@@ -30,7 +30,7 @@ public class SantaHatLayer extends LayerRenderer<ProductiveBeeEntity, Productive
             }
 
             ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/santa_hat.png");
-            renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, packedLightIn, bee, 1.0f, 1.0f, 1.0f);
+            renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, 15728640, bee, 1.0f, 1.0f, 1.0f);
         }
     }
 }
