@@ -1,0 +1,26 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/imperium"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mysticalagriculture:imperium_essence"
+            },
+            "min": 2,
+            "max": 3
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

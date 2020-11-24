@@ -102,7 +102,7 @@ dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
-//    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
+    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
 
 //    implementation fg.deobf('mods:Mekanism-1.16.1:10.0.1.424')
 

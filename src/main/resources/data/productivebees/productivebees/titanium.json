@@ -1,6 +1,8 @@
 {
     "primaryColor": "#D0D1DA",
     "secondaryColor": "#804f40",
+    "createComb": false,
+    "flowerTag": "forge:storage_blocks/titanium",
     "conditions": [
         {
             "type": "forge:not",

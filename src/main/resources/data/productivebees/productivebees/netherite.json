@@ -3,7 +3,7 @@
     "secondaryColor": "#804f40",
     "particleColor": "#4d494d",
     "name": "Ancient",
-    "flowerTag": "productivebees:flowers/wither_flowers",
+    "flowerBlocks": "minecraft:netherite_block",
     "size": 0.7,
     "attributes": {
         "endurance": 2

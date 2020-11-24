@@ -1,0 +1,38 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/lumium"
+    },
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:ingots/lumium"
+            },
+            "chance": 90
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "tag": "forge:honey"
+            },
+            "amount": 150
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/lumium"
+            }
+        },
+        {
+            "type": "forge:tag_empty",
+            "tag": "forge:dusts/lumium"
+        }
+    ]
+}

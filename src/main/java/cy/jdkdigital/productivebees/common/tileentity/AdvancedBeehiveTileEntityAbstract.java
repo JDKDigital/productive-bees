@@ -14,6 +14,7 @@ import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
@@ -202,6 +203,10 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     public boolean releaseBee(BlockState blockState, CompoundNBT tag, @Nullable List<Entity> releasedBees, BeehiveTileEntity.State beeState) {
+        if (blockState.getBlock().equals(Blocks.AIR)) {
+            return false;
+        }
+        
         boolean stayInside =
                 this.world.getDimensionKey() == World.OVERWORLD &&
                         (this.world.isNightTime() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
@@ -261,7 +266,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     protected void beeReleasePostAction(BeeEntity beeEntity, BlockState state, BeehiveTileEntity.State beeState) {
         beeEntity.resetTicksWithoutNectar();
-        beeEntity.heal(1);
+        beeEntity.heal(2);
 
         // Deliver honey on the way out
         if (beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {

@@ -1,8 +1,9 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/redstone"
+        "item": "productivebees:configurable_honeycomb"
     },
+    "comb_type": "productivebees:redstone",
     "outputs": [
         {
             "item": {

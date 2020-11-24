@@ -1,9 +1,8 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/unobtainium"
     },
-    "comb_type": "productivebees:unobtainium",
     "outputs": [
         {
             "item": {

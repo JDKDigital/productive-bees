@@ -1,0 +1,34 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/brazen"
+    },
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:dusts/brass"
+            },
+            "chance": 90
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "tag": "forge:honey"
+            },
+            "amount": 150
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:dusts/brass"
+            }
+        }
+    ]
+}

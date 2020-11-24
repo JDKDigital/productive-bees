@@ -1,0 +1,27 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/prosperity"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mysticalagriculture:prosperity_shard"
+            },
+            "min": 1,
+            "max": 2,
+            "chance": 60
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

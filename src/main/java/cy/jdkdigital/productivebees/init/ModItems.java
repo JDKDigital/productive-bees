@@ -8,6 +8,9 @@ import cy.jdkdigital.productivebees.common.item.*;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
+import net.minecraft.item.Rarity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -17,7 +20,17 @@ import java.util.function.Supplier;
 
 public class ModItems
 {
-    public static final Food SUGARBAG = (new Food.Builder()).hunger(3).saturation(0.2F).build();
+    public static final Food SUGARBAG = (new Food.Builder()).hunger(3).saturation(0.2F).setAlwaysEdible()
+            .effect(() -> new EffectInstance(Effects.REGENERATION, 1200, 1), 0.2f)
+            .effect(() -> new EffectInstance(Effects.ABSORPTION, 1200, 1), 0.1f)
+            .effect(() -> new EffectInstance(Effects.FIRE_RESISTANCE, 1200, 1), 0.3f)
+            .effect(() -> new EffectInstance(Effects.HASTE, 1200, 1), 0.1f)
+            .effect(() -> new EffectInstance(Effects.HEALTH_BOOST, 1200, 1), 0.1f)
+            .effect(() -> new EffectInstance(Effects.STRENGTH, 1200, 1), 0.1f)
+            .effect(() -> new EffectInstance(Effects.SPEED, 1200, 1), 0.1f)
+            .effect(() -> new EffectInstance(Effects.RESISTANCE, 1200, 1), 0.2f)
+            .effect(() -> new EffectInstance(Effects.LUCK, 1200, 1), 0.1f)
+            .build();
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ProductiveBees.MODID);
 
@@ -32,48 +45,76 @@ public class ModItems
     public static final RegistryObject<Item> BEE_BOMB = createItem("bee_bomb", () -> new BeeBomb(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> BEE_BOMB_ANGRY = createItem("bee_bomb_angry", () -> new BeeBombAngry(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> NEST_LOCATOR = createItem("nest_locator", () -> new NestLocator(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> SUGARBAG_HONEYCOMB = createItem("sugarbag_honeycomb", () -> new Item((new Item.Properties().food(SUGARBAG)).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> SUGARBAG_HONEYCOMB = createItem("sugarbag_honeycomb", () -> new Item((new Item.Properties().food(SUGARBAG).rarity(Rarity.EPIC)).group(ModItemGroups.PRODUCTIVE_BEES)));
 
     public static final RegistryObject<Item> CONFIGURABLE_HONEYCOMB = createItem("configurable_honeycomb", () -> new Honeycomb((new Item.Properties()).group(null), "#d2ab00"));
-    public static final RegistryObject<Item> HONEYCOMB_AMBER = createItem("honeycomb_amber", () -> new Honeycomb((new Item.Properties()).group(null), "#d2ab00"));
-    public static final RegistryObject<Item> HONEYCOMB_BAUXITE = createItem("honeycomb_bauxite", () -> new Item((new Item.Properties()).group(null)));
-    public static final RegistryObject<Item> HONEYCOMB_BLAZING = createItem("honeycomb_blazing", () -> new Item((new Item.Properties()).group(null)));
+
+    public static final RegistryObject<Item> HONEYCOMB_ALLTHEMODIUM = createItem("honeycomb_allthemodium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#f2f24f"));
+    public static final RegistryObject<Item> HONEYCOMB_AMBER = createItem("honeycomb_amber", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#d2ab00"));
+    public static final RegistryObject<Item> HONEYCOMB_BAUXITE = createItem("honeycomb_bauxite", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> HONEYCOMB_BISMUTH = createItem("honeycomb_bismuth", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#ece386"));
+    public static final RegistryObject<Item> HONEYCOMB_BLAZING = createItem("honeycomb_blazing", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_BONE = createItem("honeycomb_bone", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> HONEYCOMB_BRAZEN = createItem("honeycomb_brazen", () -> new Honeycomb((new Item.Properties()).group(null), "#DAAA4C"));
-    public static final RegistryObject<Item> HONEYCOMB_BRONZE = createItem("honeycomb_bronze", () -> new Honeycomb((new Item.Properties()).group(null), "#C98C52"));
-    public static final RegistryObject<Item> HONEYCOMB_COPPER = createItem("honeycomb_copper", () -> new Honeycomb((new Item.Properties()).group(null), "#F48702"));
-    public static final RegistryObject<Item> HONEYCOMB_DIAMOND = createItem("honeycomb_diamond", () -> new Honeycomb((new Item.Properties()).group(null), "#3ddfe1"));
+    public static final RegistryObject<Item> HONEYCOMB_BRAZEN = createItem("honeycomb_brazen", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#DAAA4C"));
+    public static final RegistryObject<Item> HONEYCOMB_BRONZE = createItem("honeycomb_bronze", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#C98C52"));
+    public static final RegistryObject<Item> HONEYCOMB_CINNABAR = createItem("honeycomb_cinnabar", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#d73e4a"));
+    public static final RegistryObject<Item> HONEYCOMB_CONSTANTAN = createItem("honeycomb_constantan", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#fc8669"));
+    public static final RegistryObject<Item> HONEYCOMB_COPPER = createItem("honeycomb_copper", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#F48702"));
+    public static final RegistryObject<Item> HONEYCOMB_DIAMOND = createItem("honeycomb_diamond", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#3ddfe1"));
     public static final RegistryObject<Item> HONEYCOMB_DRACONIC = createItem("honeycomb_draconic", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> HONEYCOMB_EMERALD = createItem("honeycomb_emerald", () -> new Honeycomb((new Item.Properties()).group(null), "#26ac43"));
-    public static final RegistryObject<Item> HONEYCOMB_ELECTRUM = createItem("honeycomb_electrum", () -> new Honeycomb((new Item.Properties()).group(null), "#D5BB4F"));
+    public static final RegistryObject<Item> HONEYCOMB_ELECTRUM = createItem("honeycomb_electrum", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#D5BB4F"));
+    public static final RegistryObject<Item> HONEYCOMB_ELEMENTIUM = createItem("honeycomb_elementium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#dc5af8"));
+    public static final RegistryObject<Item> HONEYCOMB_EMERALD = createItem("honeycomb_emerald", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#26ac43"));
     public static final RegistryObject<Item> HONEYCOMB_ENDER = createItem("honeycomb_ender", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_FOSSILISED = createItem("honeycomb_fossilised", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#222525"));
-    public static final RegistryObject<Item> HONEYCOMB_GOLD = createItem("honeycomb_gold", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#fffd6e"));
+    public static final RegistryObject<Item> HONEYCOMB_ENDER_BIOTITE = createItem("honeycomb_ender_biotite", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#0f1318"));
+    public static final RegistryObject<Item> HONEYCOMB_ENDERIUM = createItem("honeycomb_enderium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#58a28b"));
     public static final RegistryObject<Item> HONEYCOMB_GHOSTLY = createItem("honeycomb_ghostly", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_GLOWING = createItem("honeycomb_glowing", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> HONEYCOMB_INVAR = createItem("honeycomb_invar", () -> new Honeycomb((new Item.Properties()).group(null), "#ADB7B2"));
-    public static final RegistryObject<Item> HONEYCOMB_IRON = createItem("honeycomb_iron", () -> new Honeycomb((new Item.Properties()).group(null), "#cdcdcd"));
-    public static final RegistryObject<Item> HONEYCOMB_LAPIS = createItem("honeycomb_lapis", () -> new Honeycomb((new Item.Properties()).group(null), "#3537bc"));
-    public static final RegistryObject<Item> HONEYCOMB_LEADEN = createItem("honeycomb_leaden", () -> new Honeycomb((new Item.Properties()).group(null), "#677193"));
+    public static final RegistryObject<Item> HONEYCOMB_GOLD = createItem("honeycomb_gold", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#fffd6e"));
+    public static final RegistryObject<Item> HONEYCOMB_IMPERIUM = createItem("honeycomb_imperium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#007FDB"));
+    public static final RegistryObject<Item> HONEYCOMB_INFERIUM = createItem("honeycomb_inferium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#748E00"));
+    public static final RegistryObject<Item> HONEYCOMB_INVAR = createItem("honeycomb_invar", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#ADB7B2"));
+    public static final RegistryObject<Item> HONEYCOMB_IRON = createItem("honeycomb_iron", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#cdcdcd"));
+    public static final RegistryObject<Item> HONEYCOMB_LAPIS = createItem("honeycomb_lapis", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#3537bc"));
+    public static final RegistryObject<Item> HONEYCOMB_LEADEN = createItem("honeycomb_leaden", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#677193"));
+    public static final RegistryObject<Item> HONEYCOMB_LUMIUM = createItem("honeycomb_lumium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#f4ffc3"));
     public static final RegistryObject<Item> HONEYCOMB_MAGMATIC = createItem("honeycomb_magmatic", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> HONEYCOMB_MANASTEEL = createItem("honeycomb_manasteel", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#4aa7ef"));
     public static final RegistryObject<Item> HONEYCOMB_MILKY = createItem("honeycomb_milky", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_NETHERITE = createItem("honeycomb_netherite", () -> new Honeycomb((new Item.Properties().isImmuneToFire()).group(ModItemGroups.PRODUCTIVE_BEES), "#4d494d"));
     public static final RegistryObject<Item> HONEYCOMB_NICKEL = createItem("honeycomb_nickel", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#D8CC93"));
+    public static final RegistryObject<Item> HONEYCOMB_OBSIDIAN = createItem("honeycomb_obsidian", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#3b2754"));
     public static final RegistryObject<Item> HONEYCOMB_OSMIUM = createItem("honeycomb_osmium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#4c9db6"));
+    public static final RegistryObject<Item> HONEYCOMB_PLASTIC = createItem("honeycomb_plastic", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#d3d3d3"));
     public static final RegistryObject<Item> HONEYCOMB_PLATINUM = createItem("honeycomb_platinum", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#6FEAEF"));
     public static final RegistryObject<Item> HONEYCOMB_POWDERY = createItem("honeycomb_powdery", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> HONEYCOMB_PROSPERITY = createItem("honeycomb_prosperity", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#d2ab00"));
+    public static final RegistryObject<Item> HONEYCOMB_PRUDENTIUM = createItem("honeycomb_prudentium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#008C23"));
     public static final RegistryObject<Item> HONEYCOMB_QUARTZ = createItem("honeycomb_quartz", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#ede5dd"));
-    public static final RegistryObject<Item> HONEYCOMB_RADIOACTIVE = createItem("honeycomb_radioactive", () -> new Honeycomb((new Item.Properties()).group(null), "#60AE11"));
-    public static final RegistryObject<Item> HONEYCOMB_REDSTONE = createItem("honeycomb_redstone", () -> new Honeycomb((new Item.Properties()).group(null), "#d03621"));
+    public static final RegistryObject<Item> HONEYCOMB_RADIOACTIVE = createItem("honeycomb_radioactive", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#60AE11"));
+    public static final RegistryObject<Item> HONEYCOMB_REDSTONE = createItem("honeycomb_redstone", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#d03621"));
     public static final RegistryObject<Item> HONEYCOMB_ROTTEN = createItem("honeycomb_rotten", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> HONEYCOMB_SILVER = createItem("honeycomb_silver", () -> new Honeycomb((new Item.Properties()).group(null), "#A9DBE5"));
+    public static final RegistryObject<Item> HONEYCOMB_REFINED_GLOWSTONE = createItem("honeycomb_refined_glowstone", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#feee7c"));
+    public static final RegistryObject<Item> HONEYCOMB_REFINED_OBSIDIAN = createItem("honeycomb_refined_obsidian", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#5e5077"));
+    public static final RegistryObject<Item> HONEYCOMB_SIGNALUM = createItem("honeycomb_signalum", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#e7917d"));
+    public static final RegistryObject<Item> HONEYCOMB_SILICON = createItem("honeycomb_silicon", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#918d96"));
+    public static final RegistryObject<Item> HONEYCOMB_SILVER = createItem("honeycomb_silver", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#A9DBE5"));
     public static final RegistryObject<Item> HONEYCOMB_SLIMY = createItem("honeycomb_slimy", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> HONEYCOMB_STEEL = createItem("honeycomb_steel", () -> new Honeycomb((new Item.Properties()).group(null), "#737373"));
-    public static final RegistryObject<Item> HONEYCOMB_TIN = createItem("honeycomb_tin", () -> new Honeycomb((new Item.Properties()).group(null), "#9ABDD6"));
-    public static final RegistryObject<Item> HONEYCOMB_TITANIUM = createItem("honeycomb_titanium", () -> new Honeycomb((new Item.Properties()).group(null), "#D0D1DA"));
-    public static final RegistryObject<Item> HONEYCOMB_TUNGSTEN = createItem("honeycomb_tungsten", () -> new Honeycomb((new Item.Properties()).group(null), "#616669"));
-    public static final RegistryObject<Item> HONEYCOMB_WITHERED = createItem("honeycomb_withered", () -> new Item((new Item.Properties()).group(null)));
-    public static final RegistryObject<Item> HONEYCOMB_ZINC = createItem("honeycomb_zinc", () -> new Honeycomb((new Item.Properties()).group(null), "#E9EBE7"));
+    public static final RegistryObject<Item> HONEYCOMB_SOULIUM = createItem("honeycomb_soulium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#301b10"));
+    public static final RegistryObject<Item> HONEYCOMB_SPACIAL = createItem("honeycomb_spacial", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#dfe5f6"));
+    public static final RegistryObject<Item> HONEYCOMB_STEEL = createItem("honeycomb_steel", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#737373"));
+    public static final RegistryObject<Item> HONEYCOMB_SUPREMIUM = createItem("honeycomb_supremium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#C40000"));
+    public static final RegistryObject<Item> HONEYCOMB_TERRASTEEL = createItem("honeycomb_terrasteel", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#49cc1d"));
+    public static final RegistryObject<Item> HONEYCOMB_TERTIUM = createItem("honeycomb_tertium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#B74900"));
+    public static final RegistryObject<Item> HONEYCOMB_TIN = createItem("honeycomb_tin", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#9ABDD6"));
+    public static final RegistryObject<Item> HONEYCOMB_TITANIUM = createItem("honeycomb_titanium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#D0D1DA"));
+    public static final RegistryObject<Item> HONEYCOMB_TUNGSTEN = createItem("honeycomb_tungsten", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#616669"));
+    public static final RegistryObject<Item> HONEYCOMB_UNOBTAINIUM = createItem("honeycomb_unobtainium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#bc2feb"));
+    public static final RegistryObject<Item> HONEYCOMB_URANINITE = createItem("honeycomb_uraninite", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#00FF00"));
+    public static final RegistryObject<Item> HONEYCOMB_VIBRANIUM = createItem("honeycomb_vibranium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#73ffb9"));
+    public static final RegistryObject<Item> HONEYCOMB_WITHERED = createItem("honeycomb_withered", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> HONEYCOMB_ZINC = createItem("honeycomb_zinc", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#E9EBE7"));
 
     public static final RegistryObject<Item> DRACONIC_DUST = createItem("draconic_dust", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> DRACONIC_CHUNK = createItem("draconic_chunk", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));

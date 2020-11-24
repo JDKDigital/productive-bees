@@ -1,9 +1,8 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/vibranium"
     },
-    "comb_type": "productivebees:vibranium",
     "outputs": [
         {
             "item": {

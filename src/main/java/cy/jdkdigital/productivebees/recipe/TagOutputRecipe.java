@@ -1,11 +1,13 @@
 package cy.jdkdigital.productivebees.recipe;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.ModList;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import java.util.Map;
 public abstract class TagOutputRecipe
 {
     public final Map<Ingredient, IntArrayNBT> itemOutput;
+    public static Map<String, Integer> modPreference = new HashMap<>();
 
     public TagOutputRecipe(Map<Ingredient, IntArrayNBT> itemOutput) {
         this.itemOutput = itemOutput;
@@ -42,14 +45,14 @@ public abstract class TagOutputRecipe
 
     public static ItemStack getPreferredItemByMod(List<ItemStack> list) {
         ItemStack preferredItem = null;
-        int currBest = ProductiveBees.modPreference.size();
+        int currBest = getModPreference().size();
         for(ItemStack item : list) {
             ResourceLocation rl = item.getItem().getRegistryName();
             if(rl != null) {
                 String modId = rl.getNamespace();
                 int priority = 100;
-                if (ProductiveBees.modPreference.containsKey(modId)) {
-                    priority = ProductiveBees.modPreference.get(modId);
+                if (getModPreference().containsKey(modId)) {
+                    priority = getModPreference().get(modId);
                 };
                 if (preferredItem == null || (priority >= 0 && priority < currBest)) {
                     preferredItem = item;
@@ -58,5 +61,20 @@ public abstract class TagOutputRecipe
             }
         }
         return preferredItem;
+    }
+
+    private static Map<String, Integer> getModPreference() {
+        if (modPreference.size() > 0) {
+            return modPreference;
+        }
+
+        int priority = 0;
+        for(String modId: ProductiveBeesConfig.GENERAL.preferredTagSource.get()) {
+            if (ModList.get().isLoaded(modId)) {
+                modPreference.put(modId, ++priority);
+            }
+        }
+
+        return modPreference;
     }
 }

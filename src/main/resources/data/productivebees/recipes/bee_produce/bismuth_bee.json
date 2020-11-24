@@ -1,0 +1,21 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:bismuth",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/bismuth"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/bismuth"
+            }
+        }
+    ]
+}
