@@ -7,10 +7,10 @@
     ],
     "key": {
         "W": {
-            "item": "bloomful:wisteria_planks"
+            "item": "environmental:wisteria_planks"
         },
         "H": {
-            "item": "bloomful:wisteria_beehive"
+            "item": "environmental:wisteria_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -28,7 +28,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "bloomful"
+            "modid": "environmental"
         }
     ]
 }

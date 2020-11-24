@@ -1,43 +1,39 @@
 {
-  "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "productivebees:advanced_wisteria_beehive",
-      "productivebees:expansion_box_wisteria"
-    ]
-  },
-  "criteria": {
-    "has_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "buzzier_bees:wisteria_beehive"
-          }
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "productivebees:advanced_wisteria_beehive",
+            "productivebees:expansion_box_wisteria"
         ]
-      }
     },
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "productivebees:advanced_wisteria_beehive"
-      }
-    }
-  },
-  "requirements": [
-    [
-      "has_beehive",
-      "has_the_recipe"
-    ]
-  ],
+    "criteria": {
+        "has_beehive": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "environmental:wisteria_beehive"
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "productivebees:advanced_wisteria_beehive"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_beehive",
+            "has_the_recipe"
+        ]
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "buzzier_bees"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "bloomful"
+            "modid": "environmental"
         }
     ]
 }
