@@ -52,7 +52,7 @@ public class Feeder extends SlabBlock implements ITileEntityProvider
     @Override
     public boolean receiveFluid(IWorld world, BlockPos pos, BlockState state, IFluidState fluidState) {
         if (!state.get(BlockStateProperties.WATERLOGGED)) {
-            boolean isHoney = fluidState.getFluid().isEquivalentTo(ModFluids.HONEY.get());
+            boolean isHoney = fluidState.getFluid().isEquivalentTo(ModFluids.HONEY.get()) && fluidState.isSource();
             if (fluidState.getFluid() == Fluids.WATER || isHoney) {
                 if (!world.isRemote()) {
                     world.setBlockState(pos, state.with(BlockStateProperties.WATERLOGGED, true).with(HONEYLOGGED, isHoney), 3);
