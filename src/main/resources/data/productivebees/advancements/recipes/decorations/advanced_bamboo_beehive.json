@@ -12,7 +12,7 @@
       "conditions": {
         "items": [
           {
-            "item": "bambooblocks:bamboo_beehive"
+            "item": "bamboo_blocks:bamboo_beehive"
           }
         ]
       }
@@ -33,7 +33,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "bambooblocks"
+            "modid": "bamboo_blocks"
         }
     ]
 }

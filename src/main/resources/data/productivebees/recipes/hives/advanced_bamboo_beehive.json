@@ -7,10 +7,10 @@
     ],
     "key": {
         "W": {
-            "item": "bambooblocks:bamboo_planks"
+            "item": "bamboo_blocks:bamboo_planks"
         },
         "H": {
-            "item": "bambooblocks:bamboo_beehive"
+            "item": "bamboo_blocks:bamboo_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -28,7 +28,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "bambooblocks"
+            "modid": "bamboo_blocks"
         }
     ]
 }
