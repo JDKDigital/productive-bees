@@ -240,9 +240,15 @@ public class BeeHelper
         return outputList;
     }
 
+    @Nullable
     public static CentrifugeRecipe getCentrifugeRecipe(RecipeManager recipeManager, IItemHandlerModifiable inputHandler) {
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+
         World world = ProductiveBees.proxy.getWorld();
+
+        if (world == null) {
+            return null;
+        }
 
         CentrifugeRecipe recipe = null;
         if (ModList.get().isLoaded(ResourcefulBeesCompat.MODID) && input.getItem().getRegistryName().getNamespace().equals(ResourcefulBeesCompat.MODID)) {
@@ -262,8 +268,7 @@ public class BeeHelper
                 // @TODO Fluid output
                 recipe = new CentrifugeRecipe(new ResourceLocation(ResourcefulBeesCompat.MODID, rec.getId().getPath() + "_converted"), rec.ingredient, itemOutputs, new HashMap<>());
             }
-        }
-        else {
+        } else {
             recipe = recipeManager.getRecipe(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), world).orElse(null);
         }
         return recipe;
@@ -299,7 +304,7 @@ public class BeeHelper
                 return ((FeederTileEntity) feederTile).getRandomBlockFromInventory(tag);
             }
         }
-        return Blocks.AIR;
+        return flowerBlock;
     }
 
     public static void setOffspringAttributes(ProductiveBeeEntity newBee, ProductiveBeeEntity productiveBeeEntity, AgeableEntity targetEntity) {

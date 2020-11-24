@@ -109,6 +109,8 @@ dependencies {
     implementation fg.deobf('mods:Mekanism-1.16.3:10.0.12.437')
     // testing
     implementation fg.deobf('mods:resourcefulbees-1.16.3:0.5.5b')
+    implementation fg.deobf('mods:Lollipop-1.16.3:3.2.2')
+    implementation fg.deobf('mods:Powah-1.16.3:2.3.4')
     // build
 //    compileOnly fg.deobf('mods:resourcefulbees-1.16.3:0.5.0a')
 }
