@@ -78,6 +78,7 @@ public class ProductiveBeeEntity extends BeeEntity
     };
     private Color primaryColor = null;
     private Color secondaryColor = null;
+    private boolean renderStatic;
 
     protected FollowParentGoal followParentGoal;
     protected BreedGoal breedGoal;
@@ -309,6 +310,14 @@ public class ProductiveBeeEntity extends BeeEntity
 
     public int getTimeInHive(boolean hasNectar) {
         return hasNectar ? 2400 : 600;
+    }
+
+    public void setRenderStatic() {
+        renderStatic = true;
+    }
+
+    public boolean getRenderStatic() {
+        return renderStatic;
     }
 
     @Override

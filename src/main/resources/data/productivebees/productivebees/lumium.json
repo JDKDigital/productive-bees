@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#f4ffc3",
+    "secondaryColor": "#804f40",
+    "particleColor": "#dde8ae",
+    "blinding": true,
+    "flowerTag": "forge:storage_blocks/lumium",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/lumium"
+            }
+        }
+    ]
+}

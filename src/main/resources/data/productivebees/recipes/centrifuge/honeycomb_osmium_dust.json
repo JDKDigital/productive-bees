@@ -1,22 +1,25 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/osmium"
     },
-    "comb_type": "productivebees:osmium",
     "outputs": [
         {
             "item": {
                 "tag": "forge:dusts/osmium"
             },
-            "min": 1,
-            "max": 1,
             "chance": 90
         },
         {
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "tag": "forge:honey"
+            },
+            "amount": 150
         }
     ],
     "conditions": [
@@ -28,8 +31,11 @@
             }
         },
         {
-            "type": "forge:mod_loaded",
-            "modid": "mekanism"
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:dusts/osmium"
+            }
         }
     ]
 }

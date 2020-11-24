@@ -1,0 +1,14 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:radioactive",
+    "result": "productivebees:uraninite",
+    "item": {
+        "item": "powah:uraninite_block"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "powah"
+        }
+    ]
+}

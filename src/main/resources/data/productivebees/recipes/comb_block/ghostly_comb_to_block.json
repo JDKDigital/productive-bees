@@ -1,15 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "HH",
-    "HH"
-  ],
-  "key": {
-    "H": {
-      "tag": "forge:honeycombs/ghostly"
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "HH",
+        "HH"
+    ],
+    "key": {
+        "H": {
+            "tag": "forge:honeycombs/ghostly"
+        }
+    },
+    "result": {
+        "item": "productivebees:comb_ghostly"
     }
-  },
-  "result": {
-    "item": "productivebees:comb_ghostly"
-  }
 }

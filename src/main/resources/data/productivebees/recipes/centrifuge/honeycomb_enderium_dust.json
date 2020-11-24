@@ -1,0 +1,34 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/enderium"
+    },
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:dusts/enderium"
+            },
+            "chance": 70
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "tag": "forge:honey"
+            },
+            "amount": 150
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:dusts/enderium"
+            }
+        }
+    ]
+}

@@ -1,15 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "HH",
-    "HH"
-  ],
-  "key": {
-    "H": {
-      "tag": "forge:honeycombs/diamond"
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "HH",
+        "HH"
+    ],
+    "key": {
+        "H": {
+            "tag": "forge:honeycombs/diamond"
+        }
+    },
+    "result": {
+        "item": "productivebees:comb_diamond"
     }
-  },
-  "result": {
-    "item": "productivebees:comb_diamond"
-  }
 }

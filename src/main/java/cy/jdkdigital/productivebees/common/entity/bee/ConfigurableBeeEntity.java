@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
+import cy.jdkdigital.productivebees.util.SingleEntryTag;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -39,10 +40,13 @@ import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffectBeeEntity
@@ -245,10 +249,28 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     @Override
     public ITag<Block> getFlowerTag() {
         CompoundNBT nbt = getNBTData();
-        if (nbt != null && nbt.contains("flowerTag")) {
-            return ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
+        if (nbt != null) {
+            ITag<Block> flowerTag = getFlowerFromNBT(nbt);
+            if (flowerTag != null) {
+                return flowerTag;
+            }
         }
         return super.getFlowerTag();
+    }
+
+    public static ITag<Block> getFlowerFromNBT(CompoundNBT nbt) {
+        if (nbt.contains("flowerTag")) {
+            return ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
+        } else if (nbt.contains("flowerBlock")) {
+            ResourceLocation flowerBlockRLoc = new ResourceLocation(nbt.getString("flowerBlock"));
+            if (!ModTags.tagCache.containsKey(flowerBlockRLoc)) {
+                Block flowerBlock = ForgeRegistries.BLOCKS.getValue(flowerBlockRLoc);
+                SingleEntryTag<Block> blockTag = new SingleEntryTag<>(flowerBlock);
+                ModTags.tagCache.put(flowerBlockRLoc, blockTag);
+            }
+            return ModTags.tagCache.get(flowerBlockRLoc);
+        }
+        return null;
     }
 
     @Override
@@ -257,7 +279,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         if (nbt != null && nbt.contains("nestingPreference")) {
             return ModTags.getTag(new ResourceLocation(nbt.getString("nestingPreference")));
         }
-        return super.getFlowerTag();
+        return super.getNestingTag();
     }
 
     @Override
@@ -351,6 +373,10 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public boolean hasParticleColor() {
         return getNBTData().contains("particleColor");
+    }
+
+    public boolean hasGlowingInnards() {
+        return getNBTData().getBoolean("glowingInnards");
     }
 
     public float[] getParticleColor() {

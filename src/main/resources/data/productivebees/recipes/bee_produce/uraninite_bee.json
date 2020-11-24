@@ -1,0 +1,18 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:uraninite",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/uraninite"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "powah"
+        }
+    ]
+}

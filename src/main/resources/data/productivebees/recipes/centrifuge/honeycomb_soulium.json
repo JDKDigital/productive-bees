@@ -1,0 +1,30 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/soulium"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mysticalagriculture:soulium_dust"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "tag": "forge:honey"
+            },
+            "amount": 150
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

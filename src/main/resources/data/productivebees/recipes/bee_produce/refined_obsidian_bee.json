@@ -5,18 +5,11 @@
     "results": [
         {
             "item": {
-                "item": "productivebees:configurable_honeycomb"
+                "tag": "forge:honeycombs/refined_obsidian"
             }
         }
     ],
     "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/refined_obsidian"
-            }
-        },
         {
             "type": "forge:mod_loaded",
             "modid": "mekanism"

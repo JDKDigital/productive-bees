@@ -1,17 +1,15 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/refined_glowstone"
     },
-    "comb_type": "productivebees:refined_glowstone",
     "outputs": [
         {
             "item": {
                 "tag": "forge:nuggets/refined_glowstone"
             },
             "min": 1,
-            "max": 4,
-            "chance": 100
+            "max": 4
         },
         {
             "item": {

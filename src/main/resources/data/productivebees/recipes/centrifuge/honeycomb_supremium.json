@@ -1,0 +1,26 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/supremium"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mysticalagriculture:supremium_essence"
+            },
+            "min": 1,
+            "max": 2
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

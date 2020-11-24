@@ -1,0 +1,14 @@
+{
+    "primaryColor": "#748E00",
+    "secondaryColor": "#804f40",
+    "particleColor": "#748E00",
+    "size": 0.8,
+    "flowerBlock": "mysticalagriculture:inferium_block",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

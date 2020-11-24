@@ -1,0 +1,32 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:lead",
+    "parent2": "productivebees:platinum",
+    "offspring": [
+        "productivebees:enderium"
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:ender_pearls"
+        },
+        {
+            "tag": "forge:ender_pearls"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/enderium"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/platinum"
+            }
+        }
+    ]
+}

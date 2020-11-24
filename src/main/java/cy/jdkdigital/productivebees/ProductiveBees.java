@@ -56,7 +56,6 @@ public final class ProductiveBees
 
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static Map<String, Integer> modPreference = new HashMap<>();
 
     public ProductiveBees() {
         // Register ourselves for server and other game events we are interested in
@@ -91,13 +90,6 @@ public final class ProductiveBees
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
-
-        int priority = 0;
-        for(String modId: ProductiveBeesConfig.GENERAL.preferredTagSource.get()) {
-            if (ModList.get().isLoaded(modId)) {
-                modPreference.put(modId, ++priority);
-            }
-        }
 
         CraftingHelper.register(FluidTagEmptyCondition.Serializer.INSTANCE);
     }

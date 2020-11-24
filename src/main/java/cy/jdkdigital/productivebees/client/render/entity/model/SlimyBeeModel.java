@@ -13,8 +13,7 @@ public class SlimyBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeM
 
         if (!outerLayer) {
             addBodyParts();
-        }
-        else {
+        } else {
             slime.setRotationPoint(0.0F, 0.0F, 0.0F);
             slime.addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F, 0.0F);
             this.body.addChild(slime);

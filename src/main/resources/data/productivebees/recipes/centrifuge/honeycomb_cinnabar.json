@@ -1,0 +1,37 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/cinnabar"
+    },
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:gems/cinnabar"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "tag": "forge:honey"
+            },
+            "amount": 150
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/cinnabar"
+            }
+        },
+        {
+            "type": "forge:tag_empty",
+            "tag": "forge:dusts/cinnabar"
+        }
+    ]
+}

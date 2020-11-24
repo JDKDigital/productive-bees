@@ -3,6 +3,8 @@
     "secondaryColor": "#100000",
     "particleColor": "#d06a1b",
     "beeTexture": "productivebees:textures/entity/bee/magmatic/bee",
+    "glowingInnards": true,
+    "renderer": "translucent_with_center",
     "createComb": false,
     "flowerTag": "productivebees:flowers/magmatic_flowers",
     "nestingPreference": "productivebees:nests/nether_brick_nests",

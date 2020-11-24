@@ -1,8 +1,9 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/lapis"
+        "item": "productivebees:configurable_honeycomb"
     },
+    "comb_type": "productivebees:lapis",
     "outputs": [
         {
             "item": {

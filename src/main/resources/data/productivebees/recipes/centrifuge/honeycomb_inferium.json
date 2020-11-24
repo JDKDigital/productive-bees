@@ -1,0 +1,26 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/inferium"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mysticalagriculture:inferium_essence"
+            },
+            "min": 4,
+            "max": 7
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

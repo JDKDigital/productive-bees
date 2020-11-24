@@ -1,6 +1,8 @@
 {
     "primaryColor": "#DAAA4C",
     "secondaryColor": "#804f40",
+    "createComb": false,
+    "flowerTag": "forge:storage_blocks/brass",
     "conditions": [
         {
             "type": "forge:not",

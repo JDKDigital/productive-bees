@@ -1,0 +1,14 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:imperium",
+    "result": "productivebees:supremium",
+    "item": {
+        "item": "mysticalagriculture:supremium_block"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

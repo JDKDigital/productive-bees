@@ -1,0 +1,14 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:prudentium",
+    "result": "productivebees:tertium",
+    "item": {
+        "item": "mysticalagriculture:tertium_block"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

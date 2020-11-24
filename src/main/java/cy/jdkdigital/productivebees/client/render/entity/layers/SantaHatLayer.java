@@ -1,40 +1,36 @@
 package cy.jdkdigital.productivebees.client.render.entity.layers;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import cy.jdkdigital.productivebees.client.render.entity.model.IHasBeeHat;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
-public class SantaHatLayer<T extends ProductiveBeeEntity, M extends ProductiveBeeModel<T> & IHasBeeHat> extends LayerRenderer<T, M>
+public class SantaHatLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveBeeModel<ProductiveBeeEntity>>
 {
-    public SantaHatLayer(IEntityRenderer<T, M> rendererIn) {
+    public SantaHatLayer(IEntityRenderer<ProductiveBeeEntity, ProductiveBeeModel<ProductiveBeeEntity>> rendererIn) {
         super(rendererIn);
     }
 
-    public void render(MatrixStack matrixStack, IRenderTypeBuffer renderBuffer, int p_225628_3_, T beeEntity, float limbSwing, float limbSwingAmount, float partialTicks, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
-        matrixStack.push();
-        if (this.getEntityModel().isChild) {
-            matrixStack.translate(0.0D, 0.75D, 0.0D);
-            matrixStack.scale(0.5F, 0.5F, 0.5F);
-        }
+    public void render(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, ProductiveBeeEntity bee, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        if (bee.getColor(0) != null && !bee.getRenderStatic()) {
+            if (bee instanceof ConfigurableBeeEntity) {
+                if (((ConfigurableBeeEntity) bee).hasBeeTexture()) {
+                    return;
+                }
+            }
 
-
-        matrixStack.pop();
-
-        if (!beeEntity.isInvisible()) {
-            this.getEntityModel().getModelHat().translateRotate(matrixStack);
-
-//            this.getEntityModel().copyModelAttributesTo(this.model);
-//            this.model.setLivingAnimations(beeEntity, limbSwing, limbSwingAmount, partialTicks);
-//            this.model.setRotationAngles(beeEntity, limbSwing, limbSwingAmount, p_225628_8_, p_225628_9_, p_225628_10_);
-//            IVertexBuilder vertexBuilder = renderBuffer.getBuffer(RenderType.getEntityTranslucent(this.getEntityTexture(beeEntity)));
-//            this.model.render(matrixStack, vertexBuilder, p_225628_3_, LivingRenderer.getPackedOverlay(beeEntity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+            ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/santa_hat.png");
+            renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, 15728640, bee, 1.0f, 1.0f, 1.0f);
         }
     }
 }

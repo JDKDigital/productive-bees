@@ -1,6 +1,8 @@
 {
     "primaryColor": "#9ABDD6",
     "secondaryColor": "#804f40",
+    "createComb": false,
+    "flowerTag": "forge:storage_blocks/tin",
     "conditions": [
         {
             "type": "forge:not",

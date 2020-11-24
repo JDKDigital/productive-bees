@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_elementium"
+        }
+    ],
+    "result": {
+        "item": "productivebees:honeycomb_elementium",
+        "count": 4
+    }
+}

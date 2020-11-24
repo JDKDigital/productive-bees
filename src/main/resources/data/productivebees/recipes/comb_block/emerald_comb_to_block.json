@@ -1,15 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "HH",
-    "HH"
-  ],
-  "key": {
-    "H": {
-      "tag": "forge:honeycombs/emerald"
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "HH",
+        "HH"
+    ],
+    "key": {
+        "H": {
+            "tag": "forge:honeycombs/emerald"
+        }
+    },
+    "result": {
+        "item": "productivebees:comb_emerald"
     }
-  },
-  "result": {
-    "item": "productivebees:comb_emerald"
-  }
 }

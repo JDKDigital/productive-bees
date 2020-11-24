@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -71,7 +72,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 stacks.add(item);
             }
         } catch (Exception e) {
-            ProductiveBees.LOGGER.error("Failed to find flowering requirements for " + recipe.getBee());
+            ProductiveBees.LOGGER.warn("Failed to find flowering requirements for " + recipe.getBee());
         }
         List<List<ItemStack>> items = new ArrayList<>();
         items.add(stacks);
@@ -102,19 +103,17 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         flowering.put("productivebees:sweaty_bee", ModTags.SNOW_FLOWERS);
         flowering.put("productivebees:yellow_black_carpenter_bee", ModTags.FOREST_FLOWERS);
 
+        ITag<Block> defaultBlockTag = BlockTags.FLOWERS;
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()){
-            ITag<Block> blockTag = BlockTags.FLOWERS;
+            ITag<Block> blockTag = null;
             if (entry.getValue().isConfigurable()) {
                 CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
-                if (nbt.contains("flowerTag")) {
-                    blockTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
-                }
-            }
-            else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
+                blockTag = ConfigurableBeeEntity.getFlowerFromNBT(nbt);
+            } else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
                 blockTag = flowering.get(entry.getValue().getBeeType().toString());
             }
 
-            recipes.add(new Recipe(blockTag, entry.getValue()));
+            recipes.add(new Recipe(blockTag == null ? defaultBlockTag : blockTag, entry.getValue()));
         }
         return recipes;
     }

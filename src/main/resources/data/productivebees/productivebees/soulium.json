@@ -1,0 +1,14 @@
+{
+    "primaryColor": "#301b10",
+    "secondaryColor": "#804f40",
+    "particleColor": "#301b10",
+    "size": 0.8,
+    "flowerBlock": "mysticalagriculture:soulium_block",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

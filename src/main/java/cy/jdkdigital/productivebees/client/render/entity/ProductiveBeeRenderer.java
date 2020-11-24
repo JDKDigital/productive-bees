@@ -1,9 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.client.render.entity.layers.AbdomenLayer;
-import cy.jdkdigital.productivebees.client.render.entity.layers.ColorLayer;
-import cy.jdkdigital.productivebees.client.render.entity.layers.PollenLayer;
+import cy.jdkdigital.productivebees.client.render.entity.layers.*;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
@@ -16,12 +14,21 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Calendar;
 
 @OnlyIn(Dist.CLIENT)
 public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, ProductiveBeeModel<ProductiveBeeEntity>>
 {
+    private boolean isChristmas;
+
     public ProductiveBeeRenderer(EntityRendererManager renderManagerIn, ProductiveBeeModel<ProductiveBeeEntity> model) {
         super(renderManagerIn, model, 0.7F);
+
+        Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
+            this.isChristmas = true;
+        }
+//        this.isChristmas = true;
     }
 
     public ProductiveBeeRenderer(EntityRendererManager renderManagerIn) {
@@ -29,10 +36,13 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         addLayer(new ColorLayer(this));
         addLayer(new AbdomenLayer(this));
         addLayer(new PollenLayer(this));
-//        addLayer(new SantaHatLayer(this));
+        if (this.isChristmas) {
+            addLayer(new SantaHatLayer(this));
+        }
+        addLayer(new GlowingInnardsLayer(this));
     }
 
-    @Nullable   
+    @Nullable
     @Override
     protected RenderType func_230496_a_(ProductiveBeeEntity bee, boolean b1, boolean b2, boolean b3) {
         if (bee instanceof ConfigurableBeeEntity) {

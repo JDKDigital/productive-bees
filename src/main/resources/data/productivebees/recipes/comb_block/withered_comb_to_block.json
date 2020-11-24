@@ -1,15 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "HH",
-    "HH"
-  ],
-  "key": {
-    "H": {
-      "tag": "forge:honeycombs/withered"
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "HH",
+        "HH"
+    ],
+    "key": {
+        "H": {
+            "tag": "forge:honeycombs/withered"
+        }
+    },
+    "result": {
+        "item": "productivebees:comb_withered"
     }
-  },
-  "result": {
-    "item": "productivebees:comb_withered"
-  }
 }
