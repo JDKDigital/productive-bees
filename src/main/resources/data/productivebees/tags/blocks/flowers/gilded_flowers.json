@@ -3,6 +3,7 @@
     "values": [
         "minecraft:nether_gold_ore",
         "minecraft:gold_ore",
-        "minecraft:gold_block"
+        "minecraft:gold_block",
+        "minecraft:gilded_blackstone"
     ]
 }
