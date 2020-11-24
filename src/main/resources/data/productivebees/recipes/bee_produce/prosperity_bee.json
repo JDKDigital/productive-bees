@@ -1,11 +1,11 @@
 {
     "type": "productivebees:advanced_beehive",
     "ingredient": "productivebees:configurable_bee",
-    "bee_type": "productivebees:soulium",
+    "bee_type": "productivebees:prosperity",
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/soulium"
+                "tag": "forge:honeycombs/prosperity"
             }
         }
     ],

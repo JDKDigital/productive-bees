@@ -1,7 +1,7 @@
 {
-    "primaryColor": "#d2ab00",
-    "secondaryColor": "#804f40",
-    "particleColor": "#d2ab00",
+    "primaryColor": "#ddfbfb",
+    "secondaryColor": "#587676",
+    "particleColor": "#aecccc",
     "size": 0.6,
     "flowerBlock": "mysticalagriculture:prosperity_block",
     "createComb": false,

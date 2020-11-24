@@ -6,8 +6,8 @@
     "outputs": [
         {
             "item": {
-                "tag": "forge:ingots/cinnabar"
-            },
+                "tag": "forge:gems/cinnabar"
+            }
         },
         {
             "item": {

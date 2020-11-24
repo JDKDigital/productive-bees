@@ -3,7 +3,6 @@
     "ingredient": {
         "tag": "forge:honeycombs/terrasteel"
     },
-    "comb_type": "productivebees:terrasteel",
     "outputs": [
         {
             "item": {

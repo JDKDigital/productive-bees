@@ -2,6 +2,7 @@
     "primaryColor": "#5e5077",
     "secondaryColor": "#372856",
     "createComb": false,
+    "flowerTag": "forge:storage_blocks/refined_obsidian",
     "conditions": [
         {
             "type": "forge:mod_loaded",

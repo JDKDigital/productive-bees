@@ -6,9 +6,8 @@
     "outputs": [
         {
             "item": {
-                "tag": "forge:ingots/soulium"
-            },
-            "chance": 90
+                "item": "mysticalagriculture:soulium_dust"
+            }
         },
         {
             "item": {
@@ -24,15 +23,8 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/soulium"
-            }
-        },
-        {
-            "type": "forge:tag_empty",
-            "tag": "forge:dusts/soulium"
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
         }
     ]
 }

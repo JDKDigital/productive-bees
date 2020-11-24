@@ -2,6 +2,7 @@
     "primaryColor": "#E9EBE7",
     "secondaryColor": "#804f40",
     "createComb": false,
+    "flowerTag": "forge:storage_blocks/zinc",
     "conditions": [
         {
             "type": "forge:not",
