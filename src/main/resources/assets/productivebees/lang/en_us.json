@@ -3,7 +3,7 @@
 
 	"jei.productivebees.advanced_beehive": "Advanced Beehive",
 	"jei.productivebees.bee_breeding": "Bee Breeding",
-	"jei.productivebees.bee_conversion": "Item Bee Conversion",
+	"jei.productivebees.bee_conversion": "Bee Conversion",
 	"jei.productivebees.bee_spawning": "Bee Spawning",
 	"jei.productivebees.centrifuge": "Centrifuge",
 	"jei.productivebees.bee_flowering": "Bee Flowering",
@@ -32,7 +32,7 @@
 	"item.productivebees.upgrade_anti_teleport": "Upgrade: Anti Teleportation",
 	"item.productivebees.nest_locator": "Nest Locator",
 
-	"item.productivebees.spawn_egg_configurable": "%s Bee Spawn Egg",
+	"item.productivebees.spawn_egg_configurable": "%s Spawn Egg",
 	"item.productivebees.spawn_egg_iron_bee": "Iron Bee Spawn Egg",
 	"item.productivebees.spawn_egg_gold_bee": "Gold Bee Spawn Egg",
 	"item.productivebees.spawn_egg_redstone_bee": "Redstone Bee Spawn Egg",
@@ -119,6 +119,7 @@
 	"item.productivebees.honeycomb_gold": "Gold Comb",
 	"item.productivebees.honeycomb_imperium": "Imperium Comb",
 	"item.productivebees.honeycomb_inferium": "Inferium Comb",
+	"item.productivebees.honeycomb_insanium": "Insanium Comb",
 	"item.productivebees.honeycomb_invar": "Invar Comb",
 	"item.productivebees.honeycomb_iron": "Iron Comb",
 	"item.productivebees.honeycomb_lapis": "Lapis Comb",
@@ -280,6 +281,7 @@
 	"block.productivebees.comb_gold": "Gold Comb Block",
 	"block.productivebees.comb_imperium": "Imperium Comb Block",
 	"block.productivebees.comb_inferium": "Inferium Comb Block",
+	"block.productivebees.comb_insanium": "Insanium Comb Block",
 	"block.productivebees.comb_invar": "Invar Comb Block",
 	"block.productivebees.comb_iron": "Iron Comb Block",
 	"block.productivebees.comb_lapis": "Lapis Comb Block",
@@ -324,7 +326,7 @@
 
 	"fluid.productivebees.honey": "Honey",
 
-	"entity.productivebees.bee_configurable": "%s Bee",
+	"entity.productivebees.bee_configurable": "%s",
 	"entity.productivebees.iron_bee": "Iron Bee",
 	"entity.productivebees.gold_bee": "Gold Bee",
 	"entity.productivebees.redstone_bee": "Redstone Bee",
@@ -500,5 +502,7 @@
 	"productivebees.top.solitary.bee": "Inhabitant: %s",
 	"productivebees.top.solitary.egg_count": "Eggs: %s",
 	"productivebees.top.solitary.repopulation_countdown": "Repopulation cooldown %s",
-	"productivebees.top.solitary.repopulation_countdown_inactive": "Nest is empty. Use a honey treat to attract a bee."
+	"productivebees.top.solitary.repopulation_countdown_inactive": "Nest is empty. Use a honey treat to attract a bee.",
+	"productivebees.top.solitary.can_repopulate_true": "The nest can attract bees in this location.",
+	"productivebees.top.solitary.can_repopulate_false": "There are no bees in this location that will move into this nest."
 }

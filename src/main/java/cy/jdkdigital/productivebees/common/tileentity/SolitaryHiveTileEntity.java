@@ -9,7 +9,7 @@ public class SolitaryHiveTileEntity extends SolitaryNestTileEntity
         MAX_BEES = 9;
     }
 
-    protected boolean canRepopulate() {
+    public boolean canRepopulate() {
         return false;
     }
 }

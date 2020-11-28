@@ -1,8 +1,10 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import com.mojang.authlib.GameProfile;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CropsBlock;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.Goal;
@@ -16,8 +18,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayerFactory;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.ModList;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,12 +50,12 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
     }
 
     public List<BlockPos> findHarvestablesNearby(BlockPos pos, double distance) {
-        List<BlockPos> list = BlockPos.getAllInBox(pos.add(-distance, -distance, -distance), pos.add(distance, distance, distance)).map(BlockPos::toImmutable).collect(Collectors.toList());
+        List<BlockPos> list = BlockPos.getAllInBox(pos.add(-distance, -distance+2, -distance), pos.add(distance, distance-2, distance)).map(BlockPos::toImmutable).collect(Collectors.toList());
         Iterator<BlockPos> iterator = list.iterator();
         while(iterator.hasNext()) {
             BlockPos blockPos = iterator.next();
             BlockState state = world.getBlockState(blockPos);
-            if (!(state.getBlock() instanceof IGrowable) || ((IGrowable) state.getBlock()).canGrow(world, blockPos, state, false)) {
+            if (!(state.getBlock() instanceof CropsBlock) || ((CropsBlock) state.getBlock()).canGrow(world, blockPos, state, false)) {
                 iterator.remove();
             }
         }
@@ -66,6 +70,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
             if (FarmerBeeEntity.this.targetHarvestPos != null && !positionIsHarvestable(FarmerBeeEntity.this.targetHarvestPos)) {
                 FarmerBeeEntity.this.targetHarvestPos = null;
             }
+
             return
                 FarmerBeeEntity.this.targetHarvestPos != null &&
                 !FarmerBeeEntity.this.isAngry() &&
@@ -102,12 +107,14 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
             if (!FarmerBeeEntity.this.isAngry()) {
                 List<BlockPos> harvestablesNearby = FarmerBeeEntity.this.findHarvestablesNearby(10);
 
+                Collections.shuffle(harvestablesNearby);
+
                 if (!harvestablesNearby.isEmpty()) {
                     BlockPos nearest = null;
                     double nearestDistance = 0;
                     for (BlockPos pos: harvestablesNearby) {
                         double distance = pos.distanceSq(FarmerBeeEntity.this.getPosition());
-                        if (nearestDistance == 0 || distance < nearestDistance) {
+                        if (nearestDistance == 0 || distance <= nearestDistance) {
                             nearestDistance = distance;
                             nearest = pos;
                         }
@@ -137,8 +144,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
             if (FarmerBeeEntity.this.targetHarvestPos != null) {
                 if (ticks > 600) {
                     FarmerBeeEntity.this.targetHarvestPos = null;
-                }
-                else {
+                } else {
                     Vec3d vec3d = (new Vec3d(FarmerBeeEntity.this.targetHarvestPos)).add(0.5D, 0.6F, 0.5D);
                     double distanceToTarget = vec3d.distanceTo(FarmerBeeEntity.this.getPositionVec());
 
@@ -153,12 +159,14 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                                 BlockPos pos = harvestablesNearby.iterator().next();
 
                                 // right click if certain mods are installed
-                                if ((ModList.get().isLoaded("pamhc2crops") || ModList.get().isLoaded("simplefarming") || ModList.get().isLoaded("reap")) && world instanceof ServerWorld) {
+                                if ((ModList.get().isLoaded("quark") || ModList.get().isLoaded("pamhc2crops") || ModList.get().isLoaded("simplefarming") || ModList.get().isLoaded("reap")) && world instanceof ServerWorld) {
                                     PlayerEntity fakePlayer = FakePlayerFactory.get((ServerWorld) world, new GameProfile(null, "farmer_bee"));
                                     ForgeHooks.onRightClickBlock(fakePlayer, Hand.MAIN_HAND, pos, FarmerBeeEntity.this.getAdjustedHorizontalFacing());
                                 } else {
                                     world.destroyBlock(pos, true);
                                 }
+
+                                FarmerBeeEntity.this.targetHarvestPos = null;
 
                                 FarmerBeeEntity.this.playSound(SoundEvents.ENTITY_BEE_POLLINATE, 1.0F, 1.0F);
                             }

@@ -203,7 +203,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     }
 
     public boolean releaseBee(BlockState state, CompoundNBT tag, @Nullable List<Entity> releasedBees, BeehiveTileEntity.State beeState) {
-        if (state.getBlock().equals(Blocks.AIR)) {
+        if (state.getBlock().equals(Blocks.AIR) || world == null) {
             return false;
         }
         

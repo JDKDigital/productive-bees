@@ -43,6 +43,11 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                             probeInfo.progress(nest.getNestTickCooldown() / 20, nest.getRepopulationCooldown(blockState.getBlock()) / 20);
                         } else {
                             probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown_inactive"));
+                            if (nest.canRepopulate()) {
+                                probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.can_repopulate_true"));
+                            } else {
+                                probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.can_repopulate_false"));
+                            }
                         }
                     }
                     return true;

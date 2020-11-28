@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/insanium"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mysticalagradditions:insanium_essence"
+            },
+            "chance": 70
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagradditions"
+        }
+    ]
+}
