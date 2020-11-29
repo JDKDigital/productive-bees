@@ -12,14 +12,14 @@
                             "source": "block_entity",
                             "ops": [
                                 {
-                                    "source": "Bees",
-                                    "target": "BlockEntityTag.Bees",
+                                    "source": "inv",
+                                    "target": "BlockEntityTag.inv",
                                     "op": "replace"
                                 }
                             ]
                         }
                     ],
-                    "name": "productivebees:jungle_wood_nest"
+                    "name": "productivebees:jar_oak"
                 }
             ]
         }

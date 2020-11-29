@@ -60,6 +60,7 @@ public class JarTileEntityRenderer extends TileEntityRenderer<JarTileEntity>
 
                         EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
                         IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+                        entityrenderermanager.setRenderShadow(false);
                         entityrenderermanager.renderEntityStatic(bee, 0, 0, 0., Minecraft.getInstance().getRenderPartialTicks(), 1, matrixStack, buffer, 15728880);
                         buffer.finish();
 

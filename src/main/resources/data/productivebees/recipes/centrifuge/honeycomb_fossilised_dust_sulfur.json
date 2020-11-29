@@ -11,8 +11,15 @@
         },
         {
             "item": {
+                "tag": "forge:dusts/sulfur"
+            },
+            "chance": 30
+        },
+        {
+            "item": {
                 "tag": "forge:wax"
-            }
+            },
+            "chance": 30
         }
     ],
     "conditions": [
@@ -24,8 +31,11 @@
             }
         },
         {
-            "type": "forge:tag_empty",
-            "tag": "forge:dusts/sulfur"
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:dusts/sulfur"
+            }
         }
     ]
 }
