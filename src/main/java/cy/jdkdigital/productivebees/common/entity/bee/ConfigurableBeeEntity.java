@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.init.*;
@@ -46,9 +45,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffectBeeEntity

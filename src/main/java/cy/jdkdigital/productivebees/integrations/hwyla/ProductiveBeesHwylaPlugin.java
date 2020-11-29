@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.integrations.hwyla;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
 import mcp.mobius.waila.api.*;

@@ -21,7 +21,6 @@ import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;

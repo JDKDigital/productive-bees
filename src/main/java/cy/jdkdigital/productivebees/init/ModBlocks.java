@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.common.block.*;
 import cy.jdkdigital.productivebees.common.block.nest.*;
 import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
-import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;

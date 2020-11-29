@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.tileentity;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.item.Gene;
@@ -13,7 +12,6 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
