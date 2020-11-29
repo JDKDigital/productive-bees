@@ -1,14 +1,13 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/milky"
+        "tag": "forge:honeycombs/experience"
     },
     "outputs": [
         {
             "item": {
-                "item": "productivebees:milk_bottle"
-            },
-            "chance": 80
+                "item": "minecraft:experience_bottle"
+            }
         },
         {
             "item": {
@@ -19,13 +18,13 @@
             "fluid": {
                 "tag": "forge:honey"
             },
-            "amount": 0
+            "amount": 200
         }
     ],
     "conditions": [
         {
             "type": "productivebees:fluid_tag_empty",
-            "tag": "forge:milk"
+            "tag": "forge:essence"
         }
     ]
 }

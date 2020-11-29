@@ -3,17 +3,24 @@ package cy.jdkdigital.productivebees.common.block;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class Jar extends Block
 {
@@ -52,5 +59,28 @@ public class Jar extends Block
     @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.addInformation(stack, worldIn, tooltip, flagIn);
+
+        if (stack.getOrCreateTag().contains("inv")) {
+            CompoundNBT invTag = stack.getTag().getCompound("inv");
+
+            ListNBT tagList = invTag.getList("Items", Constants.NBT.TAG_COMPOUND);
+            if (tagList.size() > 0) {
+                CompoundNBT itemTag = tagList.getCompound(0);
+
+                ItemStack cage = ItemStack.read(itemTag);
+
+                String entityId = cage.getTag().getString("name");
+                tooltip.add(new TranslationTextComponent("productivebees.information.jar.bee", entityId));
+            } else {
+                tooltip.add(new TranslationTextComponent("productivebees.information.jar.fill_tip"));
+            }
+        } else {
+            tooltip.add(new TranslationTextComponent("productivebees.information.jar.fill_tip"));
+        }
     }
 }

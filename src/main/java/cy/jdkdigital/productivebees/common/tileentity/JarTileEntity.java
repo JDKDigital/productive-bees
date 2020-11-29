@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -39,6 +40,11 @@ public class JarTileEntity extends TileEntity
         @Override
         public boolean isInputItem(Item item) {
             return item instanceof BeeCage;
+        }
+
+        @Override
+        public boolean isInputSlot(int slot) {
+            return false;
         }
 
         @Override
@@ -100,27 +106,21 @@ public class JarTileEntity extends TileEntity
     public void read(BlockState state, CompoundNBT tag) {
         super.read(state, tag);
 
-        if (tag.contains("Cage")) {
-            getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                CompoundNBT cageTag = tag.getCompound("Cage");
+        CompoundNBT invTag = tag.getCompound("inv");
+        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
 
-                handler.insertItem(0, ItemStack.read(cageTag), false);
-            });
-        }
+        ticksExisted = ProductiveBees.rand.nextInt(360);
     }
 
+    @Nonnull
     @Override
     public CompoundNBT write(CompoundNBT tag) {
-        super.write(tag);
+        tag = super.write(tag);
 
-        getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-            ItemStack cage = handler.getStackInSlot(0);
-            if (!cage.isEmpty()) {
-                CompoundNBT cageTag = new CompoundNBT();
-                cage.write(cageTag);
-
-                tag.put("Cage", cageTag);
-            }
+        CompoundNBT finalTag = tag;
+        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
+            finalTag.put("inv", compound);
         });
 
         return tag;

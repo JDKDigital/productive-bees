@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:emerald",
+    "parent2": "productivebees:lapis",
+    "offspring": [
+        "productivebees:experience"
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:gems/emerald"
+        },
+        {
+            "tag": "forge:gems/lapis"
+        }
+    ]
+}
