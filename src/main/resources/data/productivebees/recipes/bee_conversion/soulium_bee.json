@@ -1,0 +1,14 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:ghostly",
+    "result": "productivebees:soulium",
+    "item": {
+        "item": "mysticalagriculture:soulium_dagger"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

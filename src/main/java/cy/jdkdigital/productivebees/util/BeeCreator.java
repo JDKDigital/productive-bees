@@ -93,6 +93,6 @@ public class BeeCreator
         for (String s : arr) {
             sb.append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).append(" ");
         }
-        return sb.toString().trim();
+        return sb.toString().trim() + " Bee";
     }
 }

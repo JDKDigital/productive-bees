@@ -97,14 +97,24 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
             ItemStack heldItem = player.getHeldItem(hand);
             if (tileEntity != null && heldItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
+                boolean itemUse = false;
                 int currentCooldown = tileEntity.getNestTickCooldown();
                 if (currentCooldown < 0) {
-                    tileEntity.setNestCooldown(tileEntity.getRepopulationCooldown(state.getBlock()));
+                    if (tileEntity.canRepopulate()) {
+                        tileEntity.setNestCooldown(tileEntity.getRepopulationCooldown(state.getBlock()));
+                        itemUse = true;
+                    }
                 } else {
                     tileEntity.setNestCooldown((int) (tileEntity.getNestTickCooldown() * 0.9));
+                    itemUse = true;
                 }
+
                 if (!player.isCreative()) {
                     heldItem.shrink(1);
+                }
+
+                if (itemUse) {
+                    world.playEvent(2005, pos, 0);
                 }
             }
         }

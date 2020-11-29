@@ -1,0 +1,14 @@
+{
+    "primaryColor": "#4d086d",
+    "secondaryColor": "#804f40",
+    "particleColor": "#410062",
+    "size": 0.8,
+    "flowerBlock": "mysticalagradditions:insanium_block",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagradditions"
+        }
+    ]
+}

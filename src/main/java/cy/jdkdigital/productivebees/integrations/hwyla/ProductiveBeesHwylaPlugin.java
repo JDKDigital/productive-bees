@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.hwyla;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
 import mcp.mobius.waila.api.*;
@@ -33,13 +34,18 @@ public class ProductiveBeesHwylaPlugin implements IWailaPlugin
                     List<AdvancedBeehiveTileEntityAbstract.Inhabitant> bees = ((SolitaryNestTileEntity) tile).getBeeList();
                     if (!bees.isEmpty()) {
                         tooltip.add(new TranslationTextComponent("productivebees.top.solitary.bee", bees.get(0).localizedName));
-                    } else {
-                        int cooldown = ((SolitaryNestTileEntity) tile).getNestTickCooldown();
-                        if (cooldown > 0) {
-                            tooltip.add(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown", Math.round(cooldown / 20f) + "s"));
-                        } else {
-                            tooltip.add(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown_inactive"));
-                        }
+//                    } else {
+//                        int cooldown = ((SolitaryNestTileEntity) tile).getNestTickCooldown();
+//                        if (cooldown > 0) {
+//                            tooltip.add(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown", Math.round(cooldown / 20f) + "s"));
+//                        } else {
+//                            tooltip.add(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown_inactive"));
+//                            if (((SolitaryNestTileEntity) tile).canRepopulate()) {
+//                                tooltip.add(new TranslationTextComponent("productivebees.top.solitary.can_repopulate_true"));
+//                            } else {
+//                                tooltip.add(new TranslationTextComponent("productivebees.top.solitary.can_repopulate_false"));
+//                            }
+//                        }
                     }
                 }
             }

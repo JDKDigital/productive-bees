@@ -2,6 +2,7 @@
     "primaryColor": "#ddfbfb",
     "secondaryColor": "#587676",
     "particleColor": "#aecccc",
+    "name": "ProsperiBee",
     "size": 0.6,
     "flowerBlock": "mysticalagriculture:prosperity_block",
     "createComb": false,

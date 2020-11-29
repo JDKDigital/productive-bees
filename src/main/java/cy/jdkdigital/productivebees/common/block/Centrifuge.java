@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;
@@ -80,6 +81,11 @@ public class Centrifuge extends ContainerBlock
             if (tileEntity instanceof CentrifugeTileEntity) {
                 // Drop inventory
                 tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                    for (int slot = 0; slot < handler.getSlots(); ++slot) {
+                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                    }
+                });
+                ((CentrifugeTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
                         InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }

@@ -51,7 +51,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         super.tick();
     }
 
-    protected boolean canRepopulate() {
+    public boolean canRepopulate() {
         SolitaryNest nest = ((SolitaryNest) this.getBlockState().getBlock());
         boolean blockConditionsMet = nest.canRepopulateIn(this.world);
         return hasNoBees() && blockConditionsMet;

@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
-        "#forge:milk/freshmilk"
+        "#forge:milk/freshmilk",
+        "#forge:milk/milk_bottle"
     ]
 }
