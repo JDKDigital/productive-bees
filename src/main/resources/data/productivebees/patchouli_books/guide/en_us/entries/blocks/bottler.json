@@ -1,7 +1,7 @@
 {
     "name": "Bottler",
     "icon": "productivebees:bottler",
-    "category": "productivebees:machines",
+    "category": "productivebees:blocks",
     "pages": [
         {
             "type": "spotlight",

@@ -1,7 +1,7 @@
 {
     "name": "Feeding Slab",
     "icon": "productivebees:feeder",
-    "category": "productivebees:machines",
+    "category": "productivebees:blocks",
     "pages": [
         {
             "type": "spotlight",
