@@ -25,10 +25,9 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         super(renderManagerIn, model, 0.7F);
 
         Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) <= 26) {
+        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 21 && calendar.get(Calendar.DATE) <= 26) {
             this.isChristmas = true;
         }
-        this.isChristmas = true;
     }
 
     public ProductiveBeeRenderer(EntityRendererManager renderManagerIn) {
