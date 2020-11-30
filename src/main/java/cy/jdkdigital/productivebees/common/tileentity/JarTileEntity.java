@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BlockState;
