@@ -188,7 +188,7 @@ public class BeeHelper
         }
         else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
-                Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.LOGS, hasCombBlockUpgrade);
+                Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.LOGS);
 
                 ItemStack woodChip;
                 if (hasCombBlockUpgrade) {
@@ -201,7 +201,7 @@ public class BeeHelper
         }
         else if (beeId.equals("productivebees:quarry_bee")) {
             if (flowerPos != null) {
-                Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.QUARRY, hasCombBlockUpgrade);
+                Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.QUARRY);
 
                 ItemStack stoneChip;
                 if (hasCombBlockUpgrade) {
@@ -294,7 +294,7 @@ public class BeeHelper
         return stack;
     }
 
-    private static Block getFloweringBlock(World world, BlockPos flowerPos, ITag<Block> tag, boolean hasCombBlockUpgrade) {
+    private static Block getFloweringBlock(World world, BlockPos flowerPos, ITag<Block> tag) {
         BlockState flowerBlockState = world.getBlockState(flowerPos);
         Block flowerBlock = flowerBlockState.getBlock();
 

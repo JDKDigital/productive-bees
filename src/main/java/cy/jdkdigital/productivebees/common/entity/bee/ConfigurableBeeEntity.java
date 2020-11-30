@@ -191,6 +191,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         }
         super.notifyDataManagerChange(param);
         // /summon productivebees:configurable_bee ~ ~ ~ {"type":"productivebees:diamond", "NoAI":true, "HasNectar": true}
+        // /kill @e[type=productivebees:configurable_bee, name="Diamond Bee"]
     }
 
     public void setAttributes() {

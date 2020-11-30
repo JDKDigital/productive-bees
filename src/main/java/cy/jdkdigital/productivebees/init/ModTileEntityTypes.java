@@ -150,6 +150,12 @@ public class ModTileEntityTypes
             ).build(null)
     );
 
+    public static final RegistryObject<TileEntityType<JarTileEntity>> JAR = TILE_ENTITY_TYPES.register("jar", () ->
+            TileEntityType.Builder.create(JarTileEntity::new,
+                    ModBlocks.JAR.get()
+            ).build(null)
+    );
+
     public static final RegistryObject<TileEntityType<CombBlockTileEntity>> COMB_BLOCK = TILE_ENTITY_TYPES.register("comb_block", () ->
             TileEntityType.Builder.create(CombBlockTileEntity::new,
                     ModBlocks.CONFIGURABLE_COMB.get()

@@ -196,7 +196,7 @@ public class CupidBeeEntity extends ProductiveBeeEntity
                                 Entity target = breedablesNearby.iterator().next();
 
                                 if (target instanceof AnimalEntity) {
-                                    if (((AnimalEntity)target).getGrowingAge() == 0 && ((AnimalEntity)target).canBreed()) {
+                                    if (!((AnimalEntity)target).isChild() && ((AnimalEntity)target).canBreed()) {
                                         ((AnimalEntity)target).setInLove(600);
                                         CupidBeeEntity.this.addBreedCounter();
                                     }

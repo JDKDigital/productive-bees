@@ -1,0 +1,22 @@
+{
+    "primaryColor": "#b969ba",
+    "secondaryColor": "#6238757",
+    "particleColor": "#c98bca",
+    "beeTexture": "productivebees:textures/entity/bee/pink_slimy/bee",
+    "renderer": "translucent_with_center",
+    "attributes": {
+        "endurance": 0
+    },
+    "slimy": true,
+    "flowerTag": "productivebees:flowers/swamp_flowers",
+    "nestingPreference": "productivebees:nests/slimy_nests",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "productivebees:fluid_tag_empty",
+                "tag": "forge:pink_slime"
+            }
+        }
+    ]
+}

@@ -87,7 +87,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         ingredients.setOutputLists(VanillaTypes.ITEM, outputList);
 
         Pair<Fluid, Integer> fluid = recipe.getFluidOutputs();
-        if (fluid != null) {
+        if (fluid != null && fluid.getSecond() > 0) {
             ingredients.setOutput(VanillaTypes.FLUID, new FluidStack(fluid.getFirst(), fluid.getSecond()));
         }
     }

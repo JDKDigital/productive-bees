@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.common.item.UpgradeItem;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.block.Block;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -42,7 +43,7 @@ public class InventoryHandlerHelper
             }
             ItemStack stack = handler.getStackInSlot(slot);
             if (stack.getItem().equals(insertStack.getItem()) && (stack.getCount() + insertStack.getCount()) <= stack.getMaxStackSize()) {
-                // Check tag
+                // Check tags
                 if (WoodChip.getBlock(insertStack) != null) {
                     Block block = WoodChip.getBlock(stack);
                     if (block != null && block.equals(WoodChip.getBlock(insertStack))) {
@@ -56,10 +57,8 @@ public class InventoryHandlerHelper
                     ) {
                         return slot;
                     }
-                } else if(stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get()) || stack.getItem().equals(ModItems.CONFIGURABLE_COMB_BLOCK.get())) {
-                    if (stack.hasTag() && insertStack.hasTag() && stack.getTag().equals(insertStack.getTag())) {
-                        return slot;
-                    }
+                } else if(Container.areItemsAndTagsEqual(stack, insertStack)) {
+                    return slot;
                 } else {
                     return slot;
                 }

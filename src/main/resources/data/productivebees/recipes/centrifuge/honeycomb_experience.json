@@ -1,0 +1,30 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/experience"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "minecraft:experience_bottle"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "tag": "forge:honey"
+            },
+            "amount": 200
+        }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:fluid_tag_empty",
+            "tag": "forge:essence"
+        }
+    ]
+}
