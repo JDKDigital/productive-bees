@@ -105,6 +105,11 @@ dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
+    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
+
+    implementation fg.deobf('mods:cofh_core-1.16.3:1.0.4')
+    implementation fg.deobf('mods:thermal-1.16.3:1.0.5')
+    implementation fg.deobf('mods:thermal_expansion-1.16.3:1.0.5')
     implementation fg.deobf('mods:CTM-MC1.16.1:1.1.1.5')
     implementation fg.deobf('mods:Mekanism-1.16.3:10.0.12.437')
     // testing
