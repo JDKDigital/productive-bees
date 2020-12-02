@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import net.minecraft.block.BeehiveBlock;
@@ -120,11 +121,11 @@ public class NestLocator extends Item
     public static void setNestBlock(ItemStack stack, @Nullable Block nest) {
         CompoundNBT nbt = stack.getOrCreateTag().getCompound(KEY);
 
+        nbt.remove("nest");
         if (nest != null && nest.getRegistryName() != null) {
             nbt.putString("nest", nest.getRegistryName().toString());
-        } else {
-            nbt.remove("nest");
         }
+
         stack.getOrCreateTag().put(KEY, nbt);
     }
 
@@ -166,8 +167,7 @@ public class NestLocator extends Item
             if (block instanceof BeehiveBlock || block instanceof AdvancedBeehive) {
                 // Locate vanilla styled bee nests
                 setNestBlock(stack, ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft", "bee_nest")));
-            }
-            else if (block instanceof SolitaryNest) {
+            } else if (block instanceof SolitaryNest) {
                 setNestBlock(stack, block);
             } else {
                 // Set block if it's a component in crafting a nest
@@ -218,10 +218,6 @@ public class NestLocator extends Item
                     // Unset position
                     setPosition(stack, null);
                 }
-            }
-            else {
-                // Clear nest config
-//                setNestBlock(stack, null);
             }
             return ActionResult.resultSuccess(player.getHeldItem(hand));
         }
