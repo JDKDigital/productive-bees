@@ -1,7 +1,5 @@
 package cy.jdkdigital.productivebees;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.ImmutableList;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import net.minecraft.block.Block;
@@ -12,7 +10,6 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

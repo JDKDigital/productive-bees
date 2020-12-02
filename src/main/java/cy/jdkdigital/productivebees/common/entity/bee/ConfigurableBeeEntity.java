@@ -44,9 +44,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffectBeeEntity
@@ -420,7 +418,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         if (isDraconic() && source.equals(DamageSource.DRAGON_BREATH)) {
             return true;
         }
-        if (isTranslucent() && (source.equals(DamageSource.IN_WALL) || source.equals(DamageSource.ANVIL))) {
+        if (isTranslucent() && source.equals(DamageSource.ANVIL)) {
             return true;
         }
         if (isFireproof() && (source.equals(DamageSource.HOT_FLOOR) || source.equals(DamageSource.IN_FIRE) || source.equals(DamageSource.ON_FIRE) || source.equals(DamageSource.LAVA))) {

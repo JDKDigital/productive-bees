@@ -8,9 +8,6 @@ import cy.jdkdigital.productivebees.client.render.block.FeederTileEntityRenderer
 import cy.jdkdigital.productivebees.client.render.block.JarTileEntityRenderer;
 import cy.jdkdigital.productivebees.common.block.CombBlock;
 import cy.jdkdigital.productivebees.common.item.*;
-import cy.jdkdigital.productivebees.common.block.Jar;
-import cy.jdkdigital.productivebees.common.item.Honeycomb;
-import cy.jdkdigital.productivebees.common.item.SpawnEgg;
 import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
 import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
 import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;

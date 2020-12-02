@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.recipe;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
