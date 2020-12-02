@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
@@ -127,7 +128,11 @@ public class BeeCage extends Item
             if (withInfo) {
                 entity.read(tag);
             }
+
             if (entity instanceof BeeEntity) {
+                if (entity instanceof ConfigurableBeeEntity && !withInfo) {
+                    ((ConfigurableBeeEntity) entity).setBeeType(tag.getString("type"));
+                }
                 return (BeeEntity) entity;
             }
         }

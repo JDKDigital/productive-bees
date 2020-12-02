@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.tileentity.JarTileEntity;
 import net.minecraft.client.Minecraft;
@@ -30,7 +31,7 @@ public class JarTileEntityRenderer extends TileEntityRenderer<JarTileEntity>
                 if (cage.getItem() instanceof BeeCage && BeeCage.isFilled(cage)) {
                     Entity bee = tileEntityIn.getCachedEntity(cage);
                     if (bee instanceof BeeEntity) {
-                        bee.ticksExisted = ++tileEntityIn.ticksExisted;
+                        bee.ticksExisted = (++tileEntityIn.ticksExisted) / 2;
                         ((BeeEntity) bee).renderYawOffset = -20;
 
                         float angle = bee.ticksExisted % 360;

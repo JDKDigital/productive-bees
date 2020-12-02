@@ -97,7 +97,7 @@ public class JarTileEntity extends TileEntity
     @OnlyIn(Dist.CLIENT)
     public Entity getCachedEntity(ItemStack cage) {
         if (this.cachedEntity == null) {
-            this.cachedEntity = BeeCage.getEntityFromStack(cage, this.getWorld(), true);
+            this.cachedEntity = BeeCage.getEntityFromStack(cage, this.getWorld(), false);
         }
 
         return this.cachedEntity;
