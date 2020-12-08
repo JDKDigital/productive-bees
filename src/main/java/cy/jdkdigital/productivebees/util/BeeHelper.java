@@ -60,7 +60,17 @@ public class BeeHelper
         BeeEntity bee = null;
 
         if (!entity.isChild()) {
-            List<BeeConversionRecipe> recipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION, new IdentifierInventory(entity, itemStack.getItem().getRegistryName() + ""), world);
+            IInventory beeInv = new IdentifierInventory(entity, itemStack.getItem().getRegistryName() + "");
+
+            List<BeeConversionRecipe> recipes = new ArrayList<>();
+
+            Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION);
+            for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
+                BeeConversionRecipe recipe = (BeeConversionRecipe) entry.getValue();
+                if (recipe.matches(beeInv, world)) {
+                    recipes.add(recipe);
+                }
+            }
 
             if (!recipes.isEmpty()) {
                 BeeConversionRecipe recipe = recipes.get(rand.nextInt(recipes.size()));

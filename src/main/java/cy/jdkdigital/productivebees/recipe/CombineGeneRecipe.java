@@ -72,7 +72,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
             }
         }
         if (attribute != null) {
-            return Gene.getStack(BeeAttributes.getAttributeByName(attribute), value, 1, purity);
+            return Gene.getStack(attribute, value, 1, purity);
         }
         return ItemStack.EMPTY;
     }

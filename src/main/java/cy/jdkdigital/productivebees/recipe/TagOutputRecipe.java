@@ -8,10 +8,7 @@ import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class TagOutputRecipe
 {
@@ -23,7 +20,7 @@ public abstract class TagOutputRecipe
     }
 
     public Map<ItemStack, IntArrayNBT> getRecipeOutputs() {
-        Map<ItemStack, IntArrayNBT> output = new HashMap<>();
+        Map<ItemStack, IntArrayNBT> output = new IdentityHashMap<>();
 
         if (!itemOutput.isEmpty()) {
             itemOutput.forEach((ingredient, intNBTS) -> {

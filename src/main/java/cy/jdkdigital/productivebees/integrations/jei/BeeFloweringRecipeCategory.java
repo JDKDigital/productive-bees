@@ -103,6 +103,9 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         flowering.put("productivebees:sweaty_bee", ModTags.SNOW_FLOWERS);
         flowering.put("productivebees:yellow_black_carpenter_bee", ModTags.FOREST_FLOWERS);
 
+        flowering.put("productivebees:lumber_bee", BlockTags.LOGS);
+        flowering.put("productivebees:quarry_bee", ModTags.QUARRY);
+
         Tag<Block> defaultBlockTag = BlockTags.getCollection().getOrCreate(new ResourceLocation("flowers"));
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()){
             Tag<Block> blockTag = null;
