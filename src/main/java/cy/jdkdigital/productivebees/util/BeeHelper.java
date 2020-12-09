@@ -53,8 +53,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BeeHelper
 {
-    public static final Random rand = new Random();
-
     public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, World world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
         // Conversion recipes
         BeeEntity bee = null;
@@ -73,7 +71,7 @@ public class BeeHelper
             }
 
             if (!recipes.isEmpty()) {
-                BeeConversionRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
+                BeeConversionRecipe recipe = recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
                 bee = recipe.result.get().getBeeEntity().create(world);
                 if (bee instanceof ConfigurableBeeEntity) {
                     ((ConfigurableBeeEntity) bee).setBeeType(recipe.result.get().getBeeType().toString());
@@ -122,10 +120,10 @@ public class BeeHelper
         }
 
         if (!recipes.isEmpty()) {
-            BeeBreedingRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
+            BeeBreedingRecipe recipe = recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
             List<Lazy<BeeIngredient>> possibleOffspring = recipe.offspring;
             if (possibleOffspring != null && possibleOffspring.size() > 0) {
-                BeeIngredient beeIngredient = possibleOffspring.get(rand.nextInt(possibleOffspring.size())).get();
+                BeeIngredient beeIngredient = possibleOffspring.get(ProductiveBees.rand.nextInt(possibleOffspring.size())).get();
                 BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
                 if (newBee instanceof ConfigurableBeeEntity) {
                     ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
@@ -177,7 +175,7 @@ public class BeeHelper
         List<ItemStack> outputList = Lists.newArrayList(ItemStack.EMPTY);
         if (matchedRecipe != null) {
             matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
-                int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
+                int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
                 ItemStack stack = itemStack.copy();
                 stack.setCount(count);
                 if (hasCombBlockUpgrade) {
@@ -243,7 +241,9 @@ public class BeeHelper
     private static ItemStack convertToCombBlock(ItemStack stack) {
         // Change to comb block
         ItemStack newStack = null;
-        if (stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
+        if (stack.getItem().equals(Items.HONEYCOMB)) {
+            newStack = new ItemStack(Items.HONEYCOMB_BLOCK, stack.getCount());
+        } else if (stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
             newStack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get(), stack.getCount());
             newStack.setTag(stack.getTag());
         } else {
@@ -289,19 +289,19 @@ public class BeeHelper
 
         Map<BeeAttribute<?>, Object> attributeMapChild = newBee.getBeeAttributes();
 
-        int parentProductivity = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.PRODUCTIVITY), (int) attributeMapParent2.get(BeeAttributes.PRODUCTIVITY));
+        int parentProductivity = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.PRODUCTIVITY), (int) attributeMapParent2.get(BeeAttributes.PRODUCTIVITY));
         attributeMapChild.put(BeeAttributes.PRODUCTIVITY, Math.max((int) attributeMapChild.get(BeeAttributes.PRODUCTIVITY), parentProductivity));
 
-        int parentEndurance = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.ENDURANCE), (int) attributeMapParent2.get(BeeAttributes.ENDURANCE));
+        int parentEndurance = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.ENDURANCE), (int) attributeMapParent2.get(BeeAttributes.ENDURANCE));
         attributeMapChild.put(BeeAttributes.ENDURANCE, Math.max((int) attributeMapChild.get(BeeAttributes.ENDURANCE), parentEndurance));
 
-        int parentTemper = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.TEMPER), (int) attributeMapParent2.get(BeeAttributes.TEMPER));
+        int parentTemper = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.TEMPER), (int) attributeMapParent2.get(BeeAttributes.TEMPER));
         attributeMapChild.put(BeeAttributes.TEMPER, Math.max((int) attributeMapChild.get(BeeAttributes.TEMPER), parentTemper));
 
-        int parentBehavior = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.BEHAVIOR), (int) attributeMapParent2.get(BeeAttributes.BEHAVIOR));
+        int parentBehavior = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.BEHAVIOR), (int) attributeMapParent2.get(BeeAttributes.BEHAVIOR));
         attributeMapChild.put(BeeAttributes.BEHAVIOR, Math.max((int) attributeMapChild.get(BeeAttributes.BEHAVIOR), parentBehavior));
 
-        int parentWeatherTolerance = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
+        int parentWeatherTolerance = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
         attributeMapChild.put(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
     }
 

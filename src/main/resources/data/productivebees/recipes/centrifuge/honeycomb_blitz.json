@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/blitz"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "thermal:blitz_dust"
+            },
+            "chance": 90
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/niter"
+    },
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:gems/niter"
+            },
+            "chance": 90
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/niter"
+            }
+        },
+        {
+            "type": "forge:tag_empty",
+            "tag": "forge:dusts/niter"
+        }
+    ]
+}

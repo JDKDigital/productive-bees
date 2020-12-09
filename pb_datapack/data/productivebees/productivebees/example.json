@@ -14,7 +14,7 @@
     "/*attackResponse_comment/": "attackResponse options: fire, lava",
     "attackResponse": "fire",
     "/*flowerTag_comment*/": "Which flowers the bee require for pollination. Can be any block tag. The one used here can be found in this datapack",
-    "flowerTag": "productivebees:example_flowers",
+    "flowerTag": "productivebees:flowers/example",
     "/*nestingPreference_comment*/": "Add this if the bee should be able to live in a nest. All bees can also live in hives.",
     "nestingPreference": "productivebees:nests/nether_quartz_nests",
     "/*size_comment*/": "The relative size of the bee. 1.0 is normal size.",
@@ -53,7 +53,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:mod_loaded",
-                "tag": "productivebees"
+                "modid": "productivebees"
             }
         }
     ]

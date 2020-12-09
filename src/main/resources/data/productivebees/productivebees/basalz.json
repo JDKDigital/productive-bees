@@ -1,0 +1,15 @@
+{
+    "primaryColor": "#ff8219",
+    "secondaryColor": "#a4002d",
+    "particleColor": "#0e080a",
+    "name": "BazBee",
+    "createComb": false,
+    "flowerTag": "productivebees:flowers/burning",
+    "fireproof": true,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

@@ -40,7 +40,7 @@ public class CombBlockItem extends BlockItem
         if (tag != null && tag.contains("type")) {
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
-                return new TranslationTextComponent("block.productivebees.comb_configurable", nbt.getString("name"));
+                return new TranslationTextComponent("block.productivebees.comb_configurable", nbt.getString("name").replace(" Bee", ""));
             }
         }
         return super.getDisplayName(stack);
