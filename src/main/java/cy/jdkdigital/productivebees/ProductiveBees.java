@@ -12,7 +12,11 @@ import cy.jdkdigital.productivebees.setup.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.ClientResourcePackInfo;
 import net.minecraft.resources.IReloadableResourceManager;
+import net.minecraft.resources.ResourcePackList;
+import net.minecraft.resources.ResourcePackType;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
@@ -101,6 +105,7 @@ public final class ProductiveBees
     public void onCommonSetup(FMLCommonSetupEvent event) {
         CapabilityBee.register();
         PacketHandler.init();
+        ModAdvancements.register();
 
         this.fixPOI(event);
     }
@@ -161,6 +166,16 @@ public final class ProductiveBees
                     biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatures.SUGAR_CANE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.SUGAR_CANE.getDefaultState(), ModBlocks.SUGAR_CANE_NEST.get().getDefaultState())));
                 }
             }
+
+//            LOGGER.info("ResourcePack info:");
+//            LOGGER.info(Minecraft.getInstance().getResourcePackList());
+//            LOGGER.info(Minecraft.getInstance().getFileResourcePacks());
+
+//            ResourcePackList<ClientResourcePackInfo> list = Minecraft.getInstance().getResourcePackList();
+//
+//            Set<String> nameList = list.getAllPacks().iterator().next().getResourcePack().getResourceNamespaces(ResourcePackType.CLIENT_RESOURCES);
+//            LOGGER.info(nameList);
+//            LOGGER.info(nameList.iterator().next());
         });
     }
 

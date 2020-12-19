@@ -89,20 +89,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
     @Nullable
     public Pair<Fluid, Integer> getFluidOutputs() {
         for(Map.Entry<String, Integer> entry: fluidOutput.entrySet()) {
-            // Try loading from fluid registry
-            Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(entry.getKey()));
-
-            // Try loading fluid from fluid tag
-            if (fluid == Fluids.EMPTY) {
-                try {
-                    Tag<Fluid> fluidTag = FluidTags.getCollection().get(new ResourceLocation(entry.getKey()));
-                    if (fluidTag.getAllElements().size() > 0) {
-                        fluid = fluidTag.getAllElements().iterator().next();
-                    }
-                } catch (Exception e) {
-                    // Who cares
-                }
-            }
+            Fluid fluid = getPreferredFluidByMod(entry.getKey());
 
             if (fluid != Fluids.EMPTY) {
                 return Pair.of(fluid, entry.getValue());

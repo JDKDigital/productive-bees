@@ -1,0 +1,38 @@
+{
+    "parent": "productivebees:husbandry/bee_cage/overworld_nest",
+    "display": {
+        "icon": {
+            "item": "productivebees:honey_treat"
+        },
+        "title": {
+            "translate": "advancements.husbandry.treat_on_nest.title"
+        },
+        "description": {
+            "translate": "advancements.husbandry.treat_on_nest.description"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "use_treat": {
+            "trigger": "minecraft:item_used_on_block",
+            "conditions": {
+                "location": {
+                    "block": {
+                        "tag": "productivebees:solitary_nests"
+                    }
+                },
+                "item": {
+                    "item": "productivebees:honey_treat"
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "use_treat"
+        ]
+    ]
+}

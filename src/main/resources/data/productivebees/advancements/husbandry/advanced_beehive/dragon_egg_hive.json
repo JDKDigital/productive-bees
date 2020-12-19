@@ -1,0 +1,35 @@
+{
+    "parent": "productivebees:husbandry/advanced_beehive",
+    "display": {
+        "icon": {
+            "item": "productivebees:dragon_egg_hive"
+        },
+        "title": {
+            "translate": "advancements.husbandry.dragon_egg_hive.title"
+        },
+        "description": {
+            "translate": "advancements.husbandry.dragon_egg_hive.description"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "get_item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "productivebees:dragon_egg_hive"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "get_item"
+        ]
+    ]
+}

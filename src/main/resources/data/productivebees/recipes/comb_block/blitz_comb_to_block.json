@@ -1,12 +1,15 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": {
-        "item": "productivebees:comb_blitz"
-    },
-    "result": [
-        {
-            "item": "productivebees:honeycomb_blitz",
-            "count": 4
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "HH",
+        "HH"
+    ],
+    "key": {
+        "H": {
+            "tag": "forge:honeycombs/blitz"
         }
-    ]
+    },
+    "result": {
+        "item": "productivebees:comb_blitz"
+    }
 }

@@ -119,7 +119,7 @@ dependencies {
     implementation fg.deobf('mods:SilentMechanisms-1.15.2:0.8.0+59')
     implementation fg.deobf('mods:Abnormals-Core-1.15.2:1.0.6')
     implementation fg.deobf('mods:Buzzier-Bees-1.15.2:1.5.2')
-    implementation fg.deobf('mods:glassential-forge-1.15.2:1.1.4')
+//    implementation fg.deobf('mods:glassential-forge-1.15.2:1.1.4')
 //    implementation fg.deobf('mods:simplefarming-1.15.2:1.3.0')
     implementation fg.deobf('mods:Cucumber-1.15.2:3.0.9')
     implementation fg.deobf('mods:MysticalAgriculture-1.15.2:3.0.10')

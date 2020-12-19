@@ -1,12 +1,15 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": {
-        "item": "productivebees:comb_sulfur"
-    },
-    "result": [
-        {
-            "item": "productivebees:honeycomb_sulfur",
-            "count": 4
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "HH",
+        "HH"
+    ],
+    "key": {
+        "H": {
+            "tag": "forge:honeycombs/sulfur"
         }
-    ]
+    },
+    "result": {
+        "item": "productivebees:comb_sulfur"
+    }
 }

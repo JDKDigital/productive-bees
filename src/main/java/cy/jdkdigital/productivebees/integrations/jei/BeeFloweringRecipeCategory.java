@@ -14,6 +14,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -22,6 +23,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringRecipeCategory.Recipe>
@@ -69,7 +71,9 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         try {
             for (Block block: recipe.blockTag.getAllElements() ) {
                 ItemStack item = new ItemStack(block.asItem());
-                stacks.add(item);
+                if (!item.getItem().equals(Items.AIR)) {
+                    stacks.add(item);
+                }
             }
         } catch (Exception e) {
             ProductiveBees.LOGGER.warn("Failed to find flowering requirements for " + recipe.getBee());
@@ -80,7 +84,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
     }
 
     @Override
-    public void setRecipe(IRecipeLayout iRecipeLayout, Recipe recipe, IIngredients ingredients) {
+    public void setRecipe(IRecipeLayout iRecipeLayout, @Nonnull Recipe recipe, IIngredients ingredients) {
         IGuiIngredientGroup<BeeIngredient> ingredientStacks = iRecipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
         ingredientStacks.init(0, true, 29, 12);
         ingredientStacks.set(0, ingredients.getInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT).get(0));
@@ -106,7 +110,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         flowering.put("productivebees:lumber_bee", BlockTags.LOGS);
         flowering.put("productivebees:quarry_bee", ModTags.QUARRY);
 
-        Tag<Block> defaultBlockTag = BlockTags.getCollection().getOrCreate(new ResourceLocation("flowers"));
+        Tag<Block> defaultBlockTag = BlockTags.FLOWERS;
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()){
             Tag<Block> blockTag = null;
             if (entry.getValue().isConfigurable()) {

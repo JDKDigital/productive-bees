@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
+import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
 import net.minecraft.block.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -12,6 +13,7 @@ import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.particles.ParticleTypes;
@@ -145,6 +147,18 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
     @Nonnull
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    @Override
+    public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+        ItemStack heldItem = player.getHeldItemMainhand();
+        if (heldItem.getItem().equals(Items.STICK)) {
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
+                ((AdvancedBeehiveTileEntityAbstract) tileEntity).angerBees(player, state, BeehiveTileEntity.State.BEE_RELEASED);
+            }
+        }
+        super.onBlockClicked(state, worldIn, pos, player);
     }
 
     public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player) {

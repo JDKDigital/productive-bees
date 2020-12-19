@@ -6,7 +6,7 @@
     "outputs": [
         {
             "item": {
-                "item": "thermal:basalz_dust"
+                "item": "thermal:basalz_powder"
             },
             "chance": 90
         },

@@ -63,8 +63,8 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         super(entityType, world);
 
         beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE ||
-                poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
-                poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
+                (poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() && isWild()) ||
+                (poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() && isWild()) ||
                 (poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic()) ||
                 (poiType == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals("productivebees:sugarbag"));
     }
@@ -332,6 +332,10 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public String getRenderer() {
         return getNBTData().getString("renderer");
+    }
+
+    private boolean isWild() {
+        return getNBTData().contains("nestingPreference");
     }
 
     // Traits

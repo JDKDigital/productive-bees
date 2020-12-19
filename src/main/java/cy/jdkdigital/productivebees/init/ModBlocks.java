@@ -73,7 +73,7 @@ public final class ModBlocks
 
     public static final RegistryObject<Block> COMB_ALLTHEMODIUM = createBlock("comb_allthemodium", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#f2f24f"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_AMBER = createBlock("comb_amber", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#d2ab00"), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> COMB_BASALZ = createBlock("comb_amber", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#ff8219"), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_BASALZ = createBlock("comb_basalz", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#ff8219"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_BAUXITE = createBlock("comb_bauxite", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_BISMUTH = createBlock("comb_bismuth", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#ece386"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_BLAZING = createBlock("comb_blazing", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
@@ -132,7 +132,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> COMB_SOULIUM = createBlock("comb_soulium", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#301b10"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_SPACIAL = createBlock("comb_spacial", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#dfe5f6"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_STEEL = createBlock("comb_steel", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#737373"), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> COMB_SULFUR = createBlock("comb_supremium", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#e4ff95"), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_SULFUR = createBlock("comb_sulfur", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#e4ff95"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_SUPREMIUM = createBlock("comb_supremium", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#C40000"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_TERRASTEEL = createBlock("comb_terrasteel", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#49cc1d"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_TERTIUM = createBlock("comb_tertium", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#B74900"), ModItemGroups.PRODUCTIVE_BEES);

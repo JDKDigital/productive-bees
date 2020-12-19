@@ -1,12 +1,12 @@
 {
     "type": "minecraft:crafting_shapeless",
-    "ingredients": {
-        "item": "productivebees:comb_niter"
-    },
-    "result": [
+    "ingredients": [
         {
-            "item": "productivebees:honeycomb_niter",
-            "count": 4
+            "item": "productivebees:comb_niter"
         }
-    ]
+    ],
+    "result": {
+        "item": "productivebees:honeycomb_niter",
+        "count": 4
+    }
 }

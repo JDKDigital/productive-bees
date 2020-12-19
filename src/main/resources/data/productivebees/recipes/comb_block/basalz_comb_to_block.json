@@ -1,12 +1,15 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": {
-        "item": "productivebees:comb_basalz"
-    },
-    "result": [
-        {
-            "item": "productivebees:honeycomb_basalz",
-            "count": 4
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "HH",
+        "HH"
+    ],
+    "key": {
+        "H": {
+            "tag": "forge:honeycombs/basalz"
         }
-    ]
+    },
+    "result": {
+        "item": "productivebees:comb_basalz"
+    }
 }

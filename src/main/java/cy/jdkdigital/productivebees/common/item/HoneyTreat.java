@@ -2,12 +2,14 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -70,6 +72,11 @@ public class HoneyTreat extends Item
         }
 
         BeeEntity bee = (BeeEntity) target;
+
+        if (player instanceof ServerPlayerEntity && bee.isAngry()) {
+            ModAdvancements.CALM_BEE.trigger((ServerPlayerEntity) player, bee);
+        }
+
         // Stop agro
         bee.setAnger(0);
         // Allow entering hive
