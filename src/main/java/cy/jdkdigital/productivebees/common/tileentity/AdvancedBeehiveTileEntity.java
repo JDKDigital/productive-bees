@@ -230,7 +230,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         upgradeHandler.ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(upgradesTag));
 
         // Reset MAX_BEES
-        MAX_BEES = world.getBlockState(pos).get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE ? 5 : 3;
+        MAX_BEES = tag.contains("max_bees") ? tag.getInt("max_bees") : MAX_BEES;
     }
 
     @Nonnull
@@ -247,6 +247,8 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
             tag.put("upgrades", compound);
         });
+
+        tag.putInt("max_bees", MAX_BEES);
 
         return tag;
     }

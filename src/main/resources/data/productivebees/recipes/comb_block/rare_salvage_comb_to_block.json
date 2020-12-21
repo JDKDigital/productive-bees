@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "HH",
+        "HH"
+    ],
+    "key": {
+        "H": {
+            "tag": "forge:honeycombs/rare_salvage"
+        }
+    },
+    "result": {
+        "item": "productivebees:comb_rare_salvage"
+    }
+}
