@@ -279,7 +279,10 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     private void completeGeneProcessing(IItemHandlerModifiable invHandler) {
         ItemStack geneBottle = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
 
-        CompoundNBT entityData = GeneBottle.getGenesTag(geneBottle);
+        CompoundNBT entityData = GeneBottle.getGenes(geneBottle);
+        if (entityData == null) {
+            return;
+        }
 
         List<String> attributes = new ArrayList<String>() {{
             add("productivity");
@@ -296,6 +299,11 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                 ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.getAttributeByName(attributeName), value));
             }
         }
+
+//        // Chance to get a type gene
+//        if (rand.nextDouble() <= chance) {
+//            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type")));
+//        }
 
         invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
     }

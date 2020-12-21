@@ -1,0 +1,21 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:configurable_bee",
+    "bee_type": "productivebees:blizz",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/blizz"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/blizz"
+            }
+        }
+    ]
+}

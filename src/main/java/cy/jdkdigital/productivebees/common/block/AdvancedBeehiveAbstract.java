@@ -12,6 +12,7 @@ import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootParameters;
 import net.minecraft.nbt.CompoundNBT;
@@ -146,6 +147,18 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
     @Nonnull
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    @Override
+    public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+        ItemStack heldItem = player.getHeldItemMainhand();
+        if (heldItem.getItem().equals(Items.STICK)) {
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
+                ((AdvancedBeehiveTileEntityAbstract) tileEntity).angerBees(player, state, BeehiveTileEntity.State.BEE_RELEASED);
+            }
+        }
+        super.onBlockClicked(state, worldIn, pos, player);
     }
 
     public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player) {

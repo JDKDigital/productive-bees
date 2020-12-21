@@ -1,0 +1,22 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:quartz_bee",
+    "parent2": "productivebees:neon_cuckoo_bee",
+    "offspring": [
+        "productivebees:menril"
+    ],
+    "breeding_items": [
+        {
+            "item": "integrateddynamics:crystalized_menril_chunk"
+        },
+        {
+            "item": "integrateddynamics:menril_berries"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "integrateddynamics"
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "parent": "productivebees:husbandry/bee_cage",
+    "display": {
+        "icon": {
+            "item": "productivebees:nest_locator"
+        },
+        "title": {
+            "translate": "advancements.husbandry.nest_locator.title"
+        },
+        "description": {
+            "translate": "advancements.husbandry.nest_locator.description"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "get_item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "productivebees:nest_locator"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "get_item"
+        ]
+    ]
+}

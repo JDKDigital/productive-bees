@@ -9,8 +9,7 @@
                 "tag": "forge:dusts/redstone"
             },
             "min": 3,
-            "max": 5,
-            "chance": 100
+            "max": 5
         },
         {
             "item": {

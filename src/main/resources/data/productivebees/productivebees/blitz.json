@@ -1,0 +1,14 @@
+{
+    "primaryColor": "#e9edf3",
+    "secondaryColor": "#bdccd9",
+    "particleColor": "#ffd86f",
+    "name": "BitzBee",
+    "createComb": false,
+    "flowerTag": "thermal:niter_block",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

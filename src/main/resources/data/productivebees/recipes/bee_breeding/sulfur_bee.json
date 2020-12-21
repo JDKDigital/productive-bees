@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:magmatic",
+    "parent2": "productivebees:coal",
+    "offspring": [
+        "productivebees:sulfur"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:magma_cream"
+        },
+        {
+            "tag": "forge:dusts/sulfur"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:dusts/sulfur"
+            }
+        }
+    ]
+}

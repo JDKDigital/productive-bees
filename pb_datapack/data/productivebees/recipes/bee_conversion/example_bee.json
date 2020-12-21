@@ -10,7 +10,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:mod_loaded",
-                "tag": "productivebees"
+                "modid": "productivebees"
             }
         }
     ]

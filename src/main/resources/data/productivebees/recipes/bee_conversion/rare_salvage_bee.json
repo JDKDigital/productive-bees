@@ -1,0 +1,14 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:uncommon_salvage",
+    "result": "productivebees:rare_salvage",
+    "item": {
+        "item": "mmorpg:currency/item_levelup"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mmorpg"
+        }
+    ]
+}

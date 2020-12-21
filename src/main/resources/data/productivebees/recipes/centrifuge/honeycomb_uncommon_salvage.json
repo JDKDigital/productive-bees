@@ -1,0 +1,24 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/uncommon_salvage"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mmorpg:ore1"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mmorpg"
+        }
+    ]
+}

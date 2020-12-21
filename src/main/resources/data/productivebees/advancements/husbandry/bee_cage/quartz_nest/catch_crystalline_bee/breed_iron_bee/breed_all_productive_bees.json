@@ -1,16 +1,16 @@
 {
-    "parent": "minecraft:husbandry/root",
+    "parent": "productivebees:husbandry/bee_cage/quartz_nest/catch_crystalline_bee/breed_iron_bee",
     "display": {
         "icon": {
-            "item": "productivebees:adv_breed_bee"
+            "item": "productivebees:adv_breed_all_bees"
         },
         "title": {
-            "translate": "advancements.husbandry.breed_a_productive_bee.title"
+            "translate": "advancements.husbandry.breed_all_productive_bees.title"
         },
         "description": {
-            "translate": "advancements.husbandry.breed_a_productive_bee.description"
+            "translate": "advancements.husbandry.breed_all_productive_bees.description"
         },
-        "frame": "task",
+        "frame": "challenge",
         "show_toast": true,
         "announce_to_chat": true,
         "hidden": false
@@ -20,7 +20,8 @@
             "trigger": "minecraft:bred_animals",
             "conditions": {
                 "child": {
-                    "type": "productivebees:iron_bee"
+                    "type": "productivebees:configurable_bee",
+                    "nbt": "{type:\"productivebees:iron\"}"
                 }
             }
         },
@@ -28,7 +29,8 @@
             "trigger": "minecraft:bred_animals",
             "conditions": {
                 "child": {
-                    "type": "productivebees:gold_bee"
+                    "type": "productivebees:configurable_bee",
+                    "nbt": "{type:\"productivebees:gold\"}"
                 }
             }
         },
@@ -36,7 +38,8 @@
             "trigger": "minecraft:bred_animals",
             "conditions": {
                 "child": {
-                    "type": "productivebees:coal_bee"
+                    "type": "productivebees:configurable_bee",
+                    "nbt": "{type:\"productivebees:coal\"}"
                 }
             }
         },
@@ -44,7 +47,8 @@
             "trigger": "minecraft:bred_animals",
             "conditions": {
                 "child": {
-                    "type": "productivebees:redstone_bee"
+                    "type": "productivebees:configurable_bee",
+                    "nbt": "{type:\"productivebees:redstone\"}"
                 }
             }
         },
@@ -52,7 +56,8 @@
             "trigger": "minecraft:bred_animals",
             "conditions": {
                 "child": {
-                    "type": "productivebees:lapis_bee"
+                    "type": "productivebees:configurable_bee",
+                    "nbt": "{type:\"productivebees:lapis\"}"
                 }
             }
         },
@@ -60,7 +65,8 @@
             "trigger": "minecraft:bred_animals",
             "conditions": {
                 "child": {
-                    "type": "productivebees:emerald_bee"
+                    "type": "productivebees:configurable_bee",
+                    "nbt": "{type:\"productivebees:emerald\"}"
                 }
             }
         },
@@ -68,7 +74,8 @@
             "trigger": "minecraft:bred_animals",
             "conditions": {
                 "child": {
-                    "type": "productivebees:diamond_bee"
+                    "type": "productivebees:configurable_bee",
+                    "nbt": "{type:\"productivebees:diamond\"}"
                 }
             }
         },
@@ -96,35 +103,19 @@
                 }
             }
         },
-        "hoarder_bee": {
+        "quarry_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
                 "child": {
-                    "type": "productivebees:hoarder_bee"
+                    "type": "productivebees:quarry_bee"
                 }
             }
         },
-        "creeper_bee": {
+        "farmer_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
                 "child": {
-                    "type": "productivebees:creeper_bee"
-                }
-            }
-        },
-        "ender_bee": {
-            "trigger": "minecraft:bred_animals",
-            "conditions": {
-                "child": {
-                    "type": "productivebees:ender_bee"
-                }
-            }
-        },
-        "wither_bee": {
-            "trigger": "minecraft:bred_animals",
-            "conditions": {
-                "child": {
-                    "type": "productivebees:wither_bee"
+                    "type": "productivebees:farmer_bee"
                 }
             }
         },
@@ -132,27 +123,50 @@
             "trigger": "minecraft:bred_animals",
             "conditions": {
                 "child": {
-                    "type": "productivebees:blazing_bee"
+                    "type": "productivebees:configurable_bee",
+                    "nbt": "{type:\"productivebees:blazing\"}"
                 }
             }
         }
     },
     "requirements": [
         [
-            "iron_bee",
-            "gold_bee",
-            "coal_bee",
-            "redstone_bee",
-            "lapis_bee",
-            "emerald_bee",
-            "diamond_bee",
-            "dye_bee",
-            "lumber_bee",
-            "rancher_bee",
-            "hoarder_bee",
-            "creeper_bee",
-            "ender_bee",
-            "wither_bee",
+            "iron_bee"
+        ],
+        [
+            "gold_bee"
+        ],
+        [
+            "coal_bee"
+        ],
+        [
+            "redstone_bee"
+        ],
+        [
+            "lapis_bee"
+        ],
+        [
+            "diamond_bee"
+        ],
+        [
+            "emerald_bee"
+        ],
+        [
+            "dye_bee"
+        ],
+        [
+            "lumber_bee"
+        ],
+        [
+            "rancher_bee"
+        ],
+        [
+            "quarry_bee"
+        ],
+        [
+            "farmer_bee"
+        ],
+        [
             "blazing_bee"
         ]
     ]

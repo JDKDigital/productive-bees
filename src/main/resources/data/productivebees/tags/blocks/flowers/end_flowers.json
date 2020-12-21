@@ -1,7 +1,6 @@
 {
     "replace": false,
     "values": [
-        "minecraft:chorus_flower",
-        "minecraft:chorus_plant"
+        "#productivebees:flowers/ender"
     ]
 }

@@ -48,7 +48,7 @@ public class Honeycomb extends Item
         if (tag != null && tag.contains("type")) {
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
-                return new TranslationTextComponent("item.productivebees.honeycomb_configurable", nbt.getString("name"));
+                return new TranslationTextComponent("item.productivebees.honeycomb_configurable", nbt.getString("name").replace(" Bee", ""));
             }
         }
         return super.getDisplayName(stack);

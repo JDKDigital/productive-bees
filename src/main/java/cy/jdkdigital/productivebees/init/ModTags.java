@@ -6,7 +6,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.tags.*;
-import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.HashMap;

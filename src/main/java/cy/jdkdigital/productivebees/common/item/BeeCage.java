@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -11,6 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -37,7 +39,7 @@ public class BeeCage extends Item
     }
 
     public static boolean isFilled(ItemStack itemStack) {
-        return !itemStack.isEmpty() && itemStack.hasTag() && itemStack.getTag().contains("entity");
+        return !itemStack.isEmpty() && itemStack.getOrCreateTag().contains("entity");
     }
 
     @Override
@@ -108,6 +110,10 @@ public class BeeCage extends Item
         }
 
         player.swingArm(hand);
+
+        if (player instanceof ServerPlayerEntity) {
+            ModAdvancements.CATCH_BEE.trigger((ServerPlayerEntity) player, cageStack);
+        }
 
         itemStack.shrink(1);
         target.remove(true);

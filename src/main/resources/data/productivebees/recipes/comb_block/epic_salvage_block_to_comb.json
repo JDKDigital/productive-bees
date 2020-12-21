@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_epic_salvage"
+        }
+    ],
+    "result": {
+        "item": "productivebees:honeycomb_epic_salvage",
+        "count": 4
+    }
+}

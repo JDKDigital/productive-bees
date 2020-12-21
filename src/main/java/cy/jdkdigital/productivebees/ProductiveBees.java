@@ -104,6 +104,7 @@ public final class ProductiveBees
     public void onCommonSetup(FMLCommonSetupEvent event) {
         CapabilityBee.register();
         PacketHandler.init();
+        ModAdvancements.register();
 
         DeferredWorkQueue.runLater(() -> {
             //Entity attribute assignments

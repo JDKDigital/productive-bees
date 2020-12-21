@@ -1,0 +1,14 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:rare_salvage",
+    "result": "productivebees:epic_salvage",
+    "item": {
+        "item": "mmorpg:currency/number_reroll"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mmorpg"
+        }
+    ]
+}

@@ -1,0 +1,57 @@
+{
+    "parent": "productivebees:husbandry/bee_cage",
+    "display": {
+        "icon": {
+            "item": "productivebees:wood_chip"
+        },
+        "title": {
+            "translate": "advancements.husbandry.professional_bee.title"
+        },
+        "description": {
+            "translate": "advancements.husbandry.professional_bee.description"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "rancher_bee": {
+            "trigger": "minecraft:bred_animals",
+            "conditions": {
+                "child": {
+                    "type": "productivebees:rancher_bee"
+                }
+            }
+        },
+        "lumber_bee": {
+            "trigger": "minecraft:bred_animals",
+            "conditions": {
+                "child": {
+                    "type": "productivebees:lumber_bee"
+                }
+            }
+        },
+        "quarry_bee": {
+            "trigger": "minecraft:bred_animals",
+            "conditions": {
+                "child": {
+                    "type": "productivebees:quarry_bee"
+                }
+            }
+        },
+        "farmer_bee": {
+            "trigger": "minecraft:bred_animals",
+            "conditions": {
+                "child": {
+                    "type": "productivebees:farmer_bee"
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "rancher_bee", "lumber_bee", "quarry_bee", "farmer_bee"
+        ]
+    ]
+}

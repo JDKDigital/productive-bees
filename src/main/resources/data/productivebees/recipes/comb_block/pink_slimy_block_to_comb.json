@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_pink_slimy"
+        }
+    ],
+    "result": {
+        "item": "productivebees:honeycomb_pink_slimy",
+        "count": 4
+    }
+}

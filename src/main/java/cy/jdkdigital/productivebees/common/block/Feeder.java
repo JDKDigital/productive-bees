@@ -87,8 +87,8 @@ public class Feeder extends SlabBlock implements ITileEntityProvider
     @SuppressWarnings("deprecation")
     @Nullable
     @Override
-    public INamedContainerProvider getContainer(BlockState state, World worl, BlockPos pos) {
-        TileEntity tile = worl.getTileEntity(pos);
+    public INamedContainerProvider getContainer(BlockState state, World world, BlockPos pos) {
+        TileEntity tile = world.getTileEntity(pos);
         return tile instanceof INamedContainerProvider ? (INamedContainerProvider)tile : null;
     }
 

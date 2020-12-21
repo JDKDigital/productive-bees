@@ -10,11 +10,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nonnull;
 
 public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 {
@@ -97,5 +100,24 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 
         // reset repopulation cooldown
         nestTickTimer = -1;
+    }
+
+    @Override
+    public void read(CompoundNBT tag) {
+        super.read(tag);
+
+        if (tag.contains("nestTickTimer")) {
+            nestTickTimer = tag.getInt("nestTickTimer");
+        }
+    }
+
+    @Nonnull
+    @Override
+    public CompoundNBT write(CompoundNBT tag) {
+        super.write(tag);
+
+        tag.putInt("nestTickTimer", nestTickTimer);
+
+        return tag;
     }
 }

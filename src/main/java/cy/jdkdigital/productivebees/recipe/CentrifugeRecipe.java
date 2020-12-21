@@ -18,12 +18,9 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ITag;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -89,20 +86,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
     @Nullable
     public Pair<Fluid, Integer> getFluidOutputs() {
         for(Map.Entry<String, Integer> entry: fluidOutput.entrySet()) {
-            // Try loading from fluid registry
-            Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(entry.getKey()));
-
-            // Try loading fluid from fluid tag
-            if (fluid == Fluids.EMPTY) {
-                try {
-                    ITag<Fluid> fluidTag = FluidTags.getCollection().get(new ResourceLocation(entry.getKey()));
-                    if (fluidTag.getAllElements().size() > 0) {
-                        fluid = fluidTag.getAllElements().iterator().next();
-                    }
-                } catch (Exception e) {
-                    // Who cares
-                }
-            }
+            Fluid fluid = getPreferredFluidByMod(entry.getKey());
 
             if (fluid != Fluids.EMPTY) {
                 return Pair.of(fluid, entry.getValue());

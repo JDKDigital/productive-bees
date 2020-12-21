@@ -1,0 +1,14 @@
+{
+    "primaryColor": "#1d7cf1",
+    "secondaryColor": "#ffffff",
+    "particleColor": "#8cdeff",
+    "name": "BizBee",
+    "createComb": false,
+    "flowerTag": "productivebees:flowers/frozen",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

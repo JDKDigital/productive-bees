@@ -1,0 +1,22 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:blazing",
+    "parent2": "productivebees:explosive",
+    "offspring": [
+        "productivebees:basalz"
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:rods/blaze"
+        },
+        {
+            "item": "thermal:basalz_rod"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

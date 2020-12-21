@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/legendary_salvage"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mmorpg:ore4"
+            },
+            "chance": 40
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mmorpg"
+        }
+    ]
+}

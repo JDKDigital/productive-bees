@@ -1,0 +1,33 @@
+{
+    "parent": "productivebees:husbandry/bee_cage/overworld_nest",
+    "display": {
+        "icon": {
+            "item": "productivebees:sugarbag_honeycomb"
+        },
+        "title": {
+            "translate": "advancements.husbandry.consume_sugarbag_comb.title"
+        },
+        "description": {
+            "translate": "advancements.husbandry.consume_sugarbag_comb.description"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "consume": {
+            "trigger": "minecraft:consume_item",
+            "conditions": {
+                "item": {
+                    "item": "productivebees:sugarbag_honeycomb"
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "consume"
+        ]
+    ]
+}
