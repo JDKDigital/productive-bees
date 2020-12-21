@@ -109,7 +109,6 @@ dependencies {
     implementation fg.deobf('mods:thermal_expansion-1.15.2:1.0.2')
 //    implementation fg.deobf('mods:allthemodium-1.0.4-1.15.2:31.2.36')
     implementation fg.deobf('mods:curios-FORGE-1.15.2:2.0.2.6')
-    implementation fg.deobf('mods:Cyclic-1.15.2:0.7.0')
     implementation fg.deobf('mods:Botania-r1.15:388')
     implementation fg.deobf('mods:Lollipop-1.15.2:1.0.16')
     implementation fg.deobf('mods:Powah-1.15.2:1.1.14')

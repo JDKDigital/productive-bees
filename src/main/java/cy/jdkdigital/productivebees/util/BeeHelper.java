@@ -84,12 +84,12 @@ public class BeeHelper
             if (!player.isCreative()) {
                 itemStack.shrink(1);
             }
-            return BeeHelper.prepareBeeSpawn(bee, world, nbt, player, entity.getPosition(), direction, entity.getGrowingAge());
+            return BeeHelper.prepareBeeSpawn(bee, entity.getPosition(), direction, entity.getGrowingAge());
         }
         return null;
     }
 
-    public static BeeEntity prepareBeeSpawn(BeeEntity bee, World world, @Nullable CompoundNBT nbt, @Nullable PlayerEntity player, BlockPos pos, Direction direction, int age) {
+    public static BeeEntity prepareBeeSpawn(BeeEntity bee, BlockPos pos, Direction direction, int age) {
         if (bee != null) {
             double x = (double) pos.getX() + (double) direction.getXOffset();
             double y = (double) pos.getY() + 0.5D - (double) (bee.getHeight() / 2.0F);

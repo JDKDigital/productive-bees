@@ -3,6 +3,7 @@
     "secondaryColor": "#c9ab4b",
     "particleColor": "#f1f372",
     "createComb": false,
+    "flowerTag": "forge:storage_blocks/sulfur",
     "conditions": [
         {
             "type": "forge:not",
