@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/netherite"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "extendednether:netherite_scrap"
+            },
+            "chance": 10
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "extendednether"
+        }
+    ]
+}

@@ -284,6 +284,19 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 }
             }
         }
+
+        applyHiveTime(getTimeInHive(beeState == BeehiveTileEntity.State.HONEY_DELIVERED, beeEntity), beeEntity);
+    }
+
+    private static void applyHiveTime(int ticksInHive, BeeEntity beeEntity) {
+        int i = beeEntity.getGrowingAge();
+        if (i < 0) {
+            beeEntity.setGrowingAge(Math.min(0, i + ticksInHive));
+        } else if (i > 0) {
+            beeEntity.setGrowingAge(Math.max(0, i - ticksInHive));
+        }
+
+        beeEntity.resetTicksWithoutNectar();
     }
 
     private boolean hasFlowerPos() {

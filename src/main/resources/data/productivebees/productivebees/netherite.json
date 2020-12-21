@@ -1,0 +1,21 @@
+{
+    "primaryColor": "#4d494d",
+    "secondaryColor": "#804f40",
+    "particleColor": "#4d494d",
+    "createComb": false,
+    "name": "Ancient",
+    "flowerBlock": "extendednether:netherite_block",
+    "size": 0.7,
+    "attributes": {
+        "endurance": 2
+    },
+    "attackResponse": "fire",
+    "fireproof": true,
+    "withered": true,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "extendednether"
+        }
+    ]
+}
