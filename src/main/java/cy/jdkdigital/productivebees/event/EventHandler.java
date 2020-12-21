@@ -78,14 +78,21 @@ public class EventHandler
     @SubscribeEvent
     public static void cocoaBreakSpawn(BlockEvent.BreakEvent event) {
         if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().get(CocoaBlock.AGE) == 2) {
+            ProductiveBees.LOGGER.info("Broken grown cocoa");
             PlayerEntity player = event.getPlayer();
             World world = event.getWorld().getWorld();
             if (player instanceof ServerPlayerEntity && !world.isRemote && ProductiveBees.rand.nextFloat() < 0.05) {
                 ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(world);
+                BlockPos pos = event.getPos();
                 if (bee != null) {
                     bee.setBeeType("productivebees:sugarbag");
                     bee.setAttributes();
-                    BeeHelper.prepareBeeSpawn(bee, event.getPos(), Direction.random(ProductiveBees.rand), 0);
+                    BeeHelper.prepareBeeSpawn(bee, pos, Direction.random(ProductiveBees.rand), 0);
+
+                    world.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+                    world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_WORK, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+
+                    world.addEntity(bee);
                 }
             }
         }

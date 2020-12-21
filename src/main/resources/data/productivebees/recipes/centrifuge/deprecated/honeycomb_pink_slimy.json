@@ -1,8 +1,9 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/pink_slimy"
+        "item": "productivebees:configurable_honeycomb"
     },
+    "comb_type": "productivebees:pink_slimy",
     "outputs": [
         {
             "item": {
