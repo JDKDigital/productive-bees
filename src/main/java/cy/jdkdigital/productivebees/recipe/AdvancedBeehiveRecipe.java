@@ -122,11 +122,6 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
         public T read(ResourceLocation id, JsonObject json) {
             String beeName = JSONUtils.getString(json, "ingredient");
 
-            String beeType = JSONUtils.getString(json, "bee_type", "");
-            if (!beeType.isEmpty()) {
-                beeName = beeType;
-            }
-
             Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
 
             Map<Ingredient, IntArrayNBT> itemOutputs = new HashMap<>();

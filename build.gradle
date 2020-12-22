@@ -128,6 +128,7 @@ dependencies {
     implementation fg.deobf('mods:AutoRegLib-1.5:40')
     implementation fg.deobf('mods:Quark-r2.1:245')
     implementation fg.deobf('mods:create-mc1.15.2:v0.3a')
+    implementation fg.deobf('mods:ImmersiveEngineering-1.15.2:4.1.1-125')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

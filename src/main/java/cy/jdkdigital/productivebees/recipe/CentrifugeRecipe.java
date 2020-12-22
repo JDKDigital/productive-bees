@@ -178,7 +178,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
             // Default fluid output
             if (fluidOutputs.isEmpty()) {
-                fluidOutputs.put("forge:honey", 250);
+                fluidOutputs.put("productivebees:honey", 250);
             }
 
             return this.factory.create(id, ingredient, itemOutputs, fluidOutputs);

@@ -1,7 +1,6 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:configurable_bee",
-    "bee_type": "productivebees:blitz",
+    "ingredient": "productivebees:blitz",
     "results": [
         {
             "item": {
@@ -11,11 +10,8 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/blitz"
-            }
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
         }
     ]
 }
