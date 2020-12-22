@@ -1,7 +1,0 @@
-{
-    "replace": false,
-    "values": [
-        "#forge:ores/uraninite",
-        "powah:uraninite_block"
-    ]
-}

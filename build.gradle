@@ -3,9 +3,11 @@ buildscript {
         maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
         mavenCentral()
+        maven {url='https://dist.creeper.host/Sponge/maven'}
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -13,6 +15,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
+apply plugin: 'org.spongepowered.mixin'
 
 version = "${version}"
 group = 'cy.jdkdigital.productivebees'
@@ -27,9 +30,11 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+            arg "-mixin.config=productivebees.mixins.json"
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             property 'mixin.env.disableRefMap', 'true'
+
             mods {
                 productivebees {
                     source sourceSets.main
@@ -39,6 +44,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
+            arg "-mixin.config=productivebees.mixins.json"
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             property 'mixin.env.disableRefMap', 'true'
@@ -112,10 +118,13 @@ dependencies {
     implementation fg.deobf('mods:thermal_expansion-1.16.3:1.0.5')
     implementation fg.deobf('mods:CTM-MC1.16.1:1.1.1.5')
     implementation fg.deobf('mods:Mekanism-1.16.3:10.0.12.437')
-    // testing
-    implementation fg.deobf('mods:resourcefulbees-1.16.3:0.5.5b')
+//    implementation fg.deobf('mods:MysticalAgriculture-1.16.4:4.1.3')
+//    implementation fg.deobf('mods:MysticalAgradditions-1.16.4-4.1.2')
     implementation fg.deobf('mods:Lollipop-1.16.3:3.2.2')
     implementation fg.deobf('mods:Powah-1.16.3:2.3.4')
+
+    // testing
+    implementation fg.deobf('mods:resourcefulbees-1.16.3:0.5.5b')
     // build
 //    compileOnly fg.deobf('mods:resourcefulbees-1.16.3:0.5.0a')
 }
@@ -126,11 +135,12 @@ jar {
         attributes([
             "Specification-Title": "Productive Bees",
             "Specification-Vendor": "productivebees",
-            "Specification-Version": "0.3", // We are version 1 of ourselves
+            "Specification-Version": "1.0", // We are version 1 of ourselves
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"productivebees",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+            "MixinConfigs": "productivebees.mixins.json"
         ])
     }
 }
@@ -153,3 +163,6 @@ publishing {
         }
     }
 }
+
+
+mixin { add sourceSets.main, "productivebees.refmap.json" }

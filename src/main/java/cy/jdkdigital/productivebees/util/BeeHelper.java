@@ -185,8 +185,7 @@ public class BeeHelper
                 }
                 outputList.add(stack);
             });
-        }
-        else if (beeId.equals("productivebees:lumber_bee")) {
+        } else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.LOGS);
 
@@ -198,8 +197,7 @@ public class BeeHelper
                 }
                 outputList.add(woodChip);
             }
-        }
-        else if (beeId.equals("productivebees:quarry_bee")) {
+        } else if (beeId.equals("productivebees:quarry_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.QUARRY);
 
@@ -211,8 +209,7 @@ public class BeeHelper
                 }
                 outputList.add(stoneChip);
             }
-        }
-        else if (beeId.equals("productivebees:dye_bee")) {
+        } else if (beeId.equals("productivebees:dye_bee")) {
             if (flowerPos != null) {
                 BlockState flowerBlock = world.getBlockState(flowerPos);
                 Item flowerItem = flowerBlock.getBlock().asItem();
