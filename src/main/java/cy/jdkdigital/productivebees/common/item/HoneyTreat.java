@@ -75,7 +75,7 @@ public class HoneyTreat extends Item
 
         BeeEntity bee = (BeeEntity) target;
 
-        if (player instanceof ServerPlayerEntity && bee.isAngry()) {
+        if (player instanceof ServerPlayerEntity && bee.func_233678_J__()) {
             ModAdvancements.CALM_BEE.trigger((ServerPlayerEntity) player, bee);
         }
 

@@ -6,8 +6,11 @@ import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.advancements.criterion.AbstractCriterionTrigger;
 import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.ConditionArrayParser;
+import net.minecraft.loot.ConditionArraySerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
@@ -22,13 +25,14 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
         return ID;
     }
 
-    @Nonnull
-    public CatchBeeTrigger.Instance deserializeInstance(JsonObject json, JsonDeserializationContext context) {
-        return new CatchBeeTrigger.Instance(JSONUtils.getString(json, "beeName"));
+    public void trigger(ServerPlayerEntity player, ItemStack cage) {
+        this.triggerListeners(player, (trigger) -> trigger.test(cage));
     }
 
-    public void trigger(ServerPlayerEntity player, ItemStack cage) {
-        this.func_227070_a_(player.getAdvancements(), (trigger) -> trigger.test(cage));
+    @Nonnull
+    @Override
+    protected Instance deserializeTrigger(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
+        return new CatchBeeTrigger.Instance(JSONUtils.getString(jsonObject, "beeName"));
     }
 
     public static class Instance extends CriterionInstance
@@ -36,7 +40,7 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
         private final String beeName;
 
         public Instance(String beeName) {
-            super(CatchBeeTrigger.ID);
+            super(CatchBeeTrigger.ID, EntityPredicate.AndPredicate.ANY_AND);
             this.beeName = beeName;
         }
 
@@ -61,8 +65,8 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
         }
 
         @Nonnull
-        public JsonElement serialize() {
-            JsonObject jsonobject = new JsonObject();
+        public JsonObject serialize(ConditionArraySerializer serializer) {
+            JsonObject jsonobject = super.serialize(serializer);
             jsonobject.addProperty("beeName", this.beeName);
             return jsonobject;
         }

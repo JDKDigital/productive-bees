@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.passive.BeeEntity;
@@ -113,7 +114,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
                 if (itemUse) {
                     world.playEvent(2005, pos, 0);
-                    ModAdvancements.RIGHT_CLICK_BLOCK_WITH_ITEM.test((ServerPlayerEntity) player, pos, heldItem);
+                    CriteriaTriggers.RIGHT_CLICK_BLOCK_WITH_ITEM.test((ServerPlayerEntity) player, pos, heldItem);
                 }
 
                 if (!player.isCreative()) {

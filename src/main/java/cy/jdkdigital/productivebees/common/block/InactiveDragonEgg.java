@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.init.ModAdvancements;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DragonEggBlock;
@@ -38,7 +39,7 @@ public class InactiveDragonEgg extends DragonEggBlock
                 world.addParticle(ParticleTypes.PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
             }
 
-            ModAdvancements.RIGHT_CLICK_BLOCK_WITH_ITEM.test((ServerPlayerEntity) player, pos, heldItem);
+            CriteriaTriggers.RIGHT_CLICK_BLOCK_WITH_ITEM.test((ServerPlayerEntity) player, pos, heldItem);
 
             // Transform to real dragon egg
             world.setBlockState(pos, Blocks.DRAGON_EGG.getDefaultState(), 3);

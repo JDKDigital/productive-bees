@@ -103,8 +103,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     @Override
-    public void read(CompoundNBT tag) {
-        super.read(tag);
+    public void read(BlockState blockState, CompoundNBT tag) {
+        super.read(blockState, tag);
 
         if (tag.contains("nestTickTimer")) {
             nestTickTimer = tag.getInt("nestTickTimer");
