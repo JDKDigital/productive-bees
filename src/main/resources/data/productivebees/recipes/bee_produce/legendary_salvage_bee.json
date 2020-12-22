@@ -1,7 +1,6 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:configurable_bee",
-    "bee_type": "productivebees:legendary_salvage",
+    "ingredient": "productivebees:legendary_salvage",
     "results": [
         {
             "item": {

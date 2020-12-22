@@ -4,7 +4,7 @@
     "particleColor": "#ffd86f",
     "name": "BitzBee",
     "createComb": false,
-    "flowerTag": "thermal:niter_block",
+    "flowerBlock": "thermal:niter_block",
     "conditions": [
         {
             "type": "forge:mod_loaded",

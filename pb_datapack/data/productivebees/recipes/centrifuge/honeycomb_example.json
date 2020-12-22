@@ -20,7 +20,13 @@
         },
         {
             "fluid": {
-                "tag": "forge:honey"
+                "fluid": "productivebees:honey"
+            },
+            "amount": 150
+        },
+        {
+            "fluid": {
+                "tag": "forge:milk"
             },
             "amount": 150
         }

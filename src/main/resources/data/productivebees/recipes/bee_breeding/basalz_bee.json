@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_breeding",
     "parent1": "productivebees:blazing",
-    "parent2": "productivebees:explosive",
+    "parent2": "productivebees:creeper_bee",
     "offspring": [
         "productivebees:basalz"
     ],

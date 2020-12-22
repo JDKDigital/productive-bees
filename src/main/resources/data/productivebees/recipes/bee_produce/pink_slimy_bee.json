@@ -1,7 +1,6 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:configurable_bee",
-    "bee_type": "productivebees:pink_slimy",
+    "ingredient": "productivebees:pink_slimy",
     "results": [
         {
             "item": {

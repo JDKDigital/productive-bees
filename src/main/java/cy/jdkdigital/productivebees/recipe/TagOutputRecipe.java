@@ -105,7 +105,6 @@ public abstract class TagOutputRecipe
         }
 
         int priority = 0;
-        modPreference.put(ProductiveBees.MODID, priority);
         for(String modId: ProductiveBeesConfig.GENERAL.preferredTagSource.get()) {
             if (ModList.get().isLoaded(modId)) {
                 modPreference.put(modId, ++priority);
