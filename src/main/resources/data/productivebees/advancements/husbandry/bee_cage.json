@@ -1,0 +1,35 @@
+{
+    "parent": "minecraft:husbandry/safely_harvest_honey",
+    "display": {
+        "icon": {
+            "item": "productivebees:bee_cage"
+        },
+        "title": {
+            "translate": "advancements.husbandry.bee_cage.title"
+        },
+        "description": {
+            "translate": "advancements.husbandry.bee_cage.description"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "get_item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "productivebees:bee_cage"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "get_item"
+        ]
+    ]
+}

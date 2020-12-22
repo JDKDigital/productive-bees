@@ -35,13 +35,10 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -114,6 +111,7 @@ public final class ProductiveBees
     public void onCommonSetup(FMLCommonSetupEvent event) {
         CapabilityBee.register();
         PacketHandler.init();
+        ModAdvancements.register();
 
         DeferredWorkQueue.runLater(() -> {
             //Entity attribute assignments

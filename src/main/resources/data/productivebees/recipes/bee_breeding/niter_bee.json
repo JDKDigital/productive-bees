@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:explosive",
+    "parent2": "productivebees:coal",
+    "offspring": [
+        "productivebees:niter"
+    ],
+    "breeding_items": [
+        {
+            "item": "forge:gunpowder"
+        },
+        {
+            "item": "thermal:niter"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/niter"
+            }
+        }
+    ]
+}

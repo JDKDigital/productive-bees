@@ -1,0 +1,14 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:epic_salvage",
+    "result": "productivebees:legendary_salvage",
+    "item": {
+        "item": "mmorpg:currency/create_new_unique"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mmorpg"
+        }
+    ]
+}

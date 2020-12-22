@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:uncommon_salvage",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/uncommon_salvage"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mmorpg"
+        }
+    ]
+}

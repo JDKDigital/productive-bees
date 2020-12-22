@@ -136,7 +136,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                             // Check temper
                             if (beeEntity instanceof ProductiveBeeEntity) {
                                 int temper = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.TEMPER);
-                                if (temper == 0 || (temper == 1 && BeeHelper.rand.nextFloat() < .5)) {
+                                if (temper == 0 || (temper == 1 && ProductiveBees.rand.nextFloat() < .5)) {
                                     beeEntity.setStayOutOfHiveCountdown(400);
                                     break;
                                 }
@@ -284,6 +284,19 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 }
             }
         }
+
+        applyHiveTime(getTimeInHive(beeState == BeehiveTileEntity.State.HONEY_DELIVERED, beeEntity), beeEntity);
+    }
+
+    private static void applyHiveTime(int ticksInHive, BeeEntity beeEntity) {
+        int i = beeEntity.getGrowingAge();
+        if (i < 0) {
+            beeEntity.setGrowingAge(Math.min(0, i + ticksInHive));
+        } else if (i > 0) {
+            beeEntity.setGrowingAge(Math.max(0, i - ticksInHive));
+        }
+
+        beeEntity.resetTicksWithoutNectar();
     }
 
     private boolean hasFlowerPos() {

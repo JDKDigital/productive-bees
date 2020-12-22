@@ -83,12 +83,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerIngredients(IModIngredientRegistration registration) {
-        registration.register(BEE_INGREDIENT, new ArrayList<>(BeeIngredientFactory.getOrCreateList(true).values()), new BeeIngredientHelper(), new BeeIngredientRenderer());
+        Collection<BeeIngredient> ingredients = BeeIngredientFactory.getOrCreateList(true).values();
+        registration.register(BEE_INGREDIENT, new ArrayList<>(ingredients), new BeeIngredientHelper(), new BeeIngredientRenderer());
     }
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         registration.useNbtForSubtypes(ModItems.WOOD_CHIP.get());
+        registration.useNbtForSubtypes(ModItems.STONE_CHIP.get());
         registration.useNbtForSubtypes(ModItems.CONFIGURABLE_HONEYCOMB.get());
         registration.useNbtForSubtypes(ModItems.CONFIGURABLE_SPAWN_EGG.get());
         registration.useNbtForSubtypes(ModItems.CONFIGURABLE_COMB_BLOCK.get());

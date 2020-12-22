@@ -7,8 +7,7 @@
         {
             "item": {
                 "item": "productivebees:milk_bottle"
-            },
-            "chance": 80
+            }
         },
         {
             "item": {
@@ -17,7 +16,7 @@
         },
         {
             "fluid": {
-                "tag": "forge:honey"
+                "fluid": "productivebees:honey"
             },
             "amount": 0
         }

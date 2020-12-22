@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:basalz",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/basalz"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

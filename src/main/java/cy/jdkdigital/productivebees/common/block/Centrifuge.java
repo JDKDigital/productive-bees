@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;
@@ -34,7 +33,7 @@ public class Centrifuge extends ContainerBlock
 {
     public static final BooleanProperty RUNNING = BooleanProperty.create("running");
 
-    private static final VoxelShape INSIDE = makeCuboidShape(1.0D, 7.0D, 1.0D, 15.0D, 16.0D, 15.0D);
+    private static final VoxelShape INSIDE = makeCuboidShape(1.0D, 8.1D, 1.0D, 15.0D, 16.0D, 15.0D);
     protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(
             VoxelShapes.fullCube(),
             VoxelShapes.or(

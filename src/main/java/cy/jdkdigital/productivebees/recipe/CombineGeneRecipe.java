@@ -6,7 +6,6 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
@@ -72,7 +71,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
             }
         }
         if (attribute != null) {
-            return Gene.getStack(BeeAttributes.getAttributeByName(attribute), value, 1, purity);
+            return Gene.getStack(attribute, value, 1, purity);
         }
         return ItemStack.EMPTY;
     }

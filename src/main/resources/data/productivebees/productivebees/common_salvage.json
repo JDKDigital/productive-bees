@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#495f58",
+    "secondaryColor": "#24312a",
+    "particleColor": "#9ca8a5",
+    "createComb": "false",
+    "flowerBlock": "mmorpg:ore_block0",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mmorpg"
+        }
+    ]
+}

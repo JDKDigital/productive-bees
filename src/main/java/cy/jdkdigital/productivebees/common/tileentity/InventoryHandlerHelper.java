@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.common.tileentity;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.UpgradeItem;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
-import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;

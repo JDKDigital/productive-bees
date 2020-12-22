@@ -1,0 +1,20 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:niter",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/niter"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/niter"
+            }
+        }
+    ]
+}

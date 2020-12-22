@@ -3,6 +3,6 @@
     "secondaryColor": "#804f40",
     "particleColor": "#ff0000",
     "redstoned": true,
-    "flowerTag": "forge:storage_blocks/redstone",
+    "flowerTag": "productivebees:flowers/redstone",
     "createComb": false
 }

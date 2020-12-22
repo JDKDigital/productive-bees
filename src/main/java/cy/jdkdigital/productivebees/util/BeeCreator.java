@@ -23,14 +23,14 @@ public class BeeCreator
         data.putInt("primaryColor", primary.getRGB());
         data.putInt("secondaryColor", secondary.getRGB());
 
-        data.putString("name", json.has("name") ? json.get("name").getAsString() : idToName(id.getPath()));
+        data.putString("name", json.has("name") ? json.get("name").getAsString() : idToName(id.getPath()) + " Bee");
 
         if (json.has("description")) {
             data.putString("description", json.get("description").getAsString());
         }
-        if (json.has("flowerTag")) {
+        if (json.has("flowerTag") && !json.get("flowerTag").getAsString().isEmpty()) {
             data.putString("flowerTag", json.get("flowerTag").getAsString());
-        } else if (json.has("flowerBlock")) {
+        } else if (json.has("flowerBlock") && !json.get("flowerBlock").getAsString().isEmpty()) {
             data.putString("flowerBlock", json.get("flowerBlock").getAsString());
         }
         if (json.has("nestingPreference")) {
@@ -93,6 +93,6 @@ public class BeeCreator
         for (String s : arr) {
             sb.append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).append(" ");
         }
-        return sb.toString().trim() + " Bee";
+        return sb.toString().trim();
     }
 }

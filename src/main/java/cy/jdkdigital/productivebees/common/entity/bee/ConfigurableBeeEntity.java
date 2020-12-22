@@ -25,6 +25,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
@@ -44,9 +45,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffectBeeEntity
@@ -64,8 +63,8 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         super(entityType, world);
 
         beehiveInterests = (poiType) -> poiType == PointOfInterestType.BEEHIVE ||
-                poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
-                poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
+                (poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() && isWild()) ||
+                (poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() && isWild()) ||
                 (poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic()) ||
                 (poiType == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals("productivebees:sugarbag"));
     }
@@ -264,12 +263,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             return ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
         } else if (nbt.contains("flowerBlock")) {
             ResourceLocation flowerBlockRLoc = new ResourceLocation(nbt.getString("flowerBlock"));
-            if (!ModTags.tagCache.containsKey(flowerBlockRLoc)) {
-                Block flowerBlock = ForgeRegistries.BLOCKS.getValue(flowerBlockRLoc);
-                SingleEntryTag<Block> blockTag = new SingleEntryTag<>(flowerBlock);
-                ModTags.tagCache.put(flowerBlockRLoc, blockTag);
-            }
-            return ModTags.tagCache.get(flowerBlockRLoc);
+            return ModTags.getSingleTag(flowerBlockRLoc);
         }
         return null;
     }
@@ -333,6 +327,10 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public String getRenderer() {
         return getNBTData().getString("renderer");
+    }
+
+    private boolean isWild() {
+        return getNBTData().contains("nestingPreference");
     }
 
     // Traits
@@ -420,7 +418,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         if (isDraconic() && source.equals(DamageSource.DRAGON_BREATH)) {
             return true;
         }
-        if (isTranslucent() && (source.equals(DamageSource.IN_WALL) || source.equals(DamageSource.ANVIL))) {
+        if (isTranslucent() && source.equals(DamageSource.ANVIL)) {
             return true;
         }
         if (isFireproof() && (source.equals(DamageSource.HOT_FLOOR) || source.equals(DamageSource.IN_FIRE) || source.equals(DamageSource.ON_FIRE) || source.equals(DamageSource.LAVA))) {

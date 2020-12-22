@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:blitz",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/blitz"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

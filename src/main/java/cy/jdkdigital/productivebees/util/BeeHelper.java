@@ -23,7 +23,6 @@ import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -63,17 +62,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BeeHelper
 {
-    public static final Random rand = new Random();
-
     public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, ServerWorld world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
         // Conversion recipes
         BeeEntity bee = null;
 
         if (!entity.isChild()) {
-            List<BeeConversionRecipe> recipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION, new IdentifierInventory(entity, itemStack.getItem().getRegistryName() + ""), world);
+            IInventory beeInv = new IdentifierInventory(entity, itemStack.getItem().getRegistryName() + "");
+
+            List<BeeConversionRecipe> recipes = new ArrayList<>();
+
+            Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION);
+            for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
+                BeeConversionRecipe recipe = (BeeConversionRecipe) entry.getValue();
+                if (recipe.matches(beeInv, world)) {
+                    recipes.add(recipe);
+                }
+            }
 
             if (!recipes.isEmpty()) {
-                BeeConversionRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
+                BeeConversionRecipe recipe = recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
                 bee = recipe.result.get().getBeeEntity().create(world);
                 if (bee instanceof ConfigurableBeeEntity) {
                     ((ConfigurableBeeEntity) bee).setBeeType(recipe.result.get().getBeeType().toString());
@@ -86,12 +93,14 @@ public class BeeHelper
             if (!player.isCreative()) {
                 itemStack.shrink(1);
             }
-            return BeeHelper.prepareBeeSpawn(bee, world, nbt, player, entity.getPosition(), direction, entity.getGrowingAge());
+            BeeHelper.prepareBeeSpawn(bee, entity.getPosition(), direction, entity.getGrowingAge());
+
+            return bee;
         }
         return null;
     }
 
-    public static BeeEntity prepareBeeSpawn(BeeEntity bee, ServerWorld world, @Nullable CompoundNBT nbt, @Nullable PlayerEntity player, BlockPos pos, Direction direction, int age) {
+    public static void prepareBeeSpawn(BeeEntity bee, BlockPos pos, Direction direction, int age) {
         if (bee != null) {
             double x = (double) pos.getX() + (double) direction.getXOffset();
             double y = (double) pos.getY() + 0.5D - (double) (bee.getHeight() / 2.0F);
@@ -101,10 +110,7 @@ public class BeeHelper
             if (age > 0) {
                 bee.setGrowingAge(age);
             }
-
-            return bee;
         }
-        return null;
     }
 
     public static BeeEntity getBreedingResult(BeeEntity beeEntity, AgeableEntity targetEntity, ServerWorld world) {
@@ -122,10 +128,10 @@ public class BeeHelper
         }
 
         if (!recipes.isEmpty()) {
-            BeeBreedingRecipe recipe = recipes.get(rand.nextInt(recipes.size()));
+            BeeBreedingRecipe recipe = recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
             List<Lazy<BeeIngredient>> possibleOffspring = recipe.offspring;
             if (possibleOffspring != null && possibleOffspring.size() > 0) {
-                BeeIngredient beeIngredient = possibleOffspring.get(rand.nextInt(possibleOffspring.size())).get();
+                BeeIngredient beeIngredient = possibleOffspring.get(ProductiveBees.rand.nextInt(possibleOffspring.size())).get();
                 BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
                 if (newBee instanceof ConfigurableBeeEntity) {
                     ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
@@ -177,7 +183,7 @@ public class BeeHelper
         List<ItemStack> outputList = Lists.newArrayList(ItemStack.EMPTY);
         if (matchedRecipe != null) {
             matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
-                int count = MathHelper.nextInt(rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
+                int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
                 ItemStack stack = itemStack.copy();
                 stack.setCount(count);
                 if (hasCombBlockUpgrade) {
@@ -274,7 +280,9 @@ public class BeeHelper
     private static ItemStack convertToCombBlock(ItemStack stack) {
         // Change to comb block
         ItemStack newStack = null;
-        if (stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
+        if (stack.getItem().equals(Items.HONEYCOMB)) {
+            newStack = new ItemStack(Items.HONEYCOMB_BLOCK, stack.getCount());
+        } else if (stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
             newStack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get(), stack.getCount());
             newStack.setTag(stack.getTag());
         } else {
@@ -320,19 +328,19 @@ public class BeeHelper
 
         Map<BeeAttribute<?>, Object> attributeMapChild = newBee.getBeeAttributes();
 
-        int parentProductivity = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.PRODUCTIVITY), (int) attributeMapParent2.get(BeeAttributes.PRODUCTIVITY));
+        int parentProductivity = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.PRODUCTIVITY), (int) attributeMapParent2.get(BeeAttributes.PRODUCTIVITY));
         attributeMapChild.put(BeeAttributes.PRODUCTIVITY, Math.max((int) attributeMapChild.get(BeeAttributes.PRODUCTIVITY), parentProductivity));
 
-        int parentEndurance = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.ENDURANCE), (int) attributeMapParent2.get(BeeAttributes.ENDURANCE));
+        int parentEndurance = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.ENDURANCE), (int) attributeMapParent2.get(BeeAttributes.ENDURANCE));
         attributeMapChild.put(BeeAttributes.ENDURANCE, Math.max((int) attributeMapChild.get(BeeAttributes.ENDURANCE), parentEndurance));
 
-        int parentTemper = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.TEMPER), (int) attributeMapParent2.get(BeeAttributes.TEMPER));
+        int parentTemper = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.TEMPER), (int) attributeMapParent2.get(BeeAttributes.TEMPER));
         attributeMapChild.put(BeeAttributes.TEMPER, Math.max((int) attributeMapChild.get(BeeAttributes.TEMPER), parentTemper));
 
-        int parentBehavior = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.BEHAVIOR), (int) attributeMapParent2.get(BeeAttributes.BEHAVIOR));
+        int parentBehavior = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.BEHAVIOR), (int) attributeMapParent2.get(BeeAttributes.BEHAVIOR));
         attributeMapChild.put(BeeAttributes.BEHAVIOR, Math.max((int) attributeMapChild.get(BeeAttributes.BEHAVIOR), parentBehavior));
 
-        int parentWeatherTolerance = MathHelper.nextInt(rand, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
+        int parentWeatherTolerance = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
         attributeMapChild.put(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
     }
 

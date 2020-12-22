@@ -1,0 +1,19 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/draconic"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "productivebees:draconic_dust"
+            },
+            "chance": 70
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ]
+}

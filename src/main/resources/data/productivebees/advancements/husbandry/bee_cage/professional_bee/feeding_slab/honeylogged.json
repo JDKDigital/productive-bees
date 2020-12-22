@@ -1,0 +1,37 @@
+{
+    "parent": "productivebees:husbandry/bee_cage/professional_bee/feeding_slab",
+    "display": {
+        "icon": {
+            "item": "productivebees:honey_bucket"
+        },
+        "title": {
+            "translate": "advancements.husbandry.honeylogged.title"
+        },
+        "description": {
+            "translate": "advancements.husbandry.honeylogged.description"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "get_item": {
+            "trigger": "minecraft:placed_block",
+            "conditions": {
+                "block": "productivebees:feeder",
+                "item": {
+                    "item": "productivebees:honey_bucket"
+                },
+                "state": {
+                    "honeylogged": true
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "get_item"
+        ]
+    ]
+}

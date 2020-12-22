@@ -3,7 +3,10 @@ package cy.jdkdigital.productivebees.common.block;
 import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluid;
@@ -84,8 +87,8 @@ public class Feeder extends SlabBlock implements ITileEntityProvider
     @SuppressWarnings("deprecation")
     @Nullable
     @Override
-    public INamedContainerProvider getContainer(BlockState state, World worl, BlockPos pos) {
-        TileEntity tile = worl.getTileEntity(pos);
+    public INamedContainerProvider getContainer(BlockState state, World world, BlockPos pos) {
+        TileEntity tile = world.getTileEntity(pos);
         return tile instanceof INamedContainerProvider ? (INamedContainerProvider)tile : null;
     }
 

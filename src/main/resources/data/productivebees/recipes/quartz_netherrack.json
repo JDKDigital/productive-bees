@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "QQQ",
+        "QNQ",
+        "QQQ"
+    ],
+    "key": {
+        "N": {
+            "item": "minecraft:netherrack"
+        },
+        "Q": {
+            "item": "minecraft:quartz"
+        }
+    },
+    "result": {
+        "item": "productivebees:quartz_netherrack"
+    }
+}

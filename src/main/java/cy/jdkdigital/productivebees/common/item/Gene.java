@@ -38,8 +38,16 @@ public class Gene extends Item
     }
 
     public static ItemStack getStack(BeeAttribute<?> attribute, int value, int count, int purity) {
+        return getStack(attribute.toString(), value, count, purity);
+    }
+
+    public static ItemStack getStack(String type) {
+        return getStack(type, 0, 1, ProductiveBees.rand.nextInt(30) + 10);
+    }
+
+    public static ItemStack getStack(String attribute, int value, int count, int purity) {
         ItemStack result = new ItemStack(ModItems.GENE.get(), count);
-        setAttribute(result, attribute.toString(), value, purity);
+        setAttribute(result, attribute, value, purity);
         return result;
     }
 
@@ -78,6 +86,9 @@ public class Gene extends Item
         if (attribute != null) {
             ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).mergeStyle(BeeCage.getColor(value));
             list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translated_value)).mergeStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + getPurity(stack) + "%)")));
+        } else {
+            String type = getAttributeName(stack);
+            list.add(new TranslationTextComponent("productivebees.information.attribute.type", type).mergeStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + getPurity(stack) + "%)")));
         }
     }
 

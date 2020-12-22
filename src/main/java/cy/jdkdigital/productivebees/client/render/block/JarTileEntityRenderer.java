@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.tileentity.JarTileEntity;
 import net.minecraft.client.Minecraft;
