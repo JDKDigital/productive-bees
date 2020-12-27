@@ -31,13 +31,11 @@ public class FeederContainer extends AbstractContainer
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
-        IItemHandler inventory = new InvWrapper(playerInventory);
-
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-            addSlotBox(inv, 0, 61, 34, 3, 18, 1, 18);
+            addSlotBox(new ItemHandlerWrapper(inv), 0, 61, 34, 3, 18, 1, 18);
         });
 
-        layoutPlayerInventorySlots(inventory, 0, 8, 84);
+        layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
     }
 
     private static FeederTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
@@ -53,5 +51,10 @@ public class FeederContainer extends AbstractContainer
     @Override
     public boolean canInteractWith(@Nonnull final PlayerEntity player) {
         return canInteractWithCallable.applyOrElse((world, pos) -> world.getBlockState(pos).getBlock() instanceof Feeder && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
+    }
+
+    @Override
+    protected TileEntity getTileEntity() {
+        return tileEntity;
     }
 }

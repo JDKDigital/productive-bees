@@ -57,8 +57,6 @@ public class BottlerContainer extends AbstractContainer
             }
         });
 
-        IItemHandler inventory = new InvWrapper(playerInventory);
-
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             // Bottle slot
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 152, 17));
@@ -67,7 +65,7 @@ public class BottlerContainer extends AbstractContainer
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, 152, 53));
         });
 
-        layoutPlayerInventorySlots(inventory, 0, 8, 84);
+        layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
     }
 
     private static BottlerTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
@@ -83,5 +81,10 @@ public class BottlerContainer extends AbstractContainer
     @Override
     public boolean canInteractWith(@Nonnull final PlayerEntity player) {
         return canInteractWithCallable.applyOrElse((world, pos) -> world.getBlockState(pos).getBlock() instanceof Bottler && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
+    }
+
+    @Override
+    protected TileEntity getTileEntity() {
+        return tileEntity;
     }
 }

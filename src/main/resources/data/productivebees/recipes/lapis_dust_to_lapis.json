@@ -7,18 +7,18 @@
     ],
     "key": {
         "D": {
-            "tag": "forge:dusts/coal"
+            "tag": "forge:dusts/lapis"
         }
     },
     "result": {
-        "item": "minecraft:coal"
+        "item": "minecraft:lapis_lazuli"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:dusts/coal"
+                "tag": "forge:dusts/lapis"
             }
         },
         {

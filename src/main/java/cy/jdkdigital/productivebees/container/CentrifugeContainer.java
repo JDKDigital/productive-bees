@@ -88,7 +88,7 @@ public class CentrifugeContainer extends AbstractContainer
             }
         });
 
-        IItemHandler inventory = new InvWrapper(playerInventory);
+        layoutPlayerInventorySlots(playerInventory, 0, - 5, 84);
 
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             // Comb and bottle slots
@@ -103,8 +103,6 @@ public class CentrifugeContainer extends AbstractContainer
         this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
             addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
         });
-
-        layoutPlayerInventorySlots(inventory, 0, - 5, 84);
     }
 
     private static CentrifugeTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
@@ -120,5 +118,10 @@ public class CentrifugeContainer extends AbstractContainer
     @Override
     public boolean canInteractWith(@Nonnull final PlayerEntity player) {
         return canInteractWithCallable.applyOrElse((world, pos) -> world.getBlockState(pos).getBlock() instanceof Centrifuge && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
+    }
+
+    @Override
+    protected TileEntity getTileEntity() {
+        return tileEntity;
     }
 }

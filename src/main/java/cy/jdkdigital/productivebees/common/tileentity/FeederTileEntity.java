@@ -42,7 +42,7 @@ public class FeederTileEntity extends TileEntity implements INamedContainerProvi
         }
 
         @Override
-        public boolean isInputItem(Item item) {
+        public boolean isBottleItem(Item item) {
             return true;
         }
     });

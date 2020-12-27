@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
+import cy.jdkdigital.productivebees.common.item.UpgradeItem;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
+import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -31,6 +33,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AdvancedBeehive extends AdvancedBeehiveAbstract
 {
@@ -196,8 +199,8 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        ItemStack heldItem = player.getHeldItem(handIn);
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        ItemStack heldItem = player.getHeldItem(hand);
         int honeyLevel = state.get(BeehiveBlock.HONEY_LEVEL);
         boolean itemUsed = false;
         if (honeyLevel >= getMaxHoneyLevel()) {
@@ -205,7 +208,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
                 world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
                 BeehiveBlock.dropHoneyComb(world, pos);
                 heldItem.damageItem(1, player, (entity) -> {
-                    entity.sendBreakAnimation(handIn);
+                    entity.sendBreakAnimation(hand);
                 });
                 itemUsed = true;
             }
@@ -213,7 +216,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
                 heldItem.shrink(1);
                 world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
                 if (heldItem.isEmpty()) {
-                    player.setHeldItem(handIn, new ItemStack(Items.HONEY_BOTTLE));
+                    player.setHeldItem(hand, new ItemStack(Items.HONEY_BOTTLE));
                 }
                 else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.HONEY_BOTTLE))) {
                     player.dropItem(new ItemStack(Items.HONEY_BOTTLE), false);
@@ -228,8 +231,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
             if (player instanceof ServerPlayerEntity) {
                 CriteriaTriggers.SAFELY_HARVEST_HONEY.test((ServerPlayerEntity) player, pos, heldItem.copy());
             }
-        }
-        else if (!world.isRemote()) {
+        } else if (!world.isRemote()) {
             final TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveTileEntity) {
                 this.updateState(world, pos, state, false);

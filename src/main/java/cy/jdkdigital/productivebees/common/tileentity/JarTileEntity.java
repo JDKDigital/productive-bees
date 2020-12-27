@@ -38,7 +38,7 @@ public class JarTileEntity extends TileEntity
         }
 
         @Override
-        public boolean isInputItem(Item item) {
+        public boolean isBottleItem(Item item) {
             return item instanceof BeeCage;
         }
 
