@@ -63,4 +63,9 @@ public class PoweredCentrifugeContainer extends CentrifugeContainer
     public boolean canInteractWith(@Nonnull final PlayerEntity player) {
         return canInteractWithCallable.applyOrElse((world, pos) -> world.getBlockState(pos).getBlock() instanceof PoweredCentrifuge && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
     }
+
+    @Override
+    protected TileEntity getTileEntity() {
+        return tileEntity;
+    }
 }

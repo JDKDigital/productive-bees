@@ -3,7 +3,7 @@
     "secondaryColor": "#836e73",
     "particleColor": "#e9edf3",
     "createComb": false,
-    "flowerTag": "thermal:niter_block",
+    "flowerBlock": "thermal:niter_block",
     "conditions": [
         {
             "type": "forge:not",

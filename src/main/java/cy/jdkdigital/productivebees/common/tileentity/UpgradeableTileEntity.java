@@ -8,7 +8,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-interface UpgradeableTileEntity
+public interface UpgradeableTileEntity
 {
     LazyOptional<IItemHandlerModifiable> getUpgradeHandler();
 

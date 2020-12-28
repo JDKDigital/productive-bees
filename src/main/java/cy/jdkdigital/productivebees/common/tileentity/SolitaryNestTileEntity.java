@@ -9,13 +9,17 @@ import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
 
@@ -50,6 +54,8 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                     }
                 }
             }
+
+            this.markDirty();
         }
         super.tick();
     }
@@ -97,7 +103,6 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                 world.addEntity(offspring);
             }
         }
-
         // reset repopulation cooldown
         nestTickTimer = -1;
     }
@@ -107,7 +112,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         super.read(blockState, tag);
 
         if (tag.contains("nestTickTimer")) {
-            nestTickTimer = tag.getInt("nestTickTimer");
+            setNestCooldown(tag.getInt("nestTickTimer"));
         }
     }
 

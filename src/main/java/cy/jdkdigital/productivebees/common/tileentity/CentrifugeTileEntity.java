@@ -67,14 +67,15 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
         @Override
-        public boolean isInputItem(Item item) {
-            return item == Items.GLASS_BOTTLE || item == Items.BUCKET || CentrifugeTileEntity.this.canProcessItemStack(new ItemStack(item));
+        public boolean isBottleItem(Item item) {
+            return item == Items.GLASS_BOTTLE || item == Items.BUCKET;
         }
 
         @Override
         public boolean isInputSlotItem(int slot, Item item) {
             boolean isProcessableItem = item.equals(ModItems.GENE_BOTTLE.get()) || CentrifugeTileEntity.this.canProcessItemStack(new ItemStack(item));
-            return (slot == InventoryHandlerHelper.BOTTLE_SLOT && !isProcessableItem) || (slot == InventoryHandlerHelper.INPUT_SLOT && isProcessableItem);
+
+            return (isProcessableItem && slot == InventoryHandlerHelper.INPUT_SLOT) || super.isInputSlotItem(slot, item);
         }
     });
 

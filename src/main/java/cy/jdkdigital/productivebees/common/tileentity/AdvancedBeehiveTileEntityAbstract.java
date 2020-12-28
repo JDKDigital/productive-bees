@@ -21,6 +21,8 @@ import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tileentity.BeehiveTileEntity;
@@ -48,7 +50,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     private LazyOptional<IInhabitantStorage> beeHandler = LazyOptional.of(this::createBeeHandler);
     private TileEntityType<?> tileEntityType;
 
-    private int tickCounter = 0;
+    protected int tickCounter = 0;
 
     public AdvancedBeehiveTileEntityAbstract(TileEntityType<?> tileEntityType) {
         super();
@@ -178,9 +180,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
                 if (entity instanceof BeeEntity) {
                     BeeEntity beeEntity = (BeeEntity) entity;
-                    if (beeEntity instanceof SolitaryBeeEntity) {
-                        ((SolitaryBeeEntity) beeEntity).hasHadNest = true;
-                    }
 
                     h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), ((BeeEntity) entity).getFlowerPos(), entity.getName().getString()));
                     if (beeEntity.hasFlower() && (!this.hasFlowerPos() || (this.world != null && this.world.rand.nextBoolean()))) {
@@ -284,6 +283,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 }
             }
         }
+        this.markDirty();
 
         applyHiveTime(getTimeInHive(beeState == BeehiveTileEntity.State.HONEY_DELIVERED, beeEntity), beeEntity);
     }
@@ -404,5 +404,27 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
             return beeHandler.cast();
         }
         return super.getCapability(cap, side);
+    }
+
+    @Nullable
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        handleUpdateTag(null, pkt.getNbtCompound());
+    }
+
+    @Override
+    @Nonnull
+    public CompoundNBT getUpdateTag() {
+        return this.serializeNBT();
+    }
+
+    @Override
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+        deserializeNBT(tag);
     }
 }

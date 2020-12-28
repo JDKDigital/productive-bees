@@ -84,21 +84,19 @@ public class AdvancedBeehiveContainer extends AbstractContainer
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
         boolean expanded = this.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
 
-        IItemHandler inventory = new InvWrapper(playerInventory);
-
         // Inventory slots
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             // Bottle slot
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 86 - (expanded ? 13 : 0), 17));
 
-            addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116 - (expanded ? 13 : 0), 17, 3, 18, 3, 18);
+            addSlotBox(new ItemHandlerWrapper(inv), InventoryHandlerHelper.OUTPUT_SLOTS[0], 116 - (expanded ? 13 : 0), 17, 3, 18, 3, 18);
         });
 
         this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
-            addSlotBox(upgradeHandler, 0, 178 - (expanded ? 13 : 0), 8, 1, 18, 4, 18);
+            addSlotBox(new ItemHandlerWrapper(upgradeHandler), 0, 178 - (expanded ? 13 : 0), 8, 1, 18, 4, 18);
         });
 
-        layoutPlayerInventorySlots(inventory, 0, 8 - (expanded ? 13 : 0), 84);
+        layoutPlayerInventorySlots(playerInventory, 0, 8 - (expanded ? 13 : 0), 84);
     }
 
     private static AdvancedBeehiveTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
@@ -114,5 +112,10 @@ public class AdvancedBeehiveContainer extends AbstractContainer
     @Override
     public boolean canInteractWith(@Nonnull final PlayerEntity player) {
         return canInteractWithCallable.applyOrElse((world, pos) -> world.getBlockState(pos).getBlock() instanceof AdvancedBeehive && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
+    }
+
+    @Override
+    protected TileEntity getTileEntity() {
+        return tileEntity;
     }
 }

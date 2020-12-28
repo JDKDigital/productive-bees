@@ -1,24 +1,23 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "DDD",
-        "DDD",
-        "DDD"
+        "DD",
+        "DD"
     ],
     "key": {
         "D": {
-            "tag": "forge:dusts/coal"
+            "tag": "forge:dusts/diamond"
         }
     },
     "result": {
-        "item": "minecraft:coal"
+        "item": "minecraft:diamond"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:dusts/coal"
+                "tag": "forge:dusts/diamond"
             }
         },
         {

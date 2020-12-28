@@ -13,7 +13,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/sulfur"
+                "tag": "forge:dusts/sulfur"
             }
         }
     ]
