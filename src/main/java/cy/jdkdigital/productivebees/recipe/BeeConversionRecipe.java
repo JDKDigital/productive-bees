@@ -29,12 +29,14 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
     public final Lazy<BeeIngredient> source;
     public final Lazy<BeeIngredient> result;
     public final Ingredient item;
+    public final int chance;
 
-    public BeeConversionRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredients, Lazy<BeeIngredient> result, Ingredient item) {
+    public BeeConversionRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredients, Lazy<BeeIngredient> result, Ingredient item, int chance) {
         this.id = id;
         this.source = ingredients;
         this.result = result;
         this.item = item;
+        this.chance = chance;
     }
 
     @Override
@@ -118,14 +120,16 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
                 item = Ingredient.deserialize(JSONUtils.getJsonObject(json, "item"));
             }
 
-            return this.factory.create(id, sourceBee, resultBee, item);
+            int chance = JSONUtils.getInt(json, "chance", 100);
+
+            return this.factory.create(id, sourceBee, resultBee, item, chance);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
                 BeeIngredient source = BeeIngredient.read(buffer);
                 BeeIngredient result = BeeIngredient.read(buffer);
-                return this.factory.create(id, Lazy.of(() -> source), Lazy.of(() -> result), Ingredient.read(buffer));
+                return this.factory.create(id, Lazy.of(() -> source), Lazy.of(() -> result), Ingredient.read(buffer), buffer.readInt());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee conversion recipe from packet. " + id, e);
                 throw e;
@@ -137,6 +141,7 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
                 recipe.source.get().write(buffer);
                 recipe.result.get().write(buffer);
                 recipe.item.write(buffer);
+                buffer.writeInt(recipe.chance);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee conversion recipe to packet. " + recipe.getId(), e);
                 throw e;
@@ -145,7 +150,7 @@ public class BeeConversionRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends BeeConversionRecipe>
         {
-            T create(ResourceLocation id, Lazy<BeeIngredient> input, Lazy<BeeIngredient> output, Ingredient item);
+            T create(ResourceLocation id, Lazy<BeeIngredient> input, Lazy<BeeIngredient> output, Ingredient item, int chance);
         }
     }
 }

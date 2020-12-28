@@ -76,16 +76,19 @@ public abstract class TagOutputRecipe
                 if (fluidTag.getAllElements().size() > 0) {
                     int currBest = getModPreference().size();
                     for (Fluid fluid: fluidTag.getAllElements()) {
-                        ResourceLocation rl = fluid.getRegistryName();
-                        if(rl != null) {
-                            String modId = rl.getNamespace();
-                            int priority = 100;
-                            if (getModPreference().containsKey(modId)) {
-                                priority = getModPreference().get(modId);
-                            };
-                            if (preferredFluid == null || (priority >= 0 && priority < currBest)) {
-                                preferredFluid = fluid;
-                                currBest = priority;
+                        if (fluid.isSource(fluid.getDefaultState())) {
+                            ResourceLocation rl = fluid.getRegistryName();
+                            if (rl != null) {
+                                String modId = rl.getNamespace();
+                                int priority = 100;
+                                if (getModPreference().containsKey(modId)) {
+                                    priority = getModPreference().get(modId);
+                                }
+
+                                if (preferredFluid == null || (priority >= 0 && priority < currBest)) {
+                                    preferredFluid = fluid;
+                                    currBest = priority;
+                                }
                             }
                         }
                     }

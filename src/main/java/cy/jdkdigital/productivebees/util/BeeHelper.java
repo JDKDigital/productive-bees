@@ -81,10 +81,12 @@ public class BeeHelper
 
             if (!recipes.isEmpty()) {
                 BeeConversionRecipe recipe = recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
-                bee = recipe.result.get().getBeeEntity().create(world);
-                if (bee instanceof ConfigurableBeeEntity) {
-                    ((ConfigurableBeeEntity) bee).setBeeType(recipe.result.get().getBeeType().toString());
-                    ((ConfigurableBeeEntity) bee).setAttributes();
+                if (ProductiveBees.rand.nextInt(100) < recipe.chance) {
+                    bee = recipe.result.get().getBeeEntity().create(world);
+                    if (bee instanceof ConfigurableBeeEntity) {
+                        ((ConfigurableBeeEntity) bee).setBeeType(recipe.result.get().getBeeType().toString());
+                        ((ConfigurableBeeEntity) bee).setAttributes();
+                    }
                 }
             }
         }

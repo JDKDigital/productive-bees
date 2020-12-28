@@ -94,12 +94,16 @@ public class InventoryHandlerHelper
             return slot == BOTTLE_SLOT || slot == INPUT_SLOT;
         }
 
-        public boolean isInputItem(Item item) {
+        public boolean isInsertableSlot(int slot) {
+            return slot != BOTTLE_SLOT && slot != INPUT_SLOT && slot != FLUID_ITEM_OUTPUT_SLOT;
+        }
+
+        public boolean isBottleItem(Item item) {
             return item == Items.GLASS_BOTTLE;
         }
 
         public boolean isInputSlotItem(int slot, Item item) {
-            return item == Items.GLASS_BOTTLE ? slot == BOTTLE_SLOT : (slot == INPUT_SLOT && isInputItem(item));
+            return (slot == BOTTLE_SLOT && isBottleItem(item));
         }
 
         @Override
@@ -113,18 +117,7 @@ public class InventoryHandlerHelper
                 return true;
             }
 
-            // No putting non-input into input
-            if (isInputSlot(slot) && !isInputItem(stack.getItem())) {
-                return false;
-            }
-
-            // Allow inserting non-input items into output
-            if (!isInputSlot(slot) && !isInputItem(stack.getItem())) {
-                return true;
-            }
-
-            // You can manually insert input items into output
-            return !fromAutomation;
+            return !fromAutomation && isInsertableSlot(slot);
         }
 
         @Nonnull
@@ -159,8 +152,7 @@ public class InventoryHandlerHelper
                 ItemStack existingStack = this.getStackInSlot(slot);
                 if (existingStack.isEmpty()) {
                     setStackInSlot(slot, stack.copy());
-                }
-                else {
+                } else {
                     existingStack.grow(stack.getCount());
                 }
                 onContentsChanged(slot);
@@ -197,18 +189,13 @@ public class InventoryHandlerHelper
         }
 
         @Override
-        public boolean isInputItem(Item item) {
+        public boolean isInsertableSlot(int slot) {
+            return false;
+        }
+
+        @Override
+        public boolean isInputSlotItem(int slot, Item item) {
             return item instanceof UpgradeItem;
-        }
-
-        @Override
-        public boolean isInputSlot(int slot) {
-            return true;
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return isInputItem(stack.getItem()) && isInputSlot(slot);
         }
     }
 
