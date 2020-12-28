@@ -15,8 +15,8 @@ public class ReedBeeEntity extends SolitaryBeeEntity
     }
 
     @Override
-    public ITag<Block> getFlowerTag() {
-        return ModTags.SWAMP_FLOWERS;
+    public boolean isFlowerBlock(Block flowerBlock) {
+        return flowerBlock.isIn(ModTags.ARID_FLOWERS);
     }
 
     @Override

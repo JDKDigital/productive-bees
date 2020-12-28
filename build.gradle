@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
+//apply plugin: 'org.spongepowered.mixin'
 
 version = "${version}"
 group = 'cy.jdkdigital.productivebees'
@@ -30,7 +30,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-            arg "-mixin.config=productivebees.mixins.json"
+//            arg "-mixin.config=productivebees.mixins.json"
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             property 'mixin.env.disableRefMap', 'true'
@@ -44,7 +44,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            arg "-mixin.config=productivebees.mixins.json"
+//            arg "-mixin.config=productivebees.mixins.json"
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             property 'mixin.env.disableRefMap', 'true'
@@ -113,6 +113,8 @@ dependencies {
 
     compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
 
+    implementation fg.deobf('mods:phosphophyllite-1.16.4:0.3.2-beta')
+    implementation fg.deobf('mods:AutoRegLib-1.6:47')
     implementation fg.deobf('mods:cofh_core-1.16.3:1.0.4')
     implementation fg.deobf('mods:thermal-1.16.3:1.0.5')
     implementation fg.deobf('mods:thermal_expansion-1.16.3:1.0.5')
@@ -120,8 +122,13 @@ dependencies {
     implementation fg.deobf('mods:Mekanism-1.16.3:10.0.12.437')
 //    implementation fg.deobf('mods:MysticalAgriculture-1.16.4:4.1.3')
 //    implementation fg.deobf('mods:MysticalAgradditions-1.16.4-4.1.2')
+    implementation fg.deobf('mods:biggerreactors-1.16.4:0.3.0')
+    implementation fg.deobf('mods:Quark-1.16.4:r2.4')
     implementation fg.deobf('mods:Lollipop-1.16.3:3.2.2')
     implementation fg.deobf('mods:Powah-1.16.3:2.3.4')
+    implementation fg.deobf('mods:titanium-1.16.4:3.2.3')
+    implementation fg.deobf('mods:industrial-foregoing-1.16.4:3.2.6')
+    implementation fg.deobf('mods:JustEnoughResources-1.16.4:0.12.0.103')
 
     // testing
     implementation fg.deobf('mods:resourcefulbees-1.16.3:0.5.5b')
@@ -139,8 +146,9 @@ jar {
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"productivebees",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": "productivebees.mixins.json"
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+//            ,
+//            "MixinConfigs": "productivebees.mixins.json"
         ])
     }
 }
@@ -165,4 +173,4 @@ publishing {
 }
 
 
-mixin { add sourceSets.main, "productivebees.refmap.json" }
+//mixin { add sourceSets.main, "productivebees.refmap.json" }

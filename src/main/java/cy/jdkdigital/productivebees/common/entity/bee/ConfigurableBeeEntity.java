@@ -6,7 +6,6 @@ import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
-import cy.jdkdigital.productivebees.util.SingleEntryTag;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -247,25 +246,17 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     @Override
-    public ITag<Block> getFlowerTag() {
+    public boolean isFlowerBlock(Block flowerBlock) {
         CompoundNBT nbt = getNBTData();
         if (nbt != null) {
-            ITag<Block> flowerTag = getFlowerFromNBT(nbt);
-            if (flowerTag != null) {
-                return flowerTag;
+            if (nbt.contains("flowerTag")) {
+                ITag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
+                return flowerBlock.isIn(flowerTag);
+            } else if (nbt.contains("flowerBlock")) {
+                return flowerBlock.getRegistryName().toString().equals(nbt.getString("flowerBlock"));
             }
         }
-        return super.getFlowerTag();
-    }
-
-    public static ITag<Block> getFlowerFromNBT(CompoundNBT nbt) {
-        if (nbt.contains("flowerTag")) {
-            return ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
-        } else if (nbt.contains("flowerBlock")) {
-            ResourceLocation flowerBlockRLoc = new ResourceLocation(nbt.getString("flowerBlock"));
-            return ModTags.getSingleTag(flowerBlockRLoc);
-        }
-        return null;
+        return super.isFlowerBlock(flowerBlock);
     }
 
     @Override

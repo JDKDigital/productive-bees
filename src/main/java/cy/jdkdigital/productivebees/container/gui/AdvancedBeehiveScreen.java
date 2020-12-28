@@ -71,14 +71,18 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                 CompoundNBT nbt = inhabitant.nbt;
 
                 ResourceLocation rLoc = new ResourceLocation(nbt.getString("id"));
-                BeeEntity bee;
+                BeeEntity bee = null;
                 if (rLoc.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
                     CustomBeeData beeData = BeeRegistry.getRegistry().getBeeData(rLoc.getPath().replace("_bee", ""));
                     EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(beeData.getEntityTypeRegistryID());
                     bee = (BeeEntity) entityType.create(this.container.tileEntity.getWorld());
                 } else {
                     BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
-                    bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
+                    if (ingredient != null) {
+                        bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
+                    } else {
+                        ProductiveBees.LOGGER.warn("Bee ingredient not found for " + nbt.getString("id"));
+                    }
                 }
 
                 if (bee != null) {
@@ -87,9 +91,10 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                     }
 
                     if (positions.containsKey(j) && isPointInRegion(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
+                        BeeEntity finalBee = bee;
                         List<IReorderingProcessor> tooltipList = new ArrayList<IReorderingProcessor>()
                         {{
-                            add(bee.getName().func_241878_f());
+                            add(finalBee.getName().func_241878_f());
                         }};
 
                         String modId = new ResourceLocation(bee.getEntityString()).getNamespace();

@@ -193,7 +193,7 @@ public class BeeHelper
             });
         } else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
-                Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.LOGS);
+                Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.LOGS, (ProductiveBeeEntity) beeEntity);
 
                 ItemStack woodChip;
                 if (hasCombBlockUpgrade) {
@@ -205,7 +205,7 @@ public class BeeHelper
             }
         } else if (beeId.equals("productivebees:quarry_bee")) {
             if (flowerPos != null) {
-                Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.QUARRY);
+                Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.QUARRY, (ProductiveBeeEntity) beeEntity);
 
                 ItemStack stoneChip;
                 if (hasCombBlockUpgrade) {
@@ -299,13 +299,13 @@ public class BeeHelper
         return stack;
     }
 
-    private static Block getFloweringBlock(World world, BlockPos flowerPos, ITag<Block> tag) {
+    private static Block getFloweringBlock(World world, BlockPos flowerPos, ITag<Block> tag, ProductiveBeeEntity bee) {
         BlockState flowerBlockState = world.getBlockState(flowerPos);
         Block flowerBlock = flowerBlockState.getBlock();
 
         if (flowerBlock instanceof Feeder) {
             TileEntity feederTile = world.getTileEntity(flowerPos);
-            if (feederTile instanceof FeederTileEntity && ProductiveBeeEntity.isValidFeeder(feederTile, tag)) {
+            if (feederTile instanceof FeederTileEntity && ProductiveBeeEntity.isValidFeeder(feederTile, bee::isFlowerBlock)) {
                 return ((FeederTileEntity) feederTile).getRandomBlockFromInventory(tag);
             }
         }

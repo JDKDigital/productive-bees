@@ -1,14 +1,12 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.util.SingleEntryTag;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.tags.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,15 +51,5 @@ public class ModTags
             resourceLocation = new ResourceLocation(ProductiveBees.MODID, "glowstone_nests");
         }
         return BlockTags.createOptional(resourceLocation);
-    }
-
-    public static ITag<Block> getSingleTag(ResourceLocation flowerBlockRLoc) {
-        if (!ModTags.tagCache.containsKey(flowerBlockRLoc)) {
-            Block flowerBlock = ForgeRegistries.BLOCKS.getValue(flowerBlockRLoc);
-
-            SingleEntryTag<Block> blockTag = new SingleEntryTag<>(flowerBlock);
-            ModTags.tagCache.put(flowerBlockRLoc, blockTag);
-        }
-        return ModTags.tagCache.get(flowerBlockRLoc);
     }
 }

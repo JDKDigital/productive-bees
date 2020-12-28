@@ -59,8 +59,10 @@ import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -212,20 +214,18 @@ public class ProductiveBeeEntity extends BeeEntity
         Block flowerBlock = this.world.getBlockState(pos).getBlock();
 
         return (
-                flowerBlock.isIn(getFlowerTag()) ||
-                (
-                    flowerBlock instanceof Feeder && isValidFeeder(world.getTileEntity(pos), getFlowerTag())
-                )
+                isFlowerBlock(flowerBlock) ||
+                (flowerBlock instanceof Feeder && isValidFeeder(world.getTileEntity(pos), ProductiveBeeEntity.this::isFlowerBlock))
             );
     }
 
-    public static boolean isValidFeeder(TileEntity tile, ITag<Block> flowerTag) {
+    public static boolean isValidFeeder(TileEntity tile, Predicate<Block> validator) {
         AtomicBoolean hasValidBlock = new AtomicBoolean(false);
         if (tile instanceof FeederTileEntity) {
             tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                 for (int slot = 0; slot < handler.getSlots(); ++slot) {
                     Item slotItem = handler.getStackInSlot(slot).getItem();
-                    if (slotItem instanceof BlockItem && ((BlockItem) slotItem).getBlock().isIn(flowerTag)) {
+                    if (slotItem instanceof BlockItem && validator.test(((BlockItem) slotItem).getBlock())) {
                         hasValidBlock.set(true);
                     }
                 }
@@ -418,8 +418,8 @@ public class ProductiveBeeEntity extends BeeEntity
         return tintIndex == 0 ? primaryColor : secondaryColor;
     }
 
-    public ITag<Block> getFlowerTag() {
-        return BlockTags.FLOWERS;
+    public boolean isFlowerBlock(Block flowerBlock) {
+        return flowerBlock.isIn(BlockTags.FLOWERS);
     }
 
     public ITag<Block> getNestingTag() {
@@ -434,14 +434,13 @@ public class ProductiveBeeEntity extends BeeEntity
     {
         public Predicate<BlockPos> flowerPredicate = (blockPos) -> {
             BlockState blockState = ProductiveBeeEntity.this.world.getBlockState(blockPos);
-            ITag<Block> interests = ProductiveBeeEntity.this.getFlowerTag();
             boolean isInterested = false;
             try {
                 if (blockState.getBlock() instanceof Feeder) {
-                    isInterested = isValidFeeder(world.getTileEntity(blockPos), ProductiveBeeEntity.this.getFlowerTag());
+                    isInterested = isValidFeeder(world.getTileEntity(blockPos), ProductiveBeeEntity.this::isFlowerBlock);
                 }
                 else {
-                    isInterested = blockState.isIn(interests);
+                    isInterested = ProductiveBeeEntity.this.isFlowerBlock(blockState.getBlock());
                     if (isInterested && blockState.isIn(BlockTags.TALL_FLOWERS)) {
                         if (blockState.getBlock() == Blocks.SUNFLOWER) {
                             isInterested = blockState.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;

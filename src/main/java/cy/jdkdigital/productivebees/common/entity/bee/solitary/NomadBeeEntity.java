@@ -20,7 +20,7 @@ public class NomadBeeEntity extends SolitaryBeeEntity
     }
 
     @Override
-    public ITag<Block> getFlowerTag() {
-        return ModTags.ARID_FLOWERS;
+    public boolean isFlowerBlock(Block flowerBlock) {
+        return flowerBlock.isIn(ModTags.ARID_FLOWERS);
     }
 }

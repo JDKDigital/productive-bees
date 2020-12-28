@@ -27,7 +27,7 @@ public class BlueBandedBeeEntity extends SolitaryBeeEntity
     }
 
     @Override
-    public ITag<Block> getFlowerTag() {
-        return ModTags.RIVER_FLOWERS;
+    public boolean isFlowerBlock(Block flowerBlock) {
+        return flowerBlock.isIn(ModTags.RIVER_FLOWERS);
     }
 }
