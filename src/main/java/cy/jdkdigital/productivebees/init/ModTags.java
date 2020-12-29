@@ -1,11 +1,12 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import jdk.internal.jline.internal.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
-import net.minecraft.tags.*;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.HashMap;
@@ -27,27 +28,22 @@ public class ModTags
     public static final ITag<Block> RIVER_FLOWERS = getTag("flowers/river_flowers");
     public static final ITag<Block> QUARRY = getTag("flowers/quarry");
 
-    public static final ITag<Item> HONEYCOMBS = ItemTags.createOptional(new ResourceLocation("forge", "honeycombs"));
-
-    public static final ITag<Fluid> HONEY = FluidTags.createOptional(new ResourceLocation("forge", "honey"));
-
     public static final ITag<EntityType<?>> RANCHABLES = EntityTypeTags.createOptional(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
 
     public static ITag<Block> getTag(String name) {
         if (name.equals("nether_quarts_nests")) {
             name = "nether_quartz_nests";
-        }
-        else if (name.equals("glowtone_nests")) {
+        } else if (name.equals("glowtone_nests")) {
             name = "glowstone_nests";
         }
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));
     }
 
+    @Nullable
     public static ITag<Block> getTag(ResourceLocation resourceLocation) {
         if (resourceLocation.getPath().equals("nether_quarts_nests")) {
             resourceLocation = new ResourceLocation(ProductiveBees.MODID, "nether_quartz_nests");
-        }
-        else if (resourceLocation.getPath().equals("glowtone_nests")) {
+        } else if (resourceLocation.getPath().equals("glowtone_nests")) {
             resourceLocation = new ResourceLocation(ProductiveBees.MODID, "glowstone_nests");
         }
         return BlockTags.createOptional(resourceLocation);

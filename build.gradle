@@ -113,6 +113,8 @@ dependencies {
 
     compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
 
+//    implementation fg.deobf('mods:citadel:1.5.3')
+//    implementation fg.deobf('mods:iceandfire-2.1.4:1.16.4')
     implementation fg.deobf('mods:phosphophyllite-1.16.4:0.3.2-beta')
     implementation fg.deobf('mods:AutoRegLib-1.6:47')
     implementation fg.deobf('mods:cofh_core-1.16.3:1.0.4')
@@ -131,9 +133,9 @@ dependencies {
     implementation fg.deobf('mods:JustEnoughResources-1.16.4:0.12.0.103')
 
     // testing
-    implementation fg.deobf('mods:resourcefulbees-1.16.3:0.5.5b')
+    implementation fg.deobf('mods:ResourcefulBees1.16.3-1.16.3:0.5.6b')
     // build
-//    compileOnly fg.deobf('mods:resourcefulbees-1.16.3:0.5.0a')
+//    compileOnly fg.deobf('mods:ResourcefulBees1.16.3-1.16.3:0.5.6b')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

@@ -262,7 +262,7 @@ public class BeeHelper
             com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe rec = recipeManager.getRecipe(com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe.CENTRIFUGE_RECIPE_TYPE, new RecipeWrapper(rBeesHandler), world).orElse(null);
             if (rec != null) {
                 Map<Ingredient, IntArrayNBT> itemOutputs = new HashMap<>();
-                for (Pair<ItemStack, Float> pair : rec.outputs) {
+                for (Pair<ItemStack, Float> pair : rec.itemOutputs) {
                     if (!pair.getLeft().isEmpty()) {
                         int count = pair.getLeft().getCount();
                         IntArrayNBT nbt = new IntArrayNBT(new int[]{count, count, (int) (pair.getRight() * 100)});

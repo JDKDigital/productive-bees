@@ -21,6 +21,7 @@ import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -119,25 +120,33 @@ public class ResourcefulBeesCompat
 
     private static IRecipe<?> centrifugeRecipe(CentrifugeRecipe recipe, ItemStack comb, ResourceLocation beeType) {
         List<Pair<ItemStack, Float>> outputList = getRecipeOutput(recipe, 1);
+        List<Pair<FluidStack, Float>> fluidOutput = new ArrayList<>();
 
         return new com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe(
                 new ResourceLocation(beeType.getNamespace(), beeType.getPath() + "_rbees_comb_centrifuge"),
                 Ingredient.fromStacks(comb),
                 outputList,
-                Config.CENTRIFUGE_RECIPE_TIME.get() * 20,
+                fluidOutput,
+                Config.GLOBAL_CENTRIFUGE_RECIPE_TIME.get() * 20,
+                Config.GLOBAL_CENTRIFUGE_RECIPE_TIME.get() * 20,
+                false,
                 false
         );
     }
 
     private static IRecipe<?> centrifugeHoneyCombBlockRecipe(CentrifugeRecipe recipe, ItemStack combBlock, ResourceLocation beeType, int combCount) {
         List<Pair<ItemStack, Float>> outputList = getRecipeOutput(recipe, combCount);
+        List<Pair<FluidStack, Float>> fluidOutput = new ArrayList<>();
 
         return new com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe(
                 new ResourceLocation(beeType.getNamespace(), beeType.getPath() + "_rbees_combblock_centrifuge"),
                 Ingredient.fromStacks(combBlock),
                 outputList,
-                Config.CENTRIFUGE_RECIPE_TIME.get() * 20,
-                true
+                fluidOutput,
+                Config.GLOBAL_CENTRIFUGE_RECIPE_TIME.get() * 20,
+                Config.GLOBAL_CENTRIFUGE_RECIPE_TIME.get() * 20,
+                true,
+                false
         );
     }
 

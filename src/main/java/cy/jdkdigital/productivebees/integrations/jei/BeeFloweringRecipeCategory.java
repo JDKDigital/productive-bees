@@ -132,7 +132,6 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 recipes.add(new Recipe(blockTag, entry.getValue()));
             }
             recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
-
         }
         return recipes;
     }

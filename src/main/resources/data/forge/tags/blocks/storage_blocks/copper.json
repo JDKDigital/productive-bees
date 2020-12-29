@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+        {
+            "id": "iceandfire:copper_block",
+            "required": false
+        }
+    ]
+}
