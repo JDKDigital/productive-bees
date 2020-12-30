@@ -1,0 +1,26 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:creeper_bee",
+    "parent2": "productivebees:iron",
+    "offspring": [
+        "productivebees:uraninite"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:gunpowder"
+        },
+        {
+            "tag": "forge:ingots/iron"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "powah"
+        },
+        {
+            "type": "forge:tag_empty",
+            "tag": "forge:ingots/uranium"
+        }
+    ]
+}
