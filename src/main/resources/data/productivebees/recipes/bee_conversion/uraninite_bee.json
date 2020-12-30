@@ -9,6 +9,13 @@
         {
             "type": "forge:mod_loaded",
             "modid": "powah"
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/uranium"
+            }
         }
     ]
 }

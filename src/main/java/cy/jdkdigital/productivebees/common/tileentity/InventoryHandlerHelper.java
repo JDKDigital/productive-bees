@@ -113,7 +113,7 @@ public class InventoryHandlerHelper
 
         public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
             // Always allow an input item into an input slot
-            if (isInputSlotItem(slot, stack.getItem())) {
+            if (isInputSlotItem(slot, stack.getItem()) || slot == FLUID_ITEM_OUTPUT_SLOT) {
                 return true;
             }
 

@@ -1,6 +1,6 @@
 # Productive Bees
 
-<a href="https://www.curseforge.com/minecraft/mc-mods/productivebees/files"><img src="https://img.shields.io/badge/Available%20for-MC%201.15.2,%201.16.1,%201.16.3-c70039" alt="Supported Versions"></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/productivebees/files"><img src="https://img.shields.io/badge/Available%20for-MC%201.15.2,%201.16.1,%201.16.3+-c70039" alt="Supported Versions"></a>
 <a href="https://github.com/JDKDigital/productive-bees/blob/master/LICENSE"><img src="https://img.shields.io/github/license/JDKDigital/productive-bees?style=flat&color=900c3f" alt="License"></a>
 <a href="https://discord.gg/v2fVahY"><img src="https://img.shields.io/discord/756513972282195969?color=844685&label=Feedback%20%26%20Help&style=flat" alt="Discord"></a>
 <a href="https://www.curseforge.com/minecraft/mc-mods/productivebees"><img src="http://cf.way2muchnoise.eu/short_productivebees.svg" alt="Curseforge Downloads"></a><br><br>
@@ -49,7 +49,7 @@ Recipes in `productivebees/recipes/bee_spawning` can be overridden to change whi
 org.gradle.jvmargs=-Xmx3G
 org.gradle.daemon=false
 
-version=1.15.2-0.4.1.4
+version=1.15.2-0.5.2.3
 mcversion=1.15.2
 forgeversion=1.15.2-31.2.36
 mcp_mappings=20200813-1.15.1
@@ -79,13 +79,13 @@ top_version=1.16:1.16-3.0.1-beta-4
 org.gradle.jvmargs=-Xmx3G
 org.gradle.daemon=false
 
-version=1.16.3-0.4.1.4
-mcversion=1.16.3
-forgeversion=1.16.3-34.1.23
-mcp_mappings=20200916-1.16.2
+version=1.16.4-0.5.2.3
+mcversion=1.16.4
+forgeversion=1.16.4-35.1.28
+mcp_mappings=20201028-1.16.3
 
 jei_version=1.16.3:7.5.0.42
 patchouli_version=1.16-43-SNAPSHOT
-hwyla_version=1.10.9-B76_1.16.1
+hwyla_version=1.10.11-B78_1.16.2
 top_version=1.16:1.16-3.0.4-beta-7
 ```
