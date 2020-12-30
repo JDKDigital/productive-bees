@@ -3,7 +3,7 @@
     "source": "productivebees:radioactive",
     "result": "productivebees:uraninite",
     "item": {
-        "item": "powah:uraninite_block"
+        "tag": "forge:storage_blocks/uraninite"
     },
     "conditions": [
         {

@@ -47,8 +47,7 @@ public abstract class FluidTankTileEntity extends TileEntity implements ITickabl
                         ItemStack outputItem = null;
                         if (fluidContainerItem.getItem() == Items.GLASS_BOTTLE && fluidStack.getAmount() >= 250 && fluidStack.getFluid().isEquivalentTo(ModFluids.HONEY.get())) {
                             outputItem = new ItemStack(Items.HONEY_BOTTLE);
-                        }
-                        else {
+                        } else {
                             FluidActionResult fillResult = FluidUtil.tryFillContainer(fluidContainerItem, fluidHandler, Integer.MAX_VALUE, null, true);
                             if (fillResult.isSuccess()) {
                                 outputItem = fillResult.getResult();
@@ -66,8 +65,8 @@ public abstract class FluidTankTileEntity extends TileEntity implements ITickabl
                                 fluidHandler.drain(drainedFluid, IFluidHandler.FluidAction.EXECUTE);
 
                                 // If item container is full or internal tank is empty, move the item to the output @TODO doesn't work
-                                boolean doneFilling = outputItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(h -> h.getTankCapacity(0) > h.getFluidInTank(0).getAmount()).orElse(true);
-                                if (bottleOutput || doneFilling) {
+                                boolean doneFilling = bottleOutput || outputItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(h -> h.getTankCapacity(0) > h.getFluidInTank(0).getAmount()).orElse(true);
+                                if (doneFilling) {
                                     fluidContainerItem.shrink(1);
                                     invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
                                 } else {
