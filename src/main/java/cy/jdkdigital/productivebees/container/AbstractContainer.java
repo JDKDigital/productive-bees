@@ -1,8 +1,10 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.item.UpgradeItem;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.tileentity.UpgradeableTileEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -42,14 +44,21 @@ abstract class AbstractContainer extends Container
 
             // Move from container to player inventory.
             if (index < containerSlots) {
-                if (!mergeItemStack(slotStack, containerSlots, this.inventorySlots.size(), true)) {
+                if (!mergeItemStack(slotStack, containerSlots, this.inventorySlots.size(), false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-
-            // Move from player inv into container
-            if (!mergeItemStack(slotStack, 0, containerSlots, true)) {
-                return ItemStack.EMPTY;
+            } else {
+                // Move from player inv into container
+                int upgradeSlotCount = this.getTileEntity() instanceof UpgradeableTileEntity ? 4 : 0;
+                if (upgradeSlotCount > 0 && slotStack.getItem() instanceof UpgradeItem) {
+                    if (!mergeItemStack(slotStack, containerSlots - upgradeSlotCount, containerSlots, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else {
+                    if (!mergeItemStack(slotStack, 0, containerSlots - upgradeSlotCount, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
             }
 
             if (slotStack.isEmpty()) {

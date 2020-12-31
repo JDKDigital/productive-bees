@@ -88,8 +88,6 @@ public class CentrifugeContainer extends AbstractContainer
             }
         });
 
-        layoutPlayerInventorySlots(playerInventory, 0, - 5, 84);
-
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             // Comb and bottle slots
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 139, 17));
@@ -103,6 +101,8 @@ public class CentrifugeContainer extends AbstractContainer
         this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
             addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
         });
+
+        layoutPlayerInventorySlots(playerInventory, 0, - 5, 84);
     }
 
     private static CentrifugeTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
