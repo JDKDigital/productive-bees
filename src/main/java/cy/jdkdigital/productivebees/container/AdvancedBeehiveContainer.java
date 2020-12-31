@@ -11,8 +11,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -89,11 +87,11 @@ public class AdvancedBeehiveContainer extends AbstractContainer
             // Bottle slot
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 86 - (expanded ? 13 : 0), 17));
 
-            addSlotBox(new ItemHandlerWrapper(inv), InventoryHandlerHelper.OUTPUT_SLOTS[0], 116 - (expanded ? 13 : 0), 17, 3, 18, 3, 18);
+            addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116 - (expanded ? 13 : 0), 17, 3, 18, 3, 18);
         });
 
         this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
-            addSlotBox(new ItemHandlerWrapper(upgradeHandler), 0, 178 - (expanded ? 13 : 0), 8, 1, 18, 4, 18);
+            addSlotBox(upgradeHandler, 0, 178 - (expanded ? 13 : 0), 8, 1, 18, 4, 18);
         });
 
         layoutPlayerInventorySlots(playerInventory, 0, 8 - (expanded ? 13 : 0), 84);

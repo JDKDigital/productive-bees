@@ -32,7 +32,7 @@ public class FeederContainer extends AbstractContainer
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-            addSlotBox(new ItemHandlerWrapper(inv), 0, 61, 34, 3, 18, 1, 18);
+            addSlotBox(inv, 0, 61, 34, 3, 18, 1, 18);
         });
 
         layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
