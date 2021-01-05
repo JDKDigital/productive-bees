@@ -103,7 +103,7 @@ public class InventoryHandlerHelper
         }
 
         public boolean isInputSlotItem(int slot, Item item) {
-            return (slot == BOTTLE_SLOT && isBottleItem(item));
+            return (slot == BOTTLE_SLOT && isBottleItem(item)) || (slot == FLUID_ITEM_OUTPUT_SLOT && !isBottleItem(item));
         }
 
         @Override
@@ -113,7 +113,7 @@ public class InventoryHandlerHelper
 
         public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
             // Always allow an input item into an input slot
-            if (isInputSlotItem(slot, stack.getItem()) || slot == FLUID_ITEM_OUTPUT_SLOT) {
+            if (isInputSlotItem(slot, stack.getItem())) {
                 return true;
             }
 

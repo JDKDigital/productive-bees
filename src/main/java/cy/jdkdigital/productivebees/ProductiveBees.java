@@ -87,7 +87,8 @@ public final class ProductiveBees
         modEventBus.addListener(this::onCommonSetup);
 
         // Config loading
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.SERVER_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ProductiveBeesConfig.CLIENT_CONFIG);
 
         CraftingHelper.register(FluidTagEmptyCondition.Serializer.INSTANCE);
     }

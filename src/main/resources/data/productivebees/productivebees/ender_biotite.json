@@ -11,6 +11,13 @@
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/biotite"
             }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ores/biotite"
+            }
         }
     ]
 }

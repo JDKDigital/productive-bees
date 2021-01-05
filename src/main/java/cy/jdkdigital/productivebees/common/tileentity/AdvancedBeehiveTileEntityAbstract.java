@@ -94,8 +94,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                     if(this.releaseBee(this.getBlockState(), inhabitant.nbt, null, beeState)) {
                         inhabitantIterator.remove();
                     }
-                }
-                else {
+                } else {
                     inhabitant.ticksInHive += tickCounter;
                 }
             }
@@ -111,10 +110,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
 
     public void markDirty() {
         if (this.world != null) {
-            if (this.isNearFire()) {
-                this.angerBees(null, this.world.getBlockState(this.getPos()), BeehiveTileEntity.State.EMERGENCY);
-            }
-
             world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 2);
         }
 
@@ -283,7 +278,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 }
             }
         }
-        this.markDirty();
 
         applyHiveTime(getTimeInHive(beeState == BeehiveTileEntity.State.HONEY_DELIVERED, beeEntity), beeEntity);
     }

@@ -71,7 +71,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
         if (recipe instanceof BeeSpawningRecipe) {
             return ((BeeSpawningRecipe) recipe).repopulationCooldown;
         }
-        return ProductiveBeesConfig.GENERAL.nestRepopulationCooldown.get();
+        return 24000;
     }
 
     public void setNestCooldown(int cooldown) {
