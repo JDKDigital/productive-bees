@@ -27,10 +27,6 @@ public class ModTags
     public static final Tag<Block> RIVER_FLOWERS = getTag("flowers/river_flowers");
     public static final Tag<Block> QUARRY = getTag("flowers/quarry");
 
-    public static final Tag<Item> HONEYCOMBS = ItemTags.getCollection().getOrCreate(new ResourceLocation("forge", "honeycombs"));
-
-    public static final Tag<Fluid> HONEY = FluidTags.getCollection().getOrCreate(new ResourceLocation("forge", "honey"));
-
     public static final Tag<EntityType<?>> RANCHABLES = EntityTypeTags.getCollection().getOrCreate(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
 
     public static Tag<Block> getTag(String name) {

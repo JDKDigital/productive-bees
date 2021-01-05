@@ -57,8 +57,6 @@ import java.util.stream.Collectors;
 
 public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity, UpgradeableTileEntity
 {
-    private static final Random rand = new Random();
-
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
     public int fluidId = 0;
@@ -259,8 +257,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         if (canProcessRecipe(recipe, invHandler)) {
 
             recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
-                if (rand.nextInt(100) <= recipeValues.get(2).getInt()) {
-                    int count = MathHelper.nextInt(rand, MathHelper.floor(recipeValues.get(0).getInt()), MathHelper.floor(recipeValues.get(1).getInt()));
+                if (ProductiveBees.rand.nextInt(100) <= recipeValues.get(2).getInt()) {
+                    int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(recipeValues.get(0).getInt()), MathHelper.floor(recipeValues.get(1).getInt()));
                     itemStack.setCount(count);
                     ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack);
                 }
@@ -295,7 +293,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
         double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.genExtractChance.get();
         for (String attributeName: attributes) {
-            if (rand.nextDouble() <= chance) {
+            if (ProductiveBees.rand.nextDouble() <= chance) {
                 int value = entityData.getInt("bee_" + attributeName);
                 ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.getAttributeByName(attributeName), value));
             }

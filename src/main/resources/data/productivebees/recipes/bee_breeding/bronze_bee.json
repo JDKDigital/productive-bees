@@ -3,7 +3,15 @@
     "parent1": "productivebees:copper",
     "parent2": "productivebees:tin",
     "offspring": [
-        "productivebees:bronze"
+        "productivebees:bronze",
+        {
+            "offspring": "productivebees:tin",
+            "weight": 2
+        },
+        {
+            "offspring": "productivebees:copper",
+            "weight": 2
+        }
     ],
     "breeding_items": [
         {

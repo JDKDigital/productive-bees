@@ -59,6 +59,7 @@ public class BeeCreator
         data.putBoolean("teleporting", json.has("teleporting") && json.get("teleporting").getAsBoolean());
         data.putBoolean("munchies", json.has("munchies") && json.get("munchies").getAsBoolean());
         data.putBoolean("redstoned", json.has("redstoned") && json.get("redstoned").getAsBoolean());
+        data.putBoolean("stringy", json.has("stringy") && json.get("stringy").getAsBoolean());
 
         if (json.has("attributes")) {
             for(Map.Entry<String, JsonElement> entry: json.get("attributes").getAsJsonObject().entrySet()) {

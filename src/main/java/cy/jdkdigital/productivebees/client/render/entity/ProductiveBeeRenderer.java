@@ -39,6 +39,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
             addLayer(new SantaHatLayer(this));
         }
         addLayer(new GlowingInnardsLayer(this));
+//        addLayer(new FoliageLayer<>(this));
     }
 
     @Nullable

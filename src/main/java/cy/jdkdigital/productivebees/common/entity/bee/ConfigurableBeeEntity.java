@@ -34,6 +34,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.village.PointOfInterestType;
@@ -157,10 +158,11 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         super.updateAITasks();
     }
 
-//    @Override
-//    public boolean isBurning() {
-//        return this.isAngry();
-//    }
+    public void setMotionMultiplier(BlockState state, Vec3d motionMultiplierIn) {
+        if (!isStringy() || state.getBlock() != Blocks.COBWEB) {
+            super.setMotionMultiplier(state, motionMultiplierIn);
+        }
+    }
 
     public void attackTarget(LivingEntity target) {
         if (this.isAlive() && getNBTData().contains("attackResponse")) {
@@ -369,6 +371,10 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public boolean isTeleporting() {
         return getNBTData().getBoolean("teleporting");
+    }
+
+    public boolean isStringy() {
+        return getNBTData().getBoolean("stringy");
     }
 
     public boolean hasMunchies() {

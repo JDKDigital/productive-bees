@@ -16,6 +16,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -31,18 +32,26 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
     public final ResourceLocation id;
     public final Ingredient ingredient;
     public final List<Lazy<BeeIngredient>> output;
+    public final List<String> biomes;
+    public final String temperature;
     public final int repopulationCooldown;
 
-    public BeeSpawningRecipe(ResourceLocation id, Ingredient ingredient, List<Lazy<BeeIngredient>> output, int repopulationCooldown) {
+    public BeeSpawningRecipe(ResourceLocation id, Ingredient ingredient, List<Lazy<BeeIngredient>> output, List<String> biomes, String temperature, int repopulationCooldown) {
         this.id = id;
         this.ingredient = ingredient;
         this.output = output;
+        this.biomes = biomes;
+        this.temperature = temperature;
         this.repopulationCooldown = repopulationCooldown;
     }
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
         return false;
+    }
+
+    public boolean matches(ItemStack nest, Biome biome) {
+        return ingredient.test(nest);
     }
 
     @Nonnull
@@ -108,9 +117,18 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
                 output.add(beeIngredient);
             });
 
+            List<String> biomes = new ArrayList<>();
+            if (json.has("biomes")) {
+                JSONUtils.getJsonArray(json, "biomes").forEach(jsonElement -> {
+                    biomes.add(jsonElement.getAsString());
+                });
+            }
+
+            String temperature = json.has("temperature") ? json.get("temperature").getAsString() : "any";
+
             int repopulationCooldown = JSONUtils.getInt(json, "repopulation_cooldown", 36000);
 
-            return this.factory.create(id, ingredient, output, repopulationCooldown);
+            return this.factory.create(id, ingredient, output, biomes, temperature, repopulationCooldown);
         }
 
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
@@ -125,9 +143,18 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
                     }
                 );
 
+                List<String> biomes = new ArrayList<>();
+                IntStream.range(0, buffer.readInt()).forEach(
+                    i -> {
+                        biomes.add(buffer.readString());
+                    }
+                );
+
+                String temperature = buffer.readString();
+
                 int repopulationCooldown = buffer.readInt();
 
-                return this.factory.create(id, ingredient, output, repopulationCooldown);
+                return this.factory.create(id, ingredient, output, biomes, temperature, repopulationCooldown);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee spawning recipe from packet. " + id, e);
                 throw e;
@@ -147,6 +174,11 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
                     }
                 }
 
+                buffer.writeInt(recipe.biomes.size());
+                recipe.biomes.forEach(buffer::writeString);
+
+                buffer.writeString(recipe.temperature);
+
                 buffer.writeInt(recipe.repopulationCooldown);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee spawning recipe to packet. " + recipe.getId(), e);
@@ -156,7 +188,7 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends BeeSpawningRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, List<Lazy<BeeIngredient>> output, int repopulationCooldown);
+            T create(ResourceLocation id, Ingredient input, List<Lazy<BeeIngredient>> output, List<String> biomes, String temperature, int repopulationCooldown);
         }
     }
 }

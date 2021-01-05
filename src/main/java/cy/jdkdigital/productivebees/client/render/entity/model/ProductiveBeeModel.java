@@ -145,6 +145,10 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         }
     }
 
+    public ModelRenderer getBody() {
+        return this.body;
+    }
+
     protected Iterable<ModelRenderer> getHeadParts() {
         return ImmutableList.of();
     }

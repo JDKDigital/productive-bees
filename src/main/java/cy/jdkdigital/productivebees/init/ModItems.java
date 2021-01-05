@@ -113,6 +113,7 @@ public class ModItems
     public static final RegistryObject<Item> HONEYCOMB_REFINED_OBSIDIAN = createItem("honeycomb_refined_obsidian", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#5e5077"));
     public static final RegistryObject<Item> HONEYCOMB_SIGNALUM = createItem("honeycomb_signalum", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#e7917d"));
     public static final RegistryObject<Item> HONEYCOMB_SILICON = createItem("honeycomb_silicon", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#918d96"));
+    public static final RegistryObject<Item> HONEYCOMB_SILKY = createItem("honeycomb_silky", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#ffffff"));
     public static final RegistryObject<Item> HONEYCOMB_SILVER = createItem("honeycomb_silver", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#A9DBE5"));
     public static final RegistryObject<Item> HONEYCOMB_SLIMY = createItem("honeycomb_slimy", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_SOULIUM = createItem("honeycomb_soulium", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#301b10"));

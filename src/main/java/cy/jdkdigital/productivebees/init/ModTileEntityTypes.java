@@ -161,4 +161,10 @@ public class ModTileEntityTypes
                     ModBlocks.CONFIGURABLE_COMB.get()
             ).build(null)
     );
+
+    public static final RegistryObject<TileEntityType<HoneyGeneratorTileEntity>> HONEY_GENERATOR = TILE_ENTITY_TYPES.register("honey_generator", () ->
+            TileEntityType.Builder.create(HoneyGeneratorTileEntity::new,
+                    ModBlocks.HONEY_GENERATOR.get()
+            ).build(null)
+    );
 }

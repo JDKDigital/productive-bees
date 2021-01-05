@@ -122,15 +122,33 @@ public class BeeHelper
 
         if (!recipes.isEmpty()) {
             BeeBreedingRecipe recipe = recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
-            List<Lazy<BeeIngredient>> possibleOffspring = recipe.offspring;
+            Map<Lazy<BeeIngredient>, Integer> possibleOffspring = recipe.offspring;
             if (possibleOffspring != null && possibleOffspring.size() > 0) {
-                BeeIngredient beeIngredient = possibleOffspring.get(ProductiveBees.rand.nextInt(possibleOffspring.size())).get();
-                BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
-                if (newBee instanceof ConfigurableBeeEntity) {
-                    ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
-                    ((ConfigurableBeeEntity) newBee).setAttributes();
+                // Get weighted offspring chance
+                int maxWeight = 0;
+                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry: possibleOffspring.entrySet()) {
+                    maxWeight = maxWeight + entry.getValue();
                 }
-                return newBee;
+
+                BeeIngredient beeIngredient = null;
+
+                int i = ProductiveBees.rand.nextInt(maxWeight);
+                int currentWeight = 0;
+                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry: possibleOffspring.entrySet()) {
+                    currentWeight = currentWeight + entry.getValue();
+                    if (i < currentWeight) {
+                        beeIngredient = entry.getKey().get();
+                    }
+                }
+
+                if (beeIngredient != null) {
+                    BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
+                    if (newBee instanceof ConfigurableBeeEntity) {
+                        ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
+                        ((ConfigurableBeeEntity) newBee).setAttributes();
+                    }
+                    return newBee;
+                }
             }
         }
 

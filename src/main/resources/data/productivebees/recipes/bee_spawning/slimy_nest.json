@@ -8,5 +8,8 @@
             "bee": "productivebees:slimy"
         }
     ],
+    "biomes": [
+        "swamp"
+    ],
     "repopulation_cooldown": 36000
 }
