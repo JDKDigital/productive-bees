@@ -2,7 +2,7 @@
     "primaryColor": "#1286af",
     "secondaryColor": "#005b61",
     "particleColor": "#acbfca",
-    "createComb": "false",
+    "createComb": false,
     "flowerBlock": "mmorpg:ore_block2",
     "conditions": [
         {

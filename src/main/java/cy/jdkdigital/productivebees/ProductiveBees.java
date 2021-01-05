@@ -12,11 +12,7 @@ import cy.jdkdigital.productivebees.setup.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.ClientResourcePackInfo;
 import net.minecraft.resources.IReloadableResourceManager;
-import net.minecraft.resources.ResourcePackList;
-import net.minecraft.resources.ResourcePackType;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
@@ -86,7 +82,8 @@ public final class ProductiveBees
         modEventBus.addListener(this::onLoadComplete);
 
         // Config loading
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.SERVER_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ProductiveBeesConfig.CLIENT_CONFIG);
 
         CraftingHelper.register(FluidTagEmptyCondition.Serializer.INSTANCE);
     }

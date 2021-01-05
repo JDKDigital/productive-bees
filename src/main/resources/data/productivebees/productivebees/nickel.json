@@ -10,6 +10,13 @@
                 "type": "forge:tag_empty",
                 "tag": "forge:ingots/nickel"
             }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/nickel"
+            }
         }
     ]
 }
