@@ -73,7 +73,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         public boolean isInputSlotItem(int slot, Item item) {
             boolean isProcessableItem = item.equals(ModItems.GENE_BOTTLE.get()) || CentrifugeTileEntity.this.canProcessItemStack(new ItemStack(item));
 
-            return (isProcessableItem && slot == InventoryHandlerHelper.INPUT_SLOT) || super.isInputSlotItem(slot, item);
+            return (isProcessableItem && slot == InventoryHandlerHelper.INPUT_SLOT) || (!isProcessableItem && super.isInputSlotItem(slot, item));
         }
     });
 

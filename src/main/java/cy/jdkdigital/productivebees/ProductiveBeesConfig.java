@@ -17,36 +17,48 @@ import java.util.Map;
 @Mod.EventBusSubscriber
 public class ProductiveBeesConfig
 {
-    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-    public static final ForgeConfigSpec CONFIG;
-    public static final General GENERAL = new General(BUILDER);
-    public static final Bees BEES = new Bees(BUILDER);
-    public static final BeeAttributes BEE_ATTRIBUTES = new BeeAttributes(BUILDER);
-    public static final WorldGen WORLD_GEN = new WorldGen(BUILDER);
-    public static final Upgrades UPGRADES = new Upgrades(BUILDER);
+    private static final ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
+    private static final ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
+    public static final ForgeConfigSpec CLIENT_CONFIG;
+    public static final Client CLIENT = new Client(CLIENT_BUILDER);
+    public static final ForgeConfigSpec SERVER_CONFIG;
+    public static final General GENERAL = new General(SERVER_BUILDER);
+    public static final Bees BEES = new Bees(SERVER_BUILDER);
+    public static final BeeAttributes BEE_ATTRIBUTES = new BeeAttributes(SERVER_BUILDER);
+    public static final WorldGen WORLD_GEN = new WorldGen(SERVER_BUILDER);
+    public static final Upgrades UPGRADES = new Upgrades(SERVER_BUILDER);
 
     static {
-        CONFIG = BUILDER.build();
+        CLIENT_CONFIG = CLIENT_BUILDER.build();
+        SERVER_CONFIG = SERVER_BUILDER.build();
+    }
+
+    public static class Client
+    {
+        public final ForgeConfigSpec.BooleanValue renderCombsInCentrifuge;
+
+        public Client(ForgeConfigSpec.Builder builder) {
+            builder.push("Client");
+
+            renderCombsInCentrifuge = builder
+                    .comment("Render centrifuge comb inventory on the block.")
+                    .define("renderCombsInCentrifuge", true);
+
+            builder.pop();
+        }
     }
 
     public static class General
     {
-        public final ForgeConfigSpec.BooleanValue enableItemConverting;
         public final ForgeConfigSpec.IntValue itemTickRate;
         public final ForgeConfigSpec.IntValue centrifugeProcessingTime;
         public final ForgeConfigSpec.IntValue centrifugePoweredProcessingTime;
         public final ForgeConfigSpec.IntValue centrifugePowerUse;
-        public final ForgeConfigSpec.BooleanValue enableCombProduce;
-        public final ForgeConfigSpec.IntValue nestRepopulationCooldown;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
         public final ForgeConfigSpec.IntValue numberOfBeesPerBomb;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
-
-            enableItemConverting = builder
-                    .comment("[UNUSED] Use items to change the type of a bee.", "If false, productive bees can only be obtained through breeding. Default false.")
-                    .define("enableItemConverting", false);
 
             itemTickRate = builder
                     .comment("How often should a bee attempt to generate items while in the hive. Default 500.")
@@ -63,14 +75,6 @@ public class ProductiveBeesConfig
             centrifugePowerUse = builder
                     .comment("How much FE to use per tick for a powered centrifuge when processing an item. Default 10.")
                     .defineInRange("centrifugePowerUse", 10, 1, Integer.MAX_VALUE);
-
-            enableCombProduce = builder
-                    .comment("[DEPRECATED] Bees will create combs instead of raw resource. Combs will need to be processed in a centrifuge. Default true.")
-                    .define("enableCombProduce", true);
-
-            nestRepopulationCooldown = builder
-                    .comment("Deprecated: Moved to spawning recipe.")
-                    .defineInRange("nestRepopulationCooldown", 3600, 20, Integer.MAX_VALUE);
 
             preferredTagSource = builder
                     .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from.")
