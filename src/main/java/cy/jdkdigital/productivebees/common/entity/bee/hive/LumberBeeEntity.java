@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
 import net.minecraft.world.World;
 
 public class LumberBeeEntity extends ProductiveBeeEntity
@@ -14,7 +13,8 @@ public class LumberBeeEntity extends ProductiveBeeEntity
         super(entityType, world);
     }
 
-    public ITag<Block> getFlowerTag() {
-        return BlockTags.LOGS;
+    @Override
+    public boolean isFlowerBlock(Block flowerBlock) {
+        return flowerBlock.isIn(BlockTags.LOGS);
     }
 }
