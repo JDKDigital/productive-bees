@@ -3,20 +3,13 @@
     "secondaryColor": "#c9ab4b",
     "particleColor": "#f1f372",
     "createComb": false,
-    "flowerTag": "forge:storage_blocks/sulfur",
+    "flowerTag": "productivebees:flowers/sulfur",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:dusts/sulfur"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/sulfur"
             }
         }
     ]
