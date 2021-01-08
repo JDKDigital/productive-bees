@@ -33,6 +33,8 @@ public final class ModBlocks
     public static final RegistryObject<Block> CENTRIFUGE = createBlock("centrifuge", () -> new Centrifuge(Block.Properties.from(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> POWERED_CENTRIFUGE = createBlock("powered_centrifuge", () -> new PoweredCentrifuge(Block.Properties.from(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> HONEY_GENERATOR = createBlock("honey_generator", () -> new HoneyGenerator(Block.Properties.from(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> CATCHER = createBlock("catcher", () -> new Catcher(Block.Properties.from(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> INCUBATOR = createBlock("incubator", () -> new Incubator(Block.Properties.from(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> INACTIVE_DRAGON_EGG = createBlock("inactive_dragon_egg", () -> new InactiveDragonEgg(Block.Properties.from(Blocks.DRAGON_EGG)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> INVISIBLE_REDSTONE_BLOCK = createBlock("invisible_redstone_block", () -> new InvisibleRedstone(Block.Properties.from(Blocks.REDSTONE_BLOCK).notSolid().doesNotBlockMovement()), null);
     public static final RegistryObject<Block> FEEDER = createBlock("feeder", () -> new Feeder(Block.Properties.from(Blocks.STONE_SLAB)), ModItemGroups.PRODUCTIVE_BEES);

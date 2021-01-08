@@ -1,11 +1,9 @@
 package cy.jdkdigital.productivebees.common.item;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -168,8 +166,9 @@ public class BeeCage extends Item
                     list.add(new TranslationTextComponent("productivebees.information.health.dying").applyTextStyle(TextFormatting.RED).applyTextStyle(TextFormatting.ITALIC));
                 }
 
-                if (tag.getBoolean("isProductiveBee")) {
+                list.add(new TranslationTextComponent(tag.getInt("Age") < 0 ? "productivebees.information.age.child" : "productivebees.information.age.adult").applyTextStyle(TextFormatting.AQUA).applyTextStyle(TextFormatting.ITALIC));
 
+                if (tag.getBoolean("isProductiveBee")) {
                     String type = tag.getString("bee_type");
                     ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).applyTextStyle(getColor(type));
                     list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).applyTextStyle(TextFormatting.DARK_GRAY));

@@ -25,12 +25,6 @@ public class DragonEggHiveTileEntity extends AdvancedBeehiveTileEntity
             return;
         }
 
-        if (++tickCounter > ProductiveBeesConfig.GENERAL.itemTickRate.get()) {
-            tickCounter = 0;
-
-//            productionTick();
-        }
-
         if (tickCounter % 23 == 0) {
             BlockState blockState = this.getBlockState();
 

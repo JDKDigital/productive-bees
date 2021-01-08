@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeederTileEntity extends TileEntity implements INamedContainerProvider
+public class FeederTileEntity extends CapabilityTileEntity implements INamedContainerProvider
 {
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(3, this)
     {
@@ -87,27 +87,5 @@ public class FeederTileEntity extends TileEntity implements INamedContainerProvi
     @Override
     public Container createMenu(final int windowId, final PlayerInventory playerInventory, final PlayerEntity player) {
         return new FeederContainer(windowId, playerInventory, this);
-    }
-
-    @Nullable
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(pkt.getNbtCompound());
-    }
-
-    @Override
-    @Nonnull
-    public CompoundNBT getUpdateTag() {
-        return this.serializeNBT();
-    }
-
-    @Override
-    public void handleUpdateTag(CompoundNBT tag) {
-        deserializeNBT(tag);
     }
 }

@@ -145,6 +145,9 @@
 	"block.productivebees.powered_centrifuge": "Powered Centrifuge",
 	"block.productivebees.bottler": "Bottler",
 	"block.productivebees.feeder": "Feeding Slab",
+	"block.productivebees.honey_generator": "Honey Generator",
+	"block.productivebees.catcher": "Catcher",
+	"block.productivebees.incubator": "BaBee Incubator",
 	"block.productivebees.jar_oak": "Bee Jar",
 	"block.productivebees.inactive_dragon_egg": "Inactive Dragon Egg",
 	"block.productivebees.quartz_netherrack": "Quartz in Netherrack",
@@ -387,6 +390,8 @@
 
 	"productivebees.information.hold_shift": "Hold shift for more info",
 	"productivebees.information.health.dying": "Dying",
+	"productivebees.information.age.child": "Child",
+	"productivebees.information.age.adult": "Adult",
 	"productivebees.information.attribute.type": "Type: %s",
 	"productivebees.information.attribute.type.hive": "Hive",
 	"productivebees.information.attribute.type.solitary": "Solitary",
@@ -427,6 +432,9 @@
 	"productivebees.hive.tooltip.bees": "Bees:",
 	"productivebees.hive.tooltip.empty": "Empty",
 	"productivebees.hive.tooltip.honey_level": "Honey Level: %s",
+	"productivebees.screen.fluid_level": "%s: %s",
+	"productivebees.screen.energy_level": "Energy: %s",
+	"productivebees.screen.empty": "Empty",
 	"productivebees.centrifuge.tooltip.input_item": "Accepts bottles or any item with a fluid inventory like buckets or tanks.",
 
 	"productivebees.ingredient.description.dye_bee": "Brings home more flowery bits than just nectar.",

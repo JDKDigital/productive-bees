@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/cube_all",
+    "textures": {
+        "all": "productivebees:block/centrifuge/side",
+        "particle": "productivebees:block/centrifuge/side"
+    }
+}

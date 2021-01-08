@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "IHI",
+        "IFI",
+        "III"
+    ],
+    "key": {
+        "H": {
+            "item": "minecraft:honey_block"
+        },
+        "I": {
+            "tag": "forge:ingots/iron"
+        },
+        "F": {
+            "item": "minecraft:furnace"
+        }
+    },
+    "result": {
+        "item": "productivebees:honey_generator"
+    }
+}

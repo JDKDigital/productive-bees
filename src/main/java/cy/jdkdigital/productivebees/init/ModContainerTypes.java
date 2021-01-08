@@ -27,4 +27,13 @@ public class ModContainerTypes
     public static final RegistryObject<ContainerType<FeederContainer>> FEEDER = CONTAINER_TYPES.register("feeder", () ->
             IForgeContainerType.create(FeederContainer::new)
     );
+    public static final RegistryObject<ContainerType<IncubatorContainer>> INCUBATOR = CONTAINER_TYPES.register("incubator", () ->
+            IForgeContainerType.create(IncubatorContainer::new)
+    );
+    public static final RegistryObject<ContainerType<CatcherContainer>> CATCHER = CONTAINER_TYPES.register("catcher", () ->
+            IForgeContainerType.create(CatcherContainer::new)
+    );
+    public static final RegistryObject<ContainerType<HoneyGeneratorContainer>> HONEY_GENERATOR = CONTAINER_TYPES.register("honey_generator", () ->
+            IForgeContainerType.create(HoneyGeneratorContainer::new)
+    );
 }

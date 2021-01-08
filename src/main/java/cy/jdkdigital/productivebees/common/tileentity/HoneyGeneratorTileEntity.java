@@ -1,11 +1,10 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
-import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
@@ -19,6 +18,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.registry.Registry;
@@ -30,6 +30,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fluids.FluidActionResult;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -37,32 +40,31 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity, UpgradeableTileEntity
 {
     public int recipeProgress = 0;
-    public int fluidId = 0;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
+    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(2, this)
     {
         @Override
         public boolean isBottleItem(Item item) {
-            return item == Items.GLASS_BOTTLE || item == Items.BUCKET;
-        }
-
-        @Override
-        public boolean isInputSlotItem(int slot, Item item) {
-            return super.isInputSlotItem(slot, item);
+            return item == Items.HONEY_BOTTLE || item.isIn(ModTags.HONEY_BUCKETS);
         }
     });
 
     protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
     {
         @Override
+        public boolean isFluidValid(FluidStack stack) {
+            return stack.getFluid().isEquivalentTo(ModFluids.HONEY.get());
+        }
+
+        @Override
         protected void onContentsChanged()
         {
             super.onContentsChanged();
-            HoneyGeneratorTileEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
             HoneyGeneratorTileEntity.this.markDirty();
         }
     });
@@ -72,40 +74,101 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     protected LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(() -> new EnergyStorage(100000));
 
     public HoneyGeneratorTileEntity() {
-        super(ModTileEntityTypes.CENTRIFUGE.get());
-    }
-
-    public HoneyGeneratorTileEntity(TileEntityType<?> type) {
-        super(type);
-    }
-
-    public int getProcessingTime() {
-        return (int) (
-            ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() * getProcessingTimeModifier()
-        );
-    }
-
-    protected double getProcessingTimeModifier() {
-        double combBlockUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) * ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
-        double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
-
-        return Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier);
+        super(ModTileEntityTypes.HONEY_GENERATOR.get());
     }
 
     @Override
     public void tick() {
         if (world != null && !world.isRemote) {
-            inventoryHandler.ifPresent(invHandler -> {
-                if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty()) {
-                    // Process gene bottles
-                    ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-                } else {
-                    this.recipeProgress = 0;
-                    world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, false));
-                }
+            // 40 rf / tick - 4mb / tick
+            int inputPowerAmount = ProductiveBeesConfig.GENERAL.generatorPowerGen.get();
+            int fluidConsumeAmount = ProductiveBeesConfig.GENERAL.generatorHoneyUse.get();
+            fluidInventory.ifPresent(fluidHandler -> {
+                energyHandler.ifPresent(energyHandler -> {
+                    if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && energyHandler.receiveEnergy(inputPowerAmount, true) > 0) {
+                        energyHandler.receiveEnergy(inputPowerAmount, false);
+                        fluidHandler.drain(fluidConsumeAmount, IFluidHandler.FluidAction.EXECUTE);
+                    }
+                });
             });
         }
+//        this.sendOutPower();
         super.tick();
+    }
+
+    private void sendOutPower() {
+        energyHandler.ifPresent(energyHandler -> {
+            AtomicInteger capacity = new AtomicInteger(energyHandler.getEnergyStored());
+            if (capacity.get() > 0) {
+                Direction[] directions = Direction.values();
+
+                for (Direction direction : directions) {
+                    if (this.world != null) {
+                        TileEntity te = this.world.getTileEntity(this.pos.offset(direction));
+                        if (te != null) {
+                            boolean doContinue = te.getCapability(CapabilityEnergy.ENERGY, direction).map((handler) -> {
+                                if (handler.canReceive()) {
+                                    int received = handler.receiveEnergy(Math.min(capacity.get(), 100), false);
+                                    capacity.addAndGet(-received);
+                                    energyHandler.extractEnergy(received, false);
+                                    this.markDirty();
+                                    return capacity.get() > 0;
+                                } else {
+                                    return true;
+                                }
+                            }).orElse(true);
+
+                            if (!doContinue) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void tickFluidTank() {
+        fluidInventory.ifPresent(fluidHandler -> {
+            inventoryHandler.ifPresent(invHandler -> {
+                int fluidSpace = fluidInventory.map(h -> h.getTankCapacity(0) - h.getFluidInTank(0).getAmount()).orElse(0);
+                if (!invHandler.getStackInSlot(0).isEmpty()) {
+                    ItemStack invItem = invHandler.getStackInSlot(0);
+                    LazyOptional<IFluidHandler> itemFluidHandler = invItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+                    boolean isHoneyBottle = invItem.getItem().equals(Items.HONEY_BOTTLE);
+
+                    // Check if output can hold a bottle
+                    if (isHoneyBottle && invHandler.insertItem(1, new ItemStack(Items.GLASS_BOTTLE, 1), true).isEmpty()) {
+                        ProductiveBees.LOGGER.info("Generator does not have room for glass bottle");
+                        return;
+                    }
+
+                    // Move empty containers to output
+                    if (itemFluidHandler.isPresent() && itemFluidHandler.map(h -> h.getFluidInTank(0).isEmpty()).orElse(false)) {
+                        ProductiveBees.LOGGER.info("Move fluidhandler to output");
+                        if (invHandler.getStackInSlot(1).isEmpty()) {
+                            if (!invHandler.insertItem(1, invItem, false).isEmpty()) {
+                                invHandler.setStackInSlot(0, ItemStack.EMPTY);
+                            }
+                        }
+                        return;
+                    }
+
+                    int addAmount = isHoneyBottle ? 250 : itemFluidHandler.isPresent() ? fluidSpace : 0;
+                    if (addAmount > 0 && addAmount <= fluidSpace) {
+                        int fillAmount = fluidHandler.fill(new FluidStack(ModFluids.HONEY.get(), addAmount), IFluidHandler.FluidAction.EXECUTE);
+
+                        if (itemFluidHandler.isPresent()) {
+                            FluidUtil.tryEmptyContainer(invItem, fluidHandler, fillAmount, null, true);
+                        } else if (invItem.getItem().equals(Items.HONEY_BOTTLE)) {
+                            invItem.shrink(1);
+                            invHandler.insertItem(1, new ItemStack(Items.GLASS_BOTTLE), false);
+                        }
+                    }
+                }
+            });
+        });
     }
 
     @Override
@@ -119,54 +182,6 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
         if (this.world != null) {
             world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 2);
         }
-    }
-
-    @Override
-    public void read(CompoundNBT tag) {
-        super.read(tag);
-
-        CompoundNBT upgradeTag = tag.getCompound("upgrades");
-        getUpgradeHandler().ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(upgradeTag));
-
-        // set fluid ID for screens
-        Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
-        fluidId = Registry.FLUID.getId(fluid);
-    }
-
-    @Nonnull
-    @Override
-    public CompoundNBT write(CompoundNBT tag) {
-        tag = super.write(tag);
-
-        CompoundNBT finalTag = tag;
-        getUpgradeHandler().ifPresent(inv -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
-            finalTag.put("upgrades", compound);
-        });
-
-        return finalTag;
-    }
-
-    @Nullable
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(pkt.getNbtCompound());
-    }
-
-    @Override
-    @Nonnull
-    public CompoundNBT getUpdateTag() {
-        return this.serializeNBT();
-    }
-
-    @Override
-    public void handleUpdateTag(CompoundNBT tag) {
-        deserializeNBT(tag);
     }
 
     @Nonnull

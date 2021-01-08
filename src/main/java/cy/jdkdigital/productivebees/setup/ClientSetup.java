@@ -9,10 +9,7 @@ import cy.jdkdigital.productivebees.client.render.block.JarTileEntityRenderer;
 import cy.jdkdigital.productivebees.common.block.CombBlock;
 import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.common.item.SpawnEgg;
-import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
-import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
-import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
-import cy.jdkdigital.productivebees.container.gui.FeederScreen;
+import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -40,6 +37,9 @@ public class ClientSetup
         ScreenManager.registerFactory(ModContainerTypes.POWERED_CENTRIFUGE.get(), CentrifugeScreen::new);
         ScreenManager.registerFactory(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
         ScreenManager.registerFactory(ModContainerTypes.FEEDER.get(), FeederScreen::new);
+        ScreenManager.registerFactory(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);
+        ScreenManager.registerFactory(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
+        ScreenManager.registerFactory(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
 
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntityTypes.POWERED_CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);

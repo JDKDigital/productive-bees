@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidActionResult;
@@ -17,7 +16,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 
-public abstract class FluidTankTileEntity extends TileEntity implements ITickableTileEntity
+public abstract class FluidTankTileEntity extends CapabilityTileEntity implements ITickableTileEntity
 {
     private int tankTick = 0;
 
@@ -78,35 +77,5 @@ public abstract class FluidTankTileEntity extends TileEntity implements ITickabl
                 });
             }
         });
-    }
-
-    @Override
-    public void read(CompoundNBT tag) {
-        super.read(tag);
-
-        CompoundNBT invTag = tag.getCompound("inv");
-        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
-
-        CompoundNBT fluidTag = tag.getCompound("fluid");
-        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluid -> ((INBTSerializable<CompoundNBT>) fluid).deserializeNBT(fluidTag));
-    }
-
-    @Nonnull
-    @Override
-    public CompoundNBT write(CompoundNBT tag) {
-        tag = super.write(tag);
-
-        CompoundNBT finalTag = tag;
-        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
-            finalTag.put("inv", compound);
-        });
-
-        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluid -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) fluid).serializeNBT();
-            finalTag.put("fluid", compound);
-        });
-
-        return finalTag;
     }
 }

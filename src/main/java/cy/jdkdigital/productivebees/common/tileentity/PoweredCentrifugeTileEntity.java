@@ -50,29 +50,6 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
         return energy >= ProductiveBeesConfig.GENERAL.centrifugePowerUse.get();
     }
 
-    @Override
-    @Nonnull
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT tag = this.serializeNBT();
-
-        energyHandler.ifPresent(handler -> {
-            tag.putInt("energy", handler.getEnergyStored());
-        });
-
-        return tag;
-    }
-
-    @Override
-    public void handleUpdateTag(CompoundNBT tag) {
-        deserializeNBT(tag);
-
-        if (tag.contains("energy")) {
-            energyHandler.ifPresent(handler -> {
-                handler.receiveEnergy(tag.getInt("energy"), false);
-            });
-        }
-    }
-
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {

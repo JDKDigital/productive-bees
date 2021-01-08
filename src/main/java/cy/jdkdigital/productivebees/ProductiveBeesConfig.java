@@ -50,19 +50,24 @@ public class ProductiveBeesConfig
 
     public static class General
     {
-        public final ForgeConfigSpec.IntValue itemTickRate;
+        public final ForgeConfigSpec.IntValue hiveTickRate;
         public final ForgeConfigSpec.IntValue centrifugeProcessingTime;
         public final ForgeConfigSpec.IntValue centrifugePoweredProcessingTime;
         public final ForgeConfigSpec.IntValue centrifugePowerUse;
+        public final ForgeConfigSpec.IntValue incubatorProcessingTime;
+        public final ForgeConfigSpec.IntValue incubatorPowerUse;
+        public final ForgeConfigSpec.IntValue incubatorTreatUse;
+        public final ForgeConfigSpec.IntValue generatorPowerGen;
+        public final ForgeConfigSpec.IntValue generatorHoneyUse;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
         public final ForgeConfigSpec.IntValue numberOfBeesPerBomb;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
 
-            itemTickRate = builder
-                    .comment("How often should a bee attempt to generate items while in the hive. Default 500.")
-                    .defineInRange("itemTickRate", 1500, 20, Integer.MAX_VALUE);
+            hiveTickRate = builder
+                    .comment("How often a hive should attempt special events like spawning undead bees. Default 500.")
+                    .defineInRange("hiveTickRate", 1500, 20, Integer.MAX_VALUE);
 
             centrifugeProcessingTime = builder
                     .comment("How many ticks it takes for process a recipe in the centrifuge. Default 300.")
@@ -75,6 +80,26 @@ public class ProductiveBeesConfig
             centrifugePowerUse = builder
                     .comment("How much FE to use per tick for a powered centrifuge when processing an item. Default 10.")
                     .defineInRange("centrifugePowerUse", 10, 1, Integer.MAX_VALUE);
+
+            incubatorProcessingTime = builder
+                    .comment("How many ticks it takes for process a recipe in the incubator. Default 3600.")
+                    .defineInRange("incubatorProcessingTime", 3600  , 20, Integer.MAX_VALUE);
+
+            incubatorPowerUse = builder
+                    .comment("How much FE to use per tick for an incubator when processing an item. Default 10.")
+                    .defineInRange("incubatorPowerUse", 10, 1, Integer.MAX_VALUE);
+
+            incubatorTreatUse = builder
+                    .comment("How many treats to use when incubating a bee. Default 20.")
+                    .defineInRange("incubatorTreatUse", 20, 1, 64);
+
+            generatorPowerGen = builder
+                    .comment("How much FE to generate per tick. Default 60.")
+                    .defineInRange("generatorPowerGen", 60, 1, Integer.MAX_VALUE);
+
+            generatorHoneyUse = builder
+                    .comment("How much honey to consume per tick. Default 5.")
+                    .defineInRange("generatorHoneyUse", 5, 1, Integer.MAX_VALUE);
 
             preferredTagSource = builder
                     .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from.")

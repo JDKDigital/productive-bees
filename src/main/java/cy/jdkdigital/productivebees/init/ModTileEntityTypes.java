@@ -2,10 +2,14 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.tileentity.*;
+import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Supplier;
 
 public class ModTileEntityTypes
 {
@@ -45,24 +49,6 @@ public class ModTileEntityTypes
                     ModBlocks.ADVANCED_BOP_HELLBARK_BEEHIVE.get(),
                     ModBlocks.ADVANCED_BOP_MAHOGANY_BEEHIVE.get(),
                     ModBlocks.ADVANCED_BOP_JACARANDA_BEEHIVE.get()
-            ).build(null)
-    );
-
-    public static final RegistryObject<TileEntityType<SugarbagNestTileEntity>> SUGARBAG_NEST = TILE_ENTITY_TYPES.register("sugarbag_nest", () ->
-            TileEntityType.Builder.create(SugarbagNestTileEntity::new,
-                    ModBlocks.SUGARBAG_NEST.get()
-            ).build(null)
-    );
-
-    public static final RegistryObject<TileEntityType<DragonEggHiveTileEntity>> DRACONIC_BEEHIVE = TILE_ENTITY_TYPES.register("draconic_beehive", () ->
-            TileEntityType.Builder.create(DragonEggHiveTileEntity::new,
-                    ModBlocks.DRAGON_EGG_HIVE.get()
-            ).build(null)
-    );
-
-    public static final RegistryObject<TileEntityType<SolitaryHiveTileEntity>> SOLITARY_HIVE = TILE_ENTITY_TYPES.register("solitary_hive", () ->
-            TileEntityType.Builder.create(SolitaryHiveTileEntity::new,
-                    ModBlocks.BAMBOO_HIVE.get()
             ).build(null)
     );
 
@@ -126,45 +112,22 @@ public class ModTileEntityTypes
             ).build(null)
     );
 
-    public static final RegistryObject<TileEntityType<CentrifugeTileEntity>> CENTRIFUGE = TILE_ENTITY_TYPES.register("centrifuge", () ->
-            TileEntityType.Builder.create(CentrifugeTileEntity::new,
-                    ModBlocks.CENTRIFUGE.get()
-            ).build(null)
-    );
+    public static final RegistryObject<TileEntityType<SugarbagNestTileEntity>> SUGARBAG_NEST = register("sugarbag_nest", SugarbagNestTileEntity::new, ModBlocks.SUGARBAG_NEST);
+    public static final RegistryObject<TileEntityType<DragonEggHiveTileEntity>> DRACONIC_BEEHIVE = register("draconic_beehive", DragonEggHiveTileEntity::new, ModBlocks.DRAGON_EGG_HIVE);
+    public static final RegistryObject<TileEntityType<SolitaryHiveTileEntity>> SOLITARY_HIVE = register("solitary_hive", SolitaryHiveTileEntity::new, ModBlocks.BAMBOO_HIVE);
+    public static final RegistryObject<TileEntityType<CentrifugeTileEntity>> CENTRIFUGE = register("centrifuge", CentrifugeTileEntity::new, ModBlocks.CENTRIFUGE);
+    public static final RegistryObject<TileEntityType<PoweredCentrifugeTileEntity>> POWERED_CENTRIFUGE = register("powered_centrifuge", PoweredCentrifugeTileEntity::new, ModBlocks.POWERED_CENTRIFUGE);
+    public static final RegistryObject<TileEntityType<BottlerTileEntity>> BOTTLER = register("bottler", BottlerTileEntity::new, ModBlocks.BOTTLER);
+    public static final RegistryObject<TileEntityType<FeederTileEntity>> FEEDER = register("feeder", FeederTileEntity::new, ModBlocks.FEEDER);
+    public static final RegistryObject<TileEntityType<JarTileEntity>> JAR = register("jar", JarTileEntity::new, ModBlocks.JAR);
+    public static final RegistryObject<TileEntityType<CombBlockTileEntity>> COMB_BLOCK = register("comb_block", CombBlockTileEntity::new, ModBlocks.CONFIGURABLE_COMB);
+    public static final RegistryObject<TileEntityType<HoneyGeneratorTileEntity>> HONEY_GENERATOR = register("honey_generator", HoneyGeneratorTileEntity::new, ModBlocks.HONEY_GENERATOR);
+    public static final RegistryObject<TileEntityType<CatcherTileEntity>> CATCHER = register("catcher", CatcherTileEntity::new, ModBlocks.CATCHER);
+    public static final RegistryObject<TileEntityType<IncubatorTileEntity>> INCUBATOR = register("incubator", IncubatorTileEntity::new, ModBlocks.INCUBATOR);
 
-    public static final RegistryObject<TileEntityType<PoweredCentrifugeTileEntity>> POWERED_CENTRIFUGE = TILE_ENTITY_TYPES.register("powered_centrifuge", () ->
-            TileEntityType.Builder.create(PoweredCentrifugeTileEntity::new,
-                    ModBlocks.POWERED_CENTRIFUGE.get()
-            ).build(null)
-    );
-
-    public static final RegistryObject<TileEntityType<BottlerTileEntity>> BOTTLER = TILE_ENTITY_TYPES.register("bottler", () ->
-            TileEntityType.Builder.create(BottlerTileEntity::new,
-                    ModBlocks.BOTTLER.get()
-            ).build(null)
-    );
-
-    public static final RegistryObject<TileEntityType<FeederTileEntity>> FEEDER = TILE_ENTITY_TYPES.register("feeder", () ->
-            TileEntityType.Builder.create(FeederTileEntity::new,
-                    ModBlocks.FEEDER.get()
-            ).build(null)
-    );
-
-    public static final RegistryObject<TileEntityType<JarTileEntity>> JAR = TILE_ENTITY_TYPES.register("jar", () ->
-            TileEntityType.Builder.create(JarTileEntity::new,
-                    ModBlocks.JAR.get()
-            ).build(null)
-    );
-
-    public static final RegistryObject<TileEntityType<CombBlockTileEntity>> COMB_BLOCK = TILE_ENTITY_TYPES.register("comb_block", () ->
-            TileEntityType.Builder.create(CombBlockTileEntity::new,
-                    ModBlocks.CONFIGURABLE_COMB.get()
-            ).build(null)
-    );
-
-    public static final RegistryObject<TileEntityType<HoneyGeneratorTileEntity>> HONEY_GENERATOR = TILE_ENTITY_TYPES.register("honey_generator", () ->
-            TileEntityType.Builder.create(HoneyGeneratorTileEntity::new,
-                    ModBlocks.HONEY_GENERATOR.get()
-            ).build(null)
-    );
+    private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String name, Supplier<T> factory, Supplier<Block> block) {
+        return TILE_ENTITY_TYPES.register(name, () ->
+            TileEntityType.Builder.create(factory, block.get()).build(null)
+        );
+    }
 }

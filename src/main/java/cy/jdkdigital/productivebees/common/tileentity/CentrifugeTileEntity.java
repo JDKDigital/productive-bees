@@ -311,8 +311,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     public void read(CompoundNBT tag) {
         super.read(tag);
 
-        CompoundNBT upgradeTag = tag.getCompound("upgrades");
-        getUpgradeHandler().ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(upgradeTag));
+        recipeProgress = tag.getInt("RecipeProgress");
 
         // set fluid ID for screens
         Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
@@ -324,35 +323,9 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     public CompoundNBT write(CompoundNBT tag) {
         tag = super.write(tag);
 
-        CompoundNBT finalTag = tag;
-        getUpgradeHandler().ifPresent(inv -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
-            finalTag.put("upgrades", compound);
-        });
+        tag.putInt("RecipeProgress", recipeProgress);
 
-        return finalTag;
-    }
-
-    @Nullable
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(pkt.getNbtCompound());
-    }
-
-    @Override
-    @Nonnull
-    public CompoundNBT getUpdateTag() {
-        return this.serializeNBT();
-    }
-
-    @Override
-    public void handleUpdateTag(CompoundNBT tag) {
-        deserializeNBT(tag);
+        return tag;
     }
 
     @Nonnull

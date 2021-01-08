@@ -82,7 +82,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             return;
         }
 
-        if (!hasTicked && ++tickCounter > ProductiveBeesConfig.GENERAL.itemTickRate.get()) {
+        if (!hasTicked && ++tickCounter > ProductiveBeesConfig.GENERAL.hiveTickRate.get()) {
             tickCounter = 0;
 
             // Spawn skeletal and zombie bees in empty hives

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.common.tileentity.CatcherTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.HoneyGeneratorTileEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
@@ -22,10 +23,15 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class HoneyGenerator extends ContainerBlock
+public class Catcher extends ContainerBlock
 {
-    public HoneyGenerator(Properties builder) {
+    public Catcher(Properties builder) {
         super(builder);
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
     }
 
     @SuppressWarnings("deprecation")
@@ -35,21 +41,16 @@ public class HoneyGenerator extends ContainerBlock
         return BlockRenderType.MODEL;
     }
 
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.HONEY_GENERATOR.get().create();
+        return ModTileEntityTypes.CATCHER.get().create();
     }
 
     @Nullable
     @Override
     public TileEntity createNewTileEntity(IBlockReader world) {
-        return new HoneyGeneratorTileEntity();
+        return new CatcherTileEntity();
     }
 
     @SuppressWarnings("deprecation")
@@ -80,14 +81,14 @@ public class HoneyGenerator extends ContainerBlock
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (!world.isRemote()) {
             final TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof HoneyGeneratorTileEntity) {
-                openGui((ServerPlayerEntity) player, (HoneyGeneratorTileEntity) tileEntity);
+            if (tileEntity instanceof CatcherTileEntity) {
+                openGui((ServerPlayerEntity) player, (CatcherTileEntity) tileEntity);
             }
         }
         return ActionResultType.SUCCESS;
     }
 
-    public void openGui(ServerPlayerEntity player, HoneyGeneratorTileEntity tileEntity) {
+    public void openGui(ServerPlayerEntity player, CatcherTileEntity tileEntity) {
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> {
             packetBuffer.writeBlockPos(tileEntity.getPos());
         });
