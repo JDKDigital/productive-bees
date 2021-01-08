@@ -219,17 +219,18 @@ public class BeeHelper
             }
         } else if (beeId.equals("productivebees:dye_bee")) {
             if (flowerPos != null) {
-                BlockState flowerBlock = world.getBlockState(flowerPos);
-                Item flowerItem = flowerBlock.getBlock().asItem();
+                Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.FLOWERS);
+                Item flowerItem = flowerBlock.asItem();
 
                 Map<ResourceLocation, IRecipe<CraftingInventory>> recipes = world.getRecipeManager().getRecipes(IRecipeType.CRAFTING);
                 Optional<IRecipe<CraftingInventory>> flowerRecipe = recipes.values().stream().flatMap((craftingRecipe) -> {
                     AtomicBoolean hasMatchingItem = new AtomicBoolean(false);
-                    for (Ingredient ingredient : craftingRecipe.getIngredients()) {
+                    List<Ingredient> ingredients = craftingRecipe.getIngredients();
+                    if (ingredients.size() == 1) {
+                        Ingredient ingredient = ingredients.get(0);
                         ItemStack[] stacks = ingredient.getMatchingStacks();
                         if (stacks.length > 0 && stacks[0].getItem().equals(flowerItem)) {
                             hasMatchingItem.set(true);
-                            break;
                         }
                     }
                     return Util.streamOptional(hasMatchingItem.get() ? Optional.of(craftingRecipe) : Optional.empty());
