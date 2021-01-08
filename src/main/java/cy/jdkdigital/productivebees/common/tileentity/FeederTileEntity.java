@@ -23,7 +23,9 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
@@ -37,12 +39,7 @@ public class FeederTileEntity extends TileEntity implements INamedContainerProvi
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(3, this)
     {
         @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return true;
-        }
-
-        @Override
-        public boolean isBottleItem(Item item) {
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
             return true;
         }
     });
@@ -109,5 +106,27 @@ public class FeederTileEntity extends TileEntity implements INamedContainerProvi
     @Override
     public void handleUpdateTag(CompoundNBT tag) {
         deserializeNBT(tag);
+    }
+
+    @Override
+    public void read(CompoundNBT tag) {
+        super.read(tag);
+
+        CompoundNBT invTag = tag.getCompound("inv");
+        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
+    }
+
+    @Nonnull
+    @Override
+    public CompoundNBT write(CompoundNBT tag) {
+        tag = super.write(tag);
+
+        CompoundNBT finalTag = tag;
+        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
+            finalTag.put("inv", compound);
+        });
+
+        return finalTag;
     }
 }
