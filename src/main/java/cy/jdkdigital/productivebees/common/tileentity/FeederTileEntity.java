@@ -23,7 +23,9 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
@@ -37,12 +39,7 @@ public class FeederTileEntity extends CapabilityTileEntity implements INamedCont
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(3, this)
     {
         @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return true;
-        }
-
-        @Override
-        public boolean isBottleItem(Item item) {
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
             return true;
         }
     });

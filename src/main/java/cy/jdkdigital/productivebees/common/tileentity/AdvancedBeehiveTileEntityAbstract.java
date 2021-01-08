@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.tileentity;
 
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
@@ -105,7 +106,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         if (beeEntity instanceof HoarderBeeEntity) {
             return 100;
         }
-        return hasNectar ? 2400 : 600;
+        return hasNectar ? ProductiveBeesConfig.GENERAL.timeInHive.get() : ProductiveBeesConfig.GENERAL.timeInHive.get() / 4;
     }
 
     public void markDirty() {

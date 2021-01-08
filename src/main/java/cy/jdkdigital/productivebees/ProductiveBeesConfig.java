@@ -51,6 +51,7 @@ public class ProductiveBeesConfig
     public static class General
     {
         public final ForgeConfigSpec.IntValue hiveTickRate;
+        public final ForgeConfigSpec.IntValue timeInHive;
         public final ForgeConfigSpec.IntValue centrifugeProcessingTime;
         public final ForgeConfigSpec.IntValue centrifugePoweredProcessingTime;
         public final ForgeConfigSpec.IntValue centrifugePowerUse;
@@ -68,6 +69,10 @@ public class ProductiveBeesConfig
             hiveTickRate = builder
                     .comment("How often a hive should attempt special events like spawning undead bees. Default 500.")
                     .defineInRange("hiveTickRate", 1500, 20, Integer.MAX_VALUE);
+
+            timeInHive = builder
+                    .comment("How long time a bee should stay in the hive when having delivered honey. Default 2400.")
+                    .defineInRange("timeInHive", 2400, 20, Integer.MAX_VALUE);
 
             centrifugeProcessingTime = builder
                     .comment("How many ticks it takes for process a recipe in the centrifuge. Default 300.")
