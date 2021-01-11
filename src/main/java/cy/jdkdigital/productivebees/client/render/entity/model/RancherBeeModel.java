@@ -13,7 +13,7 @@ public class RancherBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
     public RancherBeeModel()  {
         super(false);
 
-        addBodyParts();
+        addBodyParts(true);
 
         hat = new ModelRenderer(this);
         hat.setRotationPoint(2.5F, -4.5F, -5.0F);

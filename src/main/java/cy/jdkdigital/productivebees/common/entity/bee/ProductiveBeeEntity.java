@@ -269,6 +269,10 @@ public class ProductiveBeeEntity extends BeeEntity
         return stripName ? type.replace("_bee", "") : type;
     }
 
+    public String getRenderer() {
+        return "default";
+    }
+
     public <T> T getAttributeValue(BeeAttribute<T> parameter) {
         return (T) this.beeAttributes.get(parameter);
     }

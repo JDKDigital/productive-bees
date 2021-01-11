@@ -32,6 +32,13 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
 
     public ProductiveBeeRenderer(EntityRendererManager renderManagerIn) {
         this(renderManagerIn, new ProductiveBeeModel<>());
+
+        addLayer(new BeeBodyLayer(this, "thicc"));
+        addLayer(new BeeBodyLayer(this, "default"));
+        addLayer(new BeeBodyLayer(this, "small"));
+        addLayer(new BeeBodyLayer(this, "slim"));
+        addLayer(new BeeBodyLayer(this, "tiny"));
+
         addLayer(new ColorLayer(this));
         addLayer(new AbdomenLayer(this));
         addLayer(new PollenLayer(this));
@@ -58,6 +65,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
     public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
         String textureLocation = ProductiveBees.MODID + ":textures/entity/bee/" + bee.getBeeName() + "/bee";
 
+        // Colored bees use tinted base texture
         if (bee.getColor(0) != null) {
             textureLocation = ProductiveBees.MODID + ":textures/entity/bee/base/bee";
         }

@@ -36,6 +36,7 @@ public class ProductiveBeesConfig
     public static class Client
     {
         public final ForgeConfigSpec.BooleanValue renderCombsInCentrifuge;
+        public final ForgeConfigSpec.BooleanValue renderBeesInJars;
 
         public Client(ForgeConfigSpec.Builder builder) {
             builder.push("Client");
@@ -43,6 +44,10 @@ public class ProductiveBeesConfig
             renderCombsInCentrifuge = builder
                     .comment("Render centrifuge comb inventory on the block.")
                     .define("renderCombsInCentrifuge", true);
+
+            renderBeesInJars = builder
+                    .comment("Render bees inside bee jars.")
+                    .define("renderBeesInJars", true);
 
             builder.pop();
         }
@@ -129,7 +134,7 @@ public class ProductiveBeesConfig
             builder.push("Bees");
 
             spawnUndeadBees = builder.comment("Spawn skeletal and zombie bees as night?").define("spawnUndeadBees", true);
-            spawnUndeadBeesChance = builder.defineInRange("spawnUndeadBeesChance", 0.01, 0, 1);
+            spawnUndeadBeesChance = builder.defineInRange("spawnUndeadBeesChance", 0.05, 0, 1);
 
             cupidBeeAnimalsPerPollination = builder.comment("How many animals a CuBee can breed per pollination").defineInRange("cupidBeeAnimalsPerPollination", 5, 0, Integer.MAX_VALUE);
             cupidBeeAnimalDensity = builder.comment("How densely populated should an areas need to be for the CuBee to stop breeding. The value approximates how many animals can be in a 10x10 area around the bee.").defineInRange("cupidBeeAnimalDensity", 20, 0, Integer.MAX_VALUE);

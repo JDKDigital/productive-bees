@@ -19,6 +19,11 @@ public class BlueBandedBeeEntity extends SolitaryBeeEntity
     }
 
     @Override
+    public String getRenderer() {
+        return "small";
+    }
+
+    @Override
     protected void registerAttributes() {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.75F);

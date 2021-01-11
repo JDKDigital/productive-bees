@@ -12,7 +12,7 @@ public class SlimyBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeM
         ModelRenderer innards = new ModelRenderer(this, 34, 0);
 
         if (!outerLayer) {
-            addBodyParts();
+            addBodyParts(true);
         } else {
             slime.setRotationPoint(0.0F, 0.0F, 0.0F);
             slime.addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F, 0.0F);
@@ -24,7 +24,7 @@ public class SlimyBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeM
         }
     }
 
-    protected void addBodyParts() {
+    protected void addBodyParts(boolean withTorso) {
         this.body.setRotationPoint(0.0F, 19.0F, 0.0F);
         this.torso.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.body.addChild(this.torso);

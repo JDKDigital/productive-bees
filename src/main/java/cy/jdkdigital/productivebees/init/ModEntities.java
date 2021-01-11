@@ -4,11 +4,9 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.*;
 import cy.jdkdigital.productivebees.common.entity.BeeBombEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
-import cy.jdkdigital.productivebees.common.entity.bee.DeprecatedBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.*;
-import cy.jdkdigital.productivebees.common.entity.bee.nesting.*;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.*;
 import cy.jdkdigital.productivebees.common.item.SpawnEgg;
 import net.minecraft.client.Minecraft;
@@ -55,14 +53,15 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> GREEN_CARPENTER_BEE = createSolitaryBee("green_carpenter_bee", GreenCarpenterBeeEntity::new, 9615358, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> YELLOW_BLACK_CARPENTER_BEE = createSolitaryBee("yellow_black_carpenter_bee", YellowBlackCarpenterBeeEntity::new, 15582019, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> CHOCOLATE_MINING_BEE = createSolitaryBee("chocolate_mining_bee", SolitaryBeeEntity::new, 11709345, 6238757);
-    public static RegistryObject<EntityType<BeeEntity>> DIGGER_BEE = createSolitaryBee("digger_bee", SolitaryBeeEntity::new, 8875079, 6238757);
+    public static RegistryObject<EntityType<BeeEntity>> DIGGER_BEE = createSolitaryBee("digger_bee", DiggerBeeEntity::new, 8875079, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> LEAFCUTTER_BEE = createSolitaryBee("leafcutter_bee", SolitaryBeeEntity::new, 2057258, 6238757);
-    public static RegistryObject<EntityType<BeeEntity>> MASON_BEE = createSolitaryBee("mason_bee", SolitaryBeeEntity::new, 2226382, 6238757);
-    public static RegistryObject<EntityType<BeeEntity>> NEON_CUCKOO_BEE = createSolitaryBee("neon_cuckoo_bee", SolitaryBeeEntity::new, 9615358, 6238757);
+    public static RegistryObject<EntityType<BeeEntity>> MASON_BEE = createSolitaryBee("mason_bee", MasonBeeEntity::new, 2226382, 6238757);
+    public static RegistryObject<EntityType<BeeEntity>> NEON_CUCKOO_BEE = createSolitaryBee("neon_cuckoo_bee", NeonCuckooBeeEntity::new, 9615358, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> NOMAD_BEE = createSolitaryBee("nomad_bee", NomadBeeEntity::new, 14529911, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> REED_BEE = createSolitaryBee("reed_bee", ReedBeeEntity::new, 13806336, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> RESIN_BEE = createSolitaryBee("resin_bee", ResinBeeEntity::new, 13939231, 6238757);
     public static RegistryObject<EntityType<BeeEntity>> SWEATY_BEE = createSolitaryBee("sweaty_bee", SweatyBeeEntity::new, 9748939, 6238757);
+    public static RegistryObject<EntityType<BeeEntity>> BUMBLE = createSolitaryBee("bumble_bee", BumbleBeeEntity::new, 9748939, 6238757);
 
     public static RegistryObject<EntityType<ConfigurableBeeEntity>> CONFIGURABLE_BEE = createColoredHiveBee("configurable_bee", ConfigurableBeeEntity::new, "#73ffb9", "#0f5c7a", ModItemGroups.PRODUCTIVE_BEES);
 
@@ -116,19 +115,20 @@ public class ModEntities
     public static void registerRendering() {
         for (RegistryObject<EntityType<?>> registryObject : HIVE_BEES.getEntries()) {
             EntityType<?> bee = registryObject.get();
-            if (bee.getTranslationKey().contains("dye_bee")) {
+            String key = bee.getTranslationKey();
+            if (key.contains("dye_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, DyeBeeRenderer::new);
-            } else if (bee.getTranslationKey().contains("rancher_bee") || bee.getTranslationKey().contains("farmer_bee")) {
+            } else if (key.contains("rancher_bee") || key.contains("farmer_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, RancherBeeRenderer::new);
-            } else if (bee.getTranslationKey().contains("hoarder_bee")) {
+            } else if (key.contains("hoarder_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, HoarderBeeRenderer::new);
             } else {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, ProductiveBeeRenderer::new);
             }
         }
+
         for (RegistryObject<EntityType<?>> registryObject : SOLITARY_BEES.getEntries()) {
-            EntityType<?> bee = registryObject.get();
-            RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends SolitaryBeeEntity>) bee, SolitaryBeeRenderer::new);
+            RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) registryObject.get(), ProductiveBeeRenderer::new);
         }
 
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
