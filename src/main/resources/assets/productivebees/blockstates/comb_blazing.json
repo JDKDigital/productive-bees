@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/blazing" }
+        "": {
+            "model": "productivebees:block/comb/blazing"
+        }
     }
 }

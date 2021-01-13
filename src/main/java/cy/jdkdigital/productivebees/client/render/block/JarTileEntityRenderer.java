@@ -1,9 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.tileentity.JarTileEntity;
 import net.minecraft.client.Minecraft;
@@ -15,11 +13,8 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-@OnlyIn(Dist.CLIENT)
 public class JarTileEntityRenderer extends TileEntityRenderer<JarTileEntity>
 {
     public JarTileEntityRenderer(TileEntityRendererDispatcher dispatcher) {

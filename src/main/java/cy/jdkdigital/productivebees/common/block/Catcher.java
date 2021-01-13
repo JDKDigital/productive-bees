@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.tileentity.CatcherTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
-import cy.jdkdigital.productivebees.common.tileentity.HoneyGeneratorTileEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;

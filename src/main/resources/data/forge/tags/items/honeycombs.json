@@ -82,6 +82,9 @@
         "#forge:honeycombs/uraninite",
         "#forge:honeycombs/vibranium",
         "#forge:honeycombs/withered",
-        "#forge:honeycombs/zinc"
+        "#forge:honeycombs/zinc",
+        "#forge:honeycombs/apatite",
+        "#forge:honeycombs/ruby",
+        "#forge:honeycombs/sapphire"
     ]
 }

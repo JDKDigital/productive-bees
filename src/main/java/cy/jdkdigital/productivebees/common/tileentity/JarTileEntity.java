@@ -11,8 +11,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -93,7 +91,6 @@ public class JarTileEntity extends TileEntity
     }
 
     @Nullable
-    @OnlyIn(Dist.CLIENT)
     public Entity getCachedEntity(ItemStack cage) {
         if (this.cachedEntity == null) {
             this.cachedEntity = BeeCage.getEntityFromStack(cage, this.getWorld(), true);

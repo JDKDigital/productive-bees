@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/brazen" }
+        "": {
+            "model": "productivebees:block/comb/brazen"
+        }
     }
 }

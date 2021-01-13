@@ -1,13 +1,11 @@
 package cy.jdkdigital.productivebees.integrations.hwyla;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
 import mcp.mobius.waila.api.*;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 

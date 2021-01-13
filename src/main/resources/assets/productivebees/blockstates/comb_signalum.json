@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/signalum" }
+        "": {
+            "model": "productivebees:block/comb/signalum"
+        }
     }
 }

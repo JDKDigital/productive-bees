@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#510046",
+    "secondaryColor": "#2e0b17",
+    "tertiaryColor": "#c812aa",
+    "particleColor": "#510046",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/lepidolite",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/lepidolite"
+            }
+        }
+    ]
+}

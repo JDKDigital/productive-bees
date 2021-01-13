@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#4c4bff",
+    "secondaryColor": "#3e5b68",
+    "tertiaryColor": "#23389e",
+    "particleColor": "#4c4bff",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/sodalite",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/sodalite"
+            }
+        }
+    ]
+}

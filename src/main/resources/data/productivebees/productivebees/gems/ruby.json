@@ -1,0 +1,18 @@
+{
+    "primaryColor": "#c62415",
+    "secondaryColor": "#064f2c",
+    "tertiaryColor": "#7b000b",
+    "particleColor": "#c62415",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/ruby",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/ruby"
+            }
+        }
+    ]
+}

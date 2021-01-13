@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/bismuth" }
+        "": {
+            "model": "productivebees:block/comb/bismuth"
+        }
     }
 }

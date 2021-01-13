@@ -139,6 +139,9 @@
 	"item.productivebees.honeycomb_vibranium": "Vibranium Comb",
 	"item.productivebees.honeycomb_withered": "Withered Comb",
 	"item.productivebees.honeycomb_zinc": "Zinc Comb",
+	"item.productivebees.honeycomb_ruby": "Ruby Comb",
+	"item.productivebees.honeycomb_sapphire": "Sapphire Comb",
+	"item.productivebees.honeycomb_apatite": "Apatite Comb",
 	"item.productivebees.configurable_honeycomb": "Unconfigured Honeycomb (Ignore)",
 
 	"block.productivebees.centrifuge": "Centrifuge",
@@ -321,6 +324,9 @@
 	"block.productivebees.comb_vibranium": "Vibranium Comb Block",
 	"block.productivebees.comb_withered": "Withered Comb Block",
 	"block.productivebees.comb_zinc": "Zinc Comb Block",
+	"block.productivebees.comb_ruby": "Ruby Comb Block",
+	"block.productivebees.comb_sapphire": "Sapphire Comb Block",
+	"block.productivebees.comb_apatite": "Apatite Comb Block",
 	"block.productivebees.configurable_comb": "Unconfigured Comb Block (Ignore)",
 
 	"fluid.productivebees.honey": "Honey",
@@ -446,6 +452,8 @@
 	"productivebees.ingredient.description.cupid_bee": "The pheromones secreted from this bee gets animals in the mood.",
 	"productivebees.ingredient.description.cartographer_bee": "No here yet.",
 	"productivebees.ingredient.description.creeper_bee": "Explodes!\n...might be the diet.",
+	"productivebees.ingredient.description.zombie": "Be sure to keep your hives well lit to prevent this guy from moving in.",
+	"productivebees.ingredient.description.skeletal": "Be sure to keep your hives well lit to prevent this guy from moving in.",
 
 	"productivebees.ingredient.description.ashy_mining_bee": "Prefers dirt, gravel and sand nests.",
 	"productivebees.ingredient.description.blue_banded_bee": "Can be found living inside holes in trees.",

@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/rose_quartz",
+        "silentgems:rose_quartz_glowrose",
+        "gemsnjewels:rose_quartz_block"
+    ]
+}

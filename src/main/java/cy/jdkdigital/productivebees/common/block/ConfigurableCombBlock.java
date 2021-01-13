@@ -16,8 +16,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.ILightReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -29,7 +27,6 @@ public class ConfigurableCombBlock extends CombBlock
         super(properties, colorCode);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public int getColor(ILightReader world, BlockPos pos) {
         if (world != null && pos != null) {
             TileEntity tileEntity = world.getTileEntity(pos);

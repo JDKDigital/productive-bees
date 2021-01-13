@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/ghostly" }
+        "": {
+            "model": "productivebees:block/comb/ghostly"
+        }
     }
 }

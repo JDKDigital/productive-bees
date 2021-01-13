@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
@@ -49,7 +48,7 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 
                 MatrixStack matrixStack = new MatrixStack();
                 matrixStack.push();
-                matrixStack.translate(7 + xPosition, 17 + yPosition, 1.5);
+                matrixStack.translate(7 + xPosition, 12 + yPosition, 1.5);
                 matrixStack.rotate(Vector3f.ZP.rotationDegrees(190.0F));
                 matrixStack.rotate(Vector3f.YP.rotationDegrees(20.0F));
                 matrixStack.rotate(Vector3f.XP.rotationDegrees(20.0F));

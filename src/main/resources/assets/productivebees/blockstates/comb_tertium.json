@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/tertium" }
+        "": {
+            "model": "productivebees:block/comb/tertium"
+        }
     }
 }

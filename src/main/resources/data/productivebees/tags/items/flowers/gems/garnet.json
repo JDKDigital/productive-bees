@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/garnet",
+        "silentgems:garnet_glowrose",
+        "gemsnjewels:garnet_block"
+    ]
+}

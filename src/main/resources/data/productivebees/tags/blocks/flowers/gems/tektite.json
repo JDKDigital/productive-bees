@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/tektite",
+        "silentgems:tektite_glowrose",
+        "gemsnjewels:tektite_block"
+    ]
+}

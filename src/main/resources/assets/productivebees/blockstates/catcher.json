@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/catcher" }
+        "": {
+            "model": "productivebees:block/catcher"
+        }
     }
 }

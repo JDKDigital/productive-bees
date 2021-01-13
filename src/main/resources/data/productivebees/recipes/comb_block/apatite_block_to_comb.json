@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_apatite"
+        }
+    ],
+    "result": {
+        "item": "productivebees:honeycomb_apatite",
+        "count": 4
+    }
+}

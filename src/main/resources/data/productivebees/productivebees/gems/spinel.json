@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#741200",
+    "secondaryColor": "#2e0b17",
+    "tertiaryColor": "#c25500",
+    "particleColor": "#741200",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/spinel",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/spinel"
+            }
+        }
+    ]
+}

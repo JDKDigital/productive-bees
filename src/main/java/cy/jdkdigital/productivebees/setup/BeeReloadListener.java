@@ -46,12 +46,14 @@ public class BeeReloadListener extends JsonReloadListener
                 throw e;
             }
 
-            CompoundNBT nbt = BeeCreator.create(id, entry.getValue());
+            ResourceLocation simpleId = id.getPath().contains("/") ? new ResourceLocation(id.getNamespace(), id.getPath().substring(id.getPath().lastIndexOf("/")+1)) : id;
 
-            BEE_DATA.remove(id.toString());
-            BEE_DATA.put(id.toString(), nbt);
+            CompoundNBT nbt = BeeCreator.create(simpleId, entry.getValue());
 
-            ProductiveBees.LOGGER.debug("Adding to bee data " + id);
+            BEE_DATA.remove(simpleId.toString());
+            BEE_DATA.put(simpleId.toString(), nbt);
+
+            ProductiveBees.LOGGER.debug("Adding to bee data " + simpleId);
         }
         try {
             PacketHandler.sendToAllPlayers(new Messages.BeesMessage(BeeReloadListener.INSTANCE.getData()));

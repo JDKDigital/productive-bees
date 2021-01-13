@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/electrum" }
+        "": {
+            "model": "productivebees:block/comb/electrum"
+        }
     }
 }

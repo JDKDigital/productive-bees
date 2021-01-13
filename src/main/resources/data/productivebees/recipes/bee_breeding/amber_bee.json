@@ -20,6 +20,10 @@
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/amber"
             }
+        },
+        {
+            "type": "forge:tag_empty",
+            "tag": "silentgems:glowroses/amber"
         }
     ]
 }

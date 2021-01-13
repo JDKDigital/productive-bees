@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/kyanite",
+        "silentgems:kyanite_glowrose",
+        "gemsnjewels:kyanite_block"
+    ]
+}

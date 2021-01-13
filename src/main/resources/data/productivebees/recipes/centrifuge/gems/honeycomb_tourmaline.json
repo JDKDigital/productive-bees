@@ -1,0 +1,28 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "item": "productivebees:configurable_honeycomb"
+    },
+    "comb_type": "productivebees:tourmaline",
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:gems/tourmaline"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/tourmaline"
+            }
+        }
+    ]
+}

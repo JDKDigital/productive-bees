@@ -1,0 +1,18 @@
+{
+    "primaryColor": "#5241f3",
+    "secondaryColor": "#064f2c",
+    "tertiaryColor": "#000b7b",
+    "particleColor": "#5241f3",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/sapphire",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/sapphire"
+            }
+        }
+    ]
+}

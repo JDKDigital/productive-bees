@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/honey_generator" }
+        "": {
+            "model": "productivebees:block/honey_generator"
+        }
     }
 }

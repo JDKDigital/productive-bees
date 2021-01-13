@@ -15,8 +15,6 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -155,6 +153,9 @@ public final class ModBlocks
     public static final RegistryObject<Block> COMB_VIBRANIUM = createBlock("comb_vibranium", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#73ffb9"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_WITHERED = createBlock("comb_withered", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_ZINC = createBlock("comb_zinc", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#E9EBE7"), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_RUBY = createBlock("comb_ruby", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#c62415"), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_SAPPHIRE = createBlock("comb_sapphire", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#5241f3"), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_APATITE = createBlock("comb_apatite", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#69ffff"), ModItemGroups.PRODUCTIVE_BEES);
 
     public static final RegistryObject<Block> SUGARBAG_NEST = createBlock("sugarbag_nest", () -> new SugarbagNest(Block.Properties.from(Blocks.BEE_NEST)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> ADVANCED_OAK_BEEHIVE = createBlock("advanced_oak_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
@@ -256,7 +257,6 @@ public final class ModBlocks
         return block;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static void registerRendering() {
         RenderTypeLookup.setRenderLayer(ModBlocks.COMB_GHOSTLY.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.SLIMY_NEST.get(), RenderType.getTranslucent());

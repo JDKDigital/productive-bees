@@ -397,6 +397,15 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         return colorCache.get(color);
     }
 
+    public float[] getTertiaryColor() {
+        CompoundNBT nbt = getNBTData();
+        Integer color = nbt.contains("tertiaryColor") ? nbt.getInt("tertiaryColor") : nbt.getInt("primaryColor");
+        if (!colorCache.containsKey(color)) {
+            colorCache.put(color, (new Color(color)).getComponents(null));
+        }
+        return colorCache.get(color);
+    }
+
     @Override
     public Map<Effect, Integer> getAggressiveEffects() {
         if (isWithered()) {

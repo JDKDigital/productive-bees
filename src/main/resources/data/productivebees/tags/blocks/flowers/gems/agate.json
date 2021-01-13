@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/agate",
+        "silentgems:agate_glowrose",
+        "gemsnjewels:agate_block"
+    ]
+}

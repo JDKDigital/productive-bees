@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/jasper",
+        "silentgems:jasper_glowrose",
+        "gemsnjewels:jasper_block"
+    ]
+}

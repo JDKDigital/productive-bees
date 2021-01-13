@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/aquamarine",
+        "silentgems:aquamarine_glowrose",
+        "gemsnjewels:aquamarine_block"
+    ]
+}

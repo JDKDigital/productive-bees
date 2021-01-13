@@ -1,1 +1,7 @@
-{"variants":{"":{"model":"productivebees:block/comb/menril"}}}
+{
+    "variants": {
+        "": {
+            "model": "productivebees:block/comb/menril"
+        }
+    }
+}

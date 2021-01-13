@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/nickel" }
+        "": {
+            "model": "productivebees:block/comb/nickel"
+        }
     }
 }

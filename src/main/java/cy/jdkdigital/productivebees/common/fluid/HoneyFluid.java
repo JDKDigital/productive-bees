@@ -23,8 +23,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidAttributes;
 
 import javax.annotation.Nullable;
@@ -51,7 +49,6 @@ public abstract class HoneyFluid extends FlowingFluid
         return ModItems.HONEY_BUCKET.get();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void animateTick(World worldIn, BlockPos pos, IFluidState state, Random random) {
         BlockPos blockpos = pos.up();
         if (worldIn.getBlockState(blockpos).isAir() && !worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
@@ -73,7 +70,6 @@ public abstract class HoneyFluid extends FlowingFluid
     }
 
     @Nullable
-    @OnlyIn(Dist.CLIENT)
     public IParticleData getDripParticleData() {
         return ParticleTypes.DRIPPING_HONEY;
     }

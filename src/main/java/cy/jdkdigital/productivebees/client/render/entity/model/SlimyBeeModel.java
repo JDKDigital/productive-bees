@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 public class SlimyBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeModel<T>
 {
     public SlimyBeeModel(boolean outerLayer) {
-        super(false);
+        super();
 
         ModelRenderer slime = new ModelRenderer(this, 0, 0);
         ModelRenderer innards = new ModelRenderer(this, 34, 0);

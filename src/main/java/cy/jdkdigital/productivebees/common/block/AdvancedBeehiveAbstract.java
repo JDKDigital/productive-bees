@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
-import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
 import net.minecraft.block.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -34,8 +33,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootParameters;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
@@ -65,7 +62,6 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         return state.get(BeehiveBlock.HONEY_LEVEL);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
@@ -101,7 +97,6 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         world.setBlockState(pos, state.with(BeehiveBlock.HONEY_LEVEL, getMaxHoneyLevel() - 5), 3);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
         if (state.has(BeehiveBlock.HONEY_LEVEL) && state.get(BeehiveBlock.HONEY_LEVEL) >= MAX_HONEY_LEVEL) {
             for (int i = 0; i < random.nextInt(1) + 1; ++i) {
@@ -110,7 +105,6 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void dripHoney(World world, BlockPos pos, BlockState state) {
         if (state.getFluidState().isEmpty() && world.rand.nextFloat() >= 0.3F) {
             VoxelShape shape = state.getCollisionShape(world, pos);
@@ -134,12 +128,10 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void addHoneyParticle(World world, BlockPos pos, VoxelShape shape, double p_226880_4_) {
         this.addHoneyParticle(world, (double) pos.getX() + shape.getStart(Direction.Axis.X), (double) pos.getX() + shape.getEnd(Direction.Axis.X), (double) pos.getZ() + shape.getStart(Direction.Axis.Z), (double) pos.getZ() + shape.getEnd(Direction.Axis.Z), p_226880_4_);
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void addHoneyParticle(World world, double d1, double d2, double d3, double d4, double d5) {
         world.addParticle(ParticleTypes.DRIPPING_HONEY, MathHelper.lerp(world.rand.nextDouble(), d1, d2), d5, MathHelper.lerp(world.rand.nextDouble(), d3, d4), 0.0D, 0.0D, 0.0D);
     }

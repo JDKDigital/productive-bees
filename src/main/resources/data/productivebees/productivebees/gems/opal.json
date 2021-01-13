@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#dbdbdb",
+    "secondaryColor": "#064f2c",
+    "tertiaryColor": "#8c8c8c",
+    "particleColor": "#dbdbdb",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/opal",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/opal"
+            }
+        }
+    ]
+}

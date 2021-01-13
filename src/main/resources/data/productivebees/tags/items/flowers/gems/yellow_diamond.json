@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/yellow_diamond",
+        "silentgems:yellow_diamond_glowrose",
+        "gemsnjewels:yellow_diamond_block"
+    ]
+}

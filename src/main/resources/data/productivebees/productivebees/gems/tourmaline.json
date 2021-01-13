@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#ee2386",
+    "secondaryColor": "#3e5b68",
+    "tertiaryColor": "#8a2457",
+    "particleColor": "#ee2386",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/tourmaline",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/tourmaline"
+            }
+        }
+    ]
+}

@@ -19,8 +19,6 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
@@ -36,7 +34,6 @@ public class BeeBombEntity extends ProjectileItemEntity
         super(ModEntities.BEE_BOMB.get(), entity, world);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public BeeBombEntity(World world, double x, double y, double z) {
         super(ModEntities.BEE_BOMB.get(), x, y, z, world);
     }

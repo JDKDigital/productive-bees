@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/rotten" }
+        "": {
+            "model": "productivebees:block/comb/rotten"
+        }
     }
 }

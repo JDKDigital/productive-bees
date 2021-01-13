@@ -1,1 +1,7 @@
-{"variants":{"":{"model":"productivebees:block/comb/sulfur"}}}
+{
+    "variants": {
+        "": {
+            "model": "productivebees:block/comb/sulfur"
+        }
+    }
+}

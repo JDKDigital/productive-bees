@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/leaden" }
+        "": {
+            "model": "productivebees:block/comb/leaden"
+        }
     }
 }

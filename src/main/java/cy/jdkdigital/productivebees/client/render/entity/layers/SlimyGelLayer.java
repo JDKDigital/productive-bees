@@ -10,10 +10,7 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class SlimyGelLayer <T extends ProductiveBeeEntity> extends LayerRenderer<T, SlimyBeeModel<T>>
 {
     private final EntityModel<T> slimyBeeModel = new SlimyBeeModel<T>(true);

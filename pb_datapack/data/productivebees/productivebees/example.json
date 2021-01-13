@@ -6,7 +6,7 @@
     "particleColor": "#f2f24f",
     "/*name_comment*/": "Name of the bee if it should be different than the filename",
     "name": "Bob",
-    "description": "Description of the bee to be shown in JEI",
+    "description": "Description of the bee to be shown in JEI. Can be a translation key.",
     "/*beeTexture_comment*/": "If you have a custom texture for the bee, if not the base texture will be used with the colors",
     "beeTexture": "productivebees:textures/entity/bee/base/bee",
     "/*createComb_comment/": "If true, combs will be generated for the bee which can be used in recipes",

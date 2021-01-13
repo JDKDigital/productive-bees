@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#3b67ec",
+    "secondaryColor": "#3e5b68",
+    "tertiaryColor": "#0f4362",
+    "particleColor": "#3b67ec",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/kyanite",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/kyanite"
+            }
+        }
+    ]
+}

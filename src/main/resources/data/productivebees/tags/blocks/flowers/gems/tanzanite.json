@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/tanzanite",
+        "silentgems:tanzanite_glowrose",
+        "gemsnjewels:tanzanite_block"
+    ]
+}

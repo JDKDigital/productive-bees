@@ -2,14 +2,11 @@ package cy.jdkdigital.productivebees.client.render.entity.model;
 
 import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class MediumBeeModel extends PartialBeeModel
 {
-    public MediumBeeModel(Model model, ModelRenderer body, ModelRenderer torso, ModelRenderer stinger, ModelRenderer leftAntenna, ModelRenderer rightAntenna, ModelRenderer leftWing, ModelRenderer rightWing, ModelRenderer middleLegs, ModelRenderer frontLegs, ModelRenderer backLegs, ModelRenderer innards, ModelRenderer santaHat) {
-        super(model, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, innards, santaHat);
+    public MediumBeeModel(Model model, ModelRenderer body, ModelRenderer torso, ModelRenderer stinger, ModelRenderer leftAntenna, ModelRenderer rightAntenna, ModelRenderer leftWing, ModelRenderer rightWing, ModelRenderer middleLegs, ModelRenderer frontLegs, ModelRenderer backLegs, ModelRenderer crystals, ModelRenderer innards, ModelRenderer santaHat) {
+        super(model, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
     }
 
     protected void addTorso(boolean withTorso) {
@@ -64,28 +61,15 @@ public class MediumBeeModel extends PartialBeeModel
     }
 
     protected void addSantaHat() {
-        santaHat.setRotationPoint(.5F, 5.0F, 0.0F);
-        santaHat.setTextureOffset(0, 54).addBox(-5.0F, -10.0F, -6.0F, 9.0F, 1.0F, 9.0F, 0.0F, false);
-        santaHat.setTextureOffset(36, 54).addBox(-4.0F, -13.0F, -5.0F, 7.0F, 3.0F, 7.0F, 0.0F, false);
+        ModelRenderer hatDroop = new ModelRenderer(this.model);
+        hatDroop.setRotationPoint(-0.5F, -10.0F, -5.0F);
+        hatDroop.setTextureOffset(27, 55).addBox(-1.5F, -6.0F, 5.0F, 3.0F, 3.0F, 3.0F, 0.0F, 0.0F, 0.0F);
+        hatDroop.setTextureOffset(0, 40).addBox(-3.5F, -5.0F, 0.0F, 7.0F, 5.0F, 7.0F, 0.0F, 0.0F, 0.0F);
+        setRotationAngle(hatDroop, -0.5061454830783556F, 0.0F, 0.0F);
+        santaHat.setRotationPoint(0.5F, 5.0F, 0.0F);
+        santaHat.setTextureOffset(0, 52).addBox(-5.0F, -10.0F, -6.0F, 9.0F, 3.0F, 9.0F, 0.0F, 0.0F, 0.0F);
 
-        ModelRenderer box2 = new ModelRenderer(this.model);
-        box2.setRotationPoint(7.0F, 0.0F, 0.0F);
-        santaHat.addChild(box2);
-        setRotationAngle(box2, 0.1309F, 0.1309F, 0.0F);
-        box2.setTextureOffset(39, 54).addBox(-10.0F, -16.0F, -3.5F, 5.0F, 4.0F, 5.0F, 0.0F, false);
-
-        ModelRenderer box3 = new ModelRenderer(this.model);
-        box3.setRotationPoint(2.0F, 2.0F, 3.0F);
-        santaHat.addChild(box3);
-        setRotationAngle(box3, 0.3054F, 0.0873F, 0.0436F);
-        box3.setTextureOffset(41, 58).addBox(-5.0F, -20.0F, -1.5F, 3.0F, 3.0F, 3.0F, 0.0F, false);
-
-        ModelRenderer box4 = new ModelRenderer(this.model);
-        box4.setRotationPoint(0.0F, -3.0F, 7.0F);
-        santaHat.addChild(box4);
-        setRotationAngle(box4,0.3927F, 0.0F, 0.0F);
-        box4.setTextureOffset(18, 60).addBox(-2.5F, -18.5F, -4.4224F, 2.0F, 2.0F, 2.0F, 0.0F, false);
-
+        santaHat.addChild(hatDroop);
         torso.addChild(santaHat);
     }
 }

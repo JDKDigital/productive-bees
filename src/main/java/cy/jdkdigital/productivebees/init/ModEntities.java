@@ -1,7 +1,10 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.client.render.entity.*;
+import cy.jdkdigital.productivebees.client.render.entity.DyeBeeRenderer;
+import cy.jdkdigital.productivebees.client.render.entity.HoarderBeeRenderer;
+import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
+import cy.jdkdigital.productivebees.client.render.entity.RancherBeeRenderer;
 import cy.jdkdigital.productivebees.common.entity.BeeBombEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
@@ -19,8 +22,6 @@ import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -111,7 +112,6 @@ public class ModEntities
         return entity;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static void registerRendering() {
         for (RegistryObject<EntityType<?>> registryObject : HIVE_BEES.getEntries()) {
             EntityType<?> bee = registryObject.get();

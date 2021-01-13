@@ -16,6 +16,7 @@ abstract public class PartialBeeModel
     protected ModelRenderer stinger;
     protected ModelRenderer leftAntenna;
     protected ModelRenderer rightAntenna;
+    protected ModelRenderer crystals;
     protected ModelRenderer innards;
     protected ModelRenderer santaHat;
 
@@ -31,6 +32,7 @@ abstract public class PartialBeeModel
             ModelRenderer middleLegs,
             ModelRenderer frontLegs,
             ModelRenderer backLegs,
+            ModelRenderer crystals,
             ModelRenderer innards,
             ModelRenderer santaHat)
     {
@@ -45,6 +47,7 @@ abstract public class PartialBeeModel
         this.middleLegs = middleLegs;
         this.frontLegs = frontLegs;
         this.backLegs = backLegs;
+        this.crystals = crystals;
         this.innards = innards;
         this.santaHat = santaHat;
     }
@@ -68,6 +71,7 @@ abstract public class PartialBeeModel
     abstract void addAntenna();
     abstract void addWings();
     abstract void addLegs();
+    protected void addCrystals() {}
     protected void addInnards() {}
     protected void addSantaHat() {}
 }

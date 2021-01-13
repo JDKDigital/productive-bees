@@ -2,16 +2,13 @@ package cy.jdkdigital.productivebees.client.render.entity.model;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class RancherBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeModel<T>
 {
     protected final ModelRenderer hat;
 
     public RancherBeeModel()  {
-        super(false);
+        super();
 
         addBodyParts(true);
 

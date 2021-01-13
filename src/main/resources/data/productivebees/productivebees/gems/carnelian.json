@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#d84e02",
+    "secondaryColor": "#2e0b17",
+    "tertiaryColor": "#340400",
+    "particleColor": "#d84e02",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/carnelian",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/carnelian"
+            }
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#24daac",
+    "secondaryColor": "#2e0b17",
+    "tertiaryColor": "#19ac80",
+    "particleColor": "#24daac",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/turquoise",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/turquoise"
+            }
+        }
+    ]
+}

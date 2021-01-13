@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/dragon_egg_hive" }
+        "": {
+            "model": "productivebees:block/dragon_egg_hive"
+        }
     }
 }

@@ -1,10 +1,26 @@
 {
     "variants": {
-        "facing=down":  { "model": "productivebees:block/nest/sand_nest_vertical", "x": 180 },
-        "facing=up":    { "model": "productivebees:block/nest/sand_nest_vertical" },
-        "facing=north": { "model": "productivebees:block/nest/sand_nest" },
-        "facing=south": { "model": "productivebees:block/nest/sand_nest", "y": 180 },
-        "facing=west":  { "model": "productivebees:block/nest/sand_nest", "y": 270 },
-        "facing=east":  { "model": "productivebees:block/nest/sand_nest", "y": 90 }
+        "facing=down": {
+            "model": "productivebees:block/nest/sand_nest_vertical",
+            "x": 180
+        },
+        "facing=up": {
+            "model": "productivebees:block/nest/sand_nest_vertical"
+        },
+        "facing=north": {
+            "model": "productivebees:block/nest/sand_nest"
+        },
+        "facing=south": {
+            "model": "productivebees:block/nest/sand_nest",
+            "y": 180
+        },
+        "facing=west": {
+            "model": "productivebees:block/nest/sand_nest",
+            "y": 270
+        },
+        "facing=east": {
+            "model": "productivebees:block/nest/sand_nest",
+            "y": 90
+        }
     }
 }

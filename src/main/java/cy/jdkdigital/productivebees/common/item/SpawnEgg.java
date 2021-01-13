@@ -11,8 +11,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
@@ -39,7 +37,6 @@ public class SpawnEgg extends SpawnEggItem
         return this.entityType.get();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public int getColor(int tintIndex, ItemStack stack) {
         CompoundNBT tag = stack.getChildTag("EntityTag");
         if (tag != null && tag.contains("type")) {

@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/insanium" }
+        "": {
+            "model": "productivebees:block/comb/insanium"
+        }
     }
 }
