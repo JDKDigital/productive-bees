@@ -42,58 +42,12 @@ public class CatcherContainer extends AbstractContainer
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
-        trackIntArray(new IIntArray() {
-            @Override
-            public int get(int i) {
-                return i == 0 ?
-                        tileEntity.fluidId :
-                        tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(fluidHandler -> fluidHandler.getFluidInTank(0).getAmount()).orElse(0);
-            }
-
-            @Override
-            public void set(int i, int value) {
-                switch (i) {
-                    case 0:
-                        tileEntity.fluidId = value;
-                    case 1:
-                        tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
-                            FluidStack fluid = fluidHandler.getFluidInTank(0);
-                            if (fluid.isEmpty()) {
-                                fluidHandler.fill(new FluidStack(Registry.FLUID.getByValue(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
-                            } else {
-                                fluid.setAmount(value);
-                            }
-                        });
-                }
-            }
-
-            @Override
-            public int size() {
-                return 2;
-            }
-        });
-
-        trackInt(new IntReferenceHolder()
-        {
-            @Override
-            public int get() {
-                return tileEntity.recipeProgress;
-            }
-
-            @Override
-            public void set(int value) {
-                tileEntity.recipeProgress = value;
-            }
-        });
-
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             // Comb and bottle slots
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 139, 17));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.INPUT_SLOT, 13, 35));
 
             // Inventory slots
             addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 67, 17, 3, 18, 3, 18);
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, 139, 53));
         });
 
         this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {

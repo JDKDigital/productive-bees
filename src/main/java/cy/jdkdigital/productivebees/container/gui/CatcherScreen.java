@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CatcherScreen extends ContainerScreen<CatcherContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/incubator.png");
+    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/centrifuge.png");
 
     public CatcherScreen(CatcherContainer container, PlayerInventory inv, ITextComponent titleIn) {
         super(container, inv, titleIn);
@@ -69,10 +69,6 @@ public class CatcherScreen extends ContainerScreen<CatcherContainer>
 
         // Draw main screen
         this.blit(this.guiLeft - 13, this.guiTop, 0, 0, this.xSize + 26, this.ySize);
-
-        // Draw progress
-        int progress = (int) (this.container.tileEntity.recipeProgress * (24 / (float) this.container.tileEntity.getProcessingTime()));
-        this.blit(this.guiLeft + 35, this.guiTop + 35, 202, 52, progress + 1, 16);
 
         // Draw energy level
         this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {

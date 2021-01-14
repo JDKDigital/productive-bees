@@ -1,20 +1,23 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.container.CatcherContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -23,39 +26,22 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class CatcherTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity, UpgradeableTileEntity
 {
-    public int recipeProgress = 0;
-    public int fluidId = 0;
+    protected int tickCounter = 0;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
+    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(11, this)
     {
         @Override
         public boolean isBottleItem(Item item) {
-            return item == Items.GLASS_BOTTLE || item == Items.BUCKET;
-        }
-
-        @Override
-        public boolean isInputSlotItem(int slot, Item item) {
-            return super.isInputSlotItem(slot, item);
-        }
-    });
-
-    protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
-    {
-        @Override
-        protected void onContentsChanged()
-        {
-            super.onContentsChanged();
-            CatcherTileEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
-            CatcherTileEntity.this.markDirty();
+            return item == ModItems.BEE_CAGE.get();
         }
     });
 
@@ -67,28 +53,23 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
         super(ModTileEntityTypes.CATCHER.get());
     }
 
-    public int getProcessingTime() {
-        return (int) (
-            ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() * getProcessingTimeModifier()
-        );
-    }
-
-    protected double getProcessingTimeModifier() {
-        double combBlockUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) * ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
-        double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
-
-        return Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier);
-    }
-
     @Override
     public void tick() {
-        if (world != null && !world.isRemote) {
+        if (world != null && !world.isRemote && ++tickCounter % 60 == 0) {
             inventoryHandler.ifPresent(invHandler -> {
-                if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty()) {
-                    // Process gene bottles
-                    ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-                } else {
-                    this.recipeProgress = 0;
+                if (!invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
+                    ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                    if (invItem.getItem() instanceof BeeCage && !BeeCage.isFilled(invItem)) {
+                        // We have a valid inventory for catching, look for entity above
+                        List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, (new AxisAlignedBB(pos).grow(0.0D, 2.0D, 0.0D)));
+                        for (BeeEntity bee: bees) {
+                            ItemStack cageStack = BeeCage.captureEntity(bee);
+                            if (((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(cageStack)) {
+                                bee.remove(true);
+                                invItem.shrink(1);
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -100,21 +81,11 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
         return upgradeHandler;
     }
 
-    @Override
-    public void markDirty() {
-        super.markDirty();
-        if (this.world != null) {
-            world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 2);
-        }
-    }
-
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return inventoryHandler.cast();
-        } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return fluidInventory.cast();
         } else if (cap == CapabilityEnergy.ENERGY) {
             return energyHandler.cast();
         }

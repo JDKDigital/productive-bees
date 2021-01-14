@@ -132,8 +132,9 @@ public final class ProductiveBees
                         BlockPos spawnPos = source.getBlockPos().offset(direction);
 
                         entity.setPositionAndRotation(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, 0, 0);
-                        source.getWorld().addEntity(entity);
-                        stack.shrink(1);
+                        if (source.getWorld().addEntity(entity)) {
+                            stack.shrink(1);
+                        }
                         return stack;
                     }
                 }

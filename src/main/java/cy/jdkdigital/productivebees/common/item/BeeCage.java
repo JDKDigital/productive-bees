@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -84,6 +85,25 @@ public class BeeCage extends Item
 
         BeeEntity target = (BeeEntity) targetIn;
 
+        ItemStack cageStack = captureEntity(target);
+
+        if (!player.inventory.addItemStackToInventory(cageStack)) {
+            player.dropItem(cageStack, false);
+        }
+
+        player.swingArm(hand);
+
+        if (player instanceof ServerPlayerEntity) {
+            ModAdvancements.CATCH_BEE.trigger((ServerPlayerEntity) player, cageStack);
+        }
+
+        itemStack.shrink(1);
+        target.remove(true);
+
+        return true;
+    }
+
+    public static ItemStack captureEntity(BeeEntity target) {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("entity", EntityType.getKey(target.getType()).toString());
         if (target.hasCustomName()) {
@@ -104,23 +124,10 @@ public class BeeCage extends Item
         }
         nbt.putString("mod", modName);
 
-        ItemStack cageStack = new ItemStack(itemStack.getItem());
+        ItemStack cageStack = new ItemStack(ModItems.BEE_CAGE.get());
         cageStack.setTag(nbt);
 
-        if (!player.inventory.addItemStackToInventory(cageStack)) {
-            player.dropItem(cageStack, false);
-        }
-
-        player.swingArm(hand);
-
-        if (player instanceof ServerPlayerEntity) {
-            ModAdvancements.CATCH_BEE.trigger((ServerPlayerEntity) player, cageStack);
-        }
-
-        itemStack.shrink(1);
-        target.remove(true);
-
-        return true;
+        return cageStack;
     }
 
     @Nullable
