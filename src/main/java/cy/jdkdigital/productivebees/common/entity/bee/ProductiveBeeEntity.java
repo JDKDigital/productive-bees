@@ -158,7 +158,7 @@ public class ProductiveBeeEntity extends BeeEntity
         }
 
         // Attribute improvement while leashed
-        if (!world.isRemote && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0 && getLeashed()) {
+        if (!world.isRemote && getLeashed() && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0) {
             // Rain tolerance improvements
             int tolerance = getAttributeValue(BeeAttributes.WEATHER_TOLERANCE);
             if (tolerance < 2 && world.rand.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {

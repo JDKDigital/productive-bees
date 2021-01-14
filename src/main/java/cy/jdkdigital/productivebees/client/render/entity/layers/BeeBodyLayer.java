@@ -57,13 +57,14 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
                     if (entity instanceof ConfigurableBeeEntity) {
                         color = ((ConfigurableBeeEntity) entity).getTertiaryColor();
                     }
+                    // render a color version of the crystal layer
+                    ResourceLocation crystalsLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals_clear.png");
+                    renderCutoutModel(this.model, crystalsLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
                     if (!entity.getRenderStatic()) {
-                        ResourceLocation crystalsLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals.png");
-                        IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEyes(crystalsLocation));
+                        // render glowing layer on top
+                        ResourceLocation crystalsOverlayLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals.png");
+                        IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEyes(crystalsOverlayLocation));
                         this.model.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, color[0], color[1], color[2], 1.0F);
-                    } else {
-                        ResourceLocation crystalsLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals_clear.png");
-                        renderCutoutModel(this.model, crystalsLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
                     }
                 } else if (this.modelType.equals("default_foliage") || this.modelType.equals("default_shell")) {
                     float[] color = primaryColor;

@@ -2,6 +2,8 @@ package cy.jdkdigital.productivebees.setup;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.FallingNectarParticle;
+import cy.jdkdigital.productivebees.client.particle.LavaNectarParticle;
+import cy.jdkdigital.productivebees.client.particle.PoppingNectarParticle;
 import cy.jdkdigital.productivebees.client.render.block.BottlerTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.CentrifugeTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.FeederTileEntityRenderer;
@@ -93,5 +95,7 @@ public class ClientSetup
 
     public static void registerParticles(final ParticleFactoryRegisterEvent event) {
         Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_FALLING_NECTAR.get(), FallingNectarParticle.FallingNectarFactory::new);
+        Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_POPPING_NECTAR.get(), PoppingNectarParticle.PoppingNectarFactory::new);
+        Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_LAVA_NECTAR.get(), LavaNectarParticle.LavaNectarFactory::new);
     }
 }

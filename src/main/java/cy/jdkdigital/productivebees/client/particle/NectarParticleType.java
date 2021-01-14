@@ -18,7 +18,7 @@ public class NectarParticleType extends ParticleType<NectarParticleType> impleme
     {
         @Nonnull
         @Override
-        public NectarParticleType deserialize(@Nonnull ParticleType<NectarParticleType> particleTypeIn, @Nonnull StringReader reader) throws CommandSyntaxException {
+        public NectarParticleType deserialize(@Nonnull ParticleType<NectarParticleType> particleTypeIn, @Nonnull StringReader reader) {
             return (NectarParticleType) particleTypeIn;
         }
 

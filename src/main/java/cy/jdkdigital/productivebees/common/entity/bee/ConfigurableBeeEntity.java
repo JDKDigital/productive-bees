@@ -122,7 +122,19 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     @Override
     public void addParticle(World worldIn, double xMin, double xMax, double zMin, double zMax, double posY, IParticleData particleData) {
-        NectarParticleType particle = ModParticles.COLORED_FALLING_NECTAR.get();
+        NectarParticleType particle;
+        switch (getParticleType()) {
+            case "pop":
+                particle = ModParticles.COLORED_POPPING_NECTAR.get();
+                break;
+            case "lava":
+                particle = ModParticles.COLORED_LAVA_NECTAR.get();
+                break;
+            case "drip":
+            default:
+                particle = ModParticles.COLORED_FALLING_NECTAR.get();
+                break;
+        }
 
         if (hasParticleColor()) {
             particle.setColor(getParticleColor());
@@ -381,12 +393,16 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         return getNBTData().getBoolean("munchies");
     }
 
-    public boolean hasParticleColor() {
-        return getNBTData().contains("particleColor");
-    }
-
     public boolean hasGlowingInnards() {
         return getNBTData().getBoolean("glowingInnards");
+    }
+
+    public String getParticleType() {
+        return getNBTData().getString("particleType");
+    }
+
+    public boolean hasParticleColor() {
+        return getNBTData().contains("particleColor");
     }
 
     public float[] getParticleColor() {
