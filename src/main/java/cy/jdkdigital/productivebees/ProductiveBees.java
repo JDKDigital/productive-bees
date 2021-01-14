@@ -4,15 +4,29 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
+import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.setup.*;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.dispenser.OptionalDispenseBehavior;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.resources.IReloadableResourceManager;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
@@ -103,6 +117,30 @@ public final class ProductiveBees
         CapabilityBee.register();
         PacketHandler.init();
         ModAdvancements.register();
+
+        DefaultDispenseItemBehavior cageDispensebehavior = new OptionalDispenseBehavior() {
+            private final DefaultDispenseItemBehavior fallbackDispenseBehavior = new DefaultDispenseItemBehavior();
+
+            public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+                if (stack.getItem() instanceof BeeCage && BeeCage.isFilled(stack)) {
+                    Direction direction = source.getBlockState().get(DispenserBlock.FACING);
+
+                    BeeEntity entity = BeeCage.getEntityFromStack(stack, source.getWorld(), true);
+                    if (entity != null) {
+                        entity.hivePos = null;
+
+                        BlockPos spawnPos = source.getBlockPos().offset(direction);
+
+                        entity.setPositionAndRotation(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, 0, 0);
+                        source.getWorld().addEntity(entity);
+                        stack.shrink(1);
+                        return stack;
+                    }
+                }
+                return fallbackDispenseBehavior.dispense(source, stack);
+            }
+        };
+        DispenserBlock.registerDispenseBehavior(ModItems.BEE_CAGE.get(), cageDispensebehavior);
 
         this.fixPOI(event);
     }
