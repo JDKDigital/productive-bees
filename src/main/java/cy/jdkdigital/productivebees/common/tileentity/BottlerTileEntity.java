@@ -37,8 +37,8 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
         @Override
-        public boolean isInputSlotItem(int slot, Item item) {
-            return slot == InventoryHandlerHelper.BOTTLE_SLOT;
+        public boolean isBottleItem(Item item) {
+            return item == Items.GLASS_BOTTLE || item == Items.BUCKET;
         }
     });
 
