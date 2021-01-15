@@ -5,8 +5,6 @@ import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
 import net.minecraft.world.World;
 
 public class QuarryBeeEntity extends ProductiveBeeEntity

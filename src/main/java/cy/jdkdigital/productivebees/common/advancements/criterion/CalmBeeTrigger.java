@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.advancements.criterion;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;

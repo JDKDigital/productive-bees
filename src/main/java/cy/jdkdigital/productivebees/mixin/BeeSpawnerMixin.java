@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.mixin;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IAngerable;
 import net.minecraft.entity.passive.AnimalEntity;

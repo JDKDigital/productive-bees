@@ -219,7 +219,7 @@ public class BeeHelper
             }
         } else if (beeId.equals("productivebees:dye_bee")) {
             if (flowerPos != null) {
-                Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.FLOWERS);
+                Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.FLOWERS, (ProductiveBeeEntity) beeEntity);
                 Item flowerItem = flowerBlock.asItem();
 
                 Map<ResourceLocation, IRecipe<CraftingInventory>> recipes = world.getRecipeManager().getRecipes(IRecipeType.CRAFTING);

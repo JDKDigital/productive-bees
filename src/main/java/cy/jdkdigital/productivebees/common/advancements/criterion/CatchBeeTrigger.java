@@ -1,7 +1,5 @@
 package cy.jdkdigital.productivebees.common.advancements.criterion;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.advancements.criterion.AbstractCriterionTrigger;

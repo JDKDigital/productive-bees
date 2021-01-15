@@ -9,13 +9,8 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ModTags
 {
-    public static Map<ResourceLocation, ITag<Block>> tagCache = new HashMap<>();
-
     public static final ITag<Block> SOLITARY_OVERWORLD_NESTS = getTag("solitary_overworld_nests");
     public static final ITag<Block> REED_NESTS = getTag("nests/reed_nests");
     public static final ITag<Block> COLD_NESTS = getTag("nests/cold_nests");

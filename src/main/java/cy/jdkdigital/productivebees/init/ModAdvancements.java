@@ -4,8 +4,6 @@ import cy.jdkdigital.productivebees.common.advancements.criterion.CalmBeeTrigger
 import cy.jdkdigital.productivebees.common.advancements.criterion.CatchBeeTrigger;
 import cy.jdkdigital.productivebees.common.advancements.criterion.HoneyloggedTrigger;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.advancements.criterion.RightClickBlockWithItemTrigger;
-import net.minecraft.util.ResourceLocation;
 
 public class ModAdvancements
 {

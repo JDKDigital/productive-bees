@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.recipe;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;

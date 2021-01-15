@@ -9,7 +9,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.tags.ITag;
 import net.minecraft.world.World;
 
 public class BlueBandedBeeEntity extends SolitaryBeeEntity
