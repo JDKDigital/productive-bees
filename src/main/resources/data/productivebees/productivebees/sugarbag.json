@@ -8,6 +8,6 @@
     "attributes": {
         "temper": 0
     },
-    "stinger": false,
+    "stingless": true,
     "nestingPreference": "productivebees:nests/sugarbag_nests"
 }

@@ -96,6 +96,9 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
         bodyPitch = entity.getBodyPitch(partialTicks);
         stinger.showModel = !entity.hasStung();
+        if (entity instanceof ConfigurableBeeEntity && ((ConfigurableBeeEntity) entity).isStingless()) {
+            stinger.showModel = false;
+        }
     }
 
     public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

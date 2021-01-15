@@ -91,17 +91,6 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                 }
             }
 
-            if (ticksExisted % 100 == 0 && isSlimy()) {
-                int i = 1;
-                for (int j = 0; j < i * 8; ++j) {
-                    float f = this.rand.nextFloat() * ((float) Math.PI * 2F);
-                    float f1 = this.rand.nextFloat() * 0.5F + 0.5F;
-                    float f2 = MathHelper.sin(f) * (float) i * 0.5F * f1;
-                    float f3 = MathHelper.cos(f) * (float) i * 0.5F * f1;
-                    this.world.addParticle(ParticleTypes.ITEM_SLIME, this.getPosX() + (double) f2, this.getPosY(), this.getPosZ() + (double) f3, 0.0D, 0.0D, 0.0D);
-                }
-            }
-
             if (ticksExisted % 20 == 0 && hasNectar() && isRedstoned()) {
                 for (int i = 1; i <= 2; ++i) {
                     BlockPos beePosDown = this.getPosition().down(i);
@@ -170,12 +159,14 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         super.updateAITasks();
     }
 
+    @Override
     public void setMotionMultiplier(BlockState state, Vec3d motionMultiplierIn) {
         if (!isStringy() || state.getBlock() != Blocks.COBWEB) {
             super.setMotionMultiplier(state, motionMultiplierIn);
         }
     }
 
+    @Override
     public void attackTarget(LivingEntity target) {
         if (this.isAlive() && getNBTData().contains("attackResponse")) {
             String attackResponse = getNBTData().getString("attackResponse");
@@ -195,6 +186,13 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public String getBeeType() {
         return this.dataManager.get(TYPE);
+    }
+
+    @Override
+    public void setHasStung(boolean hasStung) {
+        if (!isStingless()) {
+            super.setHasStung(hasStung);
+        }
     }
 
     @Override
@@ -387,6 +385,10 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public boolean isStringy() {
         return getNBTData().getBoolean("stringy");
+    }
+
+    public boolean isStingless() {
+        return getNBTData().getBoolean("stingless");
     }
 
     public boolean hasMunchies() {
