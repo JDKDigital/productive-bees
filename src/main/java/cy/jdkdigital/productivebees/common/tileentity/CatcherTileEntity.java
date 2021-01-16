@@ -55,14 +55,18 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
 
     @Override
     public void tick() {
-        if (world != null && !world.isRemote && ++tickCounter % 60 == 0) {
+        if (world != null && !world.isRemote && ++tickCounter % 69 == 0) {
             inventoryHandler.ifPresent(invHandler -> {
                 if (!invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
                     ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                     if (invItem.getItem() instanceof BeeCage && !BeeCage.isFilled(invItem)) {
-                        // We have a valid inventory for catching, look for entity above
-                        List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, (new AxisAlignedBB(pos).grow(0.0D, 2.0D, 0.0D)));
+                        // We have a valid inventory for catching, look for entities above
+                        List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, getBoundingBox());
+                        int babeeUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
                         for (BeeEntity bee: bees) {
+                            if (babeeUpgrades > 0 && !bee.isChild()) {
+                                continue;
+                            }
                             ItemStack cageStack = BeeCage.captureEntity(bee);
                             if (((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(cageStack)) {
                                 bee.remove(true);
@@ -74,6 +78,11 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
             });
         }
         super.tick();
+    }
+
+    private AxisAlignedBB getBoundingBox() {
+        int rangeUpgrades = getUpgradeCount(ModItems.UPGRADE_RANGE.get());
+        return new AxisAlignedBB(pos).grow(rangeUpgrades, 2.0D + rangeUpgrades, rangeUpgrades);
     }
 
     @Override
