@@ -47,16 +47,15 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
                 bee.ticksExisted = minecraft.player.ticksExisted;
                 bee.renderYawOffset = -20;
 
-                float scaledSize = 28;
-                if (bee instanceof SolitaryBeeEntity) {
-                    scaledSize = scaledSize * 0.85F;
-                }
+                float scaledSize = 18;
 
                 matrixStack.push();
                 matrixStack.translate(7 + xPosition, 17 + yPosition, 1.5);
-                matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
+                matrixStack.rotate(Vector3f.ZP.rotationDegrees(190.0F));
+                matrixStack.rotate(Vector3f.YP.rotationDegrees(20.0F));
+                matrixStack.rotate(Vector3f.XP.rotationDegrees(20.0F));
                 matrixStack.translate(0.0F, -0.2F, 1);
-                matrixStack.scale(scaledSize, scaledSize, 32);
+                matrixStack.scale(scaledSize, scaledSize, scaledSize);
 
                 EntityRendererManager entityrenderermanager = minecraft.getRenderManager();
                 IRenderTypeBuffer.Impl buffer = minecraft.getRenderTypeBuffers().getBufferSource();
