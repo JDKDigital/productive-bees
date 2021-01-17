@@ -37,8 +37,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity, UpgradeableTileEntity
 {
-    public int recipeProgress = 0;
-
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(2, this)
     {
         @Override
@@ -85,7 +83,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                 });
             });
         }
-//        this.sendOutPower();
+        this.sendOutPower();
         super.tick();
     }
 

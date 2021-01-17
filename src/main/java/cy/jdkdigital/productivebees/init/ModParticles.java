@@ -16,6 +16,7 @@ public class ModParticles
     public static final RegistryObject<NectarParticleType> COLORED_FALLING_NECTAR = register("colored_falling_nectar");
     public static final RegistryObject<NectarParticleType> COLORED_LAVA_NECTAR = register("colored_lava_nectar");
     public static final RegistryObject<NectarParticleType> COLORED_POPPING_NECTAR = register("colored_popping_nectar");
+    public static final RegistryObject<NectarParticleType> COLORED_PORTAL_NECTAR = register("colored_portal_nectar");
 
     private static RegistryObject<NectarParticleType> register(@Nonnull String key) {
         return PARTICLE_TYPES.register(key, NectarParticleType::new);

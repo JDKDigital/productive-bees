@@ -1,0 +1,11 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "tag": "productivebees:honey_buckets"
+        }
+    ],
+    "result": {
+        "item": "minecraft:honey_block"
+    }
+}

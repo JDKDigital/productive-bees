@@ -119,6 +119,9 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             case "lava":
                 particle = ModParticles.COLORED_LAVA_NECTAR.get();
                 break;
+            case "portal":
+                particle = ModParticles.COLORED_PORTAL_NECTAR.get();
+                break;
             case "drip":
             default:
                 particle = ModParticles.COLORED_FALLING_NECTAR.get();

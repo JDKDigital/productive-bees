@@ -57,8 +57,8 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
     public void tick() {
         if (world != null && !world.isRemote && ++tickCounter % 69 == 0) {
             inventoryHandler.ifPresent(invHandler -> {
-                if (!invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
-                    ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                if (!invHandler.getStackInSlot(0).isEmpty()) {
+                    ItemStack invItem = invHandler.getStackInSlot(0);
                     if (invItem.getItem() instanceof BeeCage && !BeeCage.isFilled(invItem)) {
                         // We have a valid inventory for catching, look for entities above
                         List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, getBoundingBox());

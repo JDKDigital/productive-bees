@@ -80,7 +80,6 @@ public class HoneyGeneratorScreen extends ContainerScreen<HoneyGeneratorContaine
         this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             float energyAmount = (float) handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52f / (float) handler.getMaxEnergyStored()));
-            ProductiveBees.LOGGER.info("energyAmount: " + energyAmount + " energyLevel: " + energyLevel + " MaxEnergyStored: " + handler.getMaxEnergyStored());
             this.blit(this.guiLeft - 5, this.guiTop + 69, 206, 52, 4, -1 * energyLevel);
         });
 

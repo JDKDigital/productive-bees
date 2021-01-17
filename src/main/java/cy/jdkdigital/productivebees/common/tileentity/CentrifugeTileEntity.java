@@ -287,7 +287,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             add("temper");
         }};
 
-        double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.genExtractChance.get();
+        double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.geneExtractChance.get();
         for (String attributeName: attributes) {
             if (ProductiveBees.rand.nextDouble() <= chance) {
                 int value = entityData.getInt("bee_" + attributeName);
@@ -295,10 +295,10 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             }
         }
 
-//        // Chance to get a type gene
-//        if (rand.nextDouble() <= chance) {
-//            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type")));
-//        }
+        // Chance to get a type gene
+        if (ProductiveBees.rand.nextDouble() <= chance) {
+            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type")));
+        }
 
         invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
     }

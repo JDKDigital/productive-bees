@@ -1,7 +1,7 @@
 {
     "replace": false,
     "values": [
-        "#forge:storage_blocks/agate"
+        "#forge:storage_blocks/emerald"
     ],
     "optional": [
         "gemsnjewels:emerald_block"
