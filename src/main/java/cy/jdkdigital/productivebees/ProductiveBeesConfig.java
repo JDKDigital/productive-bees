@@ -37,6 +37,7 @@ public class ProductiveBeesConfig
     {
         public final ForgeConfigSpec.BooleanValue renderCombsInCentrifuge;
         public final ForgeConfigSpec.BooleanValue renderBeesInJars;
+        public final ForgeConfigSpec.BooleanValue renderBeeIngredientAsEntity;
 
         public Client(ForgeConfigSpec.Builder builder) {
             builder.push("Client");
@@ -48,6 +49,10 @@ public class ProductiveBeesConfig
             renderBeesInJars = builder
                     .comment("Render bees inside bee jars.")
                     .define("renderBeesInJars", true);
+
+            renderBeeIngredientAsEntity = builder
+                    .comment("Render bees as entities in JEI and in hive GUI. Set to false to show an image of the bee instead.")
+                    .define("renderBeeIngredientAsEntity", true);
 
             builder.pop();
         }

@@ -38,3 +38,5 @@ TODO.md
 *.psd
 
 
+logs/latest.log
+logs/debug.log

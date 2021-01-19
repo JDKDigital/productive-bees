@@ -36,8 +36,7 @@ public class RancherBeeEntity extends ProductiveBeeEntity
         if (target != null) {
             if (!hasNectar()) {
                 target.getNavigator().setSpeed(0);
-            }
-            else {
+            } else {
                 target.setRevengeTarget(this);
                 target = null;
             }
