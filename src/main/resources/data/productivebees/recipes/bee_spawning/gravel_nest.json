@@ -15,7 +15,8 @@
         }
     ],
     "biomes": [
-        "river", "beach"
+        "river",
+        "beach"
     ],
     "temperature": "warm",
     "repopulation_cooldown": 24000

@@ -9,7 +9,8 @@
         }
     ],
     "biomes": [
-        "extreme_hills", "icy"
+        "extreme_hills",
+        "icy"
     ],
     "temperature": "cold",
     "repopulation_cooldown": 24000

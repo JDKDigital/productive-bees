@@ -51,7 +51,10 @@
     },
     "requirements": [
         [
-            "rancher_bee", "lumber_bee", "quarry_bee", "farmer_bee"
+            "rancher_bee",
+            "lumber_bee",
+            "quarry_bee",
+            "farmer_bee"
         ]
     ]
 }

@@ -29,6 +29,7 @@
         "productivebees:comb_epic_salvage",
         "productivebees:comb_experience",
         "productivebees:comb_fossilised",
+        "productivebees:comb_frosty",
         "productivebees:comb_ghostly",
         "productivebees:comb_glowing",
         "productivebees:comb_gold",
@@ -82,6 +83,8 @@
         "productivebees:comb_uraninite",
         "productivebees:comb_vibranium",
         "productivebees:comb_withered",
-        "productivebees:comb_zinc"
-    ]
+        "productivebees:comb_zinc",
+        "productivebees:comb_apatite",
+        "productivebees:comb_ruby",
+        "productivebees:comb_sapphire",
 }
