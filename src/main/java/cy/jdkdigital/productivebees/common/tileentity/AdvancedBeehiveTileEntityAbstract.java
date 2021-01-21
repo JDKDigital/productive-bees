@@ -238,7 +238,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                         }
                     }
 
-                    spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
+                    spawned = spawnBeeInWorldAtPosition(this.world, beeEntity, pos, direction, null);
                     if (spawned && hasOffloaded.get()) {
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && (beeEntity.getEntityString().contains("dye_bee") || this.world.rand.nextFloat() <= 0.9F)) {
                             beeEntity.setFlowerPos(this.flowerPos);
@@ -327,7 +327,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
     }
 
-    public static boolean spawnBeeInWorldAPosition(World world, BeeEntity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
+    public static boolean spawnBeeInWorldAtPosition(World world, BeeEntity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
         BlockPos offset = pos.offset(direction);
         boolean isPositionBlocked = !world.getBlockState(offset).getCollisionShape(world, offset).isEmpty();
         float width = entity.getWidth();

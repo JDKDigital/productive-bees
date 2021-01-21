@@ -122,7 +122,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof SolitaryNestTileEntity) {
                 ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
-                BeeEntity newBee = ((SolitaryNest) world.getBlockState(pos).getBlock()).getNestingBeeType(world.getWorld());
+                BeeEntity newBee = ((SolitaryNest) world.getBlockState(pos).getBlock()).getNestingBeeType(world.getWorld(), world.getWorld().getBiome(pos));
                 if (newBee != null) {
                     newBee.setHealth(newBee.getMaxHealth());
                     newBee.setPosition(pos.getX(), pos.getY(), pos.getZ());

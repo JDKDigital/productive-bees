@@ -17,6 +17,7 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.dimension.Dimension;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -50,7 +51,7 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
         return false;
     }
 
-    public boolean matches(ItemStack nest, Biome biome) {
+    public boolean matches(ItemStack nest) {
         return ingredient.test(nest);
     }
 
