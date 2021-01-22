@@ -39,7 +39,7 @@ public class HoneyGeneratorContainer extends AbstractContainer
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             // Input and output slot
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 0, 139, 17));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 1, 139, 52));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 1, 139, 53));
         });
 
         this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {

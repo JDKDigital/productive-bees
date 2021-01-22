@@ -29,7 +29,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Centrifuge extends ContainerBlock
+public class Centrifuge extends CapabilityContainerBlock
 {
     public static final BooleanProperty RUNNING = BooleanProperty.create("running");
 
@@ -70,28 +70,6 @@ public class Centrifuge extends ContainerBlock
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onReplaced(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (oldState.getBlock() != newState.getBlock()) {
-            TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if (tileEntity instanceof CentrifugeTileEntity) {
-                // Drop inventory
-                tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                    for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
-                    }
-                });
-                ((CentrifugeTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
-                    for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
-                    }
-                });
-            }
-        }
-        super.onReplaced(oldState, worldIn, pos, newState, isMoving);
     }
 
     @SuppressWarnings("deprecation")

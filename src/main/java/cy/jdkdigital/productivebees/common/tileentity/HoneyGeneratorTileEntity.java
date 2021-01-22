@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.common.block.HoneyGenerator;
 import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModFluids;
@@ -37,11 +37,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity, UpgradeableTileEntity
 {
+    protected int tickCounter = 0;
+
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(2, this)
     {
         @Override
         public boolean isBottleItem(Item item) {
-            return item == Items.HONEY_BOTTLE || item.isIn(ModTags.HONEY_BUCKETS);
+            return item.equals(Items.HONEY_BOTTLE) || item.isIn(ModTags.HONEY_BUCKETS) || item.equals(Items.HONEY_BLOCK);
         }
     });
 
@@ -56,9 +58,26 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
         protected void onContentsChanged()
         {
             super.onContentsChanged();
+            if (fluid.getAmount() > 0) {
+                HoneyGeneratorTileEntity.this.setFilled(true);
+            } else {
+                HoneyGeneratorTileEntity.this.setFilled(false);
+            }
             HoneyGeneratorTileEntity.this.markDirty();
         }
     });
+
+    private void setFilled(boolean filled) {
+        if (world != null && !world.isRemote) {
+            world.setBlockState(pos, getBlockState().with(HoneyGenerator.FULL, filled));
+        }
+    }
+
+    private void setOn(boolean filled) {
+        if (world != null && !world.isRemote) {
+            world.setBlockState(pos, getBlockState().with(HoneyGenerator.ON, filled));
+        }
+    }
 
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
 
@@ -79,6 +98,13 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                     if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && energyHandler.receiveEnergy(inputPowerAmount, true) > 0) {
                         energyHandler.receiveEnergy(inputPowerAmount, false);
                         fluidHandler.drain(fluidConsumeAmount, IFluidHandler.FluidAction.EXECUTE);
+                        if (++tickCounter%20 == 0) {
+                            setOn(true);
+                        }
+                    } else {
+                        if (++tickCounter%20 == 0) {
+                            setOn(false);
+                        }
                     }
                 });
             });
@@ -126,19 +152,35 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                 int fluidSpace = fluidInventory.map(h -> h.getTankCapacity(0) - h.getFluidInTank(0).getAmount()).orElse(0);
                 if (!invHandler.getStackInSlot(0).isEmpty()) {
                     ItemStack invItem = invHandler.getStackInSlot(0);
+                    ItemStack outputInvItem = invHandler.getStackInSlot(1);
+                    ItemStack outputItem = ItemStack.EMPTY;
+
                     LazyOptional<IFluidHandler> itemFluidHandler = invItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
                     boolean isHoneyBottle = invItem.getItem().equals(Items.HONEY_BOTTLE);
+                    boolean isHoneyBlock = invItem.getItem().equals(Items.HONEY_BLOCK);
+                    boolean isHoneyBucket = invItem.getItem().isIn(ModTags.HONEY_BUCKETS);
 
-                    // Check if output can hold a bottle
-                    if (isHoneyBottle && invHandler.insertItem(1, new ItemStack(Items.GLASS_BOTTLE, 1), true).isEmpty()) {
-                        ProductiveBees.LOGGER.info("Generator does not have room for glass bottle");
+                    int addAmount = 0;
+                    if (isHoneyBottle) {
+                        addAmount = 250;
+                        outputItem = new ItemStack(Items.GLASS_BOTTLE);
+                    } else if (isHoneyBlock) {
+                        addAmount = 1000;
+                    } else if (isHoneyBucket) {
+                        addAmount = 1000;
+                        outputItem = new ItemStack(Items.BUCKET);
+                    } else if (itemFluidHandler.isPresent()) {
+                        addAmount = fluidSpace;
+                    }
+
+                    // Check if output has room
+                    if (!outputItem.equals(ItemStack.EMPTY) && !outputInvItem.isEmpty() && (!outputInvItem.getItem().equals(outputItem.getItem()) || outputInvItem.getMaxStackSize() == outputInvItem.getCount())) {
                         return;
                     }
 
                     // Move empty containers to output
                     if (itemFluidHandler.isPresent() && itemFluidHandler.map(h -> h.getFluidInTank(0).isEmpty()).orElse(false)) {
-                        ProductiveBees.LOGGER.info("Move fluidhandler to output");
-                        if (invHandler.getStackInSlot(1).isEmpty()) {
+                        if (outputInvItem.isEmpty()) {
                             if (!invHandler.insertItem(1, invItem, false).isEmpty()) {
                                 invHandler.setStackInSlot(0, ItemStack.EMPTY);
                             }
@@ -146,15 +188,20 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                         return;
                     }
 
-                    int addAmount = isHoneyBottle ? 250 : itemFluidHandler.isPresent() ? fluidSpace : 0;
                     if (addAmount > 0 && addAmount <= fluidSpace) {
                         int fillAmount = fluidHandler.fill(new FluidStack(ModFluids.HONEY.get(), addAmount), IFluidHandler.FluidAction.EXECUTE);
-
                         if (itemFluidHandler.isPresent()) {
                             FluidUtil.tryEmptyContainer(invItem, fluidHandler, fillAmount, null, true);
-                        } else if (invItem.getItem().equals(Items.HONEY_BOTTLE)) {
+                        } else {
                             invItem.shrink(1);
-                            invHandler.insertItem(1, new ItemStack(Items.GLASS_BOTTLE), false);
+                            if (!outputItem.equals(ItemStack.EMPTY)) {
+                                if (outputInvItem.isEmpty()) {
+                                    invHandler.setStackInSlot(1, outputItem);
+                                }
+                                else {
+                                    outputInvItem.grow(1);
+                                }
+                            }
                         }
                     }
                 }

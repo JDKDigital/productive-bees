@@ -1,7 +1,64 @@
 {
     "variants": {
-        "": {
+        "full=false,facing=east,on=false": {
+            "model": "productivebees:block/honey_generator",
+            "y": 90
+        },
+        "full=false,facing=east,on=true": {
+            "model": "productivebees:block/honey_generator_on",
+            "y": 90
+        },
+        "full=false,facing=north,on=false": {
             "model": "productivebees:block/honey_generator"
+        },
+        "full=false,facing=north,on=true": {
+            "model": "productivebees:block/honey_generator_on"
+        },
+        "full=false,facing=south,on=false": {
+            "model": "productivebees:block/honey_generator",
+            "y": 180
+        },
+        "full=false,facing=south,on=true": {
+            "model": "productivebees:block/honey_generator_on",
+            "y": 180
+        },
+        "full=false,facing=west,on=false": {
+            "model": "productivebees:block/honey_generator",
+            "y": 270
+        },
+        "full=false,facing=west,on=true": {
+            "model": "productivebees:block/honey_generator_on",
+            "y": 270
+        },
+        "full=true,facing=east,on=false": {
+            "model": "productivebees:block/honey_generator_full",
+            "y": 90
+        },
+        "full=true,facing=east,on=true": {
+            "model": "productivebees:block/honey_generator_on",
+            "y": 90
+        },
+        "full=true,facing=north,on=false": {
+            "model": "productivebees:block/honey_generator_full"
+        },
+        "full=true,facing=north,on=true": {
+            "model": "productivebees:block/honey_generator_on"
+        },
+        "full=true,facing=south,on=false": {
+            "model": "productivebees:block/honey_generator_full",
+            "y": 180
+        },
+        "full=true,facing=south,on=true": {
+            "model": "productivebees:block/honey_generator_on",
+            "y": 180
+        },
+        "full=true,facing=west,on=false": {
+            "model": "productivebees:block/honey_generator_full",
+            "y": 270
+        },
+        "full=true,facing=west,on=true": {
+            "model": "productivebees:block/honey_generator_on",
+            "y": 270
         }
     }
 }
