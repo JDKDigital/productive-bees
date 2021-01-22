@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
 import cy.jdkdigital.productivebees.init.ModFluids;
+import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -41,8 +42,9 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
                         ItemStack outputItem = null;
                         if (fluidContainerItem.getItem() == Items.GLASS_BOTTLE && fluidStack.getAmount() >= 250 && fluidStack.getFluid().isEquivalentTo(ModFluids.HONEY.get())) {
                             outputItem = new ItemStack(Items.HONEY_BOTTLE);
-                        }
-                        else {
+                        } else if (fluidContainerItem.getItem() == Items.HONEYCOMB && fluidStack.getAmount() >= 250 && fluidStack.getFluid().isEquivalentTo(ModFluids.HONEY.get())) {
+                            outputItem = new ItemStack(ModItems.HONEY_TREAT.get());
+                        } else {
                             FluidActionResult fillResult = FluidUtil.tryFillContainer(fluidContainerItem, fluidHandler, Integer.MAX_VALUE, null, true);
                             if (fillResult.isSuccess()) {
                                 outputItem = fillResult.getResult();
@@ -51,7 +53,7 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
 
                         if (outputItem != null) {
                             if (invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, true).equals(ItemStack.EMPTY)) {
-                                boolean bottleOutput = outputItem.getItem().equals(Items.HONEY_BOTTLE);
+                                boolean bottleOutput = outputItem.getItem().equals(Items.HONEY_BOTTLE) || outputItem.getItem().equals(ModItems.HONEY_TREAT.get());
                                 int drainedFluid = bottleOutput ? 250 : 0;
 
                                 if (outputItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()) {

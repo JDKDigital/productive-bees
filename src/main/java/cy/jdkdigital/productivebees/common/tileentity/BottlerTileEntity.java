@@ -40,7 +40,7 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
     {
         @Override
         public boolean isBottleItem(Item item) {
-            return item == Items.GLASS_BOTTLE || item == Items.BUCKET;
+            return item == Items.GLASS_BOTTLE || item == Items.BUCKET || item == Items.HONEYCOMB;
         }
     });
 
