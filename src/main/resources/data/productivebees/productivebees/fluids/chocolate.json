@@ -1,0 +1,16 @@
+{
+    "name": "Choco Bee",
+    "primaryColor": "#914139",
+    "secondaryColor": "#804f40",
+    "particleColor": "#914139",
+    "flowerBlock": "mnecraft:cocoa",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "productivebees:fluid_tag_empty",
+                "tag": "forge:chocolate"
+            }
+        }
+    ]
+}

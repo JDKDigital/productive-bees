@@ -1,0 +1,21 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:leafcutter_bee",
+    "result": "productivebees:tea",
+    "item": {
+        "item": "minecraft:water_bucket"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "silentgems"
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/tea"
+            }
+        }
+    ]
+}

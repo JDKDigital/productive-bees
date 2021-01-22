@@ -1,0 +1,21 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:sugarbag",
+    "result": "productivebees:chocolate",
+    "item": {
+        "item": "minecraft:ice"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "silentgems"
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/chocolate"
+            }
+        }
+    ]
+}
