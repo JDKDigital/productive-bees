@@ -3,18 +3,14 @@
     "source": "productivebees:sugarbag",
     "result": "productivebees:chocolate",
     "item": {
-        "item": "minecraft:ice"
+        "item": "minecraft:cocoa_beans"
     },
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "silentgems"
-        },
-        {
             "type": "forge:not",
             "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/chocolate"
+                "type": "productivebees:fluid_tag_empty",
+                "tag": "forge:chocolate"
             }
         }
     ]

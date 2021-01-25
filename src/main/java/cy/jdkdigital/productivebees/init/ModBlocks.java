@@ -2,7 +2,8 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.*;
-import cy.jdkdigital.productivebees.common.block.nest.*;
+import cy.jdkdigital.productivebees.common.block.nest.SugarCaneNest;
+import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import net.minecraft.block.Block;

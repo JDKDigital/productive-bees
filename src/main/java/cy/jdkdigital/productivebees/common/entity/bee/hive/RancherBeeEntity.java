@@ -20,9 +20,7 @@ public class RancherBeeEntity extends ProductiveBeeEntity
 {
     public CreatureEntity target = null;
 
-    public static Predicate<Entity> predicate = (entity -> {
-        return ModTags.RANCHABLES.contains(entity.getType());
-    });
+    public static Predicate<Entity> predicate = (entity -> ModTags.RANCHABLES.contains(entity.getType()));
 
     public RancherBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);

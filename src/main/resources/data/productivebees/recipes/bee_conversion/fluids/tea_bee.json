@@ -7,14 +7,10 @@
     },
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "silentgems"
-        },
-        {
             "type": "forge:not",
             "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/tea"
+                "type": "productivebees:fluid_tag_empty",
+                "tag": "forge:tea"
             }
         }
     ]

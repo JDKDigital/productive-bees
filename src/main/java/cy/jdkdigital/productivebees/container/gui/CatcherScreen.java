@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CatcherScreen extends ContainerScreen<CatcherContainer>
 {
-    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/centrifuge.png");
+    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/catcher.png");
 
     public CatcherScreen(CatcherContainer container, PlayerInventory inv, ITextComponent titleIn) {
         super(container, inv, titleIn);
