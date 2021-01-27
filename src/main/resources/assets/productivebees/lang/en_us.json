@@ -201,6 +201,7 @@
 	"block.productivebees.glowstone_nest": "Glowstone Nest",
 	"block.productivebees.nether_quartz_nest": "Quartz Nest",
 	"block.productivebees.nether_brick_nest": "Nether Brick Nest",
+	"block.productivebees.nether_gold_nest": "Nether Gold Nest",
 	"block.productivebees.soul_sand_nest": "Soul Sand Nest",
 	"block.productivebees.end_stone_nest": "End Stone Nest",
 	"block.productivebees.obsidian_nest": "Obsidian Nest",
@@ -567,6 +568,7 @@
 	"productivebees.ingredient.description.nether_brick_nest": "Attracts magmatic bees in the nether. Nest must be placed in the nether to attract bees.",
 	"productivebees.ingredient.description.nether_quartz_nest": "Attracts crystalline bees in the nether. Nest must be placed in the nether to attract bees.",
 	"productivebees.ingredient.description.soul_sand_nest": "Attracts ghostly bees in the nether. Nest must be placed in the nether to attract bees.",
+	"productivebees.ingredient.description.nether_gold_nest": "Attracts gold bees in the nether. Nest must be placed in the nether to attract bees.",
 
 	"productivebees.top.solitary.bee": "Inhabitant: %s",
 	"productivebees.top.solitary.egg_count": "Eggs: %s",
