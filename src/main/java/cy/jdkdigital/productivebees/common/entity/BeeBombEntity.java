@@ -58,7 +58,7 @@ public class BeeBombEntity extends ProjectileItemEntity
             }
 
             // Release list of bees near landing location
-            ItemStack bomb = getItem();
+            ItemStack bomb = func_213882_k();
 
             boolean isAngry = bomb.getItem() instanceof BeeBombAngry;
 
