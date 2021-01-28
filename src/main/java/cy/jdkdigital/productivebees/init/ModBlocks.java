@@ -6,10 +6,7 @@ import cy.jdkdigital.productivebees.common.block.nest.SugarCaneNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -39,6 +36,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> FEEDER = createBlock("feeder", () -> new Feeder(Block.Properties.from(Blocks.STONE_SLAB)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> JAR = createBlock("jar_oak", () -> new Jar(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS).notSolid()), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> QUARTZ_NETHERRACK = createBlock("quartz_netherrack", () -> new Block(Block.Properties.from(Blocks.NETHER_QUARTZ_ORE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> PURPLE_HOPPER = createBlock("purple_hopper", () -> new HopperBlock(Block.Properties.from(Blocks.HOPPER)), ModItemGroups.PRODUCTIVE_BEES);
 
     public static final RegistryObject<Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest(Block.Properties.from(Blocks.OAK_LOG)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest(Block.Properties.from(Blocks.OAK_LOG)), ModItemGroups.PRODUCTIVE_BEES);

@@ -396,6 +396,11 @@ public class ProductiveBeeEntity extends BeeEntity
         }
     }
 
+    @Override
+    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+        return this.isChild() ? sizeIn.height * 0.25F : sizeIn.height * 0.5F;
+    }
+
     public void setColor(Color primary, Color secondary) {
         this.primaryColor = primary;
         this.secondaryColor = secondary;

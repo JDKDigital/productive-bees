@@ -105,7 +105,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         if (beeEntity instanceof HoarderBeeEntity) {
             return 100;
         }
-        return hasNectar ? ProductiveBeesConfig.GENERAL.timeInHive.get() : ProductiveBeesConfig.GENERAL.timeInHive.get() / 4;
+        return hasNectar ? ProductiveBeesConfig.GENERAL.timeInHive.get() : ProductiveBeesConfig.GENERAL.timeInHive.get() / 2;
     }
 
     public void markDirty() {

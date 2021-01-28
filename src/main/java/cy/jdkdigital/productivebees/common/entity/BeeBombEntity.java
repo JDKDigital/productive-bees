@@ -34,10 +34,6 @@ public class BeeBombEntity extends ProjectileItemEntity
         super(ModEntities.BEE_BOMB.get(), entity, world);
     }
 
-    public BeeBombEntity(World world, double x, double y, double z) {
-        super(ModEntities.BEE_BOMB.get(), x, y, z, world);
-    }
-
     @Nonnull
     @Override
     protected Item getDefaultItem() {
