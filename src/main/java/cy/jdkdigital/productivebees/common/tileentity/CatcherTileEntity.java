@@ -43,8 +43,6 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
 
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
 
-    protected LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(() -> new EnergyStorage(100000));
-
     public CatcherTileEntity() {
         super(ModTileEntityTypes.CATCHER.get());
     }
@@ -91,8 +89,6 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return inventoryHandler.cast();
-        } else if (cap == CapabilityEnergy.ENERGY) {
-            return energyHandler.cast();
         }
         return super.getCapability(cap, side);
     }

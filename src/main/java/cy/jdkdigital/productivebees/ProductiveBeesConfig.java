@@ -85,7 +85,7 @@ public class ProductiveBeesConfig
                     .defineInRange("timeInHive", 4800, 20, Integer.MAX_VALUE);
 
             centrifugeProcessingTime = builder
-                    .comment("How many ticks it takes for process a recipe in the centrifuge. Default 300.")
+                    .comment("How many ticks it takes for process a recipe in the centrifuge. Default 200.")
                     .defineInRange("centrifugeProcessingTime", 300, 20, Integer.MAX_VALUE);
 
             centrifugePoweredProcessingTime = builder
@@ -138,11 +138,18 @@ public class ProductiveBeesConfig
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
 
-            spawnUndeadBees = builder.comment("Spawn skeletal and zombie bees as night?").define("spawnUndeadBees", true);
-            spawnUndeadBeesChance = builder.defineInRange("spawnUndeadBeesChance", 0.05, 0, 1);
+            spawnUndeadBees = builder
+                    .comment("Spawn skeletal and zombie bees as night?")
+                    .define("spawnUndeadBees", true);
+            spawnUndeadBeesChance = builder
+                    .defineInRange("spawnUndeadBeesChance", 0.05, 0, 1);
 
-            cupidBeeAnimalsPerPollination = builder.comment("How many animals a CuBee can breed per pollination").defineInRange("cupidBeeAnimalsPerPollination", 5, 0, Integer.MAX_VALUE);
-            cupidBeeAnimalDensity = builder.comment("How densely populated should an areas need to be for the CuBee to stop breeding. The value approximates how many animals can be in a 10x10 area around the bee.").defineInRange("cupidBeeAnimalDensity", 15, 0, Integer.MAX_VALUE);
+            cupidBeeAnimalsPerPollination = builder
+                    .comment("How many animals a CuBee can breed per pollination")
+                    .defineInRange("cupidBeeAnimalsPerPollination", 5, 0, Integer.MAX_VALUE);
+            cupidBeeAnimalDensity = builder
+                    .comment("How densely populated should an areas need to be for the CuBee to stop breeding. The value approximates how many animals can be in a 10x10 area around the bee.")
+                    .defineInRange("cupidBeeAnimalDensity", 20, 0, Integer.MAX_VALUE);
 
             builder.pop();
         }
@@ -160,13 +167,25 @@ public class ProductiveBeesConfig
         public BeeAttributes(ForgeConfigSpec.Builder builder) {
             builder.push("Bee attributes");
 
-            leashedTicks = builder.comment("Number of ticks between attribute improvement attempts").defineInRange("ticks", 1337, 20, Integer.MAX_VALUE);
-            damageChance = builder.comment("Chance that a bee will take damage while leashed in a hostile environment").defineInRange("damageChance", 0.1, 0, 1);
-            toleranceChance = builder.comment("Chance to increase tolerance (rain or thunder tolerance trait) while leashed in a hostile environment.").defineInRange("toleranceChance", 0.1, 0, 1);
-            behaviorChance = builder.comment("Chance to increase behavior (nocturnal trait) while leashed in a hostile environment.").defineInRange("behaviorChance", 0.1, 0, 1);
-            geneExtractChance = builder.comment("Chance to extract genes from a bottle of bee material.").defineInRange("geneExtractChance", 0.85, 0, 1);
+            leashedTicks = builder
+                    .comment("Number of ticks between attribute improvement attempts while leashed")
+                    .defineInRange("ticks", 1337, 20, Integer.MAX_VALUE);
+            damageChance = builder
+                    .comment("Chance that a bee will take damage while leashed in a hostile environment")
+                    .defineInRange("damageChance", 0.1, 0, 1);
+            toleranceChance = builder
+                    .comment("Chance to increase tolerance (rain or thunder tolerance trait) while leashed in a hostile environment.")
+                    .defineInRange("toleranceChance", 0.1, 0, 1);
+            behaviorChance = builder
+                    .comment("Chance to increase behavior (nocturnal trait) while leashed in a hostile environment.")
+                    .defineInRange("behaviorChance", 0.1, 0, 1);
+            geneExtractChance = builder
+                    .comment("Chance to extract genes from a bottle of bee material.")
+                    .defineInRange("geneExtractChance", 0.85, 0, 1);
+            effectTicks = builder
+                    .comment("Number of ticks between effects on nearby entities")
+                    .defineInRange("ticks", 2337, 20, Integer.MAX_VALUE);
 
-            effectTicks = builder.comment("Number of ticks between effects on nearby entities").defineInRange("ticks", 2337, 20, Integer.MAX_VALUE);
             builder.pop();
         }
     }

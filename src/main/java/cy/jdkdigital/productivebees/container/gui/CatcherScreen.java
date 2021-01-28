@@ -35,8 +35,8 @@ public class CatcherScreen extends ContainerScreen<CatcherContainer>
 
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.func_243248_b(matrixStack, this.title, -5.0f, 6.0F, 4210752);
-        this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), -5.0f, (float) (this.ySize - 96 + 2), 4210752);
+        this.font.func_243248_b(matrixStack, this.title, 8.0F, 6.0F, 4210752);
+        this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
 
         this.container.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
