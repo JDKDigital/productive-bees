@@ -35,18 +35,6 @@ public class CatcherScreen extends ContainerScreen<CatcherContainer>
         this.font.drawString(this.title.getFormattedText(), 8.0F, 6.0F, 4210752);
         this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
 
-        this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
-            int energyAmount = handler.getEnergyStored();
-
-            // Energy level tooltip
-            if (isPointInRegion(- 5, 16, 6, 54, mouseX, mouseY)) {
-                List<String> tooltipList = new ArrayList<>();
-                tooltipList.add("Energy: " + energyAmount + "FE");
-
-                renderTooltip(tooltipList, mouseX - guiLeft, mouseY - guiTop);
-            }
-        });
-
         this.container.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
                 if (isPointInRegion(80, 17, 18, 18, mouseX, mouseY)) {
@@ -69,12 +57,5 @@ public class CatcherScreen extends ContainerScreen<CatcherContainer>
 
         // Draw main screen
         this.blit(this.guiLeft - 13, this.guiTop, 0, 0, this.xSize + 26, this.ySize);
-
-        // Draw energy level
-        this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
-            int energyAmount = handler.getEnergyStored();
-            int energyLevel = (int) (energyAmount * (52 / 10000F));
-            this.blit(this.guiLeft - 5, this.guiTop + 69, 206, 52, 4, -1 * energyLevel);
-        });
     }
 }
