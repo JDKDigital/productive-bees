@@ -3,6 +3,7 @@
     "secondaryColor": "#610057",
     "particleColor": "#caacbe",
     "createComb": false,
+    "selfbreed": false,
     "flowerBlock": "mmorpg:ore_block3",
     "conditions": [
         {

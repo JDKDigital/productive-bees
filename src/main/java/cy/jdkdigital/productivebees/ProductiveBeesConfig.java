@@ -81,8 +81,8 @@ public class ProductiveBeesConfig
                     .defineInRange("hiveTickRate", 1500, 20, Integer.MAX_VALUE);
 
             timeInHive = builder
-                    .comment("How long time a bee should stay in the hive when having delivered honey. Default 2400.")
-                    .defineInRange("timeInHive", 2400, 20, Integer.MAX_VALUE);
+                    .comment("How long time a bee should stay in the hive when having delivered honey. Default 4800.")
+                    .defineInRange("timeInHive", 4800, 20, Integer.MAX_VALUE);
 
             centrifugeProcessingTime = builder
                     .comment("How many ticks it takes for process a recipe in the centrifuge. Default 300.")
@@ -202,10 +202,18 @@ public class ProductiveBeesConfig
         public Upgrades(ForgeConfigSpec.Builder builder) {
             builder.push("Hive Upgrades");
 
-            timeBonus = builder.comment("Time bonus gained from time upgrade. 0.2 means 20% reduction of a bee's time inside the hive.").defineInRange("timeBonus", 0.2, 0, 1);
-            combBlockTimeModifier = builder.comment("Time penalty from installing the comb block upgrade. .4 means 40% increase of a bee's time inside the hive.").defineInRange("combBlockTimeModifier", .4, 0, 1);
-            productivityMultiplier = builder.comment("Multiplier per productivity upgrade installed in the hive.").defineInRange("productivityMultiplier", 1.8, 1, Integer.MAX_VALUE);
-            breedingChance = builder.comment("Chance for a bee to produce an offspring after a hive visit.").defineInRange("breedingChance", 0.05, 0, 1);
+            timeBonus = builder
+                    .comment("Time bonus gained from time upgrade. 0.2 means 20% reduction of a bee's time inside the hive.")
+                    .defineInRange("timeBonus", 0.2, 0, 1);
+            combBlockTimeModifier = builder
+                    .comment("Time penalty from installing the comb block upgrade. .4 means 40% increase of a bee's time inside the hive.")
+                    .defineInRange("combBlockTimeModifier", 1.0, 0, Integer.MAX_VALUE);
+            productivityMultiplier = builder
+                    .comment("Multiplier per productivity upgrade installed in the hive.")
+                    .defineInRange("productivityMultiplier", 1.4, 1, Integer.MAX_VALUE);
+            breedingChance = builder
+                    .comment("Chance for a bee to produce an offspring after a hive visit.")
+                    .defineInRange("breedingChance", 0.05, 0, 1);
 
             builder.pop();
         }

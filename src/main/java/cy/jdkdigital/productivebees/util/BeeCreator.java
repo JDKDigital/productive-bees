@@ -65,6 +65,7 @@ public class BeeCreator
         data.putBoolean("redstoned", json.has("redstoned") && json.get("redstoned").getAsBoolean());
         data.putBoolean("stringy", json.has("stringy") && json.get("stringy").getAsBoolean());
         data.putBoolean("stingless", json.has("stingless") && json.get("stingless").getAsBoolean());
+        data.putBoolean("selfbreed", !json.has("selfbreed") || json.get("selfbreed").getAsBoolean());
 
         if (json.has("attributes")) {
             for(Map.Entry<String, JsonElement> entry: json.get("attributes").getAsJsonObject().entrySet()) {

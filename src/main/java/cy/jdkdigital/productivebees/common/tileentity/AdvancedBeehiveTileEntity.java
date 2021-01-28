@@ -201,12 +201,14 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             Inhabitant otherBeeInhabitant = getBeeList().get(world.rand.nextInt(getBeeCount()));
             BeeEntity otherBee = (BeeEntity) EntityType.loadEntityAndExecute(otherBeeInhabitant.nbt, world, (spawnedEntity) -> spawnedEntity);
             BeeEntity offspring = BeeHelper.getBreedingResult(beeEntity, otherBee, world);
-            if (offspring instanceof ProductiveBeeEntity && beeEntity instanceof ProductiveBeeEntity) {
-                BeeHelper.setOffspringAttributes((ProductiveBeeEntity) offspring, (ProductiveBeeEntity) beeEntity, otherBee);
+            if (offspring != null) {
+                if (offspring instanceof ProductiveBeeEntity && beeEntity instanceof ProductiveBeeEntity) {
+                    BeeHelper.setOffspringAttributes((ProductiveBeeEntity) offspring, (ProductiveBeeEntity) beeEntity, otherBee);
+                }
+                offspring.setGrowingAge(-24000);
+                offspring.setLocationAndAngles(beeEntity.getPosX(), beeEntity.getPosY(), beeEntity.getPosZ(), 0.0F, 0.0F);
+                world.addEntity(offspring);
             }
-            offspring.setGrowingAge(-24000);
-            offspring.setLocationAndAngles(beeEntity.getPosX(), beeEntity.getPosY(), beeEntity.getPosZ(), 0.0F, 0.0F);
-            world.addEntity(offspring);
         }
 
         // Add to the countdown for it's spot to become available in the hive

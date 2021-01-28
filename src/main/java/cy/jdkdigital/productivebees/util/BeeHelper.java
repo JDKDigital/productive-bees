@@ -47,6 +47,7 @@ import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -105,6 +106,7 @@ public class BeeHelper
         }
     }
 
+    @Nullable
     public static BeeEntity getBreedingResult(BeeEntity beeEntity, AgeableEntity targetEntity, World world) {
         IInventory beeInv = new IdentifierInventory(beeEntity, (BeeEntity) targetEntity);
 
@@ -164,7 +166,11 @@ public class BeeHelper
         }
 
         // If no specific recipe exist for the target bee or the bees are the same type, create a child like the parent
-        return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
+        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeEntity.getEntityString());
+        if (nbt.getBoolean("selfbreed")) {
+            return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
+        }
+        return null;
     }
 
     public static List<ItemStack> getBeeProduce(World world, BeeEntity beeEntity, boolean hasCombBlockUpgrade) {
