@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -152,13 +153,14 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                             FarmerBeeEntity.this.targetHarvestPos = null;
                         } else {
                             List<BlockPos> harvestablesNearby = FarmerBeeEntity.this.findHarvestablesNearby(0);
-                            if (!harvestablesNearby.isEmpty()) {
+                            if (!harvestablesNearby.isEmpty() && world instanceof ServerWorld) {
                                 BlockPos pos = harvestablesNearby.iterator().next();
 
                                 // right click if certain mods are installed
-                                if ((ModList.get().isLoaded("quark") || ModList.get().isLoaded("pamhc2crops") || ModList.get().isLoaded("simplefarming") || ModList.get().isLoaded("reap")) && world instanceof ServerWorld) {
+                                if ((ModList.get().isLoaded("quark") || ModList.get().isLoaded("pamhc2crops") || ModList.get().isLoaded("simplefarming") || ModList.get().isLoaded("reap"))) {
                                     PlayerEntity fakePlayer = FakePlayerFactory.get((ServerWorld) world, new GameProfile(null, "farmer_bee"));
-                                    ForgeHooks.onRightClickBlock(fakePlayer, Hand.MAIN_HAND, pos, FarmerBeeEntity.this.getAdjustedHorizontalFacing());
+                                    BlockRayTraceResult traceResult = new BlockRayTraceResult(FarmerBeeEntity.this.getLookVec(), FarmerBeeEntity.this.getAdjustedHorizontalFacing(), pos, false);
+                                    ForgeHooks.onRightClickBlock(fakePlayer, Hand.MAIN_HAND, pos, traceResult);
                                 } else {
                                     world.destroyBlock(pos, true);
                                 }
