@@ -50,12 +50,13 @@ public class BeeReloadListener extends JsonReloadListener
                 throw e;
             }
 
-            CompoundNBT nbt = BeeCreator.create(id, entry.getValue().getAsJsonObject());
+            ResourceLocation simpleId = id.getPath().contains("/") ? new ResourceLocation(id.getNamespace(), id.getPath().substring(id.getPath().lastIndexOf("/")+1)) : id;
+            CompoundNBT nbt = BeeCreator.create(simpleId, entry.getValue().getAsJsonObject());
 
-            BEE_DATA.remove(id.toString());
-            BEE_DATA.put(id.toString(), nbt);
+            BEE_DATA.remove(simpleId.toString());
+            BEE_DATA.put(simpleId.toString(), nbt);
 
-            ProductiveBees.LOGGER.debug("Adding to bee data " + id);
+            ProductiveBees.LOGGER.debug("Adding to bee data " + simpleId);
 
             // Create ResourcefulBees centrifuge recipes
             if (ModList.get().isLoaded(ResourcefulBeesCompat.MODID) && nbt.getBoolean("createComb")) {

@@ -4,9 +4,11 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import jdk.internal.jline.internal.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 
 public class ModTags
@@ -23,24 +25,17 @@ public class ModTags
     public static final ITag<Block> RIVER_FLOWERS = getTag("flowers/river_flowers");
     public static final ITag<Block> QUARRY = getTag("flowers/quarry");
 
+    public static final ITag<Item> HONEY_BUCKETS = ItemTags.createOptional(new ResourceLocation("forge", "honey_buckets"));
+    public static final ITag<Item> EGGS = ItemTags.createOptional(new ResourceLocation("forge", "eggs"));
+
     public static final ITag<EntityType<?>> RANCHABLES = EntityTypeTags.createOptional(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
 
     public static ITag<Block> getTag(String name) {
-        if (name.equals("nether_quarts_nests")) {
-            name = "nether_quartz_nests";
-        } else if (name.equals("glowtone_nests")) {
-            name = "glowstone_nests";
-        }
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));
     }
 
     @Nullable
     public static ITag<Block> getTag(ResourceLocation resourceLocation) {
-        if (resourceLocation.getPath().equals("nether_quarts_nests")) {
-            resourceLocation = new ResourceLocation(ProductiveBees.MODID, "nether_quartz_nests");
-        } else if (resourceLocation.getPath().equals("glowtone_nests")) {
-            resourceLocation = new ResourceLocation(ProductiveBees.MODID, "glowstone_nests");
-        }
         return BlockTags.createOptional(resourceLocation);
     }
 }

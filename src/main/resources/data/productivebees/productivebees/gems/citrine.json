@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#995500",
+    "secondaryColor": "#2e0b17",
+    "tertiaryColor": "#838f00",
+    "particleColor": "#995500",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/citrine",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/citrine"
+            }
+        }
+    ]
+}

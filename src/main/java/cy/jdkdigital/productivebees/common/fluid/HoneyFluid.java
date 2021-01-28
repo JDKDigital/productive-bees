@@ -23,8 +23,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidAttributes;
 
 import javax.annotation.Nullable;
@@ -51,7 +49,7 @@ public abstract class HoneyFluid extends FlowingFluid
         return ModItems.HONEY_BUCKET.get();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Override
     public void animateTick(World worldIn, BlockPos pos, FluidState state, Random random) {
         BlockPos blockpos = pos.up();
         if (worldIn.getBlockState(blockpos).isAir() && !worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
@@ -73,15 +71,16 @@ public abstract class HoneyFluid extends FlowingFluid
     }
 
     @Nullable
-    @OnlyIn(Dist.CLIENT)
     public IParticleData getDripParticleData() {
         return ParticleTypes.DRIPPING_HONEY;
     }
 
+    @Override
     protected void beforeReplacingBlock(IWorld world, BlockPos pos, BlockState state) {
         this.triggerEffects(world, pos);
     }
 
+    @Override
     public int getSlopeFindDistance(IWorldReader worldIn) {
         return worldIn.getDimensionType().isUltrawarm()  ? 6 : 3;
     }
@@ -91,22 +90,27 @@ public abstract class HoneyFluid extends FlowingFluid
         return ModBlocks.HONEY.get().getDefaultState().with(FlowingFluidBlock.LEVEL, getLevelFromState(state));
     }
 
+    @Override
     public boolean isEquivalentTo(Fluid fluidIn) {
         return fluidIn == ModFluids.HONEY.get() || fluidIn == ModFluids.HONEY_FLOWING.get();
     }
 
+    @Override
     public int getLevelDecreasePerBlock(IWorldReader worldIn) {
         return worldIn.getDimensionType().isUltrawarm() ? 1 : 2;
     }
 
+    @Override
     public boolean canDisplace(FluidState state, IBlockReader worldIn, BlockPos pos, Fluid fluid, Direction direction) {
         return state.getActualHeight(worldIn, pos) >= 0.44444445F && fluid.isIn(FluidTags.WATER);
     }
 
+    @Override
     public int getTickRate(IWorldReader worldIn) {
         return worldIn.getDimensionType().isUltrawarm() ? 10 : 30;
     }
 
+    @Override
     public int func_215667_a(World world, BlockPos pos, FluidState state, FluidState FluidState) {
         int i = this.getTickRate(world);
         if (!state.isEmpty() && !FluidState.isEmpty() && !state.get(FALLING) && !FluidState.get(FALLING) && FluidState.getActualHeight(world, pos) > state.getActualHeight(world, pos) && world.getRandom().nextInt(4) != 0) {
@@ -120,25 +124,30 @@ public abstract class HoneyFluid extends FlowingFluid
         world.playSound(null, pos, SoundEvents.BLOCK_HONEY_BLOCK_SLIDE, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 
+    @Override
     protected boolean canSourcesMultiply() {
         return false;
     }
 
+    @Override
     protected float getExplosionResistance() {
         return 100.0F;
     }
 
     public static class Flowing extends HoneyFluid
     {
+        @Override
         protected void fillStateContainer(StateContainer.Builder<Fluid, FluidState> builder) {
             super.fillStateContainer(builder);
             builder.add(LEVEL_1_8);
         }
 
+        @Override
         public int getLevel(FluidState state) {
             return state.get(LEVEL_1_8);
         }
 
+        @Override
         public boolean isSource(FluidState state) {
             return false;
         }
@@ -146,10 +155,12 @@ public abstract class HoneyFluid extends FlowingFluid
 
     public static class Source extends HoneyFluid
     {
+        @Override
         public int getLevel(FluidState state) {
             return 8;
         }
 
+        @Override
         public boolean isSource(FluidState state) {
             return true;
         }

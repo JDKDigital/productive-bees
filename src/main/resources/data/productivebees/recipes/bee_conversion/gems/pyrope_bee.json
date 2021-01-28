@@ -1,0 +1,24 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:diamond",
+    "result": "productivebees:pyrope",
+    "item": {
+        "tag": "productivebees:flowers/gems/pyrope"
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/gems/pyrope"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/pyrope"
+            }
+        }
+    ]
+}

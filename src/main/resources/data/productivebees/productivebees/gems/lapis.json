@@ -1,0 +1,10 @@
+{
+    "primaryColor": "#2659ab",
+    "secondaryColor": "#804f40",
+    "tertiaryColor": "#1b3588",
+    "particleColor": "#3537bc",
+    "particleType": "pop",
+    "createComb": false,
+    "renderer": "default_crystal",
+    "flowerTag": "forge:storage_blocks/lapis"
+}

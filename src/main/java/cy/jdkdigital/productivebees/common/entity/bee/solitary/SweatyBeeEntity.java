@@ -26,4 +26,9 @@ public class SweatyBeeEntity extends SolitaryBeeEntity
     public ITag<Block> getNestingTag() {
         return ModTags.COLD_NESTS;
     }
+
+    @Override
+    public String getRenderer() {
+        return "slim";
+    }
 }

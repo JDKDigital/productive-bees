@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.item;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -82,6 +83,25 @@ public class BeeCage extends Item
 
         BeeEntity target = (BeeEntity) targetIn;
 
+        ItemStack cageStack = captureEntity(target);
+
+        if (!player.inventory.addItemStackToInventory(cageStack)) {
+            player.dropItem(cageStack, false);
+        }
+
+        player.swingArm(hand);
+
+        if (player instanceof ServerPlayerEntity) {
+            ModAdvancements.CATCH_BEE.trigger((ServerPlayerEntity) player, cageStack);
+        }
+
+        itemStack.shrink(1);
+        target.remove(true);
+
+        return ActionResultType.SUCCESS;
+    }
+
+    public static ItemStack captureEntity(BeeEntity target) {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("entity", EntityType.getKey(target.getType()).toString());
         if (target.hasCustomName()) {
@@ -102,23 +122,10 @@ public class BeeCage extends Item
         }
         nbt.putString("mod", modName);
 
-        ItemStack cageStack = new ItemStack(itemStack.getItem());
+        ItemStack cageStack = new ItemStack(ModItems.BEE_CAGE.get());
         cageStack.setTag(nbt);
 
-        if (!player.inventory.addItemStackToInventory(cageStack)) {
-            player.dropItem(cageStack, false);
-        }
-
-        player.swingArm(hand);
-
-        if (player instanceof ServerPlayerEntity) {
-            ModAdvancements.CATCH_BEE.trigger((ServerPlayerEntity) player, cageStack);
-        }
-
-        itemStack.shrink(1);
-        target.remove(true);
-
-        return ActionResultType.CONSUME;
+        return cageStack;
     }
 
     @Nullable
@@ -168,8 +175,9 @@ public class BeeCage extends Item
                     list.add(new TranslationTextComponent("productivebees.information.health.dying").mergeStyle(TextFormatting.RED).mergeStyle(TextFormatting.ITALIC));
                 }
 
-                if (tag.getBoolean("isProductiveBee")) {
+                list.add(new TranslationTextComponent(tag.getInt("Age") < 0 ? "productivebees.information.age.child" : "productivebees.information.age.adult").mergeStyle(TextFormatting.AQUA).mergeStyle(TextFormatting.ITALIC));
 
+                if (tag.getBoolean("isProductiveBee")) {
                     String type = tag.getString("bee_type");
                     ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).mergeStyle(getColor(type));
                     list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).mergeStyle(TextFormatting.DARK_GRAY));

@@ -40,11 +40,11 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
             if (--nestTickTimer <= 0) {
                 if (this.canRepopulate()) {
                     if (block instanceof SolitaryNest) {
-                        BeeEntity newBee = ((SolitaryNest) block).getNestingBeeType(world);
+                        BeeEntity newBee = ((SolitaryNest) block).getNestingBeeType(world, world.getBiome(pos));
                         if (newBee != null) {
                             newBee.setHealth(newBee.getMaxHealth());
                             Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
-                            spawnBeeInWorldAPosition(this.world, newBee, pos, direction, null);
+                            spawnBeeInWorldAtPosition(this.world, newBee, pos, direction, null);
                         }
                     }
                 }
@@ -57,7 +57,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     public boolean canRepopulate() {
         SolitaryNest nest = ((SolitaryNest) this.getBlockState().getBlock());
-        boolean blockConditionsMet = nest.canRepopulateIn(this.world);
+        boolean blockConditionsMet = nest.canRepopulateIn(world, world.getBiome(this.getPos()));
         return hasNoBees() && blockConditionsMet;
     }
 

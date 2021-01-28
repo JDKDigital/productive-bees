@@ -7,12 +7,9 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-@OnlyIn(Dist.CLIENT)
 public class FallingNectarParticle extends DripParticle
 {
     public FallingNectarParticle(ClientWorld world, double x, double y, double z, Fluid fluid) {
@@ -21,7 +18,8 @@ public class FallingNectarParticle extends DripParticle
         this.particleGravity = 0.007F;
     }
 
-    protected void func_217577_h() {
+    @Override
+    protected void updateMotion() {
         if (this.onGround) {
             this.setExpired();
         }

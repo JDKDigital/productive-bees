@@ -14,6 +14,7 @@
         "#forge:honeycombs/bone",
         "#forge:honeycombs/brazen",
         "#forge:honeycombs/bronze",
+        "#forge:honeycombs/chocolate",
         "#forge:honeycombs/cinnabar",
         "#forge:honeycombs/common_salvage",
         "#forge:honeycombs/constantan",
@@ -29,6 +30,7 @@
         "#forge:honeycombs/epic_salvage",
         "#forge:honeycombs/experience",
         "#forge:honeycombs/fossilised",
+        "#forge:honeycombs/frosty",
         "#forge:honeycombs/ghostly",
         "#forge:honeycombs/glowing",
         "#forge:honeycombs/gold",
@@ -59,11 +61,12 @@
         "#forge:honeycombs/radioactive",
         "#forge:honeycombs/rare_salvage",
         "#forge:honeycombs/redstone",
-        "#forge:honeycombs/rotten",
         "#forge:honeycombs/refined_glowstone",
         "#forge:honeycombs/refined_obsidian",
+        "#forge:honeycombs/rotten",
         "#forge:honeycombs/signalum",
         "#forge:honeycombs/silicon",
+        "#forge:honeycombs/silky",
         "#forge:honeycombs/silver",
         "#forge:honeycombs/slimy",
         "#forge:honeycombs/soulium",
@@ -71,6 +74,7 @@
         "#forge:honeycombs/steel",
         "#forge:honeycombs/sulfur",
         "#forge:honeycombs/supremium",
+        "#forge:honeycombs/tea",
         "#forge:honeycombs/terrasteel",
         "#forge:honeycombs/tertium",
         "#forge:honeycombs/tin",
@@ -81,6 +85,9 @@
         "#forge:honeycombs/uraninite",
         "#forge:honeycombs/vibranium",
         "#forge:honeycombs/withered",
-        "#forge:honeycombs/zinc"
+        "#forge:honeycombs/zinc",
+        "#forge:honeycombs/apatite",
+        "#forge:honeycombs/ruby",
+        "#forge:honeycombs/sapphire"
     ]
 }

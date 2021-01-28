@@ -22,4 +22,9 @@ public class NomadBeeEntity extends SolitaryBeeEntity
     public boolean isFlowerBlock(Block flowerBlock) {
         return flowerBlock.isIn(ModTags.ARID_FLOWERS);
     }
+
+    @Override
+    public String getRenderer() {
+        return "slim";
+    }
 }

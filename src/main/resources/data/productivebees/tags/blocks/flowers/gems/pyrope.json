@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/pyrope",
+        "silentgems:pyrope_glowrose",
+        "gemsnjewels:pyrope_block"
+    ]
+}

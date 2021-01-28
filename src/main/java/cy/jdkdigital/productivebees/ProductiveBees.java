@@ -6,8 +6,8 @@ import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.DragonEggHive;
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.common.entity.bee.hive.ZombieBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBeeEntity;
+import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
@@ -15,8 +15,16 @@ import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.setup.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.dispenser.OptionalDispenseBehavior;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
@@ -34,6 +42,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -115,6 +124,33 @@ public final class ProductiveBees
         PacketHandler.init();
         ModAdvancements.register();
 
+        DefaultDispenseItemBehavior cageDispensebehavior = new OptionalDispenseBehavior() {
+            private final DefaultDispenseItemBehavior fallbackDispenseBehavior = new DefaultDispenseItemBehavior();
+
+            public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+                if (stack.getItem() instanceof BeeCage && BeeCage.isFilled(stack)) {
+                    Direction direction = source.getBlockState().get(DispenserBlock.FACING);
+
+                    BeeEntity entity = BeeCage.getEntityFromStack(stack, source.getWorld(), true);
+                    if (entity != null) {
+                        entity.hivePos = null;
+
+                        BlockPos spawnPos = source.getBlockPos().offset(direction);
+
+                        entity.setPositionAndRotation(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, 0, 0);
+                        if (source.getWorld().addEntity(entity)) {
+                            stack.shrink(1);
+                        }
+                        return stack;
+                    }
+                }
+                return fallbackDispenseBehavior.dispense(source, stack);
+            }
+        };
+        DispenserBlock.registerDispenseBehavior(ModItems.BEE_CAGE.get(), cageDispensebehavior);
+    }
+
+    public void onLoadComplete(FMLLoadCompleteEvent event) {
         DeferredWorkQueue.runLater(() -> {
             //Entity attribute assignments
             for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
@@ -125,7 +161,6 @@ public final class ProductiveBees
                 EntityType<ProductiveBeeEntity> bee = (EntityType<ProductiveBeeEntity>) registryObject.get();
                 GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().create());
             }
-            GlobalEntityTypeAttributes.put(ModEntities.ZOMBIE_BEE.get(), ZombieBeeEntity.getDefaultAttributes().create());
             GlobalEntityTypeAttributes.put(ModEntities.BLUE_BANDED_BEE.get(), BlueBandedBeeEntity.getDefaultAttributes().create());
         });
 

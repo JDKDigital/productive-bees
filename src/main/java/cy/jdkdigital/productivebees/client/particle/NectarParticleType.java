@@ -19,25 +19,26 @@ public class NectarParticleType extends ParticleType<NectarParticleType> impleme
     {
         @Nonnull
         @Override
-        public NectarParticleType deserialize(@Nonnull ParticleType<NectarParticleType> particleTypeIn, @Nonnull StringReader reader) throws CommandSyntaxException {
-            return (NectarParticleType) particleTypeIn;
+        public NectarParticleType deserialize(@Nonnull ParticleType<NectarParticleType> particleType, @Nonnull StringReader stringReader) throws CommandSyntaxException {
+            return (NectarParticleType) particleType;
         }
 
         @Nonnull
         @Override
-        public NectarParticleType read(@Nonnull ParticleType<NectarParticleType> particleTypeIn, @Nonnull PacketBuffer buffer) {
-            return (NectarParticleType) particleTypeIn;
+        public NectarParticleType read(@Nonnull ParticleType<NectarParticleType> particleType, @Nonnull PacketBuffer buffer) {
+            return (NectarParticleType) particleType;
         }
     };
-    private final Codec<NectarParticleType> field_239825_b_ = Codec.unit(this::getType);
+
+    private final Codec<NectarParticleType> codec = Codec.unit(this::getType);
 
     @Override
     public Codec<NectarParticleType> func_230522_e_() {
-        return field_239825_b_;
+        return codec;
     }
 
-    public NectarParticleType() {
-        super(false, DESERIALIZER);
+    public NectarParticleType(boolean alwaysShow) {
+        super(alwaysShow, DESERIALIZER);
     }
 
     public void setColor(float[] color) {

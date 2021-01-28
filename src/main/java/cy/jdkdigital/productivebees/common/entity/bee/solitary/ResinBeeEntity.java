@@ -23,4 +23,9 @@ public class ResinBeeEntity extends SolitaryBeeEntity
     public ITag<Block> getNestingTag() {
         return ModTags.WOOD_NESTS;
     }
+
+    @Override
+    public String getRenderer() {
+        return "small";
+    }
 }

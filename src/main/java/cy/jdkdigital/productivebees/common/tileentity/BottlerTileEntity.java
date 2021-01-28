@@ -34,11 +34,13 @@ import java.util.List;
 
 public class BottlerTileEntity extends FluidTankTileEntity implements INamedContainerProvider
 {
+    protected int tickCounter = 0;
+
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
         @Override
         public boolean isBottleItem(Item item) {
-            return item == Items.GLASS_BOTTLE || item == Items.BUCKET;
+            return item == Items.GLASS_BOTTLE || item == Items.BUCKET || item == Items.HONEYCOMB;
         }
     });
 
@@ -72,7 +74,7 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
     @Override
     public void tick() {
         BlockState state = world.getBlockState(pos.up());
-        if (state.getBlock() == Blocks.PISTON_HEAD && state.get(DirectionalBlock.FACING) == Direction.DOWN) {
+        if (++tickCounter%10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.get(DirectionalBlock.FACING) == Direction.DOWN) {
             // Check for ProductiveBeeEntity on top of block
             List<ProductiveBeeEntity> bees = world.getEntitiesWithinAABB(ProductiveBeeEntity.class, (new AxisAlignedBB(pos).grow(0.0D, 1.0D, 0.0D)));
             if (!bees.isEmpty()) {

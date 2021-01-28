@@ -20,9 +20,7 @@ public class RancherBeeEntity extends ProductiveBeeEntity
 {
     public CreatureEntity target = null;
 
-    public static Predicate<Entity> predicate = (entity -> {
-        return ModTags.RANCHABLES.contains(entity.getType());
-    });
+    public static Predicate<Entity> predicate = (entity -> ModTags.RANCHABLES.contains(entity.getType()));
 
     public RancherBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -36,8 +34,7 @@ public class RancherBeeEntity extends ProductiveBeeEntity
         if (target != null) {
             if (!hasNectar()) {
                 target.getNavigator().setSpeed(0);
-            }
-            else {
+            } else {
                 target.setRevengeTarget(this);
                 target = null;
             }

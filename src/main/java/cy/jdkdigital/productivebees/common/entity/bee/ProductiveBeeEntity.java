@@ -164,7 +164,7 @@ public class ProductiveBeeEntity extends BeeEntity
         }
 
         // Attribute improvement while leashed
-        if (!world.isRemote && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0 && getLeashed()) {
+        if (!world.isRemote && getLeashed() && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0) {
             // Rain tolerance improvements
             int tolerance = getAttributeValue(BeeAttributes.WEATHER_TOLERANCE);
             if (tolerance < 2 && world.rand.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
@@ -280,6 +280,10 @@ public class ProductiveBeeEntity extends BeeEntity
             type = types[1];
         }
         return stripName ? type.replace("_bee", "") : type;
+    }
+
+    public String getRenderer() {
+        return "default";
     }
 
     public <T> T getAttributeValue(BeeAttribute<T> parameter) {
@@ -405,6 +409,11 @@ public class ProductiveBeeEntity extends BeeEntity
         else {
             return this.isInLove() && otherAnimal.isInLove();
         }
+    }
+
+    @Override
+    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+        return this.isChild() ? sizeIn.height * 0.25F : sizeIn.height * 0.5F;
     }
 
     public void setColor(Color primary, Color secondary) {

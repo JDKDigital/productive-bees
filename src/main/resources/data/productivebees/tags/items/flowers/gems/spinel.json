@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/spinel",
+        "silentgems:spinel_glowrose",
+        "gemsnjewels:spinel_block"
+    ]
+}

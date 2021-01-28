@@ -1,1 +1,7 @@
-{"variants":{"":{"model":"productivebees:block/comb/blizz"}}}
+{
+    "variants": {
+        "": {
+            "model": "productivebees:block/comb/blizz"
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/silky"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "minecraft:string"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ]
+}

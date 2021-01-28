@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_tea"
+        }
+    ],
+    "result": {
+        "item": "productivebees:honeycomb_tea",
+        "count": 4
+    }
+}

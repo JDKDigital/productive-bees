@@ -1,0 +1,24 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:diamond",
+    "result": "productivebees:moonstone",
+    "item": {
+        "tag": "productivebees:flowers/gems/moonstone"
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/gems/moonstone"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/moonstone"
+            }
+        }
+    ]
+}

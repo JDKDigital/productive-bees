@@ -1,0 +1,54 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:copper",
+    "parent2": "productivebees:tin",
+    "offspring": [
+        "productivebees:bronze",
+        {
+            "offspring": "productivebees:tin",
+            "weight": 2
+        },
+        {
+            "offspring": "productivebees:copper",
+            "weight": 2
+        }
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:ingots/copper"
+        },
+        {
+            "tag": "forge:ingots/tin"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/copper"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/tin"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/bronze"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/bronze"
+            }
+        }
+    ]
+}

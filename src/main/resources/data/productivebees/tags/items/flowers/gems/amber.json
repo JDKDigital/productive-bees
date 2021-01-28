@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/amber",
+        "silentgems:amber_glowrose",
+        "gemsnjewels:amber_block"
+    ]
+}

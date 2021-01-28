@@ -115,6 +115,7 @@ public class BeeHelper
         }
     }
 
+    @Nullable
     public static BeeEntity getBreedingResult(BeeEntity beeEntity, AgeableEntity targetEntity, ServerWorld world) {
         IInventory beeInv = new IdentifierInventory(beeEntity, (BeeEntity) targetEntity);
 
@@ -131,15 +132,33 @@ public class BeeHelper
 
         if (!recipes.isEmpty()) {
             BeeBreedingRecipe recipe = recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
-            List<Lazy<BeeIngredient>> possibleOffspring = recipe.offspring;
+            Map<Lazy<BeeIngredient>, Integer> possibleOffspring = recipe.offspring;
             if (possibleOffspring != null && possibleOffspring.size() > 0) {
-                BeeIngredient beeIngredient = possibleOffspring.get(ProductiveBees.rand.nextInt(possibleOffspring.size())).get();
-                BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
-                if (newBee instanceof ConfigurableBeeEntity) {
-                    ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
-                    ((ConfigurableBeeEntity) newBee).setAttributes();
+                // Get weighted offspring chance
+                int maxWeight = 0;
+                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry: possibleOffspring.entrySet()) {
+                    maxWeight = maxWeight + entry.getValue();
                 }
-                return newBee;
+
+                BeeIngredient beeIngredient = null;
+
+                int i = ProductiveBees.rand.nextInt(maxWeight);
+                int currentWeight = 0;
+                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry: possibleOffspring.entrySet()) {
+                    currentWeight = currentWeight + entry.getValue();
+                    if (i < currentWeight) {
+                        beeIngredient = entry.getKey().get();
+                    }
+                }
+
+                if (beeIngredient != null) {
+                    BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
+                    if (newBee instanceof ConfigurableBeeEntity) {
+                        ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
+                        ((ConfigurableBeeEntity) newBee).setAttributes();
+                    }
+                    return newBee;
+                }
             }
         }
 
@@ -156,7 +175,11 @@ public class BeeHelper
         }
 
         // If no specific recipe exist for the target bee or the bees are the same type, create a child like the parent
-        return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
+        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeEntity.getEntityString());
+        if (nbt.getBoolean("selfbreed")) {
+            return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
+        }
+        return null;
     }
 
     public static List<ItemStack> getBeeProduce(World world, BeeEntity beeEntity, boolean hasCombBlockUpgrade) {

@@ -9,7 +9,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -49,29 +48,6 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
     protected boolean canOperate() {
         int energy = energyHandler.map(IEnergyStorage::getEnergyStored).orElse(0);
         return energy >= ProductiveBeesConfig.GENERAL.centrifugePowerUse.get();
-    }
-
-    @Override
-    @Nonnull
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT tag = this.serializeNBT();
-
-        energyHandler.ifPresent(handler -> {
-            tag.putInt("energy", handler.getEnergyStored());
-        });
-
-        return tag;
-    }
-
-    @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        deserializeNBT(tag);
-
-        if (tag.contains("energy")) {
-            energyHandler.ifPresent(handler -> {
-                handler.receiveEnergy(tag.getInt("energy"), false);
-            });
-        }
     }
 
     @Nonnull

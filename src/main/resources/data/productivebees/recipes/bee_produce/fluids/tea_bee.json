@@ -1,0 +1,20 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:tea",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/tea"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "productivebees:fluid_tag_empty",
+                "tag": "forge:tea"
+            }
+        }
+    ]
+}

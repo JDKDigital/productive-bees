@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "productivebees:block/purple_hopper/item"
+  }
+}

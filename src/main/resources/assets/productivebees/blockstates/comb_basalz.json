@@ -1,1 +1,7 @@
-{"variants":{"":{"model":"productivebees:block/comb/basalz"}}}
+{
+    "variants": {
+        "": {
+            "model": "productivebees:block/comb/basalz"
+        }
+    }
+}

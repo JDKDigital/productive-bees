@@ -21,8 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
@@ -80,7 +78,6 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         return this.dataManager.get(PEEK_TICK);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public float getClientPeekAmount(float p_184688_1_) {
         return MathHelper.lerp(p_184688_1_, this.prevPeekAmount, this.peekAmount);
     }

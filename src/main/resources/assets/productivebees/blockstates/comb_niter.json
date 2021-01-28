@@ -1,1 +1,7 @@
-{"variants":{"":{"model":"productivebees:block/comb/niter"}}}
+{
+    "variants": {
+        "": {
+            "model": "productivebees:block/comb/niter"
+        }
+    }
+}

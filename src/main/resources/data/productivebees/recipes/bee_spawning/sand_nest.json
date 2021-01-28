@@ -11,5 +11,8 @@
             "bee": "productivebees:chocolate_mining_bee"
         }
     ],
+    "biomes": [
+        "desert"
+    ],
     "repopulation_cooldown": 24000
 }

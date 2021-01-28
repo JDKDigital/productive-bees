@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/lepidolite",
+        "silentgems:lepidolite_glowrose",
+        "gemsnjewels:lepidolite_block"
+    ]
+}

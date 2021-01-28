@@ -1,1 +1,3 @@
-{"parent":"productivebees:block/comb/base"}
+{
+    "parent": "productivebees:block/comb/base"
+}

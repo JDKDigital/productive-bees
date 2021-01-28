@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#cc3516",
+    "secondaryColor": "#064f2c",
+    "tertiaryColor": "#dd3b17",
+    "particleColor": "#cc3516",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/garnet",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/garnet"
+            }
+        }
+    ]
+}

@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/plastic" }
+        "": {
+            "model": "productivebees:block/comb/plastic"
+        }
     }
 }

@@ -20,7 +20,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -33,6 +32,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.village.PointOfInterestType;
@@ -87,17 +87,6 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                 }
             }
 
-            if (ticksExisted % 100 == 0 && isSlimy()) {
-                int i = 1;
-                for (int j = 0; j < i * 8; ++j) {
-                    float f = this.rand.nextFloat() * ((float) Math.PI * 2F);
-                    float f1 = this.rand.nextFloat() * 0.5F + 0.5F;
-                    float f2 = MathHelper.sin(f) * (float) i * 0.5F * f1;
-                    float f3 = MathHelper.cos(f) * (float) i * 0.5F * f1;
-                    this.world.addParticle(ParticleTypes.ITEM_SLIME, this.getPosX() + (double) f2, this.getPosY(), this.getPosZ() + (double) f3, 0.0D, 0.0D, 0.0D);
-                }
-            }
-
             if (ticksExisted % 20 == 0 && hasNectar() && isRedstoned()) {
                 for (int i = 1; i <= 2; ++i) {
                     BlockPos beePosDown = this.getPosition().down(i);
@@ -118,7 +107,22 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     @Override
     public void addParticle(World worldIn, double xMin, double xMax, double zMin, double zMax, double posY, IParticleData particleData) {
-        NectarParticleType particle = ModParticles.COLORED_FALLING_NECTAR.get();
+        NectarParticleType particle;
+        switch (getParticleType()) {
+            case "pop":
+                particle = ModParticles.COLORED_POPPING_NECTAR.get();
+                break;
+            case "lava":
+                particle = ModParticles.COLORED_LAVA_NECTAR.get();
+                break;
+            case "portal":
+                particle = ModParticles.COLORED_PORTAL_NECTAR.get();
+                break;
+            case "drip":
+            default:
+                particle = ModParticles.COLORED_FALLING_NECTAR.get();
+                break;
+        }
 
         if (hasParticleColor()) {
             particle.setColor(getParticleColor());
@@ -154,11 +158,14 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         super.updateAITasks();
     }
 
-//    @Override
-//    public boolean isBurning() {
-//        return this.isAngry();
-//    }
+    @Override
+    public void setMotionMultiplier(BlockState state, Vec3d motionMultiplierIn) {
+        if (!isStringy() || state.getBlock() != Blocks.COBWEB) {
+            super.setMotionMultiplier(state, motionMultiplierIn);
+        }
+    }
 
+    @Override
     public void attackTarget(LivingEntity target) {
         if (this.isAlive() && getNBTData().contains("attackResponse")) {
             String attackResponse = getNBTData().getString("attackResponse");
@@ -178,6 +185,13 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public String getBeeType() {
         return this.dataManager.get(TYPE);
+    }
+
+    @Override
+    public void setHasStung(boolean hasStung) {
+        if (!isStingless()) {
+            super.setHasStung(hasStung);
+        }
     }
 
     @Override
@@ -355,20 +369,41 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         return getNBTData().getBoolean("teleporting");
     }
 
-    public boolean hasMunchies() {
-        return getNBTData().getBoolean("munchies");
+    public boolean isStringy() {
+        return getNBTData().getBoolean("stringy");
     }
 
-    public boolean hasParticleColor() {
-        return getNBTData().contains("particleColor");
+    public boolean isStingless() {
+        return getNBTData().getBoolean("stingless");
+    }
+
+    public boolean hasMunchies() {
+        return getNBTData().getBoolean("munchies");
     }
 
     public boolean hasGlowingInnards() {
         return getNBTData().getBoolean("glowingInnards");
     }
 
+    public String getParticleType() {
+        return getNBTData().getString("particleType");
+    }
+
+    public boolean hasParticleColor() {
+        return getNBTData().contains("particleColor");
+    }
+
     public float[] getParticleColor() {
         Integer color = getNBTData().getInt("particleColor");
+        if (!colorCache.containsKey(color)) {
+            colorCache.put(color, (new Color(color)).getComponents(null));
+        }
+        return colorCache.get(color);
+    }
+
+    public float[] getTertiaryColor() {
+        CompoundNBT nbt = getNBTData();
+        Integer color = nbt.contains("tertiaryColor") ? nbt.getInt("tertiaryColor") : nbt.getInt("primaryColor");
         if (!colorCache.containsKey(color)) {
             colorCache.put(color, (new Color(color)).getComponents(null));
         }

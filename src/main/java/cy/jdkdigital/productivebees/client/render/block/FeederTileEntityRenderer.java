@@ -11,15 +11,12 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
 public class FeederTileEntityRenderer extends TileEntityRenderer<FeederTileEntity>
 {
     public static final HashMap<Integer, List<Pair<Float, Float>>> POSITIONS = new HashMap<Integer, List<Pair<Float, Float>>>()

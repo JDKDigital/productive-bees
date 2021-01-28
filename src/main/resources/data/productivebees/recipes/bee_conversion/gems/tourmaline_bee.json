@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:diamond",
+    "result": "productivebees:tourmaline",
+    "item": {
+        "item": "gemsnjewels:tourmaline_block"
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/tourmaline"
+            }
+        }
+    ]
+}

@@ -23,4 +23,9 @@ public class ReedBeeEntity extends SolitaryBeeEntity
     public ITag<Block> getNestingTag() {
         return ModTags.REED_NESTS;
     }
+
+    @Override
+    public String getRenderer() {
+        return "slim";
+    }
 }

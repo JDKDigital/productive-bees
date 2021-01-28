@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/uraninite" }
+        "": {
+            "model": "productivebees:block/comb/uraninite"
+        }
     }
 }

@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/enderium" }
+        "": {
+            "model": "productivebees:block/comb/enderium"
+        }
     }
 }

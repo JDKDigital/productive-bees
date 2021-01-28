@@ -17,6 +17,7 @@ import net.minecraftforge.common.util.Lazy;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRecipe>
 {
@@ -26,7 +27,7 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
     public BeeBreedingRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/jei/bee_breeding_recipe.png");
         this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
-        this.icon = guiHelper.createDrawableIngredient(BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":iron_bee"));
+        this.icon = guiHelper.createDrawableIngredient(BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":quarry_bee"));
     }
 
     @Nonnull
@@ -67,8 +68,8 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
         }
 
         List<BeeIngredient> recipeOutputs = new ArrayList<>();
-        for (Lazy<BeeIngredient> ingredient : recipe.offspring) {
-            recipeOutputs.add(ingredient.get());
+        for (Map.Entry<Lazy<BeeIngredient>, Integer> ingredient : recipe.offspring.entrySet()) {
+            recipeOutputs.add(ingredient.getKey().get());
         }
 
         ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipeIngredients);

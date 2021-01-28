@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/citrine",
+        "silentgems:citrine_glowrose",
+        "gemsnjewels:citrine_block"
+    ]
+}

@@ -10,8 +10,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
@@ -21,7 +19,6 @@ public class CombBlockItem extends BlockItem
         super(block, properties);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static int getColor(ItemStack stack) {
         CompoundNBT tag = stack.getChildTag("EntityTag");
         if (tag != null && tag.contains("type")) {

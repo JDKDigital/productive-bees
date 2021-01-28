@@ -18,12 +18,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tags.ITag;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -33,7 +31,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeederTileEntity extends TileEntity implements INamedContainerProvider
+public class FeederTileEntity extends CapabilityTileEntity implements INamedContainerProvider
 {
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(3, this)
     {
@@ -83,49 +81,5 @@ public class FeederTileEntity extends TileEntity implements INamedContainerProvi
     @Override
     public Container createMenu(final int windowId, final PlayerInventory playerInventory, final PlayerEntity player) {
         return new FeederContainer(windowId, playerInventory, this);
-    }
-
-    @Nullable
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(null, pkt.getNbtCompound());
-    }
-
-    @Override
-    @Nonnull
-    public CompoundNBT getUpdateTag() {
-        return this.serializeNBT();
-    }
-
-    @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        deserializeNBT(tag);
-    }
-
-    @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
-
-        CompoundNBT invTag = tag.getCompound("inv");
-        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
-    }
-
-    @Nonnull
-    @Override
-    public CompoundNBT write(CompoundNBT tag) {
-        tag = super.write(tag);
-
-        CompoundNBT finalTag = tag;
-        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
-            finalTag.put("inv", compound);
-        });
-
-        return finalTag;
     }
 }

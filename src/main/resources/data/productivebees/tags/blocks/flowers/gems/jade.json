@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/jade",
+        "silentgems:jade_glowrose",
+        "gemsnjewels:jade_block"
+    ]
+}

@@ -1,7 +1,8 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.client.render.entity.layers.*;
+import cy.jdkdigital.productivebees.client.render.entity.layers.BeeBodyLayer;
+import cy.jdkdigital.productivebees.client.render.entity.layers.GlowingInnardsLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
@@ -9,14 +10,11 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Calendar;
 
-@OnlyIn(Dist.CLIENT)
 public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, ProductiveBeeModel<ProductiveBeeEntity>>
 {
     private boolean isChristmas;
@@ -32,13 +30,18 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
 
     public ProductiveBeeRenderer(EntityRendererManager renderManagerIn) {
         this(renderManagerIn, new ProductiveBeeModel<>());
-        addLayer(new ColorLayer(this));
-        addLayer(new AbdomenLayer(this));
-        addLayer(new PollenLayer(this));
-        if (this.isChristmas) {
-            addLayer(new SantaHatLayer(this));
-        }
+
+        addLayer(new BeeBodyLayer(this, "thicc", isChristmas));
+        addLayer(new BeeBodyLayer(this, "default", isChristmas));
+        addLayer(new BeeBodyLayer(this, "default_crystal", isChristmas));
+        addLayer(new BeeBodyLayer(this, "default_shell", isChristmas));
+        addLayer(new BeeBodyLayer(this, "default_foliage", isChristmas));
+        addLayer(new BeeBodyLayer(this, "small", isChristmas));
+        addLayer(new BeeBodyLayer(this, "slim", isChristmas));
+        addLayer(new BeeBodyLayer(this, "tiny", isChristmas));
+
         addLayer(new GlowingInnardsLayer(this));
+//        addLayer(new FoliageLayer<>(this));
     }
 
     @Nullable
@@ -57,8 +60,10 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
     public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
         String textureLocation = ProductiveBees.MODID + ":textures/entity/bee/" + bee.getBeeName() + "/bee";
 
+        // Colored bees use tinted base texture
         if (bee.getColor(0) != null) {
-            textureLocation = ProductiveBees.MODID + ":textures/entity/bee/base/bee";
+            String modelType = bee.getRenderer();
+            textureLocation = ProductiveBees.MODID + ":textures/entity/bee/base/" + modelType + "/bee";
         }
 
         if (bee instanceof ConfigurableBeeEntity) {

@@ -1,0 +1,27 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/sapphire"
+    },
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:gems/sapphire"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/sapphire"
+            }
+        }
+    ]
+}

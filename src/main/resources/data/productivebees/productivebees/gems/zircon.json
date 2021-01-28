@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#787800",
+    "secondaryColor": "#2e0b17",
+    "tertiaryColor": "#b3b600",
+    "particleColor": "#787800",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/zircon",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/zircon"
+            }
+        }
+    ]
+}

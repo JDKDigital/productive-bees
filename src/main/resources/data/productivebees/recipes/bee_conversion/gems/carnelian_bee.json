@@ -1,0 +1,24 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:diamond",
+    "result": "productivebees:carnelian",
+    "item": {
+        "tag": "productivebees:flowers/gems/carnelian"
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/gems/carnelian"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/carnelian"
+            }
+        }
+    ]
+}

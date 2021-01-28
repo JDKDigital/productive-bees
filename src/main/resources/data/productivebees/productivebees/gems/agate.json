@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#9f01b8",
+    "secondaryColor": "#064f2c",
+    "tertiaryColor": "#c0138a",
+    "particleColor": "#9f01b8",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/agate",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/agate"
+            }
+        }
+    ]
+}

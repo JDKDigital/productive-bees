@@ -9,130 +9,137 @@ import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.entity.model.ModelUtils;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableModel<T>
 {
     protected float FAKE_PI = 3.1415927F;
-    protected final ModelRenderer body;
-    protected final ModelRenderer torso;
-    protected final ModelRenderer rightWing;
-    protected final ModelRenderer leftWing;
-    protected final ModelRenderer frontLegs;
-    protected final ModelRenderer middleLegs;
-    protected final ModelRenderer backLegs;
-    protected final ModelRenderer stinger;
-    protected final ModelRenderer leftAntenna;
-    protected final ModelRenderer rightAntenna;
-    protected final ModelRenderer innards;
-    protected final ModelRenderer santaHat;
+    protected ModelRenderer body;
+    protected ModelRenderer torso;
+    protected ModelRenderer rightWing;
+    protected ModelRenderer leftWing;
+    protected ModelRenderer frontLegs;
+    protected ModelRenderer middleLegs;
+    protected ModelRenderer backLegs;
+    protected ModelRenderer stinger;
+    protected ModelRenderer leftAntenna;
+    protected ModelRenderer rightAntenna;
+    protected ModelRenderer crystals;
+    protected ModelRenderer innards;
+    protected ModelRenderer santaHat;
     protected float bodyPitch;
 
-    private float beeSize = 1.0f;
+    public float beeSize = 1.0f;
 
     public ProductiveBeeModel() {
-        this(true);
+        // 24 is childHeadOffsetY
+        this(false, 24.0F, 0.0F);
     }
 
-    public ProductiveBeeModel(boolean addBodyParts) {
-        super(false, 24.0F, 0.0F);
-        this.textureWidth = 64;
-        this.textureHeight = 64;
-        this.body = new ModelRenderer(this);
-        this.torso = new ModelRenderer(this, 0, 0);
-        this.stinger = new ModelRenderer(this, 26, 7);
-        this.leftAntenna = new ModelRenderer(this, 2, 0);
-        this.rightAntenna = new ModelRenderer(this, 2, 3);
-        this.rightWing = new ModelRenderer(this, 0, 18);
-        this.leftWing = new ModelRenderer(this, 0, 18);
-        this.frontLegs = new ModelRenderer(this);
-        this.middleLegs = new ModelRenderer(this);
-        this.backLegs = new ModelRenderer(this);
-        this.innards = new ModelRenderer(this, 34, 0);
-        this.santaHat = new ModelRenderer(this);
+    public ProductiveBeeModel(boolean isChildHeadScaled, float childHeadOffsetY, float childHeadOffsetZ) {
+        super(isChildHeadScaled, childHeadOffsetY, childHeadOffsetZ);
 
-        if (addBodyParts) {
-            addBodyParts();
+        textureWidth = 64;
+        textureHeight = 64;
+
+        body = new ModelRenderer(this);
+        torso = new ModelRenderer(this);
+        stinger = new ModelRenderer(this);
+        leftAntenna = new ModelRenderer(this);
+        rightAntenna = new ModelRenderer(this);
+        rightWing = new ModelRenderer(this);
+        leftWing = new ModelRenderer(this);
+        middleLegs = new ModelRenderer(this);
+        frontLegs = new ModelRenderer(this);
+        backLegs = new ModelRenderer(this);
+        crystals = new ModelRenderer(this);
+        innards = new ModelRenderer(this);
+        santaHat = new ModelRenderer(this);
+    }
+
+    public ProductiveBeeModel(String modelType) {
+        this(false, 24.0F, 0.0F);
+
+        PartialBeeModel partialModel;
+
+        switch (modelType) {
+            case "thicc":
+                partialModel = new ThiccBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+                break;
+            case "small":
+                partialModel = new SmallBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+                break;
+            case "slim":
+                partialModel = new SlimBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+                break;
+            case "tiny":
+                partialModel = new TinyBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+                break;
+            case "default_shell":
+                partialModel = new MediumShellBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+                break;
+            case "default_foliage":
+                partialModel = new MediumFoliageBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+                break;
+            case "default_crystal":
+                partialModel = new MediumCrystalBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+                break;
+            case "translucent_with_center":
+            case "default":
+            default:
+                partialModel = new MediumBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+        }
+
+        partialModel.addBodyParts(true);
+    }
+
+    public void setLivingAnimations(T entity, float limbSwing, float limbSwingAmount, float partialTicks) {
+        super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
+        bodyPitch = entity.getBodyPitch(partialTicks);
+        stinger.showModel = !entity.hasStung();
+        if (entity instanceof ConfigurableBeeEntity && ((ConfigurableBeeEntity) entity).isStingless()) {
+            stinger.showModel = false;
         }
     }
 
-    protected void addBodyParts() {
-        addBodyParts(true);
-    }
-
-    protected void addBodyParts(boolean withTorso) {
-        this.body.setRotationPoint(0.0F, 19.0F, 0.0F);
-        this.torso.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.body.addChild(this.torso);
-        if (withTorso) {
-            this.torso.addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F, 0.0F);
-        }
-        this.stinger.addBox(0.0F, -1.0F, 5.0F, 0.0F, 1.0F, 2.0F, 0.0F);
-        this.torso.addChild(this.stinger);
-
-        addAntenna();
-        addWings();
-        addLegs();
-        addInnards();
-        addSantaHat();
-    }
-
-    public void setLivingAnimations(T entity, float p_212843_2_, float p_212843_3_, float p_212843_4_) {
-        super.setLivingAnimations(entity, p_212843_2_, p_212843_3_, p_212843_4_);
-        this.bodyPitch = entity.getBodyPitch(p_212843_4_);
-        this.stinger.showModel = !entity.hasStung();
-    }
-
-    public void setRotationAngles(T entity, float p_225597_2_, float p_225597_3_, float ageInTicks, float p_225597_5_, float p_225597_6_) {
-        this.rightWing.rotateAngleX = 0.0F;
-        this.leftAntenna.rotateAngleX = 0.0F;
-        this.rightAntenna.rotateAngleX = 0.0F;
-        this.body.rotateAngleX = 0.0F;
-        this.body.rotationPointY = 19.0F;
-        boolean grounded = entity.isOnGround() && entity.getMotion().lengthSquared() < 1.0E-7D;
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        leftAntenna.rotateAngleX = 0.0F;
+        rightAntenna.rotateAngleX = 0.0F;
+        body.rotateAngleX = 0.0F;
+        body.rotationPointY = 19.0F;
+        boolean grounded = entity.onGround && entity.getMotion().lengthSquared() < 1.0E-7D;
         if (grounded) {
-            this.rightWing.rotateAngleY = -0.2618F;
-            this.rightWing.rotateAngleZ = 0.0F;
-            this.leftWing.rotateAngleX = 0.0F;
-            this.leftWing.rotateAngleY = 0.2618F;
-            this.leftWing.rotateAngleZ = 0.0F;
-            this.frontLegs.rotateAngleX = 0.0F;
-            this.middleLegs.rotateAngleX = 0.0F;
-            this.backLegs.rotateAngleX = 0.0F;
+            setRotationAngle(rightWing, 0, -0.2618F, 0);
+            setRotationAngle(leftWing, 0, 0.2618F, 0);
+            frontLegs.rotateAngleX = 0.0F;
+            middleLegs.rotateAngleX = 0.0F;
+            backLegs.rotateAngleX = 0.0F;
         } else {
-            this.rightWing.rotateAngleY = 0.0F;
             // maxSpeed - (sizeMod - minSize)/(maxSize - minSize) * (maxSpeed - minSpeed)
-            this.rightWing.rotateAngleZ = MathHelper.cos(ageInTicks % 98000 * 2.1F) * FAKE_PI * 0.15F;
-            this.leftWing.rotateAngleX = this.rightWing.rotateAngleX;
-            this.leftWing.rotateAngleY = this.rightWing.rotateAngleY;
-            this.leftWing.rotateAngleZ = -this.rightWing.rotateAngleZ;
-            this.frontLegs.rotateAngleX = 0.7853982F;
-            this.middleLegs.rotateAngleX = 0.7853982F;
-            this.backLegs.rotateAngleX = 0.7853982F;
-            this.body.rotateAngleX = 0.0F;
-            this.body.rotateAngleY = 0.0F;
-            this.body.rotateAngleZ = 0.0F;
+            setRotationAngle(rightWing, 0, 0, MathHelper.cos(ageInTicks % 98000 * 2.1F) * FAKE_PI * 0.15F);
+            setRotationAngle(leftWing, rightWing.rotateAngleX, rightWing.rotateAngleY, -rightWing.rotateAngleZ);
+            frontLegs.rotateAngleX = 0.7853982F;
+            middleLegs.rotateAngleX = 0.7853982F;
+            backLegs.rotateAngleX = 0.7853982F;
+            setRotationAngle(body, 0, 0, 0);
         }
 
-        if (!entity.func_233678_J__()) {
-            this.body.rotateAngleX = 0.0F;
-            this.body.rotateAngleY = 0.0F;
-            this.body.rotateAngleZ = 0.0F;
+        if (!entity.isAngry()) {
+            body.rotateAngleX = 0.0F;
+            body.rotateAngleY = 0.0F;
+            body.rotateAngleZ = 0.0F;
             if (!grounded) {
                 float angle = MathHelper.cos(ageInTicks * 0.18F);
-                this.body.rotateAngleX = 0.1F + angle * FAKE_PI * 0.025F;
-                this.leftAntenna.rotateAngleX = angle * FAKE_PI * 0.03F;
-                this.rightAntenna.rotateAngleX = angle * FAKE_PI * 0.03F;
-                this.frontLegs.rotateAngleX = -angle * FAKE_PI * 0.1F + 0.3926991F;
-                this.backLegs.rotateAngleX = -angle * FAKE_PI * 0.05F + 0.7853982F;
-                this.body.rotationPointY = 19.0F - angle * 0.9F;
+                body.rotateAngleX = 0.1F + angle * FAKE_PI * 0.025F;
+                leftAntenna.rotateAngleX = angle * FAKE_PI * 0.03F;
+                rightAntenna.rotateAngleX = angle * FAKE_PI * 0.03F;
+                frontLegs.rotateAngleX = -angle * FAKE_PI * 0.1F + 0.3926991F;
+                backLegs.rotateAngleX = -angle * FAKE_PI * 0.05F + 0.7853982F;
+                body.rotationPointY = 19.0F - angle * 0.9F;
             }
         }
 
-        if (this.bodyPitch > 0.0F) {
-            this.body.rotateAngleX = ModelUtils.func_228283_a_(this.body.rotateAngleX, 3.0915928F, this.bodyPitch);
+        if (bodyPitch > 0.0F) {
+            body.rotateAngleX = ModelUtils.func_228283_a_(body.rotateAngleX, 3.0915928F, bodyPitch);
         }
 
         beeSize = 1.0f;
@@ -140,9 +147,13 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
             beeSize = beeSize * ((ConfigurableBeeEntity) entity).getSizeModifier();
         }
 
-        if (this.isChild) {
+        if (isChild) {
             beeSize /= 2;
         }
+    }
+
+    public ModelRenderer getBody() {
+        return body;
     }
 
     protected Iterable<ModelRenderer> getHeadParts() {
@@ -150,7 +161,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
     }
 
     protected Iterable<ModelRenderer> getBodyParts() {
-        return ImmutableList.of(this.body);
+        return ImmutableList.of(body);
     }
 
     @Override
@@ -162,73 +173,9 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         matrixStackIn.pop();
     }
 
-    private void addAntenna() {
-        this.leftAntenna.setRotationPoint(0.0F, -2.0F, -5.0F);
-        this.leftAntenna.addBox(1.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F, 0.0F);
-        this.rightAntenna.setRotationPoint(0.0F, -2.0F, -5.0F);
-        this.rightAntenna.addBox(-2.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F, 0.0F);
-        this.torso.addChild(this.leftAntenna);
-        this.torso.addChild(this.rightAntenna);
-    }
-
-    private void addWings() {
-        this.rightWing.setRotationPoint(-1.5F, -4.0F, -3.0F);
-        this.rightWing.rotateAngleX = 0.0F;
-        this.rightWing.rotateAngleY = -0.2618F;
-        this.rightWing.rotateAngleZ = 0.0F;
-        this.body.addChild(this.rightWing);
-        this.rightWing.addBox(-9.0F, 0.0F, 0.0F, 9.0F, 0.0F, 6.0F, 0.001F);
-        this.leftWing.setRotationPoint(1.5F, -4.0F, -3.0F);
-        this.leftWing.rotateAngleX = 0.0F;
-        this.leftWing.rotateAngleY = 0.2618F;
-        this.leftWing.rotateAngleZ = 0.0F;
-        this.leftWing.mirror = true;
-        this.body.addChild(this.leftWing);
-        this.leftWing.addBox(0.0F, 0.0F, 0.0F, 9.0F, 0.0F, 6.0F, 0.001F);
-    }
-
-    private void addLegs() {
-        this.frontLegs.setRotationPoint(1.5F, 3.0F, -2.0F);
-        this.body.addChild(this.frontLegs);
-        this.frontLegs.addBox("frontLegBox", -5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F, 26, 1);
-        this.middleLegs.setRotationPoint(1.5F, 3.0F, 0.0F);
-        this.body.addChild(this.middleLegs);
-        this.middleLegs.addBox("midLegBox", -5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F, 26, 3);
-        this.backLegs.setRotationPoint(1.5F, 3.0F, 2.0F);
-        this.body.addChild(this.backLegs);
-        this.backLegs.addBox("backLegBox", -5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F, 26, 5);
-    }
-
-    private void addInnards() {
-        this.innards.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.innards.addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F);
-        this.body.addChild(this.innards);
-    }
-
-    private void addSantaHat() {
-        santaHat.setRotationPoint(.5F, 5.0F, 0.0F);
-        santaHat.setTextureOffset(0, 54).addBox(-5.0F, -10.0F, -6.0F, 9.0F, 1.0F, 9.0F, 0.0F, false);
-        santaHat.setTextureOffset(36, 54).addBox(-4.0F, -13.0F, -5.0F, 7.0F, 3.0F, 7.0F, 0.0F, false);
-
-        ModelRenderer box2 = new ModelRenderer(this);
-        box2.setRotationPoint(7.0F, 0.0F, 0.0F);
-        santaHat.addChild(box2);
-        setRotationAngle(box2, 0.1309F, 0.1309F, 0.0F);
-        box2.setTextureOffset(39, 54).addBox(-10.0F, -16.0F, -3.5F, 5.0F, 4.0F, 5.0F, 0.0F, false);
-
-        ModelRenderer box3 = new ModelRenderer(this);
-        box3.setRotationPoint(2.0F, 2.0F, 3.0F);
-        santaHat.addChild(box3);
-        setRotationAngle(box3, 0.3054F, 0.0873F, 0.0436F);
-        box3.setTextureOffset(41, 58).addBox(-5.0F, -20.0F, -1.5F, 3.0F, 3.0F, 3.0F, 0.0F, false);
-
-        ModelRenderer box4 = new ModelRenderer(this);
-        box4.setRotationPoint(0.0F, -3.0F, 7.0F);
-        santaHat.addChild(box4);
-        setRotationAngle(box4,0.3927F, 0.0F, 0.0F);
-        box4.setTextureOffset(18, 60).addBox(-2.5F, -18.5F, -4.4224F, 2.0F, 2.0F, 2.0F, 0.0F, false);
-
-        this.torso.addChild(this.santaHat);
+    protected void addBodyParts(boolean withTorso) {
+        PartialBeeModel partialModel = new MediumBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+        partialModel.addBodyParts(withTorso);
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

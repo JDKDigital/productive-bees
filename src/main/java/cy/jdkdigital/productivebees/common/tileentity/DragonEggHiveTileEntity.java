@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BeehiveBlock;
@@ -22,12 +21,6 @@ public class DragonEggHiveTileEntity extends AdvancedBeehiveTileEntity
         final World world = this.world;
         if (world == null || world.isRemote()) {
             return;
-        }
-
-        if (++tickCounter > ProductiveBeesConfig.GENERAL.itemTickRate.get()) {
-            tickCounter = 0;
-
-//            productionTick();
         }
 
         if (tickCounter % 23 == 0) {

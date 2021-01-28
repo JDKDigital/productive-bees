@@ -27,8 +27,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -39,7 +37,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -53,13 +50,10 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity, UpgradeableTileEntity
 {
-    private static final Random rand = new Random();
-
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
     public int fluidId = 0;
@@ -261,8 +255,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         if (canProcessRecipe(recipe, invHandler)) {
 
             recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
-                if (rand.nextInt(100) <= recipeValues.get(2).getInt()) {
-                    int count = MathHelper.nextInt(rand, MathHelper.floor(recipeValues.get(0).getInt()), MathHelper.floor(recipeValues.get(1).getInt()));
+                if (ProductiveBees.rand.nextInt(100) <= recipeValues.get(2).getInt()) {
+                    int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(recipeValues.get(0).getInt()), MathHelper.floor(recipeValues.get(1).getInt()));
                     itemStack.setCount(count);
                     ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack);
                 }
@@ -295,18 +289,18 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             add("temper");
         }};
 
-        double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.genExtractChance.get();
+        double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.geneExtractChance.get();
         for (String attributeName: attributes) {
-            if (rand.nextDouble() <= chance) {
+            if (ProductiveBees.rand.nextDouble() <= chance) {
                 int value = entityData.getInt("bee_" + attributeName);
                 ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.getAttributeByName(attributeName), value));
             }
         }
 
-//        // Chance to get a type gene
-//        if (rand.nextDouble() <= chance) {
-//            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type")));
-//        }
+        // Chance to get a type gene
+        if (ProductiveBees.rand.nextDouble() <= chance) {
+            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type")));
+        }
 
         invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
     }
@@ -315,8 +309,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     public void read(BlockState state, CompoundNBT tag) {
         super.read(state, tag);
 
-        CompoundNBT upgradeTag = tag.getCompound("upgrades");
-        getUpgradeHandler().ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(upgradeTag));
+        recipeProgress = tag.getInt("RecipeProgress");
 
         // set fluid ID for screens
         Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
@@ -328,35 +321,9 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     public CompoundNBT write(CompoundNBT tag) {
         tag = super.write(tag);
 
-        CompoundNBT finalTag = tag;
-        getUpgradeHandler().ifPresent(inv -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
-            finalTag.put("upgrades", compound);
-        });
+        tag.putInt("RecipeProgress", recipeProgress);
 
-        return finalTag;
-    }
-
-    @Nullable
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(null, pkt.getNbtCompound());
-    }
-
-    @Override
-    @Nonnull
-    public CompoundNBT getUpdateTag() {
-        return this.serializeNBT();
-    }
-
-    @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        deserializeNBT(tag);
+        return tag;
     }
 
     @Nonnull

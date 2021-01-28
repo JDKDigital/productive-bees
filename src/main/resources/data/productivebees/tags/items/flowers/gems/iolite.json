@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/iolite",
+        "silentgems:iolite_glowrose",
+        "gemsnjewels:iolite_block"
+    ]
+}

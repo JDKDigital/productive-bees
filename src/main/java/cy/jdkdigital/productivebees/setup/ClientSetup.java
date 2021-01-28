@@ -2,16 +2,16 @@ package cy.jdkdigital.productivebees.setup;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.FallingNectarParticle;
+import cy.jdkdigital.productivebees.client.particle.LavaNectarParticle;
+import cy.jdkdigital.productivebees.client.particle.PoppingNectarParticle;
+import cy.jdkdigital.productivebees.client.particle.PortalNectarParticle;
 import cy.jdkdigital.productivebees.client.render.block.BottlerTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.CentrifugeTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.FeederTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.JarTileEntityRenderer;
 import cy.jdkdigital.productivebees.common.block.CombBlock;
 import cy.jdkdigital.productivebees.common.item.*;
-import cy.jdkdigital.productivebees.container.gui.AdvancedBeehiveScreen;
-import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
-import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
-import cy.jdkdigital.productivebees.container.gui.FeederScreen;
+import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -50,6 +50,9 @@ public class ClientSetup
         ScreenManager.registerFactory(ModContainerTypes.POWERED_CENTRIFUGE.get(), CentrifugeScreen::new);
         ScreenManager.registerFactory(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
         ScreenManager.registerFactory(ModContainerTypes.FEEDER.get(), FeederScreen::new);
+        ScreenManager.registerFactory(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);
+        ScreenManager.registerFactory(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
+        ScreenManager.registerFactory(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
 
         ItemModelsProperties.registerProperty(ModItems.BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
         ItemModelsProperties.registerProperty(ModItems.BEE_BOMB.get(), new ResourceLocation("loaded"), (stack, world, entity) -> BeeBomb.isLoaded(stack) ? 1.0F : 0.0F);
@@ -162,5 +165,8 @@ public class ClientSetup
 
     public static void registerParticles(final ParticleFactoryRegisterEvent event) {
         Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_FALLING_NECTAR.get(), FallingNectarParticle.FallingNectarFactory::new);
+        Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_POPPING_NECTAR.get(), PoppingNectarParticle.PoppingNectarFactory::new);
+        Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_LAVA_NECTAR.get(), LavaNectarParticle.LavaNectarFactory::new);
+        Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_PORTAL_NECTAR.get(), PortalNectarParticle.PortalNectarFactory::new);
     }
 }

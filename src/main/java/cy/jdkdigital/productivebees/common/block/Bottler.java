@@ -5,10 +5,8 @@ import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -26,12 +24,11 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.network.NetworkHooks;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Bottler extends ContainerBlock
+public class Bottler extends CapabilityContainerBlock
 {
     public static final BooleanProperty HAS_BOTTLE = BooleanProperty.create("has_bottle");
 
@@ -60,23 +57,6 @@ public class Bottler extends ContainerBlock
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onReplaced(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (oldState.getBlock() != newState.getBlock()) {
-            TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if (tileEntity instanceof BottlerTileEntity) {
-                // Drop inventory
-                tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                    for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
-                    }
-                });
-            }
-        }
-        super.onReplaced(oldState, worldIn, pos, newState, isMoving);
     }
 
     @SuppressWarnings("deprecation")
