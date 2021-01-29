@@ -1,15 +1,15 @@
 package cy.jdkdigital.productivebees.client.particle;
 
 import net.minecraft.client.particle.*;
-import net.minecraft.world.World;
+import net.minecraft.client.world.ClientWorld;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class LavaNectarParticle extends LavaParticle
 {
-    public LavaNectarParticle(World world, double x, double y, double z) {
+    public LavaNectarParticle(ClientWorld world, double x, double y, double z) {
         super(world, x, y, z);
-//        this.particleGravity = 0.007F;
     }
 
     @Override
@@ -25,11 +25,12 @@ public class LavaNectarParticle extends LavaParticle
             this.sprite = sprite;
         }
 
+        @Nullable
         @Override
-        public Particle makeParticle(@Nonnull NectarParticleType typeIn, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            LavaNectarParticle dripparticle = new LavaNectarParticle(world, x, y, z);
+        public Particle makeParticle(@Nonnull NectarParticleType nectarParticleType, @Nonnull ClientWorld clientWorld, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            LavaNectarParticle dripparticle = new LavaNectarParticle(clientWorld, x, y, z);
 
-            float[] colors = typeIn.getColor();
+            float[] colors = nectarParticleType.getColor();
             if (colors != null) {
                 dripparticle.setColor(colors[0], colors[1], colors[2]);
             }

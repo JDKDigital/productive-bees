@@ -1,13 +1,13 @@
 package cy.jdkdigital.productivebees.client.particle;
 
 import net.minecraft.client.particle.*;
-import net.minecraft.world.World;
+import net.minecraft.client.world.ClientWorld;
 
 import javax.annotation.Nonnull;
 
 public class PoppingNectarParticle extends LavaParticle
 {
-    public PoppingNectarParticle(World world, double x, double y, double z) {
+    public PoppingNectarParticle(ClientWorld world, double x, double y, double z) {
         super(world, x, y, z);
         this.maxAge = (int)(10.0D / (Math.random() * 0.8D + 0.2D));
     }
@@ -42,7 +42,7 @@ public class PoppingNectarParticle extends LavaParticle
         }
 
         @Override
-        public Particle makeParticle(@Nonnull NectarParticleType typeIn, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             PoppingNectarParticle dripparticle = new PoppingNectarParticle(world, x, y, z);
 
             float[] colors = typeIn.getColor();

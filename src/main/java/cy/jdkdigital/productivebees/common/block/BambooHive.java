@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.common.tileentity.SolitaryHiveTileEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;

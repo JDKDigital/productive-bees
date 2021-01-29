@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.tileentity;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.item.Gene;

@@ -82,7 +82,7 @@ public abstract class CapabilityTileEntity extends TileEntity
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(pkt.getNbtCompound());
+        handleUpdateTag(null, pkt.getNbtCompound());
     }
 
     @Override

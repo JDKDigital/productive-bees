@@ -41,7 +41,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
     public SolitaryNest(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(BlockStateProperties.FACING, Direction.NORTH));
+        this.setDefaultState(this.getDefaultState().with(BlockStateProperties.FACING, Direction.NORTH));
     }
 
     public int getMaxHoneyLevel() {
@@ -54,7 +54,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         if (!spawningRecipes.isEmpty()) {
             BeeSpawningRecipe spawningRecipe = spawningRecipes.get(ProductiveBees.rand.nextInt(spawningRecipes.size()));
             BeeIngredient beeIngredient = spawningRecipe.output.get(world.rand.nextInt(spawningRecipe.output.size())).get();
-            BeeEntity bee = beeIngredient.getBeeEntity().create(world.getWorld());
+            BeeEntity bee = beeIngredient.getBeeEntity().create(world);
             if (bee instanceof ConfigurableBeeEntity) {
                 ((ConfigurableBeeEntity) bee).setBeeType(beeIngredient.getBeeType().toString());
                 ((ConfigurableBeeEntity) bee).setAttributes();
@@ -84,10 +84,10 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
             for (BeeSpawningRecipe recipe: recipes) {
                 if (
                     (
-                        (recipe.biomes.isEmpty() && world.getDimension().isSurfaceWorld()) ||
+                        (recipe.biomes.isEmpty() && world.getDimensionKey() == World.OVERWORLD) ||
                         recipe.biomes.contains(biome.getCategory().getName())
                     ) &&
-                    recipe.temperature.equals("any") || recipe.temperature.equals(biome.getTempCategory().getName())
+                    recipe.temperature.equals("any") || recipe.temperature.equals(biome.getTemperature())
                 ) {
                     spawningRecipes.add(recipe);
                 }

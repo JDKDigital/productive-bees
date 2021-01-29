@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.container.IncubatorContainer;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -179,8 +180,8 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
     }
 
     @Override
-    public void read(CompoundNBT tag) {
-        super.read(tag);
+    public void read(BlockState state, CompoundNBT tag) {
+        super.read(state, tag);
 
         recipeProgress = tag.getInt("RecipeProgress");
     }

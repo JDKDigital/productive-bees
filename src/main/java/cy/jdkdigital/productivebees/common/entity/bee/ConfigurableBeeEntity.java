@@ -32,7 +32,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.village.PointOfInterestType;
@@ -159,7 +159,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     @Override
-    public void setMotionMultiplier(BlockState state, Vec3d motionMultiplierIn) {
+    public void setMotionMultiplier(BlockState state, Vector3d motionMultiplierIn) {
         if (!isStringy() || state.getBlock() != Blocks.COBWEB) {
             super.setMotionMultiplier(state, motionMultiplierIn);
         }

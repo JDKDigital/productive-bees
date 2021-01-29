@@ -4,11 +4,12 @@ import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.PortalParticle;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.world.World;
 
 public class PortalNectarParticle extends PortalParticle
 {
-    public PortalNectarParticle(World world, double x, double y, double z, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+    public PortalNectarParticle(ClientWorld world, double x, double y, double z, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
         super(world, x, y, z, xSpeedIn, ySpeedIn, zSpeedIn);
     }
 
@@ -21,7 +22,7 @@ public class PortalNectarParticle extends PortalParticle
         }
 
         @Override
-        public Particle makeParticle(NectarParticleType typeIn, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(NectarParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             PortalParticle dripparticle = new PortalNectarParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
 
             float[] colors = typeIn.getColor();

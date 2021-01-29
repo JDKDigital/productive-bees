@@ -62,7 +62,7 @@ public class BeeAttributesHandler implements IBeeAttributes
         tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
         tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
-        tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getId().toString());
+        tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).toString());
         return tag;
     }
 
@@ -78,7 +78,7 @@ public class BeeAttributesHandler implements IBeeAttributes
             beeAttributes.put(BeeAttributes.BEHAVIOR, nbt.getInt("bee_behavior"));
             beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, nbt.getInt("bee_weather_tolerance"));
             beeAttributes.put(BeeAttributes.TYPE, nbt.getString("bee_type"));
-            beeAttributes.put(BeeAttributes.APHRODISIACS, new ItemTags.Wrapper(new ResourceLocation(nbt.getString("bee_aphrodisiac"))));
+            beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.createOptional(new ResourceLocation(nbt.getString("bee_aphrodisiac"))));
 
             for (Map.Entry<BeeAttribute<?>, Object> entry: getAttributes().entrySet()) {
                 ProductiveBees.LOGGER.info(entry.getKey() + " - " + entry.getValue());

@@ -37,8 +37,8 @@ public class NectarParticleType extends ParticleType<NectarParticleType> impleme
         return codec;
     }
 
-    public NectarParticleType(boolean alwaysShow) {
-        super(alwaysShow, DESERIALIZER);
+    public NectarParticleType() {
+        super(false, DESERIALIZER);
     }
 
     public void setColor(float[] color) {
