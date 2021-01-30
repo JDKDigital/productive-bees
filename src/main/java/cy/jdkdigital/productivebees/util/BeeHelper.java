@@ -63,7 +63,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class BeeHelper
 {
     public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, ServerWorld world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
-        // Conversion recipes
         BeeEntity bee = null;
 
         if (!entity.isChild()) {
@@ -71,6 +70,7 @@ public class BeeHelper
 
             List<BeeConversionRecipe> recipes = new ArrayList<>();
 
+            // Conversion recipes
             Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION);
             for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
                 BeeConversionRecipe recipe = (BeeConversionRecipe) entry.getValue();
@@ -87,6 +87,10 @@ public class BeeHelper
                         ((ConfigurableBeeEntity) bee).setBeeType(recipe.result.get().getBeeType().toString());
                         ((ConfigurableBeeEntity) bee).setAttributes();
                     }
+
+                    if (bee instanceof ProductiveBeeEntity && entity instanceof ProductiveBeeEntity) {
+                        setOffspringAttributes((ProductiveBeeEntity) bee, (ProductiveBeeEntity) entity, entity);
+                    }
                 }
             }
         }
@@ -95,24 +99,19 @@ public class BeeHelper
             if (!player.isCreative()) {
                 itemStack.shrink(1);
             }
-            BeeHelper.prepareBeeSpawn(bee, entity.getPosition(), direction, entity.getGrowingAge());
+
+            BlockPos pos = entity.getPosition();
+            bee.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.rotationYaw, bee.rotationPitch);
+            bee.setHealth(entity.getHealth());
+            bee.renderYawOffset = entity.renderYawOffset;
+
+            if (entity.getGrowingAge() > 0) {
+                bee.setGrowingAge(entity.getGrowingAge());
+            }
 
             return bee;
         }
         return null;
-    }
-
-    public static void prepareBeeSpawn(BeeEntity bee, BlockPos pos, Direction direction, int age) {
-        if (bee != null) {
-            double x = (double) pos.getX() + (double) direction.getXOffset();
-            double y = (double) pos.getY() + 0.5D - (double) (bee.getHeight() / 2.0F);
-            double z = (double) pos.getZ() + (double) direction.getZOffset();
-            bee.setLocationAndAngles(x, y, z, bee.rotationYaw, bee.rotationPitch);
-
-            if (age > 0) {
-                bee.setGrowingAge(age);
-            }
-        }
     }
 
     @Nullable

@@ -149,10 +149,6 @@ public final class ProductiveBees
         };
         DispenserBlock.registerDispenseBehavior(ModItems.BEE_CAGE.get(), cageDispensebehavior);
 
-        this.fixPOI(event);
-    }
-
-    public void onLoadComplete(FMLLoadCompleteEvent event) {
         DeferredWorkQueue.runLater(() -> {
             //Entity attribute assignments
             for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
@@ -165,6 +161,8 @@ public final class ProductiveBees
             }
             GlobalEntityTypeAttributes.put(ModEntities.BLUE_BANDED_BEE.get(), BlueBandedBeeEntity.getDefaultAttributes().create());
         });
+
+        this.fixPOI(event);
     }
 
     private void onBiomeLoad(BiomeLoadingEvent event) {
