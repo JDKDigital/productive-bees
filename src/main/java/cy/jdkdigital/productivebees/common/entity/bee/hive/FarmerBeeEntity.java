@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 public class FarmerBeeEntity extends ProductiveBeeEntity
 {
-    public static final UUID FARMER_BEE_UUID = UUID.nameUUIDFromBytes("farmer_bee".getBytes(StandardCharsets.UTF_8));
+    public static final UUID FARMER_BEE_UUID = UUID.nameUUIDFromBytes("pb_farmer_bee".getBytes(StandardCharsets.UTF_8));
     private BlockPos targetHarvestPos = null;
 
     public FarmerBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
@@ -162,8 +162,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                                 // right click if certain mods are installed
                                 if ((ModList.get().isLoaded("quark") || ModList.get().isLoaded("pamhc2crops") || ModList.get().isLoaded("simplefarming") || ModList.get().isLoaded("reap"))) {
                                     PlayerEntity fakePlayer = FakePlayerFactory.get((ServerWorld) world, new GameProfile(FARMER_BEE_UUID, "farmer_bee"));
-                                    BlockRayTraceResult traceResult = new BlockRayTraceResult(FarmerBeeEntity.this.getLookVec(), FarmerBeeEntity.this.getAdjustedHorizontalFacing(), pos, false);
-                                    ForgeHooks.onRightClickBlock(fakePlayer, Hand.MAIN_HAND, pos, traceResult);
+                                    ForgeHooks.onRightClickBlock(fakePlayer, Hand.MAIN_HAND, pos, FarmerBeeEntity.this.getAdjustedHorizontalFacing());
                                 } else {
                                     world.destroyBlock(pos, true);
                                 }
