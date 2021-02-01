@@ -24,7 +24,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -45,13 +44,13 @@ public class EventHandler
         ItemStack itemStack = entityInteract.getItemStack();
         Entity entity = entityInteract.getTarget();
 
-        World world = entityInteract.getWorld();
-        if (!itemStack.isEmpty() && entity instanceof BeeEntity && !world.isRemote) {
+        if (!itemStack.isEmpty() && entity instanceof BeeEntity) {
+            World world = entityInteract.getWorld();
             PlayerEntity player = entityInteract.getPlayer();
             BlockPos pos = entity.getPosition();
             Hand hand = entityInteract.getHand();
 
-            BeeEntity newBee = BeeHelper.itemInteract((BeeEntity) entity, itemStack, (ServerWorld) world, entity.serializeNBT(), player, hand, entity.getHorizontalFacing());
+            BeeEntity newBee = BeeHelper.itemInteract((BeeEntity) entity, itemStack, world, entity.serializeNBT(), player, hand, entity.getHorizontalFacing());
 
             if (newBee != null) {
                 // PLay event with smoke
@@ -80,14 +79,14 @@ public class EventHandler
         if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().get(CocoaBlock.AGE) == 2) {
             ProductiveBees.LOGGER.info("Broken grown cocoa");
             PlayerEntity player = event.getPlayer();
-            World world = player.world;
+            World world = event.getWorld().getWorld();
             if (player instanceof ServerPlayerEntity && !world.isRemote && ProductiveBees.rand.nextFloat() < 0.05) {
                 ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(world);
                 BlockPos pos = event.getPos();
                 if (bee != null) {
                     bee.setBeeType("productivebees:sugarbag");
                     bee.setAttributes();
-                    bee.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), bee.rotationYaw, bee.rotationPitch);
+                    BeeHelper.prepareBeeSpawn(bee, pos, Direction.random(ProductiveBees.rand), 0);
 
                     world.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
                     world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_WORK, SoundCategory.NEUTRAL, 1.0F, 1.0F);
@@ -119,7 +118,8 @@ public class EventHandler
 
                 List<String> beeTypes = new ArrayList<>(data.keySet());
 
-                if (beeTypes.size() > 0) {
+
+                if (!beeTypes.isEmpty()) {
                     ((ConfigurableBeeEntity) entity).setBeeType(beeTypes.get(ProductiveBees.rand.nextInt(beeTypes.size())));
                 }
             }
