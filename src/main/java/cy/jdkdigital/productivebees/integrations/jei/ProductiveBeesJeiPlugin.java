@@ -119,7 +119,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipes(beeConversionRecipeMap.values(), CATEGORY_BEE_CONVERSION_UID);
 
         // Bee ingredient descriptions
-        List<String> notInfoBees = Arrays.asList("minecraft:bee", "configurable_bee", "aluminium_bee", "brass_bee", "bronze_bee", "copper_bee", "electrum_bee", "invar_bee", "lead_bee", "nickel_bee", "osmium_bee", "platinum_bee", "radioactive_bee", "silver_bee", "steel_bee", "tin_bee", "titanium_bee", "tungsten_bee", "zinc_bee", "amber_bee");
+        List<String> notInfoBees = Arrays.asList("minecraft:bee", "configurable_bee");
         Map<String, BeeIngredient> beeList = BeeIngredientFactory.getOrCreateList();
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             String beeId = entry.getKey().replace("productivebees:", "");

@@ -119,7 +119,9 @@ public class EventHandler
 
                 List<String> beeTypes = new ArrayList<>(data.keySet());
 
-                ((ConfigurableBeeEntity) entity).setBeeType(beeTypes.get(ProductiveBees.rand.nextInt(beeTypes.size())));
+                if (beeTypes.size() > 0) {
+                    ((ConfigurableBeeEntity) entity).setBeeType(beeTypes.get(ProductiveBees.rand.nextInt(beeTypes.size())));
+                }
             }
         }
     }

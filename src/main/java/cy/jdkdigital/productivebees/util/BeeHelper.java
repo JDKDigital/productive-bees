@@ -175,7 +175,7 @@ public class BeeHelper
 
         // If no specific recipe exist for the target bee or the bees are the same type, create a child like the parent
         CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeEntity.getEntityString());
-        if (nbt.getBoolean("selfbreed")) {
+        if (nbt != null && nbt.getBoolean("selfbreed")) {
             return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
         }
         return null;

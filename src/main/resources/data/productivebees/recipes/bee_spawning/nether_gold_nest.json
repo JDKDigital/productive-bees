@@ -5,8 +5,11 @@
     },
     "results": [
         {
-            "bee": "productivebees:gold_bee"
+            "bee": "productivebees:gold"
         }
+    ],
+    "biomes": [
+        "nether"
     ],
     "repopulation_cooldown": 36000
 }
