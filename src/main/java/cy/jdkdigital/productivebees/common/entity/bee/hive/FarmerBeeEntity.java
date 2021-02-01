@@ -18,13 +18,16 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fml.ModList;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class FarmerBeeEntity extends ProductiveBeeEntity
 {
+    public static final UUID FARMER_BEE_UUID = UUID.nameUUIDFromBytes("farmer_bee".getBytes(StandardCharsets.UTF_8));
     private BlockPos targetHarvestPos = null;
 
     public FarmerBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
@@ -157,7 +160,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
 
                                 // right click if certain mods are installed
                                 if ((ModList.get().isLoaded("quark") || ModList.get().isLoaded("pamhc2crops") || ModList.get().isLoaded("simplefarming") || ModList.get().isLoaded("reap")) && world instanceof ServerWorld) {
-                                    PlayerEntity fakePlayer = FakePlayerFactory.get((ServerWorld) world, new GameProfile(null, "farmer_bee"));
+                                    PlayerEntity fakePlayer = FakePlayerFactory.get((ServerWorld) world, new GameProfile(FARMER_BEE_UUID, "farmer_bee"));
                                     ForgeHooks.onRightClickBlock(fakePlayer, Hand.MAIN_HAND, pos, FarmerBeeEntity.this.getAdjustedHorizontalFacing());
                                 } else {
                                     world.destroyBlock(pos, true);
