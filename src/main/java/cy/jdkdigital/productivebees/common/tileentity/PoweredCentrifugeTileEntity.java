@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.PoweredCentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;

@@ -5,7 +5,6 @@ import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.world.World;
 
 public class PortalNectarParticle extends PortalParticle
 {

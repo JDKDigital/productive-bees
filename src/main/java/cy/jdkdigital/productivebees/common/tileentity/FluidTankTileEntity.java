@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.tileentity;
 
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
-import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.ITickableTileEntity;
