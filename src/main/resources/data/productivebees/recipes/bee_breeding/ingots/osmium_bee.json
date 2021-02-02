@@ -25,7 +25,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:torage_blocks/osmium"
+                "tag": "forge:storage_blocks/osmium"
             }
         }
     ]

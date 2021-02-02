@@ -1,6 +1,6 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:quartz_bee",
+    "parent1": "productivebees:crystalline",
     "parent2": "productivebees:neon_cuckoo_bee",
     "offspring": [
         "productivebees:menril"
