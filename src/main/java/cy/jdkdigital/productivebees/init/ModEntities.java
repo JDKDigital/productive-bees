@@ -114,27 +114,4 @@ public class ModEntities
 
         return entity;
     }
-
-    public static void registerRendering() {
-        for (RegistryObject<EntityType<?>> registryObject : HIVE_BEES.getEntries()) {
-            EntityType<?> bee = registryObject.get();
-            String key = bee.getTranslationKey();
-            if (key.contains("dye_bee")) {
-                RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, DyeBeeRenderer::new);
-            } else if (key.contains("rancher_bee") || key.contains("farmer_bee")) {
-                RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, RancherBeeRenderer::new);
-            } else if (key.contains("hoarder_bee")) {
-                RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, HoarderBeeRenderer::new);
-            } else {
-                RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, ProductiveBeeRenderer::new);
-            }
-        }
-
-        for (RegistryObject<EntityType<?>> registryObject : SOLITARY_BEES.getEntries()) {
-            RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) registryObject.get(), ProductiveBeeRenderer::new);
-        }
-
-        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-        RenderingRegistry.registerEntityRenderingHandler(BEE_BOMB.get(), entity -> new SpriteRenderer<>(entity, itemRenderer));
-    }
 }

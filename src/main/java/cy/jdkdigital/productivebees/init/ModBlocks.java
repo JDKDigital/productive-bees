@@ -264,12 +264,4 @@ public final class ModBlocks
         }
         return block;
     }
-
-    public static void registerRendering() {
-        RenderTypeLookup.setRenderLayer(ModBlocks.COMB_GHOSTLY.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(ModBlocks.SLIMY_NEST.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(ModBlocks.SUGAR_CANE_NEST.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.JAR.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.INVISIBLE_REDSTONE_BLOCK.get(), RenderType.getCutout());
-    }
 }

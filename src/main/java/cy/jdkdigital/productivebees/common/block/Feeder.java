@@ -77,7 +77,7 @@ public class Feeder extends SlabBlock implements ITileEntityProvider
     @Override
     public Fluid pickupFluid(IWorld world, BlockPos pos, BlockState state) {
         if (state.get(HONEYLOGGED)) {
-            world.setBlockState(pos, state.with(BlockStateProperties.WATERLOGGED, false), 3);
+            world.setBlockState(pos, state.with(HONEYLOGGED, false).with(BlockStateProperties.WATERLOGGED, false), 3);
             return ModFluids.HONEY.get();
         } else {
             return super.pickupFluid(world, pos, state);
