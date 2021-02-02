@@ -77,7 +77,6 @@ public class EventHandler
     @SubscribeEvent
     public static void cocoaBreakSpawn(BlockEvent.BreakEvent event) {
         if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().get(CocoaBlock.AGE) == 2) {
-            ProductiveBees.LOGGER.info("Broken grown cocoa");
             PlayerEntity player = event.getPlayer();
             World world = event.getWorld().getWorld();
             if (player instanceof ServerPlayerEntity && !world.isRemote && ProductiveBees.rand.nextFloat() < 0.05) {
