@@ -39,6 +39,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         addLayer(new BeeBodyLayer(this, "small", isChristmas));
         addLayer(new BeeBodyLayer(this, "slim", isChristmas));
         addLayer(new BeeBodyLayer(this, "tiny", isChristmas));
+        addLayer(new BeeBodyLayer(this, "translucent_with_center", isChristmas));
 
         addLayer(new GlowingInnardsLayer(this));
 //        addLayer(new FoliageLayer<>(this));
@@ -47,10 +48,8 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
     @Nullable
     @Override
     protected RenderType func_230042_a_(ProductiveBeeEntity bee, boolean b1, boolean b2) {
-        if (bee instanceof ConfigurableBeeEntity) {
-            if (((ConfigurableBeeEntity) bee).isTranslucent()) {
-                return RenderType.getEntityTranslucent(this.getEntityTexture(bee));
-            }
+        if (bee instanceof ConfigurableBeeEntity && ((ConfigurableBeeEntity) bee).isTranslucent()) {
+            return RenderType.getEntityTranslucent(this.getEntityTexture(bee));
         }
         return super.func_230042_a_(bee, b1, b2);
     }

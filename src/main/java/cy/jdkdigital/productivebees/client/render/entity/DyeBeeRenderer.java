@@ -15,7 +15,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
     }
 
     public DyeBeeRenderer(EntityRendererManager renderManagerIn) {
-        this(renderManagerIn, new ProductiveBeeModel<>());
+        this(renderManagerIn, new ProductiveBeeModel<>("default"));
     }
 
     @Nonnull

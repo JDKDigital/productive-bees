@@ -1,10 +1,6 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.client.render.entity.DyeBeeRenderer;
-import cy.jdkdigital.productivebees.client.render.entity.HoarderBeeRenderer;
-import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
-import cy.jdkdigital.productivebees.client.render.entity.RancherBeeRenderer;
 import cy.jdkdigital.productivebees.common.entity.BeeBombEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
@@ -12,9 +8,6 @@ import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.*;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.*;
 import cy.jdkdigital.productivebees.common.item.SpawnEgg;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -23,7 +16,6 @@ import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

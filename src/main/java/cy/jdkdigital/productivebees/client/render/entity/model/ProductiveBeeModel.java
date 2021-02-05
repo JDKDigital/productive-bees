@@ -84,6 +84,8 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
                 partialModel = new MediumCrystalBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
                 break;
             case "translucent_with_center":
+                partialModel = new SlimyBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+                break;
             case "default":
             default:
                 partialModel = new MediumBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
