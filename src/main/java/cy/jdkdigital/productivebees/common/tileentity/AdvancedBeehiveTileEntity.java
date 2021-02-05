@@ -29,6 +29,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -41,6 +42,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider, UpgradeableTileEntity
 {
@@ -198,17 +200,21 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         // Produce offspring if breeding upgrade is installed
         int breedingUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
         if (breedingUpgrades > 0 && !beeEntity.isChild() && getBeeCount() > 0 && world.rand.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
-            // Breed this bee with a random bee inside
-            Inhabitant otherBeeInhabitant = getBeeList().get(world.rand.nextInt(getBeeCount()));
-            BeeEntity otherBee = (BeeEntity) EntityType.loadEntityAndExecute(otherBeeInhabitant.nbt, world, (spawnedEntity) -> spawnedEntity);
-            BeeEntity offspring = BeeHelper.getBreedingResult(beeEntity, otherBee, (ServerWorld) world);
-            if (offspring != null) {
-                if (offspring instanceof ProductiveBeeEntity && beeEntity instanceof ProductiveBeeEntity) {
-                    BeeHelper.setOffspringAttributes((ProductiveBeeEntity) offspring, (ProductiveBeeEntity) beeEntity, otherBee);
+            // Count nearby bee entities
+            List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, (new AxisAlignedBB(pos).grow(3.0D, 3.0D, 3.0D)));
+            if (bees.size() < ProductiveBeesConfig.UPGRADES.breedingMaxNearbyEntities.get()) {
+                // Breed this bee with a random bee inside
+                Inhabitant otherBeeInhabitant = getBeeList().get(world.rand.nextInt(getBeeCount()));
+                BeeEntity otherBee = (BeeEntity) EntityType.loadEntityAndExecute(otherBeeInhabitant.nbt, world, (spawnedEntity) -> spawnedEntity);
+                BeeEntity offspring = BeeHelper.getBreedingResult(beeEntity, otherBee, (ServerWorld) world);
+                if (offspring != null) {
+                    if (offspring instanceof ProductiveBeeEntity && beeEntity instanceof ProductiveBeeEntity) {
+                        BeeHelper.setOffspringAttributes((ProductiveBeeEntity) offspring, (ProductiveBeeEntity) beeEntity, otherBee);
+                    }
+                    offspring.setGrowingAge(-24000);
+                    offspring.setLocationAndAngles(beeEntity.getPosX(), beeEntity.getPosY(), beeEntity.getPosZ(), 0.0F, 0.0F);
+                    world.addEntity(offspring);
                 }
-                offspring.setGrowingAge(-24000);
-                offspring.setLocationAndAngles(beeEntity.getPosX(), beeEntity.getPosY(), beeEntity.getPosZ(), 0.0F, 0.0F);
-                world.addEntity(offspring);
             }
         }
 

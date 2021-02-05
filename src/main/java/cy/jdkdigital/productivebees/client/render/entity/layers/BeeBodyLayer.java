@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -31,11 +32,17 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
     }
 
     public void render(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull ProductiveBeeEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entity.getRenderer().equals(this.modelType)) {
+        if (entity.getRenderer().equals(this.modelType) && !entity.isInvisible()) {
             this.getEntityModel().copyModelAttributesTo(this.model);
             this.model.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
             this.model.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            renderCutoutModel(this.model, this.getEntityTexture(entity), matrixStackIn, bufferIn, packedLightIn, entity, 1.0F, 1.0F, 1.0F);
+
+            if (entity instanceof ConfigurableBeeEntity && ((ConfigurableBeeEntity) entity).isTranslucent()) {
+                IVertexBuilder vertexBuilder = bufferIn.getBuffer(RenderType.getEntityTranslucent(this.getEntityTexture(entity)));
+                this.model.render(matrixStackIn, vertexBuilder, packedLightIn, LivingRenderer.getPackedOverlay(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+            } else {
+                renderCutoutModel(this.model, this.getEntityTexture(entity), matrixStackIn, bufferIn, packedLightIn, entity, 1.0F, 1.0F, 1.0F);
+            }
 
             if (entity.getColor(0) != null) {
                 if (entity instanceof ConfigurableBeeEntity) {

@@ -17,13 +17,13 @@ public class MediumFoliageBeeModel extends MediumBeeModel
 
     @Override
     protected void addCrystals() {
-        crystals.setRotationPoint(0.0F, -4.0F, 0.0F);
-        crystals.setTextureOffset(52, 28).addBox(-3.0F, -6.0F, -5.0F, 0.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F);
-        crystals.setTextureOffset(52, 34).addBox(-6.0F, -6.0F, -2.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        crystals.setTextureOffset(52, 34).addBox(1.0F, -6.0F, -4.0F, 0.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F);
-        crystals.setTextureOffset(52, 40).addBox(-2.0F, -6.0F, -1.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        setRotationAngle(crystals, 0.0F, -0.7853981633974483F, 0.0F);
-        torso.addChild(crystals);
+        externals.setRotationPoint(0.0F, -4.0F, 0.0F);
+        externals.setTextureOffset(52, 28).addBox(-3.0F, -6.0F, -5.0F, 0.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F);
+        externals.setTextureOffset(52, 34).addBox(-6.0F, -6.0F, -2.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        externals.setTextureOffset(52, 34).addBox(1.0F, -6.0F, -4.0F, 0.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F);
+        externals.setTextureOffset(52, 40).addBox(-2.0F, -6.0F, -1.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        setRotationAngle(externals, 0.0F, -0.7853981633974483F, 0.0F);
+        torso.addChild(externals);
     }
 
     @Override

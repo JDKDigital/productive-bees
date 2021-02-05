@@ -215,6 +215,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.DoubleValue combBlockTimeModifier;
         public final ForgeConfigSpec.DoubleValue productivityMultiplier;
         public final ForgeConfigSpec.DoubleValue breedingChance;
+        public final ForgeConfigSpec.IntValue breedingMaxNearbyEntities;
 
         public Upgrades(ForgeConfigSpec.Builder builder) {
             builder.push("Hive Upgrades");
@@ -231,6 +232,9 @@ public class ProductiveBeesConfig
             breedingChance = builder
                     .comment("Chance for a bee to produce an offspring after a hive visit.")
                     .defineInRange("breedingChance", 0.05, 0, 1);
+            breedingMaxNearbyEntities = builder
+                    .comment("Chance for a bee to produce an offspring after a hive visit.")
+                    .defineInRange("breedingMaxNearbyEntities", 10, 0, Integer.MAX_VALUE);
 
             builder.pop();
         }

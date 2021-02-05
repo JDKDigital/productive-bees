@@ -17,11 +17,11 @@ public class MediumShellBeeModel extends MediumBeeModel
 
     @Override
     protected void addCrystals() {
-        crystals.setRotationPoint(-1.5F, -7.0F, -4.0F);
-        crystals.setRotationPoint(-1.5F, -4.0F, -4.0F);
-        crystals.setTextureOffset(36, 46).addBox(-2.5F, -1.0F, 0.0F, 8.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F);
-        crystals.setTextureOffset(48, 58).addBox(-2.5F, -2.0F, 0.0F, 4.0F, 1.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        torso.addChild(crystals);
+        externals.setRotationPoint(-1.5F, -7.0F, -4.0F);
+        externals.setRotationPoint(-1.5F, -4.0F, -4.0F);
+        externals.setTextureOffset(36, 46).addBox(-2.5F, -1.0F, 0.0F, 8.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F);
+        externals.setTextureOffset(48, 58).addBox(-2.5F, -2.0F, 0.0F, 4.0F, 1.0F, 4.0F, 0.0F, 0.0F, 0.0F);
+        torso.addChild(externals);
     }
 
     @Override
