@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -70,11 +69,15 @@ public class BeeCage extends Item
             entity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
             worldIn.addEntity(entity);
 
-            // Delete stack
-            context.getPlayer().inventory.deleteStack(stack);
+            postItemUse(context);
         }
 
         return ActionResultType.SUCCESS;
+    }
+
+    protected void postItemUse(ItemUseContext context) {
+        // Delete stack
+        context.getPlayer().inventory.deleteStack(context.getItem());
     }
 
     @Override
@@ -85,9 +88,12 @@ public class BeeCage extends Item
 
         BeeEntity target = (BeeEntity) targetIn;
 
-        ItemStack cageStack = captureEntity(target);
+        ItemStack cageStack = captureEntity(target, itemStack.getItem());
 
-        if (!player.inventory.addItemStackToInventory(cageStack)) {
+        if (itemStack.getCount() == 1) {
+            int slot = player.inventory.getSlotFor(itemStack);
+            player.inventory.add(slot, cageStack);
+        } else if (!player.inventory.addItemStackToInventory(cageStack)) {
             player.dropItem(cageStack, false);
         }
 
@@ -103,13 +109,12 @@ public class BeeCage extends Item
         return true;
     }
 
-    public static ItemStack captureEntity(BeeEntity target) {
+    public static ItemStack captureEntity(BeeEntity target, Item cageItem) {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("entity", EntityType.getKey(target.getType()).toString());
         if (target.hasCustomName()) {
             nbt.putString("name", target.getCustomName().getFormattedText());
-        }
-        else {
+        } else {
             nbt.putString("name", target.getName().getFormattedText());
         }
         target.writeWithoutTypeId(nbt);
@@ -124,7 +129,7 @@ public class BeeCage extends Item
         }
         nbt.putString("mod", modName);
 
-        ItemStack cageStack = new ItemStack(ModItems.BEE_CAGE.get());
+        ItemStack cageStack = new ItemStack(cageItem);
         cageStack.setTag(nbt);
 
         return cageStack;

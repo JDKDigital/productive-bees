@@ -58,7 +58,7 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
                             if (babeeUpgrades > 0 && !bee.isChild()) {
                                 continue;
                             }
-                            ItemStack cageStack = BeeCage.captureEntity(bee);
+                            ItemStack cageStack = BeeCage.captureEntity(bee, invItem.getItem());
                             if (((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(cageStack)) {
                                 bee.remove(true);
                                 invItem.shrink(1);

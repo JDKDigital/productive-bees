@@ -127,7 +127,8 @@ public final class ProductiveBees
                         BlockPos spawnPos = source.getBlockPos().offset(direction);
 
                         entity.setPositionAndRotation(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, 0, 0);
-                        if (source.getWorld().addEntity(entity)) {
+
+                        if (source.getWorld().addEntity(entity) && stack.getItem().equals(ModItems.BEE_CAGE.get())) {
                             stack.shrink(1);
                         }
                         return stack;
@@ -137,6 +138,7 @@ public final class ProductiveBees
             }
         };
         DispenserBlock.registerDispenseBehavior(ModItems.BEE_CAGE.get(), cageDispensebehavior);
+        DispenserBlock.registerDispenseBehavior(ModItems.STURDY_BEE_CAGE.get(), cageDispensebehavior);
 
         this.fixPOI(event);
     }

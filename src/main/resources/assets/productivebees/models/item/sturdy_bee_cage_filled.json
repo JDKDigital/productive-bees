@@ -1,0 +1,6 @@
+{
+	"parent": "productivebees:item/sturdy_bee_cage",
+	"textures": {
+		"layer0": "productivebees:item/bee_cage/bee_cage_filled"
+	}
+}

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
@@ -23,7 +24,7 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.world != null) {
-            BeeIngredient.render(xPosition, yPosition, beeIngredient, minecraft);
+            BeeRenderer.render(xPosition, yPosition, beeIngredient, minecraft);
         }
     }
 
