@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
@@ -26,7 +27,7 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.world != null) {
-            BeeIngredient.render(matrixStack, xPosition, yPosition, beeIngredient, minecraft);
+            BeeRenderer.render(matrixStack, xPosition, yPosition, beeIngredient, minecraft);
         }
     }
 

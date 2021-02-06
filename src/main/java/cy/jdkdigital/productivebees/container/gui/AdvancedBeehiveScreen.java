@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.resourcefulbees.resourcefulbees.api.beedata.CustomBeeData;
 import com.resourcefulbees.resourcefulbees.registry.BeeRegistry;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
@@ -139,7 +140,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                     BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(type).get();
 
                     if (beeIngredient != null) {
-                        BeeIngredient.render(matrixStack, getGuiLeft() + positions.get(i).get(0) - (expanded ? 13 : 0), getGuiTop() + positions.get(i).get(1), beeIngredient, minecraft);
+                        BeeRenderer.render(matrixStack, getGuiLeft() + positions.get(i).get(0) - (expanded ? 13 : 0), getGuiTop() + positions.get(i).get(1), beeIngredient, minecraft);
                     }
                 }
                 i++;
