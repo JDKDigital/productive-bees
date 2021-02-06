@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.event;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -16,6 +17,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Hand;
@@ -24,6 +26,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -119,12 +122,19 @@ public class EventHandler
                 Map<String, CompoundNBT> data = BeeReloadListener.INSTANCE.getData();
 
                 List<String> beeTypes = new ArrayList<>(data.keySet());
-
-
                 if (!beeTypes.isEmpty()) {
                     ((ConfigurableBeeEntity) entity).setBeeType(beeTypes.get(ProductiveBees.rand.nextInt(beeTypes.size())));
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLootSetup(LootTableLoadEvent event) {
+        if (event.getName().toString().contains("chests/village")) {
+            event.getTable().getPool("main").lootEntries.add(
+                ItemLootEntry.builder(ModItems.STURDY_BEE_CAGE.get()).weight(10).build()
+            );
         }
     }
 }
