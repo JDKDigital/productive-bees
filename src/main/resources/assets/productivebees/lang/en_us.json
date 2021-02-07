@@ -397,6 +397,7 @@
     "productivebees.information.health.dying": "Dying",
     "productivebees.information.age.child": "Child",
     "productivebees.information.age.adult": "Adult",
+    "productivebees.information.attribute.health": "Health: %s/%s",
     "productivebees.information.attribute.type": "Type: %s",
     "productivebees.information.attribute.type.hive": "Hive",
     "productivebees.information.attribute.type.solitary": "Solitary",

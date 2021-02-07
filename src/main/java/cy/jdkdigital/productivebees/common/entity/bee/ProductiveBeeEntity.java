@@ -333,6 +333,7 @@ public class ProductiveBeeEntity extends BeeEntity
         tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
         tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getId().toString());
+        tag.putFloat("MaxHealth", getMaxHealth());
     }
 
     @Override

@@ -4,6 +4,8 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -82,7 +84,7 @@ public class Gene extends Item
         BeeAttribute<?> attribute = getAttribute(stack);
 
         if (attribute != null) {
-            ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).applyTextStyle(BeeCage.getColor(value));
+            ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).applyTextStyle(ColorUtil.getColor(value));
             list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translated_value)).applyTextStyle(TextFormatting.DARK_GRAY).appendText(" (" + getPurity(stack) + "%)"));
         } else {
             String type = getAttributeName(stack);

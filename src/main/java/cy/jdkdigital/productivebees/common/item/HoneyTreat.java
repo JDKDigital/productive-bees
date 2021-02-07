@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -148,7 +149,7 @@ public class HoneyTreat extends Item
                         Integer value = Gene.getValue(insertedGene);
                         BeeAttribute<?> attribute = Gene.getAttribute(insertedGene);
                         if (BeeAttributes.keyMap.containsKey(attribute)) {
-                            ITextComponent translatedValue = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).applyTextStyle(BeeCage.getColor(value));
+                            ITextComponent translatedValue = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).applyTextStyle(ColorUtil.getColor(value));
                             list.add((new TranslationTextComponent("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translatedValue)).applyTextStyle(TextFormatting.DARK_GRAY).appendText(" (" + purity + "%)"));
                         } else {
                             list.add((new TranslationTextComponent("productivebees.information.attribute.type", Gene.getAttributeName(insertedGene))).applyTextStyle(TextFormatting.DARK_GRAY).appendText(" (" + purity + "%)"));

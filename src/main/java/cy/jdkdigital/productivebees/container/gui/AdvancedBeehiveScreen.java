@@ -10,16 +10,21 @@ import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.ModList;
 
 import java.util.ArrayList;
@@ -56,21 +61,42 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             // Bee Tooltips
             int j = 0;
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
-                BeeEntity bee = (BeeEntity) EntityType.loadEntityAndExecute(inhabitant.nbt, this.container.tileEntity.getWorld(), (spawnedEntity) -> spawnedEntity);
+                String type = inhabitant.nbt.getString("type");
+                if (type.isEmpty()) {
+                    type = inhabitant.nbt.getString("id");
+                }
+                BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(type).get();
+                BeeEntity bee = beeIngredient.getCachedEntity(minecraft.world);
 
                 if (bee != null && positions.containsKey(j) && isPointInRegion(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
-                    List<String> tooltipList = new ArrayList<String>()
-                    {{
-                        add(bee.getName().getFormattedText());
-                    }};
+                    CompoundNBT tag = inhabitant.nbt.copy();
+                    List<String> tooltipList = new ArrayList<>();
 
-                    String modId = new ResourceLocation(bee.getEntityString()).getNamespace();
-                    String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
+                    tooltipList.add(bee.getName().getFormattedText());
 
-                    if (modId.equals("minecraft")) {
-                        modName = "Minecraft";
+                    if (Screen.hasShiftDown()) {
+                        String modId = new ResourceLocation(bee.getEntityString()).getNamespace();
+                        if (modId.equals(ProductiveBees.MODID)) {
+                            tag.putBoolean("isProductiveBee", true);
+                        }
+
+                        List<ITextComponent> list = BeeHelper.populateBeeInfoFromTag(tag, null);
+
+                        for (ITextComponent textComponent : list) {
+                            tooltipList.add(textComponent.getFormattedText());
+                        }
+
+                        if (!tag.getBoolean("isProductiveBee")) {
+                            String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
+                            if (modId.equals("minecraft")) {
+                                modName = "Minecraft";
+                            }
+                            tooltipList.add(new StringTextComponent(modName).applyTextStyle(TextFormatting.ITALIC).applyTextStyle(TextFormatting.BLUE).getFormattedText());
+                        }
+                    } else {
+                        tooltipList.add(new TranslationTextComponent("productivebees.information.hold_shift").applyTextStyle(TextFormatting.WHITE).getFormattedText());
                     }
-                    tooltipList.add(new StringTextComponent(modName).applyTextStyle(TextFormatting.ITALIC).applyTextStyle(TextFormatting.BLUE).getFormattedText());
+
                     renderTooltip(tooltipList, mouseX - guiLeft, mouseY - guiTop);
                 }
                 j++;

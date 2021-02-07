@@ -54,7 +54,7 @@ public class UpgradeItem extends Item
         if (!world.isRemote && context.getPlayer() != null && context.getPlayer().isSneaking()) {
             if (context.getItem().getItem() instanceof UpgradeItem) {
                 TileEntity tileEntity = world.getTileEntity(context.getPos());
-                if (tileEntity instanceof UpgradeableTileEntity) {
+                if (tileEntity instanceof UpgradeableTileEntity && ((UpgradeableTileEntity) tileEntity).acceptsUpgrades()) {
                     AtomicBoolean hasInsertedUpgrade = new AtomicBoolean(false);
                     ((UpgradeableTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
                         for (int slot = 0; slot < handler.getSlots(); ++slot) {

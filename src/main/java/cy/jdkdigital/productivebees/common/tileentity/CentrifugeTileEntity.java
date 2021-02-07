@@ -128,6 +128,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                         if (canProcessRecipe(recipe, invHandler)) {
                             world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
                             int totalTime = getProcessingTime();
+                            ProductiveBees.LOGGER.info("process time: " + totalTime);
 
                             if (++this.recipeProgress >= totalTime) {
                                 this.completeRecipeProcessing(recipe, invHandler);

@@ -12,6 +12,10 @@ public interface UpgradeableTileEntity
 {
     LazyOptional<IItemHandlerModifiable> getUpgradeHandler();
 
+    default boolean acceptsUpgrades() {
+        return true;
+    }
+
     default int getUpgradeCount(Item item) {
         AtomicInteger numberOfUpgrades = new AtomicInteger();
         getUpgradeHandler().ifPresent(handler -> {
