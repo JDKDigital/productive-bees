@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.common.item;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
@@ -17,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -86,13 +84,20 @@ public class BeeCage extends Item
 
         BeeEntity target = (BeeEntity) targetIn;
 
-        ItemStack cageStack = captureEntity(target, itemStack.getItem());
-
+        boolean addToInventory = true;
+        ItemStack cageStack = new ItemStack(itemStack.getItem());
         if (itemStack.getCount() == 1) {
-            int slot = player.inventory.getSlotFor(itemStack);
-            player.inventory.add(slot, cageStack);
-        } else if (!player.inventory.addItemStackToInventory(cageStack)) {
-            player.dropItem(cageStack, false);
+            cageStack = itemStack;
+            addToInventory = false;
+        }
+
+        captureEntity(target, cageStack);
+
+        if (addToInventory || player.isCreative()) {
+            if (!player.inventory.addItemStackToInventory(cageStack)) {
+                player.dropItem(cageStack, false);
+            }
+            itemStack.shrink(1);
         }
 
         player.swingArm(hand);
@@ -100,14 +105,12 @@ public class BeeCage extends Item
         if (player instanceof ServerPlayerEntity) {
             ModAdvancements.CATCH_BEE.trigger((ServerPlayerEntity) player, cageStack);
         }
-
-        itemStack.shrink(1);
         target.remove(true);
 
         return ActionResultType.SUCCESS;
     }
 
-    public static ItemStack captureEntity(BeeEntity target, Item cageItem) {
+    public static ItemStack captureEntity(BeeEntity target, ItemStack cageStack) {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("entity", EntityType.getKey(target.getType()).toString());
         if (target.hasCustomName()) {
@@ -127,7 +130,6 @@ public class BeeCage extends Item
         }
         nbt.putString("mod", modName);
 
-        ItemStack cageStack = new ItemStack(cageItem);
         cageStack.setTag(nbt);
 
         return cageStack;
@@ -173,80 +175,16 @@ public class BeeCage extends Item
         super.addInformation(stack, world, list, flag);
 
         CompoundNBT tag = stack.getTag();
-        if (tag != null) {
+        if (tag != null && !tag.equals(new CompoundNBT())) {
             if (Screen.hasShiftDown()) {
                 boolean hasStung = tag.getBoolean("HasStung");
                 if (hasStung) {
                     list.add(new TranslationTextComponent("productivebees.information.health.dying").mergeStyle(TextFormatting.RED).mergeStyle(TextFormatting.ITALIC));
                 }
-
-                list.add(new TranslationTextComponent(tag.getInt("Age") < 0 ? "productivebees.information.age.child" : "productivebees.information.age.adult").mergeStyle(TextFormatting.AQUA).mergeStyle(TextFormatting.ITALIC));
-
-                if (tag.getBoolean("isProductiveBee")) {
-                    String type = tag.getString("bee_type");
-                    ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).mergeStyle(getColor(type));
-                    list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).mergeStyle(TextFormatting.DARK_GRAY));
-
-                    int productivity = tag.getInt("bee_productivity");
-                    ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).mergeStyle(getColor(productivity));
-                    list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).mergeStyle(TextFormatting.DARK_GRAY));
-
-                    int tolerance = tag.getInt("bee_weather_tolerance");
-                    ITextComponent tolerance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).mergeStyle(getColor(tolerance));
-                    list.add((new TranslationTextComponent("productivebees.information.attribute.weather_tolerance", tolerance_value)).mergeStyle(TextFormatting.DARK_GRAY));
-
-                    int behavior = tag.getInt("bee_behavior");
-                    ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).mergeStyle(getColor(behavior));
-                    list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).mergeStyle(TextFormatting.DARK_GRAY));
-
-                    int endurance = tag.getInt("bee_endurance");
-                    ITextComponent endurance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.ENDURANCE).get(endurance)).mergeStyle(getColor(endurance));
-                    list.add((new TranslationTextComponent("productivebees.information.attribute.endurance", endurance_value)).mergeStyle(TextFormatting.DARK_GRAY));
-
-                    int temper = tag.getInt("bee_temper");
-                    ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).mergeStyle(getColor(temper));
-                    list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).mergeStyle(TextFormatting.DARK_GRAY));
-
-                    if (tag.contains("HivePos")) {
-                        BlockPos hivePos = NBTUtil.readBlockPos(tag.getCompound("HivePos"));
-                        list.add(new StringTextComponent("Home position: " + hivePos.getX() + ", " + hivePos.getY() + ", " + hivePos.getZ()));
-                    }
-                }
-                else {
-                    list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).mergeStyle(TextFormatting.DARK_AQUA));
-                }
-            }
-            else {
+                BeeHelper.populateBeeInfoFromTag(tag, list);
+            } else {
                 list.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE));
             }
         }
-    }
-
-    public static TextFormatting getColor(String type) {
-        switch (type) {
-            case "hive":
-                return TextFormatting.YELLOW;
-            case "solitary":
-                return TextFormatting.GRAY;
-        }
-        return TextFormatting.WHITE;
-    }
-
-    public static TextFormatting getColor(int level) {
-        switch (level) {
-            case -3:
-                return TextFormatting.RED;
-            case -2:
-                return TextFormatting.DARK_RED;
-            case -1:
-                return TextFormatting.YELLOW;
-            case 1:
-                return TextFormatting.GREEN;
-            case 2:
-                return TextFormatting.BLUE;
-            case 3:
-                return TextFormatting.GOLD;
-        }
-        return TextFormatting.LIGHT_PURPLE;
     }
 }

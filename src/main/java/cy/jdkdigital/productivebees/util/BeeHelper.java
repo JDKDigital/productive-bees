@@ -37,6 +37,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.IntArrayNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tileentity.TileEntity;
@@ -46,6 +47,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Lazy;
@@ -389,6 +394,53 @@ public class BeeHelper
             }
         }
         return entity;
+    }
+
+    public static List<ITextComponent> populateBeeInfoFromTag(CompoundNBT tag, @Nullable List<ITextComponent> list) {
+        if (list == null) {
+            list = new ArrayList<>();
+        }
+
+        list.add(new TranslationTextComponent(tag.getInt("Age") < 0 ? "productivebees.information.age.child" : "productivebees.information.age.adult").mergeStyle(TextFormatting.AQUA).mergeStyle(TextFormatting.ITALIC));
+
+        if (tag.getBoolean("isProductiveBee")) {
+            float current = tag.getFloat("Health");
+            float max = tag.contains("MaxHealth") ? tag.getFloat("MaxHealth") : 10.0f;
+            list.add((new TranslationTextComponent("productivebees.information.attribute.health", current, max)).mergeStyle(TextFormatting.DARK_GRAY));
+
+            String type = tag.getString("bee_type");
+            ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).mergeStyle(ColorUtil.getColor(type));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).mergeStyle(TextFormatting.DARK_GRAY));
+
+            int productivity = tag.getInt("bee_productivity");
+            ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).mergeStyle(ColorUtil.getColor(productivity));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).mergeStyle(TextFormatting.DARK_GRAY));
+
+            int tolerance = tag.getInt("bee_weather_tolerance");
+            ITextComponent tolerance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).mergeStyle(ColorUtil.getColor(tolerance));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.weather_tolerance", tolerance_value)).mergeStyle(TextFormatting.DARK_GRAY));
+
+            int behavior = tag.getInt("bee_behavior");
+            ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).mergeStyle(ColorUtil.getColor(behavior));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).mergeStyle(TextFormatting.DARK_GRAY));
+
+            int endurance = tag.getInt("bee_endurance");
+            ITextComponent endurance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.ENDURANCE).get(endurance)).mergeStyle(ColorUtil.getColor(endurance));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.endurance", endurance_value)).mergeStyle(TextFormatting.DARK_GRAY));
+
+            int temper = tag.getInt("bee_temper");
+            ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).mergeStyle(ColorUtil.getColor(temper));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).mergeStyle(TextFormatting.DARK_GRAY));
+
+            if (tag.contains("HivePos")) {
+                BlockPos hivePos = NBTUtil.readBlockPos(tag.getCompound("HivePos"));
+                list.add(new StringTextComponent("Home position: " + hivePos.getX() + ", " + hivePos.getY() + ", " + hivePos.getZ()));
+            }
+        } else {
+            list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).mergeStyle(TextFormatting.DARK_AQUA));
+        }
+
+        return list;
     }
 
     public static class IdentifierInventory implements IInventory

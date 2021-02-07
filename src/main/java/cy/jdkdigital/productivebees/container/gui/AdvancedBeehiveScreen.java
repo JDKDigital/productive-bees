@@ -16,7 +16,9 @@ import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
@@ -27,6 +29,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -73,13 +76,14 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                     EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(beeData.getEntityTypeRegistryID());
                     bee = (BeeEntity) entityType.create(this.container.tileEntity.getWorld());
                 } else {
-                    BeeIngredient ingredient = BeeIngredientFactory.getIngredient(nbt.getString("id")).get();
-                    if (ingredient != null) {
-                        bee = ingredient.getBeeEntity().create(this.container.tileEntity.getWorld());
-                    } else {
-                        ProductiveBees.LOGGER.warn("Bee ingredient not found for " + nbt.getString("id"));
+                    String type = inhabitant.nbt.getString("type");
+                    if (type.isEmpty()) {
+                        type = inhabitant.nbt.getString("id");
                     }
+                    BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(type).get();
+                    bee = beeIngredient.getCachedEntity(minecraft.world);
                 }
+
 
                 if (bee != null) {
                     if (bee instanceof ConfigurableBeeEntity && nbt.contains("type")) {
@@ -87,19 +91,33 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                     }
 
                     if (positions.containsKey(j) && isPointInRegion(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
-                        BeeEntity finalBee = bee;
-                        List<IReorderingProcessor> tooltipList = new ArrayList<IReorderingProcessor>()
-                        {{
-                            add(finalBee.getName().func_241878_f());
-                        }};
+                        CompoundNBT tag = inhabitant.nbt.copy();
+                        List<IReorderingProcessor> tooltipList = new ArrayList<IReorderingProcessor>();
+                        tooltipList.add(bee.getName().func_241878_f());
 
-                        String modId = new ResourceLocation(bee.getEntityString()).getNamespace();
-                        String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
+                        if (Screen.hasShiftDown()) {
+                            String modId = new ResourceLocation(bee.getEntityString()).getNamespace();
+                            if (modId.equals(ProductiveBees.MODID)) {
+                                tag.putBoolean("isProductiveBee", true);
+                            }
 
-                        if (modId.equals("minecraft")) {
-                            modName = "Minecraft";
+                            List<ITextComponent> list = BeeHelper.populateBeeInfoFromTag(tag, null);
+
+                            for (ITextComponent textComponent : list) {
+                                tooltipList.add(textComponent.func_241878_f());
+                            }
+
+                            if (!tag.getBoolean("isProductiveBee")) {
+                                String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
+                                if (modId.equals("minecraft")) {
+                                    modName = "Minecraft";
+                                }
+                                tooltipList.add(new StringTextComponent(modName).mergeStyle(TextFormatting.ITALIC).mergeStyle(TextFormatting.BLUE).func_241878_f());
+                            }
+                        } else {
+                            tooltipList.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE).func_241878_f());
                         }
-                        tooltipList.add(new StringTextComponent(modName).mergeStyle(TextFormatting.ITALIC).mergeStyle(TextFormatting.BLUE).func_241878_f());
+
                         renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
                     }
                     j++;

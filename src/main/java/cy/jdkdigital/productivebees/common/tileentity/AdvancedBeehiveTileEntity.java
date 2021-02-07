@@ -228,6 +228,11 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     @Override
+    public boolean acceptsUpgrades() {
+        return getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+    }
+
+    @Override
     public void read(BlockState blockState, CompoundNBT tag) {
         super.read(blockState, tag);
 

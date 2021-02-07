@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.network.PacketBuffer;
@@ -41,7 +42,12 @@ public class BeeIngredient
 
     public BeeEntity getCachedEntity(World world) {
         if (!cache.containsKey(this)) {
-            cache.put(this, getBeeEntity().create(world));
+            BeeEntity newBee = getBeeEntity().create(world);
+            if (newBee instanceof ConfigurableBeeEntity) {
+                ((ConfigurableBeeEntity) newBee).setBeeType(getBeeType().toString());
+                ((ConfigurableBeeEntity) newBee).setAttributes();
+            }
+            cache.put(this, newBee);
         }
         return cache.get(this);
     }
