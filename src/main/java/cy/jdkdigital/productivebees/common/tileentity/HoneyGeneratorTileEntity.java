@@ -45,6 +45,11 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
         public boolean isBottleItem(Item item) {
             return item.equals(Items.HONEY_BOTTLE) || item.isIn(ModTags.HONEY_BUCKETS) || item.equals(Items.HONEY_BLOCK);
         }
+
+        @Override
+        public boolean isInputSlot(int slot) {
+            return slot == InventoryHandlerHelper.BOTTLE_SLOT;
+        }
     });
 
     protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)

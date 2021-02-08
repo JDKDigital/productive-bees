@@ -45,9 +45,9 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
         @Override
         public boolean isInputSlotItem(int slot, Item item) {
             return
-                    (slot == 0 && item.equals(ModItems.BEE_CAGE.get())) ||
+                    (slot == 0 && item instanceof BeeCage) ||
                     (slot == 0 && item.isIn(ModTags.EGGS)) ||
-                    (slot == 1 && item.equals(ModItems.HONEY_TREAT.get()));
+                    (slot == 1 && item instanceof HoneyTreat);
         }
     });
 
