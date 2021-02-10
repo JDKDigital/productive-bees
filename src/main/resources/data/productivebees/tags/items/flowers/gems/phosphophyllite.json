@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/phosphophyllite",
-        "silentgems:phosphophyllite_glowrose",
-        "gemsnjewels:phosphophyllite_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/phosphophyllite",
+            "required": false
+        },
+        {
+            "id": "silentgems:phosphophyllite_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:phosphophyllite_block",
+            "required": false
+        }
     ]
 }

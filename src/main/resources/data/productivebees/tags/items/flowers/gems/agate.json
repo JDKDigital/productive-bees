@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/agate",
-        "silentgems:agate_glowrose",
-        "gemsnjewels:agate_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/agate",
+            "required": false
+        },
+        {
+            "id": "silentgems:agate_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:agate_block",
+            "required": false
+        }
     ]
 }

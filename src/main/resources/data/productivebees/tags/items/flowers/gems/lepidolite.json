@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/lepidolite",
-        "silentgems:lepidolite_glowrose",
-        "gemsnjewels:lepidolite_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/lepidolite",
+            "required": false
+        },
+        {
+            "id": "silentgems:lepidolite_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:lepidolite_block",
+            "required": false
+        }
     ]
 }

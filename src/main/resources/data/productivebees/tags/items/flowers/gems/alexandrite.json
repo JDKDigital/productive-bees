@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/alexandrite",
-        "silentgems:alexandrite_glowrose",
-        "gemsnjewels:alexandrite_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/alexandrite",
+            "required": false
+        },
+        {
+            "id": "silentgems:alexandrite_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:alexandrite_block",
+            "required": false
+        }
     ]
 }

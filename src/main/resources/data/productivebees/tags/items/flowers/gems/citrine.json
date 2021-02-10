@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/citrine",
-        "silentgems:citrine_glowrose",
-        "gemsnjewels:citrine_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/citrine",
+            "required": false
+        },
+        {
+            "id": "silentgems:citrine_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:citrine_block",
+            "required": false
+        }
     ]
 }

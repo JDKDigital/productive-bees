@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/malachite",
-        "silentgems:malachite_glowrose",
-        "gemsnjewels:malachite_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/malachite",
+            "required": false
+        },
+        {
+            "id": "silentgems:malachite_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:malachite_block",
+            "required": false
+        }
     ]
 }

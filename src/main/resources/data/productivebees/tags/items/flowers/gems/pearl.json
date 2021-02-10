@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/pearl",
-        "silentgems:pearl_glowrose",
-        "gemsnjewels:pearl_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/pearl",
+            "required": false
+        },
+        {
+            "id": "silentgems:pearl_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:pearl_block",
+            "required": false
+        }
     ]
 }

@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/rose_quartz",
-        "silentgems:rose_quartz_glowrose",
-        "gemsnjewels:rose_quartz_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/rose_quartz",
+            "required": false
+        },
+        {
+            "id": "silentgems:rose_quartz_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:rose_quartz_block",
+            "required": false
+        }
     ]
 }

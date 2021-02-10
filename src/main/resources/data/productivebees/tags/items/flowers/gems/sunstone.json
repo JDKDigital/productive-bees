@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/sunstone",
-        "silentgems:sunstone_glowrose",
-        "gemsnjewels:sunstone_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/sunstone",
+            "required": false
+        },
+        {
+            "id": "silentgems:sunstone_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:sunstone_block",
+            "required": false
+        }
     ]
 }

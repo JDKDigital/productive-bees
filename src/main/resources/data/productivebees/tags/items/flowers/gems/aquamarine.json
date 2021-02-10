@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/aquamarine",
-        "silentgems:aquamarine_glowrose",
-        "gemsnjewels:aquamarine_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/aquamarine",
+            "required": false
+        },
+        {
+            "id": "silentgems:aquamarine_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:aquamarine_block",
+            "required": false
+        }
     ]
 }

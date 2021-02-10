@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/jasper",
-        "silentgems:jasper_glowrose",
-        "gemsnjewels:jasper_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/jasper",
+            "required": false
+        },
+        {
+            "id": "silentgems:jasper_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:jasper_block",
+            "required": false
+        }
     ]
 }

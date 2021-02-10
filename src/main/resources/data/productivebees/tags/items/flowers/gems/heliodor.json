@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/heliodor",
-        "silentgems:heliodor_glowrose",
-        "gemsnjewels:heliodor_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/heliodor",
+            "required": false
+        },
+        {
+            "id": "silentgems:heliodor_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:heliodor_block",
+            "required": false
+        }
     ]
 }

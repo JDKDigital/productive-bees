@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/kyanite",
-        "silentgems:kyanite_glowrose",
-        "gemsnjewels:kyanite_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/kyanite",
+            "required": false
+        },
+        {
+            "id": "silentgems:kyanite_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:kyanite_block",
+            "required": false
+        }
     ]
 }

@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/amber",
-        "silentgems:amber_glowrose",
-        "gemsnjewels:amber_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/amber",
+            "required": false
+        },
+        {
+            "id": "silentgems:amber_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:amber_block",
+            "required": false
+        }
     ]
 }

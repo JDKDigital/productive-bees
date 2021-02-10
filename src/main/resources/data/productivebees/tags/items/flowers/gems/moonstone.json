@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/moonstone",
-        "silentgems:moonstone_glowrose",
-        "gemsnjewels:moonstone_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/moonstone",
+            "required": false
+        },
+        {
+            "id": "silentgems:moonstone_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:moonstone_block",
+            "required": false
+        }
     ]
 }

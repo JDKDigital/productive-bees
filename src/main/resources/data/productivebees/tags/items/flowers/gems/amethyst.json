@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/amethyst",
-        "silentgems:amethyst_glowrose",
-        "gemsnjewels:amethyst_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/amethyst",
+            "required": false
+        },
+        {
+            "id": "silentgems:amethyst_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:amethyst_block",
+            "required": false
+        }
     ]
 }

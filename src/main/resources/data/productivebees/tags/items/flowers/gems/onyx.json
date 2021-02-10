@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/onyx",
-        "silentgems:onyx_glowrose",
-        "gemsnjewels:onyx_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/onyx",
+            "required": false
+        },
+        {
+            "id": "silentgems:onyx_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:onyx_block",
+            "required": false
+        }
     ]
 }
