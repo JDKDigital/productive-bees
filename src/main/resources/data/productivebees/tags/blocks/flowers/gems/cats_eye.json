@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/cats_eye",
-        "silentgems:cats_eye_glowrose",
-        "gemsnjewels:cats_eye_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/cats_eye",
+            "required": false
+        },
+        {
+            "id": "silentgems:cats_eye_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:cats_eye_block",
+            "required": false
+        }
     ]
 }

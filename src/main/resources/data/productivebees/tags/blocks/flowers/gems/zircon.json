@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/zircon",
-        "silentgems:zircon_glowrose",
-        "gemsnjewels:zircon_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/zircon",
+            "required": false
+        },
+        {
+            "id": "silentgems:zircon_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:zircon_block",
+            "required": false
+        }
     ]
 }

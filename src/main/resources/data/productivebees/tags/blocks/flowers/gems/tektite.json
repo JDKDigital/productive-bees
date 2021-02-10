@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/tektite",
-        "silentgems:tektite_glowrose",
-        "gemsnjewels:tektite_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/tektite",
+            "required": false
+        },
+        {
+            "id": "silentgems:tektite_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:tektite_block",
+            "required": false
+        }
     ]
 }

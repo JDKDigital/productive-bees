@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/black_diamond",
-        "silentgems:black_diamond_glowrose",
-        "gemsnjewels:black_diamond_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/black_diamond",
+            "required": false
+        },
+        {
+            "id": "silentgems:black_diamond_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:black_diamond_block",
+            "required": false
+        }
     ]
 }

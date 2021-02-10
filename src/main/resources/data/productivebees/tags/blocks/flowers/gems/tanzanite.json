@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/tanzanite",
-        "silentgems:tanzanite_glowrose",
-        "gemsnjewels:tanzanite_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/tanzanite",
+            "required": false
+        },
+        {
+            "id": "silentgems:tanzanite_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:tanzanite_block",
+            "required": false
+        }
     ]
 }

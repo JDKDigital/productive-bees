@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/sapphire",
-        "silentgems:sapphire_glowrose",
-        "gemsnjewels:sapphire_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/sapphire",
+            "required": false
+        },
+        {
+            "id": "silentgems:sapphire_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:sapphire_block",
+            "required": false
+        }
     ]
 }

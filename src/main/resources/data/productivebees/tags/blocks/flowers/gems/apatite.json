@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/apatite",
-        "silentgems:apatite_glowrose",
-        "gemsnjewels:apatite_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/apatite",
+            "required": false
+        },
+        {
+            "id": "silentgems:apatite_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:apatite_block",
+            "required": false
+        }
     ]
 }

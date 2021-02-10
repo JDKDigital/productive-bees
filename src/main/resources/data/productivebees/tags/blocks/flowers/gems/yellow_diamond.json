@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/yellow_diamond",
-        "silentgems:yellow_diamond_glowrose",
-        "gemsnjewels:yellow_diamond_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/yellow_diamond",
+            "required": false
+        },
+        {
+            "id": "silentgems:yellow_diamond_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:yellow_diamond_block",
+            "required": false
+        }
     ]
 }

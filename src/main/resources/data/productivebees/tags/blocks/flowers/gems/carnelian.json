@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/carnelian",
-        "silentgems:carnelian_glowrose",
-        "gemsnjewels:carnelian_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/carnelian",
+            "required": false
+        },
+        {
+            "id": "silentgems:carnelian_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:carnelian_block",
+            "required": false
+        }
     ]
 }

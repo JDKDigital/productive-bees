@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/ammolite",
-        "silentgems:ammolite_glowrose",
-        "gemsnjewels:ammolite_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/ammolite",
+            "required": false
+        },
+        {
+            "id": "silentgems:ammolite_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:ammolite_block",
+            "required": false
+        }
     ]
 }

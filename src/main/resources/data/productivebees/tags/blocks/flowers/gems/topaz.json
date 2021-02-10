@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/topaz",
-        "silentgems:topaz_glowrose",
-        "gemsnjewels:topaz_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/topaz",
+            "required": false
+        },
+        {
+            "id": "silentgems:topaz_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:topaz_block",
+            "required": false
+        }
     ]
 }

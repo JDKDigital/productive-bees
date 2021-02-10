@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/garnet",
-        "silentgems:garnet_glowrose",
-        "gemsnjewels:garnet_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/garnet",
+            "required": false
+        },
+        {
+            "id": "silentgems:garnet_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:garnet_block",
+            "required": false
+        }
     ]
 }

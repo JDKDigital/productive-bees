@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/turquoise",
-        "silentgems:turquoise_glowrose",
-        "gemsnjewels:turquoise_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/turquoise",
+            "required": false
+        },
+        {
+            "id": "silentgems:turquoise_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:turquoise_block",
+            "required": false
+        }
     ]
 }

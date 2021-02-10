@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/opal",
-        "silentgems:opal_glowrose",
-        "gemsnjewels:opal_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/opal",
+            "required": false
+        },
+        {
+            "id": "silentgems:opal_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:opal_block",
+            "required": false
+        }
     ]
 }

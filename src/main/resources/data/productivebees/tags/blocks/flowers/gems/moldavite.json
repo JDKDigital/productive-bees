@@ -1,9 +1,17 @@
 {
     "replace": false,
-    "values": [],
-    "optional": [
-        "#forge:storage_blocks/moldavite",
-        "silentgems:moldavite_glowrose",
-        "gemsnjewels:moldavite_block"
+    "values": [
+        {
+            "id": "#forge:storage_blocks/moldavite",
+            "required": false
+        },
+        {
+            "id": "silentgems:moldavite_glowrose",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:moldavite_block",
+            "required": false
+        }
     ]
 }
