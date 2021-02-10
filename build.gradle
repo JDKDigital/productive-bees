@@ -8,6 +8,9 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
+plugins {
+    id "org.sonarqube" version "3.1.1"
+}
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'java'
@@ -169,9 +172,6 @@ publishing {
     }
 }
 
-plugins {
-    id "org.sonarqube" version "3.1.1"
-}
 sonarqube {
     properties {
         property "sonar.projectKey", "JDKDigital_productive-bees"
