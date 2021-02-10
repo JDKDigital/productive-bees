@@ -1,6 +1,6 @@
 {
     "name": "Combs",
-    "icon": "minecraft:writable_book",
+    "icon": "minecraft:honeycomb",
     "category": "productivebees:items",
     "pages": [
         {

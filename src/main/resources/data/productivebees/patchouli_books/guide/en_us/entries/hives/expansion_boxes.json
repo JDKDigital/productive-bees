@@ -1,6 +1,6 @@
 {
     "name": "Expansion Boxes",
-    "icon": "minecraft:writable_book",
+    "icon": "productivebees:boxes/expansion_box_oak",
     "category": "productivebees:hives",
     "pages": [
         {

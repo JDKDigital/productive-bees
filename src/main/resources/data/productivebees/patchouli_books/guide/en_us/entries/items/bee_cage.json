@@ -1,6 +1,6 @@
 {
     "name": "Bee Cage",
-    "icon": "minecraft:writable_book",
+    "icon": "productivebees:bee_cage",
     "category": "productivebees:items",
     "pages": [
         {

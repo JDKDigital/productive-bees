@@ -1,6 +1,6 @@
 {
     "name": "Honey Treat",
-    "icon": "minecraft:writable_book",
+    "icon": "productivebees:honey_treat",
     "category": "productivebees:items",
     "pages": [
         {

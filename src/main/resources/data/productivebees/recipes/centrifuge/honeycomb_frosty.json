@@ -1,9 +1,8 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/frosty"
     },
-    "comb_type": "productivebees:frosty",
     "outputs": [
         {
             "item": {
