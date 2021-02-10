@@ -96,6 +96,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> COMB_EPIC_SALVAGE = createBlock("comb_epic_salvage", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#af1281"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_EXPERIENCE = createBlock("comb_experience", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#00fc1a"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_FOSSILISED = createBlock("comb_fossilised", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#222525"), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_FLUORITE = createBlock("comb_fluorite", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#32e1f6"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_FROSTY = createBlock("comb_frosty", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#86aefd"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_GHOSTLY = createBlock("comb_ghostly", () -> new TranslucentCombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK).notSolid().doesNotBlockMovement()), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_GLOWING = createBlock("comb_glowing", () -> new Block(Block.Properties.from(Blocks.HONEYCOMB_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);

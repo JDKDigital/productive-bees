@@ -7,7 +7,7 @@
     ],
     "key": {
         "G": {
-            "tag": "forge:dirt"
+            "item": "minecraft:dirt"
         },
         "I": {
             "tag": "forge:ingots/iron"

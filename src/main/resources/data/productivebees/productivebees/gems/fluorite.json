@@ -5,6 +5,7 @@
     "particleColor": "#32e1f6",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/gems/fluorite",
+    "createComb": false,
     "conditions": [
         {
             "type": "forge:not",
