@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import net.minecraft.block.BeehiveBlock;
@@ -229,6 +230,7 @@ public class NestLocator extends Item
     private Map.Entry<Double, BlockPos> findNearestNest(World world, BlockPos pos, int distance, Predicate<Block> predicate) {
         Vec3d playerPos = new Vec3d(pos);
         TreeMap<Double, BlockPos> nearbyNestPositions = new TreeMap<>();
+        long start = System.currentTimeMillis();
         BlockPos.getAllInBox(pos.add(-distance, -distance, -distance), pos.add(distance, distance, distance)).forEach(blockPos -> {
             BlockState state = world.getBlockState(blockPos);
             if (predicate.test(state.getBlock())) {
@@ -238,6 +240,8 @@ public class NestLocator extends Item
                 }
             }
         });
+        long finish = System.currentTimeMillis();
+//        ProductiveBees.LOGGER.debug("Locator search time: " + (finish - start) + "ms");
         if (!nearbyNestPositions.isEmpty()) {
             return nearbyNestPositions.pollFirstEntry();
         }

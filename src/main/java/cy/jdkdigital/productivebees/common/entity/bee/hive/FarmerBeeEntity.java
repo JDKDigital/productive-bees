@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 public class FarmerBeeEntity extends ProductiveBeeEntity
 {
-    public static final UUID FARMER_BEE_UUID = UUID.nameUUIDFromBytes("farmer_bee".getBytes(StandardCharsets.UTF_8));
+    public static final UUID FARMER_BEE_UUID = UUID.nameUUIDFromBytes("pb_farmer_bee".getBytes(StandardCharsets.UTF_8));
     private BlockPos targetHarvestPos = null;
 
     public FarmerBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
