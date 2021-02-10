@@ -17,8 +17,6 @@ out
 build
 .gradle
 gradle
-gradlew*
-gradle.properties
 
 # other
 .idea
