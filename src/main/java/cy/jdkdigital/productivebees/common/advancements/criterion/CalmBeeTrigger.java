@@ -51,8 +51,6 @@ public class CalmBeeTrigger extends AbstractCriterionTrigger<CalmBeeTrigger.Inst
         public boolean test(BeeEntity bee) {
             String type = bee instanceof ConfigurableBeeEntity ? ((ConfigurableBeeEntity) bee).getBeeType() : bee.getEntityString();
 
-            ProductiveBees.LOGGER.info("test: " + this.beeName + " type: " + type);
-
             return this.beeName.equals("any") || type.equals(this.beeName);
         }
 

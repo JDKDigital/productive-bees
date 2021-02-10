@@ -3,7 +3,7 @@
     "primaryColor": "#914139",
     "secondaryColor": "#804f40",
     "particleColor": "#914139",
-    "flowerBlock": "mnecraft:cocoa",
+    "flowerBlock": "minecraft:cocoa",
     "conditions": [
         {
             "type": "forge:not",

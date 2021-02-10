@@ -2,10 +2,7 @@ name: Build
 on:
     push:
         branches:
-            - dev
             - dev-1.16.5
-    pull_request:
-        types: [opened, synchronize, reopened]
 jobs:
     build:
         name: Build
