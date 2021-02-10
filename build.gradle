@@ -10,6 +10,9 @@ buildscript {
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
+plugins {
+    id "org.sonarqube" version "3.1.1"
+}
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'java'
@@ -180,5 +183,10 @@ publishing {
     }
 }
 
-
-//mixin { add sourceSets.main, "productivebees.refmap.json" }
+sonarqube {
+    properties {
+        property "sonar.projectKey", "JDKDigital_productive-bees"
+        property "sonar.organization", "jdkdigital"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
