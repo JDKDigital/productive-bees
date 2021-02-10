@@ -13,6 +13,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.block.Block;
+import net.minecraft.block.CocoaBlock;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -78,6 +79,10 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 ItemStack item = new ItemStack(block.asItem());
                 if (!item.getItem().equals(Items.AIR)) {
                     stacks.add(item);
+                } else {
+                    if (block instanceof CocoaBlock) {
+                        stacks.add(new ItemStack(Items.COCOA_BEANS));
+                    }
                 }
             }
         } catch (Exception e) {
@@ -125,6 +130,8 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 } else if (nbt.contains("flowerBlock")) {
                     Block flowerBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString("flowerBlock")));
                     recipes.add(new Recipe(flowerBlock, entry.getValue()));
+                } else {
+                    recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
                 }
             } else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
                 ITag<Block> blockTag = flowering.get(entry.getValue().getBeeType().toString());
