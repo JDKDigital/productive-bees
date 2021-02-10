@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "IGI",
+        "IDI",
+        "III"
+    ],
+    "key": {
+        "G": {
+            "tag": "forge:dirt"
+        },
+        "I": {
+            "tag": "forge:ingots/iron"
+        },
+        "D": {
+            "item": "minecraft:dispenser"
+        }
+    },
+    "result": {
+        "item": "productivebees:catcher"
+    }
+}
