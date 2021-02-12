@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.PoweredCentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -33,9 +34,16 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
         super.tick();
         if (getBlockState().get(Centrifuge.RUNNING)) {
             energyHandler.ifPresent(handler -> {
-                handler.extractEnergy(ProductiveBeesConfig.GENERAL.centrifugePowerUse.get(), false);
+                handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * getEnergyConsumptionModifier()), false);
             });
         }
+    }
+
+    protected double getEnergyConsumptionModifier() {
+        double combBlockUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) * ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
+        double timeUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get();
+
+        return Math.max(1, timeUpgradeModifier + combBlockUpgradeModifier);
     }
 
     public int getProcessingTime() {

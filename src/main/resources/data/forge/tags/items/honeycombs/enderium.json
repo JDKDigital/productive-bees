@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "productivebees:honeycomb_enderium"
-  ]
+    "replace": false,
+    "values": [
+        "productivebees:honeycomb_enderium"
+    ]
 }

@@ -168,6 +168,9 @@ public final class ModBlocks
     public static final RegistryObject<Block> COMB_SLIMESTEEL = createBlock("comb_slimesteel", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#7ae7e0"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_SOULSTEEL = createBlock("comb_soulsteel", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#5c4436"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_TINKERS_BRONZE = createBlock("comb_tinkers_bronze", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#ffdb7e"), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_BLUE_SLIMY = createBlock("comb_blue_slimy", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#80d4d2"), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_PURPLE_SLIMY = createBlock("comb_purple_slimy", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#d17bfc"), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> COMB_MAGMA_SLIMY = createBlock("comb_magma_slimy", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#fcb77b"), ModItemGroups.PRODUCTIVE_BEES);
 
     public static final RegistryObject<Block> SUGARBAG_NEST = createBlock("sugarbag_nest", () -> new SugarbagNest(Block.Properties.from(Blocks.BEE_NEST)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> ADVANCED_OAK_BEEHIVE = createBlock("advanced_oak_beehive", () -> new AdvancedBeehive(Block.Properties.from(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
