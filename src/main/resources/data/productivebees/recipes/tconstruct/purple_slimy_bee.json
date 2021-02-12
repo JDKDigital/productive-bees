@@ -1,0 +1,28 @@
+{
+    "type": "tconstruct:casting_table",
+    "cast": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:slimy\"}}"
+    },
+    "cast_consumed": true,
+    "fluid": {
+        "name": "tconstruct:purple_slime",
+        "amount": 1000
+    },
+    "result": {
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:purple_slimy"
+            }
+        }
+    },
+    "cooling_time": 87,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "tconstruct"
+        }
+    ]
+}

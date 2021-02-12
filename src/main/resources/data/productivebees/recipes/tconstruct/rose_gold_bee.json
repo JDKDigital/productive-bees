@@ -1,0 +1,28 @@
+{
+    "type": "tconstruct:casting_table",
+    "cast": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:gold\"}}"
+    },
+    "cast_consumed": true,
+    "fluid": {
+        "name": "tconstruct:molten_copper",
+        "amount": 1152
+    },
+    "result": {
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:rose_gold"
+            }
+        }
+    },
+    "cooling_time": 87,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "tconstruct"
+        }
+    ]
+}

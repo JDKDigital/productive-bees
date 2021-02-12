@@ -1,0 +1,28 @@
+{
+    "type": "tconstruct:casting_table",
+    "cast": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:netherite\"}}"
+    },
+    "cast_consumed": true,
+    "fluid": {
+        "name": "tconstruct:molten_cobalt",
+        "amount": 1152
+    },
+    "result": {
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:manyullyn"
+            }
+        }
+    },
+    "cooling_time": 87,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "tconstruct"
+        }
+    ]
+}
