@@ -1,0 +1,27 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/blue_slimy"
+    },
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:slimeball/magma"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:slimeball/magma"
+            }
+        }
+    ]
+}
