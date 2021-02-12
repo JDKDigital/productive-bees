@@ -1,11 +1,18 @@
 {
-    "primaryColor": "#ece386",
-    "secondaryColor": "#586bb7",
-    "tertiaryColor": "#ece386",
-    "particleColor": "#b598db",
-    "createComb": false,
-    "renderer": "default_crystal",
-    "flowerTag": "forge:storage_blocks/bismuth",
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:gold",
+    "parent2": "productivebees:crystalline",
+    "offspring": [
+        "productivebees:bismuth"
+    ],
+    "breeding_items": [
+        {
+            "tag": "forge:ingots/gold"
+        },
+        {
+            "tag": "forge:gems/bismuth"
+        }
+    ],
     "conditions": [
         {
             "type": "forge:not",

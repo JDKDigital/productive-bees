@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "productivebees:honeycomb_redstone"
-  ]
+    "replace": false,
+    "values": [
+        "productivebees:honeycomb_redstone"
+    ]
 }

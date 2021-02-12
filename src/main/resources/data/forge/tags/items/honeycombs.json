@@ -89,6 +89,20 @@
         "#forge:honeycombs/zinc",
         "#forge:honeycombs/apatite",
         "#forge:honeycombs/ruby",
-        "#forge:honeycombs/sapphire"
+        "#forge:honeycombs/sapphire",
+        "#forge:honeycombs/ardite",
+        "#forge:honeycombs/cobalt",
+        "#forge:honeycombs/hepatizon",
+        "#forge:honeycombs/manyullyn",
+        "#forge:honeycombs/knightslime",
+        "#forge:honeycombs/pigiron",
+        "#forge:honeycombs/queens_slime",
+        "#forge:honeycombs/rose_gold",
+        "#forge:honeycombs/slimesteel",
+        "#forge:honeycombs/soulsteel",
+        "#forge:honeycombs/tinkers_bronze",
+        "#forge:honeycombs/blue_slimy",
+        "#forge:honeycombs/purple_slimy",
+        "#forge:honeycombs/magma_slimy"
     ]
 }

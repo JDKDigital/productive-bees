@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "productivebees:honeycomb_imperium"
-  ]
+    "replace": false,
+    "values": [
+        "productivebees:honeycomb_imperium"
+    ]
 }
