@@ -1,0 +1,23 @@
+{
+    "primaryColor": "#ffdb7e",
+    "secondaryColor": "#7a5800",
+    "particleColor": "#ffdb7e",
+    "createComb": false,
+    "flowerTag": "forge:storage_blocks/tinkers_bronze",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/tinkers_bronze"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/tinkers_bronze"
+            }
+        }
+    ]
+}

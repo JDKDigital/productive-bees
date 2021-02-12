@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_pigiron"
+        }
+    ],
+    "result": {
+        "item": "productivebees:honeycomb_pigiron",
+        "count": 4
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "primaryColor": "#5c4436",
+    "secondaryColor": "#1f0700",
+    "particleColor": "#5c4436",
+    "createComb": false,
+    "flowerTag": "forge:storage_blocks/soulsteel",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/soulsteel"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/soulsteel"
+            }
+        }
+    ]
+}

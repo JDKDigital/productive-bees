@@ -1,0 +1,23 @@
+{
+    "primaryColor": "#ffb20b",
+    "secondaryColor": "#a51400",
+    "particleColor": "#ffb20b",
+    "createComb": false,
+    "flowerTag": "forge:storage_blocks/ardite",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/ardite"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/ardite"
+            }
+        }
+    ]
+}
