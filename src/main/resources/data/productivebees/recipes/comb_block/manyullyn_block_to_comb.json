@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:comb_manyullyn"
+        }
+    ],
+    "result": {
+        "item": "productivebees:honeycomb_manyullyn",
+        "count": 4
+    }
+}

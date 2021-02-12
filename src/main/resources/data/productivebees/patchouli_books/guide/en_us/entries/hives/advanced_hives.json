@@ -1,11 +1,11 @@
 {
     "name": "Advanced Hives",
-    "icon": "productivebees:advanced_oak_hive",
+    "icon": "productivebees:advanced_oak_beehive",
     "category": "productivebees:hives",
     "pages": [
         {
             "type": "spotlight",
-            "item": "productivebees:advanced_oak_hive",
+            "item": "productivebees:advanced_oak_beehive",
             "text": "Productive bees expand on the vanilla hive with an Advanced Hive. Unlike the vanilla hive, the advanced hive does not require a campfire nearby to be harvestable it can be broken and moved with the bees still inside without the use of silk touch."
         },
         {

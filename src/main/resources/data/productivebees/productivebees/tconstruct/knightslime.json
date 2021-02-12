@@ -1,0 +1,23 @@
+{
+    "primaryColor": "#c882f5",
+    "secondaryColor": "#804f40",
+    "particleColor": "#c882f5",
+    "createComb": false,
+    "flowerTag": "forge:storage_blocks/knightslime",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/knightslime"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/knightslime"
+            }
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+{
+    "primaryColor": "#1d77eb",
+    "secondaryColor": "#0c5abe",
+    "particleColor": "#1d77eb",
+    "createComb": false,
+    "flowerTag": "forge:storage_blocks/cobalt",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/cobalt"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/cobalt"
+            }
+        }
+    ]
+}
