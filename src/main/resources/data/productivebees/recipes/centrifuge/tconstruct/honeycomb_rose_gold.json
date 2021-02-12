@@ -1,0 +1,29 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/rose_gold"
+    },
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:nuggets/rose_gold"
+            },
+            "min": 3,
+            "max": 3
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:nuggets/rose_gold"
+            }
+        }
+    ]
+}
