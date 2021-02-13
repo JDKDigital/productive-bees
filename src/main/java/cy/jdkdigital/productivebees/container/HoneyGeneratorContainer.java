@@ -46,7 +46,7 @@ public class HoneyGeneratorContainer extends AbstractContainer
             addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
         });
 
-        layoutPlayerInventorySlots(playerInventory, 0, - 5, 84);
+        layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
     }
 
     private static HoneyGeneratorTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {

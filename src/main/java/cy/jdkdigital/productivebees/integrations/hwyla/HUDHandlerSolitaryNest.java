@@ -24,15 +24,18 @@ public class HUDHandlerSolitaryNest implements IComponentProvider
         List<AdvancedBeehiveTileEntityAbstract.Inhabitant> bees = tileEntity.getBeeList();
         if (!bees.isEmpty()) {
             tooltip.add(new TranslationTextComponent("productivebees.top.solitary.bee", bees.get(0).localizedName));
-        } else {
+        }
+        else {
             int cooldown = tileEntity.getNestTickCooldown();
             if (cooldown > 0) {
                 tooltip.add(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown", Math.round(cooldown / 20f) + "s"));
-            } else {
+            }
+            else {
                 tooltip.add(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown_inactive"));
                 if (tileEntity.canRepopulate()) {
                     tooltip.add(new TranslationTextComponent("productivebees.top.solitary.can_repopulate_true"));
-                } else {
+                }
+                else {
                     tooltip.add(new TranslationTextComponent("productivebees.top.solitary.can_repopulate_false"));
                 }
             }

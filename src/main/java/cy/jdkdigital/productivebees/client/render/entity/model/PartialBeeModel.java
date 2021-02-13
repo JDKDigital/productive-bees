@@ -3,7 +3,7 @@ package cy.jdkdigital.productivebees.client.render.entity.model;
 import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
-abstract public class PartialBeeModel
+abstract class PartialBeeModel
 {
     protected final Model model;
     protected ModelRenderer body;
@@ -34,8 +34,7 @@ abstract public class PartialBeeModel
             ModelRenderer backLegs,
             ModelRenderer externals,
             ModelRenderer innards,
-            ModelRenderer santaHat)
-    {
+            ModelRenderer santaHat) {
         this.model = model;
         this.body = body;
         this.torso = torso;
@@ -68,10 +67,19 @@ abstract public class PartialBeeModel
     }
 
     abstract void addTorso(boolean withTorso);
+
     abstract void addAntenna();
+
     abstract void addWings();
+
     abstract void addLegs();
-    protected void addCrystals() {}
-    protected void addInnards() {}
-    protected void addSantaHat() {}
+
+    protected void addCrystals() {
+    }
+
+    protected void addInnards() {
+    }
+
+    protected void addSantaHat() {
+    }
 }

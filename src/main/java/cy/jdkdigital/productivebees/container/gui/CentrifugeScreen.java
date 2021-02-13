@@ -50,7 +50,8 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
                 if (fluidStack.getAmount() > 0) {
                     tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").func_241878_f());
-                } else {
+                }
+                else {
                     tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").func_241878_f());
                 }
 
@@ -62,9 +63,9 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
             int energyAmount = handler.getEnergyStored();
 
             // Energy level tooltip
-            if (isPointInRegion(- 5, 16, 6, 54, mouseX, mouseY)) {
+            if (isPointInRegion(-5, 16, 6, 54, mouseX, mouseY)) {
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
-                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level",  energyAmount + "FE").func_241878_f());
+                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level", energyAmount + "FE").func_241878_f());
 
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }
@@ -90,7 +91,8 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
         if (this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
             minecraft.getTextureManager().bindTexture(GUI_TEXTURE_POWERED);
-        } else {
+        }
+        else {
             minecraft.getTextureManager().bindTexture(GUI_TEXTURE);
         }
 

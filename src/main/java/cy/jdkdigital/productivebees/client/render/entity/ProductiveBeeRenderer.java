@@ -42,7 +42,6 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         addLayer(new BeeBodyLayer(this, "translucent_with_center", isChristmas));
 
         addLayer(new GlowingInnardsLayer(this));
-//        addLayer(new FoliageLayer<>(this));
     }
 
     @Nullable

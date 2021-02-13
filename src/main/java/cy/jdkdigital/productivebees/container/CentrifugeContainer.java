@@ -42,7 +42,8 @@ public class CentrifugeContainer extends AbstractContainer
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
-        trackIntArray(new IIntArray() {
+        trackIntArray(new IIntArray()
+        {
             @Override
             public int get(int i) {
                 return i == 0 ?
@@ -60,7 +61,8 @@ public class CentrifugeContainer extends AbstractContainer
                             FluidStack fluid = fluidHandler.getFluidInTank(0);
                             if (fluid.isEmpty()) {
                                 fluidHandler.fill(new FluidStack(Registry.FLUID.getByValue(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
-                            } else {
+                            }
+                            else {
                                 fluid.setAmount(value);
                             }
                         });
@@ -100,7 +102,7 @@ public class CentrifugeContainer extends AbstractContainer
             addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
         });
 
-        layoutPlayerInventorySlots(playerInventory, 0, - 5, 84);
+        layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
     }
 
     private static CentrifugeTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {

@@ -20,7 +20,7 @@ import java.util.Map;
 public class GlowingInnardsLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveBeeModel<ProductiveBeeEntity>>
 {
     private static final RenderType RENDER_TYPE = RenderType.getEyes(new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/magmatic/innards.png"));
-//    private static final RenderType RENDER_TYPE = RenderType.getEyes(new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/magmatic/spider_eyes.png"));
+    //    private static final RenderType RENDER_TYPE = RenderType.getEyes(new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/magmatic/spider_eyes.png"));
 //    private static final RenderType RENDER_TYPE = RenderType.getEyes(new ResourceLocation("textures/entity/spider_eyes.png"));
     private static Map<String, RenderType> renderTypeMap = new HashMap<>();
 

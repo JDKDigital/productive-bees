@@ -47,8 +47,7 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
     public LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
     {
         @Override
-        protected void onContentsChanged()
-        {
+        protected void onContentsChanged() {
             super.onContentsChanged();
             BottlerTileEntity.this.markDirty();
         }
@@ -74,7 +73,7 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
     @Override
     public void tick() {
         BlockState state = world.getBlockState(pos.up());
-        if (++tickCounter%10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.get(DirectionalBlock.FACING) == Direction.DOWN) {
+        if (++tickCounter % 10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.get(DirectionalBlock.FACING) == Direction.DOWN) {
             // Check for ProductiveBeeEntity on top of block
             List<ProductiveBeeEntity> bees = world.getEntitiesWithinAABB(ProductiveBeeEntity.class, (new AxisAlignedBB(pos).grow(0.0D, 1.0D, 0.0D)));
             if (!bees.isEmpty()) {

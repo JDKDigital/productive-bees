@@ -87,7 +87,7 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
     public void setIngredients(BeeSpawningRecipe recipe, IIngredients ingredients) {
         ingredients.setInputIngredients(Lists.newArrayList(recipe.ingredient));
         List<BeeIngredient> ingredientList = new ArrayList<>();
-        for (Lazy<BeeIngredient> lazyIng: recipe.output) {
+        for (Lazy<BeeIngredient> lazyIng : recipe.output) {
             ingredientList.add(lazyIng.get());
         }
         ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, ingredientList);

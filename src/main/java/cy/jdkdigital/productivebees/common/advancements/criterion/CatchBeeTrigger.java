@@ -19,12 +19,14 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
 {
     private static final ResourceLocation ID = new ResourceLocation(ProductiveBees.MODID, "catch_bee");
 
+    @Nonnull
+    @Override
     public ResourceLocation getId() {
         return ID;
     }
 
     public void trigger(ServerPlayerEntity player, ItemStack cage) {
-        this.triggerListeners(player, (trigger) -> trigger.test(cage));
+        this.triggerListeners(player, trigger -> trigger.test(cage));
     }
 
     @Nonnull
@@ -63,6 +65,7 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
         }
 
         @Nonnull
+        @Override
         public JsonObject serialize(ConditionArraySerializer serializer) {
             JsonObject jsonobject = super.serialize(serializer);
             jsonobject.addProperty("beeName", this.beeName);

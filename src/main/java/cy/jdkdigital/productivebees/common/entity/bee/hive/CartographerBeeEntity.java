@@ -99,7 +99,7 @@ public class CartographerBeeEntity extends ProductiveBeeEntity
         if (!inventory.isEmpty()) {
             ListNBT listnbt = new ListNBT();
 
-            for(int i = 0; i < inventory.getSizeInventory(); ++i) {
+            for (int i = 0; i < inventory.getSizeInventory(); ++i) {
                 ItemStack itemstack = inventory.getStackInSlot(i);
                 if (!itemstack.isEmpty()) {
                     listnbt.add(itemstack.write(new CompoundNBT()));

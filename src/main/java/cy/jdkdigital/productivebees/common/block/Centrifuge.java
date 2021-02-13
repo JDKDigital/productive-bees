@@ -110,8 +110,6 @@ public class Centrifuge extends CapabilityContainerBlock
     }
 
     public void openGui(ServerPlayerEntity player, CentrifugeTileEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> {
-            packetBuffer.writeBlockPos(tileEntity.getPos());
-        });
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getPos()));
     }
 }

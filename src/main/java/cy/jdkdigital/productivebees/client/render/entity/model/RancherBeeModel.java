@@ -7,7 +7,7 @@ public class RancherBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
 {
     protected final ModelRenderer hat;
 
-    public RancherBeeModel()  {
+    public RancherBeeModel() {
         super();
 
         addBodyParts(true);

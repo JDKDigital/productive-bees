@@ -33,7 +33,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
         // genes must not be mutually exclusive (2 levels of the same attribute are not allowed)
         int numberOfIngredients = 0;
         Pair<String, Integer> addedGene = null;
-        for(int j = 0; j < inv.getSizeInventory(); ++j) {
+        for (int j = 0; j < inv.getSizeInventory(); ++j) {
             ItemStack itemstack = inv.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.GENE.get())) {
@@ -42,10 +42,12 @@ public class CombineGeneRecipe implements ICraftingRecipe
 
                     if (addedGene == null) {
                         addedGene = Pair.of(attribute, Gene.getValue(itemstack));
-                    } else if (!addedGene.getFirst().equals(attribute) || !addedGene.getSecond().equals(Gene.getValue(itemstack)) || Gene.getPurity(itemstack) == 100) {
+                    }
+                    else if (!addedGene.getFirst().equals(attribute) || !addedGene.getSecond().equals(Gene.getValue(itemstack)) || Gene.getPurity(itemstack) == 100) {
                         return false;
                     }
-                } else {
+                }
+                else {
                     return false;
                 }
             }
@@ -61,7 +63,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
         int value = 0;
         int purity = 0;
 
-        for(int j = 0; j < inv.getSizeInventory(); ++j) {
+        for (int j = 0; j < inv.getSizeInventory(); ++j) {
             ItemStack itemstack = inv.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.GENE.get())) {
@@ -133,7 +135,8 @@ public class CombineGeneRecipe implements ICraftingRecipe
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {}
+        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        }
 
         public interface IRecipeFactory<T extends CombineGeneRecipe>
         {

@@ -81,13 +81,12 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
         List<BeeSpawningRecipe> spawningRecipes = new ArrayList<>();
         if (!recipes.isEmpty()) {
-            for (BeeSpawningRecipe recipe: recipes) {
+            for (BeeSpawningRecipe recipe : recipes) {
                 if (
-                    (
-                        (recipe.biomes.isEmpty() && world.getDimensionKey() == World.OVERWORLD) ||
-                        recipe.biomes.contains(biome.getCategory().getName())
-                    ) &&
-                    recipe.temperature.equals("any") || recipe.temperature.equals(biome.getTemperature())
+                        (
+                                (recipe.biomes.isEmpty() && world.getDimensionKey() == World.OVERWORLD) ||
+                                        recipe.biomes.contains(biome.getCategory().getName())
+                        )
                 ) {
                     spawningRecipes.add(recipe);
                 }
@@ -146,7 +145,8 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
                         tileEntity.setNestCooldown(tileEntity.getRepopulationCooldown(state.getBlock()));
                         itemUse = true;
                     }
-                } else {
+                }
+                else {
                     tileEntity.setNestCooldown((int) (currentCooldown * 0.9));
                     itemUse = true;
                 }

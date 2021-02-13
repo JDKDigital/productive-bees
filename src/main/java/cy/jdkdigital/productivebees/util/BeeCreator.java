@@ -32,7 +32,8 @@ public class BeeCreator
         }
         if (json.has("flowerTag") && !json.get("flowerTag").getAsString().isEmpty()) {
             data.putString("flowerTag", json.get("flowerTag").getAsString());
-        } else if (json.has("flowerBlock") && !json.get("flowerBlock").getAsString().isEmpty()) {
+        }
+        else if (json.has("flowerBlock") && !json.get("flowerBlock").getAsString().isEmpty()) {
             data.putString("flowerBlock", json.get("flowerBlock").getAsString());
         }
         if (json.has("nestingPreference")) {
@@ -70,7 +71,7 @@ public class BeeCreator
         data.putBoolean("selfbreed", !json.has("selfbreed") || json.get("selfbreed").getAsBoolean());
 
         if (json.has("attributes")) {
-            for(Map.Entry<String, JsonElement> entry: json.get("attributes").getAsJsonObject().entrySet()) {
+            for (Map.Entry<String, JsonElement> entry : json.get("attributes").getAsJsonObject().entrySet()) {
                 switch (entry.getKey()) {
                     case "productivity":
                     case "endurance":
@@ -83,7 +84,7 @@ public class BeeCreator
         }
         if (json.has("passiveEffects")) {
             Map<Effect, Integer> effects = new HashMap<>();
-            for(JsonElement el: json.get("passiveEffects").getAsJsonArray()) {
+            for (JsonElement el : json.get("passiveEffects").getAsJsonArray()) {
                 JsonObject effect = el.getAsJsonObject();
                 effects.put(ForgeRegistries.POTIONS.getValue(new ResourceLocation(effect.get("effect").getAsString())), effect.get("duration").getAsInt());
             }

@@ -47,14 +47,15 @@ public abstract class TagOutputRecipe
     public static ItemStack getPreferredItemByMod(List<ItemStack> list) {
         ItemStack preferredItem = null;
         int currBest = getModPreference().size();
-        for(ItemStack item : list) {
+        for (ItemStack item : list) {
             ResourceLocation rl = item.getItem().getRegistryName();
-            if(rl != null) {
+            if (rl != null) {
                 String modId = rl.getNamespace();
                 int priority = 100;
                 if (getModPreference().containsKey(modId)) {
                     priority = getModPreference().get(modId);
-                };
+                }
+                ;
                 if (preferredItem == null || (priority >= 0 && priority < currBest)) {
                     preferredItem = item;
                     currBest = priority;
@@ -74,7 +75,7 @@ public abstract class TagOutputRecipe
                 ITag<Fluid> fluidTag = FluidTags.getCollection().get(new ResourceLocation(fluidName));
                 if (fluidTag.getAllElements().size() > 0) {
                     int currBest = getModPreference().size();
-                    for (Fluid fluid: fluidTag.getAllElements()) {
+                    for (Fluid fluid : fluidTag.getAllElements()) {
                         if (fluid.isSource(fluid.getDefaultState())) {
                             ResourceLocation rl = fluid.getRegistryName();
                             if (rl != null) {
@@ -107,7 +108,7 @@ public abstract class TagOutputRecipe
         }
 
         int priority = 0;
-        for(String modId: ProductiveBeesConfig.GENERAL.preferredTagSource.get()) {
+        for (String modId : ProductiveBeesConfig.GENERAL.preferredTagSource.get()) {
             if (ModList.get().isLoaded(modId)) {
                 modPreference.put(modId, ++priority);
             }

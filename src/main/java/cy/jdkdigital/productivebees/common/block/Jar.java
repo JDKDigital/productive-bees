@@ -73,10 +73,12 @@ public class Jar extends Block
 
                 String entityId = cage.getTag().getString("name");
                 tooltip.add(new TranslationTextComponent("productivebees.information.jar.bee", entityId));
-            } else {
+            }
+            else {
                 tooltip.add(new TranslationTextComponent("productivebees.information.jar.fill_tip"));
             }
-        } else {
+        }
+        else {
             tooltip.add(new TranslationTextComponent("productivebees.information.jar.fill_tip"));
         }
     }

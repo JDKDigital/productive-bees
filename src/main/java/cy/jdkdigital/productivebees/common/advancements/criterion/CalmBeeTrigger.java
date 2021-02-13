@@ -19,12 +19,14 @@ public class CalmBeeTrigger extends AbstractCriterionTrigger<CalmBeeTrigger.Inst
 {
     private static final ResourceLocation ID = new ResourceLocation(ProductiveBees.MODID, "calm_bee");
 
+    @Nonnull
+    @Override
     public ResourceLocation getId() {
         return ID;
     }
 
     public void trigger(ServerPlayerEntity player, BeeEntity bee) {
-        this.triggerListeners(player, (trigger) -> trigger.test(bee));
+        this.triggerListeners(player, trigger -> trigger.test(bee));
     }
 
     @Nonnull
@@ -53,10 +55,11 @@ public class CalmBeeTrigger extends AbstractCriterionTrigger<CalmBeeTrigger.Inst
         public boolean test(BeeEntity bee) {
             String type = bee instanceof ConfigurableBeeEntity ? ((ConfigurableBeeEntity) bee).getBeeType() : bee.getEntityString();
 
-            return this.beeName.equals("any") || type.equals(this.beeName);
+            return this.beeName.equals("any") || (type != null && type.equals(this.beeName));
         }
 
         @Nonnull
+        @Override
         public JsonObject serialize(ConditionArraySerializer serializer) {
             JsonObject jsonobject = super.serialize(serializer);
             jsonobject.addProperty("beeName", this.beeName);

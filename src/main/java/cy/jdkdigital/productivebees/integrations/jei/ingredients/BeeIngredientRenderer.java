@@ -38,7 +38,8 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
         CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
             list.add(new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")));
-        } else {
+        }
+        else {
             list.add(beeIngredient.getBeeEntity().getName());
         }
         list.add(new StringTextComponent(beeIngredient.getBeeType().toString()).mergeStyle(TextFormatting.DARK_GRAY));

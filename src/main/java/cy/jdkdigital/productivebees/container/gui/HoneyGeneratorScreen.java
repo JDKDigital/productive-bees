@@ -47,7 +47,8 @@ public class HoneyGeneratorScreen extends ContainerScreen<HoneyGeneratorContaine
 
                 if (fluidStack.getAmount() > 0) {
                     tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").func_241878_f());
-                } else {
+                }
+                else {
                     tooltipList.add(new TranslationTextComponent("productivebees.screen.empty").func_241878_f());
                 }
 
@@ -59,9 +60,9 @@ public class HoneyGeneratorScreen extends ContainerScreen<HoneyGeneratorContaine
             int energyAmount = handler.getEnergyStored();
 
             // Energy level tooltip
-            if (isPointInRegion(- 5, 16, 6, 54, mouseX, mouseY)) {
+            if (isPointInRegion(-5, 16, 6, 54, mouseX, mouseY)) {
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
-                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level",  energyAmount + "FE").func_241878_f());
+                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level", energyAmount + "FE").func_241878_f());
 
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }
@@ -71,7 +72,7 @@ public class HoneyGeneratorScreen extends ContainerScreen<HoneyGeneratorContaine
     @Override
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        
+
         assert minecraft != null;
 
         minecraft.getTextureManager().bindTexture(GUI_TEXTURE);

@@ -48,7 +48,7 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
 
     public int getProcessingTime() {
         return (int) (
-            ProductiveBeesConfig.GENERAL.centrifugePoweredProcessingTime.get() * getProcessingTimeModifier()
+                ProductiveBeesConfig.GENERAL.centrifugePoweredProcessingTime.get() * getProcessingTimeModifier()
         );
     }
 

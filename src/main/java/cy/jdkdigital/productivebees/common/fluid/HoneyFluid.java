@@ -82,7 +82,7 @@ public abstract class HoneyFluid extends FlowingFluid
 
     @Override
     public int getSlopeFindDistance(IWorldReader worldIn) {
-        return worldIn.getDimensionType().isUltrawarm()  ? 6 : 3;
+        return worldIn.getDimensionType().isUltrawarm() ? 6 : 3;
     }
 
     @Override

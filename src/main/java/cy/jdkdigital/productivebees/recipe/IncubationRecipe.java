@@ -87,21 +87,24 @@ public class IncubationRecipe implements IRecipe<IInventory>
             Ingredient input;
             if (JSONUtils.isJsonArray(json, "input")) {
                 input = Ingredient.deserialize(JSONUtils.getJsonArray(json, "input"));
-            } else {
+            }
+            else {
                 input = Ingredient.deserialize(JSONUtils.getJsonObject(json, "input"));
             }
 
             Ingredient catalyst;
             if (JSONUtils.isJsonArray(json, "catalyst")) {
                 catalyst = Ingredient.deserialize(JSONUtils.getJsonArray(json, "catalyst"));
-            } else {
+            }
+            else {
                 catalyst = Ingredient.deserialize(JSONUtils.getJsonObject(json, "catalyst"));
             }
 
             Ingredient output;
             if (JSONUtils.isJsonArray(json, "output")) {
                 output = Ingredient.deserialize(JSONUtils.getJsonArray(json, "output"));
-            } else {
+            }
+            else {
                 output = Ingredient.deserialize(JSONUtils.getJsonObject(json, "output"));
             }
 

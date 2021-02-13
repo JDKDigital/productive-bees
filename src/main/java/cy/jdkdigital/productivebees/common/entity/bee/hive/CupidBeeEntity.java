@@ -112,7 +112,8 @@ public class CupidBeeEntity extends ProductiveBeeEntity
                 ++this.ticks;
                 if (this.ticks > 600) {
                     CupidBeeEntity.this.targetEntity = null;
-                } else if (!CupidBeeEntity.this.navigator.noPath() || this.ticks % 100 == 0) {
+                }
+                else if (!CupidBeeEntity.this.navigator.noPath() || this.ticks % 100 == 0) {
                     BlockPos blockPos = CupidBeeEntity.this.targetEntity.getPosition();
                     CupidBeeEntity.this.navigator.tryMoveToXYZ(blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0D);
                 }
@@ -180,13 +181,15 @@ public class CupidBeeEntity extends ProductiveBeeEntity
             if (CupidBeeEntity.this.targetEntity != null) {
                 if (ticks > 600) {
                     CupidBeeEntity.this.targetEntity = null;
-                } else {
+                }
+                else {
                     Vector3d vec3d = CupidBeeEntity.this.targetEntity.getPositionVec().add(0.5D, 0.6F, 0.5D);
                     double distanceToTarget = vec3d.distanceTo(CupidBeeEntity.this.getPositionVec());
 
                     if (distanceToTarget > 1.0D) {
                         this.moveToNextTarget(vec3d);
-                    } else {
+                    }
+                    else {
                         if (distanceToTarget > 0.1D && ticks > 600) {
                             CupidBeeEntity.this.targetEntity = null;
                         }
@@ -196,8 +199,8 @@ public class CupidBeeEntity extends ProductiveBeeEntity
                                 Entity target = breedablesNearby.iterator().next();
 
                                 if (target instanceof AnimalEntity) {
-                                    if (!((AnimalEntity)target).isChild() && ((AnimalEntity)target).canBreed()) {
-                                        ((AnimalEntity)target).setInLove(600);
+                                    if (!((AnimalEntity) target).isChild() && ((AnimalEntity) target).canBreed()) {
+                                        ((AnimalEntity) target).setInLove(600);
                                         CupidBeeEntity.this.addBreedCounter();
                                     }
 

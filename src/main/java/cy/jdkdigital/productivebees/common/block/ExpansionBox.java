@@ -35,9 +35,9 @@ public class ExpansionBox extends Block
     public ExpansionBox(final Properties properties) {
         super(properties);
         this.setDefaultState(this.getDefaultState()
-            .with(BeehiveBlock.FACING, Direction.NORTH)
-            .with(AdvancedBeehive.EXPANDED, VerticalHive.NONE)
-            .with(HAS_HONEY, false)
+                .with(BeehiveBlock.FACING, Direction.NORTH)
+                .with(AdvancedBeehive.EXPANDED, VerticalHive.NONE)
+                .with(HAS_HONEY, false)
         );
     }
 
@@ -70,7 +70,7 @@ public class ExpansionBox extends Block
     }
 
     public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentHive(World world, BlockPos pos) {
-        for(Direction direction: BlockStateProperties.FACING.getAllowedValues()) {
+        for (Direction direction : BlockStateProperties.FACING.getAllowedValues()) {
             if (direction == Direction.UP) {
                 continue;
             }

@@ -60,12 +60,12 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
         }
 
         @Override
-        protected void onContentsChanged()
-        {
+        protected void onContentsChanged() {
             super.onContentsChanged();
             if (fluid.getAmount() > 0) {
                 HoneyGeneratorTileEntity.this.setFilled(true);
-            } else {
+            }
+            else {
                 HoneyGeneratorTileEntity.this.setFilled(false);
             }
             HoneyGeneratorTileEntity.this.markDirty();
@@ -103,11 +103,12 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                     if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && energyHandler.receiveEnergy(inputPowerAmount, true) > 0) {
                         energyHandler.receiveEnergy(inputPowerAmount, false);
                         fluidHandler.drain(fluidConsumeAmount, IFluidHandler.FluidAction.EXECUTE);
-                        if (++tickCounter%20 == 0) {
+                        if (++tickCounter % 20 == 0) {
                             setOn(true);
                         }
-                    } else {
-                        if (++tickCounter%20 == 0) {
+                    }
+                    else {
+                        if (++tickCounter % 20 == 0) {
                             setOn(false);
                         }
                     }
@@ -135,7 +136,8 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                                     energyHandler.extractEnergy(received, false);
                                     this.markDirty();
                                     return capacity.get() > 0;
-                                } else {
+                                }
+                                else {
                                     return true;
                                 }
                             }).orElse(true);
@@ -169,12 +171,15 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                     if (isHoneyBottle) {
                         addAmount = 250;
                         outputItem = new ItemStack(Items.GLASS_BOTTLE);
-                    } else if (isHoneyBlock) {
+                    }
+                    else if (isHoneyBlock) {
                         addAmount = 1000;
-                    } else if (isHoneyBucket) {
+                    }
+                    else if (isHoneyBucket) {
                         addAmount = 1000;
                         outputItem = new ItemStack(Items.BUCKET);
-                    } else if (itemFluidHandler.isPresent()) {
+                    }
+                    else if (itemFluidHandler.isPresent()) {
                         addAmount = fluidSpace;
                     }
 
@@ -197,7 +202,8 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                         int fillAmount = fluidHandler.fill(new FluidStack(ModFluids.HONEY.get(), addAmount), IFluidHandler.FluidAction.EXECUTE);
                         if (itemFluidHandler.isPresent()) {
                             FluidUtil.tryEmptyContainer(invItem, fluidHandler, fillAmount, null, true);
-                        } else {
+                        }
+                        else {
                             invItem.shrink(1);
                             if (!outputItem.equals(ItemStack.EMPTY)) {
                                 if (outputInvItem.isEmpty()) {
@@ -232,9 +238,11 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return inventoryHandler.cast();
-        } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        }
+        else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return fluidInventory.cast();
-        } else if (cap == CapabilityEnergy.ENERGY) {
+        }
+        else if (cap == CapabilityEnergy.ENERGY) {
             return energyHandler.cast();
         }
         return super.getCapability(cap, side);

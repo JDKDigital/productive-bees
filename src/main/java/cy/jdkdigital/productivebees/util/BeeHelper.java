@@ -140,7 +140,7 @@ public class BeeHelper
             if (possibleOffspring != null && possibleOffspring.size() > 0) {
                 // Get weighted offspring chance
                 int maxWeight = 0;
-                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry: possibleOffspring.entrySet()) {
+                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry : possibleOffspring.entrySet()) {
                     maxWeight = maxWeight + entry.getValue();
                 }
 
@@ -148,7 +148,7 @@ public class BeeHelper
 
                 int i = ProductiveBees.rand.nextInt(maxWeight);
                 int currentWeight = 0;
-                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry: possibleOffspring.entrySet()) {
+                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry : possibleOffspring.entrySet()) {
                     currentWeight = currentWeight + entry.getValue();
                     if (i < currentWeight) {
                         beeIngredient = entry.getKey().get();
@@ -220,31 +220,36 @@ public class BeeHelper
                 }
                 outputList.add(stack);
             });
-        } else if (beeId.equals("productivebees:lumber_bee")) {
+        }
+        else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.LOGS, (ProductiveBeeEntity) beeEntity);
 
                 ItemStack woodChip;
                 if (hasCombBlockUpgrade) {
                     woodChip = new ItemStack(flowerBlock.asItem());
-                } else {
+                }
+                else {
                     woodChip = WoodChip.getStack(flowerBlock, world.rand.nextInt(6) + 1);
                 }
                 outputList.add(woodChip);
             }
-        } else if (beeId.equals("productivebees:quarry_bee")) {
+        }
+        else if (beeId.equals("productivebees:quarry_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.QUARRY, (ProductiveBeeEntity) beeEntity);
 
                 ItemStack stoneChip;
                 if (hasCombBlockUpgrade) {
                     stoneChip = new ItemStack(flowerBlock.asItem());
-                } else {
+                }
+                else {
                     stoneChip = StoneChip.getStack(flowerBlock, world.rand.nextInt(6) + 1);
                 }
                 outputList.add(stoneChip);
             }
-        } else if (beeId.equals("productivebees:dye_bee")) {
+        }
+        else if (beeId.equals("productivebees:dye_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.FLOWERS, (ProductiveBeeEntity) beeEntity);
                 Item flowerItem = flowerBlock.asItem();
@@ -301,7 +306,8 @@ public class BeeHelper
                 // @TODO Fluid output
                 recipe = new CentrifugeRecipe(new ResourceLocation(ResourcefulBeesCompat.MODID, rec.getId().getPath() + "_converted"), rec.ingredient, itemOutputs, new HashMap<>());
             }
-        } else {
+        }
+        else {
             recipe = recipeManager.getRecipe(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), world).orElse(null);
         }
         return recipe;
@@ -312,10 +318,12 @@ public class BeeHelper
         ItemStack newStack = null;
         if (stack.getItem().equals(Items.HONEYCOMB)) {
             newStack = new ItemStack(Items.HONEYCOMB_BLOCK, stack.getCount());
-        } else if (stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
+        }
+        else if (stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
             newStack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get(), stack.getCount());
             newStack.setTag(stack.getTag());
-        } else {
+        }
+        else {
             ResourceLocation rl = stack.getItem().getRegistryName();
             Item newItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(rl.getNamespace(), rl.getPath().replace("honey", ""))); // honeycomb_glowing -> comb_glowing
             if (newItem != Items.AIR) {
@@ -347,7 +355,8 @@ public class BeeHelper
         Map<BeeAttribute<?>, Object> attributeMapParent2 = new HashMap<>();
         if (targetEntity instanceof ProductiveBeeEntity) {
             attributeMapParent2 = ((ProductiveBeeEntity) targetEntity).getBeeAttributes();
-        } else {
+        }
+        else {
             // Default bee attributes
             attributeMapParent2.put(BeeAttributes.PRODUCTIVITY, 0);
             attributeMapParent2.put(BeeAttributes.ENDURANCE, 0);
@@ -375,11 +384,12 @@ public class BeeHelper
     }
 
     public static BeeEntity convertToConfigurable(BeeEntity entity) {
-        if (entity instanceof ProductiveBeeEntity && !(entity instanceof ConfigurableBeeEntity) && !(entity instanceof SolitaryBeeEntity) ) {
+        if (entity instanceof ProductiveBeeEntity && !(entity instanceof ConfigurableBeeEntity) && !(entity instanceof SolitaryBeeEntity)) {
             String name = ProductiveBees.MODID + ":" + ((ProductiveBeeEntity) entity).getBeeName();
             if (name.equals("productivebees:wither")) {
                 name = "productivebees:withered";
-            } else if (name.equals("productivebees:quartz")) {
+            }
+            else if (name.equals("productivebees:quartz")) {
                 name = "productivebees:crystalline";
             }
             BeeIngredient configuredBee = BeeIngredientFactory.getIngredient(name).get();
@@ -436,7 +446,8 @@ public class BeeHelper
                 BlockPos hivePos = NBTUtil.readBlockPos(tag.getCompound("HivePos"));
                 list.add(new StringTextComponent("Home position: " + hivePos.getX() + ", " + hivePos.getY() + ", " + hivePos.getZ()));
             }
-        } else {
+        }
+        else {
             list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).mergeStyle(TextFormatting.DARK_AQUA));
         }
 

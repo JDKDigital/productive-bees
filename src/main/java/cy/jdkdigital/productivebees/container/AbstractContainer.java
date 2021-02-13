@@ -40,14 +40,16 @@ abstract class AbstractContainer extends Container
                 if (!mergeItemStack(slotStack, containerSlots, this.inventorySlots.size(), false)) {
                     return ItemStack.EMPTY;
                 }
-            } else {
+            }
+            else {
                 // Move from player inv into container
                 int upgradeSlotCount = this.getTileEntity() instanceof UpgradeableTileEntity ? 4 : 0;
                 if (upgradeSlotCount > 0 && slotStack.getItem() instanceof UpgradeItem) {
                     if (!mergeItemStack(slotStack, containerSlots - upgradeSlotCount, containerSlots, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else {
+                }
+                else {
                     if (!mergeItemStack(slotStack, 0, containerSlots - upgradeSlotCount, false)) {
                         return ItemStack.EMPTY;
                     }
@@ -56,7 +58,8 @@ abstract class AbstractContainer extends Container
 
             if (slotStack.isEmpty()) {
                 slot.putStack(ItemStack.EMPTY);
-            } else {
+            }
+            else {
                 slot.onSlotChanged();
             }
 
@@ -73,7 +76,8 @@ abstract class AbstractContainer extends Container
         for (int i = 0; i < amount; i++) {
             if (handler instanceof InventoryHandlerHelper.ItemHandler) {
                 addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) handler, index, x, y));
-            } else {
+            }
+            else {
                 addSlot(new Slot(handler, index, x, y));
             }
             x += dx;

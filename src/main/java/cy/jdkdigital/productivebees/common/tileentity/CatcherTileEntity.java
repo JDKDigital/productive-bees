@@ -54,7 +54,7 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
                         // We have a valid inventory for catching, look for entities above
                         List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, getBoundingBox());
                         int babeeUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
-                        for (BeeEntity bee: bees) {
+                        for (BeeEntity bee : bees) {
                             if (babeeUpgrades > 0 && !bee.isChild()) {
                                 continue;
                             }

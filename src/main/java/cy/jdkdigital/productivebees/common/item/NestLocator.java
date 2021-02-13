@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.item;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import net.minecraft.block.BeehiveBlock;
@@ -84,7 +83,8 @@ public class NestLocator extends Item
 
         if (pos != null) {
             nbt.putLong("position", pos.toLong());
-        } else {
+        }
+        else {
             nbt.remove("position");
         }
         stack.getOrCreateTag().put(KEY, nbt);
@@ -107,13 +107,15 @@ public class NestLocator extends Item
             if (block instanceof BeehiveBlock || block instanceof AdvancedBeehive) {
                 // Locate vanilla styled bee nests
                 setNestBlock(stack, ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft", "bee_nest")));
-            } else if (block instanceof SolitaryNest) {
+            }
+            else if (block instanceof SolitaryNest) {
                 setNestBlock(stack, block);
-            } else {
+            }
+            else {
                 // Set block if it's a component in crafting a nest
                 ItemStack in = new ItemStack(block.asItem());
                 done:
-                for (IRecipe<CraftingInventory> recipe: world.getRecipeManager().getRecipes(IRecipeType.CRAFTING).values()) {
+                for (IRecipe<CraftingInventory> recipe : world.getRecipeManager().getRecipes(IRecipeType.CRAFTING).values()) {
                     out:
                     for (Ingredient s : recipe.getIngredients()) {
                         for (ItemStack ss : s.getMatchingStacks()) {
@@ -130,7 +132,8 @@ public class NestLocator extends Item
                             }
                         }
                     }
-                };
+                }
+                ;
             }
             return ActionResultType.SUCCESS;
         }
@@ -154,7 +157,8 @@ public class NestLocator extends Item
                 if (nearest != null) {
                     // Show distance in chat
                     setPosition(stack, nearest.getValue());
-                } else {
+                }
+                else {
                     // Unset position
                     setPosition(stack, null);
                 }
@@ -171,7 +175,8 @@ public class NestLocator extends Item
 
         if (hasNest(stack)) {
             tooltip.add(new TranslationTextComponent("productivebees.information.nestlocator.configured", getNestName(stack)).mergeStyle(TextFormatting.GOLD));
-        } else {
+        }
+        else {
             tooltip.add(new TranslationTextComponent("productivebees.information.nestlocator.unconfigured").mergeStyle(TextFormatting.GOLD));
         }
     }

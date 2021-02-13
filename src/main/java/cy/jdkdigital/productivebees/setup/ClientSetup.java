@@ -67,7 +67,8 @@ public class ClientSetup
 
         ItemModelsProperties.registerProperty(ModItems.BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
         ItemModelsProperties.registerProperty(ModItems.BEE_BOMB.get(), new ResourceLocation("loaded"), (stack, world, entity) -> BeeBomb.isLoaded(stack) ? 1.0F : 0.0F);
-        ItemModelsProperties.registerProperty(ModItems.NEST_LOCATOR.get(), new ResourceLocation("angle"), new IItemPropertyGetter() {
+        ItemModelsProperties.registerProperty(ModItems.NEST_LOCATOR.get(), new ResourceLocation("angle"), new IItemPropertyGetter()
+        {
             @OnlyIn(Dist.CLIENT)
             private double rotation;
             @OnlyIn(Dist.CLIENT)
@@ -80,23 +81,24 @@ public class ClientSetup
                 if ((player != null || stack.isOnItemFrame()) && NestLocator.hasPosition(stack)) {
                     boolean flag = player != null;
                     Entity entity = flag ? player : stack.getItemFrame();
-                    if (world == null && entity.world instanceof ClientWorld) {
+                    if (world == null && entity != null && entity.world instanceof ClientWorld) {
                         world = (ClientWorld) entity.world;
                     }
+                    BlockPos pos = NestLocator.getPosition(stack);
+                    if (entity != null && world != null && pos != null) {
+                        double d1 = flag ? (double) entity.rotationYaw : this.getFrameRotation((ItemFrameEntity) entity);
+                        d1 = MathHelper.positiveModulo(d1 / 360.0D, 1.0D);
+                        double d2 = this.getPositionToAngle(pos, entity) / (double) ((float) Math.PI * 2F);
+                        double d0 = 0.5D - (d1 - 0.25D - d2);
 
-                    double d1 = flag ? (double)entity.rotationYaw : this.getFrameRotation((ItemFrameEntity) entity);
-                    d1 = MathHelper.positiveModulo(d1 / 360.0D, 1.0D);
-                    double d2 = this.getPositionToAngle(NestLocator.getPosition(stack), entity) / (double)((float)Math.PI * 2F);
-                    double d0 = 0.5D - (d1 - 0.25D - d2);
+                        if (flag) {
+                            d0 = this.wobble(world, d0);
+                        }
 
-                    if (flag) {
-                        d0 = this.wobble(world, d0);
+                        return MathHelper.positiveModulo((float) d0, 1.0F);
                     }
-
-                    return MathHelper.positiveModulo((float) d0, 1.0F);
-                } else {
-                    return 0.0F;
                 }
+                return 0.0F;
             }
 
             @OnlyIn(Dist.CLIENT)
@@ -120,7 +122,7 @@ public class ClientSetup
 
             @OnlyIn(Dist.CLIENT)
             private double getPositionToAngle(BlockPos blockpos, Entity entityIn) {
-                return Math.atan2((double)blockpos.getZ() - entityIn.getPosZ(), (double)blockpos.getX() - entityIn.getPosX());
+                return Math.atan2((double) blockpos.getZ() - entityIn.getPosZ(), (double) blockpos.getX() - entityIn.getPosX());
             }
         });
 
@@ -187,11 +189,14 @@ public class ClientSetup
             String key = bee.getTranslationKey();
             if (key.contains("dye_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, DyeBeeRenderer::new);
-            } else if (key.contains("rancher_bee") || key.contains("farmer_bee")) {
+            }
+            else if (key.contains("rancher_bee") || key.contains("farmer_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, RancherBeeRenderer::new);
-            } else if (key.contains("hoarder_bee")) {
+            }
+            else if (key.contains("hoarder_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, HoarderBeeRenderer::new);
-            } else {
+            }
+            else {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, ProductiveBeeRenderer::new);
             }
         }

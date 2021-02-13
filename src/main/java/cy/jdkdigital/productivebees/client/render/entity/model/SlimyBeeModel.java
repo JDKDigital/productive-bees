@@ -27,5 +27,7 @@ public class SlimyBeeModel extends MediumBeeModel
     }
 
     @Override
-    protected void addSantaHat() {}
+    protected void addSantaHat() {
+        // no hat model for slimy bees
+    }
 }

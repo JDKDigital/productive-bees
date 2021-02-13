@@ -16,19 +16,19 @@ import javax.annotation.Nonnull;
 class FluidContainerUtil
 {
     private static float getRed(int color) {
-        return (float)(color >> 16 & 255) / 255.0F;
+        return (float) (color >> 16 & 255) / 255.0F;
     }
 
     private static float getGreen(int color) {
-        return (float)(color >> 8 & 255) / 255.0F;
+        return (float) (color >> 8 & 255) / 255.0F;
     }
 
     private static float getBlue(int color) {
-        return (float)(color & 255) / 255.0F;
+        return (float) (color & 255) / 255.0F;
     }
 
     private static float getAlpha(int color) {
-        return (float)(color >> 24 & 255) / 255.0F;
+        return (float) (color >> 24 & 255) / 255.0F;
     }
 
     public static void setColors(int color) {
@@ -64,7 +64,7 @@ class FluidContainerUtil
             BufferBuilder vertexBuffer = Tessellator.getInstance().getBuffer();
             vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-            for(int xTile = 0; xTile <= xTileCount; ++xTile) {
+            for (int xTile = 0; xTile <= xTileCount; ++xTile) {
                 int width = xTile == xTileCount ? xRemainder : textureWidth;
                 if (width == 0) {
                     break;
@@ -73,9 +73,9 @@ class FluidContainerUtil
                 int x = xPosition + xTile * textureWidth;
                 int maskRight = textureWidth - width;
                 int shiftedX = x + textureWidth - maskRight;
-                float uMaxLocal = uMax - uDif * (float)maskRight / (float)textureWidth;
+                float uMaxLocal = uMax - uDif * (float) maskRight / (float) textureWidth;
 
-                for(int yTile = 0; yTile <= yTileCount; ++yTile) {
+                for (int yTile = 0; yTile <= yTileCount; ++yTile) {
                     int height = yTile == yTileCount ? yRemainder : textureHeight;
                     if (height == 0) {
                         break;
@@ -83,7 +83,7 @@ class FluidContainerUtil
 
                     int y = yStart - (yTile + 1) * textureHeight;
                     int maskTop = textureHeight - height;
-                    float vMaxLocal = vMax - vDif * (float)maskTop / (float)textureHeight;
+                    float vMaxLocal = vMax - vDif * (float) maskTop / (float) textureHeight;
                     vertexBuffer.pos(x, y + textureHeight, zLevel).tex(uMin, vMaxLocal).endVertex();
                     vertexBuffer.pos(shiftedX, y + textureHeight, zLevel).tex(uMaxLocal, vMaxLocal).endVertex();
                     vertexBuffer.pos(shiftedX, y + maskTop, zLevel).tex(uMaxLocal, vMin).endVertex();

@@ -281,34 +281,34 @@ public class BlockStates extends BlockStateProvider
 
         // Grindstone insert
         dimCellFrame.element().from(2f, 4f, 2f).to(14f, 8f, 14f)
-            .faces((direction, faceBuilder) -> {
-                if (!direction.equals(Direction.DOWN)) {
-                    if (direction.equals(Direction.UP)) {
-                        faceBuilder.texture(("#grindstone_side")).cullface(direction).uvs(0, 0, 12, 12);
+                .faces((direction, faceBuilder) -> {
+                    if (!direction.equals(Direction.DOWN)) {
+                        if (direction.equals(Direction.UP)) {
+                            faceBuilder.texture(("#grindstone_side")).cullface(direction).uvs(0, 0, 12, 12);
+                        }
+                        else {
+                            faceBuilder.texture("#grindstone_round").cullface(direction).uvs(0, 0, 12, 4);
+                        }
                     }
-                    else {
-                        faceBuilder.texture("#grindstone_round").cullface(direction).uvs(0, 0, 12, 4);
-                    }
-                }
-            }).end();
+                }).end();
         dimCellFrame.element().from(6f, 8f, 6f).to(10f, 9f, 10f)
-            .faces((direction, faceBuilder) -> {
-                if (!direction.equals(Direction.DOWN)) {
-                    if (direction.equals(Direction.UP)) {
-                        faceBuilder.texture(("#grindstone_pivot")).cullface(direction).uvs(0, 0, 4, 4);
+                .faces((direction, faceBuilder) -> {
+                    if (!direction.equals(Direction.DOWN)) {
+                        if (direction.equals(Direction.UP)) {
+                            faceBuilder.texture(("#grindstone_pivot")).cullface(direction).uvs(0, 0, 4, 4);
+                        }
+                        else {
+                            faceBuilder.texture("#grindstone_pivot").cullface(direction).uvs(0, 0, 4, 1);
+                        }
                     }
-                    else {
-                        faceBuilder.texture("#grindstone_pivot").cullface(direction).uvs(0, 0, 4, 1);
-                    }
-                }
-            }).end();
+                }).end();
 
-        dimCellFrame.texture("top",  modLoc("block/centrifuge/top"));
-        dimCellFrame.texture("bottom",  modLoc("block/centrifuge/bottom"));
-        dimCellFrame.texture("particle",  modLoc("block/centrifuge/side"));
-        dimCellFrame.texture("side",  modLoc("block/centrifuge/side"));
-        dimCellFrame.texture("side_inner",  modLoc("block/centrifuge/side"));
-        dimCellFrame.texture("inside",  modLoc("block/centrifuge/inner"));
+        dimCellFrame.texture("top", modLoc("block/centrifuge/top"));
+        dimCellFrame.texture("bottom", modLoc("block/centrifuge/bottom"));
+        dimCellFrame.texture("particle", modLoc("block/centrifuge/side"));
+        dimCellFrame.texture("side", modLoc("block/centrifuge/side"));
+        dimCellFrame.texture("side_inner", modLoc("block/centrifuge/side"));
+        dimCellFrame.texture("inside", modLoc("block/centrifuge/inner"));
         dimCellFrame.texture("grindstone_round", "block/grindstone_round");
         dimCellFrame.texture("grindstone_side", "block/grindstone_side");
         dimCellFrame.texture("grindstone_pivot", "block/grindstone_pivot");
@@ -318,18 +318,18 @@ public class BlockStates extends BlockStateProvider
 
     private static void floatingCube(BlockModelBuilder builder, float fx, float fy, float fz, float tx, float ty, float tz, String defTex, String upTex, String downTex) {
         builder.element().from(fx, fy, fz).to(tx, ty, tz)
-            .faces((direction, faceBuilder) -> {
-                if (direction.equals(Direction.UP)) {
-                    faceBuilder.texture((upTex)).cullface(direction);
-                }
-                else if (direction.equals(Direction.DOWN)) {
-                    faceBuilder.texture((downTex));
-                }
-                else if (!defTex.isEmpty()) {
-                    faceBuilder.texture(defTex).cullface(direction);
-                }
-            })
-            .end();
+                .faces((direction, faceBuilder) -> {
+                    if (direction.equals(Direction.UP)) {
+                        faceBuilder.texture((upTex)).cullface(direction);
+                    }
+                    else if (direction.equals(Direction.DOWN)) {
+                        faceBuilder.texture((downTex));
+                    }
+                    else if (!defTex.isEmpty()) {
+                        faceBuilder.texture(defTex).cullface(direction);
+                    }
+                })
+                .end();
     }
 
     private void createCentrifugeCellModel(Block block, BlockModelBuilder dimCellFrame) {

@@ -78,8 +78,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
     {
         @Override
-        protected void onContentsChanged()
-        {
+        protected void onContentsChanged() {
             super.onContentsChanged();
             CentrifugeTileEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
             CentrifugeTileEntity.this.markDirty();
@@ -98,7 +97,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
     public int getProcessingTime() {
         return (int) (
-            ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() * getProcessingTimeModifier()
+                ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() * getProcessingTimeModifier()
         );
     }
 
@@ -125,7 +124,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                             recipeProgress = 0;
                             this.markDirty();
                         }
-                    } else {
+                    }
+                    else {
                         CentrifugeRecipe recipe = getRecipe(invHandler);
                         if (canProcessRecipe(recipe, invHandler)) {
                             world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
@@ -138,7 +138,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                             }
                         }
                     }
-                } else {
+                }
+                else {
                     this.recipeProgress = 0;
                     world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, false));
                 }
@@ -154,7 +155,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     }
 
     private void pullItems(IItemHandlerModifiable invHandler) {
-        for(ItemEntity itementity : getCaptureItems()) {
+        for (ItemEntity itementity : getCaptureItems()) {
             if (canProcessItemStack(itementity.getItem())) {
                 captureItem(invHandler, itementity);
             }
@@ -173,7 +174,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
         if (leftoverStack.isEmpty()) {
             itemEntity.remove();
-        } else {
+        }
+        else {
             itemEntity.setItem(leftoverStack);
         }
     }
@@ -282,7 +284,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             return;
         }
 
-        List<String> attributes = new ArrayList<String>() {{
+        List<String> attributes = new ArrayList<String>()
+        {{
             add("productivity");
             add("weather_tolerance");
             add("behavior");
@@ -291,7 +294,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         }};
 
         double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.geneExtractChance.get();
-        for (String attributeName: attributes) {
+        for (String attributeName : attributes) {
             if (ProductiveBees.rand.nextDouble() <= chance) {
                 int value = entityData.getInt("bee_" + attributeName);
                 ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.getAttributeByName(attributeName), value));

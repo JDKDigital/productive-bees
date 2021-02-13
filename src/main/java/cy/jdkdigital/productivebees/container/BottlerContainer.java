@@ -48,7 +48,8 @@ public class BottlerContainer extends AbstractContainer
                     FluidStack fluid = fluidHandler.getFluidInTank(0);
                     if (fluid.isEmpty()) {
                         fluidHandler.fill(new FluidStack(ModFluids.HONEY.get(), value), IFluidHandler.FluidAction.EXECUTE);
-                    } else {
+                    }
+                    else {
                         fluid.setAmount(value);
                     }
                 });

@@ -47,67 +47,67 @@ public class Recipes extends RecipeProvider implements IConditionBuilder
 
     private void addCentrifugeRecipe(Consumer<IFinishedRecipe> consumer) {
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.CENTRIFUGE.get())
-            .patternLine("I I")
-            .patternLine("IGI")
-            .patternLine("III")
-            .key('I', Items.IRON_INGOT)
-            .key('G', Items.GRINDSTONE)
-            .setGroup(ProductiveBees.MODID)
-            .addCriterion("items", InventoryChangeTrigger.Instance.forItems(Items.GRINDSTONE, Items.IRON_INGOT))
-            .build(consumer);
+                .patternLine("I I")
+                .patternLine("IGI")
+                .patternLine("III")
+                .key('I', Items.IRON_INGOT)
+                .key('G', Items.GRINDSTONE)
+                .setGroup(ProductiveBees.MODID)
+                .addCriterion("items", InventoryChangeTrigger.Instance.forItems(Items.GRINDSTONE, Items.IRON_INGOT))
+                .build(consumer);
 
         ConditionalRecipe.builder().addCondition(
-            and(
-                not(modLoaded("mekanism")),
-                not(modLoaded("silents_mekanism"))
-            )
+                and(
+                        not(modLoaded("mekanism")),
+                        not(modLoaded("silents_mekanism"))
+                )
         ).addRecipe(
-            ShapedRecipeBuilder.shapedRecipe(ModBlocks.POWERED_CENTRIFUGE.get())
-                .patternLine("RCR")
-                .key('R', Items.REDSTONE)
-                .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ProductiveBees.MODID)
-                .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), Items.REDSTONE))
-                ::build
+                ShapedRecipeBuilder.shapedRecipe(ModBlocks.POWERED_CENTRIFUGE.get())
+                        .patternLine("RCR")
+                        .key('R', Items.REDSTONE)
+                        .key('C', ModBlocks.CENTRIFUGE.get())
+                        .setGroup(ProductiveBees.MODID)
+                        .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), Items.REDSTONE))
+                        ::build
         )
-        .build(consumer, new ResourceLocation(ProductiveBees.MODID, "powered_centrifuge"));
+                .build(consumer, new ResourceLocation(ProductiveBees.MODID, "powered_centrifuge"));
 
         Item basicCircuit = ForgeRegistries.ITEMS.getValue(new ResourceLocation("mekanism", "basic_control_circuit"));
         ConditionalRecipe.builder().addCondition(
-            modLoaded("mekanism")
+                modLoaded("mekanism")
         )
-        .addRecipe(
-            ShapedRecipeBuilder.shapedRecipe(ModBlocks.POWERED_CENTRIFUGE.get())
-                .patternLine("RBR")
-                .patternLine("ICI")
-                .patternLine("RBR")
-                .key('R', Items.REDSTONE)
-                .key('I', Items.IRON_INGOT)
-                .key('B', basicCircuit)
-                .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ProductiveBees.MODID)
-                .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), basicCircuit))
-                ::build
-        )
-        .build(consumer, new ResourceLocation(ProductiveBees.MODID, "powered_centrifuge_mekanism"));
+                .addRecipe(
+                        ShapedRecipeBuilder.shapedRecipe(ModBlocks.POWERED_CENTRIFUGE.get())
+                                .patternLine("RBR")
+                                .patternLine("ICI")
+                                .patternLine("RBR")
+                                .key('R', Items.REDSTONE)
+                                .key('I', Items.IRON_INGOT)
+                                .key('B', basicCircuit)
+                                .key('C', ModBlocks.CENTRIFUGE.get())
+                                .setGroup(ProductiveBees.MODID)
+                                .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), basicCircuit))
+                                ::build
+                )
+                .build(consumer, new ResourceLocation(ProductiveBees.MODID, "powered_centrifuge_mekanism"));
 
         Item machineFrame = ForgeRegistries.ITEMS.getValue(new ResourceLocation("silents_mechanisms", "alloy_machine_frame"));
         ConditionalRecipe.builder().addCondition(
-            modLoaded("silents_mechanisms")
+                modLoaded("silents_mechanisms")
         )
-        .addRecipe(
-            ShapedRecipeBuilder.shapedRecipe(ModBlocks.POWERED_CENTRIFUGE.get())
-                .patternLine("ICI")
-                .patternLine("RBR")
-                .key('R', Items.REDSTONE)
-                .key('I', ItemTags.createOptional(new ResourceLocation("forge", "ingots/bismuth_brass")))
-                .key('B', machineFrame)
-                .key('C', ModBlocks.CENTRIFUGE.get())
-                .setGroup(ProductiveBees.MODID)
-                .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), machineFrame))
-                ::build
-        )
-        .build(consumer, new ResourceLocation(ProductiveBees.MODID, "powered_centrifuge_silents_mechanisms"));
+                .addRecipe(
+                        ShapedRecipeBuilder.shapedRecipe(ModBlocks.POWERED_CENTRIFUGE.get())
+                                .patternLine("ICI")
+                                .patternLine("RBR")
+                                .key('R', Items.REDSTONE)
+                                .key('I', ItemTags.createOptional(new ResourceLocation("forge", "ingots/bismuth_brass")))
+                                .key('B', machineFrame)
+                                .key('C', ModBlocks.CENTRIFUGE.get())
+                                .setGroup(ProductiveBees.MODID)
+                                .addCriterion("items", InventoryChangeTrigger.Instance.forItems(ModBlocks.CENTRIFUGE.get(), machineFrame))
+                                ::build
+                )
+                .build(consumer, new ResourceLocation(ProductiveBees.MODID, "powered_centrifuge_silents_mechanisms"));
     }
 
     private void addCombRecipes(Consumer<IFinishedRecipe> consumer) {

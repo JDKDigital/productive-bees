@@ -41,7 +41,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
         ItemStack beeBombStack = null;
         int beeCount = 0;
         int bombBeeCount = 0;
-        for(int j = 0; j < inv.getSizeInventory(); ++j) {
+        for (int j = 0; j < inv.getSizeInventory(); ++j) {
             ItemStack itemstack = inv.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 if (beeBombStack == null && (itemstack.getItem().equals(ModItems.BEE_BOMB.get()) || itemstack.getItem().equals(ModItems.BEE_BOMB_ANGRY.get()))) {
@@ -52,9 +52,11 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
 
                     beeCount += bees.size();
                     bombBeeCount = bees.size();
-                } else if (itemstack.getItem().equals(ModItems.BEE_CAGE.get()) && BeeCage.isFilled(itemstack)) {
+                }
+                else if (itemstack.getItem().equals(ModItems.BEE_CAGE.get()) && BeeCage.isFilled(itemstack)) {
                     beeCount++;
-                } else {
+                }
+                else {
                     return false;
                 }
             }
@@ -77,12 +79,13 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
         ItemStack bomb = null;
         List<ItemStack> beeCages = new ArrayList<>();
 
-        for(int j = 0; j < inv.getSizeInventory(); ++j) {
+        for (int j = 0; j < inv.getSizeInventory(); ++j) {
             ItemStack itemstack = inv.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.BEE_BOMB.get()) || itemstack.getItem().equals(ModItems.BEE_BOMB_ANGRY.get())) {
                     bomb = itemstack;
-                } else if (itemstack.getItem().equals(ModItems.BEE_CAGE.get())) {
+                }
+                else if (itemstack.getItem().equals(ModItems.BEE_CAGE.get())) {
                     beeCages.add(itemstack);
                 }
             }

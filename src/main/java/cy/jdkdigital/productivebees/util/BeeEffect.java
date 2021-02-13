@@ -33,7 +33,7 @@ public class BeeEffect implements INBTSerializable<CompoundNBT>
         tag.putInt("i", effects.size());
         getEffects().forEach((effect, duration) -> {
             CompoundNBT effectTag = new CompoundNBT();
-            effectTag.putString("effect","" + effect.getRegistryName());
+            effectTag.putString("effect", "" + effect.getRegistryName());
             effectTag.putInt("duration", duration);
 
             tag.put("effect_" + (tag.size() - 1), effectTag);
@@ -46,14 +46,14 @@ public class BeeEffect implements INBTSerializable<CompoundNBT>
     public void deserializeNBT(CompoundNBT tag) {
         this.effects = new HashMap<>();
         IntStream.range(0, tag.getInt("i")).forEach(
-            i -> {
-                CompoundNBT effectTag = tag.getCompound("effect_" + i);
-                String effectName = effectTag.getString("effect");
+                i -> {
+                    CompoundNBT effectTag = tag.getCompound("effect_" + i);
+                    String effectName = effectTag.getString("effect");
 
-                Effect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(effectName));
+                    Effect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(effectName));
 
-                this.effects.put(effect, effectTag.getInt("duration"));
-            }
+                    this.effects.put(effect, effectTag.getInt("duration"));
+                }
         );
     }
 }

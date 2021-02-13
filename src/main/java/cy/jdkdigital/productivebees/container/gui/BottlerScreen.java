@@ -46,7 +46,8 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
 
                 if (fluidStack.getAmount() > 0) {
                     tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").func_241878_f());
-                } else {
+                }
+                else {
                     tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").func_241878_f());
                 }
 

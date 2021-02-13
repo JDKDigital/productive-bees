@@ -43,31 +43,35 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
         Map<String, Integer> addedGenes = new HashMap<>();
         ItemStack honeyTreatStack = null;
         boolean hasAddedGenes = false;
-        for(int j = 0; j < inv.getSizeInventory(); ++j) {
+        for (int j = 0; j < inv.getSizeInventory(); ++j) {
             ItemStack itemstack = inv.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.HONEY_TREAT.get()) && honeyTreatStack == null) {
                     honeyTreatStack = itemstack;
                     // Read existing attributes from treat
                     ListNBT genes = HoneyTreat.getGenes(honeyTreatStack);
-                    for (INBT inbt: genes) {
+                    for (INBT inbt : genes) {
                         ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
                         String attribute = Gene.getAttributeName(insertedGene);
                         if (addedGenes.containsKey(attribute) && !addedGenes.get(attribute).equals(Gene.getValue(insertedGene))) {
                             return false;
                         }
                         addedGenes.put(attribute, Gene.getValue(insertedGene));
-                    };
-                } else if (itemstack.getItem().equals(ModItems.GENE.get())) {
+                    }
+                    ;
+                }
+                else if (itemstack.getItem().equals(ModItems.GENE.get())) {
                     String attribute = Gene.getAttributeName(itemstack);
                     if (addedGenes.containsKey(attribute) && !addedGenes.get(attribute).equals(Gene.getValue(itemstack))) {
                         // Disallow adding genes of the same type with different strengths
                         return false;
-                    } else {
+                    }
+                    else {
                         addedGenes.put(attribute, Gene.getValue(itemstack));
                         hasAddedGenes = true;
                     }
-                } else {
+                }
+                else {
                     return false;
                 }
             }
@@ -85,12 +89,13 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
         ItemStack treat = null;
         List<ItemStack> genes = new ArrayList<>();
 
-        for(int j = 0; j < inv.getSizeInventory(); ++j) {
+        for (int j = 0; j < inv.getSizeInventory(); ++j) {
             ItemStack itemstack = inv.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.HONEY_TREAT.get())) {
                     treat = itemstack;
-                } else if (itemstack.getItem().equals(ModItems.GENE.get())) {
+                }
+                else if (itemstack.getItem().equals(ModItems.GENE.get())) {
                     genes.add(itemstack);
                 }
             }

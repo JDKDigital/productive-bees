@@ -37,7 +37,7 @@ public class WoodChipRecipe implements ICraftingRecipe
         Block chipBlock = null;
 
         int matchingStacks = 0;
-        for(int j = 0; j < inv.getSizeInventory(); ++j) {
+        for (int j = 0; j < inv.getSizeInventory(); ++j) {
             ItemStack itemstack = inv.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 // Set the recipe criteria to the first wood chip
@@ -47,7 +47,8 @@ public class WoodChipRecipe implements ICraftingRecipe
 
                 if (itemstack.getItem().equals(ModItems.WOOD_CHIP.get()) && WoodChip.getBlock(itemstack).equals(chipBlock)) {
                     matchingStacks++;
-                } else {
+                }
+                else {
                     return false;
                 }
             }

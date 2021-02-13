@@ -42,9 +42,11 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
                         ItemStack outputItem = null;
                         if (fluidContainerItem.getItem() == Items.GLASS_BOTTLE && fluidStack.getAmount() >= 250 && fluidStack.getFluid().isEquivalentTo(ModFluids.HONEY.get())) {
                             outputItem = new ItemStack(Items.HONEY_BOTTLE);
-                        } else if (fluidContainerItem.getItem() == Items.HONEYCOMB && fluidStack.getAmount() >= 250 && fluidStack.getFluid().isEquivalentTo(ModFluids.HONEY.get())) {
+                        }
+                        else if (fluidContainerItem.getItem() == Items.HONEYCOMB && fluidStack.getAmount() >= 250 && fluidStack.getFluid().isEquivalentTo(ModFluids.HONEY.get())) {
                             outputItem = new ItemStack(ModItems.HONEY_TREAT.get());
-                        } else {
+                        }
+                        else {
                             FluidActionResult fillResult = FluidUtil.tryFillContainer(fluidContainerItem, fluidHandler, Integer.MAX_VALUE, null, true);
                             if (fillResult.isSuccess()) {
                                 outputItem = fillResult.getResult();
@@ -66,7 +68,8 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
                                 if (doneFilling) {
                                     fluidContainerItem.shrink(1);
                                     invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
-                                } else {
+                                }
+                                else {
                                     invHandler.insertItem(InventoryHandlerHelper.BOTTLE_SLOT, outputItem, false);
                                 }
                             }

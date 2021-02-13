@@ -50,7 +50,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
         if (this.ingredient.getMatchingStacks().length > 0) {
             ItemStack invStack = inv.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
 
-            for (ItemStack stack: this.ingredient.getMatchingStacks()) {
+            for (ItemStack stack : this.ingredient.getMatchingStacks()) {
                 if (stack.getItem().equals(invStack.getItem())) {
                     // Check configurable honeycombs
                     if (stack.hasTag() && invStack.hasTag()) {
@@ -87,7 +87,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
     @Nullable
     public Pair<Fluid, Integer> getFluidOutputs() {
-        for(Map.Entry<String, Integer> entry: fluidOutput.entrySet()) {
+        for (Map.Entry<String, Integer> entry : fluidOutput.entrySet()) {
             Fluid fluid = getPreferredFluidByMod(entry.getKey());
 
             if (fluid != Fluids.EMPTY) {
@@ -129,7 +129,8 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
             Ingredient ingredient;
             if (JSONUtils.isJsonArray(json, "ingredient")) {
                 ingredient = Ingredient.deserialize(JSONUtils.getJsonArray(json, "ingredient"));
-            } else {
+            }
+            else {
                 ingredient = Ingredient.deserialize(JSONUtils.getJsonObject(json, "ingredient"));
             }
 
@@ -160,14 +161,16 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
                     }
 
                     itemOutputs.put(produce, nbt);
-                } else if (jsonObject.has("fluid")) {
+                }
+                else if (jsonObject.has("fluid")) {
                     int amount = JSONUtils.getInt(jsonObject, "amount", 250);
 
                     JsonObject fluid = JSONUtils.getJsonObject(jsonObject, "fluid");
                     String fluidResourceLocation = "";
                     if (fluid.has("tag")) {
                         fluidResourceLocation = JSONUtils.getString(fluid, "tag");
-                    } else if (fluid.has("fluid")) {
+                    }
+                    else if (fluid.has("fluid")) {
                         fluidResourceLocation = JSONUtils.getString(fluid, "fluid");
                     }
 
@@ -189,12 +192,12 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
                 Map<Ingredient, IntArrayNBT> itemOutput = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                    i -> itemOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
+                        i -> itemOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
                 Map<String, Integer> fluidOutput = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                    i -> fluidOutput.put(buffer.readString(), buffer.readInt())
+                        i -> fluidOutput.put(buffer.readString(), buffer.readInt())
                 );
 
                 return this.factory.create(id, ingredient, itemOutput, fluidOutput);

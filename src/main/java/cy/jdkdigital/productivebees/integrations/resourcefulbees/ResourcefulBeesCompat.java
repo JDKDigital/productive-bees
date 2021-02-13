@@ -155,7 +155,7 @@ public class ResourcefulBeesCompat
         Map<ItemStack, IntArrayNBT> outputs = recipe.getRecipeOutputs();
 
         List<Pair<ItemStack, Float>> outputList = new ArrayList<>();
-        for (Map.Entry<ItemStack, IntArrayNBT> entry: outputs.entrySet()) {
+        for (Map.Entry<ItemStack, IntArrayNBT> entry : outputs.entrySet()) {
             if (outputList.size() < 2) {
                 int count = MathHelper.ceil((entry.getValue().get(0).getInt() + entry.getValue().get(1).getInt()) / 2f);
                 ItemStack outputItemStack = entry.getKey().copy();
@@ -165,7 +165,7 @@ public class ResourcefulBeesCompat
         }
         if (outputList.size() < 2) {
             Item wax = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ResourcefulBeesCompat.MODID, "wax"));
-            outputList.add(Pair.of(new ItemStack(wax,  multiplier), 1.0f));
+            outputList.add(Pair.of(new ItemStack(wax, multiplier), 1.0f));
         }
 
         outputList.add(Pair.of(new ItemStack(Items.HONEY_BOTTLE, multiplier), 1.0f));

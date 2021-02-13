@@ -91,18 +91,19 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             // Spawn skeletal and zombie bees in empty hives
             ListNBT beeList = this.getBeeListAsNBTList();
             if (
-                world.isNightTime() &&
-                ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
-                world.rand.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
-                beeList.size() + beesOutsideHive() == 0 &&
-                world.getLight(pos.offset(getBlockState().get(BeehiveBlock.FACING), 1)) <= 8
+                    world.isNightTime() &&
+                            ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
+                            world.rand.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
+                            beeList.size() + beesOutsideHive() == 0 &&
+                            world.getLight(pos.offset(getBlockState().get(BeehiveBlock.FACING), 1)) <= 8
             ) {
                 EntityType<ConfigurableBeeEntity> beeType = ModEntities.CONFIGURABLE_BEE.get();
                 ConfigurableBeeEntity newBee = beeType.create(world);
                 if (newBee != null) {
                     if (world.rand.nextBoolean()) {
                         newBee.setBeeType("productivebees:skeletal");
-                    } else {
+                    }
+                    else {
                         newBee.setBeeType("productivebees:zombie");
                     }
                     newBee.setAttributes();
@@ -161,8 +162,8 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         double combBlockUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) * ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
         double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
         return (int) (
-            super.getTimeInHive(hasNectar, beeEntity) *
-            Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier)
+                super.getTimeInHive(hasNectar, beeEntity) *
+                        Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier)
         );
     }
 
@@ -276,7 +277,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt){
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         CompoundNBT tag = pkt.getNbtCompound();
 
         if (tag.contains("bees")) {

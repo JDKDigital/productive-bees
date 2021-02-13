@@ -26,7 +26,8 @@ public class BeeIngredientFactory
                     list.put(entry.getKey(), entry.getValue());
                 }
             }
-        } else {
+        }
+        else {
             list = createList();
         }
         return list;

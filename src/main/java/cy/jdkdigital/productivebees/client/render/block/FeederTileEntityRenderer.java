@@ -58,7 +58,9 @@ public class FeederTileEntityRenderer extends TileEntityRenderer<FeederTileEntit
                 for (int slot = 0; slot < handler.getSlots(); ++slot) {
                     ItemStack slotStack = handler.getStackInSlot(slot);
 
-                    if (slotStack.isEmpty()) continue;
+                    if (slotStack.isEmpty()) {
+                        continue;
+                    }
 
                     boolean isFlower = slotStack.getItem().isIn(ItemTags.FLOWERS);
                     Pair<Float, Float> pos = POSITIONS.get(filledSlots).get(slot);

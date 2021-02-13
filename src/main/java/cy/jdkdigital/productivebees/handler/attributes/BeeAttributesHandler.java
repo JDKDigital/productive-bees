@@ -50,7 +50,7 @@ public class BeeAttributesHandler implements IBeeAttributes
     @Override
     public INBT getAsNBT() {
         ProductiveBees.LOGGER.info("getAsNBT");
-        for (Map.Entry<BeeAttribute<?>, Object> entry: getAttributes().entrySet()) {
+        for (Map.Entry<BeeAttribute<?>, Object> entry : getAttributes().entrySet()) {
             ProductiveBees.LOGGER.info(entry.getKey() + " - " + entry.getValue());
         }
         ProductiveBees.LOGGER.info("Productivity: " + this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
@@ -80,7 +80,7 @@ public class BeeAttributesHandler implements IBeeAttributes
             beeAttributes.put(BeeAttributes.TYPE, nbt.getString("bee_type"));
             beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.createOptional(new ResourceLocation(nbt.getString("bee_aphrodisiac"))));
 
-            for (Map.Entry<BeeAttribute<?>, Object> entry: getAttributes().entrySet()) {
+            for (Map.Entry<BeeAttribute<?>, Object> entry : getAttributes().entrySet()) {
                 ProductiveBees.LOGGER.info(entry.getKey() + " - " + entry.getValue());
             }
         }

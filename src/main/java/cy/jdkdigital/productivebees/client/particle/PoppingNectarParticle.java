@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.client.particle;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
 
@@ -9,7 +10,7 @@ public class PoppingNectarParticle extends LavaParticle
 {
     public PoppingNectarParticle(ClientWorld world, double x, double y, double z) {
         super(world, x, y, z);
-        this.maxAge = (int)(10.0D / (Math.random() * 0.8D + 0.2D));
+        this.maxAge = (int) (10.0D / (ProductiveBees.rand.nextDouble() * 0.8D + 0.2D));
     }
 
     @Override
@@ -21,7 +22,8 @@ public class PoppingNectarParticle extends LavaParticle
     public void tick() {
         if (this.age++ >= this.maxAge) {
             this.setExpired();
-        } else {
+        }
+        else {
             this.move(this.motionX, this.motionY, this.motionZ);
             this.motionX *= 0.8F;
             this.motionY *= 0.8F;

@@ -132,9 +132,9 @@ public class EventHandler
     @SubscribeEvent
     public static void onLootSetup(LootTableLoadEvent event) {
         if (event.getName().toString().contains("chests/village")) {
-//            event.getTable().getPool("main").lootEntries.add(
-//                ItemLootEntry.builder(ModItems.STURDY_BEE_CAGE.get()).weight(4).build()
-//            );
+            event.getTable().getPool("main").lootEntries.add(
+                    ItemLootEntry.builder(ModItems.STURDY_BEE_CAGE.get()).weight(4).build()
+            );
         }
     }
 }

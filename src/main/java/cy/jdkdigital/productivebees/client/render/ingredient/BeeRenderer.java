@@ -25,6 +25,9 @@ import java.util.Map;
 
 public class BeeRenderer
 {
+    private BeeRenderer() {
+    }
+
     public static void render(MatrixStack matrixStack, int xPosition, int yPosition, BeeIngredient beeIngredient, Minecraft minecraft) {
         if (ProductiveBeesConfig.CLIENT.renderBeeIngredientAsEntity.get()) {
             BeeEntity bee = beeIngredient.getCachedEntity(minecraft.world);
@@ -44,7 +47,7 @@ public class BeeRenderer
                 float scaledSize = 18;
 
                 matrixStack.push();
-                matrixStack.translate(7 + xPosition, 12 + yPosition, 1.5);
+                matrixStack.translate(7D + xPosition, 12D + yPosition, 1.5);
                 matrixStack.rotate(Vector3f.ZP.rotationDegrees(190.0F));
                 matrixStack.rotate(Vector3f.YP.rotationDegrees(20.0F));
                 matrixStack.rotate(Vector3f.XP.rotationDegrees(20.0F));
@@ -57,47 +60,28 @@ public class BeeRenderer
                 buffer.finish();
                 matrixStack.pop();
             }
-        } else {
+        }
+        else {
             renderBeeFace(xPosition, yPosition, beeIngredient, minecraft.world);
         }
     }
 
-    private static final Map<Integer, Map<String, Integer>> renderSettings = new HashMap<Integer, Map<String, Integer>>()
-    {{
-        put(0, new HashMap<String, Integer>()
-        {{
-            put("scale", 128);
-            put("iconX", 14);
-            put("iconY", 14);
-            put("iconU", 20);
-            put("iconV", 20);
-        }});
-        put(1, new HashMap<String, Integer>()
-        {{
-            put("scale", 128);
-            put("iconX", 12);
-            put("iconY", 12);
-            put("iconU", 20);
-            put("iconV", 20);
-        }});
-    }};
     private static void renderBeeFace(int xPosition, int yPosition, BeeIngredient beeIngredient, World world) {
         RenderSystem.enableBlend();
         RenderSystem.enableAlphaTest();
         ResourceLocation resLocation = getBeeTexture(beeIngredient, world);
         Minecraft.getInstance().getTextureManager().bindTexture(resLocation);
 
-        Map<String, Integer> iconSettings = renderSettings.get(beeIngredient.getRenderType());
         float[] color = colorCache.get(beeIngredient.getBeeType().toString());
 
-        float scale = (float) 1 / iconSettings.get("scale");
-        int iconX = iconSettings.get("iconX");
-        int iconY = iconSettings.get("iconY");
-        int iconU = iconSettings.get("iconU");
-        int iconV = iconSettings.get("iconV");
+        float scale = 1F / 128F;
+        float iconX = 14F;
+        float iconY = 14F;
+        float iconU = 20F;
+        float iconV = 20F;
 
         if (color == null) {
-            color = new float[] {1.0f, 1.0f, 1.0f};
+            color = new float[]{1.0f, 1.0f, 1.0f};
         }
         RenderSystem.color4f(color[0], color[1], color[2], 1.0f);
         BufferBuilder renderBuffer = Tessellator.getInstance().getBuffer();
@@ -117,20 +101,21 @@ public class BeeRenderer
 
     private static HashMap<String, ResourceLocation> beeTextureLocations = new HashMap<>();
     private static HashMap<String, float[]> colorCache = new HashMap<>();
+
     public static ResourceLocation getBeeTexture(@Nonnull BeeIngredient ingredient, World world) {
         String beeId = ingredient.getBeeType().toString();
         if (beeTextureLocations.get(beeId) != null) {
             return beeTextureLocations.get(beeId);
         }
 
-        Entity bee = ingredient.getBeeEntity().create(world);
+        BeeEntity bee = ingredient.getBeeEntity().create(world);
         if (bee instanceof ConfigurableBeeEntity) {
             ((ConfigurableBeeEntity) bee).setBeeType(ingredient.getBeeType().toString());
             colorCache.put(beeId, ((ConfigurableBeeEntity) bee).getColor(0).getComponents(null));
         }
 
         EntityRendererManager manager = Minecraft.getInstance().getRenderManager();
-        EntityRenderer renderer = manager.getRenderer(bee);
+        EntityRenderer<? super BeeEntity> renderer = manager.getRenderer(bee);
 
         ResourceLocation resource = renderer.getEntityTexture(bee);
         beeTextureLocations.put(beeId, resource);

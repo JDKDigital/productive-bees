@@ -85,8 +85,8 @@ public class Gene extends Item
         BeeAttribute<?> attribute = getAttribute(stack);
 
         if (attribute != null) {
-            ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).mergeStyle(ColorUtil.getColor(value));
-            list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translated_value)).mergeStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + getPurity(stack) + "%)")));
+            ITextComponent translatedValue = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).mergeStyle(ColorUtil.getColor(value));
+            list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).mergeStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + getPurity(stack) + "%)")));
         } else {
             String type = getAttributeName(stack);
             list.add(new TranslationTextComponent("productivebees.information.attribute.type", type).mergeStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + getPurity(stack) + "%)")));

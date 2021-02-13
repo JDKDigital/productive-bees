@@ -48,8 +48,8 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
         public boolean isInputSlotItem(int slot, Item item) {
             return
                     (slot == 0 && item instanceof BeeCage) ||
-                    (slot == 0 && item.isIn(ModTags.EGGS)) ||
-                    (slot == 1 && item instanceof HoneyTreat);
+                            (slot == 0 && item.isIn(ModTags.EGGS)) ||
+                            (slot == 1 && item instanceof HoneyTreat);
         }
     });
 
@@ -67,7 +67,7 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
 
     public int getProcessingTime() {
         return (int) (
-            ProductiveBeesConfig.GENERAL.incubatorProcessingTime.get() * getProcessingTimeModifier()
+                ProductiveBeesConfig.GENERAL.incubatorProcessingTime.get() * getProcessingTimeModifier()
         );
     }
 
@@ -93,7 +93,8 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
                             this.markDirty();
                         }
                     }
-                } else {
+                }
+                else {
                     this.recipeProgress = 0;
                     setRunning(false);
                 }
@@ -117,9 +118,9 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
                 && invHandler.getStackInSlot(2).isEmpty() // output has room
                 && treatItem.getItem().equals(ModItems.HONEY_TREAT.get())
                 && (
-                    (cageProcessing && treatItem.getCount() >= ProductiveBeesConfig.GENERAL.incubatorTreatUse.get()) ||
-                    (eggProcessing && !treatItem.isEmpty() && HoneyTreat.hasBeeType(treatItem))
-                );
+                (cageProcessing && treatItem.getCount() >= ProductiveBeesConfig.GENERAL.incubatorTreatUse.get()) ||
+                        (eggProcessing && !treatItem.isEmpty() && HoneyTreat.hasBeeType(treatItem))
+        );
     }
 
     private void completeIncubation(IItemHandlerModifiable invHandler) {
@@ -138,11 +139,12 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
                 invHandler.setStackInSlot(2, inItem);
                 invHandler.getStackInSlot(1).shrink(ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
                 invHandler.setStackInSlot(0, ItemStack.EMPTY);
-            } else if (eggProcessing) {
+            }
+            else if (eggProcessing) {
                 ItemStack treatItem = invHandler.getStackInSlot(1);
 
                 ListNBT genes = HoneyTreat.getGenes(treatItem);
-                for (INBT inbt: genes) {
+                for (INBT inbt : genes) {
                     ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
                     String beeName = Gene.getAttributeName(insertedGene);
 
@@ -154,7 +156,8 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
                             if (beeIngredient.isConfigurable()) {
                                 egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
                                 BeeCreator.setTag(beeName, egg);
-                            } else {
+                            }
+                            else {
                                 Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_" + beeIngredient.getBeeType().getPath()));
                                 egg = new ItemStack(item);
                             }
@@ -202,7 +205,8 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return inventoryHandler.cast();
-        } else if (cap == CapabilityEnergy.ENERGY) {
+        }
+        else if (cap == CapabilityEnergy.ENERGY) {
             return energyHandler.cast();
         }
         return super.getCapability(cap, side);

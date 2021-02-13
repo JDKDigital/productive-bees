@@ -127,7 +127,8 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
         if (hasParticleColor()) {
             particle.setColor(getParticleColor());
-        } else {
+        }
+        else {
             particle.setColor(new float[]{0.92F, 0.782F, 0.72F});
         }
 
@@ -265,7 +266,8 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             if (nbt.contains("flowerTag")) {
                 ITag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
                 return flowerBlock.isIn(flowerTag);
-            } else if (nbt.contains("flowerBlock")) {
+            }
+            else if (nbt.contains("flowerBlock")) {
                 return flowerBlock.getRegistryName().toString().equals(nbt.getString("flowerBlock"));
             }
         }

@@ -37,7 +37,7 @@ public class StoneChipRecipe implements ICraftingRecipe
         Block chipBlock = null;
 
         int matchingStacks = 0;
-        for(int j = 0; j < inv.getSizeInventory(); ++j) {
+        for (int j = 0; j < inv.getSizeInventory(); ++j) {
             ItemStack itemstack = inv.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 // Set the recipe criteria to the first chip
@@ -47,7 +47,8 @@ public class StoneChipRecipe implements ICraftingRecipe
 
                 if (itemstack.getItem().equals(ModItems.STONE_CHIP.get()) && StoneChip.getBlock(itemstack).equals(chipBlock)) {
                     matchingStacks++;
-                } else {
+                }
+                else {
                     return false;
                 }
             }

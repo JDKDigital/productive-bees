@@ -22,13 +22,12 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
 
     @Nullable
     @Override
-    public Void apply(ITheOneProbe theOneProbe)
-    {
+    public Void apply(ITheOneProbe theOneProbe) {
         theOneProbe.registerBlockDisplayOverride((mode, probeInfo, player, world, blockState, data) -> {
             TileEntity tileEntity = world.getTileEntity(data.getPos());
-            if(tileEntity instanceof SolitaryNestTileEntity) {
+            if (tileEntity instanceof SolitaryNestTileEntity) {
                 SolitaryNestTileEntity nest = (SolitaryNestTileEntity) tileEntity;
-                if(mode.equals(ProbeMode.EXTENDED)){
+                if (mode.equals(ProbeMode.EXTENDED)) {
                     probeInfo.horizontal()
                             .item(new ItemStack(blockState.getBlock().asItem()))
                             .vertical()
@@ -37,15 +36,18 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                     if (nest.getBeeCount() > 0) {
                         probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.bee", nest.getBeeList().get(0).localizedName));
                         probeInfo.progress(nest.getBeeList().get(0).minOccupationTicks - nest.getBeeList().get(0).ticksInHive, nest.getBeeList().get(0).minOccupationTicks);
-                    } else {
+                    }
+                    else {
                         if (nest.getNestTickCooldown() > 0) {
                             probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown"));
                             probeInfo.progress(nest.getNestTickCooldown() / 20, nest.getRepopulationCooldown(blockState.getBlock()) / 20);
-                        } else {
+                        }
+                        else {
                             probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown_inactive"));
                             if (nest.canRepopulate()) {
                                 probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.can_repopulate_true"));
-                            } else {
+                            }
+                            else {
                                 probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.can_repopulate_false"));
                             }
                         }
@@ -55,10 +57,10 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
             }
 
             // Centrifuge
-            if(tileEntity instanceof CentrifugeTileEntity) {
+            if (tileEntity instanceof CentrifugeTileEntity) {
                 CentrifugeTileEntity centrifugeTileEntity = (CentrifugeTileEntity) tileEntity;
 
-                if(centrifugeTileEntity.recipeProgress > 0) {
+                if (centrifugeTileEntity.recipeProgress > 0) {
                     probeInfo.horizontal()
                             .item(new ItemStack(blockState.getBlock().asItem()))
                             .vertical()
@@ -70,7 +72,7 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
             }
 
             ResourceLocation registryName = blockState.getBlock().getRegistryName();
-            if (registryName != null && registryName.getNamespace().equals(ProductiveBees.MODID)){
+            if (registryName != null && registryName.getNamespace().equals(ProductiveBees.MODID)) {
                 probeInfo.horizontal()
                         .item(new ItemStack(blockState.getBlock().asItem()))
                         .vertical()

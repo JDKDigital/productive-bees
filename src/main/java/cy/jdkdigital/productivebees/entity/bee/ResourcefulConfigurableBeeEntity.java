@@ -31,7 +31,7 @@ public class ResourcefulConfigurableBeeEntity extends ConfigurableBeeEntity impl
         List<ItemStack> produce = BeeHelper.getBeeProduce(world, this, false);
         boolean hasComb = false;
         ItemStack combProduce = null;
-        for(ItemStack stack: produce) {
+        for (ItemStack stack : produce) {
             if (stack.getItem() instanceof Honeycomb || stack.getItem().getRegistryName().getPath().contains("honeycomb_")) {
                 combProduce = stack;
                 hasComb = true;

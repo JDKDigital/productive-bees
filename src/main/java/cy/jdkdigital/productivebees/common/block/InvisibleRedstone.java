@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class InvisibleRedstone extends RedstoneBlock
 {
-    protected static final VoxelShape SHAPE = VoxelShapes.create(0,0,0,0,0,0);
+    protected static final VoxelShape SHAPE = VoxelShapes.create(0, 0, 0, 0, 0, 0);
 
     public InvisibleRedstone(Properties properties) {
         super(properties);

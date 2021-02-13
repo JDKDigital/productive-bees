@@ -59,7 +59,7 @@ public class ModConfiguredFeatures
         END_NEST_FEATURE = Registry.register(registry, rLoc("end_nest_feature"), ModFeatures.END_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.END_STONE.getDefaultState(), ModBlocks.END_NEST.get().getDefaultState())));
         SUGAR_CANE_NEST_FEATURE = Registry.register(registry, rLoc("sugar_cane_nest_feature"), ModFeatures.SUGAR_CANE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.SUGAR_CANE.getDefaultState(), ModBlocks.SUGAR_CANE_NEST.get().getDefaultState())));
     }
-    
+
     private static ResourceLocation rLoc(String name) {
         return new ResourceLocation(ProductiveBees.MODID, name);
     }

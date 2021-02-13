@@ -94,6 +94,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         partialModel.addBodyParts(true);
     }
 
+    @Override
     public void setLivingAnimations(T entity, float limbSwing, float limbSwingAmount, float partialTicks) {
         super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
         bodyPitch = entity.getBodyPitch(partialTicks);
@@ -103,6 +104,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         }
     }
 
+    @Override
     public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         leftAntenna.rotateAngleX = 0.0F;
         rightAntenna.rotateAngleX = 0.0F;
@@ -115,7 +117,8 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
             frontLegs.rotateAngleX = 0.0F;
             middleLegs.rotateAngleX = 0.0F;
             backLegs.rotateAngleX = 0.0F;
-        } else {
+        }
+        else {
             // maxSpeed - (sizeMod - minSize)/(maxSize - minSize) * (maxSpeed - minSpeed)
             setRotationAngle(rightWing, 0, 0, MathHelper.cos(ageInTicks % 98000 * 2.1F) * FAKE_PI * 0.15F);
             setRotationAngle(leftWing, rightWing.rotateAngleX, rightWing.rotateAngleY, -rightWing.rotateAngleZ);
@@ -158,10 +161,12 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
         return body;
     }
 
+    @Override
     protected Iterable<ModelRenderer> getHeadParts() {
         return ImmutableList.of();
     }
 
+    @Override
     protected Iterable<ModelRenderer> getBodyParts() {
         return ImmutableList.of(body);
     }

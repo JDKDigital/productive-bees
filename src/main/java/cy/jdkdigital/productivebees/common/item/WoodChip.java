@@ -68,7 +68,7 @@ public class WoodChip extends Item
         if (this.isInGroup(group)) {
             try {
                 BlockTags.LOGS.getAllElements().forEach(block -> {
-                    if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") &&  !block.getRegistryName().getPath().contains("stripped")) {
+                    if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") && !block.getRegistryName().getPath().contains("stripped")) {
                         items.add(getStack(block));
                     }
                 });

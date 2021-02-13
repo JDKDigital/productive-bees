@@ -48,17 +48,20 @@ public class InventoryHandlerHelper
                     if (block != null && block.equals(WoodChip.getBlock(insertStack))) {
                         return slot;
                     }
-                } else if(!Gene.getAttributeName(insertStack).isEmpty()) {
+                }
+                else if (!Gene.getAttributeName(insertStack).isEmpty()) {
                     if (
-                        Gene.getAttributeName(stack).equals(Gene.getAttributeName(insertStack)) &&
-                        Gene.getValue(stack).equals(Gene.getValue(insertStack)) &&
-                        Gene.getPurity(stack).equals(Gene.getPurity(insertStack))
+                            Gene.getAttributeName(stack).equals(Gene.getAttributeName(insertStack)) &&
+                                    Gene.getValue(stack).equals(Gene.getValue(insertStack)) &&
+                                    Gene.getPurity(stack).equals(Gene.getPurity(insertStack))
                     ) {
                         return slot;
                     }
-                } else if(Container.areItemsAndTagsEqual(stack, insertStack)) {
+                }
+                else if (Container.areItemsAndTagsEqual(stack, insertStack)) {
                     return slot;
-                } else {
+                }
+                else {
                     return slot;
                 }
             }
@@ -152,7 +155,8 @@ public class InventoryHandlerHelper
                 ItemStack existingStack = this.getStackInSlot(slot);
                 if (existingStack.isEmpty()) {
                     setStackInSlot(slot, stack.copy());
-                } else {
+                }
+                else {
                     existingStack.grow(stack.getCount());
                 }
                 onContentsChanged(slot);
@@ -182,7 +186,8 @@ public class InventoryHandlerHelper
         }
     }
 
-    public static class UpgradeHandler extends ItemHandler {
+    public static class UpgradeHandler extends ItemHandler
+    {
 
         public UpgradeHandler(int size, TileEntity tileEntity) {
             super(size, tileEntity);

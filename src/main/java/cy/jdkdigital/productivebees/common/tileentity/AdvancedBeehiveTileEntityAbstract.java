@@ -91,10 +91,11 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant = inhabitantIterator.next();
                 if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
                     BeehiveTileEntity.State beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveTileEntity.State.HONEY_DELIVERED : BeehiveTileEntity.State.BEE_RELEASED;
-                    if(this.releaseBee(this.getBlockState(), inhabitant.nbt, null, beeState)) {
+                    if (this.releaseBee(this.getBlockState(), inhabitant.nbt, null, beeState)) {
                         inhabitantIterator.remove();
                     }
-                } else {
+                }
+                else {
                     inhabitant.ticksInHive += tickCounter;
                 }
             }
@@ -231,7 +232,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                             getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
                                 if (((InventoryHandlerHelper.ItemHandler) inv).addOutput(((HoarderBeeEntity) beeEntity).getItem())) {
                                     ((HoarderBeeEntity) beeEntity).clearInventory();
-                                } else {
+                                }
+                                else {
                                     hasOffloaded.set(false);
                                 }
                             });
@@ -286,7 +288,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         int i = beeEntity.getGrowingAge();
         if (i < 0) {
             beeEntity.setGrowingAge(Math.min(0, i + ticksInHive));
-        } else if (i > 0) {
+        }
+        else if (i > 0) {
             beeEntity.setGrowingAge(Math.max(0, i - ticksInHive));
         }
 

@@ -37,7 +37,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         this.background = guiHelper.createDrawable(location, 0, 0, 70, 82);
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(Items.POPPY));
     }
-    
+
     @Override
     public ResourceLocation getUid() {
         return ID;
@@ -72,14 +72,16 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
             List<Block> blockList = new ArrayList<>();
             if (recipe.blockTag != null) {
                 blockList = recipe.blockTag.getAllElements();
-            } else if(recipe.block != null) {
+            }
+            else if (recipe.block != null) {
                 blockList.add(recipe.block);
             }
-            for (Block block: blockList) {
+            for (Block block : blockList) {
                 ItemStack item = new ItemStack(block.asItem());
                 if (!item.getItem().equals(Items.AIR)) {
                     stacks.add(item);
-                } else {
+                }
+                else {
                     if (block instanceof CocoaBlock) {
                         stacks.add(new ItemStack(Items.COCOA_BEANS));
                     }
@@ -121,29 +123,34 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
 
         ITag<Block> defaultBlockTag = BlockTags.FLOWERS;
 
-        for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()){
+        for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             if (entry.getValue().isConfigurable()) {
                 CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
                 if (nbt.contains("flowerTag")) {
                     ITag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
                     recipes.add(new Recipe(flowerTag, entry.getValue()));
-                } else if (nbt.contains("flowerBlock")) {
+                }
+                else if (nbt.contains("flowerBlock")) {
                     Block flowerBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString("flowerBlock")));
                     recipes.add(new Recipe(flowerBlock, entry.getValue()));
-                } else {
+                }
+                else {
                     recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
                 }
-            } else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
+            }
+            else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
                 ITag<Block> blockTag = flowering.get(entry.getValue().getBeeType().toString());
                 recipes.add(new Recipe(blockTag, entry.getValue()));
-            } else {
+            }
+            else {
                 recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
             }
         }
         return recipes;
     }
 
-    public static class Recipe {
+    public static class Recipe
+    {
 
         private final BeeIngredient bee;
 

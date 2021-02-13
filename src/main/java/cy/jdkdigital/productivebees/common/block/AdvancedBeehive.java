@@ -37,9 +37,9 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     public AdvancedBeehive(final Properties properties) {
         super(properties);
         this.setDefaultState(this.getDefaultState()
-            .with(BeehiveBlock.FACING, Direction.NORTH)
-            .with(EXPANDED, VerticalHive.NONE)
-            .with(BeehiveBlock.HONEY_LEVEL, 0)
+                .with(BeehiveBlock.FACING, Direction.NORTH)
+                .with(EXPANDED, VerticalHive.NONE)
+                .with(BeehiveBlock.HONEY_LEVEL, 0)
         );
     }
 
@@ -105,7 +105,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentBox(World world, BlockPos pos) {
-        for(Direction direction: BlockStateProperties.FACING.getAllowedValues()) {
+        for (Direction direction : BlockStateProperties.FACING.getAllowedValues()) {
             if (direction == Direction.DOWN) {
                 continue;
             }
@@ -142,10 +142,10 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
             if (isValidExpandedPos) {
                 directionProperty =
-                    pos.getY() != boxPos.getY() ? VerticalHive.UP : (
-                    pos.getX() < boxPos.getX() || pos.getZ() < boxPos.getZ() ? hiveDirection == Direction.NORTH || hiveDirection == Direction.EAST ? VerticalHive.LEFT : VerticalHive.RIGHT : (
-                    pos.getX() > boxPos.getX() || pos.getZ() > boxPos.getZ() ? hiveDirection == Direction.NORTH || hiveDirection == Direction.EAST ? VerticalHive.RIGHT : VerticalHive.LEFT : (
-                VerticalHive.NONE)));
+                        pos.getY() != boxPos.getY() ? VerticalHive.UP : (
+                                pos.getX() < boxPos.getX() || pos.getZ() < boxPos.getZ() ? hiveDirection == Direction.NORTH || hiveDirection == Direction.EAST ? VerticalHive.LEFT : VerticalHive.RIGHT : (
+                                        pos.getX() > boxPos.getX() || pos.getZ() > boxPos.getZ() ? hiveDirection == Direction.NORTH || hiveDirection == Direction.EAST ? VerticalHive.RIGHT : VerticalHive.LEFT : (
+                                                VerticalHive.NONE)));
             }
         }
         return directionProperty;
@@ -223,7 +223,8 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
         if (itemUsed) {
             this.takeHoney(world, state, pos);
-        } else if (!world.isRemote()) {
+        }
+        else if (!world.isRemote()) {
             final TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveTileEntity) {
                 this.updateState(world, pos, state, false);
@@ -235,8 +236,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     public void openGui(ServerPlayerEntity player, AdvancedBeehiveTileEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> {
-            packetBuffer.writeBlockPos(tileEntity.getPos());
-        });
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getPos()));
     }
 }

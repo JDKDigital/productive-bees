@@ -9,6 +9,7 @@ public class MediumBeeModel extends PartialBeeModel
         super(model, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
     }
 
+    @Override
     protected void addTorso(boolean withTorso) {
         body.setRotationPoint(0.0F, 19.0F, 0.0F);
         torso.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -20,6 +21,7 @@ public class MediumBeeModel extends PartialBeeModel
         torso.addChild(stinger);
     }
 
+    @Override
     protected void addAntenna() {
         leftAntenna.setRotationPoint(0.0F, -2.0F, -5.0F);
         leftAntenna.setTextureOffset(2, 0).addBox(1.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F, 0.0F);
@@ -29,6 +31,7 @@ public class MediumBeeModel extends PartialBeeModel
         torso.addChild(rightAntenna);
     }
 
+    @Override
     protected void addWings() {
         rightWing.setRotationPoint(-1.5F, -4.0F, -3.0F);
         setRotationAngle(rightWing, 0.0F, -0.2617999870103947F, 0.0F);
@@ -41,6 +44,7 @@ public class MediumBeeModel extends PartialBeeModel
         body.addChild(leftWing);
     }
 
+    @Override
     protected void addLegs() {
         frontLegs.setRotationPoint(1.5F, 3.0F, -2.0F);
         frontLegs.setTextureOffset(26, 1).addBox(-5.0F, 0.0F, 0.0F, 7, 2, 0, 0.0F);
@@ -54,12 +58,14 @@ public class MediumBeeModel extends PartialBeeModel
         body.addChild(backLegs);
     }
 
+    @Override
     protected void addInnards() {
         innards.setRotationPoint(0.0F, 0.0F, 0.0F);
         innards.setTextureOffset(34, 0).addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F);
         body.addChild(innards);
     }
 
+    @Override
     protected void addSantaHat() {
         ModelRenderer hatDroop = new ModelRenderer(this.model);
         hatDroop.setRotationPoint(-0.5F, -10.0F, -5.0F);

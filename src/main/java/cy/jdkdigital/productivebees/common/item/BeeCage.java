@@ -115,7 +115,8 @@ public class BeeCage extends Item
         nbt.putString("entity", EntityType.getKey(target.getType()).toString());
         if (target.hasCustomName()) {
             nbt.putString("name", target.getCustomName().getString());
-        } else {
+        }
+        else {
             nbt.putString("name", target.getName().getString());
         }
         target.writeWithoutTypeId(nbt);
@@ -182,7 +183,8 @@ public class BeeCage extends Item
                     list.add(new TranslationTextComponent("productivebees.information.health.dying").mergeStyle(TextFormatting.RED).mergeStyle(TextFormatting.ITALIC));
                 }
                 BeeHelper.populateBeeInfoFromTag(tag, list);
-            } else {
+            }
+            else {
                 list.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE));
             }
         }

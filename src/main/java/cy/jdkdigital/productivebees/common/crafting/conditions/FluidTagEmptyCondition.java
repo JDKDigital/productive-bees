@@ -15,37 +15,31 @@ public class FluidTagEmptyCondition implements ICondition
     private static final ResourceLocation NAME = new ResourceLocation(ProductiveBees.MODID, "fluid_tag_empty");
     private final ResourceLocation tag_name;
 
-    public FluidTagEmptyCondition(String location)
-    {
+    public FluidTagEmptyCondition(String location) {
         this(new ResourceLocation(location));
     }
 
-    public FluidTagEmptyCondition(String namespace, String path)
-    {
+    public FluidTagEmptyCondition(String namespace, String path) {
         this(new ResourceLocation(namespace, path));
     }
 
-    public FluidTagEmptyCondition(ResourceLocation tag)
-    {
+    public FluidTagEmptyCondition(ResourceLocation tag) {
         this.tag_name = tag;
     }
 
     @Override
-    public ResourceLocation getID()
-    {
+    public ResourceLocation getID() {
         return NAME;
     }
 
     @Override
-    public boolean test()
-    {
+    public boolean test() {
         ITag<Fluid> tag = FluidTags.getCollection().get(tag_name);
         return tag == null || tag.getAllElements().isEmpty();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "fluid_tag_empty(\"" + tag_name + "\")";
     }
 
@@ -54,20 +48,17 @@ public class FluidTagEmptyCondition implements ICondition
         public static final Serializer INSTANCE = new Serializer();
 
         @Override
-        public void write(JsonObject json, FluidTagEmptyCondition value)
-        {
+        public void write(JsonObject json, FluidTagEmptyCondition value) {
             json.addProperty("tag", value.tag_name.toString());
         }
 
         @Override
-        public FluidTagEmptyCondition read(JsonObject json)
-        {
+        public FluidTagEmptyCondition read(JsonObject json) {
             return new FluidTagEmptyCondition(new ResourceLocation(JSONUtils.getString(json, "tag")));
         }
 
         @Override
-        public ResourceLocation getID()
-        {
+        public ResourceLocation getID() {
             return FluidTagEmptyCondition.NAME;
         }
     }

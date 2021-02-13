@@ -110,7 +110,7 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
             recipes.add(new IncubationRecipe(new ResourceLocation(ProductiveBees.MODID, "cage_incubation"), Ingredient.fromStacks(babeeCage), Ingredient.fromStacks(treats), Ingredient.fromStacks(cage)));
         }
 
-        for(Map.Entry<String, BeeIngredient> entry: beeList.entrySet()) {
+        for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             Ingredient spawnEgg = NBTIngredient.fromStacks(BeeCreator.getSpawnEgg(entry.getKey()));
             Ingredient treat = NBTIngredient.fromStacks(HoneyTreat.getTypeStack(entry.getKey(), 100));
             recipes.add(new IncubationRecipe(new ResourceLocation(entry.getKey() + "_incubation"), Ingredient.fromItems(Items.EGG), treat, spawnEgg));

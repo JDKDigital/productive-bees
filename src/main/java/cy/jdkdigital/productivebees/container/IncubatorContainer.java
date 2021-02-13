@@ -74,16 +74,16 @@ public class IncubatorContainer extends AbstractContainer
         });
 
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 0, 52-13, 35));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 1, 80-13, 53));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 2, 108-13, 35));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 0, 52 - 13, 35));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 1, 80 - 13, 53));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 2, 108 - 13, 35));
         });
 
         this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
             addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
         });
 
-        layoutPlayerInventorySlots(playerInventory, 0, - 5, 84);
+        layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
     }
 
     private static IncubatorTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {

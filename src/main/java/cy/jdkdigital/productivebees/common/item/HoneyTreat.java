@@ -48,7 +48,7 @@ public class HoneyTreat extends Item
         ListNBT genes = getGenes(stack);
 
         boolean addedToExistingGene = false;
-        for (INBT inbt: genes) {
+        for (INBT inbt : genes) {
             int purity = ((CompoundNBT) inbt).getInt("purity");
             ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
             if (Gene.getAttributeName(insertedGene).equals(Gene.getAttributeName(gene)) && Gene.getValue(insertedGene).equals(Gene.getValue(gene))) {
@@ -56,7 +56,8 @@ public class HoneyTreat extends Item
                 ((CompoundNBT) inbt).putInt("purity", purity);
                 addedToExistingGene = true;
             }
-        };
+        }
+        ;
 
         if (!addedToExistingGene) {
             CompoundNBT serializedGene = gene.serializeNBT();
@@ -77,7 +78,7 @@ public class HoneyTreat extends Item
 
     public static boolean hasBeeType(ItemStack stack) {
         ListNBT genes = getGenes(stack);
-        for (INBT inbt: genes) {
+        for (INBT inbt : genes) {
             ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
             BeeAttribute<?> existingAttribute = Gene.getAttribute(insertedGene);
             if (existingAttribute == null && !Gene.getAttributeName(insertedGene).isEmpty()) {
@@ -120,14 +121,15 @@ public class HoneyTreat extends Item
             ListNBT genes = getGenes(itemStack);
             if (!genes.isEmpty()) {
                 // Apply genes from honey treat
-                for (INBT inbt: genes) {
+                for (INBT inbt : genes) {
                     int purity = ((CompoundNBT) inbt).getInt("purity");
                     ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
                     if (ProductiveBees.rand.nextInt(100) <= purity) {
                         productiveBee.setAttributeValue(Gene.getAttribute(insertedGene), Gene.getValue(insertedGene));
                     }
                 }
-            } else {
+            }
+            else {
                 // Improve temper
                 int temper = productiveBee.getAttributeValue(BeeAttributes.TEMPER);
                 if (temper > 0) {
@@ -159,7 +161,8 @@ public class HoneyTreat extends Item
                         if (BeeAttributes.keyMap.containsKey(attribute)) {
                             ITextComponent translatedValue = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).mergeStyle(ColorUtil.getColor(value));
                             list.add((new TranslationTextComponent("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translatedValue)).mergeStyle(TextFormatting.DARK_GRAY).appendString(" (" + purity + "%)"));
-                        } else {
+                        }
+                        else {
                             list.add((new TranslationTextComponent("productivebees.information.attribute.type", Gene.getAttributeName(insertedGene))).mergeStyle(TextFormatting.DARK_GRAY).appendString(" (" + purity + "%)"));
                         }
                     });

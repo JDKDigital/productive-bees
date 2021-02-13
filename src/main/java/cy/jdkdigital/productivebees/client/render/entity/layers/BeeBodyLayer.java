@@ -40,15 +40,14 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
             if (entity instanceof ConfigurableBeeEntity && ((ConfigurableBeeEntity) entity).isTranslucent()) {
                 IVertexBuilder vertexBuilder = bufferIn.getBuffer(RenderType.getEntityTranslucent(this.getEntityTexture(entity)));
                 this.model.render(matrixStackIn, vertexBuilder, packedLightIn, LivingRenderer.getPackedOverlay(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
-            } else {
+            }
+            else {
                 renderCutoutModel(this.model, this.getEntityTexture(entity), matrixStackIn, bufferIn, packedLightIn, entity, 1.0F, 1.0F, 1.0F);
             }
 
             if (entity.getColor(0) != null) {
-                if (entity instanceof ConfigurableBeeEntity) {
-                    if (((ConfigurableBeeEntity) entity).hasBeeTexture()) {
-                        return;
-                    }
+                if (entity instanceof ConfigurableBeeEntity && ((ConfigurableBeeEntity) entity).hasBeeTexture()) {
+                    return;
                 }
 
                 float[] primaryColor = entity.getColor(0).getComponents(null);
@@ -73,7 +72,8 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
                         IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEyes(crystalsOverlayLocation));
                         this.model.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, color[0], color[1], color[2], 1.0F);
                     }
-                } else if (this.modelType.equals("default_foliage") || this.modelType.equals("default_shell")) {
+                }
+                else if (this.modelType.equals("default_foliage") || this.modelType.equals("default_shell")) {
                     float[] color = primaryColor;
                     if (entity instanceof ConfigurableBeeEntity) {
                         color = ((ConfigurableBeeEntity) entity).getTertiaryColor();

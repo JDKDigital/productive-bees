@@ -104,7 +104,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
                 // Move up a bit
                 for (int i = 1; i <= 3; i++) {
                     if (!world.isAirBlock(pos.up(i))) {
-                        pos = pos.up(i-1);
+                        pos = pos.up(i - 1);
                         break;
                     }
                 }
@@ -127,7 +127,8 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
                     newBee.setPosition(pos.getX(), pos.getY(), pos.getZ());
                     ((SolitaryNestTileEntity) tileEntity).tryEnterHive(newBee, false, world.getRandom().nextInt(599));
                 }
-            } else if (tileEntity instanceof SugarbagNestTileEntity) {
+            }
+            else if (tileEntity instanceof SugarbagNestTileEntity) {
                 ProductiveBees.LOGGER.debug("Spawned sugarbag nest at " + pos + " " + newState);
                 ConfigurableBeeEntity newBee = ModEntities.CONFIGURABLE_BEE.get().create(world.getWorld());
                 if (newBee != null) {

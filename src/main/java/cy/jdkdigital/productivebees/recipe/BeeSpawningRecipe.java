@@ -136,17 +136,17 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
 
                 List<Lazy<BeeIngredient>> output = new ArrayList<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                    i -> {
-                        BeeIngredient ing = BeeIngredient.read(buffer);
-                        output.add(Lazy.of(() -> ing));
-                    }
+                        i -> {
+                            BeeIngredient ing = BeeIngredient.read(buffer);
+                            output.add(Lazy.of(() -> ing));
+                        }
                 );
 
                 List<String> biomes = new ArrayList<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                    i -> {
-                        biomes.add(buffer.readString());
-                    }
+                        i -> {
+                            biomes.add(buffer.readString());
+                        }
                 );
 
                 String temperature = buffer.readString();
@@ -168,7 +168,8 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
                 for (Lazy<BeeIngredient> beeOutput : recipe.output) {
                     if (beeOutput.get() != null) {
                         beeOutput.get().write(buffer);
-                    } else {
+                    }
+                    else {
                         ProductiveBees.LOGGER.error("Bee spawning recipe output missing " + recipe.getId() + " - " + beeOutput);
                     }
                 }

@@ -39,7 +39,8 @@ public class BiomeModUpgradeItem extends UpgradeItem
             if (data.contains("biome")) {
                 String biome = data.getString("biome");
                 tooltip.add(new StringTextComponent(biome).mergeStyle(TextFormatting.GOLD));
-            } else {
+            }
+            else {
                 tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.unconfigured").mergeStyle(TextFormatting.WHITE));
             }
         }

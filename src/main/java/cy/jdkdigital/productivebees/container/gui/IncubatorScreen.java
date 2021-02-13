@@ -42,9 +42,9 @@ public class IncubatorScreen extends ContainerScreen<IncubatorContainer>
             int energyAmount = handler.getEnergyStored();
 
             // Energy level tooltip
-            if (isPointInRegion(- 5, 16, 6, 54, mouseX, mouseY)) {
+            if (isPointInRegion(-5, 16, 6, 54, mouseX, mouseY)) {
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
-                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level",  energyAmount + "FE").func_241878_f());
+                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level", energyAmount + "FE").func_241878_f());
 
                 renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
             }
@@ -52,7 +52,7 @@ public class IncubatorScreen extends ContainerScreen<IncubatorContainer>
 
         this.container.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
-                if (isPointInRegion(80-13, 17, 18, 18, mouseX, mouseY)) {
+                if (isPointInRegion(80 - 13, 17, 18, 18, mouseX, mouseY)) {
                     List<IReorderingProcessor> tooltipList = new ArrayList<>();
                     tooltipList.add(new TranslationTextComponent("productivebees.incubator.tooltip.treat_item").func_241878_f());
 
@@ -65,7 +65,7 @@ public class IncubatorScreen extends ContainerScreen<IncubatorContainer>
     @Override
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        
+
         assert minecraft != null;
 
         minecraft.getTextureManager().bindTexture(GUI_TEXTURE);
@@ -75,7 +75,7 @@ public class IncubatorScreen extends ContainerScreen<IncubatorContainer>
 
         // Draw progress
         int progress = (int) (this.container.tileEntity.recipeProgress * (24 / (float) this.container.tileEntity.getProcessingTime()));
-        blit(matrixStack, this.guiLeft + 77-13, this.guiTop + 35, 202, 52, progress + 1, 16);
+        blit(matrixStack, this.guiLeft + 77 - 13, this.guiTop + 35, 202, 52, progress + 1, 16);
 
         // Draw energy level
         this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {

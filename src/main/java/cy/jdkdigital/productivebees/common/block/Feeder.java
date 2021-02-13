@@ -78,7 +78,8 @@ public class Feeder extends SlabBlock
         if (state.get(HONEYLOGGED)) {
             world.setBlockState(pos, state.with(HONEYLOGGED, false).with(BlockStateProperties.WATERLOGGED, false), 3);
             return ModFluids.HONEY.get();
-        } else {
+        }
+        else {
             return super.pickupFluid(world, pos, state);
         }
     }
@@ -88,7 +89,7 @@ public class Feeder extends SlabBlock
     @Override
     public INamedContainerProvider getContainer(BlockState state, World world, BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
-        return tile instanceof INamedContainerProvider ? (INamedContainerProvider)tile : null;
+        return tile instanceof INamedContainerProvider ? (INamedContainerProvider) tile : null;
     }
 
     @SuppressWarnings("deprecation")
@@ -139,8 +140,6 @@ public class Feeder extends SlabBlock
     }
 
     public void openGui(ServerPlayerEntity player, FeederTileEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> {
-            packetBuffer.writeBlockPos(tileEntity.getPos());
-        });
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getPos()));
     }
 }

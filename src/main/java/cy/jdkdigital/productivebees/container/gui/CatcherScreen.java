@@ -52,7 +52,7 @@ public class CatcherScreen extends ContainerScreen<CatcherContainer>
     @Override
     protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        
+
         assert minecraft != null;
 
         minecraft.getTextureManager().bindTexture(GUI_TEXTURE);

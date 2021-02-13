@@ -53,7 +53,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
     @Override
     public boolean matches(IInventory inv, World worldIn) {
         if (inv instanceof BeeHelper.IdentifierInventory && ingredient.get() != null) {
-            String beeName = ((BeeHelper.IdentifierInventory)inv).getIdentifier();
+            String beeName = ((BeeHelper.IdentifierInventory) inv).getIdentifier();
             return beeName.equals(ingredient.get().getBeeType().toString());
         }
         if (ingredient.get() == null) {
@@ -67,7 +67,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
     public Map<ItemStack, IntArrayNBT> getRecipeOutputs() {
         Map<ItemStack, IntArrayNBT> output = super.getRecipeOutputs();
 
-        for(Map.Entry<ItemStack, IntArrayNBT> entry: output.entrySet()) {
+        for (Map.Entry<ItemStack, IntArrayNBT> entry : output.entrySet()) {
             if (ingredient.get().isConfigurable()) {
                 if (entry.getKey().getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
                     BeeCreator.setTag(ingredient.get().getBeeType().toString(), entry.getKey());
@@ -138,7 +138,8 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
                 Ingredient produce;
                 if (JSONUtils.isJsonArray(jsonObject, ingredientKey)) {
                     produce = Ingredient.deserialize(JSONUtils.getJsonArray(jsonObject, ingredientKey));
-                } else {
+                }
+                else {
                     produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, ingredientKey));
                 }
 
@@ -158,7 +159,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
                 BeeIngredient ingredient = BeeIngredient.read(buffer);
                 Map<Ingredient, IntArrayNBT> itemOutput = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                    i -> itemOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
+                        i -> itemOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
                 return this.factory.create(id, Lazy.of(() -> ingredient), itemOutput);
@@ -172,7 +173,8 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
             try {
                 if (recipe.ingredient.get() != null) {
                     recipe.ingredient.get().write(buffer);
-                } else {
+                }
+                else {
                     ProductiveBees.LOGGER.error("Bee produce recipe ingredient missing " + recipe.getId() + " - " + recipe.ingredient);
                 }
                 buffer.writeInt(recipe.itemOutput.size());

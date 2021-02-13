@@ -29,8 +29,7 @@ public class BeeReloadListener extends JsonReloadListener
     public static final BeeReloadListener INSTANCE = new BeeReloadListener();
     private Map<String, CompoundNBT> BEE_DATA = new HashMap<>();
 
-    public BeeReloadListener()
-    {
+    public BeeReloadListener() {
         super(GSON, "productivebees");
     }
 
@@ -50,7 +49,7 @@ public class BeeReloadListener extends JsonReloadListener
                 throw e;
             }
 
-            ResourceLocation simpleId = id.getPath().contains("/") ? new ResourceLocation(id.getNamespace(), id.getPath().substring(id.getPath().lastIndexOf("/")+1)) : id;
+            ResourceLocation simpleId = id.getPath().contains("/") ? new ResourceLocation(id.getNamespace(), id.getPath().substring(id.getPath().lastIndexOf("/") + 1)) : id;
             CompoundNBT nbt = BeeCreator.create(simpleId, entry.getValue().getAsJsonObject());
 
             BEE_DATA.remove(simpleId.toString());

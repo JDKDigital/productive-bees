@@ -48,11 +48,11 @@ public class OreSolitaryNestFeature extends SolitaryNestFeature
                 // Find air
                 int d = 3;
                 List<BlockPos> blockList = BlockPos.getAllInBox(blockPos.add(-d, -d, -d), blockPos.add(d, d, d)).map(BlockPos::toImmutable).collect(Collectors.toList());
-                for (BlockPos pos: blockList) {
+                for (BlockPos pos : blockList) {
                     if (world.isAirBlock(pos)) {
                         // Find block around that air pos
                         List<BlockPos> aroundAir = BlockPos.getAllInBox(pos.add(-1, -1, -1), pos.add(1, 1, 1)).map(BlockPos::toImmutable).collect(Collectors.toList());
-                        for (BlockPos airPos: aroundAir) {
+                        for (BlockPos airPos : aroundAir) {
                             if (matcher.test(world.getBlockState(airPos))) {
                                 placeNest(world, blockPos, featureConfig);
                                 return true;

@@ -27,7 +27,7 @@ public class InactiveDragonEgg extends DragonEggBlock
         ItemStack heldItem = player.getHeldItem(hand);
         if (!world.isRemote && heldItem.getItem() == Items.DRAGON_BREATH) {
             BlockPos posUp = pos.up(2);
-            for(int i = 0; i < 42; ++i) {
+            for (int i = 0; i < 42; ++i) {
                 double rnd = world.rand.nextDouble();
                 float xSpeed = (world.rand.nextFloat() - 0.5F) * 0.2F;
                 float ySpeed = (world.rand.nextFloat() - 0.5F) * 0.2F;

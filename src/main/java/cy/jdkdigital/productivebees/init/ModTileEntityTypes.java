@@ -127,7 +127,7 @@ public class ModTileEntityTypes
 
     private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String name, Supplier<T> factory, Supplier<Block> block) {
         return TILE_ENTITY_TYPES.register(name, () ->
-            TileEntityType.Builder.create(factory, block.get()).build(null)
+                TileEntityType.Builder.create(factory, block.get()).build(null)
         );
     }
 }

@@ -98,7 +98,7 @@ public class ProductiveBeesConfig
 
             incubatorProcessingTime = builder
                     .comment("How many ticks it takes for process a recipe in the incubator. Default 3600.")
-                    .defineInRange("incubatorProcessingTime", 3600  , 20, Integer.MAX_VALUE);
+                    .defineInRange("incubatorProcessingTime", 3600, 20, Integer.MAX_VALUE);
 
             incubatorPowerUse = builder
                     .comment("How much FE to use per tick for an incubator when processing an item. Default 10.")

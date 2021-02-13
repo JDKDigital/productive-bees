@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.client.particle;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.client.particle.DripParticle;
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
@@ -14,7 +15,7 @@ public class FallingNectarParticle extends DripParticle
 {
     public FallingNectarParticle(ClientWorld world, double x, double y, double z, Fluid fluid) {
         super(world, x, y, z, fluid);
-        this.maxAge = (int) (16.0D / (Math.random() * 0.8D + 0.2D));
+        this.maxAge = (int) (16.0D / (ProductiveBees.rand.nextDouble() * 0.8D + 0.2D));
         this.particleGravity = 0.007F;
     }
 
@@ -40,7 +41,8 @@ public class FallingNectarParticle extends DripParticle
             float[] colors = typeIn.getColor();
             if (colors != null) {
                 dripparticle.setColor(colors[0], colors[1], colors[2]);
-            } else {
+            }
+            else {
                 dripparticle.setColor(0.92F, 0.782F, 0.72F);
             }
 

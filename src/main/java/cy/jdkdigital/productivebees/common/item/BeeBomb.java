@@ -80,7 +80,8 @@ public class BeeBomb extends Item
                     String beeType = ((CompoundNBT) bee).getString("entity");
                     list.add(new StringTextComponent(beeType).mergeStyle(TextFormatting.GOLD));
                 }
-            } else {
+            }
+            else {
                 list.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE));
             }
         }

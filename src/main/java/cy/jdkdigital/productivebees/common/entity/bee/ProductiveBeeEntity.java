@@ -210,8 +210,8 @@ public class ProductiveBeeEntity extends BeeEntity
 
         return (
                 isFlowerBlock(flowerBlock) ||
-                (flowerBlock instanceof Feeder && isValidFeeder(world.getTileEntity(pos), ProductiveBeeEntity.this::isFlowerBlock))
-            );
+                        (flowerBlock instanceof Feeder && isValidFeeder(world.getTileEntity(pos), ProductiveBeeEntity.this::isFlowerBlock))
+        );
     }
 
     public static boolean isValidFeeder(TileEntity tile, Predicate<Block> validator) {
@@ -239,7 +239,8 @@ public class ProductiveBeeEntity extends BeeEntity
                             (this.world.isRaining() && !canOperateDuringRain());
 
             return shouldReturnToHive && !this.isHiveNearFire();
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -378,7 +379,8 @@ public class ProductiveBeeEntity extends BeeEntity
             BlockPos pos = this.getPosition();
             if (world.isAirBlock(pos)) {
                 this.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
-            } else if (world.isAirBlock(pos.down())) {
+            }
+            else if (world.isAirBlock(pos.down())) {
                 pos = pos.down();
                 this.setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
             }
@@ -502,12 +504,14 @@ public class ProductiveBeeEntity extends BeeEntity
         }
 
         private MutableBoundingBox box = null;
+
         private Optional<BlockPos> findFlower(Predicate<BlockPos> predicate, int distance) {
             BlockPos blockpos = ProductiveBeeEntity.this.getPosition();
-            BlockPos.Mutable mutableBlockPos = new BlockPos.Mutable(0,0,0);
+            BlockPos.Mutable mutableBlockPos = new BlockPos.Mutable(0, 0, 0);
 
-            if (box == null)
-                box = MutableBoundingBox.createProper(blockpos.getX() + distance , blockpos.getY() + distance , blockpos.getZ() + distance, blockpos.getX() - distance, blockpos.getY() - distance, blockpos.getZ() - distance);
+            if (box == null) {
+                box = MutableBoundingBox.createProper(blockpos.getX() + distance, blockpos.getY() + distance, blockpos.getZ() + distance, blockpos.getX() - distance, blockpos.getY() - distance, blockpos.getZ() - distance);
+            }
             else {
                 box.maxX = blockpos.getX() + distance;
                 box.maxY = blockpos.getY() + distance;
@@ -519,7 +523,7 @@ public class ProductiveBeeEntity extends BeeEntity
             AtomicReference<Double> lastDistance = new AtomicReference<>(100.0D);
             BlockPos.getAllInBox(box).filter(predicate).forEach(blockPos -> {
                 double currDistance = blockpos.distanceSq(blockPos);
-                if (currDistance < lastDistance.get()){
+                if (currDistance < lastDistance.get()) {
                     lastDistance.set(currDistance);
                     mutableBlockPos.setPos(blockPos);
                 }
@@ -648,13 +652,16 @@ public class ProductiveBeeEntity extends BeeEntity
         }
     }
 
-    public class EmptyPollinateGoal extends PollinateGoal {
+    public class EmptyPollinateGoal extends PollinateGoal
+    {
         @Override
         public boolean shouldExecute() {
             return false;
         }
     }
-    public class EmptyFindFlowerGoal extends FindFlowerGoal {
+
+    public class EmptyFindFlowerGoal extends FindFlowerGoal
+    {
         @Override
         public boolean shouldExecute() {
             return false;

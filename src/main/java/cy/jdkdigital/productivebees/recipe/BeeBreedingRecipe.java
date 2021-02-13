@@ -48,7 +48,8 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                     if (!parentName.equals(beeName1) && !parentName.equals(beeName2)) {
                         return false;
                     }
-                } else {
+                }
+                else {
                     ProductiveBees.LOGGER.warn("Bee not found in breeding recipe " + parent);
                     return false;
                 }
@@ -113,7 +114,8 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                 if (el.isJsonObject()) {
                     String child = JSONUtils.getString(el, "offspring");
                     children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), JSONUtils.getInt(el, "weight"));
-                } else {
+                }
+                else {
                     String child = el.getAsString();
                     children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), 1);
                 }
@@ -163,7 +165,8 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                     if (child.get() != null) {
                         child.get().write(buffer);
                         buffer.writeInt(weight);
-                    } else {
+                    }
+                    else {
                         ProductiveBees.LOGGER.error("Bee breeding recipe child missing " + recipe.getId() + " - " + child);
                     }
                 });

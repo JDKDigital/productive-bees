@@ -38,7 +38,7 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
         // Honeycombs must match the defined number in the prototype recipe and have the same NBT data
         CompoundNBT type = null;
         if (stacks.size() == count) {
-            for (ItemStack itemstack: stacks) {
+            for (ItemStack itemstack : stacks) {
                 if (!itemstack.isEmpty() && itemstack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get()) && itemstack.hasTag()) {
                     if (type == null) {
                         type = itemstack.getTag();
@@ -46,7 +46,8 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
                     if (type != null && !type.equals(itemstack.getTag())) {
                         return false;
                     }
-                } else {
+                }
+                else {
                     return false;
                 }
             }

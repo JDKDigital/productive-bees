@@ -17,14 +17,18 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrigger.Instance>
 {
     private static final ResourceLocation ID = new ResourceLocation(ProductiveBees.MODID, "honeylogged");
 
+    @Nonnull
+    @Override
     public ResourceLocation getId() {
         return ID;
     }
@@ -33,17 +37,16 @@ public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrig
     private static Block getBlockCriteria(JsonObject jsonObject) {
         if (jsonObject.has("block")) {
             ResourceLocation resourcelocation = new ResourceLocation(JSONUtils.getString(jsonObject, "block"));
-            return Registry.BLOCK.getOptional(resourcelocation).orElseThrow(() -> {
-                return new JsonSyntaxException("Unknown block type '" + resourcelocation + "'");
-            });
-        } else {
+            return ForgeRegistries.BLOCKS.getValue(resourcelocation);
+        }
+        else {
             return null;
         }
     }
 
     public void trigger(ServerPlayerEntity player, BlockPos pos, ItemStack item) {
         BlockState blockstate = player.getServerWorld().getBlockState(pos);
-        this.triggerListeners(player, (trigger) -> trigger.test(blockstate));
+        this.triggerListeners(player, trigger -> trigger.test(blockstate));
     }
 
     @Nonnull
@@ -71,10 +74,12 @@ public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrig
             return state.hasProperty(Feeder.HONEYLOGGED) && state.get(Feeder.HONEYLOGGED);
         }
 
+        @Nonnull
+        @Override
         public JsonObject serialize(ConditionArraySerializer serializer) {
             JsonObject jsonobject = super.serialize(serializer);
             if (this.block != null) {
-                jsonobject.addProperty("block", Registry.BLOCK.getKey(this.block).toString());
+                jsonobject.addProperty("block", Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(this.block)).toString());
             }
 
             return jsonobject;

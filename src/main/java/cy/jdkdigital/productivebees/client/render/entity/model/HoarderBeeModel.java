@@ -9,7 +9,7 @@ public class HoarderBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
 {
     protected final ModelRenderer abdomen;
 
-    public HoarderBeeModel()  {
+    public HoarderBeeModel() {
         super();
 
         abdomen = new ModelRenderer(this);
@@ -23,13 +23,14 @@ public class HoarderBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
         body.addChild(abdomen);
     }
 
+    @Override
     public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         assert entity instanceof HoarderBeeEntity;
 
         HoarderBeeEntity beeEntity = (HoarderBeeEntity) entity;
 
-        float time = ageInTicks - (float)beeEntity.ticksExisted;
+        float time = ageInTicks - (float) beeEntity.ticksExisted;
         float peekAmount = (0.5F + beeEntity.getClientPeekAmount(time)) * 3.1415927F;
         float lvt_9_1_ = -1.0F + MathHelper.sin(peekAmount);
 
@@ -37,7 +38,8 @@ public class HoarderBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
         stinger.setRotationPoint(0.0F, 0.0F, 3.0F + MathHelper.sin(peekAmount) * 3.0F);
         if (beeEntity.getClientPeekAmount(time) > 0.3F) {
             abdomen.rotateAngleZ = lvt_9_1_ * lvt_9_1_ * lvt_9_1_ * lvt_9_1_ * 3.1415927F * 0.125F;
-        } else {
+        }
+        else {
             abdomen.rotateAngleZ = 0.0F;
         }
         stinger.rotateAngleZ = abdomen.rotateAngleZ;

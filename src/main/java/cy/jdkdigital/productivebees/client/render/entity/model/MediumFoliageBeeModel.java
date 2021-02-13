@@ -27,5 +27,6 @@ public class MediumFoliageBeeModel extends MediumBeeModel
     }
 
     @Override
-    protected void addSantaHat() {}
+    protected void addSantaHat() {
+    }
 }
