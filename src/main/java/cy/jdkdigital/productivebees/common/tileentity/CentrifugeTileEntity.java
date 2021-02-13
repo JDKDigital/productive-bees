@@ -300,7 +300,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
         // Chance to get a type gene
         if (ProductiveBees.rand.nextDouble() <= chance) {
-            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type")));
+            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type"), ProductiveBees.rand.nextInt(10) + 5));
         }
 
         invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);

@@ -45,6 +45,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final ResourceLocation CATEGORY_BEE_SPAWNING_BIG_UID = new ResourceLocation(ProductiveBees.MODID, "bee_spawning_big");
     public static final ResourceLocation CATEGORY_CENTRIFUGE_UID = new ResourceLocation(ProductiveBees.MODID, "centrifuge");
     public static final ResourceLocation CATEGORY_BEE_FLOWERING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_flowering");
+    public static final ResourceLocation CATEGORY_INCUBATION_UID = new ResourceLocation(ProductiveBees.MODID, "incubation");
 
     public static final IIngredientType<BeeIngredient> BEE_INGREDIENT = () -> BeeIngredient.class;
 
@@ -65,6 +66,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.POWERED_CENTRIFUGE.get()), CATEGORY_CENTRIFUGE_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.COARSE_DIRT_NEST.get()), CATEGORY_BEE_SPAWNING_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.OAK_WOOD_NEST.get()), CATEGORY_BEE_SPAWNING_BIG_UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.INCUBATOR.get()), CATEGORY_INCUBATION_UID);
     }
 
     @Override
@@ -79,6 +81,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCategories(new BeeSpawningRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeBigCategory(guiHelper));
         registration.addRecipeCategories(new BeeFloweringRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new IncubationRecipeCategory(guiHelper));
     }
 
     @Override
@@ -138,6 +141,10 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Bee flowering requirements
         registration.addRecipes(BeeFloweringRecipeCategory.getFlowersRecipes(beeList), CATEGORY_BEE_FLOWERING_UID);
 
+        // Incubation recipes
+        registration.addRecipes(IncubationRecipeCategory.getRecipes(beeList), CATEGORY_INCUBATION_UID);
+
+        // Bee descriptions
         List<String> itemInfos = Arrays.asList("inactive_dragon_egg", "stone_nest", "sand_nest", "snow_nest", "gravel_nest", "coarse_dirt_nest", "oak_wood_nest", "spruce_wood_nest", "acacia_wood_nest", "dark_oak_wood_nest", "jungle_wood_nest", "birch_wood_nest", "end_stone_nest", "obsidian_nest", "glowstone_nest", "nether_brick_nest", "nether_quartz_nest");
         for (String itemName: itemInfos) {
             Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, itemName));
