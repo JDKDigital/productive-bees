@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.item;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.ColorUtil;
@@ -34,6 +35,12 @@ public class HoneyTreat extends Item
 
     public HoneyTreat(Properties properties) {
         super(properties);
+    }
+
+    public static ItemStack getTypeStack(String beeType, int value) {
+        ItemStack treat = new ItemStack(ModItems.HONEY_TREAT.get());
+        addGene(treat, Gene.getStack(beeType, value));
+        return treat;
     }
 
     public static void addGene(ItemStack stack, ItemStack gene) {

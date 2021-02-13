@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.item.SpawnEgg;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -38,10 +39,7 @@ public class ModItemGroups
                 String beeType = entry.getKey();
 
                 // Add spawn egg item
-                ItemStack egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
-                setTag(beeType, egg);
-
-                items.add(egg);
+                items.add(getSpawnEgg(beeType));
 
                 // Add comb item
                 if (entry.getValue().getBoolean("createComb")) {
@@ -64,6 +62,12 @@ public class ModItemGroups
         public static void setTag(String type, ItemStack stack) {
             CompoundNBT tag = stack.getOrCreateChildTag("EntityTag");
             tag.putString("type", type);
+        }
+
+        public static ItemStack getSpawnEgg(String beeType) {
+            ItemStack egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
+            setTag(beeType, egg);
+            return egg;
         }
     }
 
