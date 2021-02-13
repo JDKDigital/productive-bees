@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.init;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.SpawnEgg;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -38,35 +39,24 @@ public class ModItemGroups
                 String beeType = entry.getKey();
 
                 // Add spawn egg item
-                items.add(getSpawnEgg(beeType));
+                items.add(BeeCreator.getSpawnEgg(beeType));
 
                 // Add comb item
                 if (entry.getValue().getBoolean("createComb")) {
                     ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                    setTag(beeType, comb);
+                    BeeCreator.setTag(beeType, comb);
 
                     items.add(comb);
 
                     // Add comb block
                     ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-                    setTag(beeType, combBlock);
+                    BeeCreator.setTag(beeType, combBlock);
 
                     items.add(combBlock);
                 }
             }
 
             super.fill(items);
-        }
-
-        public static void setTag(String type, ItemStack stack) {
-            CompoundNBT tag = stack.getOrCreateChildTag("EntityTag");
-            tag.putString("type", type);
-        }
-
-        public static ItemStack getSpawnEgg(String beeType) {
-            ItemStack egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
-            setTag(beeType, egg);
-            return egg;
         }
     }
 }

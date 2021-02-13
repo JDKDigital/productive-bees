@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -69,7 +70,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
         for(Map.Entry<ItemStack, IntArrayNBT> entry: output.entrySet()) {
             if (ingredient.get().isConfigurable()) {
                 if (entry.getKey().getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
-                    ModItemGroups.ModItemGroup.setTag(ingredient.get().getBeeType().toString(), entry.getKey());
+                    BeeCreator.setTag(ingredient.get().getBeeType().toString(), entry.getKey());
                 }
             }
         }

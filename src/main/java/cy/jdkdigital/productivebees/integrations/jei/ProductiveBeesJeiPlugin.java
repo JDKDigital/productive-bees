@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientHe
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientRenderer;
 import cy.jdkdigital.productivebees.recipe.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
@@ -165,7 +166,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
             // Add comb item
             ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-            ModItemGroups.ModItemGroup.setTag(beeType, comb);
+            BeeCreator.setTag(beeType, comb);
             NonNullList<Ingredient> combInput = NonNullList.create();
             for (int i = 0; i < count; i++) {
                 combInput.add(Ingredient.fromStacks(comb));
@@ -173,7 +174,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
             // Add comb block
             ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-            ModItemGroups.ModItemGroup.setTag(beeType, combBlock);
+            BeeCreator.setTag(beeType, combBlock);
             NonNullList<Ingredient> combBlockInput = NonNullList.create();
             combBlockInput.add(Ingredient.fromStacks(combBlock));
 

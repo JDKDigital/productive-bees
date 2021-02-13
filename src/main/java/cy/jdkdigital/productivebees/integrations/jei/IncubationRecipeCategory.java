@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.recipe.IncubationRecipe;
 import cy.jdkdigital.productivebees.setup.ClientProxy;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -96,8 +97,8 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
     public static List<IncubationRecipe> getRecipes(Map<String, BeeIngredient> beeList) {
         List<IncubationRecipe> recipes = new ArrayList<>();
 
-        BeeEntity bee = EntityType.BEE.create(ProductiveBees.proxy.getClientWorld());
-        BeeEntity baBee = EntityType.BEE.create(ProductiveBees.proxy.getClientWorld());
+        BeeEntity bee = EntityType.BEE.create(ProductiveBees.proxy.getWorld());
+        BeeEntity baBee = EntityType.BEE.create(ProductiveBees.proxy.getWorld());
         if (bee != null && baBee != null) {
             ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
             ItemStack babeeCage = cage.copy();
@@ -110,7 +111,7 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
         }
 
         for(Map.Entry<String, BeeIngredient> entry: beeList.entrySet()) {
-            Ingredient spawnEgg = NBTIngredient.fromStacks(ModItemGroups.ModItemGroup.getSpawnEgg(entry.getKey()));
+            Ingredient spawnEgg = NBTIngredient.fromStacks(BeeCreator.getSpawnEgg(entry.getKey()));
             Ingredient treat = NBTIngredient.fromStacks(HoneyTreat.getTypeStack(entry.getKey(), 100));
             recipes.add(new IncubationRecipe(new ResourceLocation(entry.getKey() + "_incubation"), Ingredient.fromItems(Items.EGG), treat, spawnEgg));
         }

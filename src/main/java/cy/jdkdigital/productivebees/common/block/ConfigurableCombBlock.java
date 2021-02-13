@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.block;
 import cy.jdkdigital.productivebees.common.tileentity.CombBlockTileEntity;
 import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -74,7 +75,7 @@ public class ConfigurableCombBlock extends CombBlock
         if (tileEntity instanceof CombBlockTileEntity) {
             String type = ((CombBlockTileEntity) tileEntity).getCombType();
             if (type != null) {
-                ModItemGroups.ModItemGroup.setTag(type, stack);
+                BeeCreator.setTag(type, stack);
             }
         }
         return stack;

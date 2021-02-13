@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.IInventory;
@@ -135,7 +136,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
             String type = JSONUtils.getString(json, "comb_type", "");
             if (!type.isEmpty()) {
                 ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                ModItemGroups.ModItemGroup.setTag(type, stack);
+                BeeCreator.setTag(type, stack);
                 ingredient = Ingredient.fromStacks(stack);
             }
 

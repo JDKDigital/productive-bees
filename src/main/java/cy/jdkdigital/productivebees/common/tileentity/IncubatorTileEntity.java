@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.container.IncubatorContainer;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -152,7 +153,7 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
                             BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(beeName).get();
                             if (beeIngredient.isConfigurable()) {
                                 egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
-                                ModItemGroups.ModItemGroup.setTag(beeName, egg);
+                                BeeCreator.setTag(beeName, egg);
                             } else {
                                 Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_" + beeIngredient.getBeeType().getPath()));
                                 egg = new ItemStack(item);

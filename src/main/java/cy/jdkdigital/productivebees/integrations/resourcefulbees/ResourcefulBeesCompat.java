@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.init.ModItemGroups;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.recipe.ConfigurableHoneycombRecipe;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.passive.BeeEntity;
@@ -91,7 +92,7 @@ public class ResourcefulBeesCompat
 
     private static IRecipe<?> centrifugeRecipe(RecipeManager recipeManager, ResourceLocation beeType) {
         ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-        ModItemGroups.ModItemGroup.setTag(beeType.toString(), comb);
+        BeeCreator.setTag(beeType.toString(), comb);
 
         IItemHandlerModifiable inputHandler = new InventoryHandlerHelper.ItemHandler(2);
         inputHandler.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, comb);
@@ -103,10 +104,10 @@ public class ResourcefulBeesCompat
 
     private static IRecipe<?> centrifugeHoneyCombBlockRecipe(RecipeManager recipeManager, ResourceLocation beeType) {
         ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-        ModItemGroups.ModItemGroup.setTag(beeType.toString(), combBlock);
+        BeeCreator.setTag(beeType.toString(), combBlock);
 
         ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-        ModItemGroups.ModItemGroup.setTag(beeType.toString(), comb);
+        BeeCreator.setTag(beeType.toString(), comb);
 
         IItemHandlerModifiable inputHandler = new InventoryHandlerHelper.ItemHandler(2);
         inputHandler.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, comb);

@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.BeeEffect;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -310,7 +311,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
         ItemStack egg = super.getPickedResult(target);
-        ModItemGroups.ModItemGroup.setTag(getBeeType(), egg);
+        BeeCreator.setTag(getBeeType(), egg);
         return egg;
     }
 

@@ -2,6 +2,8 @@ package cy.jdkdigital.productivebees.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import cy.jdkdigital.productivebees.init.ModItems;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
@@ -101,5 +103,16 @@ public class BeeCreator
             sb.append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).append(" ");
         }
         return sb.toString().trim();
+    }
+
+    public static void setTag(String type, ItemStack stack) {
+        CompoundNBT tag = stack.getOrCreateChildTag("EntityTag");
+        tag.putString("type", type);
+    }
+
+    public static ItemStack getSpawnEgg(String beeType) {
+        ItemStack egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
+        BeeCreator.setTag(beeType, egg);
+        return egg;
     }
 }
