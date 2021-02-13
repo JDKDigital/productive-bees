@@ -23,7 +23,6 @@ eclipse
 run
 gen
 src/generated
-mods
 
 # Files from Forge MDK
 changelog.txt
