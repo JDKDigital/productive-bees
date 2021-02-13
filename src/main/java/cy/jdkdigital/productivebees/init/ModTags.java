@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import jdk.internal.jline.internal.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -10,6 +9,8 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nullable;
 
 public class ModTags
 {

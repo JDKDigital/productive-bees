@@ -32,7 +32,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class Feeder extends SlabBlock implements ITileEntityProvider
+public class Feeder extends SlabBlock
 {
     public static final BooleanProperty HONEYLOGGED = BooleanProperty.create("honeylogged");
 
@@ -50,7 +50,6 @@ public class Feeder extends SlabBlock implements ITileEntityProvider
     public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
         return state.get(TYPE) != SlabType.DOUBLE && (!state.get(BlockStateProperties.WATERLOGGED) && (fluidIn == Fluids.WATER || fluidIn.isEquivalentTo(ModFluids.HONEY.get())));
     }
-
 
     @Override
     public boolean receiveFluid(IWorld world, BlockPos pos, BlockState state, FluidState fluidState) {
