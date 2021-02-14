@@ -14,19 +14,16 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecipe>
@@ -106,7 +103,6 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         int startY = 26;
         int offset = ingredients.getInputs(VanillaTypes.ITEM).size();
         List<List<ItemStack>> itemOutputs = ingredients.getOutputs(VanillaTypes.ITEM);
-        List<String> chances = new ArrayList<>();
         if (itemOutputs.size() > 0) {
             IntStream.range(0, itemOutputs.size()).forEach((i) -> {
                 itemStacks.init(i + offset, false, startX + (i * 18), startY + ((int) Math.floor(((float) i) / 3.0F) * 18));
@@ -123,6 +119,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         }
         fluidStacks.set(ingredients);
 
+        List<String> chances = new ArrayList<>();
         recipe.getRecipeOutputs().forEach((stack, value) -> {
             int chance = value.get(2).getInt();
             if (chance < 100) {
@@ -134,35 +131,15 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
             chances.add(fluid.getSecond() + "mb");
         }
 
-        ProductiveBees.LOGGER.info("chances size: " + chances.size());
-
         itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-            ProductiveBees.LOGGER.info("slotIndex: " + slotIndex);
-            if (!chances.isEmpty() && chances.size() > slotIndex) {
-                tooltip.add(new StringTextComponent(chances.get(slotIndex)));
+            if (!chances.isEmpty() && chances.size() >= slotIndex) {
+                tooltip.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.chance", chances.get(slotIndex - 1)));
+            }
+        });
+        fluidStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
+            if (!chances.isEmpty() && chances.size() >= slotIndex) {
+                tooltip.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.amount", chances.get(slotIndex - 1)));
             }
         });
     }
-
-//    @Override
-//    public void draw(CentrifugeRecipe recipe, double mouseX, double mouseY) {
-//        FontRenderer font = Minecraft.getInstance().fontRenderer;
-//
-//        AtomicInteger i = new AtomicInteger();
-//        recipe.getRecipeOutputs().forEach((stack, value) -> {
-//            int chance = value.get(2).getInt();
-//            if (chance < 100) {
-//                String text = chance < 1 ? "<1%" : chance + "%";
-//                font.drawString(text, 68 + 19 * i.get(), 27 + 18, 16777215);
-//            }
-//            i.getAndIncrement();
-//        });
-//
-//        Pair<Fluid, Integer> fluid = recipe.getFluidOutputs();
-//        if (fluid != null) {
-//            String text = fluid.getSecond() + "mb";
-//            font.drawString(text, 68 + 19 * i.get(), 27 + 18, 16777215);
-//            i.getAndIncrement();
-//        }
-//    }
 }

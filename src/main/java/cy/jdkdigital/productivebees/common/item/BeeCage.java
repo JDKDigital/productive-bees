@@ -20,7 +20,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -73,9 +72,12 @@ public class BeeCage extends Item
 
     protected void postItemUse(ItemUseContext context) {
         // Delete stack
-        context.getPlayer().inventory.deleteStack(context.getItem());
+        if (context.getPlayer() != null) {
+            context.getPlayer().inventory.deleteStack(context.getItem());
+        }
     }
 
+    @Nonnull
     @Override
     public ActionResultType itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity targetIn, Hand hand) {
         if (targetIn.getEntityWorld().isRemote() || (!(targetIn instanceof BeeEntity) || !targetIn.isAlive()) || (isFilled(itemStack))) {
@@ -110,7 +112,7 @@ public class BeeCage extends Item
         return ActionResultType.SUCCESS;
     }
 
-    public static ItemStack captureEntity(BeeEntity target, ItemStack cageStack) {
+    public static void captureEntity(BeeEntity target, ItemStack cageStack) {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("entity", EntityType.getKey(target.getType()).toString());
         if (target.hasCustomName()) {
@@ -132,8 +134,6 @@ public class BeeCage extends Item
         nbt.putString("mod", modName);
 
         cageStack.setTag(nbt);
-
-        return cageStack;
     }
 
     @Nullable
