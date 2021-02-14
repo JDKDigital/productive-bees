@@ -1,9 +1,7 @@
 package cy.jdkdigital.productivebees.common.item;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
@@ -17,13 +15,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;

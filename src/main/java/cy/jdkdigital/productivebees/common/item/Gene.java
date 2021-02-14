@@ -4,7 +4,6 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
-import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;

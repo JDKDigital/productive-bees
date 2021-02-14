@@ -13,8 +13,6 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
@@ -25,7 +23,6 @@ import net.minecraftforge.fluids.FluidStack;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecipe>

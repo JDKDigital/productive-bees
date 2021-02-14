@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.item;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import net.minecraft.block.BeehiveBlock;

@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.item.SpawnEgg;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
