@@ -10,12 +10,12 @@
         },
         {
             "type": "crafting",
-            "recipe": "productivebees:upgrade_base",
+            "recipe": "productivebees:upgrades/base",
             "text": "The base of all the other upgrades."
         },
         {
             "type": "crafting",
-            "recipe": "productivebees:upgrade_babee",
+            "recipe": "productivebees:upgrades/breeding",
             "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l), $(l:blocks/catcher)Catcher$(/l)."
         },
         {
@@ -24,7 +24,7 @@
         },
         {
             "type": "crafting",
-            "recipe": "productivebees:upgrade_productivity",
+            "recipe": "productivebees:upgrades/productivity",
             "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l)."
         },
         {
@@ -33,7 +33,7 @@
         },
         {
             "type": "crafting",
-            "recipe": "productivebees:upgrade_time",
+            "recipe": "productivebees:upgrades/time",
             "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l), $(l:blocks/centrifuge)Centrifuge$(/l), $(l:blocks/incubator)Incubator$(/l)."
         },
         {
@@ -42,7 +42,7 @@
         },
         {
             "type": "crafting",
-            "recipe": "productivebees:upgrade_range",
+            "recipe": "productivebees:upgrades/range",
             "text": "Usable in: $(l:blocks/catcher)Catcher$(/l)."
         },
         {
@@ -51,7 +51,7 @@
         },
         {
             "type": "crafting",
-            "recipe": "productivebees:upgrade_comb_block",
+            "recipe": "productivebees:upgrades/comb_block",
             "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l)."
         },
         {
@@ -60,7 +60,7 @@
         },
         {
             "type": "crafting",
-            "recipe": "productivebees:upgrade_anti_teleport",
+            "recipe": "productivebees:upgrades/anti_teleport",
             "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l)."
         },
         {

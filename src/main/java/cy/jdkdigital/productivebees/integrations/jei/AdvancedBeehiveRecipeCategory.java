@@ -103,13 +103,4 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
 
         itemStacks.set(ingredients);
     }
-
-    @Override
-    public void draw(AdvancedBeehiveRecipe recipe, double mouseX, double mouseY) {
-//        FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-//        DecimalFormat decimalFormat = new DecimalFormat("##%");
-//        String productionChanceString = decimalFormat.format(recipe.chance);
-//
-//        fontRenderer.drawString(productionChanceString, 38, 46, 0xff808080);
-    }
 }

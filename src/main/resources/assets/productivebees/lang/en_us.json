@@ -473,6 +473,8 @@
     "productivebees.screen.energy_level": "Energy: %s",
     "productivebees.screen.empty": "Empty",
     "productivebees.centrifuge.tooltip.input_item": "Accepts bottles or any item with a fluid inventory like buckets or tanks.",
+    "productivebees.centrifuge.tooltip.chance": "Chance: %s",
+    "productivebees.centrifuge.tooltip.amount": "Amount: %s",
     "productivebees.ingredient.description.dye_bee": "Brings home more flowery bits than just nectar.",
     "productivebees.ingredient.description.lumber_bee": "Has a healthy obsession with wood.",
     "productivebees.ingredient.description.quarry_bee": "Has a healthy obsession with stone, sand and gravel.",
