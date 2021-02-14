@@ -124,8 +124,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                             recipeProgress = 0;
                             this.markDirty();
                         }
-                    }
-                    else {
+                    } else {
                         CentrifugeRecipe recipe = getRecipe(invHandler);
                         if (canProcessRecipe(recipe, invHandler)) {
                             world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
@@ -138,8 +137,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     this.recipeProgress = 0;
                     world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, false));
                 }
@@ -284,14 +282,12 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             return;
         }
 
-        List<String> attributes = new ArrayList<String>()
-        {{
-            add("productivity");
-            add("weather_tolerance");
-            add("behavior");
-            add("endurance");
-            add("temper");
-        }};
+        List<String> attributes = new ArrayList<>();
+        attributes.add("productivity");
+        attributes.add("weather_tolerance");
+        attributes.add("behavior");
+        attributes.add("endurance");
+        attributes.add("temper");
 
         double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.geneExtractChance.get();
         for (String attributeName : attributes) {
