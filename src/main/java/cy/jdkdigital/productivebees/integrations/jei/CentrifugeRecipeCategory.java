@@ -129,16 +129,13 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         if (fluid != null) {
             chances.add(fluid.getSecond() + "mb");
         }
-        ProductiveBees.LOGGER.info("chances " + chances);
 
         itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-            ProductiveBees.LOGGER.info("item slotIndex " + slotIndex);
             if (!chances.isEmpty() && chances.size() >= slotIndex) {
                 tooltip.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.chance", chances.get(slotIndex - 1)).getString());
             }
         });
         fluidStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-            ProductiveBees.LOGGER.info("fluid slotIndex " + slotIndex);
             if (!chances.isEmpty() && chances.size() >= slotIndex) {
                 tooltip.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.amount", chances.get(slotIndex - 1)).getString());
             }

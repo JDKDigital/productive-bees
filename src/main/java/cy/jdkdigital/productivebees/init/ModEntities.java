@@ -37,7 +37,6 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> RANCHER_BEE = createHiveBee("rancher_bee", RancherBeeEntity::new, 9615358, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> HOARDER_BEE = createHiveBee("hoarder_bee", HoarderBeeEntity::new, 8306149, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> FARMER_BEE = createHiveBee("farmer_bee", FarmerBeeEntity::new, 9615358, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<BeeEntity>> CARTOGRAPHER_BEE = createHiveBee("cartographer_bee", ProductiveBeeEntity::new, 9615358, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBeeEntity::new, 894731, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> CUPID_BEE = createHiveBee("cupid_bee", CupidBeeEntity::new, 894731, 6238757, ModItemGroups.PRODUCTIVE_BEES);
 

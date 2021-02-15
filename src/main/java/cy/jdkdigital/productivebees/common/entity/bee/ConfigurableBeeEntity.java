@@ -261,6 +261,12 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     @Override
+    public boolean canSelfBreed() {
+        CompoundNBT nbt = getNBTData();
+        return nbt.getBoolean("selfbreed");
+    }
+
+    @Override
     public Tag<Block> getFlowerTag() {
         CompoundNBT nbt = getNBTData();
         if (nbt != null) {

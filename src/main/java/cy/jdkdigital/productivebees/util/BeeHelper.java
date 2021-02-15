@@ -113,26 +113,13 @@ public class BeeHelper
 
     @Nullable
     public static BeeEntity getBreedingResult(BeeEntity beeEntity, AgeableEntity targetEntity, World world) {
-        IInventory beeInv = new IdentifierInventory(beeEntity, (BeeEntity) targetEntity);
-
-        // Get breeding recipes
-        List<BeeBreedingRecipe> recipes = new ArrayList<>();
-
-        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING);
-        for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
-            BeeBreedingRecipe recipe = (BeeBreedingRecipe) entry.getValue();
-            if (recipe.matches(beeInv, world)) {
-                recipes.add(recipe);
-            }
-        }
-
-        if (!recipes.isEmpty()) {
-            BeeBreedingRecipe recipe = recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
+        BeeBreedingRecipe recipe = getRandomBreedingRecipe(beeEntity, targetEntity, world);
+        if (recipe != null) {
             Map<Lazy<BeeIngredient>, Integer> possibleOffspring = recipe.offspring;
             if (possibleOffspring != null && possibleOffspring.size() > 0) {
                 // Get weighted offspring chance
                 int maxWeight = 0;
-                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry: possibleOffspring.entrySet()) {
+                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry : possibleOffspring.entrySet()) {
                     maxWeight = maxWeight + entry.getValue();
                 }
 
@@ -140,7 +127,7 @@ public class BeeHelper
 
                 int i = ProductiveBees.rand.nextInt(maxWeight);
                 int currentWeight = 0;
-                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry: possibleOffspring.entrySet()) {
+                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry : possibleOffspring.entrySet()) {
                     currentWeight = currentWeight + entry.getValue();
                     if (i < currentWeight) {
                         beeIngredient = entry.getKey().get();
@@ -158,11 +145,11 @@ public class BeeHelper
             }
         }
 
-        // Check if bee is configurable and make a new of same type
+        // No recipe, check if bee is configurable and make a new of same type
         if (beeEntity instanceof ConfigurableBeeEntity) {
             ResourceLocation type = new ResourceLocation(((ConfigurableBeeEntity) beeEntity).getBeeType());
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(type.toString());
-            if (nbt != null) {
+            if (nbt != null && ((ConfigurableBeeEntity) beeEntity).canSelfBreed()) {
                 ConfigurableBeeEntity newBee = ModEntities.CONFIGURABLE_BEE.get().create(world);
                 newBee.setBeeType(type.toString());
                 newBee.setAttributes();
@@ -171,10 +158,31 @@ public class BeeHelper
         }
 
         // If no specific recipe exist for the target bee or the bees are the same type, create a child like the parent
-        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeEntity.getEntityString());
-        if (nbt != null && nbt.getBoolean("selfbreed")) {
+        if (!(beeEntity instanceof ProductiveBeeEntity) || ((ProductiveBeeEntity) beeEntity).canSelfBreed()) {
             return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
         }
+
+        return null;
+    }
+
+    public static BeeBreedingRecipe getRandomBreedingRecipe(BeeEntity beeEntity, AgeableEntity targetEntity, World world) {
+        IInventory beeInv = new IdentifierInventory(beeEntity, (BeeEntity) targetEntity);
+
+        // Get breeding recipes
+        List<BeeBreedingRecipe> recipes = new ArrayList<>();
+
+        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING);
+        for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
+            BeeBreedingRecipe recipe = (BeeBreedingRecipe) entry.getValue();
+            if (recipe.matches(beeInv, world)) {
+                recipes.add(recipe);
+            }
+        }
+
+        if (!recipes.isEmpty()) {
+            return recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
+        }
+
         return null;
     }
 
