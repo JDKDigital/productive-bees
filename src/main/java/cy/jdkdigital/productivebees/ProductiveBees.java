@@ -186,9 +186,7 @@ public final class ProductiveBees
                     LOGGER.warn("Could not add blockstate to beehive POI " + state);
                 }
             }
-            ;
         }
-        ;
     }
 
     private Set<BlockState> makePOIStatesMutable(Set<BlockState> toCopy) {
