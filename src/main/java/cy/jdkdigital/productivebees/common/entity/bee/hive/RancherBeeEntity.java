@@ -43,6 +43,11 @@ public class RancherBeeEntity extends ProductiveBeeEntity
     }
 
     @Override
+    public boolean canSelfBreed() {
+        return false;
+    }
+
+    @Override
     public boolean isFlowers(BlockPos pos) {
         List<Entity> entities = world.getEntitiesInAABBexcluding(this, (new AxisAlignedBB(pos).grow(1.0D, 1.0D, 1.0D)), predicate);
         if (!entities.isEmpty()) {

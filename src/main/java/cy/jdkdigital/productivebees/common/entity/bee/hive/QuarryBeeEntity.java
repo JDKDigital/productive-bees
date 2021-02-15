@@ -14,6 +14,11 @@ public class QuarryBeeEntity extends ProductiveBeeEntity
     }
 
     @Override
+    public boolean canSelfBreed() {
+        return false;
+    }
+
+    @Override
     public boolean isFlowerBlock(Block flowerBlock) {
         return flowerBlock.isIn(ModTags.QUARRY);
     }
