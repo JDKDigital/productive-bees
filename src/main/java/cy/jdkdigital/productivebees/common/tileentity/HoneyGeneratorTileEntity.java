@@ -95,25 +95,21 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     @Override
     public void tick() {
         if (world != null && !world.isRemote) {
-            // 40 rf / tick - 4mb / tick
             int inputPowerAmount = ProductiveBeesConfig.GENERAL.generatorPowerGen.get();
             int fluidConsumeAmount = ProductiveBeesConfig.GENERAL.generatorHoneyUse.get();
-            fluidInventory.ifPresent(fluidHandler -> {
-                energyHandler.ifPresent(energyHandler -> {
-                    if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && energyHandler.receiveEnergy(inputPowerAmount, true) > 0) {
-                        energyHandler.receiveEnergy(inputPowerAmount, false);
-                        fluidHandler.drain(fluidConsumeAmount, IFluidHandler.FluidAction.EXECUTE);
-                        if (++tickCounter % 20 == 0) {
-                            setOn(true);
-                        }
+            fluidInventory.ifPresent(fluidHandler -> energyHandler.ifPresent(energyHandler -> {
+                if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && energyHandler.receiveEnergy(inputPowerAmount, true) > 0) {
+                    energyHandler.receiveEnergy(inputPowerAmount, false);
+                    fluidHandler.drain(fluidConsumeAmount, IFluidHandler.FluidAction.EXECUTE);
+                    if (++tickCounter % 20 == 0) {
+                        setOn(true);
                     }
-                    else {
-                        if (++tickCounter % 20 == 0) {
-                            setOn(false);
-                        }
+                } else {
+                    if (++tickCounter % 20 == 0) {
+                        setOn(false);
                     }
-                });
-            });
+                }
+            }));
         }
         this.sendOutPower();
         super.tick();
@@ -136,8 +132,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                                     energyHandler.extractEnergy(received, false);
                                     this.markDirty();
                                     return capacity.get() > 0;
-                                }
-                                else {
+                                } else {
                                     return true;
                                 }
                             }).orElse(true);

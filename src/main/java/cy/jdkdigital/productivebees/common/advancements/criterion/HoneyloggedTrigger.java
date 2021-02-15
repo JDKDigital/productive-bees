@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.advancements.criterion;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import net.minecraft.advancements.criterion.AbstractCriterionTrigger;
@@ -16,7 +15,6 @@ import net.minecraft.loot.ConditionArraySerializer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
