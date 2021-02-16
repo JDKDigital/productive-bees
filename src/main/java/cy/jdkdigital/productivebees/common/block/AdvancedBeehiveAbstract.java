@@ -43,22 +43,20 @@ import java.util.Random;
 
 public abstract class AdvancedBeehiveAbstract extends ContainerBlock
 {
-    public static final Direction[] DIRECTIONS;
-
-    protected static int MAX_HONEY_LEVEL = 5;
-
     public AdvancedBeehiveAbstract(Properties properties) {
         super(properties);
     }
 
     public int getMaxHoneyLevel() {
-        return MAX_HONEY_LEVEL;
+        return 5;
     }
 
+    @Override
     public boolean hasComparatorInputOverride(BlockState state) {
         return true;
     }
 
+    @Override
     public int getComparatorInputOverride(BlockState state, World world, BlockPos pos) {
         return state.get(BeehiveBlock.HONEY_LEVEL);
     }
@@ -98,8 +96,9 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         world.setBlockState(pos, state.with(BeehiveBlock.HONEY_LEVEL, getMaxHoneyLevel() - 5), 3);
     }
 
+    @Override
     public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (state.hasProperty(BeehiveBlock.HONEY_LEVEL) && state.get(BeehiveBlock.HONEY_LEVEL) >= MAX_HONEY_LEVEL) {
+        if (state.hasProperty(BeehiveBlock.HONEY_LEVEL) && state.get(BeehiveBlock.HONEY_LEVEL) >= getMaxHoneyLevel()) {
             for (int i = 0; i < random.nextInt(1) + 1; ++i) {
                 this.dripHoney(world, pos, state);
             }
@@ -138,6 +137,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
     }
 
     @Nonnull
+    @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
@@ -154,6 +154,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         super.onBlockClicked(state, worldIn, pos, player);
     }
 
+    @Override
     public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (!world.isRemote && player.isCreative() && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS)) {
             TileEntity tileEntity = world.getTileEntity(pos);
@@ -200,6 +201,7 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         return super.getDrops(state, builder);
     }
 
+    @Override
     public BlockState updatePostPlacement(BlockState state, Direction direction, BlockState state1, IWorld world, BlockPos pos, BlockPos fireBlockPos) {
         if (world.getBlockState(fireBlockPos).getBlock() instanceof FireBlock) {
             TileEntity tileEntity = world.getTileEntity(pos);
@@ -210,13 +212,5 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
         }
 
         return super.updatePostPlacement(state, direction, state1, world, pos, fireBlockPos);
-    }
-
-    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-        return false;
-    }
-
-    static {
-        DIRECTIONS = new Direction[]{Direction.WEST, Direction.EAST, Direction.SOUTH};
     }
 }
