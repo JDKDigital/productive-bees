@@ -48,9 +48,8 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                     if (!parentName.equals(beeName1) && !parentName.equals(beeName2)) {
                         return false;
                     }
-                }
-                else {
-                    ProductiveBees.LOGGER.warn("Bee not found in breeding recipe " + parent);
+                } else {
+                    ProductiveBees.LOGGER.warn("Bee not found in breeding recipe " + id);
                     return false;
                 }
             }

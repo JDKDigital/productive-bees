@@ -410,7 +410,7 @@ public class ProductiveBeeEntity extends BeeEntity
                         otherAnimal.isInLove()
                     ) &&
                     (
-                        BeeHelper.getRandomBreedingRecipe(this, otherAnimal, world) != null || // check if there's an offspring recipe
+                        (world instanceof ServerWorld && BeeHelper.getRandomBreedingRecipe(this, otherAnimal, (ServerWorld) world) != null) || // check if there's an offspring recipe
                         canSelfBreed() || // allows self breeding
                         !(otherAnimal instanceof ProductiveBeeEntity) // or not a productive bee
                     );
