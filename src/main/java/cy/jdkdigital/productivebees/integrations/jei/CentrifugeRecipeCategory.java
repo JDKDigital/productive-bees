@@ -17,6 +17,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -118,26 +120,32 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         }
         fluidStacks.set(ingredients);
 
-        List<String> chances = new ArrayList<>();
+        List<ITextComponent> chances = new ArrayList<>();
         recipe.getRecipeOutputs().forEach((stack, value) -> {
             int chance = value.get(2).getInt();
             if (chance < 100) {
-                chances.add(chance < 1 ? "<1%" : chance + "%");
+                chances.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
+            } else {
+                if (value.get(0) != value.get(1)) {
+                    chances.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.amount", value.get(0) + " - " + value.get(1)));
+                } else {
+                    chances.add(new StringTextComponent(""));
+                }
             }
         });
         Pair<Fluid, Integer> fluid = recipe.getFluidOutputs();
         if (fluid != null) {
-            chances.add(fluid.getSecond() + "mb");
+            chances.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.amount", fluid.getSecond() + "mb"));
         }
 
         itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-            if (!chances.isEmpty() && chances.size() >= slotIndex) {
-                tooltip.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.chance", chances.get(slotIndex - 1)).getString());
+            if (!chances.isEmpty() && chances.size() >= slotIndex && !chances.get(slotIndex - 1).getString().isEmpty()) {
+                tooltip.add(chances.get(slotIndex - 1).getString());
             }
         });
         fluidStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
             if (!chances.isEmpty() && chances.size() >= slotIndex) {
-                tooltip.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.amount", chances.get(slotIndex - 1)).getString());
+                tooltip.add(chances.get(slotIndex - 1).getString());
             }
         });
     }

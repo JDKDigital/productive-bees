@@ -116,6 +116,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         super.markDirty();
     }
 
+    @Override
     public void angerBees(@Nullable PlayerEntity player, BlockState blockState, BeehiveTileEntity.State beeState) {
         List<Entity> releasedBees = Lists.newArrayList();
         beeHandler.ifPresent(h -> {

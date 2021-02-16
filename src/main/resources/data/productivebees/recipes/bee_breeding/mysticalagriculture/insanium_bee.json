@@ -16,7 +16,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
+            "modid": "mysticalagradditions"
         }
     ]
 }

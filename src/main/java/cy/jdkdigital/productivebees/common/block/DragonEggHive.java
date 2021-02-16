@@ -42,7 +42,7 @@ public class DragonEggHive extends AdvancedBeehive
     }
 
     public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (state.get(BeehiveBlock.HONEY_LEVEL) >= MAX_HONEY_LEVEL) {
+        if (state.get(BeehiveBlock.HONEY_LEVEL) >= getMaxHoneyLevel()) {
             for (int i = 0; i < 22; ++i) {
                 double rnd = world.rand.nextDouble();
                 float xSpeed = (world.rand.nextFloat() - 0.5F) * 0.2F;
