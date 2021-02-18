@@ -170,7 +170,6 @@ public class BeeHelper
 
         // Get breeding recipes
         List<BeeBreedingRecipe> recipes = new ArrayList<>();
-
         Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING);
         for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
             BeeBreedingRecipe recipe = (BeeBreedingRecipe) entry.getValue();

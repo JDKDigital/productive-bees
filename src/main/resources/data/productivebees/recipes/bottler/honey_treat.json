@@ -1,0 +1,13 @@
+{
+    "type": "productivebees:bottler",
+    "fluid": {
+        "tag": "forge:honey",
+        "amount": 250
+    },
+    "input": {
+        "item": "minecraft:honeycomb"
+    },
+    "output": {
+        "item": "productivebees:honey_treat"
+    }
+}
