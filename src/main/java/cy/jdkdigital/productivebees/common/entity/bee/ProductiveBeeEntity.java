@@ -17,6 +17,7 @@ import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -84,21 +85,15 @@ public class ProductiveBeeEntity extends BeeEntity
     public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
 
-        beeAttributes.put(BeeAttributes.PRODUCTIVITY, world.rand.nextInt(2));
-        beeAttributes.put(BeeAttributes.TEMPER, 1);
-        beeAttributes.put(BeeAttributes.ENDURANCE, world.rand.nextInt(3));
-        beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
-        beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 0);
-        beeAttributes.put(BeeAttributes.TYPE, "hive");
+        setAttributeValue(BeeAttributes.PRODUCTIVITY, world.rand.nextInt(3));
+        setAttributeValue(BeeAttributes.TEMPER, 1);
+        setAttributeValue(BeeAttributes.ENDURANCE,  world.rand.nextInt(4));
+        setAttributeValue(BeeAttributes.BEHAVIOR, 0);
+        setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
+        setAttributeValue(BeeAttributes.TYPE, "hive");
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
-
-        // Give health boost based on endurance
-        if (getAttributeValue(BeeAttributes.ENDURANCE) != 1) {
-            this.getAttribute(Attributes.MAX_HEALTH).applyPersistentModifier(BeeAttributes.HEALTH_MODS.get(getAttributeValue(BeeAttributes.ENDURANCE)));
-            this.heal(this.getMaxHealth());
-        }
     }
 
     @Override
@@ -289,6 +284,24 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     public void setAttributeValue(BeeAttribute<?> parameter, Integer value) {
+        // Give health boost based on endurance
+        if (parameter.equals(BeeAttributes.ENDURANCE)) {
+            ModifiableAttributeInstance healthMod = this.getAttribute(Attributes.MAX_HEALTH);
+            if (healthMod != null) {
+                healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_WEAK);
+                healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_MEDIUM);
+                healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_STRONG);
+                if (value != 1) {
+                    healthMod.applyPersistentModifier(BeeAttributes.HEALTH_MODS.get(value));
+                    this.heal(this.getMaxHealth());
+                }
+            }
+        }
+
+        this.beeAttributes.put(parameter, value);
+    }
+
+    public void setAttributeValue(BeeAttribute<?> parameter, String value) {
         this.beeAttributes.put(parameter, value);
     }
 
@@ -356,12 +369,12 @@ public class ProductiveBeeEntity extends BeeEntity
 
         if (tag.contains("bee_productivity")) {
             beeAttributes.clear();
-            beeAttributes.put(BeeAttributes.PRODUCTIVITY, tag.getInt("bee_productivity"));
-            beeAttributes.put(BeeAttributes.ENDURANCE, tag.contains("bee_endurance") ? tag.getInt("bee_endurance") : 1);
-            beeAttributes.put(BeeAttributes.TEMPER, tag.getInt("bee_temper"));
-            beeAttributes.put(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
-            beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
-            beeAttributes.put(BeeAttributes.TYPE, tag.getString("bee_type"));
+            setAttributeValue(BeeAttributes.PRODUCTIVITY, tag.getInt("bee_productivity"));
+            setAttributeValue(BeeAttributes.ENDURANCE, tag.contains("bee_endurance") ? tag.getInt("bee_endurance") : 1);
+            setAttributeValue(BeeAttributes.TEMPER, tag.getInt("bee_temper"));
+            setAttributeValue(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
+            setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
+            setAttributeValue(BeeAttributes.TYPE, tag.getString("bee_type"));
         }
     }
 
