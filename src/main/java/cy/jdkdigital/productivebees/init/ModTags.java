@@ -3,11 +3,9 @@ package cy.jdkdigital.productivebees.init;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.tags.ITag;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.*;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
@@ -30,6 +28,8 @@ public class ModTags
     public static final ITag<Item> EGGS = ItemTags.createOptional(new ResourceLocation("forge", "eggs"));
 
     public static final ITag<EntityType<?>> RANCHABLES = EntityTypeTags.createOptional(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
+
+    public static final ITag<Fluid> HONEY = FluidTags.createOptional(new ResourceLocation("forge", "honey"));
 
     public static ITag<Block> getTag(String name) {
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));

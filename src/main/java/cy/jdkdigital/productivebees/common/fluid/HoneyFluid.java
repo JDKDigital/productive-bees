@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.fluid.FlowingFluid;
@@ -92,7 +93,7 @@ public abstract class HoneyFluid extends FlowingFluid
 
     @Override
     public boolean isEquivalentTo(Fluid fluidIn) {
-        return fluidIn == ModFluids.HONEY.get() || fluidIn == ModFluids.HONEY_FLOWING.get();
+        return ModTags.HONEY.contains(fluidIn);
     }
 
     @Override

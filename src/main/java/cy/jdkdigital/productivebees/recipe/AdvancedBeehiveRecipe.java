@@ -24,10 +24,8 @@ import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.IntStream;
 
 public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<IInventory>

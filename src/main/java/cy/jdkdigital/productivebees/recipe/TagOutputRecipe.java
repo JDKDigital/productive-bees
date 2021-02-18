@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.recipe;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
@@ -21,6 +22,11 @@ public abstract class TagOutputRecipe
     public final Map<ItemStack, IntArrayNBT> calculatedItemOutput = new LinkedHashMap<>();
     public static Map<String, Integer> modPreference = new HashMap<>();
 
+    public TagOutputRecipe(Ingredient itemOutput) {
+        this.itemOutput = new LinkedHashMap<>();
+        this.itemOutput.put(itemOutput, new IntArrayNBT(new int[]{1, 1, 100}));
+    }
+
     public TagOutputRecipe(Map<Ingredient, IntArrayNBT> itemOutput) {
         this.itemOutput = itemOutput;
     }
@@ -38,12 +44,12 @@ public abstract class TagOutputRecipe
         return calculatedItemOutput;
     }
 
-    public static ItemStack getPreferredItemByMod(Ingredient ingredient) {
+    private static ItemStack getPreferredItemByMod(Ingredient ingredient) {
         List<ItemStack> stacks = Arrays.asList(ingredient.getMatchingStacks());
         return getPreferredItemByMod(stacks);
     }
 
-    public static ItemStack getPreferredItemByMod(List<ItemStack> list) {
+    private static ItemStack getPreferredItemByMod(List<ItemStack> list) {
         ItemStack preferredItem = null;
         int currBest = getModPreference().size();
         for (ItemStack item : list) {
@@ -72,26 +78,27 @@ public abstract class TagOutputRecipe
         if (preferredFluid == null || preferredFluid.equals(Fluids.EMPTY)) {
             try {
                 ITag<Fluid> fluidTag = FluidTags.getCollection().get(new ResourceLocation(fluidName));
-                if (fluidTag.getAllElements().size() > 0) {
+                if (fluidTag != null && fluidTag.getAllElements().size() > 0) {
                     int currBest = getModPreference().size();
-                    for (Fluid fluid : fluidTag.getAllElements()) {
-                        if (fluid.isSource(fluid.getDefaultState())) {
-                            ResourceLocation rl = fluid.getRegistryName();
-                            if (rl != null) {
-                                String modId = rl.getNamespace();
-                                int priority = 100;
-                                if (getModPreference().containsKey(modId)) {
-                                    priority = getModPreference().get(modId);
-                                }
+                    for (Fluid fluid: fluidTag.getAllElements()) {
+                        if (fluid instanceof FlowingFluid) {
+                            fluid = ((FlowingFluid) fluid).getStillFluid();
+                        }
 
-                                if (preferredFluid == null || (priority >= 0 && priority < currBest)) {
-                                    preferredFluid = fluid;
-                                    currBest = priority;
-                                }
+                        ResourceLocation rl = fluid.getRegistryName();
+                        if (rl != null) {
+                            String modId = rl.getNamespace();
+                            int priority = 100;
+                            if (getModPreference().containsKey(modId)) {
+                                priority = getModPreference().get(modId);
+                            }
+
+                            if (preferredFluid == null || (priority >= 0 && priority < currBest)) {
+                                preferredFluid = fluid;
+                                currBest = priority;
                             }
                         }
                     }
-                    preferredFluid = fluidTag.getAllElements().iterator().next();
                 }
             } catch (Exception e) {
                 // Who cares

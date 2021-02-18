@@ -24,6 +24,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.LootTableLoadEvent;
@@ -124,6 +125,10 @@ public class EventHandler
                 List<String> beeTypes = new ArrayList<>(data.keySet());
                 if (!beeTypes.isEmpty()) {
                     ((ConfigurableBeeEntity) entity).setBeeType(beeTypes.get(ProductiveBees.rand.nextInt(beeTypes.size())));
+                }
+            } else {
+                if (tag.getString("type").equals("productivebees:ghostly") && ProductiveBees.rand.nextFloat() < 0.02f) {
+                    entity.setCustomName(new StringTextComponent("BooBee"));
                 }
             }
         }
