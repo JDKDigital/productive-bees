@@ -18,6 +18,7 @@ import java.util.*;
 public abstract class TagOutputRecipe
 {
     public final Map<Ingredient, IntArrayNBT> itemOutput;
+    public final Map<ItemStack, IntArrayNBT> calculatedItemOutput = new LinkedHashMap<>();
     public static Map<String, Integer> modPreference = new HashMap<>();
 
     public TagOutputRecipe(Map<Ingredient, IntArrayNBT> itemOutput) {
@@ -25,18 +26,16 @@ public abstract class TagOutputRecipe
     }
 
     public Map<ItemStack, IntArrayNBT> getRecipeOutputs() {
-        Map<ItemStack, IntArrayNBT> output = new IdentityHashMap<>();
-
-        if (!itemOutput.isEmpty()) {
+        if (calculatedItemOutput.isEmpty() && !itemOutput.isEmpty()) {
             itemOutput.forEach((ingredient, intNBTS) -> {
                 ItemStack preferredItem = getPreferredItemByMod(ingredient);
                 if (preferredItem != null && !preferredItem.getItem().equals(Items.BARRIER)) {
-                    output.put(preferredItem.copy(), intNBTS.copy());
+                    calculatedItemOutput.put(preferredItem.copy(), intNBTS.copy());
                 }
             });
         }
 
-        return output;
+        return calculatedItemOutput;
     }
 
     public static ItemStack getPreferredItemByMod(Ingredient ingredient) {

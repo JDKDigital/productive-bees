@@ -9,8 +9,7 @@
                 "tag": "forge:gems/lapis"
             },
             "min": 3,
-            "max": 7,
-            "chance": 100
+            "max": 7
         },
         {
             "item": {

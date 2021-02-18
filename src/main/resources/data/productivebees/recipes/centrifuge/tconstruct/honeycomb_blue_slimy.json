@@ -6,7 +6,7 @@
     "outputs": [
         {
             "item": {
-                "tag": "forge:slimeball/magma"
+                "tag": "forge:slimeball/blue"
             }
         },
         {
@@ -20,7 +20,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:slimeball/magma"
+                "tag": "forge:slimeball/blue"
             }
         }
     ]

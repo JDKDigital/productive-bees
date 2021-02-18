@@ -1,0 +1,18 @@
+{
+    "type": "tconstruct:melting",
+    "ingredient": {
+        "item": "minecraft:honey_block"
+    },
+    "result": {
+        "fluid": "productivebees:honey",
+        "amount": 1000
+    },
+    "temperature": 40,
+    "time": 86,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "tconstruct"
+        }
+    ]
+}
