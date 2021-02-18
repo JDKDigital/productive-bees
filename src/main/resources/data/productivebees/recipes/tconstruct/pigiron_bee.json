@@ -14,7 +14,7 @@
         "item": "productivebees:spawn_egg_configurable_bee",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:pig_iron"
+                "type": "productivebees:pigiron"
             }
         }
     },

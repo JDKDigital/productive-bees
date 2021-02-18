@@ -3,18 +3,18 @@
     "cast": {
         "type": "forge:nbt",
         "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:slimy\"}}"
+        "nbt": "{EntityTag:{type:\"productivebees:cobalt\"}}"
     },
     "cast_consumed": true,
     "fluid": {
-        "name": "tconstruct:magma_cream",
-        "amount": 1000
+        "name": "tconstruct:molten_soul",
+        "amount": 576
     },
     "result": {
         "item": "productivebees:spawn_egg_configurable_bee",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:magma_slimy"
+                "type": "productivebees:soulsteel"
             }
         }
     },
