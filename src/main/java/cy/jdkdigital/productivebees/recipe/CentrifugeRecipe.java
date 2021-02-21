@@ -26,6 +26,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -139,8 +140,8 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
             }
 
             JsonArray jsonArray = JSONUtils.getJsonArray(json, "outputs");
-            Map<Ingredient, IntArrayNBT> itemOutputs = new HashMap<>();
-            Map<String, Integer> fluidOutputs = new HashMap<>();
+            Map<Ingredient, IntArrayNBT> itemOutputs = new LinkedHashMap<>();
+            Map<String, Integer> fluidOutputs = new LinkedHashMap<>();
             jsonArray.forEach(el -> {
                 JsonObject jsonObject = el.getAsJsonObject();
                 if (jsonObject.has("item")) {
@@ -185,12 +186,12 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
             try {
                 Ingredient ingredient = Ingredient.read(buffer);
 
-                Map<Ingredient, IntArrayNBT> itemOutput = new HashMap<>();
+                Map<Ingredient, IntArrayNBT> itemOutput = new LinkedHashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
                     i -> itemOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
-                Map<String, Integer> fluidOutput = new HashMap<>();
+                Map<String, Integer> fluidOutput = new LinkedHashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
                     i -> fluidOutput.put(buffer.readString(), buffer.readInt())
                 );

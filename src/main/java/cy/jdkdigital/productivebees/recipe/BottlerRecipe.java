@@ -40,14 +40,9 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
         if (!itemInput.test(inputStack)) {
             return false;
         }
-        ProductiveBees.LOGGER.info("fluid: " + fluid.getFluid().getRegistryName());
-        ProductiveBees.LOGGER.info("fluidInput.getFirst(): " + fluidInput.getFirst());
-        ProductiveBees.LOGGER.info("preffered : " + getPreferredFluidByMod(fluidInput.getFirst()).getRegistryName());
-        ProductiveBees.LOGGER.info("eq : " + (getPreferredFluidByMod(fluidInput.getFirst()).isEquivalentTo(fluid.getFluid())));
         if (!getPreferredFluidByMod(fluidInput.getFirst()).isEquivalentTo(fluid.getFluid())) {
             return false;
         }
-        ProductiveBees.LOGGER.info("Amounts: " + fluid.getAmount() + " >= " +  fluidInput.getSecond() + " = " + (fluid.getAmount() >= fluidInput.getSecond()));
         return fluid.getAmount() >= fluidInput.getSecond();
     }
 

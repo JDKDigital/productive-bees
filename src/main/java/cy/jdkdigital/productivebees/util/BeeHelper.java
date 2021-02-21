@@ -211,13 +211,15 @@ public class BeeHelper
         List<ItemStack> outputList = Lists.newArrayList(ItemStack.EMPTY);
         if (matchedRecipe != null) {
             matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
-                int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
-                ItemStack stack = itemStack.copy();
-                stack.setCount(count);
-                if (hasCombBlockUpgrade) {
-                    stack = convertToCombBlock(stack);
+                if (ProductiveBees.rand.nextInt(100) <= bounds.get(2).getInt()) {
+                    int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
+                    ItemStack stack = itemStack.copy();
+                    stack.setCount(count);
+                    if (hasCombBlockUpgrade) {
+                        stack = convertToCombBlock(stack);
+                    }
+                    outputList.add(stack);
                 }
-                outputList.add(stack);
             });
         }
         else if (beeId.equals("productivebees:lumber_bee")) {

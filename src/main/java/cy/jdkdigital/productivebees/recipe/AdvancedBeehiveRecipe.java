@@ -25,6 +25,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -124,7 +125,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
 
             Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
 
-            Map<Ingredient, IntArrayNBT> itemOutputs = new HashMap<>();
+            Map<Ingredient, IntArrayNBT> itemOutputs = new LinkedHashMap<>();
 
             JsonArray jsonArray = JSONUtils.getJsonArray(json, "results");
             jsonArray.forEach(jsonElement -> {
@@ -153,7 +154,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
         public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
                 BeeIngredient ingredient = BeeIngredient.read(buffer);
-                Map<Ingredient, IntArrayNBT> itemOutput = new HashMap<>();
+                Map<Ingredient, IntArrayNBT> itemOutput = new LinkedHashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
                     i -> itemOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );

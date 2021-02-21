@@ -4,6 +4,7 @@
     "optional": [
         "#forge:storage_blocks/aquamarine",
         "silentgems:aquamarine_glowrose",
-        "gemsnjewels:aquamarine_block"
+        "gemsnjewels:aquamarine_block",
+        "astralsorcery:aquamarine_sand_ore"
     ]
 }
