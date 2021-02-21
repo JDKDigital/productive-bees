@@ -25,14 +25,10 @@ public class BeeAttributes
     // Move to configs
     public static final BeeAttribute<Tag<Item>> APHRODISIACS = register("aphrodisiacs");
 
-    private static final UUID HEALTH_MOD_ID_WEAK = UUID.nameUUIDFromBytes("productivebees:health_modifier_weak".getBytes());
-    private static final UUID HEALTH_MOD_ID_MEDIUM = UUID.nameUUIDFromBytes("productivebees:health_modifier_medium".getBytes());
-    private static final UUID HEALTH_MOD_ID_STRONG = UUID.nameUUIDFromBytes("productivebees:health_modifier_strong".getBytes());
-    public static final Map<Integer, AttributeModifier> HEALTH_MODS = new HashMap<Integer, AttributeModifier>() {{
-        put(0, (new AttributeModifier(HEALTH_MOD_ID_WEAK, "Health mod weak", 0.30F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
-        put(2, (new AttributeModifier(HEALTH_MOD_ID_MEDIUM, "Health mod medium", 0.6F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
-        put(3, (new AttributeModifier(HEALTH_MOD_ID_STRONG, "Health mod strong", 1.0F, AttributeModifier.Operation.MULTIPLY_BASE)).setSaved(false));
-    }};
+    public static final UUID HEALTH_MOD_ID_WEAK = UUID.nameUUIDFromBytes("productivebees:health_modifier_weak".getBytes());
+    public static final UUID HEALTH_MOD_ID_MEDIUM = UUID.nameUUIDFromBytes("productivebees:health_modifier_medium".getBytes());
+    public static final UUID HEALTH_MOD_ID_STRONG = UUID.nameUUIDFromBytes("productivebees:health_modifier_strong".getBytes());
+    public static final Map<Integer, AttributeModifier> HEALTH_MODS = new HashMap<>();
 
     private static <T> BeeAttribute<T> register(String name) {
         BeeAttribute<T> attribute = new BeeAttribute<T>(new ResourceLocation(ProductiveBees.MODID, name));
@@ -76,6 +72,10 @@ public class BeeAttributes
             put(1, "productivebees.information.attribute.weather_tolerance.rain");
             put(2, "productivebees.information.attribute.weather_tolerance.any");
         }});
+
+        HEALTH_MODS.put(0, (new AttributeModifier(HEALTH_MOD_ID_WEAK, "Health mod weak", -0.30F, AttributeModifier.Operation.MULTIPLY_BASE)));
+        HEALTH_MODS.put(2, (new AttributeModifier(HEALTH_MOD_ID_MEDIUM, "Health mod medium", 0.5F, AttributeModifier.Operation.MULTIPLY_BASE)));
+        HEALTH_MODS.put(3, (new AttributeModifier(HEALTH_MOD_ID_STRONG, "Health health mod strong", 1.0F, AttributeModifier.Operation.MULTIPLY_BASE)));
     }
 
     public static BeeAttribute<?> getAttributeByName(String name) {

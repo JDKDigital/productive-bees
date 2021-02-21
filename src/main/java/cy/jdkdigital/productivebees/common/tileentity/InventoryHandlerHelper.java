@@ -55,9 +55,7 @@ public class InventoryHandlerHelper
                     ) {
                         return slot;
                     }
-                } else if(Container.areItemsAndTagsEqual(stack, insertStack)) {
-                    return slot;
-                } else {
+                } else if (Container.areItemsAndTagsEqual(stack, insertStack) || stack.isEmpty()) {
                     return slot;
                 }
             }
