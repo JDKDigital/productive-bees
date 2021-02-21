@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/bone"
             }
+        },
+        {
+            "item": {
+                "item": "minecraft:bone"
+            },
+            "chance": 5
         }
     ]
 }
