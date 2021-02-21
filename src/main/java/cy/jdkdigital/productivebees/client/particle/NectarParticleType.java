@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.client.particle;
 
 import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
@@ -18,7 +17,7 @@ public class NectarParticleType extends ParticleType<NectarParticleType> impleme
     {
         @Nonnull
         @Override
-        public NectarParticleType deserialize(@Nonnull ParticleType<NectarParticleType> particleTypeIn, @Nonnull StringReader reader) throws CommandSyntaxException {
+        public NectarParticleType deserialize(@Nonnull ParticleType<NectarParticleType> particleTypeIn, @Nonnull StringReader reader) {
             return (NectarParticleType) particleTypeIn;
         }
 

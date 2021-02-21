@@ -1,0 +1,20 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:apatite",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/apatite"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/apatite"
+            }
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#270070",
+    "secondaryColor": "#2e0b17",
+    "tertiaryColor": "#7000bd",
+    "particleColor": "#270070",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/iolite",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/iolite"
+            }
+        }
+    ]
+}

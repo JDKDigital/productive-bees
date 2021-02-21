@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#fcb77b",
+    "secondaryColor": "#ae3f00",
+    "particleColor": "#fcb77b",
+    "beeTexture": "productivebees:textures/entity/bee/magma_slimy/bee",
+    "renderer": "translucent_with_center",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:slimeball/magma"
+            }
+        }
+    ]
+}

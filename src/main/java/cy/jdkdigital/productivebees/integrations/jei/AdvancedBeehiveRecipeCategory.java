@@ -85,7 +85,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
         IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
 
-        ingredientStacks.init(0, true, 6, 28);
+        ingredientStacks.init(0, true, 5, 27);
         ingredientStacks.set(ingredients);
 
         int startX = 68;
@@ -102,14 +102,5 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         }
 
         itemStacks.set(ingredients);
-    }
-
-    @Override
-    public void draw(AdvancedBeehiveRecipe recipe, double mouseX, double mouseY) {
-//        FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-//        DecimalFormat decimalFormat = new DecimalFormat("##%");
-//        String productionChanceString = decimalFormat.format(recipe.chance);
-//
-//        fontRenderer.drawString(productionChanceString, 38, 46, 0xff808080);
     }
 }

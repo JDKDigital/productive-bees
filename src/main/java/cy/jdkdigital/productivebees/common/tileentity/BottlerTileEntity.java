@@ -12,13 +12,17 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.DirectionalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -34,11 +38,14 @@ import java.util.List;
 
 public class BottlerTileEntity extends FluidTankTileEntity implements INamedContainerProvider
 {
+    protected int tickCounter = 0;
+    public int fluidId = 0;
+
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
         @Override
         public boolean isBottleItem(Item item) {
-            return item == Items.GLASS_BOTTLE || item == Items.BUCKET;
+            return item == Items.GLASS_BOTTLE || item == Items.BUCKET || item == Items.HONEYCOMB;
         }
     });
 
@@ -48,6 +55,7 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
         protected void onContentsChanged()
         {
             super.onContentsChanged();
+            BottlerTileEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
             BottlerTileEntity.this.markDirty();
         }
     });
@@ -72,7 +80,7 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
     @Override
     public void tick() {
         BlockState state = world.getBlockState(pos.up());
-        if (state.getBlock() == Blocks.PISTON_HEAD && state.get(DirectionalBlock.FACING) == Direction.DOWN) {
+        if (++tickCounter%10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.get(DirectionalBlock.FACING) == Direction.DOWN) {
             // Check for ProductiveBeeEntity on top of block
             List<ProductiveBeeEntity> bees = world.getEntitiesWithinAABB(ProductiveBeeEntity.class, (new AxisAlignedBB(pos).grow(0.0D, 1.0D, 0.0D)));
             if (!bees.isEmpty()) {
@@ -91,6 +99,15 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
         }
 
         super.tick();
+    }
+
+    @Override
+    public void read(CompoundNBT tag) {
+        super.read(tag);
+
+        // set fluid ID for screens
+        Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
+        fluidId = Registry.FLUID.getId(fluid);
     }
 
     @Nonnull

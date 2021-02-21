@@ -1,6 +1,10 @@
 {
     "variants": {
-        "running=false": { "model": "productivebees:block/centrifuge/idle" },
-        "running=true": { "model": "productivebees:block/centrifuge/running" }
+        "running=false": {
+            "model": "productivebees:block/centrifuge/idle"
+        },
+        "running=true": {
+            "model": "productivebees:block/centrifuge/running"
+        }
     }
 }

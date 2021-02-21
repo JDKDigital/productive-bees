@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -40,8 +41,8 @@ public class Gene extends Item
         return getStack(attribute.toString(), value, count, purity);
     }
 
-    public static ItemStack getStack(String type) {
-        return getStack(type, 0, 1, ProductiveBees.rand.nextInt(30) + 10);
+    public static ItemStack getStack(String type, int value) {
+        return getStack(type, 0, 1, value);
     }
 
     public static ItemStack getStack(String attribute, int value, int count, int purity) {
@@ -82,7 +83,7 @@ public class Gene extends Item
         BeeAttribute<?> attribute = getAttribute(stack);
 
         if (attribute != null) {
-            ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).applyTextStyle(BeeCage.getColor(value));
+            ITextComponent translated_value = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).applyTextStyle(ColorUtil.getColor(value));
             list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translated_value)).applyTextStyle(TextFormatting.DARK_GRAY).appendText(" (" + getPurity(stack) + "%)"));
         } else {
             String type = getAttributeName(stack);
@@ -93,23 +94,23 @@ public class Gene extends Item
     @Override
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
-            items.add(getStack(BeeAttributes.PRODUCTIVITY, 0, 1));
-            items.add(getStack(BeeAttributes.PRODUCTIVITY, 1, 1));
-            items.add(getStack(BeeAttributes.PRODUCTIVITY, 2, 1));
-            items.add(getStack(BeeAttributes.PRODUCTIVITY, 3, 1));
-            items.add(getStack(BeeAttributes.WEATHER_TOLERANCE, 0, 1));
-            items.add(getStack(BeeAttributes.WEATHER_TOLERANCE, 1, 1));
-            items.add(getStack(BeeAttributes.WEATHER_TOLERANCE, 2, 1));
-            items.add(getStack(BeeAttributes.BEHAVIOR, 0, 1));
-            items.add(getStack(BeeAttributes.BEHAVIOR, 1, 1));
-            items.add(getStack(BeeAttributes.BEHAVIOR, 2, 1));
-            items.add(getStack(BeeAttributes.TEMPER, 0, 1));
-            items.add(getStack(BeeAttributes.TEMPER, 1, 1));
-            items.add(getStack(BeeAttributes.TEMPER, 2, 1));
-            items.add(getStack(BeeAttributes.ENDURANCE, 0, 1));
-            items.add(getStack(BeeAttributes.ENDURANCE, 1, 1));
-            items.add(getStack(BeeAttributes.ENDURANCE, 2, 1));
-            items.add(getStack(BeeAttributes.ENDURANCE, 3, 1));
+            items.add(getStack(BeeAttributes.PRODUCTIVITY, 0, 1, 100));
+            items.add(getStack(BeeAttributes.PRODUCTIVITY, 1, 1, 100));
+            items.add(getStack(BeeAttributes.PRODUCTIVITY, 2, 1, 100));
+            items.add(getStack(BeeAttributes.PRODUCTIVITY, 3, 1, 100));
+            items.add(getStack(BeeAttributes.WEATHER_TOLERANCE, 0, 1, 100));
+            items.add(getStack(BeeAttributes.WEATHER_TOLERANCE, 1, 1, 100));
+            items.add(getStack(BeeAttributes.WEATHER_TOLERANCE, 2, 1, 100));
+            items.add(getStack(BeeAttributes.BEHAVIOR, 0, 1, 100));
+            items.add(getStack(BeeAttributes.BEHAVIOR, 1, 1, 100));
+            items.add(getStack(BeeAttributes.BEHAVIOR, 2, 1, 100));
+            items.add(getStack(BeeAttributes.TEMPER, 0, 1, 100));
+            items.add(getStack(BeeAttributes.TEMPER, 1, 1, 100));
+            items.add(getStack(BeeAttributes.TEMPER, 2, 1, 100));
+            items.add(getStack(BeeAttributes.ENDURANCE, 0, 1, 100));
+            items.add(getStack(BeeAttributes.ENDURANCE, 1, 1, 100));
+            items.add(getStack(BeeAttributes.ENDURANCE, 2, 1, 100));
+            items.add(getStack(BeeAttributes.ENDURANCE, 3, 1, 100));
         }
     }
 }

@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#e4481f",
+    "secondaryColor": "#3e5b68",
+    "tertiaryColor": "#0900c9",
+    "particleColor": "#e4481f",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/ammolite",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/ammolite"
+            }
+        }
+    ]
+}

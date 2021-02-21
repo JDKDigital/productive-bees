@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/ender_biotite" }
+        "": {
+            "model": "productivebees:block/comb/ender_biotite"
+        }
     }
 }

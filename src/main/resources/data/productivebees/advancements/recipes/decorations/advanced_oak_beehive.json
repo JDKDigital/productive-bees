@@ -1,33 +1,33 @@
 {
-  "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "productivebees:advanced_oak_beehive",
-      "productivebees:expansion_box_oak"
-    ]
-  },
-  "criteria": {
-    "has_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "minecraft:beehive"
-          }
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "productivebees:advanced_oak_beehive",
+            "productivebees:expansion_box_oak"
         ]
-      }
     },
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "productivebees:advanced_oak_beehive"
-      }
-    }
-  },
-  "requirements": [
-    [
-      "has_beehive",
-      "has_the_recipe"
+    "criteria": {
+        "has_beehive": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "minecraft:beehive"
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "productivebees:advanced_oak_beehive"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_beehive",
+            "has_the_recipe"
+        ]
     ]
-  ]
 }

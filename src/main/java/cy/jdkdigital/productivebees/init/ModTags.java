@@ -27,11 +27,12 @@ public class ModTags
     public static final Tag<Block> RIVER_FLOWERS = getTag("flowers/river_flowers");
     public static final Tag<Block> QUARRY = getTag("flowers/quarry");
 
-    public static final Tag<Item> HONEYCOMBS = ItemTags.getCollection().getOrCreate(new ResourceLocation("forge", "honeycombs"));
-
-    public static final Tag<Fluid> HONEY = FluidTags.getCollection().getOrCreate(new ResourceLocation("forge", "honey"));
+    public static final Tag<Item> HONEY_BUCKETS = new ItemTags.Wrapper(new ResourceLocation("forge", "honey_buckets"));
+    public static final Tag<Item> EGGS = new ItemTags.Wrapper(new ResourceLocation("forge", "eggs"));
 
     public static final Tag<EntityType<?>> RANCHABLES = EntityTypeTags.getCollection().getOrCreate(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
+
+    public static final Tag<Fluid> HONEY = new FluidTags.Wrapper(new ResourceLocation("forge", "honey"));
 
     public static Tag<Block> getTag(String name) {
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));

@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#ffbfc4",
+    "secondaryColor": "#064f2c",
+    "tertiaryColor": "#d67a91",
+    "particleColor": "#ffbfc4",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/morganite",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/morganite"
+            }
+        }
+    ]
+}

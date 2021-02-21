@@ -15,6 +15,11 @@ public class ResinBeeEntity extends SolitaryBeeEntity
     }
 
     @Override
+    public String getRenderer() {
+        return "small";
+    }
+
+    @Override
     public Tag<Block> getFlowerTag() {
         return ModTags.FOREST_FLOWERS;
     }

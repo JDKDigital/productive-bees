@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/nest/sugar_cane_nest" }
+        "": {
+            "model": "productivebees:block/nest/sugar_cane_nest"
+        }
     }
 }

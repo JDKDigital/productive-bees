@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/quartz" }
+        "": {
+            "model": "productivebees:block/comb/quartz"
+        }
     }
 }

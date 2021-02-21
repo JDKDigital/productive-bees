@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/moonstone",
+        "silentgems:moonstone_glowrose",
+        "gemsnjewels:moonstone_block"
+    ]
+}

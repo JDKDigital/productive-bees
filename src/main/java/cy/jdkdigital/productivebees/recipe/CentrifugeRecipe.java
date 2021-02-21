@@ -18,12 +18,9 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -178,7 +175,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
             // Default fluid output
             if (fluidOutputs.isEmpty()) {
-                fluidOutputs.put("productivebees:honey", 250);
+                fluidOutputs.put("productivebees:honey", 100);
             }
 
             return this.factory.create(id, ingredient, itemOutputs, fluidOutputs);

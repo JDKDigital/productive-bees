@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/manasteel" }
+        "": {
+            "model": "productivebees:block/comb/manasteel"
+        }
     }
 }

@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/magmatic" }
+        "": {
+            "model": "productivebees:block/comb/magmatic"
+        }
     }
 }

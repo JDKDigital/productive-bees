@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/soulium" }
+        "": {
+            "model": "productivebees:block/comb/soulium"
+        }
     }
 }

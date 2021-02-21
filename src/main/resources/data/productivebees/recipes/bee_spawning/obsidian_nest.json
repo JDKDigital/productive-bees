@@ -8,5 +8,8 @@
             "bee": "productivebees:draconic"
         }
     ],
+    "biomes": [
+        "the_end"
+    ],
     "repopulation_cooldown": 36000
 }

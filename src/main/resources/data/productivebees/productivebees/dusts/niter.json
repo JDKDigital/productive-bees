@@ -1,0 +1,24 @@
+{
+    "primaryColor": "#e9edf3",
+    "secondaryColor": "#836e73",
+    "particleColor": "#e9edf3",
+    "createComb": false,
+    "flowerTag": "forge:storage_blocks/niter",
+    "renderer": "default_crystal",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/niter"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/niter"
+            }
+        }
+    ]
+}

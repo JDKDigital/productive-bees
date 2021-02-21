@@ -9,8 +9,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -24,12 +22,10 @@ public class Honeycomb extends Item
         this.color = Color.decode(colorCode).getRGB();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public int getColor() {
         return color;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public int getColor(ItemStack stack) {
         CompoundNBT tag = stack.getChildTag("EntityTag");
         if (tag != null && tag.contains("type")) {

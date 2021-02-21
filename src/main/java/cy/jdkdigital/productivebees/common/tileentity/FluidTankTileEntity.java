@@ -1,23 +1,26 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
-import cy.jdkdigital.productivebees.init.ModFluids;
+import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.recipe.BottlerRecipe;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
-import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-public abstract class FluidTankTileEntity extends TileEntity implements ITickableTileEntity
+public abstract class FluidTankTileEntity extends CapabilityTileEntity implements ITickableTileEntity
 {
     private int tankTick = 0;
 
@@ -44,34 +47,35 @@ public abstract class FluidTankTileEntity extends TileEntity implements ITickabl
                     ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
                     if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {
                         ItemStack outputItem = null;
-                        if (fluidContainerItem.getItem() == Items.GLASS_BOTTLE && fluidStack.getAmount() >= 250 && fluidStack.getFluid().isEquivalentTo(ModFluids.HONEY.get())) {
-                            outputItem = new ItemStack(Items.HONEY_BOTTLE);
-                        }
-                        else {
-                            FluidActionResult fillResult = FluidUtil.tryFillContainer(fluidContainerItem, fluidHandler, Integer.MAX_VALUE, null, true);
-                            if (fillResult.isSuccess()) {
-                                outputItem = fillResult.getResult();
+
+                        // Loop up bottler recipes from input
+                        List<BottlerRecipe> recipes = new ArrayList<>();
+                        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BottlerRecipe.BOTTLER);
+                        for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
+                            BottlerRecipe recipe = (BottlerRecipe) entry.getValue();
+                            ProductiveBees.LOGGER.info("bottler recipe: " + recipe.getId());
+                            if (recipe.matches(fluidStack, fluidContainerItem)) {
+                                ProductiveBees.LOGGER.info("recipe match: " + recipe.getId());
+                                recipes.add(recipe);
                             }
                         }
 
-                        if (outputItem != null) {
-                            if (invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, true).equals(ItemStack.EMPTY)) {
-                                boolean bottleOutput = outputItem.getItem().equals(Items.HONEY_BOTTLE);
-                                int drainedFluid = bottleOutput ? 250 : 0;
-
-                                if (outputItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()) {
-                                    drainedFluid = outputItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(h -> h.getFluidInTank(0).getAmount()).orElse(0);
-                                }
-                                fluidHandler.drain(drainedFluid, IFluidHandler.FluidAction.EXECUTE);
-
-                                // If item container is full or internal tank is empty, move the item to the output @TODO doesn't work
-                                boolean doneFilling = outputItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).map(h -> h.getTankCapacity(0) > h.getFluidInTank(0).getAmount()).orElse(true);
-                                if (bottleOutput || doneFilling) {
-                                    fluidContainerItem.shrink(1);
-                                    invHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
-                                } else {
-                                    invHandler.insertItem(InventoryHandlerHelper.BOTTLE_SLOT, outputItem, false);
-                                }
+                        if (recipes.size() > 0) {
+                            BottlerRecipe recipe = recipes.iterator().next();
+                            if (existingOutput.isEmpty() || existingOutput.getItem().equals(recipe.getRecipeOutput().getItem())) {
+                                processOutput(fluidHandler, invHandler, recipe.getRecipeOutput(), recipe.fluidInput.getSecond(), true);
+                            }
+                        } else if (fluidContainerItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()) {
+                            // try filling fluid container
+                            fluidContainerItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(h -> {
+                                int amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                                processOutput(fluidHandler, invHandler, h.getFluidInTank(0).getAmount() == h.getTankCapacity(0) ? fluidContainerItem : null, amount, false);
+                            });
+                        } else {
+                            // try to fill bucket
+                            FluidActionResult fillResult = FluidUtil.tryFillContainer(fluidContainerItem, fluidHandler, Integer.MAX_VALUE, null, true);
+                            if (fillResult.isSuccess()) {
+                                processOutput(fluidHandler, invHandler, fillResult.getResult(), 0, true);
                             }
                         }
                     }
@@ -80,33 +84,13 @@ public abstract class FluidTankTileEntity extends TileEntity implements ITickabl
         });
     }
 
-    @Override
-    public void read(CompoundNBT tag) {
-        super.read(tag);
-
-        CompoundNBT invTag = tag.getCompound("inv");
-        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
-
-        CompoundNBT fluidTag = tag.getCompound("fluid");
-        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluid -> ((INBTSerializable<CompoundNBT>) fluid).deserializeNBT(fluidTag));
-    }
-
-    @Nonnull
-    @Override
-    public CompoundNBT write(CompoundNBT tag) {
-        tag = super.write(tag);
-
-        CompoundNBT finalTag = tag;
-        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
-            finalTag.put("inv", compound);
-        });
-
-        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluid -> {
-            CompoundNBT compound = ((INBTSerializable<CompoundNBT>) fluid).serializeNBT();
-            finalTag.put("fluid", compound);
-        });
-
-        return finalTag;
+    private static void processOutput(IFluidHandler fluidHandler, IItemHandler itemHandler, ItemStack outputItem, int drainedAmount, boolean shrinkInputStack) {
+        if (shrinkInputStack) {
+            itemHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).shrink(1);
+        }
+        if (outputItem != null) {
+            itemHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
+        }
+        fluidHandler.drain(drainedAmount, IFluidHandler.FluidAction.EXECUTE);
     }
 }

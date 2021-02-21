@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/allthemodium" }
+        "": {
+            "model": "productivebees:block/comb/allthemodium"
+        }
     }
 }

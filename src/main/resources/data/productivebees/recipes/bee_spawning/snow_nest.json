@@ -8,5 +8,10 @@
             "bee": "productivebees:sweaty_bee"
         }
     ],
+    "biomes": [
+        "extreme_hills",
+        "icy"
+    ],
+    "temperature": "cold",
     "repopulation_cooldown": 24000
 }

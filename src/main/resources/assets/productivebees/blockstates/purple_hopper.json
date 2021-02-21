@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "productivebees:block/purple_hopper"
+    },
+    "facing=east": {
+      "model": "productivebees:block/purple_hopper_side",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "productivebees:block/purple_hopper_side"
+    },
+    "facing=south": {
+      "model": "productivebees:block/purple_hopper_side",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "productivebees:block/purple_hopper_side",
+      "y": 270
+    }
+  }
+}

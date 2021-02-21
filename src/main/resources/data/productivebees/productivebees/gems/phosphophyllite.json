@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#18db8a",
+    "secondaryColor": "#064f2c",
+    "tertiaryColor": "#007b33",
+    "particleColor": "#18db8a",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/phosphophyllite",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/phosphophyllite"
+            }
+        }
+    ]
+}

@@ -18,6 +18,11 @@ public class SweatyBeeEntity extends SolitaryBeeEntity
     }
 
     @Override
+    public String getRenderer() {
+        return "slim";
+    }
+
+    @Override
     public Tag<Block> getFlowerTag() {
         return ModTags.SNOW_FLOWERS;
     }

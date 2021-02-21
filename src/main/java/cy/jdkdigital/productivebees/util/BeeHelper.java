@@ -33,6 +33,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.tileentity.TileEntity;
@@ -42,6 +43,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -106,12 +111,65 @@ public class BeeHelper
         }
     }
 
+    @Nullable
     public static BeeEntity getBreedingResult(BeeEntity beeEntity, AgeableEntity targetEntity, World world) {
+        BeeBreedingRecipe recipe = getRandomBreedingRecipe(beeEntity, targetEntity, world);
+        if (recipe != null) {
+            Map<Lazy<BeeIngredient>, Integer> possibleOffspring = recipe.offspring;
+            if (possibleOffspring != null && possibleOffspring.size() > 0) {
+                // Get weighted offspring chance
+                int maxWeight = 0;
+                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry : possibleOffspring.entrySet()) {
+                    maxWeight = maxWeight + entry.getValue();
+                }
+
+                BeeIngredient beeIngredient = null;
+
+                int i = ProductiveBees.rand.nextInt(maxWeight);
+                int currentWeight = 0;
+                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry : possibleOffspring.entrySet()) {
+                    currentWeight = currentWeight + entry.getValue();
+                    if (i < currentWeight) {
+                        beeIngredient = entry.getKey().get();
+                    }
+                }
+
+                if (beeIngredient != null) {
+                    BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
+                    if (newBee instanceof ConfigurableBeeEntity) {
+                        ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
+                        ((ConfigurableBeeEntity) newBee).setAttributes();
+                    }
+                    return newBee;
+                }
+            }
+        }
+
+        // No recipe, check if bee is configurable and make a new of same type
+        if (beeEntity instanceof ConfigurableBeeEntity) {
+            ResourceLocation type = new ResourceLocation(((ConfigurableBeeEntity) beeEntity).getBeeType());
+            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(type.toString());
+            if (nbt != null && ((ConfigurableBeeEntity) beeEntity).canSelfBreed()) {
+                ConfigurableBeeEntity newBee = ModEntities.CONFIGURABLE_BEE.get().create(world);
+                newBee.setBeeType(type.toString());
+                newBee.setAttributes();
+                return newBee;
+            }
+        }
+
+        // If no specific recipe exist for the target bee or the bees are the same type, create a child like the parent
+        if (!(beeEntity instanceof ProductiveBeeEntity) || ((ProductiveBeeEntity) beeEntity).canSelfBreed()) {
+            return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
+        }
+
+        return null;
+    }
+
+    public static BeeBreedingRecipe getRandomBreedingRecipe(BeeEntity beeEntity, AgeableEntity targetEntity, World world) {
         IInventory beeInv = new IdentifierInventory(beeEntity, (BeeEntity) targetEntity);
 
         // Get breeding recipes
         List<BeeBreedingRecipe> recipes = new ArrayList<>();
-
         Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING);
         for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
             BeeBreedingRecipe recipe = (BeeBreedingRecipe) entry.getValue();
@@ -121,33 +179,10 @@ public class BeeHelper
         }
 
         if (!recipes.isEmpty()) {
-            BeeBreedingRecipe recipe = recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
-            List<Lazy<BeeIngredient>> possibleOffspring = recipe.offspring;
-            if (possibleOffspring != null && possibleOffspring.size() > 0) {
-                BeeIngredient beeIngredient = possibleOffspring.get(ProductiveBees.rand.nextInt(possibleOffspring.size())).get();
-                BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
-                if (newBee instanceof ConfigurableBeeEntity) {
-                    ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
-                    ((ConfigurableBeeEntity) newBee).setAttributes();
-                }
-                return newBee;
-            }
+            return recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
         }
 
-        // Check if bee is configurable and make a new of same type
-        if (beeEntity instanceof ConfigurableBeeEntity) {
-            ResourceLocation type = new ResourceLocation(((ConfigurableBeeEntity) beeEntity).getBeeType());
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(type.toString());
-            if (nbt != null) {
-                ConfigurableBeeEntity newBee = ModEntities.CONFIGURABLE_BEE.get().create(world);
-                newBee.setBeeType(type.toString());
-                newBee.setAttributes();
-                return newBee;
-            }
-        }
-
-        // If no specific recipe exist for the target bee or the bees are the same type, create a child like the parent
-        return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
+        return null;
     }
 
     public static List<ItemStack> getBeeProduce(World world, BeeEntity beeEntity, boolean hasCombBlockUpgrade) {
@@ -327,6 +362,53 @@ public class BeeHelper
             }
         }
         return entity;
+    }
+
+    public static List<ITextComponent> populateBeeInfoFromTag(CompoundNBT tag, @Nullable List<ITextComponent> list) {
+        if (list == null) {
+            list = new ArrayList<>();
+        }
+
+        list.add(new TranslationTextComponent(tag.getInt("Age") < 0 ? "productivebees.information.age.child" : "productivebees.information.age.adult").applyTextStyle(TextFormatting.AQUA).applyTextStyle(TextFormatting.ITALIC));
+
+        if (tag.getBoolean("isProductiveBee")) {
+            float current = tag.getFloat("Health");
+            float max = tag.contains("MaxHealth") ? tag.getFloat("MaxHealth") : 10.0f;
+            list.add((new TranslationTextComponent("productivebees.information.attribute.health", current, max)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+            String type = tag.getString("bee_type");
+            ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).applyTextStyle(ColorUtil.getColor(type));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+            int productivity = tag.getInt("bee_productivity");
+            ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).applyTextStyle(ColorUtil.getColor(productivity));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+            int tolerance = tag.getInt("bee_weather_tolerance");
+            ITextComponent tolerance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).applyTextStyle(ColorUtil.getColor(tolerance));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.weather_tolerance", tolerance_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+            int behavior = tag.getInt("bee_behavior");
+            ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).applyTextStyle(ColorUtil.getColor(behavior));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+            int endurance = tag.getInt("bee_endurance");
+            ITextComponent endurance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.ENDURANCE).get(endurance)).applyTextStyle(ColorUtil.getColor(endurance));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.endurance", endurance_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+            int temper = tag.getInt("bee_temper");
+            ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).applyTextStyle(ColorUtil.getColor(temper));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).applyTextStyle(TextFormatting.DARK_GRAY));
+
+            if (tag.contains("HivePos")) {
+                BlockPos hivePos = NBTUtil.readBlockPos(tag.getCompound("HivePos"));
+                list.add(new StringTextComponent("Home position: " + hivePos.getX() + ", " + hivePos.getY() + ", " + hivePos.getZ()));
+            }
+        } else {
+            list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).applyTextStyle(TextFormatting.DARK_AQUA));
+        }
+
+        return list;
     }
 
     public static class IdentifierInventory implements IInventory

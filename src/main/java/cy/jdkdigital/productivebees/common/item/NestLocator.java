@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.item;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import net.minecraft.block.BeehiveBlock;
@@ -28,8 +27,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -47,14 +44,10 @@ public class NestLocator extends Item
         super(properties);
 
         this.addPropertyOverride(new ResourceLocation("angle"), new IItemPropertyGetter() {
-            @OnlyIn(Dist.CLIENT)
             private double rotation;
-            @OnlyIn(Dist.CLIENT)
             private double rota;
-            @OnlyIn(Dist.CLIENT)
             private long lastUpdateTick;
 
-            @OnlyIn(Dist.CLIENT)
             public float call(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity player) {
                 if ((player != null || stack.isOnItemFrame()) && hasPosition(stack)) {
                     boolean flag = player != null;
@@ -78,7 +71,6 @@ public class NestLocator extends Item
                 }
             }
 
-            @OnlyIn(Dist.CLIENT)
             private double wobble(World worldIn, double amount) {
                 if (worldIn.getGameTime() != this.lastUpdateTick) {
                     this.lastUpdateTick = worldIn.getGameTime();
@@ -92,12 +84,10 @@ public class NestLocator extends Item
                 return this.rotation;
             }
 
-            @OnlyIn(Dist.CLIENT)
             private double getFrameRotation(ItemFrameEntity frameEntity) {
                 return MathHelper.wrapDegrees(180 + frameEntity.getHorizontalFacing().getHorizontalIndex() * 90);
             }
 
-            @OnlyIn(Dist.CLIENT)
             private double getPositionToAngle(BlockPos blockpos, Entity entityIn) {
                 return Math.atan2((double)blockpos.getZ() - entityIn.getPosZ(), (double)blockpos.getX() - entityIn.getPosX());
             }
@@ -239,6 +229,7 @@ public class NestLocator extends Item
     private Map.Entry<Double, BlockPos> findNearestNest(World world, BlockPos pos, int distance, Predicate<Block> predicate) {
         Vec3d playerPos = new Vec3d(pos);
         TreeMap<Double, BlockPos> nearbyNestPositions = new TreeMap<>();
+        long start = System.currentTimeMillis();
         BlockPos.getAllInBox(pos.add(-distance, -distance, -distance), pos.add(distance, distance, distance)).forEach(blockPos -> {
             BlockState state = world.getBlockState(blockPos);
             if (predicate.test(state.getBlock())) {
@@ -248,6 +239,8 @@ public class NestLocator extends Item
                 }
             }
         });
+        long finish = System.currentTimeMillis();
+//        ProductiveBees.LOGGER.debug("Locator search time: " + (finish - start) + "ms");
         if (!nearbyNestPositions.isEmpty()) {
             return nearbyNestPositions.pollFirstEntry();
         }

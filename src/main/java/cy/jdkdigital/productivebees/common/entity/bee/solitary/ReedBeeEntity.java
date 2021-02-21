@@ -15,6 +15,11 @@ public class ReedBeeEntity extends SolitaryBeeEntity
     }
 
     @Override
+    public String getRenderer() {
+        return "slim";
+    }
+
+    @Override
     public Tag<Block> getFlowerTag() {
         return ModTags.SWAMP_FLOWERS;
     }

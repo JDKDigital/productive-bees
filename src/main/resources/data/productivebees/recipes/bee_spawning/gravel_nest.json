@@ -14,5 +14,10 @@
             "bee": "productivebees:digger_bee"
         }
     ],
+    "biomes": [
+        "river",
+        "beach"
+    ],
+    "temperature": "warm",
     "repopulation_cooldown": 24000
 }

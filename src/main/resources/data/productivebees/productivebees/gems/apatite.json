@@ -1,0 +1,18 @@
+{
+    "primaryColor": "#69ffff",
+    "secondaryColor": "#3e5b68",
+    "tertiaryColor": "#20afce",
+    "particleColor": "#69ffff",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/apatite",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/apatite"
+            }
+        }
+    ]
+}

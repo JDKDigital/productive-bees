@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.fluid.FlowingFluid;
@@ -23,8 +24,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidAttributes;
 
 import javax.annotation.Nullable;
@@ -51,7 +50,6 @@ public abstract class HoneyFluid extends FlowingFluid
         return ModItems.HONEY_BUCKET.get();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void animateTick(World worldIn, BlockPos pos, IFluidState state, Random random) {
         BlockPos blockpos = pos.up();
         if (worldIn.getBlockState(blockpos).isAir() && !worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
@@ -73,7 +71,6 @@ public abstract class HoneyFluid extends FlowingFluid
     }
 
     @Nullable
-    @OnlyIn(Dist.CLIENT)
     public IParticleData getDripParticleData() {
         return ParticleTypes.DRIPPING_HONEY;
     }
@@ -92,7 +89,7 @@ public abstract class HoneyFluid extends FlowingFluid
     }
 
     public boolean isEquivalentTo(Fluid fluidIn) {
-        return fluidIn == ModFluids.HONEY.get() || fluidIn == ModFluids.HONEY_FLOWING.get();
+        return ModTags.HONEY.contains(fluidIn);
     }
 
     public int getLevelDecreasePerBlock(IWorldReader world) {

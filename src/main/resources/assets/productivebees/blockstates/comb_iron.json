@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/iron" }
+        "": {
+            "model": "productivebees:block/comb/iron"
+        }
     }
 }

@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#7217c4",
+    "secondaryColor": "#064f2c",
+    "tertiaryColor": "#32005c",
+    "particleColor": "#7217c4",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/amethyst",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/amethyst"
+            }
+        }
+    ]
+}

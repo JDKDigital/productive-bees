@@ -1,0 +1,8 @@
+{
+    "primaryColor": "#ffffff",
+    "secondaryColor": "#228B22",
+    "particleColor": "#cccccc",
+    "flowerBlock": "minecraft:cobweb",
+    "stringy": true,
+    "createComb": false
+}

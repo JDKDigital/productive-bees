@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/malachite",
+        "silentgems:malachite_glowrose",
+        "gemsnjewels:malachite_block"
+    ]
+}

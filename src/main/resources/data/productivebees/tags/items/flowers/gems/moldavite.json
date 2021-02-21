@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/moldavite",
+        "silentgems:moldavite_glowrose",
+        "gemsnjewels:moldavite_block"
+    ]
+}

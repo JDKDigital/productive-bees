@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/refined_obsidian" }
+        "": {
+            "model": "productivebees:block/comb/refined_obsidian"
+        }
     }
 }

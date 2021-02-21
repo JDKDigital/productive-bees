@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/titanium" }
+        "": {
+            "model": "productivebees:block/comb/titanium"
+        }
     }
 }

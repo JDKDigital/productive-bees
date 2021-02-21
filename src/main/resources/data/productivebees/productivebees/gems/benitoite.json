@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#001bb6",
+    "secondaryColor": "#2e0b17",
+    "tertiaryColor": "#000c46",
+    "particleColor": "#001bb6",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/benitoite",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/benitoite"
+            }
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/carnelian",
+        "silentgems:carnelian_glowrose",
+        "gemsnjewels:carnelian_block"
+    ]
+}

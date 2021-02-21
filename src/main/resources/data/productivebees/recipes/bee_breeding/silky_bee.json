@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:reed_bee",
+    "parent2": "productivebees:resin_bee",
+    "offspring": [
+        "productivebees:silky"
+    ],
+    "breeding_items": [
+        {
+            "tag": "minecraft:leaves"
+        },
+        {
+            "item": "minecraft:string"
+        }
+    ]
+}

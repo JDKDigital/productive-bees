@@ -1,0 +1,11 @@
+{
+    "parent": "productivebees:block/honey_generator",
+    "textures": {
+        "top": "productivebees:block/honey_generator/top",
+        "bottom": "productivebees:block/centrifuge/bottom",
+        "particle": "productivebees:block/centrifuge/side",
+        "side": "productivebees:block/centrifuge/powered_side",
+        "front": "productivebees:block/honey_generator/front_full",
+        "inside": "productivebees:block/centrifuge/inner"
+    }
+}

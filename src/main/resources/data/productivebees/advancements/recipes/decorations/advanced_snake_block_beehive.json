@@ -1,35 +1,35 @@
 {
-  "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "productivebees:advanced_snake_block_beehive",
-      "productivebees:expansion_box_snake_block"
-    ]
-  },
-  "criteria": {
-    "has_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "buzzierbees:snake_block_beehive"
-          }
+    "parent": "minecraft:recipes/root",
+    "rewards": {
+        "recipes": [
+            "productivebees:advanced_snake_block_beehive",
+            "productivebees:expansion_box_snake_block"
         ]
-      }
     },
-    "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
-      "conditions": {
-        "recipe": "productivebees:advanced_snake_block_beehive"
-      }
-    }
-  },
-  "requirements": [
-    [
-      "has_beehive",
-      "has_the_recipe"
-    ]
-  ],
+    "criteria": {
+        "has_beehive": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "buzzierbees:snake_block_beehive"
+                    }
+                ]
+            }
+        },
+        "has_the_recipe": {
+            "trigger": "minecraft:recipe_unlocked",
+            "conditions": {
+                "recipe": "productivebees:advanced_snake_block_beehive"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "has_beehive",
+            "has_the_recipe"
+        ]
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",

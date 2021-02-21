@@ -6,7 +6,6 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
@@ -30,19 +29,20 @@ public class CombineGeneRecipe implements ICraftingRecipe
 
     @Override
     public boolean matches(CraftingInventory inv, World worldIn) {
-        // Valid if inv contains 1 honey treat and any number of genes
+        // Valid if inv contains one or more genes of the same type
         // genes must not be mutually exclusive (2 levels of the same attribute are not allowed)
+        int numberOfIngredients = 0;
         Pair<String, Integer> addedGene = null;
         for(int j = 0; j < inv.getSizeInventory(); ++j) {
             ItemStack itemstack = inv.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.GENE.get())) {
+                    numberOfIngredients++;
                     String attribute = Gene.getAttributeName(itemstack);
 
                     if (addedGene == null) {
                         addedGene = Pair.of(attribute, Gene.getValue(itemstack));
-                    }
-                    else if (!addedGene.getFirst().equals(attribute) || !addedGene.getSecond().equals(Gene.getValue(itemstack)) || Gene.getPurity(itemstack) == 100) {
+                    } else if (!addedGene.getFirst().equals(attribute) || !addedGene.getSecond().equals(Gene.getValue(itemstack)) || Gene.getPurity(itemstack) == 100) {
                         return false;
                     }
                 } else {
@@ -50,7 +50,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
                 }
             }
         }
-        return true;
+        return numberOfIngredients > 1;
     }
 
     @Nonnull

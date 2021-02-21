@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#e4ff95",
+    "secondaryColor": "#c9ab4b",
+    "particleColor": "#f1f372",
+    "createComb": false,
+    "flowerTag": "productivebees:flowers/sulfur",
+    "renderer": "default_crystal",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:dusts/sulfur"
+            }
+        }
+    ]
+}

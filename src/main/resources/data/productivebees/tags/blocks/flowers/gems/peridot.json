@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/peridot",
+        "silentgems:peridot_glowrose",
+        "gemsnjewels:peridot_block"
+    ]
+}

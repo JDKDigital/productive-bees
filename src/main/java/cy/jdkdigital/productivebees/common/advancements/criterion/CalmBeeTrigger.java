@@ -9,8 +9,6 @@ import net.minecraft.advancements.criterion.AbstractCriterionTrigger;
 import net.minecraft.advancements.criterion.CriterionInstance;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 
@@ -52,8 +50,6 @@ public class CalmBeeTrigger extends AbstractCriterionTrigger<CalmBeeTrigger.Inst
 
         public boolean test(BeeEntity bee) {
             String type = bee instanceof ConfigurableBeeEntity ? ((ConfigurableBeeEntity) bee).getBeeType() : bee.getEntityString();
-
-            ProductiveBees.LOGGER.info("test: " + this.beeName + " type: " + type);
 
             return this.beeName.equals("any") || type.equals(this.beeName);
         }

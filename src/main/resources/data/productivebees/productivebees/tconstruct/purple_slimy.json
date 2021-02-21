@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#d17bfc",
+    "secondaryColor": "#6200ae",
+    "particleColor": "#d17bfc",
+    "beeTexture": "productivebees:textures/entity/bee/purple_slimy/bee",
+    "renderer": "translucent_with_center",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:slimeball/purple"
+            }
+        }
+    ]
+}

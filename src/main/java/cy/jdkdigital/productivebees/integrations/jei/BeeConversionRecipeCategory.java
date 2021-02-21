@@ -27,7 +27,7 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
     public BeeConversionRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/jei/bee_conversion_recipe.png");
         this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
-        this.icon = guiHelper.createDrawableIngredient(BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":iron_bee"));
+        this.icon = guiHelper.createDrawableIngredient(BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":quarry_bee"));
     }
 
     @Nonnull
@@ -72,7 +72,7 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
         IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
 
         ingredientStacks.init(0, true, 8, 27);
-        ingredientStacks.init(1, false, 100, 27);
+        ingredientStacks.init(1, false, 100, 28);
         ingredientStacks.set(ingredients);
 
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();

@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
@@ -106,7 +105,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         if (beeEntity instanceof HoarderBeeEntity) {
             return 100;
         }
-        return hasNectar ? ProductiveBeesConfig.GENERAL.timeInHive.get() : ProductiveBeesConfig.GENERAL.timeInHive.get() / 4;
+        return hasNectar ? ProductiveBeesConfig.GENERAL.timeInHive.get() : ProductiveBeesConfig.GENERAL.timeInHive.get() / 2;
     }
 
     public void markDirty() {
@@ -117,6 +116,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         super.markDirty();
     }
 
+    @Override
     public void angerBees(@Nullable PlayerEntity player, BlockState blockState, BeehiveTileEntity.State beeState) {
         List<Entity> releasedBees = Lists.newArrayList();
         beeHandler.ifPresent(h -> {
@@ -239,7 +239,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                         }
                     }
 
-                    spawned = spawnBeeInWorldAPosition(this.world, beeEntity, pos, direction, null);
+                    spawned = spawnBeeInWorldAtPosition(this.world, beeEntity, pos, direction, null);
                     if (spawned && hasOffloaded.get()) {
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && (beeEntity.getEntityString().contains("dye_bee") || this.world.rand.nextFloat() <= 0.9F)) {
                             beeEntity.setFlowerPos(this.flowerPos);
@@ -328,7 +328,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
     }
 
-    public static boolean spawnBeeInWorldAPosition(World world, BeeEntity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
+    public static boolean spawnBeeInWorldAtPosition(World world, BeeEntity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
         BlockPos offset = pos.offset(direction);
         boolean isPositionBlocked = !world.getBlockState(offset).getCollisionShape(world, offset).isEmpty();
         float width = entity.getWidth();

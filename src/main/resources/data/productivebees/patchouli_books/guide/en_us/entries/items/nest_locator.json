@@ -1,6 +1,6 @@
 {
     "name": "Nest Locator",
-    "icon": "minecraft:writable_book",
+    "icon": "productivebees:nest_locator",
     "category": "productivebees:items",
     "pages": [
         {

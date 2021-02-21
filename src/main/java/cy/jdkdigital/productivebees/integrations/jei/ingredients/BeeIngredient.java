@@ -1,13 +1,20 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BeeIngredient
 {
+    private static Map<BeeIngredient, BeeEntity> cache = new HashMap<>();
+
     private EntityType<? extends BeeEntity> bee;
     private ResourceLocation beeType;
     private int renderType = 0;
@@ -33,8 +40,20 @@ public class BeeIngredient
         return bee;
     }
 
+    public BeeEntity getCachedEntity(World world) {
+        if (!cache.containsKey(this)) {
+            BeeEntity newBee = getBeeEntity().create(world);
+            if (newBee instanceof ConfigurableBeeEntity) {
+                ((ConfigurableBeeEntity) newBee).setBeeType(getBeeType().toString());
+                ((ConfigurableBeeEntity) newBee).setAttributes();
+            }
+            cache.put(this, newBee);
+        }
+        return cache.get(this);
+    }
+
     /**
-     * productivebees:osmium, prouctivebees:iron_bee
+     * productivebees:osmium, prouctivebees:leafcutter_bee
      */
     public ResourceLocation getBeeType() {
         return beeType != null ? beeType : bee.getRegistryName();

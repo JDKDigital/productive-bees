@@ -15,6 +15,11 @@ public class GreenCarpenterBeeEntity extends SolitaryBeeEntity
     }
 
     @Override
+    public String getRenderer() {
+        return "thicc";
+    }
+
+    @Override
     public Tag<Block> getFlowerTag() {
         return ModTags.FOREST_FLOWERS;
     }

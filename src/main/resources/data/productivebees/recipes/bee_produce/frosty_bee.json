@@ -1,0 +1,11 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:frosty",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/frosty"
+            }
+        }
+    ]
+}

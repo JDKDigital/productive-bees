@@ -1,0 +1,18 @@
+{
+    "primaryColor": "#fa9310",
+    "secondaryColor": "#064f2c",
+    "tertiaryColor": "#d4700e",
+    "particleColor": "#fa9310",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/amber",
+    "createComb": false,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/amber"
+            }
+        }
+    ]
+}

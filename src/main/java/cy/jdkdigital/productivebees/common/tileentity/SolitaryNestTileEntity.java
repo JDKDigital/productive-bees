@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
@@ -9,17 +8,13 @@ import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
 
@@ -45,11 +40,11 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
             if (--nestTickTimer <= 0) {
                 if (this.canRepopulate()) {
                     if (block instanceof SolitaryNest) {
-                        BeeEntity newBee = ((SolitaryNest) block).getNestingBeeType(world);
+                        BeeEntity newBee = ((SolitaryNest) block).getNestingBeeType(world, world.getBiome(pos));
                         if (newBee != null) {
                             newBee.setHealth(newBee.getMaxHealth());
                             Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
-                            spawnBeeInWorldAPosition(this.world, newBee, pos, direction, null);
+                            spawnBeeInWorldAtPosition(this.world, newBee, pos, direction, null);
                         }
                     }
                 }
@@ -62,7 +57,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     public boolean canRepopulate() {
         SolitaryNest nest = ((SolitaryNest) this.getBlockState().getBlock());
-        boolean blockConditionsMet = nest.canRepopulateIn(world.getDimension(), world.getBiome(this.getPos()));
+        boolean blockConditionsMet = nest.canRepopulateIn(world, world.getBiome(this.getPos()));
         return hasNoBees() && blockConditionsMet;
     }
 

@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/refined_glowstone" }
+        "": {
+            "model": "productivebees:block/comb/refined_glowstone"
+        }
     }
 }

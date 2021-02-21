@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/prudentium" }
+        "": {
+            "model": "productivebees:block/comb/prudentium"
+        }
     }
 }

@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/fluorite",
+        "silentgems:fluorite_glowrose",
+        "gemsnjewels:fluorite_block"
+    ]
+}

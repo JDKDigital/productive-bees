@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/fossilised" }
+        "": {
+            "model": "productivebees:block/comb/fossilised"
+        }
     }
 }

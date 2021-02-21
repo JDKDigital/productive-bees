@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/lapis" }
+        "": {
+            "model": "productivebees:block/comb/lapis"
+        }
     }
 }

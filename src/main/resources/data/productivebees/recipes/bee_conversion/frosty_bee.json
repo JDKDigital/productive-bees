@@ -1,0 +1,8 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:sweaty_bee",
+    "result": "productivebees:frosty",
+    "item": {
+        "item": "minecraft:ice"
+    }
+}

@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/elementium" }
+        "": {
+            "model": "productivebees:block/comb/elementium"
+        }
     }
 }

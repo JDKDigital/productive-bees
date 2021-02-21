@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#fbe8a1",
+    "secondaryColor": "#3e5b68",
+    "tertiaryColor": "#c5b520",
+    "particleColor": "#fbe8a1",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/yellow_diamond",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/yellow_diamond"
+            }
+        }
+    ]
+}

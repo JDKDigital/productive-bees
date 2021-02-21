@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "block/dragon_egg" }
+        "": {
+            "model": "block/dragon_egg"
+        }
     }
 }

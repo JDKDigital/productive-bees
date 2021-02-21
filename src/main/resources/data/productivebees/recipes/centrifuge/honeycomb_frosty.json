@@ -1,0 +1,21 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/frosty"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "minecraft:snowball"
+            },
+            "min": 4,
+            "max": 4
+        },
+        {
+            "item": {
+                "item": "minecraft:ice"
+            },
+            "chance": 40
+        }
+    ]
+}

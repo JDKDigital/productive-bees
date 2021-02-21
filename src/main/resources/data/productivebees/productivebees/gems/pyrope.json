@@ -1,0 +1,17 @@
+{
+    "primaryColor": "#bc1100",
+    "secondaryColor": "#3e5b68",
+    "tertiaryColor": "#620000",
+    "particleColor": "#bc1100",
+    "renderer": "default_crystal",
+    "flowerTag": "productivebees:flowers/gems/pyrope",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/pyrope"
+            }
+        }
+    ]
+}

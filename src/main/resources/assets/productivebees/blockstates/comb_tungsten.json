@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/tungsten" }
+        "": {
+            "model": "productivebees:block/comb/tungsten"
+        }
     }
 }

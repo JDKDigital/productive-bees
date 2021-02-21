@@ -20,6 +20,11 @@ public class NomadBeeEntity extends SolitaryBeeEntity
     }
 
     @Override
+    public String getRenderer() {
+        return "slim";
+    }
+
+    @Override
     public Tag<Block> getFlowerTag() {
         return ModTags.ARID_FLOWERS;
     }

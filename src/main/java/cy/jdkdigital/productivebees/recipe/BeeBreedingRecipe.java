@@ -20,9 +20,7 @@ import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class BeeBreedingRecipe implements IRecipe<IInventory>
@@ -31,9 +29,9 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
 
     public final ResourceLocation id;
     public final List<Lazy<BeeIngredient>> ingredients;
-    public final List<Lazy<BeeIngredient>> offspring;
+    public final Map<Lazy<BeeIngredient>, Integer> offspring;
 
-    public BeeBreedingRecipe(ResourceLocation id, List<Lazy<BeeIngredient>> ingredients, List<Lazy<BeeIngredient>> offspring) {
+    public BeeBreedingRecipe(ResourceLocation id, List<Lazy<BeeIngredient>> ingredients, Map<Lazy<BeeIngredient>, Integer> offspring) {
         this.id = id;
         this.ingredients = ingredients;
         this.offspring = offspring;
@@ -50,8 +48,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                     if (!parentName.equals(beeName1) && !parentName.equals(beeName2)) {
                         return false;
                     }
-                }
-                else {
+                } else {
                     ProductiveBees.LOGGER.warn("Bee not found in breeding recipe " + parent);
                     return false;
                 }
@@ -110,11 +107,16 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
             String parentName1 = JSONUtils.getString(json, "parent1");
             String parentName2 = JSONUtils.getString(json, "parent2");
 
-            List<Lazy<BeeIngredient>> children = new ArrayList<>();
+            Map<Lazy<BeeIngredient>, Integer> children = new HashMap<>();
             JsonArray offspring = JSONUtils.getJsonArray(json, "offspring");
             offspring.forEach(el -> {
-                String child = el.getAsString();
-                children.add(Lazy.of(BeeIngredientFactory.getIngredient(child)));
+                if (el.isJsonObject()) {
+                    String child = JSONUtils.getString(el, "offspring");
+                    children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), JSONUtils.getInt(el, "weight"));
+                } else {
+                    String child = el.getAsString();
+                    children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), 1);
+                }
             });
 
             Lazy<BeeIngredient> beeIngredientParent1 = Lazy.of(BeeIngredientFactory.getIngredient(parentName1));
@@ -132,10 +134,10 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                 ingredients.add(Lazy.of(() -> ing1));
                 ingredients.add(Lazy.of(() -> ing2));
 
-                List<Lazy<BeeIngredient>> offspring = new ArrayList<>();
+                Map<Lazy<BeeIngredient>, Integer> offspring = new HashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(i -> {
                     BeeIngredient result = BeeIngredient.read(buffer);
-                    offspring.add(Lazy.of(() -> result));
+                    offspring.put(Lazy.of(() -> result), buffer.readInt());
                 });
 
                 return this.factory.create(id, ingredients, offspring);
@@ -157,9 +159,10 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                 }
 
                 buffer.writeInt(recipe.offspring.size());
-                recipe.offspring.forEach((child) -> {
+                recipe.offspring.forEach((child, weight) -> {
                     if (child.get() != null) {
                         child.get().write(buffer);
+                        buffer.writeInt(weight);
                     } else {
                         ProductiveBees.LOGGER.error("Bee breeding recipe child missing " + recipe.getId() + " - " + child);
                     }
@@ -172,7 +175,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends BeeBreedingRecipe>
         {
-            T create(ResourceLocation id, List<Lazy<BeeIngredient>> input, List<Lazy<BeeIngredient>> output);
+            T create(ResourceLocation id, List<Lazy<BeeIngredient>> input, Map<Lazy<BeeIngredient>, Integer> output);
         }
     }
 }

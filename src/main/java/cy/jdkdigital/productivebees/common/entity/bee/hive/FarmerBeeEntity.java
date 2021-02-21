@@ -35,6 +35,11 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
     }
 
     @Override
+    public boolean canSelfBreed() {
+        return false;
+    }
+
+    @Override
     protected void registerGoals() {
         registerBaseGoals();
 

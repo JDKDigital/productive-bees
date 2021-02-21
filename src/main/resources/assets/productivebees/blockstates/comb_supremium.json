@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/supremium" }
+        "": {
+            "model": "productivebees:block/comb/supremium"
+        }
     }
 }

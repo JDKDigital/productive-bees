@@ -42,11 +42,15 @@ public class BeeCreator
         if (json.has("particleColor")) {
             data.putInt("particleColor", Color.decode(json.get("particleColor").getAsString()).getRGB());
         }
+        if (json.has("tertiaryColor")) {
+            data.putInt("tertiaryColor", Color.decode(json.get("tertiaryColor").getAsString()).getRGB());
+        }
         if (json.has("attackResponse")) {
             data.putString("attackResponse", json.get("attackResponse").getAsString());
         }
 
         data.putString("renderer", json.has("renderer") ? json.get("renderer").getAsString() : "default");
+        data.putString("particleType", json.has("particleType") ? json.get("particleType").getAsString() : "drip");
         data.putFloat("size", json.has("size") ? json.get("size").getAsFloat() : 1.0f);
 
         data.putBoolean("translucent", (json.has("translucent") && json.get("translucent").getAsBoolean()) || data.getString("renderer").equals("translucent_with_center"));
@@ -59,6 +63,9 @@ public class BeeCreator
         data.putBoolean("teleporting", json.has("teleporting") && json.get("teleporting").getAsBoolean());
         data.putBoolean("munchies", json.has("munchies") && json.get("munchies").getAsBoolean());
         data.putBoolean("redstoned", json.has("redstoned") && json.get("redstoned").getAsBoolean());
+        data.putBoolean("stringy", json.has("stringy") && json.get("stringy").getAsBoolean());
+        data.putBoolean("stingless", json.has("stingless") && json.get("stingless").getAsBoolean());
+        data.putBoolean("selfbreed", !json.has("selfbreed") || json.get("selfbreed").getAsBoolean());
 
         if (json.has("attributes")) {
             for(Map.Entry<String, JsonElement> entry: json.get("attributes").getAsJsonObject().entrySet()) {

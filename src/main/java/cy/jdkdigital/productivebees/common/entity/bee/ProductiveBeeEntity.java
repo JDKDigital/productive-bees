@@ -158,7 +158,7 @@ public class ProductiveBeeEntity extends BeeEntity
         }
 
         // Attribute improvement while leashed
-        if (!world.isRemote && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0 && getLeashed()) {
+        if (!world.isRemote && getLeashed() && ticksExisted % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0) {
             // Rain tolerance improvements
             int tolerance = getAttributeValue(BeeAttributes.WEATHER_TOLERANCE);
             if (tolerance < 2 && world.rand.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
@@ -269,6 +269,10 @@ public class ProductiveBeeEntity extends BeeEntity
         return stripName ? type.replace("_bee", "") : type;
     }
 
+    public String getRenderer() {
+        return "default";
+    }
+
     public <T> T getAttributeValue(BeeAttribute<T> parameter) {
         return (T) this.beeAttributes.get(parameter);
     }
@@ -329,6 +333,7 @@ public class ProductiveBeeEntity extends BeeEntity
         tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
         tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getId().toString());
+        tag.putFloat("MaxHealth", getMaxHealth());
     }
 
     @Override
@@ -383,13 +388,28 @@ public class ProductiveBeeEntity extends BeeEntity
     public boolean canMateWith(@Nonnull AnimalEntity otherAnimal) {
         if (otherAnimal == this) {
             return false;
-        }
-        else if (!(otherAnimal instanceof BeeEntity)) {
+        } else if (!(otherAnimal instanceof BeeEntity)) {
             return false;
+        } else {
+            return  (
+                        this.isInLove() &&
+                        otherAnimal.isInLove()
+                    ) &&
+                    (
+                        BeeHelper.getRandomBreedingRecipe(this, otherAnimal, world) != null || // check if there's an offspring recipe
+                        canSelfBreed() || // allows self breeding
+                        !(otherAnimal instanceof ProductiveBeeEntity) // or not a productive bee
+                    );
         }
-        else {
-            return this.isInLove() && otherAnimal.isInLove();
-        }
+    }
+
+    public boolean canSelfBreed() {
+        return true;
+    }
+
+    @Override
+    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+        return this.isChild() ? sizeIn.height * 0.25F : sizeIn.height * 0.5F;
     }
 
     public void setColor(Color primary, Color secondary) {

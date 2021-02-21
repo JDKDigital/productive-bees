@@ -1,5 +1,7 @@
 {
     "variants": {
-        "": { "model": "productivebees:block/comb/inferium" }
+        "": {
+            "model": "productivebees:block/comb/inferium"
+        }
     }
 }

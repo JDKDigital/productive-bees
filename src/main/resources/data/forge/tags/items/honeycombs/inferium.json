@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "productivebees:honeycomb_inferium"
-  ]
+    "replace": false,
+    "values": [
+        "productivebees:honeycomb_inferium"
+    ]
 }

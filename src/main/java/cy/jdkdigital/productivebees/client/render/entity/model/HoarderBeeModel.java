@@ -4,16 +4,13 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBeeEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class HoarderBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeModel<T>
 {
     protected final ModelRenderer abdomen;
 
     public HoarderBeeModel()  {
-        super(false);
+        super();
 
         abdomen = new ModelRenderer(this);
 
@@ -26,8 +23,8 @@ public class HoarderBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
         body.addChild(abdomen);
     }
 
-    public void setRotationAngles(T entity, float var2, float var3, float ageInTicks, float var5, float var6) {
-        super.setRotationAngles(entity, var2, var3, ageInTicks, var5, var6);
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         assert entity instanceof HoarderBeeEntity;
 
         HoarderBeeEntity beeEntity = (HoarderBeeEntity) entity;

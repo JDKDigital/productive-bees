@@ -7,12 +7,9 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-@OnlyIn(Dist.CLIENT)
 public class FallingNectarParticle extends DripParticle
 {
     public FallingNectarParticle(World world, double x, double y, double z, Fluid fluid) {

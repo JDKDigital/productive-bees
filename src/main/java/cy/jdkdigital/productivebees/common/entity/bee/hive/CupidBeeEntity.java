@@ -38,6 +38,11 @@ public class CupidBeeEntity extends ProductiveBeeEntity
     }
 
     @Override
+    public boolean canSelfBreed() {
+        return false;
+    }
+
+    @Override
     protected void registerGoals() {
         registerBaseGoals();
 

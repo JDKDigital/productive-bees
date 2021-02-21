@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:diamond",
+    "result": "productivebees:black_opal",
+    "item": {
+        "item": "gemsnjewels:black_opal_block"
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/black_opal"
+            }
+        }
+    ]
+}

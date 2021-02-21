@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "productivebees:honeycomb_obsidian"
-  ]
+    "replace": false,
+    "values": [
+        "productivebees:honeycomb_obsidian"
+    ]
 }
