@@ -219,44 +219,41 @@ public class BeeHelper
         List<ItemStack> outputList = Lists.newArrayList(ItemStack.EMPTY);
         if (matchedRecipe != null) {
             matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
-                int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
-                ItemStack stack = itemStack.copy();
-                stack.setCount(count);
-                if (hasCombBlockUpgrade) {
-                    stack = convertToCombBlock(stack);
+                if (ProductiveBees.rand.nextInt(100) <= bounds.get(2).getInt()) {
+                    int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
+                    ItemStack stack = itemStack.copy();
+                    stack.setCount(count);
+                    if (hasCombBlockUpgrade) {
+                        stack = convertToCombBlock(stack);
+                    }
+                    outputList.add(stack);
                 }
-                outputList.add(stack);
             });
-        }
-        else if (beeId.equals("productivebees:lumber_bee")) {
+        } else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.LOGS, (ProductiveBeeEntity) beeEntity);
 
                 ItemStack woodChip;
                 if (hasCombBlockUpgrade) {
                     woodChip = new ItemStack(flowerBlock.asItem());
-                }
-                else {
+                } else {
                     woodChip = WoodChip.getStack(flowerBlock, world.rand.nextInt(6) + 1);
                 }
                 outputList.add(woodChip);
             }
-        }
-        else if (beeId.equals("productivebees:quarry_bee")) {
+        } else if (beeId.equals("productivebees:quarry_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.QUARRY, (ProductiveBeeEntity) beeEntity);
 
                 ItemStack stoneChip;
                 if (hasCombBlockUpgrade) {
                     stoneChip = new ItemStack(flowerBlock.asItem());
-                }
-                else {
+                } else {
                     stoneChip = StoneChip.getStack(flowerBlock, world.rand.nextInt(6) + 1);
                 }
                 outputList.add(stoneChip);
             }
-        }
-        else if (beeId.equals("productivebees:dye_bee")) {
+        } else if (beeId.equals("productivebees:dye_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.FLOWERS, (ProductiveBeeEntity) beeEntity);
                 Item flowerItem = flowerBlock.asItem();

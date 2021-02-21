@@ -137,8 +137,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
                 Ingredient produce;
                 if (JSONUtils.isJsonArray(jsonObject, ingredientKey)) {
                     produce = Ingredient.deserialize(JSONUtils.getJsonArray(jsonObject, ingredientKey));
-                }
-                else {
+                } else {
                     produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, ingredientKey));
                 }
 
