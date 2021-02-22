@@ -1,23 +1,23 @@
 {
-    "primaryColor": "#2394cc",
-    "secondaryColor": "#0f0f66",
-    "particleColor": "#2394cc",
-    "name": "Cosmic Bee",
-    "createComb": false,
-    "flowerTag": "forge:ores/cosmic",
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:diamond",
+    "result": "productivebees:spectrum",
+    "item": {
+        "tag": "forge:gems/spectrum"
+    },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:gems/cosmicdust"
+                "tag": "forge:gems/spectrum"
             }
         },
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "ores/cosmic"
+                "tag": "forge:storage_blocks/spectrum"
             }
         }
     ]
