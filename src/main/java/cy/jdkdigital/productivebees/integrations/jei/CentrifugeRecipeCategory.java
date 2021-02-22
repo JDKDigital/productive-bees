@@ -142,11 +142,13 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         }
 
         itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-            if (!chances.isEmpty() && chances.size() >= slotIndex && !chances.get(slotIndex - 1).getString().isEmpty()) {
-                tooltip.add(chances.get(slotIndex - 1));
-            }
-            if (!amounts.isEmpty() && amounts.size() >= slotIndex && !amounts.get(slotIndex - 1).getString().isEmpty()) {
-                tooltip.add(amounts.get(slotIndex - 1));
+            if (!input) {
+                if (!chances.isEmpty() && chances.size() >= slotIndex && !chances.get(slotIndex - 1).getString().isEmpty()) {
+                    tooltip.add(chances.get(slotIndex - 1));
+                }
+                if (!amounts.isEmpty() && amounts.size() >= slotIndex && !amounts.get(slotIndex - 1).getString().isEmpty()) {
+                    tooltip.add(amounts.get(slotIndex - 1));
+                }
             }
         });
         fluidStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
