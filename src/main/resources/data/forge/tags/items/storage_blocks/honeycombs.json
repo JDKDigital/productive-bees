@@ -102,6 +102,9 @@
         "productivebees:comb_tinkers_bronze",
         "productivebees:comb_blue_slimy",
         "productivebees:comb_purple_slimy",
-        "productivebees:comb_magma_slimy"
+        "productivebees:comb_magma_slimy",
+        "productivebees:comb_spectrum",
+        "productivebees:comb_cosmic_dust",
+        "productivebees:comb_starmetal"
     ]
 }
