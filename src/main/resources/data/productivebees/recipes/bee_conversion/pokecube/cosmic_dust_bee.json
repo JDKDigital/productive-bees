@@ -1,10 +1,10 @@
 {
-    "primaryColor": "#2394cc",
-    "secondaryColor": "#0f0f66",
-    "particleColor": "#2394cc",
-    "name": "Cosmic Bee",
-    "createComb": false,
-    "flowerTag": "forge:ores/cosmic",
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:neon_cuckoo_bee",
+    "result": "productivebees:cosmic_dust",
+    "item": {
+        "tag": "forge:gems/cosmicdust"
+    },
     "conditions": [
         {
             "type": "forge:not",

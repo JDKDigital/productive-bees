@@ -1,0 +1,19 @@
+{
+    "type": "astralsorcery:infuser",
+    "fluidInput": "astralsorcery:liquid_starlight",
+    "input": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:iron\"}}"
+    },
+    "output": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:starmetal\"}}"
+    },
+    "consumptionChance": 0.1,
+    "duration": 100,
+    "consumeMultipleFluids": false,
+    "acceptChaliceInput": true,
+    "copyNBTToOutputs": false
+}
