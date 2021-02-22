@@ -103,6 +103,9 @@
         "#forge:honeycombs/tinkers_bronze",
         "#forge:honeycombs/blue_slimy",
         "#forge:honeycombs/purple_slimy",
-        "#forge:honeycombs/magma_slimy"
+        "#forge:honeycombs/magma_slimy",
+        "#forge:honeycombs/spectrum",
+        "#forge:honeycombs/cosmic_dust",
+        "#forge:honeycombs/starmetal"
     ]
 }

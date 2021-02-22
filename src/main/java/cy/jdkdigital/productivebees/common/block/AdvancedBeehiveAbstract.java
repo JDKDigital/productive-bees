@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
+import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import net.minecraft.block.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -57,7 +58,8 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
 
     @Override
     public int getComparatorInputOverride(BlockState state, World world, BlockPos pos) {
-        return state.get(BeehiveBlock.HONEY_LEVEL);
+        TileEntity te = world.getTileEntity(pos);
+        return te != null ? te.getCapability(CapabilityBee.BEE).map(b -> b.getInhabitants().size()).orElse(0) : 0;
     }
 
     @Override

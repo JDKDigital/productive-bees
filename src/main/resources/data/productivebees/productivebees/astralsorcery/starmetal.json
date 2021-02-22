@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#0545b2",
+    "secondaryColor": "#eceee3",
+    "particleColor": "#0545b2",
+    "createComb": false,
+    "flowerBlock": "astralsorcery:starmetal",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "astralsorcery"
+        }
+    ]
+}

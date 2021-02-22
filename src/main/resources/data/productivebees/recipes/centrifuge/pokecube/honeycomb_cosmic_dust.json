@@ -1,0 +1,34 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/cosmic_dust"
+    },
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:gems/cosmicdust"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/cosmicdust"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "ores/cosmic"
+            }
+        }
+    ]
+}

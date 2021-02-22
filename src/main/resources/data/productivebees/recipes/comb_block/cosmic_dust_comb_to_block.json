@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "HH",
+        "HH"
+    ],
+    "key": {
+        "H": {
+            "tag": "forge:honeycombs/cosmic_dust"
+        }
+    },
+    "result": {
+        "item": "productivebees:comb_cosmic_dust"
+    }
+}
