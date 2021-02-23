@@ -209,19 +209,19 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     public void setAttributes() {
         CompoundNBT nbt = getNBTData();
         if (nbt.contains(("productivity"))) {
-            beeAttributes.put(BeeAttributes.PRODUCTIVITY, nbt.getInt("productivity"));
+            setAttributeValue(BeeAttributes.PRODUCTIVITY, nbt.getInt("productivity"));
         }
         if (nbt.contains(("temper"))) {
-            beeAttributes.put(BeeAttributes.TEMPER, nbt.getInt("temper"));
+            setAttributeValue(BeeAttributes.TEMPER, nbt.getInt("temper"));
         }
         if (nbt.contains(("endurance"))) {
-            beeAttributes.put(BeeAttributes.ENDURANCE, nbt.getInt("endurance"));
+            setAttributeValue(BeeAttributes.ENDURANCE, nbt.getInt("endurance"));
         }
         if (nbt.contains(("behavior"))) {
-            beeAttributes.put(BeeAttributes.BEHAVIOR, nbt.getInt("behavior"));
+            setAttributeValue(BeeAttributes.BEHAVIOR, nbt.getInt("behavior"));
         }
         if (nbt.contains(("weather_tolerance"))) {
-            beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, nbt.getInt("weather_tolerance"));
+            setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, nbt.getInt("weather_tolerance"));
         }
     }
 

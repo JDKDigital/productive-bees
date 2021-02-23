@@ -28,6 +28,13 @@
                 "type": "forge:mod_loaded",
                 "modid": "silents_mechanisms"
             }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:thermal",
+                "modid": "silents_mechanisms"
+            }
         }
     ]
 }

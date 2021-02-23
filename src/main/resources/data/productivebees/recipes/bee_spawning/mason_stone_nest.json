@@ -1,12 +1,9 @@
 {
     "type": "productivebees:bee_spawning",
     "ingredient": {
-        "item": "productivebees:sugar_cane_nest"
+        "item": "productivebees:stone_nest"
     },
     "results": [
-        {
-            "bee": "productivebees:reed_bee"
-        },
         {
             "bee": "productivebees:mason_bee"
         }
