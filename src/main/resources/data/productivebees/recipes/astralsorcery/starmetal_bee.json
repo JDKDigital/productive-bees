@@ -15,5 +15,11 @@
     "duration": 100,
     "consumeMultipleFluids": false,
     "acceptChaliceInput": true,
-    "copyNBTToOutputs": false
+    "copyNBTToOutputs": false,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "astralsorcery"
+        }
+    ]
 }
