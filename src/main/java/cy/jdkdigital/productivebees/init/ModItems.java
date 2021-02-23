@@ -57,6 +57,7 @@ public class ModItems
     public static final RegistryObject<Item> HONEYCOMB_BLAZING = createItem("honeycomb_blazing", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_BLITZ = createItem("honeycomb_blitz", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#e9edf3"));
     public static final RegistryObject<Item> HONEYCOMB_BLIZZ = createItem("honeycomb_blizz", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#1d7cf1"));
+    public static final RegistryObject<Item> HONEYCOMB_BLOODY = createItem("honeycomb_bloody", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#7a0300"));
     public static final RegistryObject<Item> HONEYCOMB_BONE = createItem("honeycomb_bone", () -> new Item((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEYCOMB_BRAZEN = createItem("honeycomb_brazen", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#DAAA4C"));
     public static final RegistryObject<Item> HONEYCOMB_BRONZE = createItem("honeycomb_bronze", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#C98C52"));

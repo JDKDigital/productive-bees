@@ -5,12 +5,6 @@
     },
     "results": [
         {
-            "bee": "productivebees:ashy_mining_bee"
-        },
-        {
-            "bee": "productivebees:chocolate_mining_bee"
-        },
-        {
             "bee": "productivebees:digger_bee"
         }
     ],

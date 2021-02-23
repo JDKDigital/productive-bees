@@ -46,7 +46,17 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
-        return false;
+        ItemStack inventoryItem = null;
+        for(int j = 0; j < inv.getSizeInventory(); ++j) {
+            ItemStack itemstack = inv.getStackInSlot(j);
+            if (!itemstack.isEmpty()) {
+                if (inventoryItem != null) {
+                    return false;
+                }
+                inventoryItem = itemstack;
+            }
+        }
+        return matches(inventoryItem);
     }
 
     public boolean matches(ItemStack nest) {

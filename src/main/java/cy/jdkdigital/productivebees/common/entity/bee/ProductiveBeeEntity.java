@@ -275,13 +275,14 @@ public class ProductiveBeeEntity extends BeeEntity
     public void setAttributeValue(BeeAttribute<?> parameter, Integer value) {
         // Give health boost based on endurance
         if (parameter.equals(BeeAttributes.ENDURANCE)) {
+            float currentDamage = this.getMaxHealth() - this.getHealth();
             IAttributeInstance healthMod = this.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
             healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_WEAK);
             healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_MEDIUM);
             healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_STRONG);
             if (value != 1) {
                 healthMod.applyModifier(BeeAttributes.HEALTH_MODS.get(value));
-                this.heal(this.getMaxHealth());
+                this.setHealth(this.getMaxHealth() - currentDamage);
             }
         }
 
