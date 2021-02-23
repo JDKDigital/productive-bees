@@ -7,10 +7,10 @@
     ],
     "key": {
         "W": {
-            "item": "minecraft:warped_planks"
+            "item": "minecraft:birch_planks"
         },
         "H": {
-            "item": "minecraft:beehive"
+            "item": "buzzier_bees:birch_beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -19,19 +19,16 @@
             "item": "minecraft:campfire"
         },
         "S": {
-            "item": "minecraft:shears"
+            "tag": "forge:shears"
         }
     },
     "result": {
-        "item": "productivebees:advanced_warped_beehive"
+        "item": "productivebees:advanced_birch_beehive"
     },
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:mod_loaded",
-                "modid": "buzzier_bees"
-            }
+            "type": "forge:mod_loaded",
+            "modid": "buzzier_bees"
         }
     ]
 }

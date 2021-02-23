@@ -10,7 +10,7 @@
             "item": "byg:palm_planks"
         },
         "H": {
-            "item": "buzzier_bees:bop_palm_beehive"
+            "item": "minecraft:beehive"
         },
         "C": {
             "item": "minecraft:honeycomb"
@@ -28,11 +28,7 @@
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "buzzier_bees"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "byg_"
+            "modid": "byg"
         }
     ]
 }

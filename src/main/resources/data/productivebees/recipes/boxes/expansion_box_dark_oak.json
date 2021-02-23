@@ -15,11 +15,5 @@
     },
     "result": {
         "item": "productivebees:expansion_box_dark_oak"
-    },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "buzzier_bees"
-        }
-    ]
+    }
 }
