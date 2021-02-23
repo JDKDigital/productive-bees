@@ -137,6 +137,7 @@ dependencies {
     implementation fg.deobf('mods:abnormals_core-1.16.4:3.0.6')
     implementation fg.deobf('mods:buzzier_bees-1.16.4:3.0.0')
     implementation fg.deobf('mods:BloodMagic-1.16.4:3.1.0-15')
+    implementation fg.deobf('mods:pokecube-aio-1.16.4:3.9.5')
 
     implementation fg.deobf('mods:ResourcefulBees1.16.3-1.16.3:0.5.6b')
 }
