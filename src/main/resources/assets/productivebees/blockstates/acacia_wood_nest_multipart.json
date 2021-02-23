@@ -1,0 +1,114 @@
+{
+    "multipart": [
+        {
+            "when": {"axis": "y", "facing": "north"},
+            "apply": {
+                "model": "productivebees:block/nest/acacia_wood_nest",
+                "y": 270
+            }
+        },
+        {
+            "when": {"axis": "y", "facing": "east"},
+            "apply": {
+                "model": "productivebees:block/nest/acacia_wood_nest",
+            }
+        },
+        {
+            "when": {"axis": "y", "facing": "south"},
+            "apply": {
+                "model": "productivebees:block/nest/acacia_wood_nest",
+                "y": 90
+            }
+        },
+        {
+            "when": {"axis": "y", "facing": "west"},
+            "apply": {
+                "model": "productivebees:block/nest/acacia_wood_nest",
+                "y": 180
+            }
+        },
+        {
+            "when": {"axis": "y", "facing": "up"},
+            "apply": {
+                "model": "productivebees:block/nest/acacia_wood_nest",
+                "y": 270
+            }
+        },
+        {
+            "when": {"axis": "y", "facing": "down"},
+            "apply": {
+                "model": "productivebees:block/nest/acacia_wood_nest",
+                "y": 270
+            }
+        },
+        {
+            "apply": {
+
+            }
+        }
+    ],
+
+    "" : {
+        "axis=z,facing=east": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90
+        },
+        "axis=z,facing=west": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90,
+            "y": 180
+        },
+        "axis=z,facing=north": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90
+        },
+        "axis=z,facing=south": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90
+        },
+        "axis=x,facing=north": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90,
+            "y": 90,
+            "z": 90
+        },
+        "axis=x,facing=south": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90,
+            "y": 270,
+            "z": 90
+        },
+        "axis=x,facing=east": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90,
+            "y": 90,
+            "z": 90
+        },
+        "axis=x,facing=west": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90,
+            "y": 90,
+            "z": 90
+        },
+        "axis=z,facing=up": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90
+        },
+        "axis=z,facing=down": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90
+        },
+        "axis=x,facing=up": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90,
+            "y": 90,
+            "z": 90
+        },
+        "axis=x,facing=down": {
+            "model": "productivebees:block/nest/acacia_wood_nest",
+            "x": 90,
+            "y": 90,
+            "z": 90
+        }
+    }
+}

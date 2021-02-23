@@ -91,6 +91,7 @@ public class ProductiveBeeEntity extends BeeEntity
         setAttributeValue(BeeAttributes.BEHAVIOR, 0);
         setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
         setAttributeValue(BeeAttributes.TYPE, "hive");
+        setAttributeValue(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
@@ -301,7 +302,7 @@ public class ProductiveBeeEntity extends BeeEntity
         this.beeAttributes.put(parameter, value);
     }
 
-    public void setAttributeValue(BeeAttribute<?> parameter, String value) {
+    public void setAttributeValue(BeeAttribute<?> parameter, Object value) {
         this.beeAttributes.put(parameter, value);
     }
 
@@ -360,6 +361,7 @@ public class ProductiveBeeEntity extends BeeEntity
         tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
         tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
+        tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).getId().toString());
         tag.putFloat("MaxHealth", getMaxHealth());
     }
 
@@ -375,6 +377,7 @@ public class ProductiveBeeEntity extends BeeEntity
             setAttributeValue(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
             setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
             setAttributeValue(BeeAttributes.TYPE, tag.getString("bee_type"));
+            setAttributeValue(BeeAttributes.APHRODISIACS, new ItemTags.Wrapper(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
         }
     }
 
