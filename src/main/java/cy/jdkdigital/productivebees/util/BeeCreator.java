@@ -2,7 +2,9 @@ package cy.jdkdigital.productivebees.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.Effect;
@@ -113,8 +115,14 @@ public class BeeCreator
     }
 
     public static ItemStack getSpawnEgg(String beeType) {
-        ItemStack egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
-        BeeCreator.setTag(beeType, egg);
+        ItemStack egg;
+        if (BeeReloadListener.INSTANCE.getData(beeType) != null) {
+            egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
+            setTag(beeType, egg);
+        } else {
+            String name = beeType.contains(":") ? beeType.split("[:]")[1] : beeType;
+            egg = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_" + name)));
+        }
         return egg;
     }
 }

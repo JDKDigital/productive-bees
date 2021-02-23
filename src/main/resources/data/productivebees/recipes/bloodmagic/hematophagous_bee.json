@@ -1,0 +1,22 @@
+{
+    "type": "bloodmagic:altar",
+    "input": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_nomad_bee"
+    },
+    "output": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:hematophagous\"}}"
+    },
+    "upgradeLevel": 1,
+    "altarSyphon": 5000,
+    "consumptionRate": 30,
+    "drainRate": 50,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "bloodmagic"
+        }
+    ]
+}
