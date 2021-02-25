@@ -15,6 +15,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
@@ -275,14 +276,15 @@ public class ProductiveBeeEntity extends BeeEntity
     public void setAttributeValue(BeeAttribute<?> parameter, Integer value) {
         // Give health boost based on endurance
         if (parameter.equals(BeeAttributes.ENDURANCE)) {
-            float currentDamage = this.getMaxHealth() - this.getHealth();
             IAttributeInstance healthMod = this.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
-            healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_WEAK);
-            healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_MEDIUM);
-            healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_STRONG);
             if (value != 1) {
-                healthMod.applyModifier(BeeAttributes.HEALTH_MODS.get(value));
-                this.setHealth(this.getMaxHealth() - currentDamage);
+                AttributeModifier mod = BeeAttributes.HEALTH_MODS.get(value);
+                if (!healthMod.hasModifier(mod)) {
+                    healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_WEAK);
+                    healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_MEDIUM);
+                    healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_STRONG);
+                    healthMod.applyModifier(BeeAttributes.HEALTH_MODS.get(value));
+                }
             }
         }
 

@@ -208,7 +208,7 @@ public class BeeHelper
             }
         }
 
-        List<ItemStack> outputList = Lists.newArrayList(ItemStack.EMPTY);
+        List<ItemStack> outputList = new ArrayList<>();
         if (matchedRecipe != null) {
             matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
                 if (ProductiveBees.rand.nextInt(100) <= bounds.get(2).getInt()) {

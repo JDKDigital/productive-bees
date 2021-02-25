@@ -84,32 +84,40 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
             }
 
             if (entity.hasNectar()) {
-                if (entity.getColor(0) != null) {
-                    float[] colors = new float[]{1.0F, 1.0F, 1.0F};
-                    if (entity instanceof ConfigurableBeeEntity) {
-                        if (((ConfigurableBeeEntity) entity).hasBeeTexture()) {
-                            return;
-                        }
-                        if (((ConfigurableBeeEntity) entity).hasParticleColor()) {
-                            colors = ((ConfigurableBeeEntity) entity).getParticleColor();
-                        }
-                    }
 
-                    ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/pollen.png");
-                    renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, packedLightIn, entity, colors[0], colors[1], colors[2]);
+            }
+
+            renderChristmasHat(matrixStackIn, bufferIn, entity);
+        }
+    }
+
+    private void renderNectarLayer(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull ProductiveBeeEntity entity) {
+        if (entity.getColor(0) != null) {
+            float[] colors = new float[]{1.0F, 1.0F, 1.0F};
+            if (entity instanceof ConfigurableBeeEntity) {
+                if (((ConfigurableBeeEntity) entity).hasBeeTexture()) {
+                    return;
+                }
+                if (((ConfigurableBeeEntity) entity).hasParticleColor()) {
+                    colors = ((ConfigurableBeeEntity) entity).getParticleColor();
                 }
             }
 
-            if (isChristmas && entity.getColor(0) != null && !entity.getRenderStatic()) {
-                if (entity instanceof ConfigurableBeeEntity) {
-                    if (((ConfigurableBeeEntity) entity).hasBeeTexture()) {
-                        return;
-                    }
-                }
+            ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/pollen.png");
+            renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, packedLightIn, entity, colors[0], colors[1], colors[2]);
+        }
+    }
 
-                ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/santa_hat.png");
-                renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, 15728640, entity, 1.0f, 1.0f, 1.0f);
+    private void renderChristmasHat(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, @Nonnull ProductiveBeeEntity entity) {
+        if (isChristmas && entity.getColor(0) != null && !entity.getRenderStatic()) {
+            if (entity instanceof ConfigurableBeeEntity) {
+                if (((ConfigurableBeeEntity) entity).hasBeeTexture()) {
+                    return;
+                }
             }
+
+            ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/santa_hat.png");
+            renderCutoutModel(this.getEntityModel(), location, matrixStackIn, bufferIn, 15728640, entity, 1.0f, 1.0f, 1.0f);
         }
     }
 }
