@@ -98,11 +98,6 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                     }
                 }
             }
-
-            // Kill unconfigured bees
-            if (getBeeType().isEmpty() && isAlive()) {
-                attackEntityFrom(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
-            }
         }
     }
 

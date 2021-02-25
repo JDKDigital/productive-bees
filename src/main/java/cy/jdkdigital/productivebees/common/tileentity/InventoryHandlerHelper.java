@@ -56,7 +56,7 @@ public class InventoryHandlerHelper
                     ) {
                         return slot;
                     }
-                } else if (Container.areItemsAndTagsEqual(stack, insertStack) || stack.isEmpty()) {
+                } else if (stack.isEmpty() || areItemsAndTagsEqual(stack, insertStack)) {
                     return slot;
                 }
             }
@@ -65,6 +65,32 @@ public class InventoryHandlerHelper
             }
         }
         return emptySlot;
+    }
+
+    public static boolean areItemsAndTagsEqual(ItemStack stack1, ItemStack stack2) {
+        return
+                (
+                    stack1.isEmpty() && stack2.isEmpty()
+                ) ||
+                (
+                    stack1.getItem() == stack2.getItem() && areItemStackTagsEqual(stack1, stack2)
+                );
+    }
+
+    public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB) {
+        if (stackA.isEmpty() && stackB.isEmpty()) {
+            return true;
+        } else if (!stackA.isEmpty() && !stackB.isEmpty()) {
+            CompoundNBT tagA = stackA.getTag();
+            CompoundNBT tagB = stackB.getTag();
+            if ((tagA == null || tagA.isEmpty()) && tagB != null && !tagB.isEmpty()) {
+                return false;
+            } else {
+                return (tagA == null || tagA.isEmpty() || tagA.equals(stackB.getTag())) && stackA.areCapsCompatible(stackB);
+            }
+        } else {
+            return false;
+        }
     }
 
     public static class ItemHandler extends ItemStackHandler
