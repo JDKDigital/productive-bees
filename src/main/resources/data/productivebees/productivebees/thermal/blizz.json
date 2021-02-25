@@ -4,6 +4,8 @@
     "particleColor": "#8cdeff",
     "name": "BizBee",
     "createComb": false,
+    "beeTexture": "productivebees:textures/entity/bee/blizz/bee",
+    "renderer": "elvis",
     "flowerTag": "productivebees:flowers/frozen",
     "conditions": [
         {

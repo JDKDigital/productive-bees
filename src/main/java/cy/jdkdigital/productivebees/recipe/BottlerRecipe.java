@@ -65,7 +65,7 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
     @Nonnull
     @Override
     public ItemStack getRecipeOutput() {
-        return getRecipeOutputs().entrySet().iterator().next().getKey();
+        return getRecipeOutputs().entrySet().iterator().next().getKey().copy();
     }
 
     @Nonnull

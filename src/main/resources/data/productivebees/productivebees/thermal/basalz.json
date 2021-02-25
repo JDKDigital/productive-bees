@@ -5,6 +5,7 @@
     "name": "BazBee",
     "createComb": false,
     "flowerTag": "productivebees:flowers/burning",
+    "beeTexture": "productivebees:textures/entity/bee/basalz/bee",
     "fireproof": true,
     "conditions": [
         {

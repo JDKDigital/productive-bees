@@ -1,0 +1,31 @@
+{
+    "type": "thermal:smelter",
+    "input": [
+        {
+            "item": "thermal:basalz_powder"
+        },
+        {
+            "type": "forge:nbt",
+            "item": "productivebees:spawn_egg_configurable_bee",
+            "nbt": "{EntityTag:{type:\"productivebees:blazing\"}}"
+        },
+        {
+            "item": "thermal:basalz_powder"
+        }
+    ],
+    "result": {
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:basalz"
+            }
+        }
+    },
+    "energy": 8000,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

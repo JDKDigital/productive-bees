@@ -130,6 +130,12 @@ public class EventHandler
                 if (tag.getString("type").equals("productivebees:ghostly") && ProductiveBees.rand.nextFloat() < 0.02f) {
                     entity.setCustomName(new StringTextComponent("BooBee"));
                 }
+                else if (tag.getString("type").equals("productivebees:blitz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+                    entity.setCustomName(new StringTextComponent("King BitzBee"));
+                }
+                else if (tag.getString("type").equals("productivebees:blizz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+                    entity.setCustomName(new StringTextComponent("Shiny BizBee"));
+                }
             }
         }
     }

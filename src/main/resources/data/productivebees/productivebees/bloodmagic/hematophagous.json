@@ -4,7 +4,7 @@
     "particleColor": "#7a0300",
     "description": "To acquire this bee, look up the crafting recipe for it's spawn egg.",
     "createComb": false,
-    "flowerTag": "productivebees:animals",
+    "/*flowerTag*/": "productivebees:animals",
     "flowerType": "entity_types",
     "conditions": [
         {

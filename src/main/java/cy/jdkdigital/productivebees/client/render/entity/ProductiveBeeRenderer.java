@@ -36,6 +36,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         addLayer(new BeeBodyLayer(this, "default_crystal", isChristmas));
         addLayer(new BeeBodyLayer(this, "default_shell", isChristmas));
         addLayer(new BeeBodyLayer(this, "default_foliage", isChristmas));
+        addLayer(new BeeBodyLayer(this, "elvis", isChristmas));
         addLayer(new BeeBodyLayer(this, "small", isChristmas));
         addLayer(new BeeBodyLayer(this, "slim", isChristmas));
         addLayer(new BeeBodyLayer(this, "tiny", isChristmas));

@@ -4,7 +4,11 @@
     "particleColor": "#ffd86f",
     "name": "BitzBee",
     "createComb": false,
+    "beeTexture": "productivebees:textures/entity/bee/blitz/bee",
     "flowerBlock": "thermal:niter_block",
+    "attributes": {
+        "weather_tolerance": 2
+    },
     "conditions": [
         {
             "type": "forge:mod_loaded",

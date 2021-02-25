@@ -74,6 +74,9 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
             case "tiny":
                 partialModel = new TinyBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
                 break;
+            case "elvis":
+                partialModel = new MediumElvisBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+                break;
             case "default_shell":
                 partialModel = new MediumShellBeeModel(this, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
                 break;
