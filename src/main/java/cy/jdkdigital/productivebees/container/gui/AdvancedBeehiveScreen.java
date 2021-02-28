@@ -59,12 +59,15 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             // Bee Tooltips
             int j = 0;
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
+                BeeEntity bee = null;
                 String type = inhabitant.nbt.getString("type");
                 if (type.isEmpty()) {
                     type = inhabitant.nbt.getString("id");
                 }
                 BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(type).get();
-                BeeEntity bee = beeIngredient.getCachedEntity(minecraft.world);
+                if (beeIngredient != null) {
+                    bee = beeIngredient.getCachedEntity(minecraft.world);
+                }
 
                 if (bee != null && positions.containsKey(j) && isPointInRegion(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
                     CompoundNBT tag = inhabitant.nbt.copy();
