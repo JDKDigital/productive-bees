@@ -33,7 +33,7 @@ public class ModItems
 
     public static final List<RegistryObject<Item>> SPAWN_EGGS = Lists.newArrayList();
 
-    public static final RegistryObject<Item> HONEY_BUCKET = createItem("honey_bucket", () -> new BucketItem(ModFluids.HONEY, new Item.Properties().maxStackSize(1).containerItem(Items.BUCKET).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> HONEY_BUCKET = createItem("honey_bucket", () -> new BucketItem(ModFluids.HONEY, new Item.Properties().containerItem(Items.BUCKET).maxStackSize(1).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> BEE_CAGE = createItem("bee_cage", () -> new BeeCage(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> STURDY_BEE_CAGE = createItem("sturdy_bee_cage", () -> new SturdyBeeCage(new Item.Properties().maxStackSize(1).group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEY_TREAT = createItem("honey_treat", () -> new HoneyTreat(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
@@ -44,6 +44,7 @@ public class ModItems
     public static final RegistryObject<Item> BEE_BOMB_ANGRY = createItem("bee_bomb_angry", () -> new BeeBombAngry(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> NEST_LOCATOR = createItem("nest_locator", () -> new NestLocator(new Item.Properties().group(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> SUGARBAG_HONEYCOMB = createItem("sugarbag_honeycomb", () -> new Item((new Item.Properties().food(SUGARBAG).rarity(Rarity.EPIC)).group(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> TREAT_ON_A_STICK = createItem("treat_on_a_stick", () -> new TreatOnAStick((new Item.Properties()).maxDamage(28).group(ModItemGroups.PRODUCTIVE_BEES)));
 
     public static final RegistryObject<Item> CONFIGURABLE_HONEYCOMB = createItem("configurable_honeycomb", () -> new Honeycomb((new Item.Properties()).group(null), "#d2ab00"));
 

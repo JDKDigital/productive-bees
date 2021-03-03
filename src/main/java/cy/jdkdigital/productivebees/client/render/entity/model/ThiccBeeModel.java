@@ -17,12 +17,11 @@ public class ThiccBeeModel extends PartialBeeModel
         if (withTorso) {
             torso.setTextureOffset(3, 3).addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 5.0F, 0.0F, 0.0F, 0.0F);
         }
-        ModelRenderer butt = new ModelRenderer(this.model);
-        butt.setRotationPoint(0.0F, -4.0F, 0.0F);
-        butt.setTextureOffset(30, 0).addBox(-4.5F, -1.0F, 0.0F, 9.0F, 9.0F, 8.0F, 0.0F, 0.0F, 0.0F);
-        butt.setTextureOffset(9, 0).addBox(-0.5F, 3.0F, 8.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        setRotationAngle(butt, -0.2617993877991494F, 0.0F, 0.0F);
-        torso.addChild(butt);
+        externals.setRotationPoint(0.0F, -4.0F, 0.0F);
+        externals.setTextureOffset(30, 0).addBox(-4.5F, -1.0F, 0.0F, 9.0F, 9.0F, 8.0F, 0.0F, 0.0F, 0.0F);
+        externals.setTextureOffset(9, 0).addBox(-0.5F, 3.0F, 8.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
+        setRotationAngle(externals, -0.2617993877991494F, 0.0F, 0.0F);
+        torso.addChild(externals);
     }
 
     @Override
@@ -54,13 +53,13 @@ public class ThiccBeeModel extends PartialBeeModel
     protected void addLegs() {
         frontLegs.setRotationPoint(1.5F, 3.0F, -3.0F);
         frontLegs.setTextureOffset(24, 1).addBox(-5.0F, 0.0F, 0.0F, 7.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        middleLegs.setRotationPoint(1.5F, 3.5F, -1.0F);
-        middleLegs.setTextureOffset(24, 3).addBox(-5.0F, 0.0F, 0.0F, 7.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        backLegs.setRotationPoint(1.5F, 4.0F, 1.0F);
-        backLegs.setTextureOffset(24, 5).addBox(-5.0F, 0.0F, 0.0F, 7.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        middleLegs.setRotationPoint(1.5F, 4.0F, 1.0F);
+        middleLegs.setTextureOffset(24, 3).addBox(-5.0F, -1.5F, -1.0F, 7.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        backLegs.setRotationPoint(1.5F, 3.5F, 0.0F);
+        backLegs.setTextureOffset(24, 5).addBox(-5.0F, 7.0F, 1.0F, 7.0F, 2.0F, 0.0F, 0.0F, 0.0F, 0.0F);
 
         body.addChild(frontLegs);
         body.addChild(middleLegs);
-        body.addChild(backLegs);
+        externals.addChild(backLegs);
     }
 }

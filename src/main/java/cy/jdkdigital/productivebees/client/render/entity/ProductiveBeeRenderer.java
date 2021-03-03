@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.client.render.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.layers.BeeBodyLayer;
-import cy.jdkdigital.productivebees.client.render.entity.layers.GlowingInnardsLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
@@ -41,8 +40,6 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         addLayer(new BeeBodyLayer(this, "slim", isChristmas));
         addLayer(new BeeBodyLayer(this, "tiny", isChristmas));
         addLayer(new BeeBodyLayer(this, "translucent_with_center", isChristmas));
-
-        addLayer(new GlowingInnardsLayer(this));
     }
 
     @Nullable

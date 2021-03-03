@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:fishing_rod"
+        },
+        {
+            "item": "productivebees:honey_treat"
+        }
+    ],
+    "result": {
+        "item": "productivebees:treat_on_a_stick"
+    }
+}

@@ -16,6 +16,7 @@ public class ModTags
     public static final ITag<Block> REED_NESTS = getTag("nests/reed_nests");
     public static final ITag<Block> COLD_NESTS = getTag("nests/cold_nests");
     public static final ITag<Block> WOOD_NESTS = getTag("nests/wood_nests");
+    public static final ITag<Block> BUMBLE_BEE_NESTS = getTag("nests/bumble_bee");
 
     public static final ITag<Block> FOREST_FLOWERS = getTag("flowers/forest_flowers");
     public static final ITag<Block> ARID_FLOWERS = getTag("flowers/arid_flowers");
@@ -35,7 +36,6 @@ public class ModTags
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));
     }
 
-    @Nullable
     public static ITag<Block> getTag(ResourceLocation resourceLocation) {
         return BlockTags.createOptional(resourceLocation);
     }

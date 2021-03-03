@@ -30,7 +30,7 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
     @Override
     public void tick() {
         if (world != null && !world.isRemote) {
-            if (++this.tankTick > 20) {
+            if (++this.tankTick > 21) {
                 this.tankTick = 0;
                 tickFluidTank();
             }

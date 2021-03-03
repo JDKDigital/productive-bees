@@ -19,6 +19,7 @@ import cy.jdkdigital.productivebees.common.item.*;
 import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -36,6 +37,7 @@ import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.GrassColors;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
@@ -139,6 +141,8 @@ public class ClientSetup
 
     public static void registerItemColors(final ColorHandlerEvent.Item event) {
         ItemColors colors = event.getItemColors();
+        BlockColors blockColors = event.getBlockColors();
+
         for (RegistryObject<Item> eggItem : ModItems.SPAWN_EGGS) {
             if (ObfuscationReflectionHelper.getPrivateValue(RegistryObject.class, eggItem, "value") != null) {
                 Item item = eggItem.get();
@@ -161,6 +165,11 @@ public class ClientSetup
                 }
             }
         }
+
+        colors.register((stack, tintIndex) -> {
+            BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
+            return blockColors.getColor(blockstate, null, null, tintIndex);
+        }, ModBlocks.BUMBLEBEE_NEST.get());
     }
 
     public static void registerBlockColors(final ColorHandlerEvent.Block event) {
@@ -168,6 +177,10 @@ public class ClientSetup
         colors.register((blockState, lightReader, pos, tintIndex) -> {
             return lightReader != null && pos != null ? BiomeColors.getGrassColor(lightReader, pos) : -1;
         }, ModBlocks.SUGAR_CANE_NEST.get());
+
+        colors.register((blockState, lightReader, pos, tintIndex) -> {
+            return lightReader != null && pos != null ? BiomeColors.getGrassColor(lightReader, pos) : GrassColors.get(0.5D, 1.0D);
+        }, ModBlocks.BUMBLEBEE_NEST.get());
 
         for (RegistryObject<Block> registryBlock : ModBlocks.BLOCKS.getEntries()) {
             Block block = registryBlock.get();
@@ -213,6 +226,7 @@ public class ClientSetup
     private static void registerBlockRendering() {
         RenderTypeLookup.setRenderLayer(ModBlocks.COMB_GHOSTLY.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.SLIMY_NEST.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(ModBlocks.BUMBLEBEE_NEST.get(), RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(ModBlocks.SUGAR_CANE_NEST.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.JAR.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.INVISIBLE_REDSTONE_BLOCK.get(), RenderType.getCutout());

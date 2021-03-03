@@ -141,7 +141,9 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
                 leftAntenna.rotateAngleX = angle * FAKE_PI * 0.03F;
                 rightAntenna.rotateAngleX = angle * FAKE_PI * 0.03F;
                 frontLegs.rotateAngleX = -angle * FAKE_PI * 0.1F + 0.3926991F;
-                backLegs.rotateAngleX = -angle * FAKE_PI * 0.05F + 0.7853982F;
+                if (!entity.getRenderer().equals("thicc")) {
+                    backLegs.rotateAngleX = -angle * FAKE_PI * 0.05F + 0.7853982F;
+                }
                 body.rotationPointY = 19.0F - angle * 0.9F;
             }
         }
@@ -150,10 +152,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
             body.rotateAngleX = ModelUtils.func_228283_a_(body.rotateAngleX, 3.0915928F, bodyPitch);
         }
 
-        beeSize = 1.0f;
-        if (entity instanceof ConfigurableBeeEntity) {
-            beeSize = beeSize * ((ConfigurableBeeEntity) entity).getSizeModifier();
-        }
+        beeSize = entity.getSizeModifier();
 
         if (isChild) {
             beeSize /= 2;

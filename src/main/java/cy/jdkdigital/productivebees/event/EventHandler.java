@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.event;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -110,7 +111,10 @@ public class EventHandler
     public static void onPlayerJoinServer(PlayerEvent.PlayerLoggedInEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
-            PacketHandler.sendToPlayer(new Messages.BeesMessage(BeeReloadListener.INSTANCE.getData()), (ServerPlayerEntity) event.getEntity());
+            ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            executorService.schedule(() -> {
+                PacketHandler.sendToPlayer(new Messages.BeesMessage(BeeReloadListener.INSTANCE.getData()), (ServerPlayerEntity) event.getEntity());
+            }, ProductiveBeesConfig.GENERAL.beeSyncDelay.get(), TimeUnit.SECONDS);
         }
     }
 

@@ -154,8 +154,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
                     Ingredient produce;
                     if (JSONUtils.isJsonArray(jsonObject, "item")) {
                         produce = Ingredient.deserialize(JSONUtils.getJsonArray(jsonObject, "item"));
-                    }
-                    else {
+                    } else {
                         produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, "item"));
                     }
 
