@@ -25,15 +25,20 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class HoneyFluid extends FlowingFluid
+public abstract class HoneyFluid extends ForgeFlowingFluid
 {
     public static final ResourceLocation STILL = new ResourceLocation(ProductiveBees.MODID, "block/honey/still");
     public static final ResourceLocation FLOWING = new ResourceLocation(ProductiveBees.MODID, "block/honey/flow");
     public static final ResourceLocation OVERLAY = new ResourceLocation(ProductiveBees.MODID, "block/honey/overlay");
+
+    protected HoneyFluid(Properties properties) {
+        super(properties.bucket(ModItems.HONEY_BUCKET).block(ModBlocks.HONEY));
+    }
 
     @Override
     public Fluid getFlowingFluid() {
@@ -46,11 +51,6 @@ public abstract class HoneyFluid extends FlowingFluid
     }
 
     @Override
-    public Item getFilledBucket() {
-        return ModItems.HONEY_BUCKET.get();
-    }
-
-    @Override
     public void animateTick(World worldIn, BlockPos pos, FluidState state, Random random) {
         BlockPos blockpos = pos.up();
         if (worldIn.getBlockState(blockpos).isAir() && !worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
@@ -58,17 +58,6 @@ public abstract class HoneyFluid extends FlowingFluid
                 worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_HONEY_BLOCK_SLIDE, SoundCategory.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
             }
         }
-    }
-
-    @Override
-    protected FluidAttributes createAttributes() {
-        return FluidAttributes.builder(STILL, FLOWING)
-                .overlay(OVERLAY)
-                .translationKey("fluid." + ProductiveBees.MODID + ".honey")
-                .color(0xffffc916)
-                .density(3000)
-                .viscosity(6000)
-                .build(ModFluids.HONEY.get());
     }
 
     @Nullable
@@ -137,6 +126,10 @@ public abstract class HoneyFluid extends FlowingFluid
 
     public static class Flowing extends HoneyFluid
     {
+        public Flowing(Properties properties) {
+            super(properties);
+        }
+
         @Override
         protected void fillStateContainer(StateContainer.Builder<Fluid, FluidState> builder) {
             super.fillStateContainer(builder);
@@ -156,6 +149,10 @@ public abstract class HoneyFluid extends FlowingFluid
 
     public static class Source extends HoneyFluid
     {
+        public Source(Properties properties) {
+            super(properties);
+        }
+
         @Override
         public int getLevel(FluidState state) {
             return 8;

@@ -1,0 +1,34 @@
+{
+    "type": "mythicbotany:infusion",
+    "group": "infuser",
+    "output": {
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:alfsteel"
+            }
+        }
+    },
+    "mana": 2000000,
+    "ingredients": [
+        {
+            "type": "forge:nbt",
+            "item": "productivebees:spawn_egg_configurable_bee",
+            "nbt": "{EntityTag:{type:\"productivebees:elementium\"}}"
+        },
+        {
+            "tag": "forge:gems/dragonstone"
+        },
+        {
+            "item": "botania:pixie_dust"
+        }
+    ],
+    "fromColor": 16711821,
+    "toColor": 16750080,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mythicbotany"
+        }
+    ]
+}

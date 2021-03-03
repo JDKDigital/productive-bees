@@ -1,0 +1,28 @@
+{
+    "type": "botania:terra_plate",
+    "mana": 500000,
+    "ingredients": [
+        {
+            "type": "forge:nbt",
+            "item": "productivebees:spawn_egg_configurable_bee",
+            "nbt": "{EntityTag:{type:\"productivebees:manasteel\"}}"
+        },
+        {
+            "item": "botania:mana_diamond"
+        },
+        {
+            "item": "botania:mana_pearl"
+        }
+    ],
+    "result": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:terrasteel\"}}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "botania"
+        }
+    ]
+}

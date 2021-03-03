@@ -1,0 +1,26 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/alfsteel"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "mythicbotany:alfsteel_nugget"
+            },
+            "min": 3,
+            "max": 3
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mythicbotany"
+        }
+    ]
+}

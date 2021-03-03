@@ -61,7 +61,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> OBSIDIAN_PILLAR_NEST = createBlock("obsidian_nest", () -> new SolitaryNest(Block.Properties.from(Blocks.OBSIDIAN)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<FlowingFluidBlock> HONEY = createBlock("honey",
             () -> new HoneyFluidBlock(
-                    HoneyFluid.Source::new,
+                    ModFluids.HONEY,
                     Block.Properties.create(ModFluids.MATERIAL_HONEY).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops().speedFactor(0.3F)
             ),
             ModItemGroups.PRODUCTIVE_BEES,
@@ -70,6 +70,7 @@ public final class ModBlocks
 
     public static final RegistryObject<Block> CONFIGURABLE_COMB = createBlock("configurable_comb", () -> new ConfigurableCombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#c8df24"), ModItemGroups.PRODUCTIVE_BEES);
 
+    public static final RegistryObject<Block> COMB_ALFSTEEL = createBlock("comb_alfsteel", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#ffd238"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_ALLTHEMODIUM = createBlock("comb_allthemodium", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#f2f24f"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_AMBER = createBlock("comb_amber", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#d2ab00"), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> COMB_BASALZ = createBlock("comb_basalz", () -> new CombBlock(Block.Properties.from(Blocks.HONEYCOMB_BLOCK), "#ff8219"), ModItemGroups.PRODUCTIVE_BEES);

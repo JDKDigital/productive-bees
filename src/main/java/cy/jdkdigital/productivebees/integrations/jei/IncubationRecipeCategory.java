@@ -93,6 +93,7 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
     public static List<IncubationRecipe> getRecipes(Map<String, BeeIngredient> beeList) {
         List<IncubationRecipe> recipes = new ArrayList<>();
 
+        // babee to adult incubation
         BeeEntity bee = EntityType.BEE.create(ProductiveBees.proxy.getWorld());
         BeeEntity baBee = EntityType.BEE.create(ProductiveBees.proxy.getWorld());
         if (bee != null && baBee != null) {
@@ -106,6 +107,7 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
             recipes.add(new IncubationRecipe(new ResourceLocation(ProductiveBees.MODID, "cage_incubation"), Ingredient.fromStacks(babeeCage), Ingredient.fromStacks(treats), Ingredient.fromStacks(cage)));
         }
 
+        // Spawn egg incubation
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             Ingredient spawnEgg = NBTIngredient.fromStacks(BeeCreator.getSpawnEgg(entry.getKey()));
             Ingredient treat = NBTIngredient.fromStacks(HoneyTreat.getTypeStack(entry.getKey(), 100));

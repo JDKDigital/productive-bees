@@ -11,12 +11,13 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import java.util.function.Supplier;
 
 public class HoneyFluidBlock extends FlowingFluidBlock
 {
-    public HoneyFluidBlock(Supplier<? extends FlowingFluid> supplier, Properties properties) {
+    public HoneyFluidBlock(Supplier<? extends ForgeFlowingFluid> supplier, Properties properties) {
         super(supplier, properties);
     }
 

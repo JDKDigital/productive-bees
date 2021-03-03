@@ -297,6 +297,9 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             }
         }
 
+        ProductiveBees.LOGGER.info("type: " + entityData.getString("type"));
+        ProductiveBees.LOGGER.info("id: " + entityData.getString("id"));
+        ProductiveBees.LOGGER.info("entityData: " + entityData);
         // Chance to get a type gene
         if (ProductiveBees.rand.nextDouble() <= chance) {
             ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type"), ProductiveBees.rand.nextInt(10) + 5));

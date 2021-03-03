@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#ffd238",
+    "secondaryColor": "#b77d04",
+    "createComb": false,
+    "description": "To acquire this bee, look up the crafting recipe for it's spawn egg.",
+    "flowerBlock": "mythicbotany:alfsteel_block",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mythicbotany"
+        }
+    ]
+}

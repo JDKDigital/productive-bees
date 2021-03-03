@@ -50,7 +50,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final IIngredientType<BeeIngredient> BEE_INGREDIENT = () -> BeeIngredient.class;
 
     public ProductiveBeesJeiPlugin() {
-        BeeIngredientFactory.createList();
+        BeeIngredientFactory.getOrCreateList();
     }
 
     @Nonnull

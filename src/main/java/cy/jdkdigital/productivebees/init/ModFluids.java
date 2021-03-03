@@ -7,6 +7,8 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,10 +23,23 @@ public final class ModFluids
 
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ProductiveBees.MODID);
 
-    public static final RegistryObject<FlowingFluid> HONEY = createFluid("honey", HoneyFluid.Source::new, ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<FlowingFluid> HONEY_FLOWING = createFluid("flowing_honey", HoneyFluid.Flowing::new, ModItemGroups.PRODUCTIVE_BEES);
+    private static ForgeFlowingFluid.Properties properties() {
+        return new ForgeFlowingFluid.Properties(
+            HONEY,
+            HONEY_FLOWING,
+            FluidAttributes.builder(HoneyFluid.STILL, HoneyFluid.FLOWING)
+                .overlay(HoneyFluid.OVERLAY)
+                .translationKey("fluid." + ProductiveBees.MODID + ".honey")
+                .color(0xffffc916)
+                .density(3000)
+                .viscosity(6000)
+        );
+    }
 
-    public static <B extends Fluid> RegistryObject<B> createFluid(String name, Supplier<? extends B> supplier, ItemGroup itemGroup) {
+    public static final RegistryObject<ForgeFlowingFluid> HONEY = createFluid("honey", () -> new HoneyFluid.Source(properties()));
+    public static final RegistryObject<ForgeFlowingFluid> HONEY_FLOWING = createFluid("flowing_honey", () -> new HoneyFluid.Flowing(properties()));
+
+    private static <B extends Fluid> RegistryObject<B> createFluid(String name, Supplier<? extends B> supplier) {
         return FLUIDS.register(name, supplier);
     }
 }

@@ -3,6 +3,7 @@
     "values": [
         "minecraft:honeycomb",
         "productivebees:configurable_honeycomb",
+        "#forge:honeycombs/alfsteel",
         "#forge:honeycombs/allthemodium",
         "#forge:honeycombs/amber",
         "#forge:honeycombs/basalz",

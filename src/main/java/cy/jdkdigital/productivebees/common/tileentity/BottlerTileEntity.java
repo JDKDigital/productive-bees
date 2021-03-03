@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DirectionalBlock;
+import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
@@ -81,9 +82,9 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
         BlockState state = world.getBlockState(pos.up());
         if (++tickCounter % 10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.get(DirectionalBlock.FACING) == Direction.DOWN) {
             // Check for ProductiveBeeEntity on top of block
-            List<ProductiveBeeEntity> bees = world.getEntitiesWithinAABB(ProductiveBeeEntity.class, (new AxisAlignedBB(pos).grow(0.0D, 1.0D, 0.0D)));
+            List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, (new AxisAlignedBB(pos).grow(0.0D, 1.0D, 0.0D)));
             if (!bees.isEmpty()) {
-                ProductiveBeeEntity bee = bees.iterator().next();
+                BeeEntity bee = bees.iterator().next();
                 inventoryHandler.ifPresent(inv -> {
                     ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                     if (!bottles.isEmpty() && bottles.getItem().equals(Items.GLASS_BOTTLE) && bee.isAlive()) {

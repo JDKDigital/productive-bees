@@ -75,14 +75,15 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                     CustomBeeData beeData = BeeRegistry.getRegistry().getBeeData(rLoc.getPath().replace("_bee", ""));
                     EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(beeData.getEntityTypeRegistryID());
                     bee = (BeeEntity) entityType.create(this.container.tileEntity.getWorld());
-                }
-                else {
+                } else {
                     String type = inhabitant.nbt.getString("type");
                     if (type.isEmpty()) {
                         type = inhabitant.nbt.getString("id");
                     }
                     BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(type).get();
-                    bee = beeIngredient.getCachedEntity(minecraft.world);
+                    if (beeIngredient != null) {
+                        bee = beeIngredient.getCachedEntity(minecraft.world);
+                    }
                 }
 
 
@@ -115,8 +116,7 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
                                 }
                                 tooltipList.add(new StringTextComponent(modName).mergeStyle(TextFormatting.ITALIC).mergeStyle(TextFormatting.BLUE).func_241878_f());
                             }
-                        }
-                        else {
+                        } else {
                             tooltipList.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE).func_241878_f());
                         }
 

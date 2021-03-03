@@ -36,6 +36,10 @@ public class GeneBottle extends Item
         }
         target.writeWithoutTypeId(nbt);
 
+        if (nbt.getString("type").isEmpty()) {
+            nbt.putString("type", "" + target.getEntityString());
+        }
+
         stack.getOrCreateTag().put(GENES_KEY, nbt);
     }
 
