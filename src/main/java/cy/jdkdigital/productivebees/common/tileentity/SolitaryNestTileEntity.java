@@ -43,8 +43,9 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                         BeeEntity newBee = ((SolitaryNest) block).getNestingBeeType(world, world.getBiome(pos));
                         if (newBee != null) {
                             newBee.setHealth(newBee.getMaxHealth());
+                            newBee.hivePos = pos;
                             Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
-                            spawnBeeInWorldAtPosition(this.world, newBee, pos, direction, null);
+                            spawnBeeInWorldAtPosition(this.world, newBee, pos.offset(direction), direction, null);
                         }
                     }
                 }

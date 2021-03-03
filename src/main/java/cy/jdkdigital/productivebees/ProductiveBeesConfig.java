@@ -127,7 +127,7 @@ public class ProductiveBeesConfig
 
             beeSyncDelay = builder
                     .comment("Delay in seconds between a user logging in and the bee data being synced to the client. A delay is needed to allow JEI to index the bees properly.\n If the clients are having issues getting the bees, try increasing the delay.")
-                    .defineInRange("beeSyncDelay", 30, 1, 300);
+                    .defineInRange("beeSyncDelay", 7, 1, 300);
 
             builder.pop();
         }

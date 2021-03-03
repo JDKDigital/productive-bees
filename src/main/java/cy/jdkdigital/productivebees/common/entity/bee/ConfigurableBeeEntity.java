@@ -240,19 +240,10 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         return super.getProfessionName();
     }
 
-    @Nonnull
     @Override
-    public EntitySize getSize(Pose poseIn) {
-        if (!getBeeType().isEmpty()) {
-            return super.getSize(poseIn).scale(getSizeModifier());
-        }
-
-        return super.getSize(poseIn);
-    }
-
     public float getSizeModifier() {
         CompoundNBT nbt = getNBTData();
-        return nbt.getFloat("size");
+        return nbt != null ? nbt.getFloat("size") : super.getSizeModifier();
     }
 
     @Override

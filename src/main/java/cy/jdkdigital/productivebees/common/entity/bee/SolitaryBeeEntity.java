@@ -37,12 +37,6 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
         this.goalSelector.removeGoal(this.followParentGoal);
     }
 
-    @Nonnull
-    @Override
-    public EntitySize getSize(Pose poseIn) {
-        return super.getSize(poseIn).scale(0.85F);
-    }
-
     @Override
     public Tag<Block> getNestingTag() {
         return ModTags.SOLITARY_OVERWORLD_NESTS;

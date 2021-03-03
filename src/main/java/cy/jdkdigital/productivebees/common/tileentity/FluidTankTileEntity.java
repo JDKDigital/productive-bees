@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.recipe.BottlerRecipe;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -31,7 +30,7 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
     @Override
     public void tick() {
         if (world != null && !world.isRemote) {
-            if (++this.tankTick > 20) {
+            if (++this.tankTick > 21) {
                 this.tankTick = 0;
                 tickFluidTank();
             }

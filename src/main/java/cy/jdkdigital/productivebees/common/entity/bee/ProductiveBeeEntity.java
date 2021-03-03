@@ -183,6 +183,16 @@ public class ProductiveBeeEntity extends BeeEntity
         }
     }
 
+    @Nonnull
+    @Override
+    public EntitySize getSize(Pose poseIn) {
+        return super.getSize(poseIn).scale(getSizeModifier());
+    }
+
+    public float getSizeModifier() {
+        return 1.0f;
+    }
+
     @Override
     public boolean isAngry() {
         return super.isAngry() && getAttributeValue(BeeAttributes.TEMPER) > 0;
