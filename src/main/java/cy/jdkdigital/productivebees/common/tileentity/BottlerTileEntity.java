@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
 import cy.jdkdigital.productivebees.common.block.Bottler;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
 import cy.jdkdigital.productivebees.container.BottlerContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;

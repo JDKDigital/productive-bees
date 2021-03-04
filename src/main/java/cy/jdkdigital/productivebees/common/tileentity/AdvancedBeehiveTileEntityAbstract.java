@@ -4,19 +4,20 @@ import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehiveAbstract;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBeeEntity;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
-import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -32,6 +33,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -212,7 +214,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
             ProductiveBees.LOGGER.debug("Bee is staying inside during the day: " + tag);
         }
 
-        if (!stayInside) {
+        if (!stayInside & this.world instanceof ServerWorld) {
             BlockPos pos = this.getPos();
             tag.remove("Passengers");
             tag.remove("Leash");
@@ -241,7 +243,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                         }
                     }
 
-                    spawned = spawnBeeInWorldAtPosition(this.world, beeEntity, pos, direction, null);
+                    spawned = spawnBeeInWorldAtPosition((ServerWorld) this.world, beeEntity, pos, direction, null);
                     if (spawned && hasOffloaded.get()) {
                         if (this.hasFlowerPos() && !beeEntity.hasFlower() && (beeEntity.getEntityString().contains("dye_bee") || this.world.rand.nextFloat() <= 0.9F)) {
                             beeEntity.setFlowerPos(this.flowerPos);
@@ -331,7 +333,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
     }
 
-    public static boolean spawnBeeInWorldAtPosition(World world, BeeEntity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
+    public static boolean spawnBeeInWorldAtPosition(ServerWorld world, BeeEntity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
         BlockPos offset = pos.offset(direction);
         boolean isPositionBlocked = !world.getBlockState(offset).getCollisionShape(world, offset).isEmpty();
         float width = entity.getWidth();
@@ -345,8 +347,12 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         }
         // Check if the entity is in beehive_inhabitors tag
         if (entity.getType().isContained(EntityTypeTags.BEEHIVE_INHABITORS)) {
-            entity = BeeHelper.convertToConfigurable(entity);
             world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_EXIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            CompoundNBT tag = new CompoundNBT();
+            if (entity instanceof ConfigurableBeeEntity) {
+                tag.putString("type", ((ConfigurableBeeEntity) entity).getBeeType());
+            }
+            entity.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.TRIGGERED, null, tag);
             return world.addEntity(entity);
         }
         return false;

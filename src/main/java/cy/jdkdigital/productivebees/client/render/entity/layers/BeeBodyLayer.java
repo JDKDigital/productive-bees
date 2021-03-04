@@ -131,7 +131,7 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
     }
 
     private void renderSaddle(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull ProductiveBeeEntity entity) {
-        if (entity instanceof BumbleBeeEntity && ((BumbleBeeEntity) entity).getSaddled()) {
+        if (entity instanceof BumbleBeeEntity && ((BumbleBeeEntity) entity).isHorseSaddled()) {
             ResourceLocation location = resLoc("textures/entity/bee/bumble/saddle.png");
             renderCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, 1.0f, 1.0f, 1.0f);
         }

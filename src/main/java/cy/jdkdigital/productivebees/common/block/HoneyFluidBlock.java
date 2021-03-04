@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;

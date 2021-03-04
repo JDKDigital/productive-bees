@@ -3,8 +3,11 @@ package cy.jdkdigital.productivebees.common.item;
 import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.NonNullList;
 
 import javax.annotation.Nullable;
 
@@ -54,4 +57,13 @@ public class GeneBottle extends Item
     public static CompoundNBT getGenesTag(ItemStack stack) {
         return (CompoundNBT) stack.getOrCreateTag().get(GENES_KEY);
     }
+
+//    @Override
+//    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+//        if (this.isInGroup(group)) {
+//            if () {
+//                items.add(getStack(block));
+//            }
+//        }
+//    }
 }

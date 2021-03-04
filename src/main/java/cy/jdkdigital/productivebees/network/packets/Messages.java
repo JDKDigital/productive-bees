@@ -7,20 +7,14 @@ import net.minecraft.client.network.play.ClientPlayNetHandler;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.ITagCollectionSupplier;
-import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 

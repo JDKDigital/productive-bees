@@ -8,8 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.tags.*;
 import net.minecraft.util.ResourceLocation;
 
-import javax.annotation.Nullable;
-
 public class ModTags
 {
     public static final ITag<Block> SOLITARY_OVERWORLD_NESTS = getTag("solitary_overworld_nests");

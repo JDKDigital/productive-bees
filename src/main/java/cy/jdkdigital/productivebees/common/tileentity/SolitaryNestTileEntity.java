@@ -15,6 +15,7 @@ import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
@@ -34,7 +35,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     @Override
     public void tick() {
-        if (this.world != null && !this.world.isRemote && nestTickTimer > 0) {
+        if (this.world != null && !this.world.isRemote && this.world instanceof ServerWorld && nestTickTimer > 0) {
             // Check if the nest has been activated and spawn a bee if it has
             Block block = this.getBlockState().getBlock();
             if (--nestTickTimer <= 0) {
@@ -45,7 +46,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                             newBee.setHealth(newBee.getMaxHealth());
                             newBee.hivePos = pos;
                             Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
-                            spawnBeeInWorldAtPosition(this.world, newBee, pos.offset(direction), direction, null);
+                            spawnBeeInWorldAtPosition((ServerWorld) this.world, newBee, pos.offset(direction), direction, null);
                         }
                     }
                 }

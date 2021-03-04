@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.common.block.*;
 import cy.jdkdigital.productivebees.common.block.nest.BumbleBeeNest;
 import cy.jdkdigital.productivebees.common.block.nest.SugarCaneNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
-import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;

@@ -1,11 +1,9 @@
 package cy.jdkdigital.productivebees.util;
 
-import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.common.item.StoneChip;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
@@ -14,7 +12,6 @@ import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
@@ -385,29 +382,6 @@ public class BeeHelper
 
         int parentWeatherTolerance = MathHelper.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
         attributeMapChild.put(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
-    }
-
-    public static BeeEntity convertToConfigurable(BeeEntity entity) {
-        if (entity instanceof ProductiveBeeEntity && !(entity instanceof ConfigurableBeeEntity) && !(entity instanceof SolitaryBeeEntity)) {
-            String name = ProductiveBees.MODID + ":" + ((ProductiveBeeEntity) entity).getBeeName();
-            if (name.equals("productivebees:wither")) {
-                name = "productivebees:withered";
-            }
-            else if (name.equals("productivebees:quartz")) {
-                name = "productivebees:crystalline";
-            }
-            BeeIngredient configuredBee = BeeIngredientFactory.getIngredient(name).get();
-            if (configuredBee != null && configuredBee.isConfigurable()) {
-                CompoundNBT tag = new CompoundNBT();
-                entity.writeWithoutTypeId(tag);
-
-                ConfigurableBeeEntity newEntity = (ConfigurableBeeEntity) configuredBee.getBeeEntity().create(entity.world);
-                newEntity.read(tag);
-                newEntity.setBeeType(name);
-                return newEntity;
-            }
-        }
-        return entity;
     }
 
     public static List<ITextComponent> populateBeeInfoFromTag(CompoundNBT tag, @Nullable List<ITextComponent> list) {

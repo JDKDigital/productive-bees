@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.item;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -15,8 +14,8 @@ import javax.annotation.Nonnull;
 
 public class TreatOnAStick extends Item
 {
-    public TreatOnAStick(Properties p_i48519_1_) {
-        super(p_i48519_1_);
+    public TreatOnAStick(Properties properties) {
+        super(properties);
     }
 
     @Nonnull
@@ -28,7 +27,7 @@ public class TreatOnAStick extends Item
         } else {
             if (player.isPassenger() && player.getRidingEntity() instanceof BumbleBeeEntity) {
                 BumbleBeeEntity bumbleBee = (BumbleBeeEntity) player.getRidingEntity();
-                if (itemStack.getMaxDamage() - itemStack.getDamage() >= 7 && bumbleBee.boost()) {
+                if (bumbleBee.boost()) {
                     itemStack.damageItem(7, player, (entity) -> {
                         entity.sendBreakAnimation(hand);
                     });

@@ -7,10 +7,8 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.item.Item;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.StateContainer;
@@ -24,7 +22,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import javax.annotation.Nullable;

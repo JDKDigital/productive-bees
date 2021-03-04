@@ -6,6 +6,7 @@
     "size": 0.6,
     "flowerBlock": "mysticalagriculture:prosperity_block",
     "createComb": false,
+    "selfbreed": false,
     "conditions": [
         {
             "type": "forge:mod_loaded",

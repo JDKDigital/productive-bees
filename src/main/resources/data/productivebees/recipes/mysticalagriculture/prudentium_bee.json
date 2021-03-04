@@ -1,0 +1,45 @@
+{
+    "type": "mysticalagriculture:infusion",
+    "input": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:inferium\"}}"
+    },
+    "ingredients": [
+        {
+            "item": "mysticalagriculture:prudentium_essence"
+        },
+        {
+            "item": "mysticalagriculture:prudentium_block"
+        },
+        {
+            "item": "mysticalagriculture:prudentium_essence"
+        },
+        {
+            "item": "mysticalagriculture:prudentium_block"
+        },
+        {
+            "item": "mysticalagriculture:prudentium_essence"
+        },
+        {
+            "item": "mysticalagriculture:prudentium_block"
+        },
+        {
+            "item": "mysticalagriculture:prudentium_essence"
+        },
+        {
+            "item": "mysticalagriculture:prudentium_block"
+        }
+    ],
+    "result": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:prudentium\"}}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

@@ -54,8 +54,6 @@ public class BeeCage extends Item
 
         BeeEntity entity = getEntityFromStack(stack, worldIn, true);
 
-        entity = BeeHelper.convertToConfigurable(entity);
-
         if (entity != null) {
             if (context.getPlayer() != null && context.getPlayer().isSneaking()) {
                 entity.hivePos = null;

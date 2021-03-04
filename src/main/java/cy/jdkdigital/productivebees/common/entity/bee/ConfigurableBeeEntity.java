@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
 import cy.jdkdigital.productivebees.init.*;
@@ -10,10 +11,10 @@ import cy.jdkdigital.productivebees.util.BeeEffect;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -35,13 +36,17 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.village.PointOfInterestType;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,6 +70,26 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                 (poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() && isWild()) ||
                 (poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic()) ||
                 (poiType == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals("productivebees:sugarbag"));
+    }
+
+    @Override
+    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingEntityData, @Nullable CompoundNBT tag) {
+        String type = "";
+        if (tag != null) {
+            type = tag.contains("type") ? tag.getString("type") : tag.contains("EntityTag") ? tag.getCompound("EntityTag").getString("type") : "";
+        }
+
+        if (type.equals("productivebees:ghostly") && ProductiveBees.rand.nextFloat() < 0.02f) {
+            this.setCustomName(new StringTextComponent("BooBee"));
+        }
+        else if (type.equals("productivebees:blitz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+            this.setCustomName(new StringTextComponent("King BitzBee"));
+        }
+        else if (type.equals("productivebees:blizz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+            this.setCustomName(new StringTextComponent("Shiny BizBee"));
+        }
+
+        return super.onInitialSpawn(world, difficulty, spawnReason, livingEntityData, tag);
     }
 
     @Override

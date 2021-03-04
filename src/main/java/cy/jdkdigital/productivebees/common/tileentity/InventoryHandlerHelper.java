@@ -4,7 +4,6 @@ import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.UpgradeItem;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import net.minecraft.block.Block;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;

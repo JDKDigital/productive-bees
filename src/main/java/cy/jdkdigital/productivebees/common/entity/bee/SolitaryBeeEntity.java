@@ -4,14 +4,10 @@ import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.Pose;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.tags.ITag;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
 
 public class SolitaryBeeEntity extends ProductiveBeeEntity
 {
