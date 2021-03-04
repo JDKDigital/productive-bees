@@ -34,6 +34,7 @@ public class ModFeatures
     public static final RegistryObject<Feature<ReplaceBlockConfig>> SOUL_SAND_NEST = register("soul_sand_nest", () -> new CavernSolitaryNestFeature(0.10F, ReplaceBlockConfig.field_236604_a_, true));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> END_NEST = register("end_nest", () -> new SolitaryNestFeature(0.15F, ReplaceBlockConfig.field_236604_a_));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> OBSIDIAN_PILLAR_NEST = register("obsidian_pillar_nest", () -> new StructureSolitaryNestFeature(1.00F, ReplaceBlockConfig.field_236604_a_, 25));
+    public static final RegistryObject<Feature<ReplaceBlockConfig>> BUMBLE_BEE_NEST = register("bumble_bee_nest", () -> new SolitaryNestFeature(0.01F, ReplaceBlockConfig.field_236604_a_));
 
     public static final RegistryObject<Feature<ReplaceBlockConfig>> OAK_WOOD_NEST_FEATURE = register("oak_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfig.field_236604_a_));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> SPRUCE_WOOD_NEST_FEATURE = register("spruce_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfig.field_236604_a_));
@@ -72,6 +73,9 @@ public class ModFeatures
         }
         else if (category.equals(Biome.Category.SWAMP)) {
             event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.SLIMY_NEST_FEATURE);
+        }
+        else if (category.equals(Biome.Category.PLAINS)) {
+            event.getGeneration().withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.BUMBLE_BEE_NEST_FEATURE);
         }
         else if (category.equals(Biome.Category.NETHER)) {
             event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, ModConfiguredFeatures.GLOWSTONE_NEST_FEATURE);
