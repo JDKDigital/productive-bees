@@ -120,8 +120,12 @@ public class BeeCreator
             egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
             setTag(beeType, egg);
         } else {
-            String name = beeType.contains(":") ? beeType.split("[:]")[1] : beeType;
-            egg = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_" + name)));
+            ResourceLocation name = new ResourceLocation(beeType);
+            if (name.getNamespace().equals(ProductiveBees.MODID)) {
+                egg = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name.getNamespace(), "spawn_egg_" + name.getPath())));
+            } else {
+                egg = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name.getNamespace(), name.getPath() + "_spawn_egg")));
+            }
         }
         return egg;
     }

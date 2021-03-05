@@ -97,6 +97,9 @@ repositories {
         name 'tterrag maven'
         url "http://maven.tterrag.com/"
     }
+    maven {
+        url 'https://nexus.resourcefulbees.com/repository/maven-public/'
+    }
 }
 
 dependencies {
@@ -112,6 +115,8 @@ dependencies {
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
+    compileOnly fg.deobf('com.resourcefulbees:ResourcefulBees:1.16.5-0.5.10b')
 
 //    implementation fg.deobf('mods:citadel-1.6.1:1')
 //    implementation fg.deobf('mods:iceandfire-2.1.4:1.16.4')
@@ -140,8 +145,6 @@ dependencies {
     implementation fg.deobf('mods:abnormals_core-1.16.4:3.0.6')
     implementation fg.deobf('mods:buzzier_bees-1.16.4:3.0.0')
     implementation fg.deobf('mods:BloodMagic-1.16.4:3.1.0-15')
-
-    implementation fg.deobf('mods:ResourcefulBees1.16.3-1.16.3:0.5.6b')
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

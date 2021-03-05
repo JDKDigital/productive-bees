@@ -110,10 +110,15 @@ public class EventHandler
     public static void onPlayerJoinServer(PlayerEvent.PlayerLoggedInEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
-            ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-            executorService.schedule(() -> {
+            int delay = ProductiveBeesConfig.GENERAL.beeSyncDelay.get();
+            if (delay > 0) {
+                ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+                executorService.schedule(() -> {
+                    PacketHandler.sendToPlayer(new Messages.BeesMessage(BeeReloadListener.INSTANCE.getData()), (ServerPlayerEntity) event.getEntity());
+                }, delay, TimeUnit.SECONDS);
+            } else {
                 PacketHandler.sendToPlayer(new Messages.BeesMessage(BeeReloadListener.INSTANCE.getData()), (ServerPlayerEntity) event.getEntity());
-            }, ProductiveBeesConfig.GENERAL.beeSyncDelay.get(), TimeUnit.SECONDS);
+            }
         }
     }
 
