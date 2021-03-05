@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:wooden_sword"
+        },
+        {
+            "item": "minecraft:grass_block"
+        }
+    ],
+    "result": {
+        "item": "productivebees:bumble_bee_nest"
+    }
+}
