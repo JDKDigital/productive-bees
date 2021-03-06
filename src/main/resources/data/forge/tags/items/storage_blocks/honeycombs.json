@@ -11,6 +11,7 @@
         "productivebees:comb_blazing",
         "productivebees:comb_blitz",
         "productivebees:comb_blizz",
+        "productivebees:comb_bloody",
         "productivebees:comb_bone",
         "productivebees:comb_brazen",
         "productivebees:comb_bronze",
@@ -102,6 +103,9 @@
         "productivebees:comb_tinkers_bronze",
         "productivebees:comb_blue_slimy",
         "productivebees:comb_purple_slimy",
-        "productivebees:comb_magma_slimy"
+        "productivebees:comb_magma_slimy",
+        "productivebees:comb_spectrum",
+        "productivebees:comb_cosmic_dust",
+        "productivebees:comb_starmetal"
     ]
 }

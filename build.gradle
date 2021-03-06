@@ -104,6 +104,7 @@ dependencies {
 
     compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
 
+//    implementation fg.deobf('mods:pokecube-aio-1.15.2:2.10.1')
 //    implementation fg.deobf('mods:byg:1.0.11')
 //    implementation fg.deobf('mods:the_bumblezone-1.15.2:1.3.10')
     implementation fg.deobf('mods:Mekanism-1.15.2:9.10.9.422')
@@ -116,9 +117,9 @@ dependencies {
 //    implementation fg.deobf('mods:Lollipop-1.15.2:1.0.16')
 //    implementation fg.deobf('mods:Powah-1.15.2:1.1.14')
     implementation fg.deobf('mods:appliedenergistics2-1.15:7.0.2')
-    implementation fg.deobf('mods:SilentLib-1.15.2:4.6.6+59')
-    implementation fg.deobf('mods:SilentGems-1.15.2:3.6.2+98')
-    implementation fg.deobf('mods:SilentMechanisms-1.15.2:0.8.0+59')
+//    implementation fg.deobf('mods:SilentLib-1.15.2:4.6.6+59')
+//    implementation fg.deobf('mods:SilentGems-1.15.2:3.6.2+98')
+//    implementation fg.deobf('mods:SilentMechanisms-1.15.2:0.8.0+59')
     implementation fg.deobf('mods:Abnormals-Core-1.15.2:1.0.6')
     implementation fg.deobf('mods:Buzzier-Bees-1.15.2:1.5.2')
 //    implementation fg.deobf('mods:gemsnjewels-1.15.2:0.16.1')

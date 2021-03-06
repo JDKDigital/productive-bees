@@ -1,0 +1,6 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "productivebees:item/treat_on_a_stick"
+	}
+}

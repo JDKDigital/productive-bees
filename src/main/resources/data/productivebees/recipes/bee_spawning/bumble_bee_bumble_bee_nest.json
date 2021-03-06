@@ -1,0 +1,11 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:bumble_bee_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:bumble_bee"
+        }
+    ]
+}

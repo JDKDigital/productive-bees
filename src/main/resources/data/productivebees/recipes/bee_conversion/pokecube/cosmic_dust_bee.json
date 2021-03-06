@@ -1,0 +1,24 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:neon_cuckoo_bee",
+    "result": "productivebees:cosmic_dust",
+    "item": {
+        "tag": "forge:gems/cosmicdust"
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/cosmicdust"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "ores/cosmic"
+            }
+        }
+    ]
+}

@@ -19,6 +19,7 @@ public class ModTags
     public static final Tag<Block> REED_NESTS = getTag("nests/reed_nests");
     public static final Tag<Block> COLD_NESTS = getTag("nests/cold_nests");
     public static final Tag<Block> WOOD_NESTS = getTag("nests/wood_nests");
+    public static final Tag<Block> BUMBLE_BEE_NESTS = getTag("nests/bumble_bee");
 
     public static final Tag<Block> FOREST_FLOWERS = getTag("flowers/forest_flowers");
     public static final Tag<Block> ARID_FLOWERS = getTag("flowers/arid_flowers");

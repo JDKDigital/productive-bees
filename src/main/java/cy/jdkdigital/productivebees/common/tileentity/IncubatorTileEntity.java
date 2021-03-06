@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.tileentity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
@@ -15,6 +16,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -152,9 +154,11 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
                             if (beeIngredient.isConfigurable()) {
                                 egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
                                 ModItemGroups.ModItemGroup.setTag(beeName, egg);
-                            } else {
+                            } else if(beeIngredient.getCachedEntity(world) instanceof ProductiveBeeEntity) {
                                 Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_" + beeIngredient.getBeeType().getPath()));
                                 egg = new ItemStack(item);
+                            } else {
+                                egg = new ItemStack(SpawnEggItem.getEgg(beeIngredient.getCachedEntity(world).getType()));
                             }
                             invHandler.setStackInSlot(2, egg);
                         }

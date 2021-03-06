@@ -31,6 +31,7 @@ public class ModFeatures
     public static final RegistryObject<Feature<ReplaceBlockConfig>> SOUL_SAND_NEST = register("soul_sand_nest", () -> new CavernSolitaryNestFeature(0.10F, ReplaceBlockConfig::deserialize, true));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> END_NEST = register("end_nest", () -> new SolitaryNestFeature(0.15F, ReplaceBlockConfig::deserialize));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> OBSIDIAN_PILLAR_NEST = register("obsidian_pillar_nest", () -> new StructureSolitaryNestFeature(1.00F, ReplaceBlockConfig::deserialize, 25));
+    public static final RegistryObject<Feature<ReplaceBlockConfig>> BUMBLE_BEE_NEST = register("bumble_bee_nest", () -> new SolitaryNestFeature(0.01F, ReplaceBlockConfig::deserialize));
 
     public static final RegistryObject<Feature<ReplaceBlockConfig>> OAK_WOOD_NEST_FEATURE = register("oak_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfig::deserialize));
     public static final RegistryObject<Feature<ReplaceBlockConfig>> SPRUCE_WOOD_NEST_FEATURE = register("spruce_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfig::deserialize));

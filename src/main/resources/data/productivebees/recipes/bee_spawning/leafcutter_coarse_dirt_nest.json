@@ -1,0 +1,12 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:coarse_dirt_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:leafcutter_bee"
+        }
+    ],
+    "repopulation_cooldown": 24000
+}

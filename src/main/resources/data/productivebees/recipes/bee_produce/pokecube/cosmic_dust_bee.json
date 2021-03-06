@@ -1,0 +1,27 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:cosmic_dust",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/cosmic_dust"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:gems/cosmicdust"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "ores/cosmic"
+            }
+        }
+    ]
+}

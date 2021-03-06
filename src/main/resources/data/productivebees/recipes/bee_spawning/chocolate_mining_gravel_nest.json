@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:gravel_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:chocolate_mining_bee"
+        }
+    ],
+    "biomes": [
+        "river",
+        "beach"
+    ],
+    "temperature": "warm",
+    "repopulation_cooldown": 24000
+}

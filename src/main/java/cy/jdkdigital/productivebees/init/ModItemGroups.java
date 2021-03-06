@@ -7,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -64,8 +66,18 @@ public class ModItemGroups
         }
 
         public static ItemStack getSpawnEgg(String beeType) {
-            ItemStack egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
-            setTag(beeType, egg);
+            ItemStack egg;
+            if (BeeReloadListener.INSTANCE.getData(beeType) != null) {
+                egg = new ItemStack(ModItems.CONFIGURABLE_SPAWN_EGG.get());
+                setTag(beeType, egg);
+            } else {
+                ResourceLocation name = new ResourceLocation(beeType);
+                if (name.getNamespace().equals(ProductiveBees.MODID)) {
+                    egg = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name.getNamespace(), "spawn_egg_" + name.getPath())));
+                } else {
+                    egg = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name.getNamespace(), name.getPath() + "_spawn_egg")));
+                }
+            }
             return egg;
         }
     }

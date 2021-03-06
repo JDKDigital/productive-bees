@@ -1,0 +1,10 @@
+{
+    "replace": false,
+    "values": [],
+    "optional": [
+        "#forge:storage_blocks/uranium",
+        "#forge:ores/uranium",
+        "#forge:storage_blocks/yellorium",
+        "#forge:ores/yellorite"
+    ]
+}

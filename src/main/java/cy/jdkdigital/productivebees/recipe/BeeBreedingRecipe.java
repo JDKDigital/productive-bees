@@ -107,7 +107,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
             String parentName1 = JSONUtils.getString(json, "parent1");
             String parentName2 = JSONUtils.getString(json, "parent2");
 
-            Map<Lazy<BeeIngredient>, Integer> children = new HashMap<>();
+            Map<Lazy<BeeIngredient>, Integer> children = new LinkedHashMap<>();
             JsonArray offspring = JSONUtils.getJsonArray(json, "offspring");
             offspring.forEach(el -> {
                 if (el.isJsonObject()) {
@@ -134,7 +134,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                 ingredients.add(Lazy.of(() -> ing1));
                 ingredients.add(Lazy.of(() -> ing2));
 
-                Map<Lazy<BeeIngredient>, Integer> offspring = new HashMap<>();
+                Map<Lazy<BeeIngredient>, Integer> offspring = new LinkedHashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(i -> {
                     BeeIngredient result = BeeIngredient.read(buffer);
                     offspring.put(Lazy.of(() -> result), buffer.readInt());

@@ -15,6 +15,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -80,22 +82,16 @@ public class ProductiveBeeEntity extends BeeEntity
     public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
 
-        beeAttributes.put(BeeAttributes.PRODUCTIVITY, world.rand.nextInt(2));
-        beeAttributes.put(BeeAttributes.TEMPER, 1);
-        beeAttributes.put(BeeAttributes.ENDURANCE, world.rand.nextInt(3));
-        beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
-        beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 0);
-        beeAttributes.put(BeeAttributes.TYPE, "hive");
-        beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
+        setAttributeValue(BeeAttributes.PRODUCTIVITY, world.rand.nextInt(3));
+        setAttributeValue(BeeAttributes.TEMPER, 1);
+        setAttributeValue(BeeAttributes.ENDURANCE,  world.rand.nextInt(4));
+        setAttributeValue(BeeAttributes.BEHAVIOR, 0);
+        setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
+        setAttributeValue(BeeAttributes.TYPE, "hive");
+        setAttributeValue(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
-
-        // Give health boost based on endurance
-        if (getAttributeValue(BeeAttributes.ENDURANCE) != 1) {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(BeeAttributes.HEALTH_MODS.get(getAttributeValue(BeeAttributes.ENDURANCE)));
-            this.heal(this.getMaxHealth());
-        }
     }
 
     @Override
@@ -185,6 +181,16 @@ public class ProductiveBeeEntity extends BeeEntity
                 setHealth(getHealth() - (getMaxHealth() / 3) - 1);
             }
         }
+    }
+
+    @Nonnull
+    @Override
+    public EntitySize getSize(Pose poseIn) {
+        return super.getSize(poseIn).scale(getSizeModifier());
+    }
+
+    public float getSizeModifier() {
+        return 1.0f;
     }
 
     @Override
@@ -278,6 +284,24 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     public void setAttributeValue(BeeAttribute<?> parameter, Integer value) {
+        // Give health boost based on endurance
+        if (parameter.equals(BeeAttributes.ENDURANCE)) {
+            IAttributeInstance healthMod = this.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
+            if (value != 1) {
+                AttributeModifier mod = BeeAttributes.HEALTH_MODS.get(value);
+                if (!healthMod.hasModifier(mod)) {
+                    healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_WEAK);
+                    healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_MEDIUM);
+                    healthMod.removeModifier(BeeAttributes.HEALTH_MOD_ID_STRONG);
+                    healthMod.applyModifier(BeeAttributes.HEALTH_MODS.get(value));
+                }
+            }
+        }
+
+        this.beeAttributes.put(parameter, value);
+    }
+
+    public void setAttributeValue(BeeAttribute<?> parameter, Object value) {
         this.beeAttributes.put(parameter, value);
     }
 
@@ -342,13 +366,13 @@ public class ProductiveBeeEntity extends BeeEntity
 
         if (tag.contains("bee_productivity")) {
             beeAttributes.clear();
-            beeAttributes.put(BeeAttributes.PRODUCTIVITY, tag.getInt("bee_productivity"));
-            beeAttributes.put(BeeAttributes.ENDURANCE, tag.contains("bee_endurance") ? tag.getInt("bee_endurance") : 1);
-            beeAttributes.put(BeeAttributes.TEMPER, tag.getInt("bee_temper"));
-            beeAttributes.put(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
-            beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
-            beeAttributes.put(BeeAttributes.TYPE, tag.getString("bee_type"));
-            beeAttributes.put(BeeAttributes.APHRODISIACS, new ItemTags.Wrapper(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
+            setAttributeValue(BeeAttributes.PRODUCTIVITY, tag.getInt("bee_productivity"));
+            setAttributeValue(BeeAttributes.ENDURANCE, tag.contains("bee_endurance") ? tag.getInt("bee_endurance") : 1);
+            setAttributeValue(BeeAttributes.TEMPER, tag.getInt("bee_temper"));
+            setAttributeValue(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
+            setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
+            setAttributeValue(BeeAttributes.TYPE, tag.getString("bee_type"));
+            setAttributeValue(BeeAttributes.APHRODISIACS, new ItemTags.Wrapper(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
         }
     }
 

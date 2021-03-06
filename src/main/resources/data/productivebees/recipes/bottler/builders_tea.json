@@ -1,0 +1,19 @@
+{
+    "type": "productivebees:bottler",
+    "fluid": {
+        "tag": "forge:tea",
+        "amount": 250
+    },
+    "input": {
+        "item": "minecraft:glass_bottle"
+    },
+    "output": {
+        "item": "create:builders_tea"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        }
+    ]
+}

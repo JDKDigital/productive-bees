@@ -1,0 +1,47 @@
+{
+    "homepage": "https://productivebees.jdkdigital.cy",
+    "1.16.5": {
+        "1.16.5-0.5.2.10": "Fixed bottler not filling bottles",
+        "1.16.5-0.5.2.11": "Fixed bees not going into hives. If you were running 0.5.2.10, hives will need to be broken and placed again.",
+        "1.16.5-0.5.2.12": "Fixed crash from Bee Bombs",
+        "1.16.5-0.5.2.13": "Removed accidentally included loot table for potatoes in 0.5.2.12",
+        "1.16.5-0.5.2.14": "Fixed crash with FTB Chunks and Farmer bees",
+        "1.16.5-0.6.0": "New release",
+        "1.16.5-0.6.1": "Fixed crash regarding EntityRenderer on server load",
+        "1.16.5-0.6.3": "Fixed translucent bee rendering",
+        "1.16.5-0.6.4": "Fixed server connection error",
+        "1.16.5-0.6.5": "Fixed Bee Cages not working when there's only 1 in the stack",
+        "1.16.5-0.6.6": "Fixed recipe problem causing Polymorph to not function",
+        "1.16.5-0.6.8.1": "Bees that can't produce offspring will no longer attempt to do so\nFixed bottler always showing honey instead of the actual fluid in the tank",
+        "1.16.5-0.6.8.3": "Fix crash when pushing bottlers with a piston\nFix filled cages stacking in Catcher",
+        "1.16.5-0.6.8.5": "Fix crash when connecting comparator to nests",
+        "1.16.5-0.6.8.6": "Fixed output from hives and centrifuges not stacking",
+        "1.16.5-0.6.8.7": "Rideable BumbleBee"
+    },
+    "1.15.2": {
+        "1.15.2-0.5.2.10": "Fixed bottler not filling bottles",
+        "1.15.2-0.5.2.12": "Fixed crash from Bee Bombs",
+        "1.15.2-0.5.2.14": "Fixed crash with FTB Chunks and Farmer bees",
+        "1.15.2-0.6.0": "New release",
+        "1.15.2-0.6.1": "Fixed crash regarding EntityRenderer on server load",
+        "1.15.2-0.6.3": "Fixed translucent bee rendering",
+        "1.15.2-0.6.4": "Fixed server connection error",
+        "1.15.2-0.6.5": "Fixed Bee Cages not working when there's only 1 in the stack",
+        "1.15.2-0.6.6": "Fixed recipe problem causing Polymorph to not function",
+        "1.15.2-0.6.8.1": "Bees that can't produce offspring will no longer attempt to do so\nFixed bottler always showing honey instead of the actual fluid in the tank",
+        "1.15.2-0.6.8.3": "Fix crash when pushing bottlers with a piston\nFix filled cages stacking in Catcher",
+        "1.15.2-0.6.8.5": "Fix crash when connecting comparator to nests",
+        "1.15.2-0.6.8.6": "Fixed output from hives and centrifuges not stacking",
+        "1.15.2-0.6.8.7": "Rideable BumbleBee"
+    },
+    "promos": {
+        "1.15.2-latest": "1.15.2-0.6.8.7",
+        "1.15.2-recommended": "1.15.2-0.6.8.7",
+        "1.16.3-latest": "1.16.5-0.6.8.7",
+        "1.16.3-recommended": "1.16.5-0.6.8.7",
+        "1.16.4-latest": "1.16.5-0.6.8.7",
+        "1.16.4-recommended": "1.16.5-0.6.8.7",
+        "1.16.5-latest": "1.16.5-0.6.8.7",
+        "1.16.5-recommended": "1.16.5-0.6.8.7"
+    }
+}

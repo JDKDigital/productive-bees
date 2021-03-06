@@ -20,18 +20,20 @@ abstract class CapabilityContainerBlock extends ContainerBlock
     public void onReplaced(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (oldState.getBlock() != newState.getBlock()) {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
-            // Drop inventory
-            tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-                for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                    InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
-                }
-            });
-            if (tileEntity instanceof UpgradeableTileEntity) {
-                ((UpgradeableTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
+            if (tileEntity != null) {
+                // Drop inventory
+                tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
                         InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
+                if (tileEntity instanceof UpgradeableTileEntity) {
+                    ((UpgradeableTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
+                        for (int slot = 0; slot < handler.getSlots(); ++slot) {
+                            InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        }
+                    });
+                }
             }
         }
         super.onReplaced(oldState, worldIn, pos, newState, isMoving);

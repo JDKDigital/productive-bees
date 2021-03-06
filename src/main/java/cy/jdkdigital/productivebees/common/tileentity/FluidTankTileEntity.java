@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.recipe.BottlerRecipe;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -31,7 +30,7 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
     @Override
     public void tick() {
         if (world != null && !world.isRemote) {
-            if (++this.tankTick > 20) {
+            if (++this.tankTick > 21) {
                 this.tankTick = 0;
                 tickFluidTank();
             }
@@ -46,16 +45,13 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
                     ItemStack fluidContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                     ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
                     if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {
-                        ItemStack outputItem = null;
 
                         // Loop up bottler recipes from input
                         List<BottlerRecipe> recipes = new ArrayList<>();
                         Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BottlerRecipe.BOTTLER);
                         for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
                             BottlerRecipe recipe = (BottlerRecipe) entry.getValue();
-                            ProductiveBees.LOGGER.info("bottler recipe: " + recipe.getId());
                             if (recipe.matches(fluidStack, fluidContainerItem)) {
-                                ProductiveBees.LOGGER.info("recipe match: " + recipe.getId());
                                 recipes.add(recipe);
                             }
                         }

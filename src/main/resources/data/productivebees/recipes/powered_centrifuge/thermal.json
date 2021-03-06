@@ -1,0 +1,31 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "RIR",
+        "ICI",
+        "RBR"
+    ],
+    "key": {
+        "R": {
+            "tag": "forge:dusts/redstone"
+        },
+        "I": {
+            "tag": "forge:ingots/iron"
+        },
+        "B": {
+            "item": "thermal:rf_coil"
+        },
+        "C": {
+            "item": "productivebees:centrifuge"
+        }
+    },
+    "result": {
+        "item": "productivebees:powered_centrifuge"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

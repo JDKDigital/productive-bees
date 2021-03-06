@@ -51,7 +51,6 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
     public BeeEntity getNestingBeeType(World world, Biome biome) {
         List<BeeSpawningRecipe> spawningRecipes = getSpawningRecipes(world, biome);
-
         if (!spawningRecipes.isEmpty()) {
             BeeSpawningRecipe spawningRecipe = spawningRecipes.get(ProductiveBees.rand.nextInt(spawningRecipes.size()));
             BeeIngredient beeIngredient = spawningRecipe.output.get(world.rand.nextInt(spawningRecipe.output.size())).get();
