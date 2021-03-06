@@ -13,48 +13,41 @@ import cy.jdkdigital.productivebees.client.render.entity.DyeBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.HoarderBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.RancherBeeRenderer;
-import cy.jdkdigital.productivebees.common.block.CombBlock;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.common.item.*;
+import cy.jdkdigital.productivebees.common.item.BeeBomb;
+import cy.jdkdigital.productivebees.common.item.BeeCage;
+import cy.jdkdigital.productivebees.common.item.NestLocator;
 import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.color.BlockColors;
-import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.IItemPropertyGetter;
+import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.GrassColors;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeColors;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@Mod.EventBusSubscriber(modid = ProductiveBees.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ProductiveBees.MODID)
 public class ClientSetup
 {
     public static void init(final FMLClientSetupEvent event) {
@@ -72,14 +65,10 @@ public class ClientSetup
         ItemModelsProperties.registerProperty(ModItems.BEE_BOMB.get(), new ResourceLocation("loaded"), (stack, world, entity) -> BeeBomb.isLoaded(stack) ? 1.0F : 0.0F);
         ItemModelsProperties.registerProperty(ModItems.NEST_LOCATOR.get(), new ResourceLocation("angle"), new IItemPropertyGetter()
         {
-            @OnlyIn(Dist.CLIENT)
             private double rotation;
-            @OnlyIn(Dist.CLIENT)
             private double rota;
-            @OnlyIn(Dist.CLIENT)
             private long lastUpdateTick;
 
-            @OnlyIn(Dist.CLIENT)
             public float call(@Nonnull ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity player) {
                 if ((player != null || stack.isOnItemFrame()) && NestLocator.hasPosition(stack)) {
                     boolean flag = player != null;
@@ -104,7 +93,6 @@ public class ClientSetup
                 return 0.0F;
             }
 
-            @OnlyIn(Dist.CLIENT)
             private double wobble(World worldIn, double amount) {
                 if (worldIn.getGameTime() != this.lastUpdateTick) {
                     this.lastUpdateTick = worldIn.getGameTime();
@@ -118,12 +106,10 @@ public class ClientSetup
                 return this.rotation;
             }
 
-            @OnlyIn(Dist.CLIENT)
             private double getFrameRotation(ItemFrameEntity frameEntity) {
                 return MathHelper.wrapDegrees(180 + frameEntity.getHorizontalFacing().getHorizontalIndex() * 90);
             }
 
-            @OnlyIn(Dist.CLIENT)
             private double getPositionToAngle(BlockPos blockpos, Entity entityIn) {
                 return Math.atan2((double) blockpos.getZ() - entityIn.getPosZ(), (double) blockpos.getX() - entityIn.getPosX());
             }
@@ -137,57 +123,6 @@ public class ClientSetup
 
         registerEntityRendering();
         registerBlockRendering();
-    }
-
-    public static void registerItemColors(final ColorHandlerEvent.Item event) {
-        ItemColors colors = event.getItemColors();
-        BlockColors blockColors = event.getBlockColors();
-
-        for (RegistryObject<Item> eggItem : ModItems.SPAWN_EGGS) {
-            if (ObfuscationReflectionHelper.getPrivateValue(RegistryObject.class, eggItem, "value") != null) {
-                Item item = eggItem.get();
-                if (item instanceof SpawnEgg) {
-                    colors.register((stack, tintIndex) -> ((SpawnEgg) item).getColor(tintIndex, stack), item);
-                }
-            }
-        }
-
-        // Honeycomb colors
-        for (RegistryObject<Item> registryItem : ModItems.ITEMS.getEntries()) {
-            Item item = registryItem.get();
-            if (item instanceof Honeycomb) {
-                colors.register((stack, tintIndex) -> ((Honeycomb) item).getColor(stack), item);
-            }
-            else if (item instanceof BlockItem) {
-                Block block = ((BlockItem) item).getBlock();
-                if (block instanceof CombBlock) {
-                    colors.register((stack, tintIndex) -> ((CombBlock) block).getColor(stack), item);
-                }
-            }
-        }
-
-        colors.register((stack, tintIndex) -> {
-            BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
-            return blockColors.getColor(blockstate, null, null, tintIndex);
-        }, ModBlocks.BUMBLEBEE_NEST.get());
-    }
-
-    public static void registerBlockColors(final ColorHandlerEvent.Block event) {
-        BlockColors colors = event.getBlockColors();
-        colors.register((blockState, lightReader, pos, tintIndex) -> {
-            return lightReader != null && pos != null ? BiomeColors.getGrassColor(lightReader, pos) : -1;
-        }, ModBlocks.SUGAR_CANE_NEST.get());
-
-        colors.register((blockState, lightReader, pos, tintIndex) -> {
-            return lightReader != null && pos != null ? BiomeColors.getGrassColor(lightReader, pos) : GrassColors.get(0.5D, 1.0D);
-        }, ModBlocks.BUMBLEBEE_NEST.get());
-
-        for (RegistryObject<Block> registryBlock : ModBlocks.BLOCKS.getEntries()) {
-            Block block = registryBlock.get();
-            if (block instanceof CombBlock) {
-                colors.register((blockState, lightReader, pos, tintIndex) -> ((CombBlock) block).getColor(lightReader, pos), block);
-            }
-        }
     }
 
     public static void registerParticles(final ParticleFactoryRegisterEvent event) {
@@ -226,7 +161,7 @@ public class ClientSetup
     private static void registerBlockRendering() {
         RenderTypeLookup.setRenderLayer(ModBlocks.COMB_GHOSTLY.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(ModBlocks.SLIMY_NEST.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(ModBlocks.BUMBLEBEE_NEST.get(), RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.BUMBLE_BEE_NEST.get(), RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(ModBlocks.SUGAR_CANE_NEST.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.JAR.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ModBlocks.INVISIBLE_REDSTONE_BLOCK.get(), RenderType.getCutout());

@@ -85,6 +85,9 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         else if (type.equals("productivebees:blitz") && ProductiveBees.rand.nextFloat() < 0.02f) {
             this.setCustomName(new StringTextComponent("King BitzBee"));
         }
+        else if (type.equals("productivebees:basalz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+            this.setCustomName(new StringTextComponent("Queen BazBee"));
+        }
         else if (type.equals("productivebees:blizz") && ProductiveBees.rand.nextFloat() < 0.02f) {
             this.setCustomName(new StringTextComponent("Shiny BizBee"));
         }

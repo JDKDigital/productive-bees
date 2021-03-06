@@ -1,9 +1,7 @@
 {
-    "multipart": [
-        {
-            "apply": {
-                "model": "productivebees:block/nest/bumble_bee_nest"
-            }
+    "variants": {
+        "": {
+            "model": "productivebees:block/nest/bumble_bee_nest"
         }
-    ]
+    }
 }

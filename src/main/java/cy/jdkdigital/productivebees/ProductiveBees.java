@@ -8,6 +8,8 @@ import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCond
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBeeEntity;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
+import cy.jdkdigital.productivebees.event.ClientSetupEvents;
+import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
@@ -83,8 +85,6 @@ public final class ProductiveBees
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             modEventBus.addListener(ClientSetup::init);
-            modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerItemColors);
-            modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerBlockColors);
             modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerParticles);
         });
 

@@ -115,7 +115,7 @@ public class ModTileEntityTypes
     public static final RegistryObject<TileEntityType<SugarbagNestTileEntity>> SUGARBAG_NEST = register("sugarbag_nest", SugarbagNestTileEntity::new, ModBlocks.SUGARBAG_NEST);
     public static final RegistryObject<TileEntityType<DragonEggHiveTileEntity>> DRACONIC_BEEHIVE = register("draconic_beehive", DragonEggHiveTileEntity::new, ModBlocks.DRAGON_EGG_HIVE);
     public static final RegistryObject<TileEntityType<SolitaryHiveTileEntity>> SOLITARY_HIVE = register("solitary_hive", SolitaryHiveTileEntity::new, ModBlocks.BAMBOO_HIVE);
-    public static final RegistryObject<TileEntityType<BumbleBeeNestTileEntity>> BUMBLE_BEE_NEST = register("bumble_bee_nest", BumbleBeeNestTileEntity::new, ModBlocks.BUMBLEBEE_NEST);
+    public static final RegistryObject<TileEntityType<BumbleBeeNestTileEntity>> BUMBLE_BEE_NEST = register("bumble_bee_nest", BumbleBeeNestTileEntity::new, ModBlocks.BUMBLE_BEE_NEST);
     public static final RegistryObject<TileEntityType<CentrifugeTileEntity>> CENTRIFUGE = register("centrifuge", CentrifugeTileEntity::new, ModBlocks.CENTRIFUGE);
     public static final RegistryObject<TileEntityType<PoweredCentrifugeTileEntity>> POWERED_CENTRIFUGE = register("powered_centrifuge", PoweredCentrifugeTileEntity::new, ModBlocks.POWERED_CENTRIFUGE);
     public static final RegistryObject<TileEntityType<BottlerTileEntity>> BOTTLER = register("bottler", BottlerTileEntity::new, ModBlocks.BOTTLER);

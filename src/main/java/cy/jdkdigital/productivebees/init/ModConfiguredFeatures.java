@@ -59,7 +59,7 @@ public class ModConfiguredFeatures
         OBSIDIAN_PILLAR_NEST_FEATURE = Registry.register(registry, rLoc("obsidian_pillar_nest_feature"), ModFeatures.OBSIDIAN_PILLAR_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.OBSIDIAN.getDefaultState(), ModBlocks.OBSIDIAN_PILLAR_NEST.get().getDefaultState())));
         END_NEST_FEATURE = Registry.register(registry, rLoc("end_nest_feature"), ModFeatures.END_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.END_STONE.getDefaultState(), ModBlocks.END_NEST.get().getDefaultState())));
         SUGAR_CANE_NEST_FEATURE = Registry.register(registry, rLoc("sugar_cane_nest_feature"), ModFeatures.SUGAR_CANE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.SUGAR_CANE.getDefaultState(), ModBlocks.SUGAR_CANE_NEST.get().getDefaultState())));
-        BUMBLE_BEE_NEST_FEATURE = Registry.register(registry, rLoc("bumble_bee_nest_feature"), ModFeatures.BUMBLE_BEE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GRASS_BLOCK.getDefaultState(), ModBlocks.BUMBLEBEE_NEST.get().getDefaultState())));
+        BUMBLE_BEE_NEST_FEATURE = Registry.register(registry, rLoc("bumble_bee_nest_feature"), ModFeatures.BUMBLE_BEE_NEST.get().withConfiguration(new ReplaceBlockConfig(Blocks.GRASS_BLOCK.getDefaultState(), ModBlocks.BUMBLE_BEE_NEST.get().getDefaultState())));
     }
 
     private static ResourceLocation rLoc(String name) {

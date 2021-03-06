@@ -34,10 +34,8 @@ public class ModItemGroups
 
         @Override
         public void fill(@Nonnull NonNullList<ItemStack> items) {
-            ProductiveBees.LOGGER.info("fill moditemgroup");
             for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
                 String beeType = entry.getKey();
-                ProductiveBees.LOGGER.info("adding eggs for beetype " + beeType);
 
                 // Add spawn egg item
                 items.add(BeeCreator.getSpawnEgg(beeType));

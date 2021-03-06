@@ -65,7 +65,7 @@ public final class ModPointOfInterestTypes
 
     public static final RegistryObject<PointOfInterestType> BUMBLE_BEE_NEST = register("bumble_bee_nest", () -> {
         List<RegistryObject<Block>> blocks = new ArrayList<>();
-        blocks.add(ModBlocks.BUMBLEBEE_NEST);
+        blocks.add(ModBlocks.BUMBLE_BEE_NEST);
         return blocks;
     }, 1);
 
