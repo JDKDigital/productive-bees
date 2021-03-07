@@ -2,7 +2,7 @@
     "primaryColor": "#73ffb9",
     "secondaryColor": "#0f5c7a",
     "createComb": false,
-    "flowerTag": "#forge:storage_blocks/vibranium",
+    "flowerTag": "forge:storage_blocks/vibranium",
     "conditions": [
         {
             "type": "forge:mod_loaded",

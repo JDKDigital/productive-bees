@@ -132,6 +132,8 @@ dependencies {
 //    implementation fg.deobf('mods:MysticalAgriculture-1.16.4:4.1.5')
 //    implementation fg.deobf('mods:MysticalAgradditions-1.16.4:4.1.4')
 //    implementation fg.deobf('mods:biggerreactors-1.16.4:0.3.0')
+    implementation fg.deobf('mods:AutoRegLib-1.6:47')
+    implementation fg.deobf('mods:Quark-r2.4:308')
 //    implementation fg.deobf('mods:observerlib-1.16.4:1.5.1')
 //    implementation fg.deobf('mods:curios-forge-1.16.5:4.0.4.0')
 //    implementation fg.deobf('mods:astralsorcery-1.16.4:1.13.9')

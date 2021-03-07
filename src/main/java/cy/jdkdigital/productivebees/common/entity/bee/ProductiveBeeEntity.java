@@ -6,10 +6,7 @@ import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBeeEntity;
 import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
-import cy.jdkdigital.productivebees.util.BeeAttribute;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
-import cy.jdkdigital.productivebees.util.BeeEffect;
-import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -393,8 +390,7 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     public ItemStack getPickedResult(RayTraceResult target) {
-        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_" + this.getBeeName(false)));
-        return new ItemStack(item);
+        return BeeCreator.getSpawnEgg(this.getBeeType());
     }
 
     @Override

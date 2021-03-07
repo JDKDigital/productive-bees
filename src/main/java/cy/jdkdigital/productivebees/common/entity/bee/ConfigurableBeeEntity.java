@@ -330,13 +330,6 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         compound.putString("type", getBeeType());
     }
 
-    @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
-        ItemStack egg = super.getPickedResult(target);
-        BeeCreator.setTag(getBeeType(), egg);
-        return egg;
-    }
-
     protected CompoundNBT getNBTData() {
         CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(getBeeType());
 
