@@ -1,9 +1,8 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "tag": "forge:honeycombs/fluorite"
     },
-    "comb_type": "productivebees:fluorite",
     "outputs": [
         {
             "item": {

@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
+import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -11,6 +12,7 @@ import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -102,9 +104,10 @@ public class BumbleBeeEntity extends SolitaryBeeEntity
                 player.startRiding(this);
             }
             return true;
-        } else if (itemstack.getItem() == Items.SADDLE && isAlive() && !getSaddled() && !isChild()) {
+        } else if (itemstack.getItem() == Items.SADDLE && isAlive() && !getSaddled() && !isChild() && player instanceof ServerPlayerEntity) {
             setSaddled(true);
             world.playSound(player, getPosX(), getPosY(), getPosZ(), SoundEvents.ENTITY_PIG_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
+            ModAdvancements.SADDLE_BEE.trigger((ServerPlayerEntity) player, this);
             itemstack.shrink(1);
             return true;
         }

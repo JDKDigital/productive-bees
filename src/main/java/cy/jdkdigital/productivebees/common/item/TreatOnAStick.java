@@ -28,7 +28,7 @@ public class TreatOnAStick extends Item
         } else {
             if (player.isPassenger() && player.getRidingEntity() instanceof BumbleBeeEntity) {
                 BumbleBeeEntity bumbleBee = (BumbleBeeEntity) player.getRidingEntity();
-                if (itemStack.getMaxDamage() - itemStack.getDamage() >= 7 && bumbleBee.boost()) {
+                if (bumbleBee.boost()) {
                     itemStack.damageItem(7, player, (entity) -> {
                         entity.sendBreakAnimation(hand);
                     });
