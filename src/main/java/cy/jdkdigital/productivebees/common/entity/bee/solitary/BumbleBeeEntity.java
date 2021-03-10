@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
+import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -11,6 +12,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -163,7 +165,11 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
             ActionResultType actionresulttype = super.func_230254_b_(player, hand);
             if (!actionresulttype.isSuccessOrConsume()) {
                 ItemStack itemstack = player.getHeldItem(hand);
-                return itemstack.getItem() == Items.SADDLE ? itemstack.interactWithEntity(player, this, hand) : ActionResultType.PASS;
+                ActionResultType rs = itemstack.getItem() == Items.SADDLE ? itemstack.interactWithEntity(player, this, hand) : ActionResultType.PASS;
+                if (player instanceof ServerPlayerEntity && itemstack.getItem() == Items.SADDLE) {
+                    ModAdvancements.SADDLE_BEE.trigger((ServerPlayerEntity) player, this);
+                }
+                return rs;
             } else {
                 return actionresulttype;
             }

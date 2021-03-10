@@ -45,8 +45,8 @@ public class Messages
         }
 
         public static void handle(BeesMessage message, Supplier<NetworkEvent.Context> context) {
-            BeeReloadListener.INSTANCE.setData(message.data);
             context.get().enqueueWork(() -> {
+                BeeReloadListener.INSTANCE.setData(message.data);
                 // Trigger jei reload
                 ProductiveBees.LOGGER.debug("trigger recipe reload (bees:" + message.data.size() + ")");
                 ITagCollectionSupplier tagCollectionSupplier;
