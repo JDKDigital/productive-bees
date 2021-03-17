@@ -533,6 +533,7 @@
     "productivebees.ingredient.description.nether_brick_nest": "Attracts magmatic bees in the nether. Nest must be placed in the nether to attract bees.",
     "productivebees.ingredient.description.nether_quartz_nest": "Attracts crystalline bees in the nether. Nest must be placed in the nether to attract bees.",
     "productivebees.ingredient.description.soul_sand_nest": "Attracts ghostly bees in the nether. Nest must be placed in the nether to attract bees.",
+    "productivebees.ingredient.description.slimy_nest": "Attracts wild slimy bees. Nest must be placed in a swamp biome.",
     "productivebees.top.solitary.bee": "Inhabitant: %s",
     "productivebees.top.solitary.egg_count": "Eggs: %s",
     "productivebees.top.solitary.repopulation_countdown": "Repopulation cooldown %s",

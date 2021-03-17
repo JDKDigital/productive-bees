@@ -145,8 +145,8 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Incubation recipes
         registration.addRecipes(IncubationRecipeCategory.getRecipes(beeList), CATEGORY_INCUBATION_UID);
 
-        // Bee descriptions
-        List<String> itemInfos = Arrays.asList("inactive_dragon_egg", "stone_nest", "sand_nest", "snow_nest", "gravel_nest", "coarse_dirt_nest", "oak_wood_nest", "spruce_wood_nest", "acacia_wood_nest", "dark_oak_wood_nest", "jungle_wood_nest", "birch_wood_nest", "end_stone_nest", "obsidian_nest", "glowstone_nest", "nether_brick_nest", "nether_quartz_nest");
+        // Bee nest descriptions
+        List<String> itemInfos = Arrays.asList("inactive_dragon_egg", "slimy_nest", "stone_nest", "sand_nest", "snow_nest", "gravel_nest", "coarse_dirt_nest", "oak_wood_nest", "spruce_wood_nest", "acacia_wood_nest", "dark_oak_wood_nest", "jungle_wood_nest", "birch_wood_nest", "end_stone_nest", "obsidian_nest", "glowstone_nest", "nether_brick_nest", "nether_quartz_nest");
         for (String itemName : itemInfos) {
             Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, itemName));
             registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, "productivebees.ingredient.description." + itemName);
