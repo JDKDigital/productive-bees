@@ -116,12 +116,10 @@ dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
-    implementation fg.deobf('com.resourcefulbees:ResourcefulBees:1.16.5-0.5.10b')
+    implementation fg.deobf('com.resourcefulbees:ResourcefulBees:1.16.5-0.6.4b')
 
     implementation fg.deobf('mods:Jade-1.16.4:2.4.2')
 
-//    implementation fg.deobf('mods:citadel-1.6.1:1')
-//    implementation fg.deobf('mods:iceandfire-2.1.4:1.16.4')
 //    implementation fg.deobf('mods:phosphophyllite-1.16.4:0.3.2-beta')
 //    implementation fg.deobf('mods:cofh_core-1.16.3:1.1.6')
 //    implementation fg.deobf('mods:thermal_foundation-1.16.3:1.1.6')
