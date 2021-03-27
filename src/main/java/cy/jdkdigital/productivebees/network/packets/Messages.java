@@ -8,6 +8,7 @@ import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.ITagCollectionSupplier;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -73,7 +74,8 @@ public class Messages
         }
     }
 
-    private enum ServerType {
+    private enum ServerType
+    {
         // Three cases, since there's no such thing as a vanilla integrated server
         INTEGRATED("integrated", false, true),
         VANILLA_REMOTE("vanilla", true, false),

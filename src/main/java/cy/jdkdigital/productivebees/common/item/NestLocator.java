@@ -1,14 +1,14 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import com.mojang.datafixers.util.Pair;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
-import javafx.util.Pair;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BlockItem;
@@ -19,7 +19,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -40,8 +39,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -163,14 +160,15 @@ public class NestLocator extends Item
                     predicate = o -> o.equals(getNestBlock(stack));
                 }
 
-                Pair<Double, BlockPos> nearest = findNearestNest((ServerWorld) world, player.getPosition(), 100, predicate);
+                Pair<Double, BlockPos> nearest = findNearestNest((ServerWorld) world, player.getPosition(), ProductiveBeesConfig.GENERAL.nestLocatorDistance.get(), predicate);
 
                 if (nearest != null) {
                     // Show distance in chat
-                    setPosition(stack, nearest.getValue());
-                }
-                else {
+                    player.sendStatusMessage(new TranslationTextComponent("productivebees.nest_locator.found_hive",  Math.round(nearest.getFirst() * 100.0) / 100.0), false);
+                    setPosition(stack, nearest.getSecond());
+                } else {
                     // Unset position
+                    player.sendStatusMessage(new TranslationTextComponent("productivebees.nest_locator.not_found_hive"), false);
                     setPosition(stack, null);
                 }
             }

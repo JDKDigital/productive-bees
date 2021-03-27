@@ -14,7 +14,6 @@ import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
