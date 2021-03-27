@@ -1,0 +1,27 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:pig_iron",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/pig_iron"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/pig_iron"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/pig_iron"
+            }
+        }
+    ]
+}

@@ -80,6 +80,9 @@ minecraft {
 // sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+    maven {
+        url "https://www.cursemaven.com"
+    }
     flatDir {
         dirs 'mods'
     }
@@ -97,9 +100,6 @@ repositories {
         name 'tterrag maven'
         url "http://maven.tterrag.com/"
     }
-    maven {
-        url 'https://nexus.resourcefulbees.com/repository/maven-public/'
-    }
 }
 
 dependencies {
@@ -116,34 +116,8 @@ dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
-    implementation fg.deobf('com.resourcefulbees:ResourcefulBees:1.16.5-0.6.4b')
-
-    implementation fg.deobf('mods:Jade-1.16.4:2.4.2')
-
-//    implementation fg.deobf('mods:phosphophyllite-1.16.4:0.3.2-beta')
-//    implementation fg.deobf('mods:cofh_core-1.16.3:1.1.6')
-//    implementation fg.deobf('mods:thermal_foundation-1.16.3:1.1.6')
-//    implementation fg.deobf('mods:thermal_expansion-1.16.3:1.1.6')
-//    implementation fg.deobf('mods:CTM-MC1.16.1:1.1.1.5')
-    implementation fg.deobf('mods:Mekanism-1.16.4:10.0.18.445')
-//    implementation fg.deobf('mods:Cucumber-1.16.4:4.1.8')
-//    implementation fg.deobf('mods:MysticalAgriculture-1.16.4:4.1.5')
-//    implementation fg.deobf('mods:MysticalAgradditions-1.16.4:4.1.4')
-//    implementation fg.deobf('mods:biggerreactors-1.16.4:0.3.0')
-    implementation fg.deobf('mods:AutoRegLib-1.6:47')
-    implementation fg.deobf('mods:Quark-r2.4:308')
-//    implementation fg.deobf('mods:observerlib-1.16.4:1.5.1')
-//    implementation fg.deobf('mods:curios-forge-1.16.5:4.0.4.0')
-//    implementation fg.deobf('mods:astralsorcery-1.16.4:1.13.9')
-//    implementation fg.deobf('mods:Lollipop-1.16.4:3.2.4')
-//    implementation fg.deobf('mods:Powah-1.16.4:2.3.9')
-//    implementation fg.deobf('mods:titanium-1.16.4:3.2.3')
-//    implementation fg.deobf('mods:industrial-foregoing-1.16.4:3.2.6')
-//    implementation fg.deobf('mods:create-mc1.16.3:v0.3e')
-//    implementation fg.deobf('mods:TConstruct-1.16.5:3.0.1')
-//    implementation fg.deobf('mods:abnormals_core-1.16.4:3.0.6')
-//    implementation fg.deobf('mods:buzzier_bees-1.16.4:3.0.0')
-//    implementation fg.deobf('mods:BloodMagic-1.16.4:3.1.0-15')
+    implementation fg.deobf("curse.maven:jade-324717:3228325")
+    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

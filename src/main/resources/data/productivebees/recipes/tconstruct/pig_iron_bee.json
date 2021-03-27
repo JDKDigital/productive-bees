@@ -1,0 +1,28 @@
+{
+    "type": "tconstruct:casting_table",
+    "cast": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:iron\"}}"
+    },
+    "cast_consumed": true,
+    "fluid": {
+        "name": "tconstruct:molten_clay",
+        "amount": 1000
+    },
+    "result": {
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:pig_iron"
+            }
+        }
+    },
+    "cooling_time": 87,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "tconstruct"
+        }
+    ]
+}

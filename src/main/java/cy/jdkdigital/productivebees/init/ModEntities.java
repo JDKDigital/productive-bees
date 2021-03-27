@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.*;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.*;
 import cy.jdkdigital.productivebees.common.item.SpawnEgg;
-import cy.jdkdigital.productivebees.entity.bee.ResourcefulConfigurableBeeEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -57,7 +56,7 @@ public class ModEntities
     public static RegistryObject<EntityType<BeeEntity>> SWEATY_BEE = createSolitaryBee("sweaty_bee", SweatyBeeEntity::new, 9748939, 6238757);
     public static RegistryObject<EntityType<BumbleBeeEntity>> BUMBLE = createSolitaryBee("bumble_bee", BumbleBeeEntity::new, 9748939, 6238757);
 
-    public static RegistryObject<EntityType<ConfigurableBeeEntity>> CONFIGURABLE_BEE = createColoredHiveBee("configurable_bee", ModList.get().isLoaded("resourcefulbees") ? ResourcefulConfigurableBeeEntity::new : ConfigurableBeeEntity::new, "#73ffb9", "#0f5c7a", ModItemGroups.PRODUCTIVE_BEES);
+    public static RegistryObject<EntityType<ConfigurableBeeEntity>> CONFIGURABLE_BEE = createColoredHiveBee("configurable_bee", ConfigurableBeeEntity::new, "#73ffb9", "#0f5c7a", ModItemGroups.PRODUCTIVE_BEES);
 
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createColoredHiveBee(String name, EntityType.IFactory<E> supplier, String primaryColor, String secondaryColor, ItemGroup itemGroup) {
         Color primary = Color.decode(primaryColor);

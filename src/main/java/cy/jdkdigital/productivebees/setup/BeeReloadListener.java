@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.util.BeeCreator;
@@ -56,16 +55,6 @@ public class BeeReloadListener extends JsonReloadListener
             BEE_DATA.put(simpleId.toString(), nbt);
 
             ProductiveBees.LOGGER.debug("Adding to bee data " + simpleId);
-
-            // Create ResourcefulBees centrifuge recipes
-            if (ModList.get().isLoaded(ResourcefulBeesCompat.MODID) && nbt.getBoolean("createComb")) {
-                ResourcefulBeesCompat.createCentrifugeRecipes(getRecipeManager(), id);
-            }
-        }
-
-        // Normal combs
-        if (ModList.get().isLoaded(ResourcefulBeesCompat.MODID)) {
-            ResourcefulBeesCompat.createCentrifugeRecipesFromItems(getRecipeManager());
         }
 
         try {
@@ -86,14 +75,5 @@ public class BeeReloadListener extends JsonReloadListener
 
     public void setData(Map<String, CompoundNBT> data) {
         BEE_DATA = data;
-    }
-
-    public static RecipeManager getRecipeManager() {
-        if (!recipeManager.recipes.getClass().equals(HashMap.class)) {
-            recipeManager.recipes = new HashMap<>(recipeManager.recipes);
-            recipeManager.recipes.replaceAll((t, v) -> new HashMap<>(recipeManager.recipes.get(t)));
-        }
-
-        return recipeManager;
     }
 }

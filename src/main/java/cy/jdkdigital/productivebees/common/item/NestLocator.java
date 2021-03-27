@@ -2,10 +2,13 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
+import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
+import javafx.util.Pair;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BlockItem;
@@ -16,6 +19,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -25,15 +29,22 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.village.PointOfInterest;
+import net.minecraft.village.PointOfInterestManager;
+import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class NestLocator extends Item
 {
@@ -143,7 +154,7 @@ public class NestLocator extends Item
     @Nonnull
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
-        if (!world.isRemote) {
+        if (!world.isRemote && world instanceof ServerWorld) {
             // If it has a type specified
             ItemStack stack = player.getHeldItem(hand);
             if (!player.isSneaking()) {
@@ -152,7 +163,7 @@ public class NestLocator extends Item
                     predicate = o -> o.equals(getNestBlock(stack));
                 }
 
-                Map.Entry<Double, BlockPos> nearest = findNearestNest(world, player.getPosition(), 16, predicate);
+                Pair<Double, BlockPos> nearest = findNearestNest((ServerWorld) world, player.getPosition(), 100, predicate);
 
                 if (nearest != null) {
                     // Show distance in chat
@@ -181,23 +192,28 @@ public class NestLocator extends Item
         }
     }
 
-    private Map.Entry<Double, BlockPos> findNearestNest(World world, BlockPos pos, int distance, Predicate<Block> predicate) {
+    private Pair<Double, BlockPos> findNearestNest(ServerWorld world, BlockPos pos, int distance, Predicate<Block> predicate) {
         Vector3d playerPos = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
-        TreeMap<Double, BlockPos> nearbyNestPositions = new TreeMap<>();
-        long start = System.currentTimeMillis();
-        BlockPos.getAllInBox(pos.add(-distance, -distance, -distance), pos.add(distance, distance, distance)).forEach(blockPos -> {
-            BlockState state = world.getBlockState(blockPos);
-            if (predicate.test(state.getBlock())) {
-                double distanceToNest = playerPos.distanceTo(new Vector3d(blockPos.getX(), blockPos.getY(), blockPos.getZ()));
-                if (!nearbyNestPositions.containsKey(distanceToNest)) {
-                    nearbyNestPositions.put(distanceToNest, new BlockPos(blockPos));
-                }
-            }
-        });
-        long finish = System.currentTimeMillis();
-//        ProductiveBees.LOGGER.debug("Locator search time: " + (finish - start) + "ms");
+
+        PointOfInterestManager pointofinterestmanager = world.getPointOfInterestManager();
+        Stream<PointOfInterest> stream = pointofinterestmanager.func_219146_b((poiType) ->
+                poiType == PointOfInterestType.BEEHIVE ||
+                poiType == PointOfInterestType.BEE_NEST ||
+                poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
+                poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
+                poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() ||
+                poiType == ModPointOfInterestTypes.BUMBLE_BEE_NEST.get() ||
+                poiType == ModPointOfInterestTypes.SUGARBAG_NEST.get(), pos, distance, PointOfInterestManager.Status.ANY);
+
+        List<BlockPos> nearbyNestPositions = stream.map(PointOfInterest::getPos).filter((nestPos) -> {
+            BlockState state = world.getBlockState(nestPos);
+            return predicate.test(state.getBlock());
+        }).sorted(Comparator.comparingDouble((vec) -> vec.distanceSq(pos))).collect(Collectors.toList());
+
         if (!nearbyNestPositions.isEmpty()) {
-            return nearbyNestPositions.pollFirstEntry();
+            BlockPos nearestPos = nearbyNestPositions.iterator().next();
+            double distanceToNest = playerPos.distanceTo(new Vector3d(nearestPos.getX(), nearestPos.getY(), nearestPos.getZ()));
+            return new Pair<>(distanceToNest, nearestPos);
         }
         return null;
     }

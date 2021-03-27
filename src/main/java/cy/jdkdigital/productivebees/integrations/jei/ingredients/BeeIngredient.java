@@ -17,21 +17,19 @@ public class BeeIngredient
 
     private EntityType<? extends BeeEntity> bee;
     private ResourceLocation beeType;
-    private int renderType = 0;
     private boolean configurable = false;
 
-    public BeeIngredient(EntityType<? extends BeeEntity> bee, int renderType) {
+    public BeeIngredient(EntityType<? extends BeeEntity> bee) {
         this.bee = bee;
-        this.renderType = renderType;
     }
 
-    public BeeIngredient(EntityType<? extends BeeEntity> bee, ResourceLocation beeType, int renderType) {
-        this(bee, renderType);
+    public BeeIngredient(EntityType<? extends BeeEntity> bee, ResourceLocation beeType) {
+        this(bee);
         this.beeType = beeType;
     }
 
-    public BeeIngredient(EntityType<? extends BeeEntity> bee, ResourceLocation beeType, int renderType, boolean isConfigurable) {
-        this(bee, renderType);
+    public BeeIngredient(EntityType<? extends BeeEntity> bee, ResourceLocation beeType, boolean isConfigurable) {
+        this(bee);
         this.beeType = beeType;
         this.configurable = isConfigurable;
     }
@@ -59,20 +57,15 @@ public class BeeIngredient
         return beeType != null ? beeType : bee.getRegistryName();
     }
 
-    public int getRenderType() {
-        return renderType;
-    }
-
     public static BeeIngredient read(PacketBuffer buffer) {
         String beeName = buffer.readString();
 
-        return new BeeIngredient((EntityType<? extends BeeEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readResourceLocation(), buffer.readInt(), buffer.readBoolean());
+        return new BeeIngredient((EntityType<? extends BeeEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readResourceLocation(), buffer.readBoolean());
     }
 
     public final void write(PacketBuffer buffer) {
         buffer.writeString("" + bee.getRegistryName());
         buffer.writeResourceLocation(getBeeType());
-        buffer.writeInt(renderType);
         buffer.writeBoolean(configurable);
     }
 
@@ -81,7 +74,6 @@ public class BeeIngredient
         return "BeeIngredient{" +
                 "bee=" + bee +
                 ", beeType=" + beeType +
-                ", renderType=" + renderType +
                 '}';
     }
 

@@ -1,0 +1,29 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "tag": "forge:honeycombs/pig_iron"
+    },
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:nuggets/pig_iron"
+            },
+            "min": 4,
+            "max": 4
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:nuggets/pig_iron"
+            }
+        }
+    ]
+}

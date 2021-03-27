@@ -12,7 +12,6 @@ import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.integrations.resourcefulbees.ResourcefulBeesCompat;
 import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
@@ -199,11 +198,6 @@ public class BeeHelper
             beeId = ((ConfigurableBeeEntity) beeEntity).getBeeType();
         }
 
-        ResourceLocation id = new ResourceLocation(beeId);
-        if (ModList.get().isLoaded(ResourcefulBeesCompat.MODID) && id.getNamespace().equals(ResourcefulBeesCompat.MODID)) {
-            return Collections.singletonList(ResourcefulBeesCompat.getHoneyComb(beeEntity));
-        }
-
         Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
         IInventory beeInv = new IdentifierInventory(beeId);
         for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
@@ -289,29 +283,7 @@ public class BeeHelper
             return null;
         }
 
-        CentrifugeRecipe recipe = null;
-        if (ModList.get().isLoaded(ResourcefulBeesCompat.MODID) && input.getItem().getRegistryName().getNamespace().equals(ResourcefulBeesCompat.MODID)) {
-            IItemHandlerModifiable rBeesHandler = new InventoryHandlerHelper.ItemHandler(1);
-            rBeesHandler.setStackInSlot(0, input);
-            com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe rec = recipeManager.getRecipe(com.resourcefulbees.resourcefulbees.recipe.CentrifugeRecipe.CENTRIFUGE_RECIPE_TYPE, new RecipeWrapper(rBeesHandler), world).orElse(null);
-            if (rec != null) {
-                Map<Ingredient, IntArrayNBT> itemOutputs = new HashMap<>();
-                for (Pair<ItemStack, Float> pair : rec.itemOutputs) {
-                    if (!pair.getLeft().isEmpty()) {
-                        int count = pair.getLeft().getCount();
-                        IntArrayNBT nbt = new IntArrayNBT(new int[]{count, count, (int) (pair.getRight() * 100)});
-
-                        itemOutputs.put(Ingredient.fromStacks(pair.getLeft()), nbt);
-                    }
-                }
-                // @TODO Fluid output
-                recipe = new CentrifugeRecipe(new ResourceLocation(ResourcefulBeesCompat.MODID, rec.getId().getPath() + "_converted"), rec.ingredient, itemOutputs, new HashMap<>());
-            }
-        }
-        else {
-            recipe = recipeManager.getRecipe(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), world).orElse(null);
-        }
-        return recipe;
+        return recipeManager.getRecipe(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), world).orElse(null);
     }
 
     private static ItemStack convertToCombBlock(ItemStack stack) {

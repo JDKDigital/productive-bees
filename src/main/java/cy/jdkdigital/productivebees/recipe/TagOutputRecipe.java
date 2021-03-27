@@ -36,12 +36,12 @@ public abstract class TagOutputRecipe
             itemOutput.forEach((ingredient, intNBTS) -> {
                 ItemStack preferredItem = getPreferredItemByMod(ingredient);
                 if (preferredItem != null && !preferredItem.getItem().equals(Items.BARRIER)) {
-                    calculatedItemOutput.put(preferredItem.copy(), intNBTS.copy());
+                    calculatedItemOutput.put(preferredItem, intNBTS);
                 }
             });
         }
 
-        return calculatedItemOutput;
+        return new LinkedHashMap<>(calculatedItemOutput);
     }
 
     private static ItemStack getPreferredItemByMod(Ingredient ingredient) {
@@ -60,9 +60,8 @@ public abstract class TagOutputRecipe
                 if (getModPreference().containsKey(modId)) {
                     priority = getModPreference().get(modId);
                 }
-                ;
                 if (preferredItem == null || (priority >= 0 && priority < currBest)) {
-                    preferredItem = item;
+                    preferredItem = item.copy();
                     currBest = priority;
                 }
             }

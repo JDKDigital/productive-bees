@@ -12,6 +12,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.CocoaBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -36,6 +39,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -133,6 +137,17 @@ public class EventHandler
                 if (!beeTypes.isEmpty()) {
                     ((ConfigurableBeeEntity) entity).setBeeType(beeTypes.get(ProductiveBees.rand.nextInt(beeTypes.size())));
                 }
+            }
+        }
+
+        // Clean up "Random spawn bonus" modifier added to bees each trip to a hive prior to 0.6.9.6
+        if (entity instanceof BeeEntity) {
+            ModifiableAttributeInstance attrib = ((BeeEntity) entity).getAttribute(Attributes.FOLLOW_RANGE);
+            if (attrib != null && attrib.getModifierListCopy().size() > 1) {
+                for (AttributeModifier modifier : attrib.getModifierListCopy()) {
+                    attrib.removeModifier(modifier);
+                }
+                attrib.applyPersistentModifier(new AttributeModifier("Random spawn bonus", ProductiveBees.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
             }
         }
     }

@@ -1,0 +1,27 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:tinkers_bronze",
+    "results": [
+        {
+            "item": {
+                "tag": "forge:honeycombs/tinkers_bronze"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/tinkers_bronze"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/tinkers_bronze"
+            }
+        }
+    ]
+}

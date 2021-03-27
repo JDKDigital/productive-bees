@@ -1,13 +1,17 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,22 +43,19 @@ public class BeeIngredientFactory
 
     public static Map<String, BeeIngredient> getOrCreateList() {
         if (ingredientList.isEmpty()) {
-            // Add vanilla bee as ingredient
-            ingredientList.put(EntityType.BEE.getRegistryName() + "", new BeeIngredient(EntityType.BEE, 0));
-
-            // Add hive bees
-            for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
-                if (registryObject.equals(ModEntities.CONFIGURABLE_BEE)) {
-                    continue;
+            // Add all BeeEntity from registry
+            try {
+                for (EntityType<?> registryObject : ForgeRegistries.ENTITIES.getValues()) {
+                    if (registryObject.isContained(EntityTypeTags.BEEHIVE_INHABITORS)) {
+                        if (registryObject.equals(ModEntities.CONFIGURABLE_BEE.get())) {
+                            continue;
+                        }
+                        EntityType<? extends BeeEntity> bee = (EntityType<? extends BeeEntity>) registryObject;
+                        addBee(bee.getRegistryName().toString(), new BeeIngredient(bee));
+                    }
                 }
-                EntityType<? extends BeeEntity> bee = (EntityType<? extends BeeEntity>) registryObject.get();
-                addBee(bee.getRegistryName().toString(), new BeeIngredient(bee, 0));
-            }
-
-            // Add solitary bees
-            for (RegistryObject<EntityType<?>> registryObject : ModEntities.SOLITARY_BEES.getEntries()) {
-                EntityType<? extends BeeEntity> bee = (EntityType<? extends BeeEntity>) registryObject.get();
-                addBee(bee.getRegistryName().toString(), new BeeIngredient(bee, 1));
+            } catch (IllegalStateException e) {
+                // Tag not ready
             }
         }
 
@@ -64,7 +65,7 @@ public class BeeIngredientFactory
             for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
                 String beeType = entry.getKey();
                 EntityType<ConfigurableBeeEntity> bee = ModEntities.CONFIGURABLE_BEE.get();
-                addBee(beeType, new BeeIngredient(bee, new ResourceLocation(beeType), 0, true));
+                addBee(beeType, new BeeIngredient(bee, new ResourceLocation(beeType), true));
                 configurableBeeIngredientCount++;
             }
         }

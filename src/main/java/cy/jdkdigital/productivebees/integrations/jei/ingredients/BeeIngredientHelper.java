@@ -58,7 +58,7 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     @Nonnull
     @Override
     public BeeIngredient copyIngredient(BeeIngredient beeIngredient) {
-        return new BeeIngredient(beeIngredient.getBeeEntity(), beeIngredient.getBeeType(), beeIngredient.getRenderType());
+        return new BeeIngredient(beeIngredient.getBeeEntity(), beeIngredient.getBeeType());
     }
 
     @Nonnull

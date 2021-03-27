@@ -352,7 +352,6 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
             if (entity instanceof ConfigurableBeeEntity) {
                 tag.putString("type", ((ConfigurableBeeEntity) entity).getBeeType());
             }
-            entity.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.TRIGGERED, null, tag);
             return world.addEntity(entity);
         }
         return false;
