@@ -1,12 +1,14 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
+import jdk.internal.jline.internal.Nullable;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.IntStream;
 
 public interface UpgradeableTileEntity
 {
@@ -19,13 +21,25 @@ public interface UpgradeableTileEntity
     default int getUpgradeCount(Item item) {
         AtomicInteger numberOfUpgrades = new AtomicInteger();
         getUpgradeHandler().ifPresent(handler -> {
-            IntStream.range(0, 4).forEach(slot -> {
+            for (int slot = 0; slot < handler.getSlots(); ++slot) {
                 ItemStack stack = handler.getStackInSlot(slot);
                 if (stack.getItem().equals(item)) {
                     numberOfUpgrades.getAndIncrement();
                 }
-            });
+            }
         });
         return numberOfUpgrades.get();
+    }
+
+    default List<ItemStack> getInstalledUpgrades(@Nullable Item upgradeItem) {
+        List<ItemStack> upgrades = new ArrayList<>();
+        getUpgradeHandler().ifPresent(handler -> {
+            for (int slot = 0; slot < handler.getSlots(); ++slot) {
+                if (upgradeItem == null || handler.getStackInSlot(slot).getItem().equals(upgradeItem)) {
+                    upgrades.add(handler.getStackInSlot(slot));
+                }
+            }
+        });
+        return upgrades;
     }
 }

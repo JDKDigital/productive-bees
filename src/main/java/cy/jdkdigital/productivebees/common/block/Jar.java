@@ -62,8 +62,9 @@ public class Jar extends Block
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
 
-        if (stack.getOrCreateTag().contains("inv")) {
-            CompoundNBT invTag = stack.getTag().getCompound("inv");
+        CompoundNBT tag = stack.getTag();
+        if (tag != null && tag.contains("inv")) {
+            CompoundNBT invTag = tag.getCompound("inv");
 
             ListNBT tagList = invTag.getList("Items", Constants.NBT.TAG_COMPOUND);
             if (tagList.size() > 0) {

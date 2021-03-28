@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -43,14 +44,16 @@ public class WoodChip extends Item
 
     @Nullable
     public static Block getBlock(ItemStack stack) {
-        if (!getBlockType(stack).isEmpty()) {
-            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(getBlockType(stack)));
+        String blockType = getBlockType(stack);
+        if (blockType != null) {
+            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockType));
         }
         return null;
     }
 
     public static String getBlockType(ItemStack stack) {
-        return stack.getOrCreateTag().getString(KEY);
+        CompoundNBT tag = stack.getTag();
+        return tag != null ? tag.getString(KEY) : null;
     }
 
     @Override

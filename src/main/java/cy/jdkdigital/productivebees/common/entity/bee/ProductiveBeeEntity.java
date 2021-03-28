@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBeeEntity;
+import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.util.*;
@@ -36,6 +37,7 @@ import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -215,6 +217,14 @@ public class ProductiveBeeEntity extends BeeEntity
                 isFlowerBlock(flowerBlock) ||
                         (flowerBlock instanceof Feeder && isValidFeeder(world.getTileEntity(pos), ProductiveBeeEntity.this::isFlowerBlock))
         );
+    }
+
+    public boolean doesHiveAcceptBee(BlockPos pos) {
+        TileEntity tileentity = this.world.getTileEntity(pos);
+        if (tileentity instanceof AdvancedBeehiveTileEntityAbstract) {
+            return ((AdvancedBeehiveTileEntityAbstract)tileentity).acceptsBee(this);
+        }
+        return true;
     }
 
     public static boolean isValidFeeder(TileEntity tile, Predicate<Block> validator) {
@@ -672,6 +682,7 @@ public class ProductiveBeeEntity extends BeeEntity
             return stream
                     .map(PointOfInterest::getPos)
                     .filter(ProductiveBeeEntity.this::doesHiveHaveSpace)
+                    .filter(ProductiveBeeEntity.this::doesHiveAcceptBee)
                     .sorted(Comparator.comparingDouble((vec) -> vec.distanceSq(pos)))
                     .collect(Collectors.toList());
         }

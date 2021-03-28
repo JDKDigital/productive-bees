@@ -37,7 +37,8 @@ public class BeeCage extends Item
     }
 
     public static boolean isFilled(ItemStack itemStack) {
-        return !itemStack.isEmpty() && itemStack.getOrCreateTag().contains("entity");
+        CompoundNBT tag = itemStack.getTag();
+        return !itemStack.isEmpty() && tag != null && tag.contains("entity");
     }
 
     @Override
@@ -137,23 +138,25 @@ public class BeeCage extends Item
 
     @Nullable
     public static BeeEntity getEntityFromStack(ItemStack stack, World world, boolean withInfo) {
-        return getEntityFromStack(stack.getOrCreateTag(), world, withInfo);
+        return getEntityFromStack(stack.getTag(), world, withInfo);
     }
 
     @Nullable
-    public static BeeEntity getEntityFromStack(CompoundNBT tag, World world, boolean withInfo) {
-        EntityType<?> type = EntityType.byKey(tag.getString("entity")).orElse(null);
-        if (type != null) {
-            Entity entity = type.create(world);
-            if (withInfo) {
-                entity.read(tag);
-            }
-
-            if (entity instanceof BeeEntity) {
-                if (entity instanceof ConfigurableBeeEntity && !withInfo) {
-                    ((ConfigurableBeeEntity) entity).setBeeType(tag.getString("type"));
+    public static BeeEntity getEntityFromStack(@Nullable CompoundNBT tag, World world, boolean withInfo) {
+        if (tag != null) {
+            EntityType<?> type = EntityType.byKey(tag.getString("entity")).orElse(null);
+            if (type != null) {
+                Entity entity = type.create(world);
+                if (withInfo) {
+                    entity.read(tag);
                 }
-                return (BeeEntity) entity;
+
+                if (entity instanceof BeeEntity) {
+                    if (entity instanceof ConfigurableBeeEntity && !withInfo) {
+                        ((ConfigurableBeeEntity) entity).setBeeType(tag.getString("type"));
+                    }
+                    return (BeeEntity) entity;
+                }
             }
         }
         return null;

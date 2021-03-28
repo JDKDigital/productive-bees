@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.entity.EntityType;
@@ -18,6 +19,14 @@ public class BeeIngredientFactory
 {
     private static Map<String, BeeIngredient> ingredientList = new HashMap<>();
     private static int configurableBeeIngredientCount = 0; // counter to see if list needs to be recalculated
+
+    public static String getIngredientKey(BeeEntity bee) {
+        String type = bee.getEntityString();
+        if (bee instanceof ProductiveBeeEntity) {
+            type = ((ProductiveBeeEntity) bee).getBeeType();
+        }
+        return type;
+    }
 
     public static Map<String, BeeIngredient> getOrCreateList(boolean removeDeprecated) {
         Map<String, BeeIngredient> list = new HashMap<>();

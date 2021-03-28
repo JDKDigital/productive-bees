@@ -53,9 +53,9 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
         }
 
         public boolean test(ItemStack cage) {
-            CompoundNBT tag = cage.getOrCreateTag();
+            CompoundNBT tag = cage.getTag();
 
-            if (tag.contains("type")) {
+            if (tag != null && tag.contains("type")) {
                 String type = tag.getString("type");
                 // /advancement revoke @p only productivebees:husbandry/bee_cage/quartz_nest/catch_crystalline_bee
                 return this.beeName.equals("any") || type.equals(this.beeName);

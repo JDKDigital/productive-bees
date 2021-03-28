@@ -9,6 +9,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -65,15 +66,18 @@ public class Gene extends Item
     }
 
     public static String getAttributeName(ItemStack stack) {
-        return stack.getOrCreateTag().getString(ATTRIBUTE_KEY);
+        CompoundNBT tag = stack.getTag();
+        return tag != null ? tag.getString(ATTRIBUTE_KEY) : "";
     }
 
     public static Integer getValue(ItemStack stack) {
-        return stack.getOrCreateTag().getInt(VALUE_KEY);
+        CompoundNBT tag = stack.getTag();
+        return tag != null ? tag.getInt(VALUE_KEY) : 0;
     }
 
     public static Integer getPurity(ItemStack stack) {
-        return stack.getOrCreateTag().getInt(PURITY_KEY);
+        CompoundNBT tag = stack.getTag();
+        return tag != null ? tag.getInt(PURITY_KEY) : 0;
     }
 
     @Override

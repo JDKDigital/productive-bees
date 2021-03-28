@@ -254,12 +254,11 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
     private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
         if (canProcessRecipe(recipe, invHandler)) {
-
             recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
                 if (ProductiveBees.rand.nextInt(100) <= recipeValues.get(2).getInt()) {
                     int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(recipeValues.get(0).getInt()), MathHelper.floor(recipeValues.get(1).getInt()));
                     itemStack.setCount(count);
-                    ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack);
+                    ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack.copy());
                 }
             });
 

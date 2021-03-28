@@ -52,7 +52,8 @@ public class GeneBottle extends Item
     }
 
     public static CompoundNBT getGenesTag(ItemStack stack) {
-        return (CompoundNBT) stack.getOrCreateTag().get(GENES_KEY);
+        CompoundNBT tag = stack.getTag();
+        return tag != null ? (CompoundNBT) tag.get(GENES_KEY) : new CompoundNBT();
     }
 
 //    @Override

@@ -1,10 +1,13 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
 import cy.jdkdigital.productivebees.common.item.BeeCage;
+import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.container.CatcherContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -25,6 +28,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CatcherTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity, UpgradeableTileEntity
 {
@@ -54,15 +58,34 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
                         // We have a valid inventory for catching, look for entities above
                         List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, getBoundingBox());
                         int babeeUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
+                        List<ItemStack> filterUpgrades = getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
                         for (BeeEntity bee : bees) {
                             if (babeeUpgrades > 0 && !bee.isChild()) {
                                 continue;
                             }
-                            ItemStack cageStack = new ItemStack(invItem.getItem());
-                            BeeCage.captureEntity(bee, cageStack);
-                            if (((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(cageStack)) {
-                                bee.remove(true);
-                                invItem.shrink(1);
+
+                            boolean isAllowed = false;
+                            if (filterUpgrades.size() > 0) {
+                                for (ItemStack filter: filterUpgrades) {
+                                    List<Supplier<BeeIngredient>> allowedBees = FilterUpgradeItem.getAllowedBees(filter);
+                                    for (Supplier<BeeIngredient> allowedBee: allowedBees) {
+                                        String type = BeeIngredientFactory.getIngredientKey(bee);
+                                        if (allowedBee.get().getBeeType().toString().equals(type)) {
+                                            isAllowed = true;
+                                        }
+                                    }
+                                }
+                            } else {
+                                isAllowed = true;
+                            }
+
+                            if (isAllowed) {
+                                ItemStack cageStack = new ItemStack(invItem.getItem());
+                                BeeCage.captureEntity(bee, cageStack);
+                                if (((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(cageStack)) {
+                                    bee.remove(true);
+                                    invItem.shrink(1);
+                                }
                             }
                         }
                     }

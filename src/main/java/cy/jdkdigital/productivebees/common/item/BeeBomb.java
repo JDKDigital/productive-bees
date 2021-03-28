@@ -44,9 +44,12 @@ public class BeeBomb extends Item
     }
 
     public static ListNBT getBees(ItemStack stack) {
-        INBT bees = stack.getOrCreateTag().get(BEES_KEY);
-        if (!(bees instanceof ListNBT)) {
-            bees = new ListNBT();
+        CompoundNBT tag = stack.getTag();
+        INBT bees = new ListNBT();
+        if (tag != null) {
+            if (tag.get(BEES_KEY) instanceof ListNBT) {
+                bees = tag.get(BEES_KEY);
+            }
         }
         return (ListNBT) bees;
     }

@@ -4,11 +4,14 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
@@ -43,6 +46,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider, UpgradeableTileEntity
 {
@@ -231,6 +235,22 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     @Override
     public boolean acceptsUpgrades() {
         return getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+    }
+
+    @Override
+    public boolean acceptsBee(BeeEntity bee) {
+        boolean isInFilters = false;
+        List<ItemStack> filters = getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
+        for (ItemStack filter: filters) {
+            List<Supplier<BeeIngredient>> allowedBees = FilterUpgradeItem.getAllowedBees(filter);
+            for (Supplier<BeeIngredient> allowedBee: allowedBees) {
+                String type = BeeIngredientFactory.getIngredientKey(bee);
+                if (allowedBee.get().getBeeType().toString().equals(type)) {
+                    isInFilters = true;
+                }
+            }
+        }
+        return filters.size() == 0 || isInFilters;
     }
 
     @Override

@@ -69,9 +69,12 @@ public class HoneyTreat extends Item
     }
 
     public static ListNBT getGenes(ItemStack stack) {
-        INBT genes = stack.getOrCreateTag().get(GENES_KEY);
-        if (!(genes instanceof ListNBT)) {
-            genes = new ListNBT();
+        CompoundNBT tag = stack.getTag();
+        INBT genes = new ListNBT();
+        if (tag != null) {
+            if (tag.get(GENES_KEY) instanceof ListNBT) {
+                genes = tag.get(GENES_KEY);
+            }
         }
         return (ListNBT) genes;
     }
@@ -149,7 +152,7 @@ public class HoneyTreat extends Item
 
         CompoundNBT tag = stack.getTag();
         if (tag != null) {
-            INBT genes = stack.getOrCreateTag().get(GENES_KEY);
+            INBT genes = tag.get(GENES_KEY);
             if (genes instanceof ListNBT) {
                 if (Screen.hasShiftDown()) {
                     ((ListNBT) genes).forEach(inbt -> {

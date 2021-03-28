@@ -65,7 +65,6 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
             for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
                 CompoundNBT nbt = inhabitant.nbt;
 
-                ResourceLocation rLoc = new ResourceLocation(nbt.getString("id"));
                 BeeEntity bee = null;
                 String type = inhabitant.nbt.getString("type");
                 if (type.isEmpty()) {

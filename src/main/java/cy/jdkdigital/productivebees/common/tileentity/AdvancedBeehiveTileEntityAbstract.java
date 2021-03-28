@@ -167,32 +167,36 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return this.getBeeCount() == MAX_BEES;
     }
 
+    public boolean acceptsBee(BeeEntity bee) {
+        return true;
+    }
+
     @Override
     public void tryEnterHive(Entity entity, boolean hasNectar, int ticksInHive) {
-        beeHandler.ifPresent(h -> {
-            if (h.getInhabitants().size() < MAX_BEES) {
-                entity.stopRiding();
-                entity.removePassengers();
-                CompoundNBT compoundNBT = new CompoundNBT();
-                entity.writeUnlessPassenger(compoundNBT);
+        if (entity instanceof BeeEntity && acceptsBee((BeeEntity) entity)) {
+            beeHandler.ifPresent(h -> {
+                if (h.getInhabitants().size() < MAX_BEES) {
+                    entity.stopRiding();
+                    entity.removePassengers();
+                    CompoundNBT compoundNBT = new CompoundNBT();
+                    entity.writeUnlessPassenger(compoundNBT);
 
-                if (entity instanceof BeeEntity) {
                     BeeEntity beeEntity = (BeeEntity) entity;
 
                     h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), ((BeeEntity) entity).getFlowerPos(), entity.getName().getString()));
                     if (beeEntity.hasFlower() && (!this.hasFlowerPos() || (this.world != null && this.world.rand.nextBoolean()))) {
                         this.flowerPos = beeEntity.getFlowerPos();
                     }
-                }
 
-                if (this.world != null) {
-                    BlockPos pos = this.getPos();
-                    this.world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_ENTER, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                }
+                    if (this.world != null) {
+                        BlockPos pos = this.getPos();
+                        this.world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_ENTER, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    }
 
-                entity.remove();
-            }
-        });
+                    entity.remove();
+                }
+            });
+        }
     }
 
     public void tryEnterHive(@Nonnull Entity beeEntity, boolean hasNectar) {

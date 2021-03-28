@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.tileentity.UpgradeableTileEntity;
+import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,6 +27,10 @@ public class UpgradeItem extends Item
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, world, tooltip, flagIn);
+
+        if (stack.getItem().equals(ModItems.UPGRADE_FILTER.get())) {
+            return;
+        }
 
         String upgradeType = stack.getItem().getRegistryName().getPath();
 
