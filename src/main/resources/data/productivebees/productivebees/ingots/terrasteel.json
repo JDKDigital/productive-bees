@@ -2,6 +2,7 @@
     "primaryColor": "#49cc1d",
     "secondaryColor": "#804f40",
     "createComb": false,
+    "description": "To acquire this bee, look up the crafting recipe for it's spawn egg.",
     "flowerTag": "forge:storage_blocks/terrasteel",
     "selfbreed": false,
     "conditions": [

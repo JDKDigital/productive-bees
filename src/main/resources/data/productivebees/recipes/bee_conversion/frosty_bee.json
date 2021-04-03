@@ -3,6 +3,6 @@
     "source": "productivebees:sweaty_bee",
     "result": "productivebees:frosty",
     "item": {
-        "item": "minecraft:ice"
+        "tag": "minecraft:ice"
     }
 }

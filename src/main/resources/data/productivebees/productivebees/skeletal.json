@@ -1,7 +1,7 @@
 {
     "primaryColor": "#c1c1c1",
     "beeTexture": "productivebees:textures/entity/bee/skeletal/bee",
-    "description": "productivebees.ingredient.description.skeleal",
+    "description": "productivebees.ingredient.description.skeletal",
     "createComb": false,
     "selfbreed": false,
     "flowerBlock": "minecraft:bone_block",
