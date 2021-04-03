@@ -14,11 +14,19 @@
         }
     ],
     "conditions": [
+
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/enderium"
+                "tag": "forge:ingots/lead"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/lead"
             }
         },
         {
@@ -26,6 +34,20 @@
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:ingots/platinum"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/platinum"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/enderium"
             }
         },
         {

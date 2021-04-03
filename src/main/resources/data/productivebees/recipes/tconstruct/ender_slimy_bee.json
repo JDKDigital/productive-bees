@@ -3,18 +3,18 @@
     "cast": {
         "type": "forge:nbt",
         "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:iron\"}}"
+        "nbt": "{EntityTag:{type:\"productivebees:slimy\"}}"
     },
     "cast_consumed": true,
     "fluid": {
-        "name": "tconstruct:molten_ardite",
-        "amount": 1152
+        "name": "tconstruct:ender_slime",
+        "amount": 1000
     },
     "result": {
         "item": "productivebees:spawn_egg_configurable_bee",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:ardite"
+                "type": "productivebees:ender_slimy"
             }
         }
     },

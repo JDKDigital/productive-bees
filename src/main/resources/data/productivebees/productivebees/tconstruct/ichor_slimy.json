@@ -1,8 +1,8 @@
 {
-    "primaryColor": "#d17bfc",
-    "secondaryColor": "#6200ae",
-    "particleColor": "#d17bfc",
-    "beeTexture": "productivebees:textures/entity/bee/purple_slimy/bee",
+    "primaryColor": "#fcb77b",
+    "secondaryColor": "#ae3f00",
+    "particleColor": "#fcb77b",
+    "beeTexture": "productivebees:textures/entity/bee/ichor_slimy/bee",
     "renderer": "translucent_with_center",
     "createComb": false,
     "conditions": [
@@ -10,7 +10,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:slimeball/purple"
+                "tag": "forge:slimeball/ichor"
             }
         }
     ]

@@ -1,10 +1,10 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:blue_slimy",
+    "ingredient": "productivebees:ichor_slimy",
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/blue_slimy"
+                "tag": "forge:honeycombs/ichor_slimy"
             }
         }
     ],
@@ -13,7 +13,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:slimeball/blue"
+                "tag": "forge:slimeball/ichor"
             }
         }
     ]

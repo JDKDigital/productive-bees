@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -45,7 +46,7 @@ public class WoodChip extends Item
     @Nullable
     public static Block getBlock(ItemStack stack) {
         String blockType = getBlockType(stack);
-        if (blockType != null) {
+        if (blockType != null && !blockType.isEmpty()) {
             return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockType));
         }
         return null;

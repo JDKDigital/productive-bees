@@ -1,10 +1,10 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:magma_slimy",
+    "ingredient": "productivebees:ender_slimy",
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/magma_slimy"
+                "tag": "forge:honeycombs/ender_slimy"
             }
         }
     ],
@@ -13,7 +13,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:slimeball/magma"
+                "tag": "forge:slimeball/ender"
             }
         }
     ]

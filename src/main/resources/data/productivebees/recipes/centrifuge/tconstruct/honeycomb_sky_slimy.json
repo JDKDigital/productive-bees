@@ -1,12 +1,12 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/magma_slimy"
+        "tag": "forge:honeycombs/sky_slimy"
     },
     "outputs": [
         {
             "item": {
-                "tag": "forge:slimeball/magma"
+                "tag": "forge:slimeball/sky"
             }
         },
         {
@@ -20,7 +20,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:slimeball/magma"
+                "tag": "forge:slimeball/sky"
             }
         }
     ]

@@ -4,7 +4,7 @@
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/tinkers_bronze"
+                "tag": "forge:honeycombs/silicon_bronze"
             }
         }
     ],
@@ -13,14 +13,14 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/tinkers_bronze"
+                "tag": "forge:ingots/silicon_bronze"
             }
         },
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/tinkers_bronze"
+                "tag": "forge:storage_blocks/silicon_bronze"
             }
         }
     ]

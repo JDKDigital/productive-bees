@@ -1,12 +1,12 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/purple_slimy"
+        "tag": "forge:honeycombs/ender_slimy"
     },
     "outputs": [
         {
             "item": {
-                "tag": "forge:slimeball/purple"
+                "tag": "forge:slimeball/ender"
             }
         },
         {
@@ -20,7 +20,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:slimeball/purple"
+                "tag": "forge:slimeball/ender"
             }
         }
     ]

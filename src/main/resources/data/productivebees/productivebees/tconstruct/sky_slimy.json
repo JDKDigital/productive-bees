@@ -2,7 +2,7 @@
     "primaryColor": "#80d4d2",
     "secondaryColor": "#2e5250",
     "particleColor": "#80d4d2",
-    "beeTexture": "productivebees:textures/entity/bee/blue_slimy/bee",
+    "beeTexture": "productivebees:textures/entity/bee/sky_slimy/bee",
     "renderer": "translucent_with_center",
     "createComb": false,
     "conditions": [
@@ -10,7 +10,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:slimeball/blue"
+                "tag": "forge:slimeball/sky"
             }
         }
     ]

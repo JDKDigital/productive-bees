@@ -7,7 +7,7 @@
     },
     "cast_consumed": true,
     "fluid": {
-        "name": "tconstruct:blue_slime",
+        "name": "tconstruct:sky_slime",
         "amount": 1000
     },
     "result": {

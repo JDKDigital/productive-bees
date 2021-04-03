@@ -1,12 +1,12 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/blue_slimy"
+        "tag": "forge:honeycombs/ichor_slimy"
     },
     "outputs": [
         {
             "item": {
-                "tag": "forge:slimeball/blue"
+                "tag": "forge:slimeball/ichor"
             }
         },
         {
@@ -20,7 +20,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:slimeball/blue"
+                "tag": "forge:slimeball/ichor"
             }
         }
     ]

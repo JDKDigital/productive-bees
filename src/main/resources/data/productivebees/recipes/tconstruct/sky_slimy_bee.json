@@ -7,14 +7,14 @@
     },
     "cast_consumed": true,
     "fluid": {
-        "name": "tconstruct:magma_cream",
+        "name": "tconstruct:sky_slime",
         "amount": 1000
     },
     "result": {
         "item": "productivebees:spawn_egg_configurable_bee",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:magma_slimy"
+                "type": "productivebees:sky_slimy"
             }
         }
     },

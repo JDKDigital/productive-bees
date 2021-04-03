@@ -1,12 +1,12 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/tinkers_bronze"
+        "tag": "forge:honeycombs/silicon_bronze"
     },
     "outputs": [
         {
             "item": {
-                "tag": "forge:nuggets/tinkers_bronze"
+                "tag": "forge:nuggets/silicon_bronze"
             },
             "min": 6,
             "max": 6
@@ -22,7 +22,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:nuggets/tinkers_bronze"
+                "tag": "forge:nuggets/silicon_bronze"
             }
         }
     ]

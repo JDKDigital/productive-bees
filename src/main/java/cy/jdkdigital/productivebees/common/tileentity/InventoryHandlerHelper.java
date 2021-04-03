@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.UpgradeItem;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
@@ -40,7 +41,9 @@ public class InventoryHandlerHelper
                 continue;
             }
             ItemStack stack = handler.getStackInSlot(slot);
-            if (stack.getItem().equals(insertStack.getItem()) && (stack.getCount() + insertStack.getCount()) <= stack.getMaxStackSize()) {
+            if (stack.isEmpty() && emptySlot == 0) {
+                emptySlot = slot;
+            } else if (stack.getItem().equals(insertStack.getItem()) && (stack.getCount() + insertStack.getCount()) <= stack.getMaxStackSize()) {
                 // Check tags
                 if (WoodChip.getBlock(insertStack) != null) {
                     Block block = WoodChip.getBlock(stack);
@@ -59,16 +62,12 @@ public class InventoryHandlerHelper
                     return slot;
                 }
             }
-            if (stack.isEmpty() && emptySlot == 0) {
-                emptySlot = slot;
-            }
         }
         return emptySlot;
     }
 
     public static boolean areItemsAndTagsEqual(ItemStack stack1, ItemStack stack2) {
-        return
-                (
+        return (
                     stack1.isEmpty() && stack2.isEmpty()
                 ) ||
                 (
@@ -77,11 +76,11 @@ public class InventoryHandlerHelper
     }
 
     public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB) {
-        if (stackA.isEmpty() && stackB.isEmpty()) {
-            return true;
-        } else if (!stackA.isEmpty() && !stackB.isEmpty()) {
+        ProductiveBees.LOGGER.info("areItemStackTagsEqual: ");
+        if (!stackA.isEmpty() && !stackB.isEmpty()) {
             CompoundNBT tagA = stackA.getTag();
             CompoundNBT tagB = stackB.getTag();
+            ProductiveBees.LOGGER.info("tagA: " + tagA + " tagB: " + tagB);
             if ((tagA == null || tagA.isEmpty()) && tagB != null && !tagB.isEmpty()) {
                 return false;
             } else {
