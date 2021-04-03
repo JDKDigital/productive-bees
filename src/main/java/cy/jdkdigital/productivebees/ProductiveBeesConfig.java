@@ -127,7 +127,7 @@ public class ProductiveBeesConfig
 
             beeSyncDelay = builder
                     .comment("Delay in seconds between a user logging in and the bee data being synced to the client. A delay is needed to allow JEI to index the bees properly.\n If the clients are having issues getting the bees, try increasing the delay.")
-                    .defineInRange("beeSyncDelay", 5, 1, 300);
+                    .defineInRange("beeSyncDelay", 5, 0, 300);
 
             builder.pop();
         }
@@ -155,8 +155,6 @@ public class ProductiveBeesConfig
             cupidBeeAnimalDensity = builder
                     .comment("How densely populated should an areas need to be for the CuBee to stop breeding. The value approximates how many animals can be in a 10x10 area around the bee.")
                     .defineInRange("cupidBeeAnimalDensity", 20, 0, Integer.MAX_VALUE);
-
-
 
             builder.pop();
         }
