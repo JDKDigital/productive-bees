@@ -24,10 +24,16 @@ public class PacketHandler
                 .networkProtocolVersion(() -> PROTOCOL_VERSION)
                 .simpleChannel();
 
-        channel.messageBuilder(Messages.BeesMessage.class, getId(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(Messages.BeesMessage::decode)
-                .encoder(Messages.BeesMessage::encode)
-                .consumer(Messages.BeesMessage::handle)
+        channel.messageBuilder(Messages.BeeDataMessage.class, getId(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(Messages.BeeDataMessage::decode)
+                .encoder(Messages.BeeDataMessage::encode)
+                .consumer(Messages.BeeDataMessage::handle)
+                .add();
+
+        channel.messageBuilder(Messages.ReindexMessage.class, getId(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(Messages.ReindexMessage::decode)
+                .encoder(Messages.ReindexMessage::encode)
+                .consumer(Messages.ReindexMessage::handle)
                 .add();
     }
 
@@ -35,11 +41,15 @@ public class PacketHandler
         return ++id;
     }
 
-    public static void sendToPlayer(Messages.BeesMessage message, ServerPlayerEntity player) {
+    public static void sendBeeDataToPlayer(Messages.BeeDataMessage message, ServerPlayerEntity player) {
         channel.send(PacketDistributor.PLAYER.with(() -> player), message);
     }
 
-    public static void sendToAllPlayers(Messages.BeesMessage message) {
+    public static void sendReindexCommandToPlayer(Messages.ReindexMessage message, ServerPlayerEntity player) {
+        channel.send(PacketDistributor.PLAYER.with(() -> player), message);
+    }
+
+    public static void sendToAllPlayers(Messages.BeeDataMessage message) {
         channel.send(PacketDistributor.ALL.noArg(), message);
     }
 }

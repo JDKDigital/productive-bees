@@ -10,13 +10,13 @@
             "item": "productivebees:upgrade_base"
         },
         "P": {
-            "tag": "minecraft:comparator"
+            "item": "minecraft:comparator"
         },
         "C": {
             "tag": "forge:storage_blocks/honeycombs"
         },
         "W": {
-            "tag": "minecraft:writeable_book"
+            "item": "minecraft:writable_book"
         },
         "R": {
             "tag": "forge:dusts/redstone"

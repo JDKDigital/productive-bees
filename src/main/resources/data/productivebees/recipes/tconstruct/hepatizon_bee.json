@@ -3,7 +3,7 @@
     "cast": {
         "type": "forge:nbt",
         "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:iron\"}}"
+        "nbt": "{EntityTag:{type:\"productivebees:obsidian\"}}"
     },
     "cast_consumed": true,
     "fluid": {

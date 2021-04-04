@@ -1,14 +1,13 @@
 package cy.jdkdigital.productivebees.network.packets;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.play.ClientPlayNetHandler;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tags.ITagCollectionSupplier;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -21,15 +20,15 @@ import java.util.stream.IntStream;
 
 public class Messages
 {
-    public static class BeesMessage
+    public static class BeeDataMessage
     {
         public Map<String, CompoundNBT> data;
 
-        public BeesMessage(Map<String, CompoundNBT> data) {
+        public BeeDataMessage(Map<String, CompoundNBT> data) {
             this.data = data;
         }
 
-        public static void encode(BeesMessage message, PacketBuffer buffer) {
+        public static void encode(BeeDataMessage message, PacketBuffer buffer) {
             buffer.writeInt(message.data.size());
             for (Map.Entry<String, CompoundNBT> entry : message.data.entrySet()) {
                 buffer.writeString(entry.getKey());
@@ -37,40 +36,66 @@ public class Messages
             }
         }
 
-        public static BeesMessage decode(PacketBuffer buffer) {
+        public static BeeDataMessage decode(PacketBuffer buffer) {
             Map<String, CompoundNBT> data = new HashMap<>();
             IntStream.range(0, buffer.readInt()).forEach(i -> {
                 data.put(buffer.readString(), buffer.readCompoundTag());
             });
-            return new BeesMessage(data);
+            return new BeeDataMessage(data);
         }
 
-        public static void handle(BeesMessage message, Supplier<NetworkEvent.Context> context) {
+        public static void handle(BeeDataMessage message, Supplier<NetworkEvent.Context> context) {
             context.get().enqueueWork(() -> {
                 BeeReloadListener.INSTANCE.setData(message.data);
-                // Trigger jei reload
-                ProductiveBees.LOGGER.debug("trigger recipe reload (bees:" + message.data.size() + ")");
-                ITagCollectionSupplier tagCollectionSupplier;
-                for (ServerType type : ServerType.values()) {
-                    if (type.connected()) {
-                        switch (type.name) {
-                            case "integrated":
-                                RecipeManager manager = ProductiveBees.proxy.getWorld().getRecipeManager();
-                                net.minecraftforge.client.ForgeHooksClient.onRecipesUpdated(manager);
-                                break;
-                            case "vanilla":
-                                tagCollectionSupplier = ProductiveBees.proxy.getWorld().getTags();
-                                MinecraftForge.EVENT_BUS.post(new TagsUpdatedEvent.VanillaTagTypes(tagCollectionSupplier));
-                                break;
-                            case "modded":
-                                tagCollectionSupplier = ProductiveBees.proxy.getWorld().getTags();
-                                MinecraftForge.EVENT_BUS.post(new TagsUpdatedEvent.CustomTagTypes(tagCollectionSupplier));
-                                break;
-                        }
-                    }
+
+                int delay = ProductiveBeesConfig.GENERAL.beeSyncDelay.get();
+                if (delay == 0) {
+                    Messages.updateJEI();
                 }
             });
             context.get().setPacketHandled(true);
+        }
+    }
+
+    public static class ReindexMessage
+    {
+        public ReindexMessage() {
+        }
+
+        public static void encode(ReindexMessage message, PacketBuffer buffer) {
+        }
+
+        public static ReindexMessage decode(PacketBuffer buffer) {
+            return new ReindexMessage();
+        }
+
+        public static void handle(ReindexMessage message, Supplier<NetworkEvent.Context> context) {
+            context.get().enqueueWork(() -> {
+                // Trigger jei reload
+                ProductiveBees.LOGGER.debug("trigger recipe reload (bees:" + BeeReloadListener.INSTANCE.getData().size() + ")");
+                Messages.updateJEI();
+            });
+            context.get().setPacketHandled(true);
+        }
+    }
+
+    private static void updateJEI() {
+        ProductiveBees.LOGGER.info("Calling updateJEI");
+        for (ServerType type : ServerType.values()) {
+            if (type.connected()) {
+                switch (type.name) {
+                    case "integrated":
+                        RecipeManager manager = ProductiveBees.proxy.getWorld().getRecipeManager();
+                        net.minecraftforge.client.ForgeHooksClient.onRecipesUpdated(manager);
+                        break;
+                    case "vanilla":
+                        MinecraftForge.EVENT_BUS.post(new TagsUpdatedEvent.VanillaTagTypes(ProductiveBees.proxy.getWorld().getTags()));
+                        break;
+                    case "modded":
+                        MinecraftForge.EVENT_BUS.post(new TagsUpdatedEvent.CustomTagTypes(ProductiveBees.proxy.getWorld().getTags()));
+                        break;
+                }
+            }
         }
     }
 

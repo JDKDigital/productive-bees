@@ -76,11 +76,9 @@ public class InventoryHandlerHelper
     }
 
     public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB) {
-        ProductiveBees.LOGGER.info("areItemStackTagsEqual: ");
         if (!stackA.isEmpty() && !stackB.isEmpty()) {
             CompoundNBT tagA = stackA.getTag();
             CompoundNBT tagB = stackB.getTag();
-            ProductiveBees.LOGGER.info("tagA: " + tagA + " tagB: " + tagB);
             if ((tagA == null || tagA.isEmpty()) && tagB != null && !tagB.isEmpty()) {
                 return false;
             } else {

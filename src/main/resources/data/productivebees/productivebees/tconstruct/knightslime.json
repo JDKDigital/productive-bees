@@ -2,6 +2,7 @@
     "primaryColor": "#c882f5",
     "secondaryColor": "#804f40",
     "particleColor": "#c882f5",
+    "description": "To acquire this bee, look up the crafting recipe for it's spawn egg.",
     "createComb": false,
     "flowerTag": "forge:storage_blocks/knightslime",
     "conditions": [

@@ -2,6 +2,7 @@
     "primaryColor": "#675072",
     "secondaryColor": "#1b0426",
     "particleColor": "#675072",
+    "description": "To acquire this bee, look up the crafting recipe for it's spawn egg.",
     "createComb": false,
     "flowerTag": "forge:storage_blocks/hepatizon",
     "conditions": [

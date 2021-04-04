@@ -127,7 +127,7 @@ public class ProductiveBeesConfig
                     .defineInRange("numberOfBeesPerBomb", 10, 1, 50);
 
             beeSyncDelay = builder
-                    .comment("Delay in seconds between a user logging in and the bee data being synced to the client. A delay is needed to allow JEI to index the bees properly.\n If the clients are having issues getting the bees, try increasing the delay.")
+                    .comment("Delay in seconds between a user logging in and the bee data being synced to the client. A delay is needed to allow JEI to index the bees properly.\n If the clients are having issues getting the bees, try increasing the delay. Set to 0 to disable the delay")
                     .defineInRange("beeSyncDelay", 5, 0, 300);
 
             nestLocatorDistance = builder

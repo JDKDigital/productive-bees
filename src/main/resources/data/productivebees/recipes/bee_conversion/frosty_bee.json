@@ -3,6 +3,6 @@
     "source": "productivebees:sweaty_bee",
     "result": "productivebees:frosty",
     "item": {
-        "tag": "minecraft:ice"
+        "tag": "productivebees:flowers/frozen"
     }
 }

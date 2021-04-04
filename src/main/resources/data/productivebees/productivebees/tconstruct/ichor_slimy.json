@@ -3,6 +3,7 @@
     "secondaryColor": "#ae3f00",
     "particleColor": "#fcb77b",
     "beeTexture": "productivebees:textures/entity/bee/ichor_slimy/bee",
+    "description": "To acquire this bee, look up the crafting recipe for it's spawn egg.",
     "renderer": "translucent_with_center",
     "createComb": false,
     "conditions": [

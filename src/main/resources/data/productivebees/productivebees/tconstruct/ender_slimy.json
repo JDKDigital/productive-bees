@@ -3,6 +3,7 @@
     "secondaryColor": "#6200ae",
     "particleColor": "#d17bfc",
     "beeTexture": "productivebees:textures/entity/bee/ender_slimy/bee",
+    "description": "To acquire this bee, look up the crafting recipe for it's spawn egg.",
     "renderer": "translucent_with_center",
     "createComb": false,
     "conditions": [
