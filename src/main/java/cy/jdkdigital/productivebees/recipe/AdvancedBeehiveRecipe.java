@@ -171,9 +171,8 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
             try {
                 if (recipe.ingredient.get() != null) {
                     recipe.ingredient.get().write(buffer);
-                }
-                else {
-                    ProductiveBees.LOGGER.error("Bee produce recipe ingredient missing " + recipe.getId() + " - " + recipe.ingredient);
+                } else {
+                    throw new RuntimeException("Bee produce recipe ingredient missing " + recipe.getId() + " - " + recipe.ingredient);
                 }
                 buffer.writeInt(recipe.itemOutput.size());
 

@@ -113,8 +113,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                 if (el.isJsonObject()) {
                     String child = JSONUtils.getString(el, "offspring");
                     children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), JSONUtils.getInt(el, "weight"));
-                }
-                else {
+                } else {
                     String child = el.getAsString();
                     children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), 1);
                 }
@@ -153,9 +152,8 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                 for (Lazy<BeeIngredient> ingredient : recipe.ingredients) {
                     if (ingredient.get() != null) {
                         ingredient.get().write(buffer);
-                    }
-                    else {
-                        ProductiveBees.LOGGER.error("Bee breeding recipe ingredient missing " + recipe.getId() + " - " + ingredient);
+                    } else {
+                        throw new RuntimeException("Bee breeding recipe ingredient missing " + recipe.getId() + " - " + ingredient);
                     }
                 }
 
@@ -164,9 +162,8 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                     if (child.get() != null) {
                         child.get().write(buffer);
                         buffer.writeInt(weight);
-                    }
-                    else {
-                        ProductiveBees.LOGGER.error("Bee breeding recipe child missing " + recipe.getId() + " - " + child);
+                    } else {
+                        throw new RuntimeException("Bee breeding recipe child missing " + recipe.getId() + " - " + child);
                     }
                 });
             } catch (Exception e) {

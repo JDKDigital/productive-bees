@@ -87,6 +87,8 @@ public class FilterUpgradeItem extends UpgradeItem
         
         if (!beeList.isEmpty()) {
             tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter").mergeStyle(TextFormatting.WHITE));
+        } else {
+            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter_empty").mergeStyle(TextFormatting.WHITE));
         }
     }
 

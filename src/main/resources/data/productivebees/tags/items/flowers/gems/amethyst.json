@@ -12,6 +12,10 @@
         {
             "id": "gemsnjewels:amethyst_block",
             "required": false
+        },
+        {
+            "id": "iceandfire:amythest_block",
+            "required": false
         }
     ]
 }

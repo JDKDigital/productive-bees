@@ -12,6 +12,10 @@
         {
             "id": "gemsnjewels:sapphire_block",
             "required": false
+        },
+        {
+            "id": "iceandfire:sapphire_block",
+            "required": false
         }
     ]
 }

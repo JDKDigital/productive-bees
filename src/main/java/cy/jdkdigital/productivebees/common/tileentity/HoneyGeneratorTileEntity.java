@@ -33,6 +33,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INamedContainerProvider, ITickableTileEntity, UpgradeableTileEntity
@@ -116,13 +117,13 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     }
 
     private void sendOutPower() {
-        energyHandler.ifPresent(energyHandler -> {
-            AtomicInteger capacity = new AtomicInteger(energyHandler.getEnergyStored());
-            if (capacity.get() > 0) {
-                Direction[] directions = Direction.values();
-
-                for (Direction direction : directions) {
-                    if (this.world != null) {
+        if (this.world != null) {
+            energyHandler.ifPresent(energyHandler -> {
+                AtomicInteger capacity = new AtomicInteger(energyHandler.getEnergyStored());
+                if (capacity.get() > 0) {
+                    Direction[] directions = Direction.values();
+                    AtomicBoolean dirty = new AtomicBoolean(false);
+                    for (Direction direction : directions) {
                         TileEntity te = this.world.getTileEntity(this.pos.offset(direction));
                         if (te != null) {
                             boolean doContinue = te.getCapability(CapabilityEnergy.ENERGY, direction).map((handler) -> {
@@ -130,7 +131,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                                     int received = handler.receiveEnergy(Math.min(capacity.get(), 100), false);
                                     capacity.addAndGet(-received);
                                     energyHandler.extractEnergy(received, false);
-                                    this.markDirty();
+                                    dirty.set(true);
                                     return capacity.get() > 0;
                                 } else {
                                     return true;
@@ -142,9 +143,12 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                             }
                         }
                     }
+                    if (dirty.get()) {
+                        this.markDirty();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override

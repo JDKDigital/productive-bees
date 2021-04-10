@@ -152,6 +152,10 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, "productivebees.ingredient.description." + itemName);
         }
 
+        // Chip information
+        registration.addIngredientInfo(new ItemStack(ModItems.WOOD_CHIP.get()), VanillaTypes.ITEM, "productivebees.ingredient.description.wood_chip");
+        registration.addIngredientInfo(new ItemStack(ModItems.STONE_CHIP.get()), VanillaTypes.ITEM, "productivebees.ingredient.description.stone_chip");
+
         // Configurable combs
         Optional<? extends IRecipe<?>> honeycombRecipe = recipeManager.getRecipe(new ResourceLocation(ProductiveBees.MODID, "comb_block/configurable_honeycomb"));
         int count = 4;

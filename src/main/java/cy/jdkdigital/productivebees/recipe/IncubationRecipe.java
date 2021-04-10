@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 
 public class IncubationRecipe implements IRecipe<IInventory>
 {
-    public static final IRecipeType<IncubationRecipe> BEE_CONVERSION = IRecipeType.register(ProductiveBees.MODID + ":incubation");
+    public static final IRecipeType<IncubationRecipe> INCUBATION = IRecipeType.register(ProductiveBees.MODID + ":incubation");
 
     public final ResourceLocation id;
     public final Ingredient input;
@@ -64,13 +64,13 @@ public class IncubationRecipe implements IRecipe<IInventory>
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return ModRecipeTypes.BEE_CONVERSION.get();
+        return ModRecipeTypes.INCUBATION.get();
     }
 
     @Nonnull
     @Override
     public IRecipeType<?> getType() {
-        return BEE_CONVERSION;
+        return INCUBATION;
     }
 
     public static class Serializer<T extends IncubationRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
