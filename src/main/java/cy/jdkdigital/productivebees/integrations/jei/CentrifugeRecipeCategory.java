@@ -24,6 +24,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -73,6 +74,14 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         ingredients.setInputIngredients(Lists.newArrayList(recipe.ingredient));
 
         List<List<ItemStack>> outputList = new ArrayList<>();
+
+//        recipe.itemOutput.forEach((ingredient, intNBTS) -> {
+//            List<ItemStack> stacks = Arrays.asList(ingredient.getMatchingStacks());
+//            for (ItemStack stack: stacks) {
+//
+//            }
+//        });
+
         recipe.getRecipeOutputs().forEach((stack, value) -> {
             List<ItemStack> innerList = new ArrayList<>();
             IntStream.range(value.get(0).getInt(), value.get(1).getInt() + 1).forEach((i) -> {

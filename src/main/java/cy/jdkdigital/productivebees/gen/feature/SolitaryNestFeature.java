@@ -14,6 +14,7 @@ import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.pattern.BlockStateMatcher;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -73,7 +74,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
         boolean match = placeOntop ? matcher.test(world.getBlockState(pos.down())) : matcher.test(world.getBlockState(pos));
         if (match) {
             // Check if there's air around and face that way, default to UP
-            Direction direction = Direction.UP;
+            Direction direction = featureConfig.state.getBlock() instanceof WoodNest ? Direction.SOUTH : Direction.UP;
             for (Direction dir : BlockStateProperties.FACING.getAllowedValues()) {
                 BlockPos blockPos = pos.offset(dir, 1);
                 if (world.isAirBlock(blockPos)) {
@@ -121,9 +122,9 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof SolitaryNestTileEntity) {
                 ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
-                BeeEntity newBee = ((SolitaryNest) world.getBlockState(pos).getBlock()).getNestingBeeType(world.getWorld(), world.getWorld().getBiome(pos));
-                if (newBee != null) {
-                    newBee.setHealth(newBee.getMaxHealth());
+                Entity newBee = ((SolitaryNest) world.getBlockState(pos).getBlock()).getNestingBeeType(world.getWorld(), world.getWorld().getBiome(pos));
+                if (newBee instanceof BeeEntity) {
+                    ((BeeEntity) newBee).setHealth(((BeeEntity) newBee).getMaxHealth());
                     newBee.setPosition(pos.getX(), pos.getY(), pos.getZ());
                     ((SolitaryNestTileEntity) tileEntity).tryEnterHive(newBee, false, world.getRandom().nextInt(599));
                 }
@@ -132,7 +133,6 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
                 ProductiveBees.LOGGER.debug("Spawned sugarbag nest at " + pos + " " + newState);
                 ConfigurableBeeEntity newBee = ModEntities.CONFIGURABLE_BEE.get().create(world.getWorld());
                 if (newBee != null) {
-
                     newBee.setBeeType("productivebees:sugarbag");
                     newBee.setAttributes();
                     newBee.setHealth(newBee.getMaxHealth());

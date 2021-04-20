@@ -6,15 +6,15 @@
             "required": false
         },
         {
-            "id": "forge:ores/uranium",
+            "id": "#forge:ores/uranium",
             "required": false
         },
         {
-            "id": "forge:storage_blocks/yellorium",
+            "id": "#forge:storage_blocks/yellorium",
             "required": false
         },
         {
-            "id": "forge:ores/yellorite",
+            "id": "#forge:ores/yellorite",
             "required": false
         }
     ]

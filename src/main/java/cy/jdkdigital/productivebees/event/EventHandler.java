@@ -61,7 +61,7 @@ public class EventHandler
                 BlockPos pos = entity.getPosition();
                 Hand hand = entityInteract.getHand();
 
-                BeeEntity newBee = BeeHelper.itemInteract((BeeEntity) entity, itemStack, (ServerWorld) world, entity.serializeNBT(), player, hand, entity.getHorizontalFacing());
+                Entity newBee = BeeHelper.itemInteract((BeeEntity) entity, itemStack, (ServerWorld) world, entity.serializeNBT(), player);
 
                 if (newBee != null) {
                     // PLay event with smoke

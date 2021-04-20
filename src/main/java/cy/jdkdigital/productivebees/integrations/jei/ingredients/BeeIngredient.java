@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.network.PacketBuffer;
@@ -13,41 +14,45 @@ import java.util.Map;
 
 public class BeeIngredient
 {
-    private static Map<BeeIngredient, BeeEntity> cache = new HashMap<>();
+    private static Map<BeeIngredient, Entity> cache = new HashMap<>();
 
-    private EntityType<? extends BeeEntity> bee;
+    private EntityType<? extends Entity> bee;
     private ResourceLocation beeType;
     private boolean configurable = false;
 
-    public BeeIngredient(EntityType<? extends BeeEntity> bee) {
+    public BeeIngredient(EntityType<? extends Entity> bee) {
         this.bee = bee;
     }
 
-    public BeeIngredient(EntityType<? extends BeeEntity> bee, ResourceLocation beeType) {
+    public BeeIngredient(EntityType<? extends Entity> bee, ResourceLocation beeType) {
         this(bee);
         this.beeType = beeType;
     }
 
-    public BeeIngredient(EntityType<? extends BeeEntity> bee, ResourceLocation beeType, boolean isConfigurable) {
+    public BeeIngredient(EntityType<? extends Entity> bee, ResourceLocation beeType, boolean isConfigurable) {
         this(bee);
         this.beeType = beeType;
         this.configurable = isConfigurable;
     }
 
-    public EntityType<? extends BeeEntity> getBeeEntity() {
+    public EntityType<? extends Entity> getBeeEntity() {
         return bee;
     }
 
     public BeeEntity getCachedEntity(World world) {
         if (!cache.containsKey(this)) {
-            BeeEntity newBee = getBeeEntity().create(world);
+            Entity newBee = getBeeEntity().create(world);
             if (newBee instanceof ConfigurableBeeEntity) {
                 ((ConfigurableBeeEntity) newBee).setBeeType(getBeeType().toString());
                 ((ConfigurableBeeEntity) newBee).setAttributes();
             }
             cache.put(this, newBee);
         }
-        return cache.get(this);
+        Entity cachedEntity = cache.get(this);
+        if (cachedEntity instanceof BeeEntity) {
+            return (BeeEntity) cachedEntity;
+        }
+        return null;
     }
 
     /**
@@ -60,7 +65,7 @@ public class BeeIngredient
     public static BeeIngredient read(PacketBuffer buffer) {
         String beeName = buffer.readString();
 
-        return new BeeIngredient((EntityType<? extends BeeEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readResourceLocation(), buffer.readBoolean());
+        return new BeeIngredient(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readResourceLocation(), buffer.readBoolean());
     }
 
     public final void write(PacketBuffer buffer) {

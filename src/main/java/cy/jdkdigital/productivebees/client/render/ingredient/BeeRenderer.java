@@ -106,18 +106,21 @@ public class BeeRenderer
             return beeTextureLocations.get(beeId);
         }
 
-        BeeEntity bee = ingredient.getBeeEntity().create(world);
-        if (bee instanceof ConfigurableBeeEntity) {
-            ((ConfigurableBeeEntity) bee).setBeeType(ingredient.getBeeType().toString());
-            colorCache.put(beeId, ((ConfigurableBeeEntity) bee).getColor(0).getComponents(null));
+        BeeEntity bee = ingredient.getCachedEntity(world);
+        if (bee != null) {
+            if (bee instanceof ConfigurableBeeEntity) {
+                ((ConfigurableBeeEntity) bee).setBeeType(ingredient.getBeeType().toString());
+                colorCache.put(beeId, ((ConfigurableBeeEntity) bee).getColor(0).getComponents(null));
+            }
+
+            EntityRendererManager manager = Minecraft.getInstance().getRenderManager();
+            EntityRenderer<? super BeeEntity> renderer = manager.getRenderer(bee);
+
+            ResourceLocation resource = renderer.getEntityTexture(bee);
+            beeTextureLocations.put(beeId, resource);
+
+            return beeTextureLocations.get(beeId);
         }
-
-        EntityRendererManager manager = Minecraft.getInstance().getRenderManager();
-        EntityRenderer<? super BeeEntity> renderer = manager.getRenderer(bee);
-
-        ResourceLocation resource = renderer.getEntityTexture(bee);
-        beeTextureLocations.put(beeId, resource);
-
-        return beeTextureLocations.get(beeId);
+        return new ResourceLocation("textures/entity/bee/bee.png");
     }
 }

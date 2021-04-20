@@ -117,9 +117,12 @@ dependencies {
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
     implementation fg.deobf("curse.maven:jade-324717:3228325")
-    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
+//    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
     implementation fg.deobf("curse.maven:mantle-74924:3180804")
     implementation fg.deobf("curse.maven:tconstruct-74072:3257811")
+    implementation fg.deobf("curse.maven:bigreactors-250277:3211479")
+    implementation fg.deobf("curse.maven:zerocore-247921:3211476")
+//    implementation fg.deobf("curse.maven:create-328085:3261455")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

@@ -35,6 +35,9 @@ public class FluidTagEmptyCondition implements ICondition
     @Override
     public boolean test() {
         ITag<Fluid> tag = FluidTags.getCollection().get(tag_name);
+//        ProductiveBees.LOGGER.info("FluidTagEmptyCondition tagName " + tag_name);
+//        ProductiveBees.LOGGER.info("FluidTagEmptyCondition tag " + tag);
+//        ProductiveBees.LOGGER.info("FluidTagEmptyCondition tagElement " + (tag != null ? tag.getRandomElement(ProductiveBees.rand) : "null"));
         return tag == null || tag.getAllElements().isEmpty();
     }
 

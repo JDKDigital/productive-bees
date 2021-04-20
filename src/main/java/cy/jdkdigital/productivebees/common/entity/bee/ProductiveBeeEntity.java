@@ -421,13 +421,17 @@ public class ProductiveBeeEntity extends BeeEntity
 
     @Override
     public BeeEntity func_241840_a(ServerWorld world, AgeableEntity targetEntity) { // createChild
-        BeeEntity newBee = BeeHelper.getBreedingResult(this, targetEntity, world);
+        Entity newBee = BeeHelper.getBreedingResult(this, targetEntity, world);
+
+        if (!(newBee instanceof BeeEntity)) {
+            return EntityType.BEE.create(world);
+        }
 
         if (newBee instanceof ProductiveBeeEntity) {
             BeeHelper.setOffspringAttributes((ProductiveBeeEntity) newBee, this, targetEntity);
         }
 
-        return newBee;
+        return (BeeEntity) newBee;
     }
 
     @Override

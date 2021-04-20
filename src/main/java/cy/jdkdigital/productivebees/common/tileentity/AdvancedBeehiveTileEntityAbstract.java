@@ -336,7 +336,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         return getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListNBT());
     }
 
-    public static boolean spawnBeeInWorldAtPosition(ServerWorld world, BeeEntity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
+    public static boolean spawnBeeInWorldAtPosition(ServerWorld world, Entity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
         BlockPos offset = pos.offset(direction);
         boolean isPositionBlocked = !world.getBlockState(offset).getCollisionShape(world, offset).isEmpty();
         float width = entity.getWidth();
@@ -345,8 +345,8 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         double y = (double) pos.getY() + 0.5D - (double) (entity.getHeight() / 2.0F);
         double z = (double) pos.getZ() + 0.5D + spawnOffset * (double) direction.getZOffset();
         entity.setLocationAndAngles(x, y, z, entity.rotationYaw, entity.rotationPitch);
-        if (age != null) {
-            entity.setGrowingAge(age);
+        if (age != null && entity instanceof BeeEntity) {
+            ((BeeEntity) entity).setGrowingAge(age);
         }
         // Check if the entity is in beehive_inhabitors tag
         if (entity.getType().isContained(EntityTypeTags.BEEHIVE_INHABITORS)) {

@@ -17,7 +17,9 @@ import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -211,12 +213,14 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 // Breed this bee with a random bee inside
                 Inhabitant otherBeeInhabitant = getBeeList().get(world.rand.nextInt(getBeeCount()));
                 BeeEntity otherBee = (BeeEntity) EntityType.loadEntityAndExecute(otherBeeInhabitant.nbt, world, (spawnedEntity) -> spawnedEntity);
-                BeeEntity offspring = BeeHelper.getBreedingResult(beeEntity, otherBee, (ServerWorld) world);
+                Entity offspring = BeeHelper.getBreedingResult(beeEntity, otherBee, (ServerWorld) world);
                 if (offspring != null) {
                     if (offspring instanceof ProductiveBeeEntity && beeEntity instanceof ProductiveBeeEntity) {
                         BeeHelper.setOffspringAttributes((ProductiveBeeEntity) offspring, (ProductiveBeeEntity) beeEntity, otherBee);
                     }
-                    offspring.setGrowingAge(-24000);
+                    if (offspring instanceof AnimalEntity) {
+                        ((AnimalEntity) offspring).setGrowingAge(-24000);
+                    }
                     offspring.setLocationAndAngles(beeEntity.getPosX(), beeEntity.getPosY(), beeEntity.getPosZ(), 0.0F, 0.0F);
                     world.addEntity(offspring);
                 }

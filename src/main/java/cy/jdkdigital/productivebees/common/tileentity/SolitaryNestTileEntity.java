@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
@@ -41,13 +42,13 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
             if (--nestTickTimer <= 0) {
                 if (this.canRepopulate()) {
                     if (block instanceof SolitaryNest) {
-                        BeeEntity newBee = ((SolitaryNest) block).getNestingBeeType(world, world.getBiome(pos));
-                        if (newBee != null) {
-                            newBee.setHealth(newBee.getMaxHealth());
-                            newBee.hivePos = pos;
-                            Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
-                            spawnBeeInWorldAtPosition((ServerWorld) this.world, newBee, pos.offset(direction), direction, null);
+                        Entity newBee = ((SolitaryNest) block).getNestingBeeType(world, world.getBiome(pos));
+                        if (newBee instanceof BeeEntity) {
+                            ((BeeEntity) newBee).setHealth(((BeeEntity) newBee).getMaxHealth());
+                            ((BeeEntity) newBee).hivePos = pos;
                         }
+                        Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
+                        spawnBeeInWorldAtPosition((ServerWorld) this.world, newBee, pos.offset(direction), direction, null);
                     }
                 }
             }

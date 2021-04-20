@@ -11,6 +11,7 @@ import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -48,12 +49,12 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         return 0;
     }
 
-    public BeeEntity getNestingBeeType(World world, Biome biome) {
+    public Entity getNestingBeeType(World world, Biome biome) {
         List<BeeSpawningRecipe> spawningRecipes = getSpawningRecipes(world, biome);
         if (!spawningRecipes.isEmpty()) {
             BeeSpawningRecipe spawningRecipe = spawningRecipes.get(ProductiveBees.rand.nextInt(spawningRecipes.size()));
             BeeIngredient beeIngredient = spawningRecipe.output.get(world.rand.nextInt(spawningRecipe.output.size())).get();
-            BeeEntity bee = beeIngredient.getBeeEntity().create(world);
+            Entity bee = beeIngredient.getBeeEntity().create(world);
             if (bee instanceof ConfigurableBeeEntity) {
                 ((ConfigurableBeeEntity) bee).setBeeType(beeIngredient.getBeeType().toString());
                 ((ConfigurableBeeEntity) bee).setAttributes();

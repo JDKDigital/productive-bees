@@ -49,7 +49,7 @@ public class BeeIngredientFactory
 
     public static Map<String, BeeIngredient> getOrCreateList() {
         if (ingredientList.isEmpty()) {
-            // Add all BeeEntity from registry
+            // Add all beehive inhabitors, entity type check must be done before using the entry
             try {
                 for (EntityType<?> registryObject : ForgeRegistries.ENTITIES.getValues()) {
                     if (registryObject.isContained(EntityTypeTags.BEEHIVE_INHABITORS)) {

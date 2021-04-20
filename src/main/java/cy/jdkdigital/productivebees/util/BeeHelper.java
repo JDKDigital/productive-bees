@@ -20,6 +20,9 @@ import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.CraftingInventory;
@@ -60,8 +63,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BeeHelper
 {
-    public static BeeEntity itemInteract(BeeEntity entity, ItemStack itemStack, ServerWorld world, CompoundNBT nbt, PlayerEntity player, Hand hand, Direction direction) {
-        BeeEntity bee = null;
+    public static Entity itemInteract(BeeEntity entity, ItemStack itemStack, ServerWorld world, CompoundNBT nbt, PlayerEntity player) {
+        Entity bee = null;
 
         if (!entity.isChild()) {
             IInventory beeInv = new IdentifierInventory(entity, itemStack.getItem().getRegistryName() + "");
@@ -100,11 +103,14 @@ public class BeeHelper
 
             BlockPos pos = entity.getPosition();
             bee.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.rotationYaw, bee.rotationPitch);
-            bee.setHealth(entity.getHealth());
-            bee.renderYawOffset = entity.renderYawOffset;
-
-            if (entity.getGrowingAge() > 0) {
-                bee.setGrowingAge(entity.getGrowingAge());
+            if (bee instanceof LivingEntity) {
+                ((LivingEntity) bee).setHealth(entity.getHealth());
+                ((LivingEntity) bee).renderYawOffset = entity.renderYawOffset;
+            }
+            if (bee instanceof AnimalEntity) {
+                if (entity.getGrowingAge() > 0) {
+                    ((AnimalEntity) bee).setGrowingAge(entity.getGrowingAge());
+                }
             }
 
             return bee;
@@ -113,7 +119,7 @@ public class BeeHelper
     }
 
     @Nullable
-    public static BeeEntity getBreedingResult(BeeEntity beeEntity, AgeableEntity targetEntity, ServerWorld world) {
+    public static Entity getBreedingResult(BeeEntity beeEntity, AgeableEntity targetEntity, ServerWorld world) {
         BeeBreedingRecipe recipe = getRandomBreedingRecipe(beeEntity, targetEntity, world);
         if (recipe != null) {
             Map<Lazy<BeeIngredient>, Integer> possibleOffspring = recipe.offspring;
@@ -136,7 +142,7 @@ public class BeeHelper
                 }
 
                 if (beeIngredient != null) {
-                    BeeEntity newBee = beeIngredient.getBeeEntity().create(world);
+                    Entity newBee = beeIngredient.getBeeEntity().create(world);
                     if (newBee instanceof ConfigurableBeeEntity) {
                         ((ConfigurableBeeEntity) newBee).setBeeType(beeIngredient.getBeeType().toString());
                         ((ConfigurableBeeEntity) newBee).setAttributes();
@@ -159,8 +165,8 @@ public class BeeHelper
         }
 
         // If no specific recipe exist for the target bee or the bees are the same type, create a child like the parent
-        if (!(beeEntity instanceof ProductiveBeeEntity) || ((ProductiveBeeEntity) beeEntity).canSelfBreed()) {
-            return (BeeEntity) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
+        if (beeEntity != null && (!(beeEntity instanceof ProductiveBeeEntity) || ((ProductiveBeeEntity) beeEntity).canSelfBreed())) {
+            return ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
         }
 
         return null;
