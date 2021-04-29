@@ -3,6 +3,8 @@ package cy.jdkdigital.productivebees.event;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBeeEntity;
+import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.network.PacketHandler;
@@ -59,7 +61,6 @@ public class EventHandler
             if (world instanceof ServerWorld) {
                 PlayerEntity player = entityInteract.getPlayer();
                 BlockPos pos = entity.getPosition();
-                Hand hand = entityInteract.getHand();
 
                 Entity newBee = BeeHelper.itemInteract((BeeEntity) entity, itemStack, (ServerWorld) world, entity.serializeNBT(), player);
 

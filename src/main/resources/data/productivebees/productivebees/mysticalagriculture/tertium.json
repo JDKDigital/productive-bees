@@ -3,7 +3,7 @@
     "secondaryColor": "#804f40",
     "particleColor": "#B74900",
     "size": 0.8,
-    "description": "To acquire this bee, look up the crafting recipe for it's spawn egg.",
+    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
     "flowerBlock": "mysticalagriculture:tertium_block",
     "createComb": false,
     "selfbreed": false,

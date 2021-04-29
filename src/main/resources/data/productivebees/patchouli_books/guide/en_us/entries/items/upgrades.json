@@ -42,6 +42,15 @@
         },
         {
             "type": "crafting",
+            "recipe": "productivebees:upgrades/filter",
+            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l), $(l:blocks/catcher)Catcher$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "Right click on a bee to add it to the filter. Put the filter in a crafting grid to clear it. When installed in a hive, only bees specified on the filter will be allowed to enter. $(br)When installed in a catcher, only the bees specified on the filter will be picked up."
+        },
+        {
+            "type": "crafting",
             "recipe": "productivebees:upgrades/range",
             "text": "Usable in: $(l:blocks/catcher)Catcher$(/l)."
         },

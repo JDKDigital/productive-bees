@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -156,23 +157,16 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
         boolean flag = this.isBreedingItem(player.getHeldItem(hand));
         if (!flag && this.isHorseSaddled() && !this.isBeingRidden() && !player.isSecondaryUseActive()) {
             if (!this.world.isRemote) {
+                if (player instanceof ServerPlayerEntity) {
+                    ModAdvancements.SADDLE_BEE.trigger((ServerPlayerEntity) player, this);
+                }
+
                 player.startRiding(this);
             }
 
             return ActionResultType.func_233537_a_(this.world.isRemote);
-        } else {
-            ActionResultType actionresulttype = super.func_230254_b_(player, hand);
-            if (!actionresulttype.isSuccessOrConsume()) {
-                ItemStack itemstack = player.getHeldItem(hand);
-                ActionResultType rs = itemstack.getItem() == Items.SADDLE ? itemstack.interactWithEntity(player, this, hand) : ActionResultType.PASS;
-                if (player instanceof ServerPlayerEntity && itemstack.getItem() == Items.SADDLE) {
-                    ModAdvancements.SADDLE_BEE.trigger((ServerPlayerEntity) player, this);
-                }
-                return rs;
-            } else {
-                return actionresulttype;
-            }
         }
+        return super.func_230254_b_(player, hand);
     }
 
     @Override

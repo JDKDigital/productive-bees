@@ -150,8 +150,8 @@ public class ModItems
     public static final RegistryObject<Item> HONEYCOMB_SOULSTEEL = createItem("honeycomb_soulsteel", () -> new Honeycomb((new Item.Properties()).group(itemGroupCompat("tconstruct")), "#5c4436"));
     public static final RegistryObject<Item> HONEYCOMB_TINKERS_BRONZE = createItem("honeycomb_tinkers_bronze", () -> new Honeycomb((new Item.Properties()).group(itemGroupCompat("tconstruct")), "#ffdb7e"));
     public static final RegistryObject<Item> HONEYCOMB_SKY_SLIMY = createItem("honeycomb_sky_slimy", () -> new Honeycomb((new Item.Properties()).group(itemGroupCompat("tconstruct")), "#80d4d2"));
-    public static final RegistryObject<Item> HONEYCOMB_ender_slimY = createItem("honeycomb_ender_slimy", () -> new Honeycomb((new Item.Properties()).group(itemGroupCompat("tconstruct")), "#d17bfc"));
-    public static final RegistryObject<Item> HONEYCOMB_ichor_slimY = createItem("honeycomb_ichor_slimy", () -> new Honeycomb((new Item.Properties()).group(itemGroupCompat("tconstruct")), "#fcb77b"));
+    public static final RegistryObject<Item> HONEYCOMB_ENDER_SLIMY = createItem("honeycomb_ender_slimy", () -> new Honeycomb((new Item.Properties()).group(itemGroupCompat("tconstruct")), "#d17bfc"));
+    public static final RegistryObject<Item> HONEYCOMB_ICHOR_SLIY = createItem("honeycomb_ichor_slimy", () -> new Honeycomb((new Item.Properties()).group(itemGroupCompat("tconstruct")), "#fcb77b"));
     public static final RegistryObject<Item> HONEYCOMB_SPECTRUM = createItem("honeycomb_spectrum", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#ffc9a7"));
     public static final RegistryObject<Item> HONEYCOMB_COSMIC_DUST = createItem("honeycomb_cosmic_dust", () -> new Honeycomb((new Item.Properties()).group(ModItemGroups.PRODUCTIVE_BEES), "#2394cc"));
     public static final RegistryObject<Item> HONEYCOMB_STARMETAL = createItem("honeycomb_starmetal", () -> new Honeycomb((new Item.Properties()).group(itemGroupCompat("astralsorcery")), "#0545b2"));

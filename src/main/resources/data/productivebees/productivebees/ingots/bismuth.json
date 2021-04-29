@@ -18,10 +18,6 @@
                 "type": "forge:tag_empty",
                 "tag": "forge:storage_blocks/bismuth"
             }
-        },
-        {
-            "type": "forge:tag_empty",
-            "tag": "forge:gems/bismuth"
         }
     ]
 }

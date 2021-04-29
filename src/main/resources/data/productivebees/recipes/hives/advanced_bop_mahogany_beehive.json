@@ -16,7 +16,7 @@
             "item": "minecraft:honeycomb"
         },
         "F": {
-            "item": "minecraft:campfire"
+            "tag": "forge:campfires"
         },
         "S": {
             "tag": "forge:shears"

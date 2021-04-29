@@ -2,7 +2,7 @@
     "primaryColor": "#0545b2",
     "secondaryColor": "#eceee3",
     "particleColor": "#0545b2",
-    "description": "To acquire this bee, look up the crafting recipe for it's spawn egg.",
+    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
     "createComb": false,
     "flowerBlock": "astralsorcery:starmetal",
     "selfbreed": false,

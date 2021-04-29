@@ -62,6 +62,11 @@ public class ExpansionBox extends Block
                 updateStateWithDirection(world, pos, state, directionProperty);
             }
             ((AdvancedBeehive) pair.getRight().getBlock()).updateStateWithDirection(world, hivePos, pair.getRight(), directionProperty);
+        } else {
+            // No hive
+            if (!isRemoved) {
+                updateStateWithDirection(world, pos, state, VerticalHive.NONE);
+            }
         }
     }
 
@@ -124,6 +129,7 @@ public class ExpansionBox extends Block
             if (pair != null) {
                 final TileEntity tileEntity = worldIn.getTileEntity(pair.getLeft().getLeft());
                 if (tileEntity instanceof AdvancedBeehiveTileEntity) {
+                    this.updateState(worldIn, pos, state, false);
                     BlockState blockState = tileEntity.getBlockState();
                     worldIn.notifyBlockUpdate(pos, blockState, blockState, Constants.BlockFlags.DEFAULT);
                     ((AdvancedBeehive) blockState.getBlock()).openGui((ServerPlayerEntity) player, (AdvancedBeehiveTileEntity) tileEntity);

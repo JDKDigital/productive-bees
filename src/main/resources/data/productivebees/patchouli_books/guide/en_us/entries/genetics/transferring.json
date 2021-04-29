@@ -5,11 +5,11 @@
     "pages": [
         {
             "type": "text",
-            "text": "To transfer genes to a bee you will need to combine the gene with a honey treat. Feed the honey treat to the bee and it will have a chance to acquire the new attribute based on the gene purity."
+            "text": "To transfer genes to a bee you will need to combine the gene with a honey treat. Feed the honey treat to the bee and it will have a chance, based on the purity of the gene, to acquire the new attribute."
         },
         {
             "type": "text",
-            "text": "The purity of the gene can be increased by combining two of the same genes of by putting more of the same gene onto a treat."
+            "text": "The purity of the gene can be increased by combining two of the same genes or by putting more of the same gene onto a treat."
         }
     ]
 }

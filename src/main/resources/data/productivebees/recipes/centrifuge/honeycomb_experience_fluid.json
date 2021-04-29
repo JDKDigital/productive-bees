@@ -21,7 +21,7 @@
             "type": "forge:not",
             "value": {
                 "type": "productivebees:fluid_tag_empty",
-                "tag": "forge:essence"
+                "tag": "forge:experience"
             }
         }
     ]

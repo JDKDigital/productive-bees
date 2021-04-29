@@ -5,7 +5,7 @@
     "pages": [
         {
             "type": "text",
-            "text": "Bee attributes can be transferred from one bee to another. See the page on $(l:genetics/collecting#crystalline)collecting genes$(/l)."
+            "text": "Bee attributes can be transferred from one bee to another by putting the isolated gene on a honey treat and feeding it to the bee. $(br)See the page on $(l:genetics/collecting#crystalline)collecting genes$(/l)."
         },
         {
             "type": "text",
@@ -15,7 +15,7 @@
         {
             "type": "text",
             "title": "Endurance",
-            "text": "Affects the bees max health.$(br)With a high endurance the bee has a chance to not loose it's stinger when attacking.$(br)Levels are:$(br)Weak$(br)Normal$(br)Medium$(br)Strong"
+            "text": "Affects the bees max health.$(br)With a high endurance the bee has a chance to not loose its stinger when attacking.$(br)Levels are:$(br)Weak$(br)Normal$(br)Medium$(br)Strong"
         },
         {
             "type": "text",

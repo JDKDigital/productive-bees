@@ -86,6 +86,11 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
                 updateStateWithDirection(world, pos, state, directionProperty);
             }
             ((ExpansionBox) pair.getRight().getBlock()).updateStateWithDirection(world, boxPos, pair.getRight(), directionProperty);
+        } else {
+            // No expansion box
+            if (!isRemoved) {
+                updateStateWithDirection(world, pos, state, VerticalHive.NONE);
+            }
         }
     }
 
@@ -223,8 +228,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
         if (itemUsed) {
             this.takeHoney(world, state, pos);
-        }
-        else if (!world.isRemote()) {
+        } else if (!world.isRemote()) {
             final TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveTileEntity) {
                 this.updateState(world, pos, state, false);

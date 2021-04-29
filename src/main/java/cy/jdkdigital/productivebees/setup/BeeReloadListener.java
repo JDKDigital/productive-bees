@@ -39,11 +39,11 @@ public class BeeReloadListener extends JsonReloadListener
 
             try {
                 if (!CraftingHelper.processConditions(entry.getValue().getAsJsonObject(), "conditions")) {
-                    ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as it's conditions were not met", id);
+                    ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as its conditions were not met", id);
                     continue;
                 }
             } catch (Exception e) {
-                ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as it's conditions were invalid", id);
+                ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as its conditions were invalid", id);
                 throw e;
             }
 

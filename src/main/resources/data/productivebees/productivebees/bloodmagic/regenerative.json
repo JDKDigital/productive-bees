@@ -2,7 +2,7 @@
     "primaryColor": "#940e00",
     "secondaryColor": "#0f0f66",
     "particleColor": "#940e00",
-    "description": "To acquire this bee, look up the crafting recipe for it's spawn egg.",
+    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
     "createComb": false,
     "renderer": "thicc",
     "selfbreed": false,

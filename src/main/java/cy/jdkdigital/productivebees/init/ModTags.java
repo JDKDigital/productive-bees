@@ -8,8 +8,13 @@ import net.minecraft.item.Item;
 import net.minecraft.tags.*;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ModTags
 {
+    public static Map<ResourceLocation, ITag<Block>> tagCache = new HashMap<>();
+
     public static final ITag<Block> SOLITARY_OVERWORLD_NESTS = getTag("solitary_overworld_nests");
     public static final ITag<Block> REED_NESTS = getTag("nests/reed_nests");
     public static final ITag<Block> COLD_NESTS = getTag("nests/cold_nests");
@@ -35,6 +40,9 @@ public class ModTags
     }
 
     public static ITag<Block> getTag(ResourceLocation resourceLocation) {
-        return BlockTags.createOptional(resourceLocation);
+        if (!tagCache.containsKey(resourceLocation)) {
+            tagCache.put(resourceLocation, BlockTags.createOptional(resourceLocation));
+        }
+        return tagCache.get(resourceLocation);
     }
 }

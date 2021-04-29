@@ -49,6 +49,7 @@ public class SolitaryNestTileEntity extends AdvancedBeehiveTileEntityAbstract
                         }
                         Direction direction = this.getBlockState().get(BlockStateProperties.FACING);
                         spawnBeeInWorldAtPosition((ServerWorld) this.world, newBee, pos.offset(direction), direction, null);
+                        nestTickTimer = -1;
                     }
                 }
             }

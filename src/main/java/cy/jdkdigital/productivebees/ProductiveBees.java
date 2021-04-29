@@ -134,8 +134,12 @@ public final class ProductiveBees
 
                         entity.setPositionAndRotation(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, 0, 0);
 
-                        if (source.getWorld().addEntity(entity) && stack.getItem().equals(ModItems.BEE_CAGE.get())) {
-                            stack.shrink(1);
+                        if (source.getWorld().addEntity(entity)) {
+                            if (stack.getItem().equals(ModItems.BEE_CAGE.get())) {
+                                stack.shrink(1);
+                            } else if (stack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
+                                stack.setTag(null);
+                            }
                         }
                         return stack;
                     }

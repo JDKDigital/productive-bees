@@ -108,14 +108,14 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 if (newBee != null) {
                     if (world.rand.nextBoolean()) {
                         newBee.setBeeType("productivebees:skeletal");
-                    }
-                    else {
+                    } else {
                         newBee.setBeeType("productivebees:zombie");
                     }
                     newBee.setAttributes();
 
                     tryEnterHive(newBee, false);
                 }
+                this.markDirty();
             }
         }
 

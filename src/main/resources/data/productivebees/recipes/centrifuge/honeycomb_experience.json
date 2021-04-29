@@ -18,13 +18,13 @@
             "fluid": {
                 "fluid": "productivebees:honey"
             },
-            "amount": 50
+            "amount": 0
         }
     ],
     "conditions": [
         {
             "type": "productivebees:fluid_tag_empty",
-            "tag": "forge:essence"
+            "tag": "forge:experience"
         }
     ]
 }

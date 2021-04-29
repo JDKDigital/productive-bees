@@ -87,7 +87,7 @@ public class ProductiveBeesConfig
                     .defineInRange("timeInHive", 4800, 20, Integer.MAX_VALUE);
 
             centrifugeProcessingTime = builder
-                    .comment("How many ticks it takes for process a recipe in the centrifuge. Default 200.")
+                    .comment("How many ticks it takes for process a recipe in the centrifuge. Default 300.")
                     .defineInRange("centrifugeProcessingTime", 300, 20, Integer.MAX_VALUE);
 
             centrifugePoweredProcessingTime = builder
@@ -231,7 +231,7 @@ public class ProductiveBeesConfig
             builder.push("Hive Upgrades");
 
             timeBonus = builder
-                    .comment("Time bonus gained from time upgrade. 0.2 means 20% reduction of a bee's time inside the hive.")
+                    .comment("Time bonus gained from time upgrade. 0.2 means 20% reduction of a bee's time inside the hive or centrifuge processing time.")
                     .defineInRange("timeBonus", 0.2, 0, 1);
             combBlockTimeModifier = builder
                     .comment("Time penalty from installing the comb block upgrade. .4 means 40% increase of a bee's time inside the hive.")

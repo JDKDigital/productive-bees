@@ -23,7 +23,7 @@
         {
             "type": "text",
             "title": "Rancher Bee",
-            "text": "Will milk nearby cows and create milky combs in it's hive."
+            "text": "Will milk nearby cows and create milky combs in its hive."
         },
         {
             "type": "entity",
@@ -32,7 +32,7 @@
         {
             "type": "text",
             "title": "Hoarder Bee",
-            "text": "Collects items on the ground and puts them in it's hive.$(br)Combine with the farmer bee for an automated farm."
+            "text": "Collects items on the ground and puts them in its hive.$(br)Combine with the farmer bee for an automated farm."
         },
         {
             "type": "entity",
@@ -41,7 +41,7 @@
         {
             "type": "text",
             "title": "Lumber Bee",
-            "text": "Nibble on nearby wood and collects wood chips in it's hive. Wood chips can be crafted into logs."
+            "text": "Nibble on nearby wood and collects wood chips in its hive. Wood chips can be crafted into logs."
         },
         {
             "type": "entity",
@@ -50,7 +50,7 @@
         {
             "type": "text",
             "title": "Quarry Bee",
-            "text": "Nibble on nearby stone, sand or gravel and collects stone chips in it's hive. Stone chips can be crafted into it's counterpart block."
+            "text": "Nibble on nearby stone, sand or gravel and collects stone chips in its hive. Stone chips can be crafted into its counterpart block."
         },
         {
             "type": "entity",

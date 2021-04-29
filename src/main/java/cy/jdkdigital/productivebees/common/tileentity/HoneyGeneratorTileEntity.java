@@ -95,28 +95,28 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
 
     @Override
     public void tick() {
+        int tickRate = 10;
         if (world != null && !world.isRemote) {
-            int inputPowerAmount = ProductiveBeesConfig.GENERAL.generatorPowerGen.get();
-            int fluidConsumeAmount = ProductiveBeesConfig.GENERAL.generatorHoneyUse.get();
-            fluidInventory.ifPresent(fluidHandler -> energyHandler.ifPresent(energyHandler -> {
-                if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && energyHandler.receiveEnergy(inputPowerAmount, true) > 0) {
-                    energyHandler.receiveEnergy(inputPowerAmount, false);
-                    fluidHandler.drain(fluidConsumeAmount, IFluidHandler.FluidAction.EXECUTE);
-                    if (++tickCounter % 20 == 0) {
+            if (++tickCounter % tickRate == 0) {
+                int inputPowerAmount = ProductiveBeesConfig.GENERAL.generatorPowerGen.get() * tickRate;
+                int fluidConsumeAmount = ProductiveBeesConfig.GENERAL.generatorHoneyUse.get() * tickRate;
+                fluidInventory.ifPresent(fluidHandler -> energyHandler.ifPresent(energyHandler -> {
+                    if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && energyHandler.receiveEnergy(inputPowerAmount, true) > 0) {
+                        energyHandler.receiveEnergy(inputPowerAmount, false);
+                        fluidHandler.drain(fluidConsumeAmount, IFluidHandler.FluidAction.EXECUTE);
                         setOn(true);
                     }
-                } else {
-                    if (++tickCounter % 20 == 0) {
+                    else {
                         setOn(false);
                     }
-                }
-            }));
+                }));
+            }
+            this.sendOutPower(tickRate);
         }
-        this.sendOutPower();
         super.tick();
     }
 
-    private void sendOutPower() {
+    private void sendOutPower(int modifier) {
         if (this.world != null) {
             energyHandler.ifPresent(energyHandler -> {
                 AtomicInteger capacity = new AtomicInteger(energyHandler.getEnergyStored());
@@ -128,7 +128,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                         if (te != null) {
                             boolean doContinue = te.getCapability(CapabilityEnergy.ENERGY, direction).map((handler) -> {
                                 if (handler.canReceive()) {
-                                    int received = handler.receiveEnergy(Math.min(capacity.get(), 100), false);
+                                    int received = handler.receiveEnergy(Math.min(capacity.get(), 100 * modifier), false);
                                     capacity.addAndGet(-received);
                                     energyHandler.extractEnergy(received, false);
                                     dirty.set(true);

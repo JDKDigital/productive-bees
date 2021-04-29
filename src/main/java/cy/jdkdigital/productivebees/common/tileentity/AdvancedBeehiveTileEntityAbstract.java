@@ -92,7 +92,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                 AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant = inhabitantIterator.next();
                 if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
                     BeehiveTileEntity.State beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveTileEntity.State.HONEY_DELIVERED : BeehiveTileEntity.State.BEE_RELEASED;
-                    if (this.releaseBee(this.getBlockState(), inhabitant.nbt, null, beeState)) {
+                    if (this.releaseBee(this.getBlockState(), inhabitant.nbt.copy(), null, beeState)) {
                         inhabitantIterator.remove();
                     }
                 }
@@ -122,13 +122,10 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
     public void angerBees(@Nullable PlayerEntity player, BlockState blockState, BeehiveTileEntity.State beeState) {
         List<Entity> releasedBees = Lists.newArrayList();
         beeHandler.ifPresent(h -> {
-            h.getInhabitants().removeIf((tag) -> this.releaseBee(blockState, tag.nbt, releasedBees, beeState));
+            h.getInhabitants().removeIf((tag) -> this.releaseBee(blockState, tag.nbt.copy(), releasedBees, beeState));
         });
         if (player != null) {
-            Iterator entityIterator = releasedBees.iterator();
-
-            while (entityIterator.hasNext()) {
-                Entity entity = (Entity) entityIterator.next();
+            for (Entity entity : releasedBees) {
                 if (entity instanceof BeeEntity) {
                     BeeEntity beeEntity = (BeeEntity) entity;
                     if (player.getPosition().distanceSq(entity.getPosition()) <= 16.0D) {
