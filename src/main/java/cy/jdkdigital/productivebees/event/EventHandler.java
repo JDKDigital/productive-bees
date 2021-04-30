@@ -3,8 +3,6 @@ package cy.jdkdigital.productivebees.event;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
-import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBeeEntity;
-import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.network.PacketHandler;
@@ -26,7 +24,6 @@ import net.minecraft.item.Items;
 import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -92,8 +89,8 @@ public class EventHandler
         if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().get(CocoaBlock.AGE) == 2) {
             PlayerEntity player = event.getPlayer();
             World world = player.world;
-            if (world instanceof ServerWorld && player instanceof ServerPlayerEntity && ProductiveBees.rand.nextFloat() < 0.05) {
-                ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create((ServerWorld) world);
+            if (world instanceof ServerWorld && player instanceof ServerPlayerEntity && ProductiveBees.rand.nextFloat() < 0.02) {
+                ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(world);
                 BlockPos pos = event.getPos();
                 if (bee != null) {
                     bee.setBeeType("productivebees:sugarbag");

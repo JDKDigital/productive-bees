@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.Entity;
@@ -28,7 +27,6 @@ public class HoneyFluidBlock extends FlowingFluidBlock
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos position, Entity entity) {
-        ProductiveBees.LOGGER.info("dipping entity in honey " + entity);
         if (entity instanceof BeeEntity) {
             ((BeeEntity) entity).addPotionEffect(new EffectInstance(Effects.REGENERATION, 80, 0, false, true));
         }

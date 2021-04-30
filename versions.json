@@ -19,7 +19,8 @@
         "1.16.5-0.6.8.7": "Rideable BumbleBee",
         "1.16.5-0.6.9.5": "Fixed invisible bees",
         "1.16.5-0.6.9.7": "Fixed bees receiving too many attribute modifiers causing big chunk saves",
-        "1.16.5-0.6.9.8": "Fixed incubator crash"
+        "1.16.5-0.6.9.8": "Fixed incubator crash",
+        "1.16.5-0.6.9.11": ""
     },
     "1.15.2": {
         "1.15.2-0.5.2.10": "Fixed bottler not filling bottles",
@@ -38,13 +39,13 @@
         "1.15.2-0.6.8.7": "Rideable BumbleBee"
     },
     "promos": {
-        "1.15.2-latest": "1.15.2-0.6.8.7",
-        "1.15.2-recommended": "1.15.2-0.6.8.7",
-        "1.16.3-latest": "1.16.5-0.6.9.5",
-        "1.16.3-recommended": "1.16.5-0.6.9.5",
-        "1.16.4-latest": "1.16.5-0.6.9.5",
-        "1.16.4-recommended": "1.16.5-0.6.9.5",
-        "1.16.5-latest": "1.16.5-0.6.8.7",
-        "1.16.5-recommended": "1.16.5-0.6.9.5"
+        "1.15.2-latest": "1.15.2-0.6.9.3",
+        "1.15.2-recommended": "1.15.2-0.6.9.3",
+        "1.16.3-latest": "1.16.5-0.6.9.11",
+        "1.16.3-recommended": "1.16.5-0.6.9.11",
+        "1.16.4-latest": "1.16.5-0.6.9.11",
+        "1.16.4-recommended": "1.16.5-0.6.9.11",
+        "1.16.5-latest": "1.16.5-0.6.8.11",
+        "1.16.5-recommended": "1.16.5-0.6.9.11"
     }
 }

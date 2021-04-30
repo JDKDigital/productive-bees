@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.item;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

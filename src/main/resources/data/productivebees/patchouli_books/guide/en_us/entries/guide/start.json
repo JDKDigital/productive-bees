@@ -1,7 +1,7 @@
 {
     "name": "Getting Started",
     "icon": "minecraft:writable_book",
-    "category": "productivebees:genetics",
+    "category": "productivebees:guide",
     "pages": [
         {
             "type": "text",

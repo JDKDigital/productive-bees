@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.network.PacketHandler;
-import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.item.crafting.RecipeManager;

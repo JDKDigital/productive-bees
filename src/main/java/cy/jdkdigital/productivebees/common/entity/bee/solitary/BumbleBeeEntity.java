@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -13,7 +12,6 @@ import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
