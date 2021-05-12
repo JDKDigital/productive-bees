@@ -104,7 +104,7 @@ public class CupidBeeEntity extends ProductiveBeeEntity
 
         @Override
         public boolean shouldExecute() {
-            return !CupidBeeEntity.this.func_233678_J__() && CupidBeeEntity.this.hasNectar() && CupidBeeEntity.this.targetEntity != null;
+            return !CupidBeeEntity.this.isAngry() && CupidBeeEntity.this.hasNectar() && CupidBeeEntity.this.targetEntity != null;
         }
 
         public void startExecuting() {
@@ -133,7 +133,7 @@ public class CupidBeeEntity extends ProductiveBeeEntity
 
         @Override
         public boolean shouldExecute() {
-            if (!CupidBeeEntity.this.func_233678_J__() && CupidBeeEntity.this.hasNectar() && CupidBeeEntity.this.getAnimalsBredSincePollination() <= ProductiveBeesConfig.BEES.cupidBeeAnimalsPerPollination.get()) {
+            if (!CupidBeeEntity.this.isAngry() && CupidBeeEntity.this.hasNectar() && CupidBeeEntity.this.getAnimalsBredSincePollination() <= ProductiveBeesConfig.BEES.cupidBeeAnimalsPerPollination.get()) {
                 List<Entity> breedablesNearby = CupidBeeEntity.this.findNearbyBreedables(5);
 
                 if (!breedablesNearby.isEmpty() && breedablesNearby.size() < ProductiveBeesConfig.BEES.cupidBeeAnimalDensity.get()) {
@@ -164,7 +164,7 @@ public class CupidBeeEntity extends ProductiveBeeEntity
             if (!this.running) {
                 return false;
             }
-            return CupidBeeEntity.this.targetEntity != null && CupidBeeEntity.this.hasNectar() && !CupidBeeEntity.this.func_233678_J__();
+            return CupidBeeEntity.this.targetEntity != null && CupidBeeEntity.this.hasNectar() && !CupidBeeEntity.this.isAngry();
         }
 
         public boolean isRunning() {

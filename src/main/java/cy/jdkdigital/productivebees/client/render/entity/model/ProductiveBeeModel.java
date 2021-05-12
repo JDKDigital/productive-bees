@@ -131,7 +131,7 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
             setRotationAngle(body, 0, 0, 0);
         }
 
-        if (!entity.func_233678_J__()) {
+        if (!entity.isAngry()) {
             body.rotateAngleX = 0.0F;
             body.rotateAngleY = 0.0F;
             body.rotateAngleZ = 0.0F;

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.integrations.patchouli.ProductiveBeesPatchouli;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.item.crafting.RecipeManager;
@@ -12,6 +13,8 @@ import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoader;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -54,11 +57,9 @@ public class BeeReloadListener extends JsonReloadListener
             ProductiveBees.LOGGER.debug("Adding to bee data " + simpleId);
         }
 
-//        try {
-//            PacketHandler.sendToAllPlayers(new Messages.BeeDataMessage(INSTANCE.getData()));
-//        } catch (Exception e) {
-//            // ignore on server lad when the server is not ready to send messages
-//        }
+        if (ModList.get().isLoaded("patchouli")) {
+            ProductiveBeesPatchouli.setBeeFlags();
+        }
         profiler.endStartSection("BeeReloadListener");
     }
 
@@ -72,5 +73,8 @@ public class BeeReloadListener extends JsonReloadListener
 
     public void setData(Map<String, CompoundNBT> data) {
         BEE_DATA = data;
+        if (ModList.get().isLoaded("patchouli")) {
+            ProductiveBeesPatchouli.setBeeFlags();
+        }
     }
 }

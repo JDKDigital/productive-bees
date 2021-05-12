@@ -53,8 +53,8 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
     protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY) {
         boolean expanded = this.container.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
 
-        this.font.func_243248_b(matrixStack, this.title, expanded ? -5f : 8.0F, 6.0F, 4210752);
-        this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), expanded ? -5f : 8.0F, (float) (this.ySize - 96 + 2), 4210752);
+        this.font.drawText(matrixStack, this.title, expanded ? -5f : 8.0F, 6.0F, 4210752);
+        this.font.drawText(matrixStack, this.playerInventory.getDisplayName(), expanded ? -5f : 8.0F, (float) (this.ySize - 96 + 2), 4210752);
 
         assert minecraft != null;
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;

@@ -68,7 +68,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
             }
         }
 
-        if (bee.func_233678_J__()) {
+        if (bee.isAngry()) {
             textureLocation = textureLocation + "_angry";
         }
 

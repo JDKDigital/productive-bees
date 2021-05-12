@@ -38,8 +38,8 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.func_243248_b(matrixStack, this.title, -5f, 6.0F, 4210752);
-        this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), -5f, (float) (this.ySize - 96 + 2), 4210752);
+        this.font.drawText(matrixStack, this.title, -5f, 6.0F, 4210752);
+        this.font.drawText(matrixStack, this.playerInventory.getDisplayName(), -5f, (float) (this.ySize - 96 + 2), 4210752);
 
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);

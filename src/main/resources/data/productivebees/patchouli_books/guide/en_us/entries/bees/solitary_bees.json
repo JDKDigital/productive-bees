@@ -1,6 +1,8 @@
 {
-    "name": "1. Solitary Bees",
-    "icon": "minecraft:writable_book",
+    "name": "Solitary Bees",
+    "icon": "productivebees:coarse_dirt_nest",
+    "read_by_default": true,
+    "sortnum": 1,
     "category": "productivebees:bees",
     "pages": [
         {

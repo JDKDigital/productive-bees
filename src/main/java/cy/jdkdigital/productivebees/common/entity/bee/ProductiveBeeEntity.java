@@ -200,8 +200,8 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     @Override
-    public boolean func_233678_J__() { // isAngry
-        return super.func_233678_J__() && getAttributeValue(BeeAttributes.TEMPER) > 0;
+    public boolean isAngry() { // isAngry
+        return super.isAngry() && getAttributeValue(BeeAttributes.TEMPER) > 0;
     }
 
     @Override
@@ -419,7 +419,7 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     @Override
-    public BeeEntity func_241840_a(ServerWorld world, AgeableEntity targetEntity) { // createChild
+    public BeeEntity createChild(@Nonnull ServerWorld world, AgeableEntity targetEntity) {
         Entity newBee = BeeHelper.getBreedingResult(this, targetEntity, world);
 
         if (!(newBee instanceof BeeEntity)) {

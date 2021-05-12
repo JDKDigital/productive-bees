@@ -1,6 +1,8 @@
 {
-    "name": "2. Wild Bees",
-    "icon": "minecraft:writable_book",
+    "name": "Wild Bees",
+    "icon": "minecraft:lilypad",
+    "read_by_default": true,
+    "sortnum": 2,
     "category": "productivebees:bees",
     "pages": [
         {

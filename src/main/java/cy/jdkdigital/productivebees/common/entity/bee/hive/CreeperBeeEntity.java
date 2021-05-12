@@ -114,8 +114,8 @@ public class CreeperBeeEntity extends EffectHiveBeeEntity
     /**
      * Called when a lightning bolt hits the entity.
      */
-    public void func_241841_a(ServerWorld world, LightningBoltEntity lightningBolt) { // onStruckByLightning
-        super.func_241841_a(world, lightningBolt);
+    public void causeLightningStrike(ServerWorld world, LightningBoltEntity lightningBolt) {
+        super.causeLightningStrike(world, lightningBolt);
         this.dataManager.set(POWERED, true);
     }
 }

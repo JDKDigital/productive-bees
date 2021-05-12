@@ -62,7 +62,7 @@ public class BeeBomb extends Item
         if (!world.isRemote) {
             BeeBombEntity bombEntity = new BeeBombEntity(world, player);
             bombEntity.setItem(item);
-            bombEntity.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
+            bombEntity.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
             world.addEntity(bombEntity);
         }
 

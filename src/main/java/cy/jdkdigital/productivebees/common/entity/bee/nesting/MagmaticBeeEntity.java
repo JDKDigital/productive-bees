@@ -32,7 +32,7 @@ public class MagmaticBeeEntity extends EffectHiveBeeEntity
     }
 
     public boolean isBurning() {
-        return this.func_233678_J__();
+        return this.isAngry();
     }
 
     public void attackTarget(LivingEntity target) {

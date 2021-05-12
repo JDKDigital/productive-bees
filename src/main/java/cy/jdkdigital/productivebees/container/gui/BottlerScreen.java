@@ -33,8 +33,8 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
 
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.func_243248_b(matrixStack, this.title, 8.0F, 6.0F, 4210752);
-        this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
+        this.font.drawText(matrixStack, this.title, 8.0F, 6.0F, 4210752);
+        this.font.drawText(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
 
         // Draw fluid tank
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {

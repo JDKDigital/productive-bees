@@ -1,6 +1,8 @@
 {
-    "name": "4. Professional Bees",
-    "icon": "minecraft:writable_book",
+    "name": "Professional Bees",
+    "icon": "minecraft:wooden_hoe",
+    "read_by_default": true,
+    "sortnum": 4,
     "category": "productivebees:bees",
     "pages": [
         {

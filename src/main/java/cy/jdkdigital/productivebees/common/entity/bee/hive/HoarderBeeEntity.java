@@ -186,7 +186,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
             return
                     HoarderBeeEntity.this.targetItemPos != null &&
 //                HoarderBeeEntity.this.hasHive() &&
-                            !HoarderBeeEntity.this.holdsItem() && !HoarderBeeEntity.this.func_233678_J__() &&
+                            !HoarderBeeEntity.this.holdsItem() && !HoarderBeeEntity.this.isAngry() &&
                             !HoarderBeeEntity.this.isWithinDistance(HoarderBeeEntity.this.targetItemPos, 2);
         }
 
@@ -227,7 +227,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
             boolean canStart =
 //                    HoarderBeeEntity.this.hasHive() &&
                     !HoarderBeeEntity.this.holdsItem() &&
-                            !HoarderBeeEntity.this.func_233678_J__();
+                            !HoarderBeeEntity.this.isAngry();
 
             if (canStart) {
                 List<ItemEntity> items = HoarderBeeEntity.this.getItemsNearby(10);
@@ -262,7 +262,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
 
         @Override
         public boolean shouldContinueExecuting() {
-            return HoarderBeeEntity.this.targetItemPos != null && HoarderBeeEntity.this.hasHive() && !HoarderBeeEntity.this.holdsItem() && !HoarderBeeEntity.this.func_233678_J__();
+            return HoarderBeeEntity.this.targetItemPos != null && HoarderBeeEntity.this.hasHive() && !HoarderBeeEntity.this.holdsItem() && !HoarderBeeEntity.this.isAngry();
         }
 
         public void startExecuting() {

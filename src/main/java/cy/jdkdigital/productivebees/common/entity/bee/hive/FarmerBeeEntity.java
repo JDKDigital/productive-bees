@@ -79,7 +79,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
 
             return
                     FarmerBeeEntity.this.targetHarvestPos != null &&
-                            !FarmerBeeEntity.this.func_233678_J__() &&
+                            !FarmerBeeEntity.this.isAngry() &&
                             !FarmerBeeEntity.this.isWithinDistance(FarmerBeeEntity.this.targetHarvestPos, 2);
         }
 
@@ -111,7 +111,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
 
         @Override
         public boolean shouldExecute() {
-            if (!FarmerBeeEntity.this.func_233678_J__()) {
+            if (!FarmerBeeEntity.this.isAngry()) {
                 List<BlockPos> harvestablesNearby = FarmerBeeEntity.this.findHarvestablesNearby(10);
 
                 Collections.shuffle(harvestablesNearby);
@@ -138,7 +138,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
 
         @Override
         public boolean shouldContinueExecuting() {
-            return FarmerBeeEntity.this.targetHarvestPos != null && FarmerBeeEntity.this.hasHive() && !FarmerBeeEntity.this.func_233678_J__();
+            return FarmerBeeEntity.this.targetHarvestPos != null && FarmerBeeEntity.this.hasHive() && !FarmerBeeEntity.this.isAngry();
         }
 
         public void startExecuting() {

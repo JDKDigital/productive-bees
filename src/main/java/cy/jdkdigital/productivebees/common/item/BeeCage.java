@@ -170,7 +170,7 @@ public class BeeCage extends Item
         }
 
         String entityId = stack.getTag().getString("name");
-        return new TranslationTextComponent(this.getTranslationKey()).append(new StringTextComponent(" (" + entityId + ")"));
+        return new TranslationTextComponent(this.getTranslationKey()).appendSibling(new StringTextComponent(" (" + entityId + ")"));
     }
 
     @Override

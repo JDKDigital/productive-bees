@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "item": "productivebees:configurable_honeycomb"
+    },
+    "comb_type": "productivebees:arcane",
+    "outputs": [
+        {
+            "item": {
+                "tag": "forge:gems/mana"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "ars_nouveau"
+        }
+    ]
+}

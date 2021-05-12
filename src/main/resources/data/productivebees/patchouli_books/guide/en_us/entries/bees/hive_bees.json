@@ -1,6 +1,8 @@
 {
-    "name": "3. Hive Bees",
-    "icon": "minecraft:writable_book",
+    "name": "Hive Bees",
+    "icon": "minecraft:bee_spawn_egg",
+    "read_by_default": true,
+    "sortnum": 3,
     "category": "productivebees:bees",
     "pages": [
         {

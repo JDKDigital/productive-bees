@@ -27,6 +27,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEquipable
@@ -151,7 +152,8 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    @Nonnull
+    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         boolean flag = this.isBreedingItem(player.getHeldItem(hand));
         if (!flag && this.isHorseSaddled() && !this.isBeingRidden() && !player.isSecondaryUseActive()) {
             if (!this.world.isRemote) {
@@ -164,7 +166,7 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
 
             return ActionResultType.func_233537_a_(this.world.isRemote);
         }
-        return super.func_230254_b_(player, hand);
+        return super.getEntityInteractionResult(player, hand);
     }
 
     @Override

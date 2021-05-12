@@ -3,6 +3,7 @@
     "secondaryColor": "#6238757",
     "particleColor": "#99bf02",
     "beeTexture": "productivebees:textures/entity/bee/sugarbag/bee",
+    "flowerBlock": "minecraft:sugar_cane",
     "createComb": false,
     "renderer": "tiny",
     "attributes": {

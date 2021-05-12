@@ -1,0 +1,20 @@
+{
+    "primaryColor": "#c203fc",
+    "secondaryColor": "#6c2482",
+    "tertiaryColor": "#c203fc",
+    "particleColor": "#c203fc",
+    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "createComb": true,
+    "renderer": "default_crystal",
+    "size": 0.8,
+    "attributes": {
+        "endurance": 2
+    },
+    "flowerBlock": "ars_nouveau:mana_gem_block",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "ars_nouveau"
+        }
+    ]
+}

@@ -21,6 +21,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
@@ -78,25 +80,26 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
 
     @Override
     public void tick() {
-        BlockState state = world.getBlockState(pos.up());
-        if (++tickCounter % 10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.get(DirectionalBlock.FACING) == Direction.DOWN) {
-            // Check for ProductiveBeeEntity on top of block
-            List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, (new AxisAlignedBB(pos).grow(0.0D, 1.0D, 0.0D)));
-            if (!bees.isEmpty()) {
-                BeeEntity bee = bees.iterator().next();
-                inventoryHandler.ifPresent(inv -> {
-                    ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
-                    if (!bottles.isEmpty() && bottles.getItem().equals(Items.GLASS_BOTTLE) && bee.isAlive()) {
-                        ItemStack geneBottle = GeneBottle.getStack(bee);
-                        Block.spawnAsEntity(world, pos.up(), geneBottle);
-
-                        bee.onKillCommand();
-                        bottles.shrink(1);
-                    }
-                });
+        if (world != null && !world.isRemote) {
+            BlockState state = world.getBlockState(pos.up());
+            if (++tickCounter % 10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.get(DirectionalBlock.FACING) == Direction.DOWN) {
+                // Check for ProductiveBeeEntity on top of block
+                List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, (new AxisAlignedBB(pos).grow(0.0D, 1.0D, 0.0D)));
+                if (!bees.isEmpty()) {
+                    BeeEntity bee = bees.iterator().next();
+                    inventoryHandler.ifPresent(inv -> {
+                        ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                        if (!bottles.isEmpty() && bottles.getItem().equals(Items.GLASS_BOTTLE) && !bee.isChild() && bee.isAlive()) {
+                            ItemStack geneBottle = GeneBottle.getStack(bee);
+                            Block.spawnAsEntity(world, pos.up(), geneBottle);
+                            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                            bee.onKillCommand();
+                            bottles.shrink(1);
+                        }
+                    });
+                }
             }
         }
-
         super.tick();
     }
 
