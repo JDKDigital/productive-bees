@@ -16,6 +16,7 @@ import cy.jdkdigital.productivebees.client.render.entity.RancherBeeRenderer;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.item.BeeBomb;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
+import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.item.NestLocator;
 import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
@@ -64,6 +65,7 @@ public class ClientSetup
         ItemModelsProperties.registerProperty(ModItems.BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
         ItemModelsProperties.registerProperty(ModItems.STURDY_BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
         ItemModelsProperties.registerProperty(ModItems.BEE_BOMB.get(), new ResourceLocation("loaded"), (stack, world, entity) -> BeeBomb.isLoaded(stack) ? 1.0F : 0.0F);
+        ItemModelsProperties.registerProperty(ModItems.HONEY_TREAT.get(), new ResourceLocation("genetic"), (stack, world, entity) -> HoneyTreat.hasGene(stack) ? 1.0F : 0.0F);
         ItemModelsProperties.registerProperty(ModItems.NEST_LOCATOR.get(), new ResourceLocation("angle"), new IItemPropertyGetter()
         {
             private double rotation;

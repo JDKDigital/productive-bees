@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#ba3d34",
+    "secondaryColor": "#8a0303",
+    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "createComb": true,
+    "flowerBlock": "evilcraft:hardened_blood",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "evilcraft"
+        }
+    ]
+}

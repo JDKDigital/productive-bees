@@ -1,7 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "productivebees:item/nest_locator/00"
+		"layer0": "productivebees:item/nest_locator/16"
 	},
 	"overrides": [
 		{ "predicate": { "angle": 0.000000 }, "model": "productivebees:item/nest_locator" },

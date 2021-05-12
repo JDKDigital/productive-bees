@@ -38,6 +38,11 @@ public class HoneyTreat extends Item
         super(properties);
     }
 
+    public static boolean hasGene(ItemStack itemStack) {
+        CompoundNBT tag = itemStack.getTag();
+        return !itemStack.isEmpty() && tag != null && tag.contains(GENES_KEY);
+    }
+
     public static ItemStack getTypeStack(String beeType, int value) {
         ItemStack treat = new ItemStack(ModItems.HONEY_TREAT.get());
         addGene(treat, Gene.getStack(beeType, value));
@@ -49,19 +54,17 @@ public class HoneyTreat extends Item
 
         boolean addedToExistingGene = false;
         for (INBT inbt : genes) {
-            int purity = ((CompoundNBT) inbt).getInt("purity");
             ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
+            int purity = Gene.getPurity(insertedGene);
             if (Gene.getAttributeName(insertedGene).equals(Gene.getAttributeName(gene)) && Gene.getValue(insertedGene).equals(Gene.getValue(gene))) {
                 purity = Math.min(100, purity + Gene.getPurity(gene));
-                ((CompoundNBT) inbt).putInt("purity", purity);
+                Gene.setPurity(gene, purity);
                 addedToExistingGene = true;
             }
         }
-        ;
 
         if (!addedToExistingGene) {
             CompoundNBT serializedGene = gene.serializeNBT();
-            serializedGene.putInt("purity", Gene.getPurity(gene));
             genes.add(serializedGene);
         }
 
@@ -125,14 +128,16 @@ public class HoneyTreat extends Item
             if (!genes.isEmpty()) {
                 // Apply genes from honey treat
                 for (INBT inbt : genes) {
-                    int purity = ((CompoundNBT) inbt).getInt("purity");
                     ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
+                    int purity = Gene.getPurity(insertedGene);
+                    if (((CompoundNBT) inbt).contains("purity")) {
+                        purity = ((CompoundNBT) inbt).getInt("purity");
+                    }
                     if (ProductiveBees.rand.nextInt(100) <= purity) {
                         productiveBee.setAttributeValue(Gene.getAttribute(insertedGene), Gene.getValue(insertedGene));
                     }
                 }
-            }
-            else {
+            } else {
                 // Improve temper
                 int temper = productiveBee.getAttributeValue(BeeAttributes.TEMPER);
                 if (temper > 0) {
@@ -154,25 +159,22 @@ public class HoneyTreat extends Item
         if (tag != null) {
             INBT genes = tag.get(GENES_KEY);
             if (genes instanceof ListNBT) {
-                if (Screen.hasShiftDown()) {
-                    ((ListNBT) genes).forEach(inbt -> {
-                        int purity = ((CompoundNBT) inbt).getInt("purity");
-                        ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
+                ((ListNBT) genes).forEach(inbt -> {
+                    ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
+                    int purity = Gene.getPurity(insertedGene);
+                    if (((CompoundNBT) inbt).contains("purity")) {
+                        purity = ((CompoundNBT) inbt).getInt("purity");
+                    }
 
-                        Integer value = Gene.getValue(insertedGene);
-                        BeeAttribute<?> attribute = Gene.getAttribute(insertedGene);
-                        if (BeeAttributes.keyMap.containsKey(attribute)) {
-                            ITextComponent translatedValue = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).mergeStyle(ColorUtil.getColor(value));
-                            list.add((new TranslationTextComponent("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translatedValue)).mergeStyle(TextFormatting.DARK_GRAY).appendString(" (" + purity + "%)"));
-                        }
-                        else {
-                            list.add((new TranslationTextComponent("productivebees.information.attribute.type", Gene.getAttributeName(insertedGene))).mergeStyle(TextFormatting.DARK_GRAY).appendString(" (" + purity + "%)"));
-                        }
-                    });
-                }
-                else {
-                    list.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE));
-                }
+                    Integer value = Gene.getValue(insertedGene);
+                    BeeAttribute<?> attribute = Gene.getAttribute(insertedGene);
+                    if (BeeAttributes.keyMap.containsKey(attribute)) {
+                        ITextComponent translatedValue = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).mergeStyle(ColorUtil.getColor(value));
+                        list.add((new TranslationTextComponent("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translatedValue)).mergeStyle(TextFormatting.DARK_GRAY).appendString(" (" + purity + "%)"));
+                    } else {
+                        list.add((new TranslationTextComponent("productivebees.information.attribute.type", Gene.getAttributeName(insertedGene))).mergeStyle(TextFormatting.DARK_GRAY).appendString(" (" + purity + "%)"));
+                    }
+                });
             }
         }
     }

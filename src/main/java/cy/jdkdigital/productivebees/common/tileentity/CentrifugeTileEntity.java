@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
+import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -28,6 +29,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -69,7 +72,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
         @Override
         public boolean isInputSlotItem(int slot, Item item) {
-            boolean isProcessableItem = item.equals(ModItems.GENE_BOTTLE.get()) || CentrifugeTileEntity.this.canProcessItemStack(new ItemStack(item));
+            boolean isProcessableItem = item.equals(ModItems.GENE_BOTTLE.get()) || item.equals(ModItems.HONEY_TREAT.get()) || CentrifugeTileEntity.this.canProcessItemStack(new ItemStack(item));
 
             return (isProcessableItem && slot == InventoryHandlerHelper.INPUT_SLOT) || (!isProcessableItem && super.isInputSlotItem(slot, item));
         }
@@ -97,7 +100,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
     public int getProcessingTime() {
         return (int) (
-                ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() * getProcessingTimeModifier()
+            ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() * getProcessingTimeModifier()
         );
     }
 
@@ -124,6 +127,15 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                             recipeProgress = 0;
                             this.markDirty();
                         }
+                    } else if (invItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
+                        world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
+                        int totalTime = getProcessingTime();
+
+                        if (++this.recipeProgress >= totalTime) {
+                            this.completeTreatProcessing(invHandler);
+                            recipeProgress = 0;
+                            this.markDirty();
+                        }
                     } else {
                         CentrifugeRecipe recipe = getRecipe(invHandler);
                         if (canProcessRecipe(recipe, invHandler)) {
@@ -142,9 +154,9 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                     world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, false));
                 }
 
-                // Pull items dropped ontop
+                // Pull items dropped on top
                 if (--transferCooldown <= 0) {
-                    transferCooldown = 20;
+                    transferCooldown = 22;
                     pullItems(invHandler);
                 }
             });
@@ -153,9 +165,14 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     }
 
     private void pullItems(IItemHandlerModifiable invHandler) {
-        for (ItemEntity itementity : getCaptureItems()) {
-            if (canProcessItemStack(itementity.getItem())) {
-                captureItem(invHandler, itementity);
+        for (ItemEntity itemEntity : getCaptureItems()) {
+            ItemStack itemStack = itemEntity.getItem();
+            if (
+                    canProcessItemStack(itemStack) ||
+                    itemStack.getItem().equals(ModItems.GENE_BOTTLE.get()) ||
+                    itemStack.getItem().equals(ModItems.HONEY_TREAT.get()) && HoneyTreat.hasGene(itemStack)
+            ) {
+                captureItem(invHandler, itemEntity);
             }
         }
     }
@@ -172,8 +189,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
         if (leftoverStack.isEmpty()) {
             itemEntity.remove();
-        }
-        else {
+        } else {
             itemEntity.setItem(leftoverStack);
         }
     }
@@ -299,6 +315,24 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         // Chance to get a type gene
         if (ProductiveBees.rand.nextDouble() <= chance) {
             ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type"), ProductiveBees.rand.nextInt(10) + 5));
+        }
+
+        invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
+    }
+
+    private void completeTreatProcessing(IItemHandlerModifiable invHandler) {
+        ItemStack honeyTreat = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+
+        ListNBT genes = HoneyTreat.getGenes(honeyTreat);
+        if (!genes.isEmpty()) {
+            for (INBT inbt : genes) {
+                ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
+                if (((CompoundNBT) inbt).contains("purity")) {
+                    int purity = ((CompoundNBT) inbt).getInt("purity");
+                    Gene.setPurity(insertedGene, purity);
+                }
+                ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(insertedGene);
+            }
         }
 
         invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);

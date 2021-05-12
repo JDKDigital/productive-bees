@@ -122,6 +122,8 @@ dependencies {
     implementation fg.deobf("curse.maven:tconstruct-74072:3257811")
     implementation fg.deobf("curse.maven:bigreactors-250277:3211479")
     implementation fg.deobf("curse.maven:zerocore-247921:3211476")
+    implementation fg.deobf("curse.maven:evilcraft-74610:3292057")
+    implementation fg.deobf("curse.maven:cyclops-core-232758:3292066")
 //    implementation fg.deobf("curse.maven:create-328085:3261455")
 }
 

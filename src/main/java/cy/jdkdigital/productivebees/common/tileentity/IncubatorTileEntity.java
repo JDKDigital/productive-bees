@@ -18,6 +18,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -138,20 +139,20 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
                     invHandler.setStackInSlot(2, inItem);
                     invHandler.getStackInSlot(1).shrink(ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
                     invHandler.setStackInSlot(0, ItemStack.EMPTY);
-                }
-                else if (eggProcessing) {
+                } else if (eggProcessing) {
                     ItemStack treatItem = invHandler.getStackInSlot(1);
 
                     ListNBT genes = HoneyTreat.getGenes(treatItem);
                     for (INBT inbt : genes) {
                         ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
                         String beeName = Gene.getAttributeName(insertedGene);
-
                         if (!beeName.isEmpty()) {
                             int purity = ((CompoundNBT) inbt).getInt("purity");
                             if (ProductiveBees.rand.nextInt(100) <= purity) {
                                 ItemStack egg = BeeCreator.getSpawnEgg(beeName);
-                                invHandler.setStackInSlot(2, egg);
+                                if (egg.getItem() instanceof SpawnEggItem) {
+                                    invHandler.setStackInSlot(2, egg);
+                                }
                             }
                         }
                     }

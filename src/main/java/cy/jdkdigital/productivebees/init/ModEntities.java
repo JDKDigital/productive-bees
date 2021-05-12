@@ -78,10 +78,6 @@ public class ModEntities
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createBee(DeferredRegister<EntityType<?>> registry, String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor, ItemGroup itemGroup) {
         EntityType.Builder<E> builder = EntityType.Builder.<E>create(supplier, EntityClassification.CREATURE).size(0.7F, 0.6F).trackingRange(8);
 
-        if (name.equals("magmatic_bee") || name.equals("netherite_bee") || name.equals("blazing_bee")) {
-            builder.immuneToFire();
-        }
-
         RegistryObject<EntityType<E>> entity = registry.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
 
         if (itemGroup != null) {

@@ -1,0 +1,27 @@
+{
+    "type": "evilcraft:blood_infuser",
+    "item": "productivebees:spawn_egg_nomad_bee",
+    "fluid": {
+        "fluid": "evilcraft:blood",
+        "amount": 10000
+    },
+    "result": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:bloody\"}}"
+    },
+    "duration": 1000,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "evilcraft"
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:mod_loaded",
+                "modid": "productivebees"
+            }
+        }
+    ]
+}

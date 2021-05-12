@@ -1,0 +1,26 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "item": "productivebees:configurable_honeycomb"
+    },
+    "comb_type": "productivebees:bloody",
+    "outputs": [
+        {
+            "fluid": {
+                "fluid": "evilcraft:blood"
+            },
+            "amount": 250
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "evilcraft"
+        }
+    ]
+}

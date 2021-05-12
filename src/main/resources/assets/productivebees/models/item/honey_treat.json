@@ -2,5 +2,13 @@
     "parent": "item/generated",
     "textures": {
         "layer0": "productivebees:item/honey_treat"
-    }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "genetic": 1
+            },
+            "model": "productivebees:item/honey_treat_genetic"
+        }
+    ]
 }

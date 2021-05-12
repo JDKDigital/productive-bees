@@ -27,7 +27,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "ores/cosmic"
+                "tag": "forge:ores/cosmic"
             }
         }
     ]

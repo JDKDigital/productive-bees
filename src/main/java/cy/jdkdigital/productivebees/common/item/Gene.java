@@ -80,6 +80,10 @@ public class Gene extends Item
         return tag != null ? tag.getInt(PURITY_KEY) : 0;
     }
 
+    public static void setPurity(ItemStack stack, int purity) {
+        stack.getOrCreateTag().putInt(PURITY_KEY, purity);
+    }
+
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
         super.addInformation(stack, world, list, flag);

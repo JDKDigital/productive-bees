@@ -22,11 +22,6 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
         super.tick();
     }
 
-    @Override
-    public boolean canSelfBreed() {
-        return false;
-    }
-
     protected void registerGoals() {
         super.registerGoals();
 
