@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
+import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.block.BeehiveBlock;
@@ -12,9 +13,11 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -68,6 +71,25 @@ public class ExpansionBox extends Block
                 updateStateWithDirection(world, pos, state, VerticalHive.NONE);
             }
         }
+    }
+
+    @Override
+    public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+        ItemStack heldItem = player.getHeldItemMainhand();
+        if (heldItem.getItem().equals(Items.STICK)) {
+            if (!state.get(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
+                Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentHive(worldIn, pos);
+                if (pair != null) {
+                    Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
+                    BlockPos hivePos = posAndDirection.getLeft();
+                    TileEntity hiveTileEntity = worldIn.getTileEntity(hivePos);
+                    if (hiveTileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
+                        ((AdvancedBeehiveTileEntityAbstract) hiveTileEntity).angerBees(player, state, BeehiveTileEntity.State.BEE_RELEASED);
+                    }
+                }
+            }
+        }
+        super.onBlockClicked(state, worldIn, pos, player);
     }
 
     public void updateStateWithDirection(World world, BlockPos pos, BlockState state, VerticalHive directionProperty) {

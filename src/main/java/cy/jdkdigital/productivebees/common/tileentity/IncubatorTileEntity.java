@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.tileentity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
@@ -26,6 +27,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -80,6 +82,11 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
     @Override
     public void tick() {
         if (world != null && !world.isRemote) {
+            if (isRunning && world instanceof ServerWorld) {
+                energyHandler.ifPresent(handler -> {
+                    handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() * getEnergyConsumptionModifier()), false);
+                });
+            }
             inventoryHandler.ifPresent(invHandler -> {
                 if (!invHandler.getStackInSlot(0).isEmpty()) {
                     // Process incubation
@@ -100,6 +107,12 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
                 }
             });
         }
+    }
+
+    protected double getEnergyConsumptionModifier() {
+        double timeUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get();
+
+        return Math.max(1, timeUpgradeModifier);
     }
 
     /**

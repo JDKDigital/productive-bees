@@ -1,0 +1,12 @@
+{
+    "type": "productivebees:bee_nbt_changer",
+    "bee": "productivebees:netherite",
+    "item": {
+        "item": "minecraft:netherite_sword"
+    },
+    "attribute": "Damage",
+    "method": "decrement",
+    "value": 2,
+    "min": 0,
+    "max": 2030
+}

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.recipe.BottlerRecipe;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -7,6 +8,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -40,7 +42,7 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
     public void tickFluidTank() {
         this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
             FluidStack fluidStack = fluidHandler.getFluidInTank(0);
-            if (fluidStack.getAmount() >= 0) {
+            if (fluidStack.getAmount() >= 0 && world instanceof ServerWorld) {
                 this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(invHandler -> {
                     ItemStack fluidContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                     ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
@@ -70,7 +72,7 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
                             // try to fill bucket
                             FluidActionResult fillResult = FluidUtil.tryFillContainer(fluidContainerItem, fluidHandler, Integer.MAX_VALUE, null, true);
                             if (fillResult.isSuccess()) {
-                                processOutput(fluidHandler, invHandler, fillResult.getResult(), 1000, true);
+                                processOutput(fluidHandler, invHandler, fillResult.getResult(), 0, true);
                             }
                         }
                     }

@@ -12,6 +12,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -32,7 +33,7 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
     @Override
     public void tick() {
         super.tick();
-        if (getBlockState().get(Centrifuge.RUNNING)) {
+        if (getBlockState().get(Centrifuge.RUNNING) && world instanceof ServerWorld) {
             energyHandler.ifPresent(handler -> {
                 handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * getEnergyConsumptionModifier()), false);
             });

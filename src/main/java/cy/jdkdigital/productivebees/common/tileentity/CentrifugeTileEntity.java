@@ -40,6 +40,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -113,7 +114,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
     @Override
     public void tick() {
-        if (world != null && !world.isRemote) {
+        if (world instanceof ServerWorld) {
             inventoryHandler.ifPresent(invHandler -> {
                 if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty() && canOperate()) {
                     // Process gene bottles
@@ -162,6 +163,10 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             });
         }
         super.tick();
+    }
+
+    private void progressRecipe() {
+
     }
 
     private void pullItems(IItemHandlerModifiable invHandler) {

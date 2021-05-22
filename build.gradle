@@ -116,14 +116,20 @@ dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
+//    runtimeOnly fg.deobf('vazkii.botania:Botania:1.16.5-416')
+
     implementation fg.deobf("curse.maven:jade-324717:3228325")
-//    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
-    implementation fg.deobf("curse.maven:mantle-74924:3180804")
-    implementation fg.deobf("curse.maven:tconstruct-74072:3257811")
+    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
+    implementation fg.deobf("curse.maven:mantle-74924:3307680")
+    implementation fg.deobf("curse.maven:tinkers-construct-74072:3301247")
     implementation fg.deobf("curse.maven:bigreactors-250277:3211479")
     implementation fg.deobf("curse.maven:zerocore-247921:3211476")
     implementation fg.deobf("curse.maven:evilcraft-74610:3292057")
     implementation fg.deobf("curse.maven:cyclops-core-232758:3292066")
+//    implementation fg.deobf("curse.maven:curios-309927:3275653")
+//    implementation fg.deobf("curse.maven:botania-225643:3300995")
+    implementation fg.deobf("curse.maven:cucumber-272335:3249370")
+    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3251398")
 //    implementation fg.deobf("curse.maven:create-328085:3261455")
 }
 

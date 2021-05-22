@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
@@ -12,6 +13,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class CombBlockItem extends BlockItem
 {
@@ -47,6 +49,16 @@ public class CombBlockItem extends BlockItem
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (!this.equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
             super.fillItemGroup(group, items);
+        } else if (group == ItemGroup.SEARCH) {
+            for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+                String beeType = entry.getKey();
+                if (entry.getValue().getBoolean("createComb")) {
+                    // Add comb block
+                    ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
+                    BeeCreator.setTag(beeType, combBlock);
+                    items.add(combBlock);
+                }
+            }
         }
     }
 }

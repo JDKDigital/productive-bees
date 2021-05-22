@@ -2,6 +2,7 @@
     "name": "Dragon Egg Hive",
     "icon": "productivebees:dragon_egg_hive",
     "category": "productivebees:hives",
+    "sortnum": 4,
     "pages": [
         {
             "type": "spotlight",

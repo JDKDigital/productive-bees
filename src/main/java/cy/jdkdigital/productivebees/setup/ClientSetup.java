@@ -141,14 +141,11 @@ public class ClientSetup
             String key = bee.getTranslationKey();
             if (key.contains("dye_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, DyeBeeRenderer::new);
-            }
-            else if (key.contains("rancher_bee") || key.contains("farmer_bee")) {
+            } else if (key.contains("rancher_bee") || key.contains("farmer_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, RancherBeeRenderer::new);
-            }
-            else if (key.contains("hoarder_bee")) {
+            } else if (key.contains("hoarder_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, HoarderBeeRenderer::new);
-            }
-            else {
+            } else {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, ProductiveBeeRenderer::new);
             }
         }

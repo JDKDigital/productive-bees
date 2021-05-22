@@ -1,0 +1,43 @@
+{
+    "name": "Fluid Bees",
+    "icon": "minecraft:water_bucket",
+    "read_by_default": true,
+    "sortnum": 4,
+    "category": "productivebees:bees_modded",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Bees producing fluid stuff"
+        },
+        {
+            "type": "empty",
+            "draw_filler": true
+        },
+        {
+            "type": "text",
+            "title": "Chocolate Bee",
+            "text": "Obtained by feeding cocoa beans to a $(l:bees/bees_wild/sugarbag)Sugarbag Bee$(/l).",
+            "anchor": "chocolate",
+            "flag": "productivebees:chocolate"
+        },
+        {
+            "type": "entity",
+            "name": "Chocolate Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:chocolate'}",
+            "flag": "productivebees:chocolate"
+        },
+        {
+            "type": "text",
+            "title": "Tea Bee",
+            "text": "Obtained by feeding a bucket of water to a $(l:bees/bees_solitary/leafcutter)Leafcutter Bee$(/l).",
+            "anchor": "tea",
+            "flag": "productivebees:tea"
+        },
+        {
+            "type": "entity",
+            "name": "Tea Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tea'}",
+            "flag": "productivebees:tea"
+        }
+    ]
+}

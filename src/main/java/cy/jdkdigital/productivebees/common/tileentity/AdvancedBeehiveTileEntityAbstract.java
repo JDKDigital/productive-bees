@@ -233,10 +233,9 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                     if (beeEntity instanceof HoarderBeeEntity) {
                         if (((HoarderBeeEntity) beeEntity).holdsItem()) {
                             getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                                if (((InventoryHandlerHelper.ItemHandler) inv).addOutput(((HoarderBeeEntity) beeEntity).getItem())) {
-                                    ((HoarderBeeEntity) beeEntity).clearInventory();
-                                }
-                                else {
+                                ((HoarderBeeEntity) beeEntity).emptyIntoInventory(((InventoryHandlerHelper.ItemHandler) inv));
+
+                                if (((HoarderBeeEntity) beeEntity).isInventoryEmpty()) {
                                     hasOffloaded.set(false);
                                 }
                             });

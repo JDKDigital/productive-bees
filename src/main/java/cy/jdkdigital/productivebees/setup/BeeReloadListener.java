@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.integrations.patchouli.ProductiveBeesPatchouli;
 import cy.jdkdigital.productivebees.util.BeeCreator;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.JsonReloadListener;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
@@ -35,6 +36,8 @@ public class BeeReloadListener extends JsonReloadListener
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> dataMap, @Nonnull IResourceManager resourceManager, IProfiler profiler) {
         profiler.startSection("BeeReloadListener");
+
+        Map<String, CompoundNBT> data = new HashMap<>();
         for (Map.Entry<ResourceLocation, JsonElement> entry : dataMap.entrySet()) {
             ResourceLocation id = entry.getKey();
 
@@ -51,15 +54,14 @@ public class BeeReloadListener extends JsonReloadListener
             ResourceLocation simpleId = id.getPath().contains("/") ? new ResourceLocation(id.getNamespace(), id.getPath().substring(id.getPath().lastIndexOf("/") + 1)) : id;
             CompoundNBT nbt = BeeCreator.create(simpleId, entry.getValue().getAsJsonObject());
 
-            BEE_DATA.remove(simpleId.toString());
-            BEE_DATA.put(simpleId.toString(), nbt);
+            data.remove(simpleId.toString());
+            data.put(simpleId.toString(), nbt);
 
             ProductiveBees.LOGGER.debug("Adding to bee data " + simpleId);
         }
 
-        if (ModList.get().isLoaded("patchouli")) {
-            ProductiveBeesPatchouli.setBeeFlags();
-        }
+        setData(data);
+
         profiler.endStartSection("BeeReloadListener");
     }
 

@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -13,6 +14,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class SpawnEgg extends SpawnEggItem
@@ -65,6 +67,10 @@ public class SpawnEgg extends SpawnEggItem
     public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (!this.equals(ModItems.CONFIGURABLE_SPAWN_EGG.get())) {
             super.fillItemGroup(group, items);
+        } else if (group == ItemGroup.SEARCH) {
+            for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+                items.add(BeeCreator.getSpawnEgg(entry.getKey()));
+            }
         }
     }
 }

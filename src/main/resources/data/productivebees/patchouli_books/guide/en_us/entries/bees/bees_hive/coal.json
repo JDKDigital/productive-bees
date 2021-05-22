@@ -1,0 +1,109 @@
+{
+    "name": "Coal Bee",
+    "icon": "minecraft:coal",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:coal",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Coal Bee",
+            "text": "Bred from a $(l:bees/bees_hive/redstone)Blazing Bee$(/l) and a $(l:bees/bees_solitary/leafcutter)Leafcutter Bee$(/l).",
+            "anchor": "coal"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:coal'}"
+        },
+        {
+            "type": "text",
+            "title": "Obsidian Bee",
+            "text": "Bred from a $(l:bees/bees_wild/magmatic)Magmatic Bee$(/l) and a $(l:bees/bees_solitary/sweat)Sweat Bee$(/l).",
+            "anchor": "obsidian"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:obsidian'}"
+        },
+        {
+            "type": "text",
+            "title": "Diamond Bee",
+            "text": "Bred from an $(l:bees/bees_wild/ender)Ender Bee$(/l) and a $(l:bees/bees_hive/lapis)Lapis Bee$(/l).",
+            "anchor": "diamond"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:diamond'}"
+        },
+        {
+            "type": "text",
+            "title": "Emerald Bee",
+            "text": "Bred from an $(l:bees/bees_wild/slimy)Slimy Bee$(/l) and a $(l:bees/bees_hive/diamond)Diamond Bee$(/l).",
+            "anchor": "emerald"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:emerald'}"
+        },
+        {
+            "type": "text",
+            "title": "Netherite Bee",
+            "text": "Converted from a $(l:bees/bees_hive/diamond)Diamond Bee$(/l) be feeding it a block of netherite.",
+            "anchor": "netherite"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:netherite'}"
+        },
+        {
+            "type": "text",
+            "title": "Skeletal Bee",
+            "text": "Will move in to an advanced hive if the hive is left empty in the dark.",
+            "anchor": "skeletal"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:skeletal'}"
+        },
+        {
+            "type": "text",
+            "title": "Zombie Bee",
+            "text": "Will move in to an advanced hive if the hive is left empty in the dark.",
+            "anchor": "zombie"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:zombie'}"
+        },
+        {
+            "type": "text",
+            "title": "Creeper Bee",
+            "text": "Obtained by feeding a block of TNT to a vanilla bee.",
+            "anchor": "creeper"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:creeper_bee"
+        },
+        {
+            "type": "text",
+            "title": "Blazing Bee",
+            "text": "Bred from a $(l:bees/bees_wild/magmatic)Magmatic Bee$(/l) and a $(l:bees/bees_solitary/nomad)Nomad Bee$(/l).",
+            "anchor": "blazing"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:blazing'}"
+        },
+        {
+            "type": "text",
+            "title": "Withered Bee",
+            "text": "Obtained by feeding a wither rose to a $(l:bees/bees_hive/skeletal)Skeletal Bee$(/l).",
+            "anchor": "withered"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:withered'}"
+        }
+    ]
+}

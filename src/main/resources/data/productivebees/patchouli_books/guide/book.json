@@ -4,5 +4,6 @@
     "version": 1,
     "creative_tab": "productivebees",
     "model": "productivebees:book",
+    "filler_texture": "productivebees:textures/gui/patchouli/page_filler.png",
     "show_progress": false
 }

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModEntities;
@@ -81,5 +82,11 @@ public class BeeIngredientFactory
 
     public static void addBee(String name, BeeIngredient bee) {
         ingredientList.put(name, bee);
+    }
+
+    public static Map<String, BeeIngredient> getRBeesIngredients() {
+        Map<String, BeeIngredient> list = new HashMap<>(getOrCreateList());
+        list.entrySet().removeIf(entry -> !entry.getKey().contains("resourcefulbees"));
+        return list;
     }
 }

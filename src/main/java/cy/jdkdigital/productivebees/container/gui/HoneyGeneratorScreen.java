@@ -52,7 +52,7 @@ public class HoneyGeneratorScreen extends ContainerScreen<HoneyGeneratorContaine
                     tooltipList.add(new TranslationTextComponent("productivebees.screen.empty").func_241878_f());
                 }
 
-                renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
             }
         });
 
@@ -64,7 +64,7 @@ public class HoneyGeneratorScreen extends ContainerScreen<HoneyGeneratorContaine
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
                 tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level", energyAmount + "FE").func_241878_f());
 
-                renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
             }
         });
     }
@@ -78,13 +78,14 @@ public class HoneyGeneratorScreen extends ContainerScreen<HoneyGeneratorContaine
         minecraft.getTextureManager().bindTexture(GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, this.guiLeft - 13, this.guiTop, 0, 0, this.xSize + 26, this.ySize);
+        blit(matrixStack, getGuiLeft() - 13, getGuiTop(), 0, 0, this.xSize + 26, this.ySize);
 
         // Draw energy level
+        blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
         this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             float energyAmount = (float) handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52f / (float) handler.getMaxEnergyStored()));
-            blit(matrixStack, this.guiLeft - 5, this.guiTop + 69, 206, 52, 4, -1 * energyLevel);
+            blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 8, 0, 4, 52 - energyLevel);
         });
 
         // Draw fluid tank
@@ -96,7 +97,7 @@ public class HoneyGeneratorScreen extends ContainerScreen<HoneyGeneratorContaine
 
                 FluidContainerUtil.setColors(fluidStack);
 
-                FluidContainerUtil.drawTiledSprite(this.guiLeft + 127, this.guiTop + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
+                FluidContainerUtil.drawTiledSprite(getGuiLeft() + 127, getGuiTop() + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
 
                 FluidContainerUtil.resetColor();
             }

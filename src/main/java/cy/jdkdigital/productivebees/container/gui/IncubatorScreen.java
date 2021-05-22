@@ -46,7 +46,7 @@ public class IncubatorScreen extends ContainerScreen<IncubatorContainer>
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
                 tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level", energyAmount + "FE").func_241878_f());
 
-                renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
             }
         });
 
@@ -56,7 +56,7 @@ public class IncubatorScreen extends ContainerScreen<IncubatorContainer>
                     List<IReorderingProcessor> tooltipList = new ArrayList<>();
                     tooltipList.add(new TranslationTextComponent("productivebees.incubator.tooltip.treat_item").func_241878_f());
 
-                    renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                    renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
                 }
             }
         });
@@ -71,17 +71,18 @@ public class IncubatorScreen extends ContainerScreen<IncubatorContainer>
         minecraft.getTextureManager().bindTexture(GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, this.guiLeft - 13, this.guiTop, 0, 0, this.xSize + 26, this.ySize);
+        blit(matrixStack, getGuiLeft() - 13, getGuiTop(), 0, 0, this.xSize + 26, this.ySize);
 
         // Draw progress
         int progress = (int) (this.container.tileEntity.recipeProgress * (24 / (float) this.container.tileEntity.getProcessingTime()));
-        blit(matrixStack, this.guiLeft + 77 - 13, this.guiTop + 35, 202, 52, progress + 1, 16);
+        blit(matrixStack, getGuiLeft() + 77 - 13, getGuiTop() + 35, 202, 52, progress + 1, 16);
 
         // Draw energy level
+        blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
         this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52 / 10000F));
-            blit(matrixStack, this.guiLeft - 5, this.guiTop + 69, 206, 52, 4, -1 * energyLevel);
+            blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
         });
     }
 }

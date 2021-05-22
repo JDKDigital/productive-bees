@@ -1,8 +1,8 @@
 {
     "type": "productivebees:bee_conversion",
     "source": "minecraft:bee",
-    "result": "productivebees:hoarder_bee",
+    "result": "productivebees:collector_bee",
     "item": {
-        "item": "productivebees:purple_hopper"
+        "item": "minecraft:hopper"
     }
 }

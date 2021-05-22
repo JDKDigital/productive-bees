@@ -2,6 +2,7 @@
     "name": "Advanced Hives",
     "icon": "productivebees:advanced_oak_beehive",
     "category": "productivebees:hives",
+    "sortnum": 2,
     "pages": [
         {
             "type": "spotlight",

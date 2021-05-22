@@ -1,0 +1,19 @@
+{
+    "name": "Neon Cuckoo Bee",
+    "icon": "productivebees:spawn_egg_neon_cuckoo_bee",
+    "read_by_default": true,
+    "sortnum": 9,
+    "category": "productivebees:bees_solitary",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Neon Cuckoo Bee",
+            "text": "[Thyreus nitidulus]",
+            "anchor": "neon_cuckoo"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:neon_cuckoo_bee"
+        }
+    ]
+}

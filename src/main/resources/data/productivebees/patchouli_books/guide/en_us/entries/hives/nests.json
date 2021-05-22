@@ -2,6 +2,7 @@
     "name": "Nests",
     "icon": "productivebees:oak_wood_nest",
     "category": "productivebees:hives",
+    "sortnum": 1,
     "pages": [
         {
             "type": "text",

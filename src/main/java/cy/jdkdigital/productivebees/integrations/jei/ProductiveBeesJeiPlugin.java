@@ -18,6 +18,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.registration.*;
+import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -209,5 +210,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             recipes.put(idCombBlock, new ShapelessRecipe(idCombBlock, "", combOutput, combBlockInput));
         }
         registration.addRecipes(recipes.values(), VanillaRecipeCategoryUid.CRAFTING);
+    }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+        // Hide RBees
+        Collection<BeeIngredient> ingredients = BeeIngredientFactory.getRBeesIngredients().values();
+        if (ingredients.size() > 0) {
+            jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(BEE_INGREDIENT, new ArrayList<>(ingredients));
+        }
     }
 }

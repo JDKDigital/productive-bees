@@ -131,9 +131,8 @@ public class AdvancedBeehiveScreen extends ContainerScreen<AdvancedBeehiveContai
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
         // Draw honey level
-        int yOffset = this.container.tileEntity instanceof DragonEggHiveTileEntity ? 17 : 0;
-        int progress = honeyLevel == 0 ? 0 : 27 / 5 * honeyLevel;
-        blit(matrixStack, getGuiLeft() + 82 - (expanded ? 13 : 0), getGuiTop() + 35, 176 + (expanded ? 26 : 0), 14 + yOffset, progress, 16);
+        int xOffset = this.container.tileEntity instanceof DragonEggHiveTileEntity ? 13 : 0;
+        blit(matrixStack, getGuiLeft() + 87 - (expanded ? 13 : 0), getGuiTop() + 37, 202 + xOffset, honeyLevel * 13, 13, 13);
 
         this.container.tileEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {
             // Bees

@@ -1,0 +1,6 @@
+{
+    "name": "Mod Bees",
+    "description": "Mod bees are only available if their requirements are met. A requirement could be if a a certain mod is installed or the existence of a certain resource added by a mod.",
+    "icon": "minecraft:iron_block",
+    "parent": "productivebees:bees"
+}

@@ -1,6 +1,8 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.item.ItemEntity;
@@ -32,10 +34,11 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
     private float prevPeekAmount;
     private float peekAmount = 1.0F;
     public BlockPos targetItemPos = null;
-    private final Inventory inventory = new Inventory(1);
+    private final Inventory inventory;
 
     public HoarderBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
+        inventory = new Inventory(getBeeName().equals("hoarder") ? 3 : 1);
     }
 
     @Override
@@ -145,23 +148,26 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         return !inventory.isEmpty();
     }
 
-    public ItemStack getItem() {
-        return inventory.getStackInSlot(0);
-    }
-
-    public void clearInventory() {
-        inventory.clear();
+    public void emptyIntoInventory(InventoryHandlerHelper.ItemHandler inv) {
+        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
+            ItemStack itemstack = inventory.getStackInSlot(i);
+            if (inv.addOutput(itemstack.copy())) {
+                ProductiveBees.LOGGER.info("Has inserted " + itemstack);
+                inventory.removeStackFromSlot(i);
+            }
+        }
+        inventory.markDirty();
     }
 
     @Override
     public boolean canEnterHive() {
-        return holdsItem() || super.canEnterHive();
+        return !isInventoryEmpty() || super.canEnterHive();
     }
 
     @Override
     public void onDeath(@Nonnull DamageSource damageSource) {
         super.onDeath(damageSource);
-        if (holdsItem()) {
+        if (!isInventoryEmpty()) {
             InventoryHelper.dropInventoryItems(world, this, inventory);
         }
     }
@@ -172,6 +178,20 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
 
     public List<ItemEntity> getItemsNearby(BlockPos pos, double distance) {
         return world.getEntitiesWithinAABB(ItemEntity.class, (new AxisAlignedBB(pos).grow(distance, distance, distance)));
+    }
+
+    public boolean isInventoryEmpty() {
+        return inventory.isEmpty();
+    }
+
+    private boolean inventoryHasSpace() {
+        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
+            ItemStack itemstack = inventory.getStackInSlot(i);
+            if (itemstack.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public class PickupItemGoal extends Goal
@@ -185,9 +205,8 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
             }
             return
                     HoarderBeeEntity.this.targetItemPos != null &&
-//                HoarderBeeEntity.this.hasHive() &&
-                            !HoarderBeeEntity.this.holdsItem() && !HoarderBeeEntity.this.isAngry() &&
-                            !HoarderBeeEntity.this.isWithinDistance(HoarderBeeEntity.this.targetItemPos, 2);
+                    HoarderBeeEntity.this.inventoryHasSpace() && !HoarderBeeEntity.this.isAngry() &&
+                    !HoarderBeeEntity.this.isWithinDistance(HoarderBeeEntity.this.targetItemPos, 2);
         }
 
         @Override
@@ -225,9 +244,8 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         @Override
         public boolean shouldExecute() {
             boolean canStart =
-//                    HoarderBeeEntity.this.hasHive() &&
-                    !HoarderBeeEntity.this.holdsItem() &&
-                            !HoarderBeeEntity.this.isAngry();
+                    HoarderBeeEntity.this.inventoryHasSpace() &&
+                    !HoarderBeeEntity.this.isAngry();
 
             if (canStart) {
                 List<ItemEntity> items = HoarderBeeEntity.this.getItemsNearby(10);
@@ -262,7 +280,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
 
         @Override
         public boolean shouldContinueExecuting() {
-            return HoarderBeeEntity.this.targetItemPos != null && HoarderBeeEntity.this.hasHive() && !HoarderBeeEntity.this.holdsItem() && !HoarderBeeEntity.this.isAngry();
+            return HoarderBeeEntity.this.targetItemPos != null && HoarderBeeEntity.this.hasHive() && HoarderBeeEntity.this.inventoryHasSpace() && !HoarderBeeEntity.this.isAngry();
         }
 
         public void startExecuting() {
@@ -296,8 +314,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
                     else {
                         if (distanceToTarget > 0.1D && ticks > 600) {
                             HoarderBeeEntity.this.targetItemPos = null;
-                        }
-                        else {
+                        } else {
                             // Pick up item
                             List<ItemEntity> items = HoarderBeeEntity.this.getItemsNearby(0);
                             if (!items.isEmpty()) {
@@ -307,8 +324,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
                                 ItemStack remaining = HoarderBeeEntity.this.inventory.addItem(itemstack);
                                 if (remaining.isEmpty()) {
                                     item.remove();
-                                }
-                                else {
+                                } else {
                                     item.setItem(remaining);
                                 }
 

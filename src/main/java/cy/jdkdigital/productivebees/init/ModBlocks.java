@@ -34,7 +34,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> FEEDER = createBlock("feeder", () -> new Feeder(Block.Properties.from(Blocks.STONE_SLAB).notSolid()), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> JAR = createBlock("jar_oak", () -> new Jar(Block.Properties.from(Blocks.GLASS)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> QUARTZ_NETHERRACK = createBlock("quartz_netherrack", () -> new Block(Block.Properties.from(Blocks.NETHER_QUARTZ_ORE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> PURPLE_HOPPER = createBlock("purple_hopper", () -> new HopperBlock(Block.Properties.from(Blocks.HOPPER)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> PURPLE_HOPPER = createBlock("purple_hopper", () -> new HopperBlock(Block.Properties.from(Blocks.HOPPER)), null);
 
     public static final RegistryObject<Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest(Block.Properties.from(Blocks.OAK_LOG)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest(Block.Properties.from(Blocks.OAK_LOG)), ModItemGroups.PRODUCTIVE_BEES);

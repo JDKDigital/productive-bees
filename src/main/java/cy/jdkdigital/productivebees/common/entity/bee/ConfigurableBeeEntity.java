@@ -78,15 +78,14 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
         if (type.equals("productivebees:ghostly") && ProductiveBees.rand.nextFloat() < 0.02f) {
             this.setCustomName(new StringTextComponent("BooBee"));
-        }
-        else if (type.equals("productivebees:blitz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+        } else if (type.equals("productivebees:blitz") && ProductiveBees.rand.nextFloat() < 0.02f) {
             this.setCustomName(new StringTextComponent("King BitzBee"));
-        }
-        else if (type.equals("productivebees:basalz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+        } else if (type.equals("productivebees:basalz") && ProductiveBees.rand.nextFloat() < 0.02f) {
             this.setCustomName(new StringTextComponent("Queen BazBee"));
-        }
-        else if (type.equals("productivebees:blizz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+        } else if (type.equals("productivebees:blizz") && ProductiveBees.rand.nextFloat() < 0.02f) {
             this.setCustomName(new StringTextComponent("Shiny BizBee"));
+        } else if (type.equals("productivebees:destabilized_redstone") && ProductiveBees.rand.nextFloat() < 0.10f) {
+            this.setCustomName(new StringTextComponent("Destabilized RedaStone Bee"));
         }
 
         return super.onInitialSpawn(world, difficulty, spawnReason, livingEntityData, tag);
@@ -147,8 +146,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
         if (hasParticleColor()) {
             particle.setColor(getParticleColor());
-        }
-        else {
+        } else {
             particle.setColor(new float[]{0.92F, 0.782F, 0.72F});
         }
 
@@ -283,8 +281,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             if (nbt.contains("flowerTag")) {
                 ITag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
                 return flowerBlock.isIn(flowerTag);
-            }
-            else if (nbt.contains("flowerBlock")) {
+            } else if (nbt.contains("flowerBlock")) {
                 return flowerBlock.getRegistryName().toString().equals(nbt.getString("flowerBlock"));
             }
         }

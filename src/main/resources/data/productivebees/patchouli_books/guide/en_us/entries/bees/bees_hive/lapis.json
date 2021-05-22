@@ -1,0 +1,19 @@
+{
+    "name": "Lapis Bee",
+    "icon": "minecraft:lapis_lazuli",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:lapis",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Lapis Bee",
+            "text": "Bred from a $(l:bees/bees_hive/redstone)Redstone Bee$(/l) and a $(l:bees/bees_solitary/blue_banded)Blue Banded Bee$(/l).",
+            "anchor": "lapis"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:lapis'}"
+        }
+    ]
+}

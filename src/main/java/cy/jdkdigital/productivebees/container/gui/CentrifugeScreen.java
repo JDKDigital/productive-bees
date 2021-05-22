@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.tileentity.PoweredCentrifugeTileEntity;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -104,11 +105,14 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
         blit(matrixStack, this.guiLeft + 35, this.guiTop + 35, 202, 52, progress + 1, 16);
 
         // Draw energy level
-        this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
-            int energyAmount = handler.getEnergyStored();
-            int energyLevel = (int) (energyAmount * (52 / 10000F));
-            blit(matrixStack, this.guiLeft - 5, this.guiTop + 69, 206, 52, 4, -1 * energyLevel);
-        });
+        if (this.container.tileEntity instanceof PoweredCentrifugeTileEntity) {
+            blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
+            this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+                int energyAmount = handler.getEnergyStored();
+                int energyLevel = (int) (energyAmount * (52 / 10000F));
+                blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
+            });
+        }
 
         // Draw fluid tank
         this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {

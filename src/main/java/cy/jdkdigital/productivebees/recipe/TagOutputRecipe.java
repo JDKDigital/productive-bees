@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.recipe;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
@@ -60,7 +61,7 @@ public abstract class TagOutputRecipe
                 if (getModPreference().containsKey(modId)) {
                     priority = getModPreference().get(modId);
                 }
-                if (preferredItem == null || (priority >= 0 && priority < currBest)) {
+                if (preferredItem == null || (priority >= 0 && priority <= currBest)) {
                     preferredItem = item.copy();
                     currBest = priority;
                 }
@@ -92,7 +93,7 @@ public abstract class TagOutputRecipe
                                 priority = getModPreference().get(modId);
                             }
 
-                            if (preferredFluid == null || (priority >= 0 && priority < currBest)) {
+                            if (preferredFluid == null || (priority >= 0 && priority <= currBest)) {
                                 preferredFluid = fluid;
                                 currBest = priority;
                             }
