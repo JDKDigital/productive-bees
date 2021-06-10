@@ -1,11 +1,11 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
-import jdk.internal.jline.internal.Nullable;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;

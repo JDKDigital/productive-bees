@@ -48,7 +48,7 @@ public class BeeBlockReplacerRecipe implements IRecipe<IInventory>
             String parentName = source.get().getBeeType().toString();
 
             boolean matchesItem = false;
-            for (ItemStack stack : this.item.getMatchingStacks()) {
+            for (ItemStack stack : this.item.getItems()) {
                 if (stack.getItem().getRegistryName().toString().equals(itemName)) {
                     matchesItem = true;
                 }
@@ -62,18 +62,18 @@ public class BeeBlockReplacerRecipe implements IRecipe<IInventory>
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 
@@ -105,42 +105,42 @@ public class BeeBlockReplacerRecipe implements IRecipe<IInventory>
 
         @Nonnull
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
-            String source = JSONUtils.getString(json, "source");
-            String result = JSONUtils.getString(json, "result");
+        public T fromJson(ResourceLocation id, JsonObject json) {
+            String source = JSONUtils.getAsString(json, "source");
+            String result = JSONUtils.getAsString(json, "result");
 
             Lazy<BeeIngredient> sourceBee = Lazy.of(BeeIngredientFactory.getIngredient(source));
             Lazy<BeeIngredient> resultBee = Lazy.of(BeeIngredientFactory.getIngredient(result));
 
             Ingredient item;
-            if (JSONUtils.isJsonArray(json, "ingredient")) {
-                item = Ingredient.deserialize(JSONUtils.getJsonArray(json, "item"));
+            if (JSONUtils.isArrayNode(json, "ingredient")) {
+                item = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "item"));
             }
             else {
-                item = Ingredient.deserialize(JSONUtils.getJsonObject(json, "item"));
+                item = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "item"));
             }
 
-            int chance = JSONUtils.getInt(json, "chance", 100);
+            int chance = JSONUtils.getAsInt(json, "chance", 100);
 
             return this.factory.create(id, sourceBee, resultBee, item, chance);
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                BeeIngredient source = BeeIngredient.read(buffer);
-                BeeIngredient result = BeeIngredient.read(buffer);
-                return this.factory.create(id, Lazy.of(() -> source), Lazy.of(() -> result), Ingredient.read(buffer), buffer.readInt());
+                BeeIngredient source = BeeIngredient.fromNetwork(buffer);
+                BeeIngredient result = BeeIngredient.fromNetwork(buffer);
+                return this.factory.create(id, Lazy.of(() -> source), Lazy.of(() -> result), Ingredient.fromNetwork(buffer), buffer.readInt());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee conversion recipe from packet. " + id, e);
                 throw e;
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
-                recipe.source.get().write(buffer);
-                recipe.result.get().write(buffer);
-                recipe.item.write(buffer);
+                recipe.source.get().toNetwork(buffer);
+                recipe.result.get().toNetwork(buffer);
+                recipe.item.toNetwork(buffer);
                 buffer.writeInt(recipe.chance);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee conversion recipe to packet. " + recipe.getId(), e);

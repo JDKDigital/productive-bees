@@ -20,29 +20,29 @@ public class TreatOnAStick extends Item
 
     @Nonnull
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
-        if (world.isRemote) {
-            return ActionResult.resultPass(itemStack);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        if (world.isClientSide) {
+            return ActionResult.pass(itemStack);
         } else {
-            if (player.isPassenger() && player.getRidingEntity() instanceof BumbleBeeEntity) {
-                BumbleBeeEntity bumbleBee = (BumbleBeeEntity) player.getRidingEntity();
+            if (player.isPassenger() && player.getControllingPassenger() instanceof BumbleBeeEntity) {
+                BumbleBeeEntity bumbleBee = (BumbleBeeEntity) player.getControllingPassenger();
                 if (bumbleBee.boost()) {
-                    itemStack.damageItem(7, player, (entity) -> {
-                        entity.sendBreakAnimation(hand);
+                    itemStack.hurtAndBreak(7, player, (entity) -> {
+                        entity.broadcastBreakEvent(hand);
                     });
                     if (itemStack.isEmpty()) {
                         ItemStack rodStack = new ItemStack(Items.FISHING_ROD);
                         rodStack.setTag(itemStack.getTag());
-                        return ActionResult.resultSuccess(rodStack);
+                        return ActionResult.success(rodStack);
                     }
 
-                    return ActionResult.resultSuccess(itemStack);
+                    return ActionResult.success(itemStack);
                 }
             }
 
-            player.addStat(Stats.ITEM_USED.get(this));
-            return ActionResult.resultPass(itemStack);
+            player.awardStat(Stats.ITEM_USED.get(this));
+            return ActionResult.pass(itemStack);
         }
     }
 }

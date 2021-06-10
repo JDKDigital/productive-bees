@@ -41,8 +41,8 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
         ItemStack beeBombStack = null;
         int beeCount = 0;
         int bombBeeCount = 0;
-        for (int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack = inv.getStackInSlot(j);
+        for (int j = 0; j < inv.getContainerSize(); ++j) {
+            ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (beeBombStack == null && (itemstack.getItem().equals(ModItems.BEE_BOMB.get()) || itemstack.getItem().equals(ModItems.BEE_BOMB_ANGRY.get()))) {
                     beeBombStack = itemstack;
@@ -74,13 +74,13 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         // Combine bee cages with bee bomb
         ItemStack bomb = null;
         List<ItemStack> beeCages = new ArrayList<>();
 
-        for (int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack = inv.getStackInSlot(j);
+        for (int j = 0; j < inv.getContainerSize(); ++j) {
+            ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.BEE_BOMB.get()) || itemstack.getItem().equals(ModItems.BEE_BOMB_ANGRY.get())) {
                     bomb = itemstack;
@@ -104,13 +104,13 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width >= 2 && height >= 2;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return this.beeBomb;
     }
 
@@ -119,14 +119,14 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> list = NonNullList.create();
 
-        list.add(Ingredient.fromStacks(beeBomb.copy()));
+        list.add(Ingredient.of(beeBomb.copy()));
 
         ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
 
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString("entity", EntityType.getKey(EntityType.BEE).toString());
         cage.setTag(nbt);
-        list.add(Ingredient.fromStacks(cage));
+        list.add(Ingredient.of(cage));
 
         return list;
     }
@@ -152,22 +152,22 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
         }
 
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
+        public T fromJson(ResourceLocation id, JsonObject json) {
             return this.factory.create(id, new ItemStack(ModItems.BEE_BOMB.get()));
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                return this.factory.create(id, buffer.readItemStack());
+                return this.factory.create(id, buffer.readItem());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee bomb cage recipe from packet. " + id, e);
                 throw e;
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
-                buffer.writeItemStack(recipe.beeBomb);
+                buffer.writeItem(recipe.beeBomb);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee bomb cage recipe to packet. " + recipe.getId(), e);
                 throw e;

@@ -28,52 +28,51 @@ public class BottlerScreen extends ContainerScreen<BottlerContainer>
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.drawText(matrixStack, this.title, 8.0F, 6.0F, 4210752);
-        this.font.drawText(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
+    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
+        this.font.draw(matrixStack, this.title, 8.0F, 6.0F, 4210752);
+        this.font.draw(matrixStack, this.inventory.getName(), 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
 
         // Draw fluid tank
-        this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
 
             // Fluid level tooltip
-            if (isPointInRegion(139, 16, 6, 54, mouseX, mouseY)) {
+            if (isHovering(139, 16, 6, 54, mouseX, mouseY)) {
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").func_241878_f());
-                }
-                else {
-                    tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").func_241878_f());
+                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").getVisualOrderText());
+                } else {
+                    tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").getVisualOrderText());
                 }
 
-                renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
             }
         });
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         assert minecraft != null;
-        minecraft.textureManager.bindTexture(GUI_TEXTURE);
+        minecraft.textureManager.bind(GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        blit(matrixStack, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
 
         // Draw fluid tank
-        this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
             int fluidLevel = (int) (fluidStack.getAmount() * (52 / 10000F));
             if (fluidStack.getAmount() > 0) {
                 FluidContainerUtil.setColors(fluidStack);
 
-                FluidContainerUtil.drawTiledSprite(this.guiLeft + 140, this.guiTop + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
+                FluidContainerUtil.drawTiledSprite(this.getGuiLeft() + 140, this.getGuiTop() + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
 
                 FluidContainerUtil.resetColor();
             }

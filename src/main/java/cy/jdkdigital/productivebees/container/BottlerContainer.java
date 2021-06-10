@@ -33,9 +33,9 @@ public class BottlerContainer extends AbstractContainer
         super(ModContainerTypes.BOTTLER.get(), windowId);
 
         this.tileEntity = tileEntity;
-        this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
+        this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
 
-        trackIntArray(new IIntArray()
+        addDataSlots(new IIntArray()
         {
             @Override
             public int get(int i) {
@@ -53,9 +53,8 @@ public class BottlerContainer extends AbstractContainer
                         tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
                             FluidStack fluid = fluidHandler.getFluidInTank(0);
                             if (fluid.isEmpty()) {
-                                fluidHandler.fill(new FluidStack(Registry.FLUID.getByValue(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
-                            }
-                            else {
+                                fluidHandler.fill(new FluidStack(Registry.FLUID.byId(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
+                            } else {
                                 fluid.setAmount(value);
                             }
                         });
@@ -63,7 +62,7 @@ public class BottlerContainer extends AbstractContainer
             }
 
             @Override
-            public int size() {
+            public int getCount() {
                 return 2;
             }
         });
@@ -82,7 +81,7 @@ public class BottlerContainer extends AbstractContainer
     private static BottlerTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
+        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
         if (tileAtPos instanceof BottlerTileEntity) {
             return (BottlerTileEntity) tileAtPos;
         }
@@ -90,8 +89,8 @@ public class BottlerContainer extends AbstractContainer
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull final PlayerEntity player) {
-        return canInteractWithCallable.applyOrElse((world, pos) -> world.getBlockState(pos).getBlock() instanceof Bottler && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
+    public boolean stillValid(@Nonnull final PlayerEntity player) {
+        return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof Bottler && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
     }
 
     @Override

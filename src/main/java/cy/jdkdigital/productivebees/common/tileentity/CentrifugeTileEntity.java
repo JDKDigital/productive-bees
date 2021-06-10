@@ -85,7 +85,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         protected void onContentsChanged() {
             super.onContentsChanged();
             CentrifugeTileEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
-            CentrifugeTileEntity.this.markDirty();
+            CentrifugeTileEntity.this.setChanged();
         }
     });
 
@@ -114,45 +114,45 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
     @Override
     public void tick() {
-        if (world instanceof ServerWorld) {
+        if (level instanceof ServerWorld) {
             inventoryHandler.ifPresent(invHandler -> {
                 if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty() && canOperate()) {
                     // Process gene bottles
                     ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
                     if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {
-                        world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
+                        level.setBlockAndUpdate(worldPosition, getBlockState().setValue(Centrifuge.RUNNING, true));
                         int totalTime = getProcessingTime();
 
                         if (++this.recipeProgress >= totalTime) {
                             this.completeGeneProcessing(invHandler);
                             recipeProgress = 0;
-                            this.markDirty();
+                            this.setChanged();
                         }
                     } else if (invItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
-                        world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
+                        level.setBlockAndUpdate(worldPosition, getBlockState().setValue(Centrifuge.RUNNING, true));
                         int totalTime = getProcessingTime();
 
                         if (++this.recipeProgress >= totalTime) {
                             this.completeTreatProcessing(invHandler);
                             recipeProgress = 0;
-                            this.markDirty();
+                            this.setChanged();
                         }
                     } else {
                         CentrifugeRecipe recipe = getRecipe(invHandler);
                         if (canProcessRecipe(recipe, invHandler)) {
-                            world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, true));
+                            level.setBlockAndUpdate(worldPosition, getBlockState().setValue(Centrifuge.RUNNING, true));
                             int totalTime = getProcessingTime();
 
                             if (++this.recipeProgress >= totalTime) {
                                 this.completeRecipeProcessing(recipe, invHandler);
                                 recipeProgress = 0;
-                                this.markDirty();
+                                this.setChanged();
                             }
                         }
                     }
                 } else {
                     this.recipeProgress = 0;
-                    world.setBlockState(pos, getBlockState().with(Centrifuge.RUNNING, false));
+                    level.setBlockAndUpdate(worldPosition, getBlockState().setValue(Centrifuge.RUNNING, false));
                 }
 
                 // Pull items dropped on top
@@ -183,9 +183,9 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     }
 
     private List<ItemEntity> getCaptureItems() {
-        assert world != null;
+        assert level != null;
 
-        return Centrifuge.COLLECTION_AREA_SHAPE.toBoundingBoxList().stream().flatMap((blockPos) -> world.getEntitiesWithinAABB(ItemEntity.class, blockPos.offset(pos.getX(), pos.getY(), pos.getZ()), EntityPredicates.IS_ALIVE).stream()).collect(Collectors.toList());
+        return Centrifuge.COLLECTION_AREA_SHAPE.toAabbs().stream().flatMap((blockPos) -> level.getEntitiesOfClass(ItemEntity.class, blockPos.expandTowards(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()), EntityPredicates.ENTITY_STILL_ALIVE).stream()).collect(Collectors.toList());
     }
 
     private static void captureItem(IItemHandlerModifiable invHandler, ItemEntity itemEntity) {
@@ -209,10 +209,10 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
-        if (this.world != null) {
-            world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 2);
+    public void setChanged() {
+        super.setChanged();
+        if (this.level != null) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
         }
     }
 
@@ -227,21 +227,21 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
     private CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-        if (input.isEmpty() || input == ItemStack.EMPTY || world == null) {
+        if (input.isEmpty() || input == ItemStack.EMPTY || level == null) {
             return null;
         }
 
-        if (currentRecipe != null && currentRecipe.matches(new RecipeWrapper(inputHandler), world)) {
+        if (currentRecipe != null && currentRecipe.matches(new RecipeWrapper(inputHandler), level)) {
             return currentRecipe;
         }
 
-        currentRecipe = BeeHelper.getCentrifugeRecipe(world.getRecipeManager(), inputHandler);
+        currentRecipe = BeeHelper.getCentrifugeRecipe(level.getRecipeManager(), inputHandler);
 
-        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(CentrifugeRecipe.CENTRIFUGE);
+        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = level.getRecipeManager().byType(CentrifugeRecipe.CENTRIFUGE);
         IInventory inv = new RecipeWrapper(inputHandler);
         for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
             CentrifugeRecipe recipe = (CentrifugeRecipe) entry.getValue();
-            if (recipe.matches(inv, world)) {
+            if (recipe.matches(inv, level)) {
                 currentRecipe = recipe;
                 break;
             }
@@ -257,7 +257,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
             recipe.getRecipeOutputs().forEach((key, value) -> {
                 // Check for item with max possible output
-                ItemStack item = new ItemStack(key.getItem(), value.get(1).getInt());
+                ItemStack item = new ItemStack(key.getItem(), value.get(1).getAsInt());
                 outputList.add(item);
             });
 
@@ -265,7 +265,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             boolean fluidFlag = false;
             Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
             if (fluidOutput != null) {
-                fluidFlag = fluidInventory.map(h -> h.getFluidInTank(0).isEmpty() || h.getFluidInTank(0).getFluid().isEquivalentTo(fluidOutput.getFirst())).orElse(false);
+                fluidFlag = fluidInventory.map(h -> h.getFluidInTank(0).isEmpty() || h.getFluidInTank(0).getFluid().equals(fluidOutput.getFirst())).orElse(false);
             }
 
             return fluidFlag && ((InventoryHandlerHelper.ItemHandler) invHandler).canFitStacks(outputList);
@@ -276,8 +276,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
         if (canProcessRecipe(recipe, invHandler)) {
             recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
-                if (ProductiveBees.rand.nextInt(100) <= recipeValues.get(2).getInt()) {
-                    int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(recipeValues.get(0).getInt()), MathHelper.floor(recipeValues.get(1).getInt()));
+                if (ProductiveBees.rand.nextInt(100) <= recipeValues.get(2).getAsInt()) {
+                    int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(recipeValues.get(0).getAsInt()), MathHelper.floor(recipeValues.get(1).getAsInt()));
                     itemStack.setCount(count);
                     ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack.copy());
                 }
@@ -331,7 +331,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         ListNBT genes = HoneyTreat.getGenes(honeyTreat);
         if (!genes.isEmpty()) {
             for (INBT inbt : genes) {
-                ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
+                ItemStack insertedGene = ItemStack.of((CompoundNBT) inbt);
                 if (((CompoundNBT) inbt).contains("purity")) {
                     int purity = ((CompoundNBT) inbt).getInt("purity");
                     Gene.setPurity(insertedGene, purity);
@@ -344,8 +344,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
 
         recipeProgress = tag.getInt("RecipeProgress");
 
@@ -356,8 +356,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
     @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
-        tag = super.write(tag);
+    public CompoundNBT save(CompoundNBT tag) {
+        tag = super.save(tag);
 
         tag.putInt("RecipeProgress", recipeProgress);
 
@@ -376,14 +376,15 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         return super.getCapability(cap, side);
     }
 
+    @Nonnull
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(ModBlocks.CENTRIFUGE.get().getTranslationKey());
+        return new TranslationTextComponent(ModBlocks.CENTRIFUGE.get().getDescriptionId());
     }
 
     @Nullable
     @Override
-    public Container createMenu(final int windowId, final PlayerInventory playerInventory, final PlayerEntity player) {
+    public Container createMenu(final int windowId, @Nonnull final PlayerInventory playerInventory, @Nonnull final PlayerEntity player) {
         return new CentrifugeContainer(windowId, playerInventory, this);
     }
 }

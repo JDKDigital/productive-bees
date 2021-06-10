@@ -32,17 +32,17 @@ public class Bottler extends CapabilityContainerBlock
 {
     public static final BooleanProperty HAS_BOTTLE = BooleanProperty.create("has_bottle");
 
-    protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(
-            VoxelShapes.fullCube(),
+    protected static final VoxelShape SHAPE = VoxelShapes.join(
+            VoxelShapes.block(),
             VoxelShapes.or(
-                    makeCuboidShape(0.0D, 0.0D, 3.0D, 16.0D, 3.0D, 13.0D),
-                    makeCuboidShape(3.0D, 0.0D, 0.0D, 13.0D, 3.0D, 16.0D),
-                    makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 3.0D, 15.0D)
+                    box(0.0D, 0.0D, 3.0D, 16.0D, 3.0D, 13.0D),
+                    box(3.0D, 0.0D, 0.0D, 13.0D, 3.0D, 16.0D),
+                    box(1.0D, 0.0D, 1.0D, 15.0D, 3.0D, 15.0D)
             ), IBooleanFunction.ONLY_FIRST);
 
     public Bottler(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(HAS_BOTTLE, Boolean.FALSE));
+        this.registerDefaultState(defaultBlockState().setValue(HAS_BOTTLE, Boolean.FALSE));
     }
 
     @SuppressWarnings("deprecation")
@@ -55,19 +55,19 @@ public class Bottler extends CapabilityContainerBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (!world.isRemote()) {
-            final TileEntity tileEntity = world.getTileEntity(pos);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (!world.isClientSide()) {
+            final TileEntity tileEntity = world.getBlockEntity(pos);
 
             if (tileEntity != null) {
-                ItemStack heldItem = player.getHeldItem(handIn);
+                ItemStack heldItem = player.getItemInHand(handIn);
                 boolean itemUsed = false;
 
                 if (heldItem.getItem() instanceof BucketItem) {
@@ -87,7 +87,7 @@ public class Bottler extends CapabilityContainerBlock
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(HAS_BOTTLE);
     }
 
@@ -103,11 +103,12 @@ public class Bottler extends CapabilityContainerBlock
     }
 
     @Nullable
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    @Override
+    public TileEntity newBlockEntity(IBlockReader world) {
         return new BottlerTileEntity();
     }
 
     public void openGui(ServerPlayerEntity player, BottlerTileEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getPos()));
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

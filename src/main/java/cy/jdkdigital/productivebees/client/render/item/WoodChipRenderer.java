@@ -28,10 +28,10 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
     private static HashMap<String, TextureAtlasSprite> blockTextureLocations = new HashMap<>();
 
     protected void add(IVertexBuilder builder, MatrixStack matrixStack, float x, float y, float z, float u, float v) {
-        builder.pos(matrixStack.getLast().getMatrix(), x, y, z)
+        builder.vertex(matrixStack.last().pose(), x, y, z)
                 .color(1.0f, 1.0f, 1.0f, 1.0f)
-                .tex(u, v)
-                .lightmap(0, 240)
+                .uv(u, v)
+                .uv2(0, 240)
                 .normal(1, 0, 0)
                 .endVertex();
     }
@@ -42,32 +42,32 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
         float endX = toX / 16f;
         float endY = toY / 16f;
 
-        add(builder, matrixStack, startX, startY, 1, sprite.getInterpolatedU(fromX), sprite.getInterpolatedV(fromY));
-        add(builder, matrixStack, endX, startY, 1, sprite.getInterpolatedU(toX), sprite.getInterpolatedV(fromY));
-        add(builder, matrixStack, endX, endY, 1, sprite.getInterpolatedU(toX), sprite.getInterpolatedV(toY));
-        add(builder, matrixStack, startX, endY, 1, sprite.getInterpolatedU(fromX), sprite.getInterpolatedV(toY));
+        add(builder, matrixStack, startX, startY, 1, sprite.getU(fromX), sprite.getV(fromY));
+        add(builder, matrixStack, endX, startY, 1, sprite.getU(toX), sprite.getV(fromY));
+        add(builder, matrixStack, endX, endY, 1, sprite.getU(toX), sprite.getV(toY));
+        add(builder, matrixStack, startX, endY, 1, sprite.getU(fromX), sprite.getV(toY));
 
-        add(builder, matrixStack, startX, endY, 1, sprite.getInterpolatedU(fromX), sprite.getInterpolatedV(toY));
-        add(builder, matrixStack, endX, endY, 1, sprite.getInterpolatedU(toX), sprite.getInterpolatedV(toY));
-        add(builder, matrixStack, endX, startY, 1, sprite.getInterpolatedU(toX), sprite.getInterpolatedV(fromY));
-        add(builder, matrixStack, startX, startY, 1, sprite.getInterpolatedU(fromX), sprite.getInterpolatedV(fromY));
+        add(builder, matrixStack, startX, endY, 1, sprite.getU(fromX), sprite.getV(toY));
+        add(builder, matrixStack, endX, endY, 1, sprite.getU(toX), sprite.getV(toY));
+        add(builder, matrixStack, endX, startY, 1, sprite.getU(toX), sprite.getV(fromY));
+        add(builder, matrixStack, startX, startY, 1, sprite.getU(fromX), sprite.getV(fromY));
     }
 
     @Override
-    public void func_239207_a_(ItemStack itemStack, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int packedLightIn, int packedUV) {
+    public void renderByItem(ItemStack itemStack, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int packedLightIn, int packedUV) {
         Item item = itemStack.getItem();
 
         if (item instanceof WoodChip) {
-            IVertexBuilder builder = renderTypeBuffer.getBuffer(RenderType.getCutout());
+            IVertexBuilder builder = renderTypeBuffer.getBuffer(RenderType.cutout());
 
             Block woodBlock = WoodChip.getBlock(itemStack);
             if (woodBlock != null && woodBlock != Blocks.AIR) {
                 TextureAtlasSprite sprite = getBlockSprite(woodBlock);
 
                 if (sprite != null) {
-                    matrixStack.push();
+                    matrixStack.pushPose();
                     matrixStack.translate(0.5, 0.5, 0.5);
-                    if (!itemStack.isOnItemFrame()) {
+                    if (!itemStack.isFramed()) {
                         matrixStack.scale(.5f, .5f, .5f);
                     }
                     matrixStack.translate(-.5, -.5, -1.0f);
@@ -83,7 +83,7 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
                     addBox(builder, matrixStack, sprite, 5, 12, 8, 13);
                     addBox(builder, matrixStack, sprite, 6, 13, 7, 14);
 
-                    matrixStack.pop();
+                    matrixStack.popPose();
                 }
             }
         }
@@ -95,10 +95,10 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
             return blockTextureLocations.get(woodName);
         }
 
-        BlockRendererDispatcher manager = Minecraft.getInstance().getBlockRendererDispatcher();
-        IBakedModel model = manager.getModelForState(block.getDefaultState());
+        BlockRendererDispatcher manager = Minecraft.getInstance().getBlockRenderer();
+        IBakedModel model = manager.getBlockModel(block.defaultBlockState());
 
-        List<BakedQuad> quads = model.getQuads(block.getDefaultState(), Direction.NORTH, new Random());
+        List<BakedQuad> quads = model.getQuads(block.defaultBlockState(), Direction.NORTH, new Random());
         if (quads.isEmpty()) {
             return null;
         }

@@ -21,7 +21,7 @@ public class BambooHive extends AdvancedBeehiveAbstract
 
     public BambooHive(Properties properties) {
         super(properties);
-        this.setDefaultState(this.getDefaultState().with(AXIS, Direction.Axis.Y));
+        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y));
     }
 
     public int getMaxHoneyLevel() {
@@ -36,19 +36,20 @@ public class BambooHive extends AdvancedBeehiveAbstract
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    public TileEntity newBlockEntity(IBlockReader world) {
         return new SolitaryHiveTileEntity();
     }
 
+    @Override
     public BlockState rotate(BlockState state, Rotation rotation) {
         switch (rotation) {
             case COUNTERCLOCKWISE_90:
             case CLOCKWISE_90:
-                switch (state.get(AXIS)) {
+                switch (state.getValue(AXIS)) {
                     case X:
-                        return state.with(AXIS, Direction.Axis.Z);
+                        return state.setValue(AXIS, Direction.Axis.Z);
                     case Z:
-                        return state.with(AXIS, Direction.Axis.X);
+                        return state.setValue(AXIS, Direction.Axis.X);
                     default:
                         return state;
                 }
@@ -58,12 +59,12 @@ public class BambooHive extends AdvancedBeehiveAbstract
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.FACING, AXIS);
     }
 
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(AXIS, context.getFace().getAxis());
+        return this.defaultBlockState().setValue(AXIS, context.getHorizontalDirection().getAxis());
     }
 
     static {

@@ -40,29 +40,29 @@ public class JarTileEntityRenderer extends TileEntityRenderer<JarTileEntity>
     }
 
     public static void renderBee(Entity bee, float partialTicks, MatrixStack matrixStack) {
-        bee.ticksExisted = bee.ticksExisted + Math.round(partialTicks);
-        ((BeeEntity) bee).renderYawOffset = -20;
+        bee.tickCount = bee.tickCount + Math.round(partialTicks);
+        ((BeeEntity) bee).yBodyRot = -20;
 
-        float angle = bee.ticksExisted % 360;
+        float angle = bee.tickCount % 360;
 
         float f = 0.47F;
-        float f1 = Math.max(bee.getWidth(), bee.getHeight());
+        float f1 = Math.max(bee.getBbWidth(), bee.getBbHeight());
         if ((double) f1 > 1.0D) {
             f /= f1;
         }
 
-        matrixStack.push();
+        matrixStack.pushPose();
         matrixStack.translate(0.5f, 0.4f, 0.5f);
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(angle));
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(angle));
         matrixStack.translate(0.0f, -0.2f, 0.0f);
         matrixStack.scale(f, f, f);
 
-        EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
-        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+        EntityRendererManager entityrenderermanager = Minecraft.getInstance().getEntityRenderDispatcher();
+        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         entityrenderermanager.setRenderShadow(false);
-        entityrenderermanager.renderEntityStatic(bee, 0, 0, 0., Minecraft.getInstance().getRenderPartialTicks(), 1, matrixStack, buffer, 15728880);
-        buffer.finish();
+        entityrenderermanager.render(bee, 0, 0, 0., Minecraft.getInstance().getFrameTime(), 1, matrixStack, buffer, 15728880);
+        buffer.endBatch();
 
-        matrixStack.pop();
+        matrixStack.popPose();
     }
 }

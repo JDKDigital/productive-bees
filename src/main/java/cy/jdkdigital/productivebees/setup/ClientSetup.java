@@ -53,35 +53,35 @@ import javax.annotation.Nullable;
 public class ClientSetup
 {
     public static void init(final FMLClientSetupEvent event) {
-        ScreenManager.registerFactory(ModContainerTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveScreen::new);
-        ScreenManager.registerFactory(ModContainerTypes.CENTRIFUGE.get(), CentrifugeScreen::new);
-        ScreenManager.registerFactory(ModContainerTypes.POWERED_CENTRIFUGE.get(), CentrifugeScreen::new);
-        ScreenManager.registerFactory(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
-        ScreenManager.registerFactory(ModContainerTypes.FEEDER.get(), FeederScreen::new);
-        ScreenManager.registerFactory(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);
-        ScreenManager.registerFactory(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
-        ScreenManager.registerFactory(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
+        ScreenManager.register(ModContainerTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveScreen::new);
+        ScreenManager.register(ModContainerTypes.CENTRIFUGE.get(), CentrifugeScreen::new);
+        ScreenManager.register(ModContainerTypes.POWERED_CENTRIFUGE.get(), CentrifugeScreen::new);
+        ScreenManager.register(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
+        ScreenManager.register(ModContainerTypes.FEEDER.get(), FeederScreen::new);
+        ScreenManager.register(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);
+        ScreenManager.register(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
+        ScreenManager.register(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
 
-        ItemModelsProperties.registerProperty(ModItems.BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
-        ItemModelsProperties.registerProperty(ModItems.STURDY_BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
-        ItemModelsProperties.registerProperty(ModItems.BEE_BOMB.get(), new ResourceLocation("loaded"), (stack, world, entity) -> BeeBomb.isLoaded(stack) ? 1.0F : 0.0F);
-        ItemModelsProperties.registerProperty(ModItems.HONEY_TREAT.get(), new ResourceLocation("genetic"), (stack, world, entity) -> HoneyTreat.hasGene(stack) ? 1.0F : 0.0F);
-        ItemModelsProperties.registerProperty(ModItems.NEST_LOCATOR.get(), new ResourceLocation("angle"), new IItemPropertyGetter()
+        ItemModelsProperties.register(ModItems.BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
+        ItemModelsProperties.register(ModItems.STURDY_BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
+        ItemModelsProperties.register(ModItems.BEE_BOMB.get(), new ResourceLocation("loaded"), (stack, world, entity) -> BeeBomb.isLoaded(stack) ? 1.0F : 0.0F);
+        ItemModelsProperties.register(ModItems.HONEY_TREAT.get(), new ResourceLocation("genetic"), (stack, world, entity) -> HoneyTreat.hasGene(stack) ? 1.0F : 0.0F);
+        ItemModelsProperties.register(ModItems.NEST_LOCATOR.get(), new ResourceLocation("angle"), new IItemPropertyGetter()
         {
             private double rotation;
             private double rota;
             private long lastUpdateTick;
 
             public float call(@Nonnull ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity player) {
-                if ((player != null || stack.isOnItemFrame()) && NestLocator.hasPosition(stack)) {
+                if ((player != null || stack.isFramed()) && NestLocator.hasPosition(stack)) {
                     boolean flag = player != null;
-                    Entity entity = flag ? player : stack.getItemFrame();
-                    if (world == null && entity != null && entity.world instanceof ClientWorld) {
-                        world = (ClientWorld) entity.world;
+                    Entity entity = flag ? player : stack.getFrame();
+                    if (world == null && entity != null && entity.level instanceof ClientWorld) {
+                        world = (ClientWorld) entity.level;
                     }
                     BlockPos pos = NestLocator.getPosition(stack);
                     if (entity != null && world != null && pos != null) {
-                        double d1 = flag ? (double) entity.rotationYaw : this.getFrameRotation((ItemFrameEntity) entity);
+                        double d1 = flag ? (double) entity.yRot : this.getFrameRotation((ItemFrameEntity) entity);
                         d1 = MathHelper.positiveModulo(d1 / 360.0D, 1.0D);
                         double d2 = this.getPositionToAngle(pos, entity) / (double) ((float) Math.PI * 2F);
                         double d0 = 0.5D - (d1 - 0.25D - d2);
@@ -110,11 +110,11 @@ public class ClientSetup
             }
 
             private double getFrameRotation(ItemFrameEntity frameEntity) {
-                return MathHelper.wrapDegrees(180 + frameEntity.getHorizontalFacing().getHorizontalIndex() * 90);
+                return MathHelper.wrapDegrees(180 + frameEntity.getDirection().get2DDataValue() * 90);
             }
 
             private double getPositionToAngle(BlockPos blockpos, Entity entityIn) {
-                return Math.atan2((double) blockpos.getZ() - entityIn.getPosZ(), (double) blockpos.getX() - entityIn.getPosX());
+                return Math.atan2((double) blockpos.getZ() - entityIn.getZ(), (double) blockpos.getX() - entityIn.getX());
             }
         });
 
@@ -129,16 +129,16 @@ public class ClientSetup
     }
 
     public static void registerParticles(final ParticleFactoryRegisterEvent event) {
-        Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_FALLING_NECTAR.get(), FallingNectarParticle.FallingNectarFactory::new);
-        Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_POPPING_NECTAR.get(), PoppingNectarParticle.PoppingNectarFactory::new);
-        Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_LAVA_NECTAR.get(), LavaNectarParticle.LavaNectarFactory::new);
-        Minecraft.getInstance().particles.registerFactory(ModParticles.COLORED_PORTAL_NECTAR.get(), PortalNectarParticle.PortalNectarFactory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.COLORED_FALLING_NECTAR.get(), FallingNectarParticle.FallingNectarFactory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.COLORED_POPPING_NECTAR.get(), PoppingNectarParticle.PoppingNectarFactory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.COLORED_LAVA_NECTAR.get(), LavaNectarParticle.LavaNectarFactory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.COLORED_PORTAL_NECTAR.get(), PortalNectarParticle.PortalNectarFactory::new);
     }
 
     private static void registerEntityRendering() {
         for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
             EntityType<?> bee = registryObject.get();
-            String key = bee.getTranslationKey();
+            String key = bee.getDescriptionId();
             if (key.contains("dye_bee")) {
                 RenderingRegistry.registerEntityRenderingHandler((EntityType<? extends ProductiveBeeEntity>) bee, DyeBeeRenderer::new);
             } else if (key.contains("rancher_bee") || key.contains("farmer_bee")) {
@@ -159,11 +159,11 @@ public class ClientSetup
     }
 
     private static void registerBlockRendering() {
-        RenderTypeLookup.setRenderLayer(ModBlocks.COMB_GHOSTLY.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(ModBlocks.SLIMY_NEST.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(ModBlocks.BUMBLE_BEE_NEST.get(), RenderType.getCutoutMipped());
-        RenderTypeLookup.setRenderLayer(ModBlocks.SUGAR_CANE_NEST.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.JAR.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.INVISIBLE_REDSTONE_BLOCK.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.COMB_GHOSTLY.get(), RenderType.translucent());
+        RenderTypeLookup.setRenderLayer(ModBlocks.SLIMY_NEST.get(), RenderType.translucent());
+        RenderTypeLookup.setRenderLayer(ModBlocks.BUMBLE_BEE_NEST.get(), RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.SUGAR_CANE_NEST.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.JAR.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.INVISIBLE_REDSTONE_BLOCK.get(), RenderType.cutout());
     }
 }

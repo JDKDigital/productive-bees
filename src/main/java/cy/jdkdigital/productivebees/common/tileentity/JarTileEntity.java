@@ -27,7 +27,7 @@ public class JarTileEntity extends TileEntity
     @Nullable
     private Entity cachedEntity;
 
-    public int ticksExisted = 0;
+    public int tickCount = 0;
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(1, this)
     {
@@ -50,8 +50,8 @@ public class JarTileEntity extends TileEntity
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
 
-            if (tileEntity.hasWorld()) {
-                tileEntity.getWorld().notifyBlockUpdate(tileEntity.getPos(), tileEntity.getBlockState(), tileEntity.getBlockState(), Constants.BlockFlags.DEFAULT);
+            if (tileEntity.hasLevel()) {
+                tileEntity.getLevel().sendBlockUpdated(tileEntity.getBlockPos(), tileEntity.getBlockState(), tileEntity.getBlockState(), Constants.BlockFlags.DEFAULT);
             }
         }
     });
@@ -72,12 +72,12 @@ public class JarTileEntity extends TileEntity
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
+        return new SUpdateTileEntityPacket(this.getBlockPos(), -1, this.getUpdateTag());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(null, pkt.getNbtCompound());
+        handleUpdateTag(null, pkt.getTag());
     }
 
     @Override
@@ -94,26 +94,26 @@ public class JarTileEntity extends TileEntity
     @Nullable
     public Entity getCachedEntity(ItemStack cage) {
         if (this.cachedEntity == null) {
-            this.cachedEntity = BeeCage.getEntityFromStack(cage, this.getWorld(), false);
+            this.cachedEntity = BeeCage.getEntityFromStack(cage, this.getLevel(), false);
         }
 
         return this.cachedEntity;
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
 
         CompoundNBT invTag = tag.getCompound("inv");
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
 
-        ticksExisted = ProductiveBees.rand.nextInt(360);
+        tickCount = ProductiveBees.rand.nextInt(360);
     }
 
     @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
-        tag = super.write(tag);
+    public CompoundNBT save(CompoundNBT tag) {
+        tag = super.save(tag);
 
         CompoundNBT finalTag = tag;
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {

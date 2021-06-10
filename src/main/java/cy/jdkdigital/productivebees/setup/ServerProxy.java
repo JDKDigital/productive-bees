@@ -11,7 +11,7 @@ public class ServerProxy implements IProxy
     public World getWorld() {
         ServerWorld world = null;
         try {
-            world = ServerLifecycleHooks.getCurrentServer().func_241755_D_();
+            world = ServerLifecycleHooks.getCurrentServer().overworld();
         } catch (Exception e) {
             // Ignore for now
         }

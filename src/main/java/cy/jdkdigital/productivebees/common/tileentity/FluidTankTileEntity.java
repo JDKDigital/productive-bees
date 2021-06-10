@@ -31,7 +31,7 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
 
     @Override
     public void tick() {
-        if (world != null && !world.isRemote) {
+        if (level != null && !level.isClientSide) {
             if (++this.tankTick > 21) {
                 this.tankTick = 0;
                 tickFluidTank();
@@ -42,14 +42,14 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
     public void tickFluidTank() {
         this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
             FluidStack fluidStack = fluidHandler.getFluidInTank(0);
-            if (fluidStack.getAmount() >= 0 && world instanceof ServerWorld) {
+            if (fluidStack.getAmount() >= 0 && level instanceof ServerWorld) {
                 this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(invHandler -> {
                     ItemStack fluidContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                     ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
                     if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {
                         // Loop up bottler recipes from input
                         List<BottlerRecipe> recipes = new ArrayList<>();
-                        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BottlerRecipe.BOTTLER);
+                        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = level.getRecipeManager().byType(BottlerRecipe.BOTTLER);
                         for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
                             BottlerRecipe recipe = (BottlerRecipe) entry.getValue();
                             if (recipe.matches(fluidStack, fluidContainerItem)) {
@@ -59,8 +59,8 @@ public abstract class FluidTankTileEntity extends CapabilityTileEntity implement
 
                         if (recipes.size() > 0) {
                             BottlerRecipe recipe = recipes.iterator().next();
-                            if (existingOutput.isEmpty() || existingOutput.getItem().equals(recipe.getRecipeOutput().getItem())) {
-                                processOutput(fluidHandler, invHandler, recipe.getRecipeOutput(), recipe.fluidInput.getSecond(), true);
+                            if (existingOutput.isEmpty() || existingOutput.getItem().equals(recipe.getResultItem().getItem())) {
+                                processOutput(fluidHandler, invHandler, recipe.getResultItem(), recipe.fluidInput.getSecond(), true);
                             }
                         } else if (fluidContainerItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()) {
                             // try filling fluid container

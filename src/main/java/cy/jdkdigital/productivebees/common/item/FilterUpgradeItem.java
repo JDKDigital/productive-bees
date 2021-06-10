@@ -44,7 +44,7 @@ public class FilterUpgradeItem extends UpgradeItem
             }
 
             for (INBT inbtType: (ListNBT) list) {
-                if (inbtType.getString().equals(type)) {
+                if (inbtType.getAsString().equals(type)) {
                     return;
                 }
             }
@@ -66,7 +66,7 @@ public class FilterUpgradeItem extends UpgradeItem
 
             if (list != null) {
                 for (INBT type: list) {
-                    beeList.add(BeeIngredientFactory.getIngredient(type.getString()));
+                    beeList.add(BeeIngredientFactory.getIngredient(type.getAsString()));
                 }
             }
         }
@@ -74,25 +74,25 @@ public class FilterUpgradeItem extends UpgradeItem
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, world, tooltip, flagIn);
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, world, tooltip, flagIn);
         List<Supplier<BeeIngredient>> beeList = getAllowedBees(stack);
 
         for (Supplier<BeeIngredient> allowedBee: beeList) {
-            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter_entity", allowedBee.get().getBeeType()).mergeStyle(TextFormatting.GOLD));
+            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter_entity", allowedBee.get().getBeeType()).withStyle(TextFormatting.GOLD));
         }
         
         if (!beeList.isEmpty()) {
-            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter").mergeStyle(TextFormatting.WHITE));
+            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter").withStyle(TextFormatting.WHITE));
         } else {
-            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter_empty").mergeStyle(TextFormatting.WHITE));
+            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter_empty").withStyle(TextFormatting.WHITE));
         }
     }
 
     @Nonnull
     @Override
-    public ActionResultType itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity targetIn, Hand hand) {
-        if (targetIn.getEntityWorld().isRemote() || !(targetIn instanceof BeeEntity)) {
+    public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity player, LivingEntity targetIn, Hand hand) {
+        if (targetIn.getCommandSenderWorld().isClientSide() || !(targetIn instanceof BeeEntity)) {
             return ActionResultType.PASS;
         }
 
@@ -102,7 +102,7 @@ public class FilterUpgradeItem extends UpgradeItem
             // Replace held item
             ItemStack newStack = new ItemStack(itemStack.getItem());
             newStack.setTag(itemStack.getTag());
-            player.inventory.setPickedItemStack(newStack);
+            player.inventory.setPickedItem(newStack);
         }
 
         return ActionResultType.SUCCESS;

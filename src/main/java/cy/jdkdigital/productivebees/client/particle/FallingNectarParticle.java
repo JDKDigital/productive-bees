@@ -15,14 +15,14 @@ public class FallingNectarParticle extends DripParticle
 {
     public FallingNectarParticle(ClientWorld world, double x, double y, double z, Fluid fluid) {
         super(world, x, y, z, fluid);
-        this.maxAge = (int) (16.0D / (ProductiveBees.rand.nextDouble() * 0.8D + 0.2D));
-        this.particleGravity = 0.007F;
+        this.lifetime = (int) (16.0D / (ProductiveBees.rand.nextDouble() * 0.8D + 0.2D));
+        this.gravity = 0.007F;
     }
 
     @Override
-    protected void updateMotion() {
+    protected void postMoveUpdate() {
         if (this.onGround) {
-            this.setExpired();
+            this.remove();
         }
     }
 
@@ -35,7 +35,7 @@ public class FallingNectarParticle extends DripParticle
         }
 
         @Override
-        public Particle makeParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             DripParticle dripparticle = new FallingNectarParticle(world, x, y, z, Fluids.EMPTY);
 
             float[] colors = typeIn.getColor();
@@ -46,7 +46,7 @@ public class FallingNectarParticle extends DripParticle
                 dripparticle.setColor(0.92F, 0.782F, 0.72F);
             }
 
-            dripparticle.selectSpriteRandomly(this.sprite);
+            dripparticle.pickSprite(this.sprite);
 
             return dripparticle;
         }

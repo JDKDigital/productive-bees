@@ -58,19 +58,19 @@ public class WoodChip extends Item
 
     @Override
     @Nonnull
-    public ITextComponent getDisplayName(@Nonnull ItemStack stack) {
+    public ITextComponent getName(@Nonnull ItemStack stack) {
         Block block = getBlock(stack);
         if (block != null) {
-            return new TranslationTextComponent(this.getTranslationKey() + ".named", new TranslationTextComponent(block.getTranslationKey()));
+            return new TranslationTextComponent(this.getDescriptionId() + ".named", new TranslationTextComponent(block.getDescriptionId()));
         }
-        return super.getDisplayName(stack);
+        return super.getName(stack);
     }
 
     @Override
-    public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
-        if (this.isInGroup(group)) {
+    public void fillItemCategory(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
+        if (this.allowdedIn(group)) {
             try {
-                BlockTags.LOGS.getAllElements().forEach(block -> {
+                BlockTags.LOGS.getValues().forEach(block -> {
                     if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") && !block.getRegistryName().getPath().contains("stripped")) {
                         items.add(getStack(block));
                     }

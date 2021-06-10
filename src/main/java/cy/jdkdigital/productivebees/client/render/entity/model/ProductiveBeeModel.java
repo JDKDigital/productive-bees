@@ -38,8 +38,8 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
     public ProductiveBeeModel(boolean isChildHeadScaled, float childHeadOffsetY, float childHeadOffsetZ) {
         super(isChildHeadScaled, childHeadOffsetY, childHeadOffsetZ);
 
-        textureWidth = 64;
-        textureHeight = 64;
+        texWidth = 64;
+        texHeight = 64;
 
         body = new ModelRenderer(this);
         torso = new ModelRenderer(this);
@@ -98,63 +98,63 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
     }
 
     @Override
-    public void setLivingAnimations(T entity, float limbSwing, float limbSwingAmount, float partialTicks) {
-        super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
-        bodyPitch = entity.getBodyPitch(partialTicks);
-        stinger.showModel = !entity.hasStung();
+    public void prepareMobModel(T entity, float limbSwing, float limbSwingAmount, float partialTicks) {
+        super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
+        bodyPitch = entity.getRollAmount(partialTicks);
+        stinger.visible = !entity.hasStung();
         if (entity instanceof ConfigurableBeeEntity && ((ConfigurableBeeEntity) entity).isStingless()) {
-            stinger.showModel = false;
+            stinger.visible = false;
         }
     }
 
     @Override
-    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        leftAntenna.rotateAngleX = 0.0F;
-        rightAntenna.rotateAngleX = 0.0F;
-        body.rotateAngleX = 0.0F;
-        body.rotationPointY = 19.0F;
-        boolean grounded = entity.isOnGround() && entity.getMotion().lengthSquared() < 1.0E-7D;
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        leftAntenna.xRot = 0.0F;
+        rightAntenna.xRot = 0.0F;
+        body.xRot = 0.0F;
+        body.y = 19.0F;
+        boolean grounded = entity.isOnGround() && entity.getDeltaMovement().lengthSqr() < 1.0E-7D;
         if (grounded) {
             setRotationAngle(rightWing, 0, -0.2618F, 0);
             setRotationAngle(leftWing, 0, 0.2618F, 0);
-            frontLegs.rotateAngleX = 0.0F;
-            middleLegs.rotateAngleX = 0.0F;
-            backLegs.rotateAngleX = 0.0F;
+            frontLegs.xRot = 0.0F;
+            middleLegs.xRot = 0.0F;
+            backLegs.xRot = 0.0F;
         }
         else {
-            // maxSpeed - (sizeMod - minSize)/(maxSize - minSize) * (maxSpeed - minSpeed)
+            // maxSpeed - (sizeMod - minSize)/(magetXSize() - minSize) * (maxSpeed - minSpeed)
             setRotationAngle(rightWing, 0, 0, MathHelper.cos(ageInTicks % 98000 * 2.1F) * FAKE_PI * 0.15F);
-            setRotationAngle(leftWing, rightWing.rotateAngleX, rightWing.rotateAngleY, -rightWing.rotateAngleZ);
-            frontLegs.rotateAngleX = 0.7853982F;
-            middleLegs.rotateAngleX = 0.7853982F;
-            backLegs.rotateAngleX = 0.7853982F;
+            setRotationAngle(leftWing, rightWing.xRot, rightWing.yRot, -rightWing.zRot);
+            frontLegs.xRot = 0.7853982F;
+            middleLegs.xRot = 0.7853982F;
+            backLegs.xRot = 0.7853982F;
             setRotationAngle(body, 0, 0, 0);
         }
 
         if (!entity.isAngry()) {
-            body.rotateAngleX = 0.0F;
-            body.rotateAngleY = 0.0F;
-            body.rotateAngleZ = 0.0F;
+            body.xRot = 0.0F;
+            body.yRot = 0.0F;
+            body.zRot = 0.0F;
             if (!grounded) {
                 float angle = MathHelper.cos(ageInTicks * 0.18F);
-                body.rotateAngleX = 0.1F + angle * FAKE_PI * 0.025F;
-                leftAntenna.rotateAngleX = angle * FAKE_PI * 0.03F;
-                rightAntenna.rotateAngleX = angle * FAKE_PI * 0.03F;
-                frontLegs.rotateAngleX = -angle * FAKE_PI * 0.1F + 0.3926991F;
+                body.xRot = 0.1F + angle * FAKE_PI * 0.025F;
+                leftAntenna.xRot = angle * FAKE_PI * 0.03F;
+                rightAntenna.xRot = angle * FAKE_PI * 0.03F;
+                frontLegs.xRot = -angle * FAKE_PI * 0.1F + 0.3926991F;
                 if (!entity.getRenderer().equals("thicc")) {
-                    backLegs.rotateAngleX = -angle * FAKE_PI * 0.05F + 0.7853982F;
+                    backLegs.xRot = -angle * FAKE_PI * 0.05F + 0.7853982F;
                 }
-                body.rotationPointY = 19.0F - angle * 0.9F;
+                body.y = 19.0F - angle * 0.9F;
             }
         }
 
         if (bodyPitch > 0.0F) {
-            body.rotateAngleX = ModelUtils.func_228283_a_(body.rotateAngleX, 3.0915928F, bodyPitch);
+            body.xRot = ModelUtils.rotlerpRad(body.xRot, 3.0915928F, bodyPitch);
         }
 
         beeSize = entity.getSizeModifier();
 
-        if (isChild) {
+        if (young) {
             beeSize /= 2;
         }
     }
@@ -164,22 +164,22 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
     }
 
     @Override
-    protected Iterable<ModelRenderer> getHeadParts() {
+    protected Iterable<ModelRenderer> headParts() {
         return ImmutableList.of();
     }
 
     @Override
-    protected Iterable<ModelRenderer> getBodyParts() {
+    protected Iterable<ModelRenderer> bodyParts() {
         return ImmutableList.of(body);
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder renderBuffer, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        matrixStackIn.push();
+    public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder renderBuffer, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        matrixStackIn.pushPose();
         matrixStackIn.translate(0, 1.5 - beeSize * 1.5, 0);
         matrixStackIn.scale(beeSize, beeSize, beeSize);
-        super.render(matrixStackIn, renderBuffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        matrixStackIn.pop();
+        super.renderToBuffer(matrixStackIn, renderBuffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        matrixStackIn.popPose();
     }
 
     protected void addBodyParts(boolean withTorso) {
@@ -188,8 +188,8 @@ public class ProductiveBeeModel<T extends ProductiveBeeEntity> extends AgeableMo
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
+        modelRenderer.xRot = x;
+        modelRenderer.yRot = y;
+        modelRenderer.zRot = z;
     }
 }

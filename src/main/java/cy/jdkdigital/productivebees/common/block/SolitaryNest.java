@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -11,6 +12,7 @@ import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -24,6 +26,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -41,7 +46,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
     public SolitaryNest(Properties properties) {
         super(properties);
-        this.setDefaultState(this.getDefaultState().with(BlockStateProperties.FACING, Direction.NORTH));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.NORTH));
     }
 
     public int getMaxHoneyLevel() {
@@ -52,7 +57,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         List<BeeSpawningRecipe> spawningRecipes = getSpawningRecipes(world, biome);
         if (!spawningRecipes.isEmpty()) {
             BeeSpawningRecipe spawningRecipe = spawningRecipes.get(ProductiveBees.rand.nextInt(spawningRecipes.size()));
-            BeeIngredient beeIngredient = spawningRecipe.output.get(world.rand.nextInt(spawningRecipe.output.size())).get();
+            BeeIngredient beeIngredient = spawningRecipe.output.get(world.random.nextInt(spawningRecipe.output.size())).get();
             Entity bee = beeIngredient.getBeeEntity().create(world);
             if (bee instanceof ConfigurableBeeEntity) {
                 ((ConfigurableBeeEntity) bee).setBeeType(beeIngredient.getBeeType().toString());
@@ -67,8 +72,8 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         // Get and cache recipes for nest type
         if (recipes.isEmpty()) {
             Map<ResourceLocation, IRecipe<IInventory>> allRecipes = new HashMap<>();
-            allRecipes.putAll(world.getRecipeManager().getRecipes(BeeSpawningBigRecipe.BEE_SPAWNING));
-            allRecipes.putAll(world.getRecipeManager().getRecipes(BeeSpawningRecipe.BEE_SPAWNING));
+            allRecipes.putAll(world.getRecipeManager().byType(BeeSpawningBigRecipe.BEE_SPAWNING));
+            allRecipes.putAll(world.getRecipeManager().byType(BeeSpawningRecipe.BEE_SPAWNING));
             ItemStack nestItem = new ItemStack(ForgeRegistries.ITEMS.getValue(this.getRegistryName()));
             for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
                 BeeSpawningRecipe recipe = (BeeSpawningRecipe) entry.getValue();
@@ -82,10 +87,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         if (!recipes.isEmpty()) {
             for (BeeSpawningRecipe recipe : recipes) {
                 if (
-                        (
-                                (recipe.biomes.isEmpty() && world.getDimensionKey() == World.OVERWORLD) ||
-                                        recipe.biomes.contains(biome.getCategory().getName())
-                        )
+                        (recipe.biomes.isEmpty() && world.dimension() == World.OVERWORLD) || recipe.biomes.contains(biome.getBiomeCategory().getName())
                 ) {
                     spawningRecipes.add(recipe);
                 }
@@ -102,27 +104,27 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    public TileEntity newBlockEntity(IBlockReader world) {
         return new SolitaryNestTileEntity();
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext itemUseContext) {
-        return this.getDefaultState().with(BlockStateProperties.FACING, itemUseContext.getNearestLookingDirection().getOpposite());
+        return this.defaultBlockState().setValue(BlockStateProperties.FACING, itemUseContext.getNearestLookingDirection().getOpposite());
     }
 
     @Override
     public BlockState rotate(BlockState state, Rotation rotation) {
-        return state.with(BlockStateProperties.FACING, rotation.rotate(state.get(BlockStateProperties.FACING)));
+        return state.setValue(BlockStateProperties.FACING, rotation.rotate(state.getValue(BlockStateProperties.FACING)));
     }
 
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
-        return state.rotate(mirror.toRotation(state.get(BlockStateProperties.FACING)));
+        return state.rotate(mirror.getRotation(state.getValue(BlockStateProperties.FACING)));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.FACING);
     }
 
@@ -131,28 +133,27 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (!world.isRemote()) {
-            SolitaryNestTileEntity tileEntity = (SolitaryNestTileEntity) world.getTileEntity(pos);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        if (!world.isClientSide()) {
+            SolitaryNestTileEntity tileEntity = (SolitaryNestTileEntity) world.getBlockEntity(pos);
 
-            ItemStack heldItem = player.getHeldItem(hand);
+            ItemStack heldItem = player.getItemInHand(hand);
             if (tileEntity != null && heldItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
                 boolean itemUse = false;
                 int currentCooldown = tileEntity.getNestTickCooldown();
                 if (currentCooldown <= 0) {
                     if (tileEntity.canRepopulate()) {
-                        tileEntity.setNestCooldown(tileEntity.getRepopulationCooldown(state.getBlock()));
+                        tileEntity.setNestCooldown(ProductiveBeesConfig.GENERAL.nestSpawnCooldown.get());
                         itemUse = true;
                     }
-                }
-                else {
+                } else {
                     tileEntity.setNestCooldown((int) (currentCooldown * 0.9));
                     itemUse = true;
                 }
 
                 if (itemUse) {
-                    world.playEvent(2005, pos, 0);
-                    CriteriaTriggers.RIGHT_CLICK_BLOCK_WITH_ITEM.test((ServerPlayerEntity) player, pos, heldItem);
+                    world.levelEvent(2005, pos, 0);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, pos, heldItem);
                 }
 
                 if (!player.isCreative()) {
@@ -161,6 +162,15 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
             }
         }
 
-        return super.onBlockActivated(state, world, pos, player, hand, hit);
+        return super.use(state, world, pos, player, hand, hit);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+
+        if (stack.hasTag() && stack.getTag().getInt("spawnCount") >= ProductiveBeesConfig.BEES.cuckooSpawnCount.get()) {
+            tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.nest_inactive").withStyle(TextFormatting.BOLD));
+        }
     }
 }

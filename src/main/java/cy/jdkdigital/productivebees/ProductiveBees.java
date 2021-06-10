@@ -117,24 +117,24 @@ public final class ProductiveBees
         PacketHandler.init();
         ModAdvancements.register();
 
-        DefaultDispenseItemBehavior cageDispensebehavior = new OptionalDispenseBehavior()
+        DefaultDispenseItemBehavior cageDispenseBehavior = new OptionalDispenseBehavior()
         {
             private final DefaultDispenseItemBehavior fallbackDispenseBehavior = new DefaultDispenseItemBehavior();
 
             @Override
-            public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            public ItemStack execute(IBlockSource source, ItemStack stack) {
                 if (stack.getItem() instanceof BeeCage && BeeCage.isFilled(stack)) {
-                    Direction direction = source.getBlockState().get(DispenserBlock.FACING);
+                    Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
 
-                    BeeEntity entity = BeeCage.getEntityFromStack(stack, source.getWorld(), true);
+                    BeeEntity entity = BeeCage.getEntityFromStack(stack, source.getLevel(), true);
                     if (entity != null) {
                         entity.hivePos = null;
 
-                        BlockPos spawnPos = source.getBlockPos().offset(direction);
+                        BlockPos spawnPos = source.getPos().relative(direction);
 
-                        entity.setPositionAndRotation(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, 0, 0);
+                        entity.setPos(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5);
 
-                        if (source.getWorld().addEntity(entity)) {
+                        if (source.getLevel().addFreshEntity(entity)) {
                             if (stack.getItem().equals(ModItems.BEE_CAGE.get())) {
                                 stack.shrink(1);
                             } else if (stack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
@@ -147,20 +147,20 @@ public final class ProductiveBees
                 return fallbackDispenseBehavior.dispense(source, stack);
             }
         };
-        DispenserBlock.registerDispenseBehavior(ModItems.BEE_CAGE.get(), cageDispensebehavior);
-        DispenserBlock.registerDispenseBehavior(ModItems.STURDY_BEE_CAGE.get(), cageDispensebehavior);
+        DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), cageDispenseBehavior);
+        DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), cageDispenseBehavior);
 
         DeferredWorkQueue.runLater(() -> {
             //Entity attribute assignments
             for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
                 EntityType<ProductiveBeeEntity> bee = (EntityType<ProductiveBeeEntity>) registryObject.get();
-                GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().create());
+                GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().build());
             }
             for (RegistryObject<EntityType<?>> registryObject : ModEntities.SOLITARY_BEES.getEntries()) {
                 EntityType<ProductiveBeeEntity> bee = (EntityType<ProductiveBeeEntity>) registryObject.get();
-                GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().create());
+                GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().build());
             }
-            GlobalEntityTypeAttributes.put(ModEntities.BLUE_BANDED_BEE.get(), BlueBandedBeeEntity.getDefaultAttributes().create());
+            GlobalEntityTypeAttributes.put(ModEntities.BLUE_BANDED_BEE.get(), BlueBandedBeeEntity.getDefaultAttributes().build());
         });
 
         this.fixPOI(event);
@@ -175,13 +175,13 @@ public final class ProductiveBees
             ModPointOfInterestTypes.fixPOITypeBlockStates(poi.get());
         }
 
-        PointOfInterestType.BEEHIVE.blockStates = this.makePOIStatesMutable(PointOfInterestType.BEEHIVE.blockStates);
+        PointOfInterestType.BEEHIVE.matchingStates = this.makePOIStatesMutable(PointOfInterestType.BEEHIVE.matchingStates);
         ImmutableList<Block> beehives = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive && !(block instanceof DragonEggHive)).collect(ImmutableList.toImmutableList());
         for (Block block : beehives) {
-            for (BlockState state : block.getStateContainer().getValidStates()) {
-                PointOfInterestType.POIT_BY_BLOCKSTATE.put(state, PointOfInterestType.BEEHIVE);
+            for (BlockState state : block.getStateDefinition().getPossibleStates()) {
+                PointOfInterestType.TYPE_BY_STATE.put(state, PointOfInterestType.BEEHIVE);
                 try {
-                    PointOfInterestType.BEEHIVE.blockStates.add(state);
+                    PointOfInterestType.BEEHIVE.matchingStates.add(state);
                 } catch (Exception e) {
                     LOGGER.warn("Could not add blockstate to beehive POI " + state);
                 }

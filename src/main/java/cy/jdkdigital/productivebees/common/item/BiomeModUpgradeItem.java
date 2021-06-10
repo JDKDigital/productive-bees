@@ -21,17 +21,17 @@ public class BiomeModUpgradeItem extends UpgradeItem
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, world, tooltip, flagIn);
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, world, tooltip, flagIn);
         CompoundNBT tag = stack.getTag();
         if (tag != null) {
             CompoundNBT data = tag.getCompound(KEY);
             if (data.contains("biome")) {
                 String biome = data.getString("biome");
-                tooltip.add(new StringTextComponent(biome).mergeStyle(TextFormatting.GOLD));
+                tooltip.add(new StringTextComponent(biome).withStyle(TextFormatting.GOLD));
             }
             else {
-                tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.unconfigured").mergeStyle(TextFormatting.WHITE));
+                tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.unconfigured").withStyle(TextFormatting.WHITE));
             }
         }
     }

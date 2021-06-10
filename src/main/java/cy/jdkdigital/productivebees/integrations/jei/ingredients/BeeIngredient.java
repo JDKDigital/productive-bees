@@ -62,14 +62,14 @@ public class BeeIngredient
         return beeType != null ? beeType : bee.getRegistryName();
     }
 
-    public static BeeIngredient read(PacketBuffer buffer) {
-        String beeName = buffer.readString();
+    public static BeeIngredient fromNetwork(PacketBuffer buffer) {
+        String beeName = buffer.readUtf();
 
         return new BeeIngredient(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readResourceLocation(), buffer.readBoolean());
     }
 
-    public final void write(PacketBuffer buffer) {
-        buffer.writeString("" + bee.getRegistryName());
+    public final void toNetwork(PacketBuffer buffer) {
+        buffer.writeUtf("" + bee.getRegistryName());
         buffer.writeResourceLocation(getBeeType());
         buffer.writeBoolean(configurable);
     }

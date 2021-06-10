@@ -40,16 +40,16 @@ public class CombBlockTileEntity extends TileEntity
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
         this.type = tag.getString("type");
     }
 
     @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
+    public CompoundNBT save(CompoundNBT tag) {
         tag.putString("type", type);
-        return super.write(tag);
+        return super.save(tag);
     }
 
     @Nonnull

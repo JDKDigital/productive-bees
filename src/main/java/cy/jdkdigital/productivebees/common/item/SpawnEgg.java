@@ -33,14 +33,14 @@ public class SpawnEgg extends SpawnEggItem
             CompoundNBT entityTag = compound.getCompound("EntityTag");
 
             if (entityTag.contains("id", 8)) {
-                return EntityType.byKey(entityTag.getString("id")).orElse(this.entityType.get());
+                return EntityType.byString(entityTag.getString("id")).orElse(this.entityType.get());
             }
         }
         return this.entityType.get();
     }
 
     public int getColor(int tintIndex, ItemStack stack) {
-        CompoundNBT tag = stack.getChildTag("EntityTag");
+        CompoundNBT tag = stack.getTagElement("EntityTag");
         if (tag != null && tag.contains("type")) {
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
@@ -52,22 +52,22 @@ public class SpawnEgg extends SpawnEggItem
 
     @Nonnull
     @Override
-    public ITextComponent getDisplayName(ItemStack stack) {
-        CompoundNBT tag = stack.getChildTag("EntityTag");
+    public ITextComponent getName(ItemStack stack) {
+        CompoundNBT tag = stack.getTagElement("EntityTag");
         if (tag != null && tag.contains("type")) {
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
                 return new TranslationTextComponent("item.productivebees.spawn_egg_configurable", nbt.getString("name"));
             }
         }
-        return super.getDisplayName(stack);
+        return super.getName(stack);
     }
 
     @Override
-    public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
+    public void fillItemCategory(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (!this.equals(ModItems.CONFIGURABLE_SPAWN_EGG.get())) {
-            super.fillItemGroup(group, items);
-        } else if (group == ItemGroup.SEARCH) {
+            super.fillItemCategory(group, items);
+        } else if (group == ItemGroup.TAB_SEARCH) {
             for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
                 items.add(BeeCreator.getSpawnEgg(entry.getKey()));
             }

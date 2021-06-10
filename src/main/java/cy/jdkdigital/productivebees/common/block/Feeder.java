@@ -39,11 +39,11 @@ public class Feeder extends SlabBlock
 
     public Feeder(Properties properties) {
         super(properties);
-        setDefaultState(this.getDefaultState().with(HONEYLOGGED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(HONEYLOGGED, false));
     }
 
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        super.fillStateContainer(builder);
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(HONEYLOGGED);
     }
 
@@ -52,26 +52,26 @@ public class Feeder extends SlabBlock
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState state = super.getStateForPlacement(context);
 
-        FluidState fluidstate = context.getWorld().getFluidState(context.getPos());
-        if (fluidstate.getFluid().isIn(ModTags.HONEY) && state != null) {
-            return state.with(HONEYLOGGED, true);
+        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        if (fluidstate.getType().is(ModTags.HONEY) && state != null) {
+            return state.setValue(HONEYLOGGED, true);
         }
         return state;
     }
 
     @Override
-    public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
-        return state.get(TYPE) != SlabType.DOUBLE && (!state.get(BlockStateProperties.WATERLOGGED) && (fluidIn == Fluids.WATER || fluidIn.isEquivalentTo(ModFluids.HONEY.get())));
+    public boolean canPlaceLiquid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
+        return state.getValue(TYPE) != SlabType.DOUBLE && (!state.getValue(BlockStateProperties.WATERLOGGED) && (fluidIn == Fluids.WATER || fluidIn.isSame(ModFluids.HONEY.get())));
     }
 
     @Override
-    public boolean receiveFluid(IWorld world, BlockPos pos, BlockState state, FluidState fluidState) {
-        if (!state.get(BlockStateProperties.WATERLOGGED)) {
-            boolean isHoney = fluidState.getFluid().isEquivalentTo(ModFluids.HONEY.get()) && fluidState.isSource();
-            if (fluidState.getFluid() == Fluids.WATER || isHoney) {
-                if (!world.isRemote()) {
-                    world.setBlockState(pos, state.with(BlockStateProperties.WATERLOGGED, true).with(HONEYLOGGED, isHoney), 3);
-                    world.getPendingFluidTicks().scheduleTick(pos, fluidState.getFluid(), fluidState.getFluid().getTickRate(world));
+    public boolean placeLiquid(IWorld world, BlockPos pos, BlockState state, FluidState fluidState) {
+        if (!state.getValue(BlockStateProperties.WATERLOGGED)) {
+            boolean isHoney = fluidState.getType().isSame(ModFluids.HONEY.get()) && fluidState.isSource();
+            if (fluidState.getType() == Fluids.WATER || isHoney) {
+                if (!world.isClientSide()) {
+                    world.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, true).setValue(HONEYLOGGED, isHoney), 3);
+                    world.getLiquidTicks().scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
                 }
                 return true;
             }
@@ -82,52 +82,51 @@ public class Feeder extends SlabBlock
     @Nonnull
     @Override
     public FluidState getFluidState(BlockState state) {
-        return state.get(HONEYLOGGED) ? ModFluids.HONEY.get().getStillFluidState(false) : super.getFluidState(state);
+        return state.getValue(HONEYLOGGED) ? ModFluids.HONEY.get().getSource(false) : super.getFluidState(state);
     }
 
     @Nonnull
     @Override
-    public Fluid pickupFluid(IWorld world, BlockPos pos, BlockState state) {
-        if (state.get(HONEYLOGGED)) {
-            world.setBlockState(pos, state.with(HONEYLOGGED, false).with(BlockStateProperties.WATERLOGGED, false), 3);
+    public Fluid takeLiquid(IWorld world, BlockPos pos, BlockState state) {
+        if (state.getValue(HONEYLOGGED)) {
+            world.setBlock(pos, state.setValue(HONEYLOGGED, false).setValue(BlockStateProperties.WATERLOGGED, false), 3);
             return ModFluids.HONEY.get();
-        }
-        else {
-            return super.pickupFluid(world, pos, state);
+        } else {
+            return super.takeLiquid(world, pos, state);
         }
     }
 
     @SuppressWarnings("deprecation")
     @Nullable
     @Override
-    public INamedContainerProvider getContainer(BlockState state, World world, BlockPos pos) {
-        TileEntity tile = world.getTileEntity(pos);
+    public INamedContainerProvider getMenuProvider(BlockState state, World world, BlockPos pos) {
+        TileEntity tile = world.getBlockEntity(pos);
         return tile instanceof INamedContainerProvider ? (INamedContainerProvider) tile : null;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onReplaced(BlockState oldState, @Nonnull World worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState oldState, @Nonnull World worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
         if (oldState.getBlock() != newState.getBlock()) {
-            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            TileEntity tileEntity = worldIn.getBlockEntity(pos);
             if (tileEntity instanceof FeederTileEntity) {
                 // Drop inventory
                 tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
             }
         }
-        super.onReplaced(oldState, worldIn, pos, newState, isMoving);
+        super.onRemove(oldState, worldIn, pos, newState, isMoving);
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (!world.isRemote()) {
-            final TileEntity tileEntity = world.getTileEntity(pos);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (!world.isClientSide()) {
+            final TileEntity tileEntity = world.getBlockEntity(pos);
 
             if (tileEntity instanceof FeederTileEntity) {
                 openGui((ServerPlayerEntity) player, (FeederTileEntity) tileEntity);
@@ -148,11 +147,11 @@ public class Feeder extends SlabBlock
     }
 
     @Nullable
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    public TileEntity newBlockEntity(IBlockReader world) {
         return new FeederTileEntity();
     }
 
     public void openGui(ServerPlayerEntity player, FeederTileEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getPos()));
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

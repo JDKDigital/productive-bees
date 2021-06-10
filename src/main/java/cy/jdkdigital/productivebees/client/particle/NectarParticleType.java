@@ -19,13 +19,13 @@ public class NectarParticleType extends ParticleType<NectarParticleType> impleme
     {
         @Nonnull
         @Override
-        public NectarParticleType deserialize(@Nonnull ParticleType<NectarParticleType> particleType, @Nonnull StringReader stringReader) throws CommandSyntaxException {
+        public NectarParticleType fromCommand(@Nonnull ParticleType<NectarParticleType> particleType, @Nonnull StringReader stringReader) throws CommandSyntaxException {
             return (NectarParticleType) particleType;
         }
 
         @Nonnull
         @Override
-        public NectarParticleType read(@Nonnull ParticleType<NectarParticleType> particleType, @Nonnull PacketBuffer buffer) {
+        public NectarParticleType fromNetwork(@Nonnull ParticleType<NectarParticleType> particleType, @Nonnull PacketBuffer buffer) {
             return (NectarParticleType) particleType;
         }
     };
@@ -33,7 +33,7 @@ public class NectarParticleType extends ParticleType<NectarParticleType> impleme
     private final Codec<NectarParticleType> codec = Codec.unit(this::getType);
 
     @Override
-    public Codec<NectarParticleType> func_230522_e_() {
+    public Codec<NectarParticleType> codec() {
         return codec;
     }
 
@@ -57,12 +57,12 @@ public class NectarParticleType extends ParticleType<NectarParticleType> impleme
     }
 
     @Override
-    public void write(@Nonnull PacketBuffer buffer) {
+    public void writeToNetwork(@Nonnull PacketBuffer packetBuffer) {
     }
 
     @Nonnull
     @Override
-    public String getParameters() {
+    public String writeToString() {
         return ForgeRegistries.PARTICLE_TYPES.getKey(this).toString();
     }
 }

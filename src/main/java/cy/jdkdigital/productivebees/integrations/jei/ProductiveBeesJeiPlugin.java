@@ -102,24 +102,24 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        RecipeManager recipeManager = Minecraft.getInstance().world.getRecipeManager();
+        RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
 
         // Beehive bee produce recipes
-        Map<ResourceLocation, IRecipe<IInventory>> advancedBeehiveRecipesMap = recipeManager.getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
+        Map<ResourceLocation, IRecipe<IInventory>> advancedBeehiveRecipesMap = recipeManager.byType(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
         registration.addRecipes(advancedBeehiveRecipesMap.values(), CATEGORY_ADVANCED_BEEHIVE_UID);
         // Centrifuge recipes
-        Map<ResourceLocation, IRecipe<IInventory>> centrifugeRecipesMap = recipeManager.getRecipes(CentrifugeRecipe.CENTRIFUGE);
+        Map<ResourceLocation, IRecipe<IInventory>> centrifugeRecipesMap = recipeManager.byType(CentrifugeRecipe.CENTRIFUGE);
         registration.addRecipes(centrifugeRecipesMap.values(), CATEGORY_CENTRIFUGE_UID);
         // Spawning recipes
-        Map<ResourceLocation, IRecipe<IInventory>> beeSpawningRecipesMap = recipeManager.getRecipes(BeeSpawningRecipe.BEE_SPAWNING);
+        Map<ResourceLocation, IRecipe<IInventory>> beeSpawningRecipesMap = recipeManager.byType(BeeSpawningRecipe.BEE_SPAWNING);
         registration.addRecipes(beeSpawningRecipesMap.values(), CATEGORY_BEE_SPAWNING_UID);
-        Map<ResourceLocation, IRecipe<IInventory>> beeSpawningRecipesBigMap = recipeManager.getRecipes(BeeSpawningBigRecipe.BEE_SPAWNING);
+        Map<ResourceLocation, IRecipe<IInventory>> beeSpawningRecipesBigMap = recipeManager.byType(BeeSpawningBigRecipe.BEE_SPAWNING);
         registration.addRecipes(beeSpawningRecipesBigMap.values(), CATEGORY_BEE_SPAWNING_BIG_UID);
         // Breeding recipes
-        Map<ResourceLocation, IRecipe<IInventory>> beeBreedingRecipeMap = recipeManager.getRecipes(BeeBreedingRecipe.BEE_BREEDING);
+        Map<ResourceLocation, IRecipe<IInventory>> beeBreedingRecipeMap = recipeManager.byType(BeeBreedingRecipe.BEE_BREEDING);
         registration.addRecipes(beeBreedingRecipeMap.values(), CATEGORY_BEE_BREEDING_UID);
         // Bee conversion recipes
-        Map<ResourceLocation, IRecipe<IInventory>> beeConversionRecipeMap = recipeManager.getRecipes(BeeConversionRecipe.BEE_CONVERSION);
+        Map<ResourceLocation, IRecipe<IInventory>> beeConversionRecipeMap = recipeManager.byType(BeeConversionRecipe.BEE_CONVERSION);
         registration.addRecipes(beeConversionRecipeMap.values(), CATEGORY_BEE_CONVERSION_UID);
 
         // Bee ingredient descriptions
@@ -179,7 +179,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addIngredientInfo(new ItemStack(ModItems.STONE_CHIP.get()), VanillaTypes.ITEM, "productivebees.ingredient.description.stone_chip");
 
         // Configurable combs
-        Optional<? extends IRecipe<?>> honeycombRecipe = recipeManager.getRecipe(new ResourceLocation(ProductiveBees.MODID, "comb_block/configurable_honeycomb"));
+        Optional<? extends IRecipe<?>> honeycombRecipe = recipeManager.byKey(new ResourceLocation(ProductiveBees.MODID, "comb_block/configurable_honeycomb"));
         int count = 4;
         if (honeycombRecipe.isPresent()) {
             count = ((ConfigurableHoneycombRecipe) honeycombRecipe.get()).count;
@@ -195,14 +195,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             BeeCreator.setTag(beeType, comb);
             NonNullList<Ingredient> combInput = NonNullList.create();
             for (int i = 0; i < count; i++) {
-                combInput.add(Ingredient.fromStacks(comb));
+                combInput.add(Ingredient.of(comb));
             }
 
             // Add comb block
             ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
             BeeCreator.setTag(beeType, combBlock);
             NonNullList<Ingredient> combBlockInput = NonNullList.create();
-            combBlockInput.add(Ingredient.fromStacks(combBlock));
+            combBlockInput.add(Ingredient.of(combBlock));
 
             recipes.put(idComb, new ShapelessRecipe(idComb, "", combBlock, combInput));
             ItemStack combOutput = comb.copy();

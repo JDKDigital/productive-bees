@@ -16,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -42,27 +43,27 @@ public class BeeCage extends Item
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        World playerWorld = context.getPlayer().getEntityWorld();
-        ItemStack stack = context.getItem();
+    public ActionResultType useOn(ItemUseContext context) {
+        World playerWorld = context.getPlayer().getCommandSenderWorld();
+        ItemStack stack = context.getItemInHand();
 
-        if (playerWorld.isRemote() || !isFilled(stack)) {
+        if (playerWorld.isClientSide() || !isFilled(stack)) {
             return ActionResultType.FAIL;
         }
 
-        World worldIn = context.getWorld();
-        BlockPos pos = context.getPos();
+        World worldIn = context.getLevel();
+        BlockPos pos = context.getClickedPos();
 
         BeeEntity entity = getEntityFromStack(stack, worldIn, true);
 
         if (entity != null) {
-            if (context.getPlayer() != null && context.getPlayer().isSneaking()) {
+            if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
                 entity.hivePos = null;
             }
 
-            BlockPos blockPos = pos.offset(context.getFace());
-            entity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
-            worldIn.addEntity(entity);
+            BlockPos blockPos = pos.relative(context.getHorizontalDirection());
+            entity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
+            worldIn.addFreshEntity(entity);
 
             postItemUse(context);
         }
@@ -73,14 +74,14 @@ public class BeeCage extends Item
     protected void postItemUse(ItemUseContext context) {
         // Delete stack
         if (context.getPlayer() != null) {
-            context.getPlayer().inventory.deleteStack(context.getItem());
+            context.getPlayer().inventory.removeItem(context.getItemInHand());
         }
     }
 
     @Nonnull
     @Override
-    public ActionResultType itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity targetIn, Hand hand) {
-        if (targetIn.getEntityWorld().isRemote() || (!(targetIn instanceof BeeEntity) || !targetIn.isAlive()) || (isFilled(itemStack))) {
+    public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity player, LivingEntity targetIn, Hand hand) {
+        if (targetIn.getCommandSenderWorld().isClientSide() || (!(targetIn instanceof BeeEntity) || !targetIn.isAlive()) || (isFilled(itemStack))) {
             return ActionResultType.PASS;
         }
 
@@ -96,13 +97,13 @@ public class BeeCage extends Item
         captureEntity(target, cageStack);
 
         if (addToInventory || player.isCreative()) {
-            if (!player.inventory.addItemStackToInventory(cageStack)) {
-                player.dropItem(cageStack, false);
+            if (!player.inventory.add(cageStack)) {
+                player.drop(cageStack, false);
             }
             itemStack.shrink(1);
         }
 
-        player.swingArm(hand);
+        player.swing(hand);
 
         if (player instanceof ServerPlayerEntity) {
             ModAdvancements.CATCH_BEE.trigger((ServerPlayerEntity) player, cageStack);
@@ -117,11 +118,10 @@ public class BeeCage extends Item
         nbt.putString("entity", EntityType.getKey(target.getType()).toString());
         if (target.hasCustomName()) {
             nbt.putString("name", target.getCustomName().getString());
-        }
-        else {
+        } else {
             nbt.putString("name", target.getName().getString());
         }
-        target.writeWithoutTypeId(nbt);
+        target.saveWithoutId(nbt);
 
         nbt.putBoolean("isProductiveBee", target instanceof ProductiveBeeEntity);
 
@@ -144,11 +144,11 @@ public class BeeCage extends Item
     @Nullable
     public static BeeEntity getEntityFromStack(@Nullable CompoundNBT tag, World world, boolean withInfo) {
         if (tag != null) {
-            EntityType<?> type = EntityType.byKey(tag.getString("entity")).orElse(null);
+            EntityType<?> type = EntityType.byString(tag.getString("entity")).orElse(null);
             if (type != null) {
                 Entity entity = type.create(world);
                 if (withInfo) {
-                    entity.read(tag);
+                    entity.load(tag);
                 }
 
                 if (entity instanceof BeeEntity) {
@@ -164,30 +164,29 @@ public class BeeCage extends Item
 
     @Nonnull
     @Override
-    public ITextComponent getDisplayName(ItemStack stack) {
+    public ITextComponent getName(ItemStack stack) {
         if (!isFilled(stack)) {
-            return new TranslationTextComponent(this.getTranslationKey());
+            return new TranslationTextComponent(this.getDescriptionId());
         }
 
         String entityId = stack.getTag().getString("name");
-        return new TranslationTextComponent(this.getTranslationKey()).appendSibling(new StringTextComponent(" (" + entityId + ")"));
+        return new TranslationTextComponent(this.getDescriptionId()).append(new StringTextComponent(" (" + entityId + ")"));
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(stack, world, list, flag);
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(stack, world, list, flag);
 
         CompoundNBT tag = stack.getTag();
         if (tag != null && !tag.equals(new CompoundNBT())) {
             if (Screen.hasShiftDown()) {
                 boolean hasStung = tag.getBoolean("HasStung");
                 if (hasStung) {
-                    list.add(new TranslationTextComponent("productivebees.information.health.dying").mergeStyle(TextFormatting.RED).mergeStyle(TextFormatting.ITALIC));
+                    list.add(new TranslationTextComponent("productivebees.information.health.dying").withStyle(TextFormatting.RED).withStyle(TextFormatting.ITALIC));
                 }
                 BeeHelper.populateBeeInfoFromTag(tag, list);
-            }
-            else {
-                list.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE));
+            } else {
+                list.add(new TranslationTextComponent("productivebees.information.hold_shift").withStyle(TextFormatting.WHITE));
             }
         }
     }

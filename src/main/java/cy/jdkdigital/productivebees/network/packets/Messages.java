@@ -2,9 +2,11 @@ package cy.jdkdigital.productivebees.network.packets;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.play.ClientPlayNetHandler;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
@@ -15,6 +17,9 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
@@ -31,15 +36,15 @@ public class Messages
         public static void encode(BeeDataMessage message, PacketBuffer buffer) {
             buffer.writeInt(message.data.size());
             for (Map.Entry<String, CompoundNBT> entry : message.data.entrySet()) {
-                buffer.writeString(entry.getKey());
-                buffer.writeCompoundTag(entry.getValue());
+                buffer.writeUtf(entry.getKey());
+                buffer.writeNbt(entry.getValue());
             }
         }
 
         public static BeeDataMessage decode(PacketBuffer buffer) {
             Map<String, CompoundNBT> data = new HashMap<>();
             IntStream.range(0, buffer.readInt()).forEach(i -> {
-                data.put(buffer.readString(), buffer.readCompoundTag());
+                data.put(buffer.readUtf(), buffer.readAnySizeNbt());
             });
             return new BeeDataMessage(data);
         }
@@ -89,10 +94,10 @@ public class Messages
                         net.minecraftforge.client.ForgeHooksClient.onRecipesUpdated(manager);
                         break;
                     case "vanilla":
-                        MinecraftForge.EVENT_BUS.post(new TagsUpdatedEvent.VanillaTagTypes(ProductiveBees.proxy.getWorld().getTags()));
+                        MinecraftForge.EVENT_BUS.post(new TagsUpdatedEvent.VanillaTagTypes(ProductiveBees.proxy.getWorld().getTagManager()));
                         break;
                     case "modded":
-                        MinecraftForge.EVENT_BUS.post(new TagsUpdatedEvent.CustomTagTypes(ProductiveBees.proxy.getWorld().getTags()));
+                        MinecraftForge.EVENT_BUS.post(new TagsUpdatedEvent.CustomTagTypes(ProductiveBees.proxy.getWorld().getTagManager()));
                         break;
                 }
             }
@@ -118,8 +123,8 @@ public class Messages
 
         public boolean connected() {
             ClientPlayNetHandler connection = Minecraft.getInstance().getConnection();
-            boolean isVanilla = connection != null && NetworkHooks.isVanillaConnection(connection.getNetworkManager());
-            boolean isIntegrated = Minecraft.getInstance().isIntegratedServerRunning();
+            boolean isVanilla = connection != null && NetworkHooks.isVanillaConnection(connection.getConnection());
+            boolean isIntegrated = Minecraft.getInstance().hasSingleplayerServer();
             return isVanilla == this.isVanilla && isIntegrated == this.isIntegrated;
         }
     }

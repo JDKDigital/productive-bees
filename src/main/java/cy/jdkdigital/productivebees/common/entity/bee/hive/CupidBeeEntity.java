@@ -27,7 +27,7 @@ public class CupidBeeEntity extends ProductiveBeeEntity
 
     public static Predicate<Entity> predicate = (entity -> {
         if (entity instanceof AnimalEntity) {
-            return !((AnimalEntity) entity).isInLove() && !((AnimalEntity) entity).isChild();
+            return !((AnimalEntity) entity).isInLove() && !((AnimalEntity) entity).isBaby();
         }
         return false;
     });
@@ -48,25 +48,25 @@ public class CupidBeeEntity extends ProductiveBeeEntity
 
         this.goalSelector.removeGoal(this.breedGoal);
 
-        this.pollinateGoal = new ProductiveBeeEntity.PollinateGoal();
-        this.goalSelector.addGoal(4, this.pollinateGoal);
+        this.beePollinateGoal = new ProductiveBeeEntity.PollinateGoal();
+        this.goalSelector.addGoal(4, this.beePollinateGoal);
 
-        this.findFlowerGoal = new BeeEntity.FindFlowerGoal();
-        this.goalSelector.addGoal(6, this.findFlowerGoal);
+        this.goToKnownFlowerGoal = new BeeEntity.FindFlowerGoal();
+        this.goalSelector.addGoal(6, this.goToKnownFlowerGoal);
 
         this.goalSelector.addGoal(2, new GoToBreedableGoal());
         this.loveGoal = new SetLoveModeGoal();
         this.goalSelector.addGoal(3, this.loveGoal);
     }
 
-    public void livingTick() {
-        super.livingTick();
+    public void tick() {
+        super.tick();
 
-        if (this.ticksExisted % 20 == 0 && hasNectar()) {
-            double d0 = this.rand.nextGaussian() * 0.02D;
-            double d1 = this.rand.nextGaussian() * 0.02D;
-            double d2 = this.rand.nextGaussian() * 0.02D;
-            this.world.addParticle(ParticleTypes.HEART, this.getPosXRandom(1.0D), this.getPosYRandom() + 0.5D, this.getPosZRandom(1.0D), d0, d1, d2);
+        if (this.tickCount % 20 == 0 && hasNectar()) {
+            double d0 = this.random.nextGaussian() * 0.02D;
+            double d1 = this.random.nextGaussian() * 0.02D;
+            double d2 = this.random.nextGaussian() * 0.02D;
+            level.addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
         }
     }
 
@@ -82,20 +82,20 @@ public class CupidBeeEntity extends ProductiveBeeEntity
         ++this.animalsBredSincePollination;
     }
 
-    public boolean canEnterHive() {
-        return super.canEnterHive() && !this.loveGoal.isRunning();
+    public boolean wantsToEnterHive() {
+        return super.wantsToEnterHive() && !this.loveGoal.isRunning();
     }
 
     @Override
-    public void onHoneyDelivered() {
-        super.onHoneyDelivered();
+    public void dropOffNectar() {
+        super.dropOffNectar();
         resetBreedCounter();
     }
 
     public List<Entity> findNearbyBreedables(float distance) {
-        BlockPos pos = getPosition();
+        BlockPos pos = blockPosition();
 
-        return world.getEntitiesInAABBexcluding(this, (new AxisAlignedBB(pos).grow(distance, distance, distance)), predicate);
+        return level.getEntities(this, (new AxisAlignedBB(pos).expandTowards(distance, distance, distance)), predicate);
     }
 
     public class GoToBreedableGoal extends Goal
@@ -103,11 +103,11 @@ public class CupidBeeEntity extends ProductiveBeeEntity
         private int ticks = 0;
 
         @Override
-        public boolean shouldExecute() {
+        public boolean canUse() {
             return !CupidBeeEntity.this.isAngry() && CupidBeeEntity.this.hasNectar() && CupidBeeEntity.this.targetEntity != null;
         }
 
-        public void startExecuting() {
+        public void start() {
             this.ticks = 0;
         }
 
@@ -117,10 +117,9 @@ public class CupidBeeEntity extends ProductiveBeeEntity
                 ++this.ticks;
                 if (this.ticks > 600) {
                     CupidBeeEntity.this.targetEntity = null;
-                }
-                else if (!CupidBeeEntity.this.navigator.noPath() || this.ticks % 100 == 0) {
-                    BlockPos blockPos = CupidBeeEntity.this.targetEntity.getPosition();
-                    CupidBeeEntity.this.navigator.tryMoveToXYZ(blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0D);
+                } else if (!CupidBeeEntity.this.navigation.isDone() || this.ticks % 100 == 0) {
+                    BlockPos blockPos = CupidBeeEntity.this.targetEntity.blockPosition();
+                    CupidBeeEntity.this.navigation.moveTo(blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0D);
                 }
             }
         }
@@ -132,18 +131,18 @@ public class CupidBeeEntity extends ProductiveBeeEntity
         private boolean running;
 
         @Override
-        public boolean shouldExecute() {
+        public boolean canUse() {
             if (!CupidBeeEntity.this.isAngry() && CupidBeeEntity.this.hasNectar() && CupidBeeEntity.this.getAnimalsBredSincePollination() <= ProductiveBeesConfig.BEES.cupidBeeAnimalsPerPollination.get()) {
                 List<Entity> breedablesNearby = CupidBeeEntity.this.findNearbyBreedables(5);
 
                 if (!breedablesNearby.isEmpty() && breedablesNearby.size() < ProductiveBeesConfig.BEES.cupidBeeAnimalDensity.get()) {
-                    BlockPos beePos = CupidBeeEntity.this.getPosition();
+                    BlockPos beePos = CupidBeeEntity.this.blockPosition();
                     AnimalEntity nearest = null;
                     double nearestDistance = 0;
                     for (Entity entity : breedablesNearby) {
                         if (entity instanceof AnimalEntity) {
-                            BlockPos pos = entity.getPosition();
-                            double distance = pos.distanceSq(beePos);
+                            BlockPos pos = entity.blockPosition();
+                            double distance = pos.distSqr(beePos);
                             if (nearestDistance == 0 || distance < nearestDistance) {
                                 nearestDistance = distance;
                                 nearest = (AnimalEntity) entity;
@@ -160,7 +159,7 @@ public class CupidBeeEntity extends ProductiveBeeEntity
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
+        public boolean canContinueToUse() {
             if (!this.running) {
                 return false;
             }
@@ -171,12 +170,12 @@ public class CupidBeeEntity extends ProductiveBeeEntity
             return this.running;
         }
 
-        public void startExecuting() {
+        public void start() {
             ticks = 0;
             this.running = true;
         }
 
-        public void resetTask() {
+        public void stop() {
             this.running = false;
         }
 
@@ -186,30 +185,27 @@ public class CupidBeeEntity extends ProductiveBeeEntity
             if (CupidBeeEntity.this.targetEntity != null) {
                 if (ticks > 600) {
                     CupidBeeEntity.this.targetEntity = null;
-                }
-                else {
-                    Vector3d vec3d = CupidBeeEntity.this.targetEntity.getPositionVec().add(0.5D, 0.6F, 0.5D);
-                    double distanceToTarget = vec3d.distanceTo(CupidBeeEntity.this.getPositionVec());
+                } else {
+                    Vector3d vec3d = CupidBeeEntity.this.targetEntity.position().add(0.5D, 0.6F, 0.5D);
+                    double distanceToTarget = vec3d.distanceTo(CupidBeeEntity.this.position());
 
                     if (distanceToTarget > 1.0D) {
                         this.moveToNextTarget(vec3d);
-                    }
-                    else {
+                    } else {
                         if (distanceToTarget > 0.1D && ticks > 600) {
                             CupidBeeEntity.this.targetEntity = null;
-                        }
-                        else {
+                        } else {
                             List<Entity> breedablesNearby = CupidBeeEntity.this.findNearbyBreedables(1);
                             if (!breedablesNearby.isEmpty()) {
                                 Entity target = breedablesNearby.iterator().next();
 
                                 if (target instanceof AnimalEntity) {
-                                    if (!((AnimalEntity) target).isChild() && ((AnimalEntity) target).canBreed()) {
-                                        ((AnimalEntity) target).setInLove(600);
+                                    if (!((AnimalEntity) target).isBaby() && ((AnimalEntity) target).canBreed()) {
+                                        ((AnimalEntity) target).setInLoveTime(600);
                                         CupidBeeEntity.this.addBreedCounter();
                                     }
 
-                                    CupidBeeEntity.this.playSound(SoundEvents.ENTITY_BEE_POLLINATE, 1.0F, 1.0F);
+                                    CupidBeeEntity.this.playSound(SoundEvents.BEE_POLLINATE, 1.0F, 1.0F);
                                 }
                             }
                         }
@@ -219,7 +215,7 @@ public class CupidBeeEntity extends ProductiveBeeEntity
         }
 
         private void moveToNextTarget(Vector3d target) {
-            CupidBeeEntity.this.getMoveHelper().setMoveTo(target.getX(), target.getY(), target.getZ(), 1.0F);
+            CupidBeeEntity.this.getMoveControl().setWantedPosition(target.x, target.y, target.z, 1.0F);
         }
     }
 }

@@ -33,22 +33,20 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
     public final List<Lazy<BeeIngredient>> output;
     public final List<String> biomes;
     public final String temperature;
-    public final int repopulationCooldown;
 
-    public BeeSpawningRecipe(ResourceLocation id, Ingredient ingredient, List<Lazy<BeeIngredient>> output, List<String> biomes, String temperature, int repopulationCooldown) {
+    public BeeSpawningRecipe(ResourceLocation id, Ingredient ingredient, List<Lazy<BeeIngredient>> output, List<String> biomes, String temperature) {
         this.id = id;
         this.ingredient = ingredient;
         this.output = output;
         this.biomes = biomes;
         this.temperature = temperature;
-        this.repopulationCooldown = repopulationCooldown;
     }
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
         ItemStack inventoryItem = null;
-        for(int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack = inv.getStackInSlot(j);
+        for(int j = 0; j < inv.getContainerSize(); ++j) {
+            ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (inventoryItem != null) {
                     return false;
@@ -65,18 +63,18 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 
@@ -108,46 +106,44 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
 
         @Nonnull
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
+        public T fromJson(ResourceLocation id, JsonObject json) {
             Ingredient ingredient;
-            if (JSONUtils.isJsonArray(json, "ingredient")) {
-                ingredient = Ingredient.deserialize(JSONUtils.getJsonArray(json, "ingredient"));
+            if (JSONUtils.isArrayNode(json, "ingredient")) {
+                ingredient = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "ingredient"));
             }
             else {
-                ingredient = Ingredient.deserialize(JSONUtils.getJsonObject(json, "ingredient"));
+                ingredient = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "ingredient"));
             }
 
-            JsonArray jsonArray = JSONUtils.getJsonArray(json, "results");
+            JsonArray jsonArray = JSONUtils.getAsJsonArray(json, "results");
             List<Lazy<BeeIngredient>> output = new ArrayList<>();
             jsonArray.forEach(el -> {
                 JsonObject jsonObject = el.getAsJsonObject();
-                String beeName = JSONUtils.getString(jsonObject, "bee");
+                String beeName = JSONUtils.getAsString(jsonObject, "bee");
                 Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
                 output.add(beeIngredient);
             });
 
             List<String> biomes = new ArrayList<>();
             if (json.has("biomes")) {
-                JSONUtils.getJsonArray(json, "biomes").forEach(jsonElement -> {
+                JSONUtils.getAsJsonArray(json, "biomes").forEach(jsonElement -> {
                     biomes.add(jsonElement.getAsString());
                 });
             }
 
             String temperature = json.has("temperature") ? json.get("temperature").getAsString() : "any";
 
-            int repopulationCooldown = JSONUtils.getInt(json, "repopulation_cooldown", 36000);
-
-            return this.factory.create(id, ingredient, output, biomes, temperature, repopulationCooldown);
+            return this.factory.create(id, ingredient, output, biomes, temperature);
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                Ingredient ingredient = Ingredient.read(buffer);
+                Ingredient ingredient = Ingredient.fromNetwork(buffer);
 
                 List<Lazy<BeeIngredient>> output = new ArrayList<>();
                 IntStream.range(0, buffer.readInt()).forEach(
                         i -> {
-                            BeeIngredient ing = BeeIngredient.read(buffer);
+                            BeeIngredient ing = BeeIngredient.fromNetwork(buffer);
                             output.add(Lazy.of(() -> ing));
                         }
                 );
@@ -155,29 +151,27 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
                 List<String> biomes = new ArrayList<>();
                 IntStream.range(0, buffer.readInt()).forEach(
                         i -> {
-                            biomes.add(buffer.readString());
+                            biomes.add(buffer.readUtf());
                         }
                 );
 
-                String temperature = buffer.readString();
+                String temperature = buffer.readUtf();
 
-                int repopulationCooldown = buffer.readInt();
-
-                return this.factory.create(id, ingredient, output, biomes, temperature, repopulationCooldown);
+                return this.factory.create(id, ingredient, output, biomes, temperature);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee spawning recipe from packet. " + id, e);
                 throw e;
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
-                recipe.ingredient.write(buffer);
+                recipe.ingredient.toNetwork(buffer);
 
                 buffer.writeInt(recipe.output.size());
                 for (Lazy<BeeIngredient> beeOutput : recipe.output) {
                     if (beeOutput.get() != null) {
-                        beeOutput.get().write(buffer);
+                        beeOutput.get().toNetwork(buffer);
                     }
                     else {
                         ProductiveBees.LOGGER.error("Bee spawning recipe output missing " + recipe.getId() + " - " + beeOutput);
@@ -185,11 +179,9 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
                 }
 
                 buffer.writeInt(recipe.biomes.size());
-                recipe.biomes.forEach(buffer::writeString);
+                recipe.biomes.forEach(buffer::writeUtf);
 
-                buffer.writeString(recipe.temperature);
-
-                buffer.writeInt(recipe.repopulationCooldown);
+                buffer.writeUtf(recipe.temperature);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee spawning recipe to packet. " + recipe.getId(), e);
                 throw e;
@@ -198,7 +190,7 @@ public class BeeSpawningRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends BeeSpawningRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, List<Lazy<BeeIngredient>> output, List<String> biomes, String temperature, int repopulationCooldown);
+            T create(ResourceLocation id, Ingredient input, List<Lazy<BeeIngredient>> output, List<String> biomes, String temperature);
         }
     }
 }

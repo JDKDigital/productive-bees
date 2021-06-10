@@ -30,11 +30,12 @@ import java.util.List;
 
 public class HoarderBeeEntity extends ProductiveBeeEntity
 {
-    protected static final DataParameter<Byte> PEEK_TICK = EntityDataManager.createKey(HoarderBeeEntity.class, DataSerializers.BYTE);
+    protected static final DataParameter<Byte> PEEK_TICK = EntityDataManager.defineId(HoarderBeeEntity.class, DataSerializers.BYTE);
     private float prevPeekAmount;
     private float peekAmount = 1.0F;
     public BlockPos targetItemPos = null;
     private final Inventory inventory;
+    private int outOfHiveCounter = 0;
 
     public HoarderBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -60,9 +61,9 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(PEEK_TICK, (byte) 100);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(PEEK_TICK, (byte) 100);
     }
 
     @Override
@@ -73,8 +74,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         prevPeekAmount = peekAmount;
         if (peekAmount > f1) {
             peekAmount = MathHelper.clamp(peekAmount - 0.05F, f1, 1.0F);
-        }
-        else if (peekAmount < f1) {
+        } else if (peekAmount < f1) {
             peekAmount = MathHelper.clamp(peekAmount + 0.05F, 0.0F, f1);
         }
     }
@@ -84,7 +84,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
     }
 
     public int getPeekTick() {
-        return this.dataManager.get(PEEK_TICK);
+        return this.entityData.get(PEEK_TICK);
     }
 
     public float getClientPeekAmount(float p_184688_1_) {
@@ -92,9 +92,9 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
     }
 
     @Override
-    public void readAdditional(CompoundNBT tag) {
-        super.readAdditional(tag);
-        this.dataManager.set(PEEK_TICK, tag.getByte("Peek"));
+    public void readAdditionalSaveData(CompoundNBT tag) {
+        super.readAdditionalSaveData(tag);
+        this.entityData.set(PEEK_TICK, tag.getByte("Peek"));
 
         if (tag.contains("targetItemPos")) {
             targetItemPos = NBTUtil.readBlockPos(tag.getCompound("targetItemPos"));
@@ -104,7 +104,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
             ListNBT listnbt = tag.getList("inventory", Constants.NBT.TAG_COMPOUND);
 
             for (int i = 0; i < listnbt.size(); ++i) {
-                ItemStack itemstack = ItemStack.read(listnbt.getCompound(i));
+                ItemStack itemstack = ItemStack.of(listnbt.getCompound(i));
                 if (!itemstack.isEmpty()) {
                     inventory.addItem(itemstack);
                 }
@@ -114,9 +114,9 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
     }
 
     @Override
-    public void writeAdditional(CompoundNBT tag) {
-        super.writeAdditional(tag);
-        tag.putByte("Peek", this.dataManager.get(PEEK_TICK));
+    public void addAdditionalSaveData(CompoundNBT tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putByte("Peek", this.entityData.get(PEEK_TICK));
 
         if (targetItemPos != null) {
             tag.put("targetItemPos", NBTUtil.writeBlockPos(targetItemPos));
@@ -125,10 +125,10 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         if (!inventory.isEmpty()) {
             ListNBT listnbt = new ListNBT();
 
-            for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-                ItemStack itemstack = inventory.getStackInSlot(i);
+            for (int i = 0; i < inventory.getContainerSize(); ++i) {
+                ItemStack itemstack = inventory.getItem(i);
                 if (!itemstack.isEmpty()) {
-                    listnbt.add(itemstack.write(new CompoundNBT()));
+                    listnbt.add(itemstack.save(new CompoundNBT()));
                 }
             }
 
@@ -136,12 +136,18 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         }
     }
 
+    @Override
+    public void resetTicksWithoutNectarSinceExitingHive() {
+        super.resetTicksWithoutNectarSinceExitingHive();
+        outOfHiveCounter = 0;
+    }
+
     public void openAbdomen() {
-        this.dataManager.set(PEEK_TICK, (byte) 0);
+        this.entityData.set(PEEK_TICK, (byte) 0);
     }
 
     public void closeAbdomen() {
-        this.dataManager.set(PEEK_TICK, (byte) 100);
+        this.entityData.set(PEEK_TICK, (byte) 100);
     }
 
     public boolean holdsItem() {
@@ -149,35 +155,34 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
     }
 
     public void emptyIntoInventory(InventoryHandlerHelper.ItemHandler inv) {
-        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-            ItemStack itemstack = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.getContainerSize(); ++i) {
+            ItemStack itemstack = inventory.getItem(i);
             if (inv.addOutput(itemstack.copy())) {
-                ProductiveBees.LOGGER.info("Has inserted " + itemstack);
-                inventory.removeStackFromSlot(i);
+                inventory.removeItemNoUpdate(i);
             }
         }
-        inventory.markDirty();
+        inventory.setChanged();
     }
 
     @Override
-    public boolean canEnterHive() {
-        return !isInventoryEmpty() || super.canEnterHive();
+    public boolean wantsToEnterHive() {
+        return outOfHiveCounter > 600 || !inventoryHasSpace() || super.wantsToEnterHive();
     }
 
     @Override
-    public void onDeath(@Nonnull DamageSource damageSource) {
-        super.onDeath(damageSource);
+    public void die(@Nonnull DamageSource damageSource) {
+        super.die(damageSource);
         if (!isInventoryEmpty()) {
-            InventoryHelper.dropInventoryItems(world, this, inventory);
+            InventoryHelper.dropContents(level, this, inventory);
         }
     }
 
     public List<ItemEntity> getItemsNearby(double distance) {
-        return getItemsNearby(this.getPosition(), distance);
+        return getItemsNearby(blockPosition(), distance);
     }
 
     public List<ItemEntity> getItemsNearby(BlockPos pos, double distance) {
-        return world.getEntitiesWithinAABB(ItemEntity.class, (new AxisAlignedBB(pos).grow(distance, distance, distance)));
+        return level.getEntitiesOfClass(ItemEntity.class, (new AxisAlignedBB(pos).expandTowards(distance, distance, distance)));
     }
 
     public boolean isInventoryEmpty() {
@@ -185,8 +190,8 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
     }
 
     private boolean inventoryHasSpace() {
-        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-            ItemStack itemstack = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.getContainerSize(); ++i) {
+            ItemStack itemstack = inventory.getItem(i);
             if (itemstack.isEmpty()) {
                 return true;
             }
@@ -199,35 +204,31 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         private int ticks = 0;
 
         @Override
-        public boolean shouldExecute() {
+        public boolean canUse() {
             if (HoarderBeeEntity.this.targetItemPos != null && !positionHasItemEntity(HoarderBeeEntity.this.targetItemPos)) {
                 HoarderBeeEntity.this.targetItemPos = null;
             }
             return
                     HoarderBeeEntity.this.targetItemPos != null &&
-                    HoarderBeeEntity.this.inventoryHasSpace() && !HoarderBeeEntity.this.isAngry() &&
-                    !HoarderBeeEntity.this.isWithinDistance(HoarderBeeEntity.this.targetItemPos, 2);
+                    HoarderBeeEntity.this.inventoryHasSpace() &&
+                    !HoarderBeeEntity.this.isAngry() &&
+                    !HoarderBeeEntity.this.closerThan(HoarderBeeEntity.this.targetItemPos, 2);
         }
 
-        @Override
-        public boolean shouldContinueExecuting() {
-            return shouldExecute();
-        }
-
-        public void startExecuting() {
+        public void start() {
             this.ticks = 0;
-            super.startExecuting();
+            super.start();
         }
 
         public void tick() {
+            HoarderBeeEntity.this.outOfHiveCounter++;
             if (HoarderBeeEntity.this.targetItemPos != null) {
                 ++this.ticks;
                 if (this.ticks > 600) {
                     HoarderBeeEntity.this.targetItemPos = null;
-                }
-                else if (!HoarderBeeEntity.this.navigator.noPath()) {
+                } else if (!HoarderBeeEntity.this.navigation.isStuck()) {
                     BlockPos itemPos = HoarderBeeEntity.this.targetItemPos;
-                    HoarderBeeEntity.this.navigator.tryMoveToXYZ(itemPos.getX(), itemPos.getY(), itemPos.getZ(), 1.0D);
+                    HoarderBeeEntity.this.navigation.moveTo(itemPos.getX(), itemPos.getY(), itemPos.getZ(), 1.0D);
                 }
             }
         }
@@ -242,7 +243,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         private int ticks = 0;
 
         @Override
-        public boolean shouldExecute() {
+        public boolean canUse() {
             boolean canStart =
                     HoarderBeeEntity.this.inventoryHasSpace() &&
                     !HoarderBeeEntity.this.isAngry();
@@ -253,11 +254,11 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
                 if (!items.isEmpty()) {
                     BlockPos nearestItemLocation = null;
                     double nearestItemDistance = 0;
-                    BlockPos beeLocation = HoarderBeeEntity.this.getPosition();
+                    BlockPos beeLocation = HoarderBeeEntity.this.blockPosition();
                     int i = 0;
                     for (ItemEntity item : items) {
-                        BlockPos itemLocation = new BlockPos(item.getPosX(), item.getPosY(), item.getPosZ());
-                        double distance = itemLocation.distanceSq(beeLocation);
+                        BlockPos itemLocation = new BlockPos(item.getX(), item.getY(), item.getZ());
+                        double distance = itemLocation.distSqr(beeLocation);
                         if (nearestItemDistance == 0 || distance < nearestItemDistance) {
                             nearestItemDistance = distance;
                             nearestItemLocation = itemLocation;
@@ -279,16 +280,16 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            return HoarderBeeEntity.this.targetItemPos != null && HoarderBeeEntity.this.hasHive() && HoarderBeeEntity.this.inventoryHasSpace() && !HoarderBeeEntity.this.isAngry();
+        public boolean canContinueToUse() {
+            return HoarderBeeEntity.this.targetItemPos != null && HoarderBeeEntity.this.inventoryHasSpace() && !HoarderBeeEntity.this.isAngry();
         }
 
-        public void startExecuting() {
+        public void start() {
             ticks = 0;
         }
 
         @Override
-        public void resetTask() {
+        public void stop() {
             ticks = 0;
             HoarderBeeEntity.this.closeAbdomen();
         }
@@ -299,10 +300,9 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
             if (HoarderBeeEntity.this.targetItemPos != null) {
                 if (ticks > 600) {
                     HoarderBeeEntity.this.targetItemPos = null;
-                }
-                else {
-                    Vector3d vec3d = Vector3d.copyCenteredHorizontally(HoarderBeeEntity.this.targetItemPos).add(0.0D, (double) 0.6F, 0.0D);
-                    double distanceToTarget = vec3d.distanceTo(HoarderBeeEntity.this.getPositionVec());
+                } else {
+                    Vector3d vec3d = Vector3d.atCenterOf(HoarderBeeEntity.this.targetItemPos).add(0.0D, 0.6F, 0.0D);
+                    double distanceToTarget = vec3d.distanceTo(HoarderBeeEntity.this.position());
 
                     if (distanceToTarget < 2.0D && distanceToTarget > 0.2D) {
                         HoarderBeeEntity.this.openAbdomen();
@@ -310,8 +310,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
 
                     if (distanceToTarget > 1.0D) {
                         this.moveToNextTarget(vec3d);
-                    }
-                    else {
+                    } else {
                         if (distanceToTarget > 0.1D && ticks > 600) {
                             HoarderBeeEntity.this.targetItemPos = null;
                         } else {
@@ -330,7 +329,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
 
                                 HoarderBeeEntity.this.closeAbdomen();
 
-                                HoarderBeeEntity.this.playSound(SoundEvents.ENTITY_BEE_POLLINATE, 1.0F, 1.0F);
+                                HoarderBeeEntity.this.playSound(SoundEvents.BEE_POLLINATE, 1.0F, 1.0F);
                             }
                         }
                     }
@@ -339,7 +338,7 @@ public class HoarderBeeEntity extends ProductiveBeeEntity
         }
 
         private void moveToNextTarget(Vector3d nextTarget) {
-            HoarderBeeEntity.this.getMoveHelper().setMoveTo(nextTarget.getX(), nextTarget.getY(), nextTarget.getZ(), 1.0F);
+            HoarderBeeEntity.this.getMoveControl().setWantedPosition(nextTarget.x, nextTarget.y, nextTarget.z, 1.0F);
         }
     }
 }

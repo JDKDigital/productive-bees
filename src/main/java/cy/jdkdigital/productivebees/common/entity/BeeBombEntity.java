@@ -41,46 +41,46 @@ public class BeeBombEntity extends ProjectileItemEntity
     }
 
     @Override
-    protected void onImpact(@Nonnull RayTraceResult result) {
-        if (!this.world.isRemote) {
+    protected void onHit(@Nonnull RayTraceResult result) {
+        if (!this.level.isClientSide) {
             BlockPos blockPos = null;
             Entity entity = null;
             if (result.getType() == RayTraceResult.Type.BLOCK) {
-                blockPos = ((BlockRayTraceResult) result).getPos();
-            }
-            else if (result.getType() == RayTraceResult.Type.ENTITY) {
+                blockPos = ((BlockRayTraceResult) result).getBlockPos();
+            } else if (result.getType() == RayTraceResult.Type.ENTITY) {
                 entity = ((EntityRayTraceResult) result).getEntity();
-                blockPos = entity.getPosition();
+                blockPos = entity.blockPosition();
             }
 
             // Release list of bees near landing location
-            ItemStack bomb = func_213882_k();
+            ItemStack bomb = getItem();
 
             boolean isAngry = bomb.getItem() instanceof BeeBombAngry;
 
-            blockPos = blockPos.up();
+            if (blockPos != null) {
+                blockPos = blockPos.above();
 
-            ListNBT bees = BeeBomb.getBees(bomb);
-            if (!(entity instanceof PlayerEntity)) {
-                List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, (new AxisAlignedBB(blockPos).grow(2.0D, 2.0D, 2.0D)));
-                if (players.size() > 0) {
-                    entity = players.iterator().next();
-                }
-            }
-            for (INBT bee : bees) {
-                Entity beeEntity = BeeCage.getEntityFromStack((CompoundNBT) bee, world, true);
-                if (beeEntity != null) {
-                    beeEntity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
-                    if (isAngry && beeEntity instanceof BeeEntity) {
-                        if (entity instanceof PlayerEntity) {
-                            ((BeeEntity) beeEntity).setAngerTarget(entity.getUniqueID());
-                        }
-                        else {
-                            ((BeeEntity) beeEntity).setAngerTime(400 + this.rand.nextInt(400));
-                        }
+                ListNBT bees = BeeBomb.getBees(bomb);
+                if (!(entity instanceof PlayerEntity)) {
+                    List<PlayerEntity> players = level.getEntitiesOfClass(PlayerEntity.class, (new AxisAlignedBB(blockPos).expandTowards(2.0D, 2.0D, 2.0D)));
+                    if (players.size() > 0) {
+                        entity = players.iterator().next();
                     }
+                }
+                for (INBT bee : bees) {
+                    BeeEntity beeEntity = BeeCage.getEntityFromStack((CompoundNBT) bee, level, true);
+                    if (beeEntity != null) {
+                        beeEntity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
+                        if (isAngry) {
+                            if (entity instanceof PlayerEntity) {
+                                beeEntity.setPersistentAngerTarget(entity.getUUID());
+                            } else {
+                                beeEntity.setRemainingPersistentAngerTime(400 + this.random.nextInt(400));
+                            }
+                        }
 
-                    world.addEntity(beeEntity);
+                        level.addFreshEntity(beeEntity);
+                    }
                 }
             }
             this.remove();
@@ -89,7 +89,7 @@ public class BeeBombEntity extends ProjectileItemEntity
 
     @Nonnull
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

@@ -27,7 +27,7 @@ public class SugarbagNest extends BeehiveBlock
     }
 
     @Nullable
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public TileEntity newBlockEntity(IBlockReader worldIn) {
         return new SugarbagNestTileEntity();
     }
 
@@ -38,20 +38,20 @@ public class SugarbagNest extends BeehiveBlock
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        ItemStack itemstack = player.getHeldItem(handIn);
-        int i = state.get(HONEY_LEVEL);
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        ItemStack itemstack = player.getItemInHand(handIn);
+        int i = state.getValue(HONEY_LEVEL);
         if (i >= 5) {
             if (itemstack.getItem() == Items.SHEARS) {
-                worldIn.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-                spawnAsEntity(worldIn, pos, new ItemStack(ModItems.SUGARBAG_HONEYCOMB.get(), 3));
-                itemstack.damageItem(1, player, (playerEntity) -> {
-                    playerEntity.sendBreakAnimation(handIn);
+                worldIn.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                popResource(worldIn, pos, new ItemStack(ModItems.SUGARBAG_HONEYCOMB.get(), 3));
+                itemstack.hurtAndBreak(1, player, (entity) -> {
+                    entity.broadcastBreakEvent(handIn);
                 });
-                this.takeHoney(worldIn, state, pos);
+                this.resetHoneyLevel(worldIn, state, pos);
                 return ActionResultType.SUCCESS;
             }
         }
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+        return super.use(state, worldIn, pos, player, handIn, hit);
     }
 }

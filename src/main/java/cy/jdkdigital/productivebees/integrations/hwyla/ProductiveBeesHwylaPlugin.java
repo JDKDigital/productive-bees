@@ -25,7 +25,7 @@ public class ProductiveBeesHwylaPlugin implements IWailaPlugin
                 BlockState state = accessor.getBlockState();
 
                 if (state.hasProperty(BeehiveBlock.HONEY_LEVEL)) {
-                    int honeyLevel = state.get(BeehiveBlock.HONEY_LEVEL);
+                    int honeyLevel = state.getValue(BeehiveBlock.HONEY_LEVEL);
                     tooltip.add(new TranslationTextComponent("productivebees.hive.tooltip.honey_level", honeyLevel));
                 }
             }

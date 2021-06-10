@@ -30,7 +30,7 @@ public class Honeycomb extends Item
     }
 
     public int getColor(ItemStack stack) {
-        CompoundNBT tag = stack.getChildTag("EntityTag");
+        CompoundNBT tag = stack.getTagElement("EntityTag");
         if (tag != null && tag.contains("type")) {
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
@@ -42,22 +42,22 @@ public class Honeycomb extends Item
 
     @Nonnull
     @Override
-    public ITextComponent getDisplayName(ItemStack stack) {
-        CompoundNBT tag = stack.getChildTag("EntityTag");
+    public ITextComponent getName(ItemStack stack) {
+        CompoundNBT tag = stack.getTagElement("EntityTag");
         if (tag != null && tag.contains("type")) {
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
                 return new TranslationTextComponent("item.productivebees.honeycomb_configurable", nbt.getString("name").replace(" Bee", ""));
             }
         }
-        return super.getDisplayName(stack);
+        return super.getName(stack);
     }
 
     @Override
-    public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
+    public void fillItemCategory(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (!this.equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
-            super.fillItemGroup(group, items);
-        } else if (group == ItemGroup.SEARCH) {
+            super.fillItemCategory(group, items);
+        } else if (group == ItemGroup.TAB_SEARCH) {
             for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
                 String beeType = entry.getKey();
                 if (entry.getValue().getBoolean("createComb")) {

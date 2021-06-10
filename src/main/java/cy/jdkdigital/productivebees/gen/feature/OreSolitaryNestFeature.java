@@ -30,7 +30,7 @@ public class OreSolitaryNestFeature extends SolitaryNestFeature
     }
 
     @Override
-    public boolean generate(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
+    public boolean place(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
         if (nestShouldNotGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
@@ -39,19 +39,19 @@ public class OreSolitaryNestFeature extends SolitaryNestFeature
         blockPos = blockPos.south(rand.nextInt(14)).east(rand.nextInt(14));
 
         // Go to yMin
-        blockPos = blockPos.up(yMin);
+        blockPos = blockPos.above(yMin);
 
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
         while (blockPos.getY() < yMax) {
-            blockPos = blockPos.up(2);
+            blockPos = blockPos.above(2);
             if (matcher.test(world.getBlockState(blockPos))) {
                 // Find air
                 int d = 3;
-                List<BlockPos> blockList = BlockPos.getAllInBox(blockPos.add(-d, -d, -d), blockPos.add(d, d, d)).map(BlockPos::toImmutable).collect(Collectors.toList());
+                List<BlockPos> blockList = BlockPos.betweenClosedStream(blockPos.offset(-d, -d, -d), blockPos.offset(d, d, d)).map(BlockPos::immutable).collect(Collectors.toList());
                 for (BlockPos pos : blockList) {
-                    if (world.isAirBlock(pos)) {
+                    if (world.isEmptyBlock(pos)) {
                         // Find block around that air pos
-                        List<BlockPos> aroundAir = BlockPos.getAllInBox(pos.add(-1, -1, -1), pos.add(1, 1, 1)).map(BlockPos::toImmutable).collect(Collectors.toList());
+                        List<BlockPos> aroundAir = BlockPos.betweenClosedStream(pos.offset(-1, -1, -1), pos.offset(1, 1, 1)).map(BlockPos::immutable).collect(Collectors.toList());
                         for (BlockPos airPos : aroundAir) {
                             if (matcher.test(world.getBlockState(airPos))) {
                                 placeNest(world, blockPos, featureConfig);

@@ -22,7 +22,7 @@ import java.util.List;
 
 public class Jar extends Block
 {
-    private static final VoxelShape SHAPE = makeCuboidShape(3.5D, 0.0D, 3.5D, 12.5D, 12.0D, 12.5D);
+    private static final VoxelShape SHAPE = box(3.5D, 0.0D, 3.5D, 12.5D, 12.0D, 12.5D);
 
     public Jar(Properties properties) {
         super(properties);
@@ -37,13 +37,13 @@ public class Jar extends Block
 
     @SuppressWarnings("deprecation")
     @Override
-    public float getAmbientOcclusionLightValue(BlockState p_220080_1_, IBlockReader p_220080_2_, BlockPos p_220080_3_) {
-        return 1.0F;
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+        return 1;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean propagatesSkylightDown(BlockState p_200123_1_, IBlockReader p_200123_2_, BlockPos p_200123_3_) {
+    public boolean propagatesSkylightDown(BlockState state, IBlockReader world, BlockPos pos) {
         return true;
     }
 
@@ -59,8 +59,8 @@ public class Jar extends Block
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
         CompoundNBT tag = stack.getTag();
         if (tag != null && tag.contains("inv")) {
@@ -70,7 +70,7 @@ public class Jar extends Block
             if (tagList.size() > 0) {
                 CompoundNBT itemTag = tagList.getCompound(0);
 
-                ItemStack cage = ItemStack.read(itemTag);
+                ItemStack cage = ItemStack.of(itemTag);
 
                 String entityId = cage.getTag().getString("name");
                 tooltip.add(new TranslationTextComponent("productivebees.information.jar.bee", entityId));

@@ -43,15 +43,15 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
         Map<String, Integer> addedGenes = new HashMap<>();
         ItemStack honeyTreatStack = null;
         boolean hasAddedGenes = false;
-        for (int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack = inv.getStackInSlot(j);
+        for (int j = 0; j < inv.getContainerSize(); ++j) {
+            ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.HONEY_TREAT.get()) && honeyTreatStack == null) {
                     honeyTreatStack = itemstack;
                     // Read existing attributes from treat
                     ListNBT genes = HoneyTreat.getGenes(honeyTreatStack);
                     for (INBT inbt : genes) {
-                        ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
+                        ItemStack insertedGene = ItemStack.of((CompoundNBT) inbt);
                         String attribute = Gene.getAttributeName(insertedGene);
                         if (addedGenes.containsKey(attribute) && !addedGenes.get(attribute).equals(Gene.getValue(insertedGene))) {
                             return false;
@@ -84,13 +84,13 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         // Combine genes with honey treat
         ItemStack treat = null;
         List<ItemStack> genes = new ArrayList<>();
 
-        for (int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack = inv.getStackInSlot(j);
+        for (int j = 0; j < inv.getContainerSize(); ++j) {
+            ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.HONEY_TREAT.get())) {
                     treat = itemstack;
@@ -114,13 +114,13 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width >= 2 && height >= 2;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return this.honeyTreat;
     }
 
@@ -129,8 +129,8 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> list = NonNullList.create();
 
-        list.add(Ingredient.fromStacks(honeyTreat.copy()));
-        list.add(Ingredient.fromStacks(new ItemStack(ModItems.GENE.get())));
+        list.add(Ingredient.of(honeyTreat.copy()));
+        list.add(Ingredient.of(new ItemStack(ModItems.GENE.get())));
 
         return list;
     }
@@ -156,22 +156,22 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
         }
 
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
+        public T fromJson(ResourceLocation id, JsonObject json) {
             return this.factory.create(id, new ItemStack(ModItems.HONEY_TREAT.get()));
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                return this.factory.create(id, buffer.readItemStack());
+                return this.factory.create(id, buffer.readItem());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading honey treat gene recipe from packet. " + id, e);
                 throw e;
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
-                buffer.writeItemStack(recipe.honeyTreat);
+                buffer.writeItem(recipe.honeyTreat);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing honey treat gene recipe to packet. " + recipe.getId(), e);
                 throw e;

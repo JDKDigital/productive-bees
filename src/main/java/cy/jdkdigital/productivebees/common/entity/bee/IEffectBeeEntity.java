@@ -15,7 +15,7 @@ public interface IEffectBeeEntity
     default void attackTarget(LivingEntity target) {
         if (getAggressiveEffects() != null) {
             for (Map.Entry<Effect, Integer> entry : getAggressiveEffects().entrySet()) {
-                target.addPotionEffect(new EffectInstance(entry.getKey(), entry.getValue(), 1));
+                target.addEffect(new EffectInstance(entry.getKey(), entry.getValue(), 1));
             }
         }
     }

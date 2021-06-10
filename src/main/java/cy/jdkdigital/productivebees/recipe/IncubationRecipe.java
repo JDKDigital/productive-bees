@@ -40,18 +40,18 @@ public class IncubationRecipe implements IRecipe<IInventory>
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 
@@ -83,48 +83,48 @@ public class IncubationRecipe implements IRecipe<IInventory>
 
         @Nonnull
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
+        public T fromJson(ResourceLocation id, JsonObject json) {
             Ingredient input;
-            if (JSONUtils.isJsonArray(json, "input")) {
-                input = Ingredient.deserialize(JSONUtils.getJsonArray(json, "input"));
+            if (JSONUtils.isArrayNode(json, "input")) {
+                input = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "input"));
             }
             else {
-                input = Ingredient.deserialize(JSONUtils.getJsonObject(json, "input"));
+                input = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "input"));
             }
 
             Ingredient catalyst;
-            if (JSONUtils.isJsonArray(json, "catalyst")) {
-                catalyst = Ingredient.deserialize(JSONUtils.getJsonArray(json, "catalyst"));
+            if (JSONUtils.isArrayNode(json, "catalyst")) {
+                catalyst = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "catalyst"));
             }
             else {
-                catalyst = Ingredient.deserialize(JSONUtils.getJsonObject(json, "catalyst"));
+                catalyst = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "catalyst"));
             }
 
             Ingredient output;
-            if (JSONUtils.isJsonArray(json, "output")) {
-                output = Ingredient.deserialize(JSONUtils.getJsonArray(json, "output"));
+            if (JSONUtils.isArrayNode(json, "output")) {
+                output = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "output"));
             }
             else {
-                output = Ingredient.deserialize(JSONUtils.getJsonObject(json, "output"));
+                output = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "output"));
             }
 
             return this.factory.create(id, input, catalyst, output);
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                return this.factory.create(id, Ingredient.read(buffer), Ingredient.read(buffer), Ingredient.read(buffer));
+                return this.factory.create(id, Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer));
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee incubation recipe from packet. " + id, e);
                 throw e;
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
-                recipe.input.write(buffer);
-                recipe.catalyst.write(buffer);
-                recipe.result.write(buffer);
+                recipe.input.toNetwork(buffer);
+                recipe.catalyst.toNetwork(buffer);
+                recipe.result.toNetwork(buffer);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee incubation recipe to packet. " + recipe.getId(), e);
                 throw e;

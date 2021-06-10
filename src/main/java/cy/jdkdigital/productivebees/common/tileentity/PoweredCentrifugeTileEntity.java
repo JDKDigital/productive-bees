@@ -33,7 +33,7 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
     @Override
     public void tick() {
         super.tick();
-        if (getBlockState().get(Centrifuge.RUNNING) && world instanceof ServerWorld) {
+        if (getBlockState().getValue(Centrifuge.RUNNING) && level instanceof ServerWorld) {
             energyHandler.ifPresent(handler -> {
                 handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * getEnergyConsumptionModifier()), false);
             });
@@ -69,7 +69,7 @@ public class PoweredCentrifugeTileEntity extends CentrifugeTileEntity
 
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(ModBlocks.POWERED_CENTRIFUGE.get().getTranslationKey());
+        return new TranslationTextComponent(ModBlocks.POWERED_CENTRIFUGE.get().getDescriptionId());
     }
 
     @Nullable

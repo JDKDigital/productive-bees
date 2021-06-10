@@ -7,6 +7,5 @@
         {
             "bee": "productivebees:reed_bee"
         }
-    ],
-    "repopulation_cooldown": 36000
+    ]
 }

@@ -16,7 +16,7 @@ public class ModTileEntityTypes
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ProductiveBees.MODID);
 
     public static final RegistryObject<TileEntityType<AdvancedBeehiveTileEntity>> ADVANCED_BEEHIVE = TILE_ENTITY_TYPES.register("advanced_beehive", () ->
-            TileEntityType.Builder.create(AdvancedBeehiveTileEntity::new,
+            TileEntityType.Builder.of(AdvancedBeehiveTileEntity::new,
                     ModBlocks.ADVANCED_OAK_BEEHIVE.get(),
                     ModBlocks.ADVANCED_SPRUCE_BEEHIVE.get(),
                     ModBlocks.ADVANCED_BIRCH_BEEHIVE.get(),
@@ -53,7 +53,7 @@ public class ModTileEntityTypes
     );
 
     public static final RegistryObject<TileEntityType<SolitaryNestTileEntity>> SOLITARY_NEST = TILE_ENTITY_TYPES.register("solitary_nest", () ->
-            TileEntityType.Builder.create(SolitaryNestTileEntity::new,
+            TileEntityType.Builder.of(SolitaryNestTileEntity::new,
                     ModBlocks.SAND_NEST.get(),
                     ModBlocks.SNOW_NEST.get(),
                     ModBlocks.STONE_NEST.get(),
@@ -77,7 +77,7 @@ public class ModTileEntityTypes
     );
 
     public static final RegistryObject<TileEntityType<ExpansionBoxTileEntity>> EXPANSION_BOX = TILE_ENTITY_TYPES.register("expansion_box", () ->
-            TileEntityType.Builder.create(ExpansionBoxTileEntity::new,
+            TileEntityType.Builder.of(ExpansionBoxTileEntity::new,
                     ModBlocks.EXPANSION_BOX_SPRUCE.get(),
                     ModBlocks.EXPANSION_BOX_BIRCH.get(),
                     ModBlocks.EXPANSION_BOX_JUNGLE.get(),
@@ -128,7 +128,7 @@ public class ModTileEntityTypes
 
     private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String name, Supplier<T> factory, Supplier<Block> block) {
         return TILE_ENTITY_TYPES.register(name, () ->
-                TileEntityType.Builder.create(factory, block.get()).build(null)
+                TileEntityType.Builder.of(factory, block.get()).build(null)
         );
     }
 }

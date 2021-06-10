@@ -74,6 +74,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue numberOfBeesPerBomb;
         public final ForgeConfigSpec.IntValue beeSyncDelay;
         public final ForgeConfigSpec.IntValue nestLocatorDistance;
+        public final ForgeConfigSpec.IntValue nestSpawnCooldown;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -134,6 +135,10 @@ public class ProductiveBeesConfig
                     .comment("The distance a nest locator can search for nests.")
                     .defineInRange("nestLocatorDistance", 100, 0, 1000);
 
+            nestSpawnCooldown = builder
+                    .comment("Initial tick cooldown when repopulating a nest.")
+                    .defineInRange("nestSpawnCooldown", 24000, 0, Integer.MAX_VALUE);
+
             builder.pop();
         }
     }
@@ -144,6 +149,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.DoubleValue spawnUndeadBeesChance;
         public final ForgeConfigSpec.IntValue cupidBeeAnimalsPerPollination;
         public final ForgeConfigSpec.IntValue cupidBeeAnimalDensity;
+        public final ForgeConfigSpec.IntValue cuckooSpawnCount;
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
@@ -157,9 +163,14 @@ public class ProductiveBeesConfig
             cupidBeeAnimalsPerPollination = builder
                     .comment("How many animals a CuBee can breed per pollination")
                     .defineInRange("cupidBeeAnimalsPerPollination", 5, 0, Integer.MAX_VALUE);
+
             cupidBeeAnimalDensity = builder
                     .comment("How densely populated should an areas need to be for the CuBee to stop breeding. The value approximates how many animals can be in a 10x10 area around the bee.")
                     .defineInRange("cupidBeeAnimalDensity", 20, 0, Integer.MAX_VALUE);
+
+            cuckooSpawnCount = builder
+                    .comment("How many cuckoo bees can spawn from a nest before it shuts off")
+                    .defineInRange("cuckooSpawnCount", 2, 0, Integer.MAX_VALUE);
 
             builder.pop();
         }
@@ -206,7 +217,7 @@ public class ProductiveBeesConfig
 
         public WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push("Worldgen");
-            builder.comment("Which nests should generate in the world. Nest will still be craftable and attract bees when placed in the world.");
+            builder.comment("Which nests should generate in the level. Nest will still be craftable and attract bees when placed in the level.");
 
             for (RegistryObject<Block> blockReg : ModBlocks.BLOCKS.getEntries()) {
                 ResourceLocation resName = blockReg.getId();

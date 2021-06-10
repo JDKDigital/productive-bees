@@ -77,17 +77,18 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     @Nonnull
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey());
+        return new TranslationTextComponent(this.getBlockState().getBlock().getDescriptionId());
     }
 
-    public boolean isSmoked() {
+    @Override
+    public boolean isSedated() {
         return true;
     }
 
     @Override
     public void tick() {
-        final World world = this.world;
-        if (world == null || world.isRemote()) {
+        final World world = level;
+        if (world == null || level.isClientSide()) {
             return;
         }
 
@@ -97,25 +98,25 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             // Spawn skeletal and zombie bees in empty hives
             ListNBT beeList = this.getBeeListAsNBTList();
             if (
-                    world.isNightTime() &&
+                    level.isNight() &&
                             ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
-                            world.rand.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
+                            level.random.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
                             beeList.size() + beesOutsideHive() == 0 &&
-                            world.getLight(pos.offset(getBlockState().get(BeehiveBlock.FACING), 1)) <= 8
+                            level.getLightEmission(worldPosition.relative(getBlockState().getValue(BeehiveBlock.FACING), 1)) <= 8
             ) {
                 EntityType<ConfigurableBeeEntity> beeType = ModEntities.CONFIGURABLE_BEE.get();
                 ConfigurableBeeEntity newBee = beeType.create(world);
                 if (newBee != null) {
-                    if (world.rand.nextBoolean()) {
+                    if (world.random.nextBoolean()) {
                         newBee.setBeeType("productivebees:skeletal");
                     } else {
                         newBee.setBeeType("productivebees:zombie");
                     }
                     newBee.setAttributes();
 
-                    tryEnterHive(newBee, false);
+                    addOccupant(newBee, false);
                 }
-                this.markDirty();
+                this.setChanged();
             }
         }
 
@@ -123,7 +124,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
             BlockState blockState = this.getBlockState();
 
             if (blockState.getBlock() instanceof AdvancedBeehive) {
-                int honeyLevel = blockState.get(BeehiveBlock.HONEY_LEVEL);
+                int honeyLevel = blockState.getValue(BeehiveBlock.HONEY_LEVEL);
 
                 // Auto harvest if empty bottles are in
                 if (honeyLevel >= 5) {
@@ -136,16 +137,16 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                             if (addedBottle) {
                                 ((InventoryHandlerHelper.ItemHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
                                 bottles.shrink(1);
-                                world.setBlockState(pos, blockState.with(BeehiveBlock.HONEY_LEVEL, finalHoneyLevel - 5));
+                                level.setBlockAndUpdate(worldPosition, blockState.setValue(BeehiveBlock.HONEY_LEVEL, finalHoneyLevel - 5));
                             }
                         }
                     });
-                    honeyLevel = this.world.getBlockState(this.pos).get(BeehiveBlock.HONEY_LEVEL);
+                    honeyLevel = level.getBlockState(worldPosition).getValue(BeehiveBlock.HONEY_LEVEL);
                 }
 
                 // Update any attached expansion box if the honey level reaches max
-                if (blockState.get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE && honeyLevel >= getMaxHoneyLevel(blockState)) {
-                    ((AdvancedBeehive) blockState.getBlock()).updateState(world, this.getPos(), blockState, false);
+                if (blockState.getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE && honeyLevel >= getMaxHoneyLevel(blockState)) {
+                    ((AdvancedBeehive) blockState.getBlock()).updateState(world, worldPosition, blockState, false);
                 }
             }
         }
@@ -168,8 +169,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         double combBlockUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) * ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
         double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
         return (int) (
-                super.getTimeInHive(hasNectar, beeEntity) *
-                        Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier)
+                super.getTimeInHive(hasNectar, beeEntity) * Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier)
         );
     }
 
@@ -178,9 +178,9 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         super.beeReleasePostAction(beeEntity, state, beeState);
 
         // Generate bee produce
-        if (world != null && beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
+        if (level != null && beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
             getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                BeeHelper.getBeeProduce(world, beeEntity, getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) > 0).forEach((stackIn) -> {
+                BeeHelper.getBeeProduce(level, beeEntity, getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) > 0).forEach((stackIn) -> {
                     ItemStack stack = stackIn.copy();
                     if (!stack.isEmpty()) {
                         if (beeEntity instanceof ProductiveBeeEntity) {
@@ -206,23 +206,26 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
         // Produce offspring if breeding upgrade is installed
         int breedingUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
-        if (breedingUpgrades > 0 && !beeEntity.isChild() && getBeeCount() > 0 && world.rand.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
-            // Count nearby bee entities
-            List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, (new AxisAlignedBB(pos).grow(3.0D, 3.0D, 3.0D)));
-            if (bees.size() < ProductiveBeesConfig.UPGRADES.breedingMaxNearbyEntities.get()) {
-                // Breed this bee with a random bee inside
-                Inhabitant otherBeeInhabitant = getBeeList().get(world.rand.nextInt(getBeeCount()));
-                BeeEntity otherBee = (BeeEntity) EntityType.loadEntityAndExecute(otherBeeInhabitant.nbt, world, (spawnedEntity) -> spawnedEntity);
-                Entity offspring = BeeHelper.getBreedingResult(beeEntity, otherBee, (ServerWorld) world);
-                if (offspring != null) {
-                    if (offspring instanceof ProductiveBeeEntity && beeEntity instanceof ProductiveBeeEntity) {
-                        BeeHelper.setOffspringAttributes((ProductiveBeeEntity) offspring, (ProductiveBeeEntity) beeEntity, otherBee);
+        if (breedingUpgrades > 0 && !beeEntity.isBaby() && getOccupantCount() > 0 && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
+            boolean canBreed = !(beeEntity instanceof ProductiveBeeEntity) || ((ProductiveBeeEntity) beeEntity).canSelfBreed();
+            if (canBreed) {
+                // Count nearby bee entities
+                List<BeeEntity> bees = level.getEntitiesOfClass(BeeEntity.class, (new AxisAlignedBB(worldPosition).expandTowards(3.0D, 3.0D, 3.0D)));
+                if (bees.size() < ProductiveBeesConfig.UPGRADES.breedingMaxNearbyEntities.get()) {
+                    // Breed this bee with a random bee inside
+                    Inhabitant otherBeeInhabitant = getBeeList().get(level.random.nextInt(getOccupantCount()));
+                    BeeEntity otherBee = (BeeEntity) EntityType.loadEntityRecursive(otherBeeInhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
+                    Entity offspring = BeeHelper.getBreedingResult(beeEntity, otherBee, (ServerWorld) level);
+                    if (offspring != null) {
+                        if (offspring instanceof ProductiveBeeEntity && beeEntity instanceof ProductiveBeeEntity) {
+                            BeeHelper.setOffspringAttributes((ProductiveBeeEntity) offspring, (ProductiveBeeEntity) beeEntity, otherBee);
+                        }
+                        if (offspring instanceof AnimalEntity) {
+                            ((AnimalEntity) offspring).setAge(-24000);
+                        }
+                        offspring.moveTo(beeEntity.getX(), beeEntity.getY(), beeEntity.getZ(), 0.0F, 0.0F);
+                        level.addFreshEntity(offspring);
                     }
-                    if (offspring instanceof AnimalEntity) {
-                        ((AnimalEntity) offspring).setGrowingAge(-24000);
-                    }
-                    offspring.setLocationAndAngles(beeEntity.getPosX(), beeEntity.getPosY(), beeEntity.getPosZ(), 0.0F, 0.0F);
-                    world.addEntity(offspring);
                 }
             }
         }
@@ -238,7 +241,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     @Override
     public boolean acceptsUpgrades() {
-        return getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+        return getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
     }
 
     @Override
@@ -258,8 +261,8 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
     }
 
     @Override
-    public void read(BlockState blockState, CompoundNBT tag) {
-        super.read(blockState, tag);
+    public void load(BlockState blockState, CompoundNBT tag) {
+        super.load(blockState, tag);
 
         CompoundNBT invTag = tag.getCompound("inv");
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(invTag));
@@ -273,8 +276,8 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
     @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
-        super.write(tag);
+    public CompoundNBT save(CompoundNBT tag) {
+        super.save(tag);
 
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) inv).serializeNBT();
@@ -297,12 +300,12 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
         tag.put("bees", getBeeListAsNBTList());
 
-        return new SUpdateTileEntityPacket(getPos(), -1, tag);
+        return new SUpdateTileEntityPacket(worldPosition, -1, tag);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        CompoundNBT tag = pkt.getNbtCompound();
+        CompoundNBT tag = pkt.getTag();
 
         if (tag.contains("bees")) {
             getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {

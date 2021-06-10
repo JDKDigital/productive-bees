@@ -64,13 +64,13 @@ public class BeeHelper
     public static Entity itemInteract(BeeEntity entity, ItemStack itemStack, ServerWorld world, CompoundNBT nbt, PlayerEntity player) {
         Entity bee = null;
 
-        if (!entity.isChild()) {
+        if (!entity.isBaby()) {
             IInventory beeInv = new IdentifierInventory(entity, itemStack.getItem().getRegistryName() + "");
 
             List<BeeConversionRecipe> recipes = new ArrayList<>();
 
             // Conversion recipes
-            Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeConversionRecipe.BEE_CONVERSION);
+            Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().byType(BeeConversionRecipe.BEE_CONVERSION);
             for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
                 BeeConversionRecipe recipe = (BeeConversionRecipe) entry.getValue();
                 if (recipe.matches(beeInv, world)) {
@@ -99,15 +99,15 @@ public class BeeHelper
                 itemStack.shrink(1);
             }
 
-            BlockPos pos = entity.getPosition();
-            bee.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.rotationYaw, bee.rotationPitch);
+            BlockPos pos = entity.blockPosition();
+            bee.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.yRot, bee.xRot);
             if (bee instanceof LivingEntity) {
                 ((LivingEntity) bee).setHealth(entity.getHealth());
-                ((LivingEntity) bee).renderYawOffset = entity.renderYawOffset;
+                ((LivingEntity) bee).yBodyRot = entity.yBodyRot;
             }
             if (bee instanceof AnimalEntity) {
-                if (entity.getGrowingAge() > 0) {
-                    ((AnimalEntity) bee).setGrowingAge(entity.getGrowingAge());
+                if (entity.getAge() > 0) {
+                    ((AnimalEntity) bee).setAge(entity.getAge());
                 }
             }
 
@@ -150,7 +150,12 @@ public class BeeHelper
             }
         }
 
-        // No recipe, check if bee is configurable and make a new of same type
+        // No recipe, check if any of the parents are not self breedable
+        if ((beeEntity instanceof ProductiveBeeEntity && !((ProductiveBeeEntity) beeEntity).canSelfBreed()) || (targetEntity instanceof ProductiveBeeEntity && !((ProductiveBeeEntity) targetEntity).canSelfBreed())) {
+            return null;
+        }
+
+        // Check if bee is configurable and make a new of same type
         if (beeEntity instanceof ConfigurableBeeEntity) {
             ResourceLocation type = new ResourceLocation(((ConfigurableBeeEntity) beeEntity).getBeeType());
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(type.toString());
@@ -164,7 +169,7 @@ public class BeeHelper
 
         // If no specific recipe exist for the target bee or the bees are the same type, create a child like the parent
         if (beeEntity != null && (!(beeEntity instanceof ProductiveBeeEntity) || ((ProductiveBeeEntity) beeEntity).canSelfBreed())) {
-            return ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEntityString())).create(world);
+            return ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEncodeId())).create(world);
         }
 
         return null;
@@ -175,7 +180,7 @@ public class BeeHelper
 
         // Get breeding recipes
         List<BeeBreedingRecipe> recipes = new ArrayList<>();
-        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(BeeBreedingRecipe.BEE_BREEDING);
+        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().byType(BeeBreedingRecipe.BEE_BREEDING);
         for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
             BeeBreedingRecipe recipe = (BeeBreedingRecipe) entry.getValue();
             if (recipe.matches(beeInv, world)) {
@@ -192,14 +197,14 @@ public class BeeHelper
 
     public static List<ItemStack> getBeeProduce(World world, BeeEntity beeEntity, boolean hasCombBlockUpgrade) {
         AdvancedBeehiveRecipe matchedRecipe = null;
-        BlockPos flowerPos = beeEntity.getFlowerPos();
+        BlockPos flowerPos = beeEntity.getSavedFlowerPos();
 
-        String beeId = beeEntity.getEntityString();
+        String beeId = beeEntity.getEncodeId();
         if (beeEntity instanceof ConfigurableBeeEntity) {
             beeId = ((ConfigurableBeeEntity) beeEntity).getBeeType();
         }
 
-        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().getRecipes(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
+        Map<ResourceLocation, IRecipe<IInventory>> allRecipes = world.getRecipeManager().byType(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
         IInventory beeInv = new IdentifierInventory(beeId);
         for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
             AdvancedBeehiveRecipe recipe = (AdvancedBeehiveRecipe) entry.getValue();
@@ -211,8 +216,8 @@ public class BeeHelper
         List<ItemStack> outputList = new ArrayList<>();
         if (matchedRecipe != null) {
             matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
-                if (ProductiveBees.rand.nextInt(100) <= bounds.get(2).getInt()) {
-                    int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(bounds.get(0).getInt()), MathHelper.floor(bounds.get(1).getInt()));
+                if (ProductiveBees.rand.nextInt(100) <= bounds.get(2).getAsInt()) {
+                    int count = MathHelper.nextInt(ProductiveBees.rand, MathHelper.floor(bounds.get(0).getAsInt()), MathHelper.floor(bounds.get(1).getAsInt()));
                     ItemStack stack = itemStack.copy();
                     stack.setCount(count);
                     if (hasCombBlockUpgrade) {
@@ -229,7 +234,7 @@ public class BeeHelper
                 if (hasCombBlockUpgrade) {
                     woodChip = new ItemStack(flowerBlock.asItem());
                 } else {
-                    woodChip = WoodChip.getStack(flowerBlock, world.rand.nextInt(6) + 1);
+                    woodChip = WoodChip.getStack(flowerBlock, world.random.nextInt(6) + 1);
                 }
                 outputList.add(woodChip);
             }
@@ -241,7 +246,7 @@ public class BeeHelper
                 if (hasCombBlockUpgrade) {
                     stoneChip = new ItemStack(flowerBlock.asItem());
                 } else {
-                    stoneChip = StoneChip.getStack(flowerBlock, world.rand.nextInt(6) + 1);
+                    stoneChip = StoneChip.getStack(flowerBlock, world.random.nextInt(6) + 1);
                 }
                 outputList.add(stoneChip);
             }
@@ -250,22 +255,22 @@ public class BeeHelper
                 Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.FLOWERS, (ProductiveBeeEntity) beeEntity);
                 Item flowerItem = flowerBlock.asItem();
 
-                Map<ResourceLocation, IRecipe<CraftingInventory>> recipes = world.getRecipeManager().getRecipes(IRecipeType.CRAFTING);
+                Map<ResourceLocation, IRecipe<CraftingInventory>> recipes = world.getRecipeManager().byType(IRecipeType.CRAFTING);
                 Optional<IRecipe<CraftingInventory>> flowerRecipe = recipes.values().stream().flatMap((craftingRecipe) -> {
                     AtomicBoolean hasMatchingItem = new AtomicBoolean(false);
                     List<Ingredient> ingredients = craftingRecipe.getIngredients();
                     if (ingredients.size() == 1) {
                         Ingredient ingredient = ingredients.get(0);
-                        ItemStack[] stacks = ingredient.getMatchingStacks();
+                        ItemStack[] stacks = ingredient.getItems();
                         if (stacks.length > 0 && stacks[0].getItem().equals(flowerItem)) {
                             hasMatchingItem.set(true);
                         }
                     }
-                    return Util.streamOptional(hasMatchingItem.get() ? Optional.of(craftingRecipe) : Optional.empty());
+                    return Util.toStream(hasMatchingItem.get() ? Optional.of(craftingRecipe) : Optional.empty());
                 }).findFirst();
 
                 flowerRecipe.ifPresent(craftingInventoryIRecipe -> {
-                    ItemStack dye = new ItemStack(craftingInventoryIRecipe.getRecipeOutput().getItem(), 1);
+                    ItemStack dye = new ItemStack(craftingInventoryIRecipe.getResultItem().getItem(), 1);
                     outputList.add(dye);
                 });
             }
@@ -276,15 +281,13 @@ public class BeeHelper
 
     @Nullable
     public static CentrifugeRecipe getCentrifugeRecipe(RecipeManager recipeManager, IItemHandlerModifiable inputHandler) {
-        ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-
         World world = ProductiveBees.proxy.getWorld();
 
         if (world == null) {
             return null;
         }
 
-        return recipeManager.getRecipe(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), world).orElse(null);
+        return recipeManager.getRecipeFor(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), world).orElse(null);
     }
 
     private static ItemStack convertToCombBlock(ItemStack stack) {
@@ -316,7 +319,7 @@ public class BeeHelper
         Block flowerBlock = flowerBlockState.getBlock();
 
         if (flowerBlock instanceof Feeder) {
-            TileEntity feederTile = world.getTileEntity(flowerPos);
+            TileEntity feederTile = world.getBlockEntity(flowerPos);
             if (feederTile instanceof FeederTileEntity && ProductiveBeeEntity.isValidFeeder(feederTile, bee::isFlowerBlock)) {
                 return ((FeederTileEntity) feederTile).getRandomBlockFromInventory(tag);
             }
@@ -362,36 +365,36 @@ public class BeeHelper
             list = new ArrayList<>();
         }
 
-        list.add(new TranslationTextComponent(tag.getInt("Age") < 0 ? "productivebees.information.age.child" : "productivebees.information.age.adult").mergeStyle(TextFormatting.AQUA).mergeStyle(TextFormatting.ITALIC));
+        list.add(new TranslationTextComponent(tag.getInt("Age") < 0 ? "productivebees.information.age.child" : "productivebees.information.age.adult").withStyle(TextFormatting.AQUA).withStyle(TextFormatting.ITALIC));
 
         if (tag.getBoolean("isProductiveBee")) {
             float current = tag.getFloat("Health");
             float max = tag.contains("MaxHealth") ? tag.getFloat("MaxHealth") : 10.0f;
-            list.add((new TranslationTextComponent("productivebees.information.attribute.health", current, max)).mergeStyle(TextFormatting.DARK_GRAY));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.health", current, max)).withStyle(TextFormatting.DARK_GRAY));
 
             String type = tag.getString("bee_type");
-            ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).mergeStyle(ColorUtil.getColor(type));
-            list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).mergeStyle(TextFormatting.DARK_GRAY));
+            ITextComponent type_value = new TranslationTextComponent("productivebees.information.attribute.type." + type).withStyle(ColorUtil.getColor(type));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.type", type_value)).withStyle(TextFormatting.DARK_GRAY));
 
             int productivity = tag.getInt("bee_productivity");
-            ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).mergeStyle(ColorUtil.getColor(productivity));
-            list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).mergeStyle(TextFormatting.DARK_GRAY));
+            ITextComponent productivity_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).withStyle(ColorUtil.getColor(productivity));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.productivity", productivity_value)).withStyle(TextFormatting.DARK_GRAY));
 
             int tolerance = tag.getInt("bee_weather_tolerance");
-            ITextComponent tolerance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).mergeStyle(ColorUtil.getColor(tolerance));
-            list.add((new TranslationTextComponent("productivebees.information.attribute.weather_tolerance", tolerance_value)).mergeStyle(TextFormatting.DARK_GRAY));
+            ITextComponent tolerance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).withStyle(ColorUtil.getColor(tolerance));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.weather_tolerance", tolerance_value)).withStyle(TextFormatting.DARK_GRAY));
 
             int behavior = tag.getInt("bee_behavior");
-            ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).mergeStyle(ColorUtil.getColor(behavior));
-            list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).mergeStyle(TextFormatting.DARK_GRAY));
+            ITextComponent behavior_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).withStyle(ColorUtil.getColor(behavior));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.behavior", behavior_value)).withStyle(TextFormatting.DARK_GRAY));
 
             int endurance = tag.getInt("bee_endurance");
-            ITextComponent endurance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.ENDURANCE).get(endurance)).mergeStyle(ColorUtil.getColor(endurance));
-            list.add((new TranslationTextComponent("productivebees.information.attribute.endurance", endurance_value)).mergeStyle(TextFormatting.DARK_GRAY));
+            ITextComponent endurance_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.ENDURANCE).get(endurance)).withStyle(ColorUtil.getColor(endurance));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.endurance", endurance_value)).withStyle(TextFormatting.DARK_GRAY));
 
             int temper = tag.getInt("bee_temper");
-            ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).mergeStyle(ColorUtil.getColor(temper));
-            list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).mergeStyle(TextFormatting.DARK_GRAY));
+            ITextComponent temper_value = new TranslationTextComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).withStyle(ColorUtil.getColor(temper));
+            list.add((new TranslationTextComponent("productivebees.information.attribute.temper", temper_value)).withStyle(TextFormatting.DARK_GRAY));
 
             if (tag.contains("HivePos")) {
                 BlockPos hivePos = NBTUtil.readBlockPos(tag.getCompound("HivePos"));
@@ -399,7 +402,7 @@ public class BeeHelper
             }
         }
         else {
-            list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).mergeStyle(TextFormatting.DARK_AQUA));
+            list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).withStyle(TextFormatting.DARK_AQUA));
         }
 
         return list;
@@ -414,11 +417,11 @@ public class BeeHelper
         }
 
         public IdentifierInventory(BeeEntity bee1, BeeEntity bee2) {
-            String identifier1 = bee1.getEntityString();
+            String identifier1 = bee1.getEncodeId();
             if (bee1 instanceof ConfigurableBeeEntity) {
                 identifier1 = ((ConfigurableBeeEntity) bee1).getBeeType();
             }
-            String identifier2 = bee2.getEntityString();
+            String identifier2 = bee2.getEncodeId();
             if (bee2 instanceof ConfigurableBeeEntity) {
                 identifier2 = ((ConfigurableBeeEntity) bee2).getBeeType();
             }
@@ -427,7 +430,7 @@ public class BeeHelper
         }
 
         public IdentifierInventory(BeeEntity bee1, String identifier2) {
-            String identifier1 = bee1.getEntityString();
+            String identifier1 = bee1.getEncodeId();
             if (bee1 instanceof ConfigurableBeeEntity) {
                 identifier1 = ((ConfigurableBeeEntity) bee1).getBeeType();
             }
@@ -449,7 +452,7 @@ public class BeeHelper
         }
 
         @Override
-        public int getSizeInventory() {
+        public int getContainerSize() {
             return 1;
         }
 
@@ -460,39 +463,39 @@ public class BeeHelper
 
         @Nonnull
         @Override
-        public ItemStack getStackInSlot(int i) {
+        public ItemStack getItem(int i) {
             return ItemStack.EMPTY;
         }
 
         @Nonnull
         @Override
-        public ItemStack decrStackSize(int i, int i1) {
+        public ItemStack removeItem(int i, int i1) {
             return ItemStack.EMPTY;
         }
 
         @Nonnull
         @Override
-        public ItemStack removeStackFromSlot(int i) {
+        public ItemStack removeItemNoUpdate(int i) {
             return ItemStack.EMPTY;
         }
 
         @Override
-        public void setInventorySlotContents(int i, @Nonnull ItemStack itemStack) {
+        public void setItem(int i, @Nonnull ItemStack itemStack) {
 
         }
 
         @Override
-        public void markDirty() {
+        public void setChanged() {
 
         }
 
         @Override
-        public boolean isUsableByPlayer(@Nonnull PlayerEntity playerEntity) {
+        public boolean stillValid(@Nonnull PlayerEntity playerEntity) {
             return false;
         }
 
         @Override
-        public void clear() {
+        public void clearContent() {
             this.identifiers.clear();
         }
     }

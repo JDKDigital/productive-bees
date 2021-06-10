@@ -16,6 +16,5 @@
         {
             "bee": "productivebees:yellow_black_carpenter_bee"
         }
-    ],
-    "repopulation_cooldown": 24000
+    ]
 }

@@ -15,6 +15,7 @@ import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -40,7 +41,9 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import net.minecraftforge.event.entity.living.EntityTeleportEvent.EnderEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -57,7 +60,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     // Color calc cache
     private static Map<Integer, float[]> colorCache = new HashMap<>();
 
-    public static final DataParameter<String> TYPE = EntityDataManager.createKey(ConfigurableBeeEntity.class, DataSerializers.STRING);
+    public static final DataParameter<String> TYPE = EntityDataManager.defineId(ConfigurableBeeEntity.class, DataSerializers.STRING);
 
     public ConfigurableBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -70,7 +73,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingEntityData, @Nullable CompoundNBT tag) {
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingEntityData, @Nullable CompoundNBT tag) {
         String type = "";
         if (tag != null) {
             type = tag.contains("type") ? tag.getString("type") : tag.contains("EntityTag") ? tag.getCompound("EntityTag").getString("type") : "";
@@ -88,45 +91,50 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             this.setCustomName(new StringTextComponent("Destabilized RedaStone Bee"));
         }
 
-        return super.onInitialSpawn(world, difficulty, spawnReason, livingEntityData, tag);
+        return super.finalizeSpawn(world, difficulty, spawnReason, livingEntityData, tag);
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if (!this.world.isRemote) {
+    public void tick() {
+        super.tick();
+        if (!this.level.isClientSide) {
             --teleportCooldown;
             if (--attackCooldown < 0) {
                 attackCooldown = 0;
             }
-            if (attackCooldown == 0 && isAngry() && this.getAttackTarget() != null && this.getAttackTarget().getDistanceSq(this) < 4.0D) {
+            if (attackCooldown == 0 && isAngry() && this.getTarget() != null && this.getTarget().distanceToSqr(this) < 4.0D) {
                 attackCooldown = getEffectCooldown(getAttributeValue(BeeAttributes.TEMPER));
-                attackTarget(this.getAttackTarget());
+                attackTarget(this.getTarget());
             }
 
             // Draconic bees
             if (--breathCollectionCooldown <= 0) {
                 breathCollectionCooldown = 600;
-                if (isDraconic() && this.world.getDimensionKey() == World.THE_END) {
+                if (isDraconic() && level.dimension() == World.END) {
                     this.setHasNectar(true);
                 }
             }
 
-            if (ticksExisted % 20 == 0 && hasNectar() && isRedstoned()) {
+            if (tickCount % 20 == 0 && hasNectar() && isRedstoned()) {
                 for (int i = 1; i <= 2; ++i) {
-                    BlockPos beePosDown = this.getPosition().down(i);
-                    if (world.isAirBlock(beePosDown)) {
-                        BlockState redstoneState = ModBlocks.INVISIBLE_REDSTONE_BLOCK.get().getDefaultState();
-                        world.setBlockState(beePosDown, redstoneState, 3);
-                        world.getPendingBlockTicks().scheduleTick(beePosDown, redstoneState.getBlock(), 20);
+                    BlockPos beePosDown = this.blockPosition().below(i);
+                    if (level.isEmptyBlock(beePosDown)) {
+                        BlockState redstoneState = ModBlocks.INVISIBLE_REDSTONE_BLOCK.get().defaultBlockState();
+                        level.setBlockAndUpdate(beePosDown, redstoneState);
+                        level.getBlockTicks().scheduleTick(beePosDown, redstoneState.getBlock(), 20);
                     }
                 }
+            }
+
+            // Kill unconfigured bees
+            if (tickCount > 100 && getBeeType().isEmpty() && isAlive()) {
+                this.kill();
             }
         }
     }
 
     @Override
-    public void addParticle(World worldIn, double xMin, double xMax, double zMin, double zMax, double posY, IParticleData particleData) {
+    public void spawnFluidParticle(World worldIn, double xMin, double xMax, double zMin, double zMax, double posY, IParticleData particleData) {
         NectarParticleType particle;
         switch (getParticleType()) {
             case "pop":
@@ -150,38 +158,38 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             particle.setColor(new float[]{0.92F, 0.782F, 0.72F});
         }
 
-        worldIn.addParticle(particle, MathHelper.lerp(worldIn.rand.nextDouble(), xMin, xMax), posY, MathHelper.lerp(worldIn.rand.nextDouble(), zMin, zMax), 0.0D, 0.0D, 0.0D);
+        worldIn.addParticle(particle, MathHelper.lerp(worldIn.random.nextDouble(), xMin, xMax), posY, MathHelper.lerp(worldIn.random.nextDouble(), zMin, zMax), 0.0D, 0.0D, 0.0D);
     }
 
     @Override
-    protected void updateAITasks() {
+    protected void customServerAiStep() {
         // Teleport to active path
         if (this.teleportCooldown <= 0) {
-            if (null != this.navigator.getPath() && isTeleporting()) {
+            if (null != this.navigation.getPath() && isTeleporting()) {
                 if (this.hasHive()) {
-                    TileEntity te = world.getTileEntity(this.getHivePos());
+                    TileEntity te = level.getBlockEntity(this.getHivePos());
                     if (te instanceof AdvancedBeehiveTileEntity) {
                         int antiTeleportUpgrades = ((AdvancedBeehiveTileEntity) te).getUpgradeCount(ModItems.UPGRADE_ANTI_TELEPORT.get());
                         if (antiTeleportUpgrades > 0) {
                             this.teleportCooldown = 10000;
-                            super.updateAITasks();
+                            super.customServerAiStep();
                             return;
                         }
                     }
                 }
-                BlockPos pos = this.navigator.getPath().getTarget();
-                teleportTo(pos.getX(), pos.getY(), pos.getZ());
+                BlockPos pos = this.navigation.getPath().getTarget();
+                teleport(pos.getX(), pos.getY(), pos.getZ());
             }
             this.teleportCooldown = 250;
         }
 
-        super.updateAITasks();
+        super.customServerAiStep();
     }
 
     @Override
-    public void setMotionMultiplier(BlockState state, Vector3d motionMultiplierIn) {
+    public void makeStuckInBlock(BlockState state, Vector3d motionMultiplierIn) {
         if (!isStringy() || state.getBlock() != Blocks.COBWEB) {
-            super.setMotionMultiplier(state, motionMultiplierIn);
+            super.makeStuckInBlock(state, motionMultiplierIn);
         }
     }
 
@@ -191,20 +199,20 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             String attackResponse = getNBTData().getString("attackResponse");
             switch (attackResponse) {
                 case "fire":
-                    target.setFire(200);
+                    target.setRemainingFireTicks(200);
                 case "lava":
                     // Place flowing lava on the targets location
-                    this.world.setBlockState(target.getPosition(), Blocks.LAVA.getDefaultState(), 11);
+                    level.setBlock(target.blockPosition(), Blocks.LAVA.defaultBlockState(), 11);
             }
         }
     }
 
     public void setBeeType(String data) {
-        this.dataManager.set(TYPE, data);
+        this.entityData.set(TYPE, data);
     }
 
     public String getBeeType() {
-        return this.dataManager.get(TYPE);
+        return this.entityData.get(TYPE);
     }
 
     @Override
@@ -215,11 +223,11 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     @Override
-    public void notifyDataManagerChange(DataParameter<?> param) {
+    public void onSyncedDataUpdated(DataParameter<?> param) {
         if (TYPE.equals(param)) {
-            recalculateSize();
+            refreshDimensions();
         }
-        super.notifyDataManagerChange(param);
+        super.onSyncedDataUpdated(param);
         // /summon productivebees:configurable_bee ~ ~ ~ {"type":"productivebees:diamond", "NoAI":true, "HasNectar": true}
         // /kill @e[type=productivebees:configurable_bee, name="Diamond Bee"]
     }
@@ -254,12 +262,12 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     @Nonnull
     @Override
-    protected ITextComponent getProfessionName() {
+    protected ITextComponent getTypeName() {
         CompoundNBT nbt = getNBTData();
         if (nbt.contains("name")) {
             return new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name"));
         }
-        return super.getProfessionName();
+        return super.getTypeName();
     }
 
     @Override
@@ -280,7 +288,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         if (nbt != null) {
             if (nbt.contains("flowerTag")) {
                 ITag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
-                return flowerBlock.isIn(flowerTag);
+                return flowerBlock.is(flowerTag);
             } else if (nbt.contains("flowerBlock")) {
                 return flowerBlock.getRegistryName().toString().equals(nbt.getString("flowerBlock"));
             }
@@ -307,20 +315,20 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(TYPE, "");
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(TYPE, "");
     }
 
     @Override
-    public void readAdditional(@Nonnull CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(@Nonnull CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         setBeeType(compound.getString("type"));
     }
 
     @Override
-    public void writeAdditional(@Nonnull CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(@Nonnull CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putString("type", getBeeType());
     }
 
@@ -462,28 +470,28 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     @Override
-    public boolean isPotionApplicable(EffectInstance effect) {
+    public boolean canBeAffected(EffectInstance effect) {
         if (isWithered()) {
-            return effect.getPotion() != Effects.WITHER && super.isPotionApplicable(effect);
+            return effect.getEffect() != Effects.WITHER && super.canBeAffected(effect);
         }
-        return super.isPotionApplicable(effect);
+        return super.canBeAffected(effect);
     }
 
-    private void teleportTo(double x, double y, double z) {
+    private void teleport(double x, double y, double z) {
         BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable(x, y, z);
 
-        while (blockpos$mutable.getY() > 0 && !this.world.getBlockState(blockpos$mutable).getMaterial().blocksMovement()) {
+        while (blockpos$mutable.getY() > 0 && !level.getBlockState(blockpos$mutable).getMaterial().blocksMotion()) {
             blockpos$mutable.move(Direction.DOWN);
         }
 
-        BlockState blockstate = this.world.getBlockState(blockpos$mutable);
-        if (blockstate.getMaterial().blocksMovement()) {
-            EnderTeleportEvent event = new EnderTeleportEvent(this, x, y, z, 0);
-            if (!MinecraftForge.EVENT_BUS.post(event)) {
-                boolean teleported = this.attemptTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
-                if (teleported) {
-                    this.world.playSound(null, this.prevPosX, this.prevPosY, this.prevPosZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT, this.getSoundCategory(), 0.3F, 1.0F);
-                    this.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 0.2F, 1.0F);
+        BlockState blockstate = level.getBlockState(blockpos$mutable);
+        if (blockstate.getMaterial().blocksMotion()) {
+            EnderEntity event = ForgeEventFactory.onEnderTeleport(this, x, y, z);
+            if (!event.isCanceled()) {
+                boolean hasTeleported = this.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
+                if (hasTeleported && !this.isSilent()) {
+                    level.playSound(null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 0.3F, 0.3F);
+                    this.playSound(SoundEvents.ENDERMAN_TELEPORT, 0.2F, 1.0F);
                 }
             }
         }

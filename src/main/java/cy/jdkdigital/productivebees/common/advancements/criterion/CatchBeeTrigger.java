@@ -26,13 +26,13 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
     }
 
     public void trigger(ServerPlayerEntity player, ItemStack cage) {
-        this.triggerListeners(player, trigger -> trigger.test(cage));
+        this.trigger(player, trigger -> trigger.test(cage));
     }
 
     @Nonnull
     @Override
-    protected Instance deserializeTrigger(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
-        return new CatchBeeTrigger.Instance(JSONUtils.getString(jsonObject, "beeName"));
+    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
+        return new CatchBeeTrigger.Instance(JSONUtils.getAsString(jsonObject, "beeName"));
     }
 
     public static class Instance extends CriterionInstance
@@ -40,7 +40,7 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
         private final String beeName;
 
         public Instance(String beeName) {
-            super(CatchBeeTrigger.ID, EntityPredicate.AndPredicate.ANY_AND);
+            super(CatchBeeTrigger.ID, EntityPredicate.AndPredicate.ANY);
             this.beeName = beeName;
         }
 
@@ -66,8 +66,8 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
 
         @Nonnull
         @Override
-        public JsonObject serialize(ConditionArraySerializer serializer) {
-            JsonObject jsonobject = super.serialize(serializer);
+        public JsonObject serializeToJson(ConditionArraySerializer serializer) {
+            JsonObject jsonobject = super.serializeToJson(serializer);
             jsonobject.addProperty("beeName", this.beeName);
             return jsonobject;
         }

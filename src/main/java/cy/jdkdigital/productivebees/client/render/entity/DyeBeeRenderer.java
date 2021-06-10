@@ -20,8 +20,8 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
 
     @Nonnull
     @Override
-    public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
-        int num = bee.getRenderStatic() ? 1 : sum(bee.getEntityId(), 3);
+    public ResourceLocation getTextureLocation(ProductiveBeeEntity bee) {
+        int num = bee.getRenderStatic() ? 1 : sum(bee.getId(), 3);
 
         String beeLocation = "textures/entity/bee/" + bee.getBeeName() + "/" + num + "/bee";
 

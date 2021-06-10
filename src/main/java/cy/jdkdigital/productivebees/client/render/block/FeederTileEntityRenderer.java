@@ -13,6 +13,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.items.CapabilityItemHandler;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class FeederTileEntityRenderer extends TileEntityRenderer<FeederTileEntit
         super(dispatcher);
     }
 
-    public void render(FeederTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(FeederTileEntity tileEntityIn, float partialTicks, @Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             int filledSlots = 0;
             for (int slot = 0; slot < handler.getSlots(); ++slot) {
@@ -62,17 +63,17 @@ public class FeederTileEntityRenderer extends TileEntityRenderer<FeederTileEntit
                         continue;
                     }
 
-                    boolean isFlower = slotStack.getItem().isIn(ItemTags.FLOWERS);
+                    boolean isFlower = slotStack.getItem().is(ItemTags.FLOWERS);
                     Pair<Float, Float> pos = POSITIONS.get(filledSlots).get(slot);
                     float rotation = isFlower ? 90F : 35.0F * slot;
                     float zScale = isFlower ? 0.775F : 0.575F;
 
-                    matrixStackIn.push();
+                    matrixStackIn.pushPose();
                     matrixStackIn.translate(pos.getFirst(), 0.52D, pos.getSecond());
-                    matrixStackIn.rotate(Vector3f.XP.rotationDegrees(rotation));
+                    matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(rotation));
                     matrixStackIn.scale(0.575F, zScale, 0.575F);
-                    Minecraft.getInstance().getItemRenderer().renderItem(slotStack, ItemCameraTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
-                    matrixStackIn.pop();
+                    Minecraft.getInstance().getItemRenderer().renderStatic(slotStack, ItemCameraTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
+                    matrixStackIn.popPose();
                 }
             }
         });

@@ -19,7 +19,7 @@ public class SweatyBeeEntity extends SolitaryBeeEntity
 
     @Override
     public boolean isFlowerBlock(Block flowerBlock) {
-        return flowerBlock.isIn(ModTags.SNOW_FLOWERS);
+        return flowerBlock.is(ModTags.SNOW_FLOWERS);
     }
 
     @Override

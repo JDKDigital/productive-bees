@@ -24,19 +24,19 @@ public class SaddleBeeTrigger extends AbstractCriterionTrigger<SaddleBeeTrigger.
     }
 
     public void trigger(ServerPlayerEntity player, BeeEntity bee) {
-        this.triggerListeners(player, trigger -> trigger.test(bee));
+        this.trigger(player, trigger -> trigger.test(bee));
     }
 
     @Nonnull
     @Override
-    protected Instance deserializeTrigger(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
+    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
         return new SaddleBeeTrigger.Instance();
     }
 
     public static class Instance extends CriterionInstance
     {
         public Instance() {
-            super(SaddleBeeTrigger.ID, EntityPredicate.AndPredicate.ANY_AND);
+            super(SaddleBeeTrigger.ID, EntityPredicate.AndPredicate.ANY);
         }
 
         public static SaddleBeeTrigger.Instance any() {
@@ -48,7 +48,7 @@ public class SaddleBeeTrigger extends AbstractCriterionTrigger<SaddleBeeTrigger.
         }
 
         public boolean test(BeeEntity bee) {
-            return bee instanceof IEquipable && ((IEquipable) bee).isHorseSaddled();
+            return bee instanceof IEquipable && ((IEquipable) bee).isSaddled();
         }
     }
 }

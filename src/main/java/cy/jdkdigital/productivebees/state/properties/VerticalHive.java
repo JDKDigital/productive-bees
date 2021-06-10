@@ -17,18 +17,9 @@ public enum VerticalHive implements IStringSerializable
         this.name = name;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public String toString() {
-        return this.name;
-    }
-
     @Nonnull
     @Override
-    public String getString() {
+    public String getSerializedName() {
         return this.name;
     }
 }

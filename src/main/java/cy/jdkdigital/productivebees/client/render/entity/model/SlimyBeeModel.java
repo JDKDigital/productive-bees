@@ -17,11 +17,11 @@ public class SlimyBeeModel extends MediumBeeModel
 
     @Override
     protected void addCrystals() {
-        externals.setRotationPoint(0.0F, 0.0F, 0.0F);
+        externals.setPos(0.0F, 0.0F, 0.0F);
         externals.addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F, 0.0F);
         body.addChild(externals);
 
-        innards.setRotationPoint(0.0F, 0.0F, 0.0F);
+        innards.setPos(0.0F, 0.0F, 0.0F);
         innards.addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F);
         body.addChild(innards);
     }

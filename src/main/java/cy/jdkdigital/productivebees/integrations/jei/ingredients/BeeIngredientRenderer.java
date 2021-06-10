@@ -26,7 +26,7 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
         }
 
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.world != null) {
+        if (minecraft.level != null) {
             BeeRenderer.render(matrixStack, xPosition, yPosition, beeIngredient, minecraft);
         }
     }
@@ -40,9 +40,9 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
             list.add(new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")));
         }
         else {
-            list.add(beeIngredient.getBeeEntity().getName());
+            list.add(beeIngredient.getBeeEntity().getDescription());
         }
-        list.add(new StringTextComponent(beeIngredient.getBeeType().toString()).mergeStyle(TextFormatting.DARK_GRAY));
+        list.add(new StringTextComponent(beeIngredient.getBeeType().toString()).withStyle(TextFormatting.DARK_GRAY));
         return list;
     }
 }

@@ -17,25 +17,25 @@ abstract class CapabilityContainerBlock extends ContainerBlock
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onReplaced(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (oldState.getBlock() != newState.getBlock()) {
-            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            TileEntity tileEntity = worldIn.getBlockEntity(pos);
             if (tileEntity != null) {
                 // Drop inventory
                 tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
                 if (tileEntity instanceof UpgradeableTileEntity) {
                     ((UpgradeableTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
                         for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                            InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                            InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                         }
                     });
                 }
             }
         }
-        super.onReplaced(oldState, worldIn, pos, newState, isMoving);
+        super.onRemove(oldState, worldIn, pos, newState, isMoving);
     }
 }

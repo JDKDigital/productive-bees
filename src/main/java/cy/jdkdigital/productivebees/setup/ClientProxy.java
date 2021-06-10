@@ -8,7 +8,7 @@ public class ClientProxy implements IProxy
 {
     @Override
     public World getWorld() {
-        return Minecraft.getInstance().world;
+        return Minecraft.getInstance().level;
     }
 
     @Override

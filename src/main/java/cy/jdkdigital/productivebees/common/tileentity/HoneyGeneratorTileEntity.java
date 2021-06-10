@@ -44,7 +44,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     {
         @Override
         public boolean isBottleItem(Item item) {
-            return item.equals(Items.HONEY_BOTTLE) || item.isIn(ModTags.HONEY_BUCKETS) || item.equals(Items.HONEY_BLOCK);
+            return item.equals(Items.HONEY_BOTTLE) || item.is(ModTags.HONEY_BUCKETS) || item.equals(Items.HONEY_BLOCK);
         }
 
         @Override
@@ -57,7 +57,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     {
         @Override
         public boolean isFluidValid(FluidStack stack) {
-            return stack.getFluid().isEquivalentTo(ModFluids.HONEY.get());
+            return stack.getFluid().isSame(ModFluids.HONEY.get());
         }
 
         @Override
@@ -65,23 +65,22 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
             super.onContentsChanged();
             if (fluid.getAmount() > 0) {
                 HoneyGeneratorTileEntity.this.setFilled(true);
-            }
-            else {
+            } else {
                 HoneyGeneratorTileEntity.this.setFilled(false);
             }
-            HoneyGeneratorTileEntity.this.markDirty();
+            HoneyGeneratorTileEntity.this.setChanged();
         }
     });
 
     private void setFilled(boolean filled) {
-        if (world != null && !world.isRemote) {
-            world.setBlockState(pos, getBlockState().with(HoneyGenerator.FULL, filled));
+        if (level != null && !level.isClientSide) {
+            level.setBlockAndUpdate(worldPosition, getBlockState().setValue(HoneyGenerator.FULL, filled));
         }
     }
 
     private void setOn(boolean filled) {
-        if (world != null && !world.isRemote) {
-            world.setBlockState(pos, getBlockState().with(HoneyGenerator.ON, filled));
+        if (level != null && !level.isClientSide) {
+            level.setBlockAndUpdate(worldPosition, getBlockState().setValue(HoneyGenerator.ON, filled));
         }
     }
 
@@ -96,7 +95,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     @Override
     public void tick() {
         int tickRate = 10;
-        if (world != null && !world.isRemote) {
+        if (level != null && !level.isClientSide) {
             if (++tickCounter % tickRate == 0) {
                 int inputPowerAmount = ProductiveBeesConfig.GENERAL.generatorPowerGen.get() * tickRate;
                 int fluidConsumeAmount = ProductiveBeesConfig.GENERAL.generatorHoneyUse.get() * tickRate;
@@ -105,8 +104,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                         energyHandler.receiveEnergy(inputPowerAmount, false);
                         fluidHandler.drain(fluidConsumeAmount, IFluidHandler.FluidAction.EXECUTE);
                         setOn(true);
-                    }
-                    else {
+                    } else {
                         setOn(false);
                     }
                 }));
@@ -117,14 +115,14 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     }
 
     private void sendOutPower(int modifier) {
-        if (this.world != null) {
+        if (this.level != null) {
             energyHandler.ifPresent(energyHandler -> {
                 AtomicInteger capacity = new AtomicInteger(energyHandler.getEnergyStored());
                 if (capacity.get() > 0) {
                     Direction[] directions = Direction.values();
                     AtomicBoolean dirty = new AtomicBoolean(false);
                     for (Direction direction : directions) {
-                        TileEntity te = this.world.getTileEntity(this.pos.offset(direction));
+                        TileEntity te = level.getBlockEntity(worldPosition.relative(direction));
                         if (te != null) {
                             boolean doContinue = te.getCapability(CapabilityEnergy.ENERGY, direction).map((handler) -> {
                                 if (handler.canReceive()) {
@@ -144,7 +142,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                         }
                     }
                     if (dirty.get()) {
-                        this.markDirty();
+                        this.setChanged();
                     }
                 }
             });
@@ -164,21 +162,18 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                     LazyOptional<IFluidHandler> itemFluidHandler = invItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
                     boolean isHoneyBottle = invItem.getItem().equals(Items.HONEY_BOTTLE);
                     boolean isHoneyBlock = invItem.getItem().equals(Items.HONEY_BLOCK);
-                    boolean isHoneyBucket = invItem.getItem().isIn(ModTags.HONEY_BUCKETS);
+                    boolean isHoneyBucket = invItem.getItem().is(ModTags.HONEY_BUCKETS);
 
                     int addAmount = 0;
                     if (isHoneyBottle) {
                         addAmount = 250;
                         outputItem = new ItemStack(Items.GLASS_BOTTLE);
-                    }
-                    else if (isHoneyBlock) {
+                    } else if (isHoneyBlock) {
                         addAmount = 1000;
-                    }
-                    else if (isHoneyBucket) {
+                    } else if (isHoneyBucket) {
                         addAmount = 1000;
                         outputItem = new ItemStack(Items.BUCKET);
-                    }
-                    else if (itemFluidHandler.isPresent()) {
+                    } else if (itemFluidHandler.isPresent()) {
                         addAmount = fluidSpace;
                     }
 
@@ -201,14 +196,12 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
                         int fillAmount = fluidHandler.fill(new FluidStack(ModFluids.HONEY.get(), addAmount), IFluidHandler.FluidAction.EXECUTE);
                         if (itemFluidHandler.isPresent()) {
                             FluidUtil.tryEmptyContainer(invItem, fluidHandler, fillAmount, null, true);
-                        }
-                        else {
+                        } else {
                             invItem.shrink(1);
                             if (!outputItem.equals(ItemStack.EMPTY)) {
                                 if (outputInvItem.isEmpty()) {
                                     invHandler.setStackInSlot(1, outputItem);
-                                }
-                                else {
+                                } else {
                                     outputInvItem.grow(1);
                                 }
                             }
@@ -225,10 +218,10 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
-        if (this.world != null) {
-            world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 2);
+    public void setChanged() {
+        super.setChanged();
+        if (this.level != null) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
         }
     }
 
@@ -237,19 +230,18 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return inventoryHandler.cast();
-        }
-        else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return fluidInventory.cast();
-        }
-        else if (cap == CapabilityEnergy.ENERGY) {
+        } else if (cap == CapabilityEnergy.ENERGY) {
             return energyHandler.cast();
         }
         return super.getCapability(cap, side);
     }
 
+    @Nonnull
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(ModBlocks.HONEY_GENERATOR.get().getTranslationKey());
+        return new TranslationTextComponent(ModBlocks.HONEY_GENERATOR.get().getDescriptionId());
     }
 
     @Nullable

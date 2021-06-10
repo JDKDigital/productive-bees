@@ -37,16 +37,15 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
 
     public void render(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull ProductiveBeeEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entity.getRenderer().equals(this.modelType) && !entity.isInvisible()) {
-            this.getEntityModel().copyModelAttributesTo(this.model);
-            this.model.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
-            this.model.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+            this.getParentModel().copyPropertiesTo(this.model);
+            this.model.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
+            this.model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
             if (entity instanceof ConfigurableBeeEntity && ((ConfigurableBeeEntity) entity).isTranslucent()) {
-                IVertexBuilder vertexBuilder = bufferIn.getBuffer(RenderType.getEntityTranslucent(this.getEntityTexture(entity)));
-                this.model.render(matrixStackIn, vertexBuilder, packedLightIn, LivingRenderer.getPackedOverlay(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
-            }
-            else {
-                renderCutoutModel(this.model, this.getEntityTexture(entity), matrixStackIn, bufferIn, packedLightIn, entity, 1.0F, 1.0F, 1.0F);
+                IVertexBuilder vertexBuilder = bufferIn.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(entity)));
+                this.model.renderToBuffer(matrixStackIn, vertexBuilder, packedLightIn, LivingRenderer.getOverlayCoords(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+            } else {
+                renderColoredCutoutModel(this.model, this.getTextureLocation(entity), matrixStackIn, bufferIn, packedLightIn, entity, 1.0F, 1.0F, 1.0F);
             }
 
             if (entity.getColor(0) != null) {
@@ -69,11 +68,11 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
     private void renderColoredLayers(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull ProductiveBeeEntity entity) {
         float[] primaryColor = entity.getColor(0).getComponents(null);
         ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/primary.png");
-        renderCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, primaryColor[0], primaryColor[1], primaryColor[2]);
+        renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, primaryColor[0], primaryColor[1], primaryColor[2]);
 
         float[] secondaryColor = entity.getColor(1).getComponents(null);
         ResourceLocation abdomenLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/abdomen.png");
-        renderCutoutModel(this.model, abdomenLocation, matrixStackIn, bufferIn, packedLightIn, entity, secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+        renderColoredCutoutModel(this.model, abdomenLocation, matrixStackIn, bufferIn, packedLightIn, entity, secondaryColor[0], secondaryColor[1], secondaryColor[2]);
 
         if (this.modelType.equals("default_crystal")) {
             float[] color = primaryColor;
@@ -82,21 +81,20 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
             }
             // render a color version of the crystal layer
             ResourceLocation crystalsLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals_clear.png");
-            renderCutoutModel(this.model, crystalsLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
+            renderColoredCutoutModel(this.model, crystalsLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
             if (!entity.getRenderStatic()) {
                 // render glowing layer on top
                 ResourceLocation crystalsOverlayLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals.png");
-                IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEyes(crystalsOverlayLocation));
-                this.model.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, color[0], color[1], color[2], 1.0F);
+                IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.eyes(crystalsOverlayLocation));
+                this.model.renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, color[0], color[1], color[2], 1.0F);
             }
-        }
-        else if (this.modelType.equals("default_foliage") || this.modelType.equals("default_shell")) {
+        } else if (this.modelType.equals("default_foliage") || this.modelType.equals("default_shell")) {
             float[] color = primaryColor;
             if (entity instanceof ConfigurableBeeEntity) {
                 color = ((ConfigurableBeeEntity) entity).getTertiaryColor();
             }
             ResourceLocation foliageLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals.png");
-            renderCutoutModel(this.model, foliageLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
+            renderColoredCutoutModel(this.model, foliageLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
         }
     }
 
@@ -113,7 +111,7 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
             }
 
             ResourceLocation location = resLoc("textures/entity/bee/base/" + this.modelType + "/pollen.png");
-            renderCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, colors[0], colors[1], colors[2]);
+            renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, colors[0], colors[1], colors[2]);
         }
     }
 
@@ -126,17 +124,17 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
             }
 
             ResourceLocation location = resLoc("textures/entity/bee/base/" + this.modelType + "/santa_hat.png");
-            renderCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, 1.0f, 1.0f, 1.0f);
+            renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, 1.0f, 1.0f, 1.0f);
         }
     }
 
     private void renderSaddle(@Nonnull MatrixStack matrixStackIn, @Nonnull IRenderTypeBuffer bufferIn, int packedLightIn, @Nonnull ProductiveBeeEntity entity) {
-        if (entity instanceof BumbleBeeEntity && ((BumbleBeeEntity) entity).isHorseSaddled()) {
+        if (entity instanceof BumbleBeeEntity && ((BumbleBeeEntity) entity).isSaddled()) {
             ResourceLocation location = resLoc("textures/entity/bee/bumble/saddle.png");
-            renderCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, 1.0f, 1.0f, 1.0f);
+            renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, 1.0f, 1.0f, 1.0f);
         }
     }
-    
+
     private ResourceLocation resLoc(String key) {
         if (!resLocCache.containsKey(key)) {
             resLocCache.put(key, new ResourceLocation(ProductiveBees.MODID, key));

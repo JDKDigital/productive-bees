@@ -57,19 +57,21 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
         protected void onContentsChanged() {
             super.onContentsChanged();
             BottlerTileEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
-            BottlerTileEntity.this.markDirty();
+            BottlerTileEntity.this.setChanged();
         }
     });
 
-    @Override
-    public void markDirty() {
-        super.markDirty();
 
-        if (world != null) {
+
+    @Override
+    public void setChanged() {
+        super.setChanged();
+
+        if (level != null) {
             inventoryHandler.ifPresent(inv -> {
                 ItemStack stack = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                 boolean hasBottle = !stack.isEmpty() && stack.getItem().equals(Items.GLASS_BOTTLE);
-                world.setBlockState(pos, this.getBlockState().with(Bottler.HAS_BOTTLE, hasBottle));
+                level.setBlock(getBlockPos(), this.getBlockState().setValue(Bottler.HAS_BOTTLE, hasBottle), 3);
             });
         }
     }
@@ -80,20 +82,20 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
 
     @Override
     public void tick() {
-        if (world != null && !world.isRemote) {
-            BlockState state = world.getBlockState(pos.up());
-            if (++tickCounter % 10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.get(DirectionalBlock.FACING) == Direction.DOWN) {
+        if (level != null && !level.isClientSide) {
+            BlockState state = level.getBlockState(worldPosition.above());
+            if (++tickCounter % 10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.getValue(DirectionalBlock.FACING) == Direction.DOWN) {
                 // Check for ProductiveBeeEntity on top of block
-                List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, (new AxisAlignedBB(pos).grow(0.0D, 1.0D, 0.0D)));
+                List<BeeEntity> bees = level.getEntitiesOfClass(BeeEntity.class, (new AxisAlignedBB(worldPosition).expandTowards(0.0D, 1.0D, 0.0D)));
                 if (!bees.isEmpty()) {
                     BeeEntity bee = bees.iterator().next();
                     inventoryHandler.ifPresent(inv -> {
                         ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
-                        if (!bottles.isEmpty() && bottles.getItem().equals(Items.GLASS_BOTTLE) && !bee.isChild() && bee.isAlive()) {
+                        if (!bottles.isEmpty() && bottles.getItem().equals(Items.GLASS_BOTTLE) && !bee.isBaby() && bee.isAlive()) {
                             ItemStack geneBottle = GeneBottle.getStack(bee);
-                            Block.spawnAsEntity(world, pos.up(), geneBottle);
-                            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-                            bee.onKillCommand();
+                            Block.popResource(level, worldPosition.above(), geneBottle);
+                            level.playSound(null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), SoundEvents.BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                            bee.kill();
                             bottles.shrink(1);
                         }
                     });
@@ -104,8 +106,8 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
 
         // set fluid ID for screens
         Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
@@ -126,7 +128,7 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
 
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(ModBlocks.BOTTLER.get().getTranslationKey());
+        return new TranslationTextComponent(ModBlocks.BOTTLER.get().getDescriptionId());
     }
 
     @Nullable

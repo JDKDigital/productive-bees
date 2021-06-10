@@ -32,9 +32,9 @@ import javax.annotation.Nullable;
 
 public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEquipable
 {
-    private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(BumbleBeeEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Integer> BOOST_TIME = EntityDataManager.createKey(BumbleBeeEntity.class, DataSerializers.VARINT);
-    private final BoostHelper boostHelper = new BoostHelper(this.dataManager, BOOST_TIME, SADDLED);
+    private static final DataParameter<Boolean> SADDLED = EntityDataManager.defineId(BumbleBeeEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> BOOST_TIME = EntityDataManager.defineId(BumbleBeeEntity.class, DataSerializers.INT);
+    private final BoostHelper steering = new BoostHelper(this.entityData, BOOST_TIME, SADDLED);
 
     public BumbleBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -44,7 +44,7 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D, Ingredient.fromItems(ModItems.TREAT_ON_A_STICK.get()), false));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D, Ingredient.of(ModItems.TREAT_ON_A_STICK.get()), false));
     }
 
     @Override
@@ -58,36 +58,36 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
     }
 
     @Override
-    public void notifyDataManagerChange(DataParameter<?> key) {
-        if (BOOST_TIME.equals(key) && this.world.isRemote) {
-            this.boostHelper.updateData();
+    public void onSyncedDataUpdated(DataParameter<?> key) {
+        if (BOOST_TIME.equals(key) && this.level.isClientSide) {
+            this.steering.onSynced();
         }
-        super.notifyDataManagerChange(key);
+        super.onSyncedDataUpdated(key);
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(SADDLED, false);
-        this.dataManager.register(BOOST_TIME, 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(SADDLED, false);
+        this.entityData.define(BOOST_TIME, 0);
     }
 
     @Override
-    protected void dropInventory() {
-        super.dropInventory();
-        if (this.isHorseSaddled()) {
-            this.entityDropItem(Items.SADDLE);
+    protected void dropEquipment() {
+        super.dropEquipment();
+        if (this.isSaddled()) {
+            this.spawnAtLocation(Items.SADDLE);
         }
     }
 
     @Override
-    public boolean canBeSteered() {
+    public boolean canBeControlledByRider() {
         Entity entity = this.getControllingPassenger();
         if (!(entity instanceof PlayerEntity)) {
             return false;
         } else {
             PlayerEntity playerentity = (PlayerEntity)entity;
-            return playerentity.getHeldItemMainhand().getItem() == ModItems.TREAT_ON_A_STICK.get() || playerentity.getHeldItemOffhand().getItem() == ModItems.TREAT_ON_A_STICK.get();
+            return playerentity.getMainHandItem().getItem() == ModItems.TREAT_ON_A_STICK.get() || playerentity.getOffhandItem().getItem() == ModItems.TREAT_ON_A_STICK.get();
         }
     }
 
@@ -97,32 +97,32 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
-        this.boostHelper.setSaddledToNBT(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
+        this.steering.addAdditionalSaveData(compound);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
-        this.boostHelper.setSaddledFromNBT(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
+        this.steering.addAdditionalSaveData(compound);
     }
 
     @Override
-    public boolean isHorseSaddled() {
-        return this.boostHelper.getSaddled();
+    public boolean isSaddled() {
+        return this.steering.hasSaddle();
     }
 
     @Override
-    public boolean func_230264_L__() {
-        return this.isAlive() && !this.isChild();
+    public boolean isSaddleable() {
+        return this.isAlive() && !this.isBaby();
     }
 
     @Override
-    public void func_230266_a_(@Nullable SoundCategory soundCategory) {
-        this.boostHelper.setSaddledFromBoolean(true);
+    public void equipSaddle(@Nullable SoundCategory soundCategory) {
+        this.steering.setSaddle(true);
         if (soundCategory != null) {
-            this.world.playMovingSound(null, this, SoundEvents.ENTITY_PIG_SADDLE, soundCategory, 0.5F, 1.0F);
+            level.playSound(null, this, SoundEvents.PIG_SADDLE, soundCategory, 0.5F, 1.0F);
         }
     }
 
@@ -133,30 +133,30 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
 
     @Override
     public void travel(Vector3d travelVector) {
-        this.ride(this, this.boostHelper, travelVector);
+        this.travel(this, this.steering, travelVector);
     }
 
     @Override
     public boolean boost() {
-        return this.boostHelper.boost(this.getRNG());
+        return this.steering.boost(this.getRandom());
     }
 
     @Override
-    public void travelTowards(Vector3d travelVec) {
+    public void travelWithInput(Vector3d travelVec) {
         super.travel(travelVec);
     }
 
     @Override
-    public float getMountedSpeed() {
+    public float getSteeringSpeed() {
         return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
     }
 
     @Override
     @Nonnull
-    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
-        boolean flag = this.isBreedingItem(player.getHeldItem(hand));
-        if (!flag && this.isHorseSaddled() && !this.isBeingRidden() && !player.isSecondaryUseActive()) {
-            if (!this.world.isRemote) {
+    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        boolean flag = this.isFood(player.getItemInHand(hand));
+        if (!flag && this.isSaddled() && !this.isVehicle() && !player.isSecondaryUseActive()) {
+            if (!this.level.isClientSide) {
                 if (player instanceof ServerPlayerEntity) {
                     ModAdvancements.SADDLE_BEE.trigger((ServerPlayerEntity) player, this);
                 }
@@ -164,64 +164,56 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
                 player.startRiding(this);
             }
 
-            return ActionResultType.func_233537_a_(this.world.isRemote);
+            return ActionResultType.sidedSuccess(this.level.isClientSide);
         }
-        return super.getEntityInteractionResult(player, hand);
+        return super.mobInteract(player, hand);
     }
 
     @Override
-    public boolean ride(MobEntity entity, BoostHelper boostHelper, Vector3d vec3d) {
+    public boolean travel(MobEntity entity, BoostHelper boostHelper, Vector3d vec3d) {
         if (!entity.isAlive()) {
             return false;
         } else {
             Entity rider = entity.getPassengers().isEmpty() ? null : entity.getPassengers().get(0);
-            if (entity.isBeingRidden() && entity.canBeSteered() && rider instanceof PlayerEntity) {
-                entity.prevRotationYaw = rider.rotationYaw;
-                entity.rotationYaw = rider.rotationYaw % 360.0F;
-                entity.rotationPitch = (rider.rotationPitch * 0.5F) % 360.0F;
-                entity.renderYawOffset = entity.rotationYaw;
-                entity.rotationYawHead = entity.rotationYaw;
-                entity.stepHeight = 1.0F;
-                entity.jumpMovementFactor = entity.getAIMoveSpeed() * 0.1F;
-                if (boostHelper.saddledRaw && boostHelper.field_233611_b_++ > boostHelper.boostTimeRaw) {
-                    boostHelper.saddledRaw = false;
+            if (entity.isVehicle() && entity.canBeControlledByRider() && rider instanceof PlayerEntity) {
+                entity.yRotO = rider.yRot;
+                entity.yRot = rider.yRot % 360.0F;
+                entity.xRot = (rider.xRot * 0.5F) % 360.0F;
+                entity.yBodyRot = entity.yRot;
+                entity.yHeadRot = entity.yRot;
+                entity.maxUpStep = 1.0F;
+                entity.flyingSpeed = entity.getSpeed() * 0.1F;
+                if (boostHelper.boosting && boostHelper.boostTime++ > boostHelper.boostTimeTotal) {
+                    boostHelper.boosting = false;
                 }
 
-                if (entity.canPassengerSteer()) {
-                    float speed = this.getMountedSpeed();
-                    if (boostHelper.saddledRaw) {
-                        speed += speed * 2.15F * MathHelper.sin((float)boostHelper.field_233611_b_ / (float)boostHelper.boostTimeRaw * 3.1415927F);
+                if (entity.isControlledByLocalInstance()) {
+                    float speed = this.getSteeringSpeed();
+                    if (boostHelper.boosting) {
+                        speed += speed * 2.15F * MathHelper.sin((float)boostHelper.boostTime / (float)boostHelper.boostTimeTotal * 3.1415927F);
                     }
 
-                    entity.setAIMoveSpeed(speed);
-                    this.travelTowards(new Vector3d(0.0D, !world.isAirBlock(getPosition().down(3)) ? 1.0D : world.isAirBlock(getPosition().down(1)) ? -1.0D : 0.0D, 1.0D));
+                    entity.setSpeed(speed);
+                    this.travelWithInput(new Vector3d(0.0D, !level.isEmptyBlock(blockPosition().below(3)) ? 1.0D : level.isEmptyBlock(blockPosition().below(1)) ? -1.0D : 0.0D, 1.0D));
                     if (entity instanceof BumbleBeeEntity) {
                         setNewPosRotationIncrements(0);
                     }
                 } else {
-                    entity.func_233629_a_(entity, false);
-                    entity.setMotion(Vector3d.ZERO);
+                    entity.calculateEntityAnimation(entity, false);
+                    entity.setDeltaMovement(Vector3d.ZERO);
                 }
 
                 return true;
             } else {
-                entity.stepHeight = 0.5F;
-                entity.jumpMovementFactor = 0.02F;
-                this.travelTowards(vec3d);
+                entity.maxUpStep = 0.5F;
+                entity.flyingSpeed = 0.02F;
+                this.travelWithInput(vec3d);
                 return false;
             }
         }
     }
 
-    @Override
-    public void updatePassenger(Entity passenger) {
-        double d0 = this.getPosY() + this.getMountedYOffset() + passenger.getYOffset();
-        float xDirection = MathHelper.sin(this.renderYawOffset * ((float)Math.PI / 180F));
-        float zDirection = MathHelper.cos(this.renderYawOffset * ((float)Math.PI / 180F));
-        passenger.setPosition(this.getPosX() + (double)(0.2F * xDirection), d0, this.getPosZ() - (double)(0.2F * zDirection));
-    }
-
     public void setNewPosRotationIncrements(int value) {
-        this.newPosRotationIncrements = value;
+        this.lerpSteps = value;
     }
 }

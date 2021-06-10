@@ -53,7 +53,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
     @Nonnull
     @Override
     public String getTitle() {
-        return I18n.format("jei.productivebees.centrifuge");
+        return I18n.get("jei.productivebees.centrifuge");
     }
 
     @Nonnull
@@ -75,7 +75,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         List<List<ItemStack>> outputList = new ArrayList<>();
 
 //        recipe.itemOutput.forEach((ingredient, intNBTS) -> {
-//            List<ItemStack> stacks = Arrays.asList(ingredient.getMatchingStacks());
+//            List<ItemStack> stacks = Arrays.asList(ingredient.getItems());
 //            for (ItemStack stack: stacks) {
 //
 //            }
@@ -83,7 +83,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
 
         recipe.getRecipeOutputs().forEach((stack, value) -> {
             List<ItemStack> innerList = new ArrayList<>();
-            IntStream.range(value.get(0).getInt(), value.get(1).getInt() + 1).forEach((i) -> {
+            IntStream.range(value.get(0).getAsInt(), value.get(1).getAsInt() + 1).forEach((i) -> {
                 ItemStack newStack = stack.copy();
                 newStack.setCount(i);
                 innerList.add(newStack);
@@ -131,14 +131,14 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         List<ITextComponent> chances = new ArrayList<>();
         List<ITextComponent> amounts = new ArrayList<>();
         recipe.getRecipeOutputs().forEach((stack, value) -> {
-            int chance = value.get(2).getInt();
+            int chance = value.get(2).getAsInt();
             if (chance < 100) {
                 chances.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
             } else {
                 chances.add(new StringTextComponent(""));
             }
             if (value.get(0) != value.get(1)) {
-                amounts.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.amount", value.get(0).getInt() + " - " + value.get(1).getInt()));
+                amounts.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.amount", value.get(0).getAsInt() + " - " + value.get(1).getAsInt()));
             } else {
                 amounts.add(new StringTextComponent(""));
             }

@@ -36,10 +36,10 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
     public AdvancedBeehive(final Properties properties) {
         super(properties);
-        this.setDefaultState(this.getDefaultState()
-                .with(BeehiveBlock.FACING, Direction.NORTH)
-                .with(EXPANDED, VerticalHive.NONE)
-                .with(BeehiveBlock.HONEY_LEVEL, 0)
+        this.registerDefaultState(this.defaultBlockState()
+                .setValue(BeehiveBlock.FACING, Direction.NORTH)
+                .setValue(EXPANDED, VerticalHive.NONE)
+                .setValue(BeehiveBlock.HONEY_LEVEL, 0)
         );
     }
 
@@ -56,17 +56,17 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    public TileEntity newBlockEntity(IBlockReader world) {
         return new AdvancedBeehiveTileEntity();
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(BeehiveBlock.FACING, context.getPlacementHorizontalFacing().getOpposite());
+        return this.defaultBlockState().setValue(BeehiveBlock.FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(EXPANDED, BeehiveBlock.HONEY_LEVEL, BeehiveBlock.FACING);
     }
 
@@ -95,14 +95,14 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     public void updateStateWithDirection(World world, BlockPos pos, BlockState state, VerticalHive directionProperty) {
-        world.setBlockState(pos, state.with(AdvancedBeehive.EXPANDED, directionProperty), Constants.BlockFlags.DEFAULT);
-        TileEntity te = world.getTileEntity(pos);
+        world.setBlockAndUpdate(pos, state.setValue(AdvancedBeehive.EXPANDED, directionProperty));
+        TileEntity te = world.getBlockEntity(pos);
         if (te instanceof AdvancedBeehiveTileEntity) {
-            ((AdvancedBeehiveTileEntity) te).MAX_BEES = world.getBlockState(pos).get(EXPANDED) != VerticalHive.NONE ? 5 : 3;
+            ((AdvancedBeehiveTileEntity) te).MAX_BEES = world.getBlockState(pos).getValue(EXPANDED) != VerticalHive.NONE ? 5 : 3;
             if (directionProperty.equals(VerticalHive.NONE)) {
                 ((AdvancedBeehiveTileEntity) te).getUpgradeHandler().ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
             }
@@ -110,11 +110,11 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentBox(World world, BlockPos pos) {
-        for (Direction direction : BlockStateProperties.FACING.getAllowedValues()) {
+        for (Direction direction : BlockStateProperties.FACING.getPossibleValues()) {
             if (direction == Direction.DOWN) {
                 continue;
             }
-            BlockPos newPos = pos.offset(direction);
+            BlockPos newPos = pos.relative(direction);
             BlockState blockStateAtPos = world.getBlockState(newPos);
 
             Block blockAtPos = blockStateAtPos.getBlock();
@@ -131,7 +131,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         VerticalHive directionProperty = VerticalHive.NONE;
         if (!isRemoved && pair != null) {
             BlockState state = world.getBlockState(pos);
-            Direction hiveDirection = state.get(BeehiveBlock.FACING);
+            Direction hiveDirection = state.getValue(BeehiveBlock.FACING);
             Direction boxDirection = pair.getLeft().getRight();
 
             Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
@@ -140,8 +140,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
             boolean isValidExpandedPos = pos.getY() != boxPos.getY();
             if (!isValidExpandedPos && (hiveDirection == Direction.NORTH || hiveDirection == Direction.SOUTH)) {
                 isValidExpandedPos = boxDirection == Direction.WEST || boxDirection == Direction.EAST;
-            }
-            else if (!isValidExpandedPos && (hiveDirection == Direction.WEST || hiveDirection == Direction.EAST)) {
+            } else if (!isValidExpandedPos && (hiveDirection == Direction.WEST || hiveDirection == Direction.EAST)) {
                 isValidExpandedPos = boxDirection == Direction.SOUTH || boxDirection == Direction.NORTH;
             }
 
@@ -157,10 +156,10 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(world, pos, state, placer, stack);
+    public void setPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(world, pos, state, placer, stack);
 
-        if (!world.isRemote()) {
+        if (!world.isClientSide()) {
             this.updateState(world, pos, state, false);
         }
     }
@@ -169,7 +168,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid) {
         boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
 
-        if (!world.isRemote()) {
+        if (!world.isClientSide()) {
             this.updateState(world, pos, state, true);
         }
 
@@ -178,48 +177,46 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onReplaced(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (oldState.getBlock() != newState.getBlock()) {
-            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            TileEntity tileEntity = worldIn.getBlockEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveTileEntity) {
                 // Drop inventory
                 tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
                 ((AdvancedBeehiveTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
             }
         }
-        super.onReplaced(oldState, worldIn, pos, newState, isMoving);
+        super.onRemove(oldState, worldIn, pos, newState, isMoving);
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        ItemStack heldItem = player.getHeldItem(hand);
-        int honeyLevel = state.get(BeehiveBlock.HONEY_LEVEL);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        ItemStack heldItem = player.getItemInHand(hand);
+        int honeyLevel = state.getValue(BeehiveBlock.HONEY_LEVEL);
         boolean itemUsed = false;
         if (honeyLevel >= getMaxHoneyLevel()) {
             if (heldItem.getItem() == Items.SHEARS) {
-                world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-                BeehiveBlock.dropHoneyComb(world, pos);
-                heldItem.damageItem(1, player, (entity) -> {
-                    entity.sendBreakAnimation(hand);
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                BeehiveBlock.dropHoneycomb(world, pos);
+                heldItem.hurtAndBreak(1, player, (entity) -> {
+                    entity.broadcastBreakEvent(hand);
                 });
                 itemUsed = true;
-            }
-            else if (heldItem.getItem() == Items.GLASS_BOTTLE) {
+            } else if (heldItem.getItem() == Items.GLASS_BOTTLE) {
                 heldItem.shrink(1);
-                world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
                 if (heldItem.isEmpty()) {
-                    player.setHeldItem(hand, new ItemStack(Items.HONEY_BOTTLE));
-                }
-                else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.HONEY_BOTTLE))) {
-                    player.dropItem(new ItemStack(Items.HONEY_BOTTLE), false);
+                    player.setItemInHand(hand, new ItemStack(Items.HONEY_BOTTLE));
+                } else if (!player.inventory.add(new ItemStack(Items.HONEY_BOTTLE))) {
+                    player.drop(new ItemStack(Items.HONEY_BOTTLE), false);
                 }
 
                 itemUsed = true;
@@ -228,11 +225,11 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
         if (itemUsed) {
             this.takeHoney(world, state, pos);
-        } else if (!world.isRemote()) {
-            final TileEntity tileEntity = world.getTileEntity(pos);
+        } else if (!world.isClientSide()) {
+            final TileEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveTileEntity) {
                 this.updateState(world, pos, state, false);
-                world.notifyBlockUpdate(pos, state, state, Constants.BlockFlags.DEFAULT);
+                world.sendBlockUpdated(pos, state, state, Constants.BlockFlags.DEFAULT);
                 openGui((ServerPlayerEntity) player, (AdvancedBeehiveTileEntity) tileEntity);
             }
         }
@@ -240,6 +237,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     public void openGui(ServerPlayerEntity player, AdvancedBeehiveTileEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getPos()));
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

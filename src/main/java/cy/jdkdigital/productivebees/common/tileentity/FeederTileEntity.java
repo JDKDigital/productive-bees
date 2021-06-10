@@ -59,7 +59,7 @@ public class FeederTileEntity extends CapabilityTileEntity implements INamedCont
                 Item slotItem = h.getStackInSlot(slot).getItem();
                 if (slotItem instanceof BlockItem) {
                     Block itemBlock = ((BlockItem) slotItem).getBlock();
-                    if (itemBlock.isIn(tag)) {
+                    if (itemBlock.is(tag)) {
                         possibleBlocks.add(itemBlock);
                     }
                 }
@@ -81,7 +81,7 @@ public class FeederTileEntity extends CapabilityTileEntity implements INamedCont
     @Nonnull
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(ModBlocks.FEEDER.get().getTranslationKey());
+        return new TranslationTextComponent(ModBlocks.FEEDER.get().getDescriptionId());
     }
 
     @Nullable
@@ -92,13 +92,13 @@ public class FeederTileEntity extends CapabilityTileEntity implements INamedCont
 
     @Override
     public void tick() {
-        if (world instanceof ServerWorld && ++tickCounter%164 == 0) {
-            BlockState state = world.getBlockState(pos);
-            if (state.get(Feeder.HONEYLOGGED)) {
-                List<Entity> entities = world.getLoadedEntitiesWithinAABB(BeeEntity.class, new AxisAlignedBB(pos));
+        if (level instanceof ServerWorld && ++tickCounter%164 == 0) {
+            BlockState state = level.getBlockState(worldPosition);
+            if (state.getValue(Feeder.HONEYLOGGED)) {
+                List<Entity> entities = level.getEntitiesOfClass(BeeEntity.class, new AxisAlignedBB(worldPosition));
                 for (Entity entity : entities) {
                     if (entity instanceof BeeEntity) {
-                        ((BeeEntity) entity).addPotionEffect(new EffectInstance(Effects.REGENERATION, 80, 0, false, true));
+                        ((BeeEntity) entity).addEffect(new EffectInstance(Effects.REGENERATION, 80, 0, false, true));
                     }
                 }
             }

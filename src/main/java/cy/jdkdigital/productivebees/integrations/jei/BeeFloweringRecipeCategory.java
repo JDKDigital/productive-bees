@@ -50,7 +50,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
 
     @Override
     public String getTitle() {
-        return I18n.format("jei.productivebees.bee_flowering");
+        return I18n.get("jei.productivebees.bee_flowering");
     }
 
     @Override
@@ -71,7 +71,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         try {
             List<Block> blockList = new ArrayList<>();
             if (recipe.blockTag != null) {
-                blockList = recipe.blockTag.getAllElements();
+                blockList = recipe.blockTag.getValues();
             }
             else if (recipe.block != null) {
                 blockList.add(recipe.block);

@@ -85,25 +85,25 @@ public class Gene extends Item
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(stack, world, list, flag);
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(stack, world, list, flag);
 
         Integer value = getValue(stack);
 
         BeeAttribute<?> attribute = getAttribute(stack);
 
         if (attribute != null) {
-            ITextComponent translatedValue = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).mergeStyle(ColorUtil.getColor(value));
-            list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).mergeStyle(TextFormatting.DARK_GRAY).appendSibling(new StringTextComponent(" (" + getPurity(stack) + "%)")));
+            ITextComponent translatedValue = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
+            list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).withStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + getPurity(stack) + "%)")));
         } else {
             String type = getAttributeName(stack);
-            list.add(new TranslationTextComponent("productivebees.information.attribute.type", type).mergeStyle(TextFormatting.DARK_GRAY).appendSibling(new StringTextComponent(" (" + getPurity(stack) + "%)")));
+            list.add(new TranslationTextComponent("productivebees.information.attribute.type", type).withStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + getPurity(stack) + "%)")));
         }
     }
 
     @Override
-    public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
-        if (this.isInGroup(group)) {
+    public void fillItemCategory(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
+        if (this.allowdedIn(group)) {
             items.add(getStack(BeeAttributes.PRODUCTIVITY, 0, 1, 100));
             items.add(getStack(BeeAttributes.PRODUCTIVITY, 1, 1, 100));
             items.add(getStack(BeeAttributes.PRODUCTIVITY, 2, 1, 100));

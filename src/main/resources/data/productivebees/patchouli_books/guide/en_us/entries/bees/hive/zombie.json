@@ -1,0 +1,19 @@
+{
+    "name": "ZomBee",
+    "icon": "minecraft:rotten_flesh",
+    "read_by_default": true,
+    "category": "productivebees:hive",
+    "flag": "productivebees:zombie",
+    "pages": [
+        {
+            "type": "text",
+            "title": "ZomBee",
+            "text": "Will move in to an advanced hive if the hive is left empty in the dark.",
+            "anchor": "zombie"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:zombie'}"
+        }
+    ]
+}

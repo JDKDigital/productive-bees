@@ -10,6 +10,6 @@ public class SturdyBeeCage extends BeeCage
 
     @Override
     protected void postItemUse(ItemUseContext context) {
-        context.getItem().setTag(null);
+        context.getItemInHand().setTag(null);
     }
 }

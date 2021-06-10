@@ -79,8 +79,8 @@ public class AdvancedBeehiveContainer extends AbstractContainer
         super(ModContainerTypes.ADVANCED_BEEHIVE.get(), windowId);
 
         this.tileEntity = tileEntity;
-        this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
-        boolean expanded = this.tileEntity.getBlockState().get(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+        this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
+        boolean expanded = this.tileEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
 
         // Inventory slots
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
@@ -102,7 +102,7 @@ public class AdvancedBeehiveContainer extends AbstractContainer
     private static AdvancedBeehiveTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
+        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
         if (tileAtPos instanceof AdvancedBeehiveTileEntity) {
             return (AdvancedBeehiveTileEntity) tileAtPos;
         }
@@ -110,8 +110,8 @@ public class AdvancedBeehiveContainer extends AbstractContainer
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull final PlayerEntity player) {
-        return canInteractWithCallable.applyOrElse((world, pos) -> world.getBlockState(pos).getBlock() instanceof AdvancedBeehive && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
+    public boolean stillValid(@Nonnull final PlayerEntity player) {
+        return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof AdvancedBeehive && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
     }
 
     @Override

@@ -45,7 +45,7 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
     @Nonnull
     @Override
     public String getTitle() {
-        return I18n.format("jei.productivebees.bee_breeding");
+        return I18n.get("jei.productivebees.bee_breeding");
     }
 
     @Nonnull

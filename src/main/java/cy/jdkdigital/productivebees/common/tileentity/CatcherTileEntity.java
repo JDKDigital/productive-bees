@@ -50,17 +50,17 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
 
     @Override
     public void tick() {
-        if (world != null && !world.isRemote && ++tickCounter % 69 == 0) {
+        if (level != null && !level.isClientSide && ++tickCounter % 69 == 0) {
             inventoryHandler.ifPresent(invHandler -> {
                 if (!invHandler.getStackInSlot(0).isEmpty()) {
                     ItemStack invItem = invHandler.getStackInSlot(0);
                     if (invItem.getItem() instanceof BeeCage && !BeeCage.isFilled(invItem)) {
                         // We have a valid inventory for catching, look for entities above
-                        List<BeeEntity> bees = world.getEntitiesWithinAABB(BeeEntity.class, getBoundingBox());
+                        List<BeeEntity> bees = level.getEntitiesOfClass(BeeEntity.class, getBoundingBox());
                         int babeeUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
                         List<ItemStack> filterUpgrades = getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
                         for (BeeEntity bee : bees) {
-                            if (babeeUpgrades > 0 && !bee.isChild()) {
+                            if (babeeUpgrades > 0 && !bee.isBaby()) {
                                 continue;
                             }
 
@@ -97,7 +97,7 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
 
     private AxisAlignedBB getBoundingBox() {
         int rangeUpgrades = getUpgradeCount(ModItems.UPGRADE_RANGE.get());
-        return new AxisAlignedBB(pos).grow(rangeUpgrades, 2.0D + rangeUpgrades, rangeUpgrades);
+        return new AxisAlignedBB(worldPosition).expandTowards(rangeUpgrades, 2.0D + rangeUpgrades, rangeUpgrades);
     }
 
     @Override
@@ -114,9 +114,10 @@ public class CatcherTileEntity extends FluidTankTileEntity implements INamedCont
         return super.getCapability(cap, side);
     }
 
+    @Nonnull
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(ModBlocks.CATCHER.get().getTranslationKey());
+        return new TranslationTextComponent(ModBlocks.CATCHER.get().getDescriptionId());
     }
 
     @Nullable

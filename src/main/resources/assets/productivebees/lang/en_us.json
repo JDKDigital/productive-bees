@@ -489,6 +489,7 @@
     "productivebees.hive.tooltip.bees": "Bees:",
     "productivebees.hive.tooltip.empty": "Empty",
     "productivebees.hive.tooltip.honey_level": "Honey Level: %s",
+    "productivebees.hive.tooltip.nest_inactive": "Nest will no longer attract cuckoo bees. Craft with itself to reset counter.",
     "productivebees.nest_locator.found_hive": "A nest was located %s meters that way!",
     "productivebees.nest_locator.not_found_hive": "No nests of the configured type could be found nearby.",
     "productivebees.screen.fluid_level": "%s: %s",

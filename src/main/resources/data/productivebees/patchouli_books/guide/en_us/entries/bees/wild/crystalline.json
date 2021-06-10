@@ -1,0 +1,19 @@
+{
+    "name": "Crystalline Bee",
+    "icon": "minecraft:quartz",
+    "read_by_default": true,
+    "category": "productivebees:wild",
+    "flag": "productivebees:crystalline",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Crystalline Bee",
+            "text": "Found living in nether quartz nests in the nether. Glowing Bees prefer pollinating something containing nether quartz..",
+            "anchor": "crystalline"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:crystalline'}"
+        }
+    ]
+}

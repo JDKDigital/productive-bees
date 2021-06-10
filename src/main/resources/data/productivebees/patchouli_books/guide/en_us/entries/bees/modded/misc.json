@@ -1,0 +1,204 @@
+{
+    "name": "Misc",
+    "icon": "productivebees:incubator",
+    "read_by_default": true,
+    "sortnum": 9,
+    "category": "productivebees:modded",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Silicon Bee",
+            "text": "Bred from a $(l:bees/solitary/nomad)Nomad Bee$(/l) and a $(l:bees/solitary/reed)Reed Bee$(/l).",
+            "anchor": "silicon",
+            "flag": "productivebees:silicon"
+        },
+        {
+            "type": "entity",
+            "name": "Silicon Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:silicon'}",
+            "flag": "productivebees:silicon"
+        },
+        {
+            "type": "text",
+            "title": "Plastic Bee",
+            "text": "Bred from a $(l:bees/solitary/resin)Resin Bee$(/l) and a $(l:bees/worker_bees#lumber)Lumber Bee$(/l).",
+            "anchor": "plastic",
+            "flag": "productivebees:plastic"
+        },
+        {
+            "type": "entity",
+            "name": "Plastic Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:plastic'}",
+            "flag": "productivebees:plastic"
+        },
+        {
+            "type": "text",
+            "title": "Ender Biotite Bee",
+            "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and a $(l:bees/wild/draconic)Draconic Bee$(/l).$(br)Required mod: Quark",
+            "anchor": "ender_biotite",
+            "flag": "productivebees:ender_biotite"
+        },
+        {
+            "type": "entity",
+            "name": "Ender Biotite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ender_biotite'}",
+            "flag": "productivebees:ender_biotite"
+        },
+        {
+            "type": "text",
+            "title": "Spacial Bee",
+            "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and an $(l:bees/wild/ender)Ender Bee$(/l).$(br2)The combs of this bee can be centrifuged to get certus quartz seeds which require further processing.",
+            "anchor": "spacial",
+            "flag": "productivebees:spacial"
+        },
+        {
+            "type": "entity",
+            "name": "Spacial Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:spacial'}",
+            "flag": "productivebees:spacial"
+        },
+        {
+            "type": "text",
+            "title": "Niter Bee",
+            "text": "Bred from a $(l:bees/hives#coal)Coal Bee$(/l) and an $(l:bees/wild/magmatic)Magmatic Bee$(/l).",
+            "anchor": "niter",
+            "flag": "productivebees:niter"
+        },
+        {
+            "type": "entity",
+            "name": "Niter Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:niter'}",
+            "flag": "productivebees:niter"
+        },
+        {
+            "type": "text",
+            "title": "Sulfur Bee",
+            "text": "Bred from a $(l:bees/hives#coal)Coal Bee$(/l) and an $(l:bees/hives#explosive)Explosive Bee$(/l).",
+            "anchor": "sulfur",
+            "flag": "productivebees:sulfur"
+        },
+        {
+            "type": "entity",
+            "name": "Sulfur Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:sulfur'}",
+            "flag": "productivebees:sulfur"
+        },
+        {
+            "type": "text",
+            "title": "Arcane Bee",
+            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hive/diamond)Diamond Bee$(/l) spawn egg using a Enchanting Apparatus.",
+            "anchor": "arcane",
+            "flag": "productivebees:arcane"
+        },
+        {
+            "type": "entity",
+            "name": "Arcane Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:arcane'}",
+            "flag": "productivebees:arcane"
+        },
+        {
+            "type": "text",
+            "title": "Starmetal Bee",
+            "text": "This bee cannot be bred. Spawn egg is crafted from an $(l:bees/hive/iron)Iron Bee$(/l) spawn egg using an Infuser.",
+            "anchor": "starmetal",
+            "flag": "productivebees:starmetal"
+        },
+        {
+            "type": "entity",
+            "name": "Starmetal Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:starmetal'}",
+            "flag": "productivebees:starmetal"
+        },
+        {
+            "type": "text",
+            "title": "Bloody Bee",
+            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/solitary/nomad)Nomad Bee$(/l) spawn egg.",
+            "anchor": "bloody",
+            "flag": "productivebees:bloody"
+        },
+        {
+            "type": "entity",
+            "name": "Bloody Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:bloody'}",
+            "flag": "productivebees:bloody"
+        },
+        {
+            "type": "text",
+            "title": "Pink Slimy Bee",
+            "text": "This bee can be converted from a $(l:bees/wild/slimy)Slimy Bee$(/l) by feeding it some pink slime.",
+            "anchor": "pink_slimy",
+            "flag": "productivebees:pink_slimy"
+        },
+        {
+            "type": "entity",
+            "name": "Pink Slimy Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:pink_slimy'}",
+            "flag": "productivebees:pink_slimy"
+        },
+        {
+            "type": "text",
+            "title": "Menril Bee",
+            "text": "Bred from a $(l:bees/solitary/neon_cuckoo)Diamond Bee$(/l) and a $(l:bees/wild/crystalline)Crystalline Bee$(/l).",
+            "anchor": "menril",
+            "flag": "productivebees:menril"
+        },
+        {
+            "type": "entity",
+            "name": "Menril Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:menril'}",
+            "flag": "productivebees:menril"
+        },
+        {
+            "type": "text",
+            "title": "Uraninite Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/bees/hive/creeper)Creeper Bee$(/l).",
+            "anchor": "uraninite",
+            "flag": "productivebees:uraninite"
+        },
+        {
+            "type": "entity",
+            "name": "Uraninite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:uraninite'}",
+            "flag": "productivebees:uraninite"
+        },
+        {
+            "type": "text",
+            "title": "Allthemodium Bee",
+            "text": "Bred from a $(l:bees/hives#diamond)Diamond Bee$(/l) and a $(l:bees/hives#withered)Withered Bee$(/l).",
+            "anchor": "allthemodium",
+            "flag": "productivebees:allthemodium"
+        },
+        {
+            "type": "entity",
+            "name": "Allthemodium Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:allthemodium'}",
+            "flag": "productivebees:allthemodium"
+        },
+        {
+            "type": "text",
+            "title": "Vibranium Bee",
+            "text": "Bred from a $(l:bees/hives#diamond)Diamond Bee$(/l) and a $(l:bees/wild/draconic)Draconic Bee$(/l).",
+            "anchor": "vibranium",
+            "flag": "productivebees:vibranium"
+        },
+        {
+            "type": "entity",
+            "name": "Vibranium Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:vibranium'}",
+            "flag": "productivebees:vibranium"
+        },
+        {
+            "type": "text",
+            "title": "Unobtainium Bee",
+            "text": "Bred from an $(l:bees/mod_bees#allthemodium)Allthemodium Bee$(/l) and a $(l:bees/mod_bees#vibranium)Vibranium Bee$(/l).",
+            "anchor": "unobtainium",
+            "flag": "productivebees:unobtainium"
+        },
+        {
+            "type": "entity",
+            "name": "Unobtainium Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:unobtainium'}",
+            "flag": "productivebees:unobtainium"
+        }
+    ]
+}

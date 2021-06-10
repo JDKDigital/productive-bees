@@ -21,8 +21,8 @@ public class BlueBandedBeeEntity extends SolitaryBeeEntity
 
     public static AttributeModifierMap.MutableAttribute getDefaultAttributes() {
         return ProductiveBeeEntity.getDefaultAttributes()
-                .createMutableAttribute(Attributes.FLYING_SPEED, 0.75D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.4D);
+                .add(Attributes.FLYING_SPEED, 0.75D)
+                .add(Attributes.MOVEMENT_SPEED, 0.4D);
     }
 
     @Override
@@ -32,6 +32,6 @@ public class BlueBandedBeeEntity extends SolitaryBeeEntity
 
     @Override
     public boolean isFlowerBlock(Block flowerBlock) {
-        return flowerBlock.isIn(ModTags.RIVER_FLOWERS);
+        return flowerBlock.is(ModTags.RIVER_FLOWERS);
     }
 }

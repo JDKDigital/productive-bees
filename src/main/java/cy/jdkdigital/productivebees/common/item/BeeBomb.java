@@ -56,36 +56,35 @@ public class BeeBomb extends Item
 
     @Nonnull
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
-        ItemStack item = player.getHeldItem(hand);
-        world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_SPLASH_POTION_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-        if (!world.isRemote) {
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, @Nonnull Hand hand) {
+        ItemStack item = player.getItemInHand(hand);
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SPLASH_POTION_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        if (!world.isClientSide) {
             BeeBombEntity bombEntity = new BeeBombEntity(world, player);
             bombEntity.setItem(item);
-            bombEntity.setDirectionAndMovement(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
-            world.addEntity(bombEntity);
+            bombEntity.shootFromRotation(player, player.xRot, player.yRot, 0.0F, 1.5F, 1.0F);
+            world.addFreshEntity(bombEntity);
         }
 
-        player.inventory.deleteStack(item);
+        player.inventory.removeItem(item);
 
-        return ActionResult.resultSuccess(item);
+        return ActionResult.success(item);
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(stack, world, list, flag);
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(stack, world, list, flag);
 
         ListNBT beeList = BeeBomb.getBees(stack);
         if (!beeList.isEmpty()) {
             if (Screen.hasShiftDown()) {
-                list.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").mergeStyle(TextFormatting.DARK_AQUA));
+                list.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").withStyle(TextFormatting.DARK_AQUA));
                 for (INBT bee : beeList) {
                     String beeType = ((CompoundNBT) bee).getString("entity");
-                    list.add(new StringTextComponent(beeType).mergeStyle(TextFormatting.GOLD));
+                    list.add(new StringTextComponent(beeType).withStyle(TextFormatting.GOLD));
                 }
-            }
-            else {
-                list.add(new TranslationTextComponent("productivebees.information.hold_shift").mergeStyle(TextFormatting.WHITE));
+            } else {
+                list.add(new TranslationTextComponent("productivebees.information.hold_shift").withStyle(TextFormatting.WHITE));
             }
         }
     }

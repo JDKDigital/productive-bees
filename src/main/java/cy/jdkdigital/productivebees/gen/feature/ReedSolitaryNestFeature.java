@@ -20,21 +20,21 @@ public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
     }
 
     @Override
-    public boolean generate(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
+    public boolean place(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
         if (nestShouldNotGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 
         // Get to ground level
-        blockPos = blockPos.up(chunkGenerator.getGroundHeight());
+        blockPos = blockPos.above(chunkGenerator.getSpawnHeight());
 
         // Go to ground surface
-        while (blockPos.getY() < 127 && !world.isAirBlock(blockPos)) {
-            blockPos = blockPos.up();
+        while (blockPos.getY() < 127 && !world.isEmptyBlock(blockPos)) {
+            blockPos = blockPos.above();
         }
 
         // Go up some more
-        blockPos = blockPos.up(rand.nextInt(2));
+        blockPos = blockPos.above(rand.nextInt(2));
 
         // Locate tree log in chunk
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
@@ -43,7 +43,7 @@ public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
         blockFound:
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                newPos = blockPos.add(x, 0, z);
+                newPos = blockPos.offset(x, 0, z);
                 if (matcher.test(world.getBlockState(newPos))) {
                     break blockFound;
                 }
@@ -52,8 +52,8 @@ public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
         }
 
         if (newPos != null) {
-            if (!matcher.test(world.getBlockState(newPos.down()))) {
-                newPos = newPos.up();
+            if (!matcher.test(world.getBlockState(newPos.below()))) {
+                newPos = newPos.above();
             }
             return placeNest(world, newPos, featureConfig);
         }

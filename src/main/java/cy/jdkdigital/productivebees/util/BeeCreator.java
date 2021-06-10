@@ -110,7 +110,7 @@ public class BeeCreator
     }
 
     public static void setTag(String type, ItemStack stack) {
-        CompoundNBT tag = stack.getOrCreateChildTag("EntityTag");
+        CompoundNBT tag = stack.getOrCreateTagElement("EntityTag");
         tag.putString("type", type);
     }
 

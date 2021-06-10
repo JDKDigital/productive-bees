@@ -47,7 +47,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     @Nonnull
     @Override
     public String getTitle() {
-        return I18n.format("jei.productivebees.advanced_beehive");
+        return I18n.get("jei.productivebees.advanced_beehive");
     }
 
     @Nonnull
@@ -69,7 +69,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         List<List<ItemStack>> outputList = new ArrayList<>();
         recipe.getRecipeOutputs().forEach((stack, value) -> {
             List<ItemStack> innerList = new ArrayList<>();
-            IntStream.range(value.get(0).getInt(), value.get(1).getInt() + 1).forEach((i) -> {
+            IntStream.range(value.get(0).getAsInt(), value.get(1).getAsInt() + 1).forEach((i) -> {
                 ItemStack newStack = stack.copy();
                 newStack.setCount(i);
                 innerList.add(newStack);

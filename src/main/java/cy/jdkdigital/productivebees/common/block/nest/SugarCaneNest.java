@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class SugarCaneNest extends SolitaryNest
 {
-    protected static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
+    protected static final VoxelShape SHAPE = box(2.0D, 0.0D, 2.0D, 14.0D, 16.0D, 14.0D);
 
     public SugarCaneNest(Properties properties) {
         super(properties);
@@ -28,7 +28,7 @@ public class SugarCaneNest extends SolitaryNest
     @Override
     public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
         super.tick(state, worldIn, pos, rand);
-        if (!state.isValidPosition(worldIn, pos)) {
+        if (!state.canSurvive(worldIn, pos)) {
             worldIn.destroyBlock(pos, true);
         }
     }
@@ -40,21 +40,21 @@ public class SugarCaneNest extends SolitaryNest
     }
 
     @Override
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (!stateIn.isValidPosition(worldIn, currentPos)) {
-            worldIn.getPendingBlockTicks().scheduleTick(currentPos, this, 1);
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (!stateIn.canSurvive(worldIn, currentPos)) {
+            worldIn.getBlockTicks().scheduleTick(currentPos, this, 1);
         }
 
-        return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+        return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        BlockState soil = worldIn.getBlockState(pos.down());
+    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        BlockState soil = worldIn.getBlockState(pos.below());
         if (soil.getBlock() == Blocks.SUGAR_CANE || soil.getBlock() instanceof SugarCaneNest) {
             return true;
         }
-        return ((SugarCaneBlock) Blocks.SUGAR_CANE).isValidPosition(state, worldIn, pos);
+        return ((SugarCaneBlock) Blocks.SUGAR_CANE).canSurvive(state, worldIn, pos);
     }
 }

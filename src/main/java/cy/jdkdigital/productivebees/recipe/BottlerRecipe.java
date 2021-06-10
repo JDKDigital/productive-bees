@@ -40,7 +40,7 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
         if (!itemInput.test(inputStack)) {
             return false;
         }
-        if (!getPreferredFluidByMod(fluidInput.getFirst()).isEquivalentTo(fluid.getFluid())) {
+        if (!getPreferredFluidByMod(fluidInput.getFirst()).equals(fluid.getFluid())) {
             return false;
         }
         return fluid.getAmount() >= fluidInput.getSecond();
@@ -53,18 +53,18 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return getRecipeOutputs().entrySet().iterator().next().getKey().copy();
     }
 
@@ -96,55 +96,55 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
 
         @Nonnull
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
+        public T fromJson(ResourceLocation id, JsonObject json) {
             Pair<String, Integer> fluidInput = null;
             if (json.has("fluid")) {
-                int amount = JSONUtils.getInt(json, "amount", 250);
+                int amount = JSONUtils.getAsInt(json, "amount", 250);
 
-                JsonObject fluid = JSONUtils.getJsonObject(json, "fluid");
+                JsonObject fluid = JSONUtils.getAsJsonObject(json, "fluid");
                 String fluidResourceLocation = "";
                 if (fluid.has("tag")) {
-                    fluidResourceLocation = JSONUtils.getString(fluid, "tag");
+                    fluidResourceLocation = JSONUtils.getAsString(fluid, "tag");
                 } else if (fluid.has("fluid")) {
-                    fluidResourceLocation = JSONUtils.getString(fluid, "fluid");
+                    fluidResourceLocation = JSONUtils.getAsString(fluid, "fluid");
                 }
 
                 fluidInput = Pair.of(fluidResourceLocation, amount);
             }
 
             Ingredient input;
-            if (JSONUtils.isJsonArray(json, "input")) {
-                input = Ingredient.deserialize(JSONUtils.getJsonArray(json, "input"));
+            if (JSONUtils.isArrayNode(json, "input")) {
+                input = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "input"));
             } else {
-                input = Ingredient.deserialize(JSONUtils.getJsonObject(json, "input"));
+                input = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "input"));
             }
 
             Ingredient output;
-            if (JSONUtils.isJsonArray(json, "output")) {
-                output = Ingredient.deserialize(JSONUtils.getJsonArray(json, "output"));
+            if (JSONUtils.isArrayNode(json, "output")) {
+                output = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "output"));
             } else {
-                output = Ingredient.deserialize(JSONUtils.getJsonObject(json, "output"));
+                output = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "output"));
             }
 
             return this.factory.create(id, fluidInput, input, output);
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                Pair<String, Integer> fluidInput = Pair.of(buffer.readString(), buffer.readInt());
-                return this.factory.create(id, fluidInput, Ingredient.read(buffer), Ingredient.read(buffer));
+                Pair<String, Integer> fluidInput = Pair.of(buffer.readUtf(), buffer.readInt());
+                return this.factory.create(id, fluidInput, Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer));
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee bottler recipe from packet. " + id, e);
                 throw e;
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
-                buffer.writeString(recipe.fluidInput.getFirst());
+                buffer.writeUtf(recipe.fluidInput.getFirst());
                 buffer.writeInt(recipe.fluidInput.getSecond());
-                recipe.itemInput.write(buffer);
-                recipe.result.write(buffer);
+                recipe.itemInput.toNetwork(buffer);
+                recipe.result.toNetwork(buffer);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee bottler recipe to packet. " + recipe.getId(), e);
                 throw e;

@@ -28,7 +28,7 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
         if (nbt != null) {
             return new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")).getString();
         }
-        return beeIngredient.getBeeEntity().getName().getString();
+        return beeIngredient.getBeeEntity().getDescription().getString();
     }
 
     @Nonnull

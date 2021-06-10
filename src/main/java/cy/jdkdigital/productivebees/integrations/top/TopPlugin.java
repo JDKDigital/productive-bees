@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.top;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
 import mcjty.theoneprobe.api.ITheOneProbe;
@@ -18,13 +19,13 @@ import java.util.function.Function;
 
 public class TopPlugin implements Function<ITheOneProbe, Void>
 {
-    ITextComponent formattedName = new StringTextComponent("Productive Bees").mergeStyle(TextFormatting.BLUE).mergeStyle(TextFormatting.ITALIC);
+    ITextComponent formattedName = new StringTextComponent("Productive Bees").withStyle(TextFormatting.BLUE).withStyle(TextFormatting.ITALIC);
 
     @Nullable
     @Override
     public Void apply(ITheOneProbe theOneProbe) {
         theOneProbe.registerBlockDisplayOverride((mode, probeInfo, player, world, blockState, data) -> {
-            TileEntity tileEntity = world.getTileEntity(data.getPos());
+            TileEntity tileEntity = world.getBlockEntity(data.getPos());
             if (tileEntity instanceof SolitaryNestTileEntity) {
                 SolitaryNestTileEntity nest = (SolitaryNestTileEntity) tileEntity;
                 if (mode.equals(ProbeMode.EXTENDED)) {
@@ -33,14 +34,14 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                             .vertical()
                             .itemLabel(new ItemStack(blockState.getBlock().asItem()))
                             .text(formattedName);
-                    if (nest.getBeeCount() > 0) {
+                    if (nest.getOccupantCount() > 0) {
                         probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.bee", nest.getBeeList().get(0).localizedName));
                         probeInfo.progress(nest.getBeeList().get(0).minOccupationTicks - nest.getBeeList().get(0).ticksInHive, nest.getBeeList().get(0).minOccupationTicks);
                     }
                     else {
                         if (nest.getNestTickCooldown() > 0) {
                             probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown"));
-                            probeInfo.progress(nest.getNestTickCooldown() / 20, nest.getRepopulationCooldown(blockState.getBlock()) / 20);
+                            probeInfo.progress(nest.getNestTickCooldown() / 20, ProductiveBeesConfig.GENERAL.nestSpawnCooldown.get() / 20);
                         }
                         else {
                             probeInfo.text(new TranslationTextComponent("productivebees.top.solitary.repopulation_countdown_inactive"));

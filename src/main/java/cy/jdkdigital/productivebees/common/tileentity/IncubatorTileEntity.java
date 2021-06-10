@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.tileentity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
@@ -50,7 +49,7 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
         public boolean isInputSlotItem(int slot, Item item) {
             return
                 (slot == 0 && item instanceof BeeCage) ||
-                (slot == 0 && item.isIn(ModTags.EGGS)) ||
+                (slot == 0 && item.is(ModTags.EGGS)) ||
                 (slot == 1 && item instanceof HoneyTreat);
         }
     });
@@ -81,8 +80,8 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
 
     @Override
     public void tick() {
-        if (world != null && !world.isRemote) {
-            if (isRunning && world instanceof ServerWorld) {
+        if (level != null && !level.isClientSide) {
+            if (isRunning && level instanceof ServerWorld) {
                 energyHandler.ifPresent(handler -> {
                     handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() * getEnergyConsumptionModifier()), false);
                 });
@@ -97,7 +96,7 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
                         if (++this.recipeProgress >= totalTime) {
                             this.completeIncubation(invHandler);
                             recipeProgress = 0;
-                            this.markDirty();
+                            this.setChanged();
                         }
                     }
                 }
@@ -123,7 +122,7 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
         ItemStack inItem = invHandler.getStackInSlot(0);
         ItemStack treatItem = invHandler.getStackInSlot(1);
 
-        boolean eggProcessing = inItem.getItem().isIn(ModTags.EGGS);
+        boolean eggProcessing = inItem.getItem().is(ModTags.EGGS);
         boolean cageProcessing = inItem.getItem() instanceof BeeCage && BeeCage.isFilled(inItem);
 
         return energy > ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() // has enough power
@@ -140,7 +139,7 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
         if (canProcessInput(invHandler)) {
             ItemStack inItem = invHandler.getStackInSlot(0);
 
-            boolean eggProcessing = inItem.getItem().isIn(ModTags.EGGS);
+            boolean eggProcessing = inItem.getItem().is(ModTags.EGGS);
             boolean cageProcessing = inItem.getItem() instanceof BeeCage;
 
             if (canProcessInput(invHandler)) {
@@ -157,7 +156,7 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
 
                     ListNBT genes = HoneyTreat.getGenes(treatItem);
                     for (INBT inbt : genes) {
-                        ItemStack insertedGene = ItemStack.read((CompoundNBT) inbt);
+                        ItemStack insertedGene = ItemStack.of((CompoundNBT) inbt);
                         String beeName = Gene.getAttributeName(insertedGene);
                         if (!beeName.isEmpty()) {
                             int purity = ((CompoundNBT) inbt).getInt("purity");
@@ -183,22 +182,22 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
+    public void setChanged() {
+        super.setChanged();
         setRunning(false);
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
 
         recipeProgress = tag.getInt("RecipeProgress");
     }
 
     @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
-        tag = super.write(tag);
+    public CompoundNBT save(CompoundNBT tag) {
+        tag = super.save(tag);
 
         tag.putInt("RecipeProgress", recipeProgress);
 
@@ -217,9 +216,10 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
         return super.getCapability(cap, side);
     }
 
+    @Nonnull
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(ModBlocks.INCUBATOR.get().getTranslationKey());
+        return new TranslationTextComponent(ModBlocks.INCUBATOR.get().getDescriptionId());
     }
 
     @Nullable

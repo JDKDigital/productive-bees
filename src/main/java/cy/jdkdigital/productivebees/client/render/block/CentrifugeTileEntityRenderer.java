@@ -33,12 +33,12 @@ public class CentrifugeTileEntityRenderer extends TileEntityRenderer<CentrifugeT
                         double dX = Math.sin(Math.toRadians(angle)) * 0.25D;
                         double dZ = Math.cos(Math.toRadians(angle)) * 0.25D;
 
-                        matrixStackIn.push();
+                        matrixStackIn.pushPose();
                         matrixStackIn.translate(0.5D + dX, 0.6375D, 0.5D + dZ);
-                        matrixStackIn.rotate(Vector3f.YP.rotationDegrees((float) angle + 90F));
+                        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees((float) angle + 90F));
                         matrixStackIn.scale(0.35F, 0.35F, 0.35F);
-                        Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
-                        matrixStackIn.pop();
+                        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemCameraTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
+                        matrixStackIn.popPose();
                     }
                 }
             });

@@ -16,8 +16,8 @@ public class BeeSpawningBigRecipe extends BeeSpawningRecipe
 {
     public static final IRecipeType<BeeSpawningBigRecipe> BEE_SPAWNING = IRecipeType.register(ProductiveBees.MODID + ":bee_spawning_big");
 
-    public BeeSpawningBigRecipe(ResourceLocation id, Ingredient ingredient, List<Lazy<BeeIngredient>> output, List<String> biomes, String temperature, int repopulationCooldown) {
-        super(id, ingredient, output, biomes, temperature, repopulationCooldown);
+    public BeeSpawningBigRecipe(ResourceLocation id, Ingredient ingredient, List<Lazy<BeeIngredient>> output, List<String> biomes, String temperature) {
+        super(id, ingredient, output, biomes, temperature);
     }
 
     @Nonnull

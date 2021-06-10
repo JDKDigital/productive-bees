@@ -15,7 +15,7 @@ public class YellowBlackCarpenterBeeEntity extends SolitaryBeeEntity
 
     @Override
     public boolean isFlowerBlock(Block flowerBlock) {
-        return flowerBlock.isIn(ModTags.FOREST_FLOWERS);
+        return flowerBlock.is(ModTags.FOREST_FLOWERS);
     }
 
     @Override

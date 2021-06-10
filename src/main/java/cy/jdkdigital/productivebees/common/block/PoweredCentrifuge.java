@@ -21,7 +21,7 @@ public class PoweredCentrifuge extends Centrifuge
     }
 
     @Nullable
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    public TileEntity newBlockEntity(IBlockReader world) {
         return new PoweredCentrifugeTileEntity();
     }
 }

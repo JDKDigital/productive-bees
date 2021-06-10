@@ -30,31 +30,31 @@ public class IncubatorScreen extends ContainerScreen<IncubatorContainer>
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.drawText(matrixStack, this.title, -5.0f, 6.0F, 4210752);
-        this.font.drawText(matrixStack, this.playerInventory.getDisplayName(), -5.0f, (float) (this.ySize - 96 + 2), 4210752);
+    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
+        this.font.draw(matrixStack, this.title, -5.0f, 6.0F, 4210752);
+        this.font.draw(matrixStack, this.inventory.getName(), -5.0f, (float) (this.getYSize() - 96 + 2), 4210752);
 
-        this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
 
             // Energy level tooltip
-            if (isPointInRegion(-5, 16, 6, 54, mouseX, mouseY)) {
+            if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
-                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level", energyAmount + "FE").func_241878_f());
+                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
 
                 renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
             }
         });
 
-        this.container.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
-                if (isPointInRegion(80 - 13, 17, 18, 18, mouseX, mouseY)) {
+                if (isHovering(80 - 13, 17, 18, 18, mouseX, mouseY)) {
                     List<IReorderingProcessor> tooltipList = new ArrayList<>();
-                    tooltipList.add(new TranslationTextComponent("productivebees.incubator.tooltip.treat_item").func_241878_f());
+                    tooltipList.add(new TranslationTextComponent("productivebees.incubator.tooltip.treat_item").getVisualOrderText());
 
                     renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
                 }
@@ -63,23 +63,23 @@ public class IncubatorScreen extends ContainerScreen<IncubatorContainer>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         assert minecraft != null;
 
-        minecraft.getTextureManager().bindTexture(GUI_TEXTURE);
+        minecraft.getTextureManager().bind(GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, getGuiLeft() - 13, getGuiTop(), 0, 0, this.xSize + 26, this.ySize);
+        blit(matrixStack, getGuiLeft() - 13, getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
 
         // Draw progress
-        int progress = (int) (this.container.tileEntity.recipeProgress * (24 / (float) this.container.tileEntity.getProcessingTime()));
+        int progress = (int) (this.menu.tileEntity.recipeProgress * (24 / (float) this.menu.tileEntity.getProcessingTime()));
         blit(matrixStack, getGuiLeft() + 77 - 13, getGuiTop() + 35, 202, 52, progress + 1, 16);
 
         // Draw energy level
         blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
-        this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52 / 10000F));
             blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);

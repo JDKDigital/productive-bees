@@ -1,0 +1,19 @@
+{
+    "name": "Coal Bee",
+    "icon": "minecraft:coal",
+    "read_by_default": true,
+    "category": "productivebees:hive",
+    "flag": "productivebees:coal",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Coal Bee",
+            "text": "Bred from a $(l:bees/hive/redstone)Blazing Bee$(/l) and a $(l:bees/solitary/leafcutter)Leafcutter Bee$(/l).",
+            "anchor": "coal"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:coal'}"
+        }
+    ]
+}

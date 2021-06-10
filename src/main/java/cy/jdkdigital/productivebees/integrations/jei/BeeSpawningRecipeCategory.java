@@ -68,7 +68,7 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
     @Nonnull
     @Override
     public String getTitle() {
-        return I18n.format("jei.productivebees.bee_spawning");
+        return I18n.get("jei.productivebees.bee_spawning");
     }
 
     @Nonnull

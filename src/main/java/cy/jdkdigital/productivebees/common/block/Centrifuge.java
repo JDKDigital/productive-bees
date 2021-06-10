@@ -30,22 +30,22 @@ public class Centrifuge extends CapabilityContainerBlock
 {
     public static final BooleanProperty RUNNING = BooleanProperty.create("running");
 
-    private static final VoxelShape INSIDE = makeCuboidShape(1.0D, 8.1D, 1.0D, 15.0D, 16.0D, 15.0D);
-    protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(
-            VoxelShapes.fullCube(),
+    private static final VoxelShape INSIDE = box(1.0D, 8.1D, 1.0D, 15.0D, 16.0D, 15.0D);
+    protected static final VoxelShape SHAPE = VoxelShapes.join(
+            VoxelShapes.block(),
             VoxelShapes.or(
-                    makeCuboidShape(0.0D, 0.0D, 3.0D, 16.0D, 3.0D, 13.0D),
-                    makeCuboidShape(3.0D, 0.0D, 0.0D, 13.0D, 3.0D, 16.0D),
-                    makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 3.0D, 15.0D),
+                    box(0.0D, 0.0D, 3.0D, 16.0D, 3.0D, 13.0D),
+                    box(3.0D, 0.0D, 0.0D, 13.0D, 3.0D, 16.0D),
+                    box(1.0D, 0.0D, 1.0D, 15.0D, 3.0D, 15.0D),
                     INSIDE
             ), IBooleanFunction.ONLY_FIRST);
 
-    private static VoxelShape BLOCK_ABOVE_SHAPE = Block.makeCuboidShape(0.0D, 16.0D, 0.0D, 16.0D, 32.0D, 16.0D);
+    private static VoxelShape BLOCK_ABOVE_SHAPE = box(0.0D, 16.0D, 0.0D, 16.0D, 32.0D, 16.0D);
     public static VoxelShape COLLECTION_AREA_SHAPE = VoxelShapes.or(INSIDE, BLOCK_ABOVE_SHAPE);
 
     public Centrifuge(Block.Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(RUNNING, Boolean.FALSE));
+        this.registerDefaultState(defaultBlockState().setValue(RUNNING, Boolean.FALSE));
     }
 
     @SuppressWarnings("deprecation")
@@ -58,23 +58,23 @@ public class Centrifuge extends CapabilityContainerBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getInteractionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return INSIDE;
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (!world.isRemote()) {
-            final TileEntity tileEntity = world.getTileEntity(pos);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        if (!world.isClientSide()) {
+            final TileEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof CentrifugeTileEntity) {
                 openGui((ServerPlayerEntity) player, (CentrifugeTileEntity) tileEntity);
             }
@@ -83,7 +83,7 @@ public class Centrifuge extends CapabilityContainerBlock
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(RUNNING);
     }
 
@@ -99,17 +99,12 @@ public class Centrifuge extends CapabilityContainerBlock
     }
 
     @Nullable
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    @Override
+    public TileEntity newBlockEntity(IBlockReader world) {
         return new CentrifugeTileEntity();
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-        return false;
-    }
-
     public void openGui(ServerPlayerEntity player, CentrifugeTileEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getPos()));
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

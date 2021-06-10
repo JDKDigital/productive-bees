@@ -28,12 +28,12 @@ public class ModItemGroups
 
         @Nonnull
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return iconSupplier.get();
         }
 
         @Override
-        public void fill(@Nonnull NonNullList<ItemStack> items) {
+        public void fillItemList(@Nonnull NonNullList<ItemStack> items) {
             for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
                 String beeType = entry.getKey();
 
@@ -55,7 +55,7 @@ public class ModItemGroups
                 }
             }
 
-            super.fill(items);
+            super.fillItemList(items);
         }
     }
 }

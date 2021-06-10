@@ -1,0 +1,680 @@
+{
+    "name": "Gem Bees",
+    "icon": "minecraft:diamond",
+    "read_by_default": true,
+    "sortnum": 2,
+    "category": "productivebees:modded",
+    "pages": [
+        {
+            "type": "text",
+            "text": "If you have mods that adds gemstones, you will most likely find a bee for them."
+        },
+        {
+            "type": "empty",
+            "draw_filler": false
+        },
+        {
+            "type": "text",
+            "title": "Agate Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an agate gem.",
+            "anchor": "agate",
+            "flag": "productivebees:agate"
+        },
+        {
+            "type": "entity",
+            "name": "Agate Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:agate'}",
+            "flag": "productivebees:agate"
+        },
+        {
+            "type": "text",
+            "title": "Alexandrite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an alexandrite gem.",
+            "anchor": "alexandrite",
+            "flag": "productivebees:alexandrite"
+        },
+        {
+            "type": "entity",
+            "name": "Alexandrite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:alexandrite'}",
+            "flag": "productivebees:alexandrite"
+        },
+        {
+            "type": "text",
+            "title": "Amber Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an amber gem.",
+            "anchor": "amber",
+            "flag": "productivebees:amber"
+        },
+        {
+            "type": "entity",
+            "name": "Amber Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:amber'}",
+            "flag": "productivebees:amber"
+        },
+        {
+            "type": "text",
+            "title": "Amethyst Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an amethyst gem.",
+            "anchor": "amethyst",
+            "flag": "productivebees:amethyst"
+        },
+        {
+            "type": "entity",
+            "name": "Amethyst Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:amethyst'}",
+            "flag": "productivebees:amethyst"
+        },
+        {
+            "type": "text",
+            "title": "Ametrine Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an ametrine gem.",
+            "anchor": "ametrine",
+            "flag": "productivebees:ametrine"
+        },
+        {
+            "type": "entity",
+            "name": "Ametrine Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ametrine'}",
+            "flag": "productivebees:ametrine"
+        },
+        {
+            "type": "text",
+            "title": "Ammolite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an ammolite gem.",
+            "anchor": "ammolite",
+            "flag": "productivebees:ammolite"
+        },
+        {
+            "type": "entity",
+            "name": "Ammolite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ammolite'}",
+            "flag": "productivebees:ammolite"
+        },
+        {
+            "type": "text",
+            "title": "Apatite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an apatite gem.",
+            "anchor": "apatite",
+            "flag": "productivebees:apatite"
+        },
+        {
+            "type": "entity",
+            "name": "Apatite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:apatite'}",
+            "flag": "productivebees:apatite"
+        },
+        {
+            "type": "text",
+            "title": "Aquamarine Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an aquamarine gem.",
+            "anchor": "aquamarine",
+            "flag": "productivebees:aquamarine"
+        },
+        {
+            "type": "entity",
+            "name": "Aquamarine Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:aquamarine'}",
+            "flag": "productivebees:aquamarine"
+        },
+        {
+            "type": "text",
+            "title": "Benitoite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a benitoite gem.",
+            "anchor": "benitoite",
+            "flag": "productivebees:benitoite"
+        },
+        {
+            "type": "entity",
+            "name": "Benitoite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:benitoite'}",
+            "flag": "productivebees:benitoite"
+        },
+        {
+            "type": "text",
+            "title": "Black Diamond Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a black diamond gem.",
+            "anchor": "black_diamond",
+            "flag": "productivebees:black_diamond"
+        },
+        {
+            "type": "entity",
+            "name": "Black Diamond Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:black_diamond'}",
+            "flag": "productivebees:black_diamond"
+        },
+        {
+            "type": "text",
+            "title": "Black Opal Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a black opal gem.",
+            "anchor": "black_opal",
+            "flag": "productivebees:black_opal"
+        },
+        {
+            "type": "entity",
+            "name": "Black Opal Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:black_opal'}",
+            "flag": "productivebees:black_opal"
+        },
+        {
+            "type": "text",
+            "title": "Carnelian Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a carnelian gem.",
+            "anchor": "carnelian",
+            "flag": "productivebees:carnelian"
+        },
+        {
+            "type": "entity",
+            "name": "Carnelian Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:carnelian'}",
+            "flag": "productivebees:carnelian"
+        },
+        {
+            "type": "text",
+            "title": "Cats Eye Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a cats eye gem.",
+            "anchor": "cats_eye",
+            "flag": "productivebees:cats_eye"
+        },
+        {
+            "type": "entity",
+            "name": "Cats Eye Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:cats_eye'}",
+            "flag": "productivebees:cats_eye"
+        },
+        {
+            "type": "text",
+            "title": "Chrysoprase Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a chrysoprase gem.",
+            "anchor": "chrysoprase",
+            "flag": "productivebees:chrysoprase"
+        },
+        {
+            "type": "entity",
+            "name": "Chrysoprase Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:chrysoprase'}",
+            "flag": "productivebees:chrysoprase"
+        },
+        {
+            "type": "text",
+            "title": "Cinnabar Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a cinnabar gem.",
+            "anchor": "cinnabar",
+            "flag": "productivebees:cinnabar"
+        },
+        {
+            "type": "entity",
+            "name": "Cinnabar Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:cinnabar'}",
+            "flag": "productivebees:cinnabar"
+        },
+        {
+            "type": "text",
+            "title": "Citrine Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a citrine gem.",
+            "anchor": "citrine",
+            "flag": "productivebees:citrine"
+        },
+        {
+            "type": "entity",
+            "name": "Citrine Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:citrine'}",
+            "flag": "productivebees:citrine"
+        },
+        {
+            "type": "text",
+            "title": "Coral Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a coral gem.",
+            "anchor": "coral",
+            "flag": "productivebees:coral"
+        },
+        {
+            "type": "entity",
+            "name": "Coral Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:coral'}",
+            "flag": "productivebees:coral"
+        },
+        {
+            "type": "text",
+            "title": "Euclase Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an euclase gem.",
+            "anchor": "euclase",
+            "flag": "productivebees:euclase"
+        },
+        {
+            "type": "entity",
+            "name": "Euclase Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:euclase'}",
+            "flag": "productivebees:euclase"
+        },
+        {
+            "type": "text",
+            "title": "Fluorite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a fluorite gem.",
+            "anchor": "fluorite",
+            "flag": "productivebees:fluorite"
+        },
+        {
+            "type": "entity",
+            "name": "Fluorite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:fluorite'}",
+            "flag": "productivebees:fluorite"
+        },
+        {
+            "type": "text",
+            "title": "Garnet Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a garnet gem.",
+            "anchor": "garnet",
+            "flag": "productivebees:garnet"
+        },
+        {
+            "type": "entity",
+            "name": "Garnet Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:garnet'}",
+            "flag": "productivebees:garnet"
+        },
+        {
+            "type": "text",
+            "title": "Green Sapphire Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a green sapphire gem.",
+            "anchor": "green_sapphire",
+            "flag": "productivebees:green_sapphire"
+        },
+        {
+            "type": "entity",
+            "name": "Green Sapphire Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:green_sapphire'}",
+            "flag": "productivebees:green_sapphire"
+        },
+        {
+            "type": "text",
+            "title": "Heliodor Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a heliodor gem.",
+            "anchor": "heliodor",
+            "flag": "productivebees:heliodor"
+        },
+        {
+            "type": "entity",
+            "name": "Heliodor Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:heliodor'}",
+            "flag": "productivebees:heliodor"
+        },
+        {
+            "type": "text",
+            "title": "Iolite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an iolite gem.",
+            "anchor": "iolite",
+            "flag": "productivebees:iolite"
+        },
+        {
+            "type": "entity",
+            "name": "Iolite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:iolite'}",
+            "flag": "productivebees:iolite"
+        },
+        {
+            "type": "text",
+            "title": "Jade Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a jade gem.",
+            "anchor": "jade",
+            "flag": "productivebees:jade"
+        },
+        {
+            "type": "entity",
+            "name": "Jade Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:jade'}",
+            "flag": "productivebees:jade"
+        },
+        {
+            "type": "text",
+            "title": "Jasper Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a jasper gem.",
+            "anchor": "jasper",
+            "flag": "productivebees:jasper"
+        },
+        {
+            "type": "entity",
+            "name": "Jasper Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:jasper'}",
+            "flag": "productivebees:jasper"
+        },
+        {
+            "type": "text",
+            "title": "Kunzite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a kunzite gem.",
+            "anchor": "kunzite",
+            "flag": "productivebees:kunzite"
+        },
+        {
+            "type": "entity",
+            "name": "Kunzite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:kunzite'}",
+            "flag": "productivebees:kunzite"
+        },
+        {
+            "type": "text",
+            "title": "Kyanite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a kyanite gem.",
+            "anchor": "kyanite",
+            "flag": "productivebees:kyanite"
+        },
+        {
+            "type": "entity",
+            "name": "Kyanite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:kyanite'}",
+            "flag": "productivebees:kyanite"
+        },
+        {
+            "type": "text",
+            "title": "Lepidolite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a lepidolite gem.",
+            "anchor": "lepidolite",
+            "flag": "productivebees:lepidolite"
+        },
+        {
+            "type": "entity",
+            "name": "Lepidolite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:lepidolite'}",
+            "flag": "productivebees:lepidolite"
+        },
+        {
+            "type": "text",
+            "title": "Malachite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a malachite gem.",
+            "anchor": "malachite",
+            "flag": "productivebees:malachite"
+        },
+        {
+            "type": "entity",
+            "name": "Malachite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:malachite'}",
+            "flag": "productivebees:malachite"
+        },
+        {
+            "type": "text",
+            "title": "Moldavite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a moldavite gem.",
+            "anchor": "moldavite",
+            "flag": "productivebees:moldavite"
+        },
+        {
+            "type": "entity",
+            "name": "Moldavite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:moldavite'}",
+            "flag": "productivebees:moldavite"
+        },
+        {
+            "type": "text",
+            "title": "Moonstone Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a moonstone gem.",
+            "anchor": "moonstone",
+            "flag": "productivebees:moonstone"
+        },
+        {
+            "type": "entity",
+            "name": "Moonstone Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:moonstone'}",
+            "flag": "productivebees:moonstone"
+        },
+        {
+            "type": "text",
+            "title": "Morganite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a morganite gem.",
+            "anchor": "morganite",
+            "flag": "productivebees:morganite"
+        },
+        {
+            "type": "entity",
+            "name": "Morganite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:morganite'}",
+            "flag": "productivebees:morganite"
+        },
+        {
+            "type": "text",
+            "title": "Onyx Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an onyx gem.",
+            "anchor": "onyx",
+            "flag": "productivebees:onyx"
+        },
+        {
+            "type": "entity",
+            "name": "Onyx Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:onyx'}",
+            "flag": "productivebees:onyx"
+        },
+        {
+            "type": "text",
+            "title": "Opal Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using an opal gem.",
+            "anchor": "opal",
+            "flag": "productivebees:opal"
+        },
+        {
+            "type": "entity",
+            "name": "Opal Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:opal'}",
+            "flag": "productivebees:opal"
+        },
+        {
+            "type": "text",
+            "title": "Pearl Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a pearl gem.",
+            "anchor": "pearl",
+            "flag": "productivebees:pearl"
+        },
+        {
+            "type": "entity",
+            "name": "Pearl Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:pearl'}",
+            "flag": "productivebees:pearl"
+        },
+        {
+            "type": "text",
+            "title": "Peridot Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a peridot gem.",
+            "anchor": "peridot",
+            "flag": "productivebees:peridot"
+        },
+        {
+            "type": "entity",
+            "name": "Peridot Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:peridot'}",
+            "flag": "productivebees:peridot"
+        },
+        {
+            "type": "text",
+            "title": "Phosphophyllite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a phosphophyllite gem.",
+            "anchor": "phosphophyllite",
+            "flag": "productivebees:phosphophyllite"
+        },
+        {
+            "type": "entity",
+            "name": "Phosphophyllite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:phosphophyllite'}",
+            "flag": "productivebees:phosphophyllite"
+        },
+        {
+            "type": "text",
+            "title": "Pyrope Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a pyrope gem.",
+            "anchor": "pyrope",
+            "flag": "productivebees:pyrope"
+        },
+        {
+            "type": "entity",
+            "name": "Pyrope Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:pyrope'}",
+            "flag": "productivebees:pyrope"
+        },
+        {
+            "type": "text",
+            "title": "Rose Quartz Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a rose quartz gem.",
+            "anchor": "rose_quartz",
+            "flag": "productivebees:rose_quartz"
+        },
+        {
+            "type": "entity",
+            "name": "Rose Quartz Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:rose_quartz'}",
+            "flag": "productivebees:rose_quartz"
+        },
+        {
+            "type": "text",
+            "title": "Ruby Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a ruby gem.",
+            "anchor": "ruby",
+            "flag": "productivebees:ruby"
+        },
+        {
+            "type": "entity",
+            "name": "Ruby Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ruby'}",
+            "flag": "productivebees:ruby"
+        },
+        {
+            "type": "text",
+            "title": "Sapphire Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a sapphire gem.",
+            "anchor": "sapphire",
+            "flag": "productivebees:sapphire"
+        },
+        {
+            "type": "entity",
+            "name": "Sapphire Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:sapphire'}",
+            "flag": "productivebees:sapphire"
+        },
+        {
+            "type": "text",
+            "title": "Sodalite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a sodalite gem.",
+            "anchor": "sodalite",
+            "flag": "productivebees:sodalite"
+        },
+        {
+            "type": "entity",
+            "name": "Sodalite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:sodalite'}",
+            "flag": "productivebees:sodalite"
+        },
+        {
+            "type": "text",
+            "title": "Spinel Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a spinel gem.",
+            "anchor": "spinel",
+            "flag": "productivebees:spinel"
+        },
+        {
+            "type": "entity",
+            "name": "Spinel Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:spinel'}",
+            "flag": "productivebees:spinel"
+        },
+        {
+            "type": "text",
+            "title": "Sunstone Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a sunstone gem.",
+            "anchor": "sunstone",
+            "flag": "productivebees:sunstone"
+        },
+        {
+            "type": "entity",
+            "name": "Sunstone Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:sunstone'}",
+            "flag": "productivebees:sunstone"
+        },
+        {
+            "type": "text",
+            "title": "Tanzanite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a tanzanite gem.",
+            "anchor": "tanzanite",
+            "flag": "productivebees:tanzanite"
+        },
+        {
+            "type": "entity",
+            "name": "Tanzanite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tanzanite'}",
+            "flag": "productivebees:tanzanite"
+        },
+        {
+            "type": "text",
+            "title": "Tektite Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a tektite gem.",
+            "anchor": "tektite",
+            "flag": "productivebees:tektite"
+        },
+        {
+            "type": "entity",
+            "name": "Tektite Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tektite'}",
+            "flag": "productivebees:tektite"
+        },
+        {
+            "type": "text",
+            "title": "Topaz Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a topaz gem.",
+            "anchor": "topaz",
+            "flag": "productivebees:topaz"
+        },
+        {
+            "type": "entity",
+            "name": "Topaz Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:topaz'}",
+            "flag": "productivebees:topaz"
+        },
+        {
+            "type": "text",
+            "title": "Tourmaline Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a tourmaline gem.",
+            "anchor": "tourmaline",
+            "flag": "productivebees:tourmaline"
+        },
+        {
+            "type": "entity",
+            "name": "Tourmaline Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tourmaline'}",
+            "flag": "productivebees:tourmaline"
+        },
+        {
+            "type": "text",
+            "title": "Turquoise Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a turquoise gem.",
+            "anchor": "turquoise",
+            "flag": "productivebees:turquoise"
+        },
+        {
+            "type": "entity",
+            "name": "Turquoise Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:turquoise'}",
+            "flag": "productivebees:turquoise"
+        },
+        {
+            "type": "text",
+            "title": "Yellow Diamond Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a yellow diamond gem.",
+            "anchor": "yellow_diamond",
+            "flag": "productivebees:yellow_diamond"
+        },
+        {
+            "type": "entity",
+            "name": "Yellow Diamond Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:yellow_diamond'}",
+            "flag": "productivebees:yellow_diamond"
+        },
+        {
+            "type": "text",
+            "title": "Zircon Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a zircon gem.",
+            "anchor": "zircon",
+            "flag": "productivebees:zircon"
+        },
+        {
+            "type": "entity",
+            "name": "Zircon Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:zircon'}",
+            "flag": "productivebees:zircon"
+        }
+    ]
+}

@@ -34,7 +34,7 @@ public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrig
     @Nullable
     private static Block getBlockCriteria(JsonObject jsonObject) {
         if (jsonObject.has("block")) {
-            ResourceLocation resourcelocation = new ResourceLocation(JSONUtils.getString(jsonObject, "block"));
+            ResourceLocation resourcelocation = new ResourceLocation(JSONUtils.getAsString(jsonObject, "block"));
             return ForgeRegistries.BLOCKS.getValue(resourcelocation);
         }
         else {
@@ -43,13 +43,13 @@ public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrig
     }
 
     public void trigger(ServerPlayerEntity player, BlockPos pos, ItemStack item) {
-        BlockState blockstate = player.getServerWorld().getBlockState(pos);
-        this.triggerListeners(player, trigger -> trigger.test(blockstate));
+        BlockState blockstate = player.getLevel().getBlockState(pos);
+        this.trigger(player, trigger -> trigger.test(blockstate));
     }
 
     @Nonnull
     @Override
-    protected Instance deserializeTrigger(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
+    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
         Block block = getBlockCriteria(jsonObject);
 
         return new HoneyloggedTrigger.Instance(block);
@@ -60,7 +60,7 @@ public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrig
         private final Block block;
 
         public Instance(@Nullable Block block) {
-            super(HoneyloggedTrigger.ID, EntityPredicate.AndPredicate.ANY_AND);
+            super(HoneyloggedTrigger.ID, EntityPredicate.AndPredicate.ANY);
             this.block = block;
         }
 
@@ -69,13 +69,13 @@ public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrig
                 return false;
             }
 
-            return state.hasProperty(Feeder.HONEYLOGGED) && state.get(Feeder.HONEYLOGGED);
+            return state.hasProperty(Feeder.HONEYLOGGED) && state.getValue(Feeder.HONEYLOGGED);
         }
 
         @Nonnull
         @Override
-        public JsonObject serialize(ConditionArraySerializer serializer) {
-            JsonObject jsonobject = super.serialize(serializer);
+        public JsonObject serializeToJson(ConditionArraySerializer serializer) {
+            JsonObject jsonobject = super.serializeToJson(serializer);
             if (this.block != null) {
                 jsonobject.addProperty("block", Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(this.block)).toString());
             }

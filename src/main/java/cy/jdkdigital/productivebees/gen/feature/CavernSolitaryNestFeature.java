@@ -22,7 +22,7 @@ public class CavernSolitaryNestFeature extends SolitaryNestFeature
     }
 
     @Override
-    public boolean generate(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
+    public boolean place(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
         if (nestShouldNotGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
@@ -33,15 +33,15 @@ public class CavernSolitaryNestFeature extends SolitaryNestFeature
         // Go to roof
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
         while (blockPos.getY() < 127 && !matcher.test(world.getBlockState(blockPos))) {
-            blockPos = blockPos.up();
+            blockPos = blockPos.above();
         }
 
         if (top) {
             // Go to surface
-            while (blockPos.getY() < 127 && !world.isAirBlock(blockPos)) {
-                blockPos = blockPos.up();
+            while (blockPos.getY() < 127 && !world.isEmptyBlock(blockPos)) {
+                blockPos = blockPos.above();
             }
-            blockPos = blockPos.down();
+            blockPos = blockPos.below();
         }
 
         return placeNest(world, blockPos, featureConfig);

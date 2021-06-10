@@ -6,6 +6,8 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.PortalParticle;
 import net.minecraft.client.world.ClientWorld;
 
+import javax.annotation.Nonnull;
+
 public class PortalNectarParticle extends PortalParticle
 {
     public PortalNectarParticle(ClientWorld world, double x, double y, double z, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
@@ -21,7 +23,7 @@ public class PortalNectarParticle extends PortalParticle
         }
 
         @Override
-        public Particle makeParticle(NectarParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(NectarParticleType typeIn, @Nonnull ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             PortalParticle dripparticle = new PortalNectarParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
 
             float[] colors = typeIn.getColor();
@@ -29,7 +31,7 @@ public class PortalNectarParticle extends PortalParticle
                 dripparticle.setColor(colors[0], colors[1], colors[2]);
             }
 
-            dripparticle.selectSpriteRandomly(this.sprite);
+            dripparticle.pickSprite(this.sprite);
 
             return dripparticle;
         }

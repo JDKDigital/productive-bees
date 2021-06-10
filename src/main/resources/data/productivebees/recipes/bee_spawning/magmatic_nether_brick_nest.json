@@ -10,6 +10,5 @@
     ],
     "biomes": [
         "nether"
-    ],
-    "repopulation_cooldown": 36000
+    ]
 }

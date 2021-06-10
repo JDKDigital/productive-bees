@@ -1,0 +1,19 @@
+{
+    "name": "Ancient Bee",
+    "icon": "minecraft:netherite_scrap",
+    "read_by_default": true,
+    "category": "productivebees:hive",
+    "flag": "productivebees:netherite",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Ancient Bee",
+            "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) be feeding it a block of netherite.",
+            "anchor": "netherite"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:netherite'}"
+        }
+    ]
+}

@@ -24,12 +24,12 @@ public class ExpansionBoxTileEntity extends TileEntity
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!getBlockState().get(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
-            Pair<Pair<BlockPos, Direction>, BlockState> pair = ExpansionBox.getAdjacentHive(world, pos);
+        if (!getBlockState().getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
+            Pair<Pair<BlockPos, Direction>, BlockState> pair = ExpansionBox.getAdjacentHive(level, worldPosition);
             if (pair != null) {
                 Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
                 BlockPos hivePos = posAndDirection.getLeft();
-                return world.getTileEntity(hivePos).getCapability(cap, side);
+                return level.getBlockEntity(hivePos).getCapability(cap, side);
             }
         }
         return super.getCapability(cap, side);

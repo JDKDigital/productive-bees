@@ -16,7 +16,7 @@ public class BumbleBeeNest extends SolitaryNest
 {
     public BumbleBeeNest(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(BlockStateProperties.FACING, Direction.UP));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP));
     }
 
     @Nullable
@@ -27,12 +27,12 @@ public class BumbleBeeNest extends SolitaryNest
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    public TileEntity newBlockEntity(IBlockReader world) {
         return new BumbleBeeNestTileEntity();
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext itemUseContext) {
-        return this.getDefaultState().with(BlockStateProperties.FACING, Direction.UP);
+        return this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP);
     }
 }

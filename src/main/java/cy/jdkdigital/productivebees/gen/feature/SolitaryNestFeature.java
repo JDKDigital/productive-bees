@@ -44,7 +44,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
     }
 
     @Override
-    public boolean generate(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
+    public boolean place(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
         if (nestShouldNotGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
@@ -53,12 +53,12 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
         blockPos = blockPos.south(rand.nextInt(14)).east(rand.nextInt(14));
 
         // Go to surface
-        while (blockPos.getY() < 50 || !world.isAirBlock(blockPos)) {
-            blockPos = blockPos.up();
+        while (blockPos.getY() < 50 || !world.isEmptyBlock(blockPos)) {
+            blockPos = blockPos.above();
         }
 
         if (!placeOntop) {
-            blockPos = blockPos.down();
+            blockPos = blockPos.below();
         }
 
         return placeNest(world, blockPos, featureConfig);
@@ -71,29 +71,29 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
     protected boolean placeNest(ISeedReader world, BlockPos pos, ReplaceBlockConfig featureConfig) {
         // Check if we are at target block
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
-        boolean match = placeOntop ? matcher.test(world.getBlockState(pos.down())) : matcher.test(world.getBlockState(pos));
+        boolean match = placeOntop ? matcher.test(world.getBlockState(pos.below())) : matcher.test(world.getBlockState(pos));
         if (match) {
             // Check if there's air around and face that way, default to UP
             Direction direction = featureConfig.state.getBlock() instanceof WoodNest ? Direction.SOUTH : Direction.UP;
-            for (Direction dir : BlockStateProperties.FACING.getAllowedValues()) {
-                BlockPos blockPos = pos.offset(dir, 1);
-                if (world.isAirBlock(blockPos)) {
+            for (Direction dir : BlockStateProperties.FACING.getPossibleValues()) {
+                BlockPos blockPos = pos.relative(dir, 1);
+                if (world.isEmptyBlock(blockPos)) {
                     direction = dir;
                     break;
                 }
             }
 
             // Replace target block with nest
-            BlockState newState = featureConfig.state.with(BlockStateProperties.FACING, direction);
+            BlockState newState = featureConfig.state.setValue(BlockStateProperties.FACING, direction);
 
             // Tiny chance to spawn a sugarbag nest instead
-            if (world.getRandom().nextFloat() < 0.001 && newState.isIn(ModTags.SOLITARY_OVERWORLD_NESTS) && newState.getBlock() instanceof WoodNest) {
+            if (world.getRandom().nextFloat() < 0.001 && newState.is(ModTags.SOLITARY_OVERWORLD_NESTS) && newState.getBlock() instanceof WoodNest) {
                 Direction facing = Direction.SOUTH;
 
                 // Find air position to put it on
-                for (Direction dir : BlockStateProperties.FACING.getAllowedValues()) {
-                    BlockPos blockPos = pos.offset(dir, 1);
-                    if (world.isAirBlock(blockPos)) {
+                for (Direction dir : BlockStateProperties.FACING.getPossibleValues()) {
+                    BlockPos blockPos = pos.relative(dir, 1);
+                    if (world.isEmptyBlock(blockPos)) {
                         if (!dir.equals(Direction.DOWN) && !dir.equals(Direction.UP)) {
                             facing = dir;
                         }
@@ -104,40 +104,40 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfig>
 
                 // Move up a bit
                 for (int i = 1; i <= 3; i++) {
-                    if (!world.isAirBlock(pos.up(i))) {
-                        pos = pos.up(i - 1);
+                    if (!world.isEmptyBlock(pos.above(i))) {
+                        pos = pos.above(i - 1);
                         break;
                     }
                 }
 
-                if (!world.isAirBlock(pos.offset(facing))) {
+                if (!world.isEmptyBlock(pos.relative(facing))) {
                     facing = facing.getOpposite();
                 }
 
-                newState = ModBlocks.SUGARBAG_NEST.get().getDefaultState().with(BeehiveBlock.FACING, facing);
+                newState = ModBlocks.SUGARBAG_NEST.get().defaultBlockState().setValue(BeehiveBlock.FACING, facing);
             }
 
-            boolean result = world.setBlockState(pos, newState, 1);
+            boolean result = world.setBlock(pos, newState, 1);
 
-            TileEntity tileEntity = world.getTileEntity(pos);
+            TileEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof SolitaryNestTileEntity) {
                 ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
-                Entity newBee = ((SolitaryNest) world.getBlockState(pos).getBlock()).getNestingBeeType(world.getWorld(), world.getWorld().getBiome(pos));
+                Entity newBee = ((SolitaryNest) world.getBlockState(pos).getBlock()).getNestingBeeType(world.getLevel(), world.getLevel().getBiome(pos));
                 if (newBee instanceof BeeEntity) {
                     ((BeeEntity) newBee).setHealth(((BeeEntity) newBee).getMaxHealth());
-                    newBee.setPosition(pos.getX(), pos.getY(), pos.getZ());
-                    ((SolitaryNestTileEntity) tileEntity).tryEnterHive(newBee, false, world.getRandom().nextInt(599));
+                    newBee.setPos(pos.getX(), pos.getY(), pos.getZ());
+                    ((SolitaryNestTileEntity) tileEntity).addOccupantWithPresetTicks(newBee, false, world.getRandom().nextInt(599));
                 }
             }
             else if (tileEntity instanceof SugarbagNestTileEntity) {
                 ProductiveBees.LOGGER.debug("Spawned sugarbag nest at " + pos + " " + newState);
-                ConfigurableBeeEntity newBee = ModEntities.CONFIGURABLE_BEE.get().create(world.getWorld());
+                ConfigurableBeeEntity newBee = ModEntities.CONFIGURABLE_BEE.get().create(world.getLevel());
                 if (newBee != null) {
                     newBee.setBeeType("productivebees:sugarbag");
                     newBee.setAttributes();
                     newBee.setHealth(newBee.getMaxHealth());
-                    newBee.setPosition(pos.getX(), pos.getY(), pos.getZ());
-                    ((SugarbagNestTileEntity) tileEntity).tryEnterHive(newBee, false, world.getRandom().nextInt(599));
+                    newBee.setPos(pos.getX(), pos.getY(), pos.getZ());
+                    ((SugarbagNestTileEntity) tileEntity).addOccupantWithPresetTicks(newBee, false, world.getRandom().nextInt(599));
                 }
             }
 

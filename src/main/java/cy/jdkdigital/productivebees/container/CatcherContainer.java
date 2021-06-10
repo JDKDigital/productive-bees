@@ -34,7 +34,7 @@ public class CatcherContainer extends AbstractContainer
         super(type, windowId);
 
         this.tileEntity = tileEntity;
-        this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
+        this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
 
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 13, 35));
@@ -53,7 +53,7 @@ public class CatcherContainer extends AbstractContainer
     private static CatcherTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
+        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
         if (tileAtPos instanceof CatcherTileEntity) {
             return (CatcherTileEntity) tileAtPos;
         }
@@ -61,8 +61,8 @@ public class CatcherContainer extends AbstractContainer
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull final PlayerEntity player) {
-        return canInteractWithCallable.applyOrElse((world, pos) -> world.getBlockState(pos).getBlock() instanceof Catcher && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
+    public boolean stillValid(@Nonnull final PlayerEntity player) {
+        return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof Catcher && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
     }
 
     @Override

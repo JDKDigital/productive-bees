@@ -60,18 +60,18 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 
@@ -103,16 +103,16 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
 
         @Nonnull
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
-            String parentName1 = JSONUtils.getString(json, "parent1");
-            String parentName2 = JSONUtils.getString(json, "parent2");
+        public T fromJson(ResourceLocation id, JsonObject json) {
+            String parentName1 = JSONUtils.getAsString(json, "parent1");
+            String parentName2 = JSONUtils.getAsString(json, "parent2");
 
             Map<Lazy<BeeIngredient>, Integer> children = new LinkedHashMap<>();
-            JsonArray offspring = JSONUtils.getJsonArray(json, "offspring");
+            JsonArray offspring = JSONUtils.getAsJsonArray(json, "offspring");
             offspring.forEach(el -> {
                 if (el.isJsonObject()) {
-                    String child = JSONUtils.getString(el, "offspring");
-                    children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), JSONUtils.getInt(el, "weight"));
+                    String child = JSONUtils.getAsString(el.getAsJsonObject(), "offspring");
+                    children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), JSONUtils.getAsInt(el.getAsJsonObject(), "weight"));
                 } else {
                     String child = el.getAsString();
                     children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), 1);
@@ -125,18 +125,18 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
             return this.factory.create(id, Arrays.asList(beeIngredientParent1, beeIngredientParent2), children);
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
                 List<Lazy<BeeIngredient>> ingredients = new ArrayList<>();
 
-                BeeIngredient ing1 = BeeIngredient.read(buffer);
-                BeeIngredient ing2 = BeeIngredient.read(buffer);
+                BeeIngredient ing1 = BeeIngredient.fromNetwork(buffer);
+                BeeIngredient ing2 = BeeIngredient.fromNetwork(buffer);
                 ingredients.add(Lazy.of(() -> ing1));
                 ingredients.add(Lazy.of(() -> ing2));
 
                 Map<Lazy<BeeIngredient>, Integer> offspring = new LinkedHashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(i -> {
-                    BeeIngredient result = BeeIngredient.read(buffer);
+                    BeeIngredient result = BeeIngredient.fromNetwork(buffer);
                     offspring.put(Lazy.of(() -> result), buffer.readInt());
                 });
 
@@ -147,11 +147,11 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
                 for (Lazy<BeeIngredient> ingredient : recipe.ingredients) {
                     if (ingredient.get() != null) {
-                        ingredient.get().write(buffer);
+                        ingredient.get().toNetwork(buffer);
                     } else {
                         throw new RuntimeException("Bee breeding recipe ingredient missing " + recipe.getId() + " - " + ingredient);
                     }
@@ -160,7 +160,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
                 buffer.writeInt(recipe.offspring.size());
                 recipe.offspring.forEach((child, weight) -> {
                     if (child.get() != null) {
-                        child.get().write(buffer);
+                        child.get().toNetwork(buffer);
                         buffer.writeInt(weight);
                     } else {
                         throw new RuntimeException("Bee breeding recipe child missing " + recipe.getId() + " - " + child);

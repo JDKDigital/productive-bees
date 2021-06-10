@@ -21,8 +21,8 @@ public class MediumElvisBeeModel extends MediumBeeModel
 
     @Override
     protected void addCrystals() {
-        externals.setRotationPoint(-1.0F, -2.0F, -5.0F);
-        externals.setTextureOffset(34, 8).addBox(-2.5F, -2.0F, -2.0F, 7.0F, 4.0F, 2.0F, 0.0F, false);
+        externals.setPos(-1.0F, -2.0F, -5.0F);
+        externals.texOffs(34, 8).addBox(-2.5F, -2.0F, -2.0F, 7.0F, 4.0F, 2.0F, 0.0F, false);
         torso.addChild(externals);
     }
 

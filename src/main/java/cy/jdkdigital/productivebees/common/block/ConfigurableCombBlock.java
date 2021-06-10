@@ -30,7 +30,7 @@ public class ConfigurableCombBlock extends CombBlock
     @Override
     public int getColor(IBlockDisplayReader world, BlockPos pos) {
         if (world != null && pos != null) {
-            TileEntity tileEntity = world.getTileEntity(pos);
+            TileEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof CombBlockTileEntity) {
                 return ((CombBlockTileEntity) tileEntity).getColor();
             }
@@ -39,9 +39,9 @@ public class ConfigurableCombBlock extends CombBlock
     }
 
     @Override
-    public void fillItemGroup(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
+    public void fillItemCategory(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
         if (!this.equals(ForgeRegistries.BLOCKS.getValue(this.getRegistryName()))) {
-            super.fillItemGroup(group, items);
+            super.fillItemCategory(group, items);
         }
     }
 
@@ -57,10 +57,10 @@ public class ConfigurableCombBlock extends CombBlock
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
-        TileEntity tileEntity = world.getTileEntity(pos);
+    public void setPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
+        TileEntity tileEntity = world.getBlockEntity(pos);
         if (tileEntity instanceof CombBlockTileEntity) {
-            CompoundNBT tag = stack.getChildTag("EntityTag");
+            CompoundNBT tag = stack.getTagElement("EntityTag");
             if (tag != null && tag.contains("type")) {
                 ((CombBlockTileEntity) tileEntity).setType(tag.getString("type"));
             }
@@ -70,7 +70,7 @@ public class ConfigurableCombBlock extends CombBlock
     @Override
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
         ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-        TileEntity tileEntity = world.getTileEntity(pos);
+        TileEntity tileEntity = world.getBlockEntity(pos);
         if (tileEntity instanceof CombBlockTileEntity) {
             String type = ((CombBlockTileEntity) tileEntity).getCombType();
             if (type != null) {

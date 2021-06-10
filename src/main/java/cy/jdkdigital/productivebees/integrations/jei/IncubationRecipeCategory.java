@@ -57,7 +57,7 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
     @Nonnull
     @Override
     public String getTitle() {
-        return I18n.format("jei.productivebees.incubation");
+        return I18n.get("jei.productivebees.incubation");
     }
 
     @Nonnull
@@ -74,10 +74,10 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
 
     @Override
     public void setIngredients(IncubationRecipe recipe, IIngredients ingredients) {
-        List<ItemStack> inputs = Arrays.asList(recipe.input.getMatchingStacks());
-        List<ItemStack> catalyst = Arrays.asList(recipe.catalyst.getMatchingStacks());
+        List<ItemStack> inputs = Arrays.asList(recipe.input.getItems());
+        List<ItemStack> catalyst = Arrays.asList(recipe.catalyst.getItems());
         ingredients.setInputLists(VanillaTypes.ITEM, Arrays.asList(inputs, catalyst));
-        ingredients.setOutputs(VanillaTypes.ITEM, Arrays.asList(recipe.result.getMatchingStacks()));
+        ingredients.setOutputs(VanillaTypes.ITEM, Arrays.asList(recipe.result.getItems()));
     }
 
     @Override
@@ -100,18 +100,18 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
             ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
             ItemStack babeeCage = cage.copy();
 
-            baBee.setGrowingAge(-24000);
+            baBee.setAge(-24000);
             BeeCage.captureEntity(bee, cage);
             BeeCage.captureEntity(baBee, babeeCage);
             ItemStack treats = new ItemStack(ModItems.HONEY_TREAT.get(), ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
-            recipes.add(new IncubationRecipe(new ResourceLocation(ProductiveBees.MODID, "cage_incubation"), Ingredient.fromStacks(babeeCage), Ingredient.fromStacks(treats), Ingredient.fromStacks(cage)));
+            recipes.add(new IncubationRecipe(new ResourceLocation(ProductiveBees.MODID, "cage_incubation"), Ingredient.of(babeeCage), Ingredient.of(treats), Ingredient.of(cage)));
         }
 
         // Spawn egg incubation
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
-            Ingredient spawnEgg = NBTIngredient.fromStacks(BeeCreator.getSpawnEgg(entry.getKey()));
-            Ingredient treat = NBTIngredient.fromStacks(HoneyTreat.getTypeStack(entry.getKey(), 100));
-            recipes.add(new IncubationRecipe(new ResourceLocation(entry.getKey() + "_incubation"), Ingredient.fromItems(Items.EGG), treat, spawnEgg));
+            Ingredient spawnEgg = NBTIngredient.of(BeeCreator.getSpawnEgg(entry.getKey()));
+            Ingredient treat = NBTIngredient.of(HoneyTreat.getTypeStack(entry.getKey(), 100));
+            recipes.add(new IncubationRecipe(new ResourceLocation(entry.getKey() + "_incubation"), Ingredient.of(Items.EGG), treat, spawnEgg));
         }
 
         return recipes;

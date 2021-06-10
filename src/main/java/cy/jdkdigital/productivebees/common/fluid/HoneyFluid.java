@@ -38,82 +38,64 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
     }
 
     @Override
-    public Fluid getFlowingFluid() {
+    public Fluid getFlowing() {
         return ModFluids.HONEY_FLOWING.get();
     }
 
     @Override
-    public Fluid getStillFluid() {
+    public Fluid getSource() {
         return ModFluids.HONEY.get();
     }
 
     @Override
     public void animateTick(World worldIn, BlockPos pos, FluidState state, Random random) {
-        BlockPos blockpos = pos.up();
-        if (worldIn.getBlockState(blockpos).isAir() && !worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
+        BlockPos blockpos = pos.above();
+        if (worldIn.getBlockState(blockpos).isAir() && !worldIn.getBlockState(blockpos).isViewBlocking(worldIn, blockpos)) {
             if (random.nextInt(100) == 0) {
-                worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_HONEY_BLOCK_SLIDE, SoundCategory.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
+                worldIn.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.HONEY_BLOCK_SLIDE, SoundCategory.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
             }
         }
     }
 
     @Nullable
-    public IParticleData getDripParticleData() {
+    @Override
+    public IParticleData getDripParticle() {
         return ParticleTypes.DRIPPING_HONEY;
     }
 
     @Override
-    protected void beforeReplacingBlock(IWorld world, BlockPos pos, BlockState state) {
-        this.triggerEffects(world, pos);
-    }
-
-    @Override
     public int getSlopeFindDistance(IWorldReader worldIn) {
-        return worldIn.getDimensionType().isUltrawarm() ? 6 : 3;
+        return worldIn.dimensionType().ultraWarm() ? 6 : 3;
     }
 
     @Override
-    public BlockState getBlockState(FluidState state) {
-        return ModBlocks.HONEY.get().getDefaultState().with(FlowingFluidBlock.LEVEL, getLevelFromState(state));
+    public BlockState createLegacyBlock(FluidState state) {
+        return ModBlocks.HONEY.get().defaultBlockState().setValue(FlowingFluidBlock.LEVEL, getLegacyLevel(state));
     }
 
     @Override
-    public boolean isEquivalentTo(Fluid fluidIn) {
+    public boolean isSame(Fluid fluidIn) {
         return ModTags.HONEY.contains(fluidIn);
     }
 
     @Override
-    public int getLevelDecreasePerBlock(IWorldReader worldIn) {
-        return worldIn.getDimensionType().isUltrawarm() ? 1 : 2;
+    public int getDropOff(IWorldReader worldIn) {
+        return worldIn.dimensionType().ultraWarm() ? 1 : 2;
     }
 
     @Override
-    public boolean canDisplace(FluidState state, IBlockReader worldIn, BlockPos pos, Fluid fluid, Direction direction) {
-        return state.getActualHeight(worldIn, pos) >= 0.44444445F && fluid.isIn(FluidTags.WATER);
+    public int getTickDelay(IWorldReader worldIn) {
+        return worldIn.dimensionType().ultraWarm() ? 10 : 30;
     }
 
     @Override
-    public int getTickRate(IWorldReader worldIn) {
-        return worldIn.getDimensionType().isUltrawarm() ? 10 : 30;
-    }
-
-    @Override
-    public int func_215667_a(World world, BlockPos pos, FluidState state, FluidState FluidState) {
-        int i = this.getTickRate(world);
-        if (!state.isEmpty() && !FluidState.isEmpty() && !state.get(FALLING) && !FluidState.get(FALLING) && FluidState.getActualHeight(world, pos) > state.getActualHeight(world, pos) && world.getRandom().nextInt(4) != 0) {
+    public int getSpreadDelay(World world, BlockPos pos, FluidState state, FluidState FluidState) {
+        int i = this.getTickDelay(world);
+        if (!state.isEmpty() && !FluidState.isEmpty() && !state.getValue(FALLING) && !FluidState.getValue(FALLING) && FluidState.getHeight(world, pos) > state.getHeight(world, pos) && world.getRandom().nextInt(4) != 0) {
             i *= 4;
         }
 
         return i;
-    }
-
-    private void triggerEffects(IWorld world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.BLOCK_HONEY_BLOCK_SLIDE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Override
-    protected boolean canSourcesMultiply() {
-        return false;
     }
 
     @Override
@@ -128,14 +110,14 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
         }
 
         @Override
-        protected void fillStateContainer(StateContainer.Builder<Fluid, FluidState> builder) {
-            super.fillStateContainer(builder);
-            builder.add(LEVEL_1_8);
+        protected void createFluidStateDefinition(StateContainer.Builder<Fluid, FluidState> builder) {
+            super.createFluidStateDefinition(builder);
+            builder.add(LEVEL);
         }
 
         @Override
-        public int getLevel(FluidState state) {
-            return state.get(LEVEL_1_8);
+        public int getAmount(FluidState state) {
+            return state.getValue(LEVEL);
         }
 
         @Override
@@ -151,7 +133,7 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
         }
 
         @Override
-        public int getLevel(FluidState state) {
+        public int getAmount(FluidState state) {
             return 8;
         }
 

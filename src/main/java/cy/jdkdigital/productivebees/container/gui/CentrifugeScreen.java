@@ -34,80 +34,80 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.drawText(matrixStack, this.title, -5f, 6.0F, 4210752);
-        this.font.drawText(matrixStack, this.playerInventory.getDisplayName(), -5f, (float) (this.ySize - 96 + 2), 4210752);
+    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
+        this.font.draw(matrixStack, this.title, -5f, 6.0F, 4210752);
+        this.font.draw(matrixStack, this.inventory.getName(), -5f, (float) (this.getYSize() - 96 + 2), 4210752);
 
-        this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
 
             // Fluid level tooltip
-            if (isPointInRegion(129, 16, 6, 54, mouseX, mouseY)) {
+            if (isHovering(129, 16, 6, 54, mouseX, mouseY)) {
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").func_241878_f());
+                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").getVisualOrderText());
                 }
                 else {
-                    tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").func_241878_f());
+                    tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").getVisualOrderText());
                 }
 
-                renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
             }
         });
 
-        this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
 
             // Energy level tooltip
-            if (isPointInRegion(-5, 16, 6, 54, mouseX, mouseY)) {
+            if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
-                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level", energyAmount + "FE").func_241878_f());
+                tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
 
-                renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
             }
         });
 
-        this.container.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
-                if (isPointInRegion(138, 16, 18, 18, mouseX, mouseY)) {
+                if (isHovering(138, 16, 18, 18, mouseX, mouseY)) {
                     List<IReorderingProcessor> tooltipList = new ArrayList<>();
-                    tooltipList.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.input_item").func_241878_f());
+                    tooltipList.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.input_item").getVisualOrderText());
 
-                    renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                    renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
                 }
             }
         });
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         assert minecraft != null;
 
-        if (this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
-            minecraft.getTextureManager().bindTexture(GUI_TEXTURE_POWERED);
+        if (this.menu.tileEntity.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+            minecraft.getTextureManager().bind(GUI_TEXTURE_POWERED);
         }
         else {
-            minecraft.getTextureManager().bindTexture(GUI_TEXTURE);
+            minecraft.getTextureManager().bind(GUI_TEXTURE);
         }
 
         // Draw main screen
-        blit(matrixStack, this.guiLeft - 13, this.guiTop, 0, 0, this.xSize + 26, this.ySize);
+        blit(matrixStack, this.getGuiLeft() - 13, this.getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
 
         // Draw progress
-        int progress = (int) (this.container.tileEntity.recipeProgress * (24 / (float) this.container.tileEntity.getProcessingTime()));
-        blit(matrixStack, this.guiLeft + 35, this.guiTop + 35, 202, 52, progress + 1, 16);
+        int progress = (int) (this.menu.tileEntity.recipeProgress * (24 / (float) this.menu.tileEntity.getProcessingTime()));
+        blit(matrixStack, this.getGuiLeft() + 35, this.getGuiTop() + 35, 202, 52, progress + 1, 16);
 
         // Draw energy level
-        if (this.container.tileEntity instanceof PoweredCentrifugeTileEntity) {
+        if (this.menu.tileEntity instanceof PoweredCentrifugeTileEntity) {
             blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
-            this.container.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+            this.menu.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
                 int energyAmount = handler.getEnergyStored();
                 int energyLevel = (int) (energyAmount * (52 / 10000F));
                 blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
@@ -115,7 +115,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
         }
 
         // Draw fluid tank
-        this.container.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
 
             if (fluidStack.getAmount() > 0) {
@@ -123,7 +123,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
                 FluidContainerUtil.setColors(fluidStack);
 
-                FluidContainerUtil.drawTiledSprite(this.guiLeft + 127, this.guiTop + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
+                FluidContainerUtil.drawTiledSprite(this.getGuiLeft() + 127, this.getGuiTop() + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
 
                 FluidContainerUtil.resetColor();
             }

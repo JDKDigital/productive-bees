@@ -33,10 +33,9 @@ public class RancherBeeEntity extends ProductiveBeeEntity
 
         if (target != null) {
             if (!hasNectar()) {
-                target.getNavigator().setSpeed(0);
-            }
-            else {
-                target.setRevengeTarget(this);
+                target.getNavigation().setSpeedModifier(0);
+            } else {
+                target.setTarget(this);
                 target = null;
             }
         }
@@ -48,12 +47,12 @@ public class RancherBeeEntity extends ProductiveBeeEntity
     }
 
     @Override
-    public boolean isFlowers(BlockPos pos) {
-        List<Entity> entities = world.getEntitiesInAABBexcluding(this, (new AxisAlignedBB(pos).grow(1.0D, 1.0D, 1.0D)), predicate);
+    public boolean isFlowerValid(BlockPos pos) {
+        List<Entity> entities = level.getEntities(this, (new AxisAlignedBB(pos).expandTowards(1.0D, 1.0D, 1.0D)), predicate);
         if (!entities.isEmpty()) {
             target = (CreatureEntity) entities.get(0);
 
-            target.addPotionEffect(new EffectInstance(Effects.LUCK, 400));
+            target.addEffect(new EffectInstance(Effects.LUCK, 400));
 
             return true;
         }

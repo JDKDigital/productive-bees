@@ -10,6 +10,5 @@
     ],
     "biomes": [
         "swamp"
-    ],
-    "repopulation_cooldown": 36000
+    ]
 }

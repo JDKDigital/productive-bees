@@ -25,8 +25,8 @@ public class UpgradeItem extends Item
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, world, tooltip, flagIn);
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, world, tooltip, flagIn);
 
         if (stack.getItem().equals(ModItems.UPGRADE_FILTER.get())) {
             return;
@@ -50,21 +50,21 @@ public class UpgradeItem extends Item
                 break;
         }
 
-        tooltip.add(new TranslationTextComponent("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).mergeStyle(TextFormatting.GOLD));
+        tooltip.add(new TranslationTextComponent("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).withStyle(TextFormatting.GOLD));
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        World world = context.getWorld();
-        if (!world.isRemote && context.getPlayer() != null && context.getPlayer().isSneaking()) {
-            if (context.getItem().getItem() instanceof UpgradeItem) {
-                TileEntity tileEntity = world.getTileEntity(context.getPos());
+    public ActionResultType useOn(ItemUseContext context) {
+        World world = context.getLevel();
+        if (!world.isClientSide && context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
+            if (context.getItemInHand().getItem() instanceof UpgradeItem) {
+                TileEntity tileEntity = world.getBlockEntity(context.getClickedPos());
                 if (tileEntity instanceof UpgradeableTileEntity && ((UpgradeableTileEntity) tileEntity).acceptsUpgrades()) {
                     AtomicBoolean hasInsertedUpgrade = new AtomicBoolean(false);
                     ((UpgradeableTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
                         for (int slot = 0; slot < handler.getSlots(); ++slot) {
                             if (handler.getStackInSlot(slot).equals(ItemStack.EMPTY)) {
-                                handler.insertItem(slot, context.getItem().copy(), false);
+                                handler.insertItem(slot, context.getItemInHand().copy(), false);
                                 hasInsertedUpgrade.set(true);
                                 break;
                             }
@@ -72,13 +72,13 @@ public class UpgradeItem extends Item
                     });
                     if (hasInsertedUpgrade.get()) {
                         if (!context.getPlayer().isCreative()) {
-                            context.getItem().shrink(1);
+                            context.getItemInHand().shrink(1);
                         }
                         return ActionResultType.SUCCESS;
                     }
                 }
             }
         }
-        return super.onItemUse(context);
+        return super.useOn(context);
     }
 }

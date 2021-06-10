@@ -57,16 +57,16 @@ public class EventHandler
             World world = entityInteract.getWorld();
             if (world instanceof ServerWorld) {
                 PlayerEntity player = entityInteract.getPlayer();
-                BlockPos pos = entity.getPosition();
+                BlockPos pos = entity.blockPosition();
 
                 Entity newBee = BeeHelper.itemInteract((BeeEntity) entity, itemStack, (ServerWorld) world, entity.serializeNBT(), player);
 
                 if (newBee != null) {
                     // PLay event with smoke
                     world.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
-                    world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_BEEHIVE_WORK, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                    world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BEEHIVE_WORK, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 
-                    world.addEntity(newBee);
+                    world.addFreshEntity(newBee);
                     entity.remove();
                 }
             }
@@ -78,7 +78,7 @@ public class EventHandler
         ItemStack stack = event.getResultStack();
         if (stack.getItem().equals(Items.HONEY_BOTTLE)) {
             LivingEntity entity = event.getEntityLiving();
-            if (!entity.getEntityWorld().isRemote && entity.getEntityWorld().rand.nextBoolean()) {
+            if (!entity.getCommandSenderWorld().isClientSide && entity.getCommandSenderWorld().random.nextBoolean()) {
                 entity.curePotionEffects(stack);
             }
         }
@@ -86,9 +86,9 @@ public class EventHandler
 
     @SubscribeEvent
     public static void cocoaBreakSpawn(BlockEvent.BreakEvent event) {
-        if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().get(CocoaBlock.AGE) == 2) {
+        if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().getValue(CocoaBlock.AGE) == 2) {
             PlayerEntity player = event.getPlayer();
-            World world = player.world;
+            World world = player.level;
             if (world instanceof ServerWorld && player instanceof ServerPlayerEntity && ProductiveBees.rand.nextFloat() < 0.02) {
                 ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(world);
                 BlockPos pos = event.getPos();
@@ -96,12 +96,12 @@ public class EventHandler
                     bee.setBeeType("productivebees:sugarbag");
                     bee.setAttributes();
 
-                    bee.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.rotationYaw, bee.rotationPitch);
+                    bee.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.yRot, bee.xRot);
 
                     world.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
-                    world.playSound(player, pos, SoundEvents.BLOCK_BEEHIVE_WORK, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                    world.playSound(player, pos, SoundEvents.BEEHIVE_WORK, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 
-                    world.addEntity(bee);
+                    world.addFreshEntity(bee);
                 }
             }
         }
@@ -121,6 +121,7 @@ public class EventHandler
                 executorService.schedule(() -> {
                     PacketHandler.sendReindexCommandToPlayer(new Messages.ReindexMessage(), (ServerPlayerEntity) event.getEntity());
                 }, delay, TimeUnit.SECONDS);
+                executorService.shutdown();
             }
         }
     }
@@ -128,29 +129,15 @@ public class EventHandler
     @SubscribeEvent
     public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
         Entity entity = event.getEntity();
-        if (entity instanceof ConfigurableBeeEntity) {
-            CompoundNBT tag = new CompoundNBT();
-            entity.writeUnlessPassenger(tag);
-
-            if (!tag.contains("type") || tag.getString("type").isEmpty()) {
-                // Config bees from summon and spawners have no assigned type
-                Map<String, CompoundNBT> data = BeeReloadListener.INSTANCE.getData();
-
-                List<String> beeTypes = new ArrayList<>(data.keySet());
-                if (!beeTypes.isEmpty()) {
-                    ((ConfigurableBeeEntity) entity).setBeeType(beeTypes.get(ProductiveBees.rand.nextInt(beeTypes.size())));
-                }
-            }
-        }
 
         // Clean up "Random spawn bonus" modifier added to bees each trip to a hive prior to 0.6.9.6
         if (entity instanceof BeeEntity) {
             ModifiableAttributeInstance attrib = ((BeeEntity) entity).getAttribute(Attributes.FOLLOW_RANGE);
-            if (attrib != null && attrib.getModifierListCopy().size() > 1) {
-                for (AttributeModifier modifier : attrib.getModifierListCopy()) {
+            if (attrib != null && attrib.getModifiers().size() > 1) {
+                for (AttributeModifier modifier : attrib.getModifiers()) {
                     attrib.removeModifier(modifier);
                 }
-                attrib.applyPersistentModifier(new AttributeModifier("Random spawn bonus", ProductiveBees.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
+                attrib.addPermanentModifier(new AttributeModifier("Random spawn bonus", ProductiveBees.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
             }
         }
     }
@@ -158,8 +145,8 @@ public class EventHandler
     @SubscribeEvent
     public static void onLootSetup(LootTableLoadEvent event) {
         if (event.getName().toString().contains("chests/village")) {
-            event.getTable().getPool("main").lootEntries.add(
-                ItemLootEntry.builder(ModItems.STURDY_BEE_CAGE.get()).weight(4).build()
+            event.getTable().getPool("main").entries.add(
+                ItemLootEntry.lootTableItem(ModItems.STURDY_BEE_CAGE.get()).setWeight(4).build()
             );
         }
     }

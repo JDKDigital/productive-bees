@@ -58,7 +58,7 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         List<ItemStack> stacks = getItemsInInventory(inv);
 
         if (stacks.size() > 0) {
@@ -75,8 +75,8 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
 
     private List<ItemStack> getItemsInInventory(CraftingInventory inv) {
         List<ItemStack> stacks = new ArrayList<>();
-        for (int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack = inv.getStackInSlot(j);
+        for (int j = 0; j < inv.getContainerSize(); ++j) {
+            ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 stacks.add(itemstack);
             }
@@ -85,13 +85,13 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= count;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
     }
 
@@ -99,7 +99,7 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> nonnulllist = NonNullList.create();
         for (int i = 0; i < count; i++) {
-            nonnulllist.add(Ingredient.fromStacks(new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get())));
+            nonnulllist.add(Ingredient.of(new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get())));
         }
         return nonnulllist;
     }
@@ -125,13 +125,13 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
         }
 
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
-            Integer count = JSONUtils.getInt(json, "count", 4);
+        public T fromJson(ResourceLocation id, JsonObject json) {
+            Integer count = JSONUtils.getAsInt(json, "count", 4);
 
             return this.factory.create(id, count);
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
                 return this.factory.create(id, buffer.readInt());
             } catch (Exception e) {
@@ -140,7 +140,7 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
                 buffer.writeInt(recipe.count);
             } catch (Exception e) {

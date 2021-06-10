@@ -44,16 +44,16 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
 
     @Nullable
     @Override
-    protected RenderType func_230496_a_(ProductiveBeeEntity bee, boolean b1, boolean b2, boolean b3) {
+    protected RenderType getRenderType(ProductiveBeeEntity bee, boolean b1, boolean b2, boolean b3) {
         if (bee instanceof ConfigurableBeeEntity && ((ConfigurableBeeEntity) bee).isTranslucent()) {
-            return RenderType.getEntityTranslucent(this.getEntityTexture(bee));
+            return RenderType.entityTranslucent(this.getTextureLocation(bee));
         }
-        return super.func_230496_a_(bee, b1, b2, b3);
+        return super.getRenderType(bee, b1, b2, b3);
     }
 
     @Nonnull
     @Override
-    public ResourceLocation getEntityTexture(ProductiveBeeEntity bee) {
+    public ResourceLocation getTextureLocation(ProductiveBeeEntity bee) {
         String textureLocation = ProductiveBees.MODID + ":textures/entity/bee/" + bee.getBeeName() + "/bee";
 
         // Colored bees use tinted base texture

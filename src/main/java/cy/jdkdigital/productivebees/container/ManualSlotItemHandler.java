@@ -17,18 +17,18 @@ public class ManualSlotItemHandler extends SlotItemHandler
     }
 
     @Override
-    public boolean isItemValid(@Nonnull ItemStack stack) {
+    public boolean mayPlace(@Nonnull ItemStack stack) {
         return handler.isItemValid(this.getSlotIndex(), stack, false);
     }
 
     @Override
-    public boolean canTakeStack(PlayerEntity playerIn) {
+    public boolean mayPickup(PlayerEntity playerIn) {
         return !this.handler.extractItem(this.getSlotIndex(), 1, true, false).isEmpty();
     }
 
     @Override
     @Nonnull
-    public ItemStack decrStackSize(int amount) {
+    public ItemStack remove(int amount) {
         return this.handler.extractItem(this.getSlotIndex(), amount, false, false);
     }
 }

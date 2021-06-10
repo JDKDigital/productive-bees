@@ -45,7 +45,7 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
     @Nonnull
     @Override
     public String getTitle() {
-        return I18n.format("jei.productivebees.bee_conversion");
+        return I18n.get("jei.productivebees.bee_conversion");
     }
 
     @Nonnull
@@ -64,7 +64,7 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
     public void setIngredients(BeeConversionRecipe recipe, IIngredients ingredients) {
         ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.source.get()));
         ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.result.get()));
-        ingredients.setInputs(VanillaTypes.ITEM, Arrays.asList(recipe.item.getMatchingStacks()));
+        ingredients.setInputs(VanillaTypes.ITEM, Arrays.asList(recipe.item.getItems()));
     }
 
     @Override

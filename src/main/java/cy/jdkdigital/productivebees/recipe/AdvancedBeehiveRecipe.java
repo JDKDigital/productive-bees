@@ -79,18 +79,18 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 
@@ -120,30 +120,31 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
             this.factory = factory;
         }
 
+        @Nonnull
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
-            String beeName = JSONUtils.getString(json, "ingredient");
+        public T fromJson(ResourceLocation id, JsonObject json) {
+            String beeName = JSONUtils.getAsString(json, "ingredient");
 
             Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
 
             Map<Ingredient, IntArrayNBT> itemOutputs = new LinkedHashMap<>();
 
-            JsonArray jsonArray = JSONUtils.getJsonArray(json, "results");
+            JsonArray jsonArray = JSONUtils.getAsJsonArray(json, "results");
             jsonArray.forEach(jsonElement -> {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
 
                 String ingredientKey = jsonObject.has("item") ? "item" : "comb_produce";
 
                 Ingredient produce;
-                if (JSONUtils.isJsonArray(jsonObject, ingredientKey)) {
-                    produce = Ingredient.deserialize(JSONUtils.getJsonArray(jsonObject, ingredientKey));
+                if (JSONUtils.isArrayNode(jsonObject, ingredientKey)) {
+                    produce = Ingredient.fromJson(JSONUtils.getAsJsonArray(jsonObject, ingredientKey));
                 } else {
-                    produce = Ingredient.deserialize(JSONUtils.getJsonObject(jsonObject, ingredientKey));
+                    produce = Ingredient.fromJson(JSONUtils.getAsJsonObject(jsonObject, ingredientKey));
                 }
 
-                int min = JSONUtils.getInt(jsonObject, "min", 1);
-                int max = JSONUtils.getInt(jsonObject, "max", 1);
-                int outputChance = JSONUtils.getInt(jsonObject, "chance", 100);
+                int min = JSONUtils.getAsInt(jsonObject, "min", 1);
+                int max = JSONUtils.getAsInt(jsonObject, "max", 1);
+                int outputChance = JSONUtils.getAsInt(jsonObject, "chance", 100);
                 IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, outputChance});
 
                 itemOutputs.put(produce, nbt);
@@ -152,12 +153,12 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
             return this.factory.create(id, beeIngredient, itemOutputs);
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                BeeIngredient ingredient = BeeIngredient.read(buffer);
+                BeeIngredient ingredient = BeeIngredient.fromNetwork(buffer);
                 Map<Ingredient, IntArrayNBT> itemOutput = new LinkedHashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                        i -> itemOutput.put(Ingredient.read(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
+                        i -> itemOutput.put(Ingredient.fromNetwork(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
                 return this.factory.create(id, Lazy.of(() -> ingredient), itemOutput);
@@ -167,20 +168,20 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
                 if (recipe.ingredient.get() != null) {
-                    recipe.ingredient.get().write(buffer);
+                    recipe.ingredient.get().toNetwork(buffer);
                 } else {
                     throw new RuntimeException("Bee produce recipe ingredient missing " + recipe.getId() + " - " + recipe.ingredient);
                 }
                 buffer.writeInt(recipe.itemOutput.size());
 
                 recipe.itemOutput.forEach((key, value) -> {
-                    key.write(buffer);
-                    buffer.writeInt(value.get(0).getInt());
-                    buffer.writeInt(value.get(1).getInt());
-                    buffer.writeInt(value.get(2).getInt());
+                    key.toNetwork(buffer);
+                    buffer.writeInt(value.get(0).getAsInt());
+                    buffer.writeInt(value.get(1).getAsInt());
+                    buffer.writeInt(value.get(2).getAsInt());
                 });
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing beehive produce recipe to packet. " + recipe.getId(), e);

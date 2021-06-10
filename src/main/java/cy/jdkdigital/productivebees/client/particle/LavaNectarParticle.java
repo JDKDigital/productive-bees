@@ -27,7 +27,7 @@ public class LavaNectarParticle extends LavaParticle
 
         @Nullable
         @Override
-        public Particle makeParticle(@Nonnull NectarParticleType nectarParticleType, @Nonnull ClientWorld clientWorld, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(@Nonnull NectarParticleType nectarParticleType, @Nonnull ClientWorld clientWorld, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             LavaNectarParticle dripparticle = new LavaNectarParticle(clientWorld, x, y, z);
 
             float[] colors = nectarParticleType.getColor();
@@ -35,7 +35,7 @@ public class LavaNectarParticle extends LavaParticle
                 dripparticle.setColor(colors[0], colors[1], colors[2]);
             }
 
-            dripparticle.selectSpriteRandomly(this.sprite);
+            dripparticle.pickSprite(this.sprite);
 
             return dripparticle;
         }

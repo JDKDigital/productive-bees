@@ -46,7 +46,7 @@ public abstract class TagOutputRecipe
     }
 
     private static ItemStack getPreferredItemByMod(Ingredient ingredient) {
-        List<ItemStack> stacks = Arrays.asList(ingredient.getMatchingStacks());
+        List<ItemStack> stacks = Arrays.asList(ingredient.getItems());
         return getPreferredItemByMod(stacks);
     }
 
@@ -77,12 +77,12 @@ public abstract class TagOutputRecipe
         // Try loading fluid from fluid tag
         if (preferredFluid == null || preferredFluid.equals(Fluids.EMPTY)) {
             try {
-                ITag<Fluid> fluidTag = FluidTags.getCollection().get(new ResourceLocation(fluidName));
-                if (fluidTag != null && fluidTag.getAllElements().size() > 0) {
+                ITag<Fluid> fluidTag = FluidTags.getAllTags().getTag(new ResourceLocation(fluidName));
+                if (fluidTag != null && fluidTag.getValues().size() > 0) {
                     int currBest = getModPreference().size();
-                    for (Fluid fluid: fluidTag.getAllElements()) {
+                    for (Fluid fluid: fluidTag.getValues()) {
                         if (fluid instanceof FlowingFluid) {
-                            fluid = ((FlowingFluid) fluid).getStillFluid();
+                            fluid = ((FlowingFluid) fluid).getSource();
                         }
 
                         ResourceLocation rl = fluid.getRegistryName();

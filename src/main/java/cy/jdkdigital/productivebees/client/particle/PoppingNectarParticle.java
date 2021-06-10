@@ -10,9 +10,10 @@ public class PoppingNectarParticle extends LavaParticle
 {
     public PoppingNectarParticle(ClientWorld world, double x, double y, double z) {
         super(world, x, y, z);
-        this.maxAge = (int) (10.0D / (ProductiveBees.rand.nextDouble() * 0.8D + 0.2D));
+        this.lifetime = (int) (10.0D / (ProductiveBees.rand.nextDouble() * 0.8D + 0.2D));
     }
 
+    @Nonnull
     @Override
     public IParticleRenderType getRenderType() {
         return IParticleRenderType.PARTICLE_SHEET_LIT;
@@ -20,17 +21,16 @@ public class PoppingNectarParticle extends LavaParticle
 
     @Override
     public void tick() {
-        if (this.age++ >= this.maxAge) {
-            this.setExpired();
-        }
-        else {
-            this.move(this.motionX, this.motionY, this.motionZ);
-            this.motionX *= 0.8F;
-            this.motionY *= 0.8F;
-            this.motionZ *= 0.8F;
+        if (this.age++ >= this.lifetime) {
+            this.remove();
+        } else {
+            this.move(this.xd, this.yd, this.zd);
+            this.xd *= 0.8F;
+            this.yd *= 0.8F;
+            this.zd *= 0.8F;
             if (this.onGround) {
-                this.motionX *= 0.7F;
-                this.motionZ *= 0.7F;
+                this.xd *= 0.7F;
+                this.zd *= 0.7F;
             }
         }
     }
@@ -44,7 +44,7 @@ public class PoppingNectarParticle extends LavaParticle
         }
 
         @Override
-        public Particle makeParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             PoppingNectarParticle dripparticle = new PoppingNectarParticle(world, x, y, z);
 
             float[] colors = typeIn.getColor();
@@ -52,7 +52,7 @@ public class PoppingNectarParticle extends LavaParticle
                 dripparticle.setColor(colors[0], colors[1], colors[2]);
             }
 
-            dripparticle.selectSpriteRandomly(this.sprite);
+            dripparticle.pickSprite(this.sprite);
 
             return dripparticle;
         }

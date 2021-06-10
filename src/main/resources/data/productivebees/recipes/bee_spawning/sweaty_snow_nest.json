@@ -12,6 +12,5 @@
         "extreme_hills",
         "icy"
     ],
-    "temperature": "cold",
-    "repopulation_cooldown": 24000
+    "temperature": "cold"
 }

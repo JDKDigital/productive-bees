@@ -1,0 +1,70 @@
+{
+    "name": "Botania",
+    "icon": "botania:manapool",
+    "read_by_default": true,
+    "sortnum": 8,
+    "category": "productivebees:modded",
+    "flag": "mod:botania",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Bees for Botania and addons."
+        },
+        {
+            "type": "empty",
+            "draw_filler": false
+        },
+        {
+            "type": "text",
+            "title": "Manasteel Bee",
+            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hive/#iron)Iron Bee$(/l) spawn egg in a mana pool.",
+            "anchor": "manasteel",
+            "flag": "productivebees:manasteel"
+        },
+        {
+            "type": "entity",
+            "name": "Manasteel Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:manasteel'}",
+            "flag": "productivebees:manasteel"
+        },
+        {
+            "type": "text",
+            "title": "Terrasteel Bee",
+            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/modded/botania#manasteel)Manasteel Bee$(/l) spawn egg using an infusion altar.",
+            "anchor": "terrasteel",
+            "flag": "productivebees:terrasteel"
+        },
+        {
+            "type": "entity",
+            "name": "Terrasteel Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:terrasteel'}",
+            "flag": "productivebees:terrasteel"
+        },
+        {
+            "type": "text",
+            "title": "Elementium Bee",
+            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/modded/botania#manasteel)Manasteel Bee$(/l) spawn egg using an infusion altar.",
+            "anchor": "elementium",
+            "flag": "productivebees:elementium"
+        },
+        {
+            "type": "entity",
+            "name": "Elementium Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:elementium'}",
+            "flag": "productivebees:elementium"
+        },
+        {
+            "type": "text",
+            "title": "Alfsteel Bee",
+            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/modded/botania#elementium)Elementium Bee$(/l) spawn egg using an infusion altar.",
+            "anchor": "elementium",
+            "flag": "productivebees:alfsteel"
+        },
+        {
+            "type": "entity",
+            "name": "Alfsteel Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:elementium'}",
+            "flag": "productivebees:alfsteel"
+        }
+    ]
+}

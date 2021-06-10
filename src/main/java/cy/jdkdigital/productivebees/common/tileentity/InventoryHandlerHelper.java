@@ -105,7 +105,7 @@ public class InventoryHandlerHelper
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
             if (tileEntity != null) {
-                tileEntity.markDirty();
+                tileEntity.setChanged();
             }
         }
 

@@ -22,33 +22,28 @@ import static net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent;
 
 public class CreeperBeeEntity extends EffectHiveBeeEntity
 {
-    private static final DataParameter<Integer> STATE = EntityDataManager.createKey(CreeperBeeEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Boolean> POWERED = EntityDataManager.createKey(CreeperBeeEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> STATE = EntityDataManager.defineId(CreeperBeeEntity.class, DataSerializers.INT);
+    private static final DataParameter<Boolean> POWERED = EntityDataManager.defineId(CreeperBeeEntity.class, DataSerializers.BOOLEAN);
 
-    private int lastActiveTime;
     private int timeSinceIgnited;
-    private int fuseTime = 30;
-    private float explosionRadius = 1.6F;
 
     public CreeperBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
         beeAttributes.put(BeeAttributes.TEMPER, 2);
     }
 
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(STATE, -1);
-        this.dataManager.register(POWERED, false);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(STATE, -1);
+        this.entityData.define(POWERED, false);
     }
 
     @Override
     public void tick() {
-        if (this.isAlive() && !this.world.isRemote) {
-            this.lastActiveTime = this.timeSinceIgnited;
-
+        if (this.isAlive() && !this.level.isClientSide) {
             int i = this.getCreeperState();
             if (i > 0 && this.timeSinceIgnited == 0) {
-                this.playSound(SoundEvents.ENTITY_CREEPER_PRIMED, 1.0F, 0.5F);
+                this.playSound(SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
             }
 
             this.timeSinceIgnited += i;
@@ -56,8 +51,9 @@ public class CreeperBeeEntity extends EffectHiveBeeEntity
                 this.timeSinceIgnited = 0;
             }
 
-            if (this.timeSinceIgnited >= this.fuseTime) {
-                this.timeSinceIgnited = this.fuseTime;
+            int fuseTime = 30;
+            if (this.timeSinceIgnited >= fuseTime) {
+                this.timeSinceIgnited = fuseTime;
                 this.explode();
             }
         }
@@ -71,18 +67,19 @@ public class CreeperBeeEntity extends EffectHiveBeeEntity
     }
 
     private void explode() {
-        Explosion.Mode explosionMode = getMobGriefingEvent(this.world, this) ? Explosion.Mode.DESTROY : Explosion.Mode.NONE;
-        float f = this.dataManager.get(POWERED) ? 2.0F : 1.0F;
+        Explosion.Mode explosionMode = getMobGriefingEvent(level, this) ? Explosion.Mode.DESTROY : Explosion.Mode.NONE;
+        float f = this.entityData.get(POWERED) ? 2.0F : 1.0F;
         this.dead = true;
-        this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), this.explosionRadius * f, explosionMode);
+        float explosionRadius = 1.6F;
+        level.explode(this, this.getX(), this.getY(), this.getZ(), explosionRadius * f, explosionMode);
         this.remove();
         this.spawnLingeringCloud();
     }
 
     private void spawnLingeringCloud() {
-        Collection<EffectInstance> collection = this.getActivePotionEffects();
+        Collection<EffectInstance> collection = this.getActiveEffects();
         if (!collection.isEmpty()) {
-            AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ());
+            AreaEffectCloudEntity areaeffectcloudentity = new AreaEffectCloudEntity(level, this.getX(), this.getY(), this.getZ());
             areaeffectcloudentity.setRadius(2.5F);
             areaeffectcloudentity.setRadiusOnUse(-0.5F);
             areaeffectcloudentity.setWaitTime(10);
@@ -93,7 +90,7 @@ public class CreeperBeeEntity extends EffectHiveBeeEntity
                 areaeffectcloudentity.addEffect(new EffectInstance(effectinstance));
             }
 
-            this.world.addEntity(areaeffectcloudentity);
+            level.addFreshEntity(areaeffectcloudentity);
         }
     }
 
@@ -101,21 +98,21 @@ public class CreeperBeeEntity extends EffectHiveBeeEntity
      * Returns the current state of creeper, -1 is idle, 1 is 'in fuse'
      */
     public int getCreeperState() {
-        return this.dataManager.get(STATE);
+        return this.entityData.get(STATE);
     }
 
     /**
      * Sets the state of creeper, -1 to idle and 1 to be 'in fuse'
      */
     public void setCreeperState(int state) {
-        this.dataManager.set(STATE, state);
+        this.entityData.set(STATE, state);
     }
 
     /**
      * Called when a lightning bolt hits the entity.
      */
-    public void causeLightningStrike(ServerWorld world, LightningBoltEntity lightningBolt) {
-        super.causeLightningStrike(world, lightningBolt);
-        this.dataManager.set(POWERED, true);
+    public void thunderHit(ServerWorld world, LightningBoltEntity lightningBolt) {
+        super.thunderHit(world, lightningBolt);
+        this.entityData.set(POWERED, true);
     }
 }

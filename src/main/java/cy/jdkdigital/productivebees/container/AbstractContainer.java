@@ -26,18 +26,18 @@ abstract class AbstractContainer extends Container
 
     @Nonnull
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(PlayerEntity player, int index) {
         ItemStack returnStack = ItemStack.EMPTY;
-        final Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            final ItemStack slotStack = slot.getStack();
+        final Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            final ItemStack slotStack = slot.getItem();
             returnStack = slotStack.copy();
 
-            final int containerSlots = this.inventorySlots.size() - player.inventory.mainInventory.size();
+            final int containerSlots = this.slots.size() - player.inventory.items.size();
 
             // Move from container to player inventory.
             if (index < containerSlots) {
-                if (!mergeItemStack(slotStack, containerSlots, this.inventorySlots.size(), false)) {
+                if (!moveItemStackTo(slotStack, containerSlots, this.slots.size(), false)) {
                     return ItemStack.EMPTY;
                 }
             }
@@ -45,22 +45,22 @@ abstract class AbstractContainer extends Container
                 // Move from player inv into container
                 int upgradeSlotCount = this.getTileEntity() instanceof UpgradeableTileEntity ? 4 : 0;
                 if (upgradeSlotCount > 0 && slotStack.getItem() instanceof UpgradeItem) {
-                    if (!mergeItemStack(slotStack, containerSlots - upgradeSlotCount, containerSlots, false)) {
+                    if (!moveItemStackTo(slotStack, containerSlots - upgradeSlotCount, containerSlots, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
                 else {
-                    if (!mergeItemStack(slotStack, 0, containerSlots - upgradeSlotCount, false)) {
+                    if (!moveItemStackTo(slotStack, 0, containerSlots - upgradeSlotCount, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
             }
 
             if (slotStack.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             }
             else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (slotStack.getCount() == returnStack.getCount()) {

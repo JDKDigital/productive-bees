@@ -23,36 +23,32 @@ public class InactiveDragonEgg extends DragonEggBlock
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-        ItemStack heldItem = player.getHeldItem(hand);
-        if (!world.isRemote && heldItem.getItem() == Items.DRAGON_BREATH) {
-            BlockPos posUp = pos.up(2);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+        ItemStack heldItem = player.getItemInHand(hand);
+        if (!world.isClientSide && heldItem.getItem() == Items.DRAGON_BREATH) {
+            BlockPos posUp = pos.above(2);
             for (int i = 0; i < 42; ++i) {
-                double rnd = world.rand.nextDouble();
-                float xSpeed = (world.rand.nextFloat() - 0.5F) * 0.2F;
-                float ySpeed = (world.rand.nextFloat() - 0.5F) * 0.2F;
-                float zSpeed = (world.rand.nextFloat() - 0.5F) * 0.2F;
-                double x = MathHelper.lerp(rnd, posUp.getX(), pos.getX()) + (world.rand.nextDouble() - 0.5D) + 0.5D;
-                double y = MathHelper.lerp(rnd, posUp.getY(), pos.getY()) + world.rand.nextDouble() - 0.5D;
-                double z = MathHelper.lerp(rnd, posUp.getZ(), pos.getZ()) + (world.rand.nextDouble() - 0.5D) + 0.5D;
+                double rnd = world.random.nextDouble();
+                float xSpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
+                float ySpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
+                float zSpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
+                double x = MathHelper.lerp(rnd, posUp.getX(), pos.getX()) + (world.random.nextDouble() - 0.5D) + 0.5D;
+                double y = MathHelper.lerp(rnd, posUp.getY(), pos.getY()) + world.random.nextDouble() - 0.5D;
+                double z = MathHelper.lerp(rnd, posUp.getZ(), pos.getZ()) + (world.random.nextDouble() - 0.5D) + 0.5D;
                 world.addParticle(ParticleTypes.PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
             }
 
-            CriteriaTriggers.RIGHT_CLICK_BLOCK_WITH_ITEM.test((ServerPlayerEntity) player, pos, heldItem);
+            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, pos, heldItem);
 
             // Transform to real dragon egg
-            world.setBlockState(pos, Blocks.DRAGON_EGG.getDefaultState(), 3);
+            world.setBlockAndUpdate(pos, Blocks.DRAGON_EGG.defaultBlockState());
 
             if (!player.isCreative()) {
                 heldItem.shrink(1);
             }
 
-            return ActionResultType.PASS;
+            return ActionResultType.SUCCESS;
         }
         return ActionResultType.PASS;
-    }
-
-    @Override
-    public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player) {
     }
 }

@@ -36,7 +36,7 @@ public class Catcher extends CapabilityContainerBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
@@ -48,7 +48,7 @@ public class Catcher extends CapabilityContainerBlock
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    public TileEntity newBlockEntity(IBlockReader world) {
         return new CatcherTileEntity();
     }
 
@@ -60,9 +60,9 @@ public class Catcher extends CapabilityContainerBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (!world.isRemote()) {
-            final TileEntity tileEntity = world.getTileEntity(pos);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        if (!world.isClientSide()) {
+            final TileEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof CatcherTileEntity) {
                 openGui((ServerPlayerEntity) player, (CatcherTileEntity) tileEntity);
             }
@@ -71,6 +71,6 @@ public class Catcher extends CapabilityContainerBlock
     }
 
     public void openGui(ServerPlayerEntity player, CatcherTileEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getPos()));
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

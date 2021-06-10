@@ -20,17 +20,13 @@ public class HoneyFluidBlock extends FlowingFluidBlock
         super(supplier, properties);
     }
 
+    @Deprecated
     @Override
-    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
-        return false;
-    }
-
-    @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos position, Entity entity) {
+    public void entityInside(BlockState state, World world, BlockPos position, Entity entity) {
         if (entity instanceof BeeEntity) {
-            ((BeeEntity) entity).addPotionEffect(new EffectInstance(Effects.REGENERATION, 80, 0, false, true));
+            ((BeeEntity) entity).addEffect(new EffectInstance(Effects.REGENERATION, 80, 0, false, true));
         }
 
-        super.onEntityCollision(state, world, position, entity);
+        super.entityInside(state, world, position, entity);
     }
 }

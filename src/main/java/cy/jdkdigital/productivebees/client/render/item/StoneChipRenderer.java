@@ -15,20 +15,20 @@ import net.minecraft.item.ItemStack;
 public class StoneChipRenderer extends WoodChipRenderer
 {
     @Override
-    public void func_239207_a_(ItemStack itemStack, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int packedLightIn, int packedUV) {
+    public void renderByItem(ItemStack itemStack, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int packedLightIn, int packedUV) {
         Item item = itemStack.getItem();
 
         if (item instanceof StoneChip) {
-            IVertexBuilder builder = renderTypeBuffer.getBuffer(RenderType.getCutout());
+            IVertexBuilder builder = renderTypeBuffer.getBuffer(RenderType.cutout());
 
             Block block = StoneChip.getBlock(itemStack);
             if (block != null && block != Blocks.AIR) {
                 TextureAtlasSprite sprite = getBlockSprite(block);
 
                 if (sprite != null) {
-                    matrixStack.push();
+                    matrixStack.pushPose();
                     matrixStack.translate(0.5, 0.5, 0.5);
-                    if (!itemStack.isOnItemFrame()) {
+                    if (!itemStack.isFramed()) {
                         matrixStack.scale(.5f, .5f, .5f);
                     }
                     matrixStack.translate(-.5, -.5, -1.0f);
@@ -42,7 +42,7 @@ public class StoneChipRenderer extends WoodChipRenderer
                     addBox(builder, matrixStack, sprite, 11, 8, 12, 10);
                     addBox(builder, matrixStack, sprite, 6, 11, 9, 12);
 
-                    matrixStack.pop();
+                    matrixStack.popPose();
                 }
             }
         }

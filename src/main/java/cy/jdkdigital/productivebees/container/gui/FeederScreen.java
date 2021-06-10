@@ -23,17 +23,17 @@ public class FeederScreen extends ContainerScreen<FeederContainer>
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         assert minecraft != null;
-        minecraft.getTextureManager().bindTexture(GUI_TEXTURE);
+        minecraft.getTextureManager().bind(GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        blit(matrixStack, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
     }
 }

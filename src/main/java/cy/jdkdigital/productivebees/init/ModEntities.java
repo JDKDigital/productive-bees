@@ -77,12 +77,12 @@ public class ModEntities
     }
 
     public static <E extends BeeEntity> RegistryObject<EntityType<E>> createBee(DeferredRegister<EntityType<?>> registry, String name, EntityType.IFactory<E> supplier, int primaryColor, int secondaryColor, ItemGroup itemGroup) {
-        EntityType.Builder<E> builder = EntityType.Builder.<E>create(supplier, EntityClassification.CREATURE).size(0.7F, 0.6F).trackingRange(8);
+        EntityType.Builder<E> builder = EntityType.Builder.of(supplier, EntityClassification.CREATURE).sized(0.7F, 0.6F).setTrackingRange(8);
 
         RegistryObject<EntityType<E>> entity = registry.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
 
         if (itemGroup != null) {
-            RegistryObject<Item> spawnEgg = ModItems.ITEMS.register("spawn_egg_" + name, () -> new SpawnEgg(entity::get, secondaryColor, primaryColor, new Item.Properties().group(itemGroup)));
+            RegistryObject<Item> spawnEgg = ModItems.ITEMS.register("spawn_egg_" + name, () -> new SpawnEgg(entity::get, secondaryColor, primaryColor, new Item.Properties().tab(itemGroup)));
             if (name.equals("configurable_bee")) {
                 ModItems.CONFIGURABLE_SPAWN_EGG = spawnEgg;
             }
@@ -94,7 +94,7 @@ public class ModEntities
     }
 
     public static <E extends Entity> RegistryObject<EntityType<E>> createEntity(String name, EntityType.IFactory<E> supplier) {
-        EntityType.Builder<E> builder = EntityType.Builder.<E>create(supplier, EntityClassification.MISC).size(0.25F, 0.25F);
+        EntityType.Builder<E> builder = EntityType.Builder.of(supplier, EntityClassification.MISC).sized(0.25F, 0.25F);
 
         RegistryObject<EntityType<E>> entity = ENTITIES.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
 

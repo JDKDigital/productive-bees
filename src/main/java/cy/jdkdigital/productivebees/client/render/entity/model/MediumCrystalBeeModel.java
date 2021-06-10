@@ -17,11 +17,11 @@ public class MediumCrystalBeeModel extends MediumBeeModel
 
     @Override
     protected void addCrystals() {
-        externals.setRotationPoint(-1.5F, -7.0F, -4.0F);
-        externals.setTextureOffset(50, 54).addBox(1.0F, 1.0F, 1.0F, 3.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        externals.setTextureOffset(48, 47).addBox(-1.0F, 0.0F, 0.0F, 4.0F, 3.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        externals.setTextureOffset(52, 60).addBox(-1.0F, 2.0F, 4.0F, 3.0F, 1.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        externals.setTextureOffset(42, 58).addBox(0.0F, 2.0F, -2.0F, 3.0F, 4.0F, 2.0F, 0.0F, 0.0F, 0.0F);
+        externals.setPos(-1.5F, -7.0F, -4.0F);
+        externals.texOffs(50, 54).addBox(1.0F, 1.0F, 1.0F, 3.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
+        externals.texOffs(48, 47).addBox(-1.0F, 0.0F, 0.0F, 4.0F, 3.0F, 4.0F, 0.0F, 0.0F, 0.0F);
+        externals.texOffs(52, 60).addBox(-1.0F, 2.0F, 4.0F, 3.0F, 1.0F, 2.0F, 0.0F, 0.0F, 0.0F);
+        externals.texOffs(42, 58).addBox(0.0F, 2.0F, -2.0F, 3.0F, 4.0F, 2.0F, 0.0F, 0.0F, 0.0F);
         torso.addChild(this.externals);
     }
 

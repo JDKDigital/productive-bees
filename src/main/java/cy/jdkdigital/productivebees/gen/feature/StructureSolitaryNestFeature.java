@@ -24,13 +24,13 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature
     }
 
     @Override
-    public boolean generate(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
+    public boolean place(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
         if (nestShouldNotGenerate(featureConfig) || rand.nextFloat() > this.probability) {
             return false;
         }
 
         // Get random block in chunk
-        blockPos = blockPos.south(rand.nextInt(14)).east(rand.nextInt(14)).up(50);
+        blockPos = blockPos.south(rand.nextInt(14)).east(rand.nextInt(14)).above(50);
 
         BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
 
@@ -38,9 +38,9 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature
         nearby:
         if (!matcher.test(world.getBlockState(blockPos))) {
             // Skip or look around?
-            for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getAllowedValues()) {
-                if (matcher.test(world.getBlockState(blockPos.offset(dir, 2)))) {
-                    blockPos = blockPos.offset(dir, 3);
+            for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
+                if (matcher.test(world.getBlockState(blockPos.relative(dir, 2)))) {
+                    blockPos = blockPos.relative(dir, 3);
                     break nearby;
                 }
             }
@@ -48,15 +48,15 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature
         }
 
         // Expand up
-        blockPos = blockPos.offset(Direction.UP, world.getRandom().nextInt(this.offsetSpan));
+        blockPos = blockPos.relative(Direction.UP, world.getRandom().nextInt(this.offsetSpan));
 
         // Move to structure edge
         edgeFinding:
-        for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getAllowedValues()) {
+        for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
             int i = 0;
             while (++i <= 5) {
-                if (world.isAirBlock(blockPos.offset(dir, i))) {
-                    blockPos = blockPos.offset(dir, i - 1);
+                if (world.isEmptyBlock(blockPos.relative(dir, i))) {
+                    blockPos = blockPos.relative(dir, i - 1);
                     break edgeFinding;
                 }
             }

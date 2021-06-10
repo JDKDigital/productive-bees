@@ -53,7 +53,7 @@ public class ClientSetupEvents
         }
 
         colors.register((stack, tintIndex) -> {
-            BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
+            BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().defaultBlockState();
             return blockColors.getColor(blockstate, null, null, tintIndex);
         }, ModBlocks.BUMBLE_BEE_NEST.get());
     }
@@ -62,11 +62,11 @@ public class ClientSetupEvents
     public static void registerBlockColors(final ColorHandlerEvent.Block event) {
         BlockColors colors = event.getBlockColors();
         colors.register((blockState, lightReader, pos, tintIndex) -> {
-            return lightReader != null && pos != null ? BiomeColors.getGrassColor(lightReader, pos) : -1;
+            return lightReader != null && pos != null ? BiomeColors.getAverageGrassColor(lightReader, pos) : -1;
         }, ModBlocks.SUGAR_CANE_NEST.get());
 
         colors.register((blockState, lightReader, pos, tintIndex) -> {
-            return lightReader != null && pos != null ? BiomeColors.getGrassColor(lightReader, pos) : GrassColors.get(0.5D, 1.0D);
+            return lightReader != null && pos != null ? BiomeColors.getAverageGrassColor(lightReader, pos) : GrassColors.get(0.5D, 1.0D);
         }, ModBlocks.BUMBLE_BEE_NEST.get());
 
         for (RegistryObject<Block> registryBlock : ModBlocks.BLOCKS.getEntries()) {

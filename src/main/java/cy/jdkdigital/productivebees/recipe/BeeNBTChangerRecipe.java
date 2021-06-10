@@ -26,29 +26,35 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
     public static final IRecipeType<BeeNBTChangerRecipe> BEE_NBT_CHANGER = IRecipeType.register(ProductiveBees.MODID + ":bee_nbt_changer");
 
     public final ResourceLocation id;
-    public final Lazy<BeeIngredient> source;
-    public final Lazy<BeeIngredient> result;
+    public final Lazy<BeeIngredient> bee;
     public final Ingredient item;
-    public final int chance;
+    public String attribute;
+    public String method;
+    public int value;
+    public int min;
+    public int max;
 
-    public BeeNBTChangerRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredients, Lazy<BeeIngredient> result, Ingredient item, int chance) {
+    public BeeNBTChangerRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredients, Ingredient item, String attribute, String method, int value, int min, int max) {
         this.id = id;
-        this.source = ingredients;
-        this.result = result;
+        this.bee = ingredients;
         this.item = item;
-        this.chance = chance;
+        this.attribute = attribute;
+        this.method = method;
+        this.value = value;
+        this.min = min;
+        this.max = max;
     }
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
-        if (inv instanceof BeeHelper.IdentifierInventory && source.get() != null) {
+        if (inv instanceof BeeHelper.IdentifierInventory && bee.get() != null) {
             String beeName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(0);
             String itemName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(1);
 
-            String parentName = source.get().getBeeType().toString();
+            String parentName = bee.get().getBeeType().toString();
 
             boolean matchesItem = false;
-            for (ItemStack stack : this.item.getMatchingStacks()) {
+            for (ItemStack stack : this.item.getItems()) {
                 if (stack.getItem().getRegistryName().toString().equals(itemName)) {
                     matchesItem = true;
                 }
@@ -56,24 +62,23 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
 
             return parentName.equals(beeName) && matchesItem;
         }
-        ProductiveBees.LOGGER.warn("conversion recipe source is null " + this);
         return false;
     }
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 
@@ -86,7 +91,7 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
     @Nonnull
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return ModRecipeTypes.BEE_CONVERSION.get();
+        return ModRecipeTypes.BEE_NBT_CHANGER.get();
     }
 
     @Nonnull
@@ -105,43 +110,46 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
 
         @Nonnull
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
-            String source = JSONUtils.getString(json, "source");
-            String result = JSONUtils.getString(json, "result");
+        public T fromJson(ResourceLocation id, JsonObject json) {
+            String source = JSONUtils.getAsString(json, "source");
 
-            Lazy<BeeIngredient> sourceBee = Lazy.of(BeeIngredientFactory.getIngredient(source));
-            Lazy<BeeIngredient> resultBee = Lazy.of(BeeIngredientFactory.getIngredient(result));
+            Lazy<BeeIngredient> bee = Lazy.of(BeeIngredientFactory.getIngredient(source));
 
             Ingredient item;
-            if (JSONUtils.isJsonArray(json, "ingredient")) {
-                item = Ingredient.deserialize(JSONUtils.getJsonArray(json, "item"));
-            }
-            else {
-                item = Ingredient.deserialize(JSONUtils.getJsonObject(json, "item"));
+            if (JSONUtils.isArrayNode(json, "ingredient")) {
+                item = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "item"));
+            } else {
+                item = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "item"));
             }
 
-            int chance = JSONUtils.getInt(json, "chance", 100);
+            String attribute = JSONUtils.getAsString(json, "attribute");
+            String method = JSONUtils.getAsString(json, "method");
+            int value = JSONUtils.getAsInt(json, "value", 0);
+            int min = JSONUtils.getAsInt(json, "min", 0);
+            int max = JSONUtils.getAsInt(json, "max", 100);
 
-            return this.factory.create(id, sourceBee, resultBee, item, chance);
+            return this.factory.create(id, bee, item, attribute, method, value, min, max);
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                BeeIngredient source = BeeIngredient.read(buffer);
-                BeeIngredient result = BeeIngredient.read(buffer);
-                return this.factory.create(id, Lazy.of(() -> source), Lazy.of(() -> result), Ingredient.read(buffer), buffer.readInt());
+                BeeIngredient bee = BeeIngredient.fromNetwork(buffer);
+                return this.factory.create(id, Lazy.of(() -> bee), Ingredient.fromNetwork(buffer), buffer.readUtf(), buffer.readUtf(), buffer.readInt(), buffer.readInt(), buffer.readInt());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee conversion recipe from packet. " + id, e);
                 throw e;
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
-                recipe.source.get().write(buffer);
-                recipe.result.get().write(buffer);
-                recipe.item.write(buffer);
-                buffer.writeInt(recipe.chance);
+                recipe.bee.get().toNetwork(buffer);
+                recipe.item.toNetwork(buffer);
+                buffer.writeUtf(recipe.attribute);
+                buffer.writeUtf(recipe.method);
+                buffer.writeInt(recipe.value);
+                buffer.writeInt(recipe.min);
+                buffer.writeInt(recipe.max);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee conversion recipe to packet. " + recipe.getId(), e);
                 throw e;
@@ -150,7 +158,7 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends BeeNBTChangerRecipe>
         {
-            T create(ResourceLocation id, Lazy<BeeIngredient> input, Lazy<BeeIngredient> output, Ingredient item, int chance);
+            T create(ResourceLocation id, Lazy<BeeIngredient> input, Ingredient item, String attribute, String method, int value, int min, int max);
         }
     }
 }

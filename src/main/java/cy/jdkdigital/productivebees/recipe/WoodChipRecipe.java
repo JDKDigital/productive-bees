@@ -37,8 +37,8 @@ public class WoodChipRecipe implements ICraftingRecipe
         Block chipBlock = null;
 
         int matchingStacks = 0;
-        for (int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack = inv.getStackInSlot(j);
+        for (int j = 0; j < inv.getContainerSize(); ++j) {
+            ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 // Set the recipe criteria to the first wood chip
                 if (chipBlock == null && itemstack.getItem().equals(ModItems.WOOD_CHIP.get())) {
@@ -59,21 +59,21 @@ public class WoodChipRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
-        ItemStack stack = inv.getStackInSlot(0);
+    public ItemStack assemble(CraftingInventory inv) {
+        ItemStack stack = inv.getItem(0);
 
         return new ItemStack(WoodChip.getBlock(stack));
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         int min = count > 4 ? 3 : 2;
         return width >= min && height >= min;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return new ItemStack(Items.OAK_LOG);
     }
 
@@ -83,7 +83,7 @@ public class WoodChipRecipe implements ICraftingRecipe
         NonNullList<Ingredient> list = NonNullList.create();
 
         for (int i = 0; i < count; i++) {
-            list.add(Ingredient.fromStacks(WoodChip.getStack(Blocks.OAK_LOG)));
+            list.add(Ingredient.of(WoodChip.getStack(Blocks.OAK_LOG)));
         }
 
         return list;
@@ -110,13 +110,13 @@ public class WoodChipRecipe implements ICraftingRecipe
         }
 
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
-            Integer count = JSONUtils.getInt(json, "count", 9);
+        public T fromJson(ResourceLocation id, JsonObject json) {
+            Integer count = JSONUtils.getAsInt(json, "count", 9);
 
             return this.factory.create(id, count);
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
                 return this.factory.create(id, buffer.readInt());
             } catch (Exception e) {
@@ -125,7 +125,7 @@ public class WoodChipRecipe implements ICraftingRecipe
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
             try {
                 buffer.writeInt(recipe.count);
             } catch (Exception e) {

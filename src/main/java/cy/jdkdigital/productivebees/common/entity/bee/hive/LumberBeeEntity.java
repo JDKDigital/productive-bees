@@ -20,6 +20,6 @@ public class LumberBeeEntity extends ProductiveBeeEntity
 
     @Override
     public boolean isFlowerBlock(Block flowerBlock) {
-        return flowerBlock.isIn(BlockTags.LOGS);
+        return flowerBlock.is(BlockTags.LOGS);
     }
 }

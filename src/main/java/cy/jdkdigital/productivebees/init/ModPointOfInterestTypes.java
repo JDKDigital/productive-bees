@@ -83,7 +83,7 @@ public final class ModPointOfInterestTypes
         return register(name, () -> {
             Set<BlockState> blockStates = new HashSet<>();
             for (RegistryObject<Block> block : blocks) {
-                blockStates.addAll(PointOfInterestType.getAllStates(block.get()));
+                blockStates.addAll(PointOfInterestType.getBlockStates(block.get()));
             }
             return new PointOfInterestType(name, blockStates, maxFreeTickets, 1);
         });

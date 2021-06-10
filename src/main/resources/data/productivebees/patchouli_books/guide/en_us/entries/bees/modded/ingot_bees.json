@@ -1,0 +1,303 @@
+{
+    "name": "Ingot/Metal Bees",
+    "icon": "minecraft:iron_ingot",
+    "read_by_default": true,
+    "sortnum": 1,
+    "category": "productivebees:modded",
+    "pages": [
+        {
+            "type": "text",
+            "text": "You can find a bee for every flavor of metal. If you don't see what you're looking for, it might be in a mod specific page."
+        },
+        {
+            "type": "empty",
+            "draw_filler": false
+        },
+        {
+            "type": "text",
+            "title": "Aluminum Bee",
+            "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and an $(l:bees/solitary/ashy_mining)Ashy Mining Bee$(/l).",
+            "anchor": "aluminum",
+            "flag": "productivebees:aluminum"
+        },
+        {
+            "type": "entity",
+            "name": "Aluminum Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:aluminum'}",
+            "flag": "productivebees:aluminum"
+        },
+        {
+            "type": "text",
+            "title": "Bismuth Bee",
+            "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and a $(l:bees/hive/gold)Gold Bee$(/l).",
+            "anchor": "bismuth",
+            "flag": "productivebees:bismuth"
+        },
+        {
+            "type": "entity",
+            "name": "Bismuth Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:bismuth'}",
+            "flag": "productivebees:bismuth"
+        },
+        {
+            "type": "text",
+            "title": "Brass Bee",
+            "text": "Bred from a $(l:bees/modded/ingot_bees#zinc)Zinc Bee$(/l) and a $(l:bees/modded/ingot_bees#copper)Copper Bee$(/l).",
+            "anchor": "brass",
+            "flag": "productivebees:brass"
+        },
+        {
+            "type": "entity",
+            "name": "Brass Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:brass'}",
+            "flag": "productivebees:brass"
+        },
+        {
+            "type": "text",
+            "title": "Bronze Bee",
+            "text": "Bred from a $(l:bees/modded/ingot_bees#tin)Tin Bee$(/l) and a $(l:bees/modded/ingot_bees#copper)Copper Bee$(/l).",
+            "anchor": "bronze",
+            "flag": "productivebees:bronze"
+        },
+        {
+            "type": "entity",
+            "name": "Bronze Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:bronze'}",
+            "flag": "productivebees:bronze"
+        },
+        {
+            "type": "text",
+            "title": "Constantan Bee",
+            "text": "Bred from a $(l:bees/modded/ingot_bees#copper)Copper Bee$(/l) and a $(l:bees/modded/ingot_bees#nickel)Nickel Bee$(/l).",
+            "anchor": "constantan",
+            "flag": "productivebees:constantan"
+        },
+        {
+            "type": "entity",
+            "name": "Constantan Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:constantan'}",
+            "flag": "productivebees:constantan"
+        },
+        {
+            "type": "text",
+            "title": "Copper Bee",
+            "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and an $(l:bees/solitary/ashy_mining)Ashy Mining Bee$(/l).",
+            "anchor": "copper",
+            "flag": "productivebees:copper"
+        },
+        {
+            "type": "entity",
+            "name": "Copper Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:copper'}",
+            "flag": "productivebees:copper"
+        },
+        {
+            "type": "text",
+            "title": "Electrum Bee",
+            "text": "Bred from an $(l:bees/hive/gold)Gold Bee$(/l) and a $(l:bees/modded/ingot_bees#silver)Silver Bee$(/l).",
+            "anchor": "electrum",
+            "flag": "productivebees:electrum"
+        },
+        {
+            "type": "entity",
+            "name": "Electrum Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:electrum'}",
+            "flag": "productivebees:electrum"
+        },
+        {
+            "type": "text",
+            "title": "Enderium Bee",
+            "text": "Bred from an $(l:bees/modded/ingot_bees#lead)Lead Bee$(/l) and a $(l:bees/hive/diamond)Diamond Bee$(/l).",
+            "anchor": "enderium",
+            "flag": "productivebees:enderium"
+        },
+        {
+            "type": "entity",
+            "name": "Enderium Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:enderium'}",
+            "flag": "productivebees:enderium"
+        },
+        {
+            "type": "text",
+            "title": "Invar Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/modded/ingot_bees#nickel)Nickel Bee$(/l).",
+            "anchor": "invar",
+            "flag": "productivebees:invar"
+        },
+        {
+            "type": "entity",
+            "name": "Invar Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:invar'}",
+            "flag": "productivebees:invar"
+        },
+        {
+            "type": "text",
+            "title": "Lead Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/solitary/blue_banded)Blue Banded Bee$(/l).",
+            "anchor": "lead",
+            "flag": "productivebees:lead"
+        },
+        {
+            "type": "entity",
+            "name": "Lead Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:lead'}",
+            "flag": "productivebees:lead"
+        },
+        {
+            "type": "text",
+            "title": "Lumium Bee",
+            "text": "Bred from a $(l:bees/modded/ingot_bees#silver)Silver Bee$(/l) and an $(l:bees/modded/ingot_bees#tin)Tin Bee$(/l).",
+            "anchor": "lumium",
+            "flag": "productivebees:lumium"
+        },
+        {
+            "type": "entity",
+            "name": "Lumium Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:lumium'}",
+            "flag": "productivebees:lumium"
+        },
+        {
+            "type": "text",
+            "title": "Nickel Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/solitary/sweat)Sweat Bee$(/l).",
+            "anchor": "nickel",
+            "flag": "productivebees:nickel"
+        },
+        {
+            "type": "entity",
+            "name": "Nickel Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:nickel'}",
+            "flag": "productivebees:nickel"
+        },
+        {
+            "type": "text",
+            "title": "Osmium Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/solitary/neon_cuckoo)Neon Cuckoo Bee$(/l).$(br)Required mod: Mekanism",
+            "anchor": "osmium",
+            "flag": "productivebees:osmium"
+        },
+        {
+            "type": "entity",
+            "name": "Osmium Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:osmium'}",
+            "flag": "productivebees:osmium"
+        },
+        {
+            "type": "text",
+            "title": "Platinum Bee",
+            "text": "Bred from a $(l:bees/hive/gold)Gold Bee$(/l) and a $(l:bees/wild/ender)Ender Bee$(/l).",
+            "anchor": "platinum",
+            "flag": "productivebees:platinum"
+        },
+        {
+            "type": "entity",
+            "name": "Platinum Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:platinum'}",
+            "flag": "productivebees:platinum"
+        },
+        {
+            "type": "text",
+            "title": "Radioactive Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/bees/hive/creeper)Creeper Bee$(/l).",
+            "anchor": "radioactive",
+            "flag": "productivebees:radioactive"
+        },
+        {
+            "type": "entity",
+            "name": "Radioactive Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:radioactive'}",
+            "flag": "productivebees:radioactive"
+        },
+        {
+            "type": "text",
+            "title": "Signalum Bee",
+            "text": "Bred from a $(l:bees/modded/ingot_bees#silver)Silver Bee$(/l) and an $(l:bees/modded/ingot_bees#copper)Copper Bee$(/l).",
+            "anchor": "signalum",
+            "flag": "productivebees:signalum"
+        },
+        {
+            "type": "entity",
+            "name": "Signalum Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:signalum'}",
+            "flag": "productivebees:signalum"
+        },
+        {
+            "type": "text",
+            "title": "Silver Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/solitary/mason)Mason Bee$(/l).",
+            "anchor": "silver",
+            "flag": "productivebees:silver"
+        },
+        {
+            "type": "entity",
+            "name": "Silver Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:silver'}",
+            "flag": "productivebees:silver"
+        },
+        {
+            "type": "text",
+            "title": "Steel Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/hive/coal)Coal Bee$(/l).",
+            "anchor": "steel",
+            "flag": "productivebees:steel"
+        },
+        {
+            "type": "entity",
+            "name": "Steel Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:steel'}",
+            "flag": "productivebees:steel"
+        },
+        {
+            "type": "text",
+            "title": "Tin Bee",
+            "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and an $(l:bees/solitary/ashy_mining)Ashy Mining Bee$(/l).",
+            "anchor": "tin",
+            "flag": "productivebees:tin"
+        },
+        {
+            "type": "entity",
+            "name": "Tin Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tin'}",
+            "flag": "productivebees:tin"
+        },
+        {
+            "type": "text",
+            "title": "Titanium Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/bees/hive/diamond)Diamond Bee$(/l).",
+            "anchor": "titanium",
+            "flag": "productivebees:titanium"
+        },
+        {
+            "type": "entity",
+            "name": "Titanium Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:titanium'}",
+            "flag": "productivebees:titanium"
+        },
+        {
+            "type": "text",
+            "title": "Tungsten Bee",
+            "text": "Bred from a $(l:bees/hive/coal)Coal Bee$(/l) and a $(l:bees/wild/ender)Ender Bee$(/l).",
+            "anchor": "tungsten",
+            "flag": "productivebees:tungsten"
+        },
+        {
+            "type": "entity",
+            "name": "Tungsten Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tungsten'}",
+            "flag": "productivebees:tungsten"
+        },
+        {
+            "type": "text",
+            "title": "Zinc Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/solitary/sweat)Sweat Bee$(/l).",
+            "anchor": "zinc",
+            "flag": "productivebees:zinc"
+        },
+        {
+            "type": "entity",
+            "name": "Zinc Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:zinc'}",
+            "flag": "productivebees:zinc"
+        }
+    ]
+}

@@ -21,8 +21,8 @@ public abstract class CapabilityTileEntity extends TileEntity
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tag) {
-        super.read(state, tag);
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
 
         if (tag.contains("inv")) {
             getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundNBT>) inv).deserializeNBT(tag.getCompound("inv")));
@@ -46,8 +46,8 @@ public abstract class CapabilityTileEntity extends TileEntity
 
     @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
-        tag = super.write(tag);
+    public CompoundNBT save(CompoundNBT tag) {
+        tag = super.save(tag);
 
         CompoundNBT finalTag = tag;
         getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
@@ -77,12 +77,12 @@ public abstract class CapabilityTileEntity extends TileEntity
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
+        return new SUpdateTileEntityPacket(this.getBlockPos(), -1, this.getUpdateTag());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(null, pkt.getNbtCompound());
+        handleUpdateTag(null, pkt.getTag());
     }
 
     @Override

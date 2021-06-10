@@ -11,35 +11,35 @@ public class TinyBeeModel extends PartialBeeModel
 
     @Override
     protected void addTorso(boolean withTorso) {
-        body.setRotationPoint(0.0F, 19.0F, 0.0F);
-        torso.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body.setPos(0.0F, 19.0F, 0.0F);
+        torso.setPos(0.0F, 0.0F, 0.0F);
         if (withTorso) {
             torso.addBox(-1.5F, -2.0F, -2.0F, 3.0F, 3.0F, 4.0F, 0.0F, 0.0F, 0.0F);
         }
-        stinger.setRotationPoint(0.0F, 0.0F, 0.0F);
-        stinger.setTextureOffset(22, 6).addBox(0.0F, 0.0F, 4.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
+        stinger.setPos(0.0F, 0.0F, 0.0F);
+        stinger.texOffs(22, 6).addBox(0.0F, 0.0F, 4.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
         body.addChild(torso);
         torso.addChild(stinger);
     }
 
     @Override
     protected void addAntenna() {
-        leftAntenna.setRotationPoint(0.0F, -1.0F, -2.0F);
+        leftAntenna.setPos(0.0F, -1.0F, -2.0F);
         leftAntenna.addBox(1.0F, -1.0F, -1.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        rightAntenna.setRotationPoint(0.0F, -1.0F, -2.0F);
-        rightAntenna.setTextureOffset(0, 2).addBox(-2.0F, -1.0F, -1.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
+        rightAntenna.setPos(0.0F, -1.0F, -2.0F);
+        rightAntenna.texOffs(0, 2).addBox(-2.0F, -1.0F, -1.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
         torso.addChild(leftAntenna);
         torso.addChild(rightAntenna);
     }
 
     @Override
     protected void addWings() {
-        rightWing.setRotationPoint(-0.5F, -2.0F, -1.0F);
-        rightWing.setTextureOffset(-3, 9).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 3.0F, 0.0F, 0.0F, 0.0F);
+        rightWing.setPos(-0.5F, -2.0F, -1.0F);
+        rightWing.texOffs(-3, 9).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 3.0F, 0.0F, 0.0F, 0.0F);
         setRotationAngle(rightWing, 0.0F, -0.2617993877991494F, 0.0F);
         leftWing.mirror = true;
-        leftWing.setRotationPoint(0.5F, -2.0F, -1.0F);
-        leftWing.setTextureOffset(-3, 9).addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 3.0F, 0.0F, 0.0F, 0.0F);
+        leftWing.setPos(0.5F, -2.0F, -1.0F);
+        leftWing.texOffs(-3, 9).addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 3.0F, 0.0F, 0.0F, 0.0F);
         setRotationAngle(leftWing, 0.0F, 0.2617993877991494F, 0.0F);
 
         body.addChild(leftWing);
@@ -48,12 +48,12 @@ public class TinyBeeModel extends PartialBeeModel
 
     @Override
     protected void addLegs() {
-        backLegs.setRotationPoint(1.5F, 1.0F, 1.0F);
-        backLegs.setTextureOffset(15, 5).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        middleLegs.setRotationPoint(1.5F, 1.0F, 0.0F);
-        middleLegs.setTextureOffset(15, 3).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        frontLegs.setRotationPoint(1.5F, 1.0F, -1.0F);
-        frontLegs.setTextureOffset(15, 1).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        backLegs.setPos(1.5F, 1.0F, 1.0F);
+        backLegs.texOffs(15, 5).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        middleLegs.setPos(1.5F, 1.0F, 0.0F);
+        middleLegs.texOffs(15, 3).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        frontLegs.setPos(1.5F, 1.0F, -1.0F);
+        frontLegs.texOffs(15, 1).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
 
         body.addChild(frontLegs);
         body.addChild(middleLegs);

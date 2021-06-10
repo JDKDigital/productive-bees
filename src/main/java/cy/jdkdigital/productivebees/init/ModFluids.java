@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 @EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD)
 public final class ModFluids
 {
-    public static final Material MATERIAL_HONEY = (new Material.Builder(MaterialColor.ORANGE_TERRACOTTA)).doesNotBlockMovement().liquid().notSolid().replaceable().liquid().build();
+    public static final Material MATERIAL_HONEY = (new Material.Builder(MaterialColor.TERRACOTTA_ORANGE)).noCollider().liquid().nonSolid().replaceable().liquid().build();
 
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ProductiveBees.MODID);
 

@@ -14,15 +14,15 @@ abstract public class EffectHiveBeeEntity extends ProductiveBeeEntity implements
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if (!this.world.isRemote) {
+    public void tick() {
+        super.tick();
+        if (!this.level.isClientSide) {
             if (--attackCooldown < 0) {
                 attackCooldown = 0;
             }
-            if (attackCooldown == 0 && isAngry() && this.getAttackTarget() != null && this.getAttackTarget().getDistanceSq(this) < 4.0D) {
+            if (attackCooldown == 0 && isAngry() && this.getTarget() != null && this.getTarget().distanceToSqr(this) < 4.0D) {
                 attackCooldown = getEffectCooldown(getAttributeValue(BeeAttributes.TEMPER));
-                attackTarget(this.getAttackTarget());
+                attackTarget(this.getTarget());
             }
         }
     }

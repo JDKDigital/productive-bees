@@ -18,8 +18,8 @@ public class DragonEggHiveTileEntity extends AdvancedBeehiveTileEntity
 
     @Override
     public void tick() {
-        final World world = this.world;
-        if (world == null || world.isRemote()) {
+        final World world = level;
+        if (world == null || level.isClientSide()) {
             return;
         }
 
@@ -27,18 +27,18 @@ public class DragonEggHiveTileEntity extends AdvancedBeehiveTileEntity
             BlockState blockState = this.getBlockState();
 
             if (blockState.getBlock() instanceof AdvancedBeehive) {
-                int honeyLevel = blockState.get(BeehiveBlock.HONEY_LEVEL);
+                int honeyLevel = blockState.getValue(BeehiveBlock.HONEY_LEVEL);
 
                 // Auto harvest if empty bottles are in
                 if (honeyLevel >= 5) {
                     this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
                         ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
-                            final ItemStack filledBottle = world.getDimensionKey() == World.THE_END ? new ItemStack(Items.DRAGON_BREATH) : new ItemStack(Items.HONEY_BOTTLE);
+                            final ItemStack filledBottle = level.dimension() == World.END ? new ItemStack(Items.DRAGON_BREATH) : new ItemStack(Items.HONEY_BOTTLE);
                             boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
                             if (addedBottle) {
                                 bottles.shrink(1);
-                                world.setBlockState(pos, blockState.with(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
+                                level.setBlockAndUpdate(worldPosition, blockState.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
                             }
                         }
                     });

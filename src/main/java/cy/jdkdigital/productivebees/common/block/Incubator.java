@@ -27,7 +27,7 @@ public class Incubator extends CapabilityContainerBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
@@ -44,16 +44,16 @@ public class Incubator extends CapabilityContainerBlock
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    public TileEntity newBlockEntity(IBlockReader world) {
         return new IncubatorTileEntity();
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (!world.isRemote()) {
-            final TileEntity tileEntity = world.getTileEntity(pos);
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+        if (!world.isClientSide()) {
+            final TileEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof IncubatorTileEntity) {
                 openGui((ServerPlayerEntity) player, (IncubatorTileEntity) tileEntity);
             }
@@ -62,6 +62,6 @@ public class Incubator extends CapabilityContainerBlock
     }
 
     public void openGui(ServerPlayerEntity player, IncubatorTileEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getPos()));
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

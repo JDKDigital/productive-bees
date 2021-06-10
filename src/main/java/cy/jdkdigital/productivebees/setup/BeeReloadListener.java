@@ -35,7 +35,7 @@ public class BeeReloadListener extends JsonReloadListener
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> dataMap, @Nonnull IResourceManager resourceManager, IProfiler profiler) {
-        profiler.startSection("BeeReloadListener");
+        profiler.push("BeeReloadListener");
 
         Map<String, CompoundNBT> data = new HashMap<>();
         for (Map.Entry<ResourceLocation, JsonElement> entry : dataMap.entrySet()) {
@@ -62,7 +62,7 @@ public class BeeReloadListener extends JsonReloadListener
 
         setData(data);
 
-        profiler.endStartSection("BeeReloadListener");
+        profiler.popPush("BeeReloadListener");
     }
 
     public CompoundNBT getData(String id) {

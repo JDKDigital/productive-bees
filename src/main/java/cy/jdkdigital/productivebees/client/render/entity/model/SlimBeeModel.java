@@ -11,35 +11,35 @@ public class SlimBeeModel extends PartialBeeModel
 
     @Override
     protected void addTorso(boolean withTorso) {
-        body.setRotationPoint(0.0F, 19.0F, 0.0F);
-        torso.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body.setPos(0.0F, 19.0F, 0.0F);
+        torso.setPos(0.0F, 0.0F, 0.0F);
         body.addChild(torso);
         if (withTorso) {
             torso.addBox(-2.5F, -2.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F, 0.0F, 0.0F);
         }
-        stinger.setTextureOffset(22, 6).addBox(0.0F, 0.0F, 4.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
+        stinger.texOffs(22, 6).addBox(0.0F, 0.0F, 4.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
         torso.addChild(stinger);
     }
 
     @Override
     protected void addAntenna() {
-        leftAntenna.setRotationPoint(0.0F, -1.0F, -4.0F);
+        leftAntenna.setPos(0.0F, -1.0F, -4.0F);
         leftAntenna.addBox(1.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        rightAntenna.setRotationPoint(0.0F, -1.0F, -4.0F);
-        rightAntenna.setTextureOffset(0, 3).addBox(-2.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F, 0.0F, 0.0F, 0.0F);
+        rightAntenna.setPos(0.0F, -1.0F, -4.0F);
+        rightAntenna.texOffs(0, 3).addBox(-2.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F, 0.0F, 0.0F, 0.0F);
         torso.addChild(leftAntenna);
         torso.addChild(rightAntenna);
     }
 
     @Override
     protected void addWings() {
-        rightWing.setRotationPoint(-0.5F, -2.0F, -2.0F);
-        rightWing.setTextureOffset(-2, 16).addBox(-7.0F, 0.0F, 0.0F, 7.0F, 0.0F, 5.0F, 0.0F, 0.0F, 0.0F);
+        rightWing.setPos(-0.5F, -2.0F, -2.0F);
+        rightWing.texOffs(-2, 16).addBox(-7.0F, 0.0F, 0.0F, 7.0F, 0.0F, 5.0F, 0.0F, 0.0F, 0.0F);
         setRotationAngle(rightWing, 0.0F, -0.2617993877991494F, 0.0F);
 
         leftWing.mirror = true;
-        leftWing.setRotationPoint(0.5F, -2.0F, -2.0F);
-        leftWing.setTextureOffset(-2, 16).addBox(0.0F, 0.0F, 0.0F, 7.0F, 0.0F, 5.0F, 0.0F, 0.0F, 0.0F);
+        leftWing.setPos(0.5F, -2.0F, -2.0F);
+        leftWing.texOffs(-2, 16).addBox(0.0F, 0.0F, 0.0F, 7.0F, 0.0F, 5.0F, 0.0F, 0.0F, 0.0F);
         setRotationAngle(leftWing, 0.0F, 0.2617993877991494F, 0.0F);
 
         body.addChild(rightWing);
@@ -48,12 +48,12 @@ public class SlimBeeModel extends PartialBeeModel
 
     @Override
     protected void addLegs() {
-        frontLegs.setRotationPoint(1.5F, 3.0F, -2.0F);
-        frontLegs.setTextureOffset(22, 1).addBox(-4.0F, 0.0F, 0.0F, 5.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        middleLegs.setRotationPoint(1.5F, 3.0F, 0.0F);
-        middleLegs.setTextureOffset(22, 3).addBox(-4.0F, 0.0F, 0.0F, 5.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        backLegs.setRotationPoint(1.5F, 3.0F, 2.0F);
-        backLegs.setTextureOffset(22, 5).addBox(-4.0F, 0.0F, 0.0F, 5.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        frontLegs.setPos(1.5F, 3.0F, -2.0F);
+        frontLegs.texOffs(22, 1).addBox(-4.0F, 0.0F, 0.0F, 5.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        middleLegs.setPos(1.5F, 3.0F, 0.0F);
+        middleLegs.texOffs(22, 3).addBox(-4.0F, 0.0F, 0.0F, 5.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        backLegs.setPos(1.5F, 3.0F, 2.0F);
+        backLegs.texOffs(22, 5).addBox(-4.0F, 0.0F, 0.0F, 5.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
         body.addChild(frontLegs);
         body.addChild(backLegs);
         body.addChild(middleLegs);

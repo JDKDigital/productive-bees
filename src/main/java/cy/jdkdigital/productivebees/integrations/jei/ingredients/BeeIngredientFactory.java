@@ -22,7 +22,7 @@ public class BeeIngredientFactory
     private static int configurableBeeIngredientCount = 0; // counter to see if list needs to be recalculated
 
     public static String getIngredientKey(BeeEntity bee) {
-        String type = bee.getEntityString();
+        String type = bee.getEncodeId();
         if (bee instanceof ProductiveBeeEntity) {
             type = ((ProductiveBeeEntity) bee).getBeeType();
         }
@@ -53,7 +53,7 @@ public class BeeIngredientFactory
             // Add all beehive inhabitors, entity type check must be done before using the entry
             try {
                 for (EntityType<?> registryObject : ForgeRegistries.ENTITIES.getValues()) {
-                    if (registryObject.isContained(EntityTypeTags.BEEHIVE_INHABITORS)) {
+                    if (registryObject.is(EntityTypeTags.BEEHIVE_INHABITORS)) {
                         if (registryObject.equals(ModEntities.CONFIGURABLE_BEE.get())) {
                             continue;
                         }

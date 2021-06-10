@@ -1,0 +1,19 @@
+{
+    "name": "Mason Bee",
+    "icon": "productivebees:spawn_egg_mason_bee",
+    "read_by_default": true,
+    "sortnum": 8,
+    "category": "productivebees:solitary",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Mason Bee",
+            "text": "[Osmia lignaria]",
+            "anchor": "mason"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:mason_bee"
+        }
+    ]
+}

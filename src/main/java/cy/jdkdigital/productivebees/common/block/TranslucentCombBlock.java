@@ -10,7 +10,9 @@ public class TranslucentCombBlock extends Block
         super(properties);
     }
 
-    public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
-        return adjacentBlockState.getBlock() == this || super.isSideInvisible(state, adjacentBlockState, side);
+    @Deprecated
+    @Override
+    public boolean skipRendering(BlockState state, BlockState adjacentBlockState, Direction side) {
+        return adjacentBlockState.getBlock() == this || super.skipRendering(state, adjacentBlockState, side);
     }
 }

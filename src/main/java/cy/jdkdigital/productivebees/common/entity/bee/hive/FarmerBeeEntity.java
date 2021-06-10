@@ -51,16 +51,16 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
     }
 
     public List<BlockPos> findHarvestablesNearby(double distance) {
-        return findHarvestablesNearby(this.getPosition(), distance);
+        return findHarvestablesNearby(this.blockPosition(), distance);
     }
 
     public List<BlockPos> findHarvestablesNearby(BlockPos pos, double distance) {
-        List<BlockPos> list = BlockPos.getAllInBox(pos.add(-distance, -distance + 2, -distance), pos.add(distance, distance - 2, distance)).map(BlockPos::toImmutable).collect(Collectors.toList());
+        List<BlockPos> list = BlockPos.betweenClosedStream(pos.offset(-distance, -distance + 2, -distance), pos.offset(distance, distance - 2, distance)).map(BlockPos::immutable).collect(Collectors.toList());
         Iterator<BlockPos> iterator = list.iterator();
         while (iterator.hasNext()) {
             BlockPos blockPos = iterator.next();
-            BlockState state = world.getBlockState(blockPos);
-            if (!(state.getBlock() instanceof CropsBlock) || ((CropsBlock) state.getBlock()).canGrow(world, blockPos, state, false)) {
+            BlockState state = level.getBlockState(blockPos);
+            if (!(state.getBlock() instanceof CropsBlock) || ((CropsBlock) state.getBlock()).isValidBonemealTarget(level, blockPos, state, false)) {
                 iterator.remove();
             }
         }
@@ -72,18 +72,18 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
         private int ticks = 0;
 
         @Override
-        public boolean shouldExecute() {
+        public boolean canUse() {
             if (FarmerBeeEntity.this.targetHarvestPos != null && !positionIsHarvestable(FarmerBeeEntity.this.targetHarvestPos)) {
                 FarmerBeeEntity.this.targetHarvestPos = null;
             }
 
             return
                     FarmerBeeEntity.this.targetHarvestPos != null &&
-                            !FarmerBeeEntity.this.isAngry() &&
-                            !FarmerBeeEntity.this.isWithinDistance(FarmerBeeEntity.this.targetHarvestPos, 2);
+                    !FarmerBeeEntity.this.isAngry() &&
+                    !FarmerBeeEntity.this.closerThan(FarmerBeeEntity.this.targetHarvestPos, 2);
         }
 
-        public void startExecuting() {
+        public void start() {
             this.ticks = 0;
         }
 
@@ -92,10 +92,9 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                 ++this.ticks;
                 if (this.ticks > 600) {
                     FarmerBeeEntity.this.targetHarvestPos = null;
-                }
-                else if (!FarmerBeeEntity.this.navigator.noPath()) {
+                } else if (!FarmerBeeEntity.this.navigation.isDone()) {
                     BlockPos blockPos = FarmerBeeEntity.this.targetHarvestPos;
-                    FarmerBeeEntity.this.navigator.tryMoveToXYZ(blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0D);
+                    FarmerBeeEntity.this.navigation.moveTo(blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0D);
                 }
             }
         }
@@ -110,7 +109,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
         private int ticks = 0;
 
         @Override
-        public boolean shouldExecute() {
+        public boolean canUse() {
             if (!FarmerBeeEntity.this.isAngry()) {
                 List<BlockPos> harvestablesNearby = FarmerBeeEntity.this.findHarvestablesNearby(10);
 
@@ -120,7 +119,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                     BlockPos nearest = null;
                     double nearestDistance = 0;
                     for (BlockPos pos : harvestablesNearby) {
-                        double distance = pos.distanceSq(FarmerBeeEntity.this.getPosition());
+                        double distance = pos.distSqr(FarmerBeeEntity.this.blockPosition());
                         if (nearestDistance == 0 || distance <= nearestDistance) {
                             nearestDistance = distance;
                             nearest = pos;
@@ -137,11 +136,11 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
+        public boolean canContinueToUse() {
             return FarmerBeeEntity.this.targetHarvestPos != null && FarmerBeeEntity.this.hasHive() && !FarmerBeeEntity.this.isAngry();
         }
 
-        public void startExecuting() {
+        public void start() {
             ticks = 0;
         }
 
@@ -151,35 +150,31 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
             if (FarmerBeeEntity.this.targetHarvestPos != null) {
                 if (ticks > 600) {
                     FarmerBeeEntity.this.targetHarvestPos = null;
-                }
-                else {
-                    Vector3d vec3d = (Vector3d.copyCenteredHorizontally(FarmerBeeEntity.this.targetHarvestPos)).add(0.5D, 0.6F, 0.5D);
-                    double distanceToTarget = vec3d.distanceTo(FarmerBeeEntity.this.getPositionVec());
+                } else {
+                    Vector3d vec3d = (Vector3d.atCenterOf(FarmerBeeEntity.this.targetHarvestPos)).add(0.5D, 0.6F, 0.5D);
+                    double distanceToTarget = vec3d.distanceTo(FarmerBeeEntity.this.position());
 
                     if (distanceToTarget > 1.0D) {
                         this.moveToNextTarget(vec3d);
-                    }
-                    else {
+                    } else {
                         if (distanceToTarget > 0.1D && ticks > 600) {
                             FarmerBeeEntity.this.targetHarvestPos = null;
-                        }
-                        else {
+                        } else {
                             List<BlockPos> harvestablesNearby = FarmerBeeEntity.this.findHarvestablesNearby(0);
-                            if (!harvestablesNearby.isEmpty() && world instanceof ServerWorld) {
+                            if (!harvestablesNearby.isEmpty() && level instanceof ServerWorld) {
                                 BlockPos pos = harvestablesNearby.iterator().next();
 
                                 // right click if certain mods are installed
                                 if ((ModList.get().isLoaded("quark") || ModList.get().isLoaded("pamhc2crops") || ModList.get().isLoaded("simplefarming") || ModList.get().isLoaded("reap"))) {
-                                    PlayerEntity fakePlayer = FakePlayerFactory.get((ServerWorld) world, new GameProfile(FARMER_BEE_UUID, "farmer_bee"));
-                                    ForgeHooks.onRightClickBlock(fakePlayer, Hand.MAIN_HAND, pos, FarmerBeeEntity.this.getAdjustedHorizontalFacing());
-                                }
-                                else {
-                                    world.destroyBlock(pos, true);
+                                    PlayerEntity fakePlayer = FakePlayerFactory.get((ServerWorld) level, new GameProfile(FARMER_BEE_UUID, "farmer_bee"));
+                                    ForgeHooks.onRightClickBlock(fakePlayer, Hand.MAIN_HAND, pos, FarmerBeeEntity.this.getMotionDirection());
+                                } else {
+                                    level.destroyBlock(pos, true);
                                 }
 
                                 FarmerBeeEntity.this.targetHarvestPos = null;
 
-                                FarmerBeeEntity.this.playSound(SoundEvents.ENTITY_BEE_POLLINATE, 1.0F, 1.0F);
+                                FarmerBeeEntity.this.playSound(SoundEvents.BEE_POLLINATE, 1.0F, 1.0F);
                             }
                         }
                     }
@@ -188,7 +183,7 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
         }
 
         private void moveToNextTarget(Vector3d nextTarget) {
-            FarmerBeeEntity.this.getMoveHelper().setMoveTo(nextTarget.getX(), nextTarget.getY(), nextTarget.getZ(), 1.0F);
+            FarmerBeeEntity.this.getMoveControl().setWantedPosition(nextTarget.x, nextTarget.y, nextTarget.z, 1.0F);
         }
     }
 }

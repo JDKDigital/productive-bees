@@ -33,8 +33,8 @@ public class CombineGeneRecipe implements ICraftingRecipe
         // genes must not be mutually exclusive (2 levels of the same attribute are not allowed)
         int numberOfIngredients = 0;
         Pair<String, Integer> addedGene = null;
-        for (int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack = inv.getStackInSlot(j);
+        for (int j = 0; j < inv.getContainerSize(); ++j) {
+            ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.GENE.get())) {
                     numberOfIngredients++;
@@ -57,14 +57,14 @@ public class CombineGeneRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         // Combine genes
         String attribute = null;
         int value = 0;
         int purity = 0;
 
-        for (int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack = inv.getStackInSlot(j);
+        for (int j = 0; j < inv.getContainerSize(); ++j) {
+            ItemStack itemstack = inv.getItem(j);
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.GENE.get())) {
                     attribute = Gene.getAttributeName(itemstack);
@@ -80,13 +80,13 @@ public class CombineGeneRecipe implements ICraftingRecipe
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 
     @Nonnull
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return new ItemStack(ModItems.GENE.get());
     }
 
@@ -95,8 +95,8 @@ public class CombineGeneRecipe implements ICraftingRecipe
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> list = NonNullList.create();
 
-        list.add(Ingredient.fromStacks(new ItemStack(ModItems.GENE.get())));
-        list.add(Ingredient.fromStacks(new ItemStack(ModItems.GENE.get())));
+        list.add(Ingredient.of(new ItemStack(ModItems.GENE.get())));
+        list.add(Ingredient.of(new ItemStack(ModItems.GENE.get())));
 
         return list;
     }
@@ -122,11 +122,11 @@ public class CombineGeneRecipe implements ICraftingRecipe
         }
 
         @Override
-        public T read(ResourceLocation id, JsonObject json) {
+        public T fromJson(ResourceLocation id, JsonObject json) {
             return this.factory.create(id);
         }
 
-        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
                 return this.factory.create(id);
             } catch (Exception e) {
@@ -135,7 +135,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
             }
         }
 
-        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
         }
 
         public interface IRecipeFactory<T extends CombineGeneRecipe>

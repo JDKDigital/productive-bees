@@ -34,10 +34,10 @@ public class GeneBottle extends Item
         else {
             nbt.putString("name", target.getName().getString());
         }
-        target.writeWithoutTypeId(nbt);
+        target.saveWithoutId(nbt);
 
         if (nbt.getString("type").isEmpty()) {
-            nbt.putString("type", "" + target.getEntityString());
+            nbt.putString("type", "" + target.getEncodeId());
         }
 
         stack.getOrCreateTag().put(GENES_KEY, nbt);
@@ -57,8 +57,8 @@ public class GeneBottle extends Item
     }
 
 //    @Override
-//    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-//        if (this.isInGroup(group)) {
+//    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+//        if (this.allowdedIn(group)) {
 //            if () {
 //                items.add(getStack(block));
 //            }

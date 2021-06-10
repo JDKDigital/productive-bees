@@ -29,35 +29,35 @@ public class CatcherScreen extends ContainerScreen<CatcherContainer>
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        this.font.drawText(matrixStack, this.title, 8.0F, 6.0F, 4210752);
-        this.font.drawText(matrixStack, this.playerInventory.getDisplayName(), 8.0F, (float) (this.ySize - 96 + 2), 4210752);
+    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
+        this.font.draw(matrixStack, this.title, 8.0F, 6.0F, 4210752);
+        this.font.draw(matrixStack, this.inventory.getName(), 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
 
-        this.container.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
-                if (isPointInRegion(80, 17, 18, 18, mouseX, mouseY)) {
+                if (isHovering(80, 17, 18, 18, mouseX, mouseY)) {
                     List<IReorderingProcessor> tooltipList = new ArrayList<>();
-                    tooltipList.add(new TranslationTextComponent("productivebees.Catcher.tooltip.treat_item").func_241878_f());
+                    tooltipList.add(new TranslationTextComponent("productivebees.Catcher.tooltip.treat_item").getVisualOrderText());
 
-                    renderTooltip(matrixStack, tooltipList, mouseX - guiLeft, mouseY - guiTop);
+                    renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
                 }
             }
         });
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         assert minecraft != null;
 
-        minecraft.getTextureManager().bindTexture(GUI_TEXTURE);
+        minecraft.getTextureManager().bind(GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, this.guiLeft - 13, this.guiTop, 0, 0, this.xSize + 26, this.ySize);
+        blit(matrixStack, this.getGuiLeft() - 13, this.getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
     }
 }

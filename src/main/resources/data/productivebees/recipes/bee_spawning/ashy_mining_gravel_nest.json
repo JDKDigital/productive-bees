@@ -12,6 +12,5 @@
         "river",
         "beach"
     ],
-    "temperature": "warm",
-    "repopulation_cooldown": 24000
+    "temperature": "warm"
 }

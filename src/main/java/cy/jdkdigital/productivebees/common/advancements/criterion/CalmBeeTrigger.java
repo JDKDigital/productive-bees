@@ -26,13 +26,13 @@ public class CalmBeeTrigger extends AbstractCriterionTrigger<CalmBeeTrigger.Inst
     }
 
     public void trigger(ServerPlayerEntity player, BeeEntity bee) {
-        this.triggerListeners(player, trigger -> trigger.test(bee));
+        this.trigger(player, trigger -> trigger.test(bee));
     }
 
     @Nonnull
     @Override
-    protected Instance deserializeTrigger(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
-        return new CalmBeeTrigger.Instance(JSONUtils.getString(jsonObject, "beeName"));
+    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
+        return new CalmBeeTrigger.Instance(JSONUtils.getAsString(jsonObject, "beeName"));
     }
 
     public static class Instance extends CriterionInstance
@@ -40,7 +40,7 @@ public class CalmBeeTrigger extends AbstractCriterionTrigger<CalmBeeTrigger.Inst
         private final String beeName;
 
         public Instance(String beeName) {
-            super(CalmBeeTrigger.ID, EntityPredicate.AndPredicate.ANY_AND);
+            super(CalmBeeTrigger.ID, EntityPredicate.AndPredicate.ANY);
             this.beeName = beeName;
         }
 
@@ -53,15 +53,15 @@ public class CalmBeeTrigger extends AbstractCriterionTrigger<CalmBeeTrigger.Inst
         }
 
         public boolean test(BeeEntity bee) {
-            String type = bee instanceof ConfigurableBeeEntity ? ((ConfigurableBeeEntity) bee).getBeeType() : bee.getEntityString();
+            String type = bee instanceof ConfigurableBeeEntity ? ((ConfigurableBeeEntity) bee).getBeeType() : bee.getEncodeId();
 
             return this.beeName.equals("any") || (type != null && type.equals(this.beeName));
         }
 
         @Nonnull
         @Override
-        public JsonObject serialize(ConditionArraySerializer serializer) {
-            JsonObject jsonobject = super.serialize(serializer);
+        public JsonObject serializeToJson(ConditionArraySerializer serializer) {
+            JsonObject jsonobject = super.serializeToJson(serializer);
             jsonobject.addProperty("beeName", this.beeName);
             return jsonobject;
         }

@@ -14,6 +14,6 @@ public class BeeAttribute<T> extends LootParameter<T>
     @Override
     @Nonnull
     public String toString() {
-        return this.getId().getPath();
+        return this.getName().getPath();
     }
 }
