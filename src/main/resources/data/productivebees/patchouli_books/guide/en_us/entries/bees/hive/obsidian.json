@@ -2,7 +2,7 @@
     "name": "Obsidian Bee",
     "icon": "minecraft:obsidian",
     "read_by_default": true,
-    "category": "productivebees:hive",
+    "category": "productivebees:bees_hive",
     "flag": "productivebees:obsidian",
     "pages": [
         {

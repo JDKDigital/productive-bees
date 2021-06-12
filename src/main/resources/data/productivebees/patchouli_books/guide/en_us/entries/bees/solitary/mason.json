@@ -3,7 +3,7 @@
     "icon": "productivebees:spawn_egg_mason_bee",
     "read_by_default": true,
     "sortnum": 8,
-    "category": "productivebees:solitary",
+    "category": "productivebees:bees_solitary",
     "pages": [
         {
             "type": "text",

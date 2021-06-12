@@ -3,7 +3,7 @@
     "icon": "productivebees:incubator",
     "read_by_default": true,
     "sortnum": 9,
-    "category": "productivebees:modded",
+    "category": "productivebees:bees_modded",
     "pages": [
         {
             "type": "text",

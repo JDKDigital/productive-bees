@@ -2,7 +2,7 @@
     "name": "Skeletal Bee",
     "icon": "minecraft:bone_meal",
     "read_by_default": true,
-    "category": "productivebees:hive",
+    "category": "productivebees:bees_hive",
     "flag": "productivebees:skeletal",
     "pages": [
         {

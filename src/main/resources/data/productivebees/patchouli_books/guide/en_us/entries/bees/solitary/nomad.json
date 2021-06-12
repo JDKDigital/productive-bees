@@ -3,7 +3,7 @@
     "icon": "productivebees:spawn_egg_nomad_bee",
     "read_by_default": true,
     "sortnum": 10,
-    "category": "productivebees:solitary",
+    "category": "productivebees:bees_solitary",
     "pages": [
         {
             "type": "text",

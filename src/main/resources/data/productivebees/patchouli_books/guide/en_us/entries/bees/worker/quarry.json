@@ -3,7 +3,7 @@
     "icon": "minecraft:wooden_pickaxe",
     "read_by_default": true,
     "sortnum": 4,
-    "category": "productivebees:worker",
+    "category": "productivebees:bees_worker",
     "pages": [
         {
             "type": "text",

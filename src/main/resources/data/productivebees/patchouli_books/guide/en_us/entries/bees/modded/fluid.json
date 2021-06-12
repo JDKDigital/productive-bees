@@ -3,7 +3,7 @@
     "icon": "minecraft:water_bucket",
     "read_by_default": true,
     "sortnum": 4,
-    "category": "productivebees:modded",
+    "category": "productivebees:bees_modded",
     "pages": [
         {
             "type": "text",

@@ -2,7 +2,7 @@
     "name": "Emerald Bee",
     "icon": "minecraft:emerald",
     "read_by_default": true,
-    "category": "productivebees:hive",
+    "category": "productivebees:bees_hive",
     "flag": "productivebees:emerald",
     "pages": [
         {

@@ -2,7 +2,7 @@
     "name": "Ender Bee",
     "icon": "minecraft:ender_pearl",
     "read_by_default": true,
-    "category": "productivebees:wild",
+    "category": "productivebees:bees_wild",
     "pages": [
         {
             "type": "text",

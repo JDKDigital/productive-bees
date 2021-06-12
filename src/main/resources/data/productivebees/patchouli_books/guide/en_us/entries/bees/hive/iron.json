@@ -2,7 +2,7 @@
     "name": "Iron Bee",
     "icon": "minecraft:iron_ingot",
     "read_by_default": true,
-    "category": "productivebees:hive",
+    "category": "productivebees:bees_hive",
     "flag": "productivebees:iron",
     "pages": [
         {

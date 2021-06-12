@@ -2,7 +2,7 @@
     "name": "Slimy Bee",
     "icon": "minecraft:slime_ball",
     "read_by_default": true,
-    "category": "productivebees:wild",
+    "category": "productivebees:bees_wild",
     "pages": [
         {
             "type": "text",

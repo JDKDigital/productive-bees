@@ -61,7 +61,7 @@ public class BeeCage extends Item
                 entity.hivePos = null;
             }
 
-            BlockPos blockPos = pos.relative(context.getHorizontalDirection());
+            BlockPos blockPos = pos.relative(context.getClickedFace());
             entity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
             worldIn.addFreshEntity(entity);
 

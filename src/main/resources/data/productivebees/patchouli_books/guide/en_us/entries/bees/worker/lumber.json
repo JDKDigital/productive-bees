@@ -3,7 +3,7 @@
     "icon": "minecraft:wooden_axe",
     "read_by_default": true,
     "sortnum": 3,
-    "category": "productivebees:worker",
+    "category": "productivebees:bees_worker",
     "pages": [
         {
             "type": "text",

@@ -3,7 +3,7 @@
     "icon": "mekanism:energy_tablet",
     "read_by_default": true,
     "sortnum": 8,
-    "category": "productivebees:modded",
+    "category": "productivebees:bees_modded",
     "flag": "mod:mekanism",
     "pages": [
         {

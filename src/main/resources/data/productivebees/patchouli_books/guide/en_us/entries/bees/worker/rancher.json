@@ -3,7 +3,7 @@
     "icon": "minecraft:milk_bucket",
     "read_by_default": true,
     "sortnum": 2,
-    "category": "productivebees:worker",
+    "category": "productivebees:bees_worker",
     "pages": [
         {
             "type": "text",

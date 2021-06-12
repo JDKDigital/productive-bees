@@ -183,6 +183,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.DoubleValue toleranceChance;
         public final ForgeConfigSpec.DoubleValue behaviorChance;
         public final ForgeConfigSpec.DoubleValue geneExtractChance;
+        public final ForgeConfigSpec.IntValue typeGenePurity;
         public final ForgeConfigSpec.IntValue effectTicks;
 
         public BeeAttributes(ForgeConfigSpec.Builder builder) {
@@ -203,6 +204,9 @@ public class ProductiveBeesConfig
             geneExtractChance = builder
                     .comment("Chance to extract genes from a bottle of bee material.")
                     .defineInRange("geneExtractChance", 0.85, 0, 1);
+            typeGenePurity = builder
+                    .comment("Average purity of type genes (does not apply to attribute genes)")
+                    .defineInRange("typeGenePurity", 33, 1, 100);
             effectTicks = builder
                     .comment("Number of ticks between effects on nearby entities")
                     .defineInRange("ticks", 2337, 20, Integer.MAX_VALUE);

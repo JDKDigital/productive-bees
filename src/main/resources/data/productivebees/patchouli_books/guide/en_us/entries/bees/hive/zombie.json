@@ -2,7 +2,7 @@
     "name": "ZomBee",
     "icon": "minecraft:rotten_flesh",
     "read_by_default": true,
-    "category": "productivebees:hive",
+    "category": "productivebees:bees_hive",
     "flag": "productivebees:zombie",
     "pages": [
         {

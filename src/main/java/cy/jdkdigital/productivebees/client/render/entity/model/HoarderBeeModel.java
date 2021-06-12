@@ -21,6 +21,8 @@ public class HoarderBeeModel<T extends ProductiveBeeEntity> extends ProductiveBe
         abdomen.texOffs(38, 7).addBox(-3.5F, -4.0F, 1.0F, 7.0F, 7.0F, 4.0F, 0.0F);
 
         body.addChild(abdomen);
+
+        innards.visible = false;
     }
 
     @Override

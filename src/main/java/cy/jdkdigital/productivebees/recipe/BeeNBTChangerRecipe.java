@@ -111,9 +111,9 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
         @Nonnull
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
-            String source = JSONUtils.getAsString(json, "source");
+            String beeName = JSONUtils.getAsString(json, "bee");
 
-            Lazy<BeeIngredient> bee = Lazy.of(BeeIngredientFactory.getIngredient(source));
+            Lazy<BeeIngredient> bee = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
 
             Ingredient item;
             if (JSONUtils.isArrayNode(json, "ingredient")) {

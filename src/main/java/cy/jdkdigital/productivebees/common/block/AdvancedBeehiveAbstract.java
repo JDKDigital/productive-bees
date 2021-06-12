@@ -203,9 +203,9 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
 
     @Override
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        Entity entity = builder.getParameter(LootParameters.THIS_ENTITY);
+        Entity entity = builder.getOptionalParameter(LootParameters.THIS_ENTITY);
         if (entity instanceof TNTEntity || entity instanceof CreeperEntity || entity instanceof WitherSkullEntity || entity instanceof WitherEntity || entity instanceof TNTMinecartEntity) {
-            TileEntity tileEntity = builder.getParameter(LootParameters.BLOCK_ENTITY);
+            TileEntity tileEntity = builder.getOptionalParameter(LootParameters.BLOCK_ENTITY);
             if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
                 AdvancedBeehiveTileEntityAbstract beehiveTileEntity = (AdvancedBeehiveTileEntityAbstract) tileEntity;
                 beehiveTileEntity.emptyAllLivingFromHive(null, state, BeehiveTileEntity.State.EMERGENCY);

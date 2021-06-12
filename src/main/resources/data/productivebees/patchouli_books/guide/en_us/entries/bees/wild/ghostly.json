@@ -2,7 +2,7 @@
     "name": "Ghostly Bee",
     "icon": "minecraft:ghast_tear",
     "read_by_default": true,
-    "category": "productivebees:wild",
+    "category": "productivebees:bees_wild",
     "pages": [
         {
             "type": "text",

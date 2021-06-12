@@ -3,7 +3,7 @@
     "icon": "minecraft:diamond",
     "read_by_default": true,
     "sortnum": 2,
-    "category": "productivebees:modded",
+    "category": "productivebees:bees_modded",
     "pages": [
         {
             "type": "text",
