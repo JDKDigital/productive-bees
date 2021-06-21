@@ -23,9 +23,9 @@ import java.util.List;
 
 public class Gene extends Item
 {
-    private static final String ATTRIBUTE_KEY = "productivebees_gene_attribute";
-    private static final String VALUE_KEY = "productivebees_gene_value";
-    private static final String PURITY_KEY = "productivebees_gene_purity";
+    public static final String ATTRIBUTE_KEY = "productivebees_gene_attribute";
+    public static final String VALUE_KEY = "productivebees_gene_value";
+    public static final String PURITY_KEY = "productivebees_gene_purity";
 
     public Gene(Properties properties) {
         super(properties);

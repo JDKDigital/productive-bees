@@ -159,7 +159,10 @@ public class IncubatorTileEntity extends CapabilityTileEntity implements INamedC
                         ItemStack insertedGene = ItemStack.of((CompoundNBT) inbt);
                         String beeName = Gene.getAttributeName(insertedGene);
                         if (!beeName.isEmpty()) {
-                            int purity = ((CompoundNBT) inbt).getInt("purity");
+                            int purity = Gene.getPurity(insertedGene);
+                            if (((CompoundNBT) inbt).contains("purity")) {
+                                purity = ((CompoundNBT) inbt).getInt("purity");
+                            }
                             if (ProductiveBees.rand.nextInt(100) <= purity) {
                                 ItemStack egg = BeeCreator.getSpawnEgg(beeName);
                                 if (egg.getItem() instanceof SpawnEggItem) {

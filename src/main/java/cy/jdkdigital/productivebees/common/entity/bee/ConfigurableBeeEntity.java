@@ -230,6 +230,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         super.onSyncedDataUpdated(param);
         // /summon productivebees:configurable_bee ~ ~ ~ {"type":"productivebees:diamond", "NoAI":true, "HasNectar": true}
         // /kill @e[type=productivebees:configurable_bee, name="Diamond Bee"]
+        // /data get entity @s SelectedItem
     }
 
     public void setAttributes() {
