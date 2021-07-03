@@ -94,8 +94,7 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
             if (!itemstack.isEmpty()) {
                 if (itemstack.getItem().equals(ModItems.HONEY_TREAT.get())) {
                     treat = itemstack;
-                }
-                else if (itemstack.getItem().equals(ModItems.GENE.get())) {
+                } else if (itemstack.getItem().equals(ModItems.GENE.get())) {
                     genes.add(itemstack);
                 }
             }

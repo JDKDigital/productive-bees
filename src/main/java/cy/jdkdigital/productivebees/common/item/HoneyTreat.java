@@ -58,7 +58,7 @@ public class HoneyTreat extends Item
             int purity = Gene.getPurity(insertedGene);
             if (Gene.getAttributeName(insertedGene).equals(Gene.getAttributeName(gene)) && Gene.getValue(insertedGene).equals(Gene.getValue(gene))) {
                 purity = Math.min(100, purity + Gene.getPurity(gene));
-                Gene.setPurity(gene, purity);
+                Gene.setPurity(insertedGene, purity);
                 addedToExistingGene = true;
             }
         }
