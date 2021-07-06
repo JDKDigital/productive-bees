@@ -182,6 +182,11 @@ public class ProductiveBeeEntity extends BeeEntity
                 setHealth(getHealth() - (getMaxHealth() / 3) - 1);
             }
         }
+
+        // Kill below Y level 0
+        if (this.getY() < -0.0D) {
+            this.outOfWorld();
+        }
     }
 
     public static AttributeModifierMap.MutableAttribute getDefaultAttributes() {
@@ -212,8 +217,8 @@ public class ProductiveBeeEntity extends BeeEntity
         Block flowerBlock = level.getBlockState(pos).getBlock();
 
         return (
-                isFlowerBlock(flowerBlock) ||
-                        (flowerBlock instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBeeEntity.this::isFlowerBlock))
+            isFlowerBlock(flowerBlock) ||
+            (flowerBlock instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBeeEntity.this::isFlowerBlock))
         );
     }
 
@@ -244,10 +249,10 @@ public class ProductiveBeeEntity extends BeeEntity
     public boolean wantsToEnterHive() {
         if (this.stayOutOfHiveCountdown <= 0 && !this.beePollinateGoal.isPollinating() && !this.hasStung() && this.getTarget() == null) {
             boolean shouldReturnToHive =
-                    this.isTiredOfLookingForNectar() ||
-                            this.hasNectar() ||
-                            (level.isNight() && !canOperateDuringNight()) ||
-                            (level.isRaining() && !canOperateDuringRain());
+                this.isTiredOfLookingForNectar() ||
+                this.hasNectar() ||
+                (level.isNight() && !canOperateDuringNight()) ||
+                (level.isRaining() && !canOperateDuringRain());
 
             return shouldReturnToHive && !this.isHiveNearFire();
         } else {
@@ -439,14 +444,14 @@ public class ProductiveBeeEntity extends BeeEntity
             return false;
         } else {
             return (
-                    this.isInLove() &&
-                            otherAnimal.isInLove()
+                this.isInLove() &&
+                otherAnimal.isInLove()
             ) &&
-                    (
-                            (level instanceof ServerWorld && BeeHelper.getRandomBreedingRecipe(this, otherAnimal, (ServerWorld) level) != null) || // check if there's an offspring recipe
-                                    canSelfBreed() || // allows self breeding
-                                    !(otherAnimal instanceof ProductiveBeeEntity) // or not a productive bee
-                    );
+                (
+                    (level instanceof ServerWorld && BeeHelper.getRandomBreedingRecipe(this, otherAnimal, (ServerWorld) level) != null) || // check if there's an offspring recipe
+                    canSelfBreed() || // allows self breeding
+                    !(otherAnimal instanceof ProductiveBeeEntity) // or not a productive bee
+                );
         }
     }
 
