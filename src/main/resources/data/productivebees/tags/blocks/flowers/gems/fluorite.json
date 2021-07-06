@@ -6,6 +6,10 @@
             "required": false
         },
         {
+            "id": "#forge:ores/fluorite",
+            "required": false
+        },
+        {
             "id": "silentgems:fluorite_glowrose",
             "required": false
         },

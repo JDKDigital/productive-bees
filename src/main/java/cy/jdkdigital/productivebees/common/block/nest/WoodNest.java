@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.common.block.nest;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -41,10 +40,10 @@ public class WoodNest extends SolitaryNest
         builder.add(BlockStateProperties.FACING, AXIS);
     }
 
-    @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return super.getStateForPlacement(context).setValue(AXIS, context.getHorizontalDirection().getAxis());
-    }
+//    @Override
+//    public BlockState getStateForPlacement(BlockItemUseContext context) {
+//        return super.getStateForPlacement(context).setValue(AXIS, context.getHorizontalDirection().getAxis());
+//    }
 
     static {
         AXIS = BlockStateProperties.AXIS;

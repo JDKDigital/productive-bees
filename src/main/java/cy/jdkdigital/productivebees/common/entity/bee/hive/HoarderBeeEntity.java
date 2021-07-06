@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
 import net.minecraft.entity.EntityType;

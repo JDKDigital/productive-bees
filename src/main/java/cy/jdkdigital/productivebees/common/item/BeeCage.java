@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
@@ -16,7 +17,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -122,6 +122,10 @@ public class BeeCage extends Item
             nbt.putString("name", target.getName().getString());
         }
         target.saveWithoutId(nbt);
+
+        nbt.remove("Motion");
+        nbt.remove("Pos");
+        nbt.remove("Rotation");
 
         nbt.putBoolean("isProductiveBee", target instanceof ProductiveBeeEntity);
 

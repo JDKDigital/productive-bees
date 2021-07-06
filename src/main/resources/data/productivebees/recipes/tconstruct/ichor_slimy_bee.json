@@ -7,7 +7,7 @@
     },
     "cast_consumed": true,
     "fluid": {
-        "name": "tconstruct:magma_cream",
+        "name": "tconstruct:magma",
         "amount": 1000
     },
     "result": {

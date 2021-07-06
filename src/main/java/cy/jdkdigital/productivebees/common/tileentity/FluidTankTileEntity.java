@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.recipe.BottlerRecipe;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

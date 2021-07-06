@@ -121,8 +121,9 @@ dependencies {
 
     implementation fg.deobf("curse.maven:jade-324717:3228325")
     implementation fg.deobf("curse.maven:mekanism-268560:3206392")
-    implementation fg.deobf("curse.maven:mantle-74924:3307680")
-    implementation fg.deobf("curse.maven:tinkers-construct-74072:3301247")
+    implementation fg.deobf("curse.maven:mekanism-generators-268566:3206395")
+    implementation fg.deobf("curse.maven:mantle-74924:3352484")
+    implementation fg.deobf("curse.maven:tinkers-construct-74072:3352983")
     implementation fg.deobf("curse.maven:bigreactors-250277:3211479")
     implementation fg.deobf("curse.maven:zerocore-247921:3211476")
     implementation fg.deobf("curse.maven:evilcraft-74610:3292057")
@@ -133,6 +134,7 @@ dependencies {
 //    implementation fg.deobf('curse.maven:botania-225643:3300995')
     implementation fg.deobf("curse.maven:cucumber-272335:3249370")
     implementation fg.deobf("curse.maven:mystical-agriculture-246640:3251398")
+    implementation fg.deobf("curse.maven:immersive-engineering-231951:3377691")
 //    implementation fg.deobf("curse.maven:create-328085:3261455")
 }
 

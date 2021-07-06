@@ -2,7 +2,10 @@ package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.tileentity.HoneyGeneratorTileEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
@@ -18,12 +21,19 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HoneyGenerator extends CapabilityContainerBlock
 {
@@ -129,6 +139,33 @@ public class HoneyGenerator extends CapabilityContainerBlock
             }
         }
         return ActionResultType.SUCCESS;
+    }
+
+    @Override
+    public void onPlace(BlockState state, World world, BlockPos pos, BlockState newState, boolean something) {
+        refreshConnectedTileEntityCache(world, pos);
+        super.onPlace(state, world, pos, newState, something);
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState stae, IWorld world, BlockPos pos, BlockPos facingPos) {
+        refreshConnectedTileEntityCache(world, pos);
+        return super.updateShape(state, direction, stae, world, pos, facingPos);
+    }
+
+    private void refreshConnectedTileEntityCache(IWorldReader world, BlockPos pos) {
+        TileEntity generatorTile = world.getBlockEntity(pos);
+        if (generatorTile instanceof HoneyGeneratorTileEntity) {
+            List<IEnergyStorage> recipients = new ArrayList<>();
+            Direction[] directions = Direction.values();
+            for (Direction direction : directions) {
+                TileEntity te = world.getBlockEntity(pos.relative(direction));
+                if (te != null) {
+                    te.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).ifPresent(recipients::add);
+                }
+            }
+            ((HoneyGeneratorTileEntity) generatorTile).setEnergyRecipients(recipients);
+        }
     }
 
     public void openGui(ServerPlayerEntity player, HoneyGeneratorTileEntity tileEntity) {

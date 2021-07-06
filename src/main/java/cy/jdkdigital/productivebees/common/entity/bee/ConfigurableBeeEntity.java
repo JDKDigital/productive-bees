@@ -15,7 +15,6 @@ import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -41,9 +40,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import net.minecraftforge.event.entity.living.EntityTeleportEvent.EnderEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -487,8 +484,8 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
         BlockState blockstate = level.getBlockState(blockpos$mutable);
         if (blockstate.getMaterial().blocksMotion()) {
-            EnderEntity event = ForgeEventFactory.onEnderTeleport(this, x, y, z);
-            if (!event.isCanceled()) {
+            EnderTeleportEvent event = new EnderTeleportEvent(this, x, y, z, 0);
+            if (!MinecraftForge.EVENT_BUS.post(event)) {
                 boolean hasTeleported = this.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
                 if (hasTeleported && !this.isSilent()) {
                     level.playSound(null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 0.3F, 0.3F);

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.HoneyGenerator;
 import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
@@ -33,6 +34,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -71,6 +73,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
             HoneyGeneratorTileEntity.this.setChanged();
         }
     });
+    private List<IEnergyStorage> recipients;
 
     private void setFilled(boolean filled) {
         if (level != null && !level.isClientSide) {
@@ -99,9 +102,9 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
             if (++tickCounter % tickRate == 0) {
                 int inputPowerAmount = ProductiveBeesConfig.GENERAL.generatorPowerGen.get() * tickRate;
                 int fluidConsumeAmount = ProductiveBeesConfig.GENERAL.generatorHoneyUse.get() * tickRate;
-                fluidInventory.ifPresent(fluidHandler -> energyHandler.ifPresent(energyHandler -> {
-                    if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && energyHandler.receiveEnergy(inputPowerAmount, true) > 0) {
-                        energyHandler.receiveEnergy(inputPowerAmount, false);
+                fluidInventory.ifPresent(fluidHandler -> energyHandler.ifPresent(handler -> {
+                    if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && handler.receiveEnergy(inputPowerAmount, true) > 0) {
+                        handler.receiveEnergy(inputPowerAmount, false);
                         fluidHandler.drain(fluidConsumeAmount, IFluidHandler.FluidAction.EXECUTE);
                         setOn(true);
                     } else {
@@ -119,26 +122,19 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
             energyHandler.ifPresent(energyHandler -> {
                 AtomicInteger capacity = new AtomicInteger(energyHandler.getEnergyStored());
                 if (capacity.get() > 0) {
-                    Direction[] directions = Direction.values();
                     AtomicBoolean dirty = new AtomicBoolean(false);
-                    for (Direction direction : directions) {
-                        TileEntity te = level.getBlockEntity(worldPosition.relative(direction));
-                        if (te != null) {
-                            boolean doContinue = te.getCapability(CapabilityEnergy.ENERGY, direction).map((handler) -> {
-                                if (handler.canReceive()) {
-                                    int received = handler.receiveEnergy(Math.min(capacity.get(), 100 * modifier), false);
-                                    capacity.addAndGet(-received);
-                                    energyHandler.extractEnergy(received, false);
-                                    dirty.set(true);
-                                    return capacity.get() > 0;
-                                } else {
-                                    return true;
-                                }
-                            }).orElse(true);
+                    for (IEnergyStorage handler : recipients) {
+                        boolean doContinue = true;
+                        if (handler.canReceive()) {
+                            int received = handler.receiveEnergy(Math.min(capacity.get(), 100 * modifier), false);
+                            capacity.addAndGet(-received);
+                            energyHandler.extractEnergy(received, false);
+                            dirty.set(true);
+                            doContinue = capacity.get() > 0;
+                        }
 
-                            if (!doContinue) {
-                                break;
-                            }
+                        if (!doContinue) {
+                            break;
                         }
                     }
                     if (dirty.get()) {
@@ -248,5 +244,9 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     @Override
     public Container createMenu(final int windowId, final PlayerInventory playerInventory, final PlayerEntity player) {
         return new HoneyGeneratorContainer(windowId, playerInventory, this);
+    }
+
+    public void setEnergyRecipients(List<IEnergyStorage> recipients) {
+        this.recipients = recipients;
     }
 }

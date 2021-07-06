@@ -76,7 +76,7 @@ public class BeeAttributes
 
         HEALTH_MODS.put(0, (new AttributeModifier(HEALTH_MOD_ID_WEAK, "Health mod weak", -0.30F, AttributeModifier.Operation.MULTIPLY_BASE)));
         HEALTH_MODS.put(2, (new AttributeModifier(HEALTH_MOD_ID_MEDIUM, "Health mod medium", 0.5F, AttributeModifier.Operation.MULTIPLY_BASE)));
-        HEALTH_MODS.put(3, (new AttributeModifier(HEALTH_MOD_ID_STRONG, "Health health mod strong", 1.0F, AttributeModifier.Operation.MULTIPLY_BASE)));
+        HEALTH_MODS.put(3, (new AttributeModifier(HEALTH_MOD_ID_STRONG, "Health mod strong", 1.0F, AttributeModifier.Operation.MULTIPLY_BASE)));
     }
 
     @Nullable
