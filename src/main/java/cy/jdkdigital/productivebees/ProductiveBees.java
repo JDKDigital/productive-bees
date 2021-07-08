@@ -60,7 +60,6 @@ public final class ProductiveBees
 
     public static final Logger LOGGER = LogManager.getLogger();
 
-
     public ProductiveBees() {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

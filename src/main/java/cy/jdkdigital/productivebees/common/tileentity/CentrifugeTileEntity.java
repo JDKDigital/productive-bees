@@ -31,6 +31,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.tileentity.IHopper;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -156,20 +157,16 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                 }
 
                 // Pull items dropped on top
-                if (--transferCooldown <= 0) {
+                if (ProductiveBeesConfig.GENERAL.centrifugeHopperMode.get() && --transferCooldown <= 0) {
                     transferCooldown = 22;
-                    pullItems(invHandler);
+                    suckInItems(invHandler);
                 }
             });
         }
         super.tick();
     }
 
-    private void progressRecipe() {
-
-    }
-
-    private void pullItems(IItemHandlerModifiable invHandler) {
+    private void suckInItems(IItemHandlerModifiable invHandler) {
         for (ItemEntity itemEntity : getCaptureItems()) {
             ItemStack itemStack = itemEntity.getItem();
             if (
@@ -184,8 +181,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
     private List<ItemEntity> getCaptureItems() {
         assert level != null;
-
-        return Centrifuge.COLLECTION_AREA_SHAPE.toAabbs().stream().flatMap((blockPos) -> level.getEntitiesOfClass(ItemEntity.class, blockPos.expandTowards(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()), EntityPredicates.ENTITY_STILL_ALIVE).stream()).collect(Collectors.toList());
+        return Centrifuge.COLLECTION_AREA_SHAPE.toAabbs().stream().flatMap((blockPos) -> level.getEntitiesOfClass(ItemEntity.class, blockPos.move(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()), EntityPredicates.ENTITY_STILL_ALIVE).stream()).collect(Collectors.toList());
     }
 
     private static void captureItem(IItemHandlerModifiable invHandler, ItemEntity itemEntity) {

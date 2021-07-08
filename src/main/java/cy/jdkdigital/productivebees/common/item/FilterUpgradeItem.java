@@ -98,13 +98,6 @@ public class FilterUpgradeItem extends UpgradeItem
 
         addAllowedBee(itemStack, (BeeEntity) targetIn);
 
-        if (player.isCreative()) {
-            // Replace held item
-            ItemStack newStack = new ItemStack(itemStack.getItem());
-            newStack.setTag(itemStack.getTag());
-            player.inventory.setPickedItem(newStack);
-        }
-
         return ActionResultType.SUCCESS;
     }
 }

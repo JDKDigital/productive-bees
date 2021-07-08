@@ -75,6 +75,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue beeSyncDelay;
         public final ForgeConfigSpec.IntValue nestLocatorDistance;
         public final ForgeConfigSpec.IntValue nestSpawnCooldown;
+        public final ForgeConfigSpec.BooleanValue centrifugeHopperMode;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -138,6 +139,10 @@ public class ProductiveBeesConfig
             nestSpawnCooldown = builder
                     .comment("Initial tick cooldown when repopulating a nest.")
                     .defineInRange("nestSpawnCooldown", 24000, 0, Integer.MAX_VALUE);
+
+            centrifugeHopperMode = builder
+                    .comment("Centrifuges will pick up items thrown on it")
+                    .define("centrifugeHopperMode", true);
 
             builder.pop();
         }

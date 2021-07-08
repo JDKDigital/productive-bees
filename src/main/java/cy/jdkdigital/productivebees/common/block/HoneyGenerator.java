@@ -143,29 +143,20 @@ public class HoneyGenerator extends CapabilityContainerBlock
 
     @Override
     public void onPlace(BlockState state, World world, BlockPos pos, BlockState newState, boolean something) {
-        refreshConnectedTileEntityCache(world, pos);
+        TileEntity generatorTile = world.getBlockEntity(pos);
+        if (generatorTile instanceof HoneyGeneratorTileEntity) {
+            ((HoneyGeneratorTileEntity) generatorTile).refreshConnectedTileEntityCache();
+        }
         super.onPlace(state, world, pos, newState, something);
     }
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState stae, IWorld world, BlockPos pos, BlockPos facingPos) {
-        refreshConnectedTileEntityCache(world, pos);
-        return super.updateShape(state, direction, stae, world, pos, facingPos);
-    }
-
-    private void refreshConnectedTileEntityCache(IWorldReader world, BlockPos pos) {
         TileEntity generatorTile = world.getBlockEntity(pos);
         if (generatorTile instanceof HoneyGeneratorTileEntity) {
-            List<IEnergyStorage> recipients = new ArrayList<>();
-            Direction[] directions = Direction.values();
-            for (Direction direction : directions) {
-                TileEntity te = world.getBlockEntity(pos.relative(direction));
-                if (te != null) {
-                    te.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).ifPresent(recipients::add);
-                }
-            }
-            ((HoneyGeneratorTileEntity) generatorTile).setEnergyRecipients(recipients);
+            ((HoneyGeneratorTileEntity) generatorTile).refreshConnectedTileEntityCache();
         }
+        return super.updateShape(state, direction, stae, world, pos, facingPos);
     }
 
     public void openGui(ServerPlayerEntity player, HoneyGeneratorTileEntity tileEntity) {

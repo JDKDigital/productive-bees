@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -15,11 +16,15 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -34,6 +39,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -73,7 +79,7 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
             HoneyGeneratorTileEntity.this.setChanged();
         }
     });
-    private List<IEnergyStorage> recipients;
+    private List<IEnergyStorage> recipients = new ArrayList<>();
 
     private void setFilled(boolean filled) {
         if (level != null && !level.isClientSide) {
@@ -209,6 +215,14 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
     }
 
     @Override
+    public void load(BlockState state, CompoundNBT tag) {
+        super.load(state, tag);
+
+        // Rebuild cached attached TEs
+        refreshConnectedTileEntityCache();
+    }
+
+    @Override
     public LazyOptional<IItemHandlerModifiable> getUpgradeHandler() {
         return upgradeHandler;
     }
@@ -246,7 +260,17 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
         return new HoneyGeneratorContainer(windowId, playerInventory, this);
     }
 
-    public void setEnergyRecipients(List<IEnergyStorage> recipients) {
-        this.recipients = recipients;
+    public void refreshConnectedTileEntityCache() {
+        if (level instanceof ServerWorld) {
+            List<IEnergyStorage> recipients = new ArrayList<>();
+            Direction[] directions = Direction.values();
+            for (Direction direction : directions) {
+                TileEntity te = level.getBlockEntity(worldPosition.relative(direction));
+                if (te != null) {
+                    te.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).ifPresent(recipients::add);
+                }
+            }
+            this.recipients = recipients;
+        }
     }
 }
