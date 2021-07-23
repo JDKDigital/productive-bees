@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
-import cy.jdkdigital.productivebees.common.entity.bee.EffectHiveBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.IEffectBeeEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.EntityType;
@@ -20,7 +21,7 @@ import java.util.Collection;
 
 import static net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent;
 
-public class CreeperBeeEntity extends EffectHiveBeeEntity
+public class CreeperBeeEntity extends ProductiveBeeEntity implements IEffectBeeEntity
 {
     private static final DataParameter<Integer> STATE = EntityDataManager.defineId(CreeperBeeEntity.class, DataSerializers.INT);
     private static final DataParameter<Boolean> POWERED = EntityDataManager.defineId(CreeperBeeEntity.class, DataSerializers.BOOLEAN);

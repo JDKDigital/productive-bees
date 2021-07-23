@@ -6,5 +6,6 @@
     "particleType": "pop",
     "createComb": false,
     "renderer": "default_crystal",
+    "useGlowLayer": false,
     "flowerTag": "forge:storage_blocks/lapis"
 }

@@ -17,7 +17,7 @@
         {
             "type": "text",
             "title": "Basalz Bee",
-            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hives#diamond)Diamond Bee$(/l) spawn egg using a Smelter.",
+            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hive/diamond)Diamond Bee$(/l) spawn egg using a Smelter.",
             "anchor": "basalz",
             "flag": "productivebees:basalz"
         },
@@ -30,7 +30,7 @@
         {
             "type": "text",
             "title": "Blitz Bee",
-            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hives#diamond)Diamond Bee$(/l) spawn egg using a Smelter.",
+            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hive/diamond)Diamond Bee$(/l) spawn egg using a Smelter.",
             "anchor": "blitz",
             "flag": "productivebees:blitz"
         },
@@ -43,7 +43,7 @@
         {
             "type": "text",
             "title": "Blizz Bee",
-            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hives#diamond)Diamond Bee$(/l) spawn egg using a Chiller.",
+            "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hive/diamond)Diamond Bee$(/l) spawn egg using a Chiller.",
             "anchor": "blizz",
             "flag": "productivebees:blizz"
         },

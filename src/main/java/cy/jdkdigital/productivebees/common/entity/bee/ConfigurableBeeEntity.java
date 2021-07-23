@@ -84,6 +84,8 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             this.setCustomName(new StringTextComponent("Queen BazBee"));
         } else if (type.equals("productivebees:blizz") && ProductiveBees.rand.nextFloat() < 0.02f) {
             this.setCustomName(new StringTextComponent("Shiny BizBee"));
+        } else if (type.equals("productivebees:redstone") && ProductiveBees.rand.nextFloat() < 0.01f) {
+            this.setCustomName(new StringTextComponent("Redastone Bee"));
         } else if (type.equals("productivebees:destabilized_redstone") && ProductiveBees.rand.nextFloat() < 0.10f) {
             this.setCustomName(new StringTextComponent("Destabilized RedaStone Bee"));
         }
@@ -346,6 +348,10 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
 
     public String getRenderer() {
         return getNBTData().getString("renderer");
+    }
+
+    public boolean useGlowLayer() {
+        return getNBTData().getBoolean("useGlowLayer");
     }
 
     private boolean isWild() {

@@ -3,6 +3,7 @@
     "particleColor": "#141414",
     "beeTexture": "productivebees:textures/entity/bee/wither/bee",
     "createComb": false,
+    "selfbreed": false,
     "flowerTag": "productivebees:flowers/wither_flowers",
     "attributes": {
         "temper": 2,

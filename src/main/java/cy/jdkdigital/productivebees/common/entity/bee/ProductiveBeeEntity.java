@@ -67,10 +67,7 @@ public class ProductiveBeeEntity extends BeeEntity
 
     protected Predicate<PointOfInterestType> beehiveInterests = (poiType) -> {
         PointOfInterestType rbTiered = ForgeRegistries.POI_TYPES.getValue(new ResourceLocation("resourcefulbees", "tiered_beehive_poi"));
-        return poiType == PointOfInterestType.BEEHIVE ||
-                poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
-                poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
-                poiType == rbTiered;
+        return poiType == PointOfInterestType.BEEHIVE || poiType == rbTiered;
     };
     private Color primaryColor = null;
     private Color secondaryColor = null;

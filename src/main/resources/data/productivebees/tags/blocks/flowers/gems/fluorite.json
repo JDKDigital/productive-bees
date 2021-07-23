@@ -6,6 +6,10 @@
             "required": false
         },
         {
+            "id": "mekanism:fluorite_ore",
+            "required": false
+        },
+        {
             "id": "#forge:ores/fluorite",
             "required": false
         },

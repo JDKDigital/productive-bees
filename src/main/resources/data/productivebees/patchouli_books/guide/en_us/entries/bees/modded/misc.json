@@ -60,7 +60,7 @@
         {
             "type": "text",
             "title": "Niter Bee",
-            "text": "Bred from a $(l:bees/hives#coal)Coal Bee$(/l) and an $(l:bees/wild/magmatic)Magmatic Bee$(/l).",
+            "text": "Bred from a $(l:bees/hive/coal)Coal Bee$(/l) and an $(l:bees/wild/magmatic)Magmatic Bee$(/l).",
             "anchor": "niter",
             "flag": "productivebees:niter"
         },
@@ -73,7 +73,7 @@
         {
             "type": "text",
             "title": "Sulfur Bee",
-            "text": "Bred from a $(l:bees/hives#coal)Coal Bee$(/l) and an $(l:bees/hives#explosive)Explosive Bee$(/l).",
+            "text": "Bred from a $(l:bees/hive/coal)Coal Bee$(/l) and an $(l:bees/hive/creeper)CreeBee(/l).",
             "anchor": "sulfur",
             "flag": "productivebees:sulfur"
         },
@@ -164,7 +164,7 @@
         {
             "type": "text",
             "title": "Allthemodium Bee",
-            "text": "Bred from a $(l:bees/hives#diamond)Diamond Bee$(/l) and a $(l:bees/hives#withered)Withered Bee$(/l).",
+            "text": "Bred from a $(l:bees/hive/diamond)Diamond Bee$(/l) and a $(l:bees/hive/withered)Withered Bee$(/l).",
             "anchor": "allthemodium",
             "flag": "productivebees:allthemodium"
         },
@@ -177,7 +177,7 @@
         {
             "type": "text",
             "title": "Vibranium Bee",
-            "text": "Bred from a $(l:bees/hives#diamond)Diamond Bee$(/l) and a $(l:bees/wild/draconic)Draconic Bee$(/l).",
+            "text": "Bred from a $(l:bees/hive/diamond)Diamond Bee$(/l) and a $(l:bees/wild/draconic)Draconic Bee$(/l).",
             "anchor": "vibranium",
             "flag": "productivebees:vibranium"
         },

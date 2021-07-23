@@ -130,7 +130,7 @@ public class ProductiveBeesConfig
 
             beeSyncDelay = builder
                     .comment("Delay in seconds between a user logging in and the bee data being synced to the client. A delay is needed to allow JEI to index the bees properly.\n If the clients are having issues getting the bees, try increasing the delay. Set to 0 to disable the delay")
-                    .defineInRange("beeSyncDelay", 20, 0, 300);
+                    .defineInRange("beeSyncDelay", 40, 0, 300);
 
             nestLocatorDistance = builder
                     .comment("The distance a nest locator can search for nests.")
@@ -152,6 +152,7 @@ public class ProductiveBeesConfig
     {
         public final ForgeConfigSpec.BooleanValue spawnUndeadBees;
         public final ForgeConfigSpec.DoubleValue spawnUndeadBeesChance;
+        public final ForgeConfigSpec.DoubleValue sugarbagBeeChance;
         public final ForgeConfigSpec.IntValue cupidBeeAnimalsPerPollination;
         public final ForgeConfigSpec.IntValue cupidBeeAnimalDensity;
         public final ForgeConfigSpec.IntValue cuckooSpawnCount;
@@ -162,8 +163,12 @@ public class ProductiveBeesConfig
             spawnUndeadBees = builder
                     .comment("Spawn skeletal and zombie bees as night?")
                     .define("spawnUndeadBees", true);
+
             spawnUndeadBeesChance = builder
                     .defineInRange("spawnUndeadBeesChance", 0.05, 0, 1);
+
+            sugarbagBeeChance = builder
+                    .defineInRange("sugarbagBeeChance", 0.02, 0, 1);
 
             cupidBeeAnimalsPerPollination = builder
                     .comment("How many animals a CuBee can breed per pollination")

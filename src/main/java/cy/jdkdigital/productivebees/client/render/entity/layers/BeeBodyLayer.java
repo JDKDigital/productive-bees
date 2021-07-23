@@ -76,13 +76,15 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
 
         if (this.modelType.equals("default_crystal")) {
             float[] color = primaryColor;
+            boolean useGlowLayer = !entity.getRenderStatic();
             if (entity instanceof ConfigurableBeeEntity) {
                 color = ((ConfigurableBeeEntity) entity).getTertiaryColor();
+                useGlowLayer = useGlowLayer && ((ConfigurableBeeEntity) entity).useGlowLayer();
             }
             // render a color version of the crystal layer
             ResourceLocation crystalsLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals_clear.png");
             renderColoredCutoutModel(this.model, crystalsLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
-            if (!entity.getRenderStatic()) {
+            if (useGlowLayer) {
                 // render glowing layer on top
                 ResourceLocation crystalsOverlayLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals.png");
                 IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.eyes(crystalsOverlayLocation));

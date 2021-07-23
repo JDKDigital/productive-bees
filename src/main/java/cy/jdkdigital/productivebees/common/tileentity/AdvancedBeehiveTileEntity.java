@@ -17,6 +17,7 @@ import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -35,6 +36,7 @@ import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -97,12 +99,14 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
             // Spawn skeletal and zombie bees in empty hives
             ListNBT beeList = this.getBeeListAsNBTList();
+            BlockPos front = worldPosition.relative(getBlockState().getValue(BeehiveBlock.FACING));
             if (
                     level.isNight() &&
-                            ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
-                            level.random.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
-                            beeList.size() + beesOutsideHive() == 0 &&
-                            level.getLightEmission(worldPosition.relative(getBlockState().getValue(BeehiveBlock.FACING), 1)) <= 8
+                    ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
+                    level.random.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
+                    beeList.size() + beesOutsideHive() == 0 &&
+                    level.getBlockState(front).isAir() &&
+                    Blocks.AIR.defaultBlockState().getLightValue(level, front) <= 8
             ) {
                 EntityType<ConfigurableBeeEntity> beeType = ModEntities.CONFIGURABLE_BEE.get();
                 ConfigurableBeeEntity newBee = beeType.create(world);

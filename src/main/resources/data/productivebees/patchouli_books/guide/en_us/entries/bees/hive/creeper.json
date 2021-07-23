@@ -1,5 +1,5 @@
 {
-    "name": "Explosive Bee",
+    "name": "CreeBee",
     "icon": "minecraft:gunpowder",
     "read_by_default": true,
     "category": "productivebees:bees_hive",
@@ -7,7 +7,7 @@
     "pages": [
         {
             "type": "text",
-            "title": "Explosive Bee",
+            "title": "CreeBee",
             "text": "Obtained by feeding a block of TNT to a vanilla bee.",
             "anchor": "creeper"
         },

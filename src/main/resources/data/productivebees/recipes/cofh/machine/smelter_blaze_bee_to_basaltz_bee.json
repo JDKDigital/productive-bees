@@ -2,15 +2,13 @@
     "type": "thermal:smelter",
     "input": [
         {
-            "item": "thermal:basalz_powder"
+            "item": "thermal:basalz_powder",
+            "count": 4
         },
         {
             "type": "forge:nbt",
             "item": "productivebees:spawn_egg_configurable_bee",
             "nbt": "{EntityTag:{type:\"productivebees:blazing\"}}"
-        },
-        {
-            "item": "thermal:basalz_powder"
         }
     ],
     "result": {

@@ -22,6 +22,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.ItemLootEntry;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -85,10 +86,10 @@ public class EventHandler
         if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().getValue(CocoaBlock.AGE) == 2) {
             PlayerEntity player = event.getPlayer();
             World world = player.level;
-            if (world instanceof ServerWorld && player instanceof ServerPlayerEntity && ProductiveBees.rand.nextFloat() < 0.02) {
+            if (world instanceof ServerWorld && player instanceof ServerPlayerEntity && ProductiveBees.rand.nextFloat() < ProductiveBeesConfig.BEES.sugarbagBeeChance.get()) {
                 ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(world);
                 BlockPos pos = event.getPos();
-                if (bee != null) {
+                if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:sugarbag") != null) {
                     bee.setBeeType("productivebees:sugarbag");
                     bee.setAttributes();
 

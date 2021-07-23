@@ -228,50 +228,54 @@ public class BeeHelper
         } else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.LOGS, (ProductiveBeeEntity) beeEntity);
-
-                ItemStack woodChip;
-                if (hasCombBlockUpgrade) {
-                    woodChip = new ItemStack(flowerBlock.asItem());
-                } else {
-                    woodChip = WoodChip.getStack(flowerBlock, world.random.nextInt(6) + 1);
+                if (flowerBlock != null) {
+                    ItemStack woodChip;
+                    if (hasCombBlockUpgrade) {
+                        woodChip = new ItemStack(flowerBlock.asItem());
+                    } else {
+                        woodChip = WoodChip.getStack(flowerBlock, world.random.nextInt(6) + 1);
+                    }
+                    outputList.add(woodChip);
                 }
-                outputList.add(woodChip);
             }
         } else if (beeId.equals("productivebees:quarry_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.QUARRY, (ProductiveBeeEntity) beeEntity);
-
-                ItemStack stoneChip;
-                if (hasCombBlockUpgrade) {
-                    stoneChip = new ItemStack(flowerBlock.asItem());
-                } else {
-                    stoneChip = StoneChip.getStack(flowerBlock, world.random.nextInt(6) + 1);
+                if (flowerBlock != null) {
+                    ItemStack stoneChip;
+                    if (hasCombBlockUpgrade) {
+                        stoneChip = new ItemStack(flowerBlock.asItem());
+                    } else {
+                        stoneChip = StoneChip.getStack(flowerBlock, world.random.nextInt(6) + 1);
+                    }
+                    outputList.add(stoneChip);
                 }
-                outputList.add(stoneChip);
             }
         } else if (beeId.equals("productivebees:dye_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.FLOWERS, (ProductiveBeeEntity) beeEntity);
-                Item flowerItem = flowerBlock.asItem();
+                if (flowerBlock != null) {
+                    Item flowerItem = flowerBlock.asItem();
 
-                Map<ResourceLocation, IRecipe<CraftingInventory>> recipes = world.getRecipeManager().byType(IRecipeType.CRAFTING);
-                Optional<IRecipe<CraftingInventory>> flowerRecipe = recipes.values().stream().flatMap((craftingRecipe) -> {
-                    AtomicBoolean hasMatchingItem = new AtomicBoolean(false);
-                    List<Ingredient> ingredients = craftingRecipe.getIngredients();
-                    if (ingredients.size() == 1) {
-                        Ingredient ingredient = ingredients.get(0);
-                        ItemStack[] stacks = ingredient.getItems();
-                        if (stacks.length > 0 && stacks[0].getItem().equals(flowerItem)) {
-                            hasMatchingItem.set(true);
+                    Map<ResourceLocation, IRecipe<CraftingInventory>> recipes = world.getRecipeManager().byType(IRecipeType.CRAFTING);
+                    Optional<IRecipe<CraftingInventory>> flowerRecipe = recipes.values().stream().flatMap((craftingRecipe) -> {
+                        AtomicBoolean hasMatchingItem = new AtomicBoolean(false);
+                        List<Ingredient> ingredients = craftingRecipe.getIngredients();
+                        if (ingredients.size() == 1) {
+                            Ingredient ingredient = ingredients.get(0);
+                            ItemStack[] stacks = ingredient.getItems();
+                            if (stacks.length > 0 && stacks[0].getItem().equals(flowerItem)) {
+                                hasMatchingItem.set(true);
+                            }
                         }
-                    }
-                    return Util.toStream(hasMatchingItem.get() ? Optional.of(craftingRecipe) : Optional.empty());
-                }).findFirst();
+                        return Util.toStream(hasMatchingItem.get() ? Optional.of(craftingRecipe) : Optional.empty());
+                    }).findFirst();
 
-                flowerRecipe.ifPresent(craftingInventoryIRecipe -> {
-                    ItemStack dye = new ItemStack(craftingInventoryIRecipe.getResultItem().getItem(), 1);
-                    outputList.add(dye);
-                });
+                    flowerRecipe.ifPresent(craftingInventoryIRecipe -> {
+                        ItemStack dye = new ItemStack(craftingInventoryIRecipe.getResultItem().getItem(), 1);
+                        outputList.add(dye);
+                    });
+                }
             }
         }
 
@@ -316,7 +320,9 @@ public class BeeHelper
     private static Block getFloweringBlock(World world, BlockPos flowerPos, ITag<Block> tag, ProductiveBeeEntity bee) {
         BlockState flowerBlockState = world.getBlockState(flowerPos);
         Block flowerBlock = flowerBlockState.getBlock();
-
+        if (!flowerBlock.is(tag)) {
+            return null;
+        }
         if (flowerBlock instanceof Feeder) {
             TileEntity feederTile = world.getBlockEntity(flowerPos);
             if (feederTile instanceof FeederTileEntity && ProductiveBeeEntity.isValidFeeder(feederTile, bee::isFlowerBlock)) {
