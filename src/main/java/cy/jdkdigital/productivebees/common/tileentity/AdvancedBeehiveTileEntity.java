@@ -32,6 +32,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -118,8 +119,9 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                         newBee.setBeeType("productivebees:zombie");
                     }
                     newBee.setAttributes();
-
-                    addOccupant(newBee, false);
+                    newBee.hivePos = worldPosition;
+                    spawnBeeInWorldAtPosition((ServerWorld) level, newBee, front, this.getBlockState().getValue(BeehiveBlock.FACING), null);
+                    abandonCountdown += getTimeInHive(true, newBee);
                 }
                 this.setChanged();
             }
