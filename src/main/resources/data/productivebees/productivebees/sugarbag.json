@@ -10,5 +10,6 @@
         "temper": 0
     },
     "stingless": true,
+    "description": "This little warm and moist bee can bee found in tropical areas. It produces a special type of super delicious comb. It can find it's way into cocoa beans even when grown outside of their natural climate.",
     "nestingPreference": "productivebees:nests/sugarbag_nests"
 }
