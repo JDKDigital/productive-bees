@@ -6,7 +6,6 @@ import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBeeEntity;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
-import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

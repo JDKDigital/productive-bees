@@ -2,7 +2,9 @@
     "homepage": "https://productivebees.jdkdigital.cy",
     "1.16.5": {
         "1.16.5-0.6.9.14": "Fix spawn egg incubation",
-        "1.16.5-0.6.9.15": "Removed dependency for newer forge version"
+        "1.16.5-0.6.9.15": "Removed dependency for newer forge version",
+        "1.16.5-0.6.9.16": "Fixed centrifuges picking up combs from far, far away",
+        "1.16.5-0.6.9.17": "fixed undead bees spawning despite light level"
     },
     "1.15.2": {
         "1.15.2-0.6.9.3": "Fix invisible bees"
@@ -10,11 +12,11 @@
     "promos": {
         "1.15.2-latest": "1.15.2-0.6.9.3",
         "1.15.2-recommended": "1.15.2-0.6.9.3",
-        "1.16.3-latest": "1.16.5-0.6.9.15",
-        "1.16.3-recommended": "1.16.5-0.6.9.15",
-        "1.16.4-latest": "1.16.5-0.6.9.15",
-        "1.16.4-recommended": "1.16.5-0.6.9.15",
-        "1.16.5-latest": "1.16.5-0.6.9.15",
-        "1.16.5-recommended": "1.16.5-0.6.9.15"
+        "1.16.3-latest": "1.16.5-0.6.9.17",
+        "1.16.3-recommended": "1.16.5-0.6.9.17",
+        "1.16.4-latest": "1.16.5-0.6.9.17",
+        "1.16.4-recommended": "1.16.5-0.6.9.17",
+        "1.16.5-latest": "1.16.5-0.6.9.17",
+        "1.16.5-recommended": "1.16.5-0.6.9.17"
     }
 }

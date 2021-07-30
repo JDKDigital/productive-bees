@@ -351,7 +351,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     public boolean useGlowLayer() {
-        return getNBTData().getBoolean("useGlowLayer");
+        return getNBTData().getBoolean("useGlowLayer") || (isRedstoned() && hasNectar());
     }
 
     private boolean isWild() {
