@@ -22,6 +22,13 @@
             }
         },
         {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/gems/amber"
+            }
+        },
+        {
             "type": "forge:tag_empty",
             "tag": "silentgems:glowroses/amber"
         }
