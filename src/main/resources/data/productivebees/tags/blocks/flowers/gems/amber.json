@@ -6,6 +6,10 @@
             "required": false
         },
         {
+            "id": "betterendforge:amber_block",
+            "required": false
+        },
+        {
             "id": "silentgems:amber_glowrose",
             "required": false
         },
