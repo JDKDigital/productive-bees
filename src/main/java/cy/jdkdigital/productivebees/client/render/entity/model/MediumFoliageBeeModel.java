@@ -1,32 +1,43 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 
 public class MediumFoliageBeeModel extends MediumBeeModel
 {
-    public MediumFoliageBeeModel(Model model, ModelRenderer body, ModelRenderer torso, ModelRenderer stinger, ModelRenderer leftAntenna, ModelRenderer rightAntenna, ModelRenderer leftWing, ModelRenderer rightWing, ModelRenderer middleLegs, ModelRenderer frontLegs, ModelRenderer backLegs, ModelRenderer crystals, ModelRenderer innards, ModelRenderer santaHat) {
-        super(model, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+    public MediumFoliageBeeModel(ModelPart model) {
+        super(model);
     }
 
-    @Override
-    public void addBodyParts(boolean withTorso) {
-        super.addBodyParts(withTorso);
-        addCrystals();
-    }
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = MediumBeeModel.createMeshDefinition(true);
+        PartDefinition root = meshDefinition.getRoot();
+        PartDefinition bone = root.getChild(ProductiveBeeModel.BONE);
+        PartDefinition body = bone.getChild(ProductiveBeeModel.BODY);
 
-    @Override
-    protected void addCrystals() {
-        externals.setPos(0.0F, -4.0F, 0.0F);
-        externals.texOffs(52, 28).addBox(-3.0F, -6.0F, -5.0F, 0.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F);
-        externals.texOffs(52, 34).addBox(-6.0F, -6.0F, -2.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        externals.texOffs(52, 34).addBox(1.0F, -6.0F, -4.0F, 0.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F);
-        externals.texOffs(52, 40).addBox(-2.0F, -6.0F, -1.0F, 6.0F, 6.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        setRotationAngle(externals, 0.0F, -0.7853981633974483F, 0.0F);
-        torso.addChild(externals);
-    }
+        // Foliage structure
+        body.addOrReplaceChild(
+                ProductiveBeeModel.EXTERNALS,
+                CubeListBuilder
+                        .create()
+                        .texOffs(52, 28)
+                        .addBox(-3.0F, -6.0F, -5.0F, 0.0F, 6.0F, 6.0F)
+                        .texOffs(52, 34)
+                        .addBox(-6.0F, -6.0F, -2.0F, 6.0F, 6.0F, 0.0F)
+                        .texOffs(52, 34)
+                        .addBox(1.0F, -6.0F, -4.0F, 0.0F, 6.0F, 6.0F)
+                        .texOffs(52, 40)
+                        .addBox(-2.0F, -6.0F, -1.0F, 6.0F, 6.0F, 0.0F),
+                PartPose.offsetAndRotation(0.0F, -4.0F, 0.0F, 0.0F, -0.7854F, 0.0F)
+        );
 
-    @Override
-    protected void addSantaHat() {
+        // TODO remove santa hat
+
+        return LayerDefinition.create(meshDefinition, 64, 64);
     }
 }

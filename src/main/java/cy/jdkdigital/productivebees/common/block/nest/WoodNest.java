@@ -1,13 +1,13 @@
 package cy.jdkdigital.productivebees.common.block.nest;
 
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Rotation;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 public class WoodNest extends SolitaryNest
 {
@@ -36,7 +36,7 @@ public class WoodNest extends SolitaryNest
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.FACING, AXIS);
     }
 

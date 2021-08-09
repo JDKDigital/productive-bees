@@ -12,15 +12,17 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.block.Block;
-import net.minecraft.block.CocoaBlock;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -49,8 +51,8 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
     }
 
     @Override
-    public String getTitle() {
-        return I18n.get("jei.productivebees.bee_flowering");
+    public Component getTitle() {
+        return new TranslatableComponent("jei.productivebees.bee_flowering");
     }
 
     @Override
@@ -110,7 +112,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         List<Recipe> recipes = new ArrayList<>();
 
         // Hardcoded for now until bees are moved to config
-        Map<String, ITag<Block>> flowering = new HashMap<>();
+        Map<String, Tag<Block>> flowering = new HashMap<>();
         flowering.put("productivebees:blue_banded_bee", ModTags.RIVER_FLOWERS);
         flowering.put("productivebees:green_carpenter_bee", ModTags.FOREST_FLOWERS);
         flowering.put("productivebees:nomad_bee", ModTags.ARID_FLOWERS);
@@ -121,13 +123,13 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         flowering.put("productivebees:lumber_bee", BlockTags.LOGS);
         flowering.put("productivebees:quarry_bee", ModTags.QUARRY);
 
-        ITag<Block> defaultBlockTag = BlockTags.FLOWERS;
+        Tag<Block> defaultBlockTag = BlockTags.FLOWERS;
 
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             if (entry.getValue().isConfigurable()) {
-                CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
+                CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
                 if (nbt.contains("flowerTag")) {
-                    ITag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
+                    Tag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
                     recipes.add(new Recipe(flowerTag, entry.getValue()));
                 }
                 else if (nbt.contains("flowerBlock")) {
@@ -139,7 +141,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 }
             }
             else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
-                ITag<Block> blockTag = flowering.get(entry.getValue().getBeeType().toString());
+                Tag<Block> blockTag = flowering.get(entry.getValue().getBeeType().toString());
                 recipes.add(new Recipe(blockTag, entry.getValue()));
             }
             else {
@@ -154,11 +156,11 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
 
         private final BeeIngredient bee;
 
-        private final ITag<Block> blockTag;
+        private final Tag<Block> blockTag;
 
         private final Block block;
 
-        public Recipe(ITag<Block> blockTag, BeeIngredient bee) {
+        public Recipe(Tag<Block> blockTag, BeeIngredient bee) {
             this.blockTag = blockTag;
             this.block = null;
             this.bee = bee;

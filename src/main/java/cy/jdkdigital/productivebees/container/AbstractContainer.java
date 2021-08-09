@@ -1,39 +1,39 @@
 package cy.jdkdigital.productivebees.container;
 
+import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.block.entity.UpgradeableBlockEntity;
 import cy.jdkdigital.productivebees.common.item.UpgradeItem;
-import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
-import cy.jdkdigital.productivebees.common.tileentity.UpgradeableTileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-abstract class AbstractContainer extends Container
+abstract class AbstractContainer extends AbstractContainerMenu
 {
-    protected AbstractContainer(@Nullable ContainerType<?> type, int id) {
+    protected AbstractContainer(@Nullable MenuType<?> type, int id) {
         super(type, id);
     }
 
-    protected abstract TileEntity getTileEntity();
+    protected abstract BlockEntity getTileEntity();
 
     @Nonnull
     @Override
-    public ItemStack quickMoveStack(PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(Player player, int index) {
         ItemStack returnStack = ItemStack.EMPTY;
         final Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             final ItemStack slotStack = slot.getItem();
             returnStack = slotStack.copy();
 
-            final int containerSlots = this.slots.size() - player.inventory.items.size();
+            final int containerSlots = this.slots.size() - player.getInventory().items.size();
 
             // Move from container to player inventory.
             if (index < containerSlots) {
@@ -43,7 +43,7 @@ abstract class AbstractContainer extends Container
             }
             else {
                 // Move from player inv into container
-                int upgradeSlotCount = this.getTileEntity() instanceof UpgradeableTileEntity ? 4 : 0;
+                int upgradeSlotCount = this.getTileEntity() instanceof UpgradeableBlockEntity ? 4 : 0;
                 if (upgradeSlotCount > 0 && slotStack.getItem() instanceof UpgradeItem) {
                     if (!moveItemStackTo(slotStack, containerSlots - upgradeSlotCount, containerSlots, false)) {
                         return ItemStack.EMPTY;
@@ -72,7 +72,7 @@ abstract class AbstractContainer extends Container
         return returnStack;
     }
 
-    protected int addSlotRange(IInventory handler, int index, int x, int y, int amount, int dx) {
+    protected int addSlotRange(Container handler, int index, int x, int y, int amount, int dx) {
         for (int i = 0; i < amount; i++) {
             if (handler instanceof InventoryHandlerHelper.ItemHandler) {
                 addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) handler, index, x, y));
@@ -97,7 +97,7 @@ abstract class AbstractContainer extends Container
         return index;
     }
 
-    protected void addSlotBox(IInventory handler, int startIndex, int x, int y, int horAmount, int dx, int verAmount, int dy) {
+    protected void addSlotBox(Container handler, int startIndex, int x, int y, int horAmount, int dx, int verAmount, int dy) {
         for (int j = 0; j < verAmount; j++) {
             startIndex = addSlotRange(handler, startIndex, x, y, horAmount, dx);
             y += dy;
@@ -111,7 +111,7 @@ abstract class AbstractContainer extends Container
         }
     }
 
-    protected void layoutPlayerInventorySlots(PlayerInventory inventory, int startIndex, int leftCol, int topRow) {
+    protected void layoutPlayerInventorySlots(Inventory inventory, int startIndex, int leftCol, int topRow) {
         // Player inventory
         addSlotBox(inventory, startIndex + 9, leftCol, topRow, 9, 18, 3, 18);
 

@@ -2,8 +2,8 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
-import net.minecraft.particles.ParticleType;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 

@@ -1,15 +1,15 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
-import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
-import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
@@ -20,66 +20,66 @@ import java.util.Objects;
 
 public class AdvancedBeehiveContainer extends AbstractContainer
 {
-    public final AdvancedBeehiveTileEntity tileEntity;
+    public final AdvancedBeehiveBlockEntity tileEntity;
 
     public static final HashMap<Integer, List<Integer>> BEE_POSITIONS = new HashMap<Integer, List<Integer>>()
     {{
         put(0, new ArrayList<Integer>()
         {{
-            add(37);
-            add(25);
+            add(35);
+            add(24);
         }});
         put(1, new ArrayList<Integer>()
         {{
-            add(55);
-            add(35);
+            add(53);
+            add(34);
         }});
         put(2, new ArrayList<Integer>()
         {{
-            add(37);
-            add(46);
+            add(35);
+            add(45);
         }});
     }};
     public static final HashMap<Integer, List<Integer>> BEE_POSITIONS_EXPANDED = new HashMap<Integer, List<Integer>>()
     {{
         put(0, new ArrayList<Integer>()
         {{
-            add(19);
-            add(24);
+            add(17);
+            add(23);
         }});
         put(1, new ArrayList<Integer>()
         {{
-            add(19);
-            add(45);
+            add(17);
+            add(44);
         }});
         put(2, new ArrayList<Integer>()
         {{
-            add(37);
             add(35);
+            add(34);
         }});
         put(3, new ArrayList<Integer>()
         {{
-            add(55);
-            add(24);
+            add(53);
+            add(23);
         }});
         put(4, new ArrayList<Integer>()
         {{
-            add(55);
-            add(45);
+            add(53);
+            add(44);
         }});
     }};
 
-    private final IWorldPosCallable canInteractWithCallable;
+    private final ContainerLevelAccess canInteractWithCallable;
 
-    public AdvancedBeehiveContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
+    public AdvancedBeehiveContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public AdvancedBeehiveContainer(final int windowId, final PlayerInventory playerInventory, final AdvancedBeehiveTileEntity tileEntity) {
+    public AdvancedBeehiveContainer(final int windowId, final Inventory playerInventory, final AdvancedBeehiveBlockEntity tileEntity) {
         super(ModContainerTypes.ADVANCED_BEEHIVE.get(), windowId);
 
         this.tileEntity = tileEntity;
-        this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
+        this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
         boolean expanded = this.tileEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
 
         // Inventory slots
@@ -99,23 +99,23 @@ public class AdvancedBeehiveContainer extends AbstractContainer
         layoutPlayerInventorySlots(playerInventory, 0, 8 - (expanded ? 13 : 0), 84);
     }
 
-    private static AdvancedBeehiveTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
+    private static AdvancedBeehiveBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
-        if (tileAtPos instanceof AdvancedBeehiveTileEntity) {
-            return (AdvancedBeehiveTileEntity) tileAtPos;
+        final BlockEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
+        if (tileAtPos instanceof AdvancedBeehiveBlockEntity) {
+            return (AdvancedBeehiveBlockEntity) tileAtPos;
         }
         throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
     }
 
     @Override
-    public boolean stillValid(@Nonnull final PlayerEntity player) {
+    public boolean stillValid(@Nonnull final Player player) {
         return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof AdvancedBeehive && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
     }
 
     @Override
-    protected TileEntity getTileEntity() {
+    protected BlockEntity getTileEntity() {
         return tileEntity;
     }
 }

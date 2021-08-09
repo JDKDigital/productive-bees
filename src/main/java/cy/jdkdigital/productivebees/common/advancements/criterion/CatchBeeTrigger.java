@@ -2,20 +2,16 @@ package cy.jdkdigital.productivebees.common.advancements.criterion;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import net.minecraft.advancements.criterion.AbstractCriterionTrigger;
-import net.minecraft.advancements.criterion.CriterionInstance;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.ConditionArrayParser;
-import net.minecraft.loot.ConditionArraySerializer;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.advancements.critereon.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.Instance>
+public class CatchBeeTrigger extends SimpleCriterionTrigger<CatchBeeTrigger.Instance>
 {
     private static final ResourceLocation ID = new ResourceLocation(ProductiveBees.MODID, "catch_bee");
 
@@ -25,22 +21,22 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
         return ID;
     }
 
-    public void trigger(ServerPlayerEntity player, ItemStack cage) {
+    public void trigger(ServerPlayer player, ItemStack cage) {
         this.trigger(player, trigger -> trigger.test(cage));
     }
 
     @Nonnull
     @Override
-    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
-        return new CatchBeeTrigger.Instance(JSONUtils.getAsString(jsonObject, "beeName"));
+    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.Composite andPredicate, DeserializationContext conditionArrayParser) {
+        return new CatchBeeTrigger.Instance(GsonHelper.getAsString(jsonObject, "beeName"));
     }
 
-    public static class Instance extends CriterionInstance
+    public static class Instance extends AbstractCriterionTriggerInstance
     {
         private final String beeName;
 
         public Instance(String beeName) {
-            super(CatchBeeTrigger.ID, EntityPredicate.AndPredicate.ANY);
+            super(CatchBeeTrigger.ID, EntityPredicate.Composite.ANY);
             this.beeName = beeName;
         }
 
@@ -53,7 +49,7 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
         }
 
         public boolean test(ItemStack cage) {
-            CompoundNBT tag = cage.getTag();
+            CompoundTag tag = cage.getTag();
 
             if (tag != null && tag.contains("type")) {
                 String type = tag.getString("type");
@@ -66,7 +62,7 @@ public class CatchBeeTrigger extends AbstractCriterionTrigger<CatchBeeTrigger.In
 
         @Nonnull
         @Override
-        public JsonObject serializeToJson(ConditionArraySerializer serializer) {
+        public JsonObject serializeToJson(SerializationContext serializer) {
             JsonObject jsonobject = super.serializeToJson(serializer);
             jsonobject.addProperty("beeName", this.beeName);
             return jsonobject;

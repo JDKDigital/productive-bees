@@ -20,16 +20,17 @@ import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.item.crafting.ShapelessRecipe;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -105,21 +106,21 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
 
         // Beehive bee produce recipes
-        Map<ResourceLocation, IRecipe<IInventory>> advancedBeehiveRecipesMap = recipeManager.byType(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
+        Map<ResourceLocation, Recipe<Container>> advancedBeehiveRecipesMap = recipeManager.byType(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
         registration.addRecipes(advancedBeehiveRecipesMap.values(), CATEGORY_ADVANCED_BEEHIVE_UID);
         // Centrifuge recipes
-        Map<ResourceLocation, IRecipe<IInventory>> centrifugeRecipesMap = recipeManager.byType(CentrifugeRecipe.CENTRIFUGE);
+        Map<ResourceLocation, Recipe<Container>> centrifugeRecipesMap = recipeManager.byType(CentrifugeRecipe.CENTRIFUGE);
         registration.addRecipes(centrifugeRecipesMap.values(), CATEGORY_CENTRIFUGE_UID);
         // Spawning recipes
-        Map<ResourceLocation, IRecipe<IInventory>> beeSpawningRecipesMap = recipeManager.byType(BeeSpawningRecipe.BEE_SPAWNING);
+        Map<ResourceLocation, Recipe<Container>> beeSpawningRecipesMap = recipeManager.byType(BeeSpawningRecipe.BEE_SPAWNING);
         registration.addRecipes(beeSpawningRecipesMap.values(), CATEGORY_BEE_SPAWNING_UID);
-        Map<ResourceLocation, IRecipe<IInventory>> beeSpawningRecipesBigMap = recipeManager.byType(BeeSpawningBigRecipe.BEE_SPAWNING);
+        Map<ResourceLocation, Recipe<Container>> beeSpawningRecipesBigMap = recipeManager.byType(BeeSpawningBigRecipe.BEE_SPAWNING);
         registration.addRecipes(beeSpawningRecipesBigMap.values(), CATEGORY_BEE_SPAWNING_BIG_UID);
         // Breeding recipes
-        Map<ResourceLocation, IRecipe<IInventory>> beeBreedingRecipeMap = recipeManager.byType(BeeBreedingRecipe.BEE_BREEDING);
+        Map<ResourceLocation, Recipe<Container>> beeBreedingRecipeMap = recipeManager.byType(BeeBreedingRecipe.BEE_BREEDING);
         registration.addRecipes(beeBreedingRecipeMap.values(), CATEGORY_BEE_BREEDING_UID);
         // Bee conversion recipes
-        Map<ResourceLocation, IRecipe<IInventory>> beeConversionRecipeMap = recipeManager.byType(BeeConversionRecipe.BEE_CONVERSION);
+        Map<ResourceLocation, Recipe<Container>> beeConversionRecipeMap = recipeManager.byType(BeeConversionRecipe.BEE_CONVERSION);
         registration.addRecipes(beeConversionRecipeMap.values(), CATEGORY_BEE_CONVERSION_UID);
 
         // Bee ingredient descriptions
@@ -129,12 +130,12 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             String beeId = entry.getKey().replace("productivebees:", "");
             if (!notInfoBees.contains(beeId)) {
                 if (entry.getValue().isConfigurable()) {
-                    CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getKey());
+                    CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getKey());
                     if (nbt.contains("description")) {
-                        registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, nbt.getString("description"));
+                        registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, new TranslatableComponent(nbt.getString("description")));
                     }
                 } else {
-                    registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (beeId));
+                    registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, new TranslatableComponent("productivebees.ingredient.description." + (beeId)));
                 }
             }
 
@@ -171,21 +172,21 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         );
         for (String itemName : itemInfos) {
             Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, itemName));
-            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, "productivebees.ingredient.description." + itemName);
+            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, new TranslatableComponent("productivebees.ingredient.description." + itemName));
         }
 
         // Chip information
-        registration.addIngredientInfo(new ItemStack(ModItems.WOOD_CHIP.get()), VanillaTypes.ITEM, "productivebees.ingredient.description.wood_chip");
-        registration.addIngredientInfo(new ItemStack(ModItems.STONE_CHIP.get()), VanillaTypes.ITEM, "productivebees.ingredient.description.stone_chip");
+        registration.addIngredientInfo(new ItemStack(ModItems.WOOD_CHIP.get()), VanillaTypes.ITEM, new TranslatableComponent("productivebees.ingredient.description.wood_chip"));
+        registration.addIngredientInfo(new ItemStack(ModItems.STONE_CHIP.get()), VanillaTypes.ITEM, new TranslatableComponent("productivebees.ingredient.description.stone_chip"));
 
         // Configurable combs
-        Optional<? extends IRecipe<?>> honeycombRecipe = recipeManager.byKey(new ResourceLocation(ProductiveBees.MODID, "comb_block/configurable_honeycomb"));
+        Optional<? extends Recipe<?>> honeycombRecipe = recipeManager.byKey(new ResourceLocation(ProductiveBees.MODID, "comb_block/configurable_honeycomb"));
         int count = 4;
         if (honeycombRecipe.isPresent()) {
             count = ((ConfigurableHoneycombRecipe) honeycombRecipe.get()).count;
         }
         Map<ResourceLocation, ShapelessRecipe> recipes = new HashMap<>();
-        for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+        for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
             String beeType = entry.getKey();
             ResourceLocation idComb = new ResourceLocation(beeType + "_honeycomb");
             ResourceLocation idCombBlock = new ResourceLocation(beeType + "_comb");

@@ -1,19 +1,19 @@
 package cy.jdkdigital.productivebees.client.particle;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.DripParticle;
-import net.minecraft.client.particle.IAnimatedSprite;
-import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
 import javax.annotation.Nonnull;
 
 public class FallingNectarParticle extends DripParticle
 {
-    public FallingNectarParticle(ClientWorld world, double x, double y, double z, Fluid fluid) {
+    public FallingNectarParticle(ClientLevel world, double x, double y, double z, Fluid fluid) {
         super(world, x, y, z, fluid);
         this.lifetime = (int) (16.0D / (ProductiveBees.rand.nextDouble() * 0.8D + 0.2D));
         this.gravity = 0.007F;
@@ -26,16 +26,16 @@ public class FallingNectarParticle extends DripParticle
         }
     }
 
-    public static class FallingNectarFactory implements IParticleFactory<NectarParticleType>
+    public static class FallingNectarFactory implements ParticleProvider<NectarParticleType>
     {
-        protected final IAnimatedSprite sprite;
+        protected final SpriteSet sprite;
 
-        public FallingNectarFactory(IAnimatedSprite sprite) {
+        public FallingNectarFactory(SpriteSet sprite) {
             this.sprite = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             DripParticle dripparticle = new FallingNectarParticle(world, x, y, z, Fluids.EMPTY);
 
             float[] colors = typeIn.getColor();

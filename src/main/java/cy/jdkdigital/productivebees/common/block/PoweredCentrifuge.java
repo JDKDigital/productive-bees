@@ -1,10 +1,9 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.tileentity.PoweredCentrifugeTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockReader;
+import cy.jdkdigital.productivebees.common.block.entity.PoweredCentrifugeBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
@@ -15,13 +14,7 @@ public class PoweredCentrifuge extends Centrifuge
     }
 
     @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.POWERED_CENTRIFUGE.get().create();
-    }
-
-    @Nullable
-    public TileEntity newBlockEntity(IBlockReader world) {
-        return new PoweredCentrifugeTileEntity();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new PoweredCentrifugeBlockEntity(pos, state);
     }
 }

@@ -3,14 +3,14 @@ package cy.jdkdigital.productivebees.common.item;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeCreator;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -22,9 +22,9 @@ public class CombBlockItem extends BlockItem
     }
 
     public static int getColor(ItemStack stack) {
-        CompoundNBT tag = stack.getTagElement("EntityTag");
+        CompoundTag tag = stack.getTagElement("EntityTag");
         if (tag != null && tag.contains("type")) {
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
+            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
                 return nbt.getInt("primaryColor");
             }
@@ -34,23 +34,23 @@ public class CombBlockItem extends BlockItem
 
     @Nonnull
     @Override
-    public ITextComponent getName(ItemStack stack) {
-        CompoundNBT tag = stack.getTagElement("EntityTag");
+    public Component getName(ItemStack stack) {
+        CompoundTag tag = stack.getTagElement("EntityTag");
         if (tag != null && tag.contains("type")) {
-            CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
+            CompoundTag nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
-                return new TranslationTextComponent("block.productivebees.comb_configurable", nbt.getString("name").replace(" Bee", ""));
+                return new TranslatableComponent("block.productivebees.comb_configurable", nbt.getString("name").replace(" Bee", ""));
             }
         }
         return super.getName(stack);
     }
 
     @Override
-    public void fillItemCategory(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
+    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
         if (!this.equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
             super.fillItemCategory(group, items);
-        } else if (group == ItemGroup.TAB_SEARCH) {
-            for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+        } else if (group == CreativeModeTab.TAB_SEARCH) {
+            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
                 String beeType = entry.getKey();
                 if (entry.getValue().getBoolean("createComb")) {
                     // Add comb block

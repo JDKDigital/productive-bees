@@ -1,21 +1,35 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 
-public class RancherBeeModel<T extends ProductiveBeeEntity> extends ProductiveBeeModel<T>
+public class RancherBeeModel<T extends ProductiveBee> extends ProductiveBeeModel<T>
 {
-    protected final ModelRenderer hat;
+    public RancherBeeModel(ModelPart modelPart) {
+        super(modelPart);
+    }
 
-    public RancherBeeModel() {
-        super();
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = MediumBeeModel.createMeshDefinition(true);
+        PartDefinition root = meshDefinition.getRoot();
+        PartDefinition bone = root.getChild(ProductiveBeeModel.BONE);
+        PartDefinition body = bone.getChild(ProductiveBeeModel.BODY);
 
-        addBodyParts(true);
+        body.addOrReplaceChild(
+                "hat",
+                CubeListBuilder.create()
+                        .texOffs(25, 8)
+                        .addBox(-7.0F, 0.0F, -1.0F, 9.0F, 1.0F, 9.0F)
+                        .texOffs(29, 12)
+                        .addBox(-5.0F, -2.0F, 1.0F, 5.0F, 2.0F, 5.0F),
+                PartPose.offset(2.5F, -4.5F, -5.0F)
+        );
 
-        hat = new ModelRenderer(this);
-        hat.setPos(2.5F, -4.5F, -5.0F);
-        hat.texOffs(25, 8).addBox(-7.0F, 0.0F, -1.0F, 9.0F, 1.0F, 9.0F, 0.0F, false);
-        hat.texOffs(29, 12).addBox(-5.0F, -2.0F, 1.0F, 5.0F, 2.0F, 5.0F, 0.0F, false);
-        torso.addChild(hat);
+        return LayerDefinition.create(meshDefinition, 64, 64);
     }
 }

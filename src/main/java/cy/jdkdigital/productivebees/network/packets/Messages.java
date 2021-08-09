@@ -4,14 +4,14 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.play.ClientPlayNetHandler;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,22 +22,22 @@ public class Messages
 {
     public static class BeeDataMessage
     {
-        public Map<String, CompoundNBT> data;
+        public Map<String, CompoundTag> data;
 
-        public BeeDataMessage(Map<String, CompoundNBT> data) {
+        public BeeDataMessage(Map<String, CompoundTag> data) {
             this.data = data;
         }
 
-        public static void encode(BeeDataMessage message, PacketBuffer buffer) {
+        public static void encode(BeeDataMessage message, FriendlyByteBuf buffer) {
             buffer.writeInt(message.data.size());
-            for (Map.Entry<String, CompoundNBT> entry : message.data.entrySet()) {
+            for (Map.Entry<String, CompoundTag> entry : message.data.entrySet()) {
                 buffer.writeUtf(entry.getKey());
                 buffer.writeNbt(entry.getValue());
             }
         }
 
-        public static BeeDataMessage decode(PacketBuffer buffer) {
-            Map<String, CompoundNBT> data = new HashMap<>();
+        public static BeeDataMessage decode(FriendlyByteBuf buffer) {
+            Map<String, CompoundTag> data = new HashMap<>();
             IntStream.range(0, buffer.readInt()).forEach(i -> {
                 data.put(buffer.readUtf(), buffer.readAnySizeNbt());
             });
@@ -62,10 +62,10 @@ public class Messages
         public ReindexMessage() {
         }
 
-        public static void encode(ReindexMessage message, PacketBuffer buffer) {
+        public static void encode(ReindexMessage message, FriendlyByteBuf buffer) {
         }
 
-        public static ReindexMessage decode(PacketBuffer buffer) {
+        public static ReindexMessage decode(FriendlyByteBuf buffer) {
             return new ReindexMessage();
         }
 
@@ -117,7 +117,7 @@ public class Messages
         }
 
         public boolean connected() {
-            ClientPlayNetHandler connection = Minecraft.getInstance().getConnection();
+            ClientPacketListener connection = Minecraft.getInstance().getConnection();
             boolean isVanilla = connection != null && NetworkHooks.isVanillaConnection(connection.getConnection());
             boolean isIntegrated = Minecraft.getInstance().hasSingleplayerServer();
             return isVanilla == this.isVanilla && isIntegrated == this.isIntegrated;

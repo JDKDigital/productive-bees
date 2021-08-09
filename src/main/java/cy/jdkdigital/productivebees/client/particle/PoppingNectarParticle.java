@@ -1,26 +1,27 @@
 package cy.jdkdigital.productivebees.client.particle;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.world.ClientWorld;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 
 public class PoppingNectarParticle extends LavaParticle
 {
-    public PoppingNectarParticle(ClientWorld world, double x, double y, double z) {
+    public PoppingNectarParticle(ClientLevel world, double x, double y, double z) {
         super(world, x, y, z);
         this.lifetime = (int) (10.0D / (ProductiveBees.rand.nextDouble() * 0.8D + 0.2D));
     }
 
     @Nonnull
     @Override
-    public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_LIT;
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_LIT;
     }
 
-    @Override
-    public void tick() {
+    public void tick(Level level, BlockState state) {
         if (this.age++ >= this.lifetime) {
             this.remove();
         } else {
@@ -35,16 +36,16 @@ public class PoppingNectarParticle extends LavaParticle
         }
     }
 
-    public static class PoppingNectarFactory implements IParticleFactory<NectarParticleType>
+    public static class PoppingNectarFactory implements ParticleProvider<NectarParticleType>
     {
-        protected final IAnimatedSprite sprite;
+        protected final SpriteSet sprite;
 
-        public PoppingNectarFactory(IAnimatedSprite sprite) {
+        public PoppingNectarFactory(SpriteSet sprite) {
             this.sprite = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(@Nonnull NectarParticleType typeIn, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             PoppingNectarParticle dripparticle = new PoppingNectarParticle(world, x, y, z);
 
             float[] colors = typeIn.getColor();

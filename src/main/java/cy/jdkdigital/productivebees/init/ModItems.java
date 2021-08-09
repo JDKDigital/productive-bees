@@ -5,11 +5,12 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.item.StoneChipRenderer;
 import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
 import cy.jdkdigital.productivebees.common.item.*;
-import net.minecraft.item.*;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.*;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -18,16 +19,16 @@ import java.util.function.Supplier;
 
 public class ModItems
 {
-    public static final Food SUGARBAG = (new Food.Builder()).nutrition(3).saturationMod(0.2F).alwaysEat()
-            .effect(() -> new EffectInstance(Effects.REGENERATION, 1200, 1), 0.2f)
-            .effect(() -> new EffectInstance(Effects.ABSORPTION, 1200, 1), 0.1f)
-            .effect(() -> new EffectInstance(Effects.HEAL, 1200, 1), 0.3f)
-            .effect(() -> new EffectInstance(Effects.DIG_SPEED, 1200, 1), 0.1f)
-            .effect(() -> new EffectInstance(Effects.HEALTH_BOOST, 1200, 1), 0.1f)
-            .effect(() -> new EffectInstance(Effects.DAMAGE_BOOST, 1200, 1), 0.1f)
-            .effect(() -> new EffectInstance(Effects.MOVEMENT_SPEED, 1200, 1), 0.1f)
-            .effect(() -> new EffectInstance(Effects.DAMAGE_RESISTANCE, 1200, 1), 0.2f)
-            .effect(() -> new EffectInstance(Effects.LUCK, 1200, 1), 0.1f)
+    public static final FoodProperties SUGARBAG = (new FoodProperties.Builder()).nutrition(3).saturationMod(0.2F).alwaysEat()
+            .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 1200, 1), 0.2f)
+            .effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 1200, 1), 0.1f)
+            .effect(() -> new MobEffectInstance(MobEffects.HEAL, 1200, 1), 0.3f)
+            .effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 1200, 1), 0.1f)
+            .effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 1200, 1), 0.1f)
+            .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 1200, 1), 0.1f)
+            .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1200, 1), 0.1f)
+            .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1200, 1), 0.2f)
+            .effect(() -> new MobEffectInstance(MobEffects.LUCK, 1200, 1), 0.1f)
             .build();
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ProductiveBees.MODID);
@@ -159,8 +160,8 @@ public class ModItems
     public static final RegistryObject<Item> DRACONIC_DUST = createItem("draconic_dust", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> DRACONIC_CHUNK = createItem("draconic_chunk", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> WITHER_SKULL_CHIP = createItem("wither_skull_chip", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> WOOD_CHIP = createItem("wood_chip", () -> new WoodChip((new Item.Properties().setISTER(() -> WoodChipRenderer::new)).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> STONE_CHIP = createItem("stone_chip", () -> new StoneChip((new Item.Properties().setISTER(() -> StoneChipRenderer::new)).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> WOOD_CHIP = createItem("wood_chip", () -> new WoodChip((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> STONE_CHIP = createItem("stone_chip", () -> new StoneChip((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
 
     // Hive upgrades
     public static final RegistryObject<Item> UPGRADE_BASE = createItem("upgrade_base", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
@@ -179,7 +180,7 @@ public class ModItems
     public static RegistryObject<Item> CONFIGURABLE_SPAWN_EGG;
     public static RegistryObject<Item> CONFIGURABLE_COMB_BLOCK;
 
-    public static ItemGroup itemGroupCompat(String mods) {
+    public static CreativeModeTab itemGroupCompat(String mods) {
         String[] modNames = mods.split(",");
         return ModList.get().isLoaded(modNames[0]) || (modNames.length > 1 && ModList.get().isLoaded(modNames[1])) ? ModItemGroups.PRODUCTIVE_BEES : null;
     }

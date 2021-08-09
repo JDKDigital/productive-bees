@@ -1,28 +1,27 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.common.block.entity.JarBlockEntity;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
-import cy.jdkdigital.productivebees.common.tileentity.JarTileEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class JarTileEntityRenderer extends TileEntityRenderer<JarTileEntity>
+public class JarTileEntityRenderer implements BlockEntityRenderer<JarBlockEntity>
 {
-    public JarTileEntityRenderer(TileEntityRendererDispatcher dispatcher) {
-        super(dispatcher);
+    public JarTileEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
 
     @Override
-    public void render(JarTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(JarBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         boolean shouldRender = ProductiveBeesConfig.CLIENT.renderBeesInJars.get();
         if (shouldRender) {
             tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
@@ -30,7 +29,7 @@ public class JarTileEntityRenderer extends TileEntityRenderer<JarTileEntity>
                     ItemStack cage = handler.getStackInSlot(0);
                     if (cage.getItem() instanceof BeeCage && BeeCage.isFilled(cage)) {
                         Entity bee = tileEntityIn.getCachedEntity(cage);
-                        if (bee instanceof BeeEntity) {
+                        if (bee instanceof Bee) {
                             renderBee(bee, partialTicks, matrixStack);
                         }
                     }
@@ -39,9 +38,9 @@ public class JarTileEntityRenderer extends TileEntityRenderer<JarTileEntity>
         }
     }
 
-    public static void renderBee(Entity bee, float partialTicks, MatrixStack matrixStack) {
+    public static void renderBee(Entity bee, float partialTicks, PoseStack matrixStack) {
         bee.tickCount = bee.tickCount + Math.round(partialTicks);
-        ((BeeEntity) bee).yBodyRot = -20;
+        ((Bee) bee).yBodyRot = -20;
 
         float angle = bee.tickCount % 360;
 
@@ -57,8 +56,8 @@ public class JarTileEntityRenderer extends TileEntityRenderer<JarTileEntity>
         matrixStack.translate(0.0f, -0.2f, 0.0f);
         matrixStack.scale(f, f, f);
 
-        EntityRendererManager entityrenderermanager = Minecraft.getInstance().getEntityRenderDispatcher();
-        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+        EntityRenderDispatcher entityrenderermanager = Minecraft.getInstance().getEntityRenderDispatcher();
+        MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
         entityrenderermanager.setRenderShadow(false);
         entityrenderermanager.render(bee, 0, 0, 0., Minecraft.getInstance().getFrameTime(), 1, matrixStack, buffer, 15728880);
         buffer.endBatch();

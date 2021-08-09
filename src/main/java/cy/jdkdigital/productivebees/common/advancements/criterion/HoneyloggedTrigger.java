@@ -3,25 +3,21 @@ package cy.jdkdigital.productivebees.common.advancements.criterion;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.Feeder;
-import net.minecraft.advancements.criterion.AbstractCriterionTrigger;
-import net.minecraft.advancements.criterion.CriterionInstance;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.ConditionArrayParser;
-import net.minecraft.loot.ConditionArraySerializer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.advancements.critereon.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrigger.Instance>
+public class HoneyloggedTrigger extends SimpleCriterionTrigger<HoneyloggedTrigger.Instance>
 {
     private static final ResourceLocation ID = new ResourceLocation(ProductiveBees.MODID, "honeylogged");
 
@@ -34,7 +30,7 @@ public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrig
     @Nullable
     private static Block getBlockCriteria(JsonObject jsonObject) {
         if (jsonObject.has("block")) {
-            ResourceLocation resourcelocation = new ResourceLocation(JSONUtils.getAsString(jsonObject, "block"));
+            ResourceLocation resourcelocation = new ResourceLocation(GsonHelper.getAsString(jsonObject, "block"));
             return ForgeRegistries.BLOCKS.getValue(resourcelocation);
         }
         else {
@@ -42,25 +38,25 @@ public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrig
         }
     }
 
-    public void trigger(ServerPlayerEntity player, BlockPos pos, ItemStack item) {
+    public void trigger(ServerPlayer player, BlockPos pos, ItemStack item) {
         BlockState blockstate = player.getLevel().getBlockState(pos);
         this.trigger(player, trigger -> trigger.test(blockstate));
     }
 
     @Nonnull
     @Override
-    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
+    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.Composite andPredicate, DeserializationContext conditionArrayParser) {
         Block block = getBlockCriteria(jsonObject);
 
         return new HoneyloggedTrigger.Instance(block);
     }
 
-    public static class Instance extends CriterionInstance
+    public static class Instance extends AbstractCriterionTriggerInstance
     {
         private final Block block;
 
         public Instance(@Nullable Block block) {
-            super(HoneyloggedTrigger.ID, EntityPredicate.AndPredicate.ANY);
+            super(HoneyloggedTrigger.ID, EntityPredicate.Composite.ANY);
             this.block = block;
         }
 
@@ -74,7 +70,7 @@ public class HoneyloggedTrigger extends AbstractCriterionTrigger<HoneyloggedTrig
 
         @Nonnull
         @Override
-        public JsonObject serializeToJson(ConditionArraySerializer serializer) {
+        public JsonObject serializeToJson(SerializationContext serializer) {
             JsonObject jsonobject = super.serializeToJson(serializer);
             if (this.block != null) {
                 jsonobject.addProperty("block", Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(this.block)).toString());

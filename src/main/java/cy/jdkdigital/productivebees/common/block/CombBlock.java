@@ -2,10 +2,10 @@ package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import cy.jdkdigital.productivebees.util.ColorUtil;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockDisplayReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.Block;
 
 public class CombBlock extends Block
 {
@@ -20,7 +20,7 @@ public class CombBlock extends Block
         return color;
     }
 
-    public int getColor(IBlockDisplayReader world, BlockPos pos) {
+    public int getColor(BlockAndTintGetter world, BlockPos pos) {
         return getColor();
     }
 

@@ -9,17 +9,17 @@ import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.BeeHelper;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.IntArrayNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.nbt.IntArrayTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -28,14 +28,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<IInventory>
+public class AdvancedBeehiveRecipe extends TagOutputRecipe implements Recipe<Container>
 {
-    public static final IRecipeType<AdvancedBeehiveRecipe> ADVANCED_BEEHIVE = IRecipeType.register(ProductiveBees.MODID + ":advanced_beehive");
+    public static final RecipeType<AdvancedBeehiveRecipe> ADVANCED_BEEHIVE = RecipeType.register(ProductiveBees.MODID + ":advanced_beehive");
 
     public final ResourceLocation id;
     public final Lazy<BeeIngredient> ingredient;
 
-    public AdvancedBeehiveRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredient, Map<Ingredient, IntArrayNBT> itemOutput) {
+    public AdvancedBeehiveRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredient, Map<Ingredient, IntArrayTag> itemOutput) {
         super(itemOutput);
         this.id = id;
         this.ingredient = ingredient;
@@ -50,7 +50,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         if (inv instanceof BeeHelper.IdentifierInventory && ingredient.get() != null) {
             String beeName = ((BeeHelper.IdentifierInventory) inv).getIdentifier();
             return beeName.equals(ingredient.get().getBeeType().toString());
@@ -63,10 +63,10 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
     }
 
     @Override
-    public Map<ItemStack, IntArrayNBT> getRecipeOutputs() {
-        Map<ItemStack, IntArrayNBT> output = super.getRecipeOutputs();
+    public Map<ItemStack, IntArrayTag> getRecipeOutputs() {
+        Map<ItemStack, IntArrayTag> output = super.getRecipeOutputs();
 
-        for (Map.Entry<ItemStack, IntArrayNBT> entry : output.entrySet()) {
+        for (Map.Entry<ItemStack, IntArrayTag> entry : output.entrySet()) {
             if (ingredient.get().isConfigurable()) {
                 if (entry.getKey().getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
                     BeeCreator.setTag(ingredient.get().getBeeType().toString(), entry.getKey());
@@ -79,7 +79,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
 
     @Nonnull
     @Override
-    public ItemStack assemble(IInventory inv) {
+    public ItemStack assemble(Container inv) {
         return ItemStack.EMPTY;
     }
 
@@ -102,17 +102,17 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.ADVANCED_BEEHIVE.get();
     }
 
     @Nonnull
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return ADVANCED_BEEHIVE;
     }
 
-    public static class Serializer<T extends AdvancedBeehiveRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends AdvancedBeehiveRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
         final IRecipeFactory<T> factory;
 
@@ -123,29 +123,29 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
         @Nonnull
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
-            String beeName = JSONUtils.getAsString(json, "ingredient");
+            String beeName = GsonHelper.getAsString(json, "ingredient");
 
             Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
 
-            Map<Ingredient, IntArrayNBT> itemOutputs = new LinkedHashMap<>();
+            Map<Ingredient, IntArrayTag> itemOutputs = new LinkedHashMap<>();
 
-            JsonArray jsonArray = JSONUtils.getAsJsonArray(json, "results");
+            JsonArray jsonArray = GsonHelper.getAsJsonArray(json, "results");
             jsonArray.forEach(jsonElement -> {
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
 
                 String ingredientKey = jsonObject.has("item") ? "item" : "comb_produce";
 
                 Ingredient produce;
-                if (JSONUtils.isArrayNode(jsonObject, ingredientKey)) {
-                    produce = Ingredient.fromJson(JSONUtils.getAsJsonArray(jsonObject, ingredientKey));
+                if (GsonHelper.isArrayNode(jsonObject, ingredientKey)) {
+                    produce = Ingredient.fromJson(GsonHelper.getAsJsonArray(jsonObject, ingredientKey));
                 } else {
-                    produce = Ingredient.fromJson(JSONUtils.getAsJsonObject(jsonObject, ingredientKey));
+                    produce = Ingredient.fromJson(GsonHelper.getAsJsonObject(jsonObject, ingredientKey));
                 }
 
-                int min = JSONUtils.getAsInt(jsonObject, "min", 1);
-                int max = JSONUtils.getAsInt(jsonObject, "max", 1);
-                int outputChance = JSONUtils.getAsInt(jsonObject, "chance", 100);
-                IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, outputChance});
+                int min = GsonHelper.getAsInt(jsonObject, "min", 1);
+                int max = GsonHelper.getAsInt(jsonObject, "max", 1);
+                int outputChance = GsonHelper.getAsInt(jsonObject, "chance", 100);
+                IntArrayTag nbt = new IntArrayTag(new int[]{min, max, outputChance});
 
                 itemOutputs.put(produce, nbt);
             });
@@ -153,12 +153,12 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
             return this.factory.create(id, beeIngredient, itemOutputs);
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 BeeIngredient ingredient = BeeIngredient.fromNetwork(buffer);
-                Map<Ingredient, IntArrayNBT> itemOutput = new LinkedHashMap<>();
+                Map<Ingredient, IntArrayTag> itemOutput = new LinkedHashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                        i -> itemOutput.put(Ingredient.fromNetwork(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
+                        i -> itemOutput.put(Ingredient.fromNetwork(buffer), new IntArrayTag(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
                 return this.factory.create(id, Lazy.of(() -> ingredient), itemOutput);
@@ -168,7 +168,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
             }
         }
 
-        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
             try {
                 if (recipe.ingredient.get() != null) {
                     recipe.ingredient.get().toNetwork(buffer);
@@ -191,7 +191,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements IRecipe<II
 
         public interface IRecipeFactory<T extends AdvancedBeehiveRecipe>
         {
-            T create(ResourceLocation id, Lazy<BeeIngredient> input, Map<Ingredient, IntArrayNBT> itemOutput);
+            T create(ResourceLocation id, Lazy<BeeIngredient> input, Map<Ingredient, IntArrayTag> itemOutput);
         }
     }
 }

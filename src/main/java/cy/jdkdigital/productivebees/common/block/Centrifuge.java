@@ -1,26 +1,25 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,17 +29,17 @@ public class Centrifuge extends CapabilityContainerBlock
     public static final BooleanProperty RUNNING = BooleanProperty.create("running");
 
     private static final VoxelShape INSIDE = box(1.0D, 8.1D, 1.0D, 15.0D, 16.0D, 15.0D);
-    protected static final VoxelShape SHAPE = VoxelShapes.join(
-            VoxelShapes.block(),
-            VoxelShapes.or(
+    protected static final VoxelShape SHAPE = Shapes.join(
+            Shapes.block(),
+            Shapes.or(
                     box(0.0D, 0.0D, 3.0D, 16.0D, 3.0D, 13.0D),
                     box(3.0D, 0.0D, 0.0D, 13.0D, 3.0D, 16.0D),
                     box(1.0D, 0.0D, 1.0D, 15.0D, 3.0D, 15.0D),
                     INSIDE
-            ), IBooleanFunction.ONLY_FIRST);
+            ), BooleanOp.ONLY_FIRST);
 
     private static VoxelShape BLOCK_ABOVE_SHAPE = box(0.0D, 16.0D, 0.0D, 16.0D, 32.0D, 16.0D);
-    public static VoxelShape COLLECTION_AREA_SHAPE = VoxelShapes.or(INSIDE, BLOCK_ABOVE_SHAPE);
+    public static VoxelShape COLLECTION_AREA_SHAPE = Shapes.or(INSIDE, BLOCK_ABOVE_SHAPE);
 
     public Centrifuge(Block.Properties properties) {
         super(properties);
@@ -50,60 +49,49 @@ public class Centrifuge extends CapabilityContainerBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public VoxelShape getInteractionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getInteractionShape(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return INSIDE;
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public BlockRenderType getRenderShape(BlockState state) {
-        return BlockRenderType.MODEL;
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!world.isClientSide()) {
-            final TileEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof CentrifugeTileEntity) {
-                openGui((ServerPlayerEntity) player, (CentrifugeTileEntity) tileEntity);
+            final BlockEntity tileEntity = world.getBlockEntity(pos);
+            if (tileEntity instanceof CentrifugeBlockEntity) {
+                openGui((ServerPlayer) player, (CentrifugeBlockEntity) tileEntity);
             }
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(RUNNING);
     }
 
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.CENTRIFUGE.get().create();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new CentrifugeBlockEntity(pos, state);
     }
 
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader world) {
-        return new CentrifugeTileEntity();
-    }
-
-    public void openGui(ServerPlayerEntity player, CentrifugeTileEntity tileEntity) {
+    public void openGui(ServerPlayer player, CentrifugeBlockEntity tileEntity) {
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

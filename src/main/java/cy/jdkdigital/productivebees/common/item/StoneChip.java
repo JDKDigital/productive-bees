@@ -1,15 +1,20 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.client.render.item.StoneChipRenderer;
+import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.IItemRenderProperties;
 
 import javax.annotation.Nonnull;
+import java.util.function.Consumer;
 
 public class StoneChip extends WoodChip
 {
@@ -33,16 +38,16 @@ public class StoneChip extends WoodChip
 
     @Override
     @Nonnull
-    public ITextComponent getName(@Nonnull ItemStack stack) {
+    public Component getName(@Nonnull ItemStack stack) {
         Block block = getBlock(stack);
         if (block != null) {
-            return new TranslationTextComponent(this.getDescriptionId() + ".named", new TranslationTextComponent(block.getDescriptionId()));
+            return new TranslatableComponent(this.getDescriptionId() + ".named", new TranslatableComponent(block.getDescriptionId()));
         }
         return super.getName(stack);
     }
 
     @Override
-    public void fillItemCategory(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
+    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
         if (this.allowdedIn(group)) {
             try {
                 ModTags.QUARRY.getValues().forEach(block -> {
@@ -54,5 +59,21 @@ public class StoneChip extends WoodChip
                 // tag not initialized yet
             }
         }
+    }
+
+
+
+    @Override
+    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+        consumer.accept(new IItemRenderProperties()
+        {
+            final BlockEntityWithoutLevelRenderer myRenderer = new StoneChipRenderer();
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getItemStackRenderer()
+            {
+                return myRenderer;
+            }
+        });
     }
 }

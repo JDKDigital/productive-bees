@@ -1,33 +1,40 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 
 public class SlimyBeeModel extends MediumBeeModel
 {
-    public SlimyBeeModel(Model model, ModelRenderer body, ModelRenderer torso, ModelRenderer stinger, ModelRenderer leftAntenna, ModelRenderer rightAntenna, ModelRenderer leftWing, ModelRenderer rightWing, ModelRenderer middleLegs, ModelRenderer frontLegs, ModelRenderer backLegs, ModelRenderer externals, ModelRenderer innards, ModelRenderer santaHat) {
-        super(model, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, externals, innards, santaHat);
+    public SlimyBeeModel(ModelPart model) {
+        super(model);
     }
 
-    @Override
-    public void addBodyParts(boolean withTorso) {
-        super.addBodyParts(false);
-        addCrystals();
-    }
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = MediumBeeModel.createMeshDefinition(false);
+        PartDefinition root = meshDefinition.getRoot();
+        PartDefinition bone = root.getChild(ProductiveBeeModel.BONE);
+        PartDefinition body = bone.getChild(ProductiveBeeModel.BODY);
 
-    @Override
-    protected void addCrystals() {
-        externals.setPos(0.0F, 0.0F, 0.0F);
-        externals.addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F, 0.0F);
-        body.addChild(externals);
+        body.addOrReplaceChild(
+                ProductiveBeeModel.EXTERNALS,
+                CubeListBuilder
+                        .create()
+                        .addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F),
+                PartPose.ZERO
+        );
+        bone.addOrReplaceChild(
+                ProductiveBeeModel.INNARDS,
+                CubeListBuilder
+                        .create()
+                        .addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F),
+                PartPose.ZERO
+        );
 
-        innards.setPos(0.0F, 0.0F, 0.0F);
-        innards.addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F, 0.0F);
-        body.addChild(innards);
-    }
-
-    @Override
-    protected void addSantaHat() {
-        // no hat model for slimy bees
+        return LayerDefinition.create(meshDefinition, 64, 64);
     }
 }

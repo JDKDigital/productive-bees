@@ -5,10 +5,10 @@ import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.awt.*;
@@ -17,8 +17,8 @@ import java.util.Map;
 
 public class BeeCreator
 {
-    public static CompoundNBT create(ResourceLocation id, JsonObject json) {
-        CompoundNBT data = new CompoundNBT();
+    public static CompoundTag create(ResourceLocation id, JsonObject json) {
+        CompoundTag data = new CompoundTag();
 
         data.putString("id", id.toString());
 
@@ -60,7 +60,7 @@ public class BeeCreator
         data.putFloat("size", json.has("size") ? json.get("size").getAsFloat() : 1.0f);
 
         data.putBoolean("translucent", (json.has("translucent") && json.get("translucent").getAsBoolean()) || data.getString("renderer").equals("translucent_with_center"));
-        data.putBoolean("useGlowLayer", (json.has("useGlowLayer") && json.get("useGlowLayer").getAsBoolean()));
+        data.putBoolean("useGlowLayer", (!json.has("useGlowLayer") || json.get("useGlowLayer").getAsBoolean()));
         data.putBoolean("glowingInnards", json.has("glowingInnards") && json.get("glowingInnards").getAsBoolean());
         data.putBoolean("fireproof", json.has("fireproof") && json.get("fireproof").getAsBoolean());
         data.putBoolean("withered", json.has("withered") && json.get("withered").getAsBoolean());
@@ -87,7 +87,7 @@ public class BeeCreator
             }
         }
         if (json.has("passiveEffects")) {
-            Map<Effect, Integer> effects = new HashMap<>();
+            Map<MobEffect, Integer> effects = new HashMap<>();
             for (JsonElement el : json.get("passiveEffects").getAsJsonArray()) {
                 JsonObject effect = el.getAsJsonObject();
                 effects.put(ForgeRegistries.POTIONS.getValue(new ResourceLocation(effect.get("effect").getAsString())), effect.get("duration").getAsInt());
@@ -111,7 +111,7 @@ public class BeeCreator
     }
 
     public static void setTag(String type, ItemStack stack) {
-        CompoundNBT tag = stack.getOrCreateTagElement("EntityTag");
+        CompoundTag tag = stack.getOrCreateTagElement("EntityTag");
         tag.putString("type", type);
     }
 

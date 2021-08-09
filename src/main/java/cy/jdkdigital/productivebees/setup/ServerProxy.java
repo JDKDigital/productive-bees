@@ -1,15 +1,15 @@
 package cy.jdkdigital.productivebees.setup;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
 
 public class ServerProxy implements IProxy
 {
     @Override
-    public World getWorld() {
-        ServerWorld world = null;
+    public Level getWorld() {
+        ServerLevel world = null;
         try {
             world = ServerLifecycleHooks.getCurrentServer().overworld();
         } catch (Exception e) {
@@ -19,7 +19,7 @@ public class ServerProxy implements IProxy
     }
 
     @Override
-    public PlayerEntity getPlayer() {
+    public Player getPlayer() {
         throw new IllegalStateException("Only run this on the client!");
     }
 }

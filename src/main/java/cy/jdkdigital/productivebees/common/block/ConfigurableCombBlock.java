@@ -1,78 +1,74 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.tileentity.CombBlockTileEntity;
+import cy.jdkdigital.productivebees.common.block.entity.CombBlockBlockEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeCreator;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockDisplayReader;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ConfigurableCombBlock extends CombBlock
+public class ConfigurableCombBlock extends CombBlock implements EntityBlock
 {
     public ConfigurableCombBlock(Properties properties, String colorCode) {
         super(properties, colorCode);
     }
 
     @Override
-    public int getColor(IBlockDisplayReader world, BlockPos pos) {
+    public int getColor(BlockAndTintGetter world, BlockPos pos) {
         if (world != null && pos != null) {
-            TileEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof CombBlockTileEntity) {
-                return ((CombBlockTileEntity) tileEntity).getColor();
+            BlockEntity tileEntity = world.getBlockEntity(pos);
+            if (tileEntity instanceof CombBlockBlockEntity) {
+                return ((CombBlockBlockEntity) tileEntity).getColor();
             }
         }
         return getColor();
     }
 
     @Override
-    public void fillItemCategory(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
+    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
         if (!this.equals(ForgeRegistries.BLOCKS.getValue(this.getRegistryName()))) {
             super.fillItemCategory(group, items);
         }
     }
 
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new CombBlockTileEntity();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new CombBlockBlockEntity(pos, state);
     }
 
     @Override
-    public void setPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
-        TileEntity tileEntity = world.getBlockEntity(pos);
-        if (tileEntity instanceof CombBlockTileEntity) {
-            CompoundNBT tag = stack.getTagElement("EntityTag");
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
+        BlockEntity tileEntity = world.getBlockEntity(pos);
+        if (tileEntity instanceof CombBlockBlockEntity) {
+            CompoundTag tag = stack.getTagElement("EntityTag");
             if (tag != null && tag.contains("type")) {
-                ((CombBlockTileEntity) tileEntity).setType(tag.getString("type"));
+                ((CombBlockBlockEntity) tileEntity).setType(tag.getString("type"));
             }
         }
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-        TileEntity tileEntity = world.getBlockEntity(pos);
-        if (tileEntity instanceof CombBlockTileEntity) {
-            String type = ((CombBlockTileEntity) tileEntity).getCombType();
+        BlockEntity tileEntity = world.getBlockEntity(pos);
+        if (tileEntity instanceof CombBlockBlockEntity) {
+            String type = ((CombBlockBlockEntity) tileEntity).getCombType();
             if (type != null) {
                 BeeCreator.setTag(type, stack);
             }

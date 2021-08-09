@@ -1,26 +1,27 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
+import cy.jdkdigital.productivebees.common.block.entity.JarBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Jar extends Block
+public class Jar extends Block implements EntityBlock
 {
     private static final VoxelShape SHAPE = box(3.5D, 0.0D, 3.5D, 12.5D, 12.0D, 12.5D);
 
@@ -31,56 +32,49 @@ public class Jar extends Block
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+    public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
         return 1;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public boolean propagatesSkylightDown(BlockState state, IBlockReader world, BlockPos pos) {
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {
         return true;
     }
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.JAR.get().create();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new JarBlockEntity(pos, state);
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
-        CompoundNBT tag = stack.getTag();
+        CompoundTag tag = stack.getTag();
         if (tag != null && tag.contains("inv")) {
-            CompoundNBT invTag = tag.getCompound("inv");
+            CompoundTag invTag = tag.getCompound("inv");
 
-            ListNBT tagList = invTag.getList("Items", Constants.NBT.TAG_COMPOUND);
+            ListTag tagList = invTag.getList("Items", Constants.NBT.TAG_COMPOUND);
             if (tagList.size() > 0) {
-                CompoundNBT itemTag = tagList.getCompound(0);
+                CompoundTag itemTag = tagList.getCompound(0);
 
                 ItemStack cage = ItemStack.of(itemTag);
 
                 String entityId = cage.getTag().getString("name");
-                tooltip.add(new TranslationTextComponent("productivebees.information.jar.bee", entityId));
+                tooltip.add(new TranslatableComponent("productivebees.information.jar.bee", entityId));
             }
             else {
-                tooltip.add(new TranslationTextComponent("productivebees.information.jar.fill_tip"));
+                tooltip.add(new TranslatableComponent("productivebees.information.jar.fill_tip"));
             }
         }
         else {
-            tooltip.add(new TranslationTextComponent("productivebees.information.jar.fill_tip"));
+            tooltip.add(new TranslatableComponent("productivebees.information.jar.fill_tip"));
         }
     }
 }

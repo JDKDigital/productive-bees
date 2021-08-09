@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class TranslucentCombBlock extends Block
 {

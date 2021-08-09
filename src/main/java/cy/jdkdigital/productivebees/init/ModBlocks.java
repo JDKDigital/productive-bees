@@ -6,13 +6,13 @@ import cy.jdkdigital.productivebees.common.block.nest.BumbleBeeNest;
 import cy.jdkdigital.productivebees.common.block.nest.SugarCaneNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -59,7 +59,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> NETHER_BRICK_NEST = createBlock("nether_brick_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.NETHER_BRICKS)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> END_NEST = createBlock("end_stone_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.END_STONE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> OBSIDIAN_PILLAR_NEST = createBlock("obsidian_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.OBSIDIAN)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<FlowingFluidBlock> HONEY = createBlock("honey",
+    public static final RegistryObject<LiquidBlock> HONEY = createBlock("honey",
             () -> new HoneyFluidBlock(
                     ModFluids.HONEY,
                     Block.Properties.of(ModFluids.MATERIAL_HONEY).noCollission().strength(100.0F).noDrops().speedFactor(0.3F)
@@ -248,25 +248,25 @@ public final class ModBlocks
     public static final RegistryObject<Block> EXPANSION_BOX_BOP_MAHOGANY = createBlockCompatBB("biomesoplenty,byg", "expansion_box_bop_mahogany", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> EXPANSION_BOX_BOP_JACARANDA = createBlockCompatBB("biomesoplenty,byg", "expansion_box_bop_jacaranda", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
 
-    public static <B extends Block> RegistryObject<B> createBlockCompatBB(String mods, String name, Supplier<? extends B> supplier, ItemGroup itemGroup) {
+    public static <B extends Block> RegistryObject<B> createBlockCompatBB(String mods, String name, Supplier<? extends B> supplier, CreativeModeTab itemGroup) {
         return createBlockCompat(mods, name, supplier, ModList.get().isLoaded("buzzier_bees") ? itemGroup : null);
     }
 
-    public static <B extends Block> RegistryObject<B> createBlockCompat(String mods, String name, Supplier<? extends B> supplier, ItemGroup itemGroup) {
+    public static <B extends Block> RegistryObject<B> createBlockCompat(String mods, String name, Supplier<? extends B> supplier, CreativeModeTab itemGroup) {
         return createBlockCompat(mods, name, supplier, itemGroup, true);
     }
 
-    public static <B extends Block> RegistryObject<B> createBlockCompat(String mods, String name, Supplier<? extends B> supplier, ItemGroup itemGroup, boolean createItem) {
+    public static <B extends Block> RegistryObject<B> createBlockCompat(String mods, String name, Supplier<? extends B> supplier, CreativeModeTab itemGroup, boolean createItem) {
         String[] modNames = mods.split(",");
-        ItemGroup group = itemGroup != null && ModList.get().isLoaded(modNames[0]) || (modNames.length > 1 && ModList.get().isLoaded(modNames[1])) ? itemGroup : null;
+        CreativeModeTab group = itemGroup != null && ModList.get().isLoaded(modNames[0]) || (modNames.length > 1 && ModList.get().isLoaded(modNames[1])) ? itemGroup : null;
         return createBlock(name, supplier, group, createItem);
     }
 
-    public static <B extends Block> RegistryObject<B> createBlock(String name, Supplier<? extends B> supplier, ItemGroup itemGroup) {
+    public static <B extends Block> RegistryObject<B> createBlock(String name, Supplier<? extends B> supplier, CreativeModeTab itemGroup) {
         return createBlock(name, supplier, itemGroup, true);
     }
 
-    public static <B extends Block> RegistryObject<B> createBlock(String name, Supplier<? extends B> supplier, ItemGroup itemGroup, boolean createItem) {
+    public static <B extends Block> RegistryObject<B> createBlock(String name, Supplier<? extends B> supplier, CreativeModeTab itemGroup, boolean createItem) {
         RegistryObject<B> block = BLOCKS.register(name, supplier);
         if (createItem) {
             Item.Properties properties = new Item.Properties().tab(itemGroup);

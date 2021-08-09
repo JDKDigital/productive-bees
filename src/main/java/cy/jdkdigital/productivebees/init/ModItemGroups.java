@@ -3,11 +3,11 @@ package cy.jdkdigital.productivebees.init;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeCreator;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -15,9 +15,9 @@ import java.util.function.Supplier;
 
 public class ModItemGroups
 {
-    public static final ItemGroup PRODUCTIVE_BEES = new ModItemGroup(ProductiveBees.MODID, () -> new ItemStack(Items.BEE_NEST));
+    public static final CreativeModeTab PRODUCTIVE_BEES = new ModItemGroup(ProductiveBees.MODID, () -> new ItemStack(Items.BEE_NEST));
 
-    public static class ModItemGroup extends ItemGroup
+    public static class ModItemGroup extends CreativeModeTab
     {
         private final Supplier<ItemStack> iconSupplier;
 
@@ -34,7 +34,7 @@ public class ModItemGroups
 
         @Override
         public void fillItemList(@Nonnull NonNullList<ItemStack> items) {
-            for (Map.Entry<String, CompoundNBT> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
                 String beeType = entry.getKey();
 
                 // Add spawn egg item

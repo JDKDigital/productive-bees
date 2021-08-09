@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 
 import java.util.Map;
 
@@ -14,13 +14,13 @@ public interface IEffectBeeEntity
 
     default void attackTarget(LivingEntity target) {
         if (getAggressiveEffects() != null) {
-            for (Map.Entry<Effect, Integer> entry : getAggressiveEffects().entrySet()) {
-                target.addEffect(new EffectInstance(entry.getKey(), entry.getValue(), 1));
+            for (Map.Entry<MobEffect, Integer> entry : getAggressiveEffects().entrySet()) {
+                target.addEffect(new MobEffectInstance(entry.getKey(), entry.getValue(), 1));
             }
         }
     }
 
-    default Map<Effect, Integer> getAggressiveEffects() {
+    default Map<MobEffect, Integer> getAggressiveEffects() {
         return null;
     }
 }

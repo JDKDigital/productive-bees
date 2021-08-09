@@ -1,16 +1,16 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.common.block.Bottler;
-import cy.jdkdigital.productivebees.common.tileentity.BottlerTileEntity;
-import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.block.entity.BottlerBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -21,21 +21,21 @@ import java.util.Objects;
 
 public class BottlerContainer extends AbstractContainer
 {
-    public final BottlerTileEntity tileEntity;
+    public final BottlerBlockEntity tileEntity;
 
-    private final IWorldPosCallable canInteractWithCallable;
+    private final ContainerLevelAccess canInteractWithCallable;
 
-    public BottlerContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
+    public BottlerContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public BottlerContainer(final int windowId, final PlayerInventory playerInventory, final BottlerTileEntity tileEntity) {
+    public BottlerContainer(final int windowId, final Inventory playerInventory, final BottlerBlockEntity tileEntity) {
         super(ModContainerTypes.BOTTLER.get(), windowId);
 
         this.tileEntity = tileEntity;
-        this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
+        this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
 
-        addDataSlots(new IIntArray()
+        addDataSlots(new ContainerData()
         {
             @Override
             public int get(int i) {
@@ -78,23 +78,23 @@ public class BottlerContainer extends AbstractContainer
         layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
     }
 
-    private static BottlerTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
+    private static BottlerBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
-        if (tileAtPos instanceof BottlerTileEntity) {
-            return (BottlerTileEntity) tileAtPos;
+        final BlockEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
+        if (tileAtPos instanceof BottlerBlockEntity) {
+            return (BottlerBlockEntity) tileAtPos;
         }
         throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
     }
 
     @Override
-    public boolean stillValid(@Nonnull final PlayerEntity player) {
+    public boolean stillValid(@Nonnull final Player player) {
         return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof Bottler && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
     }
 
     @Override
-    protected TileEntity getTileEntity() {
+    protected BlockEntity getTileEntity() {
         return tileEntity;
     }
 }

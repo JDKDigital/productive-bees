@@ -2,13 +2,11 @@ package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fmllegacy.RegistryObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -273,13 +271,5 @@ public class ProductiveBeesConfig
 
             builder.pop();
         }
-    }
-
-    @SubscribeEvent
-    public static void onLoad(final ModConfig.Loading configEvent) {
-    }
-
-    @SubscribeEvent
-    public static void onReload(final ModConfig.Reloading configEvent) {
     }
 }

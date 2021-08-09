@@ -1,33 +1,34 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
+import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.init.ModFluids;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.SlabType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
@@ -42,14 +43,14 @@ public class Feeder extends SlabBlock
         this.registerDefaultState(this.defaultBlockState().setValue(HONEYLOGGED, false));
     }
 
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(HONEYLOGGED);
     }
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState state = super.getStateForPlacement(context);
 
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
@@ -60,12 +61,12 @@ public class Feeder extends SlabBlock
     }
 
     @Override
-    public boolean canPlaceLiquid(IBlockReader worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
+    public boolean canPlaceLiquid(BlockGetter worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
         return state.getValue(TYPE) != SlabType.DOUBLE && (!state.getValue(BlockStateProperties.WATERLOGGED) && (fluidIn == Fluids.WATER || fluidIn.isSame(ModFluids.HONEY.get())));
     }
 
     @Override
-    public boolean placeLiquid(IWorld world, BlockPos pos, BlockState state, FluidState fluidState) {
+    public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState state, FluidState fluidState) {
         if (!state.getValue(BlockStateProperties.WATERLOGGED)) {
             boolean isHoney = fluidState.getType().isSame(ModFluids.HONEY.get()) && fluidState.isSource();
             if (fluidState.getType() == Fluids.WATER || isHoney) {
@@ -87,33 +88,32 @@ public class Feeder extends SlabBlock
 
     @Nonnull
     @Override
-    public Fluid takeLiquid(IWorld world, BlockPos pos, BlockState state) {
+    public ItemStack pickupBlock(LevelAccessor world, BlockPos pos, BlockState state) {
         if (state.getValue(HONEYLOGGED)) {
             world.setBlock(pos, state.setValue(HONEYLOGGED, false).setValue(BlockStateProperties.WATERLOGGED, false), 3);
-            return ModFluids.HONEY.get();
-        } else {
-            return super.takeLiquid(world, pos, state);
+            return new ItemStack(ModItems.HONEY_BUCKET.get());
         }
+        return super.pickupBlock(world, pos, state);
     }
 
     @SuppressWarnings("deprecation")
     @Nullable
     @Override
-    public INamedContainerProvider getMenuProvider(BlockState state, World world, BlockPos pos) {
-        TileEntity tile = world.getBlockEntity(pos);
-        return tile instanceof INamedContainerProvider ? (INamedContainerProvider) tile : null;
+    public MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
+        BlockEntity tile = world.getBlockEntity(pos);
+        return tile instanceof MenuProvider ? (MenuProvider) tile : null;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onRemove(BlockState oldState, @Nonnull World worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState oldState, @Nonnull Level worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
         if (oldState.getBlock() != newState.getBlock()) {
-            TileEntity tileEntity = worldIn.getBlockEntity(pos);
-            if (tileEntity instanceof FeederTileEntity) {
+            BlockEntity tileEntity = worldIn.getBlockEntity(pos);
+            if (tileEntity instanceof FeederBlockEntity) {
                 // Drop inventory
                 tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
             }
@@ -124,34 +124,23 @@ public class Feeder extends SlabBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!world.isClientSide()) {
-            final TileEntity tileEntity = world.getBlockEntity(pos);
+            final BlockEntity tileEntity = world.getBlockEntity(pos);
 
-            if (tileEntity instanceof FeederTileEntity) {
-                openGui((ServerPlayerEntity) player, (FeederTileEntity) tileEntity);
+            if (tileEntity instanceof FeederBlockEntity) {
+                openGui((ServerPlayer) player, (FeederBlockEntity) tileEntity);
             }
         }
-        return ActionResultType.SUCCESS;
-    }
-
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
+        return InteractionResult.SUCCESS;
     }
 
     @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.FEEDER.get().create();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new FeederBlockEntity(pos, state);
     }
 
-    @Nullable
-    public TileEntity newBlockEntity(IBlockReader world) {
-        return new FeederTileEntity();
-    }
-
-    public void openGui(ServerPlayerEntity player, FeederTileEntity tileEntity) {
+    public void openGui(ServerPlayer player, FeederBlockEntity tileEntity) {
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

@@ -1,18 +1,18 @@
 package cy.jdkdigital.productivebees.setup;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 public class ClientProxy implements IProxy
 {
     @Override
-    public World getWorld() {
+    public Level getWorld() {
         return Minecraft.getInstance().level;
     }
 
     @Override
-    public PlayerEntity getPlayer() {
+    public Player getPlayer() {
         return Minecraft.getInstance().player;
     }
 }

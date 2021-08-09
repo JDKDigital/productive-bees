@@ -1,18 +1,18 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.common.tileentity.UpgradeableTileEntity;
+import cy.jdkdigital.productivebees.common.block.entity.UpgradeableBlockEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -25,7 +25,7 @@ public class UpgradeItem extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, world, tooltip, flagIn);
 
         if (stack.getItem().equals(ModItems.UPGRADE_FILTER.get())) {
@@ -50,18 +50,18 @@ public class UpgradeItem extends Item
                 break;
         }
 
-        tooltip.add(new TranslationTextComponent("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).withStyle(TextFormatting.GOLD));
+        tooltip.add(new TranslatableComponent("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).withStyle(ChatFormatting.GOLD));
     }
 
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
-        World world = context.getLevel();
+    public InteractionResult useOn(UseOnContext context) {
+        Level world = context.getLevel();
         if (!world.isClientSide && context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
             if (context.getItemInHand().getItem() instanceof UpgradeItem) {
-                TileEntity tileEntity = world.getBlockEntity(context.getClickedPos());
-                if (tileEntity instanceof UpgradeableTileEntity && ((UpgradeableTileEntity) tileEntity).acceptsUpgrades()) {
+                BlockEntity tileEntity = world.getBlockEntity(context.getClickedPos());
+                if (tileEntity instanceof UpgradeableBlockEntity && ((UpgradeableBlockEntity) tileEntity).acceptsUpgrades()) {
                     AtomicBoolean hasInsertedUpgrade = new AtomicBoolean(false);
-                    ((UpgradeableTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
+                    ((UpgradeableBlockEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
                         for (int slot = 0; slot < handler.getSlots(); ++slot) {
                             if (handler.getStackInSlot(slot).equals(ItemStack.EMPTY)) {
                                 handler.insertItem(slot, context.getItemInHand().copy(), false);
@@ -74,7 +74,7 @@ public class UpgradeItem extends Item
                         if (!context.getPlayer().isCreative()) {
                             context.getItemInHand().shrink(1);
                         }
-                        return ActionResultType.SUCCESS;
+                        return InteractionResult.SUCCESS;
                     }
                 }
             }

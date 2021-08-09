@@ -1,15 +1,15 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.tileentity.UpgradeableTileEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import cy.jdkdigital.productivebees.common.block.entity.UpgradeableBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.Containers;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-abstract class CapabilityContainerBlock extends ContainerBlock
+abstract class CapabilityContainerBlock extends BaseEntityBlock
 {
     protected CapabilityContainerBlock(Properties builder) {
         super(builder);
@@ -17,20 +17,20 @@ abstract class CapabilityContainerBlock extends ContainerBlock
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onRemove(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState oldState, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (oldState.getBlock() != newState.getBlock()) {
-            TileEntity tileEntity = worldIn.getBlockEntity(pos);
+            BlockEntity tileEntity = worldIn.getBlockEntity(pos);
             if (tileEntity != null) {
                 // Drop inventory
                 tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
-                if (tileEntity instanceof UpgradeableTileEntity) {
-                    ((UpgradeableTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
+                if (tileEntity instanceof UpgradeableBlockEntity) {
+                    ((UpgradeableBlockEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
                         for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                            InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                            Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                         }
                     });
                 }

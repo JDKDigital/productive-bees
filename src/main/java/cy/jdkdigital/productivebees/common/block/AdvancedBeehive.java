@@ -1,30 +1,32 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
-import net.minecraft.block.BeehiveBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -43,34 +45,23 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         );
     }
 
-    @Override
-    public boolean hasTileEntity(final BlockState state) {
-        return true;
-    }
-
     @Nullable
     @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
-        return ModTileEntityTypes.ADVANCED_BEEHIVE.get().create();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader world) {
-        return new AdvancedBeehiveTileEntity();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new AdvancedBeehiveBlockEntity(pos, state);
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(BeehiveBlock.FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(EXPANDED, BeehiveBlock.HONEY_LEVEL, BeehiveBlock.FACING);
     }
 
-    public void updateState(World world, BlockPos pos, BlockState state, boolean isRemoved) {
+    public void updateState(Level world, BlockPos pos, BlockState state, boolean isRemoved) {
         if (this instanceof DragonEggHive) {
             return;
         }
@@ -94,22 +85,22 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         }
     }
 
-    public void updateStateWithDirection(World world, BlockPos pos, BlockState state, VerticalHive directionProperty) {
+    public void updateStateWithDirection(Level world, BlockPos pos, BlockState state, VerticalHive directionProperty) {
         world.setBlockAndUpdate(pos, state.setValue(AdvancedBeehive.EXPANDED, directionProperty));
-        TileEntity te = world.getBlockEntity(pos);
-        if (te instanceof AdvancedBeehiveTileEntity) {
-            ((AdvancedBeehiveTileEntity) te).MAX_BEES = world.getBlockState(pos).getValue(EXPANDED) != VerticalHive.NONE ? 5 : 3;
+        BlockEntity te = world.getBlockEntity(pos);
+        if (te instanceof AdvancedBeehiveBlockEntity) {
+            ((AdvancedBeehiveBlockEntity) te).MAX_BEES = world.getBlockState(pos).getValue(EXPANDED) != VerticalHive.NONE ? 5 : 3;
             if (directionProperty.equals(VerticalHive.NONE)) {
-                ((AdvancedBeehiveTileEntity) te).getUpgradeHandler().ifPresent(handler -> {
+                ((AdvancedBeehiveBlockEntity) te).getUpgradeHandler().ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        Containers.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
             }
         }
     }
 
-    public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentBox(World world, BlockPos pos) {
+    public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentBox(Level world, BlockPos pos) {
         for (Direction direction : BlockStateProperties.FACING.getPossibleValues()) {
             if (direction == Direction.DOWN) {
                 continue;
@@ -125,7 +116,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         return null;
     }
 
-    public static VerticalHive calculateExpandedDirection(World world, BlockPos pos, boolean isRemoved) {
+    public static VerticalHive calculateExpandedDirection(Level world, BlockPos pos, boolean isRemoved) {
         Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentBox(world, pos);
 
         VerticalHive directionProperty = VerticalHive.NONE;
@@ -156,7 +147,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     @Override
-    public void setPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
 
         if (!world.isClientSide()) {
@@ -165,7 +156,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     @Override
-    public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid) {
+    public boolean removedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
 
         if (!world.isClientSide()) {
@@ -177,19 +168,19 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onRemove(BlockState oldState, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState oldState, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (oldState.getBlock() != newState.getBlock()) {
-            TileEntity tileEntity = worldIn.getBlockEntity(pos);
-            if (tileEntity instanceof AdvancedBeehiveTileEntity) {
+            BlockEntity tileEntity = worldIn.getBlockEntity(pos);
+            if (tileEntity instanceof AdvancedBeehiveBlockEntity) {
                 // Drop inventory
                 tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
-                ((AdvancedBeehiveTileEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
+                ((AdvancedBeehiveBlockEntity) tileEntity).getUpgradeHandler().ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
+                        Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }
                 });
             }
@@ -198,13 +189,13 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(hand);
         int honeyLevel = state.getValue(BeehiveBlock.HONEY_LEVEL);
         boolean itemUsed = false;
         if (honeyLevel >= getMaxHoneyLevel()) {
             if (heldItem.getItem() == Items.SHEARS) {
-                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundSource.NEUTRAL, 1.0F, 1.0F);
                 BeehiveBlock.dropHoneycomb(world, pos);
                 heldItem.hurtAndBreak(1, player, (entity) -> {
                     entity.broadcastBreakEvent(hand);
@@ -212,10 +203,10 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
                 itemUsed = true;
             } else if (heldItem.getItem() == Items.GLASS_BOTTLE) {
                 heldItem.shrink(1);
-                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BOTTLE_FILL, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F);
                 if (heldItem.isEmpty()) {
                     player.setItemInHand(hand, new ItemStack(Items.HONEY_BOTTLE));
-                } else if (!player.inventory.add(new ItemStack(Items.HONEY_BOTTLE))) {
+                } else if (!player.getInventory().add(new ItemStack(Items.HONEY_BOTTLE))) {
                     player.drop(new ItemStack(Items.HONEY_BOTTLE), false);
                 }
 
@@ -226,17 +217,17 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         if (itemUsed) {
             this.takeHoney(world, state, pos);
         } else if (!world.isClientSide()) {
-            final TileEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof AdvancedBeehiveTileEntity) {
+            final BlockEntity tileEntity = world.getBlockEntity(pos);
+            if (tileEntity instanceof AdvancedBeehiveBlockEntity) {
                 this.updateState(world, pos, state, false);
                 world.sendBlockUpdated(pos, state, state, Constants.BlockFlags.DEFAULT);
-                openGui((ServerPlayerEntity) player, (AdvancedBeehiveTileEntity) tileEntity);
+                openGui((ServerPlayer) player, (AdvancedBeehiveBlockEntity) tileEntity);
             }
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
-    public void openGui(ServerPlayerEntity player, AdvancedBeehiveTileEntity tileEntity) {
+    public void openGui(ServerPlayer player, AdvancedBeehiveBlockEntity tileEntity) {
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

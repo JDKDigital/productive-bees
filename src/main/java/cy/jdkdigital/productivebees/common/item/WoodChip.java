@@ -1,20 +1,24 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
 import cy.jdkdigital.productivebees.init.ModItems;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class WoodChip extends Item
 {
@@ -52,22 +56,22 @@ public class WoodChip extends Item
     }
 
     public static String getBlockType(ItemStack stack) {
-        CompoundNBT tag = stack.getTag();
+        CompoundTag tag = stack.getTag();
         return tag != null ? tag.getString(KEY) : null;
     }
 
     @Override
     @Nonnull
-    public ITextComponent getName(@Nonnull ItemStack stack) {
+    public Component getName(@Nonnull ItemStack stack) {
         Block block = getBlock(stack);
         if (block != null) {
-            return new TranslationTextComponent(this.getDescriptionId() + ".named", new TranslationTextComponent(block.getDescriptionId()));
+            return new TranslatableComponent(this.getDescriptionId() + ".named", new TranslatableComponent(block.getDescriptionId()));
         }
         return super.getName(stack);
     }
 
     @Override
-    public void fillItemCategory(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
+    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
         if (this.allowdedIn(group)) {
             try {
                 BlockTags.LOGS.getValues().forEach(block -> {
@@ -79,5 +83,19 @@ public class WoodChip extends Item
                 // tag not initialized yet
             }
         }
+    }
+
+    @Override
+    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+        consumer.accept(new IItemRenderProperties()
+        {
+            final BlockEntityWithoutLevelRenderer myRenderer = new WoodChipRenderer();
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getItemStackRenderer()
+            {
+                return myRenderer;
+            }
+        });
     }
 }

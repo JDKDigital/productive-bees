@@ -5,34 +5,34 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
-import net.minecraft.block.BeehiveBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.village.PointOfInterest;
-import net.minecraft.village.PointOfInterestManager;
-import net.minecraft.village.PointOfInterestType;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiRecord;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -52,7 +52,7 @@ public class NestLocator extends Item
     }
 
     public static String getNestName(ItemStack stack) {
-        CompoundNBT nbt = stack.getOrCreateTag().getCompound(KEY);
+        CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
 
         return nbt.contains("nest") ? nbt.getString("nest") : null;
     }
@@ -66,7 +66,7 @@ public class NestLocator extends Item
     }
 
     public static void setNestBlock(ItemStack stack, @Nullable Block nest) {
-        CompoundNBT nbt = stack.getOrCreateTag().getCompound(KEY);
+        CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
 
         nbt.remove("nest");
         if (nest != null && nest.getRegistryName() != null) {
@@ -81,13 +81,13 @@ public class NestLocator extends Item
     }
 
     public static BlockPos getPosition(ItemStack stack) {
-        CompoundNBT nbt = stack.getOrCreateTag().getCompound(KEY);
+        CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
 
         return nbt.contains("position") ? BlockPos.of(nbt.getLong("position")) : null;
     }
 
     public static void setPosition(ItemStack stack, @Nullable BlockPos pos) {
-        CompoundNBT nbt = stack.getOrCreateTag().getCompound(KEY);
+        CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
 
         if (pos != null) {
             nbt.putLong("position", pos.asLong());
@@ -103,8 +103,8 @@ public class NestLocator extends Item
 
     @Nonnull
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
-        World world = context.getLevel();
+    public InteractionResult useOn(UseOnContext context) {
+        Level world = context.getLevel();
         if (!world.isClientSide && context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
             ItemStack stack = context.getPlayer().getItemInHand(context.getHand());
             BlockState state = world.getBlockState(context.getClickedPos());
@@ -120,7 +120,7 @@ public class NestLocator extends Item
                 // Set block if it's a component in crafting a nest
                 ItemStack in = new ItemStack(block.asItem());
                 done:
-                for (IRecipe<CraftingInventory> recipe : world.getRecipeManager().byType(IRecipeType.CRAFTING).values()) {
+                for (Recipe<CraftingContainer> recipe : world.getRecipeManager().byType(RecipeType.CRAFTING).values()) {
                     out:
                     for (Ingredient s : recipe.getIngredients()) {
                         for (ItemStack ss : s.getItems()) {
@@ -139,15 +139,15 @@ public class NestLocator extends Item
                     }
                 }
             }
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         return super.useOn(context);
     }
 
     @Nonnull
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, @Nonnull Hand hand) {
-        if (!world.isClientSide && world instanceof ServerWorld) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, @Nonnull InteractionHand hand) {
+        if (!world.isClientSide && world instanceof ServerLevel) {
             // If it has a type specified
             ItemStack stack = player.getItemInHand(hand);
             if (!player.isShiftKeyDown()) {
@@ -156,56 +156,56 @@ public class NestLocator extends Item
                     predicate = o -> o.equals(getNestBlock(stack));
                 }
 
-                Pair<Double, BlockPos> nearest = findNearestNest((ServerWorld) world, player.blockPosition(), ProductiveBeesConfig.GENERAL.nestLocatorDistance.get(), predicate);
+                Pair<Double, BlockPos> nearest = findNearestNest((ServerLevel) world, player.blockPosition(), ProductiveBeesConfig.GENERAL.nestLocatorDistance.get(), predicate);
 
                 if (nearest != null) {
                     // Show distance in chat
-                    player.displayClientMessage(new TranslationTextComponent("productivebees.nest_locator.found_hive", Math.round(nearest.getFirst() * 100.0) / 100.0), false);
+                    player.displayClientMessage(new TranslatableComponent("productivebees.nest_locator.found_hive", Math.round(nearest.getFirst() * 100.0) / 100.0), false);
                     setPosition(stack, nearest.getSecond());
                 } else {
                     // Unset position
-                    player.displayClientMessage(new TranslationTextComponent("productivebees.nest_locator.not_found_hive"), false);
+                    player.displayClientMessage(new TranslatableComponent("productivebees.nest_locator.not_found_hive"), false);
                     setPosition(stack, null);
                 }
             }
-            return ActionResult.success(player.getItemInHand(hand));
+            return InteractionResultHolder.success(player.getItemInHand(hand));
         }
 
-        return ActionResult.pass(player.getItemInHand(hand));
+        return InteractionResultHolder.pass(player.getItemInHand(hand));
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, world, tooltip, flagIn);
 
         if (hasNest(stack)) {
-            tooltip.add(new TranslationTextComponent("productivebees.information.nestlocator.configured", getNestName(stack)).withStyle(TextFormatting.GOLD));
+            tooltip.add(new TranslatableComponent("productivebees.information.nestlocator.configured", getNestName(stack)).withStyle(ChatFormatting.GOLD));
         } else {
-            tooltip.add(new TranslationTextComponent("productivebees.information.nestlocator.unconfigured").withStyle(TextFormatting.GOLD));
+            tooltip.add(new TranslatableComponent("productivebees.information.nestlocator.unconfigured").withStyle(ChatFormatting.GOLD));
         }
     }
 
-    private Pair<Double, BlockPos> findNearestNest(ServerWorld world, BlockPos pos, int distance, Predicate<Block> predicate) {
-        Vector3d playerPos = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
+    private Pair<Double, BlockPos> findNearestNest(ServerLevel world, BlockPos pos, int distance, Predicate<Block> predicate) {
+        Vec3 playerPos = new Vec3(pos.getX(), pos.getY(), pos.getZ());
 
-        PointOfInterestManager pointofinterestmanager = world.getPoiManager();
-        Stream<PointOfInterest> stream = pointofinterestmanager.getInSquare((poiType) ->
-                poiType == PointOfInterestType.BEEHIVE ||
-                        poiType == PointOfInterestType.BEE_NEST ||
+        PoiManager pointofinterestmanager = world.getPoiManager();
+        Stream<PoiRecord> stream = pointofinterestmanager.getInSquare((poiType) ->
+                poiType == PoiType.BEEHIVE ||
+                        poiType == PoiType.BEE_NEST ||
                         poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
                         poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
                         poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() ||
                         poiType == ModPointOfInterestTypes.BUMBLE_BEE_NEST.get() ||
-                        poiType == ModPointOfInterestTypes.SUGARBAG_NEST.get(), pos, distance, PointOfInterestManager.Status.ANY);
+                        poiType == ModPointOfInterestTypes.SUGARBAG_NEST.get(), pos, distance, PoiManager.Occupancy.ANY);
 
-        List<BlockPos> nearbyNestPositions = stream.map(PointOfInterest::getPos).filter((nestPos) -> {
+        List<BlockPos> nearbyNestPositions = stream.map(PoiRecord::getPos).filter((nestPos) -> {
             BlockState state = world.getBlockState(nestPos);
             return predicate.test(state.getBlock());
         }).sorted(Comparator.comparingDouble((vec) -> vec.distSqr(pos))).collect(Collectors.toList());
 
         if (!nearbyNestPositions.isEmpty()) {
             BlockPos nearestPos = nearbyNestPositions.iterator().next();
-            double distanceToNest = playerPos.distanceTo(new Vector3d(nearestPos.getX(), nearestPos.getY(), nearestPos.getZ()));
+            double distanceToNest = playerPos.distanceTo(new Vec3(nearestPos.getX(), nearestPos.getY(), nearestPos.getZ()));
             return new Pair<>(distanceToNest, nearestPos);
         }
         return null;

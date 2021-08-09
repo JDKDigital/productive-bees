@@ -1,32 +1,38 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 
 public class MediumElvisBeeModel extends MediumBeeModel
 {
-    public MediumElvisBeeModel(Model model, ModelRenderer body, ModelRenderer torso, ModelRenderer stinger, ModelRenderer leftAntenna, ModelRenderer rightAntenna, ModelRenderer leftWing, ModelRenderer rightWing, ModelRenderer middleLegs, ModelRenderer frontLegs, ModelRenderer backLegs, ModelRenderer crystals, ModelRenderer innards, ModelRenderer santaHat) {
-        super(model, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+    public MediumElvisBeeModel(ModelPart model) {
+        super(model);
     }
 
-    @Override
-    public void addBodyParts(boolean withTorso) {
-        super.addBodyParts(withTorso);
-        addCrystals();
-    }
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = MediumBeeModel.createMeshDefinition(true);
+        PartDefinition root = meshDefinition.getRoot();
+        PartDefinition bone = root.getChild(ProductiveBeeModel.BONE);
+        PartDefinition body = bone.getChild(ProductiveBeeModel.BODY);
 
-    @Override
-    protected void addAntenna() {
-    }
+        body.addOrReplaceChild(
+                ProductiveBeeModel.EXTERNALS,
+                CubeListBuilder
+                        .create().texOffs(34, 8)
+                        .addBox(-2.5F, -2.0F, -2.0F, 7.0F, 4.0F, 2.0F),
+                PartPose.offset(-1.0F, -2.0F, -5.0F)
+        );
 
-    @Override
-    protected void addCrystals() {
-        externals.setPos(-1.0F, -2.0F, -5.0F);
-        externals.texOffs(34, 8).addBox(-2.5F, -2.0F, -2.0F, 7.0F, 4.0F, 2.0F, 0.0F, false);
-        torso.addChild(externals);
-    }
+        body.addOrReplaceChild(ProductiveBeeModel.LEFT_ANTENNA, CubeListBuilder.create(), PartPose.ZERO);
+        body.addOrReplaceChild(ProductiveBeeModel.RIGHT_ANTENNA, CubeListBuilder.create(), PartPose.ZERO);
 
-    @Override
-    protected void addSantaHat() {
+        // TODO remove santa hat
+
+        return LayerDefinition.create(meshDefinition, 64, 64);
     }
 }

@@ -2,11 +2,11 @@ package cy.jdkdigital.productivebees.common.crafting.conditions;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import net.minecraft.fluid.Fluid;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 
@@ -34,7 +34,7 @@ public class FluidTagEmptyCondition implements ICondition
 
     @Override
     public boolean test() {
-        ITag<Fluid> tag = FluidTags.getAllTags().getTagOrEmpty(tag_name);
+        Tag<Fluid> tag = FluidTags.getAllTags().getTagOrEmpty(tag_name);
         return tag.getValues().isEmpty();
     }
 
@@ -54,7 +54,7 @@ public class FluidTagEmptyCondition implements ICondition
 
         @Override
         public FluidTagEmptyCondition read(JsonObject json) {
-            return new FluidTagEmptyCondition(new ResourceLocation(JSONUtils.getAsString(json, "tag")));
+            return new FluidTagEmptyCondition(new ResourceLocation(GsonHelper.getAsString(json, "tag")));
         }
 
         @Override

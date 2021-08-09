@@ -6,24 +6,24 @@ import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.util.BeeHelper;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class BeeNBTChangerRecipe implements IRecipe<IInventory>
+public class BeeNBTChangerRecipe implements Recipe<Container>
 {
-    public static final IRecipeType<BeeNBTChangerRecipe> BEE_NBT_CHANGER = IRecipeType.register(ProductiveBees.MODID + ":bee_nbt_changer");
+    public static final RecipeType<BeeNBTChangerRecipe> BEE_NBT_CHANGER = RecipeType.register(ProductiveBees.MODID + ":bee_nbt_changer");
 
     public final ResourceLocation id;
     public final Lazy<BeeIngredient> bee;
@@ -46,7 +46,7 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         if (inv instanceof BeeHelper.IdentifierInventory && bee.get() != null) {
             String beeName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(0);
             String itemName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(1);
@@ -67,7 +67,7 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
 
     @Nonnull
     @Override
-    public ItemStack assemble(IInventory inv) {
+    public ItemStack assemble(Container inv) {
         return ItemStack.EMPTY;
     }
 
@@ -90,17 +90,17 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.BEE_NBT_CHANGER.get();
     }
 
     @Nonnull
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return BEE_NBT_CHANGER;
     }
 
-    public static class Serializer<T extends BeeNBTChangerRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends BeeNBTChangerRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
         final BeeNBTChangerRecipe.Serializer.IRecipeFactory<T> factory;
 
@@ -111,27 +111,27 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
         @Nonnull
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
-            String beeName = JSONUtils.getAsString(json, "bee");
+            String beeName = GsonHelper.getAsString(json, "bee");
 
             Lazy<BeeIngredient> bee = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
 
             Ingredient item;
-            if (JSONUtils.isArrayNode(json, "ingredient")) {
-                item = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "item"));
+            if (GsonHelper.isArrayNode(json, "ingredient")) {
+                item = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "item"));
             } else {
-                item = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "item"));
+                item = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "item"));
             }
 
-            String attribute = JSONUtils.getAsString(json, "attribute");
-            String method = JSONUtils.getAsString(json, "method");
-            int value = JSONUtils.getAsInt(json, "value", 0);
-            int min = JSONUtils.getAsInt(json, "min", 0);
-            int max = JSONUtils.getAsInt(json, "max", 100);
+            String attribute = GsonHelper.getAsString(json, "attribute");
+            String method = GsonHelper.getAsString(json, "method");
+            int value = GsonHelper.getAsInt(json, "value", 0);
+            int min = GsonHelper.getAsInt(json, "min", 0);
+            int max = GsonHelper.getAsInt(json, "max", 100);
 
             return this.factory.create(id, bee, item, attribute, method, value, min, max);
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 BeeIngredient bee = BeeIngredient.fromNetwork(buffer);
                 return this.factory.create(id, Lazy.of(() -> bee), Ingredient.fromNetwork(buffer), buffer.readUtf(), buffer.readUtf(), buffer.readInt(), buffer.readInt(), buffer.readInt());
@@ -141,7 +141,7 @@ public class BeeNBTChangerRecipe implements IRecipe<IInventory>
             }
         }
 
-        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
             try {
                 recipe.bee.get().toNetwork(buffer);
                 recipe.item.toNetwork(buffer);

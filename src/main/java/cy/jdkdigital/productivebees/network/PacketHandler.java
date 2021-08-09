@@ -2,12 +2,12 @@ package cy.jdkdigital.productivebees.network;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.network.packets.Messages;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.fmllegacy.network.NetworkDirection;
+import net.minecraftforge.fmllegacy.network.NetworkRegistry;
+import net.minecraftforge.fmllegacy.network.PacketDistributor;
+import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
 
 public class PacketHandler
 {
@@ -41,11 +41,11 @@ public class PacketHandler
         return ++id;
     }
 
-    public static void sendBeeDataToPlayer(Messages.BeeDataMessage message, ServerPlayerEntity player) {
+    public static void sendBeeDataToPlayer(Messages.BeeDataMessage message, ServerPlayer player) {
         channel.send(PacketDistributor.PLAYER.with(() -> player), message);
     }
 
-    public static void sendReindexCommandToPlayer(Messages.ReindexMessage message, ServerPlayerEntity player) {
+    public static void sendReindexCommandToPlayer(Messages.ReindexMessage message, ServerPlayer player) {
         channel.send(PacketDistributor.PLAYER.with(() -> player), message);
     }
 

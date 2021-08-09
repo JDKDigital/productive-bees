@@ -1,6 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
-import net.minecraft.item.ItemUseContext;
+import net.minecraft.world.item.context.UseOnContext;
 
 public class SturdyBeeCage extends BeeCage
 {
@@ -9,7 +9,7 @@ public class SturdyBeeCage extends BeeCage
     }
 
     @Override
-    protected void postItemUse(ItemUseContext context) {
+    protected void postItemUse(UseOnContext context) {
         context.getItemInHand().setTag(null);
     }
 }

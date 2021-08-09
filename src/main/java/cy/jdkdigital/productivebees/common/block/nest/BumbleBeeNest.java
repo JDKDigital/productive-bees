@@ -1,14 +1,13 @@
 package cy.jdkdigital.productivebees.common.block.nest;
 
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
-import cy.jdkdigital.productivebees.common.tileentity.BumbleBeeNestTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.world.IBlockReader;
+import cy.jdkdigital.productivebees.common.block.entity.BumbleBeeNestBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import javax.annotation.Nullable;
 
@@ -21,18 +20,12 @@ public class BumbleBeeNest extends SolitaryNest
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.BUMBLE_BEE_NEST.get().create();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader world) {
-        return new BumbleBeeNestTileEntity();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new BumbleBeeNestBlockEntity(pos, state);
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext itemUseContext) {
+    public BlockState getStateForPlacement(BlockPlaceContext itemUseContext) {
         return this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP);
     }
 }

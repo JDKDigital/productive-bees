@@ -7,25 +7,25 @@ import cy.jdkdigital.productivebees.common.item.BeeBomb;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.entity.EntityType;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ICraftingRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeeBombBeeCageRecipe implements ICraftingRecipe
+public class BeeBombBeeCageRecipe implements CraftingRecipe
 {
     public final ResourceLocation id;
     public final ItemStack beeBomb;
@@ -36,7 +36,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
+    public boolean matches(CraftingContainer inv, Level worldIn) {
         // Valid if inv contains 1 bee bomb and any number of bee cages up to 10 (configurable)
         ItemStack beeBombStack = null;
         int beeCount = 0;
@@ -48,7 +48,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
                     beeBombStack = itemstack;
 
                     // Read existing bee list from bomb
-                    ListNBT bees = BeeBomb.getBees(beeBombStack);
+                    ListTag bees = BeeBomb.getBees(beeBombStack);
 
                     beeCount += bees.size();
                     bombBeeCount = bees.size();
@@ -74,7 +74,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack assemble(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer inv) {
         // Combine bee cages with bee bomb
         ItemStack bomb = null;
         List<ItemStack> beeCages = new ArrayList<>();
@@ -123,7 +123,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
 
         ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
 
-        CompoundNBT nbt = new CompoundNBT();
+        CompoundTag nbt = new CompoundTag();
         nbt.putString("entity", EntityType.getKey(EntityType.BEE).toString());
         cage.setTag(nbt);
         list.add(Ingredient.of(cage));
@@ -139,11 +139,11 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.BEE_CAGE_BOMB.get();
     }
 
-    public static class Serializer<T extends BeeBombBeeCageRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends BeeBombBeeCageRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
         final BeeBombBeeCageRecipe.Serializer.IRecipeFactory<T> factory;
 
@@ -156,7 +156,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
             return this.factory.create(id, new ItemStack(ModItems.BEE_BOMB.get()));
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 return this.factory.create(id, buffer.readItem());
             } catch (Exception e) {
@@ -165,7 +165,7 @@ public class BeeBombBeeCageRecipe implements ICraftingRecipe
             }
         }
 
-        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
             try {
                 buffer.writeItem(recipe.beeBomb);
             } catch (Exception e) {

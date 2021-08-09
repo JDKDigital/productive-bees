@@ -1,38 +1,38 @@
 package cy.jdkdigital.productivebees.handler.bee;
 
 import com.google.common.collect.Lists;
-import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.math.BlockPos;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<CompoundNBT>
+public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<CompoundTag>
 {
-    private List<AdvancedBeehiveTileEntityAbstract.Inhabitant> inhabitantList = Lists.newArrayList();
+    private List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> inhabitantList = Lists.newArrayList();
 
     public InhabitantStorage() {
     }
 
     @Nonnull
     @Override
-    public List<AdvancedBeehiveTileEntityAbstract.Inhabitant> getInhabitants() {
+    public List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> getInhabitants() {
         return this.inhabitantList;
     }
 
     @Override
-    public void setInhabitants(List<AdvancedBeehiveTileEntityAbstract.Inhabitant> inhabitantList) {
+    public void setInhabitants(List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> inhabitantList) {
         this.inhabitantList = inhabitantList;
         onContentsChanged();
     }
 
     @Override
-    public void addInhabitant(AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant) {
+    public void addInhabitant(AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant) {
         this.inhabitantList.add(inhabitant);
         onContentsChanged();
     }
@@ -45,18 +45,18 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
 
     @Nonnull
     @Override
-    public ListNBT getInhabitantListAsListNBT() {
-        ListNBT listNBT = new ListNBT();
+    public ListTag getInhabitantListAsListNBT() {
+        ListTag listNBT = new ListTag();
 
-        for (AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant : this.getInhabitants()) {
-            CompoundNBT copyNbt = inhabitant.nbt.copy();
+        for (AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant : this.getInhabitants()) {
+            CompoundTag copyNbt = inhabitant.nbt.copy();
             copyNbt.remove("UUID");
 
-            CompoundNBT tag = new CompoundNBT();
+            CompoundTag tag = new CompoundTag();
             tag.put("EntityData", copyNbt);
             tag.putInt("TicksInHive", inhabitant.ticksInHive);
             if (inhabitant.flowerPos != null) {
-                tag.put("FlowerPos", NBTUtil.writeBlockPos(inhabitant.flowerPos));
+                tag.put("FlowerPos", NbtUtils.writeBlockPos(inhabitant.flowerPos));
             }
             tag.putInt("MinOccupationTicks", inhabitant.minOccupationTicks);
             tag.putString("Name", inhabitant.localizedName);
@@ -67,28 +67,28 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
     }
 
     @Override
-    public void setInhabitantsFromListNBT(ListNBT list) {
+    public void setInhabitantsFromListNBT(ListTag list) {
         clearInhabitants();
         for (int i = 0; i < list.size(); ++i) {
-            CompoundNBT tag = list.getCompound(i);
-            BlockPos flowerPos = tag.contains("FlowerPos") ? NBTUtil.readBlockPos(tag.getCompound("FlowerPos")) : null;
-            AdvancedBeehiveTileEntityAbstract.Inhabitant inhabitant = new AdvancedBeehiveTileEntityAbstract.Inhabitant(tag.getCompound("EntityData"), tag.getInt("TicksInHive"), tag.getInt("MinOccupationTicks"), flowerPos, tag.getString("Name"));
+            CompoundTag tag = list.getCompound(i);
+            BlockPos flowerPos = tag.contains("FlowerPos") ? NbtUtils.readBlockPos(tag.getCompound("FlowerPos")) : null;
+            AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant = new AdvancedBeehiveBlockEntityAbstract.Inhabitant(tag.getCompound("EntityData"), tag.getInt("TicksInHive"), tag.getInt("MinOccupationTicks"), flowerPos, tag.getString("Name"));
             this.addInhabitant(inhabitant);
         }
     }
 
     @Override
-    public CompoundNBT serializeNBT() {
-        ListNBT listNBT = getInhabitantListAsListNBT();
-        CompoundNBT nbt = new CompoundNBT();
+    public CompoundTag serializeNBT() {
+        ListTag listNBT = getInhabitantListAsListNBT();
+        CompoundTag nbt = new CompoundTag();
         nbt.put("Inhabitants", listNBT);
         return nbt;
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt) {
+    public void deserializeNBT(CompoundTag nbt) {
         this.clearInhabitants();
-        ListNBT list = nbt.getList("Inhabitants", Constants.NBT.TAG_COMPOUND);
+        ListTag list = nbt.getList("Inhabitants", Constants.NBT.TAG_COMPOUND);
         setInhabitantsFromListNBT(list);
         onLoad();
     }

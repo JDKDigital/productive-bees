@@ -1,10 +1,10 @@
 package cy.jdkdigital.productivebees.util;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.item.Item;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.Item;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class BeeAttributes
     public static final BeeAttribute<Integer> WEATHER_TOLERANCE = register("weather_tolerance");
 
     // Move to configs
-    public static final BeeAttribute<ITag<Item>> APHRODISIACS = register("aphrodisiacs");
+    public static final BeeAttribute<Tag<Item>> APHRODISIACS = register("aphrodisiacs");
 
     public static final UUID HEALTH_MOD_ID_WEAK = UUID.nameUUIDFromBytes("productivebees:health_modifier_weak".getBytes());
     public static final UUID HEALTH_MOD_ID_MEDIUM = UUID.nameUUIDFromBytes("productivebees:health_modifier_medium".getBytes());

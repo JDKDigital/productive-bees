@@ -2,13 +2,13 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.fluid.Fluid;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 

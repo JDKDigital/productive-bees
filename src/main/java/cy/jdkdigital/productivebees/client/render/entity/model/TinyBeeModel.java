@@ -1,62 +1,97 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 
 public class TinyBeeModel extends PartialBeeModel
 {
-    public TinyBeeModel(Model model, ModelRenderer body, ModelRenderer torso, ModelRenderer stinger, ModelRenderer leftAntenna, ModelRenderer rightAntenna, ModelRenderer leftWing, ModelRenderer rightWing, ModelRenderer middleLegs, ModelRenderer frontLegs, ModelRenderer backLegs, ModelRenderer crystals, ModelRenderer innards, ModelRenderer santaHat) {
-        super(model, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+    public TinyBeeModel(ModelPart model) {
+        super(model);
     }
 
-    @Override
-    protected void addTorso(boolean withTorso) {
-        body.setPos(0.0F, 19.0F, 0.0F);
-        torso.setPos(0.0F, 0.0F, 0.0F);
-        if (withTorso) {
-            torso.addBox(-1.5F, -2.0F, -2.0F, 3.0F, 3.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        }
-        stinger.setPos(0.0F, 0.0F, 0.0F);
-        stinger.texOffs(22, 6).addBox(0.0F, 0.0F, 4.0F, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        body.addChild(torso);
-        torso.addChild(stinger);
-    }
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = ProductiveBeeModel.createMeshDefinition();
+        PartDefinition root = meshDefinition.getRoot();
 
-    @Override
-    protected void addAntenna() {
-        leftAntenna.setPos(0.0F, -1.0F, -2.0F);
-        leftAntenna.addBox(1.0F, -1.0F, -1.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        rightAntenna.setPos(0.0F, -1.0F, -2.0F);
-        rightAntenna.texOffs(0, 2).addBox(-2.0F, -1.0F, -1.0F, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        torso.addChild(leftAntenna);
-        torso.addChild(rightAntenna);
-    }
+        PartDefinition bone = root.addOrReplaceChild(
+                ProductiveBeeModel.BONE,
+                CubeListBuilder.create(),
+                PartPose.offset(0.0F, 19.0F, 0.0F)
+        );
 
-    @Override
-    protected void addWings() {
-        rightWing.setPos(-0.5F, -2.0F, -1.0F);
-        rightWing.texOffs(-3, 9).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        setRotationAngle(rightWing, 0.0F, -0.2617993877991494F, 0.0F);
-        leftWing.mirror = true;
-        leftWing.setPos(0.5F, -2.0F, -1.0F);
-        leftWing.texOffs(-3, 9).addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        setRotationAngle(leftWing, 0.0F, 0.2617993877991494F, 0.0F);
+        PartDefinition body = bone.addOrReplaceChild(
+                ProductiveBeeModel.BODY,
+                CubeListBuilder
+                        .create()
+                        .addBox(-1.5F, -2.0F, -2.0F, 3.0F, 3.0F, 4.0F),
+                PartPose.ZERO
+        );
 
-        body.addChild(leftWing);
-        body.addChild(rightWing);
-    }
+        body.addOrReplaceChild(
+                ProductiveBeeModel.STINGER,
+                CubeListBuilder
+                        .create().texOffs(22, 6)
+                        .addBox(0.0F, 0.0F, 4.0F, 0.0F, 1.0F, 1.0F),
+                PartPose.ZERO
+        );
 
-    @Override
-    protected void addLegs() {
-        backLegs.setPos(1.5F, 1.0F, 1.0F);
-        backLegs.texOffs(15, 5).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        middleLegs.setPos(1.5F, 1.0F, 0.0F);
-        middleLegs.texOffs(15, 3).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        frontLegs.setPos(1.5F, 1.0F, -1.0F);
-        frontLegs.texOffs(15, 1).addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        body.addOrReplaceChild(
+                ProductiveBeeModel.LEFT_ANTENNA,
+                CubeListBuilder
+                        .create().texOffs(0, 0)
+                        .addBox(1.0F, -1.0F, -1.0F, 1.0F, 1.0F, 1.0F),
+                PartPose.offset(0.0F, -1.0F, -2.0F)
+        );
+        body.addOrReplaceChild(
+                ProductiveBeeModel.RIGHT_ANTENNA,
+                CubeListBuilder
+                        .create().texOffs(0, 2)
+                        .addBox(-2.0F, -1.0F, -1.0F, 1.0F, 1.0F, 1.0F),
+                PartPose.offset(0.0F, -1.0F, -2.0F)
+        );
 
-        body.addChild(frontLegs);
-        body.addChild(middleLegs);
-        body.addChild(backLegs);
+        CubeDeformation var5 = new CubeDeformation(0.001F);
+        bone.addOrReplaceChild(
+                ProductiveBeeModel.RIGHT_WING,
+                CubeListBuilder
+                        .create().texOffs(-3, 9)
+                        .addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 3.0F, var5),
+                PartPose.offsetAndRotation(-0.5F, -2.0F, -1.0F, 0.0F, -0.2618F, 0.0F)
+        );
+        bone.addOrReplaceChild(
+                ProductiveBeeModel.LEFT_WING,
+                CubeListBuilder
+                        .create().texOffs(-3, 9).mirror()
+                        .addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 3.0F, var5),
+                PartPose.offsetAndRotation(0.5F, -2.0F, -1.0F, 0.0F, 0.2618F, 0.0F)
+        );
+
+        bone.addOrReplaceChild(
+                ProductiveBeeModel.FRONT_LEGS,
+                CubeListBuilder
+                        .create().texOffs(15, 1)
+                        .addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F),
+                PartPose.offset(1.5F, 1.0F, -1.0F)
+        );
+        bone.addOrReplaceChild(
+                ProductiveBeeModel.MIDDLE_LEGS,
+                CubeListBuilder
+                        .create().texOffs(15, 3)
+                        .addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F),
+                PartPose.offset(1.5F, 1.0F, 0.0F)
+        );
+        bone.addOrReplaceChild(
+                ProductiveBeeModel.BACK_LEGS,
+                CubeListBuilder
+                        .create().texOffs(15, 5)
+                        .addBox(-3.0F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F),
+                PartPose.offset(1.5F, 1.0F, 1.0F)
+        );
+
+        // TODO Remove santa hat
+
+        return LayerDefinition.create(meshDefinition, 64, 64);
     }
 }

@@ -4,24 +4,24 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory>
+public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
 {
-    public static final IRecipeType<BottlerRecipe> BOTTLER = IRecipeType.register(ProductiveBees.MODID + ":bottler");
+    public static final RecipeType<BottlerRecipe> BOTTLER = RecipeType.register(ProductiveBees.MODID + ":bottler");
 
     public final ResourceLocation id;
     public final Pair<String, Integer> fluidInput;
@@ -47,13 +47,13 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         return false;
     }
 
     @Nonnull
     @Override
-    public ItemStack assemble(IInventory inv) {
+    public ItemStack assemble(Container inv) {
         return ItemStack.EMPTY;
     }
 
@@ -76,17 +76,17 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.BOTTLER.get();
     }
 
     @Nonnull
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return BOTTLER;
     }
 
-    public static class Serializer<T extends BottlerRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends BottlerRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
         final BottlerRecipe.Serializer.IRecipeFactory<T> factory;
 
@@ -99,37 +99,37 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
         public T fromJson(ResourceLocation id, JsonObject json) {
             Pair<String, Integer> fluidInput = null;
             if (json.has("fluid")) {
-                int amount = JSONUtils.getAsInt(json, "amount", 250);
+                int amount = GsonHelper.getAsInt(json, "amount", 250);
 
-                JsonObject fluid = JSONUtils.getAsJsonObject(json, "fluid");
+                JsonObject fluid = GsonHelper.getAsJsonObject(json, "fluid");
                 String fluidResourceLocation = "";
                 if (fluid.has("tag")) {
-                    fluidResourceLocation = JSONUtils.getAsString(fluid, "tag");
+                    fluidResourceLocation = GsonHelper.getAsString(fluid, "tag");
                 } else if (fluid.has("fluid")) {
-                    fluidResourceLocation = JSONUtils.getAsString(fluid, "fluid");
+                    fluidResourceLocation = GsonHelper.getAsString(fluid, "fluid");
                 }
 
                 fluidInput = Pair.of(fluidResourceLocation, amount);
             }
 
             Ingredient input;
-            if (JSONUtils.isArrayNode(json, "input")) {
-                input = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "input"));
+            if (GsonHelper.isArrayNode(json, "input")) {
+                input = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "input"));
             } else {
-                input = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "input"));
+                input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "input"));
             }
 
             Ingredient output;
-            if (JSONUtils.isArrayNode(json, "output")) {
-                output = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "output"));
+            if (GsonHelper.isArrayNode(json, "output")) {
+                output = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "output"));
             } else {
-                output = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "output"));
+                output = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "output"));
             }
 
             return this.factory.create(id, fluidInput, input, output);
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 Pair<String, Integer> fluidInput = Pair.of(buffer.readUtf(), buffer.readInt());
                 return this.factory.create(id, fluidInput, Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer));
@@ -139,7 +139,7 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
             }
         }
 
-        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
             try {
                 buffer.writeUtf(recipe.fluidInput.getFirst());
                 buffer.writeInt(recipe.fluidInput.getSecond());

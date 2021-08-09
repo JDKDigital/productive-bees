@@ -1,14 +1,11 @@
 package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldVertexBufferUploader;
-import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
@@ -32,7 +29,7 @@ class FluidContainerUtil
     }
 
     public static void setColors(int color) {
-        RenderSystem.color4f(getRed(color), getGreen(color), getBlue(color), getAlpha(color));
+        RenderSystem.setShaderColor(getRed(color), getGreen(color), getBlue(color), getAlpha(color));
     }
 
     public static void setColors(@Nonnull FluidStack fluid) {
@@ -42,12 +39,12 @@ class FluidContainerUtil
     }
 
     public static void resetColor() {
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     public static void drawTiledSprite(int xPosition, int yPosition, int yOffset, int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel) {
         if (desiredWidth != 0 && desiredHeight != 0 && textureWidth != 0 && textureHeight != 0) {
-            bindTexture(AtlasTexture.LOCATION_BLOCKS);
+            bindTexture(TextureAtlas.LOCATION_BLOCKS);
             int xTileCount = desiredWidth / textureWidth;
             int xRemainder = desiredWidth - xTileCount * textureWidth;
             int yTileCount = desiredHeight / textureHeight;
@@ -60,9 +57,9 @@ class FluidContainerUtil
             float uDif = uMax - uMin;
             float vDif = vMax - vMin;
             RenderSystem.enableBlend();
-            RenderSystem.enableAlphaTest();
-            BufferBuilder vertexBuffer = Tessellator.getInstance().getBuilder();
-            vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+            RenderSystem.enableDepthTest();
+            BufferBuilder vertexBuffer = Tesselator.getInstance().getBuilder();
+            vertexBuffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
             for (int xTile = 0; xTile <= xTileCount; ++xTile) {
                 int width = xTile == xTileCount ? xRemainder : textureWidth;
@@ -92,17 +89,17 @@ class FluidContainerUtil
             }
 
             vertexBuffer.end();
-            WorldVertexBufferUploader.end(vertexBuffer);
-            RenderSystem.disableAlphaTest();
+            BufferUploader.end(vertexBuffer);
+            RenderSystem.disableDepthTest();
             RenderSystem.disableBlend();
         }
     }
 
     public static TextureAtlasSprite getSprite(ResourceLocation spriteLocation) {
-        return Minecraft.getInstance().getTextureAtlas(AtlasTexture.LOCATION_BLOCKS).apply(spriteLocation);
+        return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(spriteLocation);
     }
 
     public static void bindTexture(ResourceLocation texture) {
-        Minecraft.getInstance().textureManager.bind(texture);
+        Minecraft.getInstance().textureManager.bindForSetup(texture);
     }
 }

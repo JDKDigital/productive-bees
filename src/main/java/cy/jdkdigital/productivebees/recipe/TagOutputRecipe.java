@@ -1,16 +1,16 @@
 package cy.jdkdigital.productivebees.recipe;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import net.minecraft.fluid.FlowingFluid;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.IntArrayNBT;
+import net.minecraft.nbt.IntArrayTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -18,20 +18,20 @@ import java.util.*;
 
 public abstract class TagOutputRecipe
 {
-    public final Map<Ingredient, IntArrayNBT> itemOutput;
-    public final Map<ItemStack, IntArrayNBT> calculatedItemOutput = new LinkedHashMap<>();
+    public final Map<Ingredient, IntArrayTag> itemOutput;
+    public final Map<ItemStack, IntArrayTag> calculatedItemOutput = new LinkedHashMap<>();
     public static Map<String, Integer> modPreference = new HashMap<>();
 
     public TagOutputRecipe(Ingredient itemOutput) {
         this.itemOutput = new LinkedHashMap<>();
-        this.itemOutput.put(itemOutput, new IntArrayNBT(new int[]{1, 1, 100}));
+        this.itemOutput.put(itemOutput, new IntArrayTag(new int[]{1, 1, 100}));
     }
 
-    public TagOutputRecipe(Map<Ingredient, IntArrayNBT> itemOutput) {
+    public TagOutputRecipe(Map<Ingredient, IntArrayTag> itemOutput) {
         this.itemOutput = itemOutput;
     }
 
-    public Map<ItemStack, IntArrayNBT> getRecipeOutputs() {
+    public Map<ItemStack, IntArrayTag> getRecipeOutputs() {
         if (calculatedItemOutput.isEmpty() && !itemOutput.isEmpty()) {
             itemOutput.forEach((ingredient, intNBTS) -> {
                 ItemStack preferredItem = getPreferredItemByMod(ingredient);
@@ -76,7 +76,7 @@ public abstract class TagOutputRecipe
         // Try loading fluid from fluid tag
         if (preferredFluid == null || preferredFluid.equals(Fluids.EMPTY)) {
             try {
-                ITag<Fluid> fluidTag = FluidTags.getAllTags().getTag(new ResourceLocation(fluidName));
+                Tag<Fluid> fluidTag = FluidTags.getAllTags().getTag(new ResourceLocation(fluidName));
                 if (fluidTag != null && fluidTag.getValues().size() > 0) {
                     int currBest = getModPreference().size();
                     for (Fluid fluid: fluidTag.getValues()) {

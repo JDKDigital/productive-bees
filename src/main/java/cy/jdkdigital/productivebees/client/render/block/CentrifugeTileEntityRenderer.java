@@ -1,25 +1,24 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.common.tileentity.CentrifugeTileEntity;
-import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class CentrifugeTileEntityRenderer extends TileEntityRenderer<CentrifugeTileEntity>
+public class CentrifugeTileEntityRenderer implements BlockEntityRenderer<CentrifugeBlockEntity>
 {
-    public CentrifugeTileEntityRenderer(TileEntityRendererDispatcher dispatcher) {
-        super(dispatcher);
+    public CentrifugeTileEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
 
-    public void render(CentrifugeTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(CentrifugeBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if (ProductiveBeesConfig.CLIENT.renderCombsInCentrifuge.get()) {
             tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(itemHandler -> {
                 ItemStack stack = itemHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
@@ -37,7 +36,7 @@ public class CentrifugeTileEntityRenderer extends TileEntityRenderer<CentrifugeT
                         matrixStackIn.translate(0.5D + dX, 0.6375D, 0.5D + dZ);
                         matrixStackIn.mulPose(Vector3f.YP.rotationDegrees((float) angle + 90F));
                         matrixStackIn.scale(0.35F, 0.35F, 0.35F);
-                        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemCameraTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn);
+                        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
                         matrixStackIn.popPose();
                     }
                 }

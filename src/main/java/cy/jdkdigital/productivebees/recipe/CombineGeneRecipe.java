@@ -6,20 +6,20 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ICraftingRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class CombineGeneRecipe implements ICraftingRecipe
+public class CombineGeneRecipe implements CraftingRecipe
 {
     public final ResourceLocation id;
 
@@ -28,7 +28,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
+    public boolean matches(CraftingContainer inv, Level worldIn) {
         // Valid if inv contains one or more genes of the same type
         // genes must not be mutually exclusive (2 levels of the same attribute are not allowed)
         int numberOfIngredients = 0;
@@ -57,7 +57,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack assemble(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer inv) {
         // Combine genes
         String attribute = null;
         int value = 0;
@@ -109,11 +109,11 @@ public class CombineGeneRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.GENE_GENE.get();
     }
 
-    public static class Serializer<T extends CombineGeneRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends CombineGeneRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
         final CombineGeneRecipe.Serializer.IRecipeFactory<T> factory;
 
@@ -126,7 +126,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
             return this.factory.create(id);
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 return this.factory.create(id);
             } catch (Exception e) {
@@ -135,7 +135,7 @@ public class CombineGeneRecipe implements ICraftingRecipe
             }
         }
 
-        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
         }
 
         public interface IRecipeFactory<T extends CombineGeneRecipe>

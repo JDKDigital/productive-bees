@@ -5,6 +5,7 @@
     "particleColor": "#ff0000",
     "particleType": "lava",
     "renderer": "default_crystal",
+    "useGlowLayer": false,
     "redstoned": true,
     "flowerTag": "productivebees:flowers/redstone",
     "createComb": false

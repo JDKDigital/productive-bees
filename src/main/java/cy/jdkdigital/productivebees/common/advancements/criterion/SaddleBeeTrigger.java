@@ -2,18 +2,18 @@ package cy.jdkdigital.productivebees.common.advancements.criterion;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import net.minecraft.advancements.criterion.AbstractCriterionTrigger;
-import net.minecraft.advancements.criterion.CriterionInstance;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.entity.IEquipable;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.loot.ConditionArrayParser;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Saddleable;
+import net.minecraft.world.entity.animal.Bee;
 
 import javax.annotation.Nonnull;
 
-public class SaddleBeeTrigger extends AbstractCriterionTrigger<SaddleBeeTrigger.Instance>
+public class SaddleBeeTrigger extends SimpleCriterionTrigger<SaddleBeeTrigger.Instance>
 {
     private static final ResourceLocation ID = new ResourceLocation(ProductiveBees.MODID, "saddle_bee");
 
@@ -23,20 +23,20 @@ public class SaddleBeeTrigger extends AbstractCriterionTrigger<SaddleBeeTrigger.
         return ID;
     }
 
-    public void trigger(ServerPlayerEntity player, BeeEntity bee) {
+    public void trigger(ServerPlayer player, Bee bee) {
         this.trigger(player, trigger -> trigger.test(bee));
     }
 
     @Nonnull
     @Override
-    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
+    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.Composite andPredicate, DeserializationContext conditionArrayParser) {
         return new SaddleBeeTrigger.Instance();
     }
 
-    public static class Instance extends CriterionInstance
+    public static class Instance extends AbstractCriterionTriggerInstance
     {
         public Instance() {
-            super(SaddleBeeTrigger.ID, EntityPredicate.AndPredicate.ANY);
+            super(SaddleBeeTrigger.ID, EntityPredicate.Composite.ANY);
         }
 
         public static SaddleBeeTrigger.Instance any() {
@@ -47,8 +47,8 @@ public class SaddleBeeTrigger extends AbstractCriterionTrigger<SaddleBeeTrigger.
             return new SaddleBeeTrigger.Instance();
         }
 
-        public boolean test(BeeEntity bee) {
-            return bee instanceof IEquipable && ((IEquipable) bee).isSaddled();
+        public boolean test(Bee bee) {
+            return bee instanceof Saddleable && ((Saddleable) bee).isSaddled();
         }
     }
 }

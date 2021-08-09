@@ -5,24 +5,24 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.StoneChip;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.ICraftingRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class StoneChipRecipe implements ICraftingRecipe
+public class StoneChipRecipe implements CraftingRecipe
 {
     public final ResourceLocation id;
     public final Integer count;
@@ -33,7 +33,7 @@ public class StoneChipRecipe implements ICraftingRecipe
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
+    public boolean matches(CraftingContainer inv, Level worldIn) {
         Block chipBlock = null;
 
         int matchingStacks = 0;
@@ -59,7 +59,7 @@ public class StoneChipRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack assemble(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer inv) {
         ItemStack stack = inv.getItem(0);
 
         return new ItemStack(StoneChip.getBlock(stack));
@@ -97,11 +97,11 @@ public class StoneChipRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.STONE_CHIP.get();
     }
 
-    public static class Serializer<T extends StoneChipRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends StoneChipRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
         final StoneChipRecipe.Serializer.IRecipeFactory<T> factory;
 
@@ -111,12 +111,12 @@ public class StoneChipRecipe implements ICraftingRecipe
 
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
-            Integer count = JSONUtils.getAsInt(json, "count", 9);
+            Integer count = GsonHelper.getAsInt(json, "count", 9);
 
             return this.factory.create(id, count);
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 return this.factory.create(id, buffer.readInt());
             } catch (Exception e) {
@@ -125,7 +125,7 @@ public class StoneChipRecipe implements ICraftingRecipe
             }
         }
 
-        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
             try {
                 buffer.writeInt(recipe.count);
             } catch (Exception e) {

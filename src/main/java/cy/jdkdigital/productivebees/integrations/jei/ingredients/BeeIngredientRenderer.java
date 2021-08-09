@@ -1,16 +1,16 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientRenderer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.TooltipFlag;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,7 +20,7 @@ import java.util.List;
 public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 {
     @Override
-    public void render(@Nonnull MatrixStack matrixStack, int xPosition, int yPosition, @Nullable BeeIngredient beeIngredient) {
+    public void render(@Nonnull PoseStack matrixStack, int xPosition, int yPosition, @Nullable BeeIngredient beeIngredient) {
         if (beeIngredient == null) {
             return;
         }
@@ -33,16 +33,16 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 
     @Nonnull
     @Override
-    public List<ITextComponent> getTooltip(BeeIngredient beeIngredient, ITooltipFlag iTooltipFlag) {
-        List<ITextComponent> list = new ArrayList<>();
-        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
+    public List<Component> getTooltip(BeeIngredient beeIngredient, TooltipFlag iTooltipFlag) {
+        List<Component> list = new ArrayList<>();
+        CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
-            list.add(new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")));
+            list.add(new TranslatableComponent("entity.productivebees.bee_configurable", nbt.getString("name")));
         }
         else {
             list.add(beeIngredient.getBeeEntity().getDescription());
         }
-        list.add(new StringTextComponent(beeIngredient.getBeeType().toString()).withStyle(TextFormatting.DARK_GRAY));
+        list.add(new TextComponent(beeIngredient.getBeeType().toString()).withStyle(ChatFormatting.DARK_GRAY));
         return list;
     }
 }

@@ -13,13 +13,13 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
@@ -52,8 +52,8 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
 
     @Nonnull
     @Override
-    public String getTitle() {
-        return I18n.get("jei.productivebees.centrifuge");
+    public Component getTitle() {
+        return new TranslatableComponent("jei.productivebees.centrifuge");
     }
 
     @Nonnull
@@ -128,25 +128,25 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         }
         fluidStacks.set(ingredients);
 
-        List<ITextComponent> chances = new ArrayList<>();
-        List<ITextComponent> amounts = new ArrayList<>();
+        List<Component> chances = new ArrayList<>();
+        List<Component> amounts = new ArrayList<>();
         recipe.getRecipeOutputs().forEach((stack, value) -> {
             int chance = value.get(2).getAsInt();
             if (chance < 100) {
-                chances.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
+                chances.add(new TranslatableComponent("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
             } else {
-                chances.add(new StringTextComponent(""));
+                chances.add(new TextComponent(""));
             }
             if (value.get(0) != value.get(1)) {
-                amounts.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.amount", value.get(0).getAsInt() + " - " + value.get(1).getAsInt()));
+                amounts.add(new TranslatableComponent("productivebees.centrifuge.tooltip.amount", value.get(0).getAsInt() + " - " + value.get(1).getAsInt()));
             } else {
-                amounts.add(new StringTextComponent(""));
+                amounts.add(new TextComponent(""));
             }
         });
         Pair<Fluid, Integer> fluid = recipe.getFluidOutputs();
         if (fluid != null) {
-            chances.add(new StringTextComponent(""));
-            amounts.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.amount", fluid.getSecond() + "mb"));
+            chances.add(new TextComponent(""));
+            amounts.add(new TranslatableComponent("productivebees.centrifuge.tooltip.amount", fluid.getSecond() + "mb"));
         }
 
         itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {

@@ -4,23 +4,23 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.util.BeeCreator;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.IntArrayNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.nbt.IntArrayTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -29,15 +29,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInventory>
+public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Container>
 {
-    public static final IRecipeType<CentrifugeRecipe> CENTRIFUGE = IRecipeType.register(ProductiveBees.MODID + ":centrifuge");
+    public static final RecipeType<CentrifugeRecipe> CENTRIFUGE = RecipeType.register(ProductiveBees.MODID + ":centrifuge");
 
     public final ResourceLocation id;
     public final Ingredient ingredient;
     public final Map<String, Integer> fluidOutput;
 
-    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<Ingredient, IntArrayNBT> itemOutput, Map<String, Integer> fluidOutput) {
+    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<Ingredient, IntArrayTag> itemOutput, Map<String, Integer> fluidOutput) {
         super(itemOutput);
         this.id = id;
         this.ingredient = ingredient;
@@ -45,7 +45,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         if (this.ingredient.getItems().length > 0) {
             ItemStack invStack = inv.getItem(InventoryHandlerHelper.INPUT_SLOT);
 
@@ -69,7 +69,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
     @Nonnull
     @Override
-    public ItemStack assemble(IInventory inv) {
+    public ItemStack assemble(Container inv) {
         return ItemStack.EMPTY;
     }
 
@@ -105,17 +105,17 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.CENTRIFUGE.get();
     }
 
     @Nonnull
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return CENTRIFUGE;
     }
 
-    public static class Serializer<T extends CentrifugeRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends CentrifugeRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
         final CentrifugeRecipe.Serializer.IRecipeFactory<T> factory;
 
@@ -126,47 +126,47 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
             Ingredient ingredient;
-            if (JSONUtils.isArrayNode(json, "ingredient")) {
-                ingredient = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "ingredient"));
+            if (GsonHelper.isArrayNode(json, "ingredient")) {
+                ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredient"));
             } else {
-                ingredient = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "ingredient"));
+                ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient"));
             }
 
-            String type = JSONUtils.getAsString(json, "comb_type", "");
+            String type = GsonHelper.getAsString(json, "comb_type", "");
             if (!type.isEmpty()) {
                 ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
                 BeeCreator.setTag(type, stack);
                 ingredient = Ingredient.of(stack);
             }
 
-            JsonArray jsonArray = JSONUtils.getAsJsonArray(json, "outputs");
-            Map<Ingredient, IntArrayNBT> itemOutputs = new LinkedHashMap<>();
+            JsonArray jsonArray = GsonHelper.getAsJsonArray(json, "outputs");
+            Map<Ingredient, IntArrayTag> itemOutputs = new LinkedHashMap<>();
             Map<String, Integer> fluidOutputs = new LinkedHashMap<>();
             jsonArray.forEach(el -> {
                 JsonObject jsonObject = el.getAsJsonObject();
                 if (jsonObject.has("item")) {
-                    int min = JSONUtils.getAsInt(jsonObject, "min", 1);
-                    int max = JSONUtils.getAsInt(jsonObject, "max", 1);
-                    int chance = JSONUtils.getAsInt(jsonObject, "chance", 100);
-                    IntArrayNBT nbt = new IntArrayNBT(new int[]{min, max, chance});
+                    int min = GsonHelper.getAsInt(jsonObject, "min", 1);
+                    int max = GsonHelper.getAsInt(jsonObject, "max", 1);
+                    int chance = GsonHelper.getAsInt(jsonObject, "chance", 100);
+                    IntArrayTag nbt = new IntArrayTag(new int[]{min, max, chance});
 
                     Ingredient produce;
-                    if (JSONUtils.isArrayNode(jsonObject, "item")) {
-                        produce = Ingredient.fromJson(JSONUtils.getAsJsonArray(jsonObject, "item"));
+                    if (GsonHelper.isArrayNode(jsonObject, "item")) {
+                        produce = Ingredient.fromJson(GsonHelper.getAsJsonArray(jsonObject, "item"));
                     } else {
-                        produce = Ingredient.fromJson(JSONUtils.getAsJsonObject(jsonObject, "item"));
+                        produce = Ingredient.fromJson(GsonHelper.getAsJsonObject(jsonObject, "item"));
                     }
 
                     itemOutputs.put(produce, nbt);
                 } else if (jsonObject.has("fluid")) {
-                    int amount = JSONUtils.getAsInt(jsonObject, "amount", 250);
+                    int amount = GsonHelper.getAsInt(jsonObject, "amount", 250);
 
-                    JsonObject fluid = JSONUtils.getAsJsonObject(jsonObject, "fluid");
+                    JsonObject fluid = GsonHelper.getAsJsonObject(jsonObject, "fluid");
                     String fluidResourceLocation = "";
                     if (fluid.has("tag")) {
-                        fluidResourceLocation = JSONUtils.getAsString(fluid, "tag");
+                        fluidResourceLocation = GsonHelper.getAsString(fluid, "tag");
                     } else if (fluid.has("fluid")) {
-                        fluidResourceLocation = JSONUtils.getAsString(fluid, "fluid");
+                        fluidResourceLocation = GsonHelper.getAsString(fluid, "fluid");
                     }
 
                     fluidOutputs.put(fluidResourceLocation, amount);
@@ -182,13 +182,13 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
         }
 
         @Override
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 Ingredient ingredient = Ingredient.fromNetwork(buffer);
 
-                Map<Ingredient, IntArrayNBT> itemOutput = new LinkedHashMap<>();
+                Map<Ingredient, IntArrayTag> itemOutput = new LinkedHashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
-                        i -> itemOutput.put(Ingredient.fromNetwork(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
+                        i -> itemOutput.put(Ingredient.fromNetwork(buffer), new IntArrayTag(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
                 Map<String, Integer> fluidOutput = new LinkedHashMap<>();
@@ -204,7 +204,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
         }
 
         @Override
-        public void toNetwork(@Nonnull PacketBuffer buffer, @Nonnull T recipe) {
+        public void toNetwork(@Nonnull FriendlyByteBuf buffer, @Nonnull T recipe) {
             try {
                 recipe.ingredient.toNetwork(buffer);
                 buffer.writeInt(recipe.itemOutput.size());
@@ -230,7 +230,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements IRecipe<IInvent
 
         public interface IRecipeFactory<T extends CentrifugeRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, Map<Ingredient, IntArrayNBT> itemOutput, Map<String, Integer> fluidOutput);
+            T create(ResourceLocation id, Ingredient input, Map<Ingredient, IntArrayTag> itemOutput, Map<String, Integer> fluidOutput);
         }
     }
 }

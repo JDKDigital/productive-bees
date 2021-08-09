@@ -1,6 +1,6 @@
 # Productive Bees
 
-<a href="https://www.curseforge.com/minecraft/mc-mods/productivebees/files"><img src="https://img.shields.io/badge/Available%20for-MC%201.15.2,%201.16.1,%201.16.3+-c70039" alt="Supported Versions"></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/productivebees/files"><img src="https://img.shields.io/badge/Available%20for-MC%201.15.2,%201.16.3+%201.17.1+-c70039" alt="Supported Versions"></a>
 <a href="https://github.com/JDKDigital/productive-bees/blob/master/LICENSE"><img src="https://img.shields.io/github/license/JDKDigital/productive-bees?style=flat&color=900c3f" alt="License"></a>
 <a href="https://discord.gg/v2fVahY"><img src="https://img.shields.io/discord/756513972282195969?color=844685&label=Feedback%20%26%20Help&style=flat" alt="Discord"></a>
 <a href="https://www.curseforge.com/minecraft/mc-mods/productivebees"><img src="http://cf.way2muchnoise.eu/short_productivebees.svg" alt="Curseforge Downloads"></a><br><br>

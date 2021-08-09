@@ -1,23 +1,24 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.tileentity.CatcherTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.TallFlowerBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import cy.jdkdigital.productivebees.common.block.entity.CatcherBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.TallFlowerBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,49 +29,50 @@ public class Catcher extends CapabilityContainerBlock
         super(builder);
     }
 
+    @Nullable
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level levelIn, BlockState stateIn, BlockEntityType<T> blockEntityType) {
+        if (!levelIn.isClientSide()) {
+            return (level, pos, state, tile) -> {
+                if (tile instanceof CatcherBlockEntity catcherBlockEntity) {
+                    catcherBlockEntity.tick(level, state);
+                }
+            };
+        }
+        return null;
+    }
+
+    @Nonnull
+    @Override
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new CatcherBlockEntity(pos, state);
+    }
+
+    @Override
+    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction direction, IPlantable plant) {
+        return !(plant instanceof BonemealableBlock) || plant instanceof TallFlowerBlock;
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public BlockRenderType getRenderShape(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.CATCHER.get().create();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader world) {
-        return new CatcherTileEntity();
-    }
-
-    @Override
-    public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction direction, IPlantable plant) {
-        return !(plant instanceof IGrowable) || plant instanceof TallFlowerBlock;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Nonnull
-    @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!world.isClientSide()) {
-            final TileEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof CatcherTileEntity) {
-                openGui((ServerPlayerEntity) player, (CatcherTileEntity) tileEntity);
+            final BlockEntity tileEntity = world.getBlockEntity(pos);
+            if (tileEntity instanceof CatcherBlockEntity) {
+                openGui((ServerPlayer) player, (CatcherBlockEntity) tileEntity);
             }
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
-    public void openGui(ServerPlayerEntity player, CatcherTileEntity tileEntity) {
+    public void openGui(ServerPlayer player, CatcherBlockEntity tileEntity) {
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

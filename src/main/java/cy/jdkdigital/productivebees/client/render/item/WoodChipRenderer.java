@@ -1,33 +1,39 @@
 package cy.jdkdigital.productivebees.client.render.item;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public class WoodChipRenderer extends ItemStackTileEntityRenderer
+public class WoodChipRenderer extends BlockEntityWithoutLevelRenderer
 {
     private static HashMap<String, TextureAtlasSprite> blockTextureLocations = new HashMap<>();
 
-    protected void add(IVertexBuilder builder, MatrixStack matrixStack, float x, float y, float z, float u, float v) {
+    public WoodChipRenderer() {
+        super(null, null);
+    }
+
+    protected void add(VertexConsumer builder, PoseStack matrixStack, float x, float y, float z, float u, float v) {
         builder.vertex(matrixStack.last().pose(), x, y, z)
                 .color(1.0f, 1.0f, 1.0f, 1.0f)
                 .uv(u, v)
@@ -36,7 +42,7 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
                 .endVertex();
     }
 
-    protected void addBox(IVertexBuilder builder, MatrixStack matrixStack, TextureAtlasSprite sprite, int fromX, int fromY, int toX, int toY) {
+    protected void addBox(VertexConsumer builder, PoseStack matrixStack, TextureAtlasSprite sprite, int fromX, int fromY, int toX, int toY) {
         float startX = fromX / 16f;
         float startY = fromY / 16f;
         float endX = toX / 16f;
@@ -54,11 +60,11 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
     }
 
     @Override
-    public void renderByItem(ItemStack itemStack, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int packedLightIn, int packedUV) {
+    public void renderByItem(ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int packedLightIn, int packedUV) {
         Item item = itemStack.getItem();
 
         if (item instanceof WoodChip) {
-            IVertexBuilder builder = renderTypeBuffer.getBuffer(RenderType.cutout());
+            VertexConsumer builder = renderTypeBuffer.getBuffer(RenderType.cutout());
 
             Block woodBlock = WoodChip.getBlock(itemStack);
             if (woodBlock != null && woodBlock != Blocks.AIR) {
@@ -95,8 +101,8 @@ public class WoodChipRenderer extends ItemStackTileEntityRenderer
             return blockTextureLocations.get(woodName);
         }
 
-        BlockRendererDispatcher manager = Minecraft.getInstance().getBlockRenderer();
-        IBakedModel model = manager.getBlockModel(block.defaultBlockState());
+        BlockRenderDispatcher manager = Minecraft.getInstance().getBlockRenderer();
+        BakedModel model = manager.getBlockModel(block.defaultBlockState());
 
         List<BakedQuad> quads = model.getQuads(block.defaultBlockState(), Direction.NORTH, new Random());
         if (quads.isEmpty()) {

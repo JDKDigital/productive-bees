@@ -5,28 +5,24 @@ import com.google.common.collect.Sets;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.DragonEggHive;
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
-import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBeeEntity;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
+import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.setup.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.dispenser.OptionalDispenseBehavior;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.village.PointOfInterestType;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockSource;
+import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -35,13 +31,15 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.*;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,7 +72,7 @@ public final class ProductiveBees
         ModEntities.HIVE_BEES.register(modEventBus);
         ModEntities.SOLITARY_BEES.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
-        ModTileEntityTypes.TILE_ENTITY_TYPES.register(modEventBus);
+        ModTileEntityTypes.BLOCK_ENTITIES.register(modEventBus);
         ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
         ModRecipeTypes.RECIPE_SERIALIZERS.register(modEventBus);
@@ -83,11 +81,14 @@ public final class ProductiveBees
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             modEventBus.addListener(ClientSetup::init);
             modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerParticles);
+            modEventBus.addListener(ClientSetup::layerDefinitions);
+            modEventBus.addListener(ClientSetup::registerEntityRendering);
         });
 
         modEventBus.addListener(this::onInterModEnqueue);
         modEventBus.addGenericListener(Feature.class, this::onRegisterFeatures);
         modEventBus.addListener(this::onCommonSetup);
+        modEventBus.addListener(EventHandler::onEntityAttributeCreate);
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.SERVER_CONFIG);
@@ -97,9 +98,9 @@ public final class ProductiveBees
     }
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {
-        if (ModList.get().isLoaded("theoneprobe")) {
-            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
-        }
+//        if (ModList.get().isLoaded("theoneprobe")) {
+//            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
+//        }
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {
@@ -116,16 +117,16 @@ public final class ProductiveBees
         PacketHandler.init();
         ModAdvancements.register();
 
-        DefaultDispenseItemBehavior cageDispenseBehavior = new OptionalDispenseBehavior()
+        DefaultDispenseItemBehavior cageDispenseBehavior = new OptionalDispenseItemBehavior()
         {
             private final DefaultDispenseItemBehavior fallbackDispenseBehavior = new DefaultDispenseItemBehavior();
 
             @Override
-            public ItemStack execute(IBlockSource source, ItemStack stack) {
+            public ItemStack execute(BlockSource source, ItemStack stack) {
                 if (stack.getItem() instanceof BeeCage && BeeCage.isFilled(stack)) {
                     Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
 
-                    BeeEntity entity = BeeCage.getEntityFromStack(stack, source.getLevel(), true);
+                    Bee entity = BeeCage.getEntityFromStack(stack, source.getLevel(), true);
                     if (entity != null) {
                         entity.hivePos = null;
 
@@ -149,19 +150,6 @@ public final class ProductiveBees
         DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), cageDispenseBehavior);
         DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), cageDispenseBehavior);
 
-        DeferredWorkQueue.runLater(() -> {
-            //Entity attribute assignments
-            for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
-                EntityType<ProductiveBeeEntity> bee = (EntityType<ProductiveBeeEntity>) registryObject.get();
-                GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().build());
-            }
-            for (RegistryObject<EntityType<?>> registryObject : ModEntities.SOLITARY_BEES.getEntries()) {
-                EntityType<ProductiveBeeEntity> bee = (EntityType<ProductiveBeeEntity>) registryObject.get();
-                GlobalEntityTypeAttributes.put(bee, ProductiveBeeEntity.getDefaultAttributes().build());
-            }
-            GlobalEntityTypeAttributes.put(ModEntities.BLUE_BANDED_BEE.get(), BlueBandedBeeEntity.getDefaultAttributes().build());
-        });
-
         this.fixPOI(event);
     }
 
@@ -170,17 +158,17 @@ public final class ProductiveBees
     }
 
     private void fixPOI(final FMLCommonSetupEvent event) {
-        for (RegistryObject<PointOfInterestType> poi : ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.getEntries()) {
+        for (RegistryObject<PoiType> poi : ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.getEntries()) {
             ModPointOfInterestTypes.fixPOITypeBlockStates(poi.get());
         }
 
-        PointOfInterestType.BEEHIVE.matchingStates = this.makePOIStatesMutable(PointOfInterestType.BEEHIVE.matchingStates);
+        PoiType.BEEHIVE.matchingStates = this.makePOIStatesMutable(PoiType.BEEHIVE.matchingStates);
         ImmutableList<Block> beehives = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive && !(block instanceof DragonEggHive)).collect(ImmutableList.toImmutableList());
         for (Block block : beehives) {
             for (BlockState state : block.getStateDefinition().getPossibleStates()) {
-                PointOfInterestType.TYPE_BY_STATE.put(state, PointOfInterestType.BEEHIVE);
+                PoiType.TYPE_BY_STATE.put(state, PoiType.BEEHIVE);
                 try {
-                    PointOfInterestType.BEEHIVE.matchingStates.add(state);
+                    PoiType.BEEHIVE.matchingStates.add(state);
                 } catch (Exception e) {
                     LOGGER.warn("Could not add blockstate to beehive POI " + state);
                 }

@@ -1,11 +1,11 @@
 package cy.jdkdigital.productivebees.setup;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 public interface IProxy
 {
-    World getWorld();
+    Level getWorld();
 
-    PlayerEntity getPlayer();
+    Player getPlayer();
 }

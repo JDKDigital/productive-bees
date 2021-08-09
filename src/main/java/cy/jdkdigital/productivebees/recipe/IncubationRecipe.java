@@ -3,23 +3,23 @@ package cy.jdkdigital.productivebees.recipe;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class IncubationRecipe implements IRecipe<IInventory>
+public class IncubationRecipe implements Recipe<Container>
 {
-    public static final IRecipeType<IncubationRecipe> INCUBATION = IRecipeType.register(ProductiveBees.MODID + ":incubation");
+    public static final RecipeType<IncubationRecipe> INCUBATION = RecipeType.register(ProductiveBees.MODID + ":incubation");
 
     public final ResourceLocation id;
     public final Ingredient input;
@@ -34,13 +34,13 @@ public class IncubationRecipe implements IRecipe<IInventory>
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         return false;
     }
 
     @Nonnull
     @Override
-    public ItemStack assemble(IInventory inv) {
+    public ItemStack assemble(Container inv) {
         return ItemStack.EMPTY;
     }
 
@@ -63,17 +63,17 @@ public class IncubationRecipe implements IRecipe<IInventory>
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.INCUBATION.get();
     }
 
     @Nonnull
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return INCUBATION;
     }
 
-    public static class Serializer<T extends IncubationRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends IncubationRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
         final IncubationRecipe.Serializer.IRecipeFactory<T> factory;
 
@@ -85,33 +85,33 @@ public class IncubationRecipe implements IRecipe<IInventory>
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
             Ingredient input;
-            if (JSONUtils.isArrayNode(json, "input")) {
-                input = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "input"));
+            if (GsonHelper.isArrayNode(json, "input")) {
+                input = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "input"));
             }
             else {
-                input = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "input"));
+                input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "input"));
             }
 
             Ingredient catalyst;
-            if (JSONUtils.isArrayNode(json, "catalyst")) {
-                catalyst = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "catalyst"));
+            if (GsonHelper.isArrayNode(json, "catalyst")) {
+                catalyst = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "catalyst"));
             }
             else {
-                catalyst = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "catalyst"));
+                catalyst = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "catalyst"));
             }
 
             Ingredient output;
-            if (JSONUtils.isArrayNode(json, "output")) {
-                output = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "output"));
+            if (GsonHelper.isArrayNode(json, "output")) {
+                output = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "output"));
             }
             else {
-                output = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "output"));
+                output = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "output"));
             }
 
             return this.factory.create(id, input, catalyst, output);
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 return this.factory.create(id, Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer));
             } catch (Exception e) {
@@ -120,7 +120,7 @@ public class IncubationRecipe implements IRecipe<IInventory>
             }
         }
 
-        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
             try {
                 recipe.input.toNetwork(buffer);
                 recipe.catalyst.toNetwork(buffer);

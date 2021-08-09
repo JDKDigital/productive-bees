@@ -4,24 +4,24 @@ import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ICraftingRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigurableHoneycombRecipe implements ICraftingRecipe
+public class ConfigurableHoneycombRecipe implements CraftingRecipe
 {
     public final ResourceLocation id;
     public final Integer count;
@@ -32,11 +32,11 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
+    public boolean matches(CraftingContainer inv, Level worldIn) {
         List<ItemStack> stacks = getItemsInInventory(inv);
 
         // Honeycombs must match the defined number in the prototype recipe and have the same NBT data
-        CompoundNBT type = null;
+        CompoundTag type = null;
         if (stacks.size() == count) {
             for (ItemStack itemstack : stacks) {
                 if (!itemstack.isEmpty() && itemstack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get()) && itemstack.hasTag()) {
@@ -58,7 +58,7 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack assemble(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer inv) {
         List<ItemStack> stacks = getItemsInInventory(inv);
 
         if (stacks.size() > 0) {
@@ -73,7 +73,7 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
         return ItemStack.EMPTY;
     }
 
-    private List<ItemStack> getItemsInInventory(CraftingInventory inv) {
+    private List<ItemStack> getItemsInInventory(CraftingContainer inv) {
         List<ItemStack> stacks = new ArrayList<>();
         for (int j = 0; j < inv.getContainerSize(); ++j) {
             ItemStack itemstack = inv.getItem(j);
@@ -112,11 +112,11 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.CONFIGURABLE_HONEYCOMB.get();
     }
 
-    public static class Serializer<T extends ConfigurableHoneycombRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends ConfigurableHoneycombRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
         final ConfigurableHoneycombRecipe.Serializer.IRecipeFactory<T> factory;
 
@@ -126,12 +126,12 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
 
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
-            Integer count = JSONUtils.getAsInt(json, "count", 4);
+            Integer count = GsonHelper.getAsInt(json, "count", 4);
 
             return this.factory.create(id, count);
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 return this.factory.create(id, buffer.readInt());
             } catch (Exception e) {
@@ -140,7 +140,7 @@ public class ConfigurableHoneycombRecipe implements ICraftingRecipe
             }
         }
 
-        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
             try {
                 buffer.writeInt(recipe.count);
             } catch (Exception e) {

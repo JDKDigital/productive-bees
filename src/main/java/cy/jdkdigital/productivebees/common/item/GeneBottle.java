@@ -1,10 +1,10 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.init.ModItems;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 
@@ -27,7 +27,7 @@ public class GeneBottle extends Item
     }
 
     public static void setGenes(ItemStack stack, Entity target) {
-        CompoundNBT nbt = new CompoundNBT();
+        CompoundTag nbt = new CompoundTag();
         if (target.hasCustomName()) {
             nbt.putString("name", target.getCustomName().getString());
         }
@@ -44,16 +44,16 @@ public class GeneBottle extends Item
     }
 
     @Nullable
-    public static CompoundNBT getGenes(ItemStack stack) {
+    public static CompoundTag getGenes(ItemStack stack) {
         if (!getGenesTag(stack).isEmpty()) {
             return getGenesTag(stack);
         }
         return null;
     }
 
-    public static CompoundNBT getGenesTag(ItemStack stack) {
-        CompoundNBT tag = stack.getTag();
-        return tag != null ? (CompoundNBT) tag.get(GENES_KEY) : new CompoundNBT();
+    public static CompoundTag getGenesTag(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        return tag != null ? (CompoundTag) tag.get(GENES_KEY) : new CompoundTag();
     }
 
 //    @Override

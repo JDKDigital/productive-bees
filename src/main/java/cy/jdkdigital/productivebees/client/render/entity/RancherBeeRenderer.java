@@ -1,11 +1,11 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
 import cy.jdkdigital.productivebees.client.render.entity.model.RancherBeeModel;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
 public class RancherBeeRenderer extends ProductiveBeeRenderer
 {
-    public RancherBeeRenderer(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new RancherBeeModel<>());
+    public RancherBeeRenderer(EntityRendererProvider.Context context) {
+        super(context, new RancherBeeModel<>(context.bakeLayer(PB_MAIN_LAYER)));
     }
 }

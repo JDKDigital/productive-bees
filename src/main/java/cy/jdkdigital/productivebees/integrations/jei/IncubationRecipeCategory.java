@@ -16,13 +16,15 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.NBTIngredient;
 
 import javax.annotation.Nonnull;
@@ -56,8 +58,8 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
 
     @Nonnull
     @Override
-    public String getTitle() {
-        return I18n.get("jei.productivebees.incubation");
+    public Component getTitle() {
+        return new TranslatableComponent("jei.productivebees.incubation");
     }
 
     @Nonnull
@@ -94,8 +96,8 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
         List<IncubationRecipe> recipes = new ArrayList<>();
 
         // babee to adult incubation
-        BeeEntity bee = EntityType.BEE.create(ProductiveBees.proxy.getWorld());
-        BeeEntity baBee = EntityType.BEE.create(ProductiveBees.proxy.getWorld());
+        Bee bee = EntityType.BEE.create(ProductiveBees.proxy.getWorld());
+        Bee baBee = EntityType.BEE.create(ProductiveBees.proxy.getWorld());
         if (bee != null && baBee != null) {
             ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
             ItemStack babeeCage = cage.copy();

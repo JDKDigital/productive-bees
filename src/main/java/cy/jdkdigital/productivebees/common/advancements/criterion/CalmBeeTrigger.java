@@ -2,20 +2,16 @@ package cy.jdkdigital.productivebees.common.advancements.criterion;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
-import net.minecraft.advancements.criterion.AbstractCriterionTrigger;
-import net.minecraft.advancements.criterion.CriterionInstance;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.loot.ConditionArrayParser;
-import net.minecraft.loot.ConditionArraySerializer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import net.minecraft.advancements.critereon.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.entity.animal.Bee;
 
 import javax.annotation.Nonnull;
 
-public class CalmBeeTrigger extends AbstractCriterionTrigger<CalmBeeTrigger.Instance>
+public class CalmBeeTrigger extends SimpleCriterionTrigger<CalmBeeTrigger.Instance>
 {
     private static final ResourceLocation ID = new ResourceLocation(ProductiveBees.MODID, "calm_bee");
 
@@ -25,22 +21,22 @@ public class CalmBeeTrigger extends AbstractCriterionTrigger<CalmBeeTrigger.Inst
         return ID;
     }
 
-    public void trigger(ServerPlayerEntity player, BeeEntity bee) {
+    public void trigger(ServerPlayer player, Bee bee) {
         this.trigger(player, trigger -> trigger.test(bee));
     }
 
     @Nonnull
     @Override
-    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.AndPredicate andPredicate, ConditionArrayParser conditionArrayParser) {
-        return new CalmBeeTrigger.Instance(JSONUtils.getAsString(jsonObject, "beeName"));
+    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.Composite andPredicate, DeserializationContext conditionArrayParser) {
+        return new CalmBeeTrigger.Instance(GsonHelper.getAsString(jsonObject, "beeName"));
     }
 
-    public static class Instance extends CriterionInstance
+    public static class Instance extends AbstractCriterionTriggerInstance
     {
         private final String beeName;
 
         public Instance(String beeName) {
-            super(CalmBeeTrigger.ID, EntityPredicate.AndPredicate.ANY);
+            super(CalmBeeTrigger.ID, EntityPredicate.Composite.ANY);
             this.beeName = beeName;
         }
 
@@ -52,15 +48,15 @@ public class CalmBeeTrigger extends AbstractCriterionTrigger<CalmBeeTrigger.Inst
             return new CalmBeeTrigger.Instance(beeName);
         }
 
-        public boolean test(BeeEntity bee) {
-            String type = bee instanceof ConfigurableBeeEntity ? ((ConfigurableBeeEntity) bee).getBeeType() : bee.getEncodeId();
+        public boolean test(Bee bee) {
+            String type = bee instanceof ConfigurableBee ? ((ConfigurableBee) bee).getBeeType() : bee.getEncodeId();
 
             return this.beeName.equals("any") || (type != null && type.equals(this.beeName));
         }
 
         @Nonnull
         @Override
-        public JsonObject serializeToJson(ConditionArraySerializer serializer) {
+        public JsonObject serializeToJson(SerializationContext serializer) {
             JsonObject jsonobject = super.serializeToJson(serializer);
             jsonobject.addProperty("beeName", this.beeName);
             return jsonobject;

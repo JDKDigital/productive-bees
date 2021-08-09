@@ -1,18 +1,17 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.tileentity.DragonEggHiveTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.BeehiveBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import cy.jdkdigital.productivebees.common.block.entity.DragonEggHiveBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,33 +28,27 @@ public class DragonEggHive extends AdvancedBeehive
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader blockReader, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter blockReader, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
-        return ModTileEntityTypes.DRACONIC_BEEHIVE.get().create();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader worldIn) {
-        return new DragonEggHiveTileEntity();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new DragonEggHiveBlockEntity(pos, state);
     }
 
     @Override
-    public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
         if (state.getValue(BeehiveBlock.HONEY_LEVEL) >= getMaxHoneyLevel()) {
             for (int i = 0; i < 22; ++i) {
                 double rnd = world.random.nextDouble();
                 float xSpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
                 float ySpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
                 float zSpeed = (world.random.nextFloat() - 0.5F) * 0.2F;
-                double x = MathHelper.lerp(rnd, pos.getX(), pos.getX()) + (world.random.nextDouble() - 0.5D) + 0.5D;
-                double y = MathHelper.lerp(rnd, pos.getY(), pos.getY()) + world.random.nextDouble() - 0.5D;
-                double z = MathHelper.lerp(rnd, pos.getZ(), pos.getZ()) + (world.random.nextDouble() - 0.5D) + 0.5D;
+                double x = Mth.lerp(rnd, pos.getX(), pos.getX()) + (world.random.nextDouble() - 0.5D) + 0.5D;
+                double y = Mth.lerp(rnd, pos.getY(), pos.getY()) + world.random.nextDouble() - 0.5D;
+                double z = Mth.lerp(rnd, pos.getZ(), pos.getZ()) + (world.random.nextDouble() - 0.5D) + 0.5D;
                 world.addParticle(ParticleTypes.PORTAL, x, y, z, xSpeed, ySpeed, zSpeed);
             }
         }

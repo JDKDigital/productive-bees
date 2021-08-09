@@ -2,25 +2,21 @@ package cy.jdkdigital.productivebees.client.render.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.util.ResourceLocation;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nonnull;
 
 public class DyeBeeRenderer extends ProductiveBeeRenderer
 {
-    public DyeBeeRenderer(EntityRendererManager renderManagerIn, ProductiveBeeModel<ProductiveBeeEntity> model) {
-        super(renderManagerIn, model);
-    }
-
-    public DyeBeeRenderer(EntityRendererManager renderManagerIn) {
-        this(renderManagerIn, new ProductiveBeeModel<>("default"));
+    public DyeBeeRenderer(EntityRendererProvider.Context context) {
+        super(context, new ProductiveBeeModel<>(context.bakeLayer(PB_MAIN_LAYER), "default"));
     }
 
     @Nonnull
     @Override
-    public ResourceLocation getTextureLocation(ProductiveBeeEntity bee) {
+    public ResourceLocation getTextureLocation(ProductiveBee bee) {
         int num = bee.getRenderStatic() ? 1 : sum(bee.getId(), 3);
 
         String beeLocation = "textures/entity/bee/" + bee.getBeeName() + "/" + num + "/bee";

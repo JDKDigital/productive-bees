@@ -2,8 +2,9 @@ package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientHelper;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.TranslationTextComponent;
+import mezz.jei.api.ingredients.subtypes.UidContext;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -12,7 +13,7 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
 {
     @Nullable
     @Override
-    public BeeIngredient getMatch(Iterable<BeeIngredient> iterable, BeeIngredient beeIngredient) {
+    public BeeIngredient getMatch(Iterable<BeeIngredient> iterable, BeeIngredient beeIngredient, UidContext uidContext) {
         for (BeeIngredient ingredient : iterable) {
             if (ingredient.getBeeType() == beeIngredient.getBeeType()) {
                 return ingredient;
@@ -24,23 +25,17 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     @Nonnull
     @Override
     public String getDisplayName(BeeIngredient beeIngredient) {
-        CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
+        CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
-            return new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")).getString();
+            return new TranslatableComponent("entity.productivebees.bee_configurable", nbt.getString("name")).getString();
         }
         return beeIngredient.getBeeEntity().getDescription().getString();
     }
 
     @Nonnull
     @Override
-    public String getUniqueId(BeeIngredient beeIngredient) {
+    public String getUniqueId(BeeIngredient beeIngredient, UidContext uidContext) {
         return "beeingredient:" + beeIngredient.getBeeType();
-    }
-
-    @Nonnull
-    @Override
-    public String getWildcardId(@Nonnull BeeIngredient beeIngredient) {
-        return getUniqueId(beeIngredient);
     }
 
     @Nonnull

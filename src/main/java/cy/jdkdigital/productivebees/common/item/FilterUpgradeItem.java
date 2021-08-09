@@ -2,21 +2,21 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,24 +32,24 @@ public class FilterUpgradeItem extends UpgradeItem
         super(properties);
     }
 
-    public static void addAllowedBee(ItemStack stack, BeeEntity bee) {
+    public static void addAllowedBee(ItemStack stack, Bee bee) {
         // Add bee type to filter
         String type = BeeIngredientFactory.getIngredientKey(bee);
         if (type != null) {
-            CompoundNBT tag = stack.getOrCreateTag();
+            CompoundTag tag = stack.getOrCreateTag();
 
-            INBT list = tag.get(KEY);
-            if (!(list instanceof ListNBT)) {
-                list = new ListNBT();
+            Tag list = tag.get(KEY);
+            if (!(list instanceof ListTag)) {
+                list = new ListTag();
             }
 
-            for (INBT inbtType: (ListNBT) list) {
+            for (Tag inbtType: (ListTag) list) {
                 if (inbtType.getAsString().equals(type)) {
                     return;
                 }
             }
 
-            ((ListNBT) list).add(StringNBT.valueOf(type));
+            ((ListTag) list).add(StringTag.valueOf(type));
 
             tag.put(KEY, list);
 
@@ -58,14 +58,14 @@ public class FilterUpgradeItem extends UpgradeItem
     }
 
     public static List<Supplier<BeeIngredient>> getAllowedBees(ItemStack stack) {
-        CompoundNBT tag = stack.getTag();
+        CompoundTag tag = stack.getTag();
 
         List<Supplier<BeeIngredient>> beeList = new ArrayList<>();
         if (tag != null && tag.contains(KEY)) {
-            ListNBT list = (ListNBT) tag.get(KEY);
+            ListTag list = (ListTag) tag.get(KEY);
 
             if (list != null) {
-                for (INBT type: list) {
+                for (Tag type: list) {
                     beeList.add(BeeIngredientFactory.getIngredient(type.getAsString()));
                 }
             }
@@ -74,30 +74,30 @@ public class FilterUpgradeItem extends UpgradeItem
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, world, tooltip, flagIn);
         List<Supplier<BeeIngredient>> beeList = getAllowedBees(stack);
 
         for (Supplier<BeeIngredient> allowedBee: beeList) {
-            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter_entity", allowedBee.get().getBeeType()).withStyle(TextFormatting.GOLD));
+            tooltip.add(new TranslatableComponent("productivebees.information.upgrade.filter_entity", allowedBee.get().getBeeType()).withStyle(ChatFormatting.GOLD));
         }
         
         if (!beeList.isEmpty()) {
-            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter").withStyle(TextFormatting.WHITE));
+            tooltip.add(new TranslatableComponent("productivebees.information.upgrade.filter").withStyle(ChatFormatting.WHITE));
         } else {
-            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter_empty").withStyle(TextFormatting.WHITE));
+            tooltip.add(new TranslatableComponent("productivebees.information.upgrade.filter_empty").withStyle(ChatFormatting.WHITE));
         }
     }
 
     @Nonnull
     @Override
-    public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity player, LivingEntity targetIn, Hand hand) {
-        if (targetIn.getCommandSenderWorld().isClientSide() || !(targetIn instanceof BeeEntity)) {
-            return ActionResultType.PASS;
+    public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity targetIn, InteractionHand hand) {
+        if (targetIn.getCommandSenderWorld().isClientSide() || !(targetIn instanceof Bee)) {
+            return InteractionResult.PASS;
         }
 
-        addAllowedBee(itemStack, (BeeEntity) targetIn);
+        addAllowedBee(itemStack, (Bee) targetIn);
 
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 }

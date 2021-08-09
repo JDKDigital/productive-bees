@@ -1,11 +1,13 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.block.pattern.BlockStateMatcher;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.ReplaceBlockConfig;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -15,35 +17,42 @@ public class CavernSolitaryNestFeature extends SolitaryNestFeature
     private final float probability;
     private boolean top;
 
-    public CavernSolitaryNestFeature(float probability, Codec<ReplaceBlockConfig> configFactory, boolean top) {
+    public CavernSolitaryNestFeature(float probability, Codec<ReplaceBlockConfiguration> configFactory, boolean top) {
         super(probability, configFactory);
         this.probability = probability;
         this.top = top;
     }
 
     @Override
-    public boolean place(@Nonnull ISeedReader world, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos blockPos, @Nonnull ReplaceBlockConfig featureConfig) {
-        if (nestShouldNotGenerate(featureConfig) || rand.nextFloat() > this.probability) {
-            return false;
-        }
+    public boolean place(FeaturePlaceContext<ReplaceBlockConfiguration> context) {
+        WorldGenLevel world = context.level();
+        Random rand = context.random();
+        BlockPos blockPos = context.origin();
+        ReplaceBlockConfiguration featureConfig = context.config();
+        for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
+            if (nestShouldNotGenerate(targetBlockState.state) || rand.nextFloat() > this.probability) {
+                return false;
+            }
 
-        // Get random block in chunk
-        blockPos = blockPos.south(rand.nextInt(14)).east(rand.nextInt(14));
+            // Get random block in chunk
+            blockPos = blockPos.south(rand.nextInt(14)).east(rand.nextInt(14));
 
-        // Go to roof
-        BlockStateMatcher matcher = BlockStateMatcher.forBlock(featureConfig.target.getBlock());
-        while (blockPos.getY() < 127 && !matcher.test(world.getBlockState(blockPos))) {
-            blockPos = blockPos.above();
-        }
-
-        if (top) {
-            // Go to surface
-            while (blockPos.getY() < 127 && !world.isEmptyBlock(blockPos)) {
+            // Go to roof
+            BlockStatePredicate matcher = BlockStatePredicate.forBlock(targetBlockState.state.getBlock());
+            while (blockPos.getY() < 127 && !matcher.test(world.getBlockState(blockPos))) {
                 blockPos = blockPos.above();
             }
-            blockPos = blockPos.below();
-        }
 
-        return placeNest(world, blockPos, featureConfig);
+            if (top) {
+                // Go to surface
+                while (blockPos.getY() < 127 && !world.isEmptyBlock(blockPos)) {
+                    blockPos = blockPos.above();
+                }
+                blockPos = blockPos.below();
+            }
+
+            return placeNest(world, blockPos, targetBlockState.state);
+        }
+        return false;
     }
 }

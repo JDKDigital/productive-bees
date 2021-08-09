@@ -1,23 +1,23 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.common.entity.BeeBombEntity;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,55 +36,55 @@ public class BeeBomb extends Item
     }
 
     public static void addBee(ItemStack stack, ItemStack cage) {
-        ListNBT bees = getBees(stack);
+        ListTag bees = getBees(stack);
 
         bees.add(cage.getTag());
 
         stack.getOrCreateTag().put(BEES_KEY, bees);
     }
 
-    public static ListNBT getBees(ItemStack stack) {
-        CompoundNBT tag = stack.getTag();
-        INBT bees = new ListNBT();
+    public static ListTag getBees(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        Tag bees = new ListTag();
         if (tag != null) {
-            if (tag.get(BEES_KEY) instanceof ListNBT) {
+            if (tag.get(BEES_KEY) instanceof ListTag) {
                 bees = tag.get(BEES_KEY);
             }
         }
-        return (ListNBT) bees;
+        return (ListTag) bees;
     }
 
     @Nonnull
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, @Nonnull Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, @Nonnull InteractionHand hand) {
         ItemStack item = player.getItemInHand(hand);
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SPLASH_POTION_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SPLASH_POTION_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
         if (!world.isClientSide) {
             BeeBombEntity bombEntity = new BeeBombEntity(world, player);
             bombEntity.setItem(item);
-            bombEntity.shootFromRotation(player, player.xRot, player.yRot, 0.0F, 1.5F, 1.0F);
+            bombEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
             world.addFreshEntity(bombEntity);
         }
 
-        player.inventory.removeItem(item);
+        player.getInventory().removeItem(item);
 
-        return ActionResult.success(item);
+        return InteractionResultHolder.success(item);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(stack, world, list, flag);
 
-        ListNBT beeList = BeeBomb.getBees(stack);
+        ListTag beeList = BeeBomb.getBees(stack);
         if (!beeList.isEmpty()) {
             if (Screen.hasShiftDown()) {
-                list.add(new TranslationTextComponent("productivebees.hive.tooltip.bees").withStyle(TextFormatting.DARK_AQUA));
-                for (INBT bee : beeList) {
-                    String beeType = ((CompoundNBT) bee).getString("entity");
-                    list.add(new StringTextComponent(beeType).withStyle(TextFormatting.GOLD));
+                list.add(new TranslatableComponent("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.DARK_AQUA));
+                for (Tag bee : beeList) {
+                    String beeType = ((CompoundTag) bee).getString("entity");
+                    list.add(new TextComponent(beeType).withStyle(ChatFormatting.GOLD));
                 }
             } else {
-                list.add(new TranslationTextComponent("productivebees.information.hold_shift").withStyle(TextFormatting.WHITE));
+                list.add(new TranslatableComponent("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
             }
         }
     }

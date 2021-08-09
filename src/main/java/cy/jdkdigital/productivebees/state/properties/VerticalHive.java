@@ -1,10 +1,10 @@
 package cy.jdkdigital.productivebees.state.properties;
 
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.Nonnull;
 
-public enum VerticalHive implements IStringSerializable
+public enum VerticalHive implements StringRepresentable
 {
     NONE("none"),
     UP("up"),

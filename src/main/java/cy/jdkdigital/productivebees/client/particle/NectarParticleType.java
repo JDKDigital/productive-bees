@@ -3,19 +3,19 @@ package cy.jdkdigital.productivebees.client.particle;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class NectarParticleType extends ParticleType<NectarParticleType> implements IParticleData
+public class NectarParticleType extends ParticleType<NectarParticleType> implements ParticleOptions
 {
     private float[] color = null;
 
-    private static final IDeserializer<NectarParticleType> DESERIALIZER = new IDeserializer<NectarParticleType>()
+    private static final Deserializer<NectarParticleType> DESERIALIZER = new Deserializer<NectarParticleType>()
     {
         @Nonnull
         @Override
@@ -25,7 +25,7 @@ public class NectarParticleType extends ParticleType<NectarParticleType> impleme
 
         @Nonnull
         @Override
-        public NectarParticleType fromNetwork(@Nonnull ParticleType<NectarParticleType> particleType, @Nonnull PacketBuffer buffer) {
+        public NectarParticleType fromNetwork(@Nonnull ParticleType<NectarParticleType> particleType, @Nonnull FriendlyByteBuf buffer) {
             return (NectarParticleType) particleType;
         }
     };
@@ -57,7 +57,7 @@ public class NectarParticleType extends ParticleType<NectarParticleType> impleme
     }
 
     @Override
-    public void writeToNetwork(@Nonnull PacketBuffer packetBuffer) {
+    public void writeToNetwork(@Nonnull FriendlyByteBuf packetBuffer) {
     }
 
     @Nonnull

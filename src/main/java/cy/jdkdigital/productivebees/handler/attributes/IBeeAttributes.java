@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.handler.attributes;
 
 import cy.jdkdigital.productivebees.util.BeeAttribute;
-import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.Tag;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -13,9 +13,9 @@ public interface IBeeAttributes
     <T> T getAttributeValue(BeeAttribute<T> attribute);
 
     @Nonnull
-    INBT getAsNBT();
+    Tag getAsNBT();
 
-    void readFromNBT(INBT list);
+    void readFromNBT(Tag list);
 
     void setAttributeValue(BeeAttribute<?> attribute, int value);
 

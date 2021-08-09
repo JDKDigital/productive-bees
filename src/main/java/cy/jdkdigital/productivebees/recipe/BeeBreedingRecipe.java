@@ -7,15 +7,15 @@ import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.util.BeeHelper;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -23,9 +23,9 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class BeeBreedingRecipe implements IRecipe<IInventory>
+public class BeeBreedingRecipe implements Recipe<Container>
 {
-    public static final IRecipeType<BeeBreedingRecipe> BEE_BREEDING = IRecipeType.register(ProductiveBees.MODID + ":bee_breeding");
+    public static final RecipeType<BeeBreedingRecipe> BEE_BREEDING = RecipeType.register(ProductiveBees.MODID + ":bee_breeding");
 
     public final ResourceLocation id;
     public final List<Lazy<BeeIngredient>> ingredients;
@@ -38,7 +38,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         if (inv instanceof BeeHelper.IdentifierInventory) {
             String beeName1 = ((BeeHelper.IdentifierInventory) inv).getIdentifier(0);
             String beeName2 = ((BeeHelper.IdentifierInventory) inv).getIdentifier(1);
@@ -60,7 +60,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
 
     @Nonnull
     @Override
-    public ItemStack assemble(IInventory inv) {
+    public ItemStack assemble(Container inv) {
         return ItemStack.EMPTY;
     }
 
@@ -83,17 +83,17 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
 
     @Nonnull
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.BEE_BREEDING.get();
     }
 
     @Nonnull
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return BEE_BREEDING;
     }
 
-    public static class Serializer<T extends BeeBreedingRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T>
+    public static class Serializer<T extends BeeBreedingRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
         final BeeBreedingRecipe.Serializer.IRecipeFactory<T> factory;
 
@@ -104,15 +104,15 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
         @Nonnull
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
-            String parentName1 = JSONUtils.getAsString(json, "parent1");
-            String parentName2 = JSONUtils.getAsString(json, "parent2");
+            String parentName1 = GsonHelper.getAsString(json, "parent1");
+            String parentName2 = GsonHelper.getAsString(json, "parent2");
 
             Map<Lazy<BeeIngredient>, Integer> children = new LinkedHashMap<>();
-            JsonArray offspring = JSONUtils.getAsJsonArray(json, "offspring");
+            JsonArray offspring = GsonHelper.getAsJsonArray(json, "offspring");
             offspring.forEach(el -> {
                 if (el.isJsonObject()) {
-                    String child = JSONUtils.getAsString(el.getAsJsonObject(), "offspring");
-                    children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), JSONUtils.getAsInt(el.getAsJsonObject(), "weight"));
+                    String child = GsonHelper.getAsString(el.getAsJsonObject(), "offspring");
+                    children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), GsonHelper.getAsInt(el.getAsJsonObject(), "weight"));
                 } else {
                     String child = el.getAsString();
                     children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), 1);
@@ -125,7 +125,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
             return this.factory.create(id, Arrays.asList(beeIngredientParent1, beeIngredientParent2), children);
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 List<Lazy<BeeIngredient>> ingredients = new ArrayList<>();
 
@@ -147,7 +147,7 @@ public class BeeBreedingRecipe implements IRecipe<IInventory>
             }
         }
 
-        public void toNetwork(@Nonnull PacketBuffer buffer, T recipe) {
+        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
             try {
                 for (Lazy<BeeIngredient> ingredient : recipe.ingredients) {
                     if (ingredient.get() != null) {

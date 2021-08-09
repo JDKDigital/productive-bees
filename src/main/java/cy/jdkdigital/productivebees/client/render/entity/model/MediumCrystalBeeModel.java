@@ -1,32 +1,42 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 
 public class MediumCrystalBeeModel extends MediumBeeModel
 {
-    public MediumCrystalBeeModel(Model model, ModelRenderer body, ModelRenderer torso, ModelRenderer stinger, ModelRenderer leftAntenna, ModelRenderer rightAntenna, ModelRenderer leftWing, ModelRenderer rightWing, ModelRenderer middleLegs, ModelRenderer frontLegs, ModelRenderer backLegs, ModelRenderer crystals, ModelRenderer innards, ModelRenderer santaHat) {
-        super(model, body, torso, stinger, leftAntenna, rightAntenna, leftWing, rightWing, middleLegs, frontLegs, backLegs, crystals, innards, santaHat);
+    public MediumCrystalBeeModel(ModelPart model) {
+        super(model);
     }
 
-    @Override
-    public void addBodyParts(boolean withTorso) {
-        super.addBodyParts(withTorso);
-        addCrystals();
-    }
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = MediumBeeModel.createMeshDefinition(true);
+        PartDefinition root = meshDefinition.getRoot();
+        PartDefinition bone = root.getChild(ProductiveBeeModel.BONE);
+        PartDefinition body = bone.getChild(ProductiveBeeModel.BODY);
 
-    @Override
-    protected void addCrystals() {
-        externals.setPos(-1.5F, -7.0F, -4.0F);
-        externals.texOffs(50, 54).addBox(1.0F, 1.0F, 1.0F, 3.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        externals.texOffs(48, 47).addBox(-1.0F, 0.0F, 0.0F, 4.0F, 3.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        externals.texOffs(52, 60).addBox(-1.0F, 2.0F, 4.0F, 3.0F, 1.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        externals.texOffs(42, 58).addBox(0.0F, 2.0F, -2.0F, 3.0F, 4.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        torso.addChild(this.externals);
-    }
+        // Crystal structure
+        body.addOrReplaceChild(
+                ProductiveBeeModel.EXTERNALS,
+                CubeListBuilder
+                        .create().texOffs(50, 54)
+                        .addBox(1.0F, 1.0F, 1.0F, 3.0F, 2.0F, 4.0F)
+                        .texOffs(48, 47)
+                        .addBox(-1.0F, 0.0F, 0.0F, 4.0F, 3.0F, 4.0F)
+                        .texOffs(52, 60)
+                        .addBox(-1.0F, 2.0F, 4.0F, 3.0F, 1.0F, 2.0F)
+                        .texOffs(42, 58)
+                        .addBox(0.0F, 2.0F, -2.0F, 3.0F, 4.0F, 2.0F),
+                PartPose.offset(-1.5F, -7.0F, -4.0F)
+        );
 
-    @Override
-    protected void addSantaHat() {
-        // no hat model for crystal bees
+        // TODO remove santa hat
+
+        return LayerDefinition.create(meshDefinition, 64, 64);
     }
 }

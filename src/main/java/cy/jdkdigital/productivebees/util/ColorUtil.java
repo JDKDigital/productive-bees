@@ -1,6 +1,6 @@
 package cy.jdkdigital.productivebees.util;
 
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.ChatFormatting;
 
 import java.awt.*;
 
@@ -12,31 +12,31 @@ public class ColorUtil
         return 256 * 256 * color.getRed() + 256 * color.getGreen() + color.getBlue();
     }
 
-    public static TextFormatting getColor(String type) {
+    public static ChatFormatting getColor(String type) {
         switch (type) {
             case "hive":
-                return TextFormatting.YELLOW;
+                return ChatFormatting.YELLOW;
             case "solitary":
-                return TextFormatting.GRAY;
+                return ChatFormatting.GRAY;
         }
-        return TextFormatting.WHITE;
+        return ChatFormatting.WHITE;
     }
 
-    public static TextFormatting getColor(int level) {
+    public static ChatFormatting getColor(int level) {
         switch (level) {
             case -3:
-                return TextFormatting.RED;
+                return ChatFormatting.RED;
             case -2:
-                return TextFormatting.DARK_RED;
+                return ChatFormatting.DARK_RED;
             case -1:
-                return TextFormatting.YELLOW;
+                return ChatFormatting.YELLOW;
             case 1:
-                return TextFormatting.GREEN;
+                return ChatFormatting.GREEN;
             case 2:
-                return TextFormatting.BLUE;
+                return ChatFormatting.BLUE;
             case 3:
-                return TextFormatting.GOLD;
+                return ChatFormatting.GOLD;
         }
-        return TextFormatting.LIGHT_PURPLE;
+        return ChatFormatting.LIGHT_PURPLE;
     }
 }

@@ -1,19 +1,17 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.tileentity.IncubatorTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import cy.jdkdigital.productivebees.common.block.entity.IncubatorBlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,41 +25,30 @@ public class Incubator extends CapabilityContainerBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public BlockRenderType getRenderShape(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
-
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.INCUBATOR.get().create();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader world) {
-        return new IncubatorTileEntity();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new IncubatorBlockEntity(pos, state);
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!world.isClientSide()) {
-            final TileEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof IncubatorTileEntity) {
-                openGui((ServerPlayerEntity) player, (IncubatorTileEntity) tileEntity);
+            final BlockEntity tileEntity = world.getBlockEntity(pos);
+            if (tileEntity instanceof IncubatorBlockEntity) {
+                openGui((ServerPlayer) player, (IncubatorBlockEntity) tileEntity);
             }
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
-    public void openGui(ServerPlayerEntity player, IncubatorTileEntity tileEntity) {
+    public void openGui(ServerPlayer player, IncubatorBlockEntity tileEntity) {
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

@@ -1,25 +1,27 @@
 package cy.jdkdigital.productivebees.client.render.item;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import cy.jdkdigital.productivebees.common.item.StoneChip;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public class StoneChipRenderer extends WoodChipRenderer
 {
     @Override
-    public void renderByItem(ItemStack itemStack, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int packedLightIn, int packedUV) {
+    public void renderByItem(ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int packedLightIn, int packedUV) {
         Item item = itemStack.getItem();
 
         if (item instanceof StoneChip) {
-            IVertexBuilder builder = renderTypeBuffer.getBuffer(RenderType.cutout());
+            VertexConsumer builder = renderTypeBuffer.getBuffer(RenderType.cutout());
 
             Block block = StoneChip.getBlock(itemStack);
             if (block != null && block != Blocks.AIR) {

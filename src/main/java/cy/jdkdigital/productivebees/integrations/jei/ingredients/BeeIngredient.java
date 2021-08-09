@@ -1,12 +1,12 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
-import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
@@ -39,18 +39,18 @@ public class BeeIngredient
         return bee;
     }
 
-    public BeeEntity getCachedEntity(World world) {
+    public Bee getCachedEntity(Level world) {
         if (!cache.containsKey(this)) {
             Entity newBee = getBeeEntity().create(world);
-            if (newBee instanceof ConfigurableBeeEntity) {
-                ((ConfigurableBeeEntity) newBee).setBeeType(getBeeType().toString());
-                ((ConfigurableBeeEntity) newBee).setAttributes();
+            if (newBee instanceof ConfigurableBee) {
+                ((ConfigurableBee) newBee).setBeeType(getBeeType().toString());
+                ((ConfigurableBee) newBee).setAttributes();
             }
             cache.put(this, newBee);
         }
         Entity cachedEntity = cache.get(this);
-        if (cachedEntity instanceof BeeEntity) {
-            return (BeeEntity) cachedEntity;
+        if (cachedEntity instanceof Bee) {
+            return (Bee) cachedEntity;
         }
         return null;
     }
@@ -62,13 +62,13 @@ public class BeeIngredient
         return beeType != null ? beeType : bee.getRegistryName();
     }
 
-    public static BeeIngredient fromNetwork(PacketBuffer buffer) {
+    public static BeeIngredient fromNetwork(FriendlyByteBuf buffer) {
         String beeName = buffer.readUtf();
 
         return new BeeIngredient(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readResourceLocation(), buffer.readBoolean());
     }
 
-    public final void toNetwork(PacketBuffer buffer) {
+    public final void toNetwork(FriendlyByteBuf buffer) {
         buffer.writeUtf("" + bee.getRegistryName());
         buffer.writeResourceLocation(getBeeType());
         buffer.writeBoolean(configurable);

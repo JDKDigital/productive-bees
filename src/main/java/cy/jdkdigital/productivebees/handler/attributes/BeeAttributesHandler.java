@@ -3,10 +3,10 @@ package cy.jdkdigital.productivebees.handler.attributes;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -48,14 +48,14 @@ public class BeeAttributesHandler implements IBeeAttributes
 
     @Nonnull
     @Override
-    public INBT getAsNBT() {
+    public Tag getAsNBT() {
         ProductiveBees.LOGGER.info("getAsNBT");
         for (Map.Entry<BeeAttribute<?>, Object> entry : getAttributes().entrySet()) {
             ProductiveBees.LOGGER.info(entry.getKey() + " - " + entry.getValue());
         }
         ProductiveBees.LOGGER.info("Productivity: " + this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
         ProductiveBees.LOGGER.info("Endurance: " + this.getAttributeValue(BeeAttributes.ENDURANCE));
-        CompoundNBT tag = new CompoundNBT();
+        CompoundTag tag = new CompoundTag();
         tag.putInt("bee_productivity", this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
         tag.putInt("bee_endurance", this.getAttributeValue(BeeAttributes.ENDURANCE));
         tag.putInt("bee_temper", this.getAttributeValue(BeeAttributes.TEMPER));
@@ -67,10 +67,10 @@ public class BeeAttributesHandler implements IBeeAttributes
     }
 
     @Override
-    public void readFromNBT(INBT tag) {
-        ProductiveBees.LOGGER.info("readFromNBT " + (tag instanceof CompoundNBT));
-        if (tag instanceof CompoundNBT) {
-            CompoundNBT nbt = (CompoundNBT) tag;
+    public void readFromNBT(Tag tag) {
+        ProductiveBees.LOGGER.info("readFromNBT " + (tag instanceof CompoundTag));
+        if (tag instanceof CompoundTag) {
+            CompoundTag nbt = (CompoundTag) tag;
 
             beeAttributes.put(BeeAttributes.PRODUCTIVITY, nbt.getInt("bee_productivity"));
             beeAttributes.put(BeeAttributes.ENDURANCE, nbt.contains("bee_endurance"));

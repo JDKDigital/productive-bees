@@ -1,11 +1,11 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.tileentity.*;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.fml.RegistryObject;
+import cy.jdkdigital.productivebees.common.block.entity.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -13,10 +13,10 @@ import java.util.function.Supplier;
 
 public class ModTileEntityTypes
 {
-    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ProductiveBees.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, ProductiveBees.MODID);
 
-    public static final RegistryObject<TileEntityType<AdvancedBeehiveTileEntity>> ADVANCED_BEEHIVE = TILE_ENTITY_TYPES.register("advanced_beehive", () ->
-            TileEntityType.Builder.of(AdvancedBeehiveTileEntity::new,
+    public static final RegistryObject<BlockEntityType<AdvancedBeehiveBlockEntity>> ADVANCED_BEEHIVE = BLOCK_ENTITIES.register("advanced_beehive", () ->
+            BlockEntityType.Builder.of(AdvancedBeehiveBlockEntity::new,
                     ModBlocks.ADVANCED_OAK_BEEHIVE.get(),
                     ModBlocks.ADVANCED_SPRUCE_BEEHIVE.get(),
                     ModBlocks.ADVANCED_BIRCH_BEEHIVE.get(),
@@ -52,8 +52,8 @@ public class ModTileEntityTypes
             ).build(null)
     );
 
-    public static final RegistryObject<TileEntityType<SolitaryNestTileEntity>> SOLITARY_NEST = TILE_ENTITY_TYPES.register("solitary_nest", () ->
-            TileEntityType.Builder.of(SolitaryNestTileEntity::new,
+    public static final RegistryObject<BlockEntityType<SolitaryNestBlockEntity>> SOLITARY_NEST = BLOCK_ENTITIES.register("solitary_nest", () ->
+            BlockEntityType.Builder.of(SolitaryNestBlockEntity::new,
                     ModBlocks.SAND_NEST.get(),
                     ModBlocks.SNOW_NEST.get(),
                     ModBlocks.STONE_NEST.get(),
@@ -77,8 +77,8 @@ public class ModTileEntityTypes
             ).build(null)
     );
 
-    public static final RegistryObject<TileEntityType<ExpansionBoxTileEntity>> EXPANSION_BOX = TILE_ENTITY_TYPES.register("expansion_box", () ->
-            TileEntityType.Builder.of(ExpansionBoxTileEntity::new,
+    public static final RegistryObject<BlockEntityType<ExpansionBoxBlockEntity>> EXPANSION_BOX = BLOCK_ENTITIES.register("expansion_box", () ->
+            BlockEntityType.Builder.of(ExpansionBoxBlockEntity::new,
                     ModBlocks.EXPANSION_BOX_SPRUCE.get(),
                     ModBlocks.EXPANSION_BOX_BIRCH.get(),
                     ModBlocks.EXPANSION_BOX_JUNGLE.get(),
@@ -113,23 +113,23 @@ public class ModTileEntityTypes
             ).build(null)
     );
 
-    public static final RegistryObject<TileEntityType<SugarbagNestTileEntity>> SUGARBAG_NEST = register("sugarbag_nest", SugarbagNestTileEntity::new, ModBlocks.SUGARBAG_NEST);
-    public static final RegistryObject<TileEntityType<DragonEggHiveTileEntity>> DRACONIC_BEEHIVE = register("draconic_beehive", DragonEggHiveTileEntity::new, ModBlocks.DRAGON_EGG_HIVE);
-    public static final RegistryObject<TileEntityType<SolitaryHiveTileEntity>> SOLITARY_HIVE = register("solitary_hive", SolitaryHiveTileEntity::new, ModBlocks.BAMBOO_HIVE);
-    public static final RegistryObject<TileEntityType<BumbleBeeNestTileEntity>> BUMBLE_BEE_NEST = register("bumble_bee_nest", BumbleBeeNestTileEntity::new, ModBlocks.BUMBLE_BEE_NEST);
-    public static final RegistryObject<TileEntityType<CentrifugeTileEntity>> CENTRIFUGE = register("centrifuge", CentrifugeTileEntity::new, ModBlocks.CENTRIFUGE);
-    public static final RegistryObject<TileEntityType<PoweredCentrifugeTileEntity>> POWERED_CENTRIFUGE = register("powered_centrifuge", PoweredCentrifugeTileEntity::new, ModBlocks.POWERED_CENTRIFUGE);
-    public static final RegistryObject<TileEntityType<BottlerTileEntity>> BOTTLER = register("bottler", BottlerTileEntity::new, ModBlocks.BOTTLER);
-    public static final RegistryObject<TileEntityType<FeederTileEntity>> FEEDER = register("feeder", FeederTileEntity::new, ModBlocks.FEEDER);
-    public static final RegistryObject<TileEntityType<JarTileEntity>> JAR = register("jar", JarTileEntity::new, ModBlocks.JAR);
-    public static final RegistryObject<TileEntityType<CombBlockTileEntity>> COMB_BLOCK = register("comb_block", CombBlockTileEntity::new, ModBlocks.CONFIGURABLE_COMB);
-    public static final RegistryObject<TileEntityType<HoneyGeneratorTileEntity>> HONEY_GENERATOR = register("honey_generator", HoneyGeneratorTileEntity::new, ModBlocks.HONEY_GENERATOR);
-    public static final RegistryObject<TileEntityType<CatcherTileEntity>> CATCHER = register("catcher", CatcherTileEntity::new, ModBlocks.CATCHER);
-    public static final RegistryObject<TileEntityType<IncubatorTileEntity>> INCUBATOR = register("incubator", IncubatorTileEntity::new, ModBlocks.INCUBATOR);
+    public static final RegistryObject<BlockEntityType<SugarbagNestBlockEntity>> SUGARBAG_NEST = register("sugarbag_nest", SugarbagNestBlockEntity::new, ModBlocks.SUGARBAG_NEST);
+    public static final RegistryObject<BlockEntityType<DragonEggHiveBlockEntity>> DRACONIC_BEEHIVE = register("draconic_beehive", DragonEggHiveBlockEntity::new, ModBlocks.DRAGON_EGG_HIVE);
+    public static final RegistryObject<BlockEntityType<SolitaryHiveBlockEntity>> SOLITARY_HIVE = register("solitary_hive", SolitaryHiveBlockEntity::new, ModBlocks.BAMBOO_HIVE);
+    public static final RegistryObject<BlockEntityType<BumbleBeeNestBlockEntity>> BUMBLE_BEE_NEST = register("bumble_bee_nest", BumbleBeeNestBlockEntity::new, ModBlocks.BUMBLE_BEE_NEST);
+    public static final RegistryObject<BlockEntityType<CentrifugeBlockEntity>> CENTRIFUGE = register("centrifuge", CentrifugeBlockEntity::new, ModBlocks.CENTRIFUGE);
+    public static final RegistryObject<BlockEntityType<PoweredCentrifugeBlockEntity>> POWERED_CENTRIFUGE = register("powered_centrifuge", PoweredCentrifugeBlockEntity::new, ModBlocks.POWERED_CENTRIFUGE);
+    public static final RegistryObject<BlockEntityType<BottlerBlockEntity>> BOTTLER = register("bottler", BottlerBlockEntity::new, ModBlocks.BOTTLER);
+    public static final RegistryObject<BlockEntityType<FeederBlockEntity>> FEEDER = register("feeder", FeederBlockEntity::new, ModBlocks.FEEDER);
+    public static final RegistryObject<BlockEntityType<JarBlockEntity>> JAR = register("jar", JarBlockEntity::new, ModBlocks.JAR);
+    public static final RegistryObject<BlockEntityType<CombBlockBlockEntity>> COMB_BLOCK = register("comb_block", CombBlockBlockEntity::new, ModBlocks.CONFIGURABLE_COMB);
+    public static final RegistryObject<BlockEntityType<HoneyGeneratorBlockEntity>> HONEY_GENERATOR = register("honey_generator", HoneyGeneratorBlockEntity::new, ModBlocks.HONEY_GENERATOR);
+    public static final RegistryObject<BlockEntityType<CatcherBlockEntity>> CATCHER = register("catcher", CatcherBlockEntity::new, ModBlocks.CATCHER);
+    public static final RegistryObject<BlockEntityType<IncubatorBlockEntity>> INCUBATOR = register("incubator", IncubatorBlockEntity::new, ModBlocks.INCUBATOR);
 
-    private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String name, Supplier<T> factory, Supplier<Block> block) {
-        return TILE_ENTITY_TYPES.register(name, () ->
-                TileEntityType.Builder.of(factory, block.get()).build(null)
+    private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, Supplier<Block> block) {
+        return BLOCK_ENTITIES.register(name, () ->
+                BlockEntityType.Builder.of(factory, block.get()).build(null)
         );
     }
 }

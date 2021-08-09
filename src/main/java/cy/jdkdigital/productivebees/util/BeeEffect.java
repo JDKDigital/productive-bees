@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.util;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -10,29 +10,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class BeeEffect implements INBTSerializable<CompoundNBT>
+public class BeeEffect implements INBTSerializable<CompoundTag>
 {
-    private Map<Effect, Integer> effects = new HashMap<>();
+    private Map<MobEffect, Integer> effects = new HashMap<>();
 
-    public BeeEffect(Map<Effect, Integer> effects) {
+    public BeeEffect(Map<MobEffect, Integer> effects) {
         this.effects = effects;
     }
 
-    public BeeEffect(CompoundNBT tag) {
+    public BeeEffect(CompoundTag tag) {
         deserializeNBT(tag);
     }
 
-    public Map<Effect, Integer> getEffects() {
+    public Map<MobEffect, Integer> getEffects() {
         return effects;
     }
 
     @Override
-    public CompoundNBT serializeNBT() {
-        CompoundNBT tag = new CompoundNBT();
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = new CompoundTag();
 
         tag.putInt("i", effects.size());
         getEffects().forEach((effect, duration) -> {
-            CompoundNBT effectTag = new CompoundNBT();
+            CompoundTag effectTag = new CompoundTag();
             effectTag.putString("effect", "" + effect.getRegistryName());
             effectTag.putInt("duration", duration);
 
@@ -43,14 +43,14 @@ public class BeeEffect implements INBTSerializable<CompoundNBT>
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT tag) {
+    public void deserializeNBT(CompoundTag tag) {
         this.effects = new HashMap<>();
         IntStream.range(0, tag.getInt("i")).forEach(
                 i -> {
-                    CompoundNBT effectTag = tag.getCompound("effect_" + i);
+                    CompoundTag effectTag = tag.getCompound("effect_" + i);
                     String effectName = effectTag.getString("effect");
 
-                    Effect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(effectName));
+                    MobEffect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(effectName));
 
                     this.effects.put(effect, effectTag.getInt("duration"));
                 }

@@ -5,17 +5,17 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.ColorUtil;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -66,17 +66,17 @@ public class Gene extends Item
     }
 
     public static String getAttributeName(ItemStack stack) {
-        CompoundNBT tag = stack.getTag();
+        CompoundTag tag = stack.getTag();
         return tag != null ? tag.getString(ATTRIBUTE_KEY) : "";
     }
 
     public static Integer getValue(ItemStack stack) {
-        CompoundNBT tag = stack.getTag();
+        CompoundTag tag = stack.getTag();
         return tag != null ? tag.getInt(VALUE_KEY) : 0;
     }
 
     public static Integer getPurity(ItemStack stack) {
-        CompoundNBT tag = stack.getTag();
+        CompoundTag tag = stack.getTag();
         return tag != null ? tag.getInt(PURITY_KEY) : 0;
     }
 
@@ -85,7 +85,7 @@ public class Gene extends Item
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(stack, world, list, flag);
 
         Integer value = getValue(stack);
@@ -93,16 +93,16 @@ public class Gene extends Item
         BeeAttribute<?> attribute = getAttribute(stack);
 
         if (attribute != null) {
-            ITextComponent translatedValue = new TranslationTextComponent(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
-            list.add((new TranslationTextComponent("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).withStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + getPurity(stack) + "%)")));
+            Component translatedValue = new TranslatableComponent(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
+            list.add((new TranslatableComponent("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(new TextComponent(" (" + getPurity(stack) + "%)")));
         } else {
             String type = getAttributeName(stack);
-            list.add(new TranslationTextComponent("productivebees.information.attribute.type", type).withStyle(TextFormatting.DARK_GRAY).append(new StringTextComponent(" (" + getPurity(stack) + "%)")));
+            list.add(new TranslatableComponent("productivebees.information.attribute.type", type).withStyle(ChatFormatting.DARK_GRAY).append(new TextComponent(" (" + getPurity(stack) + "%)")));
         }
     }
 
     @Override
-    public void fillItemCategory(@Nonnull ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
+    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
         if (this.allowdedIn(group)) {
             items.add(getStack(BeeAttributes.PRODUCTIVITY, 0, 1, 100));
             items.add(getStack(BeeAttributes.PRODUCTIVITY, 1, 1, 100));

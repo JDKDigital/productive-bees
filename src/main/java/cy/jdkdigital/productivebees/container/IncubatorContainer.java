@@ -1,16 +1,16 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.common.block.Incubator;
-import cy.jdkdigital.productivebees.common.tileentity.IncubatorTileEntity;
-import cy.jdkdigital.productivebees.common.tileentity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.block.entity.IncubatorBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.IntReferenceHolder;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.DataSlot;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -21,26 +21,26 @@ import java.util.Objects;
 
 public class IncubatorContainer extends AbstractContainer
 {
-    public final IncubatorTileEntity tileEntity;
+    public final IncubatorBlockEntity tileEntity;
 
-    public final IWorldPosCallable canInteractWithCallable;
+    public final ContainerLevelAccess canInteractWithCallable;
 
-    public IncubatorContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
+    public IncubatorContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public IncubatorContainer(final int windowId, final PlayerInventory playerInventory, final IncubatorTileEntity tileEntity) {
+    public IncubatorContainer(final int windowId, final Inventory playerInventory, final IncubatorBlockEntity tileEntity) {
         this(ModContainerTypes.INCUBATOR.get(), windowId, playerInventory, tileEntity);
     }
 
-    public IncubatorContainer(@Nullable ContainerType<?> type, final int windowId, final PlayerInventory playerInventory, final IncubatorTileEntity tileEntity) {
+    public IncubatorContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final IncubatorBlockEntity tileEntity) {
         super(type, windowId);
 
         this.tileEntity = tileEntity;
-        this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
+        this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
 
         // Energy
-        addDataSlot(new IntReferenceHolder()
+        addDataSlot(new DataSlot()
         {
             @Override
             public int get() {
@@ -60,7 +60,7 @@ public class IncubatorContainer extends AbstractContainer
             }
         });
 
-        addDataSlot(new IntReferenceHolder()
+        addDataSlot(new DataSlot()
         {
             @Override
             public int get() {
@@ -86,23 +86,23 @@ public class IncubatorContainer extends AbstractContainer
         layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
     }
 
-    private static IncubatorTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
+    private static IncubatorBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
-        if (tileAtPos instanceof IncubatorTileEntity) {
-            return (IncubatorTileEntity) tileAtPos;
+        final BlockEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
+        if (tileAtPos instanceof IncubatorBlockEntity) {
+            return (IncubatorBlockEntity) tileAtPos;
         }
         throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
     }
 
     @Override
-    public boolean stillValid(@Nonnull final PlayerEntity player) {
+    public boolean stillValid(@Nonnull final Player player) {
         return canInteractWithCallable.evaluate((world, pos) -> world.getBlockState(pos).getBlock() instanceof Incubator && player.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
     }
 
     @Override
-    protected TileEntity getTileEntity() {
+    protected BlockEntity getTileEntity() {
         return tileEntity;
     }
 }

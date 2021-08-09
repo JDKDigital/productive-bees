@@ -1,22 +1,22 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.RedstoneBlock;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.PoweredBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class InvisibleRedstone extends RedstoneBlock
+public class InvisibleRedstone extends PoweredBlock
 {
-    protected static final VoxelShape SHAPE = VoxelShapes.box(0, 0, 0, 0, 0, 0);
+    protected static final VoxelShape SHAPE = Shapes.box(0, 0, 0, 0, 0, 0);
 
     public InvisibleRedstone(Properties properties) {
         super(properties);
@@ -25,20 +25,20 @@ public class InvisibleRedstone extends RedstoneBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public BlockRenderType getRenderShape(BlockState state) {
-        return BlockRenderType.INVISIBLE;
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.INVISIBLE;
     }
 
 
     @Override
-    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
         worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
     }
 }

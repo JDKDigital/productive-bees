@@ -1,11 +1,10 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
+        maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
 plugins {
@@ -16,17 +15,17 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
-
+apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
 version = "${version}"
 group = 'cy.jdkdigital.productivebees'
 archivesBaseName = 'productivebees'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: 'official', version: '1.17.1'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
@@ -94,50 +93,51 @@ repositories {
     }
     maven {
         name = "JEI Maven"
-        url "http://dvs1.progwml6.com/files/maven"
+        url "https://dvs1.progwml6.com/files/maven/"
     }
     maven {
         url 'https://maven.blamejared.com'
     }
-    maven { // TOP
-        name 'tterrag maven'
-        url "http://maven.tterrag.com/"
-    }
+//    maven { // TOP
+//        name 'tterrag maven'
+//        url "https://maven.tterrag.com/"
+//    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forgeversion}"
 
-    // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
-    // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+//    // compile against the JEI API but do not include it at runtime
+//    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+//    // at runtime, use the full JEI jar
+//    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
 
-    compileOnly fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}:api")
-    runtime fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}")
+//    compileOnly fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}:api")
+//    runtime fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}")
 
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
-    implementation fg.deobf("curse.maven:jade-324717:3228325")
-    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
-    implementation fg.deobf("curse.maven:mekanism-generators-268566:3206395")
-    implementation fg.deobf("curse.maven:mantle-74924:3352484")
-    implementation fg.deobf("curse.maven:tinkers-construct-74072:3352983")
-    implementation fg.deobf("curse.maven:bigreactors-250277:3211479")
-    implementation fg.deobf("curse.maven:zerocore-247921:3211476")
-    implementation fg.deobf("curse.maven:evilcraft-74610:3292057")
-    implementation fg.deobf("curse.maven:cyclops-core-232758:3292066")
-    implementation fg.deobf("curse.maven:curios-309927:3275653")
-    implementation fg.deobf("curse.maven:observerlib-316833:3320850")
-    implementation fg.deobf("curse.maven:cofh-core-69162:3249453")
-    implementation fg.deobf("curse.maven:thermal-foundation-222880:3248150")
-    implementation fg.deobf("curse.maven:thermal-expansion-69163:3247000")
-//    implementation fg.deobf('curse.maven:botania-225643:3300995')
-    implementation fg.deobf("curse.maven:cucumber-272335:3249370")
-    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3251398")
-    implementation fg.deobf("curse.maven:immersive-engineering-231951:3377691")
-//    implementation fg.deobf("curse.maven:create-328085:3261455")
+    implementation fg.deobf("curse.maven:jade-324717:3400050")
+    implementation fg.deobf("curse.maven:roughly-enough-items-forge-392060:3411642")
+//    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
+//    implementation fg.deobf("curse.maven:mekanism-generators-268566:3206395")
+//    implementation fg.deobf("curse.maven:mantle-74924:3352484")
+//    implementation fg.deobf("curse.maven:tinkers-construct-74072:3352983")
+//    implementation fg.deobf("curse.maven:bigreactors-250277:3211479")
+//    implementation fg.deobf("curse.maven:zerocore-247921:3211476")
+//    implementation fg.deobf("curse.maven:evilcraft-74610:3292057")
+//    implementation fg.deobf("curse.maven:cyclops-core-232758:3292066")
+//    implementation fg.deobf("curse.maven:curios-309927:3275653")
+//    implementation fg.deobf("curse.maven:observerlib-316833:3320850")
+//    implementation fg.deobf("curse.maven:cofh-core-69162:3249453")
+//    implementation fg.deobf("curse.maven:thermal-foundation-222880:3248150")
+//    implementation fg.deobf("curse.maven:thermal-expansion-69163:3247000")
+////    implementation fg.deobf('curse.maven:botania-225643:3300995')
+//    implementation fg.deobf("curse.maven:cucumber-272335:3249370")
+//    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3251398")
+//    implementation fg.deobf("curse.maven:immersive-engineering-231951:3377691")
+////    implementation fg.deobf("curse.maven:create-328085:3261455")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

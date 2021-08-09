@@ -5,19 +5,19 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import javax.annotation.Nullable;
@@ -44,29 +44,29 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
     }
 
     @Override
-    public void animateTick(World worldIn, BlockPos pos, FluidState state, Random random) {
+    public void animateTick(Level worldIn, BlockPos pos, FluidState state, Random random) {
         BlockPos blockpos = pos.above();
         if (worldIn.getBlockState(blockpos).isAir() && !worldIn.getBlockState(blockpos).isViewBlocking(worldIn, blockpos)) {
             if (random.nextInt(100) == 0) {
-                worldIn.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.HONEY_BLOCK_SLIDE, SoundCategory.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
+                worldIn.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.HONEY_BLOCK_SLIDE, SoundSource.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
             }
         }
     }
 
     @Nullable
     @Override
-    public IParticleData getDripParticle() {
+    public ParticleOptions getDripParticle() {
         return ParticleTypes.DRIPPING_HONEY;
     }
 
     @Override
-    public int getSlopeFindDistance(IWorldReader worldIn) {
+    public int getSlopeFindDistance(LevelReader worldIn) {
         return worldIn.dimensionType().ultraWarm() ? 6 : 3;
     }
 
     @Override
     public BlockState createLegacyBlock(FluidState state) {
-        return ModBlocks.HONEY.get().defaultBlockState().setValue(FlowingFluidBlock.LEVEL, getLegacyLevel(state));
+        return ModBlocks.HONEY.get().defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
     }
 
     @Override
@@ -75,17 +75,17 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
     }
 
     @Override
-    public int getDropOff(IWorldReader worldIn) {
+    public int getDropOff(LevelReader worldIn) {
         return worldIn.dimensionType().ultraWarm() ? 1 : 2;
     }
 
     @Override
-    public int getTickDelay(IWorldReader worldIn) {
+    public int getTickDelay(LevelReader worldIn) {
         return worldIn.dimensionType().ultraWarm() ? 10 : 30;
     }
 
     @Override
-    public int getSpreadDelay(World world, BlockPos pos, FluidState state, FluidState FluidState) {
+    public int getSpreadDelay(Level world, BlockPos pos, FluidState state, FluidState FluidState) {
         int i = this.getTickDelay(world);
         if (!state.isEmpty() && !FluidState.isEmpty() && !state.getValue(FALLING) && !FluidState.getValue(FALLING) && FluidState.getHeight(world, pos) > state.getHeight(world, pos) && world.getRandom().nextInt(4) != 0) {
             i *= 4;
@@ -106,7 +106,7 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
         }
 
         @Override
-        protected void createFluidStateDefinition(StateContainer.Builder<Fluid, FluidState> builder) {
+        protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> builder) {
             super.createFluidStateDefinition(builder);
             builder.add(LEVEL);
         }
