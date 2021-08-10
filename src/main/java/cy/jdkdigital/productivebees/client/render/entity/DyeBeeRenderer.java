@@ -19,7 +19,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
     public ResourceLocation getTextureLocation(ProductiveBee bee) {
         int num = bee.getRenderStatic() ? 1 : sum(bee.getId(), 3);
 
-        String beeLocation = "textures/entity/bee/" + bee.getBeeName() + "/" + num + "/bee";
+        String beeLocation = ProductiveBees.MODID + ":textures/entity/bee/" + bee.getBeeName() + "/" + num + "/bee";
 
         if (bee.isAngry()) {
             beeLocation = beeLocation + "_angry";
@@ -29,7 +29,7 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
             beeLocation = beeLocation + "_nectar";
         }
 
-        return new ResourceLocation(ProductiveBees.MODID, beeLocation + ".png");
+        return ProductiveBeeRenderer.resLoc(beeLocation + ".png");
     }
 
     private int sum(int num, int max) {

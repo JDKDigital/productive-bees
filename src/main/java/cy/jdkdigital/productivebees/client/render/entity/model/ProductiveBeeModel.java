@@ -9,7 +9,10 @@ import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.ModelUtils;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
 public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListModel<T>
@@ -64,7 +67,7 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
         middleLegs = bone.getChild(MIDDLE_LEGS);
         backLegs = bone.getChild(BACK_LEGS);
         externals = body.getChild(EXTERNALS);
-        innards = bone.getChild(INNARDS);
+        innards = body.getChild(INNARDS);
         santaHat = body.getChild(SANTA_HAT);
     }
     public static LayerDefinition createBodyLayer() {
@@ -85,7 +88,7 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
         bone.addOrReplaceChild(ProductiveBeeModel.FRONT_LEGS, CubeListBuilder.create(), PartPose.ZERO);
         bone.addOrReplaceChild(ProductiveBeeModel.MIDDLE_LEGS, CubeListBuilder.create(), PartPose.ZERO);
         bone.addOrReplaceChild(ProductiveBeeModel.BACK_LEGS, CubeListBuilder.create(), PartPose.ZERO);
-        bone.addOrReplaceChild(ProductiveBeeModel.INNARDS, CubeListBuilder.create(), PartPose.ZERO);
+        body.addOrReplaceChild(ProductiveBeeModel.INNARDS, CubeListBuilder.create(), PartPose.ZERO);
         body.addOrReplaceChild(ProductiveBeeModel.EXTERNALS, CubeListBuilder.create(), PartPose.ZERO);
         body.addOrReplaceChild(ProductiveBeeModel.SANTA_HAT, CubeListBuilder.create(), PartPose.ZERO);
 

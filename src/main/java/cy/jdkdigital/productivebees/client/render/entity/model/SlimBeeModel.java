@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -20,7 +19,7 @@ public class SlimBeeModel extends PartialBeeModel
         PartDefinition body = bone.addOrReplaceChild(
                 ProductiveBeeModel.BODY,
                 CubeListBuilder
-                        .create().texOffs(3, 3)
+                        .create()
                         .addBox(-2.5F, -2.0F, -4.0F, 5.0F, 5.0F, 8.0F),
                 PartPose.ZERO
         );
@@ -36,7 +35,7 @@ public class SlimBeeModel extends PartialBeeModel
         body.addOrReplaceChild(
                 ProductiveBeeModel.LEFT_ANTENNA,
                 CubeListBuilder
-                        .create().texOffs(0, 0)
+                        .create()
                         .addBox(1.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F),
                 PartPose.offset(0.0F, -1.0F, -4.0F)
         );

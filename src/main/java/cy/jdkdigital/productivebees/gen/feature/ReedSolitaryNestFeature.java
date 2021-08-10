@@ -9,7 +9,6 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
 
-import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature

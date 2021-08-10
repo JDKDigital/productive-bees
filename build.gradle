@@ -119,7 +119,10 @@ dependencies {
 //    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
     implementation fg.deobf("curse.maven:jade-324717:3400050")
+    implementation fg.deobf("curse.maven:architectury-forge-419699:3415033")
+    implementation fg.deobf("curse.maven:cloth-config-forge-348521:3413207")
     implementation fg.deobf("curse.maven:roughly-enough-items-forge-392060:3411642")
+    implementation fg.deobf("curse.maven:trophymanager-510170:3412836")
 //    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
 //    implementation fg.deobf("curse.maven:mekanism-generators-268566:3206395")
 //    implementation fg.deobf("curse.maven:mantle-74924:3352484")

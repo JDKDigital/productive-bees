@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.client.render.item.StoneChipRenderer;
-import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;

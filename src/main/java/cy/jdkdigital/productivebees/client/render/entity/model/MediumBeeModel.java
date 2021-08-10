@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -22,7 +21,7 @@ public class MediumBeeModel extends PartialBeeModel
 
         PartDefinition bone = root.addOrReplaceChild(ProductiveBeeModel.BONE, CubeListBuilder.create(), PartPose.offset(0.0F, 19.0F, 0.0F));
 
-        CubeListBuilder bodyBuilder = CubeListBuilder.create().texOffs(0, 0);
+        CubeListBuilder bodyBuilder = CubeListBuilder.create();
         if (withTorso) {
             bodyBuilder.addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F);
         }
@@ -81,14 +80,6 @@ public class MediumBeeModel extends PartialBeeModel
                         .create().texOffs(26, 5)
                         .addBox(-5.0F, 0.0F, 0.0F, 7, 2, 0),
                 PartPose.offset(1.5F, 3.0F, 2.0F)
-        );
-
-        bone.addOrReplaceChild(
-                ProductiveBeeModel.INNARDS,
-                CubeListBuilder
-                        .create().texOffs(34, 0)
-                        .addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F),
-                PartPose.offset(0.0F, 0.0F, 0.0F)
         );
 
 //        PartDefinition hat = body.addOrReplaceChild(

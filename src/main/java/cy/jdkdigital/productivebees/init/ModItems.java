@@ -2,8 +2,6 @@ package cy.jdkdigital.productivebees.init;
 
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.client.render.item.StoneChipRenderer;
-import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
 import cy.jdkdigital.productivebees.common.item.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;

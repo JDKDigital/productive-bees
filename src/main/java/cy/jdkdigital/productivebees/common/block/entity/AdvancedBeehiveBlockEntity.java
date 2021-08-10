@@ -113,6 +113,9 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                     newBee.setAttributes();
 
                     blockEntity.addOccupant(newBee, false);
+                    newBee.hivePos = pos;
+                    spawnBeeInWorldAtPosition((ServerLevel) level, newBee, front, state.getValue(BeehiveBlock.FACING), null);
+                    blockEntity.abandonCountdown += blockEntity.getTimeInHive(true, newBee);
                 }
                 blockEntity.setChanged();
             }

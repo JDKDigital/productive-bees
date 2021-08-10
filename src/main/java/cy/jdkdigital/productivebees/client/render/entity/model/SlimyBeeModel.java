@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.client.render.entity.model;
 
-import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -27,10 +26,10 @@ public class SlimyBeeModel extends MediumBeeModel
                         .addBox(-3.5F, -4.0F, -5.0F, 7.0F, 7.0F, 10.0F),
                 PartPose.ZERO
         );
-        bone.addOrReplaceChild(
+        body.addOrReplaceChild(
                 ProductiveBeeModel.INNARDS,
                 CubeListBuilder
-                        .create()
+                        .create().texOffs(34, 0)
                         .addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F),
                 PartPose.ZERO
         );

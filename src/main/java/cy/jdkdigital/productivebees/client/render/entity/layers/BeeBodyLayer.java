@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.client.render.entity.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
@@ -26,7 +27,6 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     private final String modelType;
     private final EntityModel<ProductiveBee> model;
     private boolean isChristmas;
-    private Map<String, ResourceLocation> resLocCache = new HashMap<>();
 
     public BeeBodyLayer(RenderLayerParent<ProductiveBee, ProductiveBeeModel<ProductiveBee>> rendererIn, ModelPart layer, String modelType, boolean isChristmas) {
         super(rendererIn);
@@ -113,7 +113,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
                 }
             }
 
-            ResourceLocation location = resLoc("textures/entity/bee/base/" + this.modelType + "/pollen.png");
+            ResourceLocation location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/base/" + this.modelType + "/pollen.png");
             renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, colors[0], colors[1], colors[2]);
         }
     }
@@ -126,22 +126,15 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
                 }
             }
 
-            ResourceLocation location = resLoc("textures/entity/bee/base/" + this.modelType + "/santa_hat.png");
+            ResourceLocation location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/base/" + this.modelType + "/santa_hat.png");
             renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, 1.0f, 1.0f, 1.0f);
         }
     }
 
     private void renderSaddle(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
         if (entity instanceof BumbleBee && ((BumbleBee) entity).isSaddled()) {
-            ResourceLocation location = resLoc("textures/entity/bee/bumble/saddle.png");
+            ResourceLocation location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/bumble/saddle.png");
             renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, 1.0f, 1.0f, 1.0f);
         }
-    }
-
-    private ResourceLocation resLoc(String key) {
-        if (!resLocCache.containsKey(key)) {
-            resLocCache.put(key, new ResourceLocation(ProductiveBees.MODID, key));
-        }
-        return resLocCache.get(key);
     }
 }

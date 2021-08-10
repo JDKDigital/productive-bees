@@ -14,9 +14,13 @@ import net.minecraft.resources.ResourceLocation;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, ProductiveBeeModel<ProductiveBee>>
 {
+    private static Map<String, ResourceLocation> resLocCache = new HashMap<>();
+
     public static final ModelLayerLocation PB_MAIN_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "main"), "main");
     public static final ModelLayerLocation PB_HOARDER_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "hoarder"), "main");
     public static final ModelLayerLocation PB_THICC_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "thicc"), "main");
@@ -90,6 +94,13 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
             textureLocation = textureLocation + "_nectar";
         }
 
-        return new ResourceLocation(textureLocation + ".png");
+        return resLoc(textureLocation + ".png");
+    }
+
+    public static ResourceLocation resLoc(String key) {
+        if (!resLocCache.containsKey(key)) {
+            resLocCache.put(key, new ResourceLocation(key));
+        }
+        return resLocCache.get(key);
     }
 }
