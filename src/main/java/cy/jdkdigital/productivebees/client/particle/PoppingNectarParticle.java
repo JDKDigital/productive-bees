@@ -21,7 +21,8 @@ public class PoppingNectarParticle extends LavaParticle
         return ParticleRenderType.PARTICLE_SHEET_LIT;
     }
 
-    public void tick(Level level, BlockState state) {
+    @Override
+    public void tick() {
         if (this.age++ >= this.lifetime) {
             this.remove();
         } else {

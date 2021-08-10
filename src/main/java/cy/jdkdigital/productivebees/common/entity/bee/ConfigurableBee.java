@@ -145,6 +145,9 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             case "portal":
                 particle = ModParticles.COLORED_PORTAL_NECTAR.get();
                 break;
+            case "rise":
+                particle = ModParticles.COLORED_RISING_NECTAR.get();
+                break;
             case "drip":
             default:
                 particle = ModParticles.COLORED_FALLING_NECTAR.get();
