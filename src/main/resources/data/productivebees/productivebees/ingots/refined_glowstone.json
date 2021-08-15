@@ -2,7 +2,6 @@
     "primaryColor": "#feee7c",
     "secondaryColor": "#bb8d23",
     "description": "This bee will produce refined glowstone",
-    "createComb": false,
     "flowerTag": "forge:storage_blocks/refined_glowstone",
     "conditions": [
         {

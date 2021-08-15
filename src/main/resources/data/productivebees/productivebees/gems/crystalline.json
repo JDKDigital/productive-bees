@@ -4,7 +4,6 @@
     "particleColor": "#ede5dd",
     "size": 0.9,
     "beeTexture": "productivebees:textures/entity/bee/quartz/bee",
-    "createComb": false,
     "attributes": {
         "endurance": 2
     },

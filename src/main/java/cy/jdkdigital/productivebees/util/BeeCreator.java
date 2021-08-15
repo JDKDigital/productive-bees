@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.ItemStack;
@@ -47,9 +48,9 @@ public class BeeCreator
         if (json.has("particleColor")) {
             data.putInt("particleColor", Color.decode(json.get("particleColor").getAsString()).getRGB());
         }
-        if (json.has("tertiaryColor")) {
-            data.putInt("tertiaryColor", Color.decode(json.get("tertiaryColor").getAsString()).getRGB());
-        }
+
+        data.putInt("tertiaryColor", json.has("tertiaryColor") ? Color.decode(json.get("tertiaryColor").getAsString()).getRGB() : data.getInt("primaryColor"));
+
         if (json.has("attackResponse")) {
             data.putString("attackResponse", json.get("attackResponse").getAsString());
         }
@@ -90,7 +91,7 @@ public class BeeCreator
             Map<MobEffect, Integer> effects = new HashMap<>();
             for (JsonElement el : json.get("passiveEffects").getAsJsonArray()) {
                 JsonObject effect = el.getAsJsonObject();
-                effects.put(ForgeRegistries.POTIONS.getValue(new ResourceLocation(effect.get("effect").getAsString())), effect.get("duration").getAsInt());
+                effects.put(ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(effect.get("effect").getAsString())), effect.get("duration").getAsInt());
             }
             data.put("effect", new BeeEffect(effects).serializeNBT());
         }

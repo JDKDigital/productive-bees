@@ -3,7 +3,6 @@
     "secondaryColor": "#06030b",
     "particleColor": "#3b2754",
     "renderer": "thicc",
-    "createComb": false,
     "size": 0.85,
     "attributes": {
         "endurance": 3

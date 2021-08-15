@@ -1,7 +1,13 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/cosmic_dust"
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:cosmic_dust"
+            }
+        }
     },
     "outputs": [
         {

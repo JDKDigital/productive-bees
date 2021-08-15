@@ -22,7 +22,7 @@ public final class ModPointOfInterestTypes
 {
     private static Method blockStatesInjector;
 
-    public static final DeferredRegister<PoiType> POINT_OF_INTEREST_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, ProductiveBees.MODID);
+    public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, ProductiveBees.MODID);
 
     public static final RegistryObject<PoiType> SOLITARY_HIVE = register("solitary_hive", ModBlocks.BAMBOO_HIVE, 1);
     public static final RegistryObject<PoiType> SOLITARY_NEST = register("solitary_nest", () -> {
@@ -88,18 +88,6 @@ public final class ModPointOfInterestTypes
     }
 
     private static RegistryObject<PoiType> register(String name, Supplier<PoiType> supplier) {
-        return POINT_OF_INTEREST_TYPES.register(name, supplier);
+        return POI_TYPES.register(name, supplier);
     }
-
-    public static void fixPOITypeBlockStates(PoiType poiType) {
-//        try {
-//            blockStatesInjector.invoke(null, poiType);
-//        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-//    static {
-//        blockStatesInjector = ObfuscationReflectionHelper.findMethod(PoiType.class, "func_221052_a", PoiType.class);
-//    }
 }

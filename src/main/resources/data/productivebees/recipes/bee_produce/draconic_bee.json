@@ -4,9 +4,15 @@
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/draconic"
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:draconic"
+                    }
+                }
             },
-            "chance": 80
+            "chance": 40
         }
     ]
 }

@@ -4,7 +4,6 @@
     "particleColor": "#8cdeff",
     "name": "BizBee",
     "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
-    "createComb": false,
     "beeTexture": "productivebees:textures/entity/bee/blizz/bee",
     "renderer": "elvis",
     "flowerTag": "productivebees:flowers/frozen",

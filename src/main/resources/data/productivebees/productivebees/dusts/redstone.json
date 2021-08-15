@@ -7,6 +7,5 @@
     "renderer": "default_crystal",
     "useGlowLayer": false,
     "redstoned": true,
-    "flowerTag": "productivebees:flowers/redstone",
-    "createComb": false
+    "flowerTag": "productivebees:flowers/redstone"
 }

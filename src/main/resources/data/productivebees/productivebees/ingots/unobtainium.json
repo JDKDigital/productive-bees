@@ -1,7 +1,6 @@
 {
     "primaryColor": "#bc2feb",
     "secondaryColor": "#2e237b",
-    "createComb": false,
     "flowerTag": "forge:storage_blocks/unobtainium",
     "attributes": {
         "endurance": 3

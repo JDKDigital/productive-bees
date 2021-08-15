@@ -7,7 +7,6 @@
     "particleColor": "#c62415",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/gems/ruby",
-    "createComb": false,
     "conditions": [
         {
             "type": "forge:not",

@@ -4,8 +4,15 @@
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/ender"
-            }
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:ender"
+                    }
+                }
+            },
+            "chance": 40
         }
     ]
 }

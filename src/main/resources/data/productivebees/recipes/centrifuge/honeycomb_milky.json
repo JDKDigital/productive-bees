@@ -1,7 +1,7 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/milky"
+        "item": "productivebees:honeycomb_milky"
     },
     "outputs": [
         {

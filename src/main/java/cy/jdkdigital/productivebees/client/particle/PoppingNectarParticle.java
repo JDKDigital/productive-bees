@@ -3,8 +3,6 @@ package cy.jdkdigital.productivebees.client.particle;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 

@@ -1,6 +1,9 @@
 {
-	"parent": "item/generated",
+	"parent": "forge:item/default",
+	"loader": "productivebees:comb",
 	"textures": {
-		"layer0": "productivebees:item/honeycombs/base"
-	}
+		"layer0": "productivebees:item/honeycombs/base",
+		"layer1": "productivebees:item/honeycombs/crystals"
+	},
+	"fullbright_layers": [1]
 }

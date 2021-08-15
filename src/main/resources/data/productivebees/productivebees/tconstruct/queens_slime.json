@@ -3,7 +3,6 @@
     "secondaryColor": "#204c49",
     "particleColor": "#267049",
     "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
-    "createComb": false,
     "flowerTag": "forge:storage_blocks/queens_slime",
     "conditions": [
         {

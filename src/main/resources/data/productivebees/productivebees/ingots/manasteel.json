@@ -1,7 +1,6 @@
 {
     "primaryColor": "#4aa7ef",
     "secondaryColor": "#804f40",
-    "createComb": false,
     "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
     "flowerTag": "forge:storage_blocks/manasteel",
     "selfbreed": false,

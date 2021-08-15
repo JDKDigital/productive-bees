@@ -50,7 +50,7 @@ public class BeeEffect implements INBTSerializable<CompoundTag>
                     CompoundTag effectTag = tag.getCompound("effect_" + i);
                     String effectName = effectTag.getString("effect");
 
-                    MobEffect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(effectName));
+                    MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(effectName));
 
                     this.effects.put(effect, effectTag.getInt("duration"));
                 }

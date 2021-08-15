@@ -39,7 +39,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,7 +64,7 @@ public final class ProductiveBees
         MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoad);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.register(modEventBus);
+        ModPointOfInterestTypes.POI_TYPES.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
@@ -81,8 +80,6 @@ public final class ProductiveBees
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             modEventBus.addListener(ClientSetup::init);
             modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerParticles);
-            modEventBus.addListener(ClientSetup::layerDefinitions);
-            modEventBus.addListener(ClientSetup::registerEntityRendering);
         });
 
         modEventBus.addListener(this::onInterModEnqueue);
@@ -158,10 +155,6 @@ public final class ProductiveBees
     }
 
     private void fixPOI(final FMLCommonSetupEvent event) {
-        for (RegistryObject<PoiType> poi : ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.getEntries()) {
-            ModPointOfInterestTypes.fixPOITypeBlockStates(poi.get());
-        }
-
         PoiType.BEEHIVE.matchingStates = this.makePOIStatesMutable(PoiType.BEEHIVE.matchingStates);
         ImmutableList<Block> beehives = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive && !(block instanceof DragonEggHive)).collect(ImmutableList.toImmutableList());
         for (Block block : beehives) {

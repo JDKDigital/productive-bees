@@ -1,7 +1,7 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/powdery"
+        "item": "productivebees:honeycomb_powdery"
     },
     "outputs": [
         {

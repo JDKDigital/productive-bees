@@ -4,7 +4,6 @@
     "particleColor": "#0e080a",
     "name": "BazBee",
     "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
-    "createComb": false,
     "flowerTag": "productivebees:flowers/burning",
     "beeTexture": "productivebees:textures/entity/bee/basalz/bee",
     "fireproof": true,

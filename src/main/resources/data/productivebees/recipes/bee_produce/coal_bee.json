@@ -4,10 +4,14 @@
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/fossilised"
-            },
-            "min": 1.0,
-            "max": 2.0
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:fossilised"
+                    }
+                }
+            }
         }
     ]
 }

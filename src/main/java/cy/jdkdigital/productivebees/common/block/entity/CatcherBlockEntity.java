@@ -83,7 +83,7 @@ public class CatcherBlockEntity extends FluidTankBlockEntity implements Upgradea
                                 ItemStack cageStack = new ItemStack(invItem.getItem());
                                 BeeCage.captureEntity(bee, cageStack);
                                 if (((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(cageStack)) {
-                                    bee.remove(true);
+                                    bee.discard();
                                     invItem.shrink(1);
                                 }
                             }

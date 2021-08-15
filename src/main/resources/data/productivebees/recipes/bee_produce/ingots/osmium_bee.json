@@ -4,7 +4,13 @@
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/osmium"
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:osmium"
+                    }
+                }
             }
         }
     ],

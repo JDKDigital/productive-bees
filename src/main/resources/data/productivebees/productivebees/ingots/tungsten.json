@@ -1,7 +1,6 @@
 {
     "primaryColor": "#616669",
     "secondaryColor": "#804f40",
-    "createComb": false,
     "flowerTag": "forge:storage_blocks/tungsten",
     "conditions": [
         {

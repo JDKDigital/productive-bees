@@ -5,7 +5,6 @@
     "size": 0.8,
     "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
     "flowerBlock": "mysticalagriculture:prudentium_block",
-    "createComb": false,
     "selfbreed": false,
     "conditions": [
         {

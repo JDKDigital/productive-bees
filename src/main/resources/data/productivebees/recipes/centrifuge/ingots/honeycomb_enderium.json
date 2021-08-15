@@ -1,8 +1,9 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/enderium"
+        "item": "productivebees:configurable_honeycomb"
     },
+    "comb_type": "productivebees:enderium",
     "outputs": [
         {
             "item": {

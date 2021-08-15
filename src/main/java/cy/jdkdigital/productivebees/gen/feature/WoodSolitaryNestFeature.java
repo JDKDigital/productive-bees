@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
@@ -23,7 +22,6 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
 
     @Override
     public boolean place(FeaturePlaceContext<ReplaceBlockConfiguration> context) {
-        ProductiveBees.LOGGER.info("place WoodSolitaryNestFeature");
         WorldGenLevel world = context.level();
         ChunkGenerator chunkGenerator = context.chunkGenerator();
         Random rand = context.random();
@@ -35,8 +33,6 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
         if (nestShouldNotGenerate(targetBlockStates.state) || rand.nextFloat() > this.probability) {
             return false;
         }
-        ProductiveBees.LOGGER.info("place WoodSolitaryNestFeature state: " + targetBlockStates.state);
-        ProductiveBees.LOGGER.info("place WoodSolitaryNestFeature target: " + targetBlockStates.target);
 
         // Get to ground level
         blockPos = blockPos.above(chunkGenerator.getSpawnHeight(world));

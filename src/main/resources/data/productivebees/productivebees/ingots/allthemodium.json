@@ -1,7 +1,6 @@
 {
     "primaryColor": "#f2f24f",
     "secondaryColor": "#d0581f",
-    "createComb": false,
     "flowerTag": "forge:storage_blocks/allthemodium",
     "conditions": [
         {

@@ -1,7 +1,6 @@
 {
     "primaryColor": "#4c9db6",
     "secondaryColor": "#804f40",
-    "createComb": false,
     "flowerTag": "forge:storage_blocks/osmium",
     "conditions": [
         {

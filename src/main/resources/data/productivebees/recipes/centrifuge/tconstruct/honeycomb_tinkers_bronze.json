@@ -1,7 +1,13 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "tag": "forge:honeycombs/silicon_bronze"
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:silicon_bronze"
+            }
+        }
     },
     "outputs": [
         {

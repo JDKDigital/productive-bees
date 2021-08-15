@@ -55,7 +55,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     private int teleportCooldown = 250;
 
     // Color calc cache
-    private static Map<Integer, float[]> colorCache = new HashMap<>();
+    private static final Map<Integer, float[]> colorCache = new HashMap<>();
 
     public static final EntityDataAccessor<String> TYPE = SynchedEntityData.defineId(ConfigurableBee.class, EntityDataSerializers.STRING);
 
@@ -419,16 +419,15 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     public float[] getParticleColor() {
-        Integer color = getNBTData().getInt("particleColor");
-        if (!colorCache.containsKey(color)) {
-            colorCache.put(color, (new Color(color)).getComponents(null));
-        }
-        return colorCache.get(color);
+        return getCacheColor(getNBTData().getInt("particleColor"));
     }
 
     public float[] getTertiaryColor() {
         CompoundTag nbt = getNBTData();
-        Integer color = nbt.contains("tertiaryColor") ? nbt.getInt("tertiaryColor") : nbt.getInt("primaryColor");
+        return getCacheColor(nbt.getInt("tertiaryColor"));
+    }
+
+    private static float[] getCacheColor(Integer color) {
         if (!colorCache.containsKey(color)) {
             colorCache.put(color, (new Color(color)).getComponents(null));
         }

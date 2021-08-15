@@ -1,7 +1,6 @@
 {
     "primaryColor": "#6FEAEF",
     "secondaryColor": "#804f40",
-    "createComb": false,
     "attributes": {
         "endurance": 2
     },

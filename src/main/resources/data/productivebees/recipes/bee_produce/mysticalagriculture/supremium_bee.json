@@ -4,8 +4,15 @@
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/supremium"
-            }
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:supremium"
+                    }
+                }
+            },
+            "chance": 60
         }
     ],
     "conditions": [

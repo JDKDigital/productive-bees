@@ -5,7 +5,6 @@
     "beeTexture": "productivebees:textures/entity/bee/ichor_slimy/bee",
     "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
     "renderer": "translucent_with_center",
-    "createComb": false,
     "conditions": [
         {
             "type": "forge:not",

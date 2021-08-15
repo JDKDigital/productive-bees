@@ -1,0 +1,9 @@
+{
+	"parent": "forge:item/default",
+	"loader": "forge:item-layers",
+	"textures": {
+		"layer0": "productivebees:item/honeycombs/base",
+		"layer1": "productivebees:item/honeycombs/crystals"
+	},
+	"fullbright_layers": [1]
+}

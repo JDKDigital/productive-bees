@@ -5,7 +5,6 @@
     "particleColor": "#5241f3",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/gems/sapphire",
-    "createComb": false,
     "conditions": [
         {
             "type": "forge:not",

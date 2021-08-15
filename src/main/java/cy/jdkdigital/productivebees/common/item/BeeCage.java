@@ -107,7 +107,7 @@ public class BeeCage extends Item
         if (player instanceof ServerPlayer) {
             ModAdvancements.CATCH_BEE.trigger((ServerPlayer) player, cageStack);
         }
-        target.remove(true);
+        target.discard();
 
         return InteractionResult.SUCCESS;
     }

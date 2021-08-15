@@ -3,7 +3,6 @@
     "secondaryColor": "#0f0f66",
     "particleColor": "#2394cc",
     "name": "Cosmic Bee",
-    "createComb": false,
     "flowerTag": "forge:ores/cosmic",
     "conditions": [
         {

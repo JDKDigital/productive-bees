@@ -4,7 +4,7 @@
     "particleColor": "#fad87d",
     "size": 0.9,
     "beeTexture": "productivebees:textures/entity/bee/glowing/bee",
-    "createComb": false,
+    "combTexture": "productivebees:textures/item/honeycombs/glowing",
     "blinding": true,
     "flowerTag": "productivebees:flowers/glowing_flowers",
     "nestingPreference": "productivebees:nests/glowstone_nests",

@@ -5,7 +5,6 @@
     "particleColor": "#69ffff",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/gems/apatite",
-    "createComb": false,
     "conditions": [
         {
             "type": "forge:not",

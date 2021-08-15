@@ -4,8 +4,15 @@
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/experience"
-            }
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:experience"
+                    }
+                }
+            },
+            "chance": 40
         }
     ]
 }

@@ -2,12 +2,14 @@ package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import cy.jdkdigital.productivebees.common.entity.bee.IEffectBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
@@ -16,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 
 import java.util.Collection;
 
@@ -31,6 +34,11 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
     public CreeperBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
         beeAttributes.put(BeeAttributes.TEMPER, 2);
+    }
+
+    @Override
+    public boolean isFlowerBlock(Block flowerBlock) {
+        return ModTags.GUNPOWDER.contains(flowerBlock);
     }
 
     protected void defineSynchedData() {

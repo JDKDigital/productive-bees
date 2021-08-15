@@ -147,13 +147,13 @@ public class EventHandler
     public static void onLootSetup(LootTableLoadEvent event) {
         if (event.getName().toString().contains("chests/village")) {
             event.getTable().getPool("main").entries.add(
-                    LootItem.lootTableItem(ModItems.STURDY_BEE_CAGE.get()).setWeight(4).build()
+                LootItem.lootTableItem(ModItems.STURDY_BEE_CAGE.get()).setWeight(4).build()
             );
         }
     }
 
+    @SubscribeEvent
     public static void onEntityAttributeCreate(EntityAttributeCreationEvent event) {
-        ProductiveBees.LOGGER.info("Hi from onEntityAttributeCreate " + event.toString());
         //Entity attribute assignments
         for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
             EntityType<ProductiveBee> bee = (EntityType<ProductiveBee>) registryObject.get();

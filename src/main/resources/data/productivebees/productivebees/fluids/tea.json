@@ -3,7 +3,6 @@
     "secondaryColor": "#804f40",
     "particleColor": "#ca7157",
     "flowerTag": "minecraft:leaves",
-    "createComb": false,
     "conditions": [
         {
             "type": "forge:not",

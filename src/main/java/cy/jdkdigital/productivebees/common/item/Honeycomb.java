@@ -28,12 +28,12 @@ public class Honeycomb extends Item
         return color;
     }
 
-    public int getColor(ItemStack stack) {
+    public int getColor(ItemStack stack, int tintIndex) {
         CompoundTag tag = stack.getTagElement("EntityTag");
         if (tag != null && tag.contains("type")) {
             CompoundTag nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
-                return nbt.getInt("primaryColor");
+                return tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("tertiaryColor");
             }
         }
         return getColor();

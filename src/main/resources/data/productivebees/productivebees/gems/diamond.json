@@ -3,7 +3,6 @@
     "secondaryColor": "#804f40",
     "tertiaryColor": "#0ebabd",
     "particleColor": "#3ddfe1",
-    "createComb": false,
     "renderer": "default_crystal",
     "size": 0.6,
     "attributes": {

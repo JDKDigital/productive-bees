@@ -3,6 +3,5 @@
     "secondaryColor": "#804f40",
     "particleColor": "#222525",
     "flowerTag": "forge:storage_blocks/coal",
-    "createComb": false,
     "size": 0.5
 }

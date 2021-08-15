@@ -6,7 +6,7 @@
     ],
     "key": {
         "H": {
-            "tag": "forge:honeycombs/powdery"
+            "item": "productivebees:honeycomb_powdery"
         }
     },
     "result": {

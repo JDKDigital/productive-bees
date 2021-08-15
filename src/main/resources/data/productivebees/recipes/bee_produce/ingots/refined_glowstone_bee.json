@@ -4,7 +4,13 @@
     "results": [
         {
             "item": {
-                "tag": "forge:honeycombs/refined_glowstone"
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:refined_glowstone"
+                    }
+                }
             }
         }
     ],

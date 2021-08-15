@@ -6,7 +6,7 @@
     ],
     "key": {
         "H": {
-            "tag": "forge:honeycombs/milky"
+            "item": "productivebees:honeycomb_milky"
         }
     },
     "result": {

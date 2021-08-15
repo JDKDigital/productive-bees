@@ -6,7 +6,7 @@
     ],
     "key": {
         "H": {
-            "tag": "forge:honeycombs/ghostly"
+            "item": "productivebees:honeycomb_ghostly"
         }
     },
     "result": {
