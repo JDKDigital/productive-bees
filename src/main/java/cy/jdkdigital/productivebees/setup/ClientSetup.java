@@ -127,7 +127,7 @@ public class ClientSetup
 
     public static void registerParticles(final ParticleFactoryRegisterEvent event) {
         Minecraft.getInstance().particleEngine.register(ModParticles.COLORED_FALLING_NECTAR.get(), FallingNectarParticle.FallingNectarFactory::new);
-        Minecraft.getInstance().particleEngine.register(ModParticles.COLORED_RISING_NECTAR.get(), RisingNectarParticle.FallingNectarFactory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.COLORED_RISING_NECTAR.get(), RisingNectarParticle.RisingNectarFactory::new);
         Minecraft.getInstance().particleEngine.register(ModParticles.COLORED_POPPING_NECTAR.get(), PoppingNectarParticle.PoppingNectarFactory::new);
         Minecraft.getInstance().particleEngine.register(ModParticles.COLORED_LAVA_NECTAR.get(), LavaNectarParticle.LavaNectarFactory::new);
         Minecraft.getInstance().particleEngine.register(ModParticles.COLORED_PORTAL_NECTAR.get(), PortalNectarParticle.PortalNectarFactory::new);

@@ -39,7 +39,6 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-//            property 'mixin.env.disableRefMap', 'true'
 
             mods {
                 productivebees {
@@ -52,7 +51,6 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-//            property 'mixin.env.disableRefMap', 'true'
 
             mods {
                 productivebees {
@@ -65,7 +63,6 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.disableRefMap', 'true'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', 'productivebees', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
@@ -126,13 +123,12 @@ dependencies {
     implementation fg.deobf("curse.maven:tinkers-construct-74072:3352983")
     implementation fg.deobf("curse.maven:bigreactors-250277:3211479")
     implementation fg.deobf("curse.maven:zerocore-247921:3211476")
-    implementation fg.deobf("curse.maven:evilcraft-74610:3292057")
     implementation fg.deobf("curse.maven:cyclops-core-232758:3292066")
     implementation fg.deobf("curse.maven:curios-309927:3275653")
     implementation fg.deobf("curse.maven:observerlib-316833:3320850")
-    implementation fg.deobf("curse.maven:cofh-core-69162:3249453")
-    implementation fg.deobf("curse.maven:thermal-foundation-222880:3248150")
-    implementation fg.deobf("curse.maven:thermal-expansion-69163:3247000")
+    implementation fg.deobf("curse.maven:cofh-core-69162:3407019")
+    implementation fg.deobf("curse.maven:thermal-foundation-222880:3412300")
+    implementation fg.deobf("curse.maven:thermal-expansion-69163:3404884")
 //    implementation fg.deobf('curse.maven:botania-225643:3300995')
     implementation fg.deobf("curse.maven:cucumber-272335:3249370")
     implementation fg.deobf("curse.maven:mystical-agriculture-246640:3251398")

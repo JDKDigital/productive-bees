@@ -92,8 +92,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
 
         if (this.menu.tileEntity.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
             minecraft.getTextureManager().bind(GUI_TEXTURE_POWERED);
-        }
-        else {
+        } else {
             minecraft.getTextureManager().bind(GUI_TEXTURE);
         }
 

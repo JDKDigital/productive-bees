@@ -4,7 +4,6 @@
     "particleColor": "#ba3d34",
     "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
     "renderer": "thicc",
-    "createComb": true,
     "size": 0.9,
     "attributes": {
         "endurance": 3,

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.layers.BeeBodyLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
@@ -9,6 +10,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,6 +42,16 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBeeEntity, Prod
         addLayer(new BeeBodyLayer(this, "slim", isChristmas));
         addLayer(new BeeBodyLayer(this, "tiny", isChristmas));
         addLayer(new BeeBodyLayer(this, "translucent_with_center", isChristmas));
+    }
+
+    @Override
+    protected void setupRotations(ProductiveBeeEntity entity, MatrixStack matrixStack, float f1, float f2, float f3) {
+        super.setupRotations(entity, matrixStack, f1, f2, f3);
+
+        if (entity instanceof ConfigurableBeeEntity && ((ConfigurableBeeEntity) entity).getRenderTransform().equals("flipped")) {
+            matrixStack.translate(0.0D, (double) (entity.getBbHeight() + 0.1F), 0.0D);
+            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+        }
     }
 
     @Nullable

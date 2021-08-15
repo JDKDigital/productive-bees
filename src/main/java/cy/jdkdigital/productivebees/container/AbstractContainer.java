@@ -40,16 +40,14 @@ abstract class AbstractContainer extends Container
                 if (!moveItemStackTo(slotStack, containerSlots, this.slots.size(), false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else {
+            } else {
                 // Move from player inv into container
                 int upgradeSlotCount = this.getTileEntity() instanceof UpgradeableTileEntity ? 4 : 0;
                 if (upgradeSlotCount > 0 && slotStack.getItem() instanceof UpgradeItem) {
                     if (!moveItemStackTo(slotStack, containerSlots - upgradeSlotCount, containerSlots, false)) {
                         return ItemStack.EMPTY;
                     }
-                }
-                else {
+                } else {
                     if (!moveItemStackTo(slotStack, 0, containerSlots - upgradeSlotCount, false)) {
                         return ItemStack.EMPTY;
                     }

@@ -56,6 +56,7 @@ public class BeeCreator
 
         data.putString("flowerType", json.has("flowerType") ? json.get("flowerType").getAsString() : "block");
         data.putString("renderer", json.has("renderer") ? json.get("renderer").getAsString() : "default");
+        data.putString("renderTransform", json.has("renderTransform") ? json.get("renderTransform").getAsString() : "none");
         data.putString("particleType", json.has("particleType") ? json.get("particleType").getAsString() : "drip");
         data.putFloat("size", json.has("size") ? json.get("size").getAsFloat() : 1.0f);
 
