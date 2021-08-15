@@ -41,8 +41,7 @@ public class FallingNectarParticle extends DripParticle
             float[] colors = typeIn.getColor();
             if (colors != null) {
                 dripparticle.setColor(colors[0], colors[1], colors[2]);
-            }
-            else {
+            } else {
                 dripparticle.setColor(0.92F, 0.782F, 0.72F);
             }
 

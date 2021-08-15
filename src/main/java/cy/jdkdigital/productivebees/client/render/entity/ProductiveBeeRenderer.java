@@ -1,5 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.layers.BeeBodyLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
@@ -57,6 +59,16 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
         Calendar calendar = Calendar.getInstance();
         if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 21 && calendar.get(Calendar.DATE) <= 26) {
             this.isChristmas = true;
+        }
+    }
+
+    @Override
+    protected void setupRotations(ProductiveBee entity, PoseStack matrixStack, float f1, float f2, float f3) {
+        super.setupRotations(entity, matrixStack, f1, f2, f3);
+
+        if (entity instanceof ConfigurableBee configurableBee && configurableBee.getRenderTransform().equals("flipped")) {
+            matrixStack.translate(0.0D, entity.getBbHeight() + 0.1F, 0.0D);
+            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
         }
     }
 

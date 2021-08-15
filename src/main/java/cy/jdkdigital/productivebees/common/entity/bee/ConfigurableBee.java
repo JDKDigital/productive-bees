@@ -145,7 +145,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             case "portal":
                 particle = ModParticles.COLORED_PORTAL_NECTAR.get();
                 break;
-            case "rise":
+            case "rising":
                 particle = ModParticles.COLORED_RISING_NECTAR.get();
                 break;
             case "drip":
@@ -351,6 +351,10 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     public String getRenderer() {
         return getNBTData().getString("renderer");
+    }
+
+    public String getRenderTransform() {
+        return getNBTData().getString("renderTransform");
     }
 
     public boolean useGlowLayer() {
