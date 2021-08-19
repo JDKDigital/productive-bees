@@ -3,7 +3,7 @@
     "secondaryColor": "#100000",
     "particleColor": "#d06a1b",
     "beeTexture": "productivebees:textures/entity/bee/magmatic/bee",
-    "combTexture": "productivebees:textures/item/honeycombs/magmatic",
+    "combTexture": "productivebees:item/honeycombs/magmatic",
     "glowingInnards": true,
     "renderer": "translucent_with_center",
     "flowerTag": "productivebees:flowers/magmatic_flowers",

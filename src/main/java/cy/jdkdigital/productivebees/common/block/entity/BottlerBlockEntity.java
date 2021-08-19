@@ -47,7 +47,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
         @Override
-        public boolean isBottleItem(Item item) {
+        public boolean isContainerItem(Item item) {
             return item == Items.GLASS_BOTTLE || item == Items.BUCKET || item == Items.HONEYCOMB;
         }
     });

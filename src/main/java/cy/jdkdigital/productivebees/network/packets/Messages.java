@@ -47,11 +47,7 @@ public class Messages
         public static void handle(BeeDataMessage message, Supplier<NetworkEvent.Context> context) {
             context.get().enqueueWork(() -> {
                 BeeReloadListener.INSTANCE.setData(message.data);
-
-                int delay = ProductiveBeesConfig.GENERAL.beeSyncDelay.get();
-                if (delay == 0) {
-                    Messages.updateJEI();
-                }
+                Messages.updateJEI();
             });
             context.get().setPacketHandled(true);
         }

@@ -11,7 +11,6 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Transformation;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -23,10 +22,10 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.ForgeRenderTypes;
 import net.minecraftforge.client.model.*;
 import net.minecraftforge.client.model.geometry.IModelGeometry;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
@@ -37,96 +36,101 @@ public final class CombModel implements IModelGeometry<CombModel>
 {
     public static final CombModel INSTANCE = new CombModel(ImmutableList.of());
 
-    private ImmutableList<Material> textures;
-    private final ImmutableSet<Integer> fullbrightLayers;
+    public ImmutableList<Material> textures;
+    public final ImmutableSet<Integer> fullBrightLayers;
 
     public CombModel(ImmutableList<Material> textures) {
         this(textures, ImmutableSet.of());
     }
 
-    public CombModel(@Nullable ImmutableList<Material> textures, ImmutableSet<Integer> fullbrightLayers) {
+    public CombModel(@Nullable ImmutableList<Material> textures, ImmutableSet<Integer> fullBrightLayers) {
         this.textures = textures;
-        this.fullbrightLayers = fullbrightLayers;
-    }
-
-    private static ImmutableList<Material> getTextures(IModelConfiguration model) {
-        ImmutableList.Builder<Material> builder = ImmutableList.builder();
-        for (int i = 0; model.isTexturePresent("layer" + i); i++) {
-            builder.add(model.resolveTexture("layer" + i));
-        }
-        return builder.build();
+        this.fullBrightLayers = fullBrightLayers;
     }
 
     @Override
     public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
         ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap = PerspectiveMapWrapper.getTransforms(new CompositeModelState(owner.getCombinedTransform(), modelTransform));
 
-        Transformation transform = modelTransform.getRotation();
         TextureAtlasSprite particle = spriteGetter.apply(
             owner.isTexturePresent("particle") ? owner.resolveTexture("particle") : textures.get(0)
         );
 
-        ItemMultiLayerBakedModel.Builder builder = ItemMultiLayerBakedModel.builder(owner, particle, new Overrides(overrides, bakery, owner, spriteGetter), transformMap);
-
-        for (int i = 0; i < textures.size(); i++) {
-            TextureAtlasSprite tas = spriteGetter.apply(textures.get(i));
-            boolean fullBright = fullbrightLayers.contains(i);
-            RenderType rt = getLayerRenderType(fullBright);
-            builder.addQuads(rt, ItemLayerModel.getQuadsForSprite(i, tas, transform, fullBright));
-        }
+        ItemMultiLayerBakedModel.Builder builder = ItemMultiLayerBakedModel.builder(owner, particle, new Overrides(this, overrides, modelTransform, owner, spriteGetter), transformMap);
 
         return builder.build();
     }
 
-    public static RenderType getLayerRenderType(boolean isFullbright) {
-        return isFullbright ? ForgeRenderTypes.ITEM_UNSORTED_UNLIT_TRANSLUCENT.get() : ForgeRenderTypes.ITEM_UNSORTED_TRANSLUCENT.get();
-    }
-
     @Override
     public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        textures = getTextures(owner);
+        ImmutableList.Builder<Material> builder = ImmutableList.builder();
+        for (int i = 0; owner.isTexturePresent("layer" + i); i++) {
+            Material mat = owner.resolveTexture("layer" + i);
+            builder.add(mat);
+        }
+        textures =  builder.build();
         return textures;
+    }
+
+    private static BakedModel bakeModel(IModelConfiguration owner, Material texture, Function<Material, TextureAtlasSprite> spriteGetter, ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap, ItemOverrides overrides) {
+        TextureAtlasSprite sprite = spriteGetter.apply(texture);
+        ImmutableList<BakedQuad> quads = ItemLayerModel.getQuadsForSprite(-1, sprite, Transformation.identity());
+        return new BakedItemModel(quads, sprite, transformMap, overrides, true, owner.isSideLit());
     }
 
     public static class Overrides extends ItemOverrides {
         private final Map<String, BakedModel> modelCache = Maps.newHashMap();
+        private final CombModel combModel;
         private final ItemOverrides nested;
-        private final ModelBakery bakery;
+        private final ModelState modelTransform;
         private final IModelConfiguration owner;
-        private Function<Material, TextureAtlasSprite> spriteGetter;
+        private final Function<Material, TextureAtlasSprite> spriteGetter;
 
-        private Overrides(ItemOverrides nested, ModelBakery bakery, IModelConfiguration owner, Function<Material, TextureAtlasSprite> spriteGetter)
+        private Overrides(CombModel combModel, ItemOverrides nested, ModelState modelTransform, IModelConfiguration owner, Function<Material, TextureAtlasSprite> spriteGetter)
         {
+            this.combModel = combModel;
             this.nested = nested;
-            this.bakery = bakery;
+            this.modelTransform = modelTransform;
             this.owner = owner;
             this.spriteGetter = spriteGetter;
         }
 
         @Nullable
         @Override
-        public BakedModel resolve(BakedModel model, ItemStack stack, @Nullable ClientLevel world, @Nullable LivingEntity livingEntity, int seed) {
+        public BakedModel resolve(@Nonnull BakedModel model, ItemStack stack, @Nullable ClientLevel world, @Nullable LivingEntity livingEntity, int seed) {
             CompoundTag tag = stack.getTagElement("EntityTag");
             if (tag != null && tag.contains("type")) {
                 String beeType = tag.getString("type");
-                CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeType);
-                if (nbt.contains("beeTexture")) {
-                    if (!modelCache.containsKey(beeType)) {
-                        Material texture = ModelLoaderRegistry.blockMaterial(nbt.getString("beeTexture"));
-                        BakedModel texturedModel = CombModel.bakeModel(owner, texture, spriteGetter, nested);
+
+                if (!modelCache.containsKey(beeType)) {
+                    CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeType);
+                    ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap = PerspectiveMapWrapper.getTransforms(new CompositeModelState(owner.getCombinedTransform(), modelTransform));
+
+                    if (nbt.contains("combTexture")) {
+                        Material texture = ModelLoaderRegistry.blockMaterial(nbt.getString("combTexture"));
+                        BakedModel texturedModel = CombModel.bakeModel(owner, texture, spriteGetter, transformMap, nested);
                         modelCache.put(beeType, texturedModel);
+                    } else {
+                        TextureAtlasSprite baseSprite = spriteGetter.apply(combModel.textures.get(0));
+
+                        ItemMultiLayerBakedModel.Builder builder = ItemMultiLayerBakedModel.builder(owner, baseSprite, nested, transformMap);
+                        boolean fullBright = combModel.fullBrightLayers.contains(0);
+                        builder.addQuads(ItemLayerModel.getLayerRenderType(fullBright), ItemLayerModel.getQuadsForSprite(0, baseSprite, modelTransform.getRotation(), fullBright));
+
+                        // Crystal bees have glowing bits on the comb texture
+                        if (nbt.contains("renderer") && nbt.getString("renderer").equals("default_crystal")) {
+                            TextureAtlasSprite crystalSprite = spriteGetter.apply(combModel.textures.get(1));
+                            fullBright = combModel.fullBrightLayers.contains(1);
+                            builder.addQuads(ItemLayerModel.getLayerRenderType(fullBright), ItemLayerModel.getQuadsForSprite(1, crystalSprite, modelTransform.getRotation(), fullBright));
+                        }
+
+                        modelCache.put(beeType, builder.build());
                     }
-                    return modelCache.getOrDefault(beeType, model);
                 }
+                return modelCache.getOrDefault(beeType, model);
             }
             return model;
         }
-    }
-
-    private static BakedModel bakeModel(IModelConfiguration owner, Material texture, Function<Material, TextureAtlasSprite> spriteGetter, ItemOverrides overrides) {
-        TextureAtlasSprite sprite = spriteGetter.apply(texture);
-        ImmutableList<BakedQuad> quads = ItemLayerModel.getQuadsForSprite(-1, sprite, Transformation.identity());
-        return new BakedItemModel(quads, sprite, ImmutableMap.of(), overrides, true, owner.isSideLit());
     }
 
     public static class Loader implements IModelLoader<CombModel>
@@ -134,12 +138,11 @@ public final class CombModel implements IModelGeometry<CombModel>
         public static final Loader INSTANCE = new Loader();
 
         @Override
-        public void onResourceManagerReload(ResourceManager resourceManager) {
-            // nothing to do
-        }
+        public void onResourceManagerReload(@Nonnull ResourceManager resourceManager) {}
 
+        @Nonnull
         @Override
-        public CombModel read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
+        public CombModel read(@Nonnull JsonDeserializationContext deserializationContext, JsonObject modelContents) {
             ImmutableSet.Builder<Integer> fullbrightLayers = ImmutableSet.builder();
             if (modelContents.has("fullbright_layers")) {
                 JsonArray arr = GsonHelper.getAsJsonArray(modelContents, "fullbright_layers");

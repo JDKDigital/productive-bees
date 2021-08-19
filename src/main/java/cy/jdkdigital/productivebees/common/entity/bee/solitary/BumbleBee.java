@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -83,11 +84,10 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     @Override
     public boolean canBeControlledByRider() {
         Entity entity = this.getControllingPassenger();
-        if (!(entity instanceof Player)) {
+        if (!(entity instanceof Player playerEntity)) {
             return false;
         } else {
-            Player playerentity = (Player)entity;
-            return playerentity.getMainHandItem().getItem() == ModItems.TREAT_ON_A_STICK.get() || playerentity.getOffhandItem().getItem() == ModItems.TREAT_ON_A_STICK.get();
+            return playerEntity.getMainHandItem().getItem() == ModItems.TREAT_ON_A_STICK.get() || playerEntity.getOffhandItem().getItem() == ModItems.TREAT_ON_A_STICK.get();
         }
     }
 
@@ -105,7 +105,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.steering.addAdditionalSaveData(compound);
+        this.steering.readAdditionalSaveData(compound);
     }
 
     @Override

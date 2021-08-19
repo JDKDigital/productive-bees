@@ -2,7 +2,7 @@
     "primaryColor": "#141414",
     "particleColor": "#141414",
     "beeTexture": "productivebees:textures/entity/bee/wither/bee",
-    "combTexture": "productivebees:textures/item/honeycombs/withered",
+    "combTexture": "productivebees:item/honeycombs/withered",
     "selfbreed": false,
     "flowerTag": "productivebees:flowers/wither_flowers",
     "attributes": {

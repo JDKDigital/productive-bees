@@ -392,7 +392,6 @@ public class ProductiveBee extends Bee
         return BeeCreator.getSpawnEgg(this.getBeeType());
     }
 
-
     @Override
     protected void ageBoundaryReached() {
         super.ageBoundaryReached();
@@ -533,8 +532,6 @@ public class ProductiveBee extends Bee
             return this.findNearestBlock(this.flowerPredicate, 5);
         }
 
-        private BoundingBox box = null;
-
         private Optional<BlockPos> findNearestBlock(Predicate<BlockPos> predicate, double distance) {
             BlockPos blockpos = ProductiveBee.this.blockPosition();
             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
@@ -593,7 +590,7 @@ public class ProductiveBee extends Bee
                 if (ProductiveBee.this instanceof ConfigurableBee) {
                     bee = ProductiveBee.this.getBeeType();
                 }
-                ProductiveBees.LOGGER.debug("Nesting tag for " + bee + " not found. Looking for " + nestTag.toString());
+                ProductiveBees.LOGGER.debug("Nesting tag for " + bee + " not found. Looking for " + nestTag);
             }
 
             return !ProductiveBee.this.hasRestriction() &&

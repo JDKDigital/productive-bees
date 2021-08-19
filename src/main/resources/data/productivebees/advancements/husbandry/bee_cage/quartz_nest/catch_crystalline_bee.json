@@ -2,15 +2,9 @@
     "parent": "productivebees:husbandry/bee_cage/quartz_nest",
     "display": {
         "icon": {
-            "item": {
-                "type": "forge:nbt",
-                "item": "productivebees:configurable_honeycomb",
-                "nbt": {
-                    "EntityTag": {
-                        "type": "productivebees:crystalline"
-                    }
-                }
-            }
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": "{EntityTag: {type: \"productivebees:crystalline\"}}"
         },
         "title": {
             "translate": "advancements.husbandry.catch_crystalline_bee.title"

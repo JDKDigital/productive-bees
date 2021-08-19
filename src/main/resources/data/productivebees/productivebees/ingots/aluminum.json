@@ -1,7 +1,7 @@
 {
     "primaryColor": "#A4A6B1",
     "secondaryColor": "#804f40",
-    "combTexture": "productivebees:textures/item/honeycombs/bauxite",
+    "combTexture": "productivebees:item/honeycombs/bauxite",
     "flowerTag": "forge:storage_blocks/aluminum",
     "conditions": [
         {

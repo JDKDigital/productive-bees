@@ -117,12 +117,12 @@ public class InventoryHandlerHelper
             return slot != BOTTLE_SLOT && slot != INPUT_SLOT && slot != FLUID_ITEM_OUTPUT_SLOT;
         }
 
-        public boolean isBottleItem(Item item) {
+        public boolean isContainerItem(Item item) {
             return item == Items.GLASS_BOTTLE;
         }
 
         public boolean isInputSlotItem(int slot, Item item) {
-            return (slot == BOTTLE_SLOT && isBottleItem(item)) || (slot == FLUID_ITEM_OUTPUT_SLOT && !isBottleItem(item));
+            return (slot == BOTTLE_SLOT && isContainerItem(item)) || (slot == FLUID_ITEM_OUTPUT_SLOT && !isContainerItem(item));
         }
 
         @Override

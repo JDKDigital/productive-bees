@@ -3,7 +3,18 @@
 	"loader": "productivebees:comb",
 	"textures": {
 		"layer0": "productivebees:item/honeycombs/base",
-		"layer1": "productivebees:item/honeycombs/crystals"
+		"layer1": "productivebees:item/honeycombs/crystals",
+		"layer2": "productivebees:item/honeycombs/draconic",
+		"layer3": "productivebees:item/honeycombs/blazing",
+		"layer4": "productivebees:item/honeycombs/ender",
+		"layer5": "productivebees:item/honeycombs/glowing",
+		"layer6": "productivebees:item/honeycombs/ghostly",
+		"layer7": "productivebees:item/honeycombs/bauxite",
+		"layer8": "productivebees:item/honeycombs/bone",
+		"layer9": "productivebees:item/honeycombs/slimy",
+		"layer10": "productivebees:item/honeycombs/withered",
+		"layer11": "productivebees:item/honeycombs/magmatic",
+		"layer12": "productivebees:item/honeycombs/rotten"
 	},
 	"fullbright_layers": [1]
 }

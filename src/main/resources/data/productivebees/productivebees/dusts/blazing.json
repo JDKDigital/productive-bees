@@ -2,7 +2,7 @@
     "primaryColor": "#fcd979",
     "particleColor": "#fcd979",
     "beeTexture": "productivebees:textures/entity/bee/blazing/bee",
-    "combTexture": "productivebees:textures/item/honeycombs/blazing",
+    "combTexture": "productivebees:item/honeycombs/blazing",
     "flowerTag": "productivebees:flowers/fiery",
     "attackResponse": "fire",
     "particleType": "lava",

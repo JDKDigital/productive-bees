@@ -29,12 +29,6 @@ public class PacketHandler
                 .encoder(Messages.BeeDataMessage::encode)
                 .consumer(Messages.BeeDataMessage::handle)
                 .add();
-
-        channel.messageBuilder(Messages.ReindexMessage.class, getId(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(Messages.ReindexMessage::decode)
-                .encoder(Messages.ReindexMessage::encode)
-                .consumer(Messages.ReindexMessage::handle)
-                .add();
     }
 
     public static int getId() {
@@ -42,10 +36,6 @@ public class PacketHandler
     }
 
     public static void sendBeeDataToPlayer(Messages.BeeDataMessage message, ServerPlayer player) {
-        channel.send(PacketDistributor.PLAYER.with(() -> player), message);
-    }
-
-    public static void sendReindexCommandToPlayer(Messages.ReindexMessage message, ServerPlayer player) {
         channel.send(PacketDistributor.PLAYER.with(() -> player), message);
     }
 

@@ -3,7 +3,7 @@
     "secondaryColor": "#6238757",
     "particleColor": "#2ff757",
     "beeTexture": "productivebees:textures/entity/bee/slimy/bee",
-    "combTexture": "productivebees:textures/item/honeycombs/slimy",
+    "combTexture": "productivebees:item/honeycombs/slimy",
     "renderer": "translucent_with_center",
     "attributes": {
         "temper": 0

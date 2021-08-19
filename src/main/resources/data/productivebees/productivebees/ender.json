@@ -5,7 +5,7 @@
     "particleType": "portal",
     "size": 0.8,
     "beeTexture": "productivebees:textures/entity/bee/ender/bee",
-    "combTexture": "productivebees:textures/item/honeycombs/ender",
+    "combTexture": "productivebees:item/honeycombs/ender",
     "attributes": {
         "endurance": 1
     },

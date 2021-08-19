@@ -81,15 +81,9 @@ public class ThiccBeeModel extends PartialBeeModel
                         .addBox(-5.0F, -1.5F, -1.0F, 7.0F, 2.0F, 0.0F),
                 PartPose.offset(1.5F, 4.0F, 1.0F)
         );
-        bone.addOrReplaceChild(
-                ProductiveBeeModel.BACK_LEGS,
-                CubeListBuilder
-                        .create().texOffs(24, 5)
-                        .addBox(-5.0F, 7.0F, 1.0F, 7.0F, 2.0F, 0.0F),
-                PartPose.offset(1.5F, 3.5F, 0.0F)
-        );
+        bone.addOrReplaceChild(ProductiveBeeModel.BACK_LEGS, CubeListBuilder.create(), PartPose.ZERO);
 
-        body.addOrReplaceChild(
+        PartDefinition externals = body.addOrReplaceChild(
                 ProductiveBeeModel.EXTERNALS,
                 CubeListBuilder
                         .create().texOffs(30, 0)
@@ -97,6 +91,13 @@ public class ThiccBeeModel extends PartialBeeModel
                         .texOffs(9, 0)
                         .addBox(-0.5F, 3.0F, 8.0F, 1.0F, 1.0F, 1.0F),
                 PartPose.offsetAndRotation(0.0F, -4.0F, 0.0F, -0.2618F, 0.0F, 0.0F)
+        );
+        externals.addOrReplaceChild(
+                ProductiveBeeModel.BACK_LEGS,
+                CubeListBuilder
+                        .create().texOffs(24, 5)
+                        .addBox(-5.0F, 7.0F, 1.0F, 7.0F, 2.0F, 0.0F),
+                PartPose.offset(1.5F, 3.5F, 0.0F)
         );
 
         return LayerDefinition.create(meshDefinition, 64, 64);

@@ -1,7 +1,7 @@
 {
     "primaryColor": "#eeeeee",
     "beeTexture": "productivebees:textures/entity/bee/ghostly/bee",
-    "combTexture": "productivebees:textures/item/honeycombs/ghostly",
+    "combTexture": "productivebees:item/honeycombs/ghostly",
     "translucent": true,
     "attributes": {
         "behavior": 1

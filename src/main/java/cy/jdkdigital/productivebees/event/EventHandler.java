@@ -109,41 +109,6 @@ public class EventHandler
     }
 
     @SubscribeEvent
-    public static void onPlayerJoinServer(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getPlayer();
-        if (player instanceof ServerPlayer) {
-            // Send data
-            PacketHandler.sendBeeDataToPlayer(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()), (ServerPlayer) event.getEntity());
-
-            // Send reindex message
-            int delay = ProductiveBeesConfig.GENERAL.beeSyncDelay.get();
-            if (delay > 0 ) {
-                ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-                executorService.schedule(() -> {
-                    PacketHandler.sendReindexCommandToPlayer(new Messages.ReindexMessage(), (ServerPlayer) event.getEntity());
-                }, delay, TimeUnit.SECONDS);
-                executorService.shutdown();
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        Entity entity = event.getEntity();
-
-        // Clean up "Random spawn bonus" modifier added to bees each trip to a hive prior to 0.6.9.6
-        if (entity instanceof Bee) {
-            AttributeInstance attrib = ((Bee) entity).getAttribute(Attributes.FOLLOW_RANGE);
-            if (attrib != null && attrib.getModifiers().size() > 1) {
-                for (AttributeModifier modifier : attrib.getModifiers()) {
-                    attrib.removeModifier(modifier);
-                }
-                attrib.addPermanentModifier(new AttributeModifier("Random spawn bonus", ProductiveBees.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
-            }
-        }
-    }
-
-    @SubscribeEvent
     public static void onLootSetup(LootTableLoadEvent event) {
         if (event.getName().toString().contains("chests/village")) {
             event.getTable().getPool("main").entries.add(

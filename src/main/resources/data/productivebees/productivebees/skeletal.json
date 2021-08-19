@@ -2,7 +2,7 @@
     "primaryColor": "#c1c1c1",
     "beeTexture": "productivebees:textures/entity/bee/skeletal/bee",
     "description": "productivebees.ingredient.description.skeletal",
-    "combTexture": "productivebees:textures/item/honeycombs/bone",
+    "combTexture": "productivebees:item/honeycombs/bone",
     "selfbreed": false,
     "flowerBlock": "minecraft:bone_block",
     "attributes": {

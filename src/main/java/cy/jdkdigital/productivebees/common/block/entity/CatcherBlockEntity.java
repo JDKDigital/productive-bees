@@ -38,7 +38,7 @@ public class CatcherBlockEntity extends FluidTankBlockEntity implements Upgradea
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(11, this)
     {
         @Override
-        public boolean isBottleItem(Item item) {
+        public boolean isContainerItem(Item item) {
             return item == ModItems.BEE_CAGE.get();
         }
     });

@@ -48,7 +48,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(2, this)
     {
         @Override
-        public boolean isBottleItem(Item item) {
+        public boolean isContainerItem(Item item) {
             return item.equals(Items.HONEY_BOTTLE) || ModTags.HONEY_BUCKETS.contains(item) || item.equals(Items.HONEY_BLOCK);
         }
 

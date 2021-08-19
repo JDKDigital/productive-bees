@@ -38,7 +38,7 @@ public class JarBlockEntity extends BlockEntity
         }
 
         @Override
-        public boolean isBottleItem(Item item) {
+        public boolean isContainerItem(Item item) {
             return item instanceof BeeCage;
         }
 

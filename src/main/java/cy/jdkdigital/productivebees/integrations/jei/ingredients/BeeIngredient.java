@@ -39,7 +39,7 @@ public class BeeIngredient
         return bee;
     }
 
-    public Bee getCachedEntity(Level world) {
+    public Entity getCachedEntity(Level world) {
         if (!cache.containsKey(this)) {
             Entity newBee = getBeeEntity().create(world);
             if (newBee instanceof ConfigurableBee) {
@@ -48,11 +48,7 @@ public class BeeIngredient
             }
             cache.put(this, newBee);
         }
-        Entity cachedEntity = cache.get(this);
-        if (cachedEntity instanceof Bee) {
-            return (Bee) cachedEntity;
-        }
-        return null;
+        return cache.getOrDefault(this, null);
     }
 
     /**

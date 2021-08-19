@@ -9,13 +9,16 @@ import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
+import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
@@ -27,11 +30,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -62,6 +68,7 @@ public final class ProductiveBees
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoad);
+        MinecraftForge.EVENT_BUS.addListener(this::onDataSync);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModPointOfInterestTypes.POI_TYPES.register(modEventBus);
@@ -86,6 +93,7 @@ public final class ProductiveBees
         modEventBus.addGenericListener(Feature.class, this::onRegisterFeatures);
         modEventBus.addListener(this::onCommonSetup);
         modEventBus.addListener(EventHandler::onEntityAttributeCreate);
+//        modEventBus.addListener(CombTextureLoader.INSTANCE::onTextureStitch);
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.SERVER_CONFIG);
@@ -95,14 +103,15 @@ public final class ProductiveBees
     }
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {
-//        if (ModList.get().isLoaded("theoneprobe")) {
-//            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
-//        }
+        if (ModList.get().isLoaded("theoneprobe")) {
+            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
+        }
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {
         BeeReloadListener.recipeManager = event.getDataPackRegistries().getRecipeManager();
         event.addListener(BeeReloadListener.INSTANCE);
+//        event.addListener(CombTextureLoader.INSTANCE);
     }
 
     public void onRegisterFeatures(final RegistryEvent.Register<Feature<?>> event) {
@@ -152,6 +161,14 @@ public final class ProductiveBees
 
     private void onBiomeLoad(BiomeLoadingEvent event) {
         ModFeatures.registerFeatures(event);
+    }
+
+    private void onDataSync(OnDatapackSyncEvent event) {
+        if (event.getPlayer() == null) {
+            PacketHandler.sendToAllPlayers(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()));
+        } else {
+            PacketHandler.sendBeeDataToPlayer(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()), event.getPlayer());
+        }
     }
 
     private void fixPOI(final FMLCommonSetupEvent event) {
