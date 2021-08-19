@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import com.mojang.datafixers.util.Pair;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
@@ -54,13 +55,19 @@ public class NestLocator extends Item
     public static String getNestName(ItemStack stack) {
         CompoundNBT nbt = stack.getOrCreateTag().getCompound(KEY);
 
+        return nbt.contains("nestName") ? nbt.getString("nestName") : null;
+    }
+
+    public static String getNestRegistryName(ItemStack stack) {
+        CompoundNBT nbt = stack.getOrCreateTag().getCompound(KEY);
+
         return nbt.contains("nest") ? nbt.getString("nest") : null;
     }
 
     public static Block getNestBlock(ItemStack stack) {
-        String nestName = getNestName(stack);
-        if (nestName != null) {
-            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nestName));
+        String registryName = getNestRegistryName(stack);
+        if (registryName != null) {
+            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(registryName));
         }
         return null;
     }
@@ -71,13 +78,14 @@ public class NestLocator extends Item
         nbt.remove("nest");
         if (nest != null && nest.getRegistryName() != null) {
             nbt.putString("nest", nest.getRegistryName().toString());
+            nbt.putString("nestName", nest.getName().getString());
         }
 
         stack.getOrCreateTag().put(KEY, nbt);
     }
 
     public static boolean hasNest(ItemStack stack) {
-        return getNestName(stack) != null;
+        return getNestRegistryName(stack) != null;
     }
 
     public static BlockPos getPosition(ItemStack stack) {
@@ -147,6 +155,7 @@ public class NestLocator extends Item
     @Nonnull
     @Override
     public ActionResult<ItemStack> use(World world, PlayerEntity player, @Nonnull Hand hand) {
+        ProductiveBees.LOGGER.info("nest locator use");
         if (!world.isClientSide && world instanceof ServerWorld) {
             // If it has a type specified
             ItemStack stack = player.getItemInHand(hand);
@@ -158,6 +167,7 @@ public class NestLocator extends Item
 
                 Pair<Double, BlockPos> nearest = findNearestNest((ServerWorld) world, player.blockPosition(), ProductiveBeesConfig.GENERAL.nestLocatorDistance.get(), predicate);
 
+                ProductiveBees.LOGGER.info("nearest " + nearest);
                 if (nearest != null) {
                     // Show distance in chat
                     player.displayClientMessage(new TranslationTextComponent("productivebees.nest_locator.found_hive", Math.round(nearest.getFirst() * 100.0) / 100.0), false);
