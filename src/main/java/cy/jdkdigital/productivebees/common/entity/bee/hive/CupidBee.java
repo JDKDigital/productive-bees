@@ -1,20 +1,28 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -60,6 +68,14 @@ public class CupidBee extends ProductiveBee
     }
 
     @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag tag) {
+        if (ProductiveBees.rand.nextFloat() < 0.01f) {
+            this.setCustomName(new TextComponent("Leena CuBee"));
+        }
+
+        return super.finalizeSpawn(world, difficulty, spawnReason, livingEntityData, tag);
+    }
+
     public void tick() {
         super.tick();
 
@@ -106,6 +122,11 @@ public class CupidBee extends ProductiveBee
         @Override
         public boolean canUse() {
             return !CupidBee.this.isAngry() && CupidBee.this.hasNectar() && CupidBee.this.targetEntity != null;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return CupidBee.this.targetEntity != null && CupidBee.this.targetEntity.position().distanceTo(CupidBee.this.targetEntity.position()) > 2;
         }
 
         public void start() {
@@ -201,8 +222,8 @@ public class CupidBee extends ProductiveBee
                                 Entity target = breedablesNearby.iterator().next();
 
                                 if (target instanceof Animal) {
-                                    if (!((Animal) target).isBaby() && ((Animal) target).canBreed()) {
-                                        ((Animal) target).setInLoveTime(600);
+                                    if (!((Animal) target).isBaby() && ((Animal) target).canFallInLove()) {
+                                        ((Animal) target).setInLove(null);
                                         CupidBee.this.addBreedCounter();
                                     }
 

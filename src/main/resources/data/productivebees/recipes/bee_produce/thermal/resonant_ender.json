@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:resonant_ender",
+    "results": [
+        {
+            "item": {
+                "item": "productivebees:configurable_honeycomb"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

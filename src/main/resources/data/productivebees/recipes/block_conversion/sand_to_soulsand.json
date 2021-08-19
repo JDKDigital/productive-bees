@@ -1,0 +1,10 @@
+{
+    "type": "productivebees:block_conversion",
+    "bee": "productivebees:ghostly",
+    "from": {
+        "Name": "minecraft:sand"
+    },
+    "to": {
+        "Name": "minecraft:soul_sand"
+    }
+}

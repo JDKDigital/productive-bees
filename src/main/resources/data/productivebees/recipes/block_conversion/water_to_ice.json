@@ -1,0 +1,10 @@
+{
+    "type": "productivebees:block_conversion",
+    "bee": "productivebees:frosty",
+    "from": {
+        "Name": "minecraft:water"
+    },
+    "to": {
+        "Name": "minecraft:ice"
+    }
+}

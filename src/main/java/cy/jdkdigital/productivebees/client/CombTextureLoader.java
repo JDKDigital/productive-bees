@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.client;
 
 import com.google.common.collect.ImmutableSet;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;

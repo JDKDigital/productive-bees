@@ -260,9 +260,15 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         beeEntity.resetTicksWithoutNectarSinceExitingHive();
         beeEntity.heal(2);
 
+        applyHiveTime(getTimeInHive(beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED, beeEntity), beeEntity);
+        beeEntity.dropOffNectar();
+
+        if (beeEntity instanceof ProductiveBee && ((ProductiveBee) beeEntity).hasConverted()) {
+            return;
+        }
+
         // Deliver honey on the way out
         if (beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED) {
-            beeEntity.dropOffNectar();
             if (state.hasProperty(BeehiveBlock.HONEY_LEVEL)) {
                 int honeyLevel = getHoneyLevel(state);
                 int maxHoneyLevel = getMaxHoneyLevel(state);
@@ -271,13 +277,10 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     if (honeyLevel + levelIncrease > maxHoneyLevel) {
                         --levelIncrease;
                     }
-
                     level.setBlockAndUpdate(worldPosition, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel + levelIncrease));
                 }
             }
         }
-
-        applyHiveTime(getTimeInHive(beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED, beeEntity), beeEntity);
     }
 
     private static void applyHiveTime(int ticksInHive, Bee beeEntity) {

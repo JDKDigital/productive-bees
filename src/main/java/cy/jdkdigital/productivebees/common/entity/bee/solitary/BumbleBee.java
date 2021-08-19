@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModItems;

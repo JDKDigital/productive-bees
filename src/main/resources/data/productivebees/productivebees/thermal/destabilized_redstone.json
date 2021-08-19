@@ -1,0 +1,16 @@
+{
+    "primaryColor": "#d03621",
+    "secondaryColor": "#804f40",
+    "tertiaryColor": "#730c00",
+    "particleColor": "#ff0000",
+    "size": 0.8,
+    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "redstoned": true,
+    "flowerTag": "productivebees:flowers/redstone",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

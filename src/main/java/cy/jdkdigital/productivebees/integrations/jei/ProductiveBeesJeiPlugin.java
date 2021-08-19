@@ -48,6 +48,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final ResourceLocation CATEGORY_CENTRIFUGE_UID = new ResourceLocation(ProductiveBees.MODID, "centrifuge");
     public static final ResourceLocation CATEGORY_BEE_FLOWERING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_flowering");
     public static final ResourceLocation CATEGORY_INCUBATION_UID = new ResourceLocation(ProductiveBees.MODID, "incubation");
+    public static final ResourceLocation CATEGORY_BLOCK_CONVERSION_UID = new ResourceLocation(ProductiveBees.MODID, "block_conversion");
 
     public static final IIngredientType<BeeIngredient> BEE_INGREDIENT = () -> BeeIngredient.class;
 
@@ -84,6 +85,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCategories(new BeeSpawningRecipeBigCategory(guiHelper));
         registration.addRecipeCategories(new BeeFloweringRecipeCategory(guiHelper));
         registration.addRecipeCategories(new IncubationRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new BlockConversionRecipeCategory(guiHelper));
     }
 
     @Override
@@ -122,6 +124,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Bee conversion recipes
         Map<ResourceLocation, Recipe<Container>> beeConversionRecipeMap = recipeManager.byType(BeeConversionRecipe.BEE_CONVERSION);
         registration.addRecipes(beeConversionRecipeMap.values(), CATEGORY_BEE_CONVERSION_UID);
+        // Block conversion recipes
+        Map<ResourceLocation, IRecipe<Container>> blockConversionRecipeMap = recipeManager.byType(BlockConversionRecipe.BLOCK_CONVERSION);
+        registration.addRecipes(blockConversionRecipeMap.values(), CATEGORY_BLOCK_CONVERSION_UID);
 
         // Bee ingredient descriptions
         List<String> notInfoBees = Arrays.asList("minecraft:bee", "configurable_bee");
