@@ -105,7 +105,7 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
     @Override
     public void readAdditionalSaveData(CompoundNBT compound) {
         super.readAdditionalSaveData(compound);
-        this.steering.addAdditionalSaveData(compound);
+        this.steering.readAdditionalSaveData(compound);
     }
 
     @Override

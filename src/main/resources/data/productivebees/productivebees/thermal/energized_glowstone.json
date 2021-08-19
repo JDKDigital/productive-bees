@@ -1,0 +1,16 @@
+{
+    "primaryColor": "#fad87d",
+    "secondaryColor": "#5f2525",
+    "particleColor": "#fad87d",
+    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "size": 0.8,
+    "particleType": "rising",
+    "renderTransform": "flipped",
+    "blinding": true,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

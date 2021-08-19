@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBeeEntity;
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntityAbstract;
 import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
+import cy.jdkdigital.productivebees.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -71,6 +72,7 @@ public class ProductiveBeeEntity extends BeeEntity
     private Color primaryColor = null;
     private Color secondaryColor = null;
     private boolean renderStatic;
+    private boolean hasConverted = false;
 
     protected FollowParentGoal followParentGoal;
     protected BreedGoal breedGoal;
@@ -378,6 +380,7 @@ public class ProductiveBeeEntity extends BeeEntity
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
 //        tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).toString());
         tag.putFloat("MaxHealth", getMaxHealth());
+        tag.putBoolean("HasConverted", hasConverted());
     }
 
     @Override
@@ -394,6 +397,7 @@ public class ProductiveBeeEntity extends BeeEntity
             setAttributeValue(BeeAttributes.TYPE, tag.getString("bee_type"));
 //            setAttributeValue(BeeAttributes.APHRODISIACS, ItemTags.createOptional(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
         }
+        setHasConverted(tag.contains("HasConverted") && tag.getBoolean("HasConverted"));
     }
 
     @Override
@@ -481,6 +485,14 @@ public class ProductiveBeeEntity extends BeeEntity
         return null;
     }
 
+    public boolean hasConverted() {
+        return hasConverted;
+    }
+
+    public void setHasConverted(boolean hasConverted) {
+        this.hasConverted = hasConverted;
+    }
+
     public class PollinateGoal extends BeeEntity.PollinateGoal
     {
         public Predicate<BlockPos> flowerPredicate = (blockPos) -> {
@@ -530,6 +542,22 @@ public class ProductiveBeeEntity extends BeeEntity
                 // Failing to find a target will set a cooldown before next attempt
                 ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewFlower = 70 + level.random.nextInt(50);
                 return false;
+            }
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+
+            if (ProductiveBeeEntity.this.hasNectar()) {
+                BlockConversionRecipe recipe = BeeHelper.getRandomBlockConversionRecipe(ProductiveBeeEntity.this);
+                if (recipe != null) {
+                    if (ProductiveBees.rand.nextInt(100) <= recipe.chance && ProductiveBeeEntity.this.savedFlowerPos != null) {
+                        ProductiveBeeEntity.this.level.setBlock(ProductiveBeeEntity.this.savedFlowerPos, recipe.stateTo, 3);
+                        ProductiveBeeEntity.this.level.levelEvent(2005, ProductiveBeeEntity.this.savedFlowerPos, 0);
+                        ProductiveBeeEntity.this.hasConverted = true;
+                    }
+                }
             }
         }
 

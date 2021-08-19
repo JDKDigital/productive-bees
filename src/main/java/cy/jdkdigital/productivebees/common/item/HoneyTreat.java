@@ -95,6 +95,7 @@ public class HoneyTreat extends Item
 
     @Override
     public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity player, LivingEntity target, Hand hand) {
+        World world = target.getCommandSenderWorld();
         if (target.getCommandSenderWorld().isClientSide() || !(target instanceof BeeEntity) || !target.isAlive()) {
             return ActionResultType.PASS;
         }
@@ -119,7 +120,7 @@ public class HoneyTreat extends Item
         itemStack.shrink(1);
 
         BlockPos pos = target.blockPosition();
-        target.getCommandSenderWorld().addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+        world.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
 
         if (bee instanceof ProductiveBeeEntity) {
             ProductiveBeeEntity productiveBee = (ProductiveBeeEntity) target;
@@ -134,6 +135,7 @@ public class HoneyTreat extends Item
                     }
                     if (ProductiveBees.rand.nextInt(100) <= purity) {
                         productiveBee.setAttributeValue(Gene.getAttribute(insertedGene), Gene.getValue(insertedGene));
+                        world.levelEvent(2005, pos, 0);
                     }
                 }
             } else {

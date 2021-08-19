@@ -133,6 +133,7 @@ dependencies {
     implementation fg.deobf("curse.maven:cucumber-272335:3249370")
     implementation fg.deobf("curse.maven:mystical-agriculture-246640:3251398")
     implementation fg.deobf("curse.maven:immersive-engineering-231951:3377691")
+    implementation fg.deobf("curse.maven:refined-storage-243076:3400575")
 //    implementation fg.deobf("curse.maven:create-328085:3261455")
 }
 

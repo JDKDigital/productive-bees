@@ -11,10 +11,7 @@ import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
-import cy.jdkdigital.productivebees.recipe.BeeBreedingRecipe;
-import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
-import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
+import cy.jdkdigital.productivebees.recipe.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -189,6 +186,28 @@ public class BeeHelper
 
         if (!recipes.isEmpty()) {
             return recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
+        }
+
+        return null;
+    }
+
+    public static BlockConversionRecipe getRandomBlockConversionRecipe(BeeEntity beeEntity) {
+        if (beeEntity.savedFlowerPos != null && beeEntity.level instanceof ServerWorld) {
+            IInventory beeInv = new BlockStateInventory(beeEntity, beeEntity.level.getBlockState(beeEntity.savedFlowerPos));
+
+            // Get breeding recipes
+            List<BlockConversionRecipe> recipes = new ArrayList<>();
+            Map<ResourceLocation, IRecipe<IInventory>> allRecipes = beeEntity.level.getRecipeManager().byType(BlockConversionRecipe.BLOCK_CONVERSION);
+            for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
+                BlockConversionRecipe recipe = (BlockConversionRecipe) entry.getValue();
+                if (recipe.matches(beeInv, beeEntity.level)) {
+                    recipes.add(recipe);
+                }
+            }
+
+            if (!recipes.isEmpty()) {
+                return recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
+            }
         }
 
         return null;
@@ -502,6 +521,19 @@ public class BeeHelper
         @Override
         public void clearContent() {
             this.identifiers.clear();
+        }
+    }
+
+    public static class BlockStateInventory extends IdentifierInventory {
+        private BlockState state;
+
+        public BlockStateInventory(BeeEntity bee1, BlockState state) {
+            super(bee1, "");
+            this.state = state;
+        }
+
+        public BlockState getState() {
+            return state;
         }
     }
 }

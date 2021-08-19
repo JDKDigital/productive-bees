@@ -410,8 +410,8 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
         return getNBTData().getBoolean("munchies");
     }
 
-    public boolean hasGlowingInnards() {
-        return getNBTData().getBoolean("glowingInnards");
+    public boolean isWaterproof() {
+        return getNBTData().getBoolean("waterproof");
     }
 
     public String getParticleType() {
@@ -472,6 +472,9 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
             return true;
         }
         if (isTranslucent() && source.equals(DamageSource.ANVIL)) {
+            return true;
+        }
+        if (isWaterproof() && source.equals(DamageSource.DROWN)) {
             return true;
         }
         if (isFireproof() && (source.equals(DamageSource.HOT_FLOOR) || source.equals(DamageSource.IN_FIRE) || source.equals(DamageSource.ON_FIRE) || source.equals(DamageSource.LAVA))) {

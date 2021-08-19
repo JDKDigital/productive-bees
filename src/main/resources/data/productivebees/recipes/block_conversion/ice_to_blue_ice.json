@@ -1,0 +1,16 @@
+{
+    "type": "productivebees:block_conversion",
+    "bee": "productivebees:blizz",
+    "from": {
+        "Name": "minecraft:ice"
+    },
+    "to": {
+        "Name": "minecraft:blue_ice"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        }
+    ]
+}

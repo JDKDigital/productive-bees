@@ -174,7 +174,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
         double combBlockUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) * ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
         double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
         return (int) (
-                super.getTimeInHive(hasNectar, beeEntity) * Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier)
+            super.getTimeInHive(hasNectar, beeEntity) * Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier)
         );
     }
 
@@ -184,29 +184,34 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
         // Generate bee produce
         if (level != null && beeState == BeehiveTileEntity.State.HONEY_DELIVERED) {
-            getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                BeeHelper.getBeeProduce(level, beeEntity, getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) > 0).forEach((stackIn) -> {
-                    ItemStack stack = stackIn.copy();
-                    if (!stack.isEmpty()) {
-                        if (beeEntity instanceof ProductiveBeeEntity) {
-                            int productivity = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
-                            if (productivity > 0) {
-                                float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
-                                stack.grow(Math.round(modifier));
+            if (beeEntity instanceof ProductiveBeeEntity && ((ProductiveBeeEntity) beeEntity).hasConverted()) {
+                // No produce after converting a block
+                ((ProductiveBeeEntity) beeEntity).setHasConverted(false);
+            } else {
+                getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                    BeeHelper.getBeeProduce(level, beeEntity, getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) > 0).forEach((stackIn) -> {
+                        ItemStack stack = stackIn.copy();
+                        if (!stack.isEmpty()) {
+                            if (beeEntity instanceof ProductiveBeeEntity) {
+                                int productivity = ((ProductiveBeeEntity) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
+                                if (productivity > 0) {
+                                    float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
+                                    stack.grow(Math.round(modifier));
+                                }
                             }
-                        }
 
-                        // Apply upgrades
-                        int productivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
-                        if (productivityUpgrades > 0) {
-                            double upgradeMod = (stack.getCount() * (ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * (float) productivityUpgrades));
-                            stack.setCount(Math.round((float) upgradeMod));
-                        }
+                            // Apply upgrades
+                            int productivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
+                            if (productivityUpgrades > 0) {
+                                double upgradeMod = (stack.getCount() * (ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * (float) productivityUpgrades));
+                                stack.setCount(Math.round((float) upgradeMod));
+                            }
 
-                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
-                    }
+                            ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
+                        }
+                    });
                 });
-            });
+            }
         }
 
         // Produce offspring if breeding upgrade is installed

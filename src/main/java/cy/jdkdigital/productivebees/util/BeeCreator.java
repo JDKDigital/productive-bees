@@ -62,7 +62,6 @@ public class BeeCreator
 
         data.putBoolean("translucent", (json.has("translucent") && json.get("translucent").getAsBoolean()) || data.getString("renderer").equals("translucent_with_center"));
         data.putBoolean("useGlowLayer", (!json.has("useGlowLayer") || json.get("useGlowLayer").getAsBoolean()));
-        data.putBoolean("glowingInnards", json.has("glowingInnards") && json.get("glowingInnards").getAsBoolean());
         data.putBoolean("fireproof", json.has("fireproof") && json.get("fireproof").getAsBoolean());
         data.putBoolean("withered", json.has("withered") && json.get("withered").getAsBoolean());
         data.putBoolean("blinding", json.has("blinding") && json.get("blinding").getAsBoolean());
@@ -73,6 +72,7 @@ public class BeeCreator
         data.putBoolean("redstoned", json.has("redstoned") && json.get("redstoned").getAsBoolean());
         data.putBoolean("stringy", json.has("stringy") && json.get("stringy").getAsBoolean());
         data.putBoolean("stingless", json.has("stingless") && json.get("stingless").getAsBoolean());
+        data.putBoolean("waterproof", json.has("waterproof") && json.get("waterproof").getAsBoolean());
         data.putBoolean("selfbreed", !json.has("selfbreed") || json.get("selfbreed").getAsBoolean());
 
         if (json.has("attributes")) {

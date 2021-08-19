@@ -55,7 +55,7 @@ public class BeeBodyLayer extends LayerRenderer<ProductiveBeeEntity, ProductiveB
                 renderColoredLayers(matrixStackIn, bufferIn, packedLightIn, entity);
             }
 
-            if (entity.hasNectar()) {
+            if (entity.hasNectar() && !entity.hasConverted()) {
                 renderNectarLayer(matrixStackIn, bufferIn, packedLightIn, entity);
             }
 

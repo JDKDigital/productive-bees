@@ -1,20 +1,28 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -27,7 +35,7 @@ public class CupidBeeEntity extends ProductiveBeeEntity
 
     public static Predicate<Entity> predicate = (entity -> {
         if (entity instanceof AnimalEntity) {
-            return !((AnimalEntity) entity).isInLove() && !((AnimalEntity) entity).isBaby();
+            return !((AnimalEntity) entity).isInLove() && !((AnimalEntity) entity).isBaby() && ((AnimalEntity) entity).canFallInLove();
         }
         return false;
     });
@@ -57,6 +65,15 @@ public class CupidBeeEntity extends ProductiveBeeEntity
         this.goalSelector.addGoal(2, new GoToBreedableGoal());
         this.loveGoal = new SetLoveModeGoal();
         this.goalSelector.addGoal(3, this.loveGoal);
+    }
+
+    @Override
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingEntityData, @Nullable CompoundNBT tag) {
+        if (ProductiveBees.rand.nextFloat() < 0.01f) {
+            this.setCustomName(new StringTextComponent("Leena CuBee"));
+        }
+
+        return super.finalizeSpawn(world, difficulty, spawnReason, livingEntityData, tag);
     }
 
     public void tick() {
@@ -105,6 +122,11 @@ public class CupidBeeEntity extends ProductiveBeeEntity
         @Override
         public boolean canUse() {
             return !CupidBeeEntity.this.isAngry() && CupidBeeEntity.this.hasNectar() && CupidBeeEntity.this.targetEntity != null;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return CupidBeeEntity.this.targetEntity != null && CupidBeeEntity.this.targetEntity.position().distanceTo(CupidBeeEntity.this.targetEntity.position()) > 2;
         }
 
         public void start() {
@@ -200,8 +222,8 @@ public class CupidBeeEntity extends ProductiveBeeEntity
                                 Entity target = breedablesNearby.iterator().next();
 
                                 if (target instanceof AnimalEntity) {
-                                    if (!((AnimalEntity) target).isBaby() && ((AnimalEntity) target).canBreed()) {
-                                        ((AnimalEntity) target).setInLoveTime(600);
+                                    if (!((AnimalEntity) target).isBaby() && ((AnimalEntity) target).canFallInLove()) {
+                                        ((AnimalEntity) target).setInLove(null);
                                         CupidBeeEntity.this.addBreedCounter();
                                     }
 
