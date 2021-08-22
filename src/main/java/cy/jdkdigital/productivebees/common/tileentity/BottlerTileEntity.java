@@ -61,8 +61,6 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
         }
     });
 
-
-
     @Override
     public void setChanged() {
         super.setChanged();
