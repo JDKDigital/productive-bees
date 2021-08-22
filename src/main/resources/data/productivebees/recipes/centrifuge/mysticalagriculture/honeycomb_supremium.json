@@ -14,8 +14,7 @@
             "item": {
                 "item": "mysticalagriculture:supremium_essence"
             },
-            "min": 1,
-            "max": 2
+            "chance": 30
         },
         {
             "item": {

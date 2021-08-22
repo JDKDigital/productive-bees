@@ -14,7 +14,7 @@
             "item": {
                 "item": "minecraft:snowball"
             },
-            "min": 4,
+            "min": 2,
             "max": 4
         },
         {
@@ -22,6 +22,12 @@
                 "item": "minecraft:ice"
             },
             "chance": 40
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 50
         }
     ]
 }

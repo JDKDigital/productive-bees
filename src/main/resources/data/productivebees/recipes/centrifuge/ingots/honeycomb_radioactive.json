@@ -14,7 +14,7 @@
             "item": {
                 "tag": "forge:ingots/uranium"
             },
-            "chance": 60
+            "chance": 20
         },
         {
             "item": {

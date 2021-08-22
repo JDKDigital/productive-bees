@@ -14,8 +14,8 @@
             "item": {
                 "item": "mysticalagriculture:imperium_essence"
             },
-            "min": 2,
-            "max": 3
+            "min": 1,
+            "max": 2
         },
         {
             "item": {

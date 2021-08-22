@@ -13,7 +13,8 @@
         {
             "item": {
                 "tag": "forge:gems/spectrum"
-            }
+            },
+            "chance": 50
         },
         {
             "item": {

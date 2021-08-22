@@ -14,10 +14,10 @@
             "patchouli:book": "productivebees:guide"
         }
     },
-    "conditions" : [
+    "conditions": [
         {
-            "type" : "forge:mod_loaded",
-            "modid" : "patchouli"
+            "type": "forge:mod_loaded",
+            "modid": "patchouli"
         }
     ]
 }

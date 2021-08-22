@@ -13,7 +13,8 @@
         {
             "item": {
                 "item": "minecraft:experience_bottle"
-            }
+            },
+            "chance": 30
         },
         {
             "item": {

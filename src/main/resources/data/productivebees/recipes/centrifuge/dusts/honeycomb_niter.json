@@ -14,12 +14,18 @@
             "item": {
                 "tag": "forge:gems/niter"
             },
-            "chance": 90
+            "chance": 40
         },
         {
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 50
         }
     ],
     "conditions": [

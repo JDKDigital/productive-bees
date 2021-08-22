@@ -13,7 +13,8 @@
         {
             "item": {
                 "item": "mysticalagriculture:soulium_dust"
-            }
+            },
+            "chance": 50
         },
         {
             "item": {

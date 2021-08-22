@@ -19,7 +19,7 @@
             "fluid": {
                 "fluid": "integrateddynamics:menril_resin"
             },
-            "amount": 250
+            "amount": 100
         }
     ],
     "conditions": [

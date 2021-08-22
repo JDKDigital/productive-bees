@@ -7,7 +7,8 @@
         {
             "item": {
                 "item": "productivebees:milk_bottle"
-            }
+            },
+            "chance": 50
         },
         {
             "item": {

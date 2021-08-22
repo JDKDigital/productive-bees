@@ -3,6 +3,7 @@
     "beeTexture": "productivebees:textures/entity/bee/ghostly/bee",
     "combTexture": "productivebees:item/honeycombs/ghostly",
     "translucent": true,
+    "createComb": false,
     "attributes": {
         "behavior": 1
     },

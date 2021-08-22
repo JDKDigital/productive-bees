@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
@@ -15,12 +16,8 @@ import java.util.stream.Collectors;
 public class OreSolitaryNestFeature extends SolitaryNestFeature
 {
     private final float probability;
-    private int yMin;
-    private int yMax;
-
-    public OreSolitaryNestFeature(float probability, Codec<ReplaceBlockConfiguration> configFactory) {
-        this(probability, configFactory, 0, 64);
-    }
+    private final int yMin;
+    private final int yMax;
 
     public OreSolitaryNestFeature(float probability, Codec<ReplaceBlockConfiguration> configFactory, int yMin, int yMax) {
         super(probability, configFactory);
@@ -47,25 +44,10 @@ public class OreSolitaryNestFeature extends SolitaryNestFeature
             // Go to yMin
             blockPos = blockPos.above(yMin);
 
-            BlockStatePredicate matcher = BlockStatePredicate.forBlock(targetBlockState.state.getBlock());
             while (blockPos.getY() < yMax) {
                 blockPos = blockPos.above(2);
-                if (matcher.test(world.getBlockState(blockPos))) {
-                    // Find air
-                    int d = 3;
-                    List<BlockPos> blockList = BlockPos.betweenClosedStream(blockPos.offset(-d, -d, -d), blockPos.offset(d, d, d)).map(BlockPos::immutable).collect(Collectors.toList());
-                    for (BlockPos pos : blockList) {
-                        if (world.isEmptyBlock(pos)) {
-                            // Find block around that air pos
-                            List<BlockPos> aroundAir = BlockPos.betweenClosedStream(pos.offset(-1, -1, -1), pos.offset(1, 1, 1)).map(BlockPos::immutable).collect(Collectors.toList());
-                            for (BlockPos airPos : aroundAir) {
-                                if (matcher.test(world.getBlockState(airPos))) {
-                                    placeNest(world, blockPos, targetBlockState.state);
-                                    return true;
-                                }
-                            }
-                        }
-                    }
+                if (targetBlockState.target.test(world.getBlockState(blockPos), world.getRandom())) {
+                    return placeNest(world, blockPos, targetBlockState.state);
                 }
             }
         }

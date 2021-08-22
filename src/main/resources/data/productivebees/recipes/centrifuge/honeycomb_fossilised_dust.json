@@ -13,12 +13,19 @@
         {
             "item": {
                 "tag": "forge:dusts/coal"
-            }
+            },
+            "chance": 60
         },
         {
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 50
         }
     ],
     "conditions": [

@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -28,9 +29,9 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
         BlockPos blockPos = context.origin();
         ReplaceBlockConfiguration featureConfig = context.config();
 
-        OreConfiguration.TargetBlockState targetBlockStates = featureConfig.targetStates.get(0);
+        OreConfiguration.TargetBlockState targetBlockState = featureConfig.targetStates.get(0);
 
-        if (nestShouldNotGenerate(targetBlockStates.state) || rand.nextFloat() > this.probability) {
+        if (nestShouldNotGenerate(targetBlockState.state) || rand.nextFloat() > this.probability) {
             return false;
         }
 
@@ -45,14 +46,12 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
         blockPos = blockPos.above(rand.nextInt(4));
 
         // Locate tree log in chunk
-        BlockStatePredicate matcher = BlockStatePredicate.forBlock(targetBlockStates.state.getBlock());
-
         BlockPos newPos = null;
         blockFound:
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 newPos = blockPos.offset(x, 0, z);
-                if (matcher.test(world.getBlockState(newPos))) {
+                if (targetBlockState.target.test(world.getBlockState(newPos), world.getRandom())) {
                     break blockFound;
                 }
                 newPos = null;
@@ -61,11 +60,14 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
 
         if (newPos != null) {
             // For thicc trees, we need to move the nest to the outside of the tree
-            while (matcher.test(world.getBlockState(newPos.east(1)))) {
+            while (targetBlockState.target.test(world.getBlockState(newPos.east(1)), world.getRandom())) {
                 newPos = newPos.east(1);
             }
 
-            return placeNest(world, newPos, targetBlockStates.state);
+            BlockState state = placeOntop ? world.getBlockState(blockPos.below()) : world.getBlockState(blockPos);
+            if (targetBlockState.target.test(state, world.getRandom())) {
+                return placeNest(world, blockPos, targetBlockState.state);
+            }
         }
         return false;
     }

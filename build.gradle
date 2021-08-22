@@ -118,7 +118,7 @@ dependencies {
 //    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
 //    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
-    implementation fg.deobf("curse.maven:the-one-probe-245211:3418788")
+    implementation fg.deobf("curse.maven:the-one-probe-245211:3430022")
     implementation fg.deobf("curse.maven:jade-324717:3425040")
     implementation fg.deobf("curse.maven:architectury-forge-419699:3415033")
     implementation fg.deobf("curse.maven:cloth-config-forge-348521:3413207")

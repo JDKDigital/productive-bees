@@ -26,10 +26,10 @@ public class ModFeatures
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> COARSE_DIRT_NEST = register("coarse_dirt_nest", () -> new SolitaryNestFeature(0.30F, ReplaceBlockConfiguration.CODEC));
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> GRAVEL_NEST = register("gravel_nest", () -> new SolitaryNestFeature(0.15F, ReplaceBlockConfiguration.CODEC));
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SLIMY_NEST = register("slimy_nest", () -> new SolitaryNestFeature(0.10F, ReplaceBlockConfiguration.CODEC, true));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SUGAR_CANE_NEST = register("sugar_cane_nest", () -> new ReedSolitaryNestFeature(0.70F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SUGAR_CANE_NEST = register("sugar_cane_nest", () -> new ReedSolitaryNestFeature(0.40F, ReplaceBlockConfiguration.CODEC));
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> GLOWSTONE_NEST = register("glowstone_nest", () -> new CavernSolitaryNestFeature(0.90F, ReplaceBlockConfiguration.CODEC, false));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_QUARTZ_NEST = register("nether_quartz_nest", () -> new OreSolitaryNestFeature(0.50F, ReplaceBlockConfiguration.CODEC, 10, 70));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_QUARTZ_NEST_HIGH = register("nether_quartz_nest_high", () -> new OreSolitaryNestFeature(1.00F, ReplaceBlockConfiguration.CODEC, 70, 100));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_QUARTZ_NEST = register("nether_quartz_nest", () -> new OreSolitaryNestFeature(0.20F, ReplaceBlockConfiguration.CODEC, 10, 70));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_QUARTZ_NEST_HIGH = register("nether_quartz_nest_high", () -> new OreSolitaryNestFeature(0.70F, ReplaceBlockConfiguration.CODEC, 70, 100));
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_FORTRESS_NEST = register("nether_fortress_nest", () -> new StructureSolitaryNestFeature(0.90F, ReplaceBlockConfiguration.CODEC, 35));
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SOUL_SAND_NEST = register("soul_sand_nest", () -> new CavernSolitaryNestFeature(0.10F, ReplaceBlockConfiguration.CODEC, true));
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> END_NEST = register("end_nest", () -> new SolitaryNestFeature(0.15F, ReplaceBlockConfiguration.CODEC));

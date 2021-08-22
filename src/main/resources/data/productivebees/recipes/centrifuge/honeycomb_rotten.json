@@ -14,14 +14,18 @@
             "item": {
                 "item": "minecraft:rotten_flesh"
             },
-            "min": 1,
-            "max": 2,
-            "chance": 100
+            "chance": 60
         },
         {
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 50
         }
     ]
 }

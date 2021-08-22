@@ -24,6 +24,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.BeehiveBlock;
@@ -66,7 +67,7 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
             for (AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
                 CompoundTag nbt = inhabitant.nbt;
 
-                Bee bee = null;
+                Entity bee = null;
                 String type = inhabitant.nbt.getString("type");
                 if (type.isEmpty()) {
                     type = inhabitant.nbt.getString("id");
@@ -114,7 +115,6 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
                 }
             }
         });
-        // https://gist.github.com/gigaherz/f61fe604f38e27afad4d1553bc6cf311
     }
 
     @Override

@@ -14,12 +14,18 @@
             "item": {
                 "item": "minecraft:magma_cream"
             },
-            "chance": 50
+            "chance": 30
         },
         {
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 50
         }
     ]
 }

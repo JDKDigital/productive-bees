@@ -14,7 +14,7 @@
             "item": {
                 "tag": "forge:ingots/bronze"
             },
-            "chance": 90
+            "chance": 40
         },
         {
             "item": {

@@ -14,9 +14,7 @@
             "item": {
                 "item": "minecraft:bone_meal"
             },
-            "min": 1,
-            "max": 2,
-            "chance": 100
+            "chance": 70
         },
         {
             "item": {

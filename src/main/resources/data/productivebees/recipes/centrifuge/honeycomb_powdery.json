@@ -7,12 +7,19 @@
         {
             "item": {
                 "item": "minecraft:gunpowder"
-            }
+            },
+            "chance": 50
         },
         {
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 50
         }
     ]
 }

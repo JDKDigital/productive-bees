@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -44,15 +45,12 @@ public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
             // Go up some more
             blockPos = blockPos.above(rand.nextInt(2));
 
-            // Locate tree log in chunk
-            BlockStatePredicate matcher = BlockStatePredicate.forBlock(targetBlockState.state.getBlock());
-
             BlockPos newPos = null;
             blockFound:
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
                     newPos = blockPos.offset(x, 0, z);
-                    if (matcher.test(world.getBlockState(newPos))) {
+                    if (targetBlockState.target.test(world.getBlockState(newPos), world.getRandom())) {
                         break blockFound;
                     }
                     newPos = null;
@@ -60,10 +58,13 @@ public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
             }
 
             if (newPos != null) {
-                if (!matcher.test(world.getBlockState(newPos.below()))) {
+                if (!targetBlockState.target.test(world.getBlockState(newPos.below()), world.getRandom())) {
                     newPos = newPos.above();
                 }
-                return placeNest(world, newPos, targetBlockState.state);
+                BlockState state = placeOntop ? world.getBlockState(newPos.below()) : world.getBlockState(newPos);
+                if (targetBlockState.target.test(state, world.getRandom())) {
+                    return placeNest(world, newPos, targetBlockState.state);
+                }
             }
         }
         return false;

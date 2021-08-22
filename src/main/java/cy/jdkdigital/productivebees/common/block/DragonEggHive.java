@@ -1,6 +1,8 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.DragonEggHiveBlockEntity;
+import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
@@ -9,6 +11,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -36,6 +40,11 @@ public class DragonEggHive extends AdvancedBeehive
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new DragonEggHiveBlockEntity(pos, state);
+    }
+
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModTileEntityTypes.DRACONIC_BEEHIVE.get(), DragonEggHiveBlockEntity::tick);
     }
 
     @Override

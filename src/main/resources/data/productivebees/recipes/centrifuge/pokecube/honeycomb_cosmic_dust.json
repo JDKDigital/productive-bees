@@ -13,7 +13,8 @@
         {
             "item": {
                 "tag": "forge:gems/cosmicdust"
-            }
+            },
+            "chance": 50
         },
         {
             "item": {

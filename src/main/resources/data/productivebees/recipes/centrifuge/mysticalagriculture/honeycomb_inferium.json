@@ -14,8 +14,8 @@
             "item": {
                 "item": "mysticalagriculture:inferium_essence"
             },
-            "min": 4,
-            "max": 7
+            "min": 2,
+            "max": 4
         },
         {
             "item": {

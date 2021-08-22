@@ -14,8 +14,8 @@
             "item": {
                 "item": "mysticalagriculture:prudentium_essence"
             },
-            "min": 3,
-            "max": 6
+            "min": 1,
+            "max": 2
         },
         {
             "item": {

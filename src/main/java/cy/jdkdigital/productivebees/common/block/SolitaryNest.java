@@ -2,9 +2,11 @@ package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningBigRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
@@ -32,6 +34,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -51,6 +55,11 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
     public SolitaryNest(Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.FACING, Direction.NORTH));
+    }
+
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModTileEntityTypes.SOLITARY_NEST.get(), SolitaryNestBlockEntity::tick);
     }
 
     public int getMaxHoneyLevel() {

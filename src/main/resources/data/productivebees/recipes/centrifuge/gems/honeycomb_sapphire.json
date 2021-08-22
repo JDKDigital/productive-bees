@@ -13,12 +13,19 @@
         {
             "item": {
                 "tag": "forge:gems/sapphire"
-            }
+            },
+            "chance": 50
         },
         {
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 50
         }
     ],
     "conditions": [

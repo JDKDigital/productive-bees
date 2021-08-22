@@ -14,8 +14,7 @@
             "item": {
                 "item": "mysticalagriculture:tertium_essence"
             },
-            "min": 2,
-            "max": 5
+            "chance": 50
         },
         {
             "item": {

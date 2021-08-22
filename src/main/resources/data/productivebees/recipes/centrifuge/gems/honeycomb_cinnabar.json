@@ -13,7 +13,8 @@
         {
             "item": {
                 "tag": "forge:gems/cinnabar"
-            }
+            },
+            "chance": 50
         },
         {
             "item": {

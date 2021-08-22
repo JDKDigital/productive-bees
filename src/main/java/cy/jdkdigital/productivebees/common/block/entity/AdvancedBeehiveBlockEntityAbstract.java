@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -213,7 +214,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             tag.remove("UUID");
 //            BeehiveBlockEntity.removeIgnoredBeeTags(tag);
 
-            Direction direction = state.getValue(BeehiveBlock.FACING);
+            Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
             BlockPos frontPos = hivePos.relative(direction);
             boolean isPositionBlocked = !level.getBlockState(frontPos).getCollisionShape(level, frontPos).isEmpty();
             if (!isPositionBlocked || beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY) {

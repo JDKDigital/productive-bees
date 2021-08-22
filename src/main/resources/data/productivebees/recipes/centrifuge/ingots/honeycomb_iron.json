@@ -14,7 +14,7 @@
             "item": {
                 "tag": "forge:ingots/iron"
             },
-            "chance": 90
+            "chance": 40
         },
         {
             "item": {

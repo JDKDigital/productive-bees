@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -38,14 +39,12 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature
             // Get random block in chunk
             blockPos = blockPos.south(rand.nextInt(14)).east(rand.nextInt(14)).above(50);
 
-            BlockStatePredicate matcher = BlockStatePredicate.forBlock(targetBlockState.state.getBlock());
-
             // Go to nearby structure
             nearby:
-            if (!matcher.test(world.getBlockState(blockPos))) {
+            if (!targetBlockState.target.test(world.getBlockState(blockPos), world.getRandom())) {
                 // Skip or look around?
                 for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
-                    if (matcher.test(world.getBlockState(blockPos.relative(dir, 2)))) {
+                    if (targetBlockState.target.test(world.getBlockState(blockPos.relative(dir, 2)), world.getRandom())) {
                         blockPos = blockPos.relative(dir, 3);
                         break nearby;
                     }
@@ -68,7 +67,10 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature
                 }
             }
 
-            return placeNest(world, blockPos, targetBlockState.state);
+            BlockState state = placeOntop ? world.getBlockState(blockPos.below()) : world.getBlockState(blockPos);
+            if (targetBlockState.target.test(state, world.getRandom())) {
+                return placeNest(world, blockPos, targetBlockState.state);
+            }
         }
         return false;
     }

@@ -125,7 +125,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         Map<ResourceLocation, Recipe<Container>> beeConversionRecipeMap = recipeManager.byType(BeeConversionRecipe.BEE_CONVERSION);
         registration.addRecipes(beeConversionRecipeMap.values(), CATEGORY_BEE_CONVERSION_UID);
         // Block conversion recipes
-        Map<ResourceLocation, IRecipe<Container>> blockConversionRecipeMap = recipeManager.byType(BlockConversionRecipe.BLOCK_CONVERSION);
+        Map<ResourceLocation, Recipe<Container>> blockConversionRecipeMap = recipeManager.byType(BlockConversionRecipe.BLOCK_CONVERSION);
         registration.addRecipes(blockConversionRecipeMap.values(), CATEGORY_BLOCK_CONVERSION_UID);
 
         // Bee ingredient descriptions

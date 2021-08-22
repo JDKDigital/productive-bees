@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
+import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -55,7 +57,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, BlockEntityType.BEEHIVE, AdvancedBeehiveBlockEntityAbstract::serverTick);
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModTileEntityTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveBlockEntity::tick);
     }
 
     public int getMaxHoneyLevel() {

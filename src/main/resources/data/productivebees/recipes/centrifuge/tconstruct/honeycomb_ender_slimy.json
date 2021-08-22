@@ -13,7 +13,8 @@
         {
             "item": {
                 "tag": "forge:slimeball/ender"
-            }
+            },
+            "chance": 50
         },
         {
             "item": {

@@ -4,7 +4,6 @@
     "tertiaryColor": "#c203fc",
     "particleColor": "#c203fc",
     "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
-    "createComb": true,
     "renderer": "default_crystal",
     "size": 0.8,
     "attributes": {

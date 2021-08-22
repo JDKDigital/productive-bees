@@ -14,7 +14,7 @@
             "item": {
                 "tag": "forge:nuggets/pig_iron"
             },
-            "min": 4,
+            "min": 2,
             "max": 4
         },
         {

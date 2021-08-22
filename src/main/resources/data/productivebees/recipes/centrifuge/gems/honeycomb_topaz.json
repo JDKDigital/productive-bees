@@ -8,12 +8,19 @@
         {
             "item": {
                 "tag": "forge:gems/topaz"
-            }
+            },
+            "chance": 50
         },
         {
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 50
         }
     ],
     "conditions": [

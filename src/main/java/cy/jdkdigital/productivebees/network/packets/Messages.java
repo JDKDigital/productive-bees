@@ -28,6 +28,7 @@ public class Messages
         }
 
         public static void encode(BeeDataMessage message, FriendlyByteBuf buffer) {
+            ProductiveBees.LOGGER.info("BeeDataMessage encode");
             buffer.writeInt(message.data.size());
             for (Map.Entry<String, CompoundTag> entry : message.data.entrySet()) {
                 buffer.writeUtf(entry.getKey());
@@ -36,6 +37,7 @@ public class Messages
         }
 
         public static BeeDataMessage decode(FriendlyByteBuf buffer) {
+            ProductiveBees.LOGGER.info("BeeDataMessage decode");
             Map<String, CompoundTag> data = new HashMap<>();
             IntStream.range(0, buffer.readInt()).forEach(i -> {
                 data.put(buffer.readUtf(), buffer.readAnySizeNbt());
@@ -44,32 +46,8 @@ public class Messages
         }
 
         public static void handle(BeeDataMessage message, Supplier<NetworkEvent.Context> context) {
-            context.get().enqueueWork(() -> {
-                BeeReloadListener.INSTANCE.setData(message.data);
-                Messages.updateJEI();
-            });
-            context.get().setPacketHandled(true);
-        }
-    }
-
-    public static class ReindexMessage
-    {
-        public ReindexMessage() {
-        }
-
-        public static void encode(ReindexMessage message, FriendlyByteBuf buffer) {
-        }
-
-        public static ReindexMessage decode(FriendlyByteBuf buffer) {
-            return new ReindexMessage();
-        }
-
-        public static void handle(ReindexMessage message, Supplier<NetworkEvent.Context> context) {
-            context.get().enqueueWork(() -> {
-                // Trigger jei reload
-                ProductiveBees.LOGGER.debug("trigger recipe reload (bees:" + BeeReloadListener.INSTANCE.getData().size() + ")");
-                Messages.updateJEI();
-            });
+            BeeReloadListener.INSTANCE.setData(message.data);
+            ProductiveBees.LOGGER.info("bee data received " + message.data.size());
             context.get().setPacketHandled(true);
         }
     }
