@@ -54,13 +54,19 @@ public class NestLocator extends Item
     public static String getNestName(ItemStack stack) {
         CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
 
+        return nbt.contains("nestName") ? nbt.getString("nestName") : null;
+    }
+
+    public static String getNestRegistryName(ItemStack stack) {
+        CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
+
         return nbt.contains("nest") ? nbt.getString("nest") : null;
     }
 
     public static Block getNestBlock(ItemStack stack) {
-        String nestName = getNestName(stack);
-        if (nestName != null) {
-            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nestName));
+        String registryName = getNestRegistryName(stack);
+        if (registryName != null) {
+            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(registryName));
         }
         return null;
     }
@@ -71,13 +77,14 @@ public class NestLocator extends Item
         nbt.remove("nest");
         if (nest != null && nest.getRegistryName() != null) {
             nbt.putString("nest", nest.getRegistryName().toString());
+            nbt.putString("nestName", nest.getName().getString());
         }
 
         stack.getOrCreateTag().put(KEY, nbt);
     }
 
     public static boolean hasNest(ItemStack stack) {
-        return getNestName(stack) != null;
+        return getNestRegistryName(stack) != null;
     }
 
     public static BlockPos getPosition(ItemStack stack) {

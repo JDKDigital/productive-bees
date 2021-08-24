@@ -206,7 +206,7 @@ public class ProductiveBeesConfig
                     .defineInRange("behaviorChance", 0.1, 0, 1);
             geneExtractChance = builder
                     .comment("Chance to extract genes from a bottle of bee material.")
-                    .defineInRange("geneExtractChance", 0.85, 0, 1);
+                    .defineInRange("geneExtractChance", 1.0, 0, 1);
             typeGenePurity = builder
                     .comment("Average purity of type genes (does not apply to attribute genes)")
                     .defineInRange("typeGenePurity", 33, 1, 100);
