@@ -1,0 +1,18 @@
+{
+    "name": "Farmer Bee",
+    "icon": "minecraft:wheat",
+    "read_by_default": true,
+    "sortnum": 1,
+    "category": "productivebees:bees_worker",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Granjera",
+            "text": "Recogerá cultivos cercanos y dejará los productos en el suelo."
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:farmer_bee"
+        }
+    ]
+}

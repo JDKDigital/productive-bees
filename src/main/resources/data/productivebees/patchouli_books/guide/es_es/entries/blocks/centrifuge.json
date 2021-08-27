@@ -1,0 +1,12 @@
+{
+    "name": "Centrifuge",
+    "icon": "productivebees:centrifuge",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "productivebees:centrifuge",
+            "text": "Transforma los panales de recursos en recursos y miel. Tiene capacidad para 10 cubos de líquido que se pueden bombear o extraer colocando botellas o cubos en la ranura de salida. La centrífuga motorizada necesita FE para funcionar, pero procesará elementos 3 veces más rápido.La centrífuga también se usa para separar material genético de botellas de material de abeja en genes."
+        }
+    ]
+}

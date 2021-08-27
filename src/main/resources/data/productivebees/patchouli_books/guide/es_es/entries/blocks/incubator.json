@@ -1,0 +1,16 @@
+{
+    "name": "Incubator",
+    "icon": "productivebees:incubator",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "productivebees:incubator",
+            "text": "¿Estás cansado de esperar a que crezcan esos pequeños y frágiles bebés? Utilice la incubadora para acelerar el proceso. Simplemente coloque el BaBee en una jaula e insértelo en la incubadora junto con un montón de golosinas de miel.."
+        },
+        {
+            "type": "text",
+            "text": "Otro uso de la incubadora es infundir un huevo con un tipo de abeja específico. $(l:genetics/collecting#crystalline)gene$(/l) para conseguir un huevo de ese tipo de abeja. El gen de tipo abeja que obtienes a través de la configuración genética.$(br)Solo se usará el gen tipo al hacer un huevo de desove. Se perderán todos los genes adicionales de la golosina de miel."
+        }
+    ]
+}

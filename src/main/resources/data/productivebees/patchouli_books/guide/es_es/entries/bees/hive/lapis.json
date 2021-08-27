@@ -1,0 +1,19 @@
+{
+    "name": "Abeja Lapizuli",
+    "icon": "minecraft:lapis_lazuli",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:lapis",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja Lapizuli",
+            "text": "Criada de una $(l:bees/hive/redstone)Redstone Bee$(/l) y una $(l:bees/solitary/blue_banded)Abeja de bandas azules$(/l).",
+            "anchor": "lapis"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:lapis'}"
+        }
+    ]
+}

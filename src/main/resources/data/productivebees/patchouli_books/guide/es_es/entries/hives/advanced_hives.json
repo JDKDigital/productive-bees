@@ -1,0 +1,22 @@
+{
+    "name": "Advanced Hives",
+    "icon": "productivebees:advanced_oak_beehive",
+    "category": "productivebees:hives",
+    "sortnum": 2,
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "productivebees:advanced_oak_beehive",
+            "text": "Las abejas productivas se expanden en la colmena de vainilla con una colmena avanzada. A diferencia de la colmena de vainilla, la colmena avanzada no requiere una fogata cercana para ser recolectada, se puede romper y mover con las abejas todavía adentro sin el uso de toque de seda."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:hives/advanced_oak_beehive",
+            "text": "Hay muchas variantes de colmenas avanzadas disponibles dependiendo de otras maderas disponibles en su paquete."
+        },
+        {
+            "type": "text",
+            "text": "Las Colmenas vanzadas cuenta con una GUI desde donde puede ver qué abejas se encuentran actualmente dentro de la colmena, así como también extraer los recursos producidos. La Colmena Avanzada se puede actualizar aún más utilizando un $(l:hives/expansion_boxes)Caja de Expansion$(/l). Adjuntando un $(l:hives/expansion_boxes)expansion box$(/l) aumentará la capacidad de abejas de 3 a 5 y permitirá $(l:items/upgrades)Actualizaciones$(/l) Para ser instaladas."
+        }
+    ]
+}

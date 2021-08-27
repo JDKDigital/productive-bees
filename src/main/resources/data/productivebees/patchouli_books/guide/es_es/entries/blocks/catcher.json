@@ -1,0 +1,16 @@
+{
+    "name": "Catcher",
+    "icon": "productivebees:catcher",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "productivebees:catcher",
+            "text": "Cárgalo con jaulas y atrapará a cualquier abeja que vuele sobre él. Puedes poner una flor o $(l:blocks/feeder)losa de alimentación$(/l) en la parte superior para atraer abejas."
+        },
+        {
+            "type": "text",
+            "text": "La Cather acepta tres mejoras; A $(l:items/upgrades#babee)BaBee upgrade$(/l) filtrará las abejas adultas y solo atrapará BaBees. $(l:items/upgrades#filter)Actualización de filtro$(/l) Hará atrapar solo las abejas en el filtro. A $(l:items/upgrades#range)Actualización de rango$(/l) aumentará el rango. Se pueden instalar actualizaciones de rango múltiple."
+        }
+    ]
+}

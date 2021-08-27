@@ -1,0 +1,6 @@
+{
+    "name": "Abejas de la colmena",
+    "description": "Las abejas de la colmena, como la abeja de la vainilla, viven en colmenas y producen miel y recursos. Tienen que vivir en $(l:hives/advanced_hives)Colmena Avanzada$(/l) para producir peines de recursos. La mayoría de las abejas de la colmena se crían a partir de abejas solitarias y otras abejas de la colmena, pero algunas se hacen dándole un elemento específico a una abeja o elaborando huevos de desove. Todas las recetas de abejas y los requisitos de flores se pueden encontrar en JEI.",
+    "icon": "productivebees:adv_breed_bee",
+    "parent": "productivebees:bees"
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Nest Locator",
+    "icon": "productivebees:nest_locator",
+    "category": "productivebees:items",
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "productivebees:nest_locator",
+            "text": "Puede concentrarse en el leve zumbido de los nidos cercanos. Haga clic con la tecla Mayús y haga clic con el botón derecho en el localizador de un nido o un bloque del tipo si desea encontrar el nido. Si desea encontrar un nido de arena, puede hacer clic con el botón derecho en un nido de arena o en un bloque de arena. Al hacer clic derecho de nuevo, se ubicarán los nidos cercanos de ese tipo."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:nest_locator"
+        }
+    ]
+}

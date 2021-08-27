@@ -1,0 +1,19 @@
+{
+    "name": "Abeja de Hierro",
+    "icon": "minecraft:iron_ingot",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:iron",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja de Hierro",
+            "text": "Criada de una $(l:bees/wild/crystalline)Abeja Crystalina$(/l) y una $(l:bees/solitary/ashy_mining)Abeja minera cenicienta$(/l).",
+            "anchor": "iron"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:iron'}"
+        }
+    ]
+}

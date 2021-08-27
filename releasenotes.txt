@@ -1,9 +1,15 @@
+0.6.9.20
+
+-- Added Spanish locale (Thanks to Vicus6)
+-- Added Draconium and Awakened bees for Draconic Evolution
+
+
 0.6.9.19
 
 -- Added block conversion recipes for bees to turn one block into another
 -- Fixed CuBee breeding AI
 -- Added bees for Thermal fluids
--- Changed Spcial bee to use Certus Quartz blocks as flower
+-- Changed Spacial bee to use Certus Quartz blocks as flower
 
 
 0.6.9.18

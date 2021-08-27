@@ -1,0 +1,18 @@
+{
+    "name": "Ender Bee",
+    "icon": "minecraft:ender_pearl",
+    "read_by_default": true,
+    "category": "productivebees:bees_wild",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Ender",
+            "text": "Encontrada viviendo en nidos de piedra en las islas del extremo. Ender Bees prefieren polinizar la flora local de las plantas de coro.",
+            "anchor": "ender"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ender'}"
+        }
+    ]
+}

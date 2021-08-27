@@ -155,7 +155,6 @@ public class NestLocator extends Item
     @Nonnull
     @Override
     public ActionResult<ItemStack> use(World world, PlayerEntity player, @Nonnull Hand hand) {
-        ProductiveBees.LOGGER.info("nest locator use");
         if (!world.isClientSide && world instanceof ServerWorld) {
             // If it has a type specified
             ItemStack stack = player.getItemInHand(hand);
@@ -167,7 +166,6 @@ public class NestLocator extends Item
 
                 Pair<Double, BlockPos> nearest = findNearestNest((ServerWorld) world, player.blockPosition(), ProductiveBeesConfig.GENERAL.nestLocatorDistance.get(), predicate);
 
-                ProductiveBees.LOGGER.info("nearest " + nearest);
                 if (nearest != null) {
                     // Show distance in chat
                     player.displayClientMessage(new TranslationTextComponent("productivebees.nest_locator.found_hive", Math.round(nearest.getFirst() * 100.0) / 100.0), false);

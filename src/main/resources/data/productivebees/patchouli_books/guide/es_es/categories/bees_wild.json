@@ -1,0 +1,6 @@
+{
+    "name": "Abejas Salvajes",
+    "description": "Las abejas silvestres, como las abejas solitarias, viven en nidos que se encuentran en todo el mundo, pero a diferencia de las abejas solitarias, también se mudarán con gusto a una colmena. Las abejas silvestres viven principalmente en el Nether y en el End.",
+    "icon": "minecraft:lily_of_the_valley",
+    "parent": "productivebees:bees"
+}

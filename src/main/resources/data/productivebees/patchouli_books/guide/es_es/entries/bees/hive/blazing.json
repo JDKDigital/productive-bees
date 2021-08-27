@@ -1,0 +1,19 @@
+{
+    "name": "Abeja Ardiente",
+    "icon": "minecraft:blaze_powder",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:blazing",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja Ardiente",
+            "text": "Criada de una $(l:bees/wild/magmatic)Abeja Magmatica $(/l) Y una $(l:bees/solitary/nomad)Abeja Nomada$(/l).",
+            "anchor": "blazing"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:blazing'}"
+        }
+    ]
+}

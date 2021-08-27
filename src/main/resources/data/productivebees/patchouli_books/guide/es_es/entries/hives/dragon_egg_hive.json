@@ -1,0 +1,22 @@
+{
+    "name": "Dragon Egg Hive",
+    "icon": "productivebees:dragon_egg_hive",
+    "category": "productivebees:hives",
+    "sortnum": 4,
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "productivebees:dragon_egg_hive",
+            "text": "Una colmena especial hecha para abejas dracónicas que permite al usuario cosechar los panales dracónicos que de otro modo serían difíciles de obtener. Naturalmente, las abejas dracónicas viven en nidos de obsidiana, pero también vivirán dentro de un huevo de dragón ahuecado.."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:hives/dragon_egg_hive",
+            "text": "Puedes hacer una tortilla satisfactoria con las sobras."
+        },
+        {
+            "type": "text",
+            "text": "Las abejas dracónicas que viven en una colmena de huevos de dragón que operan en el final, no necesitan ninguna floración ya que están absorbiendo la esencia dracónica del aire. Mientras operan en cualquier otro lugar, las abejas dracónicas deben tener otra fuente de polinización.$(br2)Las Colmenas Huevo de Dragon no admite actualizaciones"
+        }
+    ]
+}

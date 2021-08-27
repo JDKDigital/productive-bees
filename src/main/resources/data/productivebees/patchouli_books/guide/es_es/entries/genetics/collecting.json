@@ -1,0 +1,42 @@
+{
+    "name": "Collecting Genes",
+    "icon": "productivebees:gene",
+    "category": "productivebees:genetics",
+    "pages": [
+        {
+            "type": "text",
+            "text": "El embotellador junto con un pistón se puede utilizar para embotellar abejas. Coloque una abeja en el medio y tire de la palanca. Asegúrese de que el embotellador tenga botellas vacías adentro. Lanza la abeja embotellada en una centrífuga para separar las cosas útiles de la basura."
+        },
+        {
+            "type": "multiblock",
+            "name": "Bee Bottler",
+            "multiblock": {
+                "mapping": {
+                    "P": "minecraft:piston[facing=down]",
+                    "B": "productivebees:bottler[has_bottle=true]"
+                },
+                "pattern": [
+                    [
+                        "P"
+                    ],
+                    [
+                        " "
+                    ],
+                    [
+                        "B"
+                    ],
+                    [
+                        "0"
+                    ]
+                ],
+                "symmetrical": true,
+                "offset": [
+                    0,
+                    1,
+                    0
+                ]
+            },
+            "enable_visualize": false
+        }
+    ]
+}

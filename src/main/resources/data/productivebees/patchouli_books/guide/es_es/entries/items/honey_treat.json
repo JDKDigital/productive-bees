@@ -1,0 +1,12 @@
+{
+    "name": "Honey Treat",
+    "icon": "productivebees:honey_treat",
+    "category": "productivebees:items",
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "productivebees:honey_treat",
+            "text": "Se les puede dar golosinas de miel a las abejas enojadas para calmarlas. Darles de comer a las abejas bebés hará que crezcan más rápido.$(br2)Las golosinas de miel también se pueden combinar con genes para transferir la genética de una abeja a otra. Leer más en la $(l:genetics/transferring)página de genética$(/l)"
+        }
+    ]
+}
