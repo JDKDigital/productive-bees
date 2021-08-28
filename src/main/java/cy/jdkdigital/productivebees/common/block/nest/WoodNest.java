@@ -40,11 +40,6 @@ public class WoodNest extends SolitaryNest
         builder.add(BlockStateProperties.FACING, AXIS);
     }
 
-//    @Override
-//    public BlockState getStateForPlacement(BlockItemUseContext context) {
-//        return super.getStateForPlacement(context).setValue(AXIS, context.getHorizontalDirection().getAxis());
-//    }
-
     static {
         AXIS = BlockStateProperties.AXIS;
     }
