@@ -94,37 +94,6 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
         // Replace target block with nest
         BlockState newState = state.setValue(BlockStateProperties.FACING, direction);
 
-        // Tiny chance to spawn a sugarbag nest instead
-        if (world.getRandom().nextFloat() < 0.001 && newState.is(ModTags.SOLITARY_OVERWORLD_NESTS) && newState.getBlock() instanceof WoodNest) {
-            Direction facing = Direction.SOUTH;
-
-            // Find air position to put it on
-            for (Direction dir : BlockStateProperties.FACING.getPossibleValues()) {
-                BlockPos blockPos = pos.relative(dir, 1);
-                if (world.isEmptyBlock(blockPos)) {
-                    if (!dir.equals(Direction.DOWN) && !dir.equals(Direction.UP)) {
-                        facing = dir;
-                    }
-                    pos = blockPos;
-                    break;
-                }
-            }
-
-            // Move up a bit
-            for (int i = 1; i <= 3; i++) {
-                if (!world.isEmptyBlock(pos.above(i))) {
-                    pos = pos.above(i - 1);
-                    break;
-                }
-            }
-
-            if (!world.isEmptyBlock(pos.relative(facing))) {
-                facing = facing.getOpposite();
-            }
-
-            newState = ModBlocks.SUGARBAG_NEST.get().defaultBlockState().setValue(BeehiveBlock.FACING, facing);
-        }
-
         boolean result = world.setBlock(pos, newState, 1);
 
         BlockEntity blockEntity = world.getBlockEntity(pos);
@@ -136,16 +105,6 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
                 ((Bee) newBee).setHealth(((Bee) newBee).getMaxHealth());
                 newBee.setPos(pos.getX(), pos.getY(), pos.getZ());
                 ((SolitaryNestBlockEntity) blockEntity).addOccupantWithPresetTicks(newBee, false, world.getRandom().nextInt(599));
-            }
-        } else if (blockEntity instanceof SugarbagNestBlockEntity) {
-            ProductiveBees.LOGGER.debug("Spawned sugarbag nest at " + pos + " " + newState);
-            ConfigurableBee newBee = ModEntities.CONFIGURABLE_BEE.get().create(world.getLevel());
-            if (newBee != null) {
-                newBee.setBeeType("productivebees:sugarbag");
-                newBee.setAttributes();
-                newBee.setHealth(newBee.getMaxHealth());
-                newBee.setPos(pos.getX(), pos.getY(), pos.getZ());
-                ((SugarbagNestBlockEntity) blockEntity).addOccupantWithPresetTicks(newBee, false, world.getRandom().nextInt(599));
             }
         }
 

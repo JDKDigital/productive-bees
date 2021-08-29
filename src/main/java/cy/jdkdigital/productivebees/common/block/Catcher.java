@@ -1,6 +1,8 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.block.entity.CatcherBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
+import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,15 +33,8 @@ public class Catcher extends CapabilityContainerBlock
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level levelIn, BlockState stateIn, BlockEntityType<T> blockEntityType) {
-        if (!levelIn.isClientSide()) {
-            return (level, pos, state, tile) -> {
-                if (tile instanceof CatcherBlockEntity catcherBlockEntity) {
-                    catcherBlockEntity.tick(level, state);
-                }
-            };
-        }
-        return null;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModTileEntityTypes.CATCHER.get(), CatcherBlockEntity::tick);
     }
 
     @Nonnull

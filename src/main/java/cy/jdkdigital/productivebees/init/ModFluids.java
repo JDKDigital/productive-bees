@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fmllegacy.RegistryObject;
@@ -21,21 +20,8 @@ public final class ModFluids
 
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ProductiveBees.MODID);
 
-    private static ForgeFlowingFluid.Properties properties() {
-        return new ForgeFlowingFluid.Properties(
-            HONEY,
-            HONEY_FLOWING,
-            FluidAttributes.builder(HoneyFluid.STILL, HoneyFluid.FLOWING)
-                .overlay(HoneyFluid.OVERLAY)
-                .translationKey("fluid." + ProductiveBees.MODID + ".honey")
-                .color(0xffffc916)
-                .density(3000)
-                .viscosity(6000)
-        );
-    }
-
-    public static final RegistryObject<ForgeFlowingFluid> HONEY = createFluid("honey", () -> new HoneyFluid.Source(properties()));
-    public static final RegistryObject<ForgeFlowingFluid> HONEY_FLOWING = createFluid("flowing_honey", () -> new HoneyFluid.Flowing(properties()));
+    public static final RegistryObject<ForgeFlowingFluid> HONEY = createFluid("honey", HoneyFluid.Source::new);
+    public static final RegistryObject<ForgeFlowingFluid> HONEY_FLOWING = createFluid("flowing_honey", HoneyFluid.Flowing::new);
 
     private static <B extends Fluid> RegistryObject<B> createFluid(String name, Supplier<? extends B> supplier) {
         return FLUIDS.register(name, supplier);

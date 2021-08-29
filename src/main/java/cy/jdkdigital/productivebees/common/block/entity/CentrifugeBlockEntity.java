@@ -61,7 +61,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
     public int fluidId = 0;
-    private int transferCooldown = -1;
+    public int transferCooldown = -1;
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
@@ -111,54 +111,54 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         return Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier);
     }
 
-    public void tick(Level level, BlockState state) {
-        inventoryHandler.ifPresent(invHandler -> {
-            if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty() && canOperate()) {
+    public static void tick(Level level, BlockPos pos, BlockState state, CentrifugeBlockEntity blockEntity) {
+        blockEntity.inventoryHandler.ifPresent(invHandler -> {
+            if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty() && blockEntity.canOperate()) {
                 // Process gene bottles
                 ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
                 if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {
-                    level.setBlockAndUpdate(worldPosition, getBlockState().setValue(Centrifuge.RUNNING, true));
-                    int totalTime = getProcessingTime();
+                    level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
+                    int totalTime = blockEntity.getProcessingTime();
 
-                    if (++this.recipeProgress >= totalTime) {
-                        this.completeGeneProcessing(invHandler);
-                        recipeProgress = 0;
-                        this.setChanged();
+                    if (++blockEntity.recipeProgress >= totalTime) {
+                        blockEntity.completeGeneProcessing(invHandler);
+                        blockEntity.recipeProgress = 0;
+                        blockEntity.setChanged();
                     }
                 } else if (invItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
-                    level.setBlockAndUpdate(worldPosition, getBlockState().setValue(Centrifuge.RUNNING, true));
-                    int totalTime = getProcessingTime();
+                    level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
+                    int totalTime = blockEntity.getProcessingTime();
 
-                    if (++this.recipeProgress >= totalTime) {
-                        this.completeTreatProcessing(invHandler);
-                        recipeProgress = 0;
-                        this.setChanged();
+                    if (++blockEntity.recipeProgress >= totalTime) {
+                        blockEntity.completeTreatProcessing(invHandler);
+                        blockEntity.recipeProgress = 0;
+                        blockEntity.setChanged();
                     }
                 } else {
-                    CentrifugeRecipe recipe = getRecipe(invHandler);
-                    if (canProcessRecipe(recipe, invHandler)) {
-                        level.setBlockAndUpdate(worldPosition, getBlockState().setValue(Centrifuge.RUNNING, true));
-                        int totalTime = getProcessingTime();
+                    CentrifugeRecipe recipe = blockEntity.getRecipe(invHandler);
+                    if (blockEntity.canProcessRecipe(recipe, invHandler)) {
+                        level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
+                        int totalTime = blockEntity.getProcessingTime();
 
-                        if (++this.recipeProgress >= totalTime) {
-                            this.completeRecipeProcessing(recipe, invHandler);
-                            recipeProgress = 0;
-                            this.setChanged();
+                        if (++blockEntity.recipeProgress >= totalTime) {
+                            blockEntity.completeRecipeProcessing(recipe, invHandler);
+                            blockEntity.recipeProgress = 0;
+                            blockEntity.setChanged();
                         }
                     }
                 }
             } else {
-                this.recipeProgress = 0;
-                level.setBlockAndUpdate(worldPosition, getBlockState().setValue(Centrifuge.RUNNING, false));
+                blockEntity.recipeProgress = 0;
+                level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, false));
             }
 
             // Pull items dropped on top
-            if (ProductiveBeesConfig.GENERAL.centrifugeHopperMode.get() && --transferCooldown <= 0) {
-                transferCooldown = 22;
-                suckInItems(invHandler);
+            if (ProductiveBeesConfig.GENERAL.centrifugeHopperMode.get() && --blockEntity.transferCooldown <= 0) {
+                blockEntity.transferCooldown = 22;
+                blockEntity.suckInItems(invHandler);
             }
         });
-        super.tick(level, state);
+        FluidTankBlockEntity.tick(level, pos, state, blockEntity);
     }
 
     private void suckInItems(IItemHandlerModifiable invHandler) {

@@ -30,18 +30,18 @@ public abstract class FluidTankBlockEntity extends CapabilityBlockEntity
         super(type, pos, state);
     }
 
-    public void tick(Level level, BlockState state) {
-        if (++this.tankTick > 21) {
-            this.tankTick = 0;
-            tickFluidTank();
+    public static void tick(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
+        if (++blockEntity.tankTick > 21) {
+            blockEntity.tankTick = 0;
+            blockEntity.tickFluidTank(level, pos, state, blockEntity);
         }
     }
 
-    public void tickFluidTank() {
-        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+    public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
+        blockEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
             FluidStack fluidStack = fluidHandler.getFluidInTank(0);
             if (fluidStack.getAmount() >= 0 && level instanceof ServerLevel) {
-                this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(invHandler -> {
+                blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(invHandler -> {
                     ItemStack fluidContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                     ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
                     if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {

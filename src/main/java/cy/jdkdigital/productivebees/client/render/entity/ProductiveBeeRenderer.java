@@ -25,6 +25,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
 
     public static final ModelLayerLocation PB_MAIN_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "main"), "main");
     public static final ModelLayerLocation PB_HOARDER_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "hoarder"), "main");
+    public static final ModelLayerLocation PB_RANCHER_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "rancher"), "main");
     public static final ModelLayerLocation PB_THICC_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "thicc"), "main");
     public static final ModelLayerLocation PB_DEFAULT_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "default"), "main");
     public static final ModelLayerLocation PB_DEFAULT_CRYSTAL_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "default_crystal"), "main");
@@ -36,7 +37,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
     public static final ModelLayerLocation PB_TINY_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "tiny"), "main");
     public static final ModelLayerLocation PB_SLIMY_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "translucent_with_center"), "main");
 
-    private boolean isChristmas;
+    protected boolean isChristmas;
 
     public ProductiveBeeRenderer(EntityRendererProvider.Context context) {
         super(context, new ProductiveBeeModel<>(context.bakeLayer(PB_MAIN_LAYER)), 0.4F);

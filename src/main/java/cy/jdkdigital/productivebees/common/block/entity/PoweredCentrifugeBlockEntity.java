@@ -33,11 +33,11 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
         super(ModTileEntityTypes.POWERED_CENTRIFUGE.get(), pos, state);
     }
 
-    public void tick(Level level, BlockState state) {
-        super.tick(level, state);
-        if (getBlockState().getValue(Centrifuge.RUNNING) && level instanceof ServerLevel) {
-            energyHandler.ifPresent(handler -> {
-                handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * getEnergyConsumptionModifier()), false);
+    public static void tick(Level level, BlockPos pos, BlockState state, PoweredCentrifugeBlockEntity blockEntity) {
+        CentrifugeBlockEntity.tick(level, pos, state, blockEntity);
+        if (state.getValue(Centrifuge.RUNNING) && level instanceof ServerLevel) {
+            blockEntity.energyHandler.ifPresent(handler -> {
+                handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
             });
         }
     }

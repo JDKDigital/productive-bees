@@ -1,6 +1,6 @@
 {
     "type": "productivebees:bee_conversion",
-    "source": "productivebees:sweaty_bee",
+    "source": "productivebees:sweat_bee",
     "result": "productivebees:frosty",
     "item": {
         "tag": "productivebees:flowers/frozen"

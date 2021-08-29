@@ -79,25 +79,25 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
         super(ModTileEntityTypes.BOTTLER.get(), pos, state);
     }
 
-    public void tick(Level level, BlockState state) {
-        if (++tickCounter % 10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.getValue(DirectionalBlock.FACING) == Direction.DOWN) {
+    public static void tick(Level level, BlockPos pos, BlockState state, BottlerBlockEntity blockEntity) {
+        if (++blockEntity.tickCounter % 10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.getValue(DirectionalBlock.FACING) == Direction.DOWN) {
             // Check for ProductiveBeeEntity on top of block
-            List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(worldPosition).expandTowards(0.0D, 1.0D, 0.0D)));
+            List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(pos).expandTowards(0.0D, 1.0D, 0.0D)));
             if (!bees.isEmpty()) {
                 Bee bee = bees.iterator().next();
-                inventoryHandler.ifPresent(inv -> {
+                blockEntity.inventoryHandler.ifPresent(inv -> {
                     ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                     if (!bottles.isEmpty() && bottles.getItem().equals(Items.GLASS_BOTTLE) && !bee.isBaby() && bee.isAlive()) {
                         ItemStack geneBottle = GeneBottle.getStack(bee);
-                        Block.popResource(level, worldPosition.above(), geneBottle);
-                        level.playSound(null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                        Block.popResource(level, pos.above(), geneBottle);
+                        level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F);
                         bee.kill();
                         bottles.shrink(1);
                     }
                 });
             }
         }
-        super.tick(level, state);
+        FluidTankBlockEntity.tick(level, pos, state, blockEntity);
     }
 
     @Override

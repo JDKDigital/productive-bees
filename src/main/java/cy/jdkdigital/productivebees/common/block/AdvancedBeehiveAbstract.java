@@ -56,6 +56,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     }
 
     @Nullable
+    @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
         return level.isClientSide ? null : createTickerHelper(blockEntityType, ModTileEntityTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveBlockEntity::tick);
     }

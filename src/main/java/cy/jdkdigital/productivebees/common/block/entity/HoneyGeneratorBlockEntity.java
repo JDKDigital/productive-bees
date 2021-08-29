@@ -98,26 +98,26 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
         super(ModTileEntityTypes.HONEY_GENERATOR.get(), pos, state);
     }
 
-    public void tick(Level level, BlockState state) {
+    public static void tick(Level level, BlockPos pos, BlockState state, HoneyGeneratorBlockEntity blockEntity) {
         int tickRate = 10;
-        if (++tickCounter % tickRate == 0) {
+        if (++blockEntity.tickCounter % tickRate == 0) {
             int inputPowerAmount = ProductiveBeesConfig.GENERAL.generatorPowerGen.get() * tickRate;
             int fluidConsumeAmount = ProductiveBeesConfig.GENERAL.generatorHoneyUse.get() * tickRate;
-            fluidInventory.ifPresent(fluidHandler -> energyHandler.ifPresent(handler -> {
+            blockEntity.fluidInventory.ifPresent(fluidHandler -> blockEntity.energyHandler.ifPresent(handler -> {
                 if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && handler.receiveEnergy(inputPowerAmount, true) > 0) {
                     handler.receiveEnergy(inputPowerAmount, false);
                     fluidHandler.drain(fluidConsumeAmount, IFluidHandler.FluidAction.EXECUTE);
-                    setOn(true);
+                    blockEntity.setOn(true);
                 } else {
-                    setOn(false);
+                    blockEntity.setOn(false);
                 }
             }));
         }
-        this.sendOutPower(tickRate);
-        super.tick(level, state);
+        blockEntity.sendOutPower(tickRate);
+        FluidTankBlockEntity.tick(level, pos, state, blockEntity);
     }
 
-    private void sendOutPower(int modifier) {
+    public void sendOutPower(int modifier) {
         if (this.level != null) {
             energyHandler.ifPresent(energyHandler -> {
                 AtomicInteger capacity = new AtomicInteger(energyHandler.getEnergyStored());
@@ -146,7 +146,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     }
 
     @Override
-    public void tickFluidTank() {
+    public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
         fluidInventory.ifPresent(fluidHandler -> {
             inventoryHandler.ifPresent(invHandler -> {
                 int fluidSpace = fluidInventory.map(h -> h.getTankCapacity(0) - h.getFluidInTank(0).getAmount()).orElse(0);

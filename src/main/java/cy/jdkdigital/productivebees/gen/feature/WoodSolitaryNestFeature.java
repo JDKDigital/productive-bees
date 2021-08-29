@@ -64,8 +64,7 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
                 newPos = newPos.east(1);
             }
 
-            BlockState state = placeOntop ? world.getBlockState(blockPos.below()) : world.getBlockState(blockPos);
-            if (targetBlockState.target.test(state, world.getRandom())) {
+            if (targetBlockState.target.test(world.getBlockState(blockPos), world.getRandom())) {
                 return placeNest(world, blockPos, targetBlockState.state);
             }
         }

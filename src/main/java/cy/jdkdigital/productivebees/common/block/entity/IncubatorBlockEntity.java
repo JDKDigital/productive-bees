@@ -79,29 +79,28 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         return Math.max(0, timeUpgradeModifier);
     }
 
-    public void tick(Level level, BlockState state) {
-        if (isRunning && level instanceof ServerLevel) {
-            energyHandler.ifPresent(handler -> {
-                handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() * getEnergyConsumptionModifier()), false);
+    public static void tick(Level level, BlockPos pos, BlockState state, IncubatorBlockEntity blockEntity) {
+        if (blockEntity.isRunning && level instanceof ServerLevel) {
+            blockEntity.energyHandler.ifPresent(handler -> {
+                handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
             });
         }
-        inventoryHandler.ifPresent(invHandler -> {
+        blockEntity.inventoryHandler.ifPresent(invHandler -> {
             if (!invHandler.getStackInSlot(0).isEmpty()) {
                 // Process incubation
-                if (isRunning || canProcessInput(invHandler)) {
-                    setRunning(true);
-                    int totalTime = getProcessingTime();
+                if (blockEntity.isRunning || blockEntity.canProcessInput(invHandler)) {
+                    blockEntity.setRunning(true);
+                    int totalTime = blockEntity.getProcessingTime();
 
-                    if (++this.recipeProgress >= totalTime) {
-                        this.completeIncubation(invHandler);
-                        recipeProgress = 0;
-                        this.setChanged();
+                    if (++blockEntity.recipeProgress >= totalTime) {
+                        blockEntity.completeIncubation(invHandler);
+                        blockEntity.recipeProgress = 0;
+                        blockEntity.setChanged();
                     }
                 }
-            }
-            else {
-                this.recipeProgress = 0;
-                setRunning(false);
+            } else {
+                blockEntity.recipeProgress = 0;
+                blockEntity.setRunning(false);
             }
         });
     }

@@ -9,9 +9,9 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
-public class SweatyBee extends SolitaryBee
+public class SweatBee extends SolitaryBee
 {
-    public SweatyBee(EntityType<? extends Bee> entityType, Level world) {
+    public SweatBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
 
         beeAttributes.put(BeeAttributes.TEMPER, 2);

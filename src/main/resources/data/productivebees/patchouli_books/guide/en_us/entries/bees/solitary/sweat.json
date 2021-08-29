@@ -1,6 +1,6 @@
 {
     "name": "Sweat Bee",
-    "icon": "productivebees:spawn_egg_sweaty_bee",
+    "icon": "productivebees:spawn_egg_sweat_bee",
     "read_by_default": true,
     "sortnum": 13,
     "category": "productivebees:bees_solitary",
@@ -13,7 +13,7 @@
         },
         {
             "type": "entity",
-            "entity": "productivebees:sweaty_bee"
+            "entity": "productivebees:sweat_bee"
         }
     ]
 }

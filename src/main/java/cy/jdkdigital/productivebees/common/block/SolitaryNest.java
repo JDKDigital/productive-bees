@@ -58,6 +58,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
     }
 
     @Nullable
+    @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
         return level.isClientSide ? null : createTickerHelper(blockEntityType, ModTileEntityTypes.SOLITARY_NEST.get(), SolitaryNestBlockEntity::tick);
     }

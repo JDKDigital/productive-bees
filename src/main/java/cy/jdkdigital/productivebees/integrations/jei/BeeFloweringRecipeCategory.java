@@ -117,7 +117,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         flowering.put("productivebees:nomad_bee", ModTags.ARID_FLOWERS);
         flowering.put("productivebees:reed_bee", ModTags.SWAMP_FLOWERS);
         flowering.put("productivebees:resin_bee", ModTags.FOREST_FLOWERS);
-        flowering.put("productivebees:sweaty_bee", ModTags.SNOW_FLOWERS);
+        flowering.put("productivebees:sweat_bee", ModTags.SNOW_FLOWERS);
         flowering.put("productivebees:yellow_black_carpenter_bee", ModTags.FOREST_FLOWERS);
         flowering.put("productivebees:lumber_bee", BlockTags.LOGS);
         flowering.put("productivebees:quarry_bee", ModTags.QUARRY);

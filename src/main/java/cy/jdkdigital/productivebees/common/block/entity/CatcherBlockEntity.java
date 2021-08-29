@@ -49,16 +49,16 @@ public class CatcherBlockEntity extends FluidTankBlockEntity implements Upgradea
         super(ModTileEntityTypes.CATCHER.get(), pos, state);
     }
 
-    public void tick(Level level, BlockState state) {
-        if (++tickCounter % 69 == 0) {
-            inventoryHandler.ifPresent(invHandler -> {
+    public static void tick(Level level, BlockPos pos, BlockState state, CatcherBlockEntity blockEntity) {
+        if (++blockEntity.tickCounter % 69 == 0) {
+            blockEntity.inventoryHandler.ifPresent(invHandler -> {
                 if (!invHandler.getStackInSlot(0).isEmpty()) {
                     ItemStack invItem = invHandler.getStackInSlot(0);
                     if (invItem.getItem() instanceof BeeCage && !BeeCage.isFilled(invItem)) {
                         // We have a valid inventory for catching, look for entities above
-                        List<Bee> bees = level.getEntitiesOfClass(Bee.class, getBoundingBox());
-                        int babeeUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
-                        List<ItemStack> filterUpgrades = getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
+                        List<Bee> bees = level.getEntitiesOfClass(Bee.class, blockEntity.getBoundingBox());
+                        int babeeUpgrades = blockEntity.getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
+                        List<ItemStack> filterUpgrades = blockEntity.getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
                         for (Bee bee : bees) {
                             if (babeeUpgrades > 0 && !bee.isBaby()) {
                                 continue;
@@ -92,7 +92,7 @@ public class CatcherBlockEntity extends FluidTankBlockEntity implements Upgradea
                 }
             });
         }
-        super.tick(level, state);
+        FluidTankBlockEntity.tick(level, pos, state, blockEntity);
     }
 
     private AABB getBoundingBox() {

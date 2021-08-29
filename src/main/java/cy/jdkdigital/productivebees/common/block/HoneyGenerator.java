@@ -1,6 +1,8 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.HoneyGeneratorBlockEntity;
+import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -16,6 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -46,6 +50,12 @@ public class HoneyGenerator extends CapabilityContainerBlock
     public HoneyGenerator(Properties builder) {
         super(builder);
         this.registerDefaultState(this.defaultBlockState().setValue(ON, Boolean.FALSE).setValue(FULL, Boolean.FALSE).setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModTileEntityTypes.HONEY_GENERATOR.get(), HoneyGeneratorBlockEntity::tick);
     }
 
     @SuppressWarnings("deprecation")

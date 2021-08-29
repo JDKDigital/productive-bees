@@ -108,7 +108,7 @@ public class EventHandler
 
     @SubscribeEvent
     public static void onEntityAttributeCreate(EntityAttributeCreationEvent event) {
-        //Entity attribute assignments
+        // Entity attribute assignments
         for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
             EntityType<ProductiveBee> bee = (EntityType<ProductiveBee>) registryObject.get();
             event.put(bee, Bee.createAttributes().build());

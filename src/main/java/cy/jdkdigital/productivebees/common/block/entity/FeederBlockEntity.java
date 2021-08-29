@@ -23,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
@@ -89,10 +90,10 @@ public class FeederBlockEntity extends CapabilityBlockEntity
         return new FeederContainer(windowId, playerInventory, this);
     }
 
-    public void tick(Level level, BlockState state) {
-        if (level instanceof ServerLevel && ++tickCounter%164 == 0) {
+    public static <T extends BlockEntity> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
+        if (level instanceof ServerLevel && blockEntity instanceof FeederBlockEntity && ++((FeederBlockEntity) blockEntity).tickCounter%164 == 0) {
             if (state.getValue(Feeder.HONEYLOGGED)) {
-                List<Bee> entities = level.getEntitiesOfClass(Bee.class, new AABB(worldPosition));
+                List<Bee> entities = level.getEntitiesOfClass(Bee.class, new AABB(pos));
                 for (Bee entity : entities) {
                     if (entity != null) {
                         entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 0, false, true));

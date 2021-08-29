@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import cy.jdkdigital.productivebees.integrations.jei.ProductiveBeesJeiPlugin;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientHelper;
+import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -11,6 +13,12 @@ import javax.annotation.Nullable;
 
 public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
 {
+    @Nonnull
+    @Override
+    public IIngredientType<BeeIngredient> getIngredientType() {
+        return ProductiveBeesJeiPlugin.BEE_INGREDIENT;
+    }
+
     @Nullable
     @Override
     public BeeIngredient getMatch(Iterable<BeeIngredient> iterable, BeeIngredient beeIngredient, UidContext uidContext) {

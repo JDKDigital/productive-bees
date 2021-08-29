@@ -53,7 +53,7 @@ public class ModEntities
     public static RegistryObject<EntityType<Bee>> NOMAD_BEE = createSolitaryBee("nomad_bee", NomadBee::new, 14529911, 6238757);
     public static RegistryObject<EntityType<Bee>> REED_BEE = createSolitaryBee("reed_bee", ReedBee::new, 13806336, 6238757);
     public static RegistryObject<EntityType<Bee>> RESIN_BEE = createSolitaryBee("resin_bee", ResinBee::new, 13939231, 6238757);
-    public static RegistryObject<EntityType<Bee>> SWEATY_BEE = createSolitaryBee("sweaty_bee", SweatyBee::new, 9748939, 6238757);
+    public static RegistryObject<EntityType<Bee>> SWEAT_BEE = createSolitaryBee("sweat_bee", SweatBee::new, 9748939, 6238757);
     public static RegistryObject<EntityType<BumbleBee>> BUMBLE = createSolitaryBee("bumble_bee", BumbleBee::new, 9748939, 6238757);
 
     public static RegistryObject<EntityType<ConfigurableBee>> CONFIGURABLE_BEE = createColoredHiveBee("configurable_bee", ConfigurableBee::new, "#73ffb9", "#0f5c7a", ModItemGroups.PRODUCTIVE_BEES);

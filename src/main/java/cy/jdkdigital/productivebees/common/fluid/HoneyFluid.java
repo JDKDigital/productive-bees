@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import javax.annotation.Nullable;
@@ -29,8 +30,17 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
     public static final ResourceLocation FLOWING = new ResourceLocation(ProductiveBees.MODID, "block/honey/flow");
     public static final ResourceLocation OVERLAY = new ResourceLocation(ProductiveBees.MODID, "block/honey/overlay");
 
-    protected HoneyFluid(Properties properties) {
-        super(properties.bucket(ModItems.HONEY_BUCKET).block(ModBlocks.HONEY));
+    protected HoneyFluid() {
+        super(new ForgeFlowingFluid.Properties(
+                ModFluids.HONEY,
+                ModFluids.HONEY_FLOWING,
+                FluidAttributes.builder(HoneyFluid.STILL, HoneyFluid.FLOWING)
+                        .overlay(HoneyFluid.OVERLAY)
+                        .translationKey("fluid." + ProductiveBees.MODID + ".honey")
+                        .color(0xffffc916)
+                        .density(3000)
+                        .viscosity(6000)
+        ).bucket(ModItems.HONEY_BUCKET).block(ModBlocks.HONEY));
     }
 
     @Override
@@ -101,8 +111,8 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
 
     public static class Flowing extends HoneyFluid
     {
-        public Flowing(Properties properties) {
-            super(properties);
+        public Flowing() {
+            super();
         }
 
         @Override
@@ -124,8 +134,8 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
 
     public static class Source extends HoneyFluid
     {
-        public Source(Properties properties) {
-            super(properties);
+        public Source() {
+            super();
         }
 
         @Override

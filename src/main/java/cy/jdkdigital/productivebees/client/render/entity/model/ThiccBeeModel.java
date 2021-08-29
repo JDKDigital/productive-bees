@@ -97,7 +97,7 @@ public class ThiccBeeModel extends PartialBeeModel
                 CubeListBuilder
                         .create().texOffs(24, 5)
                         .addBox(-5.0F, 7.0F, 1.0F, 7.0F, 2.0F, 0.0F),
-                PartPose.offset(1.5F, 3.5F, 0.0F)
+                PartPose.offset(1.5F, 0.0F, 2.5F)
         );
 
         return LayerDefinition.create(meshDefinition, 64, 64);

@@ -6,6 +6,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 public class RancherBeeRenderer extends ProductiveBeeRenderer
 {
     public RancherBeeRenderer(EntityRendererProvider.Context context) {
-        super(context, new RancherBeeModel<>(context.bakeLayer(PB_MAIN_LAYER)));
+        super(context, new RancherBeeModel<>(context.bakeLayer(PB_RANCHER_LAYER)));
     }
 }

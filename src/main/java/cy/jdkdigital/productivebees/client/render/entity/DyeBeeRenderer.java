@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.client.render.entity.layers.BeeBodyLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -12,6 +13,8 @@ public class DyeBeeRenderer extends ProductiveBeeRenderer
 {
     public DyeBeeRenderer(EntityRendererProvider.Context context) {
         super(context, new ProductiveBeeModel<>(context.bakeLayer(PB_MAIN_LAYER), "default"));
+
+        addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_LAYER), "default", isChristmas));
     }
 
     @Nonnull

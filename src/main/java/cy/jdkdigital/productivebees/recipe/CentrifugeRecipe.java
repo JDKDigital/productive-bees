@@ -173,11 +173,6 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                 }
             });
 
-            // Default fluid output
-            if (fluidOutputs.isEmpty()) {
-                fluidOutputs.put("productivebees:honey", 100);
-            }
-
             return this.factory.create(id, ingredient, itemOutputs, fluidOutputs);
         }
 

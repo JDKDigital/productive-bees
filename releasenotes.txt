@@ -1,3 +1,9 @@
+0.7.0.1
+
+-- Fixed some bee models not rendering
+-- Fixed a bunch of block entities not ticking
+
+
 0.7.0.0
 
 -- 1.17.1 port
@@ -8,7 +14,7 @@
 -- Added block conversion recipes for bees to turn one block into another
 -- Fixed CuBee breeding AI
 -- Added bees for Thermal fluids
--- Changed Spcial bee to use Certus Quartz blocks as flower
+-- Changed Spacial bee to use Certus Quartz blocks as flower
 
 
 0.6.9.18
