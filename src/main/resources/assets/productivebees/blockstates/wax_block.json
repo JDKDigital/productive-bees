@@ -1,7 +1,7 @@
 {
     "variants": {
         "": {
-            "model": "productivebees:block/quartz_netherrack"
+            "model": "productivebees:block/wax_block"
         }
     }
 }

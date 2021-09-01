@@ -1,16 +1,12 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "WWW",
-        "WWW",
-        "WWW"
-    ],
-    "key": {
-        "W": {
-            "tag": "forge:wax"
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "productivebees:wax_block"
         }
-    },
+    ],
     "result": {
-        "item": "productivebees:wax_block"
+        "item": "productivebees:wax",
+        "count": 9
     }
 }

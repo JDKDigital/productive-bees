@@ -46,6 +46,7 @@ public class ModItems
     public static final RegistryObject<Item> NEST_LOCATOR = createItem("nest_locator", () -> new NestLocator(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> SUGARBAG_HONEYCOMB = createItem("sugarbag_honeycomb", () -> new Item((new Item.Properties().food(SUGARBAG).rarity(Rarity.EPIC)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> TREAT_ON_A_STICK = createItem("treat_on_a_stick", () -> new TreatOnAStick((new Item.Properties()).durability(28).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> WAX = createItem("wax", () -> new WaxItem((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
 
     public static final RegistryObject<Item> CONFIGURABLE_HONEYCOMB = createItem("configurable_honeycomb", () -> new Honeycomb((new Item.Properties()).tab(null), "#d2ab00"));
 

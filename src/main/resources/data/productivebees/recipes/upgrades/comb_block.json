@@ -21,14 +21,5 @@
     },
     "result": {
         "item": "productivebees:upgrade_comb_block"
-    },
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/wax"
-            }
-        }
-    ]
+    }
 }

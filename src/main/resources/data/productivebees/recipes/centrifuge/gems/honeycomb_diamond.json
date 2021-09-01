@@ -27,11 +27,5 @@
             },
             "amount": 50
         }
-    ],
-    "conditions": [
-        {
-            "type": "forge:tag_empty",
-            "tag": "forge:dusts/diamond"
-        }
     ]
 }

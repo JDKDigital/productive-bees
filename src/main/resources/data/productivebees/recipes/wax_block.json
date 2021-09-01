@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "WWW",
+        "WWW",
+        "WWW"
+    ],
+    "key": {
+        "W": {
+            "tag": "forge:wax"
+        }
+    },
+    "result": {
+        "item": "productivebees:wax_block"
+    }
+}

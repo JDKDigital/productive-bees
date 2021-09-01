@@ -1,3 +1,8 @@
+0.7.0.4
+
+-- Added wax item and block. It can be used to wax copper in a more immersive way. No longer do you have to worry about getting honey on your fingers when waxing your blocks. It's also a fuel.
+
+
 0.7.0.3
 
 -- Fixed blocks not being mineable

@@ -18,13 +18,13 @@ public class HoneyFluidBlock extends LiquidBlock
         super(supplier, properties);
     }
 
-    @Deprecated
-    @Override
-    public void entityInside(BlockState state, Level world, BlockPos position, Entity entity) {
-        if (entity instanceof Bee) {
-            ((Bee) entity).addEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 0, false, true));
-        }
-
-        super.entityInside(state, world, position, entity);
-    }
+//    @Deprecated
+//    @Override
+//    public void entityInside(BlockState state, Level world, BlockPos position, Entity entity) {
+//        if (entity instanceof Bee) {
+//            ((Bee) entity).addEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 0, false, true));
+//        }
+//
+//        super.entityInside(state, world, position, entity);
+//    }
 }
