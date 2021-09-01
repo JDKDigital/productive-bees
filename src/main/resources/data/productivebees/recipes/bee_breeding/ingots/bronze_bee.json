@@ -18,14 +18,14 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/copper"
+                "tag": "forge:ingots/tin"
             }
         },
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/tin"
+                "tag": "forge:storage_blocks/tin"
             }
         },
         {

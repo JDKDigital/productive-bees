@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "productivebees:coarse_dirt_nest",
+    "productivebees:gravel_nest",
+    "productivebees:snow_nest",
+    "productivebees:sand_nest",
+    "productivebees:soul_sand_nest"
+  ]
+}

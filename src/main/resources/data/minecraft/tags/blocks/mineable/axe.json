@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+        "productivebees:sugarbag_nest",
+        "#productivebees:expansion_boxes",
+        "#productivebees:advanced_beehives",
+        "#productivebees:nests/wood_nests"
+    ]
+}

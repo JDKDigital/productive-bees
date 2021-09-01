@@ -1,9 +1,9 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "CDC",
+        "CWC",
         "DBD",
-        "CDC"
+        "CWC"
     ],
     "key": {
         "B": {
@@ -11,6 +11,9 @@
         },
         "C": {
             "tag": "forge:storage_blocks/honeycombs"
+        },
+        "W": {
+            "tag": "forge:storage_blocks/wax"
         },
         "D": {
             "item": "productivebees:draconic_chunk"
@@ -21,8 +24,11 @@
     },
     "conditions": [
         {
-            "type": "forge:tag_empty",
-            "tag": "forge:storage_blocks/wax"
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/wax"
+            }
         }
     ]
 }

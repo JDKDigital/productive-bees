@@ -12,21 +12,5 @@
         {
             "tag": "forge:ingots/copper"
         }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/copper"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/copper"
-            }
-        }
     ]
 }

@@ -18,14 +18,14 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/copper"
+                "tag": "forge:ingots/zinc"
             }
         },
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/zinc"
+                "tag": "forge:storage_blocks/zinc"
             }
         },
         {

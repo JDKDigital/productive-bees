@@ -1,3 +1,13 @@
+0.7.0.3
+
+-- Fixed blocks not being mineable
+
+
+0.7.0.2
+
+-- Fixed tags related to copper bees
+
+
 0.7.0.1
 
 -- Fixed some bee models not rendering

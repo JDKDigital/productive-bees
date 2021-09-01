@@ -12,7 +12,7 @@
     "outputs": [
         {
             "item": {
-                "tag": "forge:ingots/copper"
+                "item": "minecraft:raw_copper"
             },
             "chance": 40
         },
@@ -26,19 +26,6 @@
                 "fluid": "productivebees:honey"
             },
             "amount": 50
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/copper"
-            }
-        },
-        {
-            "type": "forge:tag_empty",
-            "tag": "forge:dusts/copper"
         }
     ]
 }

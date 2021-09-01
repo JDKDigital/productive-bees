@@ -15,7 +15,6 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
-apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
 version = "${version}"
 group = 'cy.jdkdigital.productivebees'

@@ -34,7 +34,6 @@ public final class ModBlocks
     public static final RegistryObject<Block> FEEDER = createBlock("feeder", () -> new Feeder(Block.Properties.copy(Blocks.STONE_SLAB).noOcclusion()), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> JAR = createBlock("jar_oak", () -> new Jar(Block.Properties.copy(Blocks.GLASS)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> QUARTZ_NETHERRACK = createBlock("quartz_netherrack", () -> new Block(Block.Properties.copy(Blocks.NETHER_QUARTZ_ORE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> PURPLE_HOPPER = createBlock("purple_hopper", () -> new HopperBlock(Block.Properties.copy(Blocks.HOPPER)), null);
 
     public static final RegistryObject<Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.OAK_LOG)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.OAK_LOG)), ModItemGroups.PRODUCTIVE_BEES);
@@ -55,7 +54,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> GLOWSTONE_NEST = createBlock("glowstone_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.GLOWSTONE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> SOUL_SAND_NEST = createBlock("soul_sand_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.SOUL_SAND)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> NETHER_QUARTZ_NEST = createBlock("nether_quartz_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.NETHER_QUARTZ_ORE)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> NETHER_GOLD_NEST = createBlock("nether_gold_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.NETHER_QUARTZ_ORE)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> NETHER_GOLD_NEST = createBlock("nether_gold_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.NETHER_GOLD_ORE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> NETHER_BRICK_NEST = createBlock("nether_brick_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.NETHER_BRICKS)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> END_NEST = createBlock("end_stone_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.END_STONE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> OBSIDIAN_PILLAR_NEST = createBlock("obsidian_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.OBSIDIAN)), ModItemGroups.PRODUCTIVE_BEES);

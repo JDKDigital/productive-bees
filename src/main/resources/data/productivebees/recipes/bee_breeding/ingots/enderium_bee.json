@@ -31,6 +31,20 @@
                 "type": "forge:tag_empty",
                 "tag": "forge:storage_blocks/enderium"
             }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/lead"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/lead"
+            }
         }
     ]
 }

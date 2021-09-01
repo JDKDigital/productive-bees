@@ -1,21 +1,5 @@
 {
     "primaryColor": "#F48702",
     "secondaryColor": "#804f40",
-    "flowerTag": "forge:storage_blocks/copper",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/copper"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/copper"
-            }
-        }
-    ]
+    "flowerTag": "productivebees:flowers/cupric_flowers"
 }
