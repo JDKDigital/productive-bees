@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.tileentity.SugarbagNestTileEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,14 +26,9 @@ public class SugarbagNest extends BeehiveBlock
     }
 
     @Nullable
-    public TileEntity newBlockEntity(IBlockReader worldIn) {
-        return new SugarbagNestTileEntity();
-    }
-
-    @Nullable
     @Override
     public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
-        return ModTileEntityTypes.SUGARBAG_NEST.get().create();
+        return new SugarbagNestTileEntity();
     }
 
     @Override

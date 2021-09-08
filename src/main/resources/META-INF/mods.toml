@@ -19,12 +19,12 @@ Useful bees
 [[dependencies.productivebees]] #optional
     modId="forge"
     mandatory=true
-    versionRange="[34,)"
+    versionRange="[36.2.4,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.productivebees]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.3,]"
+    versionRange="[1.16.5,]"
     ordering="NONE"
     side="BOTH"

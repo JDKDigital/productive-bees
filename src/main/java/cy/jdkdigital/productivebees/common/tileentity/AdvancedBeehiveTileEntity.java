@@ -1,10 +1,12 @@
 package cy.jdkdigital.productivebees.common.tileentity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
+import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
@@ -13,6 +15,7 @@ import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
+import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.BeehiveBlock;
@@ -50,6 +53,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract implements INamedContainerProvider, UpgradeableTileEntity
@@ -216,7 +220,7 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
 
         // Produce offspring if breeding upgrade is installed
         int breedingUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
-        if (breedingUpgrades > 0 && !beeEntity.isBaby() && getOccupantCount() > 0 && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
+        if (level != null && breedingUpgrades > 0 && !beeEntity.isBaby() && getOccupantCount() > 0 && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
             boolean canBreed = !(beeEntity instanceof ProductiveBeeEntity) || ((ProductiveBeeEntity) beeEntity).canSelfBreed();
             if (canBreed) {
                 // Count nearby bee entities
@@ -240,6 +244,26 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                     }
                 }
             }
+        }
+
+        // Produce genes
+        int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get());
+        if (level != null && samplerUpgrades > 0 && !beeEntity.isBaby() && beeEntity instanceof ProductiveBeeEntity && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
+            getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                Map<BeeAttribute<?>, Object> attributes = ((ProductiveBeeEntity) beeEntity).getBeeAttributes();
+                // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
+                int attr = ProductiveBees.rand.nextInt(attributes.size() + 2);
+                if (attr >= attributes.size()) {
+                    // Type gene
+                    String type = beeEntity instanceof ConfigurableBeeEntity ? ((ConfigurableBeeEntity) beeEntity).getBeeType() : beeEntity.getEncodeId();
+                    ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(type, ProductiveBees.rand.nextInt(4) + 1));
+                } else {
+                    Object value = attributes.values().toArray()[attr];
+                    if (value instanceof Integer) {
+                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(BeeAttributes.map.get(BeeAttributes.attributeList().get(attr)), (Integer) value, 1, ProductiveBees.rand.nextInt(4) + 1));
+                    }
+                }
+            });
         }
 
         // Add to the countdown for it's spot to become available in the hive

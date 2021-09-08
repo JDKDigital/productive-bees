@@ -40,7 +40,6 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -422,11 +421,8 @@ public class BeeHelper
 
             if (tag.contains("HivePos")) {
                 BlockPos hivePos = NBTUtil.readBlockPos(tag.getCompound("HivePos"));
-                list.add(new StringTextComponent("Home position: " + hivePos.getX() + ", " + hivePos.getY() + ", " + hivePos.getZ()));
+                list.add(new TranslationTextComponent("productivebees.information.home_position ", hivePos.getX(), hivePos.getY(), hivePos.getZ()));
             }
-        }
-        else {
-            list.add((new StringTextComponent("Mod: " + tag.getString("mod"))).withStyle(TextFormatting.DARK_AQUA));
         }
 
         return list;

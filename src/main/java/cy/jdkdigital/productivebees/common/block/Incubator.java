@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.tileentity.IncubatorTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,12 +38,6 @@ public class Incubator extends CapabilityContainerBlock
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.INCUBATOR.get().create();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader world) {
         return new IncubatorTileEntity();
     }
 

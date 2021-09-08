@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.tileentity.HoneyGeneratorTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -91,12 +90,6 @@ public class HoneyGenerator extends CapabilityContainerBlock
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.HONEY_GENERATOR.get().create();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader world) {
         return new HoneyGeneratorTileEntity();
     }
 

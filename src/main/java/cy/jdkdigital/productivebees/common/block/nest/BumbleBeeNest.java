@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.block.nest;
 
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.tileentity.BumbleBeeNestTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -22,12 +21,6 @@ public class BumbleBeeNest extends SolitaryNest
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.BUMBLE_BEE_NEST.get().create();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader world) {
         return new BumbleBeeNestTileEntity();
     }
 

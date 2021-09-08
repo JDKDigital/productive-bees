@@ -16,7 +16,7 @@
         },
         {
             "type": "text",
-            "text": "Advanced Hives feature a GUI from where you can see which bees are currently inside the hive as well as take out any produced resources. Advanced Hives can be further upgraded using an $(l:hives/expansion_boxes)expansion boxe$(/l). Attaching an $(l:hives/expansion_boxes)expansion box$(/l) will increase the bee capacity from 3 to 5 and allow $(l:items/upgrades)upgrades$(/l) to be installed."
+            "text": "Advanced Hives feature a GUI from where you can see which bees are currently inside the hive as well as take out any produced resources. Advanced Hives can be further upgraded using an $(l:hives/expansion_boxes)expansion box$(/l). Attaching an $(l:hives/expansion_boxes)expansion box$(/l) will increase the bee capacity from 3 to 5 and allow $(l:items/upgrades)upgrades$(/l) to be installed."
         }
     ]
 }

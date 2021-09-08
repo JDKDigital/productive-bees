@@ -6,8 +6,11 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.Nullable;
 
 abstract class CapabilityContainerBlock extends ContainerBlock
 {
@@ -37,5 +40,11 @@ abstract class CapabilityContainerBlock extends ContainerBlock
             }
         }
         super.onRemove(oldState, worldIn, pos, newState, isMoving);
+    }
+
+    @Nullable
+    @Override
+    public TileEntity newBlockEntity(IBlockReader level) {
+        return createTileEntity(null, level);
     }
 }

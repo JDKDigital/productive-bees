@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.tileentity.AdvancedBeehiveTileEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
@@ -51,12 +50,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     @Nullable
     @Override
     public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
-        return ModTileEntityTypes.ADVANCED_BEEHIVE.get().create();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader world) {
         return new AdvancedBeehiveTileEntity();
     }
 

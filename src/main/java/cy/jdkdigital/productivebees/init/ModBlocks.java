@@ -36,6 +36,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> JAR = createBlock("jar_oak", () -> new Jar(Block.Properties.copy(Blocks.GLASS)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> QUARTZ_NETHERRACK = createBlock("quartz_netherrack", () -> new Block(Block.Properties.copy(Blocks.NETHER_QUARTZ_ORE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> PURPLE_HOPPER = createBlock("purple_hopper", () -> new HopperBlock(Block.Properties.copy(Blocks.HOPPER)), null);
+    public static final RegistryObject<Block> GENE_INDEXER = createBlock("gene_indexer", () -> new GeneIndexer(Block.Properties.copy(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
 
     public static final RegistryObject<Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.OAK_LOG)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.OAK_LOG)), ModItemGroups.PRODUCTIVE_BEES);

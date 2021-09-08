@@ -31,15 +31,12 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID)
 public class EventHandler
@@ -85,7 +82,7 @@ public class EventHandler
         if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().getValue(CocoaBlock.AGE) == 2) {
             PlayerEntity player = event.getPlayer();
             World world = player.level;
-            if (world instanceof ServerWorld && player instanceof ServerPlayerEntity && ProductiveBees.rand.nextFloat() < ProductiveBeesConfig.BEES.sugarbagBeeChance.get()) {
+            if (world instanceof ServerWorld && player instanceof ServerPlayerEntity && ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.sugarbagBeeChance.get()) {
                 ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(world);
                 BlockPos pos = event.getPos();
                 if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:sugarbag") != null) {
@@ -109,16 +106,6 @@ public class EventHandler
         if (player instanceof ServerPlayerEntity) {
             // Send data
             PacketHandler.sendBeeDataToPlayer(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()), (ServerPlayerEntity) event.getEntity());
-
-            // Send reindex message
-            int delay = ProductiveBeesConfig.GENERAL.beeSyncDelay.get();
-            if (delay > 0 ) {
-                ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-                executorService.schedule(() -> {
-                    PacketHandler.sendReindexCommandToPlayer(new Messages.ReindexMessage(), (ServerPlayerEntity) event.getEntity());
-                }, delay, TimeUnit.SECONDS);
-                executorService.shutdown();
-            }
         }
     }
 

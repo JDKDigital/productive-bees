@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.common.block;
 import cy.jdkdigital.productivebees.common.tileentity.FeederTileEntity;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlabBlock;
@@ -143,11 +142,6 @@ public class Feeder extends SlabBlock
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityTypes.FEEDER.get().create();
-    }
-
-    @Nullable
-    public TileEntity newBlockEntity(IBlockReader world) {
         return new FeederTileEntity();
     }
 

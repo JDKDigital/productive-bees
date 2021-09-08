@@ -79,13 +79,13 @@ public class FilterUpgradeItem extends UpgradeItem
         List<Supplier<BeeIngredient>> beeList = getAllowedBees(stack);
 
         for (Supplier<BeeIngredient> allowedBee: beeList) {
-            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter_entity", allowedBee.get().getBeeType()).withStyle(TextFormatting.GOLD));
+            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.upgrade_filter_entity", allowedBee.get().getBeeType()).withStyle(TextFormatting.GOLD));
         }
         
         if (!beeList.isEmpty()) {
-            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter").withStyle(TextFormatting.WHITE));
+            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.upgrade_filter").withStyle(TextFormatting.WHITE));
         } else {
-            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.filter_empty").withStyle(TextFormatting.WHITE));
+            tooltip.add(new TranslationTextComponent("productivebees.information.upgrade.upgrade_filter_empty").withStyle(TextFormatting.WHITE));
         }
     }
 

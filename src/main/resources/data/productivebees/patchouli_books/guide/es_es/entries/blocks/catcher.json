@@ -10,7 +10,7 @@
         },
         {
             "type": "text",
-            "text": "La Cather acepta tres mejoras; A $(l:items/upgrades#babee)BaBee upgrade$(/l) filtrará las abejas adultas y solo atrapará BaBees. $(l:items/upgrades#filter)Actualización de filtro$(/l) Hará atrapar solo las abejas en el filtro. A $(l:items/upgrades#range)Actualización de rango$(/l) aumentará el rango. Se pueden instalar actualizaciones de rango múltiple."
+            "text": "La Catcher acepta tres mejoras; A $(l:items/upgrades#babee)BaBee upgrade$(/l) filtrará las abejas adultas y solo atrapará BaBees. $(l:items/upgrades#filter)Actualización de filtro$(/l) Hará atrapar solo las abejas en el filtro. A $(l:items/upgrades#range)Actualización de rango$(/l) aumentará el rango. Se pueden instalar actualizaciones de rango múltiple."
         }
     ]
 }

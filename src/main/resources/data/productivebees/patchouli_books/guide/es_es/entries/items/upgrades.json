@@ -69,6 +69,15 @@
         },
         {
             "type": "crafting",
+            "recipe": "productivebees:upgrades/gene_sampler",
+            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "When installed in a hive, it will slowly extract gene samples from visiting bees. It's totally harmless (tm)"
+        },
+        {
+            "type": "crafting",
             "recipe": "productivebees:upgrades/anti_teleport",
             "text": "Utilizable en: $(l:hives/advanced_hives#expanded)Colmenas Expandidas$(/l)."
         },

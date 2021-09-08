@@ -223,4 +223,10 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
 
         return super.updateShape(state, direction, state1, world, pos, fireBlockPos);
     }
+
+    @Nullable
+    @Override
+    public TileEntity newBlockEntity(IBlockReader level) {
+        return createTileEntity(null, level);
+    }
 }

@@ -60,12 +60,12 @@
         },
         {
             "type": "crafting",
-            "recipe": "productivebees:upgrades/comb_block",
+            "recipe": "productivebees:upgrades/gene_sampler",
             "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l)."
         },
         {
             "type": "text",
-            "text": "When installed in a hive, the bees will produce comb blocks instead of honeycombs."
+            "text": "When installed in a hive, it will slowly extract gene samples from visiting bees. It's totally harmless (tm)"
         },
         {
             "type": "crafting",

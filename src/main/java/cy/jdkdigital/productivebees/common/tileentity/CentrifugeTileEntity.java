@@ -52,7 +52,6 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -297,15 +296,8 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             return;
         }
 
-        List<String> attributes = new ArrayList<>();
-        attributes.add("productivity");
-        attributes.add("weather_tolerance");
-        attributes.add("behavior");
-        attributes.add("endurance");
-        attributes.add("temper");
-
         double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.geneExtractChance.get();
-        for (String attributeName : attributes) {
+        for (String attributeName : BeeAttributes.attributeList()) {
             if (ProductiveBees.rand.nextDouble() <= chance) {
                 int value = entityData.getInt("bee_" + attributeName);
                 ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.getAttributeByName(attributeName), value));

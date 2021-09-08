@@ -107,6 +107,25 @@ public abstract class TagOutputRecipe
         return preferredFluid;
     }
 
+    public static List<Fluid> getAllFluidsFromName(String fluidName) {
+        // Try loading from fluid registry
+        List<Fluid> fluids = Collections.singletonList(ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidName)));
+
+        // Try loading fluid from fluid tag
+        if (fluids.get(0).equals(Fluids.EMPTY)) {
+            try {
+                ITag<Fluid> fluidTag = FluidTags.getAllTags().getTag(new ResourceLocation(fluidName));
+                if (fluidTag != null && fluidTag.getValues().size() > 0) {
+                    return fluidTag.getValues();
+                }
+            } catch (Exception e) {
+                // Who cares
+            }
+        }
+
+        return fluids;
+    }
+
     private static Map<String, Integer> getModPreference() {
         if (modPreference.size() > 0) {
             return modPreference;

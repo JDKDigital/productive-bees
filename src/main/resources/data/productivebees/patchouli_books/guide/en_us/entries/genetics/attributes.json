@@ -33,7 +33,7 @@
         {
             "type": "text",
             "title": "Endurance",
-            "text": "Affects the bee's max health.$(br)With a high endurance the bee has a chance to not loose its stinger when attacking.$(br)Levels are:$(br)Weak$(br)Normal$(br)Medium$(br)Strong"
+            "text": "Affects the bee's max health.$(br)With a high endurance the bee has a chance to not lose its stinger when attacking.$(br)Levels are:$(br)Weak$(br)Normal$(br)Medium$(br)Strong"
         },
         {
             "type": "text",

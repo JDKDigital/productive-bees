@@ -114,7 +114,7 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
                 }
             }
 
-            if (tickCount % 20 == 0 && hasNectar() && isRedstoned()) {
+            if (tickCount % 21 == 0 && hasNectar() && isRedstoned()) {
                 for (int i = 1; i <= 2; ++i) {
                     BlockPos beePosDown = this.blockPosition().below(i);
                     if (level.isEmptyBlock(beePosDown)) {

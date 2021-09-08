@@ -13,7 +13,6 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
@@ -29,13 +28,13 @@ public class InventoryHandlerHelper
 
     public static final int[] OUTPUT_SLOTS = new int[]{2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-    private static int getAvailableOutputSlot(IItemHandler handler, ItemStack insertStack) {
+    private static int getAvailableOutputSlot(ItemHandler handler, ItemStack insertStack) {
         return getAvailableOutputSlot(handler, insertStack, new ArrayList<>());
     }
 
-    private static int getAvailableOutputSlot(IItemHandler handler, ItemStack insertStack, List<Integer> blacklistedSlots) {
+    private static int getAvailableOutputSlot(ItemHandler handler, ItemStack insertStack, List<Integer> blacklistedSlots) {
         int emptySlot = 0;
-        for (int slot : OUTPUT_SLOTS) {
+        for (int slot : handler.getOutputSlots()) {
             if (blacklistedSlots.contains(slot)) {
                 continue;
             }
@@ -99,6 +98,10 @@ public class InventoryHandlerHelper
         public ItemHandler(int size, @Nullable TileEntity tileEntity) {
             super(size);
             this.tileEntity = tileEntity;
+        }
+
+        public int[] getOutputSlots() {
+            return OUTPUT_SLOTS;
         }
 
         @Override

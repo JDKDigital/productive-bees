@@ -137,7 +137,6 @@ dependencies {
     implementation fg.deobf("curse.maven:codechicken-lib-242818:3398096")
     implementation fg.deobf("curse.maven:brandons-core-231382:3433961")
     implementation fg.deobf("curse.maven:draconic-evolution-223565:3433772")
-//    implementation fg.deobf("curse.maven:create-328085:3261455")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

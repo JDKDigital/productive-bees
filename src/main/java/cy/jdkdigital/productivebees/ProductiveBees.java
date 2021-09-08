@@ -12,6 +12,7 @@ import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
+import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -31,6 +32,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -65,6 +67,7 @@ public final class ProductiveBees
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoad);
+        MinecraftForge.EVENT_BUS.addListener(this::onDataSync);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModPointOfInterestTypes.POINT_OF_INTEREST_TYPES.register(modEventBus);
@@ -167,6 +170,14 @@ public final class ProductiveBees
 
     private void onBiomeLoad(BiomeLoadingEvent event) {
         ModFeatures.registerFeatures(event);
+    }
+
+    private void onDataSync(OnDatapackSyncEvent event) {
+        if (event.getPlayer() == null) {
+            PacketHandler.sendToAllPlayers(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()));
+        } else {
+            PacketHandler.sendBeeDataToPlayer(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()), event.getPlayer());
+        }
     }
 
     private void fixPOI(final FMLCommonSetupEvent event) {

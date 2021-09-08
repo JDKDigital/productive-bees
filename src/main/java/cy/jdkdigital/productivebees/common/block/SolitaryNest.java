@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
 import cy.jdkdigital.productivebees.common.tileentity.SolitaryNestTileEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningBigRecipe;
 import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
@@ -99,12 +98,6 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
     @Nullable
     @Override
     public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
-        return ModTileEntityTypes.SOLITARY_NEST.get().create();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity newBlockEntity(IBlockReader world) {
         return new SolitaryNestTileEntity();
     }
 

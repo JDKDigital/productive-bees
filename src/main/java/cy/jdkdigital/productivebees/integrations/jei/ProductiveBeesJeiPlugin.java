@@ -30,6 +30,7 @@ import net.minecraft.item.crafting.ShapelessRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -48,6 +49,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final ResourceLocation CATEGORY_BEE_FLOWERING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_flowering");
     public static final ResourceLocation CATEGORY_INCUBATION_UID = new ResourceLocation(ProductiveBees.MODID, "incubation");
     public static final ResourceLocation CATEGORY_BLOCK_CONVERSION_UID = new ResourceLocation(ProductiveBees.MODID, "block_conversion");
+    public static final ResourceLocation CATEGORY_BOTTLER_UID = new ResourceLocation(ProductiveBees.MODID, "bottler");
 
     public static final IIngredientType<BeeIngredient> BEE_INGREDIENT = () -> BeeIngredient.class;
 
@@ -69,6 +71,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.COARSE_DIRT_NEST.get()), CATEGORY_BEE_SPAWNING_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.OAK_WOOD_NEST.get()), CATEGORY_BEE_SPAWNING_BIG_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.INCUBATOR.get()), CATEGORY_INCUBATION_UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BOTTLER.get()), CATEGORY_BOTTLER_UID);
     }
 
     @Override
@@ -85,6 +88,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCategories(new BeeFloweringRecipeCategory(guiHelper));
         registration.addRecipeCategories(new IncubationRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BlockConversionRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new BottlerRecipeCategory(guiHelper));
     }
 
     @Override
@@ -126,6 +130,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Block conversion recipes
         Map<ResourceLocation, IRecipe<IInventory>> blockConversionRecipeMap = recipeManager.byType(BlockConversionRecipe.BLOCK_CONVERSION);
         registration.addRecipes(blockConversionRecipeMap.values(), CATEGORY_BLOCK_CONVERSION_UID);
+        // Bottler recipes
+        Map<ResourceLocation, IRecipe<IInventory>> bottlerRecipeMap = recipeManager.byType(BottlerRecipe.BOTTLER);
+        registration.addRecipes(bottlerRecipeMap.values(), CATEGORY_BOTTLER_UID);
 
         // Bee ingredient descriptions
         List<String> notInfoBees = Arrays.asList("minecraft:bee", "configurable_bee");
@@ -135,8 +142,15 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             if (!notInfoBees.contains(beeId)) {
                 if (entry.getValue().isConfigurable()) {
                     CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getKey());
+                    String description = "";
                     if (nbt.contains("description")) {
-                        registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, nbt.getString("description"));
+                        description = new TranslationTextComponent(nbt.getString("description")).getString();
+                    }
+                    if (!nbt.getBoolean("selfbreed")) {
+                        description = new TranslationTextComponent("productivebees.ingredient.description.selfbreed", description).getString();
+                    }
+                    if (!description.isEmpty()) {
+                        registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, description);
                     }
                 } else {
                     registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (beeId));
@@ -153,6 +167,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Bee nest descriptions
         List<String> itemInfos = Arrays.asList(
                 "inactive_dragon_egg",
+                "dragon_egg_hive",
                 "bumble_bee_nest",
                 "sugar_cane_nest",
                 "slimy_nest",

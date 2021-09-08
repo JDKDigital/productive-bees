@@ -77,7 +77,7 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
 
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
 
-        itemStacks.init(2, true, 40, 25);
+        itemStacks.init(2, true, 40, 26);
         itemStacks.set(ingredients);
     }
 }

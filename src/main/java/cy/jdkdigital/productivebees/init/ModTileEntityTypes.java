@@ -126,6 +126,7 @@ public class ModTileEntityTypes
     public static final RegistryObject<TileEntityType<HoneyGeneratorTileEntity>> HONEY_GENERATOR = register("honey_generator", HoneyGeneratorTileEntity::new, ModBlocks.HONEY_GENERATOR);
     public static final RegistryObject<TileEntityType<CatcherTileEntity>> CATCHER = register("catcher", CatcherTileEntity::new, ModBlocks.CATCHER);
     public static final RegistryObject<TileEntityType<IncubatorTileEntity>> INCUBATOR = register("incubator", IncubatorTileEntity::new, ModBlocks.INCUBATOR);
+    public static final RegistryObject<TileEntityType<GeneIndexerTileEntity>> GENE_INDEXER = register("gene_indexer", GeneIndexerTileEntity::new, ModBlocks.GENE_INDEXER);
 
     private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String name, Supplier<T> factory, Supplier<Block> block) {
         return TILE_ENTITY_TYPES.register(name, () ->

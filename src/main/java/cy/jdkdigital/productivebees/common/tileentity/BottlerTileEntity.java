@@ -82,8 +82,8 @@ public class BottlerTileEntity extends FluidTankTileEntity implements INamedCont
     public void tick() {
         if (level != null && !level.isClientSide) {
             BlockState state = level.getBlockState(worldPosition.above());
-            if (++tickCounter % 10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.getValue(DirectionalBlock.FACING) == Direction.DOWN) {
-                // Check for ProductiveBeeEntity on top of block
+            if (++tickCounter % 7 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.getValue(DirectionalBlock.FACING) == Direction.DOWN) {
+                // Check for BeeEntity on top of block
                 List<BeeEntity> bees = level.getEntitiesOfClass(BeeEntity.class, (new AxisAlignedBB(worldPosition).expandTowards(0.0D, 1.0D, 0.0D)));
                 if (!bees.isEmpty()) {
                     BeeEntity bee = bees.iterator().next();
