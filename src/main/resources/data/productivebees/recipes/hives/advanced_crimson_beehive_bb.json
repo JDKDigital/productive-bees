@@ -13,7 +13,7 @@
             "item": "buzzier_bees:crimson_beehive"
         },
         "C": {
-            "item": "minecraft:honeycomb"
+            "tag": "forge:honeycombs"
         },
         "F": {
             "tag": "forge:campfires"

@@ -54,6 +54,11 @@ public class GeneIndexerTileEntity extends CapabilityTileEntity implements IName
         public int[] getOutputSlots() {
             return IntStream.range(0, getSlots()).toArray();
         }
+
+        @Override
+        public boolean isInputSlot(int slot) {
+            return false;
+        }
     });
 
     public GeneIndexerTileEntity() {

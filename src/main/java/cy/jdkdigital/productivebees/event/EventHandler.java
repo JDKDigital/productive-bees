@@ -67,17 +67,6 @@ public class EventHandler
     }
 
     @SubscribeEvent
-    public static void onUseItemFinish(LivingEntityUseItemEvent.Finish event) {
-        ItemStack stack = event.getResultStack();
-        if (stack.getItem().equals(Items.HONEY_BOTTLE)) {
-            LivingEntity entity = event.getEntityLiving();
-            if (!entity.getCommandSenderWorld().isClientSide && entity.getCommandSenderWorld().random.nextBoolean()) {
-                entity.curePotionEffects(stack);
-            }
-        }
-    }
-
-    @SubscribeEvent
     public static void cocoaBreakSpawn(BlockEvent.BreakEvent event) {
         if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().getValue(CocoaBlock.AGE) == 2) {
             PlayerEntity player = event.getPlayer();
@@ -132,5 +121,28 @@ public class EventHandler
                 ItemLootEntry.lootTableItem(ModItems.STURDY_BEE_CAGE.get()).setWeight(4).build()
             );
         }
+    }
+
+    @SubscribeEvent
+    public static void onItemFished(ItemFishedEvent event) {
+//        PlayerEntity player = event.getPlayer();
+//        if (player != null && ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.lobsterBeeChance.get()) {
+//            ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
+//            BlockPos pos = event.getHookEntity().blockPosition();
+//            if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:lobster") != null) {
+//                bee.setBeeType("productivebees:lobster");
+//                bee.setAttributes();
+//
+//                bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.yRot, bee.xRot);
+//                bee.setSpeed(bee.getSpeed() * 2);
+//
+//                player.level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+//                player.level.playSound(player, pos, SoundEvents.BEE_HURT, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+//
+//                player.level.addFreshEntity(bee);
+//
+//                bee.setTarget(player);
+//            }
+//        }
     }
 }

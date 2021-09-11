@@ -27,6 +27,7 @@ public class ModTags
     public static final ITag<Block> SNOW_FLOWERS = getTag("flowers/snow_flowers");
     public static final ITag<Block> RIVER_FLOWERS = getTag("flowers/river_flowers");
     public static final ITag<Block> QUARRY = getTag("flowers/quarry");
+    public static final ITag<Block> POWDERY = getTag("flowers/powdery");
 
     public static final ITag<Item> HONEY_BUCKETS = ItemTags.createOptional(new ResourceLocation("forge", "honey_buckets"));
     public static final ITag<Item> EGGS = ItemTags.createOptional(new ResourceLocation("forge", "eggs"));

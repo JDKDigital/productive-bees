@@ -1,7 +1,15 @@
 0.6.9.20
+This release requires Forge 36.2.4+
 
+-- Data synchronization problems should now be a thing of the past
+-- Added gene indexer, a big inventory capable of merging gene stacks. Needs redstone signal to operate.
+-- Added bee sampler hive upgrade to extract genes from bees in a totally humane and slow way
+-- Added JEI integration for Bottler recipes
 -- Added Spanish locale (Thanks to Vicus6)
 -- Added Draconium and Awakened bees for Draconic Evolution
+-- Hives can now be crafted using any type of comb
+-- Fixed fluid comb output problems
+-- Fixed crash with nest locator
 
 
 0.6.9.19

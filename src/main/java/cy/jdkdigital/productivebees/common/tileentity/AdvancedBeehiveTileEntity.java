@@ -253,14 +253,15 @@ public class AdvancedBeehiveTileEntity extends AdvancedBeehiveTileEntityAbstract
                 Map<BeeAttribute<?>, Object> attributes = ((ProductiveBeeEntity) beeEntity).getBeeAttributes();
                 // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
                 int attr = ProductiveBees.rand.nextInt(attributes.size() + 2);
-                if (attr >= attributes.size()) {
+                if (attr >= BeeAttributes.attributeList().size()) {
                     // Type gene
                     String type = beeEntity instanceof ConfigurableBeeEntity ? ((ConfigurableBeeEntity) beeEntity).getBeeType() : beeEntity.getEncodeId();
                     ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(type, ProductiveBees.rand.nextInt(4) + 1));
                 } else {
-                    Object value = attributes.values().toArray()[attr];
+                    BeeAttribute<?> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
+                    Object value = ((ProductiveBeeEntity) beeEntity).getAttributeValue(attribute);
                     if (value instanceof Integer) {
-                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(BeeAttributes.map.get(BeeAttributes.attributeList().get(attr)), (Integer) value, 1, ProductiveBees.rand.nextInt(4) + 1));
+                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(attribute, (Integer) value, 1, ProductiveBees.rand.nextInt(4) + 1));
                     }
                 }
             });

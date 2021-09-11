@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
+import net.minecraft.tags.TagCollectionManager;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.conditions.ICondition;
@@ -34,7 +35,7 @@ public class FluidTagEmptyCondition implements ICondition
 
     @Override
     public boolean test() {
-        ITag<Fluid> tag = FluidTags.getAllTags().getTagOrEmpty(tag_name);
+        ITag<Fluid> tag = TagCollectionManager.getInstance().getFluids().getTagOrEmpty(tag_name);
         return tag.getValues().isEmpty();
     }
 

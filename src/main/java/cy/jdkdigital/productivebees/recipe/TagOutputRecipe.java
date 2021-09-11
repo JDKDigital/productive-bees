@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.recipe;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
@@ -10,6 +11,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
+import net.minecraft.tags.TagCollectionManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -33,10 +35,10 @@ public abstract class TagOutputRecipe
 
     public Map<ItemStack, IntArrayNBT> getRecipeOutputs() {
         if (calculatedItemOutput.isEmpty() && !itemOutput.isEmpty()) {
-            itemOutput.forEach((ingredient, intNBTS) -> {
+            itemOutput.forEach((ingredient, intNBT) -> {
                 ItemStack preferredItem = getPreferredItemByMod(ingredient);
                 if (preferredItem != null && !preferredItem.getItem().equals(Items.BARRIER)) {
-                    calculatedItemOutput.put(preferredItem, intNBTS);
+                    calculatedItemOutput.put(preferredItem, intNBT);
                 }
             });
         }
@@ -76,18 +78,22 @@ public abstract class TagOutputRecipe
         // Try loading fluid from fluid tag
         if (preferredFluid == null || preferredFluid.equals(Fluids.EMPTY)) {
             try {
-                ITag<Fluid> fluidTag = FluidTags.getAllTags().getTag(new ResourceLocation(fluidName));
+                ITag<Fluid> fluidTag = TagCollectionManager.getInstance().getFluids().getTag(new ResourceLocation(fluidName));
                 if (fluidTag != null && fluidTag.getValues().size() > 0) {
-                    int currBest = getModPreference().size();
+                    int currBest = 100;
                     for (Fluid fluid: fluidTag.getValues()) {
-                        if (fluid instanceof FlowingFluid) {
+                        if (!fluid.isSource(fluid.defaultFluidState())) {
                             fluid = ((FlowingFluid) fluid).getSource();
+                        }
+
+                        if (!fluid.isSource(fluid.defaultFluidState())) {
+                            continue;
                         }
 
                         ResourceLocation rl = fluid.getRegistryName();
                         if (rl != null) {
                             String modId = rl.getNamespace();
-                            int priority = 100;
+                            int priority = currBest;
                             if (getModPreference().containsKey(modId)) {
                                 priority = getModPreference().get(modId);
                             }
@@ -114,7 +120,7 @@ public abstract class TagOutputRecipe
         // Try loading fluid from fluid tag
         if (fluids.get(0).equals(Fluids.EMPTY)) {
             try {
-                ITag<Fluid> fluidTag = FluidTags.getAllTags().getTag(new ResourceLocation(fluidName));
+                ITag<Fluid> fluidTag = TagCollectionManager.getInstance().getFluids().getTag(new ResourceLocation(fluidName));
                 if (fluidTag != null && fluidTag.getValues().size() > 0) {
                     return fluidTag.getValues();
                 }

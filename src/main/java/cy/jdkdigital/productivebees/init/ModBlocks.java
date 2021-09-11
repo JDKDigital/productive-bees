@@ -24,8 +24,8 @@ public final class ModBlocks
 {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ProductiveBees.MODID);
 
-    public static final RegistryObject<Block> BOTTLER = createBlock("bottler", () -> new Bottler(Block.Properties.copy(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<Block> CENTRIFUGE = createBlock("centrifuge", () -> new Centrifuge(Block.Properties.copy(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
+        public static final RegistryObject<Block> BOTTLER = createBlock("bottler", () -> new Bottler(Block.Properties.copy(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
+        public static final RegistryObject<Block> CENTRIFUGE = createBlock("centrifuge", () -> new Centrifuge(Block.Properties.copy(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> POWERED_CENTRIFUGE = createBlock("powered_centrifuge", () -> new PoweredCentrifuge(Block.Properties.copy(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> HONEY_GENERATOR = createBlock("honey_generator", () -> new HoneyGenerator(Block.Properties.copy(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> CATCHER = createBlock("catcher", () -> new Catcher(Block.Properties.copy(Blocks.CAULDRON)), ModItemGroups.PRODUCTIVE_BEES);

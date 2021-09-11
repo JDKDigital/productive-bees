@@ -25,7 +25,11 @@ public class GeneIndexerScreen extends ContainerScreen<GeneIndexerContainer>
     public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
+        try {
+            this.renderTooltip(matrixStack, mouseX, mouseY);
+        } catch (Exception e) {
+            ProductiveBees.LOGGER.info("something crashed " + e.getMessage());
+        }
     }
 
     @Override
