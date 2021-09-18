@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "S",
+        "H"
+    ],
+    "key": {
+        "S": {
+            "tag": "forge:string"
+        },
+        "H": {
+            "tag": "forge:wax"
+        }
+    },
+    "result": {
+        "item": "minecraft:candle"
+    }
+}

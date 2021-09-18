@@ -7,11 +7,13 @@ import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
+import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -44,7 +46,6 @@ import net.minecraftforge.event.entity.EntityTeleportEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,9 +54,6 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     private int attackCooldown = 0;
     public int breathCollectionCooldown = 600;
     private int teleportCooldown = 250;
-
-    // Color calc cache
-    private static final Map<Integer, float[]> colorCache = new HashMap<>();
 
     public static final EntityDataAccessor<String> TYPE = SynchedEntityData.defineId(ConfigurableBee.class, EntityDataSerializers.STRING);
 
@@ -196,6 +194,11 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
+    public boolean canFreeze() {
+        return !isColdResistant() && super.canFreeze();
+    }
+
+    @Override
     public void attackTarget(LivingEntity target) {
         if (this.isAlive() && getNBTData().contains("attackResponse")) {
             String attackResponse = getNBTData().getString("attackResponse");
@@ -255,10 +258,10 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
-    public Color getColor(int tintIndex) {
+    public int getColor(int tintIndex) {
         CompoundTag nbt = getNBTData();
         if (nbt.contains("primaryColor")) {
-            return tintIndex == 0 ? new Color(nbt.getInt("primaryColor")) : new Color(nbt.getInt("secondaryColor"));
+            return tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("secondaryColor");
         }
         return super.getColor(tintIndex);
     }
@@ -414,6 +417,10 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         return getNBTData().getBoolean("waterproof");
     }
 
+    public boolean isColdResistant() {
+        return getNBTData().getBoolean("coldResistant");
+    }
+
     public String getParticleType() {
         return getNBTData().getString("particleType");
     }
@@ -423,19 +430,12 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     public float[] getParticleColor() {
-        return getCacheColor(getNBTData().getInt("particleColor"));
+        return ColorUtil.getCacheColor(getNBTData().getInt("particleColor"));
     }
 
     public float[] getTertiaryColor() {
         CompoundTag nbt = getNBTData();
-        return getCacheColor(nbt.getInt("tertiaryColor"));
-    }
-
-    private static float[] getCacheColor(Integer color) {
-        if (!colorCache.containsKey(color)) {
-            colorCache.put(color, (new Color(color)).getComponents(null));
-        }
-        return colorCache.get(color);
+        return ColorUtil.getCacheColor(nbt.getInt("tertiaryColor"));
     }
 
     @Override
@@ -474,6 +474,9 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             return true;
         }
         if (isWaterproof() && source.equals(DamageSource.DROWN)) {
+            return true;
+        }
+        if (isColdResistant() && source.equals(DamageSource.FREEZE)) {
             return true;
         }
         if (isFireproof() && (source.equals(DamageSource.HOT_FLOOR) || source.equals(DamageSource.IN_FIRE) || source.equals(DamageSource.ON_FIRE) || source.equals(DamageSource.LAVA))) {

@@ -13,6 +13,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -167,15 +168,15 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     }
 
     @Override
-    public void attack(BlockState state, Level world, BlockPos pos, Player player) {
+    public void attack(BlockState state, Level level, BlockPos pos, Player player) {
         ItemStack heldItem = player.getMainHandItem();
-        if (heldItem.getItem().equals(Items.STICK)) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+        if (level instanceof ServerLevel && heldItem.getItem().equals(Items.STICK)) {
+            BlockEntity tileEntity = level.getBlockEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract) {
                 ((AdvancedBeehiveBlockEntityAbstract) tileEntity).emptyAllLivingFromHive(player, state, BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED);
             }
         }
-        super.attack(state, world, pos, player);
+        super.attack(state, level, pos, player);
     }
 
     @Override

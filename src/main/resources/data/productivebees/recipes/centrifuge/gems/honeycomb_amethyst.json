@@ -1,15 +1,20 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:amethyst"
+            }
+        }
     },
-    "comb_type": "productivebees:amethyst",
     "outputs": [
         {
             "item": {
-                "tag": "forge:gems/amethyst"
+                "item": "minecraft:amethyst_shard"
             },
-            "chance": 50
+            "chance": 30
         },
         {
             "item": {
@@ -21,15 +26,6 @@
                 "fluid": "productivebees:honey"
             },
             "amount": 50
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/amethyst"
-            }
         }
     ]
 }

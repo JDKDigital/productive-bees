@@ -20,8 +20,6 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.awt.*;
-
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEntities
 {
@@ -56,17 +54,7 @@ public class ModEntities
     public static RegistryObject<EntityType<Bee>> SWEAT_BEE = createSolitaryBee("sweat_bee", SweatBee::new, 9748939, 6238757);
     public static RegistryObject<EntityType<BumbleBee>> BUMBLE = createSolitaryBee("bumble_bee", BumbleBee::new, 9748939, 6238757);
 
-    public static RegistryObject<EntityType<ConfigurableBee>> CONFIGURABLE_BEE = createColoredHiveBee("configurable_bee", ConfigurableBee::new, "#73ffb9", "#0f5c7a", ModItemGroups.PRODUCTIVE_BEES);
-
-    public static <E extends Bee> RegistryObject<EntityType<E>> createColoredHiveBee(String name, EntityType.EntityFactory<E> supplier, String primaryColor, String secondaryColor, CreativeModeTab itemGroup) {
-        Color primary = Color.decode(primaryColor);
-        Color secondary = Color.decode(secondaryColor);
-        return createHiveBee(name, (entityType, world) -> {
-            ProductiveBee bee = (ProductiveBee) supplier.create(entityType, world);
-            bee.setColor(primary, secondary);
-            return (E) bee;
-        }, primary.getRGB(), secondary.getRGB(), itemGroup);
-    }
+    public static RegistryObject<EntityType<ConfigurableBee>> CONFIGURABLE_BEE = createHiveBee("configurable_bee", ConfigurableBee::new, 16768648, 6238757, ModItemGroups.PRODUCTIVE_BEES);
 
     public static <E extends Bee> RegistryObject<EntityType<E>> createHiveBee(String name, EntityType.EntityFactory<E> supplier, int primaryColor, int secondaryColor, CreativeModeTab itemGroup) {
         return createBee(HIVE_BEES, name, supplier, primaryColor, secondaryColor, itemGroup);

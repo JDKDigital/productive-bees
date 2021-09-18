@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
@@ -185,11 +186,13 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
                     BeeHelper.getBeeProduce(this.level, beeEntity, getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) > 0).forEach((stackIn) -> {
                         ItemStack stack = stackIn.copy();
-                        if (!stack.isEmpty() && beeEntity instanceof ProductiveBee) {
-                            int productivity = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
-                            if (productivity > 0) {
-                                float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
-                                stack.grow(Math.round(modifier));
+                        if (!stack.isEmpty()) {
+                            if (beeEntity instanceof ProductiveBee) {
+                                int productivity = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
+                                if (productivity > 0) {
+                                    float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
+                                    stack.grow(Math.round(modifier));
+                                }
                             }
 
                             // Apply upgrades

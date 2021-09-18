@@ -93,18 +93,16 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
                                 tag.putBoolean("isProductiveBee", true);
                             }
 
+                            String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
+                            if (modId.equals("minecraft")) {
+                                modName = "Minecraft";
+                            }
+                            tag.putString("mod", modName);
+
                             List<Component> list = BeeHelper.populateBeeInfoFromTag(tag, null);
 
                             for (Component textComponent : list) {
                                 tooltipList.add(textComponent.getVisualOrderText());
-                            }
-
-                            if (!tag.getBoolean("isProductiveBee")) {
-                                String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
-                                if (modId.equals("minecraft")) {
-                                    modName = "Minecraft";
-                                }
-                                tooltipList.add(new TextComponent(modName).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.BLUE).getVisualOrderText());
                             }
                         } else {
                             tooltipList.add(new TranslatableComponent("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE).getVisualOrderText());

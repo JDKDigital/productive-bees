@@ -7,14 +7,5 @@
                 "item": "productivebees:configurable_honeycomb"
             }
         }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/amethyst"
-            }
-        }
     ]
 }

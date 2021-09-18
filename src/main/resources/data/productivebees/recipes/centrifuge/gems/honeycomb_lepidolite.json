@@ -1,9 +1,14 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:lepidolite"
+            }
+        }
     },
-    "comb_type": "productivebees:lepidolite",
     "outputs": [
         {
             "item": {

@@ -163,7 +163,6 @@ public final class ProductiveBees
     }
 
     private void onDataSync(OnDatapackSyncEvent event) {
-        ProductiveBees.LOGGER.info("OnDatapackSyncEvent " + event.getPlayer());
         if (event.getPlayer() == null) {
             PacketHandler.sendToAllPlayers(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()));
         } else {

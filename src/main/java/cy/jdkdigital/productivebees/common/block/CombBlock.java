@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.block;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
@@ -13,7 +14,7 @@ public class CombBlock extends Block
 
     public CombBlock(Properties properties, String colorCode) {
         super(properties);
-        this.color = ColorUtil.hexToInt(colorCode);
+        this.color = TextColor.parseColor(colorCode).getValue();
     }
 
     public int getColor() {

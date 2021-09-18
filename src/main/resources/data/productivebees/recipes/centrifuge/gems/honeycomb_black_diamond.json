@@ -1,9 +1,14 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:black_diamond"
+            }
+        }
     },
-    "comb_type": "productivebees:black_diamond",
     "outputs": [
         {
             "item": {

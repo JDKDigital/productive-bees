@@ -1,6 +1,20 @@
+0.7.0.6
+
+-- Removed dependency on java.awt package as it does not exist on all systems
+
+
+0.7.0.5
+
+-- Disabled honey fluid block
+
+
 0.7.0.4
 
 -- Added wax item and block. It can be used to wax copper in a more immersive way. No longer do you have to worry about getting honey on your fingers when waxing your blocks. It's also a fuel.
+-- Added cold resistance for frosty bee
+-- Added block conversion recipe for obsidian to crying obsidian with a Draconic bee
+-- Fixed a crash when trying to render non-existing combs
+-- Fixed crash when forcing bees to leave a nest
 
 
 0.7.0.3

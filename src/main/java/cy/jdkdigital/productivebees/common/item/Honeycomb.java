@@ -6,13 +6,13 @@ import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.awt.*;
 import java.util.Map;
 
 public class Honeycomb extends Item
@@ -21,7 +21,7 @@ public class Honeycomb extends Item
 
     public Honeycomb(Properties properties, String colorCode) {
         super(properties);
-        this.color = Color.decode(colorCode).getRGB();
+        this.color = TextColor.parseColor(colorCode).getValue();
     }
 
     public int getColor() {

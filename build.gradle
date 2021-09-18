@@ -123,6 +123,7 @@ dependencies {
     implementation fg.deobf("curse.maven:cloth-config-forge-348521:3413207")
     implementation fg.deobf("curse.maven:jei-238222:3438501")
     implementation fg.deobf("curse.maven:trophymanager-510170:3423808")
+    implementation fg.deobf("curse.maven:ato-405593:3439307")
 //    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
 //    implementation fg.deobf("curse.maven:mekanism-generators-268566:3206395")
 //    implementation fg.deobf("curse.maven:mantle-74924:3352484")

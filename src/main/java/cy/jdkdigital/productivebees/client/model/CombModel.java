@@ -104,27 +104,32 @@ public final class CombModel implements IModelGeometry<CombModel>
 
                 if (!modelCache.containsKey(beeType)) {
                     CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeType);
-                    ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap = PerspectiveMapWrapper.getTransforms(new CompositeModelState(owner.getCombinedTransform(), modelTransform));
-
-                    if (nbt.contains("combTexture")) {
-                        Material texture = ModelLoaderRegistry.blockMaterial(nbt.getString("combTexture"));
-                        BakedModel texturedModel = CombModel.bakeModel(owner, texture, spriteGetter, transformMap, nested);
-                        modelCache.put(beeType, texturedModel);
+                    if (nbt == null) {
+                        // There's a broken honeycomb definition
+                        modelCache.put(beeType, model);
                     } else {
-                        TextureAtlasSprite baseSprite = spriteGetter.apply(combModel.textures.get(0));
+                        ImmutableMap<ItemTransforms.TransformType, Transformation> transformMap = PerspectiveMapWrapper.getTransforms(new CompositeModelState(owner.getCombinedTransform(), modelTransform));
 
-                        ItemMultiLayerBakedModel.Builder builder = ItemMultiLayerBakedModel.builder(owner, baseSprite, nested, transformMap);
-                        boolean fullBright = combModel.fullBrightLayers.contains(0);
-                        builder.addQuads(ItemLayerModel.getLayerRenderType(fullBright), ItemLayerModel.getQuadsForSprite(0, baseSprite, modelTransform.getRotation(), fullBright));
+                        if (nbt.contains("combTexture")) {
+                            Material texture = ModelLoaderRegistry.blockMaterial(nbt.getString("combTexture"));
+                            BakedModel texturedModel = CombModel.bakeModel(owner, texture, spriteGetter, transformMap, nested);
+                            modelCache.put(beeType, texturedModel);
+                        } else {
+                            TextureAtlasSprite baseSprite = spriteGetter.apply(combModel.textures.get(0));
 
-                        // Crystal bees have glowing bits on the comb texture
-                        if (nbt.contains("renderer") && nbt.getString("renderer").equals("default_crystal")) {
-                            TextureAtlasSprite crystalSprite = spriteGetter.apply(combModel.textures.get(1));
-                            fullBright = combModel.fullBrightLayers.contains(1);
-                            builder.addQuads(ItemLayerModel.getLayerRenderType(fullBright), ItemLayerModel.getQuadsForSprite(1, crystalSprite, modelTransform.getRotation(), fullBright));
+                            ItemMultiLayerBakedModel.Builder builder = ItemMultiLayerBakedModel.builder(owner, baseSprite, nested, transformMap);
+                            boolean fullBright = combModel.fullBrightLayers.contains(0);
+                            builder.addQuads(ItemLayerModel.getLayerRenderType(fullBright), ItemLayerModel.getQuadsForSprite(0, baseSprite, modelTransform.getRotation(), fullBright));
+
+                            // Crystal bees have glowing bits on the comb texture
+                            if (nbt.contains("renderer") && nbt.getString("renderer").equals("default_crystal")) {
+                                TextureAtlasSprite crystalSprite = spriteGetter.apply(combModel.textures.get(1));
+                                fullBright = combModel.fullBrightLayers.contains(1);
+                                builder.addQuads(ItemLayerModel.getLayerRenderType(fullBright), ItemLayerModel.getQuadsForSprite(1, crystalSprite, modelTransform.getRotation(), fullBright));
+                            }
+
+                            modelCache.put(beeType, builder.build());
                         }
-
-                        modelCache.put(beeType, builder.build());
                     }
                 }
                 return modelCache.getOrDefault(beeType, model);

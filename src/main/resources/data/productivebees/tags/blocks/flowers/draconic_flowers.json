@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
-        "minecraft:dragon_egg"
+        "minecraft:dragon_egg",
+        "minecraft:obsidian"
     ]
 }

@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -48,7 +49,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
-import java.awt.*;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -63,8 +63,8 @@ public class ProductiveBee extends Bee
     protected Predicate<PoiType> beehiveInterests = (poiType) -> {
         return poiType == PoiType.BEEHIVE;
     };
-    private Color primaryColor = null;
-    private Color secondaryColor = null;
+    private TextColor primaryColor = null;
+    private TextColor secondaryColor = null;
     private boolean renderStatic;
     private boolean hasConverted = false;
 
@@ -173,11 +173,6 @@ public class ProductiveBee extends Bee
             if (isInDanger && level.random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
                 setHealth(getHealth() - (getMaxHealth() / 3) - 1);
             }
-        }
-
-        // Kill below Y level 0
-        if (this.getY() < -0.0D) {
-            this.outOfWorld();
         }
     }
 
@@ -453,13 +448,8 @@ public class ProductiveBee extends Bee
         return this.isBaby() ? sizeIn.height * 0.25F : sizeIn.height * 0.5F;
     }
 
-    public void setColor(Color primary, Color secondary) {
-        this.primaryColor = primary;
-        this.secondaryColor = secondary;
-    }
-
-    public Color getColor(int tintIndex) {
-        return tintIndex == 0 ? primaryColor : secondaryColor;
+    public int getColor(int tintIndex) {
+        return 0;
     }
 
     public boolean isFlowerBlock(Block flowerBlock) {
@@ -540,12 +530,13 @@ public class ProductiveBee extends Bee
 
             if (ProductiveBee.this.hasNectar()) {
                 BlockConversionRecipe recipe = BeeHelper.getRandomBlockConversionRecipe(ProductiveBee.this);
-                if (recipe != null) {
-                    if (ProductiveBees.rand.nextInt(100) <= recipe.chance && ProductiveBee.this.savedFlowerPos != null) {
+                if (recipe != null && ProductiveBee.this.savedFlowerPos != null) {
+                    if (ProductiveBees.rand.nextInt(100) <= recipe.chance) {
                         ProductiveBee.this.level.setBlock(ProductiveBee.this.savedFlowerPos, recipe.stateTo, 3);
                         ProductiveBee.this.level.levelEvent(2005, ProductiveBee.this.savedFlowerPos, 0);
-                        ProductiveBee.this.hasConverted = true;
                     }
+                    // Set flag to prevent produce when trying to convert blocks
+                    ProductiveBee.this.setHasConverted(true);
                 }
             }
         }

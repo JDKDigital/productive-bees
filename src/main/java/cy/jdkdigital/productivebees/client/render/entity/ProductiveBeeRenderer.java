@@ -88,7 +88,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
         String textureLocation = ProductiveBees.MODID + ":textures/entity/bee/" + bee.getBeeName() + "/bee";
 
         // Colored bees use tinted base texture
-        if (bee.getColor(0) != null) {
+        if (bee.getColor(0)  > 0) {
             String modelType = bee.getRenderer();
             textureLocation = ProductiveBees.MODID + ":textures/entity/bee/base/" + modelType + "/bee";
         }

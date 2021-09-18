@@ -3,5 +3,6 @@
     "secondaryColor": "#228B22",
     "particleColor": "#cccccc",
     "flowerTag": "productivebees:flowers/frozen",
-    "waterproof": true
+    "waterproof": true,
+    "coldResistant": true
 }

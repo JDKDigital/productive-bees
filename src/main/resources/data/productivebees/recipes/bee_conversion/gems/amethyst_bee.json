@@ -12,13 +12,6 @@
                 "type": "forge:tag_empty",
                 "tag": "productivebees:flowers/gems/amethyst"
             }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/amethyst"
-            }
         }
     ]
 }

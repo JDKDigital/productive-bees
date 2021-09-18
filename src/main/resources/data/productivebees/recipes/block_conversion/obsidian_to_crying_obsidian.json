@@ -1,0 +1,11 @@
+{
+    "type": "productivebees:block_conversion",
+    "bee": "productivebees:draconic",
+    "from": {
+        "Name": "minecraft:obsidian"
+    },
+    "to": {
+        "Name": "minecraft:crying_obsidian"
+    },
+    "chance": 10
+}

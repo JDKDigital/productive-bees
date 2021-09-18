@@ -1,9 +1,14 @@
 {
     "type": "productivebees:centrifuge",
     "ingredient": {
-        "item": "productivebees:configurable_honeycomb"
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:peridot"
+            }
+        }
     },
-    "comb_type": "productivebees:peridot",
     "outputs": [
         {
             "item": {

@@ -4,14 +4,6 @@
     "tertiaryColor": "#32005c",
     "particleColor": "#7217c4",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/amethyst",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/amethyst"
-            }
-        }
-    ]
+    "size": 0.85,
+    "flowerTag": "productivebees:flowers/gems/amethyst"
 }

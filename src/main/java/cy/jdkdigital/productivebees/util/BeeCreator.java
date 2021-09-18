@@ -6,12 +6,12 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,10 +22,10 @@ public class BeeCreator
 
         data.putString("id", id.toString());
 
-        Color primary = Color.decode(json.has("primaryColor") ? json.get("primaryColor").getAsString() : "#edc343");
-        Color secondary = Color.decode(json.has("secondaryColor") ? json.get("secondaryColor").getAsString() : "#804f40");
-        data.putInt("primaryColor", primary.getRGB());
-        data.putInt("secondaryColor", secondary.getRGB());
+        TextColor primary = TextColor.parseColor(json.has("primaryColor") ? json.get("primaryColor").getAsString() : "#edc343");
+        TextColor secondary = TextColor.parseColor(json.has("secondaryColor") ? json.get("secondaryColor").getAsString() : "#804f40");
+        data.putInt("primaryColor", primary.getValue());
+        data.putInt("secondaryColor", secondary.getValue());
 
         data.putString("name", json.has("name") ? json.get("name").getAsString() : idToName(id.getPath()) + " Bee");
 
@@ -48,10 +48,10 @@ public class BeeCreator
             data.putString("combTexture", json.get("combTexture").getAsString());
         }
         if (json.has("particleColor")) {
-            data.putInt("particleColor", Color.decode(json.get("particleColor").getAsString()).getRGB());
+            data.putInt("particleColor", TextColor.parseColor(json.get("particleColor").getAsString()).getValue());
         }
 
-        data.putInt("tertiaryColor", json.has("tertiaryColor") ? Color.decode(json.get("tertiaryColor").getAsString()).getRGB() : data.getInt("primaryColor"));
+        data.putInt("tertiaryColor", json.has("tertiaryColor") ? TextColor.parseColor(json.get("tertiaryColor").getAsString()).getValue() : data.getInt("primaryColor"));
 
         if (json.has("attackResponse")) {
             data.putString("attackResponse", json.get("attackResponse").getAsString());
@@ -76,6 +76,7 @@ public class BeeCreator
         data.putBoolean("stringy", json.has("stringy") && json.get("stringy").getAsBoolean());
         data.putBoolean("stingless", json.has("stingless") && json.get("stingless").getAsBoolean());
         data.putBoolean("waterproof", json.has("waterproof") && json.get("waterproof").getAsBoolean());
+        data.putBoolean("coldResistant", json.has("coldResistant") && json.get("coldResistant").getAsBoolean());
         data.putBoolean("selfbreed", !json.has("selfbreed") || json.get("selfbreed").getAsBoolean());
 
         if (json.has("attributes")) {

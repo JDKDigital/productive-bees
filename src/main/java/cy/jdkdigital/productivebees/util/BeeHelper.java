@@ -424,8 +424,7 @@ public class BeeHelper
                 BlockPos hivePos = NbtUtils.readBlockPos(tag.getCompound("HivePos"));
                 list.add(new TextComponent("Home position: " + hivePos.getX() + ", " + hivePos.getY() + ", " + hivePos.getZ()));
             }
-        }
-        else {
+        } else {
             list.add((new TextComponent("Mod: " + tag.getString("mod"))).withStyle(ChatFormatting.DARK_AQUA));
         }
 

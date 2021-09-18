@@ -1,15 +1,31 @@
 package cy.jdkdigital.productivebees.util;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextColor;
 
-import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ColorUtil
 {
-    public static int hexToInt(String hex) {
-        Color color = Color.decode(hex);
+    // Color calc cache
+    private static final Map<Integer, float[]> colorCache = new HashMap<>();
 
-        return 256 * 256 * color.getRed() + 256 * color.getGreen() + color.getBlue();
+    public static float[] getCacheColor(Integer color) {
+        if (!colorCache.containsKey(color)) {
+            colorCache.put(color, ColorUtil.getComponents(color));
+        }
+        return colorCache.get(color);
+    }
+
+    public static float[] getComponents(int color) {
+        float[] f = new float[4];
+        f[0] = (float) ((color >> 16) & 0xFF)/255f;
+        f[1] = (float) ((color >> 8) & 0xFF)/255f;
+        f[2] = (float) (color & 0xFF)/255f;
+        f[3] = (float) ((color >> 24) & 0xff)/255f;
+
+        return f;
     }
 
     public static ChatFormatting getColor(String type) {

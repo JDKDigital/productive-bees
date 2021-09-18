@@ -59,14 +59,14 @@ public final class ModBlocks
     public static final RegistryObject<Block> NETHER_BRICK_NEST = createBlock("nether_brick_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.NETHER_BRICKS)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> END_NEST = createBlock("end_stone_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.END_STONE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> OBSIDIAN_PILLAR_NEST = createBlock("obsidian_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.OBSIDIAN)), ModItemGroups.PRODUCTIVE_BEES);
-    public static final RegistryObject<LiquidBlock> HONEY = createBlock("honey",
-            () -> new HoneyFluidBlock(
-                    ModFluids.HONEY,
-                    Block.Properties.of(ModFluids.MATERIAL_HONEY).noCollission().strength(100.0F).noDrops().speedFactor(0.3F)
-            ),
-            ModItemGroups.PRODUCTIVE_BEES,
-            false
-    );
+//    public static final RegistryObject<LiquidBlock> HONEY = createBlock("honey",
+//            () -> new HoneyFluidBlock(
+//                    ModFluids.HONEY,
+//                    Block.Properties.of(ModFluids.MATERIAL_HONEY).noCollission().strength(100.0F).noDrops().speedFactor(0.3F)
+//            ),
+//            ModItemGroups.PRODUCTIVE_BEES,
+//            false
+//    );
 
     public static final RegistryObject<Block> CONFIGURABLE_COMB = createBlock("configurable_comb", () -> new ConfigurableCombBlock(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK), "#c8df24"), ModItemGroups.PRODUCTIVE_BEES);
 

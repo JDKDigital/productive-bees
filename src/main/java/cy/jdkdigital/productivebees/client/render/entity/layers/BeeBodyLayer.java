@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeMode
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
+import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -47,7 +48,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
                 renderColoredCutoutModel(this.model, this.getTextureLocation(entity), matrixStackIn, bufferIn, packedLightIn, entity, 1.0F, 1.0F, 1.0F);
             }
 
-            if (entity.getColor(0) != null) {
+            if (entity.getColor(0)  > 0) {
                 if (entity instanceof ConfigurableBee && ((ConfigurableBee) entity).hasBeeTexture()) {
                     return;
                 }
@@ -65,11 +66,11 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     }
 
     private void renderColoredLayers(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        float[] primaryColor = entity.getColor(0).getComponents(null);
+        float[] primaryColor = ColorUtil.getComponents(entity.getColor(0));
         ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/primary.png");
         renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, primaryColor[0], primaryColor[1], primaryColor[2]);
 
-        float[] secondaryColor = entity.getColor(1).getComponents(null);
+        float[] secondaryColor = ColorUtil.getComponents(entity.getColor(1));
         ResourceLocation abdomenLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/abdomen.png");
         renderColoredCutoutModel(this.model, abdomenLocation, matrixStackIn, bufferIn, packedLightIn, entity, secondaryColor[0], secondaryColor[1], secondaryColor[2]);
 
@@ -100,7 +101,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     }
 
     private void renderNectarLayer(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (entity.getColor(0) != null) {
+        if (entity.getColor(0) > 0) {
             float[] colors = new float[]{1.0F, 1.0F, 1.0F};
             if (entity instanceof ConfigurableBee) {
                 if (((ConfigurableBee) entity).hasBeeTexture()) {
@@ -117,7 +118,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     }
 
     private void renderChristmasHat(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (isChristmas && entity.getColor(0) != null && !entity.getRenderStatic()) {
+        if (isChristmas && entity.getColor(0)  > 0 && !entity.getRenderStatic()) {
             if (entity instanceof ConfigurableBee) {
                 if (((ConfigurableBee) entity).hasBeeTexture()) {
                     return;
