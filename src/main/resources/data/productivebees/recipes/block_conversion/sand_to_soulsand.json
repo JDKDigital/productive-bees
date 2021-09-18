@@ -6,5 +6,6 @@
     },
     "to": {
         "Name": "minecraft:soul_sand"
-    }
+    },
+    "chance": 70
 }

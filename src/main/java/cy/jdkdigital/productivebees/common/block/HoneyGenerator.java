@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.common.tileentity.BottlerTileEntity;
 import cy.jdkdigital.productivebees.common.tileentity.HoneyGeneratorTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -8,6 +9,8 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -22,6 +25,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
@@ -120,9 +124,20 @@ public class HoneyGenerator extends CapabilityContainerBlock
     @Override
     public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (!world.isClientSide()) {
-            final TileEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof HoneyGeneratorTileEntity) {
-                openGui((ServerPlayerEntity) player, (HoneyGeneratorTileEntity) tileEntity);
+            ItemStack heldItem = player.getItemInHand(hand);
+            boolean itemUsed = false;
+
+            if (heldItem.getItem() instanceof BucketItem) {
+                if (FluidUtil.interactWithFluidHandler(player, hand, world, pos, null)) {
+                    itemUsed = true;
+                }
+            }
+
+            if (!itemUsed) {
+                final TileEntity tileEntity = world.getBlockEntity(pos);
+                if (tileEntity instanceof HoneyGeneratorTileEntity) {
+                    openGui((ServerPlayerEntity) player, (HoneyGeneratorTileEntity) tileEntity);
+                }
             }
         }
         return ActionResultType.SUCCESS;

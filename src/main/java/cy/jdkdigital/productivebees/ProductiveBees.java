@@ -29,6 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -97,6 +98,8 @@ public final class ProductiveBees
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ProductiveBeesConfig.CLIENT_CONFIG);
 
         CraftingHelper.register(FluidTagEmptyCondition.Serializer.INSTANCE);
+
+        ForgeMod.enableMilkFluid();
     }
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {

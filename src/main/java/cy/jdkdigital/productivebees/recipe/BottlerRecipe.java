@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -11,10 +13,13 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.TagCollectionManager;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -40,9 +45,17 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
         if (!itemInput.test(inputStack)) {
             return false;
         }
-        if (!getPreferredFluidByMod(fluidInput.getFirst()).equals(fluid.getFluid())) {
+
+        Fluid recipeFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidInput.getFirst()));
+        if (recipeFluid != null && !recipeFluid.equals(Fluids.EMPTY) && !recipeFluid.equals(fluid.getFluid())) {
             return false;
         }
+
+        ITag<Fluid> fluidTag = TagCollectionManager.getInstance().getFluids().getTag(new ResourceLocation(fluidInput.getFirst()));
+        if (fluidTag != null && !fluid.getFluid().is(fluidTag)) {
+            return false;
+        }
+
         return fluid.getAmount() >= fluidInput.getSecond();
     }
 
@@ -112,7 +125,7 @@ public class BottlerRecipe extends TagOutputRecipe implements IRecipe<IInventory
                 fluidInput = Pair.of(fluidResourceLocation, amount);
             }
 
-            Ingredient input;
+            Ingredient input = Ingredient.EMPTY;
             if (JSONUtils.isArrayNode(json, "input")) {
                 input = Ingredient.fromJson(JSONUtils.getAsJsonArray(json, "input"));
             } else {

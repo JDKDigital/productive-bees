@@ -8,8 +8,8 @@
             "item": {
                 "tag": "forge:gems/lapis"
             },
-            "min": 3,
-            "max": 7
+            "min": 2,
+            "max": 3
         },
         {
             "item": {

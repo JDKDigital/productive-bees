@@ -212,11 +212,11 @@ public class ProductiveBeeEntity extends BeeEntity
             return false;
         }
 
-        Block flowerBlock = level.getBlockState(pos).getBlock();
+        BlockState flowerBlock = level.getBlockState(pos);
 
         return (
             isFlowerBlock(flowerBlock) ||
-            (flowerBlock instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBeeEntity.this::isFlowerBlock))
+            (flowerBlock.getBlock() instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBeeEntity.this::isFlowerBlock))
         );
     }
 
@@ -228,13 +228,13 @@ public class ProductiveBeeEntity extends BeeEntity
         return true;
     }
 
-    public static boolean isValidFeeder(TileEntity tile, Predicate<Block> validator) {
+    public static boolean isValidFeeder(TileEntity tile, Predicate<BlockState> validator) {
         AtomicBoolean hasValidBlock = new AtomicBoolean(false);
         if (tile instanceof FeederTileEntity) {
             tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                 for (int slot = 0; slot < handler.getSlots(); ++slot) {
                     Item slotItem = handler.getStackInSlot(slot).getItem();
-                    if (slotItem instanceof BlockItem && validator.test(((BlockItem) slotItem).getBlock())) {
+                    if (slotItem instanceof BlockItem && validator.test(((BlockItem) slotItem).getBlock().defaultBlockState())) {
                         hasValidBlock.set(true);
                     }
                 }
@@ -468,8 +468,8 @@ public class ProductiveBeeEntity extends BeeEntity
         return tintIndex == 0 ? primaryColor : secondaryColor;
     }
 
-    public boolean isFlowerBlock(Block flowerBlock) {
-        return flowerBlock.is(BlockTags.FLOWERS);
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        return flowerBlock.is(BlockTags.FLOWERS) || BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
     }
 
     public ITag<Block> getNestingTag() {
@@ -497,7 +497,7 @@ public class ProductiveBeeEntity extends BeeEntity
                 if (blockState.getBlock() instanceof Feeder) {
                     isInterested = isValidFeeder(level.getBlockEntity(blockPos), ProductiveBeeEntity.this::isFlowerBlock);
                 } else {
-                    isInterested = ProductiveBeeEntity.this.isFlowerBlock(blockState.getBlock());
+                    isInterested = ProductiveBeeEntity.this.isFlowerBlock(blockState);
                     if (isInterested && blockState.is(BlockTags.TALL_FLOWERS)) {
                         if (blockState.getBlock() == Blocks.SUNFLOWER) {
                             isInterested = blockState.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
@@ -544,8 +544,9 @@ public class ProductiveBeeEntity extends BeeEntity
         public void stop() {
             super.stop();
 
-            if (ProductiveBeeEntity.this.hasNectar()) {
-                BlockConversionRecipe recipe = BeeHelper.getRandomBlockConversionRecipe(ProductiveBeeEntity.this);
+            if (ProductiveBeeEntity.this.hasNectar() && ProductiveBeeEntity.this.savedFlowerPos != null) {
+                BlockState flowerBlockState = ProductiveBeeEntity.this.level.getBlockState(ProductiveBeeEntity.this.savedFlowerPos);
+                BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(ProductiveBeeEntity.this, flowerBlockState);
                 if (recipe != null) {
                     if (ProductiveBees.rand.nextInt(100) <= recipe.chance && ProductiveBeeEntity.this.savedFlowerPos != null) {
                         ProductiveBeeEntity.this.level.setBlock(ProductiveBeeEntity.this.savedFlowerPos, recipe.stateTo, 3);

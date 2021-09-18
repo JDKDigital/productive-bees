@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -286,14 +287,19 @@ public class ConfigurableBeeEntity extends ProductiveBeeEntity implements IEffec
     }
 
     @Override
-    public boolean isFlowerBlock(Block flowerBlock) {
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        boolean canConvertBlock = BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
+        if (canConvertBlock) {
+            return true;
+        }
         CompoundNBT nbt = getNBTData();
         if (nbt != null) {
             if (nbt.contains("flowerTag")) {
                 ITag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
                 return flowerBlock.is(flowerTag);
-            } else if (nbt.contains("flowerBlock")) {
-                return flowerBlock.getRegistryName().toString().equals(nbt.getString("flowerBlock"));
+            }
+            if (nbt.contains("flowerBlock")) {
+                return flowerBlock.getBlock().getRegistryName().toString().equals(nbt.getString("flowerBlock"));
             }
         }
         return super.isFlowerBlock(flowerBlock);

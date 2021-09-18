@@ -32,6 +32,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.EntityPredicates;
@@ -43,6 +44,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -67,7 +69,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     {
         @Override
         public boolean isBottleItem(Item item) {
-            return item == Items.GLASS_BOTTLE || item == Items.BUCKET;
+            return false;
         }
 
         @Override
@@ -162,6 +164,25 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
             });
         }
         super.tick();
+    }
+
+    @Override
+    public void tickFluidTank() {
+        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+            FluidStack fluidStack = fluidHandler.getFluidInTank(0);
+            if (fluidStack.getAmount() > 0 && level instanceof ServerWorld) {
+                Direction[] directions = Direction.values();
+                for (Direction direction : directions) {
+                    TileEntity te = level.getBlockEntity(worldPosition.relative(direction));
+                    if (te != null && fluidStack.getAmount() > 0) {
+                        te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, direction.getOpposite()).ifPresent(h -> {
+                            int amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                            fluidHandler.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+                        });
+                    }
+                }
+            }
+        });
     }
 
     private void suckInItems(IItemHandlerModifiable invHandler) {

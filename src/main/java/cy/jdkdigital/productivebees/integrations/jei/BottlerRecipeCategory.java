@@ -17,6 +17,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
@@ -84,5 +85,10 @@ public class BottlerRecipeCategory implements IRecipeCategory<BottlerRecipe>
         itemStacks.init(2, false, 98, 26);
         itemStacks.set(1, ingredients.getInputs(VanillaTypes.ITEM).get(0));
         itemStacks.set(2, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
+
+        fluids.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
+            int amount = recipe.fluidInput.getSecond();
+            tooltip.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.amount", amount + "mB"));
+        });
     }
 }

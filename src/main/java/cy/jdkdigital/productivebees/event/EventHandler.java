@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.event;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBeeEntity;
+import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.network.PacketHandler;
@@ -27,6 +28,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -125,24 +127,28 @@ public class EventHandler
 
     @SubscribeEvent
     public static void onItemFished(ItemFishedEvent event) {
-//        PlayerEntity player = event.getPlayer();
-//        if (player != null && ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.lobsterBeeChance.get()) {
-//            ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
-//            BlockPos pos = event.getHookEntity().blockPosition();
-//            if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:lobster") != null) {
-//                bee.setBeeType("productivebees:lobster");
-//                bee.setAttributes();
-//
-//                bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.yRot, bee.xRot);
-//                bee.setSpeed(bee.getSpeed() * 2);
-//
-//                player.level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
-//                player.level.playSound(player, pos, SoundEvents.BEE_HURT, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-//
-//                player.level.addFreshEntity(bee);
-//
-//                bee.setTarget(player);
-//            }
-//        }
+        PlayerEntity player = event.getPlayer();
+        if (player != null && ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get()) {
+            ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
+            BlockPos pos = event.getHookEntity().blockPosition();
+            if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:prismarine") != null) {
+                Biome fishingBiome = player.level.getBiome(pos);
+                if (fishingBiome.getBiomeCategory().equals(Biome.Category.OCEAN)) {
+                    bee.setBeeType("productivebees:prismarine");
+                    bee.setAttributes();
+
+                    bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.yRot, bee.xRot);
+
+                    player.level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+                    player.level.playSound(player, pos, SoundEvents.BEE_HURT, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+
+                    player.level.addFreshEntity(bee);
+
+                    bee.setTarget(player);
+
+                    ModAdvancements.FISH_BEE.trigger((ServerPlayerEntity) player, bee);
+                }
+            }
+        }
     }
 }

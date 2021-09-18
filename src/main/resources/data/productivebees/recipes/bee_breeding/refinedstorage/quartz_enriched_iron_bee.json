@@ -1,0 +1,22 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:crystalline",
+    "parent2": "productivebees:iron",
+    "offspring": [
+        "productivebees:quartz_enriched_iron"
+    ],
+    "breeding_items": [
+        {
+            "item": "minecraft:quartz"
+        },
+        {
+            "item": "minecraft:iron_ingot"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "refinedstorage"
+        }
+    ]
+}

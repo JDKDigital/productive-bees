@@ -117,7 +117,7 @@ public class ProductiveBeesConfig
 
             generatorHoneyUse = builder
                     .comment("How much honey to consume per tick. Default 5.")
-                    .defineInRange("generatorHoneyUse", 5, 1, Integer.MAX_VALUE);
+                    .defineInRange("generatorHoneyUse", 2, 1, Integer.MAX_VALUE);
 
             preferredTagSource = builder
                     .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from.")
@@ -179,7 +179,7 @@ public class ProductiveBeesConfig
                     .defineInRange("cuckooSpawnCount", 2, 0, Integer.MAX_VALUE);
 
             fishingBeeChance = builder
-                    .defineInRange("fishingBeeChance", 0.005, 0, 1);
+                    .defineInRange("fishingBeeChance", 0.01, 0, 1);
 
             builder.pop();
         }

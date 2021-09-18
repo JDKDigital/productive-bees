@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBeeEntity;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.util.DamageSource;
@@ -19,7 +20,7 @@ public class NomadBeeEntity extends SolitaryBeeEntity
     }
 
     @Override
-    public boolean isFlowerBlock(Block flowerBlock) {
+    public boolean isFlowerBlock(BlockState flowerBlock) {
         return flowerBlock.is(ModTags.ARID_FLOWERS);
     }
 

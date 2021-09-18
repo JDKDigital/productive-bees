@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.PacketBuffer;
@@ -34,13 +35,17 @@ public class BlockConversionRecipe implements IRecipe<IInventory>
     public final BlockState stateFrom;
     public final BlockState stateTo;
     public final int chance;
+    public Ingredient fromDisplay;
+    public Ingredient toDisplay;
 
-    public BlockConversionRecipe(ResourceLocation id, Lazy<BeeIngredient> bee, BlockState from, BlockState to, int chance) {
+    public BlockConversionRecipe(ResourceLocation id, Lazy<BeeIngredient> bee, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay) {
         this.id = id;
         this.bee = bee;
         this.stateFrom = from;
         this.stateTo = to;
         this.chance = chance;
+        this.fromDisplay = fromDisplay;
+        this.toDisplay = toDisplay;
     }
 
     @Override
@@ -108,9 +113,22 @@ public class BlockConversionRecipe implements IRecipe<IInventory>
             BlockState from = jsonToBlockState(json.getAsJsonObject("from"));
             BlockState to = jsonToBlockState(json.getAsJsonObject("to"));
 
+            Ingredient fromDisplay;
+            if (json.has("from_display")) {
+                fromDisplay = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "from_display"));
+            } else {
+                fromDisplay = Ingredient.of(new ItemStack(from.getBlock().asItem()));
+            }
+            Ingredient toDisplay;
+            if (json.has("to_display")) {
+                toDisplay = Ingredient.fromJson(JSONUtils.getAsJsonObject(json, "to_display"));
+            } else {
+                toDisplay = Ingredient.of(new ItemStack(to.getBlock().asItem()));
+            }
+
             int chance = JSONUtils.getAsInt(json, "chance", 100);
 
-            return this.factory.create(id, sourceBee, from, to, chance);
+            return this.factory.create(id, sourceBee, from, to, chance, fromDisplay, toDisplay);
         }
 
         public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
@@ -120,7 +138,7 @@ public class BlockConversionRecipe implements IRecipe<IInventory>
                 BlockState from = NBTUtil.readBlockState(buffer.readAnySizeNbt());
                 BlockState to = NBTUtil.readBlockState(buffer.readAnySizeNbt());
 
-                return this.factory.create(id, Lazy.of(() -> source), from, to, buffer.readInt());
+                return this.factory.create(id, Lazy.of(() -> source), from, to, buffer.readInt(), Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer));
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee conversion recipe from packet. " + id, e);
                 throw e;
@@ -135,6 +153,9 @@ public class BlockConversionRecipe implements IRecipe<IInventory>
                 buffer.writeNbt(NBTUtil.writeBlockState(recipe.stateTo));
 
                 buffer.writeInt(recipe.chance);
+
+                recipe.fromDisplay.toNetwork(buffer);
+                recipe.toDisplay.toNetwork(buffer);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee conversion recipe to packet. " + recipe.getId(), e);
                 throw e;
@@ -143,7 +164,7 @@ public class BlockConversionRecipe implements IRecipe<IInventory>
 
         public interface IRecipeFactory<T extends BlockConversionRecipe>
         {
-            T create(ResourceLocation id, Lazy<BeeIngredient> input, BlockState from, BlockState to, int chance);
+            T create(ResourceLocation id, Lazy<BeeIngredient> input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay);
         }
     }
 

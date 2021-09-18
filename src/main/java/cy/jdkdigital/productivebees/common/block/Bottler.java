@@ -61,16 +61,16 @@ public class Bottler extends CapabilityContainerBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (!world.isClientSide()) {
             final TileEntity tileEntity = world.getBlockEntity(pos);
 
             if (tileEntity != null) {
-                ItemStack heldItem = player.getItemInHand(handIn);
+                ItemStack heldItem = player.getItemInHand(hand);
                 boolean itemUsed = false;
 
                 if (heldItem.getItem() instanceof BucketItem) {
-                    if (FluidUtil.interactWithFluidHandler(player, handIn, world, pos, null)) {
+                    if (FluidUtil.interactWithFluidHandler(player, hand, world, pos, null)) {
                         itemUsed = true;
                     }
                 }

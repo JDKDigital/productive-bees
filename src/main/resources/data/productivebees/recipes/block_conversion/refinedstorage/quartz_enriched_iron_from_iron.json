@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:block_conversion",
+    "bee": "productivebees:quartz_enriched_iron",
+    "from": {
+        "Name": "minecraft:iron_block"
+    },
+    "to": {
+        "Name": "refinedstorage:quartz_enriched_iron_block"
+    },
+    "chance": 5,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "refinedstorage"
+        }
+    ]
+}

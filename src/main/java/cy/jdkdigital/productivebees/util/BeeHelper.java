@@ -190,11 +190,11 @@ public class BeeHelper
         return null;
     }
 
-    public static BlockConversionRecipe getRandomBlockConversionRecipe(BeeEntity beeEntity) {
-        if (beeEntity.savedFlowerPos != null && beeEntity.level instanceof ServerWorld) {
-            IInventory beeInv = new BlockStateInventory(beeEntity, beeEntity.level.getBlockState(beeEntity.savedFlowerPos));
+    public static BlockConversionRecipe getBlockConversionRecipe(BeeEntity beeEntity, BlockState flowerBlockState) {
+        if (beeEntity.level instanceof ServerWorld) {
+            IInventory beeInv = new BlockStateInventory(beeEntity, flowerBlockState);
 
-            // Get breeding recipes
+            // Get block conversion recipes
             List<BlockConversionRecipe> recipes = new ArrayList<>();
             Map<ResourceLocation, IRecipe<IInventory>> allRecipes = beeEntity.level.getRecipeManager().byType(BlockConversionRecipe.BLOCK_CONVERSION);
             for (Map.Entry<ResourceLocation, IRecipe<IInventory>> entry : allRecipes.entrySet()) {
@@ -210,6 +210,10 @@ public class BeeHelper
         }
 
         return null;
+    }
+
+    public static boolean hasBlockConversionRecipe(BeeEntity beeEntity, BlockState flowerBlockState) {
+        return getBlockConversionRecipe(beeEntity, flowerBlockState) != null;
     }
 
     public static List<ItemStack> getBeeProduce(World world, BeeEntity beeEntity, boolean hasCombBlockUpgrade) {

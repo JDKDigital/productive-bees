@@ -50,7 +50,7 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
                 List<IReorderingProcessor> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").getVisualOrderText());
+                    tooltipList.add(new TranslationTextComponent("productivebees.screen.fluid_level", new TranslationTextComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mB").getVisualOrderText());
                 }
                 else {
                     tooltipList.add(new TranslationTextComponent("productivebees.hive.tooltip.empty").getVisualOrderText());
@@ -69,17 +69,6 @@ public class CentrifugeScreen extends ContainerScreen<CentrifugeContainer>
                 tooltipList.add(new TranslationTextComponent("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
 
                 renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
-            }
-        });
-
-        this.menu.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-            if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
-                if (isHovering(138, 16, 18, 18, mouseX, mouseY)) {
-                    List<IReorderingProcessor> tooltipList = new ArrayList<>();
-                    tooltipList.add(new TranslationTextComponent("productivebees.centrifuge.tooltip.input_item").getVisualOrderText());
-
-                    renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
-                }
             }
         });
     }

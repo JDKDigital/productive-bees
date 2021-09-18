@@ -75,6 +75,15 @@
         {
             "type": "text",
             "text": "When installed in a hive, bees that can teleport will no longer teleport when living in the hive with the upgrade."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:upgrades/bee_sampler",
+            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "When installed in a hive, a small sample of pollinating bees will be extracted with each visit. It shoulnd't be hurting them at all."
         }
     ]
 }

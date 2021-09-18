@@ -497,7 +497,6 @@
     "productivebees.screen.fluid_level": "%s: %s",
     "productivebees.screen.energy_level": "Energía: %s",
     "productivebees.screen.empty": "Vacía",
-    "productivebees.centrifuge.tooltip.input_item": "Acepta botellas o cualquier artículo con un inventario de fluidos como cubos o tanques.",
     "productivebees.centrifuge.tooltip.chance": "Oportunidad: %s",
     "productivebees.centrifuge.tooltip.amount": "Monto: %s",
     "productivebees.ingredient.description.dye_bee": "Trae a casa más trozos florales que solo néctar.",
