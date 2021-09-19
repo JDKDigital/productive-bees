@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.SugarbagNestBlockEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;

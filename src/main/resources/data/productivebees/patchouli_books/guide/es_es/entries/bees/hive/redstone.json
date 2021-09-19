@@ -1,0 +1,19 @@
+{
+    "name": "Abeja Redstone",
+    "icon": "minecraft:redstone",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:redstone",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja Redstone",
+            "text": "Criada de una $(l:bees/wild/glowing)Abeja resplandeciente$(/l) y una $(l:bees/solitary/chocolate_mining)Abeja minera de chocolate$(/l).",
+            "anchor": "redstone"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:redstone'}"
+        }
+    ]
+}

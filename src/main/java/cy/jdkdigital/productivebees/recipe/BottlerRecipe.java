@@ -4,8 +4,11 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.SerializationTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +17,10 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -40,9 +46,17 @@ public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
         if (!itemInput.test(inputStack)) {
             return false;
         }
-        if (!getPreferredFluidByMod(fluidInput.getFirst()).equals(fluid.getFluid())) {
+
+        Fluid recipeFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidInput.getFirst()));
+        if (recipeFluid != null && !recipeFluid.equals(Fluids.EMPTY) && !recipeFluid.equals(fluid.getFluid())) {
             return false;
         }
+
+        Tag<Fluid> fluidTag = SerializationTags.getInstance().getOrEmpty(Registry.FLUID_REGISTRY).getTag(new ResourceLocation(fluidInput.getFirst()));
+        if (fluidTag != null && !fluid.getFluid().is(fluidTag)) {
+            return false;
+        }
+
         return fluid.getAmount() >= fluidInput.getSecond();
     }
 

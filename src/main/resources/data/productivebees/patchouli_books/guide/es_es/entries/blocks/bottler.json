@@ -1,0 +1,12 @@
+{
+    "name": "Bottler",
+    "icon": "productivebees:bottler",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "productivebees:bottler",
+            "text": "Se usa para llenar botellas con miel. La miel se puede colocar en el costado y las botellas se pueden colocar en el embotellador para llenarlas con miel..$(br2)El embotellador junto con un pistón también se puede utilizar para embotellar abejas, ver $(l:genetics/transferring)página de genética$(/l)."
+        }
+    ]
+}

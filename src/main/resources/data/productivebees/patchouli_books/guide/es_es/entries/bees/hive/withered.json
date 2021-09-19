@@ -1,0 +1,19 @@
+{
+    "name": "Abeja marchita",
+    "icon": "productivebees:wither_skull_chip",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:withered",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja marchita",
+            "text": "Obtenida alimentando con una rosa marchita a una $(l:bees/hive/skeletal)Abeja esquelética$(/l).",
+            "anchor": "withered"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:withered'}"
+        }
+    ]
+}

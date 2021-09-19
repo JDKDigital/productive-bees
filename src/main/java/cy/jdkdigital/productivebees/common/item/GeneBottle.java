@@ -30,8 +30,7 @@ public class GeneBottle extends Item
         CompoundTag nbt = new CompoundTag();
         if (target.hasCustomName()) {
             nbt.putString("name", target.getCustomName().getString());
-        }
-        else {
+        } else {
             nbt.putString("name", target.getName().getString());
         }
         target.saveWithoutId(nbt);

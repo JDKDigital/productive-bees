@@ -66,8 +66,11 @@ public class BambooHive extends AdvancedBeehiveAbstract
         builder.add(BlockStateProperties.FACING, AXIS);
     }
 
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(AXIS, context.getHorizontalDirection().getAxis());
+        return this.defaultBlockState()
+                .setValue(AXIS, context.getHorizontalDirection().getAxis())
+                .setValue(BlockStateProperties.FACING, context.getHorizontalDirection().getOpposite());
     }
 
     static {

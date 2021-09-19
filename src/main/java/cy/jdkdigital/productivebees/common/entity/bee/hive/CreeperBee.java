@@ -17,7 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Collection;
 
@@ -36,8 +36,8 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
-    public boolean isFlowerBlock(Block flowerBlock) {
-        return ModTags.GUNPOWDER.contains(flowerBlock);
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        return flowerBlock.is(ModTags.POWDERY);
     }
 
     protected void defineSynchedData() {

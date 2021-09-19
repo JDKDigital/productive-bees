@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBee;
+import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -18,19 +19,18 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -62,17 +62,6 @@ public class EventHandler
                     world.addFreshEntity(newBee);
                     entity.discard();
                 }
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onUseItemFinish(LivingEntityUseItemEvent.Finish event) {
-        ItemStack stack = event.getResultStack();
-        if (stack.getItem().equals(Items.HONEY_BOTTLE)) {
-            LivingEntity entity = event.getEntityLiving();
-            if (!entity.getCommandSenderWorld().isClientSide && entity.getCommandSenderWorld().random.nextBoolean()) {
-                entity.curePotionEffects(stack);
             }
         }
     }
@@ -132,6 +121,33 @@ public class EventHandler
             event.setBurnTime(100);
         } else if (item.equals(ModBlocks.WAX_BLOCK.get().asItem())) {
             event.setBurnTime(900);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onItemFished(ItemFishedEvent event) {
+        Player player = event.getPlayer();
+        if (player != null && ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get()) {
+            ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
+            BlockPos pos = event.getHookEntity().blockPosition();
+            if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:prismarine") != null) {
+                Biome fishingBiome = player.level.getBiome(pos);
+                if (fishingBiome.getBiomeCategory().equals(Biome.BiomeCategory.OCEAN)) {
+                    bee.setBeeType("productivebees:prismarine");
+                    bee.setAttributes();
+
+                    bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
+
+                    player.level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+                    player.level.playSound(player, pos, SoundEvents.BEE_HURT, SoundSource.NEUTRAL, 1.0F, 1.0F);
+
+                    player.level.addFreshEntity(bee);
+
+                    bee.setTarget(player);
+
+                    ModAdvancements.FISH_BEE.trigger((ServerPlayer) player, bee);
+                }
+            }
         }
     }
 }

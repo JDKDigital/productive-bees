@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.container.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.common.block.entity.PoweredCentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -16,7 +15,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -51,7 +49,7 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeContaine
                 List<FormattedCharSequence> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(new TranslatableComponent("productivebees.screen.fluid_level", new TranslatableComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").getVisualOrderText());
+                    tooltipList.add(new TranslatableComponent("productivebees.screen.fluid_level", new TranslatableComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mB").getVisualOrderText());
                 }
                 else {
                     tooltipList.add(new TranslatableComponent("productivebees.hive.tooltip.empty").getVisualOrderText());
@@ -70,17 +68,6 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeContaine
                 tooltipList.add(new TranslatableComponent("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
 
                 renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
-            }
-        });
-
-        this.menu.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-            if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
-                if (isHovering(138, 16, 18, 18, mouseX, mouseY)) {
-                    List<FormattedCharSequence> tooltipList = new ArrayList<>();
-                    tooltipList.add(new TranslatableComponent("productivebees.centrifuge.tooltip.input_item").getVisualOrderText());
-
-                    renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
-                }
             }
         });
     }

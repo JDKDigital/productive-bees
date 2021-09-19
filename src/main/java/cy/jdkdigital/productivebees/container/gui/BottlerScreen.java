@@ -45,7 +45,7 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
                 List<FormattedCharSequence> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(new TranslatableComponent("productivebees.screen.fluid_level", new TranslatableComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mb").getVisualOrderText());
+                    tooltipList.add(new TranslatableComponent("productivebees.screen.fluid_level", new TranslatableComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mB").getVisualOrderText());
                 } else {
                     tooltipList.add(new TranslatableComponent("productivebees.hive.tooltip.empty").getVisualOrderText());
                 }

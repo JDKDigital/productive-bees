@@ -44,6 +44,7 @@ public class ClientSetup
         MenuScreens.register(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);
         MenuScreens.register(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
         MenuScreens.register(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
+        MenuScreens.register(ModContainerTypes.GENE_INDEXER.get(), GeneIndexerScreen::new);
 
         ItemProperties.register(ModItems.BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity, i) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
         ItemProperties.register(ModItems.STURDY_BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity, i) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);

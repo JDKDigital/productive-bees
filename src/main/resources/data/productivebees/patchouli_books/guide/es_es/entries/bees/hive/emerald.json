@@ -1,0 +1,19 @@
+{
+    "name": "Abeja Emeralda",
+    "icon": "minecraft:emerald",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:emerald",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja Emeralda",
+            "text": "Criada de una $(l:bees/wild/slimy)Abeja Babosa$(/l) y una $(l:bees/hive/diamond)Abeja Diamante$(/l).",
+            "anchor": "emerald"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:emerald'}"
+        }
+    ]
+}

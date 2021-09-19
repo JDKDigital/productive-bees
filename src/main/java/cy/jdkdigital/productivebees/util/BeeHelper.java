@@ -191,11 +191,11 @@ public class BeeHelper
         return null;
     }
 
-    public static BlockConversionRecipe getRandomBlockConversionRecipe(Bee beeEntity) {
-        if (beeEntity.savedFlowerPos != null && beeEntity.level instanceof ServerLevel) {
-            Container beeInv = new BlockStateInventory(beeEntity, beeEntity.level.getBlockState(beeEntity.savedFlowerPos));
+    public static BlockConversionRecipe getBlockConversionRecipe(Bee beeEntity, BlockState flowerBlockState) {
+        if (beeEntity.level instanceof ServerLevel) {
+            Container beeInv = new BlockStateInventory(beeEntity, flowerBlockState);
 
-            // Get breeding recipes
+            // Get block conversion recipes
             List<BlockConversionRecipe> recipes = new ArrayList<>();
             Map<ResourceLocation, Recipe<Container>> allRecipes = beeEntity.level.getRecipeManager().byType(BlockConversionRecipe.BLOCK_CONVERSION);
             for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
@@ -211,6 +211,10 @@ public class BeeHelper
         }
 
         return null;
+    }
+
+    public static boolean hasBlockConversionRecipe(Bee beeEntity, BlockState flowerBlockState) {
+        return getBlockConversionRecipe(beeEntity, flowerBlockState) != null;
     }
 
     public static List<ItemStack> getBeeProduce(Level world, Bee beeEntity, boolean hasCombBlockUpgrade) {
@@ -422,7 +426,7 @@ public class BeeHelper
 
             if (tag.contains("HivePos")) {
                 BlockPos hivePos = NbtUtils.readBlockPos(tag.getCompound("HivePos"));
-                list.add(new TextComponent("Home position: " + hivePos.getX() + ", " + hivePos.getY() + ", " + hivePos.getZ()));
+                list.add(new TranslatableComponent("productivebees.information.home_position ", hivePos.getX(), hivePos.getY(), hivePos.getZ()));
             }
         } else {
             list.add((new TextComponent("Mod: " + tag.getString("mod"))).withStyle(ChatFormatting.DARK_AQUA));
@@ -433,7 +437,7 @@ public class BeeHelper
 
     public static class IdentifierInventory implements Container
     {
-        private List<String> identifiers = new ArrayList<>();
+        private final List<String> identifiers = new ArrayList<>();
 
         public IdentifierInventory(String identifier) {
             this.identifiers.add(identifier);

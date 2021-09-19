@@ -7,13 +7,13 @@ import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeEffect;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -112,7 +112,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 }
             }
 
-            if (tickCount % 20 == 0 && hasNectar() && isRedstoned()) {
+            if (tickCount % 21 == 0 && hasNectar() && isRedstoned()) {
                 for (int i = 1; i <= 2; ++i) {
                     BlockPos beePosDown = this.blockPosition().below(i);
                     if (level.isEmptyBlock(beePosDown)) {
@@ -289,14 +289,18 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
-    public boolean isFlowerBlock(Block flowerBlock) {
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        boolean canConvertBlock = BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
+        if (canConvertBlock) {
+            return true;
+        }
         CompoundTag nbt = getNBTData();
         if (nbt != null) {
             if (nbt.contains("flowerTag")) {
                 Tag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
-                return flowerTag.contains(flowerBlock);
+                return flowerBlock.is(flowerTag);
             } else if (nbt.contains("flowerBlock")) {
-                return flowerBlock.getRegistryName().toString().equals(nbt.getString("flowerBlock"));
+                return flowerBlock.getBlock().getRegistryName().toString().equals(nbt.getString("flowerBlock"));
             }
         }
         return super.isFlowerBlock(flowerBlock);

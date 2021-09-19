@@ -80,7 +80,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, BottlerBlockEntity blockEntity) {
-        if (++blockEntity.tickCounter % 10 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.getValue(DirectionalBlock.FACING) == Direction.DOWN) {
+        if (++blockEntity.tickCounter % 7 == 0 && state.getBlock() == Blocks.PISTON_HEAD && state.getValue(DirectionalBlock.FACING) == Direction.DOWN) {
             // Check for ProductiveBeeEntity on top of block
             List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(pos).expandTowards(0.0D, 1.0D, 0.0D)));
             if (!bees.isEmpty()) {

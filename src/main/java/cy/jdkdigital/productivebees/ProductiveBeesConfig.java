@@ -65,7 +65,6 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue generatorHoneyUse;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
         public final ForgeConfigSpec.IntValue numberOfBeesPerBomb;
-        public final ForgeConfigSpec.IntValue beeSyncDelay;
         public final ForgeConfigSpec.IntValue nestLocatorDistance;
         public final ForgeConfigSpec.IntValue nestSpawnCooldown;
         public final ForgeConfigSpec.BooleanValue centrifugeHopperMode;
@@ -111,7 +110,7 @@ public class ProductiveBeesConfig
 
             generatorHoneyUse = builder
                     .comment("How much honey to consume per tick. Default 5.")
-                    .defineInRange("generatorHoneyUse", 5, 1, Integer.MAX_VALUE);
+                    .defineInRange("generatorHoneyUse", 2, 1, Integer.MAX_VALUE);
 
             preferredTagSource = builder
                     .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from.")
@@ -120,10 +119,6 @@ public class ProductiveBeesConfig
             numberOfBeesPerBomb = builder
                     .comment("How many bees can fit in a bee bomb. Default is 10")
                     .defineInRange("numberOfBeesPerBomb", 10, 1, 50);
-
-            beeSyncDelay = builder
-                    .comment("Delay in seconds between a user logging in and the bee data being synced to the client. A delay is needed to allow JEI to index the bees properly.\n If the clients are having issues getting the bees, try increasing the delay. Set to 0 to disable the delay")
-                    .defineInRange("beeSyncDelay", 40, 0, 300);
 
             nestLocatorDistance = builder
                     .comment("The distance a nest locator can search for nests.")
@@ -149,6 +144,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue cupidBeeAnimalsPerPollination;
         public final ForgeConfigSpec.IntValue cupidBeeAnimalDensity;
         public final ForgeConfigSpec.IntValue cuckooSpawnCount;
+        public final ForgeConfigSpec.DoubleValue fishingBeeChance;
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
@@ -174,6 +170,9 @@ public class ProductiveBeesConfig
             cuckooSpawnCount = builder
                     .comment("How many cuckoo bees can spawn from a nest before it shuts off")
                     .defineInRange("cuckooSpawnCount", 2, 0, Integer.MAX_VALUE);
+
+            fishingBeeChance = builder
+                    .defineInRange("fishingBeeChance", 0.01, 0, 1);
 
             builder.pop();
         }
@@ -244,6 +243,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.DoubleValue productivityMultiplier;
         public final ForgeConfigSpec.DoubleValue breedingChance;
         public final ForgeConfigSpec.IntValue breedingMaxNearbyEntities;
+        public final ForgeConfigSpec.DoubleValue samplerChance;
 
         public Upgrades(ForgeConfigSpec.Builder builder) {
             builder.push("Hive Upgrades");
@@ -263,6 +263,9 @@ public class ProductiveBeesConfig
             breedingMaxNearbyEntities = builder
                     .comment("Chance for a bee to produce an offspring after a hive visit.")
                     .defineInRange("breedingMaxNearbyEntities", 10, 0, Integer.MAX_VALUE);
+            samplerChance = builder
+                    .comment("Chance for a gene sample to be taken from a bee after a hive visit.")
+                    .defineInRange("samplerChance", 0.05, 0, 1);
 
             builder.pop();
         }

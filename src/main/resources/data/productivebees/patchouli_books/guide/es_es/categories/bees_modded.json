@@ -1,0 +1,6 @@
+{
+    "name": "Abejas de Mod´s",
+    "description": "Las abejas mod solo están disponibles si se cumplen sus requisitos. Un requisito podría ser si un cierto mod está instalado o la existencia de cierto recurso agregado por un mod.",
+    "icon": "minecraft:iron_block",
+    "parent": "productivebees:bees"
+}

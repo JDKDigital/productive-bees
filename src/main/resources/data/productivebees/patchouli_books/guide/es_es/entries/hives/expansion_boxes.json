@@ -1,0 +1,71 @@
+{
+    "name": "Expansion Boxes",
+    "icon": "productivebees:expansion_box_oak",
+    "category": "productivebees:hives",
+    "sortnum": 3,
+    "pages": [
+        {
+            "type": "text",
+            "text": "Las cajas de expansión se pueden unir a las colmenas avanzadas para aumentar la capacidad de la colmena de 3 a 5. Las cajas de expansión se pueden colocar encima o al lado de la colmena. Cada colmena solo puede tener una caja de expansión."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:boxes/expansion_box_oak"
+        },
+        {
+            "type": "multiblock",
+            "name": "Vertically Expanded",
+            "multiblock": {
+                "mapping": {
+                    "H": "productivebees:advanced_oak_beehive",
+                    "E": "productivebees:expansion_box_oak"
+                },
+                "pattern": [
+                    [
+                        "E"
+                    ],
+                    [
+                        "H"
+                    ],
+                    [
+                        "0"
+                    ]
+                ],
+                "symmetrical": true,
+                "offset": [
+                    0,
+                    1,
+                    0
+                ]
+            },
+            "enable_visualize": false
+        },
+        {
+            "type": "multiblock",
+            "name": "Horizontally Expanded",
+            "multiblock": {
+                "mapping": {
+                    "H": "productivebees:advanced_oak_beehive",
+                    "E": "productivebees:expansion_box_oak"
+                },
+                "pattern": [
+                    [
+                        "H",
+                        "E"
+                    ],
+                    [
+                        "0",
+                        " "
+                    ]
+                ],
+                "symmetrical": true,
+                "offset": [
+                    0,
+                    1,
+                    0
+                ]
+            },
+            "enable_visualize": false
+        }
+    ]
+}

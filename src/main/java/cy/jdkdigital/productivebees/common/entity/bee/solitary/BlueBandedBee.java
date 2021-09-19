@@ -8,7 +8,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class BlueBandedBee extends SolitaryBee
 {
@@ -30,7 +30,7 @@ public class BlueBandedBee extends SolitaryBee
     }
 
     @Override
-    public boolean isFlowerBlock(Block flowerBlock) {
-        return ModTags.RIVER_FLOWERS.contains(flowerBlock);
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        return flowerBlock.is(ModTags.RIVER_FLOWERS);
     }
 }

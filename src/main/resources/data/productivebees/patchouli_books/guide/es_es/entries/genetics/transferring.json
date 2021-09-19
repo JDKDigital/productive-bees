@@ -1,0 +1,15 @@
+{
+    "name": "Transferring Genes",
+    "icon": "productivebees:gene",
+    "category": "productivebees:genetics",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Para transferir genes a una abeja, deberá combinar el gen con una golosina de miel. Alimente a la abeja con la golosina de miel y tendrá una oportunidad, basada en la pureza del gen, de adquirir el nuevo atributo."
+        },
+        {
+            "type": "text",
+            "text": "La pureza del gen se puede aumentar combinando dos de los mismos genes o colocando más del mismo gen en una golosina."
+        }
+    ]
+}

@@ -45,7 +45,7 @@ public abstract class FluidTankBlockEntity extends CapabilityBlockEntity
                     ItemStack fluidContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                     ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
                     if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {
-                        // Loop up bottler recipes from input
+                        // Look up bottler recipes from input
                         List<BottlerRecipe> recipes = new ArrayList<>();
                         Map<ResourceLocation, Recipe<Container>> allRecipes = level.getRecipeManager().byType(BottlerRecipe.BOTTLER);
                         for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {

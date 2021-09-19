@@ -188,6 +188,10 @@ public class BeeCage extends Item
                     list.add(new TranslatableComponent("productivebees.information.health.dying").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.ITALIC));
                 }
                 BeeHelper.populateBeeInfoFromTag(tag, list);
+
+                if (tag.contains("HivePos")) {
+                    list.add(new TranslatableComponent("productivebees.information.cage_release"));
+                }
             } else {
                 list.add(new TranslatableComponent("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
             }

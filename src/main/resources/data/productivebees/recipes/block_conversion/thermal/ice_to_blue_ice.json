@@ -7,6 +7,7 @@
     "to": {
         "Name": "minecraft:blue_ice"
     },
+    "chance": 80,
     "conditions": [
         {
             "type": "forge:mod_loaded",

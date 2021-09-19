@@ -5,7 +5,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class LumberBee extends ProductiveBee
 {
@@ -19,7 +19,7 @@ public class LumberBee extends ProductiveBee
     }
 
     @Override
-    public boolean isFlowerBlock(Block flowerBlock) {
-        return BlockTags.LOGS.contains(flowerBlock);
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        return flowerBlock.is(BlockTags.LOGS);
     }
 }

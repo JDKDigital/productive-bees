@@ -6,5 +6,6 @@
     },
     "to": {
         "Name": "minecraft:lava"
-    }
+    },
+    "chance": 30
 }

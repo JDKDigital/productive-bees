@@ -1,0 +1,19 @@
+{
+    "name": "Abeja de Carbón",
+    "icon": "minecraft:coal",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:coal",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja del Carbón",
+            "text": "Criada de una $(l:bees/hive/redstone)Abeja Ardiente$(/l) y una $(l:bees/solitary/leafcutter)Abeja cortadora de hojas$(/l).",
+            "anchor": "coal"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:coal'}"
+        }
+    ]
+}

@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.core.BlockPos;
@@ -8,6 +7,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -23,6 +24,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
@@ -82,9 +84,20 @@ public class Centrifuge extends CapabilityContainerBlock
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!world.isClientSide()) {
-            final BlockEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof CentrifugeBlockEntity) {
-                openGui((ServerPlayer) player, (CentrifugeBlockEntity) tileEntity);
+            ItemStack heldItem = player.getItemInHand(hand);
+            boolean itemUsed = false;
+
+            if (heldItem.getItem().equals(Items.BUCKET)) {
+                if (FluidUtil.interactWithFluidHandler(player, hand, world, pos, null)) {
+                    itemUsed = true;
+                }
+            }
+
+            if (!itemUsed) {
+                final BlockEntity tileEntity = world.getBlockEntity(pos);
+                if (tileEntity instanceof CentrifugeBlockEntity) {
+                    openGui((ServerPlayer) player, (CentrifugeBlockEntity) tileEntity);
+                }
             }
         }
         return InteractionResult.SUCCESS;

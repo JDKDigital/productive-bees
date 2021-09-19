@@ -18,6 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CombineGeneRecipe implements CraftingRecipe
 {
@@ -59,20 +61,29 @@ public class CombineGeneRecipe implements CraftingRecipe
     @Override
     public ItemStack assemble(CraftingContainer inv) {
         // Combine genes
+        List<ItemStack> stacks = new ArrayList<>();
+        for (int j = 0; j < inv.getContainerSize(); ++j) {
+            stacks.add(inv.getItem(j));
+        }
+
+        return mergeGenes(stacks);
+    }
+
+    public static ItemStack mergeGenes(List<ItemStack> stacks) {
         String attribute = null;
         int value = 0;
         int purity = 0;
 
-        for (int j = 0; j < inv.getContainerSize(); ++j) {
-            ItemStack itemstack = inv.getItem(j);
-            if (!itemstack.isEmpty()) {
-                if (itemstack.getItem().equals(ModItems.GENE.get())) {
-                    attribute = Gene.getAttributeName(itemstack);
-                    value = Gene.getValue(itemstack);
-                    purity = Math.min(100, purity + Gene.getPurity(itemstack));
+        for (ItemStack stack: stacks) {
+            if (!stack.isEmpty()) {
+                if (stack.getItem().equals(ModItems.GENE.get())) {
+                    attribute = Gene.getAttributeName(stack);
+                    value = Gene.getValue(stack);
+                    purity = Math.min(100, purity + Gene.getPurity(stack));
                 }
             }
         }
+
         if (attribute != null) {
             return Gene.getStack(attribute, value, 1, purity);
         }

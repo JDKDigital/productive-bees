@@ -1,0 +1,19 @@
+{
+    "name": "Abeja Obsidiana",
+    "icon": "minecraft:obsidian",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:obsidian",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja Obsidiana",
+            "text": "Criada de una $(l:bees/wild/magmatic)Abeja Magmatica$(/l) y una $(l:bees/solitary/sweat)Abeja del sudor$(/l).",
+            "anchor": "obsidian"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:obsidian'}"
+        }
+    ]
+}

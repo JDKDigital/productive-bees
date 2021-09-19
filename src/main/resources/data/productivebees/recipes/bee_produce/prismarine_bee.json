@@ -1,0 +1,23 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:prismarine",
+    "results": [
+        {
+            "item": {
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:prismarine"
+                    }
+                }
+            }
+        },
+        {
+            "item": {
+                "item": "minecraft:nautilus_shell"
+            },
+            "chance": 1
+        }
+    ]
+}

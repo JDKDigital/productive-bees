@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
+import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
@@ -14,6 +15,7 @@ import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
+import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
@@ -51,6 +53,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstract implements MenuProvider, UpgradeableBlockEntity
@@ -174,17 +177,17 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     @Override
-    protected void beeReleasePostAction(Level level, Bee beeEntity, BlockState state, BeeReleaseStatus beeState) {
+    protected void beeReleasePostAction(@Nonnull Level level, Bee beeEntity, BlockState state, BeeReleaseStatus beeState) {
         super.beeReleasePostAction(level, beeEntity, state, beeState);
 
         // Generate bee produce
-        if (this.level != null && beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED) {
+        if (beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED) {
             if (beeEntity instanceof ProductiveBee productiveBee && productiveBee.hasConverted()) {
                 // No produce after converting a block
                 productiveBee.setHasConverted(false);
             } else {
                 getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                    BeeHelper.getBeeProduce(this.level, beeEntity, getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) > 0).forEach((stackIn) -> {
+                    BeeHelper.getBeeProduce(level, beeEntity, getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) > 0).forEach((stackIn) -> {
                         ItemStack stack = stackIn.copy();
                         if (!stack.isEmpty()) {
                             if (beeEntity instanceof ProductiveBee) {
@@ -211,15 +214,15 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
         // Produce offspring if breeding upgrade is installed
         int breedingUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
-        if (breedingUpgrades > 0 && !beeEntity.isBaby() && getOccupantCount() > 0 && this.level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
+        if (breedingUpgrades > 0 && !beeEntity.isBaby() && getOccupantCount() > 0 && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
             boolean canBreed = !(beeEntity instanceof ProductiveBee) || ((ProductiveBee) beeEntity).canSelfBreed();
             if (canBreed) {
                 // Count nearby bee entities
-                List<Bee> bees = this.level.getEntitiesOfClass(Bee.class, (new AABB(worldPosition).expandTowards(3.0D, 3.0D, 3.0D)));
+                List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(worldPosition).expandTowards(3.0D, 3.0D, 3.0D)));
                 if (bees.size() < ProductiveBeesConfig.UPGRADES.breedingMaxNearbyEntities.get()) {
                     // Breed this bee with a random bee inside
-                    Inhabitant otherBeeInhabitant = getBeeList().get(this.level.random.nextInt(getOccupantCount()));
-                    Entity otherBee = EntityType.loadEntityRecursive(otherBeeInhabitant.nbt, this.level, (spawnedEntity) -> spawnedEntity);
+                    Inhabitant otherBeeInhabitant = getBeeList().get(level.random.nextInt(getOccupantCount()));
+                    Entity otherBee = EntityType.loadEntityRecursive(otherBeeInhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
                     if (otherBee instanceof Bee) {
                         Entity offspring = BeeHelper.getBreedingResult(beeEntity, (Bee) otherBee, (ServerLevel) this.level);
                         if (offspring != null) {
@@ -230,11 +233,32 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                                 ((Animal) offspring).setAge(-24000);
                             }
                             offspring.moveTo(beeEntity.getX(), beeEntity.getY(), beeEntity.getZ(), 0.0F, 0.0F);
-                            this.level.addFreshEntity(offspring);
+                            level.addFreshEntity(offspring);
                         }
                     }
                 }
             }
+        }
+
+        // Produce genes
+        int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get());
+        if (samplerUpgrades > 0 && !beeEntity.isBaby() && beeEntity instanceof ProductiveBee && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
+            getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                Map<BeeAttribute<?>, Object> attributes = ((ProductiveBee) beeEntity).getBeeAttributes();
+                // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
+                int attr = ProductiveBees.rand.nextInt(attributes.size() + 2);
+                if (attr >= BeeAttributes.attributeList().size()) {
+                    // Type gene
+                    String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType() : beeEntity.getEncodeId();
+                    ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(type, ProductiveBees.rand.nextInt(4) + 1));
+                } else {
+                    BeeAttribute<?> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
+                    Object value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
+                    if (value instanceof Integer) {
+                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(attribute, (Integer) value, 1, ProductiveBees.rand.nextInt(4) + 1));
+                    }
+                }
+            });
         }
 
         // Add to the countdown for it's spot to become available in the hive

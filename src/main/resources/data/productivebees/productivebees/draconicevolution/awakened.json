@@ -1,0 +1,19 @@
+{
+    "primaryColor": "#bc3500",
+    "secondaryColor": "#5f2525",
+    "particleColor": "#faa420",
+    "tertiaryColor": "#bc3500",
+    "renderer": "default_crystal",
+    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "flowerTag": "forge:storage_blocks/draconium_awakened",
+    "fireproof": true,
+    "draconic": true,
+    "selfbreed": false,
+    "nestingPreference": "productivebees:nests/draconic_nests",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "draconicevolution"
+        }
+    ]
+}

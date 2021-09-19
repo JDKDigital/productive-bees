@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.util;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TextColor;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -437,7 +437,6 @@
  "productivebees.screen.fluid_level": "%s: %s",
  "productivebees.screen.energy_level": "Энергия: %s",
  "productivebees.screen.empty": "Пусто",
- "productivebees.centrifuge.tooltip.input_item": "Принимает бутылки или любой предмет с запасом жидкости, такой как ведра или баки.",
  "productivebees.ingredient.description.dye_bee": "Приносит домой больше цветочных кусочков, чем просто нектара.",
  "productivebees.ingredient.description.lumber_bee": "Имеет здравую одержимость деревом.",
  "productivebees.ingredient.description.quarry_bee": "Имеет здравую одержимость камнем, песком и гравием.",

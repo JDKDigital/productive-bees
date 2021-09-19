@@ -7,6 +7,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ReedBee extends SolitaryBee
 {
@@ -15,8 +16,8 @@ public class ReedBee extends SolitaryBee
     }
 
     @Override
-    public boolean isFlowerBlock(Block flowerBlock) {
-        return ModTags.ARID_FLOWERS.contains(flowerBlock);
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        return flowerBlock.is(ModTags.ARID_FLOWERS);
     }
 
     @Override

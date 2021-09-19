@@ -8,6 +8,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class SweatBee extends SolitaryBee
 {
@@ -18,8 +19,8 @@ public class SweatBee extends SolitaryBee
     }
 
     @Override
-    public boolean isFlowerBlock(Block flowerBlock) {
-        return ModTags.SNOW_FLOWERS.contains(flowerBlock);
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        return flowerBlock.is(ModTags.SNOW_FLOWERS);
     }
 
     @Override

@@ -7,13 +7,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class BeeAttributes
 {
-    private static Map<String, BeeAttribute<?>> map = new HashMap<>();
+    public static Map<String, BeeAttribute<?>> map = new HashMap<>();
     public static Map<BeeAttribute<?>, Map<Integer, String>> keyMap = new HashMap<>();
 
     public static final BeeAttribute<String> TYPE = register("type");
@@ -37,6 +35,17 @@ public class BeeAttributes
         map.put(name, attribute);
 
         return attribute;
+    }
+
+    public static List<String> attributeList() {
+        List<String> attributes = new ArrayList<>();
+        attributes.add("productivity");
+        attributes.add("weather_tolerance");
+        attributes.add("behavior");
+        attributes.add("endurance");
+        attributes.add("temper");
+
+        return attributes;
     }
 
     static {

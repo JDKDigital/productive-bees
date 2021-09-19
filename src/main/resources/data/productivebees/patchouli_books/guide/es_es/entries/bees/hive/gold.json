@@ -1,0 +1,19 @@
+{
+    "name": "Abeja de Oro",
+    "icon": "minecraft:gold_ingot",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:gold",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja de Oro",
+            "text": "Criada de una $(l:bees/wild/crystalline)Abeja Crystalina$(/l) y una $(l:bees/solitary/mason)Abeja Albañil$(/l).",
+            "anchor": "gold"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:gold'}"
+        }
+    ]
+}

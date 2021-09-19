@@ -1,0 +1,55 @@
+{
+    "type": "draconicevolution:fusion_crafting",
+    "result": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:awakened"
+            }
+        }
+    },
+    "catalyst": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:draconium"
+            }
+        }
+    },
+    "total_energy": 32000000,
+    "tier": "DRACONIC",
+    "ingredients": [
+        {
+            "item": "draconicevolution:awakened_core"
+        },
+        {
+            "item": "draconicevolution:awakened_core"
+        },
+        {
+            "item": "draconicevolution:dragon_heart"
+        },
+        {
+            "item": "minecraft:honey_block"
+        },
+        {
+            "tag": "forge:storage_blocks/honeycombs"
+        },
+        {
+            "tag": "forge:storage_blocks/honeycombs"
+        },
+        {
+            "tag": "forge:ingots/draconium_awakened"
+        },
+        {
+            "tag": "forge:ingots/draconium_awakened"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "draconicevolution"
+        }
+    ]
+}

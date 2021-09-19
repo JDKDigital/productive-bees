@@ -92,7 +92,7 @@ public class Gene extends Item
 
         BeeAttribute<?> attribute = getAttribute(stack);
 
-        if (attribute != null) {
+        if (attribute != null && BeeAttributes.keyMap.containsKey(attribute) && BeeAttributes.keyMap.get(attribute).containsKey(value)) {
             Component translatedValue = new TranslatableComponent(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
             list.add((new TranslatableComponent("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(new TextComponent(" (" + getPurity(stack) + "%)")));
         } else {

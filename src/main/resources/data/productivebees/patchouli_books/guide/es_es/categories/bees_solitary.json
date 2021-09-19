@@ -1,0 +1,6 @@
+{
+    "name": "Abejas Solitaryas",
+    "description": "Se pueden encontrar abejas solitarias desovando de nidos solitarios en el Overworld.$(br2)$(l:hives/nests)Lea acerca de los nidos aquí$(/l)",
+    "icon": "productivebees:oak_wood_nest",
+    "parent": "productivebees:bees"
+}

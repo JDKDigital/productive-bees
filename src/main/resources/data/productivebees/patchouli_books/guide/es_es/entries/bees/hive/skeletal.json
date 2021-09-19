@@ -1,0 +1,19 @@
+{
+    "name": "Abeja esquelética",
+    "icon": "minecraft:bone_meal",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:skeletal",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja esquelética",
+            "text": "Se mudará a una colmena avanzada si la colmena se deja vacía en la oscuridad.",
+            "anchor": "skeletal"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:skeletal'}"
+        }
+    ]
+}

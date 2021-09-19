@@ -1,0 +1,57 @@
+{
+    "name": "Mekanism",
+    "icon": "mekanism:energy_tablet",
+    "read_by_default": true,
+    "sortnum": 8,
+    "category": "productivebees:bees_modded",
+    "flag": "mod:mekanism",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Abejas para materiales de Mecanismo. Aquí solo se muestran abejas de materiales especiales, para materiales comunes como el cobre y el estaño, vaya al $(l:bees/modded/ingot_bees)lista de abejas lingoteras$(/l)"
+        },
+        {
+            "type": "empty",
+            "draw_filler": false
+        },
+        {
+            "type": "text",
+            "title": "Osmium Bee",
+            "text": "Bred from an $(l:bees/hive/iron)Iron Bee$(/l) and a $(l:bees/solitary/neon_cuckoo)Neon Cuckoo Bee$(/l).$(br)Required mod: Mekanism",
+            "anchor": "osmium",
+            "flag": "productivebees:osmium"
+        },
+        {
+            "type": "entity",
+            "name": "Osmium Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:osmium'}",
+            "flag": "productivebees:osmium"
+        },
+        {
+            "type": "text",
+            "title": "Refined Glowstone Bee",
+            "text": "Bred from an $(l:bees/modded/mekanism#osmium)Osmium Bee$(/l) and a $(l:bees/wild/glowing)Glowing Bee$(/l).$(br)Required mod: Mekanism",
+            "anchor": "refined_glowstone",
+            "flag": "productivebees:refined_glowstone"
+        },
+        {
+            "type": "entity",
+            "name": "Refined Glowstone Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:refined_glowstone'}",
+            "flag": "productivebees:refined_glowstone"
+        },
+        {
+            "type": "text",
+            "title": "Refined Obsidian Bee",
+            "text": "Bred from an $(l:bees/modded/mekanism#osmium)Osmium Bee$(/l) and an $(l:bees/hive/obsidian)Obsidian Bee$(/l).$(br)Required mod: Mekanism",
+            "anchor": "refined_obsidian",
+            "flag": "productivebees:refined_obsidian"
+        },
+        {
+            "type": "entity",
+            "name": "Refined Obsidian Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:refined_obsidian'}",
+            "flag": "productivebees:refined_obsidian"
+        }
+    ]
+}

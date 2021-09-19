@@ -33,9 +33,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -51,7 +51,6 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -65,9 +64,10 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
+        // TOD 1.18 remove bottle and output slot completely
         @Override
         public boolean isContainerItem(Item item) {
-            return item == Items.GLASS_BOTTLE || item == Items.BUCKET;
+            return false;
         }
 
         @Override
@@ -159,6 +159,25 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             }
         });
         FluidTankBlockEntity.tick(level, pos, state, blockEntity);
+    }
+
+    @Override
+    public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
+        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+            FluidStack fluidStack = fluidHandler.getFluidInTank(0);
+            if (fluidStack.getAmount() > 0) {
+                Direction[] directions = Direction.values();
+                for (Direction direction : directions) {
+                    BlockEntity te = level.getBlockEntity(worldPosition.relative(direction));
+                    if (te != null && fluidStack.getAmount() > 0) {
+                        te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, direction.getOpposite()).ifPresent(h -> {
+                            int amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                            fluidHandler.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+                        });
+                    }
+                }
+            }
+        });
     }
 
     private void suckInItems(IItemHandlerModifiable invHandler) {
@@ -293,15 +312,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             return;
         }
 
-        List<String> attributes = new ArrayList<>();
-        attributes.add("productivity");
-        attributes.add("weather_tolerance");
-        attributes.add("behavior");
-        attributes.add("endurance");
-        attributes.add("temper");
-
         double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.geneExtractChance.get();
-        for (String attributeName : attributes) {
+        for (String attributeName : BeeAttributes.attributeList()) {
             if (ProductiveBees.rand.nextDouble() <= chance) {
                 int value = entityData.getInt("bee_" + attributeName);
                 ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.getAttributeByName(attributeName), value));

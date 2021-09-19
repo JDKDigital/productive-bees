@@ -10,12 +10,12 @@ import cy.jdkdigital.productivebees.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -49,7 +49,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
@@ -60,12 +59,9 @@ public class ProductiveBee extends Bee
 {
     protected Map<BeeAttribute<?>, Object> beeAttributes = new HashMap<>();
 
-    protected Predicate<PoiType> beehiveInterests = (poiType) -> {
-        return poiType == PoiType.BEEHIVE;
-    };
-    private TextColor primaryColor = null;
-    private TextColor secondaryColor = null;
-    private boolean renderStatic;
+    protected Predicate<PoiType> beehiveInterests = (poiType) -> poiType == PoiType.BEEHIVE;
+
+    private boolean renderStatic = false;
     private boolean hasConverted = false;
 
     protected FollowParentGoal followParentGoal;
@@ -138,9 +134,11 @@ public class ProductiveBee extends Bee
                 List<Player> players = level.getEntitiesOfClass(Player.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
                 if (players.size() > 0) {
                     players.forEach(playerEntity -> {
-                        effect.getEffects().forEach((potionEffect, duration) -> {
+                        for (Map.Entry<MobEffect, Integer> entry : effect.getEffects().entrySet()) {
+                            MobEffect potionEffect = entry.getKey();
+                            Integer duration = entry.getValue();
                             playerEntity.addEffect(new MobEffectInstance(potionEffect, duration));
-                        });
+                        }
                     });
                 }
             }
@@ -197,11 +195,11 @@ public class ProductiveBee extends Bee
             return false;
         }
 
-        Block flowerBlock = level.getBlockState(pos).getBlock();
+        BlockState flowerBlock = level.getBlockState(pos);
 
         return (
             isFlowerBlock(flowerBlock) ||
-            (flowerBlock instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBee.this::isFlowerBlock))
+            (flowerBlock.getBlock() instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBee.this::isFlowerBlock))
         );
     }
 
@@ -213,13 +211,13 @@ public class ProductiveBee extends Bee
         return true;
     }
 
-    public static boolean isValidFeeder(BlockEntity tile, Predicate<Block> validator) {
+    public static boolean isValidFeeder(BlockEntity tile, Predicate<BlockState> validator) {
         AtomicBoolean hasValidBlock = new AtomicBoolean(false);
         if (tile instanceof FeederBlockEntity) {
             tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
                 for (int slot = 0; slot < handler.getSlots(); ++slot) {
                     Item slotItem = handler.getStackInSlot(slot).getItem();
-                    if (slotItem instanceof BlockItem && validator.test(((BlockItem) slotItem).getBlock())) {
+                    if (slotItem instanceof BlockItem && validator.test(((BlockItem) slotItem).getBlock().defaultBlockState())) {
                         hasValidBlock.set(true);
                     }
                 }
@@ -246,20 +244,15 @@ public class ProductiveBee extends Bee
     @Override
     public void setHasStung(boolean hasStung) {
         if (hasStung && getAttributeValue(BeeAttributes.ENDURANCE) == 2) {
-            // 50% chance to not loose stinger
+            // 50% chance to not lose stinger
             hasStung = level.random.nextBoolean();
         }
         if (hasStung && getAttributeValue(BeeAttributes.ENDURANCE) == 3) {
-            // 80% chance to not loose stinger
+            // 80% chance to not lose stinger
             hasStung = level.random.nextFloat() < .2;
         }
         super.setHasStung(hasStung);
     }
-
-//    @Override
-//    public boolean isBreedingItem(ItemStack itemStack) {
-//        return itemStack.getItem().is(getAttributeValue(BeeAttributes.APHRODISIACS));
-//    }
 
     public String getBeeType() {
         return getEncodeId();
@@ -452,8 +445,8 @@ public class ProductiveBee extends Bee
         return 0;
     }
 
-    public boolean isFlowerBlock(Block flowerBlock) {
-        return BlockTags.FLOWERS.contains(flowerBlock);
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        return flowerBlock.is(BlockTags.FLOWERS) || BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
     }
 
     public Tag<Block> getNestingTag() {
@@ -481,7 +474,7 @@ public class ProductiveBee extends Bee
                 if (blockState.getBlock() instanceof Feeder) {
                     isInterested = isValidFeeder(level.getBlockEntity(blockPos), ProductiveBee.this::isFlowerBlock);
                 } else {
-                    isInterested = ProductiveBee.this.isFlowerBlock(blockState.getBlock());
+                    isInterested = ProductiveBee.this.isFlowerBlock(blockState);
                     if (isInterested && blockState.is(BlockTags.TALL_FLOWERS)) {
                         if (blockState.getBlock() == Blocks.SUNFLOWER) {
                             isInterested = blockState.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
@@ -528,12 +521,14 @@ public class ProductiveBee extends Bee
         public void stop() {
             super.stop();
 
-            if (ProductiveBee.this.hasNectar()) {
-                BlockConversionRecipe recipe = BeeHelper.getRandomBlockConversionRecipe(ProductiveBee.this);
-                if (recipe != null && ProductiveBee.this.savedFlowerPos != null) {
-                    if (ProductiveBees.rand.nextInt(100) <= recipe.chance) {
+            if (ProductiveBee.this.hasNectar() && ProductiveBee.this.savedFlowerPos != null) {
+                BlockState flowerBlockState = ProductiveBee.this.level.getBlockState(ProductiveBee.this.savedFlowerPos);
+                BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(ProductiveBee.this, flowerBlockState);
+                if (recipe != null) {
+                    if (ProductiveBees.rand.nextInt(100) <= recipe.chance && ProductiveBee.this.savedFlowerPos != null) {
                         ProductiveBee.this.level.setBlock(ProductiveBee.this.savedFlowerPos, recipe.stateTo, 3);
                         ProductiveBee.this.level.levelEvent(2005, ProductiveBee.this.savedFlowerPos, 0);
+                        ProductiveBee.this.hasConverted = true;
                     }
                     // Set flag to prevent produce when trying to convert blocks
                     ProductiveBee.this.setHasConverted(true);

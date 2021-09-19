@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.block.entity.BottlerBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -71,16 +70,16 @@ public class Bottler extends CapabilityContainerBlock
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!world.isClientSide()) {
             final BlockEntity tileEntity = world.getBlockEntity(pos);
 
             if (tileEntity != null) {
-                ItemStack heldItem = player.getItemInHand(handIn);
+                ItemStack heldItem = player.getItemInHand(hand);
                 boolean itemUsed = false;
 
                 if (heldItem.getItem() instanceof BucketItem) {
-                    if (FluidUtil.interactWithFluidHandler(player, handIn, world, pos, null)) {
+                    if (FluidUtil.interactWithFluidHandler(player, hand, world, pos, null)) {
                         itemUsed = true;
                     }
                 }

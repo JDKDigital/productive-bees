@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.block.nest;
 
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.entity.BumbleBeeNestBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

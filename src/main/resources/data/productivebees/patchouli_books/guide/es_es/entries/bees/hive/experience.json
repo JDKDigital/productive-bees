@@ -1,0 +1,19 @@
+{
+    "name": "Abeja Experiencia",
+    "icon": "minecraft:experience_bottle",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:experience",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Abeja Experiencia",
+            "text": "Criada de una $(l:bees/hive/emerald)Abeja Emeralda$(/l) y una $(l:bees/hive/lapis)Abeja Lapizuli$(/l).",
+            "anchor": "experience"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:experience'}"
+        }
+    ]
+}

@@ -1,0 +1,89 @@
+{
+    "name": "Upgrades",
+    "icon": "productivebees:upgrade_base",
+    "category": "productivebees:items",
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "productivebees:upgrade_base",
+            "text": "Las actualizaciones se pueden colocar en máquinas y colmenas para aumentar su funcionalidad o mejorar el rendimiento."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:upgrades/base",
+            "text": "La base de todas las demás actualizaciones."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:upgrades/breeding",
+            "text": "Utilizable en: $(l:hives/advanced_hives#expanded)Colmenas Expandidas$(/l), $(l:blocks/catcher)Receptor$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "Cuando se instala en una colmena, la actualización BaBee dará una pequeña oportunidad a las abejas que viven dentro de la colmena para reproducirse y producir nuevas crías sin su participación. $(br)Cuando se instala en un $(l:blocks/catcher)Receptor$(/l), Solo las BaBees serán atrapadas y puestas en jaulas."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:upgrades/productivity",
+            "text": "Utilizable en: $(l:hives/advanced_hives#expanded)Colmenas Expandidas$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "Cuando se instala en una colmena, la mejora de la productividad aumentará la cantidad de panales que produce una abeja por viaje. Se pueden instalar múltiples actualizaciones de productividad."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:upgrades/time",
+            "text": "Utilizable en: $(l:hives/advanced_hives#expanded)Colmenas Expandidas$(/l), $(l:blocks/centrifuge)Centrifugadora$(/l), $(l:blocks/incubator)Incubadora$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "Cuando se instala en una colmena, la mejora de velocidad reducirá el tiempo que una abeja pasa dentro de la colmena. $(br)Cuando se instala en un$(l:blocks/centrifuge)centrifugadora$(/l) o en un $(l:blocks/incubator)incubador$(/l), aumentará la velocidad de operación"
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:upgrades/filter",
+            "text": "Utilizable en: $(l:hives/advanced_hives#expanded)Colmenas Expandidas$(/l), $(l:blocks/catcher)Receptor$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "Haga clic derecho en una abeja para agregarla al filtro. Coloque el filtro en una rejilla de elaboración para limpiarlo. Cuando se instala en una colmena, solo las abejas especificadas en el filtro podrán ingresar. $(br)Cuando se instala en un receptor, solo se recogerán las abejas especificadas en el filtro."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:upgrades/range",
+            "text": "Utilizable en: $(l:blocks/catcher)Receptor$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "Cuando se instala en un receptor, la actualización de rango ampliará el área de operación en 1 bloque en todas las direcciones. Se pueden instalar múltiples actualizaciones de rango."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:upgrades/comb_block",
+            "text": "Utilizable en: $(l:hives/advanced_hives#expanded)Colmenas Expandidas$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "Cuando se instala en una colmena, las abejas producirán bloques de panal en lugar de panales."
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:upgrades/gene_sampler",
+            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "When installed in a hive, it will slowly extract gene samples from visiting bees. It's totally harmless (tm)"
+        },
+        {
+            "type": "crafting",
+            "recipe": "productivebees:upgrades/anti_teleport",
+            "text": "Utilizable en: $(l:hives/advanced_hives#expanded)Colmenas Expandidas$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "Cuando se instalan en una colmena, las abejas que pueden teletransportarse ya no se teletransportarán cuando vivan en la colmena con la actualización."
+        }
+    ]
+}

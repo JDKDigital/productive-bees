@@ -13,7 +13,7 @@
             "item": "bamboo_blocks:bamboo_beehive"
         },
         "C": {
-            "item": "minecraft:honeycomb"
+            "tag": "forge:honeycombs"
         },
         "F": {
             "tag": "forge:campfires"

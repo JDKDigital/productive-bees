@@ -1,9 +1,10 @@
 package cy.jdkdigital.productivebees.recipe;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.SerializationTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -33,10 +34,10 @@ public abstract class TagOutputRecipe
 
     public Map<ItemStack, IntArrayTag> getRecipeOutputs() {
         if (calculatedItemOutput.isEmpty() && !itemOutput.isEmpty()) {
-            itemOutput.forEach((ingredient, intNBTS) -> {
+            itemOutput.forEach((ingredient, intNBT) -> {
                 ItemStack preferredItem = getPreferredItemByMod(ingredient);
                 if (preferredItem != null && !preferredItem.getItem().equals(Items.BARRIER)) {
-                    calculatedItemOutput.put(preferredItem, intNBTS);
+                    calculatedItemOutput.put(preferredItem, intNBT);
                 }
             });
         }
@@ -76,18 +77,22 @@ public abstract class TagOutputRecipe
         // Try loading fluid from fluid tag
         if (preferredFluid == null || preferredFluid.equals(Fluids.EMPTY)) {
             try {
-                Tag<Fluid> fluidTag = FluidTags.getAllTags().getTag(new ResourceLocation(fluidName));
+                Tag<Fluid> fluidTag = SerializationTags.getInstance().getOrEmpty(Registry.FLUID_REGISTRY).getTag(new ResourceLocation(fluidName));
                 if (fluidTag != null && fluidTag.getValues().size() > 0) {
-                    int currBest = getModPreference().size();
+                    int currBest = 100;
                     for (Fluid fluid: fluidTag.getValues()) {
-                        if (fluid instanceof FlowingFluid) {
+                        if (!fluid.isSource(fluid.defaultFluidState())) {
                             fluid = ((FlowingFluid) fluid).getSource();
+                        }
+
+                        if (!fluid.isSource(fluid.defaultFluidState())) {
+                            continue;
                         }
 
                         ResourceLocation rl = fluid.getRegistryName();
                         if (rl != null) {
                             String modId = rl.getNamespace();
-                            int priority = 100;
+                            int priority = currBest;
                             if (getModPreference().containsKey(modId)) {
                                 priority = getModPreference().get(modId);
                             }
@@ -105,6 +110,25 @@ public abstract class TagOutputRecipe
         }
 
         return preferredFluid;
+    }
+
+    public static List<Fluid> getAllFluidsFromName(String fluidName) {
+        // Try loading from fluid registry
+        List<Fluid> fluids = Collections.singletonList(ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidName)));
+
+        // Try loading fluid from fluid tag
+        if (fluids.get(0).equals(Fluids.EMPTY)) {
+            try {
+                Tag<Fluid> fluidTag = SerializationTags.getInstance().getOrEmpty(Registry.FLUID_REGISTRY).getTag(new ResourceLocation(fluidName));
+                if (fluidTag != null && fluidTag.getValues().size() > 0) {
+                    return fluidTag.getValues();
+                }
+            } catch (Exception e) {
+                // Who cares
+            }
+        }
+
+        return fluids;
     }
 
     private static Map<String, Integer> getModPreference() {

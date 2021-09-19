@@ -2,7 +2,6 @@
     "replace": false,
     "values": [
         "#productivebees:flowers/fiery",
-        "minecraft:nether_wart",
-        "minecraft:cobblestone"
+        "minecraft:nether_wart"
     ]
 }

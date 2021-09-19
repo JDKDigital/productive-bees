@@ -1,0 +1,43 @@
+{
+    "name": "Las abejas de fluidos",
+    "icon": "minecraft:water_bucket",
+    "read_by_default": true,
+    "sortnum": 4,
+    "category": "productivebees:bees_modded",
+    "pages": [
+        {
+            "type": "text",
+            "text": "Las abejas que producen la materia fluida"
+        },
+        {
+            "type": "empty",
+            "draw_filler": false
+        },
+        {
+            "type": "text",
+            "title": "Abeja Chocolate",
+            "text": "Obtenida alimentando con Semillas Dde Cacao a una $(l:bees/wild/sugarbag)Abeja saco de azúcar$(/l).",
+            "anchor": "chocolate",
+            "flag": "productivebees:chocolate"
+        },
+        {
+            "type": "entity",
+            "name": "Chocolate Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:chocolate'}",
+            "flag": "productivebees:chocolate"
+        },
+        {
+            "type": "text",
+            "title": "Abeja del Tea",
+            "text": "Obtenido alimentando un balde de agua a una $(l:bees/solitary/leafcutter)Abeja cortadora de hojas$(/l).",
+            "anchor": "tea",
+            "flag": "productivebees:tea"
+        },
+        {
+            "type": "entity",
+            "name": "Tea Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tea'}",
+            "flag": "productivebees:tea"
+        }
+    ]
+}

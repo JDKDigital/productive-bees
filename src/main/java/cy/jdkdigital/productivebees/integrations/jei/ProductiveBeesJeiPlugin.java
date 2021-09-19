@@ -22,6 +22,7 @@ import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -49,6 +50,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final ResourceLocation CATEGORY_BEE_FLOWERING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_flowering");
     public static final ResourceLocation CATEGORY_INCUBATION_UID = new ResourceLocation(ProductiveBees.MODID, "incubation");
     public static final ResourceLocation CATEGORY_BLOCK_CONVERSION_UID = new ResourceLocation(ProductiveBees.MODID, "block_conversion");
+    public static final ResourceLocation CATEGORY_BOTTLER_UID = new ResourceLocation(ProductiveBees.MODID, "bottler");
 
     public static final IIngredientType<BeeIngredient> BEE_INGREDIENT = () -> BeeIngredient.class;
 
@@ -70,6 +72,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.COARSE_DIRT_NEST.get()), CATEGORY_BEE_SPAWNING_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.OAK_WOOD_NEST.get()), CATEGORY_BEE_SPAWNING_BIG_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.INCUBATOR.get()), CATEGORY_INCUBATION_UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BOTTLER.get()), CATEGORY_BOTTLER_UID);
     }
 
     @Override
@@ -86,6 +89,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCategories(new BeeFloweringRecipeCategory(guiHelper));
         registration.addRecipeCategories(new IncubationRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BlockConversionRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new BottlerRecipeCategory(guiHelper));
     }
 
     @Override
@@ -127,6 +131,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Block conversion recipes
         Map<ResourceLocation, Recipe<Container>> blockConversionRecipeMap = recipeManager.byType(BlockConversionRecipe.BLOCK_CONVERSION);
         registration.addRecipes(blockConversionRecipeMap.values(), CATEGORY_BLOCK_CONVERSION_UID);
+        // Bottler recipes
+        Map<ResourceLocation, Recipe<Container>> bottlerRecipeMap = recipeManager.byType(BottlerRecipe.BOTTLER);
+        registration.addRecipes(bottlerRecipeMap.values(), CATEGORY_BOTTLER_UID);
 
         // Bee ingredient descriptions
         List<String> notInfoBees = Arrays.asList("minecraft:bee", "configurable_bee");
@@ -136,8 +143,15 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             if (!notInfoBees.contains(beeId)) {
                 if (entry.getValue().isConfigurable()) {
                     CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getKey());
+                    Component description = null;
                     if (nbt.contains("description")) {
-                        registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, new TranslatableComponent(nbt.getString("description")));
+                        description = new TranslatableComponent(nbt.getString("description"));
+                    }
+                    if (!nbt.getBoolean("selfbreed")) {
+                        description = new TranslatableComponent("productivebees.ingredient.description.selfbreed", description);
+                    }
+                    if (description != null) {
+                        registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, description);
                     }
                 } else {
                     registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, new TranslatableComponent("productivebees.ingredient.description." + (beeId)));
@@ -154,6 +168,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Bee nest descriptions
         List<String> itemInfos = Arrays.asList(
                 "inactive_dragon_egg",
+                "dragon_egg_hive",
                 "bumble_bee_nest",
                 "sugar_cane_nest",
                 "slimy_nest",

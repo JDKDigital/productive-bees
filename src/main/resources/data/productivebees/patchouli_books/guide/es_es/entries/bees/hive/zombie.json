@@ -1,0 +1,19 @@
+{
+    "name": "ZomBee",
+    "icon": "minecraft:rotten_flesh",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:zombie",
+    "pages": [
+        {
+            "type": "text",
+            "title": "ZomBee",
+            "text": "Se mudará a una colmena avanzada si la colmena se deja vacía en la oscuridad.",
+            "anchor": "zombie"
+        },
+        {
+            "type": "entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:zombie'}"
+        }
+    ]
+}

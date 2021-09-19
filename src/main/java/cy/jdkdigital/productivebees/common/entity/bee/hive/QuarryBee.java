@@ -5,7 +5,7 @@ import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class QuarryBee extends ProductiveBee
 {
@@ -19,7 +19,7 @@ public class QuarryBee extends ProductiveBee
     }
 
     @Override
-    public boolean isFlowerBlock(Block flowerBlock) {
-        return ModTags.QUARRY.contains(flowerBlock);
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        return flowerBlock.is(ModTags.QUARRY);
     }
 }

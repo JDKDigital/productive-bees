@@ -6,7 +6,7 @@
         {
             "type": "spotlight",
             "item": "productivebees:nest_locator",
-            "text": "Can hone in on the faint buzzing of nearby nests. Shift right click the locator on a nest or a block of the type if nest you want to find. If you want to find a sand nest you can either right click a sand nest or a sand block. Right clicking again will locate any nearby nests of that type."
+            "text": "Can hone in on the faint buzzing of nearby nests. Shift right click the locator on a nest or a block of the type of nest you want to find. If you want to find a sand nest you can either right click a sand nest or a sand block. Right clicking again will locate any nearby nests of that type."
         },
         {
             "type": "crafting",

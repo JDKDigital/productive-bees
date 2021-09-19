@@ -86,7 +86,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
         IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
 
-        ingredientStacks.init(0, true, 5, 27);
+        ingredientStacks.init(0, true, 7, 27);
         ingredientStacks.set(ingredients);
 
         int startX = 68;

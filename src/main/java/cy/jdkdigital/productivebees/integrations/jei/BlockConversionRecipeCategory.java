@@ -21,6 +21,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConversionRecipe>
@@ -69,12 +70,12 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
         ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.bee.get()));
 
         if (recipe.stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
-            ingredients.setInputs(VanillaTypes.ITEM, Collections.singletonList(new ItemStack(recipe.stateFrom.getBlock().asItem())));
+            ingredients.setInputs(VanillaTypes.ITEM, Arrays.asList(recipe.fromDisplay.getItems()));
         } else {
             ingredients.setInputs(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateFrom.getFluidState().getType(), 1000)));
         }
         if (recipe.stateTo.getFluidState().getType().equals(Fluids.EMPTY)) {
-            ingredients.setOutputs(VanillaTypes.ITEM, Collections.singletonList(new ItemStack(recipe.stateTo.getBlock().asItem())));
+            ingredients.setOutputs(VanillaTypes.ITEM, Arrays.asList(recipe.toDisplay.getItems()));
         } else {
             ingredients.setOutputs(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateTo.getFluidState().getType(), 1000)));
         }

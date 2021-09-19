@@ -121,6 +121,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         flowering.put("productivebees:yellow_black_carpenter_bee", ModTags.FOREST_FLOWERS);
         flowering.put("productivebees:lumber_bee", BlockTags.LOGS);
         flowering.put("productivebees:quarry_bee", ModTags.QUARRY);
+        flowering.put("productivebees:creeper_bee", ModTags.POWDERY);
 
         Tag<Block> defaultBlockTag = BlockTags.FLOWERS;
 

@@ -36,4 +36,7 @@ public class ModContainerTypes
     public static final RegistryObject<MenuType<HoneyGeneratorContainer>> HONEY_GENERATOR = CONTAINER_TYPES.register("honey_generator", () ->
             IForgeContainerType.create(HoneyGeneratorContainer::new)
     );
+    public static final RegistryObject<MenuType<GeneIndexerContainer>> GENE_INDEXER = CONTAINER_TYPES.register("gene_indexer", () ->
+            IForgeContainerType.create(GeneIndexerContainer::new)
+    );
 }

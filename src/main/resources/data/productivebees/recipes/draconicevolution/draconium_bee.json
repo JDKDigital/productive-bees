@@ -1,0 +1,55 @@
+{
+    "type": "draconicevolution:fusion_crafting",
+    "result": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:draconium"
+            }
+        }
+    },
+    "catalyst": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:draconic"
+            }
+        }
+    },
+    "total_energy": 1000000,
+    "tier": "WYVERN",
+    "ingredients": [
+        {
+            "item": "draconicevolution:draconium_core"
+        },
+        {
+            "item": "draconicevolution:draconium_core"
+        },
+        {
+            "tag": "forge:ingots/draconium"
+        },
+        {
+            "tag": "forge:ingots/draconium"
+        },
+        {
+            "tag": "forge:storage_blocks/honeycombs"
+        },
+        {
+            "tag": "forge:storage_blocks/honeycombs"
+        },
+        {
+            "tag": "forge:storage_blocks/draconium"
+        },
+        {
+            "tag": "forge:storage_blocks/draconium"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "draconicevolution"
+        }
+    ]
+}

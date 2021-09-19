@@ -139,7 +139,7 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         Pair<Fluid, Integer> fluid = recipe.getFluidOutputs();
         if (fluid != null) {
             chances.add(new TextComponent(""));
-            amounts.add(new TranslatableComponent("productivebees.centrifuge.tooltip.amount", fluid.getSecond() + "mb"));
+            amounts.add(new TranslatableComponent("productivebees.centrifuge.tooltip.amount", fluid.getSecond() + "mB"));
         }
 
         itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
