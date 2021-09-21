@@ -92,15 +92,6 @@ public class EventHandler
     }
 
     @SubscribeEvent
-    public static void onPlayerJoinServer(PlayerEvent.PlayerLoggedInEvent event) {
-        PlayerEntity player = event.getPlayer();
-        if (player instanceof ServerPlayerEntity) {
-            // Send data
-            PacketHandler.sendBeeDataToPlayer(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()), (ServerPlayerEntity) event.getEntity());
-        }
-    }
-
-    @SubscribeEvent
     public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
         Entity entity = event.getEntity();
 

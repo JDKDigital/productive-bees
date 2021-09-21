@@ -1,7 +1,7 @@
 {
     "replace": false,
     "values": [
-        "minecraft:tnt",
+        "minecraft:coal_ore",
         {
             "id": "quark:gunpowder_sack",
             "required": false

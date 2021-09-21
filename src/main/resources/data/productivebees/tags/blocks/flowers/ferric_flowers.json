@@ -7,6 +7,9 @@
         "minecraft:iron_door",
         "minecraft:iron_trapdoor",
         "minecraft:cauldron",
-        "minecraft:hopper"
+        "minecraft:hopper",
+        "minecraft:anvil",
+        "minecraft:chipped_anvil",
+        "minecraft:damaged_anvil"
     ]
 }

@@ -1,0 +1,11 @@
+{
+    "type": "productivebees:block_conversion",
+    "bee": "productivebees:iron",
+    "from": {
+        "Name": "minecraft:chipped_anvil"
+    },
+    "to": {
+        "Name": "minecraft:anvil"
+    },
+    "chance": 70
+}
