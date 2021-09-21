@@ -454,6 +454,20 @@ public class ProductiveBeeEntity extends BeeEntity
         return true;
     }
 
+    public void postPollinate() {
+        if (ProductiveBeeEntity.this.hasNectar() && ProductiveBeeEntity.this.savedFlowerPos != null) {
+            BlockState flowerBlockState = ProductiveBeeEntity.this.level.getBlockState(ProductiveBeeEntity.this.savedFlowerPos);
+            BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(ProductiveBeeEntity.this, flowerBlockState);
+            if (recipe != null) {
+                if (ProductiveBees.rand.nextInt(100) <= recipe.chance && ProductiveBeeEntity.this.savedFlowerPos != null) {
+                    ProductiveBeeEntity.this.level.setBlock(ProductiveBeeEntity.this.savedFlowerPos, recipe.stateTo, 3);
+                    ProductiveBeeEntity.this.level.levelEvent(2005, ProductiveBeeEntity.this.savedFlowerPos, 0);
+                    ProductiveBeeEntity.this.hasConverted = true;
+                }
+            }
+        }
+    }
+
     @Override
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
         return this.isBaby() ? sizeIn.height * 0.25F : sizeIn.height * 0.5F;
@@ -543,18 +557,7 @@ public class ProductiveBeeEntity extends BeeEntity
         @Override
         public void stop() {
             super.stop();
-
-            if (ProductiveBeeEntity.this.hasNectar() && ProductiveBeeEntity.this.savedFlowerPos != null) {
-                BlockState flowerBlockState = ProductiveBeeEntity.this.level.getBlockState(ProductiveBeeEntity.this.savedFlowerPos);
-                BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(ProductiveBeeEntity.this, flowerBlockState);
-                if (recipe != null) {
-                    if (ProductiveBees.rand.nextInt(100) <= recipe.chance && ProductiveBeeEntity.this.savedFlowerPos != null) {
-                        ProductiveBeeEntity.this.level.setBlock(ProductiveBeeEntity.this.savedFlowerPos, recipe.stateTo, 3);
-                        ProductiveBeeEntity.this.level.levelEvent(2005, ProductiveBeeEntity.this.savedFlowerPos, 0);
-                        ProductiveBeeEntity.this.hasConverted = true;
-                    }
-                }
-            }
+            ProductiveBeeEntity.this.postPollinate();
         }
 
         @Nonnull

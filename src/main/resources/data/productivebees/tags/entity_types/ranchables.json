@@ -3,6 +3,10 @@
     "values": [
         "minecraft:cow",
         "minecraft:sheep",
-        "minecraft:llama"
+        "minecraft:llama",
+        {
+            "id": "dyenamics:sheep",
+            "required": false
+        }
     ]
 }

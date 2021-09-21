@@ -7,11 +7,14 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IForgeShearable;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -58,5 +61,14 @@ public class RancherBeeEntity extends ProductiveBeeEntity
         }
 
         return false;
+    }
+
+    @Override
+    public void postPollinate() {
+        super.postPollinate();
+
+        if (target instanceof SheepEntity) {
+            ((SheepEntity) target).shear(SoundCategory.BLOCKS);
+        }
     }
 }
