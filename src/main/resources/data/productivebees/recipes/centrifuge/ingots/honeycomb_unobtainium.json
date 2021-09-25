@@ -12,7 +12,7 @@
     "outputs": [
         {
             "item": {
-                "tag": "forge:nuggets/unobtainium"
+                "item": "allthemodium:unobtainium_nugget"
             },
             "min": 1,
             "max": 2,
@@ -22,16 +22,15 @@
             "item": {
                 "tag": "forge:wax"
             }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 50
         }
     ],
     "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:nuggets/unobtainium"
-            }
-        },
         {
             "type": "forge:mod_loaded",
             "modid": "allthemodium"

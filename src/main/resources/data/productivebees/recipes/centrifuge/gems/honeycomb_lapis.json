@@ -14,7 +14,7 @@
             "item": {
                 "tag": "forge:gems/lapis"
             },
-            "min": 1
+            "min": 1,
             "chance": 50
         },
         {

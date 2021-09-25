@@ -272,8 +272,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             });
 
             // Allow overfilling of fluid but don't process if the tank has a different fluid
-            boolean fluidFlag = false;
             Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
+            boolean fluidFlag = true;
             if (fluidOutput != null) {
                 fluidFlag = fluidInventory.map(h -> h.getFluidInTank(0).isEmpty() || h.getFluidInTank(0).getFluid().equals(fluidOutput.getFirst())).orElse(false);
             }
