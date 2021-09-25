@@ -1,3 +1,10 @@
+0.6.9.21
+
+-- Added Tetra Geode bee which can convert stones into geodes
+-- Added prismarine bee which can be caught in the ocean
+-- Added Quartz Enriched Iron bee (Refined Storage)
+
+
 0.6.9.20
 This release requires Forge 36.2.4+
 

@@ -3,10 +3,7 @@ package cy.jdkdigital.productivebees.common.tileentity;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.HoneyGenerator;
 import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
-import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModFluids;
-import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -103,8 +100,10 @@ public class HoneyGeneratorTileEntity extends FluidTankTileEntity implements INa
         int tickRate = 10;
         if (level != null && !level.isClientSide) {
             if (++tickCounter % tickRate == 0) {
-                int inputPowerAmount = ProductiveBeesConfig.GENERAL.generatorPowerGen.get() * tickRate;
-                int fluidConsumeAmount = ProductiveBeesConfig.GENERAL.generatorHoneyUse.get() * tickRate;
+                double consumeModifier = 1d + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
+                double speedModifier = 1d + (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
+                int inputPowerAmount = (int) (ProductiveBeesConfig.GENERAL.generatorPowerGen.get() * tickRate * speedModifier);
+                int fluidConsumeAmount = (int) (ProductiveBeesConfig.GENERAL.generatorHoneyUse.get() * tickRate * speedModifier / consumeModifier);
                 fluidInventory.ifPresent(fluidHandler -> energyHandler.ifPresent(handler -> {
                     if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && handler.receiveEnergy(inputPowerAmount, true) > 0) {
                         handler.receiveEnergy(inputPowerAmount, false);
