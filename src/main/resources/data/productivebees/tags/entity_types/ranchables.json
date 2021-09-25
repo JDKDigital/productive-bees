@@ -4,6 +4,10 @@
         "minecraft:cow",
         "minecraft:sheep",
         "minecraft:llama",
-        "minecraft:goat"
+        "minecraft:goat",
+        {
+            "id": "dyenamics:sheep",
+            "required": false
+        }
     ]
 }

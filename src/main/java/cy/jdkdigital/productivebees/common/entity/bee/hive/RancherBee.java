@@ -4,12 +4,14 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
@@ -58,5 +60,14 @@ public class RancherBee extends ProductiveBee
         }
 
         return false;
+    }
+
+    @Override
+    public void postPollinate() {
+        super.postPollinate();
+
+        if (target instanceof Sheep sheep) {
+            sheep.shear(SoundSource.BLOCKS);
+        }
     }
 }

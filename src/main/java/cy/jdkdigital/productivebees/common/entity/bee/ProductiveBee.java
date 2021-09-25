@@ -436,6 +436,22 @@ public class ProductiveBee extends Bee
         return true;
     }
 
+    public void postPollinate() {
+        if (ProductiveBee.this.hasNectar() && ProductiveBee.this.savedFlowerPos != null) {
+            BlockState flowerBlockState = ProductiveBee.this.level.getBlockState(ProductiveBee.this.savedFlowerPos);
+            BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(ProductiveBee.this, flowerBlockState);
+            if (recipe != null) {
+                if (ProductiveBees.rand.nextInt(100) <= recipe.chance) {
+                    ProductiveBee.this.level.setBlock(ProductiveBee.this.savedFlowerPos, recipe.stateTo, 3);
+                    ProductiveBee.this.level.levelEvent(2005, ProductiveBee.this.savedFlowerPos, 0);
+                    ProductiveBee.this.hasConverted = true;
+                }
+                // Set flag to prevent produce when trying to convert blocks
+                ProductiveBee.this.setHasConverted(true);
+            }
+        }
+    }
+
     @Override
     protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return this.isBaby() ? sizeIn.height * 0.25F : sizeIn.height * 0.5F;
@@ -520,20 +536,7 @@ public class ProductiveBee extends Bee
         @Override
         public void stop() {
             super.stop();
-
-            if (ProductiveBee.this.hasNectar() && ProductiveBee.this.savedFlowerPos != null) {
-                BlockState flowerBlockState = ProductiveBee.this.level.getBlockState(ProductiveBee.this.savedFlowerPos);
-                BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(ProductiveBee.this, flowerBlockState);
-                if (recipe != null) {
-                    if (ProductiveBees.rand.nextInt(100) <= recipe.chance && ProductiveBee.this.savedFlowerPos != null) {
-                        ProductiveBee.this.level.setBlock(ProductiveBee.this.savedFlowerPos, recipe.stateTo, 3);
-                        ProductiveBee.this.level.levelEvent(2005, ProductiveBee.this.savedFlowerPos, 0);
-                        ProductiveBee.this.hasConverted = true;
-                    }
-                    // Set flag to prevent produce when trying to convert blocks
-                    ProductiveBee.this.setHasConverted(true);
-                }
-            }
+            ProductiveBee.this.postPollinate();
         }
 
         @Nonnull

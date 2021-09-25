@@ -22,6 +22,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import cy.jdkdigital.productivebees.init.*;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -101,8 +102,10 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     public static void tick(Level level, BlockPos pos, BlockState state, HoneyGeneratorBlockEntity blockEntity) {
         int tickRate = 10;
         if (++blockEntity.tickCounter % tickRate == 0) {
-            int inputPowerAmount = ProductiveBeesConfig.GENERAL.generatorPowerGen.get() * tickRate;
-            int fluidConsumeAmount = ProductiveBeesConfig.GENERAL.generatorHoneyUse.get() * tickRate;
+            double consumeModifier = 1d + blockEntity.getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
+            double speedModifier = 1d + (blockEntity.getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
+            int inputPowerAmount = (int) (ProductiveBeesConfig.GENERAL.generatorPowerGen.get() * tickRate * speedModifier);
+            int fluidConsumeAmount = (int) (ProductiveBeesConfig.GENERAL.generatorHoneyUse.get() * tickRate * speedModifier / consumeModifier);
             blockEntity.fluidInventory.ifPresent(fluidHandler -> blockEntity.energyHandler.ifPresent(handler -> {
                 if (fluidHandler.getFluidInTank(0).getAmount() >= fluidConsumeAmount && handler.receiveEnergy(inputPowerAmount, true) > 0) {
                     handler.receiveEnergy(inputPowerAmount, false);

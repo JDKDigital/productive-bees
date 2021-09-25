@@ -21,7 +21,7 @@
         {
             "type": "text",
             "title": "Plastic Bee",
-            "text": "Bred from a $(l:bees/solitary/resin)Resin Bee$(/l) and a $(l:bees/worker_bees#lumber)Lumber Bee$(/l).",
+            "text": "Bred from a $(l:bees/solitary/resin)Resin Bee$(/l) and a $(l:bees/worker/lumber)Lumber Bee$(/l).",
             "anchor": "plastic",
             "flag": "productivebees:plastic"
         },
