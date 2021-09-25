@@ -27,43 +27,43 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
         BlockPos blockPos = context.origin();
         ReplaceBlockConfiguration featureConfig = context.config();
 
-        OreConfiguration.TargetBlockState targetBlockState = featureConfig.targetStates.get(0);
+        for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
+            if (nestShouldNotGenerate(targetBlockState.state) || rand.nextFloat() > this.probability) {
+                return false;
+            }
 
-        if (nestShouldNotGenerate(targetBlockState.state) || rand.nextFloat() > this.probability) {
-            return false;
-        }
+            // Get to ground level
+            blockPos = blockPos.above(chunkGenerator.getSpawnHeight(world));
 
-        // Get to ground level
-        blockPos = blockPos.above(chunkGenerator.getSpawnHeight(world));
+            // Go to ground surface
+            while (blockPos.getY() < 127 && !world.isEmptyBlock(blockPos)) {
+                blockPos = blockPos.above();
+            }
+            // Go up some more
+            blockPos = blockPos.above(rand.nextInt(4));
 
-        // Go to ground surface
-        while (blockPos.getY() < 127 && !world.isEmptyBlock(blockPos)) {
-            blockPos = blockPos.above();
-        }
-        // Go up some more
-        blockPos = blockPos.above(rand.nextInt(4));
-
-        // Locate tree log in chunk
-        BlockPos newPos = null;
-        blockFound:
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
-                newPos = blockPos.offset(x, 0, z);
-                if (targetBlockState.target.test(world.getBlockState(newPos), world.getRandom())) {
-                    break blockFound;
+            // Locate tree log in chunk
+            BlockPos newPos = null;
+            blockFound:
+            for (int x = 0; x < 16; x++) {
+                for (int z = 0; z < 16; z++) {
+                    newPos = blockPos.offset(x, 0, z);
+                    if (targetBlockState.target.test(world.getBlockState(newPos), world.getRandom())) {
+                        break blockFound;
+                    }
+                    newPos = null;
                 }
-                newPos = null;
-            }
-        }
-
-        if (newPos != null) {
-            // For thicc trees, we need to move the nest to the outside of the tree
-            while (targetBlockState.target.test(world.getBlockState(newPos.east(1)), world.getRandom())) {
-                newPos = newPos.east(1);
             }
 
-            if (targetBlockState.target.test(world.getBlockState(blockPos), world.getRandom())) {
-                return placeNest(world, blockPos, targetBlockState.state);
+            if (newPos != null) {
+                // For thicc trees, we need to move the nest to the outside of the tree
+                while (targetBlockState.target.test(world.getBlockState(newPos.east(1)), world.getRandom())) {
+                    newPos = newPos.east(1);
+                }
+
+                if (targetBlockState.target.test(world.getBlockState(newPos), world.getRandom())) {
+                    return placeNest(world, newPos, targetBlockState.state);
+                }
             }
         }
         return false;
