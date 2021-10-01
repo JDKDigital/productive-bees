@@ -2,8 +2,8 @@ package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import cy.jdkdigital.productivebees.common.entity.bee.IEffectBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.EntityType;
@@ -35,10 +35,9 @@ public class CreeperBeeEntity extends ProductiveBeeEntity implements IEffectBeeE
         beeAttributes.put(BeeAttributes.TEMPER, 2);
     }
 
-    // TODO
     @Override
     public boolean isFlowerBlock(BlockState flowerBlock) {
-        return super.isFlowerBlock(flowerBlock);
+        return flowerBlock.is(ModTags.POWDERY);
     }
 
     protected void defineSynchedData() {

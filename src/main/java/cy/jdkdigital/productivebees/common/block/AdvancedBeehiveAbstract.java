@@ -142,17 +142,6 @@ public abstract class AdvancedBeehiveAbstract extends ContainerBlock
     }
 
     @Override
-    public void fallOn(World world, BlockPos pos, Entity entity, float distance) {
-        super.fallOn(world, pos, entity, distance);
-        if (distance > 3.0F) {
-            TileEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof AdvancedBeehiveTileEntityAbstract) {
-                ((AdvancedBeehiveTileEntityAbstract) tileEntity).emptyAllLivingFromHive(null, world.getBlockState(pos), BeehiveTileEntity.State.BEE_RELEASED);
-            }
-        }
-    }
-
-    @Override
     public void attack(BlockState state, World world, BlockPos pos, PlayerEntity player) {
         ItemStack heldItem = player.getMainHandItem();
         if (heldItem.getItem().equals(Items.STICK)) {

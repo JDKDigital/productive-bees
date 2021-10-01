@@ -9,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.awt.*;
@@ -27,7 +29,8 @@ public class BeeCreator
         data.putInt("primaryColor", primary.getRGB());
         data.putInt("secondaryColor", secondary.getRGB());
 
-        data.putString("name", json.has("name") ? json.get("name").getAsString() : idToName(id.getPath()) + " Bee");
+        ITextComponent translation = new TranslationTextComponent("entity.productivebees." + id.getPath() + "_bee");
+        data.putString("name", translation.getString());
 
         if (json.has("description")) {
             data.putString("description", json.get("description").getAsString());
@@ -98,16 +101,6 @@ public class BeeCreator
         data.putBoolean("createComb", !json.has("createComb") || json.get("createComb").getAsBoolean());
 
         return data;
-    }
-
-    public static String idToName(String givenString) {
-        String[] arr = givenString.replace("_", " ").split(" ");
-        StringBuilder sb = new StringBuilder();
-
-        for (String s : arr) {
-            sb.append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).append(" ");
-        }
-        return sb.toString().trim();
     }
 
     public static void setTag(String type, ItemStack stack) {

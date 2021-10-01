@@ -23,12 +23,16 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.village.PointOfInterestManager;
+import net.minecraft.village.PointOfInterestType;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 public class BeeCage extends Item
 {
@@ -56,12 +60,25 @@ public class BeeCage extends Item
         BeeEntity entity = getEntityFromStack(stack, worldIn, true);
 
         if (entity != null) {
+            BlockPos blockPos = pos.relative(context.getClickedFace());
+
             if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
                 entity.hivePos = null;
+                if (entity instanceof ProductiveBeeEntity && worldIn instanceof ServerWorld) {
+                    PointOfInterestManager poiManager = ((ServerWorld) worldIn).getPoiManager();
+                    Optional<PointOfInterestType> poiAtLocation = poiManager.getType(blockPos);
+                    if (poiAtLocation.isPresent() && ((ProductiveBeeEntity) entity).getBeehiveInterests().test(poiAtLocation.get())) {
+                        entity.hivePos = blockPos;
+                    }
+                }
             }
 
-            BlockPos blockPos = pos.relative(context.getClickedFace());
             entity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
+
+            if (entity.isFlowerValid(blockPos)) {
+                entity.setSavedFlowerPos(blockPos);
+            }
+
             worldIn.addFreshEntity(entity);
 
             postItemUse(context);

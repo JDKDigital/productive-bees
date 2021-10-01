@@ -220,6 +220,10 @@ public class ProductiveBeeEntity extends BeeEntity
         );
     }
 
+    public Predicate<PointOfInterestType> getBeehiveInterests() {
+        return beehiveInterests;
+    }
+
     public boolean doesHiveAcceptBee(BlockPos pos) {
         TileEntity tileentity = level.getBlockEntity(pos);
         if (tileentity instanceof AdvancedBeehiveTileEntityAbstract) {

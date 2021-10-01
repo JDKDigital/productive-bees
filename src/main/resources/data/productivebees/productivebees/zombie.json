@@ -1,6 +1,5 @@
 {
     "primaryColor": "#796565",
-    "name": "ZomBee",
     "beeTexture": "productivebees:textures/entity/bee/zombie/bee",
     "description": "productivebees.ingredient.description.zombie",
     "createComb": false,

@@ -425,7 +425,7 @@ public class BeeHelper
 
             if (tag.contains("HivePos")) {
                 BlockPos hivePos = NBTUtil.readBlockPos(tag.getCompound("HivePos"));
-                list.add(new TranslationTextComponent("productivebees.information.home_position ", hivePos.getX(), hivePos.getY(), hivePos.getZ()));
+                list.add(new TranslationTextComponent("productivebees.information.home_position", hivePos.getX(), hivePos.getY(), hivePos.getZ()));
             }
         }
 
