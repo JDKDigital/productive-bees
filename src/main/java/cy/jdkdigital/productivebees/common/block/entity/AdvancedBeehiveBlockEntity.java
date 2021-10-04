@@ -325,26 +325,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         return tag;
     }
 
-    @Override
-    public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        CompoundTag tag = new CompoundTag();
-
-        tag.put("bees", getBeeListAsNBTList(this));
-
-        return new ClientboundBlockEntityDataPacket(worldPosition, -1, tag);
-    }
-
-    @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        CompoundTag tag = pkt.getTag();
-
-        if (tag.contains("bees")) {
-            getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {
-                inhabitantHandler.setInhabitantsFromListNBT((ListTag) tag.get("bees"));
-            });
-        }
-    }
-
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {

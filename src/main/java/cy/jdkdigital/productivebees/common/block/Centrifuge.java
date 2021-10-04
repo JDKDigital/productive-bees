@@ -44,7 +44,7 @@ public class Centrifuge extends CapabilityContainerBlock
                     INSIDE
             ), BooleanOp.ONLY_FIRST);
 
-    private static VoxelShape BLOCK_ABOVE_SHAPE = box(0.0D, 16.0D, 0.0D, 16.0D, 32.0D, 16.0D);
+    private static final VoxelShape BLOCK_ABOVE_SHAPE = box(0.0D, 16.0D, 0.0D, 16.0D, 32.0D, 16.0D);
     public static VoxelShape COLLECTION_AREA_SHAPE = Shapes.or(INSIDE, BLOCK_ABOVE_SHAPE);
 
     public Centrifuge(Block.Properties properties) {
@@ -114,7 +114,7 @@ public class Centrifuge extends CapabilityContainerBlock
         return new CentrifugeBlockEntity(pos, state);
     }
 
-    public void openGui(ServerPlayer player, CentrifugeBlockEntity tileEntity) {
+    private void openGui(ServerPlayer player, CentrifugeBlockEntity tileEntity) {
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

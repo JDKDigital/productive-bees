@@ -215,7 +215,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         }
 
         if (itemUsed) {
-            this.takeHoney(world, state, pos);
+            world.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, getMaxHoneyLevel() - 5));
         } else if (!world.isClientSide()) {
             final BlockEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveBlockEntity) {

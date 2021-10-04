@@ -1,3 +1,9 @@
+0.7.0.8
+
+-- Fixed crash when throwing bee bombs
+-- Fixed crash when entity lands on a hive
+
+
 0.7.0.7
 
 -- Honey Generator can now use upgrades

@@ -107,10 +107,6 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
         }
     }
 
-    public void takeHoney(Level world, BlockState state, BlockPos pos) {
-        world.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, getMaxHoneyLevel() - 5));
-    }
-
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
         if (state.hasProperty(BeehiveBlock.HONEY_LEVEL) && state.getValue(BeehiveBlock.HONEY_LEVEL) >= getMaxHoneyLevel()) {
@@ -138,7 +134,6 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
                     }
                 }
             }
-
         }
     }
 
@@ -157,23 +152,12 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     }
 
     @Override
-    public void fallOn(Level world, BlockState state, BlockPos pos, Entity entity, float distance) {
-        super.fallOn(world, state, pos, entity, distance);
-        if (distance > 3.0F) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract beehiveBlockEntityAbstract) {
-                beehiveBlockEntityAbstract.emptyAllLivingFromHive(null, world.getBlockState(pos), BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED);
-            }
-        }
-    }
-
-    @Override
     public void attack(BlockState state, Level level, BlockPos pos, Player player) {
         ItemStack heldItem = player.getMainHandItem();
         if (level instanceof ServerLevel && heldItem.getItem().equals(Items.STICK)) {
             BlockEntity tileEntity = level.getBlockEntity(pos);
-            if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract) {
-                ((AdvancedBeehiveBlockEntityAbstract) tileEntity).emptyAllLivingFromHive(player, state, BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED);
+            if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract beehiveTileEntity) {
+                beehiveTileEntity.emptyAllLivingFromHive(player, state, BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED);
             }
         }
         super.attack(state, level, pos, player);
@@ -216,8 +200,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
         Entity entity = builder.getOptionalParameter(LootContextParams.THIS_ENTITY);
         if (entity instanceof PrimedTnt || entity instanceof Creeper || entity instanceof WitherSkull || entity instanceof WitherBoss || entity instanceof MinecartTNT) {
             BlockEntity tileEntity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
-            if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract) {
-                AdvancedBeehiveBlockEntityAbstract beehiveTileEntity = (AdvancedBeehiveBlockEntityAbstract) tileEntity;
+            if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract beehiveTileEntity) {
                 beehiveTileEntity.emptyAllLivingFromHive(null, state, BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY);
             }
         }
@@ -229,8 +212,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world, BlockPos pos, BlockPos fireBlockPos) {
         if (world.getBlockState(fireBlockPos).getBlock() instanceof FireBlock) {
             BlockEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract) {
-                AdvancedBeehiveBlockEntityAbstract beehiveTileEntity = (AdvancedBeehiveBlockEntityAbstract) tileEntity;
+            if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract beehiveTileEntity) {
                 beehiveTileEntity.emptyAllLivingFromHive(null, state, BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY);
             }
         }

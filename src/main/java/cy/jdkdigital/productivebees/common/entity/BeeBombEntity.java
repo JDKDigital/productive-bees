@@ -46,6 +46,7 @@ public class BeeBombEntity extends ThrowableItemProjectile
 
     @Override
     protected void onHit(@Nonnull HitResult result) {
+        super.onHit(result);
         if (!this.level.isClientSide) {
             BlockPos blockPos = null;
             Entity entity = null;

@@ -11,6 +11,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -56,19 +57,19 @@ public class BeeBomb extends Item
 
     @Nonnull
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, @Nonnull InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, @Nonnull InteractionHand hand) {
         ItemStack item = player.getItemInHand(hand);
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SPLASH_POTION_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
-        if (!world.isClientSide) {
-            BeeBombEntity bombEntity = new BeeBombEntity(world, player);
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SPLASH_POTION_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (level.random.nextFloat() * 0.4F + 0.8F));
+        if (!level.isClientSide) {
+            BeeBombEntity bombEntity = new BeeBombEntity(level, player);
             bombEntity.setItem(item);
             bombEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
-            world.addFreshEntity(bombEntity);
+            level.addFreshEntity(bombEntity);
         }
-
+        player.awardStat(Stats.ITEM_USED.get(this));
         player.getInventory().removeItem(item);
 
-        return InteractionResultHolder.success(item);
+        return InteractionResultHolder.sidedSuccess(item, level.isClientSide());
     }
 
     @Override
