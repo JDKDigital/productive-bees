@@ -1,7 +1,8 @@
 0.6.9.21
 
+-- Added support for Bumblezone pollen
 -- Honey Generator can now use speed and productivity upgrades
--- Added Tetra Geode bee which can convert stones into geodes
+-- Added Tetra Geode bee which can convert stones into geode bearing stone
 -- Added prismarine bee which can be caught in the ocean
 -- Added Quartz Enriched Iron bee (Refined Storage)
 -- Updated Russian translation thanks to Tkhakiro

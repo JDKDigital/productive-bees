@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeCreator;
@@ -39,7 +40,8 @@ public class CombBlockItem extends BlockItem
         if (tag != null && tag.contains("type")) {
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
-                return new TranslationTextComponent("block.productivebees.comb_configurable", nbt.getString("name").replace(" Bee", ""));
+                String name = new TranslationTextComponent("entity.productivebees." + ProductiveBeeEntity.getBeeName(tag.getString("type")) + "_bee").getString();
+                return new TranslationTextComponent("block.productivebees.comb_configurable", name.replace(" Bee", ""));
             }
         }
         return super.getName(stack);

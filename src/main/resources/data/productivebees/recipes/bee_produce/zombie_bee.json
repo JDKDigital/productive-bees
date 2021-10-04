@@ -5,7 +5,14 @@
         {
             "item": {
                 "tag": "forge:honeycombs/rotten"
-            }
+            },
+            "chance": 50
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 10
         }
     ]
 }

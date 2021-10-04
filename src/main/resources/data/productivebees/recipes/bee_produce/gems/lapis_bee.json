@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/lapis"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ]
 }

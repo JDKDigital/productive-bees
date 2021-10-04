@@ -12,6 +12,12 @@
                 "item": "minecraft:bone"
             },
             "chance": 5
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ]
 }

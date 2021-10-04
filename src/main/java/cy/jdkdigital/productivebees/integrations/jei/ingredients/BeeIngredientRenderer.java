@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
@@ -37,9 +38,8 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
         List<ITextComponent> list = new ArrayList<>();
         CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
-            list.add(new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")));
-        }
-        else {
+            list.add(new TranslationTextComponent("entity.productivebees." + ProductiveBeeEntity.getBeeName(beeIngredient.getBeeType().toString()) + "_bee"));
+        } else {
             list.add(beeIngredient.getBeeEntity().getDescription());
         }
         list.add(new StringTextComponent(beeIngredient.getBeeType().toString()).withStyle(TextFormatting.DARK_GRAY));

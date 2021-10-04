@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/titanium"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ],
     "conditions": [

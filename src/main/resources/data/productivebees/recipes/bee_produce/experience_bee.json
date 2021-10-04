@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/experience"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ]
 }

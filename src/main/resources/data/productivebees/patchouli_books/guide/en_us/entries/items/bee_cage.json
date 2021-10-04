@@ -12,6 +12,10 @@
             "type": "crafting",
             "recipe": "productivebees:bee_cage",
             "text": "Easy to get early in the game"
+        },
+        {
+            "type": "text",
+            "text": "Releasing a bee on a valid flower block will set the bees flower position to that block. Similarly, releasing a bee on a valid hive or nest while sneaking will set the bees home position to that hive or nest."
         }
     ]
 }

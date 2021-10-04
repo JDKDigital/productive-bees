@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import net.minecraft.nbt.CompoundNBT;
@@ -26,7 +27,7 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     public String getDisplayName(BeeIngredient beeIngredient) {
         CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
-            return new TranslationTextComponent("entity.productivebees.bee_configurable", nbt.getString("name")).getString();
+            return new TranslationTextComponent("entity.productivebees." + ProductiveBeeEntity.getBeeName(beeIngredient.getBeeType().toString()) + "_bee").toString();
         }
         return beeIngredient.getBeeEntity().getDescription().getString();
     }

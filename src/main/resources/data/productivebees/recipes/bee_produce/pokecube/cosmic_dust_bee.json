@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/cosmic_dust"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ],
     "conditions": [

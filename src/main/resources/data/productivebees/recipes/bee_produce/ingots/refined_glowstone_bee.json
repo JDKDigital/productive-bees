@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/refined_glowstone"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ],
     "conditions": [

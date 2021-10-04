@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/pink_slimy"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ],
     "conditions": [

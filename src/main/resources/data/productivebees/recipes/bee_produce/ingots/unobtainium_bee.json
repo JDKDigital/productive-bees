@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/unobtainium"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ],
     "conditions": [

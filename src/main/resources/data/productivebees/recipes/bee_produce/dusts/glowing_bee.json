@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/glowing"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ]
 }

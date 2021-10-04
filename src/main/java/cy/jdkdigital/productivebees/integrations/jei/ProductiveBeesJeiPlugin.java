@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
@@ -140,9 +141,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             String beeId = entry.getKey().replace("productivebees:", "");
             if (!notInfoBees.contains(beeId)) {
+                String description = "";
                 if (entry.getValue().isConfigurable()) {
                     CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(entry.getKey());
-                    String description = "";
                     if (nbt.contains("description")) {
                         description = new TranslationTextComponent(nbt.getString("description")).getString();
                     }
@@ -153,7 +154,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                         registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, description);
                     }
                 } else {
-                    registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, "productivebees.ingredient.description." + (beeId));
+                    description = new TranslationTextComponent("productivebees.ingredient.description." + (beeId)).getString();
+                    if (beeId.equals("lumber_bee") || beeId.equals("quarry_bee") || beeId.equals("rancher_bee") || beeId.equals("collector_bee") || beeId.equals("hoarder_bee") || beeId.equals("farmer_bee") || beeId.equals("cupid_bee")) {
+                        description = new TranslationTextComponent("productivebees.ingredient.description.selfbreed", description).getString();
+                    }
+                }
+
+                if (!description.isEmpty()) {
+                    registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, description);
                 }
             }
 

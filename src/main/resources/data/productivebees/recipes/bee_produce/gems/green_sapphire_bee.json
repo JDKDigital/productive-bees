@@ -6,6 +6,12 @@
             "item": {
                 "item": "productivebees:configurable_honeycomb"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ],
     "conditions": [

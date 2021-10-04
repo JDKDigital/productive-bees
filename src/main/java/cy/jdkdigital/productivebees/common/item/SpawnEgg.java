@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeCreator;
@@ -57,7 +58,8 @@ public class SpawnEgg extends SpawnEggItem
         if (tag != null && tag.contains("type")) {
             CompoundNBT nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
-                return new TranslationTextComponent("item.productivebees.spawn_egg_configurable", nbt.getString("name"));
+                String name = new TranslationTextComponent("entity.productivebees." + ProductiveBeeEntity.getBeeName(tag.getString("type")) + "_bee").getString();
+                return new TranslationTextComponent("item.productivebees.spawn_egg_configurable", name);
             }
         }
         return super.getName(stack);

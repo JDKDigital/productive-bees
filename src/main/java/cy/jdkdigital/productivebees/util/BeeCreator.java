@@ -29,9 +29,6 @@ public class BeeCreator
         data.putInt("primaryColor", primary.getRGB());
         data.putInt("secondaryColor", secondary.getRGB());
 
-        ITextComponent translation = new TranslationTextComponent("entity.productivebees." + id.getPath() + "_bee");
-        data.putString("name", translation.getString());
-
         if (json.has("description")) {
             data.putString("description", json.get("description").getAsString());
         }

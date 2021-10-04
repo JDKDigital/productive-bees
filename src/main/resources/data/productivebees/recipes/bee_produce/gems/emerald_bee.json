@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/emerald"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ]
 }

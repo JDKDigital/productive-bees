@@ -6,6 +6,12 @@
             "item": {
                 "tag": "forge:honeycombs/redstone"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ]
 }

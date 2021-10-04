@@ -119,8 +119,8 @@ dependencies {
     implementation fg.deobf("curse.maven:jade-324717:3228325")
     implementation fg.deobf("curse.maven:mekanism-268560:3206392")
     implementation fg.deobf("curse.maven:mekanism-generators-268566:3206395")
-    implementation fg.deobf("curse.maven:mantle-74924:3352484")
-    implementation fg.deobf("curse.maven:tinkers-construct-74072:3352983")
+    implementation fg.deobf("curse.maven:mantle-74924:3439180")
+    implementation fg.deobf("curse.maven:tinkers-construct-74072:3439200")
     implementation fg.deobf("curse.maven:bigreactors-250277:3211479")
     implementation fg.deobf("curse.maven:zerocore-247921:3211476")
     implementation fg.deobf("curse.maven:cyclops-core-232758:3292066")
@@ -129,7 +129,6 @@ dependencies {
     implementation fg.deobf("curse.maven:cofh-core-69162:3407019")
     implementation fg.deobf("curse.maven:thermal-foundation-222880:3412300")
     implementation fg.deobf("curse.maven:thermal-expansion-69163:3404884")
-//    implementation fg.deobf('curse.maven:botania-225643:3300995')
     implementation fg.deobf("curse.maven:cucumber-272335:3249370")
     implementation fg.deobf("curse.maven:mystical-agriculture-246640:3251398")
     implementation fg.deobf("curse.maven:immersive-engineering-231951:3377691")
@@ -141,6 +140,7 @@ dependencies {
     implementation fg.deobf("curse.maven:industrial-foregoing-266515:3446262")
     implementation fg.deobf("curse.maven:mgui-351914:3456505")
     implementation fg.deobf("curse.maven:tetra-289712:3456516")
+    implementation fg.deobf("curse.maven:the-bumblezone-forge-362479:3480532")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

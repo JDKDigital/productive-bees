@@ -7,6 +7,12 @@
                 "tag": "forge:honeycombs/draconic"
             },
             "chance": 80
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ]
 }
