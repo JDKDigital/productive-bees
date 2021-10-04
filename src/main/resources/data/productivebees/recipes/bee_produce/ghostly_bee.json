@@ -6,6 +6,12 @@
             "item": {
                 "item": "productivebees:honeycomb_ghostly"
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ]
 }

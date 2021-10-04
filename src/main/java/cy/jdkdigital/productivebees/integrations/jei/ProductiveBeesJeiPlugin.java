@@ -141,9 +141,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             String beeId = entry.getKey().replace("productivebees:", "");
             if (!notInfoBees.contains(beeId)) {
+                Component description = null;
                 if (entry.getValue().isConfigurable()) {
                     CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getKey());
-                    Component description = null;
                     if (nbt.contains("description")) {
                         description = new TranslatableComponent(nbt.getString("description"));
                     }
@@ -154,7 +154,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                         registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, description);
                     }
                 } else {
-                    registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, new TranslatableComponent("productivebees.ingredient.description." + (beeId)));
+                    description = new TranslatableComponent("productivebees.ingredient.description." + (beeId));
+                    if (beeId.equals("lumber_bee") || beeId.equals("quarry_bee") || beeId.equals("rancher_bee") || beeId.equals("collector_bee") || beeId.equals("hoarder_bee") || beeId.equals("farmer_bee") || beeId.equals("cupid_bee")) {
+                        description = new TranslatableComponent("productivebees.ingredient.description.selfbreed", description);
+                    }
+                }
+
+                if (description != null) {
+                    registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, description);
                 }
             }
 

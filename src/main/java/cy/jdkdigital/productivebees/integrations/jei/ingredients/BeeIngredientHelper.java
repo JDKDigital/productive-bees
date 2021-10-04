@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.integrations.jei.ProductiveBeesJeiPlugin;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientHelper;
@@ -35,7 +36,7 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     public String getDisplayName(BeeIngredient beeIngredient) {
         CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
-            return new TranslatableComponent("entity.productivebees.bee_configurable", nbt.getString("name")).getString();
+            return new TranslatableComponent("entity.productivebees." + ProductiveBee.getBeeName(beeIngredient.getBeeType().toString()) + "_bee").toString();
         }
         return beeIngredient.getBeeEntity().getDescription().getString();
     }

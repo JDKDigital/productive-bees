@@ -12,6 +12,12 @@
                     }
                 }
             }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ]
 }

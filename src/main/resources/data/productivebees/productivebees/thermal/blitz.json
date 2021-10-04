@@ -2,7 +2,6 @@
     "primaryColor": "#e9edf3",
     "secondaryColor": "#bdccd9",
     "particleColor": "#ffd86f",
-    "name": "BitzBee",
     "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
     "beeTexture": "productivebees:textures/entity/bee/blitz/bee",
     "flowerBlock": "thermal:niter_block",

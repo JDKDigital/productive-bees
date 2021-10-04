@@ -11,12 +11,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -29,6 +32,7 @@ import net.minecraftforge.fml.ModList;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 public class BeeCage extends Item
 {
@@ -56,12 +60,25 @@ public class BeeCage extends Item
         Bee entity = getEntityFromStack(stack, worldIn, true);
 
         if (entity != null) {
+            BlockPos blockPos = pos.relative(context.getClickedFace());
+
             if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
                 entity.hivePos = null;
+                if (entity instanceof ProductiveBee && worldIn instanceof ServerLevel) {
+                    PoiManager poiManager = ((ServerLevel) worldIn).getPoiManager();
+                    Optional<PoiType> poiAtLocation = poiManager.getType(blockPos);
+                    if (poiAtLocation.isPresent() && ((ProductiveBee) entity).getBeehiveInterests().test(poiAtLocation.get())) {
+                        entity.hivePos = blockPos;
+                    }
+                }
             }
 
-            BlockPos blockPos = pos.relative(context.getClickedFace());
             entity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
+
+            if (entity.isFlowerValid(blockPos)) {
+                entity.setSavedFlowerPos(blockPos);
+            }
+
             worldIn.addFreshEntity(entity);
 
             postItemUse(context);

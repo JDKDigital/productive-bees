@@ -29,7 +29,7 @@ public class ModTags
     public static final Tag<Block> QUARRY = getTag("flowers/quarry");
     public static final Tag<Block> POWDERY = getTag("flowers/powdery");
 
-    public static final Tag<Item> HONEY_BUCKETS = ItemTags.createOptional(new ResourceLocation("forge", "honey_buckets"));
+    public static final Tag<Item> HONEY_BUCKETS = ItemTags.createOptional(new ResourceLocation("forge", "buckets/honey"));
     public static final Tag<Item> EGGS = ItemTags.createOptional(new ResourceLocation("forge", "eggs"));
 
     public static final Tag<EntityType<?>> RANCHABLES = EntityTypeTags.createOptional(new ResourceLocation(ProductiveBees.MODID, "ranchables"));

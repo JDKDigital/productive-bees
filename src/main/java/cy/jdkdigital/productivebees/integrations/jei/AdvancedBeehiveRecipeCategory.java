@@ -13,6 +13,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -66,7 +67,6 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     @Override
     public void setIngredients(@Nonnull AdvancedBeehiveRecipe recipe, @Nonnull IIngredients ingredients) {
         ingredients.setInput(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient.get());
-
         List<List<ItemStack>> outputList = new ArrayList<>();
         recipe.getRecipeOutputs().forEach((stack, value) -> {
             List<ItemStack> innerList = new ArrayList<>();
@@ -92,9 +92,8 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         int startX = 68;
         int startY = 26;
         if (ingredients.getOutputs(VanillaTypes.ITEM).size() > 0) {
-            List<ItemStack> outputs = ingredients.getOutputs(VanillaTypes.ITEM).iterator().next();
             int offset = ingredients.getInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT).size();
-            IntStream.range(offset, outputs.size() + offset).forEach((i) -> {
+            IntStream.range(offset, ingredients.getOutputs(VanillaTypes.ITEM).size() + offset).forEach((i) -> {
                 if (i > 3 + offset) {
                     return;
                 }
@@ -103,5 +102,32 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
         }
 
         itemStacks.set(ingredients);
+
+        List<Component> chances = new ArrayList<>();
+        List<Component> amounts = new ArrayList<>();
+        recipe.getRecipeOutputs().forEach((stack, value) -> {
+            int chance = value.get(2).getAsInt();
+            if (chance < 100) {
+                chances.add(new TranslatableComponent("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
+            } else {
+                chances.add(new TextComponent(""));
+            }
+            if (value.get(0) != value.get(1)) {
+                amounts.add(new TranslatableComponent("productivebees.centrifuge.tooltip.amount", value.get(0).getAsInt() + " - " + value.get(1).getAsInt()));
+            } else {
+                amounts.add(new TextComponent(""));
+            }
+        });
+
+        itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
+            if (!input) {
+                if (!chances.isEmpty() && chances.size() >= slotIndex && !chances.get(slotIndex - 1).getString().isEmpty()) {
+                    tooltip.add(chances.get(slotIndex - 1));
+                }
+                if (!amounts.isEmpty() && amounts.size() >= slotIndex && !amounts.get(slotIndex - 1).getString().isEmpty()) {
+                    tooltip.add(amounts.get(slotIndex - 1));
+                }
+            }
+        });
     }
 }

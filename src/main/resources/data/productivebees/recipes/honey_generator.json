@@ -7,7 +7,7 @@
     ],
     "key": {
         "H": {
-            "tag": "forge:honey_buckets"
+            "tag": "forge:buckets/honey"
         },
         "I": {
             "tag": "forge:ingots/iron"

@@ -270,8 +270,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     @Override
     protected Component getTypeName() {
         CompoundTag nbt = getNBTData();
-        if (nbt.contains("name")) {
-            return new TranslatableComponent("entity.productivebees.bee_configurable", nbt.getString("name"));
+        if (nbt != null) {
+            return new TranslatableComponent("entity.productivebees." + getBeeName() + "_bee");
         }
         return super.getTypeName();
     }

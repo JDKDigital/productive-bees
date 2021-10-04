@@ -27,8 +27,6 @@ public class BeeCreator
         data.putInt("primaryColor", primary.getValue());
         data.putInt("secondaryColor", secondary.getValue());
 
-        data.putString("name", json.has("name") ? json.get("name").getAsString() : idToName(id.getPath()) + " Bee");
-
         if (json.has("description")) {
             data.putString("description", json.get("description").getAsString());
         }
@@ -102,16 +100,6 @@ public class BeeCreator
         data.putBoolean("createComb", !json.has("createComb") || json.get("createComb").getAsBoolean());
 
         return data;
-    }
-
-    public static String idToName(String givenString) {
-        String[] arr = givenString.replace("_", " ").split(" ");
-        StringBuilder sb = new StringBuilder();
-
-        for (String s : arr) {
-            sb.append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).append(" ");
-        }
-        return sb.toString().trim();
     }
 
     public static void setTag(String type, ItemStack stack) {

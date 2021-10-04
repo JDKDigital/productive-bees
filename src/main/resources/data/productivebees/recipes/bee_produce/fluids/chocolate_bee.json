@@ -13,6 +13,12 @@
                 }
             },
             "chance": 40
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
         }
     ],
     "conditions": [

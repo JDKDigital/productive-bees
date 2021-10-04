@@ -11,7 +11,14 @@
                         "type": "productivebees:zombie"
                     }
                 }
-            }
+            },
+            "chance": 50
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 10
         }
     ]
 }

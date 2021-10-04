@@ -203,6 +203,10 @@ public class ProductiveBee extends Bee
         );
     }
 
+    public Predicate<PoiType> getBeehiveInterests() {
+        return beehiveInterests;
+    }
+
     public boolean doesHiveAcceptBee(BlockPos pos) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof AdvancedBeehiveBlockEntityAbstract) {
@@ -259,16 +263,16 @@ public class ProductiveBee extends Bee
     }
 
     public String getBeeName() {
-        return getBeeName(true);
+        return getBeeName(getBeeType());
     }
 
-    public String getBeeName(boolean stripName) {
-        String[] types = getBeeType().split("[:]");
+    public static String getBeeName(String beeType) {
+        String[] types = beeType.split("[:]");
         String type = types[0];
         if (types.length > 1) {
             type = types[1];
         }
-        return stripName ? type.replace("_bee", "") : type;
+        return type.replace("_bee", "");
     }
 
     public String getRenderer() {

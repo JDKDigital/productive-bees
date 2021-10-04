@@ -1,3 +1,15 @@
+-- Added support for Bumblezone pollen
+-- Honey Generator can now use speed and productivity upgrades
+-- Added Tetra Geode bee which can convert stones into geode bearing stone
+-- Added prismarine bee which can be caught in the ocean
+-- Added Quartz Enriched Iron bee (Refined Storage)
+-- Updated Russian translation thanks to Tkhakiro
+-- Farmer Bees can now harvest melons, pumpkins, sugar cane, cactus and sweet berry bushes.
+-- Releasing a bee from a cage on a flower block will now set that block as the bees flower position
+-- Releasing a bee from a cage on a hive while sneaking will now set that hive as the bees home position
+-- Bee names are now translatable
+
+
 0.7.0.8
 
 -- Fixed crash when throwing bee bombs

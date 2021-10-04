@@ -1,0 +1,19 @@
+{
+    "replace": false,
+    "values": [
+        "productivebees:ashy_mining_bee",
+        "productivebees:blue_banded_bee",
+        "productivebees:green_carpenter_bee",
+        "productivebees:yellow_black_carpenter_bee",
+        "productivebees:chocolate_mining_bee",
+        "productivebees:digger_bee",
+        "productivebees:leafcutter_bee",
+        "productivebees:mason_bee",
+        "productivebees:neon_cuckoo_bee",
+        "productivebees:nomad_bee",
+        "productivebees:reed_bee",
+        "productivebees:resin_bee",
+        "productivebees:sweaty_bee",
+        "productivebees:bumble_bee"
+    ]
+}

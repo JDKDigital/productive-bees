@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.integrations.jei.ingredients;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.ChatFormatting;
@@ -37,9 +38,8 @@ public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
         List<Component> list = new ArrayList<>();
         CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
-            list.add(new TranslatableComponent("entity.productivebees.bee_configurable", nbt.getString("name")));
-        }
-        else {
+            list.add(new TranslatableComponent("entity.productivebees." + ProductiveBee.getBeeName(beeIngredient.getBeeType().toString()) + "_bee"));
+        } else {
             list.add(beeIngredient.getBeeEntity().getDescription());
         }
         list.add(new TextComponent(beeIngredient.getBeeType().toString()).withStyle(ChatFormatting.DARK_GRAY));
