@@ -3,7 +3,7 @@
     "secondaryColor": "#2e5250",
     "particleColor": "#80d4d2",
     "beeTexture": "productivebees:textures/entity/bee/sky_slimy/bee",
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "renderer": "translucent_with_center",
     "createComb": false,
     "conditions": [

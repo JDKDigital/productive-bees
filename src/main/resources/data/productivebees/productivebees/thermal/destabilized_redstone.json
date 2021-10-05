@@ -4,7 +4,7 @@
     "tertiaryColor": "#730c00",
     "particleColor": "#ff0000",
     "size": 0.8,
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "redstoned": true,
     "flowerTag": "productivebees:flowers/redstone",
     "conditions": [

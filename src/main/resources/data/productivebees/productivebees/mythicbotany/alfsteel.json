@@ -2,7 +2,7 @@
     "primaryColor": "#ffd238",
     "secondaryColor": "#b77d04",
     "createComb": false,
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "flowerBlock": "mythicbotany:alfsteel_block",
     "conditions": [
         {

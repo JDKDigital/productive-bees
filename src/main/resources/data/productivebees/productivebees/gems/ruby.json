@@ -1,5 +1,4 @@
 {
-    "description": "You can still search for ruby",
     "primaryColor": "#c62415",
     "secondaryColor": "#064f2c",
     "tertiaryColor": "#7b000b",
@@ -7,6 +6,7 @@
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/gems/ruby",
     "createComb": false,
+    "description": "productivebees.ingredient.description.ruby",
     "conditions": [
         {
             "type": "forge:not",
