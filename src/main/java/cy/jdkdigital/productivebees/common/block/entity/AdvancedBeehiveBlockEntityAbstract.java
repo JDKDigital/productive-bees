@@ -11,6 +11,7 @@ import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -105,14 +106,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             return ((ProductiveBee) beeEntity).getTimeInHive(hasNectar);
         }
         return hasNectar ? ProductiveBeesConfig.GENERAL.timeInHive.get() : ProductiveBeesConfig.GENERAL.timeInHive.get() / 2;
-    }
-
-    public void setChanged() {
-        if (this.level != null) {
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
-        }
-
-        super.setChanged();
     }
 
     @Override
@@ -304,28 +297,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         return block instanceof AdvancedBeehiveAbstract ? ((AdvancedBeehiveAbstract) block).getMaxHoneyLevel() : 5;
     }
 
-    @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-
-        CompoundTag beeTag = tag.getCompound("Bees");
-        beeHandler.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(beeTag));
-    }
-
-    @Nonnull
-    @Override
-    public CompoundTag save(CompoundTag tag) {
-        super.save(tag);
-
-        beeHandler.ifPresent(h -> {
-            tag.remove("Bees");
-            CompoundTag compound = ((INBTSerializable<CompoundTag>) h).serializeNBT();
-            tag.put("Bees", compound);
-        });
-
-        return tag;
-    }
-
     @Nonnull
     public static ListTag getBeeListAsNBTList(AdvancedBeehiveBlockEntityAbstract blockEntity) {
         return blockEntity.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListTag());
@@ -407,25 +378,51 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         return super.getCapability(cap, side);
     }
 
-    @Nullable
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        this.loadPacketNBT(tag);
+    }
+
+    @Nonnull
+    @Override
+    public CompoundTag save(CompoundTag tag) {
+        super.save(tag);
+        this.savePacketNBT(tag);
+        return tag;
+    }
+
+    public void savePacketNBT(CompoundTag tag) {
+        beeHandler.ifPresent(h -> {
+            tag.remove("Bees");
+            CompoundTag compound = ((INBTSerializable<CompoundTag>) h).serializeNBT();
+            tag.put("Bees", compound);
+        });
+    }
+
+    public void loadPacketNBT(CompoundTag tag) {
+        CompoundTag beeTag = tag.getCompound("Bees");
+        beeHandler.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(beeTag));
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        return save(new CompoundTag());
+    }
+
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.getBlockPos(), -1, this.getUpdateTag());
+        CompoundTag nbtTagCompound = new CompoundTag();
+        savePacketNBT(nbtTagCompound);
+        return new ClientboundBlockEntityDataPacket(this.worldPosition, 1, nbtTagCompound);
     }
 
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        handleUpdateTag(pkt.getTag());
-    }
-
-    @Override
-    @Nonnull
-    public CompoundTag getUpdateTag() {
-        return this.serializeNBT();
-    }
-
-    @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        deserializeNBT(tag);
+        super.onDataPacket(net, pkt);
+        this.loadPacketNBT(pkt.getTag());
+        if (level instanceof ClientLevel) {
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 0);
+        }
     }
 }

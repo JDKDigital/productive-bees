@@ -188,20 +188,17 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadPacketNBT(CompoundTag tag) {
+        super.loadPacketNBT(tag);
 
         recipeProgress = tag.getInt("RecipeProgress");
     }
 
-    @Nonnull
     @Override
-    public CompoundTag save(CompoundTag tag) {
-        tag = super.save(tag);
+    public void savePacketNBT(CompoundTag tag) {
+        super.save(tag);
 
         tag.putInt("RecipeProgress", recipeProgress);
-
-        return tag;
     }
 
     @Nonnull

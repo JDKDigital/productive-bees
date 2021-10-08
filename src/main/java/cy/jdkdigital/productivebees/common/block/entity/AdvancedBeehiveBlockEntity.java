@@ -289,8 +289,8 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadPacketNBT(CompoundTag tag) {
+        super.loadPacketNBT(tag);
 
         CompoundTag invTag = tag.getCompound("inv");
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag));
@@ -302,10 +302,9 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         MAX_BEES = tag.contains("max_bees") ? tag.getInt("max_bees") : MAX_BEES;
     }
 
-    @Nonnull
     @Override
-    public CompoundTag save(CompoundTag tag) {
-        super.save(tag);
+    public void savePacketNBT(CompoundTag tag) {
+        super.savePacketNBT(tag);
 
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
@@ -318,8 +317,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         });
 
         tag.putInt("max_bees", MAX_BEES);
-
-        return tag;
     }
 
     @Nonnull

@@ -218,14 +218,6 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         return upgradeHandler;
     }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        if (this.level != null) {
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
-        }
-    }
-
     public boolean canProcessItemStack(ItemStack stack) {
         IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(2, null);
         inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, stack);
@@ -348,8 +340,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadPacketNBT(CompoundTag tag) {
+        super.loadPacketNBT(tag);
 
         recipeProgress = tag.getInt("RecipeProgress");
 
@@ -358,14 +350,10 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         fluidId = Registry.FLUID.getId(fluid);
     }
 
-    @Nonnull
     @Override
-    public CompoundTag save(CompoundTag tag) {
-        tag = super.save(tag);
-
+    public void savePacketNBT(CompoundTag tag) {
+        super.savePacketNBT(tag);
         tag.putInt("RecipeProgress", recipeProgress);
-
-        return tag;
     }
 
     @Nonnull

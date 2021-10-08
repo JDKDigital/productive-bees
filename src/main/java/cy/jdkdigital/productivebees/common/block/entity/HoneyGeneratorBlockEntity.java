@@ -208,8 +208,8 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadPacketNBT(CompoundTag tag) {
+        super.loadPacketNBT(tag);
 
         // Rebuild cached attached TEs
         refreshConnectedTileEntityCache();
@@ -218,14 +218,6 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     @Override
     public LazyOptional<IItemHandlerModifiable> getUpgradeHandler() {
         return upgradeHandler;
-    }
-
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        if (this.level != null) {
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
-        }
     }
 
     @Nonnull

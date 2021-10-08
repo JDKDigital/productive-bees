@@ -17,8 +17,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-import javax.annotation.Nonnull;
-
 public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
 {
     // Used for calculating if a new bee should move in (initial value, will be overriden by recipe value)
@@ -96,8 +94,8 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadPacketNBT(CompoundTag tag) {
+        super.loadPacketNBT(tag);
 
         if (tag.contains("nestTickTimer")) {
             nestTickTimer = tag.getInt("nestTickTimer");
@@ -107,14 +105,11 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
         }
     }
 
-    @Nonnull
     @Override
-    public CompoundTag save(CompoundTag tag) {
-        super.save(tag);
+    public void savePacketNBT(CompoundTag tag) {
+        super.savePacketNBT(tag);
 
         tag.putInt("nestTickTimer", nestTickTimer);
         tag.putInt("spawnCount", spawnCount);
-
-        return tag;
     }
 }

@@ -4,12 +4,9 @@ import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.Nonnull;
-
-public class CombBlockBlockEntity extends BlockEntity
+public class CombBlockBlockEntity extends AbstractBlockEntity
 {
     private String type;
 
@@ -41,28 +38,13 @@ public class CombBlockBlockEntity extends BlockEntity
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        this.type = tag.getString("type");
-    }
-
-    @Nonnull
-    @Override
-    public CompoundTag save(CompoundTag tag) {
+    public void savePacketNBT(CompoundTag tag) {
+        super.savePacketNBT(tag);
         tag.putString("type", type);
-        return super.save(tag);
     }
 
-    @Nonnull
-    @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag tag = super.getUpdateTag();
-        tag.putString("type", type);
-        return tag;
-    }
-
-    @Override
-    public void handleUpdateTag(CompoundTag tag) {
+    public void loadPacketNBT(CompoundTag tag) {
+        super.loadPacketNBT(tag);
         this.type = tag.getString("type");
     }
 }
