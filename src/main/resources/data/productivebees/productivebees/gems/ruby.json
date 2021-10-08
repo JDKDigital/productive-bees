@@ -1,11 +1,11 @@
 {
-    "description": "You can still search for ruby",
     "primaryColor": "#c62415",
     "secondaryColor": "#064f2c",
     "tertiaryColor": "#7b000b",
     "particleColor": "#c62415",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/gems/ruby",
+    "description": "productivebees.ingredient.description.ruby",
     "conditions": [
         {
             "type": "forge:not",

@@ -2,7 +2,7 @@
     "primaryColor": "#ab6cd7",
     "secondaryColor": "#652e87",
     "particleColor": "#ab6cd7",
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "flowerTag": "forge:storage_blocks/manyullyn",
     "conditions": [
         {

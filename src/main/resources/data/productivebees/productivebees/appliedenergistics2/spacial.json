@@ -2,7 +2,7 @@
     "primaryColor": "#dfe5f6",
     "secondaryColor": "#93c7ff",
     "size": 0.7,
-    "description": "The combs of this bee can be centrifuged to get certus quartz seeds which require further processing.",
+    "description": "productivebees.ingredient.description.spacial",
     "flowerBlock": "appliedenergistics2:quartz_block",
     "conditions": [
         {

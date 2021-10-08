@@ -2,7 +2,7 @@
     "primaryColor": "#ffdb7e",
     "secondaryColor": "#7a5800",
     "particleColor": "#ffdb7e",
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "flowerTag": "forge:storage_blocks/silicon_bronze",
     "conditions": [
         {

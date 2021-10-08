@@ -150,9 +150,6 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                     if (!nbt.getBoolean("selfbreed")) {
                         description = new TranslatableComponent("productivebees.ingredient.description.selfbreed", description);
                     }
-                    if (description != null) {
-                        registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, description);
-                    }
                 } else {
                     description = new TranslatableComponent("productivebees.ingredient.description." + (beeId));
                     if (beeId.equals("lumber_bee") || beeId.equals("quarry_bee") || beeId.equals("rancher_bee") || beeId.equals("collector_bee") || beeId.equals("hoarder_bee") || beeId.equals("farmer_bee") || beeId.equals("cupid_bee")) {

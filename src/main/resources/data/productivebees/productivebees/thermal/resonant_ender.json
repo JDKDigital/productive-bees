@@ -4,7 +4,7 @@
     "particleColor": "#cc00fa",
     "particleType": "portal",
     "size": 0.8,
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "flowerTag": "productivebees:flowers/ender",
     "teleporting": true,
     "conditions": [

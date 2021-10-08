@@ -2,7 +2,7 @@
     "primaryColor": "#1d7cf1",
     "secondaryColor": "#ffffff",
     "particleColor": "#8cdeff",
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "beeTexture": "productivebees:textures/entity/bee/blizz/bee",
     "renderer": "elvis",
     "flowerTag": "productivebees:flowers/frozen",

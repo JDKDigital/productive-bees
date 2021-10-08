@@ -2,7 +2,7 @@
     "primaryColor": "#2b2b2f",
     "secondaryColor": "#ff8219",
     "particleColor": "#0e080a",
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "flowerTag": "productivebees:flowers/burning",
     "beeTexture": "productivebees:textures/entity/bee/basalz/bee",
     "fireproof": true,

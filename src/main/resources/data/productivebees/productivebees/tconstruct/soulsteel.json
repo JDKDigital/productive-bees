@@ -2,7 +2,7 @@
     "primaryColor": "#5c4436",
     "secondaryColor": "#1f0700",
     "particleColor": "#5c4436",
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "flowerTag": "forge:storage_blocks/soulsteel",
     "conditions": [
         {

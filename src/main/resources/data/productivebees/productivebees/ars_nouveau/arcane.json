@@ -3,7 +3,7 @@
     "secondaryColor": "#6c2482",
     "tertiaryColor": "#c203fc",
     "particleColor": "#c203fc",
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "renderer": "default_crystal",
     "size": 0.8,
     "attributes": {

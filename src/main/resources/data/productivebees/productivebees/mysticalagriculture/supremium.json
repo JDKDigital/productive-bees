@@ -3,7 +3,7 @@
     "secondaryColor": "#804f40",
     "particleColor": "#C40000",
     "size": 0.8,
-    "description": "To acquire this bee, look up the crafting recipe for its spawn egg.",
+    "description": "productivebees.ingredient.description.only_spawnegg",
     "flowerBlock": "mysticalagriculture:supremium_block",
     "selfbreed": false,
     "conditions": [
