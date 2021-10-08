@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
-import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
@@ -22,10 +21,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
@@ -292,8 +289,8 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadPacketNBT(CompoundTag tag) {
+        super.loadPacketNBT(tag);
 
         CompoundTag invTag = tag.getCompound("inv");
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag));
@@ -305,10 +302,9 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         MAX_BEES = tag.contains("max_bees") ? tag.getInt("max_bees") : MAX_BEES;
     }
 
-    @Nonnull
     @Override
-    public CompoundTag save(CompoundTag tag) {
-        super.save(tag);
+    public void savePacketNBT(CompoundTag tag) {
+        super.savePacketNBT(tag);
 
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
@@ -321,8 +317,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         });
 
         tag.putInt("max_bees", MAX_BEES);
-
-        return tag;
     }
 
     @Nonnull

@@ -3,10 +3,7 @@ package cy.jdkdigital.productivebees.common.block.entity;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.HoneyGenerator;
 import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
-import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModFluids;
-import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -22,7 +19,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import cy.jdkdigital.productivebees.init.*;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -212,8 +208,8 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadPacketNBT(CompoundTag tag) {
+        super.loadPacketNBT(tag);
 
         // Rebuild cached attached TEs
         refreshConnectedTileEntityCache();
@@ -222,14 +218,6 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     @Override
     public LazyOptional<IItemHandlerModifiable> getUpgradeHandler() {
         return upgradeHandler;
-    }
-
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        if (this.level != null) {
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
-        }
     }
 
     @Nonnull

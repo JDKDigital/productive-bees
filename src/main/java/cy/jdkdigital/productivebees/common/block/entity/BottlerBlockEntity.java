@@ -58,14 +58,11 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
         protected void onContentsChanged() {
             super.onContentsChanged();
             BottlerBlockEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
-            BottlerBlockEntity.this.setChanged();
+            BottlerBlockEntity.this.updateBottleState();
         }
     });
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
-
+    private void updateBottleState() {
         if (level != null) {
             inventoryHandler.ifPresent(inv -> {
                 ItemStack stack = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
@@ -102,8 +99,8 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadPacketNBT(CompoundTag tag) {
+        super.loadPacketNBT(tag);
 
         // set fluid ID for screens
         Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
