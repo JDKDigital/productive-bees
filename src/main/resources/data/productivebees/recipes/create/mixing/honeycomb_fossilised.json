@@ -1,0 +1,24 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "tag": "forge:honeycombs/fossilised"
+        }
+    ],
+    "results": [
+        {
+            "item": "minecraft:coal"
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 100
+        }
+    ],
+    "heatRequirement": "heated",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        }
+    ]
+}

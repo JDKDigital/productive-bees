@@ -5,28 +5,14 @@
     "offspring": [
         "productivebees:zinc"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:ingots/iron"
-        },
-        {
-            "tag": "forge:ingots/zinc"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/zinc"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:iron"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/zinc"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:zinc"
         }
     ]
 }

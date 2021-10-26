@@ -1,0 +1,25 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "tag": "forge:honeycombs/magmatic"
+        }
+    ],
+    "results": [
+        {
+            "item": "minecraft:magma_cream",
+            "chance": 0.5
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 100
+        }
+    ],
+    "heatRequirement": "heated",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        }
+    ]
+}

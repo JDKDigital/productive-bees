@@ -5,18 +5,18 @@
     "offspring": [
         "productivebees:refined_obsidian"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:ingots/osmium"
-        },
-        {
-            "item": "minecraft:obsidian"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "mekanism"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:osmium"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:obsidian"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:refined_obsidian"
         }
     ]
 }

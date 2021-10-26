@@ -1,0 +1,27 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "tag": "forge:honeycombs/plastic"
+        }
+    ],
+    "results": [
+        {
+            "item": "industrialforegoing:plastic"
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 100
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "industrialforegoing"
+        }
+    ]
+}

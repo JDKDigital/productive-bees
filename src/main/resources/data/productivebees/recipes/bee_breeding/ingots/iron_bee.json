@@ -5,12 +5,14 @@
     "offspring": [
         "productivebees:iron"
     ],
-    "breeding_items": [
+    "conditions": [
         {
-            "tag": "forge:gems/quartz"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:crystalline"
         },
         {
-            "tag": "minecraft:flowers"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:iron"
         }
     ]
 }

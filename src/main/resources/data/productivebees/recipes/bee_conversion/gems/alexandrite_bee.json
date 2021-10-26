@@ -14,11 +14,12 @@
             }
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/alexandrite"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:diamond"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:alexandrite"
         }
     ]
 }

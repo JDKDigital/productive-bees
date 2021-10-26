@@ -4,5 +4,11 @@
     "result": "productivebees:frosty",
     "item": {
         "tag": "productivebees:flowers/frozen"
-    }
+    },
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:frosty"
+        }
+    ]
 }

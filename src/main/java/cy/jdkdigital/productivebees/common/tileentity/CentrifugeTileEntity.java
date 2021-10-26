@@ -82,6 +82,10 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
     {
         @Override
         protected void onContentsChanged() {
+            if (this.isEmpty()) {
+                CentrifugeTileEntity.this.recipeProgress = 0;
+            }
+
             super.onContentsChanged();
             CentrifugeTileEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
             CentrifugeTileEntity.this.setChanged();
@@ -150,7 +154,6 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                         }
                     }
                 } else {
-                    this.recipeProgress = 0;
                     level.setBlockAndUpdate(worldPosition, getBlockState().setValue(Centrifuge.RUNNING, false));
                 }
 
@@ -174,8 +177,11 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
                     TileEntity te = level.getBlockEntity(worldPosition.relative(direction));
                     if (te != null && fluidStack.getAmount() > 0) {
                         te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, direction.getOpposite()).ifPresent(h -> {
-                            int amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                            fluidHandler.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+                            int amount = h.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
+                            if (amount > 0) {
+                                amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                                fluidHandler.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+                            }
                         });
                     }
                 }

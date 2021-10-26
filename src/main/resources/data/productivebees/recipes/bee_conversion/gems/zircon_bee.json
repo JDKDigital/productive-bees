@@ -7,18 +7,12 @@
     },
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/zircon"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:diamond"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/zircon"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:zircon"
         }
     ]
 }

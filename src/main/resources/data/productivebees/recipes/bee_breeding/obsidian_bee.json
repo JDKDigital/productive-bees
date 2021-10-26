@@ -12,5 +12,15 @@
         {
             "item": "minecraft:snow"
         }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:magmatic"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:obsidian"
+        }
     ]
 }

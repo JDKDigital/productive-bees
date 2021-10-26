@@ -1,0 +1,28 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "tag": "forge:honeycombs/prudentium"
+        }
+    ],
+    "results": [
+        {
+            "item": "mysticalagriculture:prudentium_essence",
+            "count": 4
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 100
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        }
+    ]
+}

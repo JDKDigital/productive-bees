@@ -13,5 +13,11 @@
             },
             "chance": 5
         }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:ghostly"
+        }
     ]
 }

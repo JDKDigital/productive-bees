@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.DragonEggHive;
+import cy.jdkdigital.productivebees.common.crafting.conditions.BeeExistsCondition;
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBeeEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBeeEntity;
@@ -98,6 +99,7 @@ public final class ProductiveBees
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ProductiveBeesConfig.CLIENT_CONFIG);
 
         CraftingHelper.register(FluidTagEmptyCondition.Serializer.INSTANCE);
+        CraftingHelper.register(BeeExistsCondition.Serializer.INSTANCE);
 
         ForgeMod.enableMilkFluid();
     }

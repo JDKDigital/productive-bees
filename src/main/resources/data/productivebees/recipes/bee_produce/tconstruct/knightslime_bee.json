@@ -16,18 +16,8 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/knightslime"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/knightslime"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:knightslime"
         }
     ]
 }

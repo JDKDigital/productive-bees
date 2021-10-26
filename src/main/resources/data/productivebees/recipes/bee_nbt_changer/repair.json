@@ -8,5 +8,11 @@
     "method": "decrement",
     "value": 2,
     "min": 0,
-    "max": 2030
+    "max": 2030,
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:netherite"
+        }
+    ]
 }

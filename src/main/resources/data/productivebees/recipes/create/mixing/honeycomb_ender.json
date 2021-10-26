@@ -1,0 +1,31 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "tag": "forge:honeycombs/ender"
+        }
+    ],
+    "results": [
+        {
+            "item": "minecraft:ender_pearl",
+            "chance": 0.4
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 100
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:mod_loaded",
+                "modid": "integrateddynamics"
+            }
+        }
+    ]
+}

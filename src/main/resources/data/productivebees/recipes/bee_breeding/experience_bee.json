@@ -12,5 +12,19 @@
         {
             "tag": "forge:gems/lapis"
         }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:emerald"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:lapis"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:experience"
+        }
     ]
 }

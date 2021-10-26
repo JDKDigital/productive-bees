@@ -1,0 +1,29 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "tag": "forge:honeycombs/frosty"
+        }
+    ],
+    "results": [
+        {
+            "item": "minecraft:snowball",
+            "count": 4
+        },
+        {
+            "item": "minecraft:ice",
+            "chance": 0.4
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 100
+        }
+    ],
+    "heatRequirement": "heated",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        }
+    ]
+}

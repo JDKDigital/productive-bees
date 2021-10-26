@@ -16,18 +16,8 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/manyullyn"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/manyullyn"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:manyullyn"
         }
     ]
 }

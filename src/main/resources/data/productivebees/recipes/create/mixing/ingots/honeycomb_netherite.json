@@ -1,0 +1,24 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "tag": "forge:honeycombs/netherite"
+        }
+    ],
+    "results": [
+        {
+            "item": "minecraft:netherite_scrap",
+            "chance": 0.1
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 50
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        }
+    ]
+}

@@ -5,25 +5,18 @@
     "offspring": [
         "productivebees:vibranium"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:nuggets/vibranium"
-        },
-        {
-            "tag": "forge:nuggets/vibranium"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:nuggets/vibranium"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:netherite"
         },
         {
-            "type": "forge:mod_loaded",
-            "modid": "allthemodium"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:draconic"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:vibranium"
         }
     ]
 }

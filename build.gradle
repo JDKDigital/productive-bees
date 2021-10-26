@@ -140,7 +140,12 @@ dependencies {
     implementation fg.deobf("curse.maven:industrial-foregoing-266515:3446262")
     implementation fg.deobf("curse.maven:mgui-351914:3456505")
     implementation fg.deobf("curse.maven:tetra-289712:3456516")
-    implementation fg.deobf("curse.maven:the-bumblezone-forge-362479:3480532")
+    implementation fg.deobf("curse.maven:the-bumblezone-forge-362479:3487994")
+    implementation fg.deobf("curse.maven:create-328085:3419412")
+    implementation fg.deobf("curse.maven:flywheel-486392:3459739")
+    implementation fg.deobf("curse.maven:create-stuff-additions-466792:3478969")
+    implementation fg.deobf("curse.maven:createaddition-439890:3476770")
+    implementation fg.deobf("curse.maven:tropicraft-254794:3374909")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

@@ -19,5 +19,11 @@
             },
             "chance": 1
         }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:prismarine"
+        }
     ]
 }

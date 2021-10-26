@@ -1,0 +1,24 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "tag": "forge:honeycombs/menril"
+        }
+    ],
+    "results": [
+        {
+            "fluid": "integrateddynamics:menril_resin",
+            "amount": 250
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "integrateddynamics"
+        }
+    ]
+}

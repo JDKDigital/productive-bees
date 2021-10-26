@@ -5,28 +5,18 @@
     "offspring": [
         "productivebees:platinum"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:ender_pearls"
-        },
-        {
-            "tag": "forge:ingots/gold"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/platinum"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:ender"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/platinum"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:gold"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:platinum"
         }
     ]
 }

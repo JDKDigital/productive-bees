@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bottler",
     "fluid": {
-        "tag": "forge:tea",
+        "fluid": "create:tea",
         "amount": 250
     },
     "input": {

@@ -5,57 +5,18 @@
     "offspring": [
         "productivebees:enderium"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:ender_pearls"
-        },
-        {
-            "tag": "forge:ender_pearls"
-        }
-    ],
     "conditions": [
-
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/lead"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:lead"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/lead"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:platinum"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/platinum"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/platinum"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/enderium"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/enderium"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:enderium"
         }
     ]
 }

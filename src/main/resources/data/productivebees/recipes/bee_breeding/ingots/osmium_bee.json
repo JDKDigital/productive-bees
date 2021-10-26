@@ -5,28 +5,14 @@
     "offspring": [
         "productivebees:osmium"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:ingots/iron"
-        },
-        {
-            "tag": "forge:ingots/osmium"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/osmium"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:iron"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/osmium"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:osmium"
         }
     ]
 }

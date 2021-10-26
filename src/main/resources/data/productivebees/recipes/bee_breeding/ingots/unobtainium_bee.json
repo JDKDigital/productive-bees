@@ -5,25 +5,18 @@
     "offspring": [
         "productivebees:unobtainium"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:nuggets/unobtainium"
-        },
-        {
-            "tag": "forge:nuggets/unobtainium"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:nuggets/unobtainium"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:allthemodium"
         },
         {
-            "type": "forge:mod_loaded",
-            "modid": "allthemodium"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:vibranium"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:unobtainium"
         }
     ]
 }

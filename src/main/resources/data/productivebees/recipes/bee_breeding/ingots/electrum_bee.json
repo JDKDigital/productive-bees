@@ -5,35 +5,18 @@
     "offspring": [
         "productivebees:electrum"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:ingots/gold"
-        },
-        {
-            "tag": "forge:ingots/silver"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/silver"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:gold"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/electrum"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:silver"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/electrum"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:electrum"
         }
     ]
 }

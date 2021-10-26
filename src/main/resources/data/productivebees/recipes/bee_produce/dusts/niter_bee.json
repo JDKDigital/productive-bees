@@ -16,18 +16,8 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/niter"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/niter"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:niter"
         }
     ]
 }

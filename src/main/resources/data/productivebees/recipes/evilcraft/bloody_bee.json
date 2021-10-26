@@ -17,6 +17,10 @@
             "modid": "evilcraft"
         },
         {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:bloody"
+        },
+        {
             "type": "forge:not",
             "value": {
                 "type": "forge:mod_loaded",

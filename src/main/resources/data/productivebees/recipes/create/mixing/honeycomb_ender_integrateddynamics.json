@@ -1,0 +1,29 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "tag": "forge:honeycombs/ender"
+        }
+    ],
+    "results": [
+        {
+            "item": "minecraft:ender_pearl",
+            "chance": 0.4
+        },
+        {
+            "fluid": "integrateddynamics:liquid_chorus",
+            "amount": 50
+        }
+    ],
+    "heatRequirement": "heated",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "integrateddynamics"
+        }
+    ]
+}

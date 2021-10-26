@@ -5,42 +5,18 @@
     "offspring": [
         "productivebees:bronze"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:ingots/copper"
-        },
-        {
-            "tag": "forge:ingots/tin"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/copper"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:copper"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/tin"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:tin"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/bronze"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/bronze"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:bronze"
         }
     ]
 }

@@ -16,11 +16,8 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/moonstone"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:moonstone"
         }
     ]
 }

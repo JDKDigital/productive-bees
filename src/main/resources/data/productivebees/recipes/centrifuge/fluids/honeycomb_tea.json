@@ -11,18 +11,15 @@
         },
         {
             "fluid": {
-                "tag": "forge:tea"
+                "fluid": "create:tea"
             },
             "amount": 250
         }
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "productivebees:fluid_tag_empty",
-                "tag": "forge:tea"
-            }
+            "type": "forge:mod_loaded",
+            "modid": "create"
         }
     ]
 }

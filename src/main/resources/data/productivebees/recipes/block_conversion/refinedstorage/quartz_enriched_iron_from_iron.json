@@ -10,8 +10,8 @@
     "chance": 5,
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "refinedstorage"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:quartz_enriched_iron"
         }
     ]
 }

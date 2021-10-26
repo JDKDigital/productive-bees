@@ -5,28 +5,18 @@
     "offspring": [
         "productivebees:bismuth"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:ingots/gold"
-        },
-        {
-            "tag": "forge:gems/quartz"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/bismuth"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:gold"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/bismuth"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:crystalline"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:bismuth"
         }
     ]
 }

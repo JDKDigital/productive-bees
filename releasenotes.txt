@@ -1,5 +1,15 @@
+0.6.9.22
+
+-- Fixed missing comb block names
+-- Added a new recipe condition making it possible to disable a bee without having to manually disable all of it's related recipes
+-- Added support for processing combs in a Create Mixer
+-- Added new Honey Treat recipe using Bumblezone pollen
+-- Translation updates
+
+
 0.6.9.21
 
+-- Centrifuges will now automatically output fluids to adjacent fluid containers
 -- Added support for Bumblezone pollen
 -- Honey Generator can now use speed and productivity upgrades
 -- Added Tetra Geode bee which can convert stones into geode bearing stone

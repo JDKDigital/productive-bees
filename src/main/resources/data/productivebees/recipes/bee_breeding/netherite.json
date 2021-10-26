@@ -12,5 +12,19 @@
         {
             "tag": "minecraft:diamond"
         }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:gold"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:diamond"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:netherite"
+        }
     ]
 }

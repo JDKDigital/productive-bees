@@ -50,6 +50,14 @@
         {
             "type": "forge:mod_loaded",
             "modid": "draconicevolution"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:draconium"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:draconic"
         }
     ]
 }

@@ -5,21 +5,14 @@
     "offspring": [
         "productivebees:cinnabar"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:gems/redstone"
-        },
-        {
-            "tag": "forge:gems/cinnabar"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/cinnabar"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:redstone"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:cinnabar"
         }
     ]
 }

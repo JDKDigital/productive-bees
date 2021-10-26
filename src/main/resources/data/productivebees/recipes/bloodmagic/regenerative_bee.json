@@ -18,6 +18,14 @@
         {
             "type": "forge:mod_loaded",
             "modid": "bloodmagic"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:hematophagous"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:regenerative"
         }
     ]
 }
