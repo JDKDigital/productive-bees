@@ -82,6 +82,10 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     {
         @Override
         protected void onContentsChanged() {
+            if (this.isEmpty()) {
+                CentrifugeBlockEntity.this.recipeProgress = 0;
+            }
+
             super.onContentsChanged();
             CentrifugeBlockEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
             CentrifugeBlockEntity.this.setChanged();
@@ -148,7 +152,6 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                     }
                 }
             } else {
-                blockEntity.recipeProgress = 0;
                 level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, false));
             }
 
@@ -171,8 +174,11 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                     BlockEntity te = level.getBlockEntity(worldPosition.relative(direction));
                     if (te != null && fluidStack.getAmount() > 0) {
                         te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, direction.getOpposite()).ifPresent(h -> {
-                            int amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                            fluidHandler.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+                            int amount = h.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
+                            if (amount > 0) {
+                                amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                                fluidHandler.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+                            }
                         });
                     }
                 }

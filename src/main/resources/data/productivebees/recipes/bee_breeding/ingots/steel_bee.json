@@ -5,28 +5,18 @@
     "offspring": [
         "productivebees:steel"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:ingots/iron"
-        },
-        {
-            "item": "minecraft:coal"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/steel"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:iron"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/steel"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:coal"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:steel"
         }
     ]
 }

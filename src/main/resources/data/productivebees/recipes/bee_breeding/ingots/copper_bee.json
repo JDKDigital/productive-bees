@@ -5,12 +5,14 @@
     "offspring": [
         "productivebees:copper"
     ],
-    "breeding_items": [
+    "conditions": [
         {
-            "tag": "forge:ingots/iron"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:crystalline"
         },
         {
-            "tag": "forge:ingots/copper"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:copper"
         }
     ]
 }

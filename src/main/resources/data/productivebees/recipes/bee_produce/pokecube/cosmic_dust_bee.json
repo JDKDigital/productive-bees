@@ -22,18 +22,8 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/cosmicdust"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ores/cosmic"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:cosmic_dust"
         }
     ]
 }

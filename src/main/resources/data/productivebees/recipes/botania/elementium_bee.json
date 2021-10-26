@@ -18,6 +18,14 @@
         {
             "type": "forge:mod_loaded",
             "modid": "botania"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:manasteel"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:elementium"
         }
     ]
 }

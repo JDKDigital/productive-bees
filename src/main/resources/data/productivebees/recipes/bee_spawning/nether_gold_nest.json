@@ -10,5 +10,11 @@
     ],
     "biomes": [
         "nether"
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:gold"
+        }
     ]
 }

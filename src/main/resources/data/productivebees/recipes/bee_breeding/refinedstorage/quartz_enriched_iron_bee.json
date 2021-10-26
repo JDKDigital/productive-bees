@@ -15,8 +15,16 @@
     ],
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "refinedstorage"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:crystalline"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:iron"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:quartz_enriched_iron"
         }
     ]
 }

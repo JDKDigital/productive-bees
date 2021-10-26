@@ -29,6 +29,18 @@
         {
             "type": "forge:mod_loaded",
             "modid": "mythicbotany"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "botania"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:alfsteel"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:elementium"
         }
     ]
 }

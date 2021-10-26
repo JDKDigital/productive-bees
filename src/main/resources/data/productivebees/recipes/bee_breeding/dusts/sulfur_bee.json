@@ -5,21 +5,18 @@
     "offspring": [
         "productivebees:sulfur"
     ],
-    "breeding_items": [
-        {
-            "item": "minecraft:magma_cream"
-        },
-        {
-            "tag": "forge:dusts/sulfur"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:dusts/sulfur"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:magmatic"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:coal"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:sulfur"
         }
     ]
 }

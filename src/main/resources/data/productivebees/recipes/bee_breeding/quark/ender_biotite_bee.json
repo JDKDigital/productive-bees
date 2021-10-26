@@ -22,8 +22,16 @@
             }
         },
         {
-            "type": "forge:mod_loaded",
-            "modid": "quark"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:crystalline"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:draconic"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:ender_biotite"
         }
     ]
 }

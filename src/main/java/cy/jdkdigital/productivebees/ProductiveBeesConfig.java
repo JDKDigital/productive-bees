@@ -172,7 +172,7 @@ public class ProductiveBeesConfig
                     .defineInRange("cuckooSpawnCount", 2, 0, Integer.MAX_VALUE);
 
             fishingBeeChance = builder
-                    .defineInRange("fishingBeeChance", 0.01, 0, 1);
+                    .defineInRange("fishingBeeChance", 0.05, 0, 1);
 
             builder.pop();
         }

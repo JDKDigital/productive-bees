@@ -5,21 +5,10 @@
     "offspring": [
         "productivebees:plastic"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:plastic"
-        },
-        {
-            "tag": "forge:plastic"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:plastic"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:plastic"
         }
     ]
 }

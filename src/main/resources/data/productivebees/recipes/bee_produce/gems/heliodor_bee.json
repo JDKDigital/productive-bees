@@ -16,11 +16,8 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/heliodor"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:heliodor"
         }
     ]
 }

@@ -5,12 +5,18 @@
     "offspring": [
         "productivebees:emerald"
     ],
-    "breeding_items": [
+    "conditions": [
         {
-            "tag": "forge:gems/diamond"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:diamond"
         },
         {
-            "tag": "forge:gems/emerald"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:slimy"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:emerald"
         }
     ]
 }

@@ -20,6 +20,10 @@
                 "type": "forge:tag_empty",
                 "tag": "forge:silicon"
             }
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:silicon"
         }
     ]
 }

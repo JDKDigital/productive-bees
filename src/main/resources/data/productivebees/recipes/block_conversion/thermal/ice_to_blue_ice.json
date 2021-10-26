@@ -10,8 +10,8 @@
     "chance": 80,
     "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "thermal"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:blizz"
         }
     ]
 }

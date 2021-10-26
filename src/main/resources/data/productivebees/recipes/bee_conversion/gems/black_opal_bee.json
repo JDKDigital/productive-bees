@@ -7,11 +7,16 @@
     },
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/black_opal"
-            }
+            "type": "forge:mod_loaded",
+            "modid": "gemsnjewels"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:diamond"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:black_opal"
         }
     ]
 }

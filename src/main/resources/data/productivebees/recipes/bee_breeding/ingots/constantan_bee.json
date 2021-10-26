@@ -5,42 +5,18 @@
     "offspring": [
         "productivebees:constantan"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:ingots/copper"
-        },
-        {
-            "tag": "forge:ingots/nickel"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/nickel"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:copper"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/nickel"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:nickel"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/constantan"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/constantan"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:constantan"
         }
     ]
 }

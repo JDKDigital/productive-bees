@@ -5,12 +5,14 @@
     "offspring": [
         "productivebees:blazing"
     ],
-    "breeding_items": [
+    "conditions": [
         {
-            "item": "minecraft:magma_cream"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:magmatic"
         },
         {
-            "item": "minecraft:blaze_powder"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:blazing"
         }
     ]
 }

@@ -5,12 +5,14 @@
     "offspring": [
         "productivebees:redstone"
     ],
-    "breeding_items": [
+    "conditions": [
         {
-            "tag": "forge:dusts/glowstone"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:glowing"
         },
         {
-            "tag": "forge:dusts/redstone"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:redstone"
         }
     ]
 }

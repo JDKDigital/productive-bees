@@ -22,18 +22,8 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/bismuth"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/bismuth"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:bismuth"
         }
     ]
 }

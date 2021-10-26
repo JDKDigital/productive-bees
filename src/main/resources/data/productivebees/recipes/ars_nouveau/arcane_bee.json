@@ -56,6 +56,14 @@
         {
             "type": "forge:mod_loaded",
             "modid": "ars_nouveau"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:diamond"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:arcane"
         }
     ]
 }

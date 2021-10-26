@@ -7,18 +7,8 @@
     },
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/spectrum"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/spectrum"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:"
         }
     ]
 }

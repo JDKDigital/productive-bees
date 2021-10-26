@@ -12,5 +12,11 @@
         {
             "item": "minecraft:string"
         }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:silky"
+        }
     ]
 }

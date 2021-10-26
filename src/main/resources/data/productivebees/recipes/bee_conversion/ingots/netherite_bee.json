@@ -4,5 +4,15 @@
     "result": "productivebees:netherite",
     "item": {
         "item": "minecraft:netherite_block"
-    }
+    },
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:diamond"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:netherite"
+        }
+    ]
 }

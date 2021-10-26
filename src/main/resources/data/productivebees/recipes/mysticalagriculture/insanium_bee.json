@@ -40,6 +40,14 @@
         {
             "type": "forge:mod_loaded",
             "modid": "mysticalagradditions"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:supremium"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:insanium"
         }
     ]
 }

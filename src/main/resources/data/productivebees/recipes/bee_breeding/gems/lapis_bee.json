@@ -5,12 +5,14 @@
     "offspring": [
         "productivebees:lapis"
     ],
-    "breeding_items": [
+    "conditions": [
         {
-            "tag": "forge:dusts/redstone"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:redstone"
         },
         {
-            "tag": "forge:gems/lapis"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:lapis"
         }
     ]
 }

@@ -22,11 +22,8 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "productivebees:fluid_tag_empty",
-                "tag": "forge:tea"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:tea"
         }
     ]
 }

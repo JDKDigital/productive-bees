@@ -5,42 +5,18 @@
     "offspring": [
         "productivebees:signalum"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:dusts/redstone"
-        },
-        {
-            "tag": "forge:dusts/redstone"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/silver"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:silver"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/silver"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:copper"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ingots/signalum"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/signalum"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:signalum"
         }
     ]
 }

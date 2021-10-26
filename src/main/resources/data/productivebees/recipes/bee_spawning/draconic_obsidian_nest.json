@@ -10,5 +10,11 @@
     ],
     "biomes": [
         "the_end"
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:draconic"
+        }
     ]
 }

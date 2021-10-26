@@ -5,32 +5,14 @@
     "offspring": [
         "productivebees:amber"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:gems/quartz"
-        },
-        {
-            "tag": "forge:gems/amber"
-        }
-    ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/amber"
-            }
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:crystalline"
         },
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/amber"
-            }
-        },
-        {
-            "type": "forge:tag_empty",
-            "tag": "silentgems:glowroses/amber"
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:amber"
         }
     ]
 }

@@ -20,5 +20,11 @@
             },
             "chance": 10
         }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:zombie"
+        }
     ]
 }

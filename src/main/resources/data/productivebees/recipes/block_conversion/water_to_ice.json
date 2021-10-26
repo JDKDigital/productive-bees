@@ -6,5 +6,11 @@
     },
     "to": {
         "Name": "minecraft:ice"
-    }
+    },
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:frosty"
+        }
+    ]
 }

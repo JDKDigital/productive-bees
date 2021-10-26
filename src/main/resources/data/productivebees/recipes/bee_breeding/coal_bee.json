@@ -12,5 +12,15 @@
         {
             "tag": "minecraft:flowers"
         }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:blazing"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:coal"
+        }
     ]
 }
