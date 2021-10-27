@@ -15,6 +15,7 @@
             "amount": 50
         }
     ],
+    "heatRequirement": "heated",
     "conditions": [
         {
             "type": "forge:mod_loaded",

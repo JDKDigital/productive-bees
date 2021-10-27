@@ -76,16 +76,20 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
             return (isProcessableItem && slot == InventoryHandlerHelper.INPUT_SLOT) || (!isProcessableItem && super.isInputSlotItem(slot, item));
         }
+
+        @Override
+        protected void onContentsChanged(int slot) {
+            super.onContentsChanged(slot);
+            if (this.getStackInSlot(slot).isEmpty()) {
+                CentrifugeBlockEntity.this.recipeProgress = 0;
+            }
+        }
     });
 
     protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
     {
         @Override
         protected void onContentsChanged() {
-            if (this.isEmpty()) {
-                CentrifugeBlockEntity.this.recipeProgress = 0;
-            }
-
             super.onContentsChanged();
             CentrifugeBlockEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
             CentrifugeBlockEntity.this.setChanged();

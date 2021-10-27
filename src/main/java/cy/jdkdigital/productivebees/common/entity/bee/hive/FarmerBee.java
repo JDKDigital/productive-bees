@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import com.mojang.authlib.GameProfile;
-<<<<<<< HEAD:src/main/java/cy/jdkdigital/productivebees/common/entity/bee/hive/FarmerBee.java
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -21,7 +20,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fml.ModList;
 
@@ -73,31 +71,24 @@ public class FarmerBee extends ProductiveBee
             return false;
         }
         BlockState state = level.getBlockState(blockPos);
+        Block block = state.getBlock();
 
-        if (state.getBlock() instanceof CocoaBlock && state.getValue(CocoaBlock.AGE) == 2) {
+        if (block instanceof CocoaBlock && state.getValue(CocoaBlock.AGE) == 2) {
             return true;
         }
-        if (state.getBlock() instanceof SweetBerryBushBlock && state.getValue(SweetBerryBushBlock.AGE) == 3) {
+        if (block instanceof SweetBerryBushBlock && state.getValue(SweetBerryBushBlock.AGE) == 3) {
             return true;
         }
-        if (state.getBlock() instanceof StemGrownBlock) {
-            return true;
-        }
-
-        if (state.getBlock() instanceof IPlantable) {
-            // No bushes/grass, no stems and no crops that can still be boned
-            if (state.getBlock() instanceof BushBlock || state.getBlock() instanceof StemBlock || (state.getBlock() instanceof CropBlock && ((CropBlock) state.getBlock()).isValidBonemealTarget(level, blockPos, state, false))) {
-                return false;
-            }
+        if (block instanceof StemGrownBlock) {
             return true;
         }
 
         // Cactus and sugarcane blocks taller than 1 are harvestable
-        if (state.getBlock() instanceof CactusBlock || state.getBlock() instanceof SugarCaneBlock) {
+        if (block instanceof CactusBlock || block instanceof SugarCaneBlock) {
             return level.getBlockState(blockPos.below()).getBlock().equals(state.getBlock());
         }
 
-        return false;
+        return block instanceof CropBlock && !((CropBlock) block).isValidBonemealTarget(level, blockPos, state, false);
     }
 
     public class HarvestCropGoal extends Goal
