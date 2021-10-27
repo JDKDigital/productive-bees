@@ -4,6 +4,7 @@
 -- Added a new recipe condition making it possible to disable a bee without having to manually disable all of it's related recipes
 -- Added support for processing combs in a Create Mixer
 -- Added new Honey Treat recipe using Bumblezone pollen
+-- Farmer bee can harvest cocoa beans
 -- Translation updates
 
 

@@ -655,7 +655,7 @@
   "productivebees.information.upgrade.upgrade_anti_teleport": "Предотвращает телепортацию пчёл, живущих в этом улье.",
   "productivebees.information.upgrade.upgrade_bee_sampler": "Медленно извлекает гены у посещающих улей пчёл, не причиняя им вреда в процессе.",
   "productivebees.information.upgrade.upgrade_breeding": "При установке в улей он дает %s%% шанс появления нового детеныша пчелы из улья каждый раз при доставке меда.\nТип пчелы зависит от того, какие пчелы находятся в улье.\nДля большей вероятности можно установить несколько обновлений.\nПри установке в ловушку ловятся только детёныши пчёл.",
-  "productivebees.information.upgrade.upgrade_comb_block": "Позволяет получать сразу ресурсы вместо сот. Установка этого обновления увеличит время, которое пчёлы проводят в улье на %s%%.",
+  "productivebees.information.upgrade.upgrade_comb_block": "Позволяет в ульях получать пчелиные соты в виде блоков. Весьма эффективно для ульев с карьерными и древесными пчёлами. Установка этого обновления увеличит время, которое пчёлы проводят в улье на %s%%.",
   "productivebees.information.upgrade.upgrade_filter": "Чтобы очистить фильтр, поместите его в сетку крафта.",
   "productivebees.information.upgrade.upgrade_filter_empty": "Щёлкайте правой кнопкой мыши по пчёлам, чтобы добавить их в фильтр.",
   "productivebees.information.upgrade.upgrade_filter_entity": "%s",
