@@ -11,6 +11,7 @@
             "chance": 0.90
         }
     ],
+    "heatRequirement": "heated",
     "conditions": [
         {
             "type": "forge:mod_loaded",

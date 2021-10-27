@@ -10,6 +10,7 @@
             "item": "minecraft:experience_bottle"
         }
     ],
+    "heatRequirement": "heated",
     "conditions": [
         {
             "type": "forge:mod_loaded",

@@ -76,16 +76,20 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
 
             return (isProcessableItem && slot == InventoryHandlerHelper.INPUT_SLOT) || (!isProcessableItem && super.isInputSlotItem(slot, item));
         }
+
+        @Override
+        protected void onContentsChanged(int slot) {
+            super.onContentsChanged(slot);
+            if (this.getStackInSlot(slot).isEmpty()) {
+                CentrifugeTileEntity.this.recipeProgress = 0;
+            }
+        }
     });
 
     protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
     {
         @Override
         protected void onContentsChanged() {
-            if (this.isEmpty()) {
-                CentrifugeTileEntity.this.recipeProgress = 0;
-            }
-
             super.onContentsChanged();
             CentrifugeTileEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
             CentrifugeTileEntity.this.setChanged();
