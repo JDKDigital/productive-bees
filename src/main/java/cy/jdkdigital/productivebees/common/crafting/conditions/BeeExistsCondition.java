@@ -3,8 +3,8 @@ package cy.jdkdigital.productivebees.common.crafting.conditions;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 
@@ -51,7 +51,7 @@ public class BeeExistsCondition implements ICondition
 
         @Override
         public BeeExistsCondition read(JsonObject json) {
-            return new BeeExistsCondition(new ResourceLocation(JSONUtils.getAsString(json, "bee")));
+            return new BeeExistsCondition(new ResourceLocation(GsonHelper.getAsString(json, "bee")));
         }
 
         @Override
