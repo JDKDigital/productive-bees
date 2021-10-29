@@ -2,12 +2,12 @@
     "type": "create:mixing",
     "ingredients": [
         {
-            "tag": "forge:honeycombs/ender_slimy"
+            "item": "feywild:honeycomb"
         }
     ],
     "results": [
         {
-            "item": "tconstruct:ender_slime_ball"
+            "item": "feywild:fey_dust"
         },
         {
             "fluid": "productivebees:honey",
@@ -22,7 +22,7 @@
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "tconstruct"
+            "modid": "feywild"
         }
     ]
 }

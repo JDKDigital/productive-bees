@@ -1,0 +1,30 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "item": "feywild:honeycomb"
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "feywild:fey_dust"
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 100
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "feywild"
+        }
+    ]
+}

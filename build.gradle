@@ -146,6 +146,11 @@ dependencies {
     implementation fg.deobf("curse.maven:create-stuff-additions-466792:3478969")
     implementation fg.deobf("curse.maven:createaddition-439890:3476770")
     implementation fg.deobf("curse.maven:tropicraft-254794:3374909")
+    implementation fg.deobf("curse.maven:geckolib-388172:3502622")
+    implementation fg.deobf("curse.maven:libx-412525:3329216")
+    implementation fg.deobf("curse.maven:feywild-484377:3504051")
+    implementation fg.deobf("curse.maven:randompatches-forge-285612:3211323")
+    implementation fg.deobf("curse.maven:astral-sorcery-241721:3333980")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

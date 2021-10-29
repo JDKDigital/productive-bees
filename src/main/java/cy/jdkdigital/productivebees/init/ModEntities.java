@@ -29,7 +29,7 @@ public class ModEntities
     public static final DeferredRegister<EntityType<?>> HIVE_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
     public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
 
-    public static RegistryObject<EntityType<ProjectileItemEntity>> BEE_BOMB = createEntity("bee_bomb", BeeBombEntity::new);
+    public static RegistryObject<EntityType<ProjectileItemEntity>> BEE_BOMB = createEntity("bee_bomb", EntityType.Builder.<ProjectileItemEntity>of(BeeBombEntity::new, EntityClassification.MISC).sized(0.25F, 0.25F));
 
     public static RegistryObject<EntityType<BeeEntity>> DYE_BEE = createHiveBee("dye_bee", ProductiveBeeEntity::new, 16768648, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<BeeEntity>> LUMBER_BEE = createHiveBee("lumber_bee", LumberBeeEntity::new, 8306542, 6238757, ModItemGroups.PRODUCTIVE_BEES);
@@ -93,9 +93,7 @@ public class ModEntities
         return entity;
     }
 
-    public static <E extends Entity> RegistryObject<EntityType<E>> createEntity(String name, EntityType.IFactory<E> supplier) {
-        EntityType.Builder<E> builder = EntityType.Builder.of(supplier, EntityClassification.MISC).sized(0.25F, 0.25F);
-
+    public static <E extends Entity> RegistryObject<EntityType<E>> createEntity(String name, EntityType.Builder<E> builder) {
         RegistryObject<EntityType<E>> entity = ENTITIES.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
 
         return entity;

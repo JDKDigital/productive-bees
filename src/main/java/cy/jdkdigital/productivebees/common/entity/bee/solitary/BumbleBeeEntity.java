@@ -155,6 +155,7 @@ public class BumbleBeeEntity extends SolitaryBeeEntity implements IRideable, IEq
     @Nonnull
     public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
         boolean flag = this.isFood(player.getItemInHand(hand));
+
         if (!flag && this.isSaddled() && !this.isVehicle() && !player.isSecondaryUseActive()) {
             if (!this.level.isClientSide) {
                 if (player instanceof ServerPlayerEntity) {

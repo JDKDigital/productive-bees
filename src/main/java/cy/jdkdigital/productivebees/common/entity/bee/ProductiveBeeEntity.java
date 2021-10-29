@@ -37,7 +37,9 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -73,6 +75,7 @@ public class ProductiveBeeEntity extends BeeEntity
     private Color secondaryColor = null;
     private boolean renderStatic;
     private boolean hasConverted = false;
+    private int happyCounter = 0;
 
     protected FollowParentGoal followParentGoal;
     protected BreedGoal breedGoal;
@@ -136,6 +139,10 @@ public class ProductiveBeeEntity extends BeeEntity
     @Override
     public void tick() {
         super.tick();
+
+        if (!level.isClientSide && this.happyCounter > 0) {
+            this.happyCounter--;
+        }
 
         // "Positive" effect to nearby players
         if (!level.isClientSide && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
@@ -202,7 +209,19 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     @Override
-    public boolean isAngry() { // isAngry
+    @Nonnull
+    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        boolean flag = this.isFood(player.getItemInHand(hand));
+
+        if (!flag && !this.level.isClientSide) {
+            this.happyCounter = 2400;
+            this.level.broadcastEntityEvent(this, (byte) 18);
+        }
+        return super.mobInteract(player, hand);
+    }
+
+    @Override
+    public boolean isAngry() {
         return super.isAngry() && getAttributeValue(BeeAttributes.TEMPER) > 0;
     }
 

@@ -17,11 +17,6 @@ public class SolitaryBeeEntity extends ProductiveBeeEntity
         beeAttributes.put(BeeAttributes.TYPE, "solitary");
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-    }
-
     protected void registerGoals() {
         super.registerGoals();
 
