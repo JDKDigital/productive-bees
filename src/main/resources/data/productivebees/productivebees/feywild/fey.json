@@ -1,8 +1,9 @@
 {
     "primaryColor": "#66ccff",
     "secondaryColor": "#666699",
+    "particleColor": "#18abf5",
     "description": "productivebees.ingredient.description.only_spawnegg",
-    "beeTexture": "productivebees:textures/entity/bee/feywild/bee",
+    "beeTexture": "productivebees:textures/entity/bee/fey/bee",
     "renderer": "default_crystal",
     "particleType": "pop",
     "size": 0.6,
