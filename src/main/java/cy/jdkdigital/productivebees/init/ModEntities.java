@@ -15,6 +15,7 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -27,7 +28,7 @@ public class ModEntities
     public static final DeferredRegister<EntityType<?>> HIVE_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
     public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
 
-    public static RegistryObject<EntityType<ThrowableItemProjectile>> BEE_BOMB = createEntity("bee_bomb", BeeBombEntity::new);
+    public static RegistryObject<EntityType<ThrowableItemProjectile>> BEE_BOMB = createEntity("bee_bomb", EntityType.Builder.<ThrowableItemProjectile>of(BeeBombEntity::new, MobCategory.MISC).sized(0.25F, 0.25F));
 
     public static RegistryObject<EntityType<Bee>> DYE_BEE = createHiveBee("dye_bee", ProductiveBee::new, 16768648, 6238757, ModItemGroups.PRODUCTIVE_BEES);
     public static RegistryObject<EntityType<Bee>> LUMBER_BEE = createHiveBee("lumber_bee", LumberBee::new, 8306542, 6238757, ModItemGroups.PRODUCTIVE_BEES);
@@ -81,9 +82,9 @@ public class ModEntities
         return entity;
     }
 
-    public static <E extends Entity> RegistryObject<EntityType<E>> createEntity(String name, EntityType.EntityFactory<E> supplier) {
-        EntityType.Builder<E> builder = EntityType.Builder.of(supplier, MobCategory.MISC).sized(0.25F, 0.25F);
+    public static <E extends Entity> RegistryObject<EntityType<E>> createEntity(String name, EntityType.Builder<E> builder) {
+        RegistryObject<EntityType<E>> entity = ENTITIES.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
 
-        return ENTITIES.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
+        return entity;
     }
 }

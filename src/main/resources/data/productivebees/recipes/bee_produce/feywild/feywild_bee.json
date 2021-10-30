@@ -1,0 +1,33 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:fey",
+    "results": [
+        {
+            "item": {
+                "item": "feywild:honeycomb"
+            }
+        },
+        {
+            "item": {
+                "item": "feywild:lesser_fey_gem"
+            },
+            "chance": 15
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "feywild"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:fey"
+        }
+    ]
+}

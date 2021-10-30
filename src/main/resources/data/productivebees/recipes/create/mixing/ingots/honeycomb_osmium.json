@@ -1,8 +1,10 @@
 {
     "type": "create:mixing",
-    "ingredients": [{
-        "tag": "forge:honeycombs/osmium"
-    }],
+    "ingredients": [
+        {
+            "tag": "forge:honeycombs/osmium"
+        }
+    ],
     "results": [
         {
             "item": "mekanism:ingot_osmium",

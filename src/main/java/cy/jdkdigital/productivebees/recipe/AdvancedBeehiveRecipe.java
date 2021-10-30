@@ -55,6 +55,9 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements Recipe<Con
             String beeName = ((BeeHelper.IdentifierInventory) inv).getIdentifier();
             return beeName.equals(ingredient.get().getBeeType().toString());
         }
+        if (ingredient.get() == null) {
+            ProductiveBees.LOGGER.info("bee ingredient for " + id + " is null");
+        }
         return false;
     }
 

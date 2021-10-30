@@ -48,8 +48,11 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
                 renderColoredCutoutModel(this.model, this.getTextureLocation(entity), matrixStackIn, bufferIn, packedLightIn, entity, 1.0F, 1.0F, 1.0F);
             }
 
-            if (entity.getColor(0)  > 0) {
+            if (entity.getColor(0) > 0) {
                 if (entity instanceof ConfigurableBee && ((ConfigurableBee) entity).hasBeeTexture()) {
+                    if (((ConfigurableBee) entity).useGlowLayer()) {
+                        renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity);
+                    }
                     return;
                 }
                 renderColoredLayers(matrixStackIn, bufferIn, packedLightIn, entity);
@@ -75,21 +78,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
         renderColoredCutoutModel(this.model, abdomenLocation, matrixStackIn, bufferIn, packedLightIn, entity, secondaryColor[0], secondaryColor[1], secondaryColor[2]);
 
         if (this.modelType.equals("default_crystal")) {
-            float[] color = primaryColor;
-            boolean useGlowLayer = !entity.getRenderStatic();
-            if (entity instanceof ConfigurableBee) {
-                color = ((ConfigurableBee) entity).getTertiaryColor();
-                useGlowLayer = useGlowLayer && ((ConfigurableBee) entity).useGlowLayer();
-            }
-            // render a color version of the crystal layer
-            ResourceLocation crystalsLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals_clear.png");
-            renderColoredCutoutModel(this.model, crystalsLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
-            if (useGlowLayer) {
-                // render glowing layer on top
-                ResourceLocation crystalsOverlayLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals.png");
-                VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.eyes(crystalsOverlayLocation));
-                this.model.renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, color[0], color[1], color[2], 1.0F);
-            }
+            renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity);
         } else if (this.modelType.equals("default_foliage") || this.modelType.equals("default_shell")) {
             float[] color = primaryColor;
             if (entity instanceof ConfigurableBee) {
@@ -97,6 +86,24 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
             }
             ResourceLocation foliageLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals.png");
             renderColoredCutoutModel(this.model, foliageLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
+        }
+    }
+
+    private void renderCrystalLayer(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, ProductiveBee entity) {
+        float[] color = ColorUtil.getComponents(entity.getColor(0));
+        boolean useGlowLayer = !entity.getRenderStatic();
+        if (entity instanceof ConfigurableBee) {
+            color = ((ConfigurableBee) entity).getTertiaryColor();
+            useGlowLayer = useGlowLayer && ((ConfigurableBee) entity).useGlowLayer();
+        }
+        // render a color version of the crystal layer
+        ResourceLocation crystalsLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals_clear.png");
+        renderColoredCutoutModel(this.model, crystalsLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
+        if (useGlowLayer) {
+            // render glowing layer on top
+            ResourceLocation crystalsOverlayLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals.png");
+            VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.eyes(crystalsOverlayLocation));
+            this.model.renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, color[0], color[1], color[2], 1.0F);
         }
     }
 

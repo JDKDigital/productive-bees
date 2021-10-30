@@ -14,6 +14,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -63,6 +65,7 @@ public class ProductiveBee extends Bee
 
     private boolean renderStatic = false;
     private boolean hasConverted = false;
+    private int happyCounter = 0;
 
     protected FollowParentGoal followParentGoal;
     protected BreedGoal breedGoal;
@@ -127,6 +130,10 @@ public class ProductiveBee extends Bee
     public void tick() {
         super.tick();
 
+        if (!level.isClientSide && this.happyCounter > 0) {
+            this.happyCounter--;
+        }
+
         // "Positive" effect to nearby players
         if (!level.isClientSide && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getBeeEffect();
@@ -185,7 +192,19 @@ public class ProductiveBee extends Bee
     }
 
     @Override
-    public boolean isAngry() { // isAngry
+    @Nonnull
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        boolean flag = this.isFood(player.getItemInHand(hand));
+
+        if (!flag && !this.level.isClientSide) {
+            this.happyCounter = 2400;
+            this.level.broadcastEntityEvent(this, (byte) 18);
+        }
+        return super.mobInteract(player, hand);
+    }
+
+    @Override
+    public boolean isAngry() {
         return super.isAngry() && getAttributeValue(BeeAttributes.TEMPER) > 0;
     }
 

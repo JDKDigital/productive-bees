@@ -154,6 +154,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     @Nonnull
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         boolean flag = this.isFood(player.getItemInHand(hand));
+
         if (!flag && this.isSaddled() && !this.isVehicle() && !player.isSecondaryUseActive()) {
             if (!this.level.isClientSide) {
                 if (player instanceof ServerPlayer) {
