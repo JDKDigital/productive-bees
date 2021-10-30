@@ -211,9 +211,7 @@ public class ProductiveBeeEntity extends BeeEntity
     @Override
     @Nonnull
     public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
-        boolean flag = this.isFood(player.getItemInHand(hand));
-
-        if (!flag && !this.level.isClientSide) {
+        if (player.getItemInHand(hand).isEmpty() && !this.level.isClientSide) {
             this.happyCounter = 2400;
             this.level.broadcastEntityEvent(this, (byte) 18);
         }

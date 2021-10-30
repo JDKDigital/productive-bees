@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.setup;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.integrations.patchouli.ProductiveBeesPatchouli;
 import cy.jdkdigital.productivebees.util.BeeCreator;
@@ -26,9 +27,23 @@ public class BeeReloadListener extends JsonReloadListener
 
     public static final BeeReloadListener INSTANCE = new BeeReloadListener();
     private Map<String, CompoundNBT> BEE_DATA = new HashMap<>();
+    private Map<String, JsonObject> BEE_CONDITIONS = new HashMap<>();
 
     public BeeReloadListener() {
         super(GSON, "productivebees");
+    }
+
+    @Override
+    protected Map<ResourceLocation, JsonElement> prepare(IResourceManager manager, IProfiler profiler) {
+        Map<ResourceLocation, JsonElement> map = super.prepare(manager, profiler);
+
+        for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+            ResourceLocation id = entry.getKey();
+            String simpleId = id.getPath().contains("/") ? id.getNamespace() + ":" + id.getPath().substring(id.getPath().lastIndexOf("/") + 1) : id.toString();
+            BEE_CONDITIONS.put(simpleId, entry.getValue().getAsJsonObject());
+        }
+
+        return map;
     }
 
     @Override
@@ -69,6 +84,10 @@ public class BeeReloadListener extends JsonReloadListener
 
     public Map<String, CompoundNBT> getData() {
         return BEE_DATA;
+    }
+
+    public JsonObject getCondition(String id) {
+        return BEE_CONDITIONS.get(id);
     }
 
     public void setData(Map<String, CompoundNBT> data) {

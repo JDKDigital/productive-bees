@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 
@@ -32,7 +33,8 @@ public class BeeExistsCondition implements ICondition
 
     @Override
     public boolean test() {
-        return BeeReloadListener.INSTANCE.getData(beeName.toString()) != null;
+        JsonObject beeData = BeeReloadListener.INSTANCE.getCondition(beeName.toString());
+        return beeData != null && CraftingHelper.processConditions(beeData, "conditions");
     }
 
     @Override
