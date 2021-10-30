@@ -50,7 +50,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
 
             if (entity.getColor(0) > 0) {
                 if (entity instanceof ConfigurableBee && ((ConfigurableBee) entity).hasBeeTexture()) {
-                    if (((ConfigurableBee) entity).useGlowLayer()) {
+                    if (this.modelType.equals("default_crystal") && ((ConfigurableBee) entity).useGlowLayer()) {
                         renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity);
                     }
                     return;

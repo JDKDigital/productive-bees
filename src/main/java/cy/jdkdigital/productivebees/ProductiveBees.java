@@ -113,9 +113,7 @@ public final class ProductiveBees
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {
-        BeeReloadListener.recipeManager = event.getDataPackRegistries().getRecipeManager();
         event.addListener(BeeReloadListener.INSTANCE);
-//        event.addListener(CombTextureLoader.INSTANCE);
     }
 
     public void onRegisterFeatures(final RegistryEvent.Register<Feature<?>> event) {

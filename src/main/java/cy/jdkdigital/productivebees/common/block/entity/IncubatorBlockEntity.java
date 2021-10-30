@@ -196,7 +196,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
 
     @Override
     public void savePacketNBT(CompoundTag tag) {
-        super.save(tag);
+        super.savePacketNBT(tag);
 
         tag.putInt("RecipeProgress", recipeProgress);
     }

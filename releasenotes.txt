@@ -1,10 +1,30 @@
+0.7.0.11
+
+-- Added Fey Bee for Feywild
+-- Added Rock Crystal Bee for Astral Sorcery
+-- Fixed a handful of broken recipes
+-- Fixed bee recipes not working on servers
+
+
+0.7.0.10
+
+-- Fixed incubator tick loop
+
+
+0.7.0.9
+
+-- Fixed missing comb block names
+-- Added a new recipe condition making it possible to disable a bee without having to manually disable all of it's related recipes
+-- Added support for processing combs in a Create Mixer
+-- Centrifuges will now automatically output fluids to adjacent fluid containers
 -- Added support for Bumblezone pollen
+-- Added new Honey Treat recipe using Bumblezone pollen
 -- Honey Generator can now use speed and productivity upgrades
 -- Added Tetra Geode bee which can convert stones into geode bearing stone
 -- Added prismarine bee which can be caught in the ocean
 -- Added Quartz Enriched Iron bee (Refined Storage)
 -- Updated Russian translation thanks to Tkhakiro
--- Farmer Bees can now harvest melons, pumpkins, sugar cane, cactus and sweet berry bushes.
+-- Farmer Bees can now harvest melons, pumpkins, sugar cane, cactus, cocoa and sweet berry bushes.
 -- Releasing a bee from a cage on a flower block will now set that block as the bees flower position
 -- Releasing a bee from a cage on a hive while sneaking will now set that hive as the bees home position
 -- Bee names are now translatable

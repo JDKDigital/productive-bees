@@ -1,23 +1,29 @@
 package cy.jdkdigital.productivebees.setup;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
+import com.google.common.collect.Maps;
+import com.google.gson.*;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.integrations.patchouli.ProductiveBeesPatchouli;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BeeReloadListener extends SimpleJsonResourceReloadListener
 {
@@ -26,9 +32,23 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
 
     public static final BeeReloadListener INSTANCE = new BeeReloadListener();
     private Map<String, CompoundTag> BEE_DATA = new HashMap<>();
+    private Map<String, JsonObject> BEE_CONDITIONS = new HashMap<>();
 
     public BeeReloadListener() {
         super(GSON, "productivebees");
+    }
+
+    @Override
+    protected Map<ResourceLocation, JsonElement> prepare(ResourceManager manager, ProfilerFiller profiler) {
+        Map<ResourceLocation, JsonElement> map = super.prepare(manager, profiler);
+
+        for (Map.Entry<ResourceLocation, JsonElement> entry : map.entrySet()) {
+            ResourceLocation id = entry.getKey();
+            String simpleId = id.getPath().contains("/") ? id.getNamespace() + ":" + id.getPath().substring(id.getPath().lastIndexOf("/") + 1) : id.toString();
+            BEE_CONDITIONS.put(simpleId, entry.getValue().getAsJsonObject());
+        }
+
+        return map;
     }
 
     @Override
@@ -69,6 +89,10 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
 
     public Map<String, CompoundTag> getData() {
         return BEE_DATA;
+    }
+
+    public JsonObject getCondition(String id) {
+        return BEE_CONDITIONS.get(id);
     }
 
     public void setData(Map<String, CompoundTag> data) {
