@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#c9c7c2",
+    "secondaryColor": "#4f4e4b",
+    "particleColor": "#c9c7c2",
+    "size": 0.5,
+    "flowerTag": "productivebees:flowers/graves",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "tombstone"
+        }
+    ]
+}

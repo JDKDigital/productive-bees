@@ -1,6 +1,9 @@
 {
     "primaryColor": "#dfe5f6",
     "secondaryColor": "#93c7ff",
+    "tertiaryColor": "#93c7ff",
+    "particleColor": "#66aefc",
+    "renderer": "default_crystal",
     "createComb": false,
     "size": 0.7,
     "description": "productivebees.ingredient.description.spacial",

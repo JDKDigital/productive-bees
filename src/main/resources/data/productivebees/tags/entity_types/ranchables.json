@@ -2,8 +2,10 @@
     "replace": false,
     "values": [
         "minecraft:cow",
-        "minecraft:sheep",
+        "minecraft:donkey",
+        "minecraft:horse",
         "minecraft:llama",
+        "minecraft:sheep",
         {
             "id": "dyenamics:sheep",
             "required": false
