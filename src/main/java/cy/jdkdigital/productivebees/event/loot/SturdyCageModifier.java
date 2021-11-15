@@ -1,8 +1,6 @@
 package cy.jdkdigital.productivebees.event.loot;
 
 import com.google.gson.JsonObject;
-import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
@@ -11,7 +9,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
-import net.minecraftforge.common.util.JsonUtils;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -37,9 +34,8 @@ public class SturdyCageModifier extends LootModifier
     {
         @Override
         public SturdyCageModifier read(ResourceLocation resourceLocation, JsonObject jsonObject, LootItemCondition[] lootItemConditions) {
-            ProductiveBees.LOGGER.info("deserializing: " + GsonHelper.getAsString(jsonObject, "addition"));
-//            Item addition = ForgeRegistries.ITEMS.getValue(new ResourceLocation((GsonHelper.getAsString(jsonObject, "addition"))));
-            return new SturdyCageModifier(lootItemConditions, ModItems.STURDY_BEE_CAGE.get());
+            Item addition = ForgeRegistries.ITEMS.getValue(new ResourceLocation((GsonHelper.getAsString(jsonObject, "addition"))));
+            return new SturdyCageModifier(lootItemConditions, addition);
         }
 
         @Override
