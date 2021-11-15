@@ -1,0 +1,21 @@
+{
+    "conditions": [
+        {
+            "condition": "forge:loot_table_id",
+            "loot_table_id": "minecraft:chests/village"
+        },
+        {
+            "condition": "forge:loot_table_id",
+            "loot_table_id": "minecraft:chests/nether_bridge"
+        },
+        {
+            "condition": "forge:loot_table_id",
+            "loot_table_id": "minecraft:chests/desert_pyramid"
+        },
+        {
+            "condition": "forge:loot_table_id",
+            "loot_table_id": "minecraft:chests/abandoned_mineshaft"
+        }
+    ],
+    "addition": "productivebees:sturdy_bee_cage"
+}

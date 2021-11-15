@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBee;
+import cy.jdkdigital.productivebees.event.loot.SturdyCageModifier;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
@@ -13,6 +14,7 @@ import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -27,8 +29,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -90,12 +92,10 @@ public class EventHandler
     }
 
     @SubscribeEvent
-    public static void onLootSetup(LootTableLoadEvent event) {
-        if (event.getName().toString().contains("chests/village")) {
-            event.getTable().getPool("main").entries.add(
-                LootItem.lootTableItem(ModItems.STURDY_BEE_CAGE.get()).setWeight(4).build()
-            );
-        }
+    public static void onLootRegister(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
+        event.getRegistry().registerAll(
+            new SturdyCageModifier.Serializer().setRegistryName(new ResourceLocation(ProductiveBees.MODID, "village_chest_sturdy_cage"))
+        );
     }
 
     @SubscribeEvent
