@@ -6,13 +6,13 @@
     "category": "productivebees:bees_solitary",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Albañil",
             "text": "[Osmia lignaria]",
             "anchor": "mason"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:mason_bee"
         }
     ]

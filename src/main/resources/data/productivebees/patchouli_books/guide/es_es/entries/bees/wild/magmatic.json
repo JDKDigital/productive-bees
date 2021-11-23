@@ -5,13 +5,13 @@
     "category": "productivebees:bees_wild",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Magmatica",
             "text": "Encontrado viviendo en nidos de ladrillos del Nether en fortalezas del Nether. Las abejas magmáticas prefieren polinizar bloques de magma o verrugas del Nether.",
             "anchor": "magmatic"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:magmatic'}"
         }
     ]

@@ -6,13 +6,13 @@
     "flag": "productivebees:coal",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Coal Bee",
             "text": "Bred from a $(l:bees/hive/redstone)Blazing Bee$(/l) and a $(l:bees/solitary/leafcutter)Leafcutter Bee$(/l).",
             "anchor": "coal"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:coal'}"
         }
     ]

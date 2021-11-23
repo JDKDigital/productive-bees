@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Farmer Bee",
             "text": "Will harvest nearby crops and leave the produce on the ground."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:farmer_bee"
         }
     ]

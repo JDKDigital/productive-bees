@@ -5,11 +5,11 @@
     "sortnum": 1,
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Los nidos se pueden encontrar repartidos por todo el mundo y cada uno será el hogar de 1 abeja solitaria. Los nidos se pueden recoger con la abeja adentro rompiéndolos, sin necesidad de un toque de seda. Para limpiar un nido de su abeja y cualquier huevo, simplemente necesita crearlo consigo mismo."
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Los nidos vacíos pueden atraer nuevas abejas si les pone una o más golosinas de miel. Haz clic derecho con un bocadillo de miel para iniciar el tiempo de reutilización de la repoblación."
         }
     ]

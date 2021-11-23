@@ -179,12 +179,12 @@ public final class ProductiveBees
         ImmutableList<Block> beehives = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive && !(block instanceof DragonEggHive)).collect(ImmutableList.toImmutableList());
         for (Block block : beehives) {
             for (BlockState state : block.getStateDefinition().getPossibleStates()) {
-//                PoiType.TYPE_BY_STATE.put(state, PoiType.BEEHIVE);
-//                try {
-//                    PoiType.BEEHIVE.matchingStates.add(state);
-//                } catch (Exception e) {
-//                    LOGGER.warn("Could not add blockstate to beehive POI " + state);
-//                }
+                PoiType.TYPE_BY_STATE.put(state, PoiType.BEEHIVE);
+                try {
+                    PoiType.BEEHIVE.matchingStates.add(state);
+                } catch (Exception e) {
+                    LOGGER.warn("Could not add blockstate to beehive POI " + state);
+                }
             }
         }
     }

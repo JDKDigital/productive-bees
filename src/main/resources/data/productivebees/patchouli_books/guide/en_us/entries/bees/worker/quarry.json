@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Quarry Bee",
             "text": "Nibble on nearby stone, sand or gravel and collects stone chips in its hive. Stone chips can be crafted into its counterpart block."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:quarry_bee"
         }
     ]

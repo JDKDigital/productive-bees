@@ -6,35 +6,35 @@
     "category": "productivebees:bees_modded",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Bees producing fluid stuff"
         },
         {
-            "type": "empty",
+            "type": "patchouli:empty",
             "draw_filler": false
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Chocolate Bee",
             "text": "Obtained by feeding cocoa beans to a $(l:bees/wild/sugarbag)Sugarbag Bee$(/l).",
             "anchor": "chocolate",
             "flag": "productivebees:chocolate"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Chocolate Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:chocolate'}",
             "flag": "productivebees:chocolate"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Tea Bee",
             "text": "Obtained by feeding a bucket of water to a $(l:bees/solitary/leafcutter)Leafcutter Bee$(/l).",
             "anchor": "tea",
             "flag": "productivebees:tea"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Tea Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:tea'}",
             "flag": "productivebees:tea"

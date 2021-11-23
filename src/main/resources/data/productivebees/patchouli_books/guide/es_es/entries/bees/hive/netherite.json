@@ -6,13 +6,13 @@
     "flag": "productivebees:netherite",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Antigua abeja",
             "text": "Convertida de una $(l:bees/hive/diamond)Abeja Diamante$(/l) alimentándola con un bloque de netherite.",
             "anchor": "netherite"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:netherite'}"
         }
     ]

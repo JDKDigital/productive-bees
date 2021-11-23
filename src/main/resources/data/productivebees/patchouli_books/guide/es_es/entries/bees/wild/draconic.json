@@ -5,13 +5,13 @@
     "category": "productivebees:bees_wild",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Draconica",
             "text": "Rara vez se encuentra viviendo en pilares de obsidiana en la isla principal al final. Las abejas dracónicas polinizan volando al final recolectando néctar del aire. También mordisquearán huevos de dragón si tienen la oportunidad.",
             "anchor": "draconic"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:draconic'}"
         }
     ]

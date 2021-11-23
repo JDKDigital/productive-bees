@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Cupido",
             "text": "Las feromonas secretadas por esta abeja animan a los animales."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:cupid_bee"
         }
     ]

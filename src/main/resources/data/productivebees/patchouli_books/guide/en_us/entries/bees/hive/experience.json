@@ -6,13 +6,13 @@
     "flag": "productivebees:experience",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Experience Bee",
             "text": "Bred from an $(l:bees/hive/emerald)Emerald Bee$(/l) and a $(l:bees/hive/lapis)Lapis Bee$(/l).",
             "anchor": "experience"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:experience'}"
         }
     ]

@@ -7,178 +7,178 @@
     "flag": "mod:tconstruct",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Bees for Tinkers Construct materials. The bees are obtained by pouring a material over a spawn egg in the casting table."
         },
         {
-            "type": "empty",
+            "type": "patchouli:empty",
             "draw_filler": false
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Ender Slimy Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/wild/slimy)Slimy Bee$(/l) spawn egg using a casting table.",
             "anchor": "ender_slimy",
             "flag": "productivebees:ender_slimy"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Ender Slimy Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:ender_slimy'}",
             "flag": "productivebees:ender_slimy"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Ichor Slimy Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/wild/slimy)Slimy Bee$(/l) spawn egg using a casting table.",
             "anchor": "ichor_slimy",
             "flag": "productivebees:ichor_slimy"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Ichor Slimy Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:ichor_slimy'}",
             "flag": "productivebees:ichor_slimy"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Sky Slimy Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/wild/slimy)Slimy Bee$(/l) spawn egg using a casting table.",
             "anchor": "sky_slimy",
             "flag": "productivebees:sky_slimy"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Sky Slimy Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:sky_slimy'}",
             "flag": "productivebees:sky_slimy"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Cobalt Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from an $(l:bees/hive/iron)Iron Bee$(/l) spawn egg using a casting table.",
             "anchor": "cobalt",
             "flag": "productivebees:cobalt"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Cobalt Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:cobalt'}",
             "flag": "productivebees:cobalt"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Hepatizon Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from an $(l:bees/hive/obsidian)Obsidian Bee$(/l) spawn egg using a casting table.",
             "anchor": "hepatizon",
             "flag": "productivebees:hepatizon"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Hepatizon Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:hepatizon'}",
             "flag": "productivebees:hepatizon"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Knightslime Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from an $(l:bees/hive/iron)Iron Bee$(/l) spawn egg using a casting table.",
             "anchor": "knightslime",
             "flag": "productivebees:knightslime"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Knightslime Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:knightslime'}",
             "flag": "productivebees:knightslime"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Manyullyn Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hive/netherite)Ancient Bee$(/l) spawn egg using a casting table.",
             "anchor": "manyullyn",
             "flag": "productivebees:manyullyn"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Manyullyn Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:manyullyn'}",
             "flag": "productivebees:manyullyn"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Pig Iron Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from an $(l:bees/hive/iron)Iron Bee$(/l) spawn egg using a casting table.",
             "anchor": "pig_iron",
             "flag": "productivebees:pig_iron"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Pig Iron Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:pig_iron'}",
             "flag": "productivebees:pig_iron"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Queens Slime Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hive/gold)Gold Bee$(/l) spawn egg using a casting table.",
             "anchor": "queens_slime",
             "flag": "productivebees:queens_slime"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Queens Slime Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:queens_slime'}",
             "flag": "productivebees:queens_slime"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Rose Gold Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/hive/gold)Gold Bee$(/l) spawn egg using a casting table.",
             "anchor": "rose_gold",
             "flag": "productivebees:rose_gold"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Rose Gold Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:rose_gold'}",
             "flag": "productivebees:rose_gold"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Slimesteel Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from an $(l:bees/hive/iron)Iron Bee$(/l) spawn egg using a casting table.",
             "anchor": "slimesteel",
             "flag": "productivebees:slimesteel"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Slimesteel Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:slimesteel'}",
             "flag": "productivebees:slimesteel"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Soulsteel Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/modded/tconstruct#cobalt)Cobalt Bee$(/l) spawn egg using a casting table.",
             "anchor": "soulsteel",
             "flag": "productivebees:soulsteel"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Soulsteel Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:soulsteel'}",
             "flag": "productivebees:soulsteel"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Tinkers Bronze Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/modded/ingot_bees#copper)Copper Bee$(/l) spawn egg using a casting table.",
             "anchor": "tinkers_bronze",
             "flag": "productivebees:tinkers_bronze"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Tinkers Bronze Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:tinkers_bronze'}",
             "flag": "productivebees:tinkers_bronze"

@@ -6,13 +6,13 @@
     "flag": "productivebees:skeletal",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja esquelética",
             "text": "Se mudará a una colmena avanzada si la colmena se deja vacía en la oscuridad.",
             "anchor": "skeletal"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:skeletal'}"
         }
     ]

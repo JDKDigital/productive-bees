@@ -6,13 +6,13 @@
     "category": "productivebees:bees_solitary",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Neon Cuckoo Bee",
             "text": "[Thyreus nitidulus]",
             "anchor": "neon_cuckoo"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:neon_cuckoo_bee"
         }
     ]

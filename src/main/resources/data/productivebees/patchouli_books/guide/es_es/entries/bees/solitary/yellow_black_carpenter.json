@@ -6,13 +6,13 @@
     "category": "productivebees:bees_solitary",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Carpintera Ng/Amar",
             "text": "[Xylocopa aruana]",
             "anchor": "yellow_black_carpenter"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:yellow_black_carpenter_bee"
         }
     ]

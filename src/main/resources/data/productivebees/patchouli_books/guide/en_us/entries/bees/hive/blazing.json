@@ -6,13 +6,13 @@
     "flag": "productivebees:blazing",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Blazing Bee",
             "text": "Bred from a $(l:bees/wild/magmatic)Magmatic Bee$(/l) and a $(l:bees/solitary/nomad)Nomad Bee$(/l).",
             "anchor": "blazing"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:blazing'}"
         }
     ]

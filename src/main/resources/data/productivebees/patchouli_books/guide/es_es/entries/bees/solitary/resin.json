@@ -6,13 +6,13 @@
     "category": "productivebees:bees_solitary",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Resina",
             "text": "[Megachile mystaceana]",
             "anchor": "resin"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:resin_bee"
         }
     ]

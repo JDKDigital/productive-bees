@@ -6,13 +6,13 @@
     "flag": "productivebees:skeletal",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Skeletal Bee",
             "text": "Will move in to an advanced hive if the hive is left empty in the dark.",
             "anchor": "skeletal"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:skeletal'}"
         }
     ]

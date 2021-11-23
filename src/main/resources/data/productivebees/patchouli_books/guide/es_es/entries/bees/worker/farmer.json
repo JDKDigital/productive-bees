@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Granjera",
             "text": "Recogerá cultivos cercanos y dejará los productos en el suelo."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:farmer_bee"
         }
     ]

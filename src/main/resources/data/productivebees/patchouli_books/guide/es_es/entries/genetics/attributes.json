@@ -4,44 +4,44 @@
     "category": "productivebees:genetics",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Los atributos de las abejas se pueden transferir de una abeja a otra poniendo el gen aislado en una golosina de miel y alimentándose con él. $(br)Vea la página en $(l:genetics/collecting#crystalline)recolectando genes$(/l)."
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Productividad",
             "text": "Abejas con mayor nivel de productividad producirá más peines por viaje.$(br2)Los niveles son:$(br)Normal$(br)Medio$(br)High$(br)Muy Alto"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Tolerancia al clima",
             "text": "Normalmente, las abejas se retirarán a la seguridad de su colmena durante la lluvia y las tormentas eléctricas. Las abejas pueden volverse tolerantes a las duras condiciones climáticas dejándolas atadas afuera durante el mal tiempo. Sin embargo, tenga en cuenta que corren el riesgo de sufrir daños y morir hasta que se acostumbren, así que vigílelos y tenga a mano las golosinas de miel."
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Los niveles son:$(br)Ninguno - solo funciona con tiempo despejado$(br)Lluvia- puede funcionar durante la lluvia$(br)Cualquiera- puede funcionar en cualquier clima"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Comportamiento",
             "text": "Los niveles son:$(br)Diurno - funciona solo durante el día.$(br)Nocturna - funciona solo durante la noche$(br)Metaturno - trabaja todo el dia y la noche"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Los niveles son:$(br)Diurno - funciona solo durante el día.$(br)Nocturna - funciona solo durante la noche$(br)Metaturno - trabaja todo el dia y la noche"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Resistencia",
             "text": "Afecta la salud máxima de la abeja..$(br)Con una alta resistencia, la abeja tiene la oportunidad de no perder su aguijón cuando ataca..$(br)Los niveles son:$(br)Débil$(br)Normal$(br)Medio$(br)Fuerte"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Temperamento",
             "text": "Las abejas tienen un temperamento diferente, algunas atacarán a la vista y otras evitarán por completo la interacción dañina. Una abeja que ha sido alimentada con muchas golosinas de miel mejorará su temperamento.$(br)Los Niveles Son:$(br)Pasiva$(br)Normal$(br)Aggresiva$(br)Hostil"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Effects",
             "text": "Algunas abejas pueden aplicar efectos a jugadores cercanos, tanto positivos como negativos."
         }

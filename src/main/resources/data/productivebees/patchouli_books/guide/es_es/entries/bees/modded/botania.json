@@ -7,61 +7,61 @@
     "flag": "mod:botania",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Abejas para Botania y complementos."
         },
         {
-            "type": "empty",
+            "type": "patchouli:empty",
             "draw_filler": false
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja de acero de maná",
             "text": "Esta abeja no se puede criar. El huevo de desove se elabora a partir de una $(l:bees/hive/#iron)Abeja de Hierro$(/l) desovar huevo en una piscina de maná.",
             "anchor": "manasteel",
             "flag": "productivebees:manasteel"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Manasteel Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:manasteel'}",
             "flag": "productivebees:manasteel"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja de acero de Tierra",
             "text": "Esta abeja no se puede criar. El huevo de desove se elabora a partir de una $(l:bees/modded/botania#manasteel)Abeja de acero de maná$(/l) huevo de desove usando un altar de infusión.",
             "anchor": "terrasteel",
             "flag": "productivebees:terrasteel"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Terrasteel Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:terrasteel'}",
             "flag": "productivebees:terrasteel"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja Elementium",
             "text": "Esta abeja no se puede criar. El huevo de desove se elabora a partir de una $(l:bees/modded/botania#manasteel)Abeja de acero de maná$(/l) huevo de desove usando un altar de infusión.",
             "anchor": "elementium",
             "flag": "productivebees:elementium"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Elementium Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:elementium'}",
             "flag": "productivebees:elementium"
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja de acero Alf",
             "text": "Esta abeja no se puede criar. El huevo de desove se elabora a partir de una $(l:bees/modded/botania#elementium)Abeja Elementium$(/l) huevo de desove usando un altar de infusión.",
             "anchor": "elementium",
             "flag": "productivebees:alfsteel"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "name": "Alfsteel Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:elementium'}",
             "flag": "productivebees:alfsteel"

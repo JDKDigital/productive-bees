@@ -6,13 +6,13 @@
     "flag": "productivebees:withered",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Withered Bee",
             "text": "Obtained by feeding a wither rose to a $(l:bees/hive/skeletal)Skeletal Bee$(/l).",
             "anchor": "withered"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:withered'}"
         }
     ]

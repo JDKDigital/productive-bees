@@ -5,13 +5,13 @@
     "category": "productivebees:bees_wild",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Resplandeciente",
             "text": "Encontrado viviendo en nidos resplandecientes en el abismo. Las abejas que brillan intensamente prefieren polinizar bloques resplandecientes como la piedra luminosa o las lámparas.",
             "anchor": "glowing"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:glowing'}"
         }
     ]

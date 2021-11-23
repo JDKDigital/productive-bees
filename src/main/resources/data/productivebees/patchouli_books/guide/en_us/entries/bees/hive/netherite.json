@@ -6,13 +6,13 @@
     "flag": "productivebees:netherite",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Ancient Bee",
             "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) be feeding it a block of netherite.",
             "anchor": "netherite"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:netherite'}"
         }
     ]

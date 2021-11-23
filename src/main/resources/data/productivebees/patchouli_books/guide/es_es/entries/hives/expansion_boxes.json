@@ -5,11 +5,11 @@
     "sortnum": 3,
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Las cajas de expansión se pueden unir a las colmenas avanzadas para aumentar la capacidad de la colmena de 3 a 5. Las cajas de expansión se pueden colocar encima o al lado de la colmena. Cada colmena solo puede tener una caja de expansión."
         },
         {
-            "type": "crafting",
+            "type": "patchouli:crafting",
             "recipe": "productivebees:boxes/expansion_box_oak"
         },
         {

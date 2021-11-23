@@ -4,23 +4,23 @@
     "category": "productivebees:guide",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Productive Bees se basa en el cultivo de abejas vainilla. En esta guía se asume cierta comprensión del sistema vainilla."
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Lo primero que debe encontrar es un nido de abejas de vainilla para obtener algunas botellas de miel y panales. Las botellas de miel son necesarias para fabricar jaulas para abejas, lo que facilita mucho el transporte de las abejas a su hogar."
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Una vez que haya recolectado suficientes panales, construya una colmena avanzada y una caja de expansión. La colmena avanzada le permite mirar dentro y vigilar a sus abejas y lo que producen.."
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "A continuación, deberá recolectar diferentes abejas para comenzar a reproducirse. En el supramundo, es muy probable que hayas visto muchas abejas diferentes volando, estas son abejas solitarias y viven en nidos que se encuentran alrededor del nivel."
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Las abejas solitarias no viven en colmenas y no producen nada, pero son necesarias para la reproducción. Algunas abejas solo se pueden encontrar en otras dimensiones. Utilice JEI para buscar las recetas de cría para saber qué abejas necesita encontrar. Si las abejas no se muestran en JEI, ejecute el comando /reload ."
         }
     ]

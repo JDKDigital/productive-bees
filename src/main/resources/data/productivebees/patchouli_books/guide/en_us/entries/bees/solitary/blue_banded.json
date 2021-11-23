@@ -6,13 +6,13 @@
     "category": "productivebees:bees_solitary",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Blue Banded Bee",
             "text": "[Amegilla cingulata]",
             "anchor": "blue_banded"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:blue_banded_bee"
         }
     ]

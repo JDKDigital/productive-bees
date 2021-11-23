@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Acaparadora",
             "text": "Recoge objetos en el suelo y los coloca en su colmena.$(br)Combine con la abeja granjera para una granja automatizada."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:hoarder_bee"
         }
     ]

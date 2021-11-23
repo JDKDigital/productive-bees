@@ -6,13 +6,13 @@
     "category": "productivebees:bees_solitary",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Reedstone",
             "text": "[Exoneura robusta]",
             "anchor": "reed"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:reed_bee"
         }
     ]

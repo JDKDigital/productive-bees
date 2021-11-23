@@ -5,13 +5,13 @@
     "category": "productivebees:bees_wild",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Babosa",
             "text": "Encontrado viviendo en nidos viscosos en biomas pantanosos. Las abejas babosas prefieren las flores polinizadoras que se encuentran en áreas pantanosas, pero también se las arreglan con flores de otros biomas.",
             "anchor": "slimy"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:slimy'}"
         }
     ]

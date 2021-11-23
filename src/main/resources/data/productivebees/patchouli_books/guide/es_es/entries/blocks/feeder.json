@@ -4,12 +4,12 @@
     "category": "productivebees:blocks",
     "pages": [
         {
-            "type": "spotlight",
+            "type": "patchouli:spotlight",
             "item": "productivebees:feeder",
             "text": "Puede utilizarse como punto de recogida para alimentar a las abejas. Tiene 3 bloques de artículos. Cuando las abejas de madera o cantera se alimentan de esto, producirán a partir de un elemento aleatorio en el alimentador.."
         },
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "El alimentador se puede cargar en miel, lo que les brinda a las abejas un lugar excelente para mojar los dedos de los pies y recuperarse de un largo día de trabajo, también conocido como les brinda regeneración.."
         }
     ]

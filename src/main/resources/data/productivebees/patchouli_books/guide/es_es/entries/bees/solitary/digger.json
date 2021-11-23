@@ -6,13 +6,13 @@
     "category": "productivebees:bees_solitary",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja Excavadora",
             "text": "[Anthophora urbana]",
             "anchor": "digger"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:digger_bee"
         }
     ]

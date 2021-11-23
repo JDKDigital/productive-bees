@@ -5,13 +5,13 @@
     "category": "productivebees:bees_wild",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Glowing Bee",
             "text": "Found living in glowing nests in the nether. Glowing Bees prefer pollinating glowing blocks like glowstone or lamps.",
             "anchor": "glowing"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:glowing'}"
         }
     ]

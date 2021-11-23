@@ -6,13 +6,13 @@
     "flag": "productivebees:gold",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Gold Bee",
             "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and an $(l:bees/solitary/mason)Mason Bee$(/l).",
             "anchor": "gold"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:gold'}"
         }
     ]

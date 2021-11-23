@@ -5,13 +5,13 @@
     "category": "productivebees:bees_wild",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Magmatic Bee",
             "text": "Found living in nether brick nests in nether fortresses. Magmatic Bees prefer pollinating magma blocks or nether wart.",
             "anchor": "magmatic"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:magmatic'}"
         }
     ]

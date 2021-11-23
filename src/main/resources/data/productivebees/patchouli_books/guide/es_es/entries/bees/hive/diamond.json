@@ -6,13 +6,13 @@
     "flag": "productivebees:diamond",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja Diamante",
             "text": "Criada de una $(l:bees/wild/ender)Abeja Ender$(/l) y una $(l:bees/hive/lapis)Abeja Lapizuli$(/l).",
             "anchor": "diamond"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:diamond'}"
         }
     ]

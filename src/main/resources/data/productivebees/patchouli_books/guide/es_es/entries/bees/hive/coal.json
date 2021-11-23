@@ -6,13 +6,13 @@
     "flag": "productivebees:coal",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja del Carbón",
             "text": "Criada de una $(l:bees/hive/redstone)Abeja Ardiente$(/l) y una $(l:bees/solitary/leafcutter)Abeja cortadora de hojas$(/l).",
             "anchor": "coal"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:coal'}"
         }
     ]

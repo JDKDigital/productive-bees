@@ -6,13 +6,13 @@
     "flag": "productivebees:creeper",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja Explosiva",
             "text": "Obtenido al alimentar un bloque de TNT a una abeja vainilla.",
             "anchor": "creeper"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:creeper_bee"
         }
     ]

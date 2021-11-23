@@ -6,13 +6,13 @@
     "flag": "productivebees:emerald",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja Emeralda",
             "text": "Criada de una $(l:bees/wild/slimy)Abeja Babosa$(/l) y una $(l:bees/hive/diamond)Abeja Diamante$(/l).",
             "anchor": "emerald"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:emerald'}"
         }
     ]

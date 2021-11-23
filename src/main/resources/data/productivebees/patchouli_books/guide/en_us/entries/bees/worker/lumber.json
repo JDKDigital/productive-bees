@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Lumber Bee",
             "text": "Nibble on nearby wood and collects wood chips in its hive. Wood chips can be crafted into logs."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:lumber_bee"
         }
     ]

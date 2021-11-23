@@ -6,13 +6,13 @@
     "flag": "productivebees:crystalline",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Crystalline Bee",
             "text": "Found living in nether quartz nests in the nether. Crystalline Bees prefer pollinating something containing or made from nether quartz..",
             "anchor": "crystalline"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:crystalline'}"
         }
     ]

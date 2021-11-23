@@ -6,13 +6,13 @@
     "flag": "productivebees:lapis",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja Lapizuli",
             "text": "Criada de una $(l:bees/hive/redstone)Redstone Bee$(/l) y una $(l:bees/solitary/blue_banded)Abeja de bandas azules$(/l).",
             "anchor": "lapis"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:lapis'}"
         }
     ]

@@ -5,13 +5,13 @@
     "category": "productivebees:bees_wild",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Fantasmal",
             "text": "Encontrado viviendo en nidos de arena del alma en el abismo. Las abejas fantasmales prefieren polinizar la arena del alma cercana.",
             "anchor": "ghostly"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:ghostly'}"
         }
     ]

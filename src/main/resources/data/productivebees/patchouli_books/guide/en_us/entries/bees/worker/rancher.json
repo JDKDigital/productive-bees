@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Rancher Bee",
             "text": "Will milk nearby cows, sheep or llamas to create milky combs in its hive. Sheep will also be sheared.$(br2)Many cows were harmed in the making of this bee."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:rancher_bee"
         }
     ]

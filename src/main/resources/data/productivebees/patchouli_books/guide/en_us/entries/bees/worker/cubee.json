@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "CuBee",
             "text": "The pheromones secreted from this bee gets animals in the mood."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:cupid_bee"
         }
     ]

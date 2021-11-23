@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja de madera",
             "text": "Mordisquea la madera cercana y recoge astillas de madera en su colmena. Las astillas de madera se pueden convertir en troncos."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:lumber_bee"
         }
     ]

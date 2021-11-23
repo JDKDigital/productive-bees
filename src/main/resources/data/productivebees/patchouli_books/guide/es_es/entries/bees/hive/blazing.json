@@ -6,13 +6,13 @@
     "flag": "productivebees:blazing",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja Ardiente",
             "text": "Criada de una $(l:bees/wild/magmatic)Abeja Magmatica $(/l) Y una $(l:bees/solitary/nomad)Abeja Nomada$(/l).",
             "anchor": "blazing"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:blazing'}"
         }
     ]

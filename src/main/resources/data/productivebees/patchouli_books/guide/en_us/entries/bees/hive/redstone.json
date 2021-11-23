@@ -6,13 +6,13 @@
     "flag": "productivebees:redstone",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Redstone Bee",
             "text": "Bred from a $(l:bees/wild/glowing)Glowing Bee$(/l) and an $(l:bees/solitary/chocolate_mining)Chocolate Mining Bee$(/l).",
             "anchor": "redstone"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:redstone'}"
         }
     ]

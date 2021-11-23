@@ -6,13 +6,13 @@
     "flag": "productivebees:zombie",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "ZomBee",
             "text": "Will move in to an advanced hive if the hive is left empty in the dark.",
             "anchor": "zombie"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:zombie'}"
         }
     ]

@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja de cantera",
             "text": "Mordisquea piedra, arena o grava cercana y recoge astillas de piedra en su colmena. Las astillas de piedra se pueden convertir en su bloque homólogo."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:quarry_bee"
         }
     ]

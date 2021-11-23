@@ -6,13 +6,13 @@
     "flag": "productivebees:withered",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja marchita",
             "text": "Obtenida alimentando con una rosa marchita a una $(l:bees/hive/skeletal)Abeja esquelética$(/l).",
             "anchor": "withered"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:withered'}"
         }
     ]

@@ -6,13 +6,13 @@
     "flag": "productivebees:emerald",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Emerald Bee",
             "text": "Bred from an $(l:bees/wild/slimy)Slimy Bee$(/l) and a $(l:bees/hive/diamond)Diamond Bee$(/l).",
             "anchor": "emerald"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:emerald'}"
         }
     ]

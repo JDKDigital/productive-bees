@@ -4,12 +4,12 @@
     "category": "productivebees:items",
     "pages": [
         {
-            "type": "spotlight",
+            "type": "patchouli:spotlight",
             "item": "productivebees:bee_cage",
             "text": "Se puede usar una jaula de abejas para capturar abejas para almacenarlas o transportarlas. Para atrapar una abeja, simplemente haga clic derecho en la abeja con la jaula. Haga clic derecho en la jaula llena en el suelo para liberar a la abeja nuevamente.$(br2)Asegúrate de llevar siempre contigo algunas jaulas cuando viajes, en caso de que te encuentres con una abeja interesante.."
         },
         {
-            "type": "crafting",
+            "type": "patchouli:crafting",
             "recipe": "productivebees:bee_cage",
             "text": "Fácil de llegar temprano en el juego"
         }

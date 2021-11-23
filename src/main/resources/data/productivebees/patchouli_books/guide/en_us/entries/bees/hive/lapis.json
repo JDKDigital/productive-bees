@@ -6,13 +6,13 @@
     "flag": "productivebees:lapis",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Lapis Bee",
             "text": "Bred from a $(l:bees/hive/redstone)Redstone Bee$(/l) and a $(l:bees/solitary/blue_banded)Blue Banded Bee$(/l).",
             "anchor": "lapis"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:lapis'}"
         }
     ]

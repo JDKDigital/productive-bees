@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Ranchera",
             "text": "Ordeñará vacas, ovejas o llamas cercanas para crear panales lechosos en su colmena..$(br2)Muchas vacas resultaron dañadas en la fabricación de esta abeja."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:rancher_bee"
         }
     ]

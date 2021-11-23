@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Tinte",
             "text": "Produce tinte en base a la flor que ha polinizado.."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:dye_bee"
         }
     ]

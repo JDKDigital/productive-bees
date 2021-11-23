@@ -6,13 +6,13 @@
     "category": "productivebees:bees_solitary",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Sweat Bee",
             "text": "[Halictus rubicundus]",
             "anchor": "sweat"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:sweat_bee"
         }
     ]

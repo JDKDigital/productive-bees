@@ -4,7 +4,7 @@
     "category": "productivebees:items",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "text": "Las abejas que viven en colmenas avanzadas producirán panales de recursos que se pueden colocar en una centrífuga para extraer recursos.$(br)Los peines también se pueden comprimir en bloques de peine para un almacenamiento más fácil."
         }
     ]

@@ -5,13 +5,13 @@
     "category": "productivebees:bees_wild",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Saco de Azucar",
             "text": "Esta pequeña abeja cálida y húmeda se puede encontrar en áreas tropicales. Produce un tipo especial de peine súper delicioso..$(br)También puede encontrar su camino en los granos de cacao incluso cuando se transporta y cultiva fuera de su clima natural.",
             "anchor": "sugarbag"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:sugarbag'}"
         }
     ]

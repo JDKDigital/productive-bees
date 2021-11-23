@@ -6,13 +6,13 @@
     "flag": "productivebees:iron",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja de Hierro",
             "text": "Criada de una $(l:bees/wild/crystalline)Abeja Crystalina$(/l) y una $(l:bees/solitary/ashy_mining)Abeja minera cenicienta$(/l).",
             "anchor": "iron"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:iron'}"
         }
     ]

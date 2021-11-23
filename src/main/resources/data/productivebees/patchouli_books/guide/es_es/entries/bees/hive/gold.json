@@ -6,13 +6,13 @@
     "flag": "productivebees:gold",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Abeja de Oro",
             "text": "Criada de una $(l:bees/wild/crystalline)Abeja Crystalina$(/l) y una $(l:bees/solitary/mason)Abeja Albañil$(/l).",
             "anchor": "gold"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:gold'}"
         }
     ]

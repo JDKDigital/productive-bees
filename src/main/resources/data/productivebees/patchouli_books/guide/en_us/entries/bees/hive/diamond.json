@@ -6,13 +6,13 @@
     "flag": "productivebees:diamond",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Diamond Bee",
             "text": "Bred from an $(l:bees/wild/ender)Ender Bee$(/l) and a $(l:bees/hive/lapis)Lapis Bee$(/l).",
             "anchor": "diamond"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:configurable_bee{type:'productivebees:diamond'}"
         }
     ]

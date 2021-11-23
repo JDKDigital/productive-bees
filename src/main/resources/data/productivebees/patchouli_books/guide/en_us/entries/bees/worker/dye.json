@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Dye Bee",
             "text": "Produces dye based on the flower it has pollinated."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:dye_bee"
         }
     ]

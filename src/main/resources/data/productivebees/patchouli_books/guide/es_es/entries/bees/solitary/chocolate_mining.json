@@ -6,13 +6,13 @@
     "category": "productivebees:bees_solitary",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Chocolate Minera",
             "text": "[Andrena scotica]",
             "anchor": "chocolate_mining"
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:chocolate_mining_bee"
         }
     ]

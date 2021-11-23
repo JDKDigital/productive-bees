@@ -6,12 +6,12 @@
     "category": "productivebees:bees_worker",
     "pages": [
         {
-            "type": "text",
+            "type": "patchouli:text",
             "title": "Hoarder Bee",
             "text": "Collects items on the ground and puts them in its hive, it's a cooler and better $(l:bees/worker/collector)Collector Bee$(/l).$(br)Combine with the farmer bee for an automated farm."
         },
         {
-            "type": "entity",
+            "type": "patchouli:entity",
             "entity": "productivebees:hoarder_bee"
         }
     ]
