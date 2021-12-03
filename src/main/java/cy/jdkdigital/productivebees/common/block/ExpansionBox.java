@@ -27,7 +27,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.util.Constants;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -128,8 +127,8 @@ public class ExpansionBox extends Block implements EntityBlock
     }
 
     @Override
-    public boolean removedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
+    public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        boolean removed = super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
 
         if (!world.isClientSide()) {
             this.updateState(world, pos, state, true);
@@ -149,7 +148,7 @@ public class ExpansionBox extends Block implements EntityBlock
                 if (tileEntity instanceof AdvancedBeehiveBlockEntity) {
                     this.updateState(worldIn, pos, state, false);
                     BlockState blockState = tileEntity.getBlockState();
-                    worldIn.sendBlockUpdated(pos, blockState, blockState, Constants.BlockFlags.DEFAULT);
+                    worldIn.sendBlockUpdated(pos, blockState, blockState, 3);
                     ((AdvancedBeehive) blockState.getBlock()).openGui((ServerPlayer) player, (AdvancedBeehiveBlockEntity) tileEntity);
                 }
             }

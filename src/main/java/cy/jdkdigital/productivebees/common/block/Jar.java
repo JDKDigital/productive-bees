@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -60,7 +59,7 @@ public class Jar extends Block implements EntityBlock
         if (tag != null && tag.contains("inv")) {
             CompoundTag invTag = tag.getCompound("inv");
 
-            ListTag tagList = invTag.getList("Items", Constants.NBT.TAG_COMPOUND);
+            ListTag tagList = invTag.getList("Items", 10);
             if (tagList.size() > 0) {
                 CompoundTag itemTag = tagList.getCompound(0);
 

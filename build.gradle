@@ -20,11 +20,11 @@ version = "${version}"
 group = 'cy.jdkdigital.productivebees'
 archivesBaseName = 'productivebees'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.17.1'
+    mappings channel: 'official', version: '1.18'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
@@ -97,36 +97,29 @@ repositories {
     maven {
         url 'https://maven.blamejared.com'
     }
-//    maven { // TOP
-//        name 'tterrag maven'
-//        url "https://maven.tterrag.com/"
-//    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forgeversion}"
 
-//    // compile against the JEI API but do not include it at runtime
-//    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
-//    // at runtime, use the full JEI jar
-//    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
-//    compileOnly fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}:api")
-//    runtime fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}")
-
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-
-    implementation fg.deobf("curse.maven:the-one-probe-245211:3430022")
-    implementation fg.deobf("curse.maven:jade-324717:3425040")
-    implementation fg.deobf("curse.maven:architectury-forge-419699:3415033")
-    implementation fg.deobf("curse.maven:cloth-config-forge-348521:3413207")
-    implementation fg.deobf("curse.maven:jei-238222:3438501")
-    implementation fg.deobf("curse.maven:trophymanager-510170:3423808")
-    implementation fg.deobf("curse.maven:ato-405593:3439307")
-    implementation fg.deobf("curse.maven:allthemodium-364466:3461667")
-    implementation fg.deobf("curse.maven:assorted-decor-416069:3431025")
-    implementation fg.deobf("curse.maven:biomes-o-plenty-220318:3432927")
+//    implementation fg.deobf("curse.maven:the-one-probe-245211:3430022")
+//    implementation fg.deobf("curse.maven:jade-324717:3425040")
+//    implementation fg.deobf("curse.maven:jei-238222:3438501")
+    implementation fg.deobf("curse.maven:cloth-config-forge-348521:3546623")
+    implementation fg.deobf("curse.maven:architectury-forge-419699:3544955")
+    implementation fg.deobf("curse.maven:rei-392060:3545880")
+    implementation fg.deobf("curse.maven:roughly-enough-items-hacks-521393:3545881")
+//    implementation fg.deobf("curse.maven:architectury-forge-419699:3415033")
+//    implementation fg.deobf("curse.maven:cloth-config-forge-348521:3413207")
+//    implementation fg.deobf("curse.maven:trophymanager-510170:3423808")
+//    implementation fg.deobf("curse.maven:ato-405593:3439307")
+//    implementation fg.deobf("curse.maven:allthemodium-364466:3461667")
+//    implementation fg.deobf("curse.maven:assorted-decor-416069:3431025")
+//    implementation fg.deobf("curse.maven:biomes-o-plenty-220318:3432927")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

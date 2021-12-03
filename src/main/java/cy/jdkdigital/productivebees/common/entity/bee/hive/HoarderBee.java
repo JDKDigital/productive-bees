@@ -22,7 +22,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -100,7 +99,7 @@ public class HoarderBee extends ProductiveBee
         }
 
         if (tag.contains("inventory")) {
-            ListTag listnbt = tag.getList("inventory", Constants.NBT.TAG_COMPOUND);
+            ListTag listnbt = tag.getList("inventory", 10);
 
             for (int i = 0; i < listnbt.size(); ++i) {
                 ItemStack itemstack = ItemStack.of(listnbt.getCompound(i));

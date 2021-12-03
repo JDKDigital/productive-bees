@@ -1,25 +1,10 @@
 {
-    "homepage": "https://productivebees.jdkdigital.cy",
-    "1.17.1": {
-        "1.17.1-0.6.9.17": "Initial port to 1.17"
-    },
-    "1.16.5": {
-        "1.16.5-0.6.9.14": "Fix spawn egg incubation",
-        "1.16.5-0.6.9.15": "Removed dependency for newer forge version"
-    },
-    "1.15.2": {
-        "1.15.2-0.6.9.3": "Fix invisible bees"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/productivebees",
+    "1.18": {
+        "1.18-0.8.0.0": "port to 1.18"
     },
     "promos": {
-        "1.15.2-latest": "1.15.2-0.6.9.3",
-        "1.15.2-recommended": "1.15.2-0.6.9.3",
-        "1.16.3-latest": "1.16.5-0.6.9.16",
-        "1.16.3-recommended": "1.16.5-0.6.9.16",
-        "1.16.4-latest": "1.16.5-0.6.9.16",
-        "1.16.4-recommended": "1.16.5-0.6.9.16",
-        "1.16.5-latest": "1.16.5-0.6.9.16",
-        "1.16.5-recommended": "1.16.5-0.6.9.16",
-        "1.17.1-latest": "1.17.1-0.6.9.17",
-        "1.17.1-recommended": "1.17.1-0.6.9.17"
+        "1.18-latest": "1.18-0.8.0.0",
+        "1.18-recommended": "1.18-0.8.0.0"
     }
 }

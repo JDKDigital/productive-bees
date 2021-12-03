@@ -118,7 +118,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     if (level.isEmptyBlock(beePosDown)) {
                         BlockState redstoneState = ModBlocks.INVISIBLE_REDSTONE_BLOCK.get().defaultBlockState();
                         level.setBlockAndUpdate(beePosDown, redstoneState);
-                        level.getBlockTicks().scheduleTick(beePosDown, redstoneState.getBlock(), 20);
+                        level.scheduleTick(beePosDown, redstoneState.getBlock(), 20);
                     }
                 }
             }

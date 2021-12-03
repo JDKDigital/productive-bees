@@ -9,7 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
@@ -196,7 +195,7 @@ public class InventoryHandlerHelper
 
         @Override
         public void deserializeNBT(CompoundTag nbt) {
-            int size = nbt.contains("Size", Constants.NBT.TAG_INT) ? nbt.getInt("Size") : stacks.size();
+            int size = nbt.contains("Size", 3) ? nbt.getInt("Size") : stacks.size();
             if (size < stacks.size()) {
                 nbt.putInt("Size", stacks.size());
             }

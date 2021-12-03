@@ -1,19 +1,19 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "I",
-        "C",
-        "N"
+        "GIG",
+        "GNG",
+        "GGG"
     ],
     "key": {
         "I": {
             "item": "minecraft:iron_bars"
         },
-        "C": {
-            "item": "minecraft:compass"
-        },
         "N": {
             "item": "minecraft:note_block"
+        },
+        "G": {
+            "item": "minecraft:gold_nugget"
         }
     },
     "result": {

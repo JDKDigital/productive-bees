@@ -25,9 +25,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.network.NetworkHooks;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -156,8 +155,8 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     @Override
-    public boolean removedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        boolean removed = super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
+    public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        boolean removed = super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
 
         if (!world.isClientSide()) {
             this.updateState(world, pos, state, true);
@@ -220,7 +219,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
             final BlockEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveBlockEntity) {
                 this.updateState(world, pos, state, false);
-                world.sendBlockUpdated(pos, state, state, Constants.BlockFlags.DEFAULT);
+                world.sendBlockUpdated(pos, state, state, 3);
                 openGui((ServerPlayer) player, (AdvancedBeehiveBlockEntity) tileEntity);
             }
         }

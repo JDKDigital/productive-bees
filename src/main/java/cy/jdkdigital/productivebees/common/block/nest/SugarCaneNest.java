@@ -41,7 +41,7 @@ public class SugarCaneNest extends SolitaryNest
     @Override
     public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
         if (!stateIn.canSurvive(worldIn, currentPos)) {
-            worldIn.getBlockTicks().scheduleTick(currentPos, this, 1);
+            worldIn.scheduleTick(currentPos, this, 1);
         }
 
         return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);

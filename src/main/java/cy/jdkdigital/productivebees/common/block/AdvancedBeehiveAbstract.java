@@ -43,7 +43,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -91,7 +90,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
         }
         if (entityNBT != null) {
             if (entityNBT.contains("Bees")) {
-                ListTag beeList = entityNBT.getCompound("Bees").getList("Inhabitants", Constants.NBT.TAG_COMPOUND);
+                ListTag beeList = entityNBT.getCompound("Bees").getList("Inhabitants", 10);
                 if (beeList.size() > 0) {
                     tooltip.add(new TranslatableComponent("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.BOLD));
                     for (int i = 0; i < beeList.size(); ++i) {

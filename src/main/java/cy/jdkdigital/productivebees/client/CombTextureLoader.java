@@ -68,7 +68,7 @@ public class CombTextureLoader implements PreparableReloadListener, Predicate<Re
     }
 
     public void onTextureStitch(TextureStitchEvent.Pre event) {
-        if (InventoryMenu.BLOCK_ATLAS.equals(event.getMap().location())) {
+        if (InventoryMenu.BLOCK_ATLAS.equals(event.getAtlas().location())) {
             this.resources.forEach(event::addSprite);
         }
     }

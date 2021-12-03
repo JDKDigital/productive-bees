@@ -64,7 +64,7 @@ public class ConfigurableCombBlock extends CombBlock implements EntityBlock
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
         BlockEntity tileEntity = world.getBlockEntity(pos);
         if (tileEntity instanceof CombBlockBlockEntity) {

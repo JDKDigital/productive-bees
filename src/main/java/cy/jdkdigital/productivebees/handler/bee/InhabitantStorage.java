@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import javax.annotation.Nonnull;
@@ -88,7 +87,7 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         this.clearInhabitants();
-        ListTag list = nbt.getList("Inhabitants", Constants.NBT.TAG_COMPOUND);
+        ListTag list = nbt.getList("Inhabitants", 10);
         setInhabitantsFromListNBT(list);
         onLoad();
     }

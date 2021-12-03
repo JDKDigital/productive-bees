@@ -71,12 +71,16 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         if (!spawningRecipes.isEmpty()) {
             BeeSpawningRecipe spawningRecipe = spawningRecipes.get(ProductiveBees.rand.nextInt(spawningRecipes.size()));
             BeeIngredient beeIngredient = spawningRecipe.output.get(world.random.nextInt(spawningRecipe.output.size())).get();
-            Entity bee = beeIngredient.getBeeEntity().create(world);
-            if (bee instanceof ConfigurableBee) {
-                ((ConfigurableBee) bee).setBeeType(beeIngredient.getBeeType().toString());
-                ((ConfigurableBee) bee).setAttributes();
+            if (beeIngredient != null) {
+                Entity bee = beeIngredient.getBeeEntity().create(world);
+                if (bee instanceof ConfigurableBee) {
+                    ((ConfigurableBee) bee).setBeeType(beeIngredient.getBeeType().toString());
+                    ((ConfigurableBee) bee).setAttributes();
+                }
+                return bee;
+            } else {
+                ProductiveBees.LOGGER.debug("No bee ingredient found in " + spawningRecipe);
             }
-            return bee;
         }
         return null;
     }

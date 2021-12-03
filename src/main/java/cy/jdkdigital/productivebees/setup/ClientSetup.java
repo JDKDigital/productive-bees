@@ -26,7 +26,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -52,10 +51,6 @@ public class ClientSetup
         ItemProperties.register(ModItems.HONEY_TREAT.get(), new ResourceLocation("genetic"), (stack, world, entity, i) -> HoneyTreat.hasGene(stack) ? 1.0F : 0.0F);
         ItemProperties.register(ModItems.NEST_LOCATOR.get(), new ResourceLocation("angle"), new ClampedItemPropertyFunction()
         {
-            private double rotation;
-            private double rota;
-            private long lastUpdateTick;
-
             public float unclampedCall(@Nonnull ItemStack stack, @Nullable ClientLevel world, @Nullable LivingEntity player, int i) {
                 if ((player != null || stack.isFramed()) && NestLocator.hasPosition(stack)) {
                     boolean flag = player != null;
@@ -70,27 +65,10 @@ public class ClientSetup
                         double d2 = this.getPositionToAngle(pos, entity) / (double) ((float) Math.PI * 2F);
                         double d0 = 0.5D - (d1 - 0.25D - d2);
 
-                        if (flag) {
-                            d0 = this.wobble(world, d0);
-                        }
-
                         return Mth.positiveModulo((float) d0, 1.0F);
                     }
                 }
-                return 0.0F;
-            }
-
-            private double wobble(Level worldIn, double amount) {
-                if (worldIn.getGameTime() != this.lastUpdateTick) {
-                    this.lastUpdateTick = worldIn.getGameTime();
-                    double d0 = amount - this.rotation;
-                    d0 = Mth.positiveModulo(d0 + 0.5D, 1.0D) - 0.5D;
-                    this.rota += d0 * 0.1D;
-                    this.rota *= 0.8D;
-                    this.rotation = Mth.positiveModulo(this.rotation + this.rota, 1.0D);
-                }
-
-                return this.rotation;
+                return 0.5F;
             }
 
             private double getFrameRotation(ItemFrame frameEntity) {

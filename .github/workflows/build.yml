@@ -2,7 +2,7 @@ name: Build
 on:
     push:
         branches:
-            - dev-1.17.1
+            - dev-1.18
 jobs:
     build:
         name: Build

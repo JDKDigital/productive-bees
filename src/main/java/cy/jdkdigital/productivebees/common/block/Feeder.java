@@ -31,7 +31,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
@@ -81,7 +81,7 @@ public class Feeder extends SlabBlock implements EntityBlock
             if (fluidState.getType() == Fluids.WATER || isHoney) {
                 if (!world.isClientSide()) {
                     world.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, true).setValue(HONEYLOGGED, isHoney), 3);
-                    world.getLiquidTicks().scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
+                    world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
                 }
                 return true;
             }

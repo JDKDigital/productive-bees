@@ -58,5 +58,6 @@
             ]
         }
     ],
+    "type": "productivebees:village_chest_sturdy_cage",
     "addition": "productivebees:sturdy_bee_cage"
 }

@@ -8,6 +8,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
@@ -23,12 +24,10 @@ public class AbstractBlockEntity extends BlockEntity
         this.loadPacketNBT(tag);
     }
 
-    @Nonnull
     @Override
-    public CompoundTag save(CompoundTag tag) {
-        super.save(tag);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
         this.savePacketNBT(tag);
-        return tag;
     }
 
     public void savePacketNBT(CompoundTag tag) {
@@ -38,15 +37,13 @@ public class AbstractBlockEntity extends BlockEntity
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return save(new CompoundTag());
+    public @NotNull CompoundTag getUpdateTag() {
+        return saveWithId();
     }
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        CompoundTag nbtTagCompound = new CompoundTag();
-        savePacketNBT(nbtTagCompound);
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 1, nbtTagCompound);
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override

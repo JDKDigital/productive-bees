@@ -8,9 +8,8 @@ import cy.jdkdigital.productivebees.common.crafting.conditions.BeeExistsConditio
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.event.EventHandler;
-import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
+//import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.*;
@@ -109,7 +108,7 @@ public final class ProductiveBees
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {
         if (ModList.get().isLoaded("theoneprobe")) {
-            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
+//            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
         }
     }
 
@@ -122,7 +121,6 @@ public final class ProductiveBees
     }
 
     public void onCommonSetup(FMLCommonSetupEvent event) {
-        CapabilityBee.register();
         PacketHandler.init();
         ModAdvancements.register();
 
