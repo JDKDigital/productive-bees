@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBee;
+import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
 import cy.jdkdigital.productivebees.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.core.BlockPos;
@@ -194,7 +195,7 @@ public class ProductiveBee extends Bee
     @Override
     @Nonnull
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (player.getItemInHand(hand).isEmpty() && !this.level.isClientSide) {
+        if (player.getItemInHand(hand).isEmpty() && !this.level.isClientSide && this instanceof BumbleBee) {
             this.happyCounter = 2400;
             this.level.broadcastEntityEvent(this, (byte) 18);
         }

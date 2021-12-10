@@ -9,7 +9,7 @@ import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCond
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.init.*;
-//import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
+import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.*;
@@ -108,7 +108,7 @@ public final class ProductiveBees
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {
         if (ModList.get().isLoaded("theoneprobe")) {
-//            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
+            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
         }
     }
 

@@ -1,3 +1,17 @@
+0.8.0.2
+
+-- Re-added WAILA and TOP support
+-- Comb Block upgrade no longer work for combs, only on output from Lumber and Quarry bees
+-- Productivity and Comb block Upgrade recipes altered
+
+
+0.8.0.1
+
+-- New textures for nest locator
+-- Updated to Forge 38.0.12
+-- Fixed a world gen crash
+
+
 0.8.0.0
 
 -- New textures for upgrades and bee cages thanks to Dani Boye

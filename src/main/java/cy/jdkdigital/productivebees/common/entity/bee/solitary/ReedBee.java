@@ -17,7 +17,7 @@ public class ReedBee extends SolitaryBee
 
     @Override
     public boolean isFlowerBlock(BlockState flowerBlock) {
-        return flowerBlock.is(ModTags.ARID_FLOWERS);
+        return flowerBlock.is(ModTags.SWAMP_FLOWERS);
     }
 
     @Override

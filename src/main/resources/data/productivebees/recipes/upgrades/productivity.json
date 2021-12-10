@@ -2,7 +2,7 @@
     "type": "minecraft:crafting_shaped",
     "pattern": [
         "CHC",
-        "HBH",
+        "DBD",
         "CHC"
     ],
     "key": {
@@ -14,6 +14,9 @@
         },
         "C": {
             "tag": "forge:storage_blocks/honeycombs"
+        },
+        "D": {
+            "item": "productivebees:draconic_chunk"
         }
     },
     "result": {

@@ -2,7 +2,7 @@
     "type": "minecraft:crafting_shaped",
     "pattern": [
         "CWC",
-        "DBD",
+        "FBF",
         "CWC"
     ],
     "key": {
@@ -15,8 +15,8 @@
         "W": {
             "tag": "forge:storage_blocks/wax"
         },
-        "D": {
-            "item": "productivebees:draconic_chunk"
+        "F": {
+            "item": "minecraft:item_frame"
         }
     },
     "result": {

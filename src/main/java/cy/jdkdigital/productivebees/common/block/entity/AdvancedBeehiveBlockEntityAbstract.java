@@ -379,6 +379,15 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     @Override
+    public void setChanged() {
+        if (this.level != null) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+        }
+
+        super.setChanged();
+    }
+
+    @Override
     public void load(CompoundTag tag) {
         super.load(tag);
         this.loadPacketNBT(tag);

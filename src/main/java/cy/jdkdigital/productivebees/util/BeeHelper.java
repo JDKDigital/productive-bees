@@ -242,9 +242,6 @@ public class BeeHelper
                     int count = Mth.nextInt(ProductiveBees.rand, Mth.floor(bounds.get(0).getAsInt()), Mth.floor(bounds.get(1).getAsInt()));
                     ItemStack stack = itemStack.copy();
                     stack.setCount(count);
-                    if (hasCombBlockUpgrade) {
-                        stack = convertToCombBlock(stack);
-                    }
                     outputList.add(stack);
                 }
             });
@@ -314,30 +311,6 @@ public class BeeHelper
         }
 
         return recipeManager.getRecipeFor(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), world).orElse(null);
-    }
-
-    private static ItemStack convertToCombBlock(ItemStack stack) {
-        // Change to comb block
-        ItemStack newStack = null;
-        if (stack.getItem().equals(Items.HONEYCOMB)) {
-            newStack = new ItemStack(Items.HONEYCOMB_BLOCK, stack.getCount());
-        }
-        else if (stack.getItem().equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
-            newStack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get(), stack.getCount());
-            newStack.setTag(stack.getTag());
-        }
-        else {
-            ResourceLocation rl = stack.getItem().getRegistryName();
-            Item newItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(rl.getNamespace(), rl.getPath().replace("honey", ""))); // honeycomb_glowing -> comb_glowing
-            if (newItem != Items.AIR) {
-                newStack = new ItemStack(newItem, stack.getCount());
-            }
-        }
-        if (newStack != null) {
-            stack = newStack;
-        }
-
-        return stack;
     }
 
     private static Block getFloweringBlock(Level world, BlockPos flowerPos, Tag<Block> tag, ProductiveBee bee) {
