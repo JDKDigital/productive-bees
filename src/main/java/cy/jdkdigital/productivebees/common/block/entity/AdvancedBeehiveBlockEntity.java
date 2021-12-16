@@ -166,10 +166,9 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
     @Override
     protected int getTimeInHive(boolean hasNectar, @Nullable Bee beeEntity) {
-        double combBlockUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) * ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
         double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
         return (int) (
-            super.getTimeInHive(hasNectar, beeEntity) * Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier)
+            super.getTimeInHive(hasNectar, beeEntity) * Math.max(0, timeUpgradeModifier)
         );
     }
 

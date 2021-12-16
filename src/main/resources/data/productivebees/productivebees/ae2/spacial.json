@@ -3,11 +3,11 @@
     "secondaryColor": "#93c7ff",
     "size": 0.7,
     "description": "productivebees.ingredient.description.spacial",
-    "flowerBlock": "appliedenergistics2:quartz_block",
+    "flowerBlock": "ae2:quartz_block",
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "appliedenergistics2"
+            "modid": "ae2"
         }
     ]
 }

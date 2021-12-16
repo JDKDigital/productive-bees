@@ -4,13 +4,5 @@
     "parent2": "productivebees:green_carpenter_bee",
     "offspring": [
         "productivebees:lumber_bee"
-    ],
-    "breeding_items": [
-        {
-            "tag": "minecraft:logs"
-        },
-        {
-            "tag": "minecraft:flowers"
-        }
     ]
 }

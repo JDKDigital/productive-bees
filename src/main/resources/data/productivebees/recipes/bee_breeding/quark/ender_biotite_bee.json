@@ -5,22 +5,7 @@
     "offspring": [
         "productivebees:ender_biotite"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:gems/biotite"
-        },
-        {
-            "item": "minecraft:dragon_breath"
-        }
-    ],
     "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/biotite"
-            }
-        },
         {
             "type": "productivebees:bee_exists",
             "bee": "productivebees:crystalline"

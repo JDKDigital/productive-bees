@@ -5,14 +5,6 @@
     "offspring": [
         "productivebees:experience"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:gems/emerald"
-        },
-        {
-            "tag": "forge:gems/lapis"
-        }
-    ],
     "conditions": [
         {
             "type": "productivebees:bee_exists",

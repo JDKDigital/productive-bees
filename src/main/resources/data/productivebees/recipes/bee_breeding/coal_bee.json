@@ -5,14 +5,6 @@
     "offspring": [
         "productivebees:coal"
     ],
-    "breeding_items": [
-        {
-            "item": "minecraft:blaze_powder"
-        },
-        {
-            "tag": "minecraft:flowers"
-        }
-    ],
     "conditions": [
         {
             "type": "productivebees:bee_exists",

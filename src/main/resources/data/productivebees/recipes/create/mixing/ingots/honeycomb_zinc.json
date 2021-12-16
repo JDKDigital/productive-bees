@@ -7,7 +7,7 @@
     ],
     "results": [
         {
-            "item": "create:zinc_ingot",
+            "item": "create:raw_zinc",
             "chance": 0.9
         },
         {

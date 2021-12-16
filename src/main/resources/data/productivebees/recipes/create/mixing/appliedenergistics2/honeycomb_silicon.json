@@ -7,7 +7,7 @@
     ],
     "results": [
         {
-            "item": "appliedenergistics2:silicon"
+            "item": "ae2:silicon"
         },
         {
             "fluid": "productivebees:honey",
@@ -22,7 +22,7 @@
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "appliedenergistics2"
+            "modid": "ae2"
         }
     ]
 }

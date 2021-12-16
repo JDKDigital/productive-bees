@@ -5,14 +5,6 @@
     "offspring": [
         "productivebees:obsidian"
     ],
-    "breeding_items": [
-        {
-            "item": "minecraft:magma_block"
-        },
-        {
-            "item": "minecraft:snow"
-        }
-    ],
     "conditions": [
         {
             "type": "productivebees:bee_exists",

@@ -4,13 +4,5 @@
     "parent2": "productivebees:digger_bee",
     "offspring": [
         "productivebees:quarry_bee"
-    ],
-    "breeding_items": [
-        {
-            "tag": "forge:stone"
-        },
-        {
-            "tag": "forge:stone"
-        }
     ]
 }

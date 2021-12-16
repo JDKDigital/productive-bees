@@ -7,7 +7,7 @@
     ],
     "results": [
         {
-            "item": "appliedenergistics2:certus_crystal_seed",
+            "item": "ae2:certus_crystal_seed",
             "count": 2
         },
         {
@@ -23,7 +23,7 @@
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "appliedenergistics2"
+            "modid": "ae2"
         }
     ]
 }

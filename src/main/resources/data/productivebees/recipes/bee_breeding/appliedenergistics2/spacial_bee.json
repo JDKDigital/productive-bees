@@ -5,22 +5,7 @@
     "offspring": [
         "productivebees:spacial"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:gems/certus_quartz"
-        },
-        {
-            "tag": "forge:ender_pearls"
-        }
-    ],
     "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/certus_quartz"
-            }
-        },
         {
             "type": "productivebees:bee_exists",
             "bee": "productivebees:crystalline"

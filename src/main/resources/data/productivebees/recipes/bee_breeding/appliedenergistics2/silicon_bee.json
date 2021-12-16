@@ -5,22 +5,7 @@
     "offspring": [
         "productivebees:silicon"
     ],
-    "breeding_items": [
-        {
-            "tag": "forge:silicon"
-        },
-        {
-            "tag": "forge:silicon"
-        }
-    ],
     "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:silicon"
-            }
-        },
         {
             "type": "productivebees:bee_exists",
             "bee": "productivebees:silicon"

@@ -10,7 +10,8 @@
     ],
     "biomes": [
         "extreme_hills",
-        "icy"
+        "icy",
+        "mountain"
     ],
     "temperature": "cold"
 }
