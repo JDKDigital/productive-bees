@@ -1,0 +1,34 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:ice_dragonsteel"
+                }
+            }
+        }
+    ],
+    "results": [
+        {
+            "item": "iceandfire:dragonsteel_ice_ingot"
+            "chance": 0.15
+        },
+        {
+            "item": "iceandfire:ice_dragon_blood"
+            "chance": 0.05
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "iceandfire"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:ice_dragonsteel"
+        }
+    ]
+}
