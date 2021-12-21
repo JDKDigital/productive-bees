@@ -2,12 +2,18 @@
     "type": "create:mixing",
     "ingredients": [
         {
-            "tag": "forge:honeycombs/copper"
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:copper"
+                }
+            }
         }
     ],
     "results": [
         {
-            "item": "create:copper_ingot",
+            "item": "minecraft:copper_ingot",
             "chance": 0.90
         },
         {

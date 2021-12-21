@@ -2,7 +2,13 @@
     "type": "create:mixing",
     "ingredients": [
         {
-            "tag": "forge:honeycombs/brazen"
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:brass"
+                }
+            }
         }
     ],
     "results": [

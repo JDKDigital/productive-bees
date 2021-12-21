@@ -2,7 +2,7 @@
     "type": "create:mixing",
     "ingredients": [
         {
-            "tag": "forge:honeycombs/powdery"
+            "item": "productivebees:honeycomb_powdery"
         }
     ],
     "results": [

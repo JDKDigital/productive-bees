@@ -2,7 +2,13 @@
     "type": "create:mixing",
     "ingredients": [
         {
-            "tag": "forge:honeycombs/cobalt"
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:cobalt"
+                }
+            }
         }
     ],
     "results": [

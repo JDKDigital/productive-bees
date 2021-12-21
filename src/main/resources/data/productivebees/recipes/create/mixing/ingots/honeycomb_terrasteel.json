@@ -2,7 +2,13 @@
     "type": "create:mixing",
     "ingredients": [
         {
-            "tag": "forge:honeycombs/terrasteel"
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:terrasteel"
+                }
+            }
         }
     ],
     "results": [

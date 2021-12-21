@@ -2,7 +2,13 @@
     "type": "create:mixing",
     "ingredients": [
         {
-            "tag": "forge:honeycombs/ender_slimy"
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:ender_slimy"
+                }
+            }
         }
     ],
     "results": [

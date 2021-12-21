@@ -2,7 +2,13 @@
     "type": "create:mixing",
     "ingredients": [
         {
-            "tag": "forge:honeycombs/fossilised"
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:coal"
+                }
+            }
         }
     ],
     "results": [

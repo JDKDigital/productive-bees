@@ -2,7 +2,7 @@
     "type": "create:mixing",
     "ingredients": [
         {
-            "tag": "forge:honeycombs/ghostly"
+            "item": "productivebees:honeycomb_ghostly"
         }
     ],
     "results": [

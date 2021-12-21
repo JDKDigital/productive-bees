@@ -103,17 +103,18 @@ dependencies {
     minecraft "net.minecraftforge:forge:${forgeversion}"
 
     compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
-//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
     implementation fg.deobf("curse.maven:the-one-probe-245211:3550084")
-    implementation fg.deobf("curse.maven:jade-324717:3544015")
-    implementation fg.deobf("curse.maven:jei-238222:3550020")
-    implementation fg.deobf("curse.maven:trophymanager-510170:3543741")
-    implementation fg.deobf("curse.maven:jumpy-boats-542110:3544430")
-    implementation fg.deobf("curse.maven:ato-405593:3543882")
-    implementation fg.deobf("curse.maven:allthemodium-364466:3546563")
-//    implementation fg.deobf("curse.maven:biomes-o-plenty-220318:3432927")
+    implementation fg.deobf("curse.maven:jade-324717:3564963")
+    implementation fg.deobf("curse.maven:jei-238222:3574041")
+    implementation fg.deobf("curse.maven:trophymanager-510170:3566467")
+    implementation fg.deobf("curse.maven:jumpy-boats-542110:3564082")
+    implementation fg.deobf("curse.maven:ato-405593:3573696")
+    implementation fg.deobf("curse.maven:allthemodium-364466:3570257")
+    implementation fg.deobf("curse.maven:flywheel-486392:3568139")
+    implementation fg.deobf("curse.maven:create-328085:3564692")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

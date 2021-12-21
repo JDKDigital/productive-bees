@@ -2,7 +2,7 @@
     "type": "create:mixing",
     "ingredients": [
         {
-            "tag": "forge:honeycombs/milky"
+            "item": "productivebees:honeycomb_milky"
         }
     ],
     "results": [
