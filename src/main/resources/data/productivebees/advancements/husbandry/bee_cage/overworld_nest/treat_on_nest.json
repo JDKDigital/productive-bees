@@ -25,7 +25,9 @@
                     }
                 },
                 "item": {
-                    "item": "productivebees:honey_treat"
+                    "items": [
+                        "productivebees:honey_treat"
+                    ]
                 }
             }
         }

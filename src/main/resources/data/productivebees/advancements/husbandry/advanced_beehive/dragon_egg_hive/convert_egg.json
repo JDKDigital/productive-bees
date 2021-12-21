@@ -25,7 +25,9 @@
                     }
                 },
                 "item": {
-                    "item": "minecraft:dragon_breath"
+                    "items": [
+                        "minecraft:dragon_breath"
+                    ]
                 }
             }
         }

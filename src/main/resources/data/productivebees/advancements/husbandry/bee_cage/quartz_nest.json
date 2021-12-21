@@ -21,7 +21,9 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "productivebees:nether_quartz_nest"
+                        "items": [
+                            "productivebees:nether_quartz_nest"
+                        ]
                     }
                 ]
             }

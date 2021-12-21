@@ -21,7 +21,9 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "productivebees:dragon_egg_hive"
+                        "items": [
+                            "productivebees:dragon_egg_hive"
+                        ]
                     }
                 ]
             }

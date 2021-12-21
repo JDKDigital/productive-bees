@@ -21,7 +21,9 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "productivebees:bee_cage"
+                        "items": [
+                            "productivebees:bee_cage"
+                        ]
                     }
                 ]
             }
