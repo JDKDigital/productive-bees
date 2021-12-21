@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
@@ -58,20 +59,28 @@ public class HoneyTreatGeneRecipe implements ICraftingRecipe
                         }
                         addedGenes.put(attribute, Gene.getValue(insertedGene));
                     }
-                    ;
-                }
-                else if (itemstack.getItem().equals(ModItems.GENE.get())) {
+                } else if (itemstack.getItem().equals(ModItems.GENE.get())) {
                     String attribute = Gene.getAttributeName(itemstack);
-                    if (addedGenes.containsKey(attribute) && !addedGenes.get(attribute).equals(Gene.getValue(itemstack))) {
-                        // Disallow adding genes of the same type with different strengths
-                        return false;
-                    }
-                    else {
+                    boolean isTypeGene = BeeReloadListener.INSTANCE.getData(attribute) != null;
+                    ProductiveBees.LOGGER.info("gene " + attribute + " isTypeGene:" + isTypeGene + " size:" + addedGenes.size());
+
+                    // Treats can have either 1 type gene or a mix of other genes
+                    if (isTypeGene) {
+                        if (addedGenes.size() > 0 && !addedGenes.containsKey(attribute)) {
+                            return false;
+                        }
                         addedGenes.put(attribute, Gene.getValue(itemstack));
                         hasAddedGenes = true;
+                    } else {
+                        if (addedGenes.containsKey(attribute) && !addedGenes.get(attribute).equals(Gene.getValue(itemstack))) {
+                            // Disallow adding genes of the same type with different strengths
+                            return false;
+                        } else {
+                            addedGenes.put(attribute, Gene.getValue(itemstack));
+                            hasAddedGenes = true;
+                        }
                     }
-                }
-                else {
+                } else {
                     return false;
                 }
             }

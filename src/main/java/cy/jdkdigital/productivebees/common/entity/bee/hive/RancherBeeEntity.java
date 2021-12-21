@@ -50,6 +50,10 @@ public class RancherBeeEntity extends ProductiveBeeEntity
 
     @Override
     public boolean isFlowerValid(BlockPos pos) {
+        if (!level.isLoaded(pos)) {
+            return false;
+        }
+
         List<Entity> entities = level.getEntities(this, (new AxisAlignedBB(pos).expandTowards(1.0D, 1.0D, 1.0D)), predicate);
         if (!entities.isEmpty()) {
             target = (CreatureEntity) entities.get(0);

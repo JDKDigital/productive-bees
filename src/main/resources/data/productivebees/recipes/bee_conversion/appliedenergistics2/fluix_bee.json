@@ -12,11 +12,11 @@
         },
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:diamond"
+            "bee": "productivebees:spacial"
         },
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:netherite"
+            "bee": "productivebees:fluix"
         }
     ]
 }

@@ -51,7 +51,7 @@ public class BeeCreator
             data.putString("attackResponse", json.get("attackResponse").getAsString());
         }
 
-        data.putString("flowerType", json.has("flowerType") ? json.get("flowerType").getAsString() : "block");
+        data.putString("flowerType", json.has("flowerType") ? json.get("flowerType").getAsString() : "blocks");
         data.putString("renderer", json.has("renderer") ? json.get("renderer").getAsString() : "default");
         data.putString("renderTransform", json.has("renderTransform") ? json.get("renderTransform").getAsString() : "none");
         data.putString("particleType", json.has("particleType") ? json.get("particleType").getAsString() : "drip");
@@ -71,6 +71,7 @@ public class BeeCreator
         data.putBoolean("stingless", json.has("stingless") && json.get("stingless").getAsBoolean());
         data.putBoolean("waterproof", json.has("waterproof") && json.get("waterproof").getAsBoolean());
         data.putBoolean("selfbreed", !json.has("selfbreed") || json.get("selfbreed").getAsBoolean());
+        data.putBoolean("selfheal", !json.has("selfheal") || json.get("selfheal").getAsBoolean());
 
         if (json.has("attributes")) {
             for (Map.Entry<String, JsonElement> entry : json.get("attributes").getAsJsonObject().entrySet()) {

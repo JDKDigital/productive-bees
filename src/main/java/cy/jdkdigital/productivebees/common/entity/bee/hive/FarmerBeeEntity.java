@@ -219,7 +219,15 @@ public class FarmerBeeEntity extends ProductiveBeeEntity
                                     }
                                 } else {
                                     // right click crop if certain mods are installed
-                                    if ((ModList.get().isLoaded("quark") || ModList.get().isLoaded("harvest") || ModList.get().isLoaded("pamhc2crops") || ModList.get().isLoaded("simplefarming") || ModList.get().isLoaded("reap"))) {
+                                    if (
+                                            ModList.get().isLoaded("right_click_get_crops") ||
+                                            ModList.get().isLoaded("croptopia") ||
+                                            ModList.get().isLoaded("quark") ||
+                                            ModList.get().isLoaded("harvest") ||
+                                            ModList.get().isLoaded("pamhc2crops") ||
+                                            ModList.get().isLoaded("simplefarming") ||
+                                            ModList.get().isLoaded("reap")
+                                    ) {
                                         PlayerEntity fakePlayer = FakePlayerFactory.get((ServerWorld) FarmerBeeEntity.this.level, new GameProfile(FARMER_BEE_UUID, "farmer_bee"));
                                         ForgeHooks.onRightClickBlock(fakePlayer, Hand.MAIN_HAND, pos, FarmerBeeEntity.this.getMotionDirection());
                                     } else {

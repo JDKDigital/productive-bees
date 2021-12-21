@@ -6,6 +6,12 @@
     "outputs": [
         {
             "item": {
+                "item": "integrateddynamics:crystalized_menril_chunk",
+                "chance": 10
+            }
+        },
+        {
+            "item": {
                 "tag": "forge:wax"
             }
         },

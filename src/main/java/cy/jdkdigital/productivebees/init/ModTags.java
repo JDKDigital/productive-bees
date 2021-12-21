@@ -14,6 +14,7 @@ import java.util.Map;
 public class ModTags
 {
     public static Map<ResourceLocation, ITag<Block>> tagCache = new HashMap<>();
+    public static Map<ResourceLocation, ITag<EntityType<?>>> entityTagCache = new HashMap<>();
 
     public static final ITag<Block> SOLITARY_OVERWORLD_NESTS = getTag("solitary_overworld_nests");
     public static final ITag<Block> REED_NESTS = getTag("nests/reed_nests");
@@ -32,10 +33,10 @@ public class ModTags
     public static final ITag<Item> HONEY_BUCKETS = ItemTags.createOptional(new ResourceLocation("forge", "buckets/honey"));
     public static final ITag<Item> EGGS = ItemTags.createOptional(new ResourceLocation("forge", "eggs"));
 
-    public static final ITag<EntityType<?>> RANCHABLES = EntityTypeTags.createOptional(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
-    public static final ITag<EntityType<?>> SOLITARY_BEES = EntityTypeTags.createOptional(new ResourceLocation(ProductiveBees.MODID, "solitary_bees"));
+    public static final ITag<EntityType<?>> RANCHABLES = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
+    public static final ITag<EntityType<?>> SOLITARY_BEES = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "solitary_bees"));
 
-    public static final ITag<Fluid> HONEY = FluidTags.createOptional(new ResourceLocation("forge", "honey"));
+    public static final ITag<Fluid> HONEY = TagCollectionManager.getInstance().getFluids().getTag(new ResourceLocation("forge", "honey"));
 
     public static ITag<Block> getTag(String name) {
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));
@@ -46,5 +47,9 @@ public class ModTags
             tagCache.put(resourceLocation, BlockTags.createOptional(resourceLocation));
         }
         return tagCache.get(resourceLocation);
+    }
+
+    public static ITag<EntityType<?>> getEntityTag(ResourceLocation name) {
+        return EntityTypeTags.createOptional(name);
     }
 }

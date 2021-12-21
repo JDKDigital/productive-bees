@@ -80,7 +80,7 @@ public class CentrifugeTileEntity extends FluidTankTileEntity implements INamedC
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            if (this.getStackInSlot(slot).isEmpty()) {
+            if (slot == InventoryHandlerHelper.INPUT_SLOT && this.getStackInSlot(slot).isEmpty()) {
                 CentrifugeTileEntity.this.recipeProgress = 0;
             }
         }

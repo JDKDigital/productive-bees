@@ -10,6 +10,8 @@ import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CocoaBlock;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -86,22 +88,6 @@ public class EventHandler
     }
 
     @SubscribeEvent
-    public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        Entity entity = event.getEntity();
-
-        // Clean up "Random spawn bonus" modifier added to bees each trip to a hive prior to 0.6.9.6
-        if (entity instanceof BeeEntity) {
-            ModifiableAttributeInstance attrib = ((BeeEntity) entity).getAttribute(Attributes.FOLLOW_RANGE);
-            if (attrib != null && attrib.getModifiers().size() > 1) {
-                for (AttributeModifier modifier : attrib.getModifiers()) {
-                    attrib.removeModifier(modifier);
-                }
-                attrib.addPermanentModifier(new AttributeModifier("Random spawn bonus", ProductiveBees.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
-            }
-        }
-    }
-
-    @SubscribeEvent
     public static void onLootSetup(LootTableLoadEvent event) {
         if (event.getName().toString().contains("chests/village")) {
             event.getTable().getPool("main").entries.add(
@@ -113,25 +99,34 @@ public class EventHandler
     @SubscribeEvent
     public static void onItemFished(ItemFishedEvent event) {
         PlayerEntity player = event.getPlayer();
-        if (player != null && ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get()) {
-            ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
-            BlockPos pos = event.getHookEntity().blockPosition();
-            if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:prismarine") != null) {
-                Biome fishingBiome = player.level.getBiome(pos);
-                if (fishingBiome.getBiomeCategory().equals(Biome.Category.OCEAN)) {
-                    bee.setBeeType("productivebees:prismarine");
-                    bee.setAttributes();
+        if (player != null) {
+            boolean willSpawn = ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
+            int fishingLuck = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FISHING_LUCK, player.getMainHandItem());
+            for (int i = 0; i < (1 + fishingLuck); i++) {
+                willSpawn = willSpawn || ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
+            }
 
-                    bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.yRot, bee.xRot);
+            if (willSpawn) {
+                ConfigurableBeeEntity bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
+                BlockPos hookPos = event.getHookEntity().blockPosition();
+                if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:prismarine") != null) {
+                    Biome fishingBiome = player.level.getBiome(hookPos);
+                    if (fishingBiome.getBiomeCategory().equals(Biome.Category.OCEAN)) {
 
-                    player.level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
-                    player.level.playSound(player, pos, SoundEvents.BEE_HURT, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                        bee.setBeeType("productivebees:prismarine");
+                        bee.setAttributes();
 
-                    player.level.addFreshEntity(bee);
+                        bee.moveTo(hookPos.getX() + 0.5D, hookPos.getY() + 1, hookPos.getZ() + 0.5D, bee.yRot, bee.xRot);
 
-                    bee.setTarget(player);
+                        player.level.addParticle(ParticleTypes.POOF, hookPos.getX(), hookPos.getY() + 1, hookPos.getZ(), 0.2D, 0.1D, 0.2D);
+                        player.level.playSound(player, hookPos, SoundEvents.BEE_HURT, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 
-                    ModAdvancements.FISH_BEE.trigger((ServerPlayerEntity) player, bee);
+                        player.level.addFreshEntity(bee);
+
+                        bee.setTarget(player);
+
+                        ModAdvancements.FISH_BEE.trigger((ServerPlayerEntity) player, bee);
+                    }
                 }
             }
         }
