@@ -1,0 +1,25 @@
+{
+    "replace": false,
+    "values": [
+        {
+            "id": "tombstone:decorative_grave_simple",
+            "required": false
+        },
+        {
+            "id": "tombstone:decorative_grave_normal",
+            "required": false
+        },
+        {
+            "id": "tombstone:decorative_grave_cross",
+            "required": false
+        },
+        {
+            "id": "tombstone:decorative_grave_original",
+            "required": false
+        },
+        {
+            "id": "tombstone:decorative_subaraki_grave",
+            "required": false
+        }
+    ]
+}

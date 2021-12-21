@@ -1,0 +1,37 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:fluix"
+            }
+        }
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "appliedenergistics2:fluix_crystal"
+            },
+            "chance": 20
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 100
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "appliedenergistics2"
+        }
+    ]
+}
