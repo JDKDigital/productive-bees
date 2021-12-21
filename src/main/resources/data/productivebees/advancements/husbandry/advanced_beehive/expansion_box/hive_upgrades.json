@@ -21,7 +21,9 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "productivebees:upgrade_base"
+                        "items": [
+                            "productivebees:upgrade_base"
+                        ]
                     }
                 ]
             }
