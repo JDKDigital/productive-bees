@@ -5,33 +5,38 @@
         "item": "productivebees:configurable_honeycomb",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:menril"
+                "type": "productivebees:ice_dragonsteel"
             }
         }
     },
     "outputs": [
         {
             "item": {
-                "item": "integrateddynamics:crystalized_menril_chunk",
-                "chance": 10
-            }
+                "item": "iceandfire:dragonsteel_ice_ingot"
+            },
+            "chance": 15
         },
         {
             "item": {
-                "tag": "forge:wax"
-            }
+                "item": "iceandfire:ice_dragon_blood"
+            },
+            "chance": 5
         },
         {
             "fluid": {
-                "fluid": "integrateddynamics:menril_resin"
+                "fluid": "productivebees:honey"
             },
-            "amount": 100
+            "amount": 0
         }
     ],
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "integrateddynamics"
+            "modid": "iceandfire"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:ice_dragonsteel"
         }
     ]
 }

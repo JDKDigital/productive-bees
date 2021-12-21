@@ -1,6 +1,6 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:hematophagous",
+    "ingredient": "productivebees:lightning_dragonsteel",
     "results": [
         {
             "item": {
@@ -8,7 +8,7 @@
                 "item": "productivebees:configurable_honeycomb",
                 "nbt": {
                     "EntityTag": {
-                        "type": "productivebees:hematophagous"
+                        "type": "productivebees:lightning_dragonsteel"
                     }
                 }
             }
@@ -22,8 +22,12 @@
     ],
     "conditions": [
         {
+            "type": "forge:mod_loaded",
+            "modid": "iceandfire"
+        },
+        {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:hematophagous"
+            "bee": "productivebees:lightning_dragonsteel"
         }
     ]
 }

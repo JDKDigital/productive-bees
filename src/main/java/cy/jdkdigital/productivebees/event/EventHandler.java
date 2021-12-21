@@ -24,6 +24,8 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
@@ -118,25 +120,33 @@ public class EventHandler
     @SubscribeEvent
     public static void onItemFished(ItemFishedEvent event) {
         Player player = event.getPlayer();
-        if (player != null && ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get()) {
-            ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
-            BlockPos pos = event.getHookEntity().blockPosition();
-            if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:prismarine") != null) {
-                Biome fishingBiome = player.level.getBiome(pos);
-                if (fishingBiome.getBiomeCategory().equals(Biome.BiomeCategory.OCEAN)) {
-                    bee.setBeeType("productivebees:prismarine");
-                    bee.setAttributes();
+        if (player != null) {
+            boolean willSpawn = ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
+            int fishingLuck = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FISHING_LUCK, player.getMainHandItem());
+            for (int i = 0; i < (1 + fishingLuck); i++) {
+                willSpawn = willSpawn || ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
+            }
 
-                    bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
+            if (willSpawn) {
+                ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
+                BlockPos pos = event.getHookEntity().blockPosition();
+                if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:prismarine") != null) {
+                    Biome fishingBiome = player.level.getBiome(pos);
+                    if (fishingBiome.getBiomeCategory().equals(Biome.BiomeCategory.OCEAN)) {
+                        bee.setBeeType("productivebees:prismarine");
+                        bee.setAttributes();
 
-                    player.level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
-                    player.level.playSound(player, pos, SoundEvents.BEE_HURT, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                        bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
 
-                    player.level.addFreshEntity(bee);
+                        player.level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+                        player.level.playSound(player, pos, SoundEvents.BEE_HURT, SoundSource.NEUTRAL, 1.0F, 1.0F);
 
-                    bee.setTarget(player);
+                        player.level.addFreshEntity(bee);
 
-                    ModAdvancements.FISH_BEE.trigger((ServerPlayer) player, bee);
+                        bee.setTarget(player);
+
+                        ModAdvancements.FISH_BEE.trigger((ServerPlayer) player, bee);
+                    }
                 }
             }
         }

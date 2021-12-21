@@ -14,6 +14,7 @@ import java.util.Map;
 public class ModTags
 {
     public static Map<ResourceLocation, Tag<Block>> tagCache = new HashMap<>();
+    public static Map<ResourceLocation, Tag<EntityType<?>>> entityTagCache = new HashMap<>();
 
     public static final Tag<Block> SOLITARY_OVERWORLD_NESTS = getTag("solitary_overworld_nests");
     public static final Tag<Block> REED_NESTS = getTag("nests/reed_nests");
@@ -45,5 +46,9 @@ public class ModTags
             tagCache.put(resourceLocation, BlockTags.createOptional(resourceLocation));
         }
         return tagCache.get(resourceLocation);
+    }
+
+    public static Tag<EntityType<?>> getEntityTag(ResourceLocation name) {
+        return EntityTypeTags.createOptional(name);
     }
 }

@@ -1,6 +1,6 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:hematophagous",
+    "ingredient": "productivebees:bacon",
     "results": [
         {
             "item": {
@@ -8,22 +8,16 @@
                 "item": "productivebees:configurable_honeycomb",
                 "nbt": {
                     "EntityTag": {
-                        "type": "productivebees:hematophagous"
+                        "type": "productivebees:bacon"
                     }
                 }
             }
-        },
-        {
-            "item": {
-                "tag": "forge:pollen"
-            },
-            "chance": 5
         }
     ],
     "conditions": [
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:hematophagous"
+            "bee": "productivebees:bacon"
         }
     ]
 }

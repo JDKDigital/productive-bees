@@ -1,48 +1,49 @@
 package cy.jdkdigital.productivebees.common.item;
 
-import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
+import cy.jdkdigital.productivebees.init.ModEntities;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ItemSteerable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nonnull;
-
 public class TreatOnAStick extends Item
 {
-    public TreatOnAStick(Properties properties) {
+    private final int consumeItemDamage;
+
+    public TreatOnAStick(Item.Properties properties, int consumeItemDamage) {
         super(properties);
+        this.consumeItemDamage = consumeItemDamage;
     }
 
-    @Nonnull
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        ItemStack itemStack = player.getItemInHand(hand);
-        if (world.isClientSide) {
-            return InteractionResultHolder.pass(itemStack);
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        if (level.isClientSide) {
+            return InteractionResultHolder.pass(itemstack);
         } else {
-            if (player.isPassenger() && player.getControllingPassenger() instanceof BumbleBee) {
-                BumbleBee bumbleBee = (BumbleBee) player.getControllingPassenger();
-                if (bumbleBee.boost()) {
-                    itemStack.hurtAndBreak(7, player, (entity) -> {
-                        entity.broadcastBreakEvent(hand);
+            Entity entity = player.getVehicle();
+            if (player.isPassenger() && entity instanceof ItemSteerable itemsteerable && entity.getType() == ModEntities.BUMBLE.get()) {
+                if (itemsteerable.boost()) {
+                    itemstack.hurtAndBreak(this.consumeItemDamage, player, (p_41312_) -> {
+                        p_41312_.broadcastBreakEvent(hand);
                     });
-                    if (itemStack.isEmpty()) {
-                        ItemStack rodStack = new ItemStack(Items.FISHING_ROD);
-                        rodStack.setTag(itemStack.getTag());
-                        return InteractionResultHolder.success(rodStack);
+                    if (itemstack.isEmpty()) {
+                        ItemStack itemstack1 = new ItemStack(Items.FISHING_ROD);
+                        itemstack1.setTag(itemstack.getTag());
+                        return InteractionResultHolder.success(itemstack1);
                     }
 
-                    return InteractionResultHolder.success(itemStack);
+                    return InteractionResultHolder.success(itemstack);
                 }
             }
 
             player.awardStat(Stats.ITEM_USED.get(this));
-            return InteractionResultHolder.pass(itemStack);
+            return InteractionResultHolder.pass(itemstack);
         }
     }
 }

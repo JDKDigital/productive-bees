@@ -44,24 +44,24 @@ public class ModItems
     public static final RegistryObject<Item> BEE_BOMB = createItem("bee_bomb", () -> new BeeBomb(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> BEE_BOMB_ANGRY = createItem("bee_bomb_angry", () -> new BeeBombAngry(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> NEST_LOCATOR = createItem("nest_locator", () -> new NestLocator(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> SUGARBAG_HONEYCOMB = createItem("sugarbag_honeycomb", () -> new Item((new Item.Properties().food(SUGARBAG).rarity(Rarity.EPIC)).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> TREAT_ON_A_STICK = createItem("treat_on_a_stick", () -> new TreatOnAStick((new Item.Properties()).durability(28).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> WAX = createItem("wax", () -> new WaxItem((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> SUGARBAG_HONEYCOMB = createItem("sugarbag_honeycomb", () -> new Item(new Item.Properties().food(SUGARBAG).rarity(Rarity.EPIC).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> TREAT_ON_A_STICK = createItem("treat_on_a_stick", () -> new TreatOnAStick(new Item.Properties().durability(25).tab(ModItemGroups.PRODUCTIVE_BEES),7));
+    public static final RegistryObject<Item> WAX = createItem("wax", () -> new WaxItem(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
 
-    public static final RegistryObject<Item> CONFIGURABLE_HONEYCOMB = createItem("configurable_honeycomb", () -> new Honeycomb((new Item.Properties()).tab(null), "#d2ab00"));
+    public static final RegistryObject<Item> CONFIGURABLE_HONEYCOMB = createItem("configurable_honeycomb", () -> new Honeycomb(new Item.Properties().tab(null), "#d2ab00"));
 
-    public static final RegistryObject<Item> HONEYCOMB_GHOSTLY = createItem("honeycomb_ghostly", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> HONEYCOMB_MILKY = createItem("honeycomb_milky", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> HONEYCOMB_POWDERY = createItem("honeycomb_powdery", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> HONEYCOMB_GHOSTLY = createItem("honeycomb_ghostly", () -> new Item(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> HONEYCOMB_MILKY = createItem("honeycomb_milky", () -> new Item(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> HONEYCOMB_POWDERY = createItem("honeycomb_powdery", () -> new Item(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
 
-    public static final RegistryObject<Item> DRACONIC_DUST = createItem("draconic_dust", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> DRACONIC_CHUNK = createItem("draconic_chunk", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> WITHER_SKULL_CHIP = createItem("wither_skull_chip", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> WOOD_CHIP = createItem("wood_chip", () -> new WoodChip((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> STONE_CHIP = createItem("stone_chip", () -> new StoneChip((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> DRACONIC_DUST = createItem("draconic_dust", () -> new Item(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> DRACONIC_CHUNK = createItem("draconic_chunk", () -> new Item(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> WITHER_SKULL_CHIP = createItem("wither_skull_chip", () -> new Item(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> WOOD_CHIP = createItem("wood_chip", () -> new WoodChip(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> STONE_CHIP = createItem("stone_chip", () -> new StoneChip(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
 
     // Hive upgrades
-    public static final RegistryObject<Item> UPGRADE_BASE = createItem("upgrade_base", () -> new Item((new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> UPGRADE_BASE = createItem("upgrade_base", () -> new Item(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_PRODUCTIVITY = createItem("upgrade_productivity", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_TIME = createItem("upgrade_time", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_BREEDING = createItem("upgrade_breeding", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));

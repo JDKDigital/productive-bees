@@ -5,16 +5,18 @@
         "item": "productivebees:configurable_honeycomb",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:menril"
+                "type": "productivebees:bacon"
             }
         }
     },
     "outputs": [
         {
             "item": {
-                "item": "integrateddynamics:crystalized_menril_chunk",
-                "chance": 10
-            }
+                "item": "minecraft:porkchop"
+            },
+            "min": 1,
+            "max": 4,
+            "chance": 90
         },
         {
             "item": {
@@ -23,15 +25,9 @@
         },
         {
             "fluid": {
-                "fluid": "integrateddynamics:menril_resin"
+                "fluid": "productivebees:honey"
             },
-            "amount": 100
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "integrateddynamics"
+            "amount": 50
         }
     ]
 }

@@ -3,7 +3,7 @@
     "secondaryColor": "#0f0f66",
     "particleColor": "#7a0300",
     "description": "productivebees.ingredient.description.only_spawnegg",
-    "/*flowerTag*/": "productivebees:animals",
+    "flowerTag": "productivebees:animals",
     "flowerType": "entity_types",
     "conditions": [
         {

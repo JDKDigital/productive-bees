@@ -18,6 +18,7 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -58,20 +59,28 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
                         }
                         addedGenes.put(attribute, Gene.getValue(insertedGene));
                     }
-                    ;
-                }
-                else if (itemstack.getItem().equals(ModItems.GENE.get())) {
+                } else if (itemstack.getItem().equals(ModItems.GENE.get())) {
                     String attribute = Gene.getAttributeName(itemstack);
-                    if (addedGenes.containsKey(attribute) && !addedGenes.get(attribute).equals(Gene.getValue(itemstack))) {
-                        // Disallow adding genes of the same type with different strengths
-                        return false;
-                    }
-                    else {
+                    boolean isTypeGene = BeeReloadListener.INSTANCE.getData(attribute) != null;
+                    ProductiveBees.LOGGER.info("gene " + attribute + " isTypeGene:" + isTypeGene + " size:" + addedGenes.size());
+
+                    // Treats can have either 1 type gene or a mix of other genes
+                    if (isTypeGene) {
+                        if (addedGenes.size() > 0 && !addedGenes.containsKey(attribute)) {
+                            return false;
+                        }
                         addedGenes.put(attribute, Gene.getValue(itemstack));
                         hasAddedGenes = true;
+                    } else {
+                        if (addedGenes.containsKey(attribute) && !addedGenes.get(attribute).equals(Gene.getValue(itemstack))) {
+                            // Disallow adding genes of the same type with different strengths
+                            return false;
+                        } else {
+                            addedGenes.put(attribute, Gene.getValue(itemstack));
+                            hasAddedGenes = true;
+                        }
                     }
-                }
-                else {
+                } else {
                     return false;
                 }
             }

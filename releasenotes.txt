@@ -1,3 +1,14 @@
+0.8.0.3
+
+-- Added Dragonsteel bees (iceandfire)
+-- Added Fluix Bee (appliedenergistics2)
+-- Added Grave Bee (tombstone)
+-- Added Regenerative and Hematophagous Bees (bloodmagic)
+-- Type genes can no longer be combines with attribute genes on a honey treat
+-- Fixed bumblebee boost
+-- Fixed Create compat recipes
+
+
 0.8.0.2
 
 -- Re-added WAILA and TOP support

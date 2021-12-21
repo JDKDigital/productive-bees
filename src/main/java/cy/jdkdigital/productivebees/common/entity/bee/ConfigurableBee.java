@@ -28,10 +28,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
@@ -40,6 +37,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
@@ -47,13 +45,16 @@ import net.minecraftforge.event.entity.EntityTeleportEvent;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 {
     private int attackCooldown = 0;
     public int breathCollectionCooldown = 600;
     private int teleportCooldown = 250;
+    public PathfinderMob target = null;
 
     public static final EntityDataAccessor<String> TYPE = SynchedEntityData.defineId(ConfigurableBee.class, EntityDataSerializers.STRING);
 
@@ -123,9 +124,29 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 }
             }
 
+            // Entity targeting bees
+            if (target != null) {
+                if (!hasNectar()) {
+                    target.getNavigation().setSpeedModifier(0);
+                } else {
+                    target.setTarget(this);
+                    target = null;
+                }
+            }
+
             // Kill unconfigured bees
             if (tickCount > 100 && getBeeType().isEmpty() && isAlive()) {
                 this.kill();
+            }
+        }
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        if (!this.level.isClientSide && this.isAlive()) {
+            if (tickCount % 120 == 0 && this.canSelfHeal() && this.getHealth() < this.getMaxHealth()) {
+                this.addEffect(new MobEffectInstance(MobEffects.HEAL, 1));
             }
         }
     }
@@ -289,13 +310,40 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
+    public boolean isFlowerValid(BlockPos pos) {
+        if (!level.isLoaded(pos)) {
+            return false;
+        }
+
+        if (this.getFlowerType().equals("entity_types")) {
+            CompoundTag nbt = this.getNBTData();
+            if (nbt != null) {
+                if (nbt.contains("flowerTag")) {
+                    Tag<EntityType<?>> entityTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
+
+                    List<Entity> entities = level.getEntities(this, (new AABB(pos).expandTowards(1.0D, 1.0D, 1.0D)), (entity -> entityTag.contains(entity.getType())));
+                    if (!entities.isEmpty()) {
+                        target = (PathfinderMob) entities.get(0);
+
+                        target.addEffect(new MobEffectInstance(MobEffects.LUCK, 400));
+
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return super.isFlowerValid(pos);
+    }
+
+    @Override
     public boolean isFlowerBlock(BlockState flowerBlock) {
         boolean canConvertBlock = BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
         if (canConvertBlock) {
             return true;
         }
         CompoundTag nbt = getNBTData();
-        if (nbt != null) {
+        if (nbt != null && this.getFlowerType().equals("blocks")) {
             if (nbt.contains("flowerTag")) {
                 Tag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
                 return flowerBlock.is(flowerTag);
@@ -314,6 +362,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         }
         return super.getNestingTag();
     }
+
 
     @Override
     public BeeEffect getBeeEffect() {
@@ -433,13 +482,20 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         return getNBTData().contains("particleColor");
     }
 
+    public boolean canSelfHeal() {
+        return getNBTData().getBoolean("selfheal");
+    }
+
+    public String getFlowerType() {
+        return getNBTData().getString("flowerType");
+    }
+
     public float[] getParticleColor() {
         return ColorUtil.getCacheColor(getNBTData().getInt("particleColor"));
     }
 
     public float[] getTertiaryColor() {
-        CompoundTag nbt = getNBTData();
-        return ColorUtil.getCacheColor(nbt.getInt("tertiaryColor"));
+        return ColorUtil.getCacheColor(getNBTData().getInt("tertiaryColor"));
     }
 
     @Override

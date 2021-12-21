@@ -2,13 +2,14 @@
     "type": "minecraft:crafting_shaped",
     "pattern": [
         "S",
-        "H"
+        "W",
+        "W"
     ],
     "key": {
         "S": {
             "tag": "forge:string"
         },
-        "H": {
+        "W": {
             "tag": "forge:wax"
         }
     },

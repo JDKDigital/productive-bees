@@ -10,10 +10,13 @@ import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
 import cy.jdkdigital.productivebees.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.SerializationTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,6 +25,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -131,10 +135,6 @@ public class ProductiveBee extends Bee
     public void tick() {
         super.tick();
 
-        if (!level.isClientSide && this.happyCounter > 0) {
-            this.happyCounter--;
-        }
-
         // "Positive" effect to nearby players
         if (!level.isClientSide && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getBeeEffect();
@@ -179,6 +179,19 @@ public class ProductiveBee extends Bee
             if (isInDanger && level.random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
                 setHealth(getHealth() - (getMaxHealth() / 3) - 1);
             }
+        }
+
+        updateHappiness();
+
+        // Kill below Y level 0
+        if (this.getY() < -0.0D) {
+            this.outOfWorld();
+        }
+    }
+
+    private void updateHappiness() {
+        if (this.happyCounter > 0) {
+            this.happyCounter--;
         }
     }
 
@@ -567,6 +580,15 @@ public class ProductiveBee extends Bee
             if (ProductiveBee.this instanceof RancherBee) {
                 return findEntities(RancherBee.predicate, 5D);
             }
+            if (ProductiveBee.this instanceof ConfigurableBee && ((ConfigurableBee) ProductiveBee.this).getFlowerType().equals("entity_types")) {
+                CompoundTag nbt = ((ConfigurableBee) ProductiveBee.this).getNBTData();
+                if (nbt != null) {
+                    if (nbt.contains("flowerTag")) {
+                        final Tag<EntityType<?>> flowerTag = SerializationTags.getInstance().getOrEmpty(Registry.ENTITY_TYPE_REGISTRY).getTag(new ResourceLocation(nbt.getString("flowerTag")));
+                        return flowerTag != null ? findEntities(entity -> flowerTag.contains(entity.getType()), 5D) : Optional.empty();
+                    }
+                }
+            }
             return this.findNearestBlock(this.flowerPredicate, 5);
         }
 
@@ -594,9 +616,9 @@ public class ProductiveBee extends Bee
             BlockPos blockpos = ProductiveBee.this.blockPosition();
             BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
 
-            List<Entity> ranchables = level.getEntities(ProductiveBee.this, (new AABB(blockpos).expandTowards(distance, distance, distance)), predicate);
-            if (ranchables.size() > 0) {
-                PathfinderMob entity = (PathfinderMob) ranchables.get(0);
+            List<Entity> entities = level.getEntities(ProductiveBee.this, (new AABB(blockpos).expandTowards(distance, distance, distance)), predicate);
+            if (entities.size() > 0) {
+                PathfinderMob entity = (PathfinderMob) entities.get(0);
                 entity.getNavigation().setSpeedModifier(0);
                 blockpos$mutable.set(entity.getX(), entity.getY(), entity.getZ());
                 return Optional.of(blockpos$mutable);

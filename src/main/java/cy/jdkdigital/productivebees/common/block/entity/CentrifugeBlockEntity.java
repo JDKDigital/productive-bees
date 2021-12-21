@@ -80,7 +80,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            if (this.getStackInSlot(slot).isEmpty()) {
+            if (slot == InventoryHandlerHelper.INPUT_SLOT && this.getStackInSlot(slot).isEmpty()) {
                 CentrifugeBlockEntity.this.recipeProgress = 0;
             }
         }

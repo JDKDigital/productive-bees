@@ -1,18 +1,18 @@
 {
     "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:iron",
-    "parent2": "productivebees:neon_cuckoo_bee",
+    "parent1": "productivebees:zombie",
+    "parent2": "productivebees:farmer_bee",
     "offspring": [
-        "productivebees:example"
+        "productivebees:bacon"
     ],
     "conditions": [
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:iron"
+            "bee": "productivebees:zombie"
         },
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:example"
+            "bee": "productivebees:bacon"
         }
     ]
 }

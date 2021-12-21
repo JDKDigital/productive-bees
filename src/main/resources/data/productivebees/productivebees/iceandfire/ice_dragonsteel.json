@@ -1,20 +1,19 @@
 {
-    "primaryColor": "#940e00",
-    "secondaryColor": "#0f0f66",
-    "particleColor": "#940e00",
+    "primaryColor": "#c0e3f6",
+    "secondaryColor": "#323234",
+    "particleColor": "#fcfcfc",
     "description": "productivebees.ingredient.description.only_spawnegg",
     "renderer": "thicc",
-    "selfbreed": false,
-    "selfheal": true,
+    "size": 1.2,
     "attributes": {
         "endurance": 3,
-        "temper": 2,
-        "behavior": 2
+        "productivity": 1
     },
+    "flowerBlock": "iceandfire:dragonsteel_ice_block",
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "bloodmagic"
+            "modid": "iceandfire"
         }
     ]
 }
