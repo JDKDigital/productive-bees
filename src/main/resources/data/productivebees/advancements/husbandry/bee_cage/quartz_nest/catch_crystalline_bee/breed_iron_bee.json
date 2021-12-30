@@ -19,10 +19,16 @@
         "iron_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:configurable_bee",
-                    "nbt": "{type:\"productivebees:iron\"}"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:iron\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         }
     },

@@ -112,7 +112,6 @@
   "block.productivebees.comb_elementium": "Elementium Comb Block",
   "block.productivebees.comb_emerald": "Emerald Comb Block",
   "block.productivebees.comb_ender": "Ender Comb Block",
-  "block.productivebees.comb_ender_biotite": "Ender Biotite Comb Block",
   "block.productivebees.comb_ender_slimy": "Enderslime Comb Block",
   "block.productivebees.comb_enderium": "Enderium Comb Block",
   "block.productivebees.comb_energized_glowstone": "Energized Glowstone Comb Block",
@@ -312,7 +311,6 @@
   "entity.productivebees.elementium_bee": "Elementium Bee",
   "entity.productivebees.emerald_bee": "Emerald Bee",
   "entity.productivebees.ender_bee": "Ender Bee",
-  "entity.productivebees.ender_biotite_bee": "Ender Biotite Bee",
   "entity.productivebees.ender_slimy_bee": "Ender Slimy Bee",
   "entity.productivebees.enderium_bee": "Enderium Bee",
   "entity.productivebees.energized_glowstone_bee": "Energized Glowstone Bee",
@@ -373,8 +371,8 @@
   "entity.productivebees.niter_bee": "Niter Bee",
   "entity.productivebees.nomad_bee": "Nomad Bee",
   "entity.productivebees.obsidian_bee": "Obsidian Bee",
-  "entity.productivebees.onyx_bee": "onyx Bee",
-  "entity.productivebees.opal_bee": "opal Bee",
+  "entity.productivebees.onyx_bee": "Onyx Bee",
+  "entity.productivebees.opal_bee": "Opal Bee",
   "entity.productivebees.osmium_bee": "Osmium Bee",
   "entity.productivebees.pearl_bee": "Pearl Bee",
   "entity.productivebees.peridot_bee": "Peridot Bee",
@@ -488,7 +486,6 @@
   "item.productivebees.honeycomb_elementium": "Elementium Comb",
   "item.productivebees.honeycomb_emerald": "Emerald Comb",
   "item.productivebees.honeycomb_ender": "Ender Comb",
-  "item.productivebees.honeycomb_ender_biotite": "Ender Biotite Comb",
   "item.productivebees.honeycomb_ender_slimy": "Enderslime Comb",
   "item.productivebees.honeycomb_enderium": "Enderium Comb",
   "item.productivebees.honeycomb_energized_glowstone": "Energized Glowstone Comb",
@@ -744,6 +741,6 @@
   "productivebees.top.solitary.can_repopulate_false": "There are no bees in this location that will move into this nest.",
   "productivebees.top.solitary.can_repopulate_true": "The nest can attract bees in this location.",
   "productivebees.top.solitary.egg_count": "Eggs: %s",
-  "productivebees.top.solitary.repopulation_countdown": "Repopulation cooldown %s",
-  "productivebees.top.solitary.repopulation_countdown_inactive": "Nest is empty. Use a honey treat to attract a bee."
+  "productivebees.top.solitary.repopulation_countdown": "Repopulation cooldown %s\nUse additional treats to speed up",
+  "productivebees.top.solitary.repopulation_countdown_inactive": "Nest is empty. Use a honey treat on it to attract a bee."
 }

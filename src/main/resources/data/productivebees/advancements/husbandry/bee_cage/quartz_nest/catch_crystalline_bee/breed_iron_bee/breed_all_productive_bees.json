@@ -19,113 +19,236 @@
         "iron_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:configurable_bee",
-                    "nbt": "{type:\"productivebees:iron\"}"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:iron\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "gold_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:configurable_bee",
-                    "nbt": "{type:\"productivebees:gold\"}"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:gold\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "coal_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:configurable_bee",
-                    "nbt": "{type:\"productivebees:coal\"}"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:coal\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "redstone_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:configurable_bee",
-                    "nbt": "{type:\"productivebees:redstone\"}"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:redstone\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "lapis_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:configurable_bee",
-                    "nbt": "{type:\"productivebees:lapis\"}"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:lapis\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "emerald_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:configurable_bee",
-                    "nbt": "{type:\"productivebees:emerald\"}"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:emerald\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "diamond_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:configurable_bee",
-                    "nbt": "{type:\"productivebees:diamond\"}"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:diamond\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "dye_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:dye_bee"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:dye_bee"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "lumber_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:lumber_bee"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:lumber_bee"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "rancher_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:rancher_bee"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:rancher_bee"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "quarry_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:quarry_bee"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:quarry_bee"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "farmer_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:farmer_bee"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:farmer_bee"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "blazing_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:configurable_bee",
-                    "nbt": "{type:\"productivebees:blazing\"}"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:blazing\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
+            }
+        },
+        "experience_bee": {
+            "trigger": "minecraft:bred_animals",
+            "conditions": {
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:experience\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
+            }
+        },
+        "frosty_bee": {
+            "trigger": "minecraft:bred_animals",
+            "conditions": {
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:frosty\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
+            }
+        },
+        "obsidian_bee": {
+            "trigger": "minecraft:bred_animals",
+            "conditions": {
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:configurable_bee",
+                            "nbt": "{type:\"productivebees:obsidian\"}"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         }
     },
@@ -168,6 +291,15 @@
         ],
         [
             "blazing_bee"
+        ],
+        [
+            "obsidian_bee"
+        ],
+        [
+            "frosty_bee"
+        ],
+        [
+            "experience_bee"
         ]
     ]
 }

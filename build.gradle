@@ -115,6 +115,8 @@ dependencies {
     implementation fg.deobf("curse.maven:allthemodium-364466:3570257")
     implementation fg.deobf("curse.maven:flywheel-486392:3568139")
     implementation fg.deobf("curse.maven:create-328085:3564692")
+    implementation fg.deobf("curse.maven:cucumber-272335:3561215")
+    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3568309")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

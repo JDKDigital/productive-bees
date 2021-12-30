@@ -14,7 +14,7 @@ Datapacks must be put in the datapacks folder inside the world folder and be ena
 #### Adding or removing bees
 
 The first thing to do is to create a directory called productivebees on the same level as recipes and tags. In that folder you will put the json files for your bees. The filename will be the name of the bee clay.json becomes Clay Bee and green_grass.json becomes Green Grass Bee. The internal name you will later use in recipes will be productivebees:clay and productivebees:green_grass. There are not many fields in the json yet, but you must include the primary (head) and secondary (abdomen) colors. You can use conditions just like in recipes.
-See this example `productivebees/productivebees/ender_biotite.json`
+See this example `productivebees/productivebees/ender.json`
 There are two other fields description which is the description shown in JEI and flowerTag which is the name of the block tag this bee will use as flowers. The tag name would be something like minecraft:flowers or forge:storage_blocks/lead. It defaults to minecraft:flowers if nothing is defined.
 
 Next you can make breeding recipes or item conversion recipes, depending on how you want to obtain the bee. The location for the breeding recipe is recipes/bee_breeding and for conversion recipes/bee_conversion. An example of breeding `productivebees/recipes/bee_breeding/constantan_bee.json` and conversion `productivebees/recipes/bee_conversion/manasteel_bee.json`

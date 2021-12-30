@@ -16,43 +16,67 @@
         "hidden": false
     },
     "criteria": {
-        "rancher_bee": {
-            "trigger": "minecraft:bred_animals",
-            "conditions": {
-                "child": {
-                    "type": "productivebees:rancher_bee"
-                }
-            }
-        },
         "lumber_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:lumber_bee"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:lumber_bee"
+                        },
+                        "entity": "this"
+                    }
+                ]
+            }
+        },
+        "rancher_bee": {
+            "trigger": "minecraft:bred_animals",
+            "conditions": {
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:rancher_bee"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "quarry_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:quarry_bee"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:quarry_bee"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         },
         "farmer_bee": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
-                    "type": "productivebees:farmer_bee"
-                }
+                "child": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "predicate": {
+                            "type": "productivebees:farmer_bee"
+                        },
+                        "entity": "this"
+                    }
+                ]
             }
         }
     },
     "requirements": [
         [
-            "rancher_bee",
             "lumber_bee",
+            "rancher_bee",
             "quarry_bee",
             "farmer_bee"
         ]

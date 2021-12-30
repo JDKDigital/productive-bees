@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.common.block.entity.ExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -80,22 +81,22 @@ public class ExpansionBox extends Block implements EntityBlock
     }
 
     @Override
-    public void attack(BlockState state, Level worldIn, BlockPos pos, Player player) {
+    public void attack(BlockState state, Level level, BlockPos pos, Player player) {
         ItemStack heldItem = player.getMainHandItem();
-        if (heldItem.getItem().equals(Items.STICK)) {
+        if (level instanceof ServerLevel && heldItem.getItem().equals(Items.STICK)) {
             if (!state.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
-                Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentHive(worldIn, pos);
+                Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentHive(level, pos);
                 if (pair != null) {
                     Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
                     BlockPos hivePos = posAndDirection.getLeft();
-                    BlockEntity hiveTileEntity = worldIn.getBlockEntity(hivePos);
+                    BlockEntity hiveTileEntity = level.getBlockEntity(hivePos);
                     if (hiveTileEntity instanceof AdvancedBeehiveBlockEntityAbstract) {
                         ((AdvancedBeehiveBlockEntityAbstract) hiveTileEntity).emptyAllLivingFromHive(player, state, BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED);
                     }
                 }
             }
         }
-        super.attack(state, worldIn, pos, player);
+        super.attack(state, level, pos, player);
     }
 
     public void updateStateWithDirection(Level world, BlockPos pos, BlockState state, VerticalHive directionProperty) {

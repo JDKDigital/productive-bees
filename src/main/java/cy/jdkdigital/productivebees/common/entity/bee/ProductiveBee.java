@@ -25,7 +25,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -47,6 +46,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -56,6 +56,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
@@ -74,7 +75,7 @@ public class ProductiveBee extends Bee
 
     protected FollowParentGoal followParentGoal;
     protected BreedGoal breedGoal;
-    protected BeeEnterHiveGoal enterHiveGoal;
+    protected EnterHiveGoal enterHiveGoal;
 
     public ProductiveBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
@@ -107,7 +108,7 @@ public class ProductiveBee extends Bee
     protected void registerBaseGoals() {
 //        this.goalSelector.addGoal(0, new Bee.BeeAttackGoal(this, 1.4D, true));
 
-        this.enterHiveGoal = new Bee.BeeEnterHiveGoal();
+        this.enterHiveGoal = new ProductiveBee.EnterHiveGoal();
         this.goalSelector.addGoal(1, this.enterHiveGoal);
 
         this.breedGoal = new BreedGoal(this, 1.0D, ProductiveBee.class);
@@ -221,8 +222,8 @@ public class ProductiveBee extends Bee
     }
 
     @Override
-    public boolean isFlowerValid(BlockPos pos) {
-        if (!level.isLoaded(pos)) {
+    public boolean isFlowerValid(@Nullable BlockPos pos) {
+        if (pos == null || !level.isLoaded(pos)) {
             return false;
         }
 
@@ -268,7 +269,8 @@ public class ProductiveBee extends Bee
                 this.isTiredOfLookingForNectar() ||
                 this.hasNectar() ||
                 (level.isNight() && !canOperateDuringNight()) ||
-                (level.isRaining() && !canOperateDuringRain());
+                (level.isRaining() && !canOperateDuringRain()) ||
+                (level.isThundering() && !canOperateDuringThunder());
 
             return shouldReturnToHive && !this.isHiveNearFire();
         } else {
@@ -342,7 +344,7 @@ public class ProductiveBee extends Bee
     }
 
     boolean canOperateDuringRain() {
-        return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 1;
+        return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) > 0;
     }
 
     boolean canOperateDuringThunder() {
@@ -516,6 +518,26 @@ public class ProductiveBee extends Bee
         this.hasConverted = hasConverted;
     }
 
+    public class EnterHiveGoal extends Bee.BeeEnterHiveGoal {
+        public EnterHiveGoal() {
+            super();
+        }
+
+        public boolean canBeeUse() {
+            if (ProductiveBee.this.hivePos != null && ProductiveBee.this.wantsToEnterHive() && ProductiveBee.this.hivePos.closerThan(ProductiveBee.this.position(), 2.0D)) {
+                BlockEntity blockEntity = ProductiveBee.this.level.getBlockEntity(ProductiveBee.this.hivePos);
+                if (blockEntity instanceof BeehiveBlockEntity beehiveblockentity) {
+                    if (!beehiveblockentity.isFull()) {
+                        return true;
+                    }
+
+                    ProductiveBee.this.hivePos = null;
+                }
+            }
+            return false;
+        }
+    }
+
     public class PollinateGoal extends Bee.BeePollinateGoal
     {
         public Predicate<BlockPos> flowerPredicate = (blockPos) -> {
@@ -553,8 +575,6 @@ public class ProductiveBee extends Bee
                 return false;
             } else if (ProductiveBee.this.level.isThundering() && !ProductiveBee.this.canOperateDuringThunder()) {
                 return false;
-            } else if (ProductiveBee.this.random.nextFloat() <= 0.7F) {
-                return false;
             } else {
                 Optional<BlockPos> optional = this.findNearbyFlower();
                 if (optional.isPresent()) {
@@ -565,6 +585,26 @@ public class ProductiveBee extends Bee
                 // Failing to find a target will set a cooldown before next attempt
                 ProductiveBee.this.remainingCooldownBeforeLocatingNewFlower = 70 + level.random.nextInt(50);
                 return false;
+            }
+        }
+
+        @Override
+        public boolean canBeeContinueToUse() {
+            if (!this.isPollinating()) {
+                return false;
+            } else if (!ProductiveBee.this.hasSavedFlowerPos()) {
+                return false;
+            } else if (ProductiveBee.this.level.isRaining() && !ProductiveBee.this.canOperateDuringRain()) {
+                return false;
+            } else if (ProductiveBee.this.level.isThundering() && !ProductiveBee.this.canOperateDuringThunder()) {
+                return false;
+            } else if (this.hasPollinatedLongEnough()) {
+                return ProductiveBee.this.random.nextFloat() < 0.2F;
+            } else if (ProductiveBee.this.tickCount % 20 == 0 && !ProductiveBee.this.isFlowerValid(ProductiveBee.this.savedFlowerPos)) {
+                ProductiveBee.this.savedFlowerPos = null;
+                return false;
+            } else {
+                return true;
             }
         }
 

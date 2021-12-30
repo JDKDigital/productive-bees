@@ -8,7 +8,7 @@
                 "item": "productivebees:configurable_honeycomb",
                 "nbt": {
                     "EntityTag": {
-                        "type": "productivebees:fossilised"
+                        "type": "productivebees:coal"
                     }
                 }
             }

@@ -66,8 +66,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {
-        if (blockEntity.tickCounter++ % 100 == 0) {
-            tickBees(level, pos, state, blockEntity);
+        if (level instanceof ServerLevel serverLevel && blockEntity.tickCounter++ % 100 == 0) {
+            tickBees(serverLevel, pos, state, blockEntity);
             blockEntity.tickCounter = 0;
         }
 
@@ -84,7 +84,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         }
     }
 
-    private static void tickBees(Level level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {
+    private static void tickBees(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {
         blockEntity.beeHandler.ifPresent(h -> {
             Iterator<AdvancedBeehiveBlockEntityAbstract.Inhabitant> inhabitantIterator = h.getInhabitants().iterator();
             while (inhabitantIterator.hasNext()) {
@@ -110,26 +110,28 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     @Override
     public void emptyAllLivingFromHive(@Nullable Player player, BlockState blockState, BeehiveBlockEntity.BeeReleaseStatus beeState) {
-        List<Entity> releasedBees = Lists.newArrayList();
-        beeHandler.ifPresent(h -> {
-            h.getInhabitants().removeIf((tag) -> AdvancedBeehiveBlockEntityAbstract.releaseBee(level, getBlockPos(), blockState, this, tag.nbt.copy(), releasedBees, beeState));
-        });
-        if (player != null) {
-            for (Entity entity : releasedBees) {
-                if (entity instanceof Bee beeEntity) {
-                    if (player.blockPosition().distSqr(entity.blockPosition()) <= 16.0D) {
-                        if (!this.isSedated()) {
-                            // Check temper
-                            if (beeEntity instanceof ProductiveBee) {
-                                int temper = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.TEMPER);
-                                if (temper == 0 || (temper == 1 && ProductiveBees.rand.nextFloat() < .5)) {
-                                    beeEntity.setStayOutOfHiveCountdown(400);
-                                    break;
+        if (level instanceof ServerLevel serverLevel) {
+            List<Entity> releasedBees = Lists.newArrayList();
+            beeHandler.ifPresent(h -> {
+                h.getInhabitants().removeIf((tag) -> AdvancedBeehiveBlockEntityAbstract.releaseBee(serverLevel, getBlockPos(), blockState, this, tag.nbt.copy(), releasedBees, beeState));
+            });
+            if (player != null) {
+                for (Entity entity : releasedBees) {
+                    if (entity instanceof Bee beeEntity) {
+                        if (player.blockPosition().distSqr(entity.blockPosition()) <= 16.0D) {
+                            if (!this.isSedated()) {
+                                // Check temper
+                                if (beeEntity instanceof ProductiveBee) {
+                                    int temper = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.TEMPER);
+                                    if (temper == 0 || (temper == 1 && ProductiveBees.rand.nextFloat() < .5)) {
+                                        beeEntity.setStayOutOfHiveCountdown(400);
+                                        break;
+                                    }
                                 }
+                                beeEntity.setTarget(player);
+                            } else {
+                                beeEntity.setStayOutOfHiveCountdown(400);
                             }
-                            beeEntity.setTarget(player);
-                        } else {
-                            beeEntity.setStayOutOfHiveCountdown(400);
                         }
                     }
                 }
@@ -189,23 +191,23 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         this.addOccupantWithPresetTicks(beeEntity, hasNectar, 0);
     }
 
-    public static boolean releaseBee(Level level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity, CompoundTag tag, @Nullable List<Entity> releasedBees, BeehiveBlockEntity.BeeReleaseStatus beeState) {
+    public static boolean releaseBee(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity, CompoundTag tag, @Nullable List<Entity> releasedBees, BeehiveBlockEntity.BeeReleaseStatus beeState) {
         if (state.getBlock().equals(Blocks.AIR) || level == null) {
             return false;
         }
 
         boolean stayInside =
+            beeState != BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY &&
             level.dimension() == Level.OVERWORLD &&
             (
                 (level.isNight() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
-                (level.isRaining() && (beeState != BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY || tag.getInt("bee_weather_tolerance") == 0)) // it's raining and the bees is not tolerant
+                (level.isRaining() && tag.getInt("bee_weather_tolerance") == 0) // it's raining and the bees is not tolerant
             );
 
         if (!stayInside) {
             tag.remove("Passengers");
             tag.remove("Leash");
             tag.remove("UUID");
-//            BeehiveBlockEntity.removeIgnoredBeeTags(tag);
 
             Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
             BlockPos frontPos = hivePos.relative(direction);
@@ -230,7 +232,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                         }
                     }
 
-                    spawned = spawnBeeInWorldAtPosition((ServerLevel) level, beeEntity, hivePos, direction, null);
+                    spawned = spawnBeeInWorldAtPosition(level, beeEntity, hivePos, direction, null);
                     if (spawned && hasOffloaded.get()) {
                         if (blockEntity.hasSavedFlowerPos() && !beeEntity.hasSavedFlowerPos() && (beeEntity.getEncodeId().contains("dye_bee") || level.random.nextFloat() <= 0.9F)) {
                             beeEntity.setSavedFlowerPos(blockEntity.savedFlowerPos);

@@ -8,7 +8,7 @@
     "conditions": [
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:"
+            "bee": "productivebees:cosmic_dust"
         }
     ]
 }

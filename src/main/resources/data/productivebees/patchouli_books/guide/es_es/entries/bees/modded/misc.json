@@ -33,19 +33,6 @@
         },
         {
             "type": "patchouli:text",
-            "title": "Ender Biotite Bee",
-            "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and a $(l:bees/wild/draconic)Draconic Bee$(/l).$(br)Required mod: Quark",
-            "anchor": "ender_biotite",
-            "flag": "productivebees:ender_biotite"
-        },
-        {
-            "type": "patchouli:entity",
-            "name": "Ender Biotite Bee",
-            "entity": "productivebees:configurable_bee{type:'productivebees:ender_biotite'}",
-            "flag": "productivebees:ender_biotite"
-        },
-        {
-            "type": "patchouli:text",
             "title": "Spacial Bee",
             "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and an $(l:bees/wild/ender)Ender Bee$(/l).$(br2)The combs of this bee can be centrifuged to get certus quartz seeds which require further processing.",
             "anchor": "spacial",

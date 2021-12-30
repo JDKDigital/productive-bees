@@ -13,11 +13,11 @@
     ],
     "results": [
         {
-            "item": "iceandfire:dragonsteel_lightning_ingot"
+            "item": "iceandfire:dragonsteel_lightning_ingot",
             "chance": 0.15
         },
         {
-            "item": "iceandfire:lightning_dragon_blood"
+            "item": "iceandfire:lightning_dragon_blood",
             "chance": 0.05
         }
     ],

@@ -21,7 +21,9 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "productivebees:treat_on_a_stick"
+                        "items": [
+                            "productivebees:treat_on_a_stick"
+                        ]
                     }
                 ]
             }
