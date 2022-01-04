@@ -1,3 +1,12 @@
+0.6.9.25
+
+-- Fixed nocturnal bees not working at night
+-- Fixed weather tolerant bees not working in bad weather
+-- Fixed crash with honey fluid in feeding slabs
+-- Fixed crash when hitting an expansion box with a stick
+-- Added better support for FTB Quests
+
+
 0.6.9.24
 
 -- Added Dragonsteel bees (Ice and Fire)

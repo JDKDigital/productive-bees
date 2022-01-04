@@ -3,7 +3,7 @@
     "source": "productivebees:diamond",
     "result": "productivebees:black_opal",
     "item": {
-        "item": "gemsnjewels:black_opal_block"
+        "tag": "productivebees:flowers/gems/black_opal"
     },
     "conditions": [
         {

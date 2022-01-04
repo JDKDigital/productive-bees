@@ -12,6 +12,13 @@
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/black_opal"
             }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/gems/black_opal"
+            }
         }
     ]
 }

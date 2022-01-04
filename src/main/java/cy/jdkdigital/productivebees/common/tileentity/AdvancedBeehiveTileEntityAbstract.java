@@ -205,13 +205,12 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
         }
 
         boolean stayInside =
-                        level.dimension() == World.OVERWORLD &&
-                        (level.isNight() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
-                        (level.isRaining() && (beeState != BeehiveTileEntity.State.EMERGENCY || tag.getInt("bee_weather_tolerance") == 0)); // it's raining and the bees is not tolerant
-
-        if (!level.isNight() && !level.isRaining() && stayInside) {
-            ProductiveBees.LOGGER.debug("Bee is staying inside during the day: " + tag);
-        }
+                beeState != BeehiveTileEntity.State.EMERGENCY &&
+                level.dimension() == World.OVERWORLD &&
+                (
+                    (level.isNight() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
+                    (level.isRaining() && tag.getInt("bee_weather_tolerance") == 0) // it's raining and the bees is not tolerant
+                );
 
         if (!stayInside & this.level instanceof ServerWorld) {
             BlockPos pos = this.getBlockPos();

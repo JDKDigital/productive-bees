@@ -38,6 +38,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagCollectionManager;
+import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
@@ -56,6 +57,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.List;
 import java.util.*;
@@ -81,7 +83,7 @@ public class ProductiveBeeEntity extends BeeEntity
 
     protected FollowParentGoal followParentGoal;
     protected BreedGoal breedGoal;
-    protected EnterBeehiveGoal enterHiveGoal;
+    protected EnterHiveGoal enterHiveGoal;
 
     public ProductiveBeeEntity(EntityType<? extends BeeEntity> entityType, World world) {
         super(entityType, world);
@@ -114,7 +116,7 @@ public class ProductiveBeeEntity extends BeeEntity
     protected void registerBaseGoals() {
         this.goalSelector.addGoal(0, new BeeEntity.StingGoal(this, 1.4D, true));
 
-        this.enterHiveGoal = new BeeEntity.EnterBeehiveGoal();
+        this.enterHiveGoal = new EnterHiveGoal();
         this.goalSelector.addGoal(1, this.enterHiveGoal);
 
         this.breedGoal = new BreedGoal(this, 1.0D, ProductiveBeeEntity.class);
@@ -230,8 +232,8 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     @Override
-    public boolean isFlowerValid(BlockPos pos) {
-        if (!level.isLoaded(pos)) {
+    public boolean isFlowerValid(@Nullable BlockPos pos) {
+        if (pos == null || !level.isLoaded(pos)) {
             return false;
         }
 
@@ -351,7 +353,7 @@ public class ProductiveBeeEntity extends BeeEntity
     }
 
     boolean canOperateDuringRain() {
-        return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 1;
+        return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) > 0;
     }
 
     boolean canOperateDuringThunder() {
@@ -529,6 +531,26 @@ public class ProductiveBeeEntity extends BeeEntity
         this.hasConverted = hasConverted;
     }
 
+    public class EnterHiveGoal extends BeeEntity.EnterBeehiveGoal {
+        public EnterHiveGoal() {
+            super();
+        }
+
+        public boolean canBeeUse() {
+            if (ProductiveBeeEntity.this.hivePos != null && ProductiveBeeEntity.this.wantsToEnterHive() && ProductiveBeeEntity.this.hivePos.closerThan(ProductiveBeeEntity.this.position(), 2.0D)) {
+                TileEntity blockEntity = ProductiveBeeEntity.this.level.getBlockEntity(ProductiveBeeEntity.this.hivePos);
+                if (blockEntity instanceof BeehiveTileEntity) {
+                    if (!((BeehiveTileEntity) blockEntity).isFull()) {
+                        return true;
+                    }
+
+                    ProductiveBeeEntity.this.hivePos = null;
+                }
+            }
+            return false;
+        }
+    }
+
     public class PollinateGoal extends BeeEntity.PollinateGoal
     {
         public Predicate<BlockPos> flowerPredicate = (blockPos) -> {
@@ -578,6 +600,26 @@ public class ProductiveBeeEntity extends BeeEntity
                 // Failing to find a target will set a cooldown before next attempt
                 ProductiveBeeEntity.this.remainingCooldownBeforeLocatingNewFlower = 70 + level.random.nextInt(50);
                 return false;
+            }
+        }
+
+        @Override
+        public boolean canBeeContinueToUse() {
+            if (!this.isPollinating()) {
+                return false;
+            } else if (ProductiveBeeEntity.this.savedFlowerPos == null) {
+                return false;
+            } else if (ProductiveBeeEntity.this.level.isRaining() && !ProductiveBeeEntity.this.canOperateDuringRain()) {
+                return false;
+            } else if (ProductiveBeeEntity.this.level.isThundering() && !ProductiveBeeEntity.this.canOperateDuringThunder()) {
+                return false;
+            } else if (this.hasPollinatedLongEnough()) {
+                return ProductiveBeeEntity.this.random.nextFloat() < 0.2F;
+            } else if (ProductiveBeeEntity.this.tickCount % 20 == 0 && !ProductiveBeeEntity.this.isFlowerValid(ProductiveBeeEntity.this.savedFlowerPos)) {
+                ProductiveBeeEntity.this.savedFlowerPos = null;
+                return false;
+            } else {
+                return true;
             }
         }
 

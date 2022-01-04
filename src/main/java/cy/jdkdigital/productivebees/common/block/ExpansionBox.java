@@ -26,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -76,7 +77,7 @@ public class ExpansionBox extends Block
     @Override
     public void attack(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
         ItemStack heldItem = player.getMainHandItem();
-        if (heldItem.getItem().equals(Items.STICK)) {
+        if (worldIn instanceof ServerWorld && heldItem.getItem().equals(Items.STICK)) {
             if (!state.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
                 Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentHive(worldIn, pos);
                 if (pair != null) {

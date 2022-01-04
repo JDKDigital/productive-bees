@@ -36,7 +36,7 @@ public class ModTags
     public static final ITag<EntityType<?>> RANCHABLES = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
     public static final ITag<EntityType<?>> SOLITARY_BEES = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "solitary_bees"));
 
-    public static final ITag<Fluid> HONEY = TagCollectionManager.getInstance().getFluids().getTag(new ResourceLocation("forge", "honey"));
+    public static final ITag<Fluid> HONEY = FluidTags.createOptional(new ResourceLocation("forge", "honey"));
 
     public static ITag<Block> getTag(String name) {
         return getTag(new ResourceLocation(ProductiveBees.MODID, name));

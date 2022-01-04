@@ -6,11 +6,11 @@
             "required": false
         },
         {
-            "id": "silentgems:black_opal_glowrose",
+            "id": "gemsnjewels:black_opal_block",
             "required": false
         },
         {
-            "id": "gemsnjewels:black_opal_block",
+            "id": "oresabovediamonds:black_opal_block",
             "required": false
         }
     ]

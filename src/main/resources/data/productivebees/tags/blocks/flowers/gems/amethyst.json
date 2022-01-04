@@ -16,6 +16,10 @@
         {
             "id": "iceandfire:amythest_block",
             "required": false
+        },
+        {
+            "id": "oresabovediamonds:amethyst_block",
+            "required": false
         }
     ]
 }

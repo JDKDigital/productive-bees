@@ -175,7 +175,7 @@
   "block.productivebees.comb_slimy": "Slimy Comb Block",
   "block.productivebees.comb_soulium": "Soulium Comb Block",
   "block.productivebees.comb_soulsteel": "Soulsteel Comb Block",
-  "block.productivebees.comb_spacial": "Spacial Comb Block",
+  "block.productivebees.comb_spacial": "Spatial Comb Block",
   "block.productivebees.comb_spectrum": "Spectrum Comb Block",
   "block.productivebees.comb_starmetal": "Starmetal Comb Block",
   "block.productivebees.comb_steel": "Steel Comb Block",
@@ -415,7 +415,7 @@
   "entity.productivebees.sodalite_bee": "Sodalite Bee",
   "entity.productivebees.soulium_bee": "Soulium Bee",
   "entity.productivebees.soulsteel_bee": "Soulsteel Bee",
-  "entity.productivebees.spacial_bee": "Spacial Bee",
+  "entity.productivebees.spacial_bee": "Spatial Bee",
   "entity.productivebees.spectrum_bee": "Spectrum Bee",
   "entity.productivebees.spinel_bee": "Spinel Bee",
   "entity.productivebees.starmetal_bee": "Starmetal Bee",
@@ -550,7 +550,7 @@
   "item.productivebees.honeycomb_slimy": "Slimy Comb",
   "item.productivebees.honeycomb_soulium": "Soulium Comb",
   "item.productivebees.honeycomb_soulsteel": "Soulsteel Comb",
-  "item.productivebees.honeycomb_spacial": "Spacial Comb",
+  "item.productivebees.honeycomb_spacial": "Spatial Comb",
   "item.productivebees.honeycomb_spectrum": "Spectrum Comb",
   "item.productivebees.honeycomb_starmetal": "Starmetal Comb",
   "item.productivebees.honeycomb_steel": "Steel Comb",
@@ -742,6 +742,6 @@
   "productivebees.top.solitary.can_repopulate_false": "There are no bees in this location that will move into this nest.",
   "productivebees.top.solitary.can_repopulate_true": "The nest can attract bees in this location.",
   "productivebees.top.solitary.egg_count": "Eggs: %s",
-  "productivebees.top.solitary.repopulation_countdown": "Repopulation cooldown %s",
-  "productivebees.top.solitary.repopulation_countdown_inactive": "Nest is empty. Use a honey treat to attract a bee."
+  "productivebees.top.solitary.repopulation_countdown": "Repopulation cooldown %s\nUse additional treats to speed up",
+  "productivebees.top.solitary.repopulation_countdown_inactive": "Nest is empty. Use a honey treat on it to attract a bee."
 }
