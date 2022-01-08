@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+        "productivebees:configurable_honeycomb",
+        "productivebees:spawn_egg_configurable_bee",
+        "productivebees:honey_treat",
+        "productivebees:gene"
+    ]
+}

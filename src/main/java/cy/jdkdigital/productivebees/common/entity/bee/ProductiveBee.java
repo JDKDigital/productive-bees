@@ -105,7 +105,7 @@ public class ProductiveBee extends Bee
     protected void registerBaseGoals() {
         this.goalSelector.addGoal(0, new BeeAttackGoal(this, 1.4D, true));
 
-        this.enterHiveGoal = new ProductiveBee.EnterHiveGoal();
+        this.enterHiveGoal = new EnterHiveGoal();
         this.goalSelector.addGoal(1, this.enterHiveGoal);
 
         this.breedGoal = new BreedGoal(this, 1.0D, ProductiveBee.class);
