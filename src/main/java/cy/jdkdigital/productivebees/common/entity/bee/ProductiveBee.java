@@ -26,10 +26,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowParentGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
@@ -76,6 +73,7 @@ public class ProductiveBee extends Bee
     protected FollowParentGoal followParentGoal;
     protected BreedGoal breedGoal;
     protected EnterHiveGoal enterHiveGoal;
+    private int breedItemCount;
 
     public ProductiveBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
@@ -86,7 +84,6 @@ public class ProductiveBee extends Bee
         setAttributeValue(BeeAttributes.BEHAVIOR, 0);
         setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
         setAttributeValue(BeeAttributes.TYPE, "hive");
-        setAttributeValue(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
@@ -106,7 +103,7 @@ public class ProductiveBee extends Bee
     }
 
     protected void registerBaseGoals() {
-//        this.goalSelector.addGoal(0, new Bee.BeeAttackGoal(this, 1.4D, true));
+        this.goalSelector.addGoal(0, new BeeAttackGoal(this, 1.4D, true));
 
         this.enterHiveGoal = new ProductiveBee.EnterHiveGoal();
         this.goalSelector.addGoal(1, this.enterHiveGoal);
@@ -185,7 +182,7 @@ public class ProductiveBee extends Bee
         updateHappiness();
 
         // Kill below Y level 0
-        if (this.getY() < -0.0D) {
+        if (this.getY() < -64.0D) {
             this.outOfWorld();
         }
     }
@@ -230,9 +227,29 @@ public class ProductiveBee extends Bee
         BlockState flowerBlock = level.getBlockState(pos);
 
         return (
-            isFlowerBlock(flowerBlock) ||
-            (flowerBlock.getBlock() instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBee.this::isFlowerBlock))
+                isFlowerBlock(flowerBlock) ||
+                        (flowerBlock.getBlock() instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBee.this::isFlowerBlock))
         );
+    }
+
+    public List<ItemStack> getBreedingItems() {
+        int count = getBreedingItemCount();
+        List<ItemStack> list = Arrays.stream(getBreedingIngredient().getItems()).toList();
+        list.forEach(e -> e.setCount(count));
+        return list;
+    }
+
+    public Ingredient getBreedingIngredient() {
+        return Ingredient.of(ItemTags.FLOWERS);
+    }
+
+    public Integer getBreedingItemCount() {
+        return 1;
+    }
+
+    @Override
+    public boolean isFood(ItemStack stack) {
+        return getBreedingIngredient().test(stack);
     }
 
     public Predicate<PoiType> getBeehiveInterests() {
@@ -263,14 +280,32 @@ public class ProductiveBee extends Bee
     }
 
     @Override
+    protected void usePlayerItem(Player player, InteractionHand hand, ItemStack stack) {
+        super.usePlayerItem(player, hand, stack);
+
+        if (!isInLove() && getBreedingIngredient().test(stack)) {
+            this.level.broadcastEntityEvent(this, (byte)13);
+            this.breedItemCount++;
+        }
+    }
+
+    @Override
+    public void setInLove(@Nullable Player player) {
+        if (this.breedItemCount >= getBreedingItemCount()) {
+            super.setInLove(player);
+            this.breedItemCount = 0;
+        }
+    }
+
+    @Override
     public boolean wantsToEnterHive() {
         if (this.stayOutOfHiveCountdown <= 0 && !this.beePollinateGoal.isPollinating() && !this.hasStung() && this.getTarget() == null) {
             boolean shouldReturnToHive =
-                this.isTiredOfLookingForNectar() ||
-                this.hasNectar() ||
-                (level.isNight() && !canOperateDuringNight()) ||
-                (level.isRaining() && !canOperateDuringRain()) ||
-                (level.isThundering() && !canOperateDuringThunder());
+                    this.isTiredOfLookingForNectar() ||
+                            this.hasNectar() ||
+                            (level.isNight() && !canOperateDuringNight()) ||
+                            (level.isRaining() && !canOperateDuringRain()) ||
+                            (level.isThundering() && !canOperateDuringThunder());
 
             return shouldReturnToHive && !this.isHiveNearFire();
         } else {
@@ -393,7 +428,6 @@ public class ProductiveBee extends Bee
         tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
         tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
-//        tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).toString());
         tag.putFloat("MaxHealth", getMaxHealth());
         tag.putBoolean("HasConverted", hasConverted());
     }
@@ -410,7 +444,6 @@ public class ProductiveBee extends Bee
             setAttributeValue(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
             setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
             setAttributeValue(BeeAttributes.TYPE, tag.getString("bee_type"));
-//            setAttributeValue(BeeAttributes.APHRODISIACS, ItemTags.createOptional(new ResourceLocation(tag.getString("bee_aphrodisiac"))));
         }
         setHasConverted(tag.contains("HasConverted") && tag.getBoolean("HasConverted"));
     }
@@ -458,14 +491,14 @@ public class ProductiveBee extends Bee
             return false;
         } else {
             return (
-                this.isInLove() &&
-                otherAnimal.isInLove()
+                    this.isInLove() &&
+                            otherAnimal.isInLove()
             ) &&
-                (
-                    (level instanceof ServerLevel && BeeHelper.getRandomBreedingRecipe(this, otherAnimal, (ServerLevel) level) != null) || // check if there's an offspring recipe
-                    canSelfBreed() || // allows self breeding
-                    !(otherAnimal instanceof ProductiveBee) // or not a productive bee
-                );
+                    (
+                            (level instanceof ServerLevel && BeeHelper.getRandomBreedingRecipe(this, otherAnimal, (ServerLevel) level) != null) || // check if there's an offspring recipe
+                                    canSelfBreed() || // allows self breeding
+                                    !(otherAnimal instanceof ProductiveBee) // or not a productive bee
+                    );
         }
     }
 
@@ -495,7 +528,7 @@ public class ProductiveBee extends Bee
     }
 
     public int getColor(int tintIndex) {
-        return 0;
+        return -1;
     }
 
     public boolean isFlowerBlock(BlockState flowerBlock) {
@@ -518,7 +551,8 @@ public class ProductiveBee extends Bee
         this.hasConverted = hasConverted;
     }
 
-    public class EnterHiveGoal extends Bee.BeeEnterHiveGoal {
+    public class EnterHiveGoal extends Bee.BeeEnterHiveGoal
+    {
         public EnterHiveGoal() {
             super();
         }
@@ -636,10 +670,10 @@ public class ProductiveBee extends Bee
             BlockPos blockpos = ProductiveBee.this.blockPosition();
             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-            for(int i = 0; (double)i <= distance; i = i > 0 ? -i : 1 - i) {
-                for(int j = 0; (double)j < distance; ++j) {
-                    for(int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
-                        for(int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
+            for (int i = 0; (double) i <= distance; i = i > 0 ? -i : 1 - i) {
+                for (int j = 0; (double) j < distance; ++j) {
+                    for (int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
+                        for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
                             blockpos$mutableblockpos.setWithOffset(blockpos, k, i - 1, l);
                             if (blockpos.closerThan(blockpos$mutableblockpos, distance) && predicate.test(blockpos$mutableblockpos)) {
                                 return Optional.of(blockpos$mutableblockpos);
@@ -765,10 +799,28 @@ public class ProductiveBee extends Bee
         }
     }
 
+    public class BeeAttackGoal extends MeleeAttackGoal
+    {
+        BeeAttackGoal(PathfinderMob mob, double speedModifier, boolean followingTargetEvenIfNotSeen) {
+            super(mob, speedModifier, followingTargetEvenIfNotSeen);
+        }
+
+        public boolean canUse() {
+            return super.canUse() && ProductiveBee.this.isAngry() && !ProductiveBee.this.hasStung();
+        }
+
+        public boolean canContinueToUse() {
+            return super.canContinueToUse() && ProductiveBee.this.isAngry() && !ProductiveBee.this.hasStung();
+        }
+    }
+
     public class ProductiveTemptGoal extends TemptGoal
     {
         public ProductiveTemptGoal(PathfinderMob entity, double speed) {
-            super(entity, speed, Ingredient.of(ItemTags.FLOWERS), false);
+            super(entity, speed, Ingredient.EMPTY, false);
+            List<ItemStack> listOfStuff = Arrays.asList(Ingredient.of(ItemTags.FLOWERS).getItems());
+//            listOfStuff.addAll(Arrays.asList(ProductiveBee.this.getBreedingItem().getItems()));
+            items = Ingredient.of(listOfStuff.stream());
         }
     }
 

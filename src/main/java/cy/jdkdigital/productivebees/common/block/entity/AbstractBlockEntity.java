@@ -10,8 +10,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-
 public class AbstractBlockEntity extends BlockEntity
 {
     public AbstractBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {

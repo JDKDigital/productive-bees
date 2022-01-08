@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:phosphophyllite",
     "item": {
-        "tag": "productivebees:flowers/gems/phosphophyllite"
+        "tag": "productivebees:flowers/phosphophyllite"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/phosphophyllite"
+                "tag": "productivebees:flowers/phosphophyllite"
             }
         },
         {

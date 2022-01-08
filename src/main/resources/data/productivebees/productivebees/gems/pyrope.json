@@ -4,13 +4,20 @@
     "tertiaryColor": "#620000",
     "particleColor": "#bc1100",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/pyrope",
+    "flowerTag": "productivebees:flowers/pyrope",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/pyrope"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/pyrope"
             }
         }
     ]

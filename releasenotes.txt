@@ -1,3 +1,13 @@
+0.8.0.4
+
+-- Added support for custom breeding items and amount. Only Draconic bees have a custom item by default.
+-- Dragon egg hives double production output
+-- New GUI for breeding con bee conversion recipe categories
+-- Re-enabled all Patchouli support
+-- Added fluid pollination
+-- Added Oily (Beyond Earth) and Salty bees
+
+
 0.8.0.3
 
 -- Added Dragonsteel bees (iceandfire)

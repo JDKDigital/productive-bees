@@ -134,6 +134,9 @@ public class EventHandler
                     Biome fishingBiome = player.level.getBiome(pos);
                     if (fishingBiome.getBiomeCategory().equals(Biome.BiomeCategory.OCEAN)) {
                         bee.setBeeType("productivebees:prismarine");
+                        if (BeeReloadListener.INSTANCE.getData("productivebees:oily") != null && ProductiveBees.rand.nextBoolean()) {
+                            bee.setBeeType("productivebees:oily");
+                        }
                         bee.setAttributes();
 
                         bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());

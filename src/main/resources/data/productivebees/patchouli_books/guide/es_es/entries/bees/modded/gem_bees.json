@@ -654,14 +654,14 @@
             "type": "patchouli:text",
             "title": "Yellow Diamond Bee",
             "text": "Converted from a $(l:bees/hive/diamond)Diamond Bee$(/l) using a yellow diamond gem.",
-            "anchor": "yellow_diamond",
-            "flag": "productivebees:yellow_diamond"
+            "anchor": "white_diamond",
+            "flag": "productivebees:white_diamond"
         },
         {
             "type": "patchouli:entity",
             "name": "Yellow Diamond Bee",
-            "entity": "productivebees:configurable_bee{type:'productivebees:yellow_diamond'}",
-            "flag": "productivebees:yellow_diamond"
+            "entity": "productivebees:configurable_bee{type:'productivebees:white_diamond'}",
+            "flag": "productivebees:white_diamond"
         },
         {
             "type": "patchouli:text",

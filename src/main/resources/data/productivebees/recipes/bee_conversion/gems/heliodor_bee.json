@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:heliodor",
     "item": {
-        "tag": "productivebees:flowers/gems/heliodor"
+        "tag": "productivebees:flowers/heliodor"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/heliodor"
+                "tag": "productivebees:flowers/heliodor"
             }
         },
         {

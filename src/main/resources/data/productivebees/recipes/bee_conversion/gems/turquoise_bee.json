@@ -3,7 +3,7 @@
     "source": "productivebees:diamond",
     "result": "productivebees:turquoise",
     "item": {
-        "tag": "productivebees:flowers/gems/turquoise"
+        "tag": "productivebees:flowers/turquoise"
     },
     "conditions": [
         {

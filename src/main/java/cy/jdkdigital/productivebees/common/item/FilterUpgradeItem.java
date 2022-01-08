@@ -82,10 +82,10 @@ public class FilterUpgradeItem extends UpgradeItem
             tooltip.add(new TranslatableComponent("productivebees.information.upgrade.upgrade_filter_entity", allowedBee.get().getBeeType()).withStyle(ChatFormatting.GOLD));
         }
         
-        if (!beeList.isEmpty()) {
-            tooltip.add(new TranslatableComponent("productivebees.information.upgrade.upgrade_filter").withStyle(ChatFormatting.WHITE));
-        } else {
+        if (beeList.isEmpty()) {
             tooltip.add(new TranslatableComponent("productivebees.information.upgrade.upgrade_filter_empty").withStyle(ChatFormatting.WHITE));
+        } else {
+            tooltip.add(new TranslatableComponent("productivebees.information.upgrade.upgrade_filter").withStyle(ChatFormatting.WHITE));
         }
     }
 

@@ -172,6 +172,7 @@ public class ProductiveBeesConfig
                     .defineInRange("cuckooSpawnCount", 2, 0, Integer.MAX_VALUE);
 
             fishingBeeChance = builder
+                    .comment("Chance of catching a bee when fishing")
                     .defineInRange("fishingBeeChance", 0.05, 0, 1);
 
             builder.pop();
@@ -223,7 +224,7 @@ public class ProductiveBeesConfig
 
         public WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push("Worldgen");
-            builder.comment("Which nests should generate in the level. Nest will still be craftable and attract bees when placed in the level.");
+            builder.comment("Which nests should generate in the level. Nest will still be craftable and attract bees when placed in the world.");
 
             for (RegistryObject<Block> blockReg : ModBlocks.BLOCKS.getEntries()) {
                 ResourceLocation resName = blockReg.getId();

@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:kunzite",
     "item": {
-        "tag": "productivebees:flowers/gems/kunzite"
+        "tag": "productivebees:flowers/kunzite"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/kunzite"
+                "tag": "productivebees:flowers/kunzite"
             }
         },
         {

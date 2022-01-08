@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.integrations.hwyla;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import mcp.mobius.waila.api.BlockAccessor;

@@ -4,13 +4,20 @@
     "tertiaryColor": "#85794c",
     "particleColor": "#342b00",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/jasper",
+    "flowerTag": "productivebees:flowers/jasper",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/jasper"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/jasper"
             }
         }
     ]

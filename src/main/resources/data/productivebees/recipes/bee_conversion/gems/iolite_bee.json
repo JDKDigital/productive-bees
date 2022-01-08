@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:iolite",
     "item": {
-        "tag": "productivebees:flowers/gems/iolite"
+        "tag": "productivebees:flowers/iolite"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/iolite"
+                "tag": "productivebees:flowers/iolite"
             }
         },
         {

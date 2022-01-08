@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:apatite",
     "item": {
-        "tag": "productivebees:flowers/gems/apatite"
+        "tag": "productivebees:flowers/apatite"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/apatite"
+                "tag": "productivebees:flowers/apatite"
             }
         },
         {

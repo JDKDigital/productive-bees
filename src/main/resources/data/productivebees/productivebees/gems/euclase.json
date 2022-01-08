@@ -4,13 +4,20 @@
     "tertiaryColor": "#001b28",
     "particleColor": "#005782",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/euclase",
+    "flowerTag": "productivebees:flowers/euclase",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/euclase"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/euclase"
             }
         }
     ]

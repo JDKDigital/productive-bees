@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:moonstone",
     "item": {
-        "tag": "productivebees:flowers/gems/moonstone"
+        "tag": "productivebees:flowers/moonstone"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/moonstone"
+                "tag": "productivebees:flowers/moonstone"
             }
         },
         {

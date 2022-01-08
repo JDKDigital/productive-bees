@@ -4,7 +4,7 @@
     "tertiaryColor": "#28a0b1",
     "particleColor": "#32e1f6",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/fluorite",
+    "flowerTag": "productivebees:flowers/fluorite",
     "conditions": [
         {
             "type": "forge:not",
@@ -17,7 +17,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/fluorite"
+                "tag": "productivebees:flowers/fluorite"
             }
         }
     ]

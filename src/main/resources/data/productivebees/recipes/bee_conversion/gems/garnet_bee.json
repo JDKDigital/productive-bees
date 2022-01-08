@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:garnet",
     "item": {
-        "tag": "productivebees:flowers/gems/garnet"
+        "tag": "productivebees:flowers/garnet"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/garnet"
+                "tag": "productivebees:flowers/garnet"
             }
         },
         {

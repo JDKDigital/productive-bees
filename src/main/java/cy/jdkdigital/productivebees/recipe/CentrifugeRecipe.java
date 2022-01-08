@@ -5,9 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -130,13 +128,6 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                 ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredient"));
             } else {
                 ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient"));
-            }
-
-            String type = GsonHelper.getAsString(json, "comb_type", "");
-            if (!type.isEmpty()) {
-                ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                BeeCreator.setTag(type, stack);
-                ingredient = Ingredient.of(stack);
             }
 
             JsonArray jsonArray = GsonHelper.getAsJsonArray(json, "outputs");

@@ -4,13 +4,20 @@
     "tertiaryColor": "#3d001f",
     "particleColor": "#98004c",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/ametrine",
+    "flowerTag": "productivebees:flowers/ametrine",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/ametrine"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/ametrine"
             }
         }
     ]

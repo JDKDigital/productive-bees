@@ -34,6 +34,8 @@ public class BeeCreator
             data.putString("flowerTag", json.get("flowerTag").getAsString());
         } else if (json.has("flowerBlock") && !json.get("flowerBlock").getAsString().isEmpty()) {
             data.putString("flowerBlock", json.get("flowerBlock").getAsString());
+        } else if (json.has("flowerFluid") && !json.get("flowerFluid").getAsString().isEmpty()) {
+            data.putString("flowerFluid", json.get("flowerFluid").getAsString());
         }
         if (json.has("nestingPreference")) {
             data.putString("nestingPreference", json.get("nestingPreference").getAsString());
@@ -54,6 +56,8 @@ public class BeeCreator
             data.putString("attackResponse", json.get("attackResponse").getAsString());
         }
 
+        data.putString("breedingItem", json.has("breedingItem") ? json.get("breedingItem").getAsString() : "");
+        data.putInt("breedingItemCount", json.has("breedingItemCount") ? json.get("breedingItemCount").getAsInt() : 1);
         data.putString("flowerType", json.has("flowerType") ? json.get("flowerType").getAsString() : "blocks");
         data.putString("renderer", json.has("renderer") ? json.get("renderer").getAsString() : "default");
         data.putString("renderTransform", json.has("renderTransform") ? json.get("renderTransform").getAsString() : "none");

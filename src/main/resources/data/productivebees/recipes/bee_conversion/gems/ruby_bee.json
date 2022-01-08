@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:ruby",
     "item": {
-        "tag": "productivebees:flowers/gems/ruby"
+        "tag": "productivebees:flowers/ruby"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/ruby"
+                "tag": "productivebees:flowers/ruby"
             }
         },
         {

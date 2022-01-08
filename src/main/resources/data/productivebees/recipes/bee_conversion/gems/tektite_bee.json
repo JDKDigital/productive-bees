@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:tektite",
     "item": {
-        "tag": "productivebees:flowers/gems/tektite"
+        "tag": "productivebees:flowers/tektite"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/tektite"
+                "tag": "productivebees:flowers/tektite"
             }
         },
         {

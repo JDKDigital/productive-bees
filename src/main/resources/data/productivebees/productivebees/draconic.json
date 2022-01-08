@@ -8,6 +8,8 @@
         "temper": 2,
         "endurance": 2
     },
+    "breedingItem": "productivebees:draconic_dust",
+    "breedingItemCount": 2,
     "draconic": true,
     "flowerTag": "productivebees:flowers/draconic_flowers",
     "nestingPreference": "productivebees:nests/draconic_nests"

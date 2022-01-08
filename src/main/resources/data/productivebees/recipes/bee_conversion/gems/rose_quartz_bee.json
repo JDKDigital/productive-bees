@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:rose_quartz",
     "item": {
-        "tag": "productivebees:flowers/gems/rose_quartz"
+        "tag": "productivebees:flowers/rose_quartz"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/rose_quartz"
+                "tag": "productivebees:flowers/rose_quartz"
             }
         },
         {

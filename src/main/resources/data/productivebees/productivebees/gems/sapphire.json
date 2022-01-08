@@ -4,13 +4,20 @@
     "tertiaryColor": "#000b7b",
     "particleColor": "#5241f3",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/sapphire",
+    "flowerTag": "productivebees:flowers/sapphire",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/sapphire"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/sapphire"
             }
         }
     ]

@@ -150,6 +150,19 @@
         },
         {
             "type": "patchouli:text",
+            "title": "Salty Bee",
+            "text": "Obtained by giving salt to a vanilla bee",
+            "anchor": "salty",
+            "flag": "productivebees:salty"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Salty Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:salty'}",
+            "flag": "productivebees:salty"
+        },
+        {
+            "type": "patchouli:text",
             "title": "Allthemodium Bee",
             "text": "Bred from a $(l:bees/hive/diamond)Diamond Bee$(/l) and a $(l:bees/hive/withered)Withered Bee$(/l).",
             "anchor": "allthemodium",

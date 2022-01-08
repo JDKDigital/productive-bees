@@ -5,8 +5,6 @@ import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -24,7 +22,6 @@ public class BeeAttributesHandler implements IBeeAttributes
         beeAttributes.put(BeeAttributes.BEHAVIOR, 0);
         beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 0);
         beeAttributes.put(BeeAttributes.TYPE, "hive");
-        beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.FLOWERS);
     }
 
     public <T> T getAttributeValue(BeeAttribute<T> attribute) {
@@ -62,7 +59,6 @@ public class BeeAttributesHandler implements IBeeAttributes
         tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
         tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
-        tag.putString("bee_aphrodisiac", this.getAttributeValue(BeeAttributes.APHRODISIACS).toString());
         return tag;
     }
 
@@ -78,7 +74,6 @@ public class BeeAttributesHandler implements IBeeAttributes
             beeAttributes.put(BeeAttributes.BEHAVIOR, nbt.getInt("bee_behavior"));
             beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, nbt.getInt("bee_weather_tolerance"));
             beeAttributes.put(BeeAttributes.TYPE, nbt.getString("bee_type"));
-            beeAttributes.put(BeeAttributes.APHRODISIACS, ItemTags.createOptional(new ResourceLocation(nbt.getString("bee_aphrodisiac"))));
 
             for (Map.Entry<BeeAttribute<?>, Object> entry : getAttributes().entrySet()) {
                 ProductiveBees.LOGGER.info(entry.getKey() + " - " + entry.getValue());

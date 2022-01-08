@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:ametrine",
     "item": {
-        "tag": "productivebees:flowers/gems/ametrine"
+        "tag": "productivebees:flowers/ametrine"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/ametrine"
+                "tag": "productivebees:flowers/ametrine"
             }
         },
         {

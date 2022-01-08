@@ -4,13 +4,20 @@
     "tertiaryColor": "#1f1f1f",
     "particleColor": "#383838",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/onyx",
+    "flowerTag": "productivebees:flowers/onyx",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/onyx"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/onyx"
             }
         }
     ]

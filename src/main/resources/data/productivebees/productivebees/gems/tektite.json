@@ -4,13 +4,20 @@
     "tertiaryColor": "#725e4c",
     "particleColor": "#978574",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/tektite",
+    "flowerTag": "productivebees:flowers/tektite",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/tektite"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/tektite"
             }
         }
     ]

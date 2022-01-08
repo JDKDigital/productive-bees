@@ -4,13 +4,20 @@
     "tertiaryColor": "#7c95be",
     "particleColor": "#a4b6d2",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/pearl",
+    "flowerTag": "productivebees:flowers/pearl",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/pearl"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/pearl"
             }
         }
     ]

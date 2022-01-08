@@ -4,13 +4,20 @@
     "tertiaryColor": "#957b00",
     "particleColor": "#ddcf17",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/heliodor",
+    "flowerTag": "productivebees:flowers/heliodor",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/heliodor"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/heliodor"
             }
         }
     ]

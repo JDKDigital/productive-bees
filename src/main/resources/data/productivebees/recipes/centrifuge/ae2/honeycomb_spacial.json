@@ -19,6 +19,12 @@
         },
         {
             "item": {
+                "item": "ae2:certus_dust"
+            },
+            "chance": 50
+        },
+        {
+            "item": {
                 "tag": "forge:wax"
             }
         },

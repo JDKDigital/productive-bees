@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
 import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -22,6 +23,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CocoaBlock;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -68,23 +71,25 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
     public void setIngredients(Recipe recipe, IIngredients ingredients) {
         ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.getBee()));
 
-        List<ItemStack> stacks = new ArrayList<>();
+        List<ItemStack> itemStacks = new ArrayList<>();
+        List<FluidStack> fluidStacks = new ArrayList<>();
         try {
             List<Block> blockList = new ArrayList<>();
             if (recipe.blockTag != null) {
                 blockList = recipe.blockTag.getValues();
-            }
-            else if (recipe.block != null) {
+            } else if (recipe.block != null) {
                 blockList.add(recipe.block);
+            } else if (recipe.fluid != null) {
+                fluidStacks.add(new FluidStack(recipe.fluid, 1000));
             }
+
             for (Block block : blockList) {
                 ItemStack item = new ItemStack(block.asItem());
                 if (!item.getItem().equals(Items.AIR)) {
-                    stacks.add(item);
-                }
-                else {
+                    itemStacks.add(item);
+                } else {
                     if (block instanceof CocoaBlock) {
-                        stacks.add(new ItemStack(Items.COCOA_BEANS));
+                        itemStacks.add(new ItemStack(Items.COCOA_BEANS));
                     }
                 }
             }
@@ -92,8 +97,10 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
             ProductiveBees.LOGGER.warn("Failed to find flowering requirements for " + recipe.getBee());
         }
         List<List<ItemStack>> items = new ArrayList<>();
-        items.add(stacks);
+        items.add(itemStacks);
         ingredients.setInputLists(VanillaTypes.ITEM, items);
+
+        ingredients.setInputs(VanillaTypes.FLUID, fluidStacks);
     }
 
     @Override
@@ -102,9 +109,17 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         ingredientStacks.init(0, true, 29, 12);
         ingredientStacks.set(0, ingredients.getInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT).get(0));
 
-        IGuiItemStackGroup itemStacks = iRecipeLayout.getItemStacks();
-        itemStacks.init(1, true, 26, 51);
-        itemStacks.set(1, ingredients.getInputs(VanillaTypes.ITEM).get(0));
+        if (!ingredients.getInputs(VanillaTypes.ITEM).isEmpty()) {
+            IGuiItemStackGroup itemStacks = iRecipeLayout.getItemStacks();
+            itemStacks.init(1, true, 26, 51);
+            itemStacks.set(1, ingredients.getInputs(VanillaTypes.ITEM).get(0));
+        }
+
+        if (!ingredients.getInputs(VanillaTypes.FLUID).isEmpty()) {
+            IGuiFluidStackGroup fluidStacks = iRecipeLayout.getFluidStacks();
+            fluidStacks.init(1, true, 26, 51);
+            fluidStacks.set(1, ingredients.getInputs(VanillaTypes.FLUID).get(0));
+        }
     }
 
     public static List<Recipe> getFlowersRecipes(Map<String, BeeIngredient> beeList) {
@@ -131,14 +146,15 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
             if (entry.getValue().isConfigurable()) {
                 CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
                 if (nbt.contains("flowerTag")) {
-                    Tag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
+                    Tag<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerTag")));
                     recipes.add(new Recipe(flowerTag, entry.getValue()));
-                }
-                else if (nbt.contains("flowerBlock")) {
+                } else if (nbt.contains("flowerBlock")) {
                     Block flowerBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString("flowerBlock")));
                     recipes.add(new Recipe(flowerBlock, entry.getValue()));
-                }
-                else {
+                } else if (nbt.contains("flowerFluid")) {
+                    Fluid flowerFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(nbt.getString("flowerFluid")));
+                    recipes.add(new Recipe(flowerFluid, entry.getValue()));
+                } else {
                     recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
                 }
             }
@@ -155,22 +171,32 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
 
     public static class Recipe
     {
-
         private final BeeIngredient bee;
 
         private final Tag<Block> blockTag;
 
         private final Block block;
 
+        private final Fluid fluid;
+
         public Recipe(Tag<Block> blockTag, BeeIngredient bee) {
             this.blockTag = blockTag;
             this.block = null;
+            this.fluid = null;
             this.bee = bee;
         }
 
         public Recipe(Block block, BeeIngredient bee) {
             this.blockTag = null;
             this.block = block;
+            this.fluid = null;
+            this.bee = bee;
+        }
+
+        public Recipe(Fluid fluid, BeeIngredient bee) {
+            this.blockTag = null;
+            this.block = null;
+            this.fluid = fluid;
             this.bee = bee;
         }
 

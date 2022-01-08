@@ -15,6 +15,19 @@
         },
         {
             "type": "patchouli:text",
+            "title": "Oily Bee",
+            "text": "Obtained by fishing in ocean biomes",
+            "anchor": "oily",
+            "flag": "productivebees:oily"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Oily Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:oily'}",
+            "flag": "productivebees:oily"
+        },
+        {
+            "type": "patchouli:text",
             "title": "Chocolate Bee",
             "text": "Obtained by feeding cocoa beans to a $(l:bees/wild/sugarbag)Sugarbag Bee$(/l).",
             "anchor": "chocolate",

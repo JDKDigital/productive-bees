@@ -4,13 +4,20 @@
     "tertiaryColor": "#141414",
     "particleColor": "#636363",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/black_diamond",
+    "flowerTag": "productivebees:flowers/black_diamond",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/black_diamond"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/black_diamond"
             }
         }
     ]

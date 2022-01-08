@@ -1,0 +1,13 @@
+{
+    "replace": false,
+    "values": [
+        {
+            "id": "#forge:storage_blocks/tourmaline",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:tourmaline_block",
+            "required": false
+        }
+    ]
+}

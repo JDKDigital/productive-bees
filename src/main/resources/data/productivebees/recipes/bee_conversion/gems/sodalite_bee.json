@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:sodalite",
     "item": {
-        "tag": "productivebees:flowers/gems/sodalite"
+        "tag": "productivebees:flowers/sodalite"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/sodalite"
+                "tag": "productivebees:flowers/sodalite"
             }
         },
         {

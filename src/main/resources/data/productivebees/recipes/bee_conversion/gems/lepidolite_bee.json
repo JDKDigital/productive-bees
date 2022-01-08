@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:lepidolite",
     "item": {
-        "tag": "productivebees:flowers/gems/lepidolite"
+        "tag": "productivebees:flowers/lepidolite"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/lepidolite"
+                "tag": "productivebees:flowers/lepidolite"
             }
         },
         {

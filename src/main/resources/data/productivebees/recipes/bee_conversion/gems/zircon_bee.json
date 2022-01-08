@@ -3,7 +3,7 @@
     "source": "productivebees:diamond",
     "result": "productivebees:zircon",
     "item": {
-        "tag": "productivebees:flowers/gems/zircon"
+        "tag": "productivebees:flowers/zircon"
     },
     "conditions": [
         {

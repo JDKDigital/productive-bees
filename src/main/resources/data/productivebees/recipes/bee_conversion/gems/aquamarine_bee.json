@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:aquamarine",
     "item": {
-        "tag": "productivebees:flowers/gems/aquamarine"
+        "tag": "productivebees:flowers/aquamarine"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/aquamarine"
+                "tag": "productivebees:flowers/aquamarine"
             }
         },
         {

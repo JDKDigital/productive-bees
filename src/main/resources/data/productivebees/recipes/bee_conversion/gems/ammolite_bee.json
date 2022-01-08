@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:ammolite",
     "item": {
-        "tag": "productivebees:flowers/gems/ammolite"
+        "tag": "productivebees:flowers/ammolite"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/ammolite"
+                "tag": "productivebees:flowers/ammolite"
             }
         },
         {

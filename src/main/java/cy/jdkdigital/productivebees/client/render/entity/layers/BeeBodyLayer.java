@@ -48,7 +48,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
                 renderColoredCutoutModel(this.model, this.getTextureLocation(entity), matrixStackIn, bufferIn, packedLightIn, entity, 1.0F, 1.0F, 1.0F);
             }
 
-            if (entity.getColor(0) > 0) {
+            if (entity.getColor(0) >= 0) {
                 if (entity instanceof ConfigurableBee && ((ConfigurableBee) entity).hasBeeTexture()) {
                     if (this.modelType.equals("default_crystal") && ((ConfigurableBee) entity).useGlowLayer()) {
                         renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity);
@@ -108,7 +108,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     }
 
     private void renderNectarLayer(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (entity.getColor(0) > 0) {
+        if (entity.getColor(0) >= 0) {
             float[] colors = new float[]{1.0F, 1.0F, 1.0F};
             if (entity instanceof ConfigurableBee) {
                 if (((ConfigurableBee) entity).hasBeeTexture()) {
@@ -125,7 +125,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     }
 
     private void renderChristmasHat(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (isChristmas && entity.getColor(0)  > 0 && !entity.getRenderStatic()) {
+        if (isChristmas && entity.getColor(0)  >= 0 && !entity.getRenderStatic()) {
             if (entity instanceof ConfigurableBee) {
                 if (((ConfigurableBee) entity).hasBeeTexture()) {
                     return;

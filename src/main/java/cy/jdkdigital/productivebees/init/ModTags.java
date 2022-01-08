@@ -13,39 +13,47 @@ import java.util.Map;
 
 public class ModTags
 {
-    public static Map<ResourceLocation, Tag<Block>> tagCache = new HashMap<>();
+    public static Map<ResourceLocation, Tag<Block>> blockTagCache = new HashMap<>();
+    public static Map<ResourceLocation, Tag<Item>> itemTagCache = new HashMap<>();
     public static Map<ResourceLocation, Tag<EntityType<?>>> entityTagCache = new HashMap<>();
 
-    public static final Tag<Block> SOLITARY_OVERWORLD_NESTS = getTag("solitary_overworld_nests");
-    public static final Tag<Block> REED_NESTS = getTag("nests/reed_nests");
-    public static final Tag<Block> COLD_NESTS = getTag("nests/cold_nests");
-    public static final Tag<Block> WOOD_NESTS = getTag("nests/wood_nests");
-    public static final Tag<Block> BUMBLE_BEE_NESTS = getTag("nests/bumble_bee");
+    public static final Tag<Block> SOLITARY_OVERWORLD_NESTS = getBlockTag("solitary_overworld_nests");
+    public static final Tag<Block> REED_NESTS = getBlockTag("nests/reed_nests");
+    public static final Tag<Block> COLD_NESTS = getBlockTag("nests/cold_nests");
+    public static final Tag<Block> WOOD_NESTS = getBlockTag("nests/wood_nests");
+    public static final Tag<Block> BUMBLE_BEE_NESTS = getBlockTag("nests/bumble_bee");
 
-    public static final Tag<Block> FOREST_FLOWERS = getTag("flowers/forest_flowers");
-    public static final Tag<Block> ARID_FLOWERS = getTag("flowers/arid_flowers");
-    public static final Tag<Block> SWAMP_FLOWERS = getTag("flowers/swamp_flowers");
-    public static final Tag<Block> SNOW_FLOWERS = getTag("flowers/snow_flowers");
-    public static final Tag<Block> RIVER_FLOWERS = getTag("flowers/river_flowers");
-    public static final Tag<Block> QUARRY = getTag("flowers/quarry");
-    public static final Tag<Block> POWDERY = getTag("flowers/powdery");
+    public static final Tag<Block> FOREST_FLOWERS = getBlockTag("flowers/forest_flowers");
+    public static final Tag<Block> ARID_FLOWERS = getBlockTag("flowers/arid_flowers");
+    public static final Tag<Block> SWAMP_FLOWERS = getBlockTag("flowers/swamp_flowers");
+    public static final Tag<Block> SNOW_FLOWERS = getBlockTag("flowers/snow_flowers");
+    public static final Tag<Block> RIVER_FLOWERS = getBlockTag("flowers/river_flowers");
+    public static final Tag<Block> QUARRY = getBlockTag("flowers/quarry");
+    public static final Tag<Block> POWDERY = getBlockTag("flowers/powdery");
 
-    public static final Tag<Item> HONEY_BUCKETS = ItemTags.createOptional(new ResourceLocation("forge", "buckets/honey"));
-    public static final Tag<Item> EGGS = ItemTags.createOptional(new ResourceLocation("forge", "eggs"));
+    public static final Tag<Item> HONEY_BUCKETS = getItemTag(new ResourceLocation("forge", "buckets/honey"));
+    public static final Tag<Item> EGGS = getItemTag(new ResourceLocation("forge", "eggs"));
 
     public static final Tag<EntityType<?>> RANCHABLES = EntityTypeTags.createOptional(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
 
     public static final Tag<Fluid> HONEY = FluidTags.createOptional(new ResourceLocation("forge", "honey"));
 
-    public static Tag<Block> getTag(String name) {
-        return getTag(new ResourceLocation(ProductiveBees.MODID, name));
+    public static Tag<Block> getBlockTag(String name) {
+        return getBlockTag(new ResourceLocation(ProductiveBees.MODID, name));
     }
 
-    public static Tag<Block> getTag(ResourceLocation resourceLocation) {
-        if (!tagCache.containsKey(resourceLocation)) {
-            tagCache.put(resourceLocation, BlockTags.createOptional(resourceLocation));
+    public static Tag<Block> getBlockTag(ResourceLocation resourceLocation) {
+        if (!blockTagCache.containsKey(resourceLocation)) {
+            blockTagCache.put(resourceLocation, BlockTags.createOptional(resourceLocation));
         }
-        return tagCache.get(resourceLocation);
+        return blockTagCache.get(resourceLocation);
+    }
+
+    public static Tag<Item> getItemTag(ResourceLocation resourceLocation) {
+        if (!itemTagCache.containsKey(resourceLocation)) {
+            itemTagCache.put(resourceLocation, ItemTags.createOptional(resourceLocation));
+        }
+        return itemTagCache.get(resourceLocation);
     }
 
     public static Tag<EntityType<?>> getEntityTag(ResourceLocation name) {

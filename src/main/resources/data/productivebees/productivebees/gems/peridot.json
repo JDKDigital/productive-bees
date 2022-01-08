@@ -4,13 +4,20 @@
     "tertiaryColor": "#5d7b00",
     "particleColor": "#8adb18",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/peridot",
+    "flowerTag": "productivebees:flowers/peridot",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/peridot"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/peridot"
             }
         }
     ]

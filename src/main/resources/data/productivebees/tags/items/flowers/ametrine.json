@@ -1,0 +1,13 @@
+{
+    "replace": false,
+    "values": [
+        {
+            "id": "#forge:storage_blocks/ametrine",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:ametrine_block",
+            "required": false
+        }
+    ]
+}

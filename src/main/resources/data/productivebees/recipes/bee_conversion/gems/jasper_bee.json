@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:jasper",
     "item": {
-        "tag": "productivebees:flowers/gems/jasper"
+        "tag": "productivebees:flowers/jasper"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/jasper"
+                "tag": "productivebees:flowers/jasper"
             }
         },
         {

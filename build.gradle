@@ -111,12 +111,22 @@ dependencies {
     implementation fg.deobf("curse.maven:jei-238222:3574041")
     implementation fg.deobf("curse.maven:trophymanager-510170:3566467")
     implementation fg.deobf("curse.maven:jumpy-boats-542110:3564082")
-    implementation fg.deobf("curse.maven:ato-405593:3573696")
+    implementation fg.deobf("curse.maven:ato-405593:3584393")
     implementation fg.deobf("curse.maven:allthemodium-364466:3570257")
     implementation fg.deobf("curse.maven:flywheel-486392:3568139")
     implementation fg.deobf("curse.maven:create-328085:3564692")
     implementation fg.deobf("curse.maven:cucumber-272335:3561215")
+    implementation fg.deobf("curse.maven:beyond-earth-377448:3582260")
     implementation fg.deobf("curse.maven:mystical-agriculture-246640:3568309")
+    implementation fg.deobf("curse.maven:croptopia-fabric-415438:3590394")
+//    implementation fg.deobf("curse.maven:gems-jewels-392943:3568024")
+    implementation fg.deobf("curse.maven:silent-lib-242998:3543045")
+    implementation fg.deobf("curse.maven:silents-gems-220311:3553197")
+    implementation fg.deobf("curse.maven:item-filters-forge-309674:3596362")
+    implementation fg.deobf("curse.maven:architectury-forge-419699:3587338")
+    implementation fg.deobf("curse.maven:ftb-teams-forge-404468:3596307")
+    implementation fg.deobf("curse.maven:ftb-library-forge-404465:3596358")
+    implementation fg.deobf("curse.maven:ftb-quests-forge-289412:3596442")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

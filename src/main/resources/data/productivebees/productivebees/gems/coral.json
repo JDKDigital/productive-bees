@@ -4,13 +4,20 @@
     "tertiaryColor": "#dc1e4b",
     "particleColor": "#ff732f",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/coral",
+    "flowerTag": "productivebees:flowers/coral",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/coral"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/coral"
             }
         }
     ]

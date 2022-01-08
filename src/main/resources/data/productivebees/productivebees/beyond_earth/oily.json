@@ -1,15 +1,15 @@
 {
-    "primaryColor": "#914139",
+    "primaryColor": "#010000",
     "secondaryColor": "#804f40",
-    "particleColor": "#914139",
-    "flowerBlock": "minecraft:cocoa",
+    "particleColor": "#3b2754",
+    "flowerFluid": "beyond_earth:oil",
+    "waterproof": true,
+    "renderer": "thicc",
+    "description": "productivebees.ingredient.description.oily_bee",
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "productivebees:fluid_tag_empty",
-                "tag": "forge:chocolate"
-            }
+            "type": "forge:mod_loaded",
+            "modid": "beyond_earth"
         }
     ]
 }

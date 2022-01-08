@@ -1,0 +1,17 @@
+{
+    "replace": false,
+    "values": [
+        {
+            "id": "#forge:storage_blocks/aquamarine",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:aquamarine_block",
+            "required": false
+        },
+        {
+            "id": "astralsorcery:aquamarine_sand_ore",
+            "required": false
+        }
+    ]
+}

@@ -4,13 +4,20 @@
     "tertiaryColor": "#19ac80",
     "particleColor": "#24daac",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/turquoise",
+    "flowerTag": "productivebees:flowers/turquoise",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/turquoise"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/turquoise"
             }
         }
     ]

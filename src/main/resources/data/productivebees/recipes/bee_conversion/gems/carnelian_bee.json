@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:carnelian",
     "item": {
-        "tag": "productivebees:flowers/gems/carnelian"
+        "tag": "productivebees:flowers/carnelian"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/carnelian"
+                "tag": "productivebees:flowers/carnelian"
             }
         },
         {

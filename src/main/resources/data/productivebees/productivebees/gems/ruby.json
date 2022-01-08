@@ -4,14 +4,20 @@
     "tertiaryColor": "#7b000b",
     "particleColor": "#c62415",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/ruby",
-    "description": "productivebees.ingredient.description.ruby",
+    "flowerTag": "productivebees:flowers/ruby",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/ruby"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/ruby"
             }
         }
     ]

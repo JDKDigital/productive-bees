@@ -4,7 +4,7 @@
     "tertiaryColor": "#d4700e",
     "particleColor": "#fa9310",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/amber",
+    "flowerTag": "productivebees:flowers/amber",
     "conditions": [
         {
             "type": "forge:not",
@@ -17,7 +17,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/amber"
+                "tag": "productivebees:flowers/amber"
             }
         }
     ]

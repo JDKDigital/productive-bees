@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:black_diamond",
     "item": {
-        "tag": "productivebees:flowers/gems/black_diamond"
+        "tag": "productivebees:flowers/black_diamond"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/black_diamond"
+                "tag": "productivebees:flowers/black_diamond"
             }
         },
         {

@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.StoneChip;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.init.ModEntities;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.recipe.*;
@@ -19,6 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -36,7 +36,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -396,6 +395,14 @@ public class BeeHelper
             int temper = tag.getInt("bee_temper");
             Component temper_value = new TranslatableComponent(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).withStyle(ColorUtil.getColor(temper));
             list.add((new TranslatableComponent("productivebees.information.attribute.temper", temper_value)).withStyle(ChatFormatting.DARK_GRAY));
+
+            CompoundTag beeData = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
+            MutableComponent breedingItemText = new TranslatableComponent("productivebees.information.breeding_item_default");
+            if (beeData != null && beeData.contains("breedingItem") && !beeData.getString("breedingItem").isEmpty()) {
+                Item breedingItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(beeData.getString("breedingItem")));
+                breedingItemText = new TextComponent(beeData.getInt("breedingItemCount") + " " + new TranslatableComponent(breedingItem.getDescriptionId()).getString());
+            }
+            list.add(new TranslatableComponent("productivebees.information.breeding_item", breedingItemText.withStyle(ChatFormatting.GRAY)).withStyle(ChatFormatting.DARK_GRAY));
 
             if (tag.contains("HivePos")) {
                 BlockPos hivePos = NbtUtils.readBlockPos(tag.getCompound("HivePos"));

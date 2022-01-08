@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:peridot",
     "item": {
-        "tag": "productivebees:flowers/gems/peridot"
+        "tag": "productivebees:flowers/peridot"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/peridot"
+                "tag": "productivebees:flowers/peridot"
             }
         },
         {

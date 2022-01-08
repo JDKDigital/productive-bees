@@ -31,6 +31,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -41,13 +42,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 {
@@ -345,20 +346,41 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         CompoundTag nbt = getNBTData();
         if (nbt != null && this.getFlowerType().equals("blocks")) {
             if (nbt.contains("flowerTag")) {
-                Tag<Block> flowerTag = ModTags.getTag(new ResourceLocation(nbt.getString("flowerTag")));
+                Tag<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerTag")));
                 return flowerBlock.is(flowerTag);
             } else if (nbt.contains("flowerBlock")) {
                 return flowerBlock.getBlock().getRegistryName().toString().equals(nbt.getString("flowerBlock"));
+            } else if (nbt.contains("flowerFluid") && !flowerBlock.getFluidState().isEmpty()) {
+                return flowerBlock.getFluidState().getType().getRegistryName().toString().equals(nbt.getString("flowerFluid"));
             }
         }
         return super.isFlowerBlock(flowerBlock);
     }
 
     @Override
+    public Ingredient getBreedingIngredient() {
+        String id = getNBTData().getString("breedingItem");
+        if (id.isEmpty()) {
+            return super.getBreedingIngredient();
+        }
+
+        if (id.startsWith("#")) {
+            return Ingredient.of(ModTags.getItemTag(new ResourceLocation(id.substring(1))));
+        } else {
+            return Ingredient.of(ForgeRegistries.ITEMS.getValue(new ResourceLocation(id)));
+        }
+    }
+
+    @Override
+    public Integer getBreedingItemCount() {
+        return getNBTData().getInt("breedingItemCount");
+    }
+
+    @Override
     public Tag<Block> getNestingTag() {
         CompoundTag nbt = getNBTData();
         if (nbt != null && nbt.contains("nestingPreference")) {
-            return ModTags.getTag(new ResourceLocation(nbt.getString("nestingPreference")));
+            return ModTags.getBlockTag(new ResourceLocation(nbt.getString("nestingPreference")));
         }
         return super.getNestingTag();
     }

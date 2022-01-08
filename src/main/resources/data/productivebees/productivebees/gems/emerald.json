@@ -3,6 +3,6 @@
     "secondaryColor": "#804f40",
     "tertiaryColor": "#1b752f",
     "particleColor": "#26ac43",
-    "flowerTag": "productivebees:flowers/gems/emerald",
+    "flowerTag": "productivebees:flowers/emerald",
     "renderer": "default_crystal"
 }

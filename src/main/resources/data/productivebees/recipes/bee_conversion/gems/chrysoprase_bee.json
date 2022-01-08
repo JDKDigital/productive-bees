@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:chrysoprase",
     "item": {
-        "tag": "productivebees:flowers/gems/chrysoprase"
+        "tag": "productivebees:flowers/chrysoprase"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/chrysoprase"
+                "tag": "productivebees:flowers/chrysoprase"
             }
         },
         {

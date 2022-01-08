@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:sunstone",
     "item": {
-        "tag": "productivebees:flowers/gems/sunstone"
+        "tag": "productivebees:flowers/sunstone"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/sunstone"
+                "tag": "productivebees:flowers/sunstone"
             }
         },
         {

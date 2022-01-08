@@ -1,0 +1,13 @@
+{
+    "replace": false,
+    "values": [
+        {
+            "id": "#forge:storage_blocks/kyanite",
+            "required": false
+        },
+        {
+            "id": "silentgems:kyanite_glowrose",
+            "required": false
+        }
+    ]
+}

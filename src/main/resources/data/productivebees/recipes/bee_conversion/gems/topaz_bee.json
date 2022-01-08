@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:topaz",
     "item": {
-        "tag": "productivebees:flowers/gems/topaz"
+        "tag": "productivebees:flowers/topaz"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/topaz"
+                "tag": "productivebees:flowers/topaz"
             }
         },
         {

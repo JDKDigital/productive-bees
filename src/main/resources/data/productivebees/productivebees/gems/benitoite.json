@@ -4,13 +4,20 @@
     "tertiaryColor": "#000c46",
     "particleColor": "#001bb6",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/benitoite",
+    "flowerTag": "productivebees:flowers/benitoite",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
                 "tag": "forge:gems/benitoite"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "productivebees:flowers/benitoite"
             }
         }
     ]

@@ -3,14 +3,14 @@
     "source": "productivebees:diamond",
     "result": "productivebees:spinel",
     "item": {
-        "tag": "productivebees:flowers/gems/spinel"
+        "tag": "productivebees:flowers/spinel"
     },
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/spinel"
+                "tag": "productivebees:flowers/spinel"
             }
         },
         {

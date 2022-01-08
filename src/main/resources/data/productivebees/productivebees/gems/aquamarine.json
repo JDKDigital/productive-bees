@@ -4,20 +4,20 @@
     "tertiaryColor": "#007b70",
     "particleColor": "#17cadd",
     "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/gems/aquamarine",
+    "flowerTag": "productivebees:flowers/aquamarine",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/gems/aquamarine"
+                "tag": "forge:gems/aquamarine"
             }
         },
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:gems/aquamarine"
+                "tag": "productivebees:flowers/aquamarine"
             }
         }
     ]

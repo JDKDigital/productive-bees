@@ -1,0 +1,13 @@
+{
+    "replace": false,
+    "values": [
+        {
+            "id": "#forge:storage_blocks/garnet",
+            "required": false
+        },
+        {
+            "id": "gemsnjewels:garnet_block",
+            "required": false
+        }
+    ]
+}
