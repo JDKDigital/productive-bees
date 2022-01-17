@@ -1,0 +1,19 @@
+{
+    "name": "Железная пчела",
+    "icon": "minecraft:iron_ingot",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:iron",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Железная пчела",
+            "text": "Выводится от $(l:bees/wild/crystalline)Кристаллической пчелы$(/l) и $(l:bees/solitary/ashy_mining)Пепельной шахтёрской пчелы$(/l).",
+            "anchor": "iron"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:iron'}"
+        }
+    ]
+}

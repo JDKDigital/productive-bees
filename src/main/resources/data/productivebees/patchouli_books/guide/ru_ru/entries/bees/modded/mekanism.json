@@ -1,0 +1,57 @@
+{
+    "name": "Mekanism",
+    "icon": "mekanism:energy_tablet",
+    "read_by_default": true,
+    "sortnum": 8,
+    "category": "productivebees:bees_modded",
+    "flag": "mod:mekanism",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Пчёлы из материалов «Mekanism». Здесь отображены только пчёлы из конкретного материала, а для обычных материалов, а именно: «Медь и Олово» перейди к $(l:bees/modded/ingot_bees)списку «Пчёлы из слитков»$(/l)."
+        },
+        {
+            "type": "patchouli:empty",
+            "draw_filler": false
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Осмиевая пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/solitary/neon_cuckoo)Неоновой пчелы-кукушки$(/l).$(br)Требуется мод: «Mekanism».",
+            "anchor": "osmium",
+            "flag": "productivebees:osmium"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Осмиевая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:osmium'}",
+            "flag": "productivebees:osmium"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из обработанного светокамня",
+            "text": "Выводится от $(l:bees/modded/mekanism#osmium)Осмиевой пчелы$(/l) и $(l:bees/wild/glowing)Светящейся пчелы$(/l).$(br)Требуется мод: «Mekanism».",
+            "anchor": "refined_glowstone",
+            "flag": "productivebees:refined_glowstone"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из обработанного светокамня",
+            "entity": "productivebees:configurable_bee{type:'productivebees:refined_glowstone'}",
+            "flag": "productivebees:refined_glowstone"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из обработанного обсидиана",
+            "text": "Выводится от $(l:bees/modded/mekanism#osmium)Осмиевой пчелы$(/l) и $(l:bees/hive/obsidian)Обсидиановой пчелы$(/l).$(br)Требуется мод: «Mekanism».",
+            "anchor": "refined_obsidian",
+            "flag": "productivebees:refined_obsidian"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из обработанного обсидиана",
+            "entity": "productivebees:configurable_bee{type:'productivebees:refined_obsidian'}",
+            "flag": "productivebees:refined_obsidian"
+        }
+    ]
+}

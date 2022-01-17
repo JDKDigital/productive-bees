@@ -1,0 +1,18 @@
+{
+    "name": "Драконовая пчела",
+    "icon": "productivebees:draconic_chunk",
+    "read_by_default": true,
+    "category": "productivebees:bees_wild",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Драконовая пчела",
+            "text": "Изредка обитает в «Обсидиановых колоннах» в «Главном острове энда». Драконовые пчёлы, летающие кругом по энду собирают нектар из воздуха. Если у них появится шанс, то они будут откусывать «Яйца дракона».",
+            "anchor": "draconic"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:draconic'}"
+        }
+    ]
+}

@@ -1,0 +1,204 @@
+{
+    "name": "Разные",
+    "icon": "productivebees:incubator",
+    "read_by_default": true,
+    "sortnum": 9,
+    "category": "productivebees:bees_modded",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Кремниевая пчела",
+            "text": "Выводится от $(l:bees/solitary/nomad)Кочевой пчелы$(/l) и $(l:bees/solitary/reed)Тростниковой пчелы$(/l).",
+            "anchor": "silicon",
+            "flag": "productivebees:silicon"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Кремниевая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:silicon'}",
+            "flag": "productivebees:silicon"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пластиковая пчела",
+            "text": "Выводится от $(l:bees/solitary/resin)Смоляной пчелы$(/l) и $(l:bees/worker/lumber)Лесной пчелы$(/l).",
+            "anchor": "plastic",
+            "flag": "productivebees:plastic"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пластиковая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:plastic'}",
+            "flag": "productivebees:plastic"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пространственная пчела",
+            "text": "Выводится от $(l:bees/wild/crystalline)Кристаллической пчелы$(/l) и $(l:bees/wild/ender)Эндер-пчелы$(/l).$(br2)«Медовые соты» от этой пчелы можно отцентрифугировать для получения семян «Истинного кварца», требующие дальнейшей обработки.",
+            "anchor": "spacial",
+            "flag": "productivebees:spacial"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пространственная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:spacial'}",
+            "flag": "productivebees:spacial"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Селитровая пчела",
+            "text": "Выводится от $(l:bees/hive/coal)Угольной пчелы$(/l) и $(l:bees/wild/magmatic)Магмовой пчелы$(/l).",
+            "anchor": "niter",
+            "flag": "productivebees:niter"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Селитровая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:niter'}",
+            "flag": "productivebees:niter"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Серная пчела",
+            "text": "Выводится от $(l:bees/hive/coal)Угольной пчелы$(/l) и $(l:bees/hive/creeper)Пчелы-крипер(/l).",
+            "anchor": "sulfur",
+            "flag": "productivebees:sulfur"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Серная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:sulfur'}",
+            "flag": "productivebees:sulfur"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Мистическая пчела",
+            "text": "Эту пчелу нельзя разводить. Яйцо призыва создаётся из $(l:bees/hive/diamond)Яйца призыва: Алмазной пчелы$(/l), используя «Аппаратуру для зачарования».",
+            "anchor": "arcane",
+            "flag": "productivebees:arcane"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Мистическая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:arcane'}",
+            "flag": "productivebees:arcane"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из звёздного металла",
+            "text": "Эту пчелу нельзя разводить. Яйцо призыва создаётся из $(l:bees/hive/iron)Яйца призыва: Железной пчелы$(/l), используя «Вливатель».",
+            "anchor": "starmetal",
+            "flag": "productivebees:starmetal"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из звёздного металла",
+            "entity": "productivebees:configurable_bee{type:'productivebees:starmetal'}",
+            "flag": "productivebees:starmetal"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Кровавая пчела",
+            "text": "Эту пчелу нельзя разводить. Яйцо призыва создаётся из $(l:bees/solitary/nomad)Яйца призыва: Кочевой пчелы$(/l).",
+            "anchor": "bloody",
+            "flag": "productivebees:bloody"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Кровавая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:bloody'}",
+            "flag": "productivebees:bloody"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из розовой слизи",
+            "text": "Эту пчелу можно преобразовать от $(l:bees/wild/slimy)Слизневой пчелы$(/l), накормив немного «Розовой слизи».",
+            "anchor": "pink_slimy",
+            "flag": "productivebees:pink_slimy"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из розовой слизи",
+            "entity": "productivebees:configurable_bee{type:'productivebees:pink_slimy'}",
+            "flag": "productivebees:pink_slimy"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Именриловая пчела",
+            "text": "Выводится от $(l:bees/solitary/neon_cuckoo)Алмазной пчелы$(/l) и $(l:bees/wild/crystalline)Кристаллической пчелы$(/l).",
+            "anchor": "menril",
+            "flag": "productivebees:menril"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Именриловая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:menril'}",
+            "flag": "productivebees:menril"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Уранинитовая пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/bees/hive/creeper)Пчелы-крипер$(/l).",
+            "anchor": "uraninite",
+            "flag": "productivebees:uraninite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Уранинитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:uraninite'}",
+            "flag": "productivebees:uraninite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Солевая пчела",
+            "text": "Получаемая путём кормления ванильной пчелы «Солью».",
+            "anchor": "salty",
+            "flag": "productivebees:salty"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Солевая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:salty'}",
+            "flag": "productivebees:salty"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из олдемодия",
+            "text": "Выводится от $(l:bees/hive/diamond)Алмазной пчелы$(/l) и $(l:bees/hive/withered)Пчелы-визер$(/l).",
+            "anchor": "allthemodium",
+            "flag": "productivebees:allthemodium"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из олдемодия",
+            "entity": "productivebees:configurable_bee{type:'productivebees:allthemodium'}",
+            "flag": "productivebees:allthemodium"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из вибраниума",
+            "text": "Выводится от $(l:bees/hive/diamond)Алмазной пчелы$(/l) и $(l:bees/wild/draconic)Драконовой пчелы$(/l).",
+            "anchor": "vibranium",
+            "flag": "productivebees:vibranium"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из вибраниума",
+            "entity": "productivebees:configurable_bee{type:'productivebees:vibranium'}",
+            "flag": "productivebees:vibranium"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из унобтания",
+            "text": "Выводится от $(l:bees/mod_bees#allthemodium)Пчелы из олдемодия$(/l) и $(l:bees/mod_bees#vibranium)Пчелы из вибраниума$(/l).",
+            "anchor": "unobtainium",
+            "flag": "productivebees:unobtainium"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из унобтания",
+            "entity": "productivebees:configurable_bee{type:'productivebees:unobtainium'}",
+            "flag": "productivebees:unobtainium"
+        }
+    ]
+}

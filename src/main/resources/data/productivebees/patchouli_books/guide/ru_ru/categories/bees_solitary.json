@@ -1,0 +1,6 @@
+{
+    "name": "Кочевые пчёлы",
+    "description": "«Кочевых пчёл» можно найти появляющиеся из «Одиночных гнёзд» в надземном мире.$(br2)$(l:hives/nests)О гнёздах можно прочитать здесь$(/l).",
+    "icon": "productivebees:oak_wood_nest",
+    "parent": "productivebees:bees"
+}

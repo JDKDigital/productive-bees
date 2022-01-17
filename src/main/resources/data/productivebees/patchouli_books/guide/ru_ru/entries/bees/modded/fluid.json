@@ -1,0 +1,56 @@
+{
+    "name": "Жидкостные пчёлы",
+    "icon": "minecraft:water_bucket",
+    "read_by_default": true,
+    "sortnum": 4,
+    "category": "productivebees:bees_modded",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Пчёлы производят жидкие «Материалы»."
+        },
+        {
+            "type": "patchouli:empty",
+            "draw_filler": false
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Масляная пчела",
+            "text": "Получаемая путём рыбалки в « Биоме океана».",
+            "anchor": "oily",
+            "flag": "productivebees:oily"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Масляная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:oily'}",
+            "flag": "productivebees:oily"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Шоколадная пчела",
+            "text": "Получаемая путём кормления $(l:bees/wild/sugarbag)Нежалящей пчелы$(/l) «Какао-бобами».",
+            "anchor": "chocolate",
+            "flag": "productivebees:chocolate"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Шоколадная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:chocolate'}",
+            "flag": "productivebees:chocolate"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Чайная пчела",
+            "text": "Получаемая путём кормления $(l:bees/solitary/leafcutter)Пчелы-листорезки$(/l) «Ведром воды».",
+            "anchor": "tea",
+            "flag": "productivebees:tea"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Чайная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tea'}",
+            "flag": "productivebees:tea"
+        }
+    ]
+}
