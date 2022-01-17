@@ -5,6 +5,7 @@
     "particleColor": "#9f01b8",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/agate",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

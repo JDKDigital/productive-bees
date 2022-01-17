@@ -5,6 +5,7 @@
     "particleColor": "#32e1f6",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/fluorite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

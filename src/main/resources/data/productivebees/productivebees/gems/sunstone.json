@@ -5,6 +5,7 @@
     "particleColor": "#ffcab0",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/sunstone",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

@@ -5,6 +5,7 @@
     "particleColor": "#270070",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/iolite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

@@ -5,6 +5,7 @@
     "particleColor": "#bc1100",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/pyrope",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

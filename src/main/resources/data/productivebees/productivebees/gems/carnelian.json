@@ -5,6 +5,7 @@
     "particleColor": "#d84e02",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/carnelian",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

@@ -56,7 +56,6 @@ public class BeeConversionRecipe implements Recipe<Container>
 
             return parentName.equals(beeName) && matchesItem;
         }
-        ProductiveBees.LOGGER.warn("conversion recipe source is null " + this);
         return false;
     }
 

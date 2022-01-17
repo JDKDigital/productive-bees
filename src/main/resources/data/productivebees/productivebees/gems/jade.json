@@ -5,6 +5,7 @@
     "particleColor": "#d6ff75",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/jade",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

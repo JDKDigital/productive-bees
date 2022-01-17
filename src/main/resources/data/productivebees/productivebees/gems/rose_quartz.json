@@ -5,6 +5,7 @@
     "particleColor": "#ffbffb",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/rose_quartz",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

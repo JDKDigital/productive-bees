@@ -5,6 +5,7 @@
     "particleColor": "#ff732f",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/coral",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

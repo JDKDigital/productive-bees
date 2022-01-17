@@ -5,6 +5,7 @@
     "particleColor": "#787800",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/zircon",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

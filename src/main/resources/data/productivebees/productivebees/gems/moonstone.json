@@ -5,6 +5,7 @@
     "particleColor": "#e4e4e4",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/moonstone",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

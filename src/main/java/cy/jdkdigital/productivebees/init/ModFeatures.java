@@ -67,7 +67,7 @@ public class ModFeatures
             event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.DARK_OAK_WOOD_NEST_FEATURE.placed(BiomeFilter.biome()));
             event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModConfiguredFeatures.BIRCH_WOOD_NEST_FEATURE.placed(BiomeFilter.biome()));
         }
-        else if (category.equals(Biome.BiomeCategory.EXTREME_HILLS)) {
+        else if (category.equals(Biome.BiomeCategory.EXTREME_HILLS) || category.equals(Biome.BiomeCategory.MOUNTAIN) || category.equals(Biome.BiomeCategory.ICY)) {
             event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.STONE_NEST_FEATURE.placed(BiomeFilter.biome()));
             event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.SNOW_NEST_FEATURE.placed(BiomeFilter.biome()));
             event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.SNOW_NEST_BLOCK_FEATURE.placed(BiomeFilter.biome()));
@@ -94,8 +94,7 @@ public class ModFeatures
             if (event.getName().getPath().equals("the_end")) {
                 // Pillar nests
                 event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.OBSIDIAN_PILLAR_NEST_FEATURE.placed(BiomeFilter.biome()));
-            }
-            else {
+            } else {
                 // Must spawn where chorus fruit exist
                 event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, ModConfiguredFeatures.END_NEST_FEATURE.placed(BiomeFilter.biome()));
             }

@@ -114,7 +114,7 @@ public class ProductiveBeesConfig
 
             preferredTagSource = builder
                     .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from.")
-                    .defineList("preferredTagSource", ImmutableList.of("minecraft", ProductiveBees.MODID, "thermal", "tconstruct", "immersiveengineering", "create", "mekanism", "silents_mechanisms"), obj -> true);
+                    .defineList("preferredTagSource", ImmutableList.of("minecraft", ProductiveBees.MODID, "thermal", "tconstruct", "create", "immersiveengineering", "mekanism", "silents_mechanisms"), obj -> true);
 
             numberOfBeesPerBomb = builder
                     .comment("How many bees can fit in a bee bomb. Default is 10")
@@ -240,7 +240,6 @@ public class ProductiveBeesConfig
     public static class Upgrades
     {
         public final ForgeConfigSpec.DoubleValue timeBonus;
-        public final ForgeConfigSpec.DoubleValue combBlockTimeModifier;
         public final ForgeConfigSpec.DoubleValue productivityMultiplier;
         public final ForgeConfigSpec.DoubleValue breedingChance;
         public final ForgeConfigSpec.IntValue breedingMaxNearbyEntities;
@@ -252,9 +251,6 @@ public class ProductiveBeesConfig
             timeBonus = builder
                     .comment("Time bonus gained from time upgrade. 0.2 means 20% reduction of a bee's time inside the hive or centrifuge processing time.")
                     .defineInRange("timeBonus", 0.2, 0, 1);
-            combBlockTimeModifier = builder
-                    .comment("Time penalty from installing the comb block upgrade. .4 means 40% increase of a bee's time inside the hive.")
-                    .defineInRange("combBlockTimeModifier", 1.0, 0, Integer.MAX_VALUE);
             productivityMultiplier = builder
                     .comment("Multiplier per productivity upgrade installed in the hive.")
                     .defineInRange("productivityMultiplier", 1.4, 1, Integer.MAX_VALUE);

@@ -5,6 +5,7 @@
     "particleColor": "#e4481f",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/ammolite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

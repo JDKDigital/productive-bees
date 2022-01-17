@@ -56,7 +56,6 @@ public class BlockConversionRecipe implements Recipe<Container>
 
             return bee.get().getBeeType().toString().equals(beeName) && blockState.equals(this.stateFrom);
         }
-        ProductiveBees.LOGGER.warn("conversion recipe source is null " + this);
         return false;
     }
 

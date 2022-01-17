@@ -1,10 +1,11 @@
 {
-    "primaryColor": "#fbe8a1",
-    "secondaryColor": "#3e5b68",
+    "primaryColor": "#fff9e4",
+    "secondaryColor": "#f7ed91",
     "tertiaryColor": "#c5b520",
-    "particleColor": "#fbe8a1",
+    "particleColor": "#fff9e4",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/white_diamond",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

@@ -5,6 +5,7 @@
     "particleColor": "#c62415",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/ruby",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

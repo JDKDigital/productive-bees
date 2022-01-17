@@ -5,6 +5,7 @@
     "particleColor": "#98004c",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/ametrine",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

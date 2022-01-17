@@ -510,6 +510,8 @@ public class ProductiveBee extends Bee
         if (ProductiveBee.this.hasNectar() && ProductiveBee.this.savedFlowerPos != null) {
             BlockState flowerBlockState = ProductiveBee.this.level.getBlockState(ProductiveBee.this.savedFlowerPos);
             BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(ProductiveBee.this, flowerBlockState);
+            ProductiveBees.LOGGER.info("getting block conversion recipe for " + flowerBlockState);
+            ProductiveBees.LOGGER.info("recipe " + recipe);
             if (recipe != null) {
                 if (ProductiveBees.rand.nextInt(100) <= recipe.chance) {
                     ProductiveBee.this.level.setBlock(ProductiveBee.this.savedFlowerPos, recipe.stateTo, 3);

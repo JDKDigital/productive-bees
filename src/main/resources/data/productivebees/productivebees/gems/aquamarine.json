@@ -5,6 +5,7 @@
     "particleColor": "#17cadd",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/aquamarine",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

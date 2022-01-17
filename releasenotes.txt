@@ -1,4 +1,4 @@
-0.8.0.4
+0.8.0.5
 
 -- Fixed nocturnal bees not working at night
 -- Fixed weather tolerant bees not working in bad weather
@@ -11,6 +11,7 @@
 -- Re-enabled all Patchouli support
 -- Added fluid pollination
 -- Added Oily (Beyond Earth) and Salty bees
+-- Fixed some recipes
 
 
 0.8.0.3

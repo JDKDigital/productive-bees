@@ -113,10 +113,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     }
 
     protected double getProcessingTimeModifier() {
-        double combBlockUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) * ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
         double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
 
-        return Math.max(0, timeUpgradeModifier + combBlockUpgradeModifier);
+        return Math.max(0, timeUpgradeModifier);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, CentrifugeBlockEntity blockEntity) {

@@ -5,6 +5,7 @@
     "particleColor": "#cc3516",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/garnet",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

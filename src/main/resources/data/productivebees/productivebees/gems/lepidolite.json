@@ -5,6 +5,7 @@
     "particleColor": "#510046",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/lepidolite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

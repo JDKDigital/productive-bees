@@ -5,6 +5,7 @@
     "particleColor": "#383838",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/onyx",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

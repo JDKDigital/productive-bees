@@ -5,6 +5,7 @@
     "particleColor": "#dbdbdb",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/opal",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

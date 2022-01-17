@@ -5,6 +5,7 @@
     "particleColor": "#8d009a",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/alexandrite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

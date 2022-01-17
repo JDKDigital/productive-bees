@@ -5,6 +5,7 @@
     "particleColor": "#b5bb05",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/moldavite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

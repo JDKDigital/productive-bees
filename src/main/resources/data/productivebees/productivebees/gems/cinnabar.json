@@ -3,6 +3,7 @@
     "secondaryColor": "#710626",
     "particleColor": "#ff7883",
     "flowerTag": "forge:storage_blocks/cinnabar",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

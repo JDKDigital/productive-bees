@@ -45,9 +45,6 @@ public class UpgradeItem extends Item
             case "upgrade_time":
                 value = ProductiveBeesConfig.UPGRADES.timeBonus.get();
                 break;
-            case "upgrade_comb_block":
-                value = ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
-                break;
         }
 
         tooltip.add(new TranslatableComponent("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).withStyle(ChatFormatting.GOLD));

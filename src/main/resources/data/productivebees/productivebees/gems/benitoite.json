@@ -5,6 +5,7 @@
     "particleColor": "#001bb6",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/benitoite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

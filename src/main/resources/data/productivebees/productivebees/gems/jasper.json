@@ -5,6 +5,7 @@
     "particleColor": "#342b00",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/jasper",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

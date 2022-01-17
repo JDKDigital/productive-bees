@@ -5,6 +5,7 @@
     "particleColor": "#ee2386",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/tourmaline",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

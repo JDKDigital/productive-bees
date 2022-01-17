@@ -43,10 +43,9 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
     }
 
     protected double getEnergyConsumptionModifier() {
-        double combBlockUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) * ProductiveBeesConfig.UPGRADES.combBlockTimeModifier.get();
         double timeUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get();
 
-        return Math.max(1, timeUpgradeModifier + combBlockUpgradeModifier);
+        return Math.max(1, timeUpgradeModifier);
     }
 
     public int getProcessingTime() {

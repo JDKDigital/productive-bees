@@ -5,6 +5,7 @@
     "particleColor": "#69ffff",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/apatite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

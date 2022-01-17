@@ -104,19 +104,19 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
     }
 
     @Override
-    public void setRecipe(IRecipeLayout iRecipeLayout, @Nonnull Recipe recipe, IIngredients ingredients) {
-        IGuiIngredientGroup<BeeIngredient> ingredientStacks = iRecipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
+    public void setRecipe(IRecipeLayout recipeLayout, @Nonnull Recipe recipe, IIngredients ingredients) {
+        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
         ingredientStacks.init(0, true, 29, 12);
         ingredientStacks.set(0, ingredients.getInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT).get(0));
 
         if (!ingredients.getInputs(VanillaTypes.ITEM).isEmpty()) {
-            IGuiItemStackGroup itemStacks = iRecipeLayout.getItemStacks();
+            IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
             itemStacks.init(1, true, 26, 51);
             itemStacks.set(1, ingredients.getInputs(VanillaTypes.ITEM).get(0));
         }
 
         if (!ingredients.getInputs(VanillaTypes.FLUID).isEmpty()) {
-            IGuiFluidStackGroup fluidStacks = iRecipeLayout.getFluidStacks();
+            IGuiFluidStackGroup fluidStacks = recipeLayout.getFluidStacks();
             fluidStacks.init(1, true, 26, 51);
             fluidStacks.set(1, ingredients.getInputs(VanillaTypes.FLUID).get(0));
         }

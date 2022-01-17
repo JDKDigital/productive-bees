@@ -5,6 +5,7 @@
     "particleColor": "#978574",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/tektite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

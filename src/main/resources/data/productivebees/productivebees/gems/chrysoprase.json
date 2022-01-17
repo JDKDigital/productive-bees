@@ -5,6 +5,7 @@
     "particleColor": "#6cf631",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/chrysoprase",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

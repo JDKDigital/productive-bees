@@ -5,6 +5,7 @@
     "particleColor": "#4c4bff",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/sodalite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

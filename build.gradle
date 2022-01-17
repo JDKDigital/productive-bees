@@ -125,7 +125,7 @@ dependencies {
     implementation fg.deobf("curse.maven:item-filters-forge-309674:3596362")
     implementation fg.deobf("curse.maven:architectury-forge-419699:3587338")
     implementation fg.deobf("curse.maven:ftb-teams-forge-404468:3596307")
-    implementation fg.deobf("curse.maven:ftb-library-forge-404465:3596358")
+    implementation fg.deobf("curse.maven:ftb-library-forge-404465:3598890")
     implementation fg.deobf("curse.maven:ftb-quests-forge-289412:3596442")
 }
 

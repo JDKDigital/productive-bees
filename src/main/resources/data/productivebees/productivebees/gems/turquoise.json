@@ -5,6 +5,7 @@
     "particleColor": "#24daac",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/turquoise",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

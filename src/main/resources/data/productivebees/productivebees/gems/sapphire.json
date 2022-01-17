@@ -5,6 +5,7 @@
     "particleColor": "#5241f3",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/sapphire",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

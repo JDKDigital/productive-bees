@@ -26,7 +26,7 @@
         {
             "type": "patchouli:crafting",
             "recipe": "productivebees:upgrades/productivity",
-            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l).",
+            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l), $(l:blocks/honey_generator)Honey Generator(/l).",
             "anchor": "productivity"
         },
         {
@@ -36,7 +36,7 @@
         {
             "type": "patchouli:crafting",
             "recipe": "productivebees:upgrades/time",
-            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l), $(l:blocks/centrifuge)Centrifuge$(/l), $(l:blocks/incubator)Incubator$(/l).",
+            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l), $(l:blocks/centrifuge)Centrifuge$(/l), $(l:blocks/incubator)Incubator$(/l), $(l:blocks/honey_generator)Honey Generator(/l).",
             "anchor": "speed"
         },
         {
@@ -82,6 +82,16 @@
         {
             "type": "patchouli:text",
             "text": "When installed in a hive, a small sample of pollinating bees will be extracted with each visit. It shouldn't bee hurting them at all."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/comb_block",
+            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l).",
+            "anchor": "comb_block"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "When installed in a hive, Lumber and Quarry bees will produce full blocks instead of chips."
         }
     ]
 }

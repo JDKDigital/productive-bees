@@ -5,6 +5,7 @@
     "particleColor": "#22d946",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/malachite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

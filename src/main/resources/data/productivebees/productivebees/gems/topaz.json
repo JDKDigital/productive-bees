@@ -5,6 +5,7 @@
     "particleColor": "#dd7d17",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/topaz",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

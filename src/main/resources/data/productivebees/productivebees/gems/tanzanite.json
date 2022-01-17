@@ -5,6 +5,7 @@
     "particleColor": "#a66ef4",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/tanzanite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

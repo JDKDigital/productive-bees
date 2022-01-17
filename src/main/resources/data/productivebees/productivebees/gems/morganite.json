@@ -5,6 +5,7 @@
     "particleColor": "#ffbfc4",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/morganite",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

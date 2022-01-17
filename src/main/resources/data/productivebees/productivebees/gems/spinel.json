@@ -5,6 +5,7 @@
     "particleColor": "#741200",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/spinel",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

@@ -5,6 +5,7 @@
     "particleColor": "#ddcf17",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/heliodor",
+    "size": 0.6,
     "conditions": [
         {
             "type": "forge:not",

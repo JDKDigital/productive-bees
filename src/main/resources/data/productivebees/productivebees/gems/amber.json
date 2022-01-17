@@ -5,6 +5,7 @@
     "particleColor": "#fa9310",
     "renderer": "default_crystal",
     "flowerTag": "productivebees:flowers/amber",
+    "size": 0.7,
     "conditions": [
         {
             "type": "forge:not",

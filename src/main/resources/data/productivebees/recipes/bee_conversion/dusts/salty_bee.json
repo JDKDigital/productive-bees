@@ -1,6 +1,6 @@
 {
     "type": "productivebees:bee_conversion",
-    "source": "productivebees:bee",
+    "source": "minecraft:bee",
     "result": "productivebees:salty",
     "item": {
         "tag": "forge:salts"
