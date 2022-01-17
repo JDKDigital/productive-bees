@@ -1,0 +1,19 @@
+{
+    "name": "Визер-пчела",
+    "icon": "productivebees:wither_skull_chip",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:withered",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Визер-пчела",
+            "text": "Получаемая путём кормления $(l:bees/hive/skeletal)Пчелы-скелета$(/l) «Розой визера».",
+            "anchor": "withered"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:withered'}"
+        }
+    ]
+}

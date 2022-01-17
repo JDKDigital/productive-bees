@@ -1,0 +1,19 @@
+{
+    "name": "Золотая пчела",
+    "icon": "minecraft:gold_ingot",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:gold",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Золотая пчела",
+            "text": "Выводится от $(l:bees/wild/crystalline)Кристаллической пчелы$(/l) и $(l:bees/solitary/mason)Пчелы-каменщицы$(/l).",
+            "anchor": "gold"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:gold'}"
+        }
+    ]
+}

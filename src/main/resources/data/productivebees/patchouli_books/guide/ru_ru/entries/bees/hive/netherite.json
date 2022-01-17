@@ -1,0 +1,19 @@
+{
+    "name": "Древняя пчела",
+    "icon": "minecraft:netherite_scrap",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:netherite",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Древняя пчела",
+            "text": "Преобразуется от $(l:bees/hive/diamond)Алмазной пчелы$(/l), которая будет кормить её блоком «Незерита».",
+            "anchor": "netherite"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:netherite'}"
+        }
+    ]
+}

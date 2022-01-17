@@ -1,0 +1,19 @@
+{
+    "name": "Алмазная пчела",
+    "icon": "minecraft:diamond",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:diamond",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Алмазная пчела",
+            "text": "Выводится от $(l:bees/wild/ender)Эндер-пчелы$(/l) и $(l:bees/hive/lapis)Лазуритовой пчелы$(/l).",
+            "anchor": "diamond"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:diamond'}"
+        }
+    ]
+}

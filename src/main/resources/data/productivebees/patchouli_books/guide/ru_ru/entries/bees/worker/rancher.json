@@ -1,0 +1,18 @@
+{
+    "name": "Пчела-скотоводка",
+    "icon": "minecraft:milk_bucket",
+    "read_by_default": true,
+    "sortnum": 2,
+    "category": "productivebees:bees_worker",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Пчела-скотоводка",
+            "text": "Доит близлежащих «Коров», «овец» или «лам» для создания «Молочных медовых сот» в свой улей. Также овца будет стриженной.$(br2)Большинство коров сильно пострадали при создании этой пчелы."
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:rancher_bee"
+        }
+    ]
+}

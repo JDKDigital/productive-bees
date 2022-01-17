@@ -1,0 +1,18 @@
+{
+    "name": "Пчела-барахольщица",
+    "icon": "minecraft:shulker_shell",
+    "read_by_default": true,
+    "sortnum": 6,
+    "category": "productivebees:bees_worker",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Пчела-барахольщица",
+            "text": "Собирает с земли предметы и кладёт их в свой улей, она круче и лучше $(l:bees/worker/collector)«Пчелы-сборщицы»$(/l).$(br)Для автоматического сбора объедини с «Пчелой-фермером»."
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:hoarder_bee"
+        }
+    ]
+}

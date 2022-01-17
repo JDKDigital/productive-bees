@@ -1,0 +1,303 @@
+{
+    "name": "Слиточные/металлические пчёлы",
+    "icon": "minecraft:iron_ingot",
+    "read_by_default": true,
+    "sortnum": 1,
+    "category": "productivebees:bees_modded",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Ты можешь найти пчелу из разновидностей металлов. Если ты не хочешь видеть, то что ты ищешь, возможно, она будет в определённой странице."
+        },
+        {
+            "type": "patchouli:empty",
+            "draw_filler": false
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Алюминиевая пчела",
+            "text": "Выводится от $(l:bees/wild/crystalline)Кристаллической пчелы$(/l) и $(l:bees/solitary/ashy_mining)Пепельной шахтёрской пчелы$(/l).",
+            "anchor": "aluminum",
+            "flag": "productivebees:aluminum"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Алюминиевая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:aluminum'}",
+            "flag": "productivebees:aluminum"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Висмутовая пчела",
+            "text": "Выводится от $(l:bees/wild/crystalline)Кристаллической пчелы$(/l) и $(l:bees/hive/gold)Золотой пчелы$(/l).",
+            "anchor": "bismuth",
+            "flag": "productivebees:bismuth"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Висмутовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:bismuth'}",
+            "flag": "productivebees:bismuth"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Латунная пчела",
+            "text": "Выводится от $(l:bees/modded/ingot_bees#zinc)Цинковой пчелы$(/l) и $(l:bees/modded/ingot_bees#copper)Медной пчелы$(/l).",
+            "anchor": "brass",
+            "flag": "productivebees:brass"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Латунная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:brass'}",
+            "flag": "productivebees:brass"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Бронзовая пчела",
+            "text": "Выводится от $(l:bees/modded/ingot_bees#tin)Оловянной пчелы$(/l) и $(l:bees/modded/ingot_bees#copper)Медной пчелы$(/l).",
+            "anchor": "bronze",
+            "flag": "productivebees:bronze"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Бронзовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:bronze'}",
+            "flag": "productivebees:bronze"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Константановая пчела",
+            "text": "Выводится от $(l:bees/modded/ingot_bees#copper)Медной пчелы$(/l) и $(l:bees/modded/ingot_bees#nickel)Никелевой пчелы$(/l).",
+            "anchor": "constantan",
+            "flag": "productivebees:constantan"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Константановая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:constantan'}",
+            "flag": "productivebees:constantan"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Медная пчела",
+            "text": "Выводится от $(l:bees/wild/crystalline)Кристаллической пчелы$(/l) и $(l:bees/solitary/ashy_mining)Пепельной шахтёрской пчелы$(/l).",
+            "anchor": "copper",
+            "flag": "productivebees:copper"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Медная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:copper'}",
+            "flag": "productivebees:copper"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из электрума",
+            "text": "Выводится от $(l:bees/hive/gold)Золотой пчелы$(/l) и $(l:bees/modded/ingot_bees#silver)Серебряной пчелы$(/l).",
+            "anchor": "electrum",
+            "flag": "productivebees:electrum"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из электрума",
+            "entity": "productivebees:configurable_bee{type:'productivebees:electrum'}",
+            "flag": "productivebees:electrum"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из эндерия",
+            "text": "Выводится от $(l:bees/modded/ingot_bees#lead)Свинцовой пчелы$(/l) и $(l:bees/hive/diamond)Алмазной пчелы$(/l).",
+            "anchor": "enderium",
+            "flag": "productivebees:enderium"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из эндерия",
+            "entity": "productivebees:configurable_bee{type:'productivebees:enderium'}",
+            "flag": "productivebees:enderium"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Инваровая пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/modded/ingot_bees#nickel)Никелевой пчелы$(/l).",
+            "anchor": "invar",
+            "flag": "productivebees:invar"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Инваровая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:invar'}",
+            "flag": "productivebees:invar"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Свинцовая пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/solitary/blue_banded)Пчелы с синими полосками$(/l).",
+            "anchor": "lead",
+            "flag": "productivebees:lead"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Свинцовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:lead'}",
+            "flag": "productivebees:lead"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Люмиевая пчела",
+            "text": "Выводится от $(l:bees/modded/ingot_bees#silver)Серебряной пчелы$(/l) и $(l:bees/modded/ingot_bees#tin)Оловянной пчелы$(/l).",
+            "anchor": "lumium",
+            "flag": "productivebees:lumium"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Люмиевая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:lumium'}",
+            "flag": "productivebees:lumium"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Никелевая пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/solitary/sweat)Потовой пчелы$(/l).",
+            "anchor": "nickel",
+            "flag": "productivebees:nickel"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Никелевая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:nickel'}",
+            "flag": "productivebees:nickel"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Осмиевая пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/solitary/neon_cuckoo)Неоновой пчелы-кукушки$(/l).$(br)Требуется мод: «Mekanism».",
+            "anchor": "osmium",
+            "flag": "productivebees:osmium"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Осмиевая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:osmium'}",
+            "flag": "productivebees:osmium"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Платиновая пчела",
+            "text": "Выводится от $(l:bees/hive/gold)Золотой пчелы$(/l) и $(l:bees/wild/ender)Эндер-пчелы$(/l).",
+            "anchor": "platinum",
+            "flag": "productivebees:platinum"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Платиновая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:platinum'}",
+            "flag": "productivebees:platinum"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Радиоактивная пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/bees/hive/creeper)Пчелы-крипер$(/l).",
+            "anchor": "radioactive",
+            "flag": "productivebees:radioactive"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Радиоактивная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:radioactive'}",
+            "flag": "productivebees:radioactive"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Сигналовая пчела",
+            "text": "Выводится от $(l:bees/modded/ingot_bees#silver)Серебряной пчелы$(/l) и $(l:bees/modded/ingot_bees#copper)Медной пчелы$(/l).",
+            "anchor": "signalum",
+            "flag": "productivebees:signalum"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Сигналовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:signalum'}",
+            "flag": "productivebees:signalum"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Серебряная пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/solitary/mason)Пчелы-каменщицы$(/l).",
+            "anchor": "silver",
+            "flag": "productivebees:silver"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Серебряная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:silver'}",
+            "flag": "productivebees:silver"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Стальная пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/hive/coal)Угольной пчелы$(/l).",
+            "anchor": "steel",
+            "flag": "productivebees:steel"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Стальная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:steel'}",
+            "flag": "productivebees:steel"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Оловянная пчела",
+            "text": "Выводится от $(l:bees/wild/crystalline)Кристаллической пчелы$(/l) и $(l:bees/solitary/ashy_mining)Пепельной шахтёрской пчелы$(/l).",
+            "anchor": "tin",
+            "flag": "productivebees:tin"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Оловянная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tin'}",
+            "flag": "productivebees:tin"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Титановая пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/bees/hive/diamond)Алмазной пчелы$(/l).",
+            "anchor": "titanium",
+            "flag": "productivebees:titanium"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Титановая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:titanium'}",
+            "flag": "productivebees:titanium"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Вольфрамовая пчела",
+            "text": "Выводится от $(l:bees/hive/coal)Угольной пчелы$(/l) и $(l:bees/wild/ender)Эндер-пчелы$(/l).",
+            "anchor": "tungsten",
+            "flag": "productivebees:tungsten"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Вольфрамовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tungsten'}",
+            "flag": "productivebees:tungsten"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Цинковая пчела",
+            "text": "Выводится от $(l:bees/hive/iron)Железной пчелы$(/l) и $(l:bees/solitary/sweat)Потовой пчелы$(/l).",
+            "anchor": "zinc",
+            "flag": "productivebees:zinc"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Цинковая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:zinc'}",
+            "flag": "productivebees:zinc"
+        }
+    ]
+}

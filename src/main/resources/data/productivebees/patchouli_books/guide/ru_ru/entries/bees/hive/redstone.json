@@ -1,0 +1,19 @@
+{
+    "name": "Редстоуновая пчела",
+    "icon": "minecraft:redstone",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:redstone",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Редстоуновая пчела",
+            "text": "Выводится от $(l:bees/wild/glowing)Светящейся пчелы$(/l) и $(l:bees/solitary/chocolate_mining)Шоколадной шахтёрской пчелы$(/l).",
+            "anchor": "redstone"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:redstone'}"
+        }
+    ]
+}

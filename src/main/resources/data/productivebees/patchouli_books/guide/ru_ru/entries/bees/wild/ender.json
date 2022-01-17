@@ -1,0 +1,19 @@
+{
+    "name": "Эндер-пчела",
+    "icon": "minecraft:ender_pearl",
+    "read_by_default": true,
+    "category": "productivebees:bees_wild",
+    "flag": "productivebees:ender",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Эндер-пчела",
+            "text": "Обитает в «Гнездах из эндерняка» в «Островах энда». Эндер-пчелы предпочитают опылять местную флору — «Хорусы».",
+            "anchor": "ender"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ender'}"
+        }
+    ]
+}

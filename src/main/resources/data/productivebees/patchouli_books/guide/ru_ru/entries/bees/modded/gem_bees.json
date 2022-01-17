@@ -1,0 +1,680 @@
+{
+    "name": "Пчёлы из драгоценных камней",
+    "icon": "minecraft:diamond",
+    "read_by_default": true,
+    "sortnum": 2,
+    "category": "productivebees:bees_modded",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Если у тебя есть моды, добавляющие «Драгоценные камни», вполне вероятно, что ты найдёшь для них применение."
+        },
+        {
+            "type": "patchouli:empty",
+            "draw_filler": false
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Агатовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Агатовый драгоценный камень».",
+            "anchor": "agate",
+            "flag": "productivebees:agate"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Агатовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:agate'}",
+            "flag": "productivebees:agate"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из александрита",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Алексанритовый драгоценный камень».",
+            "anchor": "alexandrite",
+            "flag": "productivebees:alexandrite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из александрита",
+            "entity": "productivebees:configurable_bee{type:'productivebees:alexandrite'}",
+            "flag": "productivebees:alexandrite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Янтарная пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Янтарный драгоценный камень».",
+            "anchor": "amber",
+            "flag": "productivebees:amber"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Янтарная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:amber'}",
+            "flag": "productivebees:amber"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Аметистовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Аметистовый драгоценный камень».",
+            "anchor": "amethyst",
+            "flag": "productivebees:amethyst"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Аметистовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:amethyst'}",
+            "flag": "productivebees:amethyst"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Аметриновая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Аметриновый драгоценный камень».",
+            "anchor": "ametrine",
+            "flag": "productivebees:ametrine"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Аметриновая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ametrine'}",
+            "flag": "productivebees:ametrine"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Аммолитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Аммолитовый драгоценный камень».",
+            "anchor": "ammolite",
+            "flag": "productivebees:ammolite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Аммолитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ammolite'}",
+            "flag": "productivebees:ammolite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Апатитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Апатитовый драгоценный камень».",
+            "anchor": "apatite",
+            "flag": "productivebees:apatite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Апатитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:apatite'}",
+            "flag": "productivebees:apatite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Аквамариновая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Аквамариновый драгоценный камень».",
+            "anchor": "aquamarine",
+            "flag": "productivebees:aquamarine"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Аквамариновая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:aquamarine'}",
+            "flag": "productivebees:aquamarine"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Бенитоитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Бенитоитовый драгоценный камень».",
+            "anchor": "benitoite",
+            "flag": "productivebees:benitoite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Бенитоитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:benitoite'}",
+            "flag": "productivebees:benitoite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из чёрного алмаза",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Драгоценный камень из чёрного алмаза».",
+            "anchor": "black_diamond",
+            "flag": "productivebees:black_diamond"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из чёрного алмаза",
+            "entity": "productivebees:configurable_bee{type:'productivebees:black_diamond'}",
+            "flag": "productivebees:black_diamond"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из чёрного опала",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Драгоценный камень из чёрного опала».",
+            "anchor": "black_opal",
+            "flag": "productivebees:black_opal"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из чёрного опала",
+            "entity": "productivebees:configurable_bee{type:'productivebees:black_opal'}",
+            "flag": "productivebees:black_opal"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Сердоликовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Сердоликовый драгоценный камень».",
+            "anchor": "carnelian",
+            "flag": "productivebees:carnelian"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Сердоликовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:carnelian'}",
+            "flag": "productivebees:carnelian"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела-кошачьи глаза",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Драгоценный камень: Кошачьи глаза».",
+            "anchor": "cats_eye",
+            "flag": "productivebees:cats_eye"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела-кошачьи глаза",
+            "entity": "productivebees:configurable_bee{type:'productivebees:cats_eye'}",
+            "flag": "productivebees:cats_eye"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Хризопразная пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Хризопразный драгоценный камень».",
+            "anchor": "chrysoprase",
+            "flag": "productivebees:chrysoprase"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Хризопразная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:chrysoprase'}",
+            "flag": "productivebees:chrysoprase"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Киноварная пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Киноварный драгоценный камень».",
+            "anchor": "cinnabar",
+            "flag": "productivebees:cinnabar"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Киноварная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:cinnabar'}",
+            "flag": "productivebees:cinnabar"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Цитриновая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Цитриновый драгоценный камень».",
+            "anchor": "citrine",
+            "flag": "productivebees:citrine"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Цитриновая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:citrine'}",
+            "flag": "productivebees:citrine"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Коралловая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Коралловый драгоценный камень».",
+            "anchor": "coral",
+            "flag": "productivebees:coral"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Коралловая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:coral'}",
+            "flag": "productivebees:coral"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Эвклазовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Эвклазовый драгоценный камень».",
+            "anchor": "euclase",
+            "flag": "productivebees:euclase"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Эвклазовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:euclase'}",
+            "flag": "productivebees:euclase"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Флюоритовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Флюоритовый драгоценный камень».",
+            "anchor": "fluorite",
+            "flag": "productivebees:fluorite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Флюоритовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:fluorite'}",
+            "flag": "productivebees:fluorite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Гранатовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Гранатовый драгоценный камень».",
+            "anchor": "garnet",
+            "flag": "productivebees:garnet"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Гранатовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:garnet'}",
+            "flag": "productivebees:garnet"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из зелёного сапфира",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Драгоценный камень из зелёного сапфира».",
+            "anchor": "green_sapphire",
+            "flag": "productivebees:green_sapphire"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из зелёного сапфира",
+            "entity": "productivebees:configurable_bee{type:'productivebees:green_sapphire'}",
+            "flag": "productivebees:green_sapphire"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Гелиодоровая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Гелиодоровый драгоценный камень».",
+            "anchor": "heliodor",
+            "flag": "productivebees:heliodor"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Гелиодоровая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:heliodor'}",
+            "flag": "productivebees:heliodor"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Кордиеритовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Кордиеритовый драгоценный камень».",
+            "anchor": "iolite",
+            "flag": "productivebees:iolite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Кордиеритовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:iolite'}",
+            "flag": "productivebees:iolite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Нефритовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Нефритовый драгоценный камень».",
+            "anchor": "jade",
+            "flag": "productivebees:jade"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Нефритовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:jade'}",
+            "flag": "productivebees:jade"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Яшмовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Яшмовый драгоценный камень».",
+            "anchor": "jasper",
+            "flag": "productivebees:jasper"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Яшмовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:jasper'}",
+            "flag": "productivebees:jasper"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Сподуменовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Сподуменовый драгоценный камень».",
+            "anchor": "kunzite",
+            "flag": "productivebees:kunzite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Сподуменовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:kunzite'}",
+            "flag": "productivebees:kunzite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Кианитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Кианитовый драгоценный камень».",
+            "anchor": "kyanite",
+            "flag": "productivebees:kyanite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Кианитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:kyanite'}",
+            "flag": "productivebees:kyanite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Лепидолитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Лепидолитовый драгоценный камень».",
+            "anchor": "lepidolite",
+            "flag": "productivebees:lepidolite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Лепидолитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:lepidolite'}",
+            "flag": "productivebees:lepidolite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Малахитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Малахитовый драгоценный камень».",
+            "anchor": "malachite",
+            "flag": "productivebees:malachite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Малахитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:malachite'}",
+            "flag": "productivebees:malachite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Молдавитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Молдавитовый драгоценный камень».",
+            "anchor": "moldavite",
+            "flag": "productivebees:moldavite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Молдавитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:moldavite'}",
+            "flag": "productivebees:moldavite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из лунного камня",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Драгоценный камень из лунного камня».",
+            "anchor": "moonstone",
+            "flag": "productivebees:moonstone"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из лунного камня",
+            "entity": "productivebees:configurable_bee{type:'productivebees:moonstone'}",
+            "flag": "productivebees:moonstone"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Морганитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Морганитовый драгоценный камень».",
+            "anchor": "morganite",
+            "flag": "productivebees:morganite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Морганитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:morganite'}",
+            "flag": "productivebees:morganite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Ониксовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Ониксовый драгоценный камень».",
+            "anchor": "onyx",
+            "flag": "productivebees:onyx"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Ониксовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:onyx'}",
+            "flag": "productivebees:onyx"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Опаловая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Опаловый драгоценный камень».",
+            "anchor": "opal",
+            "flag": "productivebees:opal"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Опаловая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:opal'}",
+            "flag": "productivebees:opal"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Жемчужная пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Жемчужный драгоценный камень».",
+            "anchor": "pearl",
+            "flag": "productivebees:pearl"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Жемчужная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:pearl'}",
+            "flag": "productivebees:pearl"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Перидотовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Перидотовый драгоценный камень».",
+            "anchor": "peridot",
+            "flag": "productivebees:peridot"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Перидотовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:peridot'}",
+            "flag": "productivebees:peridot"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Фосфофиллитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Фосфофиллитовый драгоценный камень».",
+            "anchor": "phosphophyllite",
+            "flag": "productivebees:phosphophyllite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Фосфофиллитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:phosphophyllite'}",
+            "flag": "productivebees:phosphophyllite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пироповая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Пироповый драгоценный камень».",
+            "anchor": "pyrope",
+            "flag": "productivebees:pyrope"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пироповая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:pyrope'}",
+            "flag": "productivebees:pyrope"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из розового кварца",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Драгоценный камень из розового кварца».",
+            "anchor": "rose_quartz",
+            "flag": "productivebees:rose_quartz"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из розового кварца",
+            "entity": "productivebees:configurable_bee{type:'productivebees:rose_quartz'}",
+            "flag": "productivebees:rose_quartz"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Рубиновая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Рубиновый драгоценный камень».",
+            "anchor": "ruby",
+            "flag": "productivebees:ruby"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Рубиновая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ruby'}",
+            "flag": "productivebees:ruby"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Сапфировая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Сапфировый драгоценный камень».",
+            "anchor": "sapphire",
+            "flag": "productivebees:sapphire"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Сапфировая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:sapphire'}",
+            "flag": "productivebees:sapphire"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Содалитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Содалитовый драгоценный камень».",
+            "anchor": "sodalite",
+            "flag": "productivebees:sodalite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Содалитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:sodalite'}",
+            "flag": "productivebees:sodalite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Шпинельная пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Шпинельный драгоценный камень».",
+            "anchor": "spinel",
+            "flag": "productivebees:spinel"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Шпинельная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:spinel'}",
+            "flag": "productivebees:spinel"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из солнечного камня",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Драгоценный камень из солнечного камня».",
+            "anchor": "sunstone",
+            "flag": "productivebees:sunstone"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из солнечного камня",
+            "entity": "productivebees:configurable_bee{type:'productivebees:sunstone'}",
+            "flag": "productivebees:sunstone"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Танзанитная пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Танзанитный драгоценный камень».",
+            "anchor": "tanzanite",
+            "flag": "productivebees:tanzanite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Танзанитная пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tanzanite'}",
+            "flag": "productivebees:tanzanite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Тектитовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Тектитовый драгоценный камень».",
+            "anchor": "tektite",
+            "flag": "productivebees:tektite"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Тектитовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tektite'}",
+            "flag": "productivebees:tektite"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Топазовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Топазовый драгоценный камень».",
+            "anchor": "topaz",
+            "flag": "productivebees:topaz"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Топазовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:topaz'}",
+            "flag": "productivebees:topaz"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Турмалиновая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Турмалиновый драгоценный камень».",
+            "anchor": "tourmaline",
+            "flag": "productivebees:tourmaline"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Турмалиновая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tourmaline'}",
+            "flag": "productivebees:tourmaline"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Бирюзовая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Бирюзовый драгоценный камень».",
+            "anchor": "turquoise",
+            "flag": "productivebees:turquoise"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Бирюзовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:turquoise'}",
+            "flag": "productivebees:turquoise"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из жёлтого алмаза",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя Драгоценный камень из жёлтого алмаза».",
+            "anchor": "white_diamond",
+            "flag": "productivebees:white_diamond"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из жёлтого алмаза",
+            "entity": "productivebees:configurable_bee{type:'productivebees:white_diamond'}",
+            "flag": "productivebees:white_diamond"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Циркониевая пчела",
+            "text": "Преобразовывается из $(l:bees/hive/diamond)Алмазной пчелы$(/l), используя «Цирконовый драгоценный камень».",
+            "anchor": "zircon",
+            "flag": "productivebees:zircon"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Циркониевая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:zircon'}",
+            "flag": "productivebees:zircon"
+        }
+    ]
+}

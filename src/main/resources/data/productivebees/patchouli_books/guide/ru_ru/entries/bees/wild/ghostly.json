@@ -1,0 +1,18 @@
+{
+    "name": "Призрачная пчела",
+    "icon": "minecraft:ghast_tear",
+    "read_by_default": true,
+    "category": "productivebees:bees_wild",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Призрачная пчела",
+            "text": "Обитает в «Гнёздах из песка душ» в «Незере». Призрачные пчелы предпочитают опылять близлежащий «Песок душ».",
+            "anchor": "ghostly"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ghostly'}"
+        }
+    ]
+}

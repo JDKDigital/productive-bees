@@ -1,0 +1,12 @@
+{
+    "name": "Медовое угощение",
+    "icon": "productivebees:honey_treat",
+    "category": "productivebees:items",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:honey_treat",
+            "text": "Чтобы утихомирить агрессивных пчёл, их можно накормить «Медовыми угощениями». Накормив детву, заставит их расти быстрее.$(br2)Также можно совмещать «Медовые угощения» с генами для передачи генов из одной пчелы к другой. Подробнее на странице: $(l:genetics/transferring)«Генетика»$(/l)."
+        }
+    ]
+}

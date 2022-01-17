@@ -1,0 +1,18 @@
+{
+    "name": "Лесная пчела",
+    "icon": "minecraft:wooden_axe",
+    "read_by_default": true,
+    "sortnum": 3,
+    "category": "productivebees:bees_worker",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Лесная пчела",
+            "text": "Грызёт близлежащую древесину и собирает «Деревянные щепки» в свой улей. «Деревянные щепки можно создать в «Брёвна»."
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:lumber_bee"
+        }
+    ]
+}

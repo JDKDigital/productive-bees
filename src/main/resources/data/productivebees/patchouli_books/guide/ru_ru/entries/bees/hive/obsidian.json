@@ -1,0 +1,19 @@
+{
+    "name": "Обсидиановая пчела",
+    "icon": "minecraft:obsidian",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:obsidian",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Обсидиановая пчела",
+            "text": "Выводится от $(l:bees/wild/magmatic)Магмовой пчелы$(/l) и $(l:bees/solitary/sweat)Потовой пчелы$(/l).",
+            "anchor": "obsidian"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:obsidian'}"
+        }
+    ]
+}

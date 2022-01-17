@@ -1,0 +1,19 @@
+{
+	"name": "Пчела-крипер",
+    "icon": "minecraft:gunpowder",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:creeper",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Пчела-крипер",
+            "text": "Получаемая путём кормления пчелы «Динамитом».",
+            "anchor": "creeper"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:creeper_bee"
+        }
+    ]
+}

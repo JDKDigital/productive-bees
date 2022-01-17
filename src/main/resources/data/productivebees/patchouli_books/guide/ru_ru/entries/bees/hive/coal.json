@@ -1,0 +1,19 @@
+{
+    "name": "Угольная пчела",
+    "icon": "minecraft:coal",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:coal",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Угольная пчела",
+            "text": "Выводится от $(l:bees/hive/redstone)Пылающей пчелы$(/l) и $(l:bees/solitary/leafcutter)Пчелы-листорезки$(/l).",
+            "anchor": "coal"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:coal'}"
+        }
+    ]
+}
