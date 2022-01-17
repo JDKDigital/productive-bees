@@ -1,0 +1,187 @@
+{
+    "name": "Tinkers Construct",
+    "icon": "tconstruct:casting_table",
+    "read_by_default": true,
+    "sortnum": 8,
+    "category": "productivebees:bees_modded",
+    "flag": "mod:tconstruct",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Пчёлы из материалов «Tinkers Construct». Пчёлы, получаемые путём разлива материала над «Яйцом призыва» в «Разливочном столе»."
+        },
+        {
+            "type": "patchouli:empty",
+            "draw_filler": false
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Слизневая эндер-пчела",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/wild/slimy)Яйца призыва: Слизневой пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "ender_slimy",
+            "flag": "productivebees:ender_slimy"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Слизневая эндер-пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ender_slimy'}",
+            "flag": "productivebees:ender_slimy"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Слизневая ихоровая пчела",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/wild/slimy)Яйца призыва: Слизневой пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "ichor_slimy",
+            "flag": "productivebees:ichor_slimy"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Слизневая ихоровая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:ichor_slimy'}",
+            "flag": "productivebees:ichor_slimy"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из небесной слизи",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/wild/slimy)Яйца призыва: Слизневой пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "sky_slimy",
+            "flag": "productivebees:sky_slimy"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из небесной слизи",
+            "entity": "productivebees:configurable_bee{type:'productivebees:sky_slimy'}",
+            "flag": "productivebees:sky_slimy"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Кобальтовая пчела",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/iron)Яйца призыва: Железой пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "cobalt",
+            "flag": "productivebees:cobalt"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Кобальтовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:cobalt'}",
+            "flag": "productivebees:cobalt"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Гепатизоновая пчела",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/obsidian)Яйца призыва: Обсидиановой пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "hepatizon",
+            "flag": "productivebees:hepatizon"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Гепатизоновая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:hepatizon'}",
+            "flag": "productivebees:hepatizon"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из рыцарской слизи",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/iron)Яйца призыва: Железной пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "knightslime",
+            "flag": "productivebees:knightslime"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из рыцарской слизи",
+            "entity": "productivebees:configurable_bee{type:'productivebees:knightslime'}",
+            "flag": "productivebees:knightslime"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Маниллиновая пчела",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/netherite)Яйца призыва: Древней пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "manyullyn",
+            "flag": "productivebees:manyullyn"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Маниллиновая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:manyullyn'}",
+            "flag": "productivebees:manyullyn"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из передельного чугуна",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/iron)Яйца призыва: Железной пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "pig_iron",
+            "flag": "productivebees:pig_iron"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из передельного чугуна",
+            "entity": "productivebees:configurable_bee{type:'productivebees:pig_iron'}",
+            "flag": "productivebees:pig_iron"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из слизи королевы",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/gold)Яйца призыва: Золотой пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "queens_slime",
+            "flag": "productivebees:queens_slime"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из слизи королевы",
+            "entity": "productivebees:configurable_bee{type:'productivebees:queens_slime'}",
+            "flag": "productivebees:queens_slime"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из розового золота",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/gold)Яйца призыва: Золотой пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "rose_gold",
+            "flag": "productivebees:rose_gold"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из розового золота",
+            "entity": "productivebees:configurable_bee{type:'productivebees:rose_gold'}",
+            "flag": "productivebees:rose_gold"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из слизневой стали",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/iron)Яйца призыва: Железной пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "slimesteel",
+            "flag": "productivebees:slimesteel"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из слизневой стали",
+            "entity": "productivebees:configurable_bee{type:'productivebees:slimesteel'}",
+            "flag": "productivebees:slimesteel"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из стали душ",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/modded/tconstruct#cobalt)Яйца призыва: Кобальтовой пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "soulsteel",
+            "flag": "productivebees:soulsteel"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из стали душ",
+            "entity": "productivebees:configurable_bee{type:'productivebees:soulsteel'}",
+            "flag": "productivebees:soulsteel"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из плохой бронзы",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/modded/ingot_bees#copper)Яйца призыва: Медной пчелы$(/l), используя «Разливочный стол».",
+            "anchor": "tinkers_bronze",
+            "flag": "productivebees:tinkers_bronze"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из плохой бронзы",
+            "entity": "productivebees:configurable_bee{type:'productivebees:tinkers_bronze'}",
+            "flag": "productivebees:tinkers_bronze"
+        }
+    ]
+}

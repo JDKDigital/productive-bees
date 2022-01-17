@@ -1,0 +1,19 @@
+{
+    "name": "Пчела-скелет",
+    "icon": "minecraft:bone_meal",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:skeletal",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Пчела-скелет",
+            "text": "Заселяется в «Продвинутый улей», если улей остаётся пустым в темноте.",
+            "anchor": "skeletal"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:skeletal'}"
+        }
+    ]
+}

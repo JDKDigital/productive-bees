@@ -1,0 +1,10 @@
+{
+    "name": "Большая книга пчёл",
+    "landing_text": "Поверхностный взгляд на мир «Пчеловода».$(br2)Здесь пчелиный остряк.",
+    "version": 1,
+    "creative_tab": "productivebees",
+    "nameplate_color": "444444",
+    "model": "productivebees:book",
+    "book_texture": "productivebees:textures/gui/patchouli/beep.png",
+    "show_progress": false
+}

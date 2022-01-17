@@ -1,0 +1,42 @@
+{
+    "name": "Сбор генов",
+    "icon": "productivebees:gene",
+    "category": "productivebees:genetics",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Для сдерживания пчёл можно использовать «Разливочную машину» вместе с «Поршнем». Помести на середину пчелу и дёрни рычаг. Убедись, что внутри «Разливочной машины» пустые «Бутылочки». Брось пчелу в бутылочке в «Центрифугу», чтобы отделить полезный материал от ненужного хлама."
+        },
+        {
+            "type": "multiblock",
+            "name": "Пчелиная разливочная машина",
+            "multiblock": {
+                "mapping": {
+                    "P": "minecraft:piston[facing=down]",
+                    "B": "productivebees:bottler[has_bottle=true]"
+                },
+                "pattern": [
+                    [
+                        "P"
+                    ],
+                    [
+                        " "
+                    ],
+                    [
+                        "B"
+                    ],
+                    [
+                        "0"
+                    ]
+                ],
+                "symmetrical": true,
+                "offset": [
+                    0,
+                    1,
+                    0
+                ]
+            },
+            "enable_visualize": false
+        }
+    ]
+}

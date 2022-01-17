@@ -1,0 +1,19 @@
+{
+    "name": "Призмариновая пчела",
+    "icon": "minecraft:prismarine_shard",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:prismarine",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Призмариновая пчела",
+            "text": "Получаемая путём рыбалки в «Биоме океана».",
+            "anchor": "prismarine"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:prismarine'}"
+        }
+    ]
+}

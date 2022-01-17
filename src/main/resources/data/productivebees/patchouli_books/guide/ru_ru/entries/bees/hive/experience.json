@@ -1,0 +1,19 @@
+{
+    "name": "Опытная пчела",
+    "icon": "minecraft:experience_bottle",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:experience",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Опытная пчела",
+            "text": "Выводится от $(l:bees/hive/emerald)Изумрудной пчелы$(/l) и $(l:bees/hive/lapis)Лазуритовой пчелы$(/l).",
+            "anchor": "experience"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:experience'}"
+        }
+    ]
+}

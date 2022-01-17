@@ -1,0 +1,57 @@
+{
+    "name": "Thermal",
+    "icon": "thermal:chiller",
+    "read_by_default": true,
+    "sortnum": 8,
+    "category": "productivebees:bees_modded",
+    "flag": "mod:thermal",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Пчёлы из материалов «Thermal». Здесь отображены только пчёлы из конкретного материала, а для обычных материалов, а именно: «Медь и Олово» перейди к $(l:bees/modded/ingot_bees)списку «Пчёлы из слитков»$(/l)."
+        },
+        {
+            "type": "patchouli:empty",
+            "draw_filler": false
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Базальцевая пчела",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/diamond)Яйца призыва: Алмазной пчелы$(/l), используя «Плавильню».",
+            "anchor": "basalz",
+            "flag": "productivebees:basalz"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Базальцевая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:basalz'}",
+            "flag": "productivebees:basalz"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Блитцовая пчела",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/diamond)Яйца призыва: Алмазной пчелы$(/l), используя «Плавильню».",
+            "anchor": "blitz",
+            "flag": "productivebees:blitz"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Блитцовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:blitz'}",
+            "flag": "productivebees:blitz"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Близзовая пчела",
+            "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/hive/diamond)Яйца призыва: Алмазной пчелы$(/l), используя «Охладитель».",
+            "anchor": "blizz",
+            "flag": "productivebees:blizz"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Близзовая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:blizz'}",
+            "flag": "productivebees:blizz"
+        }
+    ]
+}

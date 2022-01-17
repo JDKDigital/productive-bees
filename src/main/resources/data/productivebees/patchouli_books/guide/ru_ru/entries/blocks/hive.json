@@ -1,0 +1,12 @@
+{
+    "name": "Продвинутые улья",
+    "icon": "productivebees:advanced_oak_beehive",
+    "category": "productivebees:blocks",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:advanced_oak_beehive",
+            "text": "$(l:hives/advanced_hives)Смотри в следующем разделе о «Продвинутых ульях»$(/l)."
+        }
+    ]
+}

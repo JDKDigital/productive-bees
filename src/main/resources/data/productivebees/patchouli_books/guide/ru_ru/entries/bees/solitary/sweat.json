@@ -1,0 +1,19 @@
+{
+    "name": "Потовая пчела",
+    "icon": "productivebees:spawn_egg_sweat_bee",
+    "read_by_default": true,
+    "sortnum": 13,
+    "category": "productivebees:bees_solitary",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Потовая пчела",
+            "text": "[Halictus rubicundus]",
+            "anchor": "sweat"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:sweat_bee"
+        }
+    ]
+}

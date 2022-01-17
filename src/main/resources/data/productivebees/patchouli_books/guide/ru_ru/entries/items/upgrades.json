@@ -1,0 +1,87 @@
+{
+    "name": "Улучшения",
+    "icon": "productivebees:upgrade_base",
+    "category": "productivebees:items",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:upgrade_base",
+            "text": "«Улучшения» можно помещать в «Машины» и «Улья» для увеличения их функциональности или улучшения производительности."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/base",
+            "text": "Основа для всех «Улучшений»."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/breeding",
+            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l), $(l:blocks/catcher)«Ловце»$(/l).",
+            "anchor": "babee"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Когда установлено в «Улье» «Улучшение:, Детва» даст малую вероятность для внутри живущих пчёл размножиться и произвести новый потомок без твоего участия. $(br)Когда установлено в $(l:blocks/catcher)«Ловце»$(/l) будет ловить и размещать в клетки только «Детву»."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/productivity",
+            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l).",
+            "anchor": "productivity"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Когда установлено в «Улье», «Улучшение: Продуктивность» увеличит количество «Медовых сот», производимыми пчёлами за одно путешествие. Можно установить несколько таких улучшений."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/time",
+            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l), $(l:blocks/centrifuge)«Центрифуге»$(/l) и $(l:blocks/incubator)«Инкубаторе»$(/l).",
+            "anchor": "speed"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Когда установлено в «Улье», Улучшение: Скорость сократит пчеле время, проводимое в улье. $(br)Когда установлено в $(l:blocks/centrifuge)«Центрифуге»$(/l) или в $(l:blocks/incubator)«Инкубаторе»$(/l), оно увеличит скорость процесса."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/filter",
+            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l), $(l:blocks/catcher)«Ловце»$(/l).",
+            "anchor": "filter"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Нажми пкм пчелой, чтобы добавить её в «Фильтр». Чтобы очистить фильтр, положи его в сетку создания. Когда установлено в «Улье», оно будет допускать только тех пчёл, которые указанные в фильтре.$(br)Когда установлено в «Ловце» будут подбираться только пчёлы, указанные в фильтре."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/range",
+            "text": "Используется в: $(l:blocks/catcher)«Ловце»$(/l).",
+            "anchor": "range"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Когда установлено в «Ловце», «Улучшение: Диапазон» расширит область процесса на 1 блок по всем направлениям. Можно установить несколько таких улучшений."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/anti_teleport",
+            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l).",
+            "anchor": "anti_teleport"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Когда установлено в «Улье», пчёлы, живущие в улье, с этим улучшением больше не смогут телепортироваться."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/bee_sampler",
+            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l).",
+            "anchor": "sampler"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Когда установлено в «Улье», с каждым посещением пчелы будет извлекаться малый образец опыляющих пчёл. Оно вообще не будет наносить им урон."
+        }
+    ]
+}

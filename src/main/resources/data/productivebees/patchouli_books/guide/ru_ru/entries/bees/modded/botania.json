@@ -1,0 +1,70 @@
+{
+    "name": "Botania",
+    "icon": "botania:manapool",
+    "read_by_default": true,
+    "sortnum": 8,
+    "category": "productivebees:bees_modded",
+    "flag": "mod:botania",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Пчёлы из материалов «Ботании и дополнений»."
+        },
+        {
+            "type": "patchouli:empty",
+            "draw_filler": false
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из манастали",
+            "text": "Эту пчелу нельзя вывести. Яйцо призыва создаётся из $(l:bees/hive/#iron)Яйца призыва: Железной пчелы$(/l) в бассейне маны.",
+            "anchor": "manasteel",
+            "flag": "productivebees:manasteel"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из манастали",
+            "entity": "productivebees:configurable_bee{type:'productivebees:manasteel'}",
+            "flag": "productivebees:manasteel"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из террастали",
+            "text": "Эту пчелу нельзя вывести. Яйцо призыва создаётся из $(l:bees/modded/botania#manasteel)Яйца призыва: Пчелы из манастали$(/l), используя «Рунический алтарь».",
+            "anchor": "terrasteel",
+            "flag": "productivebees:terrasteel"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из террастали",
+            "entity": "productivebees:configurable_bee{type:'productivebees:terrasteel'}",
+            "flag": "productivebees:terrasteel"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Элементиевая пчела",
+            "text": "Эту пчелу нельзя вывести. Яйцо призыва создаётся из $(l:bees/modded/botania#manasteel)Яйца призыва: Пчелы из манастали$(/l), используя «Рунический алтарь».",
+            "anchor": "elementium",
+            "flag": "productivebees:elementium"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Элементиевая пчела",
+            "entity": "productivebees:configurable_bee{type:'productivebees:elementium'}",
+            "flag": "productivebees:elementium"
+        },
+        {
+            "type": "patchouli:text",
+            "title": "Пчела из альфстали",
+            "text": "Эту пчелу нельзя вывести. Яйцо призыва создаётся из $(l:bees/modded/botania#elementium)Яйца призыва: Элементиевой пчелы$(/l), используя «Рунический алтарь».",
+            "anchor": "elementium",
+            "flag": "productivebees:alfsteel"
+        },
+        {
+            "type": "patchouli:entity",
+            "name": "Пчела из альфстали",
+            "entity": "productivebees:configurable_bee{type:'productivebees:elementium'}",
+            "flag": "productivebees:alfsteel"
+        }
+    ]
+}

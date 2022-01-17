@@ -1,0 +1,16 @@
+{
+    "name": "Локатор гнезда",
+    "icon": "productivebees:nest_locator",
+    "category": "productivebees:items",
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "productivebees:nest_locator",
+            "text": "Может вычислить слабое жужжание ближайших Гнёзд. Чтобы найти гнездо, нажми Shift + пкм, локатором по гнезду или блоку того же типа. Если ты захочешь найти «Песочное гнездо», ты можешь с лёгкостью нажать пкм по «Песочному гнезду» или песку. Снова нажми Пкм он обнаружит любые ближайшие «Гнёзда» того же типа."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:nest_locator"
+        }
+    ]
+}

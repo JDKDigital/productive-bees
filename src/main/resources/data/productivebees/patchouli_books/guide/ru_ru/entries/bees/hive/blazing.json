@@ -1,0 +1,19 @@
+{
+    "name": "Пылающая пчела",
+    "icon": "minecraft:blaze_powder",
+    "read_by_default": true,
+    "category": "productivebees:bees_hive",
+    "flag": "productivebees:blazing",
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "title": "Пылающая пчела",
+            "text": "Выводится от $(l:bees/wild/magmatic)Магмовой пчелы$(/l) и $(l:bees/solitary/nomad)Кочевой пчелы$(/l).",
+            "anchor": "blazing"
+        },
+        {
+            "type": "patchouli:entity",
+            "entity": "productivebees:configurable_bee{type:'productivebees:blazing'}"
+        }
+    ]
+}
