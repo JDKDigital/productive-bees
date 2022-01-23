@@ -9,7 +9,7 @@
     "attributes": {
         "endurance": 2
     },
-    "flowerBlock": "ars_nouveau:mana_gem_block",
+    "flowerBlock": "ars_nouveau:source_gem_block",
     "conditions": [
         {
             "type": "forge:mod_loaded",

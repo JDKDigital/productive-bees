@@ -157,12 +157,10 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 } else {
                     recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
                 }
-            }
-            else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
+            } else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
                 Tag<Block> blockTag = flowering.get(entry.getValue().getBeeType().toString());
                 recipes.add(new Recipe(blockTag, entry.getValue()));
-            }
-            else {
+            } else {
                 recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
             }
         }

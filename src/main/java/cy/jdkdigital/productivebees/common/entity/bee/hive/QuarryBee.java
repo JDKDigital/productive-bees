@@ -7,7 +7,7 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class QuarryBee extends ProductiveBee
+public class    QuarryBee extends ProductiveBee
 {
     public QuarryBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);

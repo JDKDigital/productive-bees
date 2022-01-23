@@ -404,6 +404,10 @@ public class BeeHelper
             }
             list.add(new TranslatableComponent("productivebees.information.breeding_item", breedingItemText.withStyle(ChatFormatting.GRAY)).withStyle(ChatFormatting.DARK_GRAY));
 
+            if (beeData != null && !beeData.getBoolean("selfbreed")) {
+                list.add(new TranslatableComponent("productivebees.information.selfbreed_disabled").withStyle(ChatFormatting.GRAY));
+            }
+
             if (tag.contains("HivePos")) {
                 BlockPos hivePos = NbtUtils.readBlockPos(tag.getCompound("HivePos"));
                 list.add(new TranslatableComponent("productivebees.information.home_position", hivePos.getX(), hivePos.getY(), hivePos.getZ()));

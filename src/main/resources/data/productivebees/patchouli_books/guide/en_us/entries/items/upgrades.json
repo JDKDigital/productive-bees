@@ -56,12 +56,12 @@
         {
             "type": "patchouli:crafting",
             "recipe": "productivebees:upgrades/range",
-            "text": "Usable in: $(l:blocks/catcher)Catcher$(/l).",
+            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l), $(l:blocks/catcher)Catcher$(/l).",
             "anchor": "range"
         },
         {
             "type": "patchouli:text",
-            "text": "When installed in a catcher, the Range upgrade will expand the area of operation by 1 block is all directions. Multiple range upgrades can be installed."
+            "text": "When installed in a hive, the operating range of Farmer and Collector/Hoarder bees is increased by 1 per upgrade, from default 4. When installed in a catcher, the Range upgrade will expand the area of operation by 1 block is all directions. Multiple range upgrades can be installed."
         },
         {
             "type": "patchouli:crafting",

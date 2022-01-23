@@ -2,6 +2,9 @@
     "primaryColor": "#f2f24f",
     "secondaryColor": "#d0581f",
     "flowerTag": "forge:storage_blocks/allthemodium",
+    "breedingItem": "allthemodium:vibranium_ingot",
+    "breedingItemCount": 4,
+    "selfbreed": false,
     "conditions": [
         {
             "type": "forge:mod_loaded",

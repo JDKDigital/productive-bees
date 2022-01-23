@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+        {
+            "id": "electrodynamics:resourceblocktitanium",
+            "required": false
+        }
+    ]
+}

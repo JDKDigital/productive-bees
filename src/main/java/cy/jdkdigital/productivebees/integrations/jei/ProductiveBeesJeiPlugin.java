@@ -23,6 +23,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -141,7 +142,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             String beeId = entry.getKey().replace("productivebees:", "");
             if (!notInfoBees.contains(beeId)) {
-                Component description = null;
+                Component description = new TextComponent("");
                 if (entry.getValue().isConfigurable()) {
                     CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getKey());
                     if (nbt.contains("description")) {
@@ -157,7 +158,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                     }
                 }
 
-                if (description != null) {
+                if (!description.getString().isEmpty()) {
                     registration.addIngredientInfo(entry.getValue(), BEE_INGREDIENT, description);
                 }
             }

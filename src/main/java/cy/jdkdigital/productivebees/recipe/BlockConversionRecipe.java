@@ -54,7 +54,7 @@ public class BlockConversionRecipe implements Recipe<Container>
             String beeName = ((BeeHelper.BlockStateInventory) inv).getIdentifier(0);
             BlockState blockState = ((BeeHelper.BlockStateInventory) inv).getState();
 
-            return bee.get().getBeeType().toString().equals(beeName) && blockState.equals(this.stateFrom);
+            return bee.get().getBeeType().toString().equals(beeName) && (blockState.equals(this.stateFrom) || blockState.getBlock().defaultBlockState().equals(this.stateFrom));
         }
         return false;
     }

@@ -1,3 +1,18 @@
+0.8.0.6
+
+-- Updated Russian translations, thanks to DrHesperus
+-- Farmer and Collector/Hoarder Bees now operate in an area around their home hive instead of themselves
+-- Hives can now hold range upgrades which extend the operating area of Farmer and Collector/Hoarder Bees
+-- ATM bees have been rebalanced
+-- Releasing a bee on a flower block or a hive now correctly associates the bee with that location
+-- Block conversion recipes now uses fuzzy match when checking a blockstate, fixing anvil repairing not working
+-- Fixed milky comb output
+-- Fixed AE2 spatial bee comb output
+-- Fixed ars nouveau bee
+-- Remove obsidian from Draconic bee flowers
+-- Fixed problems when Electrodynamics is installed
+
+
 0.8.0.5
 
 -- Fixed nocturnal bees not working at night

@@ -1,7 +1,10 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -20,10 +23,12 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HoarderBee extends ProductiveBee
@@ -248,8 +253,13 @@ public class HoarderBee extends ProductiveBee
                     HoarderBee.this.inventoryHasSpace() &&
                     !HoarderBee.this.isAngry();
 
-            if (canStart) {
-                List<ItemEntity> items = HoarderBee.this.getItemsNearby(10);
+            if (canStart && HoarderBee.this.hivePos != null) {
+                List<ItemEntity> items = new ArrayList<>();
+                BlockEntity hive = level.getBlockEntity(HoarderBee.this.hivePos);
+                if (hive instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
+                    int radius = 5 + beehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get());
+                    items = HoarderBee.this.getItemsNearby(HoarderBee.this.hivePos, radius);
+                }
 
                 if (!items.isEmpty()) {
                     BlockPos nearestItemLocation = null;
@@ -274,7 +284,6 @@ public class HoarderBee extends ProductiveBee
 
                     return true;
                 }
-
             }
             return false;
         }
@@ -297,6 +306,7 @@ public class HoarderBee extends ProductiveBee
 
         @Override
         public void tick() {
+            HoarderBee.this.outOfHiveCounter++;
             ++ticks;
             if (HoarderBee.this.targetItemPos != null) {
                 if (ticks > 600) {

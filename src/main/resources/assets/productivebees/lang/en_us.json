@@ -471,6 +471,7 @@
   "productivebees.information.home_position": "Hive position: %s, %s, %s",
   "productivebees.information.breeding_item": "Breeding items: %s",
   "productivebees.information.breeding_item_default": "Any flower",
+  "productivebees.information.selfbreed_disabled": "This bee species cannot breed amongst themselves",
   "productivebees.information.jar.bee": "Bee: %s",
   "productivebees.information.jar.fill_tip": "Put a BeeCage containing the bee you want displayed inside using a hopper or a pipe.",
   "productivebees.information.nestlocator.configured": "Will locate nests of type %s. Right click to search the nearby area.",

@@ -1,7 +1,10 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import com.mojang.authlib.GameProfile;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -16,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -139,10 +143,7 @@ public class FarmerBee extends ProductiveBee
         @Override
         public boolean canUse() {
             if (--cooldown <= 0 && !FarmerBee.this.isAngry()) {
-                FarmerBee.this.targetHarvestPos = findNearestHarvestableTarget(5);
-                if (FarmerBee.this.targetHarvestPos != null) {
-                    FarmerBee.this.targetHarvestPos = findNearestHarvestableTarget(10);
-                }
+                FarmerBee.this.targetHarvestPos = findNearestHarvestableTarget();
                 if (FarmerBee.this.targetHarvestPos == null) {
                     cooldown = 70;
                 }
@@ -158,20 +159,26 @@ public class FarmerBee extends ProductiveBee
             return FarmerBee.this.targetHarvestPos != null && !FarmerBee.this.isAngry();
         }
 
-        private BlockPos findNearestHarvestableTarget(int radius) {
-            List<BlockPos> harvestablesNearby = FarmerBee.this.findHarvestablesNearby(FarmerBee.this.blockPosition(), radius);
+        private BlockPos findNearestHarvestableTarget() {
+            if (FarmerBee.this.hivePos != null) {
+                BlockEntity hive = FarmerBee.this.level.getBlockEntity(FarmerBee.this.hivePos);
+                if (hive instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
+                    int radius = 5 + beehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get());
+                    List<BlockPos> harvestablesNearby = FarmerBee.this.findHarvestablesNearby(FarmerBee.this.hivePos, radius);
 
-            if (!harvestablesNearby.isEmpty()) {
-                BlockPos nearest = null;
-                double nearestDistance = 0;
-                for (BlockPos pos : harvestablesNearby) {
-                    double distance = pos.distSqr(FarmerBee.this.blockPosition());
-                    if (nearestDistance == 0 || distance <= nearestDistance) {
-                        nearestDistance = distance;
-                        nearest = pos;
+                    if (!harvestablesNearby.isEmpty()) {
+                        BlockPos nearest = null;
+                        double nearestDistance = 0;
+                        for (BlockPos pos : harvestablesNearby) {
+                            double distance = pos.distSqr(FarmerBee.this.blockPosition());
+                            if (nearestDistance == 0 || distance <= nearestDistance) {
+                                nearestDistance = distance;
+                                nearest = pos;
+                            }
+                        }
+                        return nearest;
                     }
                 }
-                return nearest;
             }
             return null;
         }

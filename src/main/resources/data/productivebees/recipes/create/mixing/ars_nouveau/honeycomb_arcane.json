@@ -13,11 +13,12 @@
     ],
     "results": [
         {
-            "item": "ars_nouveau:mana_gem"
+            "item": "ars_nouveau:source_gem",
+            "chance": 0.5
         },
         {
             "fluid": "productivebees:honey",
-            "amount": 100
+            "amount": 50
         }
     ],
     "heatRequirement": "heated",

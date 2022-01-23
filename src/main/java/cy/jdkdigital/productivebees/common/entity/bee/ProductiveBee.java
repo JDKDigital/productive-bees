@@ -510,13 +510,10 @@ public class ProductiveBee extends Bee
         if (ProductiveBee.this.hasNectar() && ProductiveBee.this.savedFlowerPos != null) {
             BlockState flowerBlockState = ProductiveBee.this.level.getBlockState(ProductiveBee.this.savedFlowerPos);
             BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(ProductiveBee.this, flowerBlockState);
-            ProductiveBees.LOGGER.info("getting block conversion recipe for " + flowerBlockState);
-            ProductiveBees.LOGGER.info("recipe " + recipe);
             if (recipe != null) {
                 if (ProductiveBees.rand.nextInt(100) <= recipe.chance) {
                     ProductiveBee.this.level.setBlock(ProductiveBee.this.savedFlowerPos, recipe.stateTo, 3);
                     ProductiveBee.this.level.levelEvent(2005, ProductiveBee.this.savedFlowerPos, 0);
-                    ProductiveBee.this.hasConverted = true;
                 }
                 // Set flag to prevent produce when trying to convert blocks
                 ProductiveBee.this.setHasConverted(true);
@@ -546,11 +543,11 @@ public class ProductiveBee extends Bee
     }
 
     public boolean hasConverted() {
-        return hasConverted;
+        return getFlag(16);
     }
 
     public void setHasConverted(boolean hasConverted) {
-        this.hasConverted = hasConverted;
+        setFlag(16, hasConverted);
     }
 
     public class EnterHiveGoal extends Bee.BeeEnterHiveGoal

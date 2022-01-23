@@ -5,6 +5,7 @@
     "attributes": {
         "endurance": 3
     },
+    "selfbreed": false,
     "conditions": [
         {
             "type": "forge:mod_loaded",
