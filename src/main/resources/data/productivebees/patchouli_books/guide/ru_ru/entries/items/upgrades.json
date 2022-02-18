@@ -26,7 +26,7 @@
         {
             "type": "patchouli:crafting",
             "recipe": "productivebees:upgrades/productivity",
-            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l).",
+            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l), $(l:blocks/honey_generator)«Медовом генераторе»(/l).",
             "anchor": "productivity"
         },
         {
@@ -36,7 +36,7 @@
         {
             "type": "patchouli:crafting",
             "recipe": "productivebees:upgrades/time",
-            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l), $(l:blocks/centrifuge)«Центрифуге»$(/l) и $(l:blocks/incubator)«Инкубаторе»$(/l).",
+            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l), $(l:blocks/centrifuge)«Центрифуге»$(/l) и $(l:blocks/incubator)«Инкубаторе»$(/l), $(l:blocks/honey_generator)«Медовом генераторе»(/l).",
             "anchor": "speed"
         },
         {
@@ -56,7 +56,7 @@
         {
             "type": "patchouli:crafting",
             "recipe": "productivebees:upgrades/range",
-            "text": "Используется в: $(l:blocks/catcher)«Ловце»$(/l).",
+            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l), $(l:blocks/catcher)«Ловце»$(/l).",
             "anchor": "range"
         },
         {
@@ -71,7 +71,7 @@
         },
         {
             "type": "patchouli:text",
-            "text": "Когда установлено в «Улье», пчёлы, живущие в улье, с этим улучшением больше не смогут телепортироваться."
+            "text": "Когда установлено в «Улье», радиус действия пчёл «Фермерских и Сборщиц/барахольщиц» увеличивается на 1 за каждое улучшение из стандартных 4. Когда установлено в «Ловце», улучшение: Радиус увеличит область действия на 1 блок во всех направлениях. Можно установить несколько подобных улучшений."
         },
         {
             "type": "patchouli:crafting",
@@ -81,7 +81,17 @@
         },
         {
             "type": "patchouli:text",
-            "text": "Когда установлено в «Улье», с каждым посещением пчелы будет извлекаться малый образец опыляющих пчёл. Оно вообще не будет наносить им урон."
+            "text": "Когда установлено в «Улье», с каждым посещением пчелы будет извлекаться малый образец опыляющих пчёл. Оно вообще не будет наносить им урон.",
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/comb_block",
+            "text": "Используется в: $(l:hives/advanced_hives#expanded)«Расширенных ульях»$(/l).",
+            "anchor": "comb_block"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Когда установлено в «Улье», «Лесные и «Карьерные пчёлы» будут производить целые блоки вместо высевок/щепок."
         }
     ]
 }

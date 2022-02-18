@@ -501,6 +501,7 @@
   "productivebees.information.home_position": "Позиция улья: %s, %s, %s",
   "productivebees.information.breeding_item": "Выведено предметов: %s",
   "productivebees.information.breeding_item_default": "Любой цветок",
+  "productivebees.information.selfbreed_disabled": "Эту разновидность пчелы нельзя развести между собой.",
   "productivebees.information.jar.bee": "Пчела: %s",
   "productivebees.information.jar.fill_tip": "Поставь пчелиную клетку, содержащую пчелу, которую ты хочешь разместить внутрь, используя «Воронку» или «Трубку».",
   "productivebees.information.nestlocator.configured": "Обнаруживает гнёзда вида %s. Пкм для поиска по ближайшей области.",
