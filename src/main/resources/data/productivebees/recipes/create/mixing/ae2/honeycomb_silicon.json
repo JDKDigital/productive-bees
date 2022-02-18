@@ -16,8 +16,11 @@
             "item": "ae2:silicon"
         },
         {
+            "item": "productivebees:wax"
+        },
+        {
             "fluid": "productivebees:honey",
-            "amount": 100
+            "amount": 50
         }
     ],
     "heatRequirement": "heated",

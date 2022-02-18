@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
@@ -20,6 +21,6 @@ public class LumberBee extends ProductiveBee
 
     @Override
     public boolean isFlowerBlock(BlockState flowerBlock) {
-        return flowerBlock.is(BlockTags.LOGS);
+        return flowerBlock.is(ModTags.LUMBER);
     }
 }

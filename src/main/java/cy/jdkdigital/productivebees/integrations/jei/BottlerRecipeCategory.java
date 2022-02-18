@@ -7,11 +7,14 @@ import cy.jdkdigital.productivebees.recipe.BottlerRecipe;
 import cy.jdkdigital.productivebees.recipe.TagOutputRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -91,5 +94,23 @@ public class BottlerRecipeCategory implements IRecipeCategory<BottlerRecipe>
             int amount = recipe.fluidInput.getSecond();
             tooltip.add(new TranslatableComponent("productivebees.centrifuge.tooltip.amount", amount + "mB"));
         });
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, BottlerRecipe recipe, List<? extends IFocus<?>> focuses) {
+        List<Fluid> fluids = TagOutputRecipe.getAllFluidsFromName(recipe.fluidInput.getFirst());
+        List<FluidStack> fluidStacks = new ArrayList<>();
+        for (Fluid fluid: fluids) {
+            fluidStacks.add(new FluidStack(fluid, recipe.fluidInput.getSecond()));
+        }
+        builder.addSlot(RecipeIngredientRole.INPUT, 10, 28)
+                .addIngredients(VanillaTypes.FLUID, fluidStacks)
+                .setSlotName("inputFluid");
+        builder.addSlot(RecipeIngredientRole.INPUT, 43, 27)
+                .addItemStacks(Arrays.stream(recipe.itemInput.getItems()).toList())
+                .setSlotName("inputItem");
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 99, 27)
+                .addItemStacks(Arrays.stream(recipe.result.getItems()).toList())
+                .setSlotName("result");
     }
 }

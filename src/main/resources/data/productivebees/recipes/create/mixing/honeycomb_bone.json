@@ -6,14 +6,18 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:bone"
+                    "type": "productivebees:skeletal"
                 }
             }
         }
     ],
     "results": [
         {
-            "item": "minecraft:bone_meal"
+            "item": "minecraft:bone_meal",
+            "chance": 0.7
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

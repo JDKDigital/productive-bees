@@ -14,7 +14,10 @@
     "results": [
         {
             "item": "productivebees:wither_skull_chip",
-            "chance": 0.70
+            "chance": 0.30
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

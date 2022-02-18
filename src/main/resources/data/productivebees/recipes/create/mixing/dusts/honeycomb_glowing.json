@@ -16,6 +16,9 @@
             "item": "minecraft:glowstone_dust"
         },
         {
+            "item": "productivebees:wax"
+        },
+        {
             "fluid": "productivebees:honey",
             "amount": 100
         }

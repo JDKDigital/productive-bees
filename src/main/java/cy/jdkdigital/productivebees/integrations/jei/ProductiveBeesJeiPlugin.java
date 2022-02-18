@@ -1,8 +1,11 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.item.StoneChip;
+import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientHelper;
@@ -22,17 +25,18 @@ import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -200,9 +204,33 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, new TranslatableComponent("productivebees.ingredient.description." + itemName));
         }
 
-        // Chip information
-        registration.addIngredientInfo(new ItemStack(ModItems.WOOD_CHIP.get()), VanillaTypes.ITEM, new TranslatableComponent("productivebees.ingredient.description.wood_chip"));
-        registration.addIngredientInfo(new ItemStack(ModItems.STONE_CHIP.get()), VanillaTypes.ITEM, new TranslatableComponent("productivebees.ingredient.description.stone_chip"));
+        // Chip recipes
+        Collection<ShapelessRecipe> chipRecipes = new ArrayList<>();
+        Collection<AdvancedBeehiveRecipe> chipHiveRecipes = new ArrayList<>();
+        for (Block b : ModTags.QUARRY.getValues()) {
+            chipRecipes.add(StoneChip.getRecipe(b));
+
+            String[] id = b.getRegistryName().toString().split(":");
+            Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
+            blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 7, 100}));
+            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "stone_chip_block_hive_" + id[1]), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), blockItemOutput));
+            Map<Ingredient, IntArrayTag> chipItemOutput = new HashMap<>();
+            chipItemOutput.put(Ingredient.of(StoneChip.getStack(b)), new IntArrayTag(new int[]{1, 7, 100}));
+            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "stone_chip_hive_" + id[1]), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), chipItemOutput));
+        }
+        for (Block b : ModTags.LUMBER.getValues()) {
+            chipRecipes.add(WoodChip.getRecipe(b));
+
+            String[] id = b.getRegistryName().toString().split(":");
+            Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
+            blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 7, 100}));
+            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_block_hive_" + id[1]), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), blockItemOutput));
+            Map<Ingredient, IntArrayTag> chipItemOutput = new HashMap<>();
+            chipItemOutput.put(Ingredient.of(WoodChip.getStack(b)), new IntArrayTag(new int[]{1, 7, 100}));
+            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_hive_" + id[1]), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), chipItemOutput));
+        }
+        registration.addRecipes(chipRecipes, VanillaRecipeCategoryUid.CRAFTING);
+        registration.addRecipes(chipHiveRecipes, CATEGORY_ADVANCED_BEEHIVE_UID);
 
         // Configurable combs
         Optional<? extends Recipe<?>> honeycombRecipe = recipeManager.byKey(new ResourceLocation(ProductiveBees.MODID, "comb_block/configurable_honeycomb"));

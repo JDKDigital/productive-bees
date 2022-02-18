@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.DragonEggHive;
 import cy.jdkdigital.productivebees.common.crafting.conditions.BeeExistsCondition;
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.init.*;
@@ -13,14 +14,23 @@ import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.*;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,6 +42,7 @@ import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -69,6 +80,7 @@ public final class ProductiveBees
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoad);
         MinecraftForge.EVENT_BUS.addListener(this::onDataSync);
+        MinecraftForge.EVENT_BUS.addListener(this::onEntityHurt);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModPointOfInterestTypes.POI_TYPES.register(modEventBus);
@@ -114,6 +126,34 @@ public final class ProductiveBees
 
     public void onServerStarting(AddReloadListenerEvent event) {
         event.addListener(BeeReloadListener.INSTANCE);
+    }
+
+    private void onEntityHurt(LivingHurtEvent event) {
+        Entity damageSource = event.getSource().getEntity();
+        if (damageSource instanceof LivingEntity attacker && event.getEntity() instanceof Player player) {
+            boolean isWearingBeeHelmet = false;
+            ItemStack itemstack = player.getItemBySlot(EquipmentSlot.HEAD);
+            if (!itemstack.isEmpty() && itemstack.getItem().equals(ModItems.BEE_NEST_DIAMOND_HELMET.get())) {
+                isWearingBeeHelmet = true;
+            }
+
+            if (isWearingBeeHelmet && rand.nextDouble() < ProductiveBeesConfig.BEES.kamikazBeeChance.get()) {
+                Level level = player.getLevel();
+                ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(level);
+                BlockPos pos = player.blockPosition();
+                if (bee != null) {
+                    bee.setBeeType("productivebees:kamikaz");
+                    bee.setAttributes();
+                    bee.setTarget(attacker);
+                    bee.moveTo(pos.getX(), pos.getY() + 0.5, pos.getZ(), bee.getYRot(), bee.getXRot());
+
+                    level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+                    level.playSound(player, pos, SoundEvents.BEE_HURT, SoundSource.NEUTRAL, 1.0F, 1.0F);
+
+                    level.addFreshEntity(bee);
+                }
+            }
+        }
     }
 
     public void onRegisterFeatures(final RegistryEvent.Register<Feature<?>> event) {

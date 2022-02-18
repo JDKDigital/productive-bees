@@ -26,6 +26,10 @@
         {
             "type": "forge:mod_loaded",
             "modid": "industrialforegoing"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:pink_slimy"
         }
     ]
 }

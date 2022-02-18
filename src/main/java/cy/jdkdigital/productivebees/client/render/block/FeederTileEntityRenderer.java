@@ -20,21 +20,21 @@ import java.util.List;
 
 public class FeederTileEntityRenderer implements BlockEntityRenderer<FeederBlockEntity>
 {
-    public static final HashMap<Integer, List<Pair<Float, Float>>> POSITIONS = new HashMap<Integer, List<Pair<Float, Float>>>()
+    public static final HashMap<Integer, List<Pair<Float, Float>>> POSITIONS = new HashMap<>()
     {{
-        put(1, new ArrayList<Pair<Float, Float>>()
+        put(1, new ArrayList<>()
         {{
             add(Pair.of(0.5f, 0.5f));
             add(Pair.of(0.5f, 0.5f));
             add(Pair.of(0.5f, 0.5f));
         }});
-        put(2, new ArrayList<Pair<Float, Float>>()
+        put(2, new ArrayList<>()
         {{
             add(Pair.of(0.3f, 0.3f));
             add(Pair.of(0.5f, 0.5f));
             add(Pair.of(0.7f, 0.7f));
         }});
-        put(3, new ArrayList<Pair<Float, Float>>()
+        put(3, new ArrayList<>()
         {{
             add(Pair.of(0.3f, 0.3f));
             add(Pair.of(0.5f, 0.7f));
@@ -45,7 +45,7 @@ public class FeederTileEntityRenderer implements BlockEntityRenderer<FeederBlock
     public FeederTileEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
 
-    public void render(FeederBlockEntity tileEntityIn, float partialTicks, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(FeederBlockEntity tileEntityIn, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             int filledSlots = 0;
             for (int slot = 0; slot < handler.getSlots(); ++slot) {
@@ -67,12 +67,12 @@ public class FeederTileEntityRenderer implements BlockEntityRenderer<FeederBlock
                     float rotation = isFlower ? 90F : 35.0F * slot;
                     float zScale = isFlower ? 0.775F : 0.575F;
 
-                    matrixStackIn.pushPose();
-                    matrixStackIn.translate(pos.getFirst(), 0.52D, pos.getSecond());
-                    matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(rotation));
-                    matrixStackIn.scale(0.575F, zScale, 0.575F);
-                    Minecraft.getInstance().getItemRenderer().renderStatic(slotStack, ItemTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
-                    matrixStackIn.popPose();
+                    poseStack.pushPose();
+                    poseStack.translate(pos.getFirst(), 0.52D, pos.getSecond());
+                    poseStack.mulPose(Vector3f.XP.rotationDegrees(rotation));
+                    poseStack.scale(0.575F, zScale, 0.575F);
+                    Minecraft.getInstance().getItemRenderer().renderStatic(slotStack, ItemTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, 0);
+                    poseStack.popPose();
                 }
             }
         });

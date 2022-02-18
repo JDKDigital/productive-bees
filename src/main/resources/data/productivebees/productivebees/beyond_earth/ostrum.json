@@ -1,0 +1,15 @@
+{
+    "primaryColor": "#966062",
+    "secondaryColor": "#2c1f2d",
+    "particleColor": "#564151",
+    "flowerTag": "forge:storage_blocks/ostrum",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/ostrum"
+            }
+        }
+    ]
+}

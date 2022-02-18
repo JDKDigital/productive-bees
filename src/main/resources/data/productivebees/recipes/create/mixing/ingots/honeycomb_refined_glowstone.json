@@ -17,6 +17,9 @@
             "count": 2
         },
         {
+            "item": "productivebees:wax"
+        },
+        {
             "fluid": "productivebees:honey",
             "amount": 50
         }

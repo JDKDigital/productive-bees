@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.item.StoneChipRenderer;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -7,8 +8,11 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.IItemRenderProperties;
 
@@ -74,5 +78,18 @@ public class StoneChip extends WoodChip
                 return myRenderer;
             }
         });
+    }
+
+    public static ShapelessRecipe getRecipe(Block b) {
+        ItemStack chip = getStack(b);
+        String[] id = b.getRegistryName().toString().split(":");
+        NonNullList<Ingredient> list = NonNullList.create();
+        for (int i = 0; i < 9; ++i) {
+            Ingredient ingredient = Ingredient.of(chip);
+            if (!ingredient.isEmpty()) {
+                list.add(ingredient);
+            }
+        }
+        return new ShapelessRecipe(new ResourceLocation(ProductiveBees.MODID, "stone_chip_" + id[1]), "", new ItemStack(b.asItem()), list);
     }
 }

@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "productivebees:item/bee_nest_diamond_helmet"
+    }
+}

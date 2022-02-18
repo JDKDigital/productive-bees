@@ -16,6 +16,9 @@
             "item": "croptopia:salt"
         },
         {
+            "item": "productivebees:wax"
+        },
+        {
             "fluid": "productivebees:honey",
             "amount": 50
         }

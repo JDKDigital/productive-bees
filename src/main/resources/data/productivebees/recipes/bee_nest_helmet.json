@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bee_nest"
+        },
+        {
+            "item": "minecraft:diamond_helmet"
+        }
+    ],
+    "result": {
+        "item": "productivebees:bee_nest_diamond_helmet"
+    }
+}

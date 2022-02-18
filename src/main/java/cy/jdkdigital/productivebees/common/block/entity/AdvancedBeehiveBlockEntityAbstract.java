@@ -93,6 +93,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     BeehiveBlockEntity.BeeReleaseStatus beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
                     if (AdvancedBeehiveBlockEntityAbstract.releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt.copy(), null, beeState)) {
                         inhabitantIterator.remove();
+                        blockEntity.setChanged();
                     }
                 } else {
                     inhabitant.ticksInHive += blockEntity.tickCounter;
@@ -203,6 +204,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 (level.isNight() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
                 (level.isRaining() && tag.getInt("bee_weather_tolerance") == 0) // it's raining and the bees is not tolerant
             );
+
 
         if (!stayInside) {
             tag.remove("Passengers");

@@ -5,7 +5,6 @@
     "particleColor": "#66aefc",
     "renderer": "default_crystal",
     "size": 0.7,
-    "description": "productivebees.ingredient.description.spacial",
     "flowerBlock": "ae2:quartz_block",
     "conditions": [
         {

@@ -47,8 +47,7 @@ public class StoneChipRecipe implements CraftingRecipe
 
                 if (itemstack.getItem().equals(ModItems.STONE_CHIP.get()) && StoneChip.getBlock(itemstack).equals(chipBlock)) {
                     matchingStacks++;
-                }
-                else {
+                } else {
                     return false;
                 }
             }

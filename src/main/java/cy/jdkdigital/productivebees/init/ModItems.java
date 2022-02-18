@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraftforge.fml.ModList;
@@ -47,6 +48,8 @@ public class ModItems
     public static final RegistryObject<Item> SUGARBAG_HONEYCOMB = createItem("sugarbag_honeycomb", () -> new Item(new Item.Properties().food(SUGARBAG).rarity(Rarity.EPIC).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> TREAT_ON_A_STICK = createItem("treat_on_a_stick", () -> new TreatOnAStick(new Item.Properties().durability(25).tab(ModItemGroups.PRODUCTIVE_BEES),7));
     public static final RegistryObject<Item> WAX = createItem("wax", () -> new HoneycombItem(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
+
+    public static final RegistryObject<Item> BEE_NEST_DIAMOND_HELMET = createItem("bee_nest_diamond_helmet", () -> new BeeNestHelmet(ArmorMaterials.DIAMOND, EquipmentSlot.HEAD, (new Item.Properties()).tab(ModItemGroups.PRODUCTIVE_BEES)));
 
     public static final RegistryObject<Item> CONFIGURABLE_HONEYCOMB = createItem("configurable_honeycomb", () -> new Honeycomb(new Item.Properties().tab(null), "#d2ab00"));
 

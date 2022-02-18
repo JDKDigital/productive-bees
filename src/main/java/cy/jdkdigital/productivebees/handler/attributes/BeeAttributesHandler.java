@@ -46,12 +46,8 @@ public class BeeAttributesHandler implements IBeeAttributes
     @Nonnull
     @Override
     public Tag getAsNBT() {
-        ProductiveBees.LOGGER.info("getAsNBT");
         for (Map.Entry<BeeAttribute<?>, Object> entry : getAttributes().entrySet()) {
-            ProductiveBees.LOGGER.info(entry.getKey() + " - " + entry.getValue());
         }
-        ProductiveBees.LOGGER.info("Productivity: " + this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
-        ProductiveBees.LOGGER.info("Endurance: " + this.getAttributeValue(BeeAttributes.ENDURANCE));
         CompoundTag tag = new CompoundTag();
         tag.putInt("bee_productivity", this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
         tag.putInt("bee_endurance", this.getAttributeValue(BeeAttributes.ENDURANCE));

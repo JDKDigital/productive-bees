@@ -6,13 +6,13 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:silicon_bronze"
+                        "type": "productivebees:tinkers_bronze"
                 }
             }
         }
     ],
     "result": {
-        "fluid": "tconstruct:molten_silicon_bronze",
+        "fluid": "tconstruct:molten_tinkers_bronze",
         "amount": 64
     },
     "temperature": 700,

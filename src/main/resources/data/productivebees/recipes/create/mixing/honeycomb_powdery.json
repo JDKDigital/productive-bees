@@ -7,7 +7,11 @@
     ],
     "results": [
         {
-            "item": "minecraft:gunpowder"
+            "item": "minecraft:gunpowder",
+            "chance": 0.5
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

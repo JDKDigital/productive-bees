@@ -10,6 +10,5 @@
         "temper": 0
     },
     "stingless": true,
-    "description": "productivebees.ingredient.description.sugarbag",
     "nestingPreference": "productivebees:nests/sugarbag_nests"
 }

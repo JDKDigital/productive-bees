@@ -97,7 +97,7 @@ public class Gene extends Item
             list.add((new TranslatableComponent("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(new TextComponent(" (" + getPurity(stack) + "%)")));
         } else {
             String type = getAttributeName(stack);
-            list.add(new TranslatableComponent("productivebees.information.attribute.type", type).withStyle(ChatFormatting.DARK_GRAY).append(new TextComponent(" (" + getPurity(stack) + "%)")));
+            list.add(new TranslatableComponent("productivebees.information.attribute.type", type).withStyle(ChatFormatting.GOLD).append(new TextComponent(" (" + getPurity(stack) + "%)")));
         }
     }
 
@@ -117,6 +117,7 @@ public class Gene extends Item
             items.add(getStack(BeeAttributes.TEMPER, 0, 1, 100));
             items.add(getStack(BeeAttributes.TEMPER, 1, 1, 100));
             items.add(getStack(BeeAttributes.TEMPER, 2, 1, 100));
+            items.add(getStack(BeeAttributes.TEMPER, 3, 1, 100));
             items.add(getStack(BeeAttributes.ENDURANCE, 0, 1, 100));
             items.add(getStack(BeeAttributes.ENDURANCE, 1, 1, 100));
             items.add(getStack(BeeAttributes.ENDURANCE, 2, 1, 100));

@@ -14,7 +14,10 @@
     "results": [
         {
             "item": "minecraft:copper_ingot",
-            "chance": 0.90
+            "chance": 0.4
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

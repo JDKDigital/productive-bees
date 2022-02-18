@@ -1,0 +1,25 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:ostrum",
+    "result": "productivebees:calorite",
+    "item": {
+        "tag": "forge:storage_blocks/calorite"
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/calorite"
+            }
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:ostrum"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:calorite"
+        }
+    ]
+}

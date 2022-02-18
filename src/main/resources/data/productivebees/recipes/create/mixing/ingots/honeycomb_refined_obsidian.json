@@ -14,7 +14,10 @@
     "results": [
         {
             "item": "mekanism:dust_refined_obsidian",
-            "chance": 0.7
+            "chance": 0.3
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

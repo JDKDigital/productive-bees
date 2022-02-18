@@ -47,8 +47,7 @@ public class WoodChipRecipe implements CraftingRecipe
 
                 if (itemstack.getItem().equals(ModItems.WOOD_CHIP.get()) && WoodChip.getBlock(itemstack).equals(chipBlock)) {
                     matchingStacks++;
-                }
-                else {
+                } else {
                     return false;
                 }
             }

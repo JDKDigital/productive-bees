@@ -21,7 +21,6 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class BeeBreedingRecipe implements Recipe<Container>
 {
@@ -29,9 +28,9 @@ public class BeeBreedingRecipe implements Recipe<Container>
 
     public final ResourceLocation id;
     public final List<Lazy<BeeIngredient>> ingredients;
-    public final Map<Lazy<BeeIngredient>, Integer> offspring;
+    public final Lazy<BeeIngredient> offspring;
 
-    public BeeBreedingRecipe(ResourceLocation id, List<Lazy<BeeIngredient>> ingredients, Map<Lazy<BeeIngredient>, Integer> offspring) {
+    public BeeBreedingRecipe(ResourceLocation id, List<Lazy<BeeIngredient>> ingredients, Lazy<BeeIngredient> offspring) {
         this.id = id;
         this.ingredients = ingredients;
         this.offspring = offspring;
@@ -107,22 +106,16 @@ public class BeeBreedingRecipe implements Recipe<Container>
             String parentName1 = GsonHelper.getAsString(json, "parent1");
             String parentName2 = GsonHelper.getAsString(json, "parent2");
 
-            Map<Lazy<BeeIngredient>, Integer> children = new LinkedHashMap<>();
+            Lazy<BeeIngredient> offspringIngredient = null;
             JsonArray offspring = GsonHelper.getAsJsonArray(json, "offspring");
-            offspring.forEach(el -> {
-                if (el.isJsonObject()) {
-                    String child = GsonHelper.getAsString(el.getAsJsonObject(), "offspring");
-                    children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), GsonHelper.getAsInt(el.getAsJsonObject(), "weight"));
-                } else {
-                    String child = el.getAsString();
-                    children.put(Lazy.of(BeeIngredientFactory.getIngredient(child)), 1);
-                }
-            });
+            if (!offspring.isEmpty()) {
+                offspringIngredient = Lazy.of(BeeIngredientFactory.getIngredient(offspring.get(0).getAsString()));
+            }
 
             Lazy<BeeIngredient> beeIngredientParent1 = Lazy.of(BeeIngredientFactory.getIngredient(parentName1));
             Lazy<BeeIngredient> beeIngredientParent2 = Lazy.of(BeeIngredientFactory.getIngredient(parentName2));
 
-            return this.factory.create(id, Arrays.asList(beeIngredientParent1, beeIngredientParent2), children);
+            return this.factory.create(id, Arrays.asList(beeIngredientParent1, beeIngredientParent2), offspringIngredient);
         }
 
         public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
@@ -134,13 +127,9 @@ public class BeeBreedingRecipe implements Recipe<Container>
                 ingredients.add(Lazy.of(() -> ing1));
                 ingredients.add(Lazy.of(() -> ing2));
 
-                Map<Lazy<BeeIngredient>, Integer> offspring = new LinkedHashMap<>();
-                IntStream.range(0, buffer.readInt()).forEach(i -> {
-                    BeeIngredient result = BeeIngredient.fromNetwork(buffer);
-                    offspring.put(Lazy.of(() -> result), buffer.readInt());
-                });
+                BeeIngredient offspring = BeeIngredient.fromNetwork(buffer);
 
-                return this.factory.create(id, ingredients, offspring);
+                return this.factory.create(id, ingredients, Lazy.of(() -> offspring));
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee breeding recipe from packet. " + id, e);
                 throw e;
@@ -157,15 +146,11 @@ public class BeeBreedingRecipe implements Recipe<Container>
                     }
                 }
 
-                buffer.writeInt(recipe.offspring.size());
-                recipe.offspring.forEach((child, weight) -> {
-                    if (child.get() != null) {
-                        child.get().toNetwork(buffer);
-                        buffer.writeInt(weight);
-                    } else {
-                        throw new RuntimeException("Bee breeding recipe child missing " + recipe.getId() + " - " + child);
-                    }
-                });
+                if (recipe.offspring.get() != null) {
+                    recipe.offspring.get().toNetwork(buffer);
+                } else {
+                    throw new RuntimeException("Bee breeding recipe child missing " + recipe.getId() + " - " + recipe.offspring.get());
+                }
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee breeding recipe to packet. " + recipe.getId(), e);
                 throw e;
@@ -174,7 +159,7 @@ public class BeeBreedingRecipe implements Recipe<Container>
 
         public interface IRecipeFactory<T extends BeeBreedingRecipe>
         {
-            T create(ResourceLocation id, List<Lazy<BeeIngredient>> input, Map<Lazy<BeeIngredient>, Integer> output);
+            T create(ResourceLocation id, List<Lazy<BeeIngredient>> input, Lazy<BeeIngredient> output);
         }
     }
 }

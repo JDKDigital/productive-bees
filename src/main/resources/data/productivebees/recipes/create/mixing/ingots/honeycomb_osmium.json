@@ -14,7 +14,10 @@
     "results": [
         {
             "item": "mekanism:ingot_osmium",
-            "chance": 0.90
+            "chance": 0.40
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

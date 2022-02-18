@@ -16,6 +16,9 @@
             "item": "mysticalagriculture:soulium_dust"
         },
         {
+            "item": "productivebees:wax"
+        },
+        {
             "fluid": "productivebees:honey",
             "amount": 50
         }

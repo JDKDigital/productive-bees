@@ -11,10 +11,13 @@ import cy.jdkdigital.productivebees.recipe.IncubationRecipe;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -89,6 +92,19 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
         itemStacks.init(1, true, 36, 26);
         itemStacks.init(2, false, 64, 8);
         itemStacks.set(ingredients);
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, IncubationRecipe recipe, List<? extends IFocus<?>> focuses) {
+        builder.addSlot(RecipeIngredientRole.INPUT, 9, 9)
+                .addItemStacks(Arrays.stream(recipe.input.getItems()).toList())
+                .setSlotName("input");
+        builder.addSlot(RecipeIngredientRole.INPUT, 37, 27)
+                .addItemStacks(Arrays.stream(recipe.catalyst.getItems()).toList())
+                .setSlotName("catalyst");
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 9)
+                .addItemStacks(Arrays.stream(recipe.result.getItems()).toList())
+                .setSlotName("result");
     }
 
     public static List<IncubationRecipe> getRecipes(Map<String, BeeIngredient> beeList) {

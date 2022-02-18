@@ -122,26 +122,26 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
             if (shapeEnd >= 1.0D && !BlockTags.IMPERMEABLE.contains(state.getBlock())) {
                 double shapeStart = shape.min(Direction.Axis.Y);
                 if (shapeStart > 0.0D) {
-                    this.spawnParticle(world, pos, shape, (double) pos.getY() + shapeStart - 0.05D);
+                    spawnParticle(world, pos, shape, (double) pos.getY() + shapeStart - 0.05D);
                 } else {
                     BlockPos posDown = pos.below();
                     BlockState stateDown = world.getBlockState(posDown);
                     VoxelShape shapeDown = stateDown.getCollisionShape(world, posDown);
                     double shapeDownEnd = shapeDown.max(Direction.Axis.Y);
                     if ((shapeDownEnd < 1.0D || !stateDown.isCollisionShapeFullBlock(world, posDown)) && stateDown.getFluidState().isEmpty()) {
-                        this.spawnParticle(world, pos, shape, (double) pos.getY() - 0.05D);
+                        spawnParticle(world, pos, shape, (double) pos.getY() - 0.05D);
                     }
                 }
             }
         }
     }
 
-    private void spawnParticle(Level world, BlockPos pos, VoxelShape shape, double p_226880_4_) {
-        this.spawnFluidParticle(world, (double) pos.getX() + shape.min(Direction.Axis.X), (double) pos.getX() + shape.max(Direction.Axis.X), (double) pos.getZ() + shape.min(Direction.Axis.Z), (double) pos.getZ() + shape.max(Direction.Axis.Z), p_226880_4_);
+    private static void spawnParticle(Level level, BlockPos pos, VoxelShape shape, double p_226880_4_) {
+        spawnFluidParticle(level, (double) pos.getX() + shape.min(Direction.Axis.X), (double) pos.getX() + shape.max(Direction.Axis.X), (double) pos.getZ() + shape.min(Direction.Axis.Z), (double) pos.getZ() + shape.max(Direction.Axis.Z), p_226880_4_);
     }
 
-    private void spawnFluidParticle(Level world, double d1, double d2, double d3, double d4, double d5) {
-        world.addParticle(ParticleTypes.DRIPPING_HONEY, Mth.lerp(world.random.nextDouble(), d1, d2), d5, Mth.lerp(world.random.nextDouble(), d3, d4), 0.0D, 0.0D, 0.0D);
+    private static void spawnFluidParticle(Level level, double d1, double d2, double d3, double d4, double d5) {
+        level.addParticle(ParticleTypes.DRIPPING_HONEY, Mth.lerp(level.random.nextDouble(), d1, d2), d5, Mth.lerp(level.random.nextDouble(), d3, d4), 0.0D, 0.0D, 0.0D);
     }
 
     @Nonnull

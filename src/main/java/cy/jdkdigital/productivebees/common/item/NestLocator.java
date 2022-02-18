@@ -31,6 +31,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -52,6 +53,10 @@ public class NestLocator extends Item
     }
 
     public static String getNestName(ItemStack stack) {
+        if (!hasNest(stack)) {
+            return Blocks.BEE_NEST.getName().getString();
+        }
+
         CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
 
         return nbt.contains("nestName") ? nbt.getString("nestName") : null;

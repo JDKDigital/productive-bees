@@ -1,24 +1,35 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.util.Lazy;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversionRecipe>
 {
@@ -79,5 +90,19 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
         itemStacks.init(2, true, 10, 26);
         itemStacks.set(2, ingredients.getInputs(VanillaTypes.ITEM).get(0));
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, BeeConversionRecipe recipe, List<? extends IFocus<?>> focuses) {
+        builder.addSlot(RecipeIngredientRole.INPUT, 42, 27)
+                .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.source.get())
+                .setSlotName("source");
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 100, 28)
+                .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.result.get())
+                .setSlotName("result");
+
+        builder.addSlot(RecipeIngredientRole.INPUT, 10, 26)
+                .addItemStacks(Arrays.stream(recipe.item.getItems()).toList())
+                .setSlotName("conversionItems");
     }
 }

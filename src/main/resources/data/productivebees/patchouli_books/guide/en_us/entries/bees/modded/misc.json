@@ -33,14 +33,14 @@
         },
         {
             "type": "patchouli:text",
-            "title": "Spacial Bee",
+            "title": "Spatial Bee",
             "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and an $(l:bees/wild/ender)Ender Bee$(/l).$(br2)The combs of this bee can be centrifuged to get certus quartz seeds which require further processing.",
             "anchor": "spacial",
             "flag": "productivebees:spacial"
         },
         {
             "type": "patchouli:entity",
-            "name": "Spacial Bee",
+            "name": "Spatial Bee",
             "entity": "productivebees:configurable_bee{type:'productivebees:spacial'}",
             "flag": "productivebees:spacial"
         },
@@ -164,7 +164,7 @@
         {
             "type": "patchouli:text",
             "title": "Allthemodium Bee",
-            "text": "Bred from a $(l:bees/hive/diamond)Diamond Bee$(/l) and a $(l:bees/hive/withered)Withered Bee$(/l).",
+            "text": "Bred from a $(l:bees/hive/netherite)Netherite Bee$(/l) and a $(l:bees/hive/withered)Withered Bee$(/l).",
             "anchor": "allthemodium",
             "flag": "productivebees:allthemodium"
         },
@@ -177,7 +177,7 @@
         {
             "type": "patchouli:text",
             "title": "Vibranium Bee",
-            "text": "Bred from a $(l:bees/hive/diamond)Diamond Bee$(/l) and a $(l:bees/wild/draconic)Draconic Bee$(/l).",
+            "text": "Bred from a $(l:bees/hive/netherite)Netherite Bee$(/l) and a $(l:bees/wild/draconic)Draconic Bee$(/l).",
             "anchor": "vibranium",
             "flag": "productivebees:vibranium"
         },

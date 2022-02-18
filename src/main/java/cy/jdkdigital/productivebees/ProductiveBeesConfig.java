@@ -35,6 +35,7 @@ public class ProductiveBeesConfig
     {
         public final ForgeConfigSpec.BooleanValue renderCombsInCentrifuge;
         public final ForgeConfigSpec.BooleanValue renderBeesInJars;
+        public final ForgeConfigSpec.BooleanValue mutedBeeNestHelmet;
 
         public Client(ForgeConfigSpec.Builder builder) {
             builder.push("Client");
@@ -46,6 +47,10 @@ public class ProductiveBeesConfig
             renderBeesInJars = builder
                     .comment("Render bees inside bee jars.")
                     .define("renderBeesInJars", true);
+
+            mutedBeeNestHelmet = builder
+                    .comment("Stop bee nest helmets from making sounds.")
+                    .define("mutedBeeNestHelmet", false);
 
             builder.pop();
         }
@@ -145,6 +150,8 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue cupidBeeAnimalDensity;
         public final ForgeConfigSpec.IntValue cuckooSpawnCount;
         public final ForgeConfigSpec.DoubleValue fishingBeeChance;
+        public final ForgeConfigSpec.DoubleValue kamikazBeeChance;
+        public final ForgeConfigSpec.BooleanValue disableWanderGoal;
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
@@ -174,6 +181,14 @@ public class ProductiveBeesConfig
             fishingBeeChance = builder
                     .comment("Chance of catching a bee when fishing")
                     .defineInRange("fishingBeeChance", 0.05, 0, 1);
+
+            kamikazBeeChance = builder
+                    .comment("Chance to spawn a KamikazBee when hit while wearing bee nest armor")
+                    .defineInRange("kamikazBeeChance", 0.3, 0, 1);
+
+            disableWanderGoal = builder
+                    .comment("Disable the wander goal in bees to increase performance")
+                    .define("disableWanderGoal", false);
 
             builder.pop();
         }
@@ -258,7 +273,7 @@ public class ProductiveBeesConfig
                     .comment("Chance for a bee to produce an offspring after a hive visit.")
                     .defineInRange("breedingChance", 0.05, 0, 1);
             breedingMaxNearbyEntities = builder
-                    .comment("Chance for a bee to produce an offspring after a hive visit.")
+                    .comment("How many bees can be around a hive before a babee upgrade stops working.")
                     .defineInRange("breedingMaxNearbyEntities", 10, 0, Integer.MAX_VALUE);
             samplerChance = builder
                     .comment("Chance for a gene sample to be taken from a bee after a hive visit.")

@@ -29,6 +29,7 @@ public class ModTags
     public static final Tag<Block> SNOW_FLOWERS = getBlockTag("flowers/snow_flowers");
     public static final Tag<Block> RIVER_FLOWERS = getBlockTag("flowers/river_flowers");
     public static final Tag<Block> QUARRY = getBlockTag("flowers/quarry");
+    public static final Tag<Block> LUMBER = getBlockTag("flowers/lumber");
     public static final Tag<Block> POWDERY = getBlockTag("flowers/powdery");
 
     public static final Tag<Item> HONEY_BUCKETS = getItemTag(new ResourceLocation("forge", "buckets/honey"));

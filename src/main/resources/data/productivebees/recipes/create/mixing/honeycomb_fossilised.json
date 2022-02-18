@@ -13,7 +13,11 @@
     ],
     "results": [
         {
-            "item": "minecraft:coal"
+            "item": "minecraft:coal",
+            "chance": 0.6
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

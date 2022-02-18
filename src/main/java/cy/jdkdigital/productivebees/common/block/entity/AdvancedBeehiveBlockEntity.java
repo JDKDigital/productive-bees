@@ -221,16 +221,18 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                     Inhabitant otherBeeInhabitant = getBeeList().get(level.random.nextInt(getOccupantCount()));
                     Entity otherBee = EntityType.loadEntityRecursive(otherBeeInhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
                     if (otherBee instanceof Bee) {
-                        Entity offspring = BeeHelper.getBreedingResult(beeEntity, (Bee) otherBee, (ServerLevel) this.level);
-                        if (offspring != null) {
-                            if (offspring instanceof ProductiveBee && beeEntity instanceof ProductiveBee) {
-                                BeeHelper.setOffspringAttributes((ProductiveBee) offspring, (ProductiveBee) beeEntity, (Bee) otherBee);
+                        if (!(otherBee instanceof ProductiveBee productiveOtherBee) || productiveOtherBee.canSelfBreed()) {
+                            Entity offspring = BeeHelper.getBreedingResult(beeEntity, (Bee) otherBee, (ServerLevel) this.level);
+                            if (offspring != null) {
+                                if (offspring instanceof ProductiveBee && beeEntity instanceof ProductiveBee) {
+                                    BeeHelper.setOffspringAttributes((ProductiveBee) offspring, (ProductiveBee) beeEntity, (Bee) otherBee);
+                                }
+                                if (offspring instanceof Animal) {
+                                    ((Animal) offspring).setAge(-24000);
+                                }
+                                offspring.moveTo(beeEntity.getX(), beeEntity.getY(), beeEntity.getZ(), 0.0F, 0.0F);
+                                level.addFreshEntity(offspring);
                             }
-                            if (offspring instanceof Animal) {
-                                ((Animal) offspring).setAge(-24000);
-                            }
-                            offspring.moveTo(beeEntity.getX(), beeEntity.getY(), beeEntity.getZ(), 0.0F, 0.0F);
-                            level.addFreshEntity(offspring);
                         }
                     }
                 }

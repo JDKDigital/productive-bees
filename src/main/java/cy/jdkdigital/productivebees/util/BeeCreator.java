@@ -63,6 +63,8 @@ public class BeeCreator
         data.putString("renderTransform", json.has("renderTransform") ? json.get("renderTransform").getAsString() : "none");
         data.putString("particleType", json.has("particleType") ? json.get("particleType").getAsString() : "drip");
         data.putFloat("size", json.has("size") ? json.get("size").getAsFloat() : 1.0f);
+        data.putFloat("speed", json.has("speed") ? json.get("speed").getAsFloat() : 1.0f);
+        data.putDouble("attack", json.has("attack") ? json.get("attack").getAsFloat() : 2.0D);
 
         data.putBoolean("translucent", (json.has("translucent") && json.get("translucent").getAsBoolean()) || data.getString("renderer").equals("translucent_with_center"));
         data.putBoolean("useGlowLayer", (!json.has("useGlowLayer") || json.get("useGlowLayer").getAsBoolean()));

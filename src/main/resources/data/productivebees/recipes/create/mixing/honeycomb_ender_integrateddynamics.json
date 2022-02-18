@@ -14,7 +14,10 @@
     "results": [
         {
             "item": "minecraft:ender_pearl",
-            "chance": 0.4
+            "chance": 0.2
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "integrateddynamics:liquid_chorus",

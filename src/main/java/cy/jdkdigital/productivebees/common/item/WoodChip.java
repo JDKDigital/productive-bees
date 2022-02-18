@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.item.WoodChipRenderer;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -12,6 +14,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -74,7 +78,7 @@ public class WoodChip extends Item
     public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
         if (this.allowdedIn(group)) {
             try {
-                BlockTags.LOGS.getValues().forEach(block -> {
+                ModTags.LUMBER.getValues().forEach(block -> {
                     if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") && !block.getRegistryName().getPath().contains("stripped")) {
                         items.add(getStack(block));
                     }
@@ -97,5 +101,18 @@ public class WoodChip extends Item
                 return myRenderer;
             }
         });
+    }
+
+    public static ShapelessRecipe getRecipe(Block b) {
+        ItemStack chip = getStack(b);
+        String[] id = b.getRegistryName().toString().split(":");
+        NonNullList<Ingredient> list = NonNullList.create();
+        for (int i = 0; i < 9; ++i) {
+            Ingredient ingredient = Ingredient.of(chip);
+            if (!ingredient.isEmpty()) {
+                list.add(ingredient);
+            }
+        }
+        return new ShapelessRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_" + id[1]), "", new ItemStack(b.asItem()), list);
     }
 }

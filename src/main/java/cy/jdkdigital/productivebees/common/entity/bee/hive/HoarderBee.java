@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
@@ -57,10 +56,10 @@ public class HoarderBee extends ProductiveBee
         this.goalSelector.removeGoal(this.breedGoal);
 
         // Pickup item goal
-        this.goalSelector.addGoal(4, new PickupItemGoal());
+        this.goalSelector.addGoal(3, new PickupItemGoal());
 
         // Move to item goal and pick it up
-        this.goalSelector.addGoal(6, new LocateItemGoal());
+        this.goalSelector.addGoal(3, new LocateItemGoal());
     }
 
     @Override
@@ -239,7 +238,7 @@ public class HoarderBee extends ProductiveBee
         }
 
         private boolean positionHasItemEntity(BlockPos pos) {
-            return !HoarderBee.this.getItemsNearby(pos, 0).isEmpty();
+            return !HoarderBee.this.getItemsNearby(pos, 1).isEmpty();
         }
     }
 
@@ -263,13 +262,13 @@ public class HoarderBee extends ProductiveBee
 
                 if (!items.isEmpty()) {
                     BlockPos nearestItemLocation = null;
-                    double nearestItemDistance = 0;
+                    double nearestItemDistance = -1;
                     BlockPos beeLocation = HoarderBee.this.blockPosition();
                     int i = 0;
                     for (ItemEntity item : items) {
                         BlockPos itemLocation = new BlockPos(item.getX(), item.getY(), item.getZ());
                         double distance = itemLocation.distSqr(beeLocation);
-                        if (nearestItemDistance == 0 || distance < nearestItemDistance) {
+                        if (nearestItemDistance == -1 || distance < nearestItemDistance) {
                             nearestItemDistance = distance;
                             nearestItemLocation = itemLocation;
                         }
@@ -319,14 +318,14 @@ public class HoarderBee extends ProductiveBee
                         HoarderBee.this.openAbdomen();
                     }
 
-                    if (distanceToTarget > 1.0D) {
+                    if (distanceToTarget > 1.2D) {
                         this.moveToNextTarget(vec3d);
                     } else {
-                        if (distanceToTarget > 0.1D && ticks > 600) {
+                        if (distanceToTarget > 0.5D && ticks > 600) {
                             HoarderBee.this.targetItemPos = null;
                         } else {
                             // Pick up item
-                            List<ItemEntity> items = HoarderBee.this.getItemsNearby(0);
+                            List<ItemEntity> items = HoarderBee.this.getItemsNearby(1);
                             if (!items.isEmpty()) {
                                 ItemEntity item = items.iterator().next();
                                 ItemStack itemstack = item.getItem().copy();

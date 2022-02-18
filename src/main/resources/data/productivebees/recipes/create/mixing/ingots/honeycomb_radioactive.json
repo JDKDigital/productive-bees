@@ -13,8 +13,11 @@
     ],
     "results": [
         {
-            "item": "mekanism:ingot_uranium",
-            "chance": 0.6
+            "item": "biggerreactors:uranium_ingot",
+            "chance": 0.2
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",
@@ -29,7 +32,7 @@
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "mekanism"
+            "modid": "biggerreactors"
         }
     ]
 }

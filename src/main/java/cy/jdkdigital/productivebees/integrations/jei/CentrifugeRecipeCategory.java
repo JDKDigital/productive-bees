@@ -7,11 +7,14 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -23,6 +26,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -160,5 +164,55 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
                 tooltip.add(amounts.get(slotIndex - 1));
             }
         });
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, CentrifugeRecipe recipe, List<? extends IFocus<?>> focuses) {
+        builder.addSlot(RecipeIngredientRole.INPUT, 5, 27)
+                .addItemStacks(Arrays.stream(recipe.ingredient.getItems()).toList())
+                .setSlotName("ingredient");
+
+        int startX = 68;
+        int startY = 26;
+        final int[] i = {0};
+        if (recipe.getRecipeOutputs().size() > 0) {
+            recipe.getRecipeOutputs().forEach((stack, value) -> {
+                // Add a stack per possible output amount
+                List<ItemStack> innerList = new ArrayList<>();
+                IntStream.range(value.get(0).getAsInt(), value.get(1).getAsInt() + 1).forEach((u) -> {
+                    ItemStack newStack = stack.copy();
+                    newStack.setCount(u);
+                    innerList.add(newStack);
+                });
+
+                builder.addSlot(RecipeIngredientRole.OUTPUT, startX + (i[0] * 18) + 1, startY + ((int) Math.floor(i[0] / 3.0F) * 18) + 1)
+                        .addItemStacks(innerList)
+                        .addTooltipCallback((recipeSlotView, tooltip) -> {
+                            int chance = value.get(2).getAsInt();
+                            if (chance < 100) {
+                                tooltip.add(new TranslatableComponent("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
+                            } else {
+                                tooltip.add(new TextComponent(""));
+                            }
+                            if (value.get(0) != value.get(1)) {
+                                tooltip.add(new TranslatableComponent("productivebees.centrifuge.tooltip.amount", value.get(0).getAsInt() + " - " + value.get(1).getAsInt()));
+                            } else {
+                                tooltip.add(new TextComponent(""));
+                            }
+                        })
+                        .setSlotName("output" + i[0]);
+                i[0]++;
+            });
+        }
+        Pair<Fluid, Integer> fluid = recipe.getFluidOutputs();
+        if (fluid != null && fluid.getSecond() > 0) {
+            int fluidAmount = fluid.getSecond() < 250 ? fluid.getSecond() * 4 : fluid.getSecond();
+            builder.addSlot(RecipeIngredientRole.OUTPUT, startX + (i[0] * 18) + 1, startY + ((int) Math.floor(i[0] / 3.0F) * 18) + 1)
+                    .addIngredient(VanillaTypes.FLUID, new FluidStack(fluid.getFirst(), fluidAmount))
+                    .addTooltipCallback((recipeSlotView, tooltip) -> {
+                        tooltip.add(new TranslatableComponent("productivebees.centrifuge.tooltip.amount", fluid.getSecond() + "mB"));
+                    })
+                    .setSlotName("output" + i[0]);
+        }
     }
 }

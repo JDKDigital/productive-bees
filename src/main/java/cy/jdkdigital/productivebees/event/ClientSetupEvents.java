@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.event;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.client.model.BeeNestHelmetModel;
 import cy.jdkdigital.productivebees.client.model.CombModel;
 import cy.jdkdigital.productivebees.client.render.entity.DyeBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.HoarderBeeRenderer;
@@ -106,6 +107,8 @@ public class ClientSetupEvents
         event.registerLayerDefinition(ProductiveBeeRenderer.PB_SMALL_LAYER, SmallBeeModel::createLayer);
         event.registerLayerDefinition(ProductiveBeeRenderer.PB_SMALL_LAYER, SmallBeeModel::createLayer);
         event.registerLayerDefinition(ProductiveBeeRenderer.PB_TINY_LAYER, TinyBeeModel::createLayer);
+
+        event.registerLayerDefinition(BeeNestHelmetModel.LAYER_LOCATION, BeeNestHelmetModel::createBodyLayer);
     }
 
     @SubscribeEvent

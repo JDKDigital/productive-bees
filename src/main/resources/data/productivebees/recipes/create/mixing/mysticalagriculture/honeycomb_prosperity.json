@@ -13,7 +13,11 @@
     ],
     "results": [
         {
-            "item": "mysticalagriculture:prosperity_shard"
+            "item": "mysticalagriculture:prosperity_shard",
+            "chance": 0.3
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

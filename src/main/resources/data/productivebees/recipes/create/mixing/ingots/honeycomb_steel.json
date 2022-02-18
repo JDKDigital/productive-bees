@@ -14,7 +14,10 @@
     "results": [
         {
             "item": "mekanism:dust_steel",
-            "chance": 0.90
+            "chance": 0.40
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

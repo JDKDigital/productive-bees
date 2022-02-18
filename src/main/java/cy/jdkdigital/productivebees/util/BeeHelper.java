@@ -115,24 +115,9 @@ public class BeeHelper
     public static Entity getBreedingResult(Bee beeEntity, AgeableMob targetEntity, ServerLevel world) {
         BeeBreedingRecipe recipe = getRandomBreedingRecipe(beeEntity, targetEntity, world);
         if (recipe != null) {
-            Map<Lazy<BeeIngredient>, Integer> possibleOffspring = recipe.offspring;
-            if (possibleOffspring != null && possibleOffspring.size() > 0) {
-                // Get weighted offspring chance
-                int maxWeight = 0;
-                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry : possibleOffspring.entrySet()) {
-                    maxWeight = maxWeight + entry.getValue();
-                }
-
-                BeeIngredient beeIngredient = null;
-
-                int i = ProductiveBees.rand.nextInt(maxWeight);
-                int currentWeight = 0;
-                for (Map.Entry<Lazy<BeeIngredient>, Integer> entry : possibleOffspring.entrySet()) {
-                    currentWeight = currentWeight + entry.getValue();
-                    if (i < currentWeight) {
-                        beeIngredient = entry.getKey().get();
-                    }
-                }
+            Lazy<BeeIngredient> possibleOffspring = recipe.offspring;
+            if (recipe.offspring != null) {
+                BeeIngredient beeIngredient = recipe.offspring.get();
 
                 if (beeIngredient != null) {
                     Entity newBee = beeIngredient.getBeeEntity().create(world);
@@ -246,7 +231,8 @@ public class BeeHelper
             });
         } else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
-                Block flowerBlock = getFloweringBlock(world, flowerPos, BlockTags.LOGS, (ProductiveBee) beeEntity);
+                Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.LUMBER, (ProductiveBee) beeEntity);
+                ProductiveBees.LOGGER.info("flowerBlock: " + flowerBlock);
                 if (flowerBlock != null) {
                     ItemStack woodChip;
                     if (hasCombBlockUpgrade) {
@@ -315,16 +301,13 @@ public class BeeHelper
     private static Block getFloweringBlock(Level world, BlockPos flowerPos, Tag<Block> tag, ProductiveBee bee) {
         BlockState flowerBlockState = world.getBlockState(flowerPos);
         Block flowerBlock = flowerBlockState.getBlock();
-        if (!tag.contains(flowerBlock)) {
-            return null;
-        }
         if (flowerBlock instanceof Feeder) {
             BlockEntity feederTile = world.getBlockEntity(flowerPos);
             if (feederTile instanceof FeederBlockEntity && ProductiveBee.isValidFeeder(feederTile, bee::isFlowerBlock)) {
                 return ((FeederBlockEntity) feederTile).getRandomBlockFromInventory(tag);
             }
         }
-        return flowerBlock;
+        return !tag.contains(flowerBlock) ? flowerBlock : null;
     }
 
     public static void setOffspringAttributes(ProductiveBee newBee, ProductiveBee productiveBeeEntity, AgeableMob targetEntity) {

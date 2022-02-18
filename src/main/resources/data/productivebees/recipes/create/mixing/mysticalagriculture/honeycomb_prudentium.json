@@ -14,7 +14,10 @@
     "results": [
         {
             "item": "mysticalagriculture:prudentium_essence",
-            "count": 4
+            "count": 2
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

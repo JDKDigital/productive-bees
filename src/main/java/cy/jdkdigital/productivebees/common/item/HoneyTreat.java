@@ -171,7 +171,7 @@ public class HoneyTreat extends Item
                         Component translatedValue = new TranslatableComponent(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
                         list.add((new TranslatableComponent("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(" (" + purity + "%)"));
                     } else {
-                        list.add((new TranslatableComponent("productivebees.information.attribute.type", Gene.getAttributeName(insertedGene))).withStyle(ChatFormatting.DARK_GRAY).append(" (" + purity + "%)"));
+                        list.add((new TranslatableComponent("productivebees.information.attribute.type", Gene.getAttributeName(insertedGene))).withStyle(ChatFormatting.GOLD).append(" (" + purity + "%)"));
                     }
                 });
             }

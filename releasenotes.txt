@@ -1,3 +1,13 @@
+0.8.0.7
+
+-- Added a bee nest helmet, it's all the buzz
+-- Chips from Lumber and Quarry bees now show properly in JEI
+-- Fixed bees duplicating
+-- Added desh, ostrum and calorite bees (Beyond Earth)
+-- Added support for new JEI API
+-- Fixed and balanced some mixing recipes
+
+
 0.8.0.6
 
 -- Updated Russian translations, thanks to DrHesperus

@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEnti
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.core.BlockPos;
@@ -67,7 +68,6 @@ public class ProductiveBee extends Bee
     protected Predicate<PoiType> beehiveInterests = (poiType) -> poiType == PoiType.BEEHIVE;
 
     private boolean renderStatic = false;
-    private boolean hasConverted = false;
     private int happyCounter = 0;
 
     protected FollowParentGoal followParentGoal;
@@ -80,7 +80,7 @@ public class ProductiveBee extends Bee
 
         setAttributeValue(BeeAttributes.PRODUCTIVITY, level.random.nextInt(3));
         setAttributeValue(BeeAttributes.TEMPER, 1);
-        setAttributeValue(BeeAttributes.ENDURANCE, level.random.nextInt(4));
+        setAttributeValue(BeeAttributes.ENDURANCE, level.random.nextInt(3));
         setAttributeValue(BeeAttributes.BEHAVIOR, 0);
         setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
         setAttributeValue(BeeAttributes.TYPE, "hive");
@@ -118,10 +118,14 @@ public class ProductiveBee extends Bee
         this.goToHiveGoal = new ProductiveBee.FindNestGoal();
         this.goalSelector.addGoal(5, this.goToHiveGoal);
 
-        this.goalSelector.addGoal(8, new Bee.BeeWanderGoal());
+        if (!ProductiveBeesConfig.BEES.disableWanderGoal.get()) {
+            this.goalSelector.addGoal(8, new Bee.BeeWanderGoal());
+        }
         this.goalSelector.addGoal(9, new FloatGoal(this));
 
-        this.targetSelector.addGoal(1, (new Bee.BeeHurtByOtherGoal(this)).setAlertOthers());
+        if (!getBeeName().equals("kamikaz")) { // TODO generalize to disable for more bees based on config
+            this.targetSelector.addGoal(1, (new Bee.BeeHurtByOtherGoal(this)).setAlertOthers());
+        }
         this.targetSelector.addGoal(2, new Bee.BeeBecomeAngryTargetGoal(this));
 
         // Empty default goals
@@ -181,9 +185,25 @@ public class ProductiveBee extends Bee
 
         updateHappiness();
 
-        // Kill below Y level 0
-        if (this.getY() < -64.0D) {
+        // Kill below world border
+        if (this.getY() < -65.0D) {
             this.outOfWorld();
+        }
+    }
+
+    @Override
+    public void setTarget(@Nullable LivingEntity livingEntity) {
+        boolean isWearingBeeHelmet = false;
+
+        if (livingEntity != null) {
+            ItemStack itemstack = livingEntity.getItemBySlot(EquipmentSlot.HEAD);
+            if (!itemstack.isEmpty() && itemstack.getItem().equals(ModItems.BEE_NEST_DIAMOND_HELMET.get())) {
+                isWearingBeeHelmet = true;
+            }
+        }
+
+        if (!isWearingBeeHelmet) {
+            super.setTarget(livingEntity);
         }
     }
 
@@ -283,10 +303,8 @@ public class ProductiveBee extends Bee
     protected void usePlayerItem(Player player, InteractionHand hand, ItemStack stack) {
         super.usePlayerItem(player, hand, stack);
 
-        if (!isInLove() && getBreedingIngredient().test(stack)) {
-            this.level.broadcastEntityEvent(this, (byte)13);
-            this.breedItemCount++;
-        }
+        this.level.broadcastEntityEvent(this, (byte)13);
+        this.breedItemCount++;
     }
 
     @Override
@@ -302,10 +320,10 @@ public class ProductiveBee extends Bee
         if (this.stayOutOfHiveCountdown <= 0 && !this.beePollinateGoal.isPollinating() && !this.hasStung() && this.getTarget() == null) {
             boolean shouldReturnToHive =
                     this.isTiredOfLookingForNectar() ||
-                            this.hasNectar() ||
-                            (level.isNight() && !canOperateDuringNight()) ||
-                            (level.isRaining() && !canOperateDuringRain()) ||
-                            (level.isThundering() && !canOperateDuringThunder());
+                    this.hasNectar() ||
+                    (level.isNight() && !canOperateDuringNight()) ||
+                    (level.isRaining() && !canOperateDuringRain()) ||
+                    (level.isThundering() && !canOperateDuringThunder());
 
             return shouldReturnToHive && !this.isHiveNearFire();
         } else {
@@ -324,6 +342,10 @@ public class ProductiveBee extends Bee
             hasStung = level.random.nextFloat() < .2;
         }
         super.setHasStung(hasStung);
+
+        if (hasStung && getBeeName().equals("kamikaz")) {
+            this.hurt(DamageSource.GENERIC, this.getHealth());
+        }
     }
 
     public String getBeeType() {

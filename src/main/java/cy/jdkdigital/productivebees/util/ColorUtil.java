@@ -38,20 +38,14 @@ public class ColorUtil
     }
 
     public static ChatFormatting getColor(int level) {
-        switch (level) {
-            case -3:
-                return ChatFormatting.RED;
-            case -2:
-                return ChatFormatting.DARK_RED;
-            case -1:
-                return ChatFormatting.YELLOW;
-            case 1:
-                return ChatFormatting.GREEN;
-            case 2:
-                return ChatFormatting.BLUE;
-            case 3:
-                return ChatFormatting.GOLD;
-        }
-        return ChatFormatting.LIGHT_PURPLE;
+        return switch (level) {
+            case -3 -> ChatFormatting.GOLD;
+            case -2 -> ChatFormatting.DARK_RED;
+            case -1 -> ChatFormatting.YELLOW;
+            case 1 -> ChatFormatting.BLUE;
+            case 2 -> ChatFormatting.LIGHT_PURPLE;
+            case 3 -> ChatFormatting.RED;
+            default -> ChatFormatting.GREEN;
+        };
     }
 }

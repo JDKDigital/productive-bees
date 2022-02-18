@@ -14,7 +14,10 @@
     "results": [
         {
             "item": "botania:elementium_nugget",
-            "chance": 0.40
+            "chance": 0.20
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

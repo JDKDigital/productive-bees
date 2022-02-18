@@ -13,7 +13,11 @@
     ],
     "results": [
         {
-            "item": "botania:manasteel_nugget"
+            "item": "botania:manasteel_nugget",
+            "chance": 0.6
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

@@ -14,7 +14,10 @@
     "results": [
         {
             "item": "immersiveengineering:ingot_aluminum",
-            "chance": 0.90
+            "chance": 0.4
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",

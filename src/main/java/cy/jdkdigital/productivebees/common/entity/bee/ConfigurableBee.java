@@ -29,6 +29,10 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -153,6 +157,15 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
+    public boolean doHurtTarget(Entity entity) {
+        AttributeInstance attackDamage = this.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamage != null && getDamage() != 2.0) {
+            attackDamage.addTransientModifier(new AttributeModifier("Extra Damage", getDamage(), AttributeModifier.Operation.ADDITION));
+        }
+        return super.doHurtTarget(entity);
+    }
+
+    @Override
     public void spawnFluidParticle(Level worldIn, double xMin, double xMax, double zMin, double zMax, double posY, ParticleOptions particleData) {
         NectarParticleType particle;
         switch (getParticleType()) {
@@ -243,6 +256,11 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
+    public float getSpeed() {
+        return super.getSpeed() * this.getSpeedModifier();
+    }
+
+    @Override
     public void setHasStung(boolean hasStung) {
         if (!isStingless()) {
             super.setHasStung(hasStung);
@@ -302,6 +320,16 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public float getSizeModifier() {
         CompoundTag nbt = getNBTData();
         return nbt != null ? nbt.getFloat("size") : super.getSizeModifier();
+    }
+
+    public float getSpeedModifier() {
+        CompoundTag nbt = getNBTData();
+        return nbt != null ? nbt.getFloat("speed") : 1.0F;
+    }
+
+    public double getDamage() {
+        CompoundTag nbt = getNBTData();
+        return nbt != null ? nbt.getDouble("attack") : 2.0D;
     }
 
     @Override

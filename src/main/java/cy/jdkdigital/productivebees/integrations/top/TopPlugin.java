@@ -37,7 +37,9 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                 List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> bees = nest.getBeeList();
                 if (!bees.isEmpty()) {
                     probeInfo.text(new TranslatableComponent("productivebees.top.solitary.bee", bees.get(0).localizedName));
-                    probeInfo.progress(Math.max(0, bees.get(0).minOccupationTicks - bees.get(0).ticksInHive), bees.get(0).minOccupationTicks);
+                    if (bees.get(0).minOccupationTicks - bees.get(0).ticksInHive > 0) {
+                        probeInfo.progress(Math.max(0, bees.get(0).minOccupationTicks - bees.get(0).ticksInHive), bees.get(0).minOccupationTicks);
+                    }
                 } else {
                     if (nest.getNestTickCooldown() > 0) {
                         probeInfo.text(new TranslatableComponent("productivebees.top.solitary.repopulation_countdown"));

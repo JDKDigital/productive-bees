@@ -5,12 +5,15 @@ import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.recipe.BlockConversionRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
 import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -23,6 +26,7 @@ import net.minecraftforge.fluids.FluidStack;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConversionRecipe>
 {
@@ -103,5 +107,31 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
         }
         itemStacks.set(ingredients);
         fluidStacks.set(ingredients);
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, BlockConversionRecipe recipe, List<? extends IFocus<?>> focuses) {
+        builder.addSlot(RecipeIngredientRole.INPUT, 38, 5)
+                .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.bee.get())
+                .setSlotName("source");
+
+        if (recipe.stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
+            builder.addSlot(RecipeIngredientRole.INPUT, 5, 25)
+                    .addItemStacks(Arrays.asList(recipe.fromDisplay.getItems()))
+                    .setSlotName("resultBlock");
+        } else {
+            builder.addSlot(RecipeIngredientRole.INPUT, 5, 26)
+                    .addIngredients(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateFrom.getFluidState().getType(), 1000)))
+                    .setSlotName("resultFluid");
+        }
+        if (recipe.stateTo.getFluidState().getType().equals(Fluids.EMPTY)) {
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 25)
+                    .addItemStacks(Arrays.asList(recipe.toDisplay.getItems()))
+                    .setSlotName("resultBlock");
+        } else {
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 5, 26)
+                    .addIngredients(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateTo.getFluidState().getType(), 1000)))
+                    .setSlotName("resultFluid");
+        }
     }
 }

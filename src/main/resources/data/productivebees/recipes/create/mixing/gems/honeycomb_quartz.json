@@ -6,7 +6,7 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:quartz"
+                    "type": "productivebees:crystalline"
                 }
             }
         }
@@ -15,6 +15,9 @@
         {
             "item": "minecraft:quartz",
             "count": 2
+        },
+        {
+            "item": "productivebees:wax"
         },
         {
             "fluid": "productivebees:honey",
@@ -26,6 +29,10 @@
         {
             "type": "forge:mod_loaded",
             "modid": "create"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:crystalline"
         }
     ]
 }
