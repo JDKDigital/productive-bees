@@ -8,6 +8,8 @@ import cy.jdkdigital.productivebees.common.crafting.conditions.BeeExistsConditio
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
+import cy.jdkdigital.productivebees.dispenser.CageDispenseBehavior;
+import cy.jdkdigital.productivebees.dispenser.ShearsDispenseItemBehavior;
 import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
@@ -30,6 +32,7 @@ import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -164,38 +167,9 @@ public final class ProductiveBees
         PacketHandler.init();
         ModAdvancements.register();
 
-        DefaultDispenseItemBehavior cageDispenseBehavior = new OptionalDispenseItemBehavior()
-        {
-            private final DefaultDispenseItemBehavior fallbackDispenseBehavior = new DefaultDispenseItemBehavior();
-
-            @Override
-            public ItemStack execute(BlockSource source, ItemStack stack) {
-                if (stack.getItem() instanceof BeeCage && BeeCage.isFilled(stack)) {
-                    Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
-
-                    Bee entity = BeeCage.getEntityFromStack(stack, source.getLevel(), true);
-                    if (entity != null) {
-                        entity.hivePos = null;
-
-                        BlockPos spawnPos = source.getPos().relative(direction);
-
-                        entity.setPos(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5);
-
-                        if (source.getLevel().addFreshEntity(entity)) {
-                            if (stack.getItem().equals(ModItems.BEE_CAGE.get())) {
-                                stack.shrink(1);
-                            } else if (stack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
-                                stack.setTag(null);
-                            }
-                        }
-                        return stack;
-                    }
-                }
-                return fallbackDispenseBehavior.dispense(source, stack);
-            }
-        };
-        DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), cageDispenseBehavior);
-        DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), cageDispenseBehavior);
+        DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), new CageDispenseBehavior());
+        DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), new CageDispenseBehavior());
+        DispenserBlock.registerBehavior(Items.SHEARS.asItem(), new ShearsDispenseItemBehavior());
 
         this.fixPOI(event);
     }

@@ -204,8 +204,13 @@ public class BeeHelper
     public static List<ItemStack> getBeeProduce(Level world, Bee beeEntity, boolean hasCombBlockUpgrade) {
         AdvancedBeehiveRecipe matchedRecipe = null;
         BlockPos flowerPos = beeEntity.getSavedFlowerPos();
+        List<ItemStack> outputList = new ArrayList<>();
 
         String beeId = beeEntity.getEncodeId();
+        if (beeId == null ) {
+            return outputList;
+        }
+        
         if (beeEntity instanceof ConfigurableBee) {
             beeId = ((ConfigurableBee) beeEntity).getBeeType();
         }
@@ -219,7 +224,6 @@ public class BeeHelper
             }
         }
 
-        List<ItemStack> outputList = new ArrayList<>();
         if (matchedRecipe != null) {
             matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
                 if (ProductiveBees.rand.nextInt(100) <= bounds.get(2).getAsInt()) {
@@ -232,7 +236,6 @@ public class BeeHelper
         } else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlock(world, flowerPos, ModTags.LUMBER, (ProductiveBee) beeEntity);
-                ProductiveBees.LOGGER.info("flowerBlock: " + flowerBlock);
                 if (flowerBlock != null) {
                     ItemStack woodChip;
                     if (hasCombBlockUpgrade) {
@@ -307,7 +310,7 @@ public class BeeHelper
                 return ((FeederBlockEntity) feederTile).getRandomBlockFromInventory(tag);
             }
         }
-        return !tag.contains(flowerBlock) ? flowerBlock : null;
+        return tag.contains(flowerBlock) ? flowerBlock : null;
     }
 
     public static void setOffspringAttributes(ProductiveBee newBee, ProductiveBee productiveBeeEntity, AgeableMob targetEntity) {
@@ -315,8 +318,7 @@ public class BeeHelper
         Map<BeeAttribute<?>, Object> attributeMapParent2 = new HashMap<>();
         if (targetEntity instanceof ProductiveBee) {
             attributeMapParent2 = ((ProductiveBee) targetEntity).getBeeAttributes();
-        }
-        else {
+        } else {
             // Default bee attributes
             attributeMapParent2.put(BeeAttributes.PRODUCTIVITY, 0);
             attributeMapParent2.put(BeeAttributes.ENDURANCE, 0);

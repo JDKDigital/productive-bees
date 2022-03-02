@@ -1,3 +1,9 @@
+0.8.0.8
+
+-- Fixed Lumber and Quarry bees only being able to produce from Feeding Slabs
+-- Fixed shearing from dispensers
+
+
 0.8.0.7
 
 -- Added a bee nest helmet, it's all the buzz

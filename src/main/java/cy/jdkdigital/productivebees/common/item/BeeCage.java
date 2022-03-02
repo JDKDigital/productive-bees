@@ -73,7 +73,7 @@ public class BeeCage extends Item
                 }
             }
 
-            entity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
+            entity.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 
             if (entity.isFlowerValid(pos)) {
                 entity.setSavedFlowerPos(pos);

@@ -93,14 +93,13 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             blockEntity.tickCounter = 0;
 
             // Spawn skeletal and zombie bees in empty hives
-            ListTag beeList = getBeeListAsNBTList(blockEntity);
             BlockPos front = pos.relative(state.getValue(BeehiveBlock.FACING));
             if (
-                    level.isNight() &&
                     ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
                     level.random.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
-                    beeList.size() + blockEntity.beesOutsideHive() == 0 &&
+                    level.isNight() &&
                     level.getBlockState(front).isAir() &&
+                    getBeeListAsNBTList(blockEntity).size() + blockEntity.beesOutsideHive() == 0 &&
                     level.getBrightness(LightLayer.BLOCK, front) <= 8
             ) {
                 EntityType<ConfigurableBee> beeType = ModEntities.CONFIGURABLE_BEE.get();
