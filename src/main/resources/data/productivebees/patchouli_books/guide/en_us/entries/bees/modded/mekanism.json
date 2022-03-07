@@ -11,8 +11,8 @@
             "text": "Bees for Mekanism materials. Only special material bees are shown here, for common materials like copper and tin go to the $(l:bees/modded/ingot_bees)list of ingot bees$(/l)"
         },
         {
-            "type": "patchouli:empty",
-            "draw_filler": false
+            "type": "patchouli:text",
+            "text": "turn the page"
         },
         {
             "type": "patchouli:text",

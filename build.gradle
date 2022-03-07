@@ -139,7 +139,7 @@ dependencies {
     implementation fg.deobf("curse.maven:mantle-74924:3634761")
     implementation fg.deobf("curse.maven:tinkers-construct-74072:3634768")
     implementation fg.deobf("curse.maven:applied-energistics-2-223794:3646192")
-    implementation fg.deobf("curse.maven:flashs-npcs-517167:3626736")
+    implementation fg.deobf("curse.maven:everythingcopper-579545:3672306")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

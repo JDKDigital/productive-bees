@@ -1,7 +1,10 @@
 0.8.0.8
 
 -- Fixed Lumber and Quarry bees only being able to produce from Feeding Slabs
--- Fixed shearing from dispensers
+-- Fixed shearing from dispensers causing crash
+-- Fixed Quarry bees showing Lumber bees output in JEI
+-- Fixed temper attribute picking the worst for offspring
+-- Minor performance improvements
 
 
 0.8.0.7

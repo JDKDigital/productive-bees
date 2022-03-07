@@ -422,10 +422,7 @@ public class ProductiveBee extends Bee
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        if (getBeeName().equals("dye") && source.equals(DamageSource.WITHER)) {
-            return true;
-        }
-        return source.equals(DamageSource.IN_WALL) || source.equals(DamageSource.SWEET_BERRY_BUSH) || super.isInvulnerableTo(source);
+        return source.equals(DamageSource.IN_WALL) || source.equals(DamageSource.SWEET_BERRY_BUSH) || (source.equals(DamageSource.WITHER) && getBeeType().contains("dye_bee")) || super.isInvulnerableTo(source);
     }
 
     @Nonnull

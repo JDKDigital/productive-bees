@@ -8,6 +8,7 @@
         "temper": 3
     },
     "createComb": false,
+    "selfbreed": false,
     "speed": 5,
     "attack": 6.0,
     "size": 0.2
