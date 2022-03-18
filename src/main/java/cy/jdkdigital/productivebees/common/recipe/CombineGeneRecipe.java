@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;

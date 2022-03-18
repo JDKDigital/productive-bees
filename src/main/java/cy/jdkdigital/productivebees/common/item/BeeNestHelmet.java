@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.client.model.BeeNestHelmetModel;
-import cy.jdkdigital.productivebees.common.block.AdvancedBeehiveAbstract;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.BlockPos;

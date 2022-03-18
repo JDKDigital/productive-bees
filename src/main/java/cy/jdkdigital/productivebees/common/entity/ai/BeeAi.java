@@ -1,55 +1,5 @@
 package cy.jdkdigital.productivebees.common.entity.ai;
 
-import com.google.common.collect.Lists;
-import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.block.Feeder;
-import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBee;
-import cy.jdkdigital.productivebees.init.ModItems;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.Mth;
-import net.minecraft.util.VisibleForDebug;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.control.LookControl;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.util.AirAndWaterRandomPos;
-import net.minecraft.world.entity.ai.util.HoverRandomPos;
-import net.minecraft.world.entity.ai.village.poi.PoiManager;
-import net.minecraft.world.entity.ai.village.poi.PoiRecord;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.pathfinder.Path;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 public class BeeAi
 {
 //    abstract static class BaseBeeGoal extends Goal
@@ -162,7 +112,7 @@ public class BeeAi
 //                return false;
 //            }
 //
-//            Tag<Block> nestTag = this.bee.getNestingTag();
+//            TagKey<Block> nestTag = this.bee.getNestingTag();
 //            try {
 //                if (nestTag == null || nestTag.getValues().size() == 0) {
 //                    return false;
@@ -284,7 +234,7 @@ public class BeeAi
 //        @Override
 //        protected void blacklistTarget(BlockPos pos) {
 //            BlockEntity tileEntity = this.bee.level.getBlockEntity(pos);
-//            Tag<Block> nestTag = this.bee.getNestingTag();
+//            TagKey<Block> nestTag = this.bee.getNestingTag();
 //            if (tileEntity != null && tileEntity.getBlockState().is(nestTag)) {
 //                this.blacklistedTargets.add(pos);
 //

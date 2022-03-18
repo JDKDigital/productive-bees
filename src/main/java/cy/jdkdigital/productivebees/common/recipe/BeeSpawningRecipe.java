@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -26,8 +26,6 @@ import java.util.stream.IntStream;
 
 public class BeeSpawningRecipe implements Recipe<Container>
 {
-    public static final RecipeType<BeeSpawningRecipe> BEE_SPAWNING = RecipeType.register(ProductiveBees.MODID + ":bee_spawning");
-
     public final ResourceLocation id;
     public final Ingredient ingredient;
     public final List<Lazy<BeeIngredient>> output;
@@ -93,7 +91,7 @@ public class BeeSpawningRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return BEE_SPAWNING;
+        return ModRecipeTypes.BEE_SPAWNING_TYPE;
     }
 
     public static class Serializer<T extends BeeSpawningRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>

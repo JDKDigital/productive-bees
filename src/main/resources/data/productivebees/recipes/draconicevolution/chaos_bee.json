@@ -1,0 +1,63 @@
+{
+    "type": "draconicevolution:fusion_crafting",
+    "result": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:chaos"
+            }
+        }
+    },
+    "catalyst": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:awakened"
+            }
+        }
+    },
+    "total_energy": 64000000,
+    "tier": "CHAOTIC",
+    "ingredients": [
+        {
+            "item": "draconicevolution:chaotic_core"
+        },
+        {
+            "item": "draconicevolution:awakened_core"
+        },
+        {
+            "item": "draconicevolution:chaotic_core"
+        },
+        {
+            "item": "minecraft:honey_block"
+        },
+        {
+            "tag": "forge:storage_blocks/honeycombs"
+        },
+        {
+            "tag": "forge:storage_blocks/honeycombs"
+        },
+        {
+            "tag": "forge:ingots/draconium_awakened"
+        },
+        {
+            "item": "draconicevolution:medium_chaos_fragment"
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "draconicevolution"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:awakened"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:chaos"
+        }
+    ]
+}

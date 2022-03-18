@@ -1,34 +1,20 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.common.recipe.BeeConversionRecipe;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
-import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.Lazy;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversionRecipe>
@@ -70,26 +56,6 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
     @Override
     public IDrawable getIcon() {
         return this.icon;
-    }
-
-    @Override
-    public void setIngredients(BeeConversionRecipe recipe, IIngredients ingredients) {
-        ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.source.get()));
-        ingredients.setOutputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.result.get()));
-        ingredients.setInputs(VanillaTypes.ITEM, Arrays.asList(recipe.item.getItems()));
-    }
-
-    @Override
-    public void setRecipe(IRecipeLayout recipeLayout, BeeConversionRecipe recipe, IIngredients ingredients) {
-        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
-
-        ingredientStacks.init(0, true, 42, 27);
-        ingredientStacks.init(1, false, 100, 28);
-        ingredientStacks.set(ingredients);
-
-        IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-        itemStacks.init(2, true, 10, 26);
-        itemStacks.set(2, ingredients.getInputs(VanillaTypes.ITEM).get(0));
     }
 
     @Override

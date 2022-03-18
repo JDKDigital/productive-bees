@@ -73,7 +73,7 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
 
     @Override
     public boolean isSame(Fluid fluidIn) {
-        return ModTags.HONEY.contains(fluidIn);
+        return fluidIn.is(ModTags.HONEY);
     }
 
     @Override

@@ -10,7 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.animal.Bee;
@@ -52,14 +52,14 @@ public class FeederBlockEntity extends CapabilityBlockEntity
         super(ModTileEntityTypes.FEEDER.get(), pos, state);
     }
 
-    public Block getRandomBlockFromInventory(Tag<Block> tag) {
+    public Block getRandomBlockFromInventory(TagKey<Block> tag) {
         return inventoryHandler.map(h -> {
             List<Block> possibleBlocks = new ArrayList<>();
             for (int slot = 0; slot < h.getSlots(); ++slot) {
                 Item slotItem = h.getStackInSlot(slot).getItem();
                 if (slotItem instanceof BlockItem) {
                     Block itemBlock = ((BlockItem) slotItem).getBlock();
-                    if (tag.contains(itemBlock)) {
+                    if (itemBlock.builtInRegistryHolder().is(tag)) {
                         possibleBlocks.add(itemBlock);
                     }
                 }

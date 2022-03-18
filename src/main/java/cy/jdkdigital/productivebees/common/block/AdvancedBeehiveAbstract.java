@@ -119,7 +119,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
         if (state.getFluidState().isEmpty() && world.random.nextFloat() >= 0.3F) {
             VoxelShape shape = state.getCollisionShape(world, pos);
             double shapeEnd = shape.max(Direction.Axis.Y);
-            if (shapeEnd >= 1.0D && !BlockTags.IMPERMEABLE.contains(state.getBlock())) {
+            if (shapeEnd >= 1.0D && !state.is(BlockTags.IMPERMEABLE)) {
                 double shapeStart = shape.min(Direction.Axis.Y);
                 if (shapeStart > 0.0D) {
                     spawnParticle(world, pos, shape, (double) pos.getY() + shapeStart - 0.05D);

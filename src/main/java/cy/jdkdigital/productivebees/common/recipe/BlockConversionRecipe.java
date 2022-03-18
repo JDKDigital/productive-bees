@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -28,8 +28,6 @@ import java.util.Map;
 
 public class BlockConversionRecipe implements Recipe<Container>
 {
-    public static final RecipeType<BlockConversionRecipe> BLOCK_CONVERSION = RecipeType.register(ProductiveBees.MODID + ":block_conversion");
-
     public final ResourceLocation id;
     public final Lazy<BeeIngredient> bee;
     public final BlockState stateFrom;
@@ -91,7 +89,7 @@ public class BlockConversionRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return BLOCK_CONVERSION;
+        return ModRecipeTypes.BLOCK_CONVERSION_TYPE;
     }
 
     public static class Serializer<T extends BlockConversionRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>

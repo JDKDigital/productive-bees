@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
-import cy.jdkdigital.productivebees.recipe.BottlerRecipe;
+import cy.jdkdigital.productivebees.common.recipe.BottlerRecipe;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -47,7 +48,7 @@ public abstract class FluidTankBlockEntity extends CapabilityBlockEntity
                     if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {
                         // Look up bottler recipes from input
                         List<BottlerRecipe> recipes = new ArrayList<>();
-                        Map<ResourceLocation, Recipe<Container>> allRecipes = level.getRecipeManager().byType(BottlerRecipe.BOTTLER);
+                        Map<ResourceLocation, Recipe<Container>> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.BOTTLER_TYPE);
                         for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
                             BottlerRecipe recipe = (BottlerRecipe) entry.getValue();
                             if (recipe.matches(fluidStack, fluidContainerItem)) {

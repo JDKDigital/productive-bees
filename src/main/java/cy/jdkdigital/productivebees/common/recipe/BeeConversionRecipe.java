@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
@@ -21,17 +21,15 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class BeeBlockReplacerRecipe implements Recipe<Container>
+public class BeeConversionRecipe implements Recipe<Container>
 {
-    public static final RecipeType<BeeBlockReplacerRecipe> BEE_BLOCK_REPLACER = RecipeType.register(ProductiveBees.MODID + ":bee_block_replacer");
-
     public final ResourceLocation id;
     public final Lazy<BeeIngredient> source;
     public final Lazy<BeeIngredient> result;
     public final Ingredient item;
     public final int chance;
 
-    public BeeBlockReplacerRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredients, Lazy<BeeIngredient> result, Ingredient item, int chance) {
+    public BeeConversionRecipe(ResourceLocation id, Lazy<BeeIngredient> ingredients, Lazy<BeeIngredient> result, Ingredient item, int chance) {
         this.id = id;
         this.source = ingredients;
         this.result = result;
@@ -91,14 +89,14 @@ public class BeeBlockReplacerRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return BEE_BLOCK_REPLACER;
+        return ModRecipeTypes.BEE_CONVERSION_TYPE;
     }
 
-    public static class Serializer<T extends BeeBlockReplacerRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends BeeConversionRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
     {
-        final BeeBlockReplacerRecipe.Serializer.IRecipeFactory<T> factory;
+        final BeeConversionRecipe.Serializer.IRecipeFactory<T> factory;
 
-        public Serializer(BeeBlockReplacerRecipe.Serializer.IRecipeFactory<T> factory) {
+        public Serializer(BeeConversionRecipe.Serializer.IRecipeFactory<T> factory) {
             this.factory = factory;
         }
 
@@ -147,7 +145,7 @@ public class BeeBlockReplacerRecipe implements Recipe<Container>
             }
         }
 
-        public interface IRecipeFactory<T extends BeeBlockReplacerRecipe>
+        public interface IRecipeFactory<T extends BeeConversionRecipe>
         {
             T create(ResourceLocation id, Lazy<BeeIngredient> input, Lazy<BeeIngredient> output, Ingredient item, int chance);
         }

@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -53,7 +54,8 @@ public class StoneChip extends WoodChip
     public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
         if (this.allowdedIn(group)) {
             try {
-                ModTags.QUARRY.getValues().forEach(block -> {
+                Registry.BLOCK.getTagOrEmpty(ModTags.QUARRY).forEach(blockHolder -> {
+                    Block block = blockHolder.value();
                     if (block.getRegistryName() != null && !block.getRegistryName().getPath().contains("infested")) {
                         items.add(getStack(block));
                     }

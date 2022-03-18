@@ -131,7 +131,7 @@ public class EventHandler
                 ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
                 BlockPos pos = event.getHookEntity().blockPosition();
                 if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:prismarine") != null) {
-                    Biome fishingBiome = player.level.getBiome(pos);
+                    Biome fishingBiome = player.level.getBiome(pos).value();
                     if (fishingBiome.getBiomeCategory().equals(Biome.BiomeCategory.OCEAN)) {
                         bee.setBeeType("productivebees:prismarine");
                         if (BeeReloadListener.INSTANCE.getData("productivebees:oily") != null && ProductiveBees.rand.nextBoolean()) {

@@ -1,11 +1,12 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.SerializationTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -51,15 +52,16 @@ public abstract class TagOutputRecipe
     }
 
     private static ItemStack getPreferredItemByMod(List<ItemStack> list) {
+        Map<String, Integer> modPreference = getModPreference();
         ItemStack preferredItem = null;
-        int currBest = getModPreference().size();
+        int currBest = modPreference.size();
         for (ItemStack item : list) {
             ResourceLocation rl = item.getItem().getRegistryName();
             if (rl != null) {
                 String modId = rl.getNamespace();
                 int priority = 100;
-                if (getModPreference().containsKey(modId)) {
-                    priority = getModPreference().get(modId);
+                if (modPreference.containsKey(modId)) {
+                    priority = modPreference.get(modId);
                 }
                 if (preferredItem == null || (priority >= 0 && priority <= currBest)) {
                     preferredItem = item.copy();
@@ -77,10 +79,11 @@ public abstract class TagOutputRecipe
         // Try loading fluid from fluid tag
         if (preferredFluid == null || preferredFluid.equals(Fluids.EMPTY)) {
             try {
-                Tag<Fluid> fluidTag = SerializationTags.getInstance().getOrEmpty(Registry.FLUID_REGISTRY).getTag(new ResourceLocation(fluidName));
-                if (fluidTag != null && fluidTag.getValues().size() > 0) {
+                HolderSet.Named<Fluid> fluidTag = Registry.FLUID.getOrCreateTag(TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(fluidName)));
+                if (fluidTag.size() > 0) {
                     int currBest = 100;
-                    for (Fluid fluid: fluidTag.getValues()) {
+                    for (Holder<Fluid> fluidHolder: fluidTag.stream().toList()) {
+                        Fluid fluid = fluidHolder.value();
                         if (!fluid.isSource(fluid.defaultFluidState())) {
                             fluid = ((FlowingFluid) fluid).getSource();
                         }
@@ -119,9 +122,9 @@ public abstract class TagOutputRecipe
         // Try loading fluid from fluid tag
         if (fluids.get(0).equals(Fluids.EMPTY)) {
             try {
-                Tag<Fluid> fluidTag = SerializationTags.getInstance().getOrEmpty(Registry.FLUID_REGISTRY).getTag(new ResourceLocation(fluidName));
-                if (fluidTag != null && fluidTag.getValues().size() > 0) {
-                    return fluidTag.getValues();
+                HolderSet.Named<Fluid> fluidTag = Registry.FLUID.getOrCreateTag(TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(fluidName)));
+                if (fluidTag.size() > 0) {
+                    return fluidTag.stream().map(Holder::value).toList();
                 }
             } catch (Exception e) {
                 // Who cares

@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
@@ -33,7 +34,7 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
             }
 
             // Get to ground level
-            blockPos = blockPos.above(chunkGenerator.getSpawnHeight(world));
+            blockPos = blockPos.atY(chunkGenerator.getBaseHeight(blockPos.getX(), blockPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, world));
 
             // Go to ground surface
             while (blockPos.getY() < 127 && !world.isEmptyBlock(blockPos)) {

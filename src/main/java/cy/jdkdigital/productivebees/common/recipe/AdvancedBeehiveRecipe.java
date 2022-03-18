@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -30,8 +30,6 @@ import java.util.stream.IntStream;
 
 public class AdvancedBeehiveRecipe extends TagOutputRecipe implements Recipe<Container>
 {
-    public static final RecipeType<AdvancedBeehiveRecipe> ADVANCED_BEEHIVE = RecipeType.register(ProductiveBees.MODID + ":advanced_beehive");
-
     public final ResourceLocation id;
     public final Lazy<BeeIngredient> ingredient;
 
@@ -45,7 +43,6 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements Recipe<Con
     public String toString() {
         return "AdvancedBeehiveRecipe{" +
                 "id=" + id +
-                ", bee=" + ingredient.get().getBeeEntity() +
                 '}';
     }
 
@@ -108,7 +105,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements Recipe<Con
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return ADVANCED_BEEHIVE;
+        return ModRecipeTypes.ADVANCED_BEEHIVE_TYPE;
     }
 
     public static class Serializer<T extends AdvancedBeehiveRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>

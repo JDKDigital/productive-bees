@@ -6,11 +6,11 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -78,8 +78,9 @@ public class WoodChip extends Item
     public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
         if (this.allowdedIn(group)) {
             try {
-                ModTags.LUMBER.getValues().forEach(block -> {
-                    if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log") && !block.getRegistryName().getPath().contains("stripped")) {
+                Registry.BLOCK.getTagOrEmpty(ModTags.LUMBER).forEach(blockHolder -> {
+                    Block block = blockHolder.value();
+                    if (block.getRegistryName() != null && block.getRegistryName().getPath().contains("log")) {
                         items.add(getStack(block));
                     }
                 });

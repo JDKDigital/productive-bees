@@ -21,7 +21,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -31,7 +31,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.animal.Bee;
@@ -348,9 +347,9 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             CompoundTag nbt = this.getNBTData();
             if (nbt != null) {
                 if (nbt.contains("flowerTag")) {
-                    Tag<EntityType<?>> entityTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
+                    TagKey<EntityType<?>> entityTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
 
-                    List<Entity> entities = level.getEntities(this, (new AABB(pos).expandTowards(1.0D, 1.0D, 1.0D)), (entity -> entityTag.contains(entity.getType())));
+                    List<Entity> entities = level.getEntities(this, (new AABB(pos).expandTowards(1.0D, 1.0D, 1.0D)), (entity -> entity.getType().is(entityTag)));
                     if (!entities.isEmpty()) {
                         target = (PathfinderMob) entities.get(0);
 
@@ -374,7 +373,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         CompoundTag nbt = getNBTData();
         if (nbt != null && this.getFlowerType().equals("blocks")) {
             if (nbt.contains("flowerTag")) {
-                Tag<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerTag")));
+                TagKey<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerTag")));
                 return flowerBlock.is(flowerTag);
             } else if (nbt.contains("flowerBlock")) {
                 return flowerBlock.getBlock().getRegistryName().toString().equals(nbt.getString("flowerBlock"));
@@ -405,7 +404,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
-    public Tag<Block> getNestingTag() {
+    public TagKey<Block> getNestingTag() {
         CompoundTag nbt = getNBTData();
         if (nbt != null && nbt.contains("nestingPreference")) {
             return ModTags.getBlockTag(new ResourceLocation(nbt.getString("nestingPreference")));

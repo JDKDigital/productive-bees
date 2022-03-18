@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
+import com.google.common.collect.Streams;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
@@ -13,12 +14,14 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -76,7 +79,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         try {
             List<Block> blockList = new ArrayList<>();
             if (recipe.blockTag != null) {
-                blockList = recipe.blockTag.getValues();
+                blockList = Streams.stream(Registry.BLOCK.getTagOrEmpty(recipe.blockTag)).map(Holder::value).toList();
             } else if (recipe.block != null) {
                 blockList.add(recipe.block);
             } else if (recipe.fluid != null) {
@@ -126,7 +129,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         List<Recipe> recipes = new ArrayList<>();
 
         // Hardcoded for now until bees are moved to config
-        Map<String, Tag<Block>> flowering = new HashMap<>();
+        Map<String, TagKey<Block>> flowering = new HashMap<>();
         flowering.put("productivebees:blue_banded_bee", ModTags.RIVER_FLOWERS);
         flowering.put("productivebees:green_carpenter_bee", ModTags.FOREST_FLOWERS);
         flowering.put("productivebees:nomad_bee", ModTags.ARID_FLOWERS);
@@ -140,13 +143,13 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         flowering.put("productivebees:quarry_bee", ModTags.QUARRY);
         flowering.put("productivebees:creeper_bee", ModTags.POWDERY);
 
-        Tag<Block> defaultBlockTag = BlockTags.FLOWERS;
+        TagKey<Block> defaultBlockTag = BlockTags.FLOWERS;
 
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             if (entry.getValue().isConfigurable()) {
                 CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
                 if (nbt.contains("flowerTag")) {
-                    Tag<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerTag")));
+                    TagKey<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerTag")));
                     recipes.add(new Recipe(flowerTag, entry.getValue()));
                 } else if (nbt.contains("flowerBlock")) {
                     Block flowerBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString("flowerBlock")));
@@ -158,7 +161,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                     recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
                 }
             } else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
-                Tag<Block> blockTag = flowering.get(entry.getValue().getBeeType().toString());
+                TagKey<Block> blockTag = flowering.get(entry.getValue().getBeeType().toString());
                 recipes.add(new Recipe(blockTag, entry.getValue()));
             } else {
                 recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
@@ -171,13 +174,13 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
     {
         private final BeeIngredient bee;
 
-        private final Tag<Block> blockTag;
+        private final TagKey<Block> blockTag;
 
         private final Block block;
 
         private final Fluid fluid;
 
-        public Recipe(Tag<Block> blockTag, BeeIngredient bee) {
+        public Recipe(TagKey<Block> blockTag, BeeIngredient bee) {
             this.blockTag = blockTag;
             this.block = null;
             this.fluid = null;

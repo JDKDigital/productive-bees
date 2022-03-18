@@ -1,8 +1,9 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.recipe.*;
+import cy.jdkdigital.productivebees.common.recipe.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -35,5 +36,29 @@ public final class ModRecipeTypes
 
     public static <B extends RecipeSerializer<?>> RegistryObject<B> createRecipeType(String name, Supplier<? extends B> supplier) {
         return RECIPE_SERIALIZERS.register(name, supplier);
+    }
+
+    public static RecipeType<AdvancedBeehiveRecipe> ADVANCED_BEEHIVE_TYPE;
+    public static RecipeType<BeeBreedingRecipe> BEE_BREEDING_TYPE;
+    public static RecipeType<BlockConversionRecipe> BLOCK_CONVERSION_TYPE;
+    public static RecipeType<BeeConversionRecipe> BEE_CONVERSION_TYPE;
+    public static RecipeType<IncubationRecipe> INCUBATION_TYPE;
+    public static RecipeType<BeeSpawningBigRecipe> BEE_SPAWNING_BIG_TYPE;
+    public static RecipeType<BeeSpawningRecipe> BEE_SPAWNING_TYPE;
+    public static RecipeType<BeeNBTChangerRecipe> BEE_NBT_CHANGER_TYPE;
+    public static RecipeType<BottlerRecipe> BOTTLER_TYPE;
+    public static RecipeType<CentrifugeRecipe> CENTRIFUGE_TYPE;
+
+    public static void registerTypes() {
+        ADVANCED_BEEHIVE_TYPE = RecipeType.register(ProductiveBees.MODID + ":advanced_beehive");
+        BEE_BREEDING_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_breeding");
+        BLOCK_CONVERSION_TYPE = RecipeType.register(ProductiveBees.MODID + ":block_conversion");
+        BEE_CONVERSION_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_conversion");
+        INCUBATION_TYPE = RecipeType.register(ProductiveBees.MODID + ":incubation");
+        BEE_SPAWNING_BIG_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_spawning_big");
+        BEE_SPAWNING_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_spawning");
+        BEE_NBT_CHANGER_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_nbt_changer");
+        BOTTLER_TYPE = RecipeType.register(ProductiveBees.MODID + ":bottler");
+        CENTRIFUGE_TYPE = RecipeType.register(ProductiveBees.MODID + ":centrifuge");
     }
 }

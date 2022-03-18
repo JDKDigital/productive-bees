@@ -1,10 +1,12 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 plugins {
@@ -15,6 +17,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 version = "${version}"
 group = 'cy.jdkdigital.productivebees'
@@ -24,7 +27,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.18'
+    mappings channel: 'parchment', version: '1.18.1-2022.03.06-1.18.2'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
@@ -106,40 +109,41 @@ dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
-    implementation fg.deobf("curse.maven:the-one-probe-245211:3550084")
-    implementation fg.deobf("curse.maven:jade-324717:3614180")
-    implementation fg.deobf("curse.maven:jei-238222:3659326")
-    implementation fg.deobf("curse.maven:cloth-config-forge-348521:3608026")
+    implementation fg.deobf("curse.maven:the-one-probe-245211:3671753")
+    implementation fg.deobf("curse.maven:jade-324717:3671210")
+    implementation fg.deobf("curse.maven:jei-238222:3681057")
+//    implementation fg.deobf("curse.maven:cloth-config-forge-348521:3608026")
 //    implementation fg.deobf("curse.maven:roughly-enough-items-310111:3637404")
-    implementation fg.deobf("curse.maven:trophymanager-510170:3566467")
+//    implementation fg.deobf("curse.maven:trophymanager-510170:3566467")
     implementation fg.deobf("curse.maven:jumpy-boats-542110:3564082")
-    implementation fg.deobf("curse.maven:ato-405593:3584393")
-    implementation fg.deobf("curse.maven:allthemodium-364466:3570257")
-    implementation fg.deobf("curse.maven:flywheel-486392:3568139")
-    implementation fg.deobf("curse.maven:create-328085:3564692")
-    implementation fg.deobf("curse.maven:cucumber-272335:3561215")
-    implementation fg.deobf("curse.maven:beyond-earth-377448:3632972")
-    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3568309")
-    implementation fg.deobf("curse.maven:croptopia-fabric-415438:3590394")
+    implementation fg.deobf("curse.maven:everythingcopper-579545:3697495")
+//    implementation fg.deobf("curse.maven:ato-405593:3584393")
+//    implementation fg.deobf("curse.maven:allthemodium-364466:3570257")
+//    implementation fg.deobf("curse.maven:flywheel-486392:3568139")
+//    implementation fg.deobf("curse.maven:create-328085:3564692")
+//    implementation fg.deobf("curse.maven:cucumber-272335:3561215")
+//    implementation fg.deobf("curse.maven:beyond-earth-377448:3632972")
+//    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3568309")
+//    implementation fg.deobf("curse.maven:croptopia-fabric-415438:3590394")
 //    implementation fg.deobf("curse.maven:gems-jewels-392943:3568024")
 //    implementation fg.deobf("curse.maven:silent-lib-242998:3543045")
 //    implementation fg.deobf("curse.maven:silents-gems-220311:3553197")
 //    implementation fg.deobf("curse.maven:citadel-331936:3584733")
 //    implementation fg.deobf("curse.maven:alexs-mobs-426558:3603683")
-    implementation fg.deobf("curse.maven:item-filters-forge-309674:3596362")
-    implementation fg.deobf("curse.maven:architectury-forge-419699:3636540")
-    implementation fg.deobf("curse.maven:ftb-teams-forge-404468:3596307")
-    implementation fg.deobf("curse.maven:ftb-library-forge-404465:3598890")
-    implementation fg.deobf("curse.maven:ftb-quests-forge-289412:3596442")
-    implementation fg.deobf("curse.maven:ftb-chunks-forge-314906:3601595")
-    implementation fg.deobf("curse.maven:curios-309927:3613028")
-    implementation fg.deobf("curse.maven:geckolib-388172:3611877")
-    implementation fg.deobf("curse.maven:ars-nouveau-401955:3607114")
+//    implementation fg.deobf("curse.maven:item-filters-forge-309674:3596362")
+//    implementation fg.deobf("curse.maven:architectury-forge-419699:3636540")
+//    implementation fg.deobf("curse.maven:ftb-teams-forge-404468:3596307")
+//    implementation fg.deobf("curse.maven:ftb-library-forge-404465:3598890")
+//    implementation fg.deobf("curse.maven:ftb-quests-forge-289412:3596442")
+//    implementation fg.deobf("curse.maven:ftb-chunks-forge-314906:3601595")
+//    implementation fg.deobf("curse.maven:curios-309927:3613028")
+//    implementation fg.deobf("curse.maven:geckolib-388172:3611877")
+//    implementation fg.deobf("curse.maven:ars-nouveau-401955:3607114")
 //    implementation fg.deobf("curse.maven:mana-and-artifice-406360:3613079")
-    implementation fg.deobf("curse.maven:mantle-74924:3634761")
-    implementation fg.deobf("curse.maven:tinkers-construct-74072:3634768")
-    implementation fg.deobf("curse.maven:applied-energistics-2-223794:3646192")
-    implementation fg.deobf("curse.maven:flashs-npcs-517167:3626736")
+//    implementation fg.deobf("curse.maven:mantle-74924:3634761")
+//    implementation fg.deobf("curse.maven:tinkers-construct-74072:3634768")
+//    implementation fg.deobf("curse.maven:applied-energistics-2-223794:3646192")
+//    implementation fg.deobf("curse.maven:flashs-npcs-517167:3626736")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

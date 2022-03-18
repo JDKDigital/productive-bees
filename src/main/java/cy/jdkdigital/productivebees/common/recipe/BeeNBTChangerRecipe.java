@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
@@ -23,8 +23,6 @@ import javax.annotation.Nonnull;
 
 public class BeeNBTChangerRecipe implements Recipe<Container>
 {
-    public static final RecipeType<BeeNBTChangerRecipe> BEE_NBT_CHANGER = RecipeType.register(ProductiveBees.MODID + ":bee_nbt_changer");
-
     public final ResourceLocation id;
     public final Lazy<BeeIngredient> bee;
     public final Ingredient item;
@@ -97,7 +95,7 @@ public class BeeNBTChangerRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return BEE_NBT_CHANGER;
+        return ModRecipeTypes.BEE_NBT_CHANGER_TYPE;
     }
 
     public static class Serializer<T extends BeeNBTChangerRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>

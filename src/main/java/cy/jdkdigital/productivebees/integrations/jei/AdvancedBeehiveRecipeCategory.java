@@ -1,18 +1,11 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.recipe.AdvancedBeehiveRecipe;
-import cy.jdkdigital.productivebees.recipe.BeeConversionRecipe;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
@@ -24,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -67,73 +59,6 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     @Override
     public IDrawable getIcon() {
         return icon;
-    }
-
-    @Override
-    public void setIngredients(@Nonnull AdvancedBeehiveRecipe recipe, @Nonnull IIngredients ingredients) {
-        ingredients.setInput(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient.get());
-        List<List<ItemStack>> outputList = new ArrayList<>();
-        recipe.getRecipeOutputs().forEach((stack, value) -> {
-            List<ItemStack> innerList = new ArrayList<>();
-            IntStream.range(value.get(0).getAsInt(), value.get(1).getAsInt() + 1).forEach((i) -> {
-                ItemStack newStack = stack.copy();
-                newStack.setCount(i);
-                innerList.add(newStack);
-            });
-            outputList.add(innerList);
-        });
-
-        ingredients.setOutputLists(VanillaTypes.ITEM, outputList);
-    }
-
-    @Override
-    public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull AdvancedBeehiveRecipe recipe, @Nonnull IIngredients ingredients) {
-        IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
-
-        ingredientStacks.init(0, true, 7, 27);
-        ingredientStacks.set(ingredients);
-
-        int startX = 68;
-        int startY = 26;
-        if (ingredients.getOutputs(VanillaTypes.ITEM).size() > 0) {
-            int offset = ingredients.getInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT).size();
-            IntStream.range(offset, ingredients.getOutputs(VanillaTypes.ITEM).size() + offset).forEach((i) -> {
-                if (i > 3 + offset) {
-                    return;
-                }
-                itemStacks.init(i, false, startX + ((i - offset) * 18), startY + ((int) Math.floor(((float) i - offset) / 3.0F) * 18));
-            });
-        }
-
-        itemStacks.set(ingredients);
-
-        List<Component> chances = new ArrayList<>();
-        List<Component> amounts = new ArrayList<>();
-        recipe.getRecipeOutputs().forEach((stack, value) -> {
-            int chance = value.get(2).getAsInt();
-            if (chance < 100) {
-                chances.add(new TranslatableComponent("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
-            } else {
-                chances.add(new TextComponent(""));
-            }
-            if (value.get(0) != value.get(1)) {
-                amounts.add(new TranslatableComponent("productivebees.centrifuge.tooltip.amount", value.get(0).getAsInt() + " - " + value.get(1).getAsInt()));
-            } else {
-                amounts.add(new TextComponent(""));
-            }
-        });
-
-        itemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-            if (!input) {
-                if (!chances.isEmpty() && chances.size() >= slotIndex && !chances.get(slotIndex - 1).getString().isEmpty()) {
-                    tooltip.add(chances.get(slotIndex - 1));
-                }
-                if (!amounts.isEmpty() && amounts.size() >= slotIndex && !amounts.get(slotIndex - 1).getString().isEmpty()) {
-                    tooltip.add(amounts.get(slotIndex - 1));
-                }
-            }
-        });
     }
 
     @Override

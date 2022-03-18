@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
@@ -19,8 +19,6 @@ import javax.annotation.Nonnull;
 
 public class IncubationRecipe implements Recipe<Container>
 {
-    public static final RecipeType<IncubationRecipe> INCUBATION = RecipeType.register(ProductiveBees.MODID + ":incubation");
-
     public final ResourceLocation id;
     public final Ingredient input;
     public final Ingredient catalyst;
@@ -70,7 +68,7 @@ public class IncubationRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return INCUBATION;
+        return ModRecipeTypes.INCUBATION_TYPE;
     }
 
     public static class Serializer<T extends IncubationRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>

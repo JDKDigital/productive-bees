@@ -2,9 +2,9 @@ package cy.jdkdigital.productivebees.integrations.jei;
 
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.recipe.BottlerRecipe;
+import cy.jdkdigital.productivebees.common.recipe.TagOutputRecipe;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.recipe.BottlerRecipe;
-import cy.jdkdigital.productivebees.recipe.TagOutputRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

@@ -7,18 +7,20 @@ import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEnti
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
+import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.SerializationTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -556,7 +558,7 @@ public class ProductiveBee extends Bee
         return flowerBlock.is(BlockTags.FLOWERS) || BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
     }
 
-    public Tag<Block> getNestingTag() {
+    public TagKey<Block> getNestingTag() {
         return BlockTags.BEEHIVES;
     }
 
@@ -579,7 +581,7 @@ public class ProductiveBee extends Bee
         }
 
         public boolean canBeeUse() {
-            if (ProductiveBee.this.hivePos != null && ProductiveBee.this.wantsToEnterHive() && ProductiveBee.this.hivePos.closerThan(ProductiveBee.this.position(), 2.0D)) {
+            if (ProductiveBee.this.hivePos != null && ProductiveBee.this.wantsToEnterHive() && ProductiveBee.this.hivePos.closerToCenterThan(ProductiveBee.this.position(), 2.0D)) {
                 BlockEntity blockEntity = ProductiveBee.this.level.getBlockEntity(ProductiveBee.this.hivePos);
                 if (blockEntity instanceof BeehiveBlockEntity beehiveblockentity) {
                     if (!beehiveblockentity.isFull()) {
@@ -679,8 +681,8 @@ public class ProductiveBee extends Bee
                 CompoundTag nbt = ((ConfigurableBee) ProductiveBee.this).getNBTData();
                 if (nbt != null) {
                     if (nbt.contains("flowerTag")) {
-                        final Tag<EntityType<?>> flowerTag = SerializationTags.getInstance().getOrEmpty(Registry.ENTITY_TYPE_REGISTRY).getTag(new ResourceLocation(nbt.getString("flowerTag")));
-                        return flowerTag != null ? findEntities(entity -> flowerTag.contains(entity.getType()), 5D) : Optional.empty();
+                        Optional<Holder<EntityType<?>>> flowerTag = Registry.ENTITY_TYPE.getHolder(ResourceKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(nbt.getString("flowerTag"))));
+                        return flowerTag.isPresent() ? findEntities(entity -> flowerTag.get().is(entity.getType().getRegistryName()), 5D) : Optional.empty();
                     }
                 }
             }
@@ -735,9 +737,9 @@ public class ProductiveBee extends Bee
                 return false;
             }
 
-            Tag<Block> nestTag = ProductiveBee.this.getNestingTag();
+            HolderSet.Named<Block> nestTag = Registry.BLOCK.getOrCreateTag(ProductiveBee.this.getNestingTag());
             try {
-                if (nestTag == null || nestTag.getValues().size() == 0) {
+                if (nestTag.size() == 0) {
                     return false;
                 }
             } catch (Exception e) {
@@ -751,7 +753,7 @@ public class ProductiveBee extends Bee
             return !ProductiveBee.this.hasRestriction() &&
                     ProductiveBee.this.wantsToEnterHive() &&
                     !this.isCloseEnough(ProductiveBee.this.hivePos) &&
-                    nestTag.contains(ProductiveBee.this.level.getBlockState(ProductiveBee.this.hivePos).getBlock());
+                    ProductiveBee.this.level.getBlockState(ProductiveBee.this.hivePos).is(nestTag);
         }
 
         private boolean isCloseEnough(BlockPos pos) {
@@ -766,7 +768,7 @@ public class ProductiveBee extends Bee
         @Override
         protected void blacklistTarget(BlockPos pos) {
             BlockEntity tileEntity = ProductiveBee.this.level.getBlockEntity(pos);
-            Tag<Block> nestTag = ProductiveBee.this.getNestingTag();
+            TagKey<Block> nestTag = ProductiveBee.this.getNestingTag();
             if (tileEntity != null && tileEntity.getBlockState().is(nestTag)) {
                 this.blacklistedTargets.add(pos);
 

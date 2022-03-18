@@ -1,14 +1,15 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import cy.jdkdigital.productivebees.init.ModTags;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.SerializationTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -24,11 +25,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
 {
-    public static final RecipeType<BottlerRecipe> BOTTLER = RecipeType.register(ProductiveBees.MODID + ":bottler");
-
     public final ResourceLocation id;
     public final Pair<String, Integer> fluidInput;
     public final Ingredient itemInput;
@@ -51,9 +51,8 @@ public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
         if (recipeFluid != null && !recipeFluid.equals(Fluids.EMPTY) && !recipeFluid.equals(fluid.getFluid())) {
             return false;
         }
-
-        Tag<Fluid> fluidTag = SerializationTags.getInstance().getOrEmpty(Registry.FLUID_REGISTRY).getTag(new ResourceLocation(fluidInput.getFirst()));
-        if (fluidTag != null && !fluid.getFluid().is(fluidTag)) {
+        Optional<Holder<Fluid>> fluidTag = Registry.FLUID.getHolder(ResourceKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(fluidInput.getFirst())));
+        if (fluidTag.isPresent() && !fluidTag.get().is(ModTags.getFluidTag(fluid.getFluid().getRegistryName()))) {
             return false;
         }
 
@@ -97,7 +96,7 @@ public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return BOTTLER;
+        return ModRecipeTypes.BOTTLER_TYPE;
     }
 
     public static class Serializer<T extends BottlerRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>

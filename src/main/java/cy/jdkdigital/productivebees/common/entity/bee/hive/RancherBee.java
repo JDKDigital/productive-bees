@@ -22,7 +22,7 @@ public class RancherBee extends ProductiveBee
 {
     public PathfinderMob target = null;
 
-    public static Predicate<Entity> predicate = (entity -> ModTags.RANCHABLES.contains(entity.getType()));
+    public static Predicate<Entity> predicate = (entity -> entity.getType().is(ModTags.RANCHABLES));
 
     public RancherBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);

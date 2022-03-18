@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -29,8 +29,6 @@ import java.util.stream.IntStream;
 
 public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Container>
 {
-    public static final RecipeType<CentrifugeRecipe> CENTRIFUGE = RecipeType.register(ProductiveBees.MODID + ":centrifuge");
-
     public final ResourceLocation id;
     public final Ingredient ingredient;
     public final Map<String, Integer> fluidOutput;
@@ -110,7 +108,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return CENTRIFUGE;
+        return ModRecipeTypes.CENTRIFUGE_TYPE;
     }
 
     public static class Serializer<T extends CentrifugeRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>

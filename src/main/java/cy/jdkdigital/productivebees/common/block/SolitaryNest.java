@@ -4,11 +4,11 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
-import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.common.item.HoneyTreat;
+import cy.jdkdigital.productivebees.common.recipe.BeeSpawningRecipe;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.recipe.BeeSpawningBigRecipe;
-import cy.jdkdigital.productivebees.recipe.BeeSpawningRecipe;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -89,8 +89,8 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         // Get and cache recipes for nest type
         if (recipes.isEmpty()) {
             Map<ResourceLocation, Recipe<Container>> allRecipes = new HashMap<>();
-            allRecipes.putAll(world.getRecipeManager().byType(BeeSpawningBigRecipe.BEE_SPAWNING));
-            allRecipes.putAll(world.getRecipeManager().byType(BeeSpawningRecipe.BEE_SPAWNING));
+            allRecipes.putAll(world.getRecipeManager().byType(ModRecipeTypes.BEE_SPAWNING_BIG_TYPE));
+            allRecipes.putAll(world.getRecipeManager().byType(ModRecipeTypes.BEE_SPAWNING_TYPE));
             ItemStack nestItem = new ItemStack(ForgeRegistries.ITEMS.getValue(this.getRegistryName()));
             for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
                 BeeSpawningRecipe recipe = (BeeSpawningRecipe) entry.getValue();
@@ -151,26 +151,25 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
             SolitaryNestBlockEntity tileEntity = (SolitaryNestBlockEntity) world.getBlockEntity(pos);
 
             ItemStack heldItem = player.getItemInHand(hand);
-            if (tileEntity != null && heldItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
+            if (tileEntity != null && heldItem.getItem() instanceof HoneyTreat && !HoneyTreat.hasGene(heldItem)) {
                 boolean itemUse = false;
                 int currentCooldown = tileEntity.getNestTickCooldown();
-                if (currentCooldown <= 0) {
-                    if (tileEntity.canRepopulate()) {
-                        tileEntity.setNestCooldown(ProductiveBeesConfig.GENERAL.nestSpawnCooldown.get());
-                        itemUse = true;
-                    }
-                } else {
-                    tileEntity.setNestCooldown((int) (currentCooldown * 0.9));
+                if (tileEntity.canRepopulate()) {
                     itemUse = true;
+                    if (currentCooldown <= 0) {
+                        tileEntity.setNestCooldown(ProductiveBeesConfig.GENERAL.nestSpawnCooldown.get());
+                    } else {
+                        tileEntity.setNestCooldown((int) (currentCooldown * 0.9));
+                    }
                 }
 
                 if (itemUse) {
                     world.levelEvent(2005, pos, 0);
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, heldItem);
-                }
 
-                if (!player.isCreative()) {
-                    heldItem.shrink(1);
+                    if (!player.isCreative()) {
+                        heldItem.shrink(1);
+                    }
                 }
             }
         }

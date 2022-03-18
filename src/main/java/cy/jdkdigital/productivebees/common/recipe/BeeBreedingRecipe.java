@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.recipe;
+package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -20,12 +20,12 @@ import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class BeeBreedingRecipe implements Recipe<Container>
 {
-    public static final RecipeType<BeeBreedingRecipe> BEE_BREEDING = RecipeType.register(ProductiveBees.MODID + ":bee_breeding");
-
     public final ResourceLocation id;
     public final List<Lazy<BeeIngredient>> ingredients;
     public final Lazy<BeeIngredient> offspring;
@@ -89,7 +89,7 @@ public class BeeBreedingRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return BEE_BREEDING;
+        return ModRecipeTypes.BEE_BREEDING_TYPE;
     }
 
     public static class Serializer<T extends BeeBreedingRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>

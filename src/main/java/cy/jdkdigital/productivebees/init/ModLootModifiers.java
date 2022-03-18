@@ -11,7 +11,7 @@ import net.minecraftforge.registries.RegistryObject;
 @EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD)
 public final class ModLootModifiers
 {
-    public static final DeferredRegister<GlobalLootModifierSerializer<?>> LOOT_SERIALIZERS = DeferredRegister.create(ForgeRegistries.LOOT_MODIFIER_SERIALIZERS, ProductiveBees.MODID);
+    public static final DeferredRegister<GlobalLootModifierSerializer<?>> LOOT_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, ProductiveBees.MODID);
 
     public static final RegistryObject<GlobalLootModifierSerializer<SturdyCageModifier>> VILLAGE_CHEST_STURDY_CAGE = LOOT_SERIALIZERS.register("village_chest_sturdy_cage", SturdyCageModifier.Serializer::new);
 }

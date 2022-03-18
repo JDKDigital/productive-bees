@@ -2,19 +2,21 @@ package cy.jdkdigital.productivebees.common.crafting.conditions;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.SerializationTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 
+import java.util.Iterator;
+
 public class FluidTagEmptyCondition implements ICondition
 {
     private static final ResourceLocation NAME = new ResourceLocation(ProductiveBees.MODID, "fluid_tag_empty");
-    private final ResourceLocation tag_name;
+    private final TagKey<Fluid> tag_name;
 
     public FluidTagEmptyCondition(String location) {
         this(new ResourceLocation(location));
@@ -25,7 +27,7 @@ public class FluidTagEmptyCondition implements ICondition
     }
 
     public FluidTagEmptyCondition(ResourceLocation tag) {
-        this.tag_name = tag;
+        this.tag_name = TagKey.create(Registry.FLUID_REGISTRY, tag);
     }
 
     @Override
@@ -35,8 +37,7 @@ public class FluidTagEmptyCondition implements ICondition
 
     @Override
     public boolean test() {
-        Tag<Fluid> tag = SerializationTags.getInstance().getOrEmpty(Registry.FLUID_REGISTRY).getTag(tag_name);
-        return tag == null || tag.getValues().isEmpty();
+        return !Registry.FLUID.getTag(tag_name).map(HolderSet.Named::iterator).map(Iterator::hasNext).orElse(false);
     }
 
     @Override

@@ -7,13 +7,13 @@ import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.StoneChip;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
+import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.init.ModEntities;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.recipe.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -24,7 +24,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.AgeableMob;
@@ -51,8 +51,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BeeHelper
 {
@@ -65,7 +67,7 @@ public class BeeHelper
             List<BeeConversionRecipe> recipes = new ArrayList<>();
 
             // Conversion recipes
-            Map<ResourceLocation, Recipe<Container>> allRecipes = world.getRecipeManager().byType(BeeConversionRecipe.BEE_CONVERSION);
+            Map<ResourceLocation, Recipe<Container>> allRecipes = world.getRecipeManager().byType(ModRecipeTypes.BEE_CONVERSION_TYPE);
             for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
                 BeeConversionRecipe recipe = (BeeConversionRecipe) entry.getValue();
                 if (recipe.matches(beeInv, world)) {
@@ -160,7 +162,7 @@ public class BeeHelper
 
         // Get breeding recipes
         List<BeeBreedingRecipe> recipes = new ArrayList<>();
-        Map<ResourceLocation, Recipe<Container>> allRecipes = world.getRecipeManager().byType(BeeBreedingRecipe.BEE_BREEDING);
+        Map<ResourceLocation, Recipe<Container>> allRecipes = world.getRecipeManager().byType(ModRecipeTypes.BEE_BREEDING_TYPE);
         for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
             BeeBreedingRecipe recipe = (BeeBreedingRecipe) entry.getValue();
             if (recipe.matches(beeInv, world)) {
@@ -181,7 +183,7 @@ public class BeeHelper
 
             // Get block conversion recipes
             List<BlockConversionRecipe> recipes = new ArrayList<>();
-            Map<ResourceLocation, Recipe<Container>> allRecipes = beeEntity.level.getRecipeManager().byType(BlockConversionRecipe.BLOCK_CONVERSION);
+            Map<ResourceLocation, Recipe<Container>> allRecipes = beeEntity.level.getRecipeManager().byType(ModRecipeTypes.BLOCK_CONVERSION_TYPE);
             for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
                 BlockConversionRecipe recipe = (BlockConversionRecipe) entry.getValue();
                 if (recipe.matches(beeInv, beeEntity.level)) {
@@ -215,7 +217,7 @@ public class BeeHelper
             beeId = ((ConfigurableBee) beeEntity).getBeeType();
         }
 
-        Map<ResourceLocation, Recipe<Container>> allRecipes = world.getRecipeManager().byType(AdvancedBeehiveRecipe.ADVANCED_BEEHIVE);
+        Map<ResourceLocation, Recipe<Container>> allRecipes = world.getRecipeManager().byType(ModRecipeTypes.ADVANCED_BEEHIVE_TYPE);
         Container beeInv = new IdentifierInventory(beeId);
         for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
             AdvancedBeehiveRecipe recipe = (AdvancedBeehiveRecipe) entry.getValue();
@@ -266,23 +268,19 @@ public class BeeHelper
                     Item flowerItem = flowerBlock.asItem();
 
                     Map<ResourceLocation, Recipe<CraftingContainer>> recipes = world.getRecipeManager().byType(RecipeType.CRAFTING);
-                    Optional<Recipe<CraftingContainer>> flowerRecipe = recipes.values().stream().flatMap((craftingRecipe) -> {
-                        AtomicBoolean hasMatchingItem = new AtomicBoolean(false);
-                        List<Ingredient> ingredients = craftingRecipe.getIngredients();
+                    for (Map.Entry<ResourceLocation, Recipe<CraftingContainer>> entry : recipes.entrySet()) {
+                        Recipe<CraftingContainer> recipe = entry.getValue();
+                        List<Ingredient> ingredients = recipe.getIngredients();
                         if (ingredients.size() == 1) {
                             Ingredient ingredient = ingredients.get(0);
                             ItemStack[] stacks = ingredient.getItems();
                             if (stacks.length > 0 && stacks[0].getItem().equals(flowerItem)) {
-                                hasMatchingItem.set(true);
+                                ItemStack dye = new ItemStack(recipe.getResultItem().getItem(), 1);
+                                outputList.add(dye);
+                                break;
                             }
                         }
-                        return Util.toStream(hasMatchingItem.get() ? Optional.of(craftingRecipe) : Optional.empty());
-                    }).findFirst();
-
-                    flowerRecipe.ifPresent(craftingInventoryIRecipe -> {
-                        ItemStack dye = new ItemStack(craftingInventoryIRecipe.getResultItem().getItem(), 1);
-                        outputList.add(dye);
-                    });
+                    }
                 }
             }
         }
@@ -298,10 +296,10 @@ public class BeeHelper
             return null;
         }
 
-        return recipeManager.getRecipeFor(CentrifugeRecipe.CENTRIFUGE, new RecipeWrapper(inputHandler), world).orElse(null);
+        return recipeManager.getRecipeFor(ModRecipeTypes.CENTRIFUGE_TYPE, new RecipeWrapper(inputHandler), world).orElse(null);
     }
 
-    private static Block getFloweringBlock(Level world, BlockPos flowerPos, Tag<Block> tag, ProductiveBee bee) {
+    private static Block getFloweringBlock(Level world, BlockPos flowerPos, TagKey<Block> tag, ProductiveBee bee) {
         BlockState flowerBlockState = world.getBlockState(flowerPos);
         Block flowerBlock = flowerBlockState.getBlock();
         if (flowerBlock instanceof Feeder) {
@@ -310,7 +308,7 @@ public class BeeHelper
                 return ((FeederBlockEntity) feederTile).getRandomBlockFromInventory(tag);
             }
         }
-        return tag.contains(flowerBlock) ? flowerBlock : null;
+        return flowerBlockState.is(tag) ? flowerBlock : null;
     }
 
     public static void setOffspringAttributes(ProductiveBee newBee, ProductiveBee productiveBeeEntity, AgeableMob targetEntity) {

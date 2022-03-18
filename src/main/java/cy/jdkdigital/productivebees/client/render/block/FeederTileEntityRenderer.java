@@ -62,7 +62,7 @@ public class FeederTileEntityRenderer implements BlockEntityRenderer<FeederBlock
                         continue;
                     }
 
-                    boolean isFlower = ItemTags.FLOWERS.contains(slotStack.getItem());
+                    boolean isFlower = slotStack.is(ItemTags.FLOWERS);
                     Pair<Float, Float> pos = POSITIONS.get(filledSlots).get(slot);
                     float rotation = isFlower ? 90F : 35.0F * slot;
                     float zScale = isFlower ? 0.775F : 0.575F;

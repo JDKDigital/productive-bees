@@ -50,7 +50,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         public boolean isInputSlotItem(int slot, Item item) {
             return
                 (slot == 0 && item instanceof BeeCage) ||
-                (slot == 0 && ModTags.EGGS.contains(item)) ||
+                (slot == 0 && item.builtInRegistryHolder().is(ModTags.EGGS)) ||
                 (slot == 1 && item instanceof HoneyTreat);
         }
     });
@@ -119,7 +119,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         ItemStack inItem = invHandler.getStackInSlot(0);
         ItemStack treatItem = invHandler.getStackInSlot(1);
 
-        boolean eggProcessing = ModTags.EGGS.contains(inItem.getItem());
+        boolean eggProcessing = inItem.is(ModTags.EGGS);
         boolean cageProcessing = inItem.getItem() instanceof BeeCage && BeeCage.isFilled(inItem);
 
         return energy > ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() // has enough power
@@ -136,7 +136,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
         if (canProcessInput(invHandler)) {
             ItemStack inItem = invHandler.getStackInSlot(0);
 
-            boolean eggProcessing = ModTags.EGGS.contains(inItem.getItem());
+            boolean eggProcessing = inItem.is(ModTags.EGGS);
             boolean cageProcessing = inItem.getItem() instanceof BeeCage;
 
             if (canProcessInput(invHandler)) {

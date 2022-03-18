@@ -46,7 +46,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     {
         @Override
         public boolean isContainerItem(Item item) {
-            return item.equals(Items.HONEY_BOTTLE) || ModTags.HONEY_BUCKETS.contains(item) || item.equals(Items.HONEY_BLOCK);
+            return item.equals(Items.HONEY_BOTTLE) || item.builtInRegistryHolder().is(ModTags.HONEY_BUCKETS) || item.equals(Items.HONEY_BLOCK);
         }
 
         @Override
@@ -157,7 +157,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
                     LazyOptional<IFluidHandler> itemFluidHandler = invItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
                     boolean isHoneyBottle = invItem.getItem().equals(Items.HONEY_BOTTLE);
                     boolean isHoneyBlock = invItem.getItem().equals(Items.HONEY_BLOCK);
-                    boolean isHoneyBucket = ModTags.HONEY_BUCKETS.contains(invItem.getItem());
+                    boolean isHoneyBucket = invItem.is(ModTags.HONEY_BUCKETS);
 
                     int addAmount = 0;
                     if (isHoneyBottle) {

@@ -8,11 +8,12 @@ import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
+import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
-import cy.jdkdigital.productivebees.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
@@ -64,7 +65,6 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
     {
-        // TOD 1.18 remove bottle and output slot completely
         @Override
         public boolean isContainerItem(Item item) {
             return false;
@@ -248,7 +248,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
         currentRecipe = BeeHelper.getCentrifugeRecipe(level.getRecipeManager(), inputHandler);
 
-        Map<ResourceLocation, Recipe<Container>> allRecipes = level.getRecipeManager().byType(CentrifugeRecipe.CENTRIFUGE);
+        Map<ResourceLocation, Recipe<Container>> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.CENTRIFUGE_TYPE);
         Container inv = new RecipeWrapper(inputHandler);
         for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
             CentrifugeRecipe recipe = (CentrifugeRecipe) entry.getValue();
