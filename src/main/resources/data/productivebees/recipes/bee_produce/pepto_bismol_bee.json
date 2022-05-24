@@ -1,24 +1,28 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:sugarbag",
+    "ingredient": "productivebees:pepto_bismol",
     "results": [
         {
             "item": {
                 "item": "productivebees:sugarbag_honeycomb"
             },
-            "chance": 30
+            "chance": 40
         },
         {
             "item": {
                 "tag": "forge:pollen"
             },
-            "chance": 15
+            "chance": 5
         }
     ],
     "conditions": [
         {
             "type": "productivebees:bee_exists",
             "bee": "productivebees:sugarbag"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:pepto_bismol"
         }
     ]
 }

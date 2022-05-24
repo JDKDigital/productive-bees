@@ -5,6 +5,7 @@
             "id": "#forge:storage_blocks/gunpowder",
             "required": false
         },
-        "minecraft:coal_ore"
+        "minecraft:coal_ore",
+        "minecraft:tnt"
     ]
 }

@@ -36,10 +36,6 @@ public class ModTags
     public static final TagKey<Block> LUMBER = getBlockTag("flowers/lumber");
     public static final TagKey<Block> POWDERY = getBlockTag("flowers/powdery");
 
-    public static final TagKey<Item> HONEY_BUCKETS = getItemTag(new ResourceLocation("forge", "buckets/honey"));
-    public static final TagKey<Item> EGGS = getItemTag(new ResourceLocation("forge", "eggs"));
-    public static final TagKey<Item> WAX = getItemTag(new ResourceLocation("forge", "wax"));
-
     public static final TagKey<EntityType<?>> RANCHABLES = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
 
     public static final TagKey<Fluid> HONEY = FluidTags.create(new ResourceLocation("forge", "honey"));
@@ -68,5 +64,14 @@ public class ModTags
 
     public static TagKey<EntityType<?>> getEntityTag(ResourceLocation name) {
         return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, name);
+    }
+
+    public static class Forge {
+        public static final TagKey<Item> HONEY_BUCKETS = getItemTag(new ResourceLocation("forge", "buckets/honey"));
+        public static final TagKey<Item> EGGS = getItemTag(new ResourceLocation("forge", "eggs"));
+        public static final TagKey<Item> WAX = getItemTag(new ResourceLocation("forge", "wax"));
+        public static final TagKey<Item> WITHER_SKULL_FRAGMENTS = getItemTag(new ResourceLocation("forge", "fragments/wither_skull"));
+        public static final TagKey<Item> SILICON = getItemTag(new ResourceLocation("forge", "silicon"));
+        public static final TagKey<Item> SOURCE_GEM = getItemTag(new ResourceLocation("forge", "gems/source"));
     }
 }

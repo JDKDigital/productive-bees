@@ -26,7 +26,9 @@ public class SturdyCageModifier extends LootModifier
     @Nonnull
     @Override
     protected List<ItemStack> doApply(List<ItemStack> list, LootContext lootContext) {
-        list.add(new ItemStack(addition, 1));
+        if (lootContext.getRandom().nextBoolean()) {
+            list.add(new ItemStack(addition, 1));
+        }
         return list;
     }
 

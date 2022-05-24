@@ -9,6 +9,9 @@
         "endurance": 3,
         "productivity": 1
     },
+    "traits" : [
+        "lightning"
+    ],
     "flowerBlock": "iceandfire:dragonsteel_lightning_block",
     "conditions": [
         {

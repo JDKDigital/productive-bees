@@ -30,24 +30,30 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
     private final List<IngredientOutput> output;
     private FluidOutput fluid;
     private final List<ICondition> conditions;
+    private boolean isConfigurable = false;
 
-    public CentrifugeRecipeBuilder(Ingredient input, List<IngredientOutput> output, FluidOutput fluid, List<ICondition> conditions) {
+    private CentrifugeRecipeBuilder(Ingredient input, List<IngredientOutput> output, FluidOutput fluid, List<ICondition> conditions, boolean isConfigurable) {
         this.input = input;
         this.output = output;
         this.fluid = fluid;
         this.conditions = conditions;
+        this.isConfigurable = isConfigurable;
+    }
+
+    public static CentrifugeRecipeBuilder item(Item item) {
+        return new CentrifugeRecipeBuilder(Ingredient.of(item), new ArrayList<>(), null, new ArrayList<>(), false);
     }
 
     public static CentrifugeRecipeBuilder configurable(String beeName, List<IngredientOutput> output, FluidOutput fluid, List<ICondition> conditions) {
         ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-        BeeCreator.setTag(beeName, stack);
+        BeeCreator.setTag(ProductiveBees.MODID + ":" + beeName, stack);
         if (output.isEmpty()) {
-            output.add(new AbstractRecipeBuilder.IngredientOutput(Ingredient.of(ModTags.WAX)));
+            output.add(new AbstractRecipeBuilder.IngredientOutput(Ingredient.of(ModTags.Forge.WAX)));
         }
         if (fluid != null) {
-            fluid = new AbstractRecipeBuilder.FluidOutput("#forge:honey");
+            fluid = new AbstractRecipeBuilder.FluidOutput("productivebees:honey");
         }
-        return new CentrifugeRecipeBuilder(NBTIngredient.of(stack), output, fluid, conditions);
+        return new CentrifugeRecipeBuilder(NBTIngredient.of(stack), output, fluid, conditions, true);
     }
 
     public static CentrifugeRecipeBuilder configurable(String beeName) {

@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.crafting.conditions;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -33,8 +34,13 @@ public class BeeExistsCondition implements ICondition
 
     @Override
     public boolean test() {
+        return test(IContext.EMPTY);
+    }
+
+    @Override
+    public boolean test(ICondition.IContext context) {
         JsonObject beeData = BeeReloadListener.INSTANCE.getCondition(beeName.toString());
-        return beeData != null && CraftingHelper.processConditions(beeData, "conditions");
+        return beeData != null && CraftingHelper.processConditions(beeData, "conditions", context);
     }
 
     @Override

@@ -7,13 +7,18 @@ import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.integrations.patchouli.ProductiveBeesPatchouli;
 import cy.jdkdigital.productivebees.util.BeeCreator;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.conditions.ConditionContext;
+import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
@@ -22,10 +27,11 @@ import java.util.Map;
 
 public class BeeReloadListener extends SimpleJsonResourceReloadListener
 {
-    public static RecipeManager recipeManager;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     public static final BeeReloadListener INSTANCE = new BeeReloadListener();
+    public ConditionContext context;
+
     private Map<String, CompoundTag> BEE_DATA = new HashMap<>();
     private Map<String, JsonObject> BEE_CONDITIONS = new HashMap<>();
 
@@ -55,7 +61,7 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
             ResourceLocation id = entry.getKey();
 
             try {
-                if (!CraftingHelper.processConditions(entry.getValue().getAsJsonObject(), "conditions")) {
+                if (!CraftingHelper.processConditions(entry.getValue().getAsJsonObject(), "conditions", context)) {
                     ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as its conditions were not met", id);
                     continue;
                 }

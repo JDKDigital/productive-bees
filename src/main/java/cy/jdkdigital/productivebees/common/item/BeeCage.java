@@ -54,18 +54,18 @@ public class BeeCage extends Item
             return InteractionResult.FAIL;
         }
 
-        Level worldIn = context.getLevel();
+        Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
 
-        Bee entity = getEntityFromStack(stack, worldIn, true);
+        Bee entity = getEntityFromStack(stack, level, true);
 
         if (entity != null) {
             BlockPos blockPos = pos.relative(context.getClickedFace());
 
-            if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
+            if ((context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) || (entity.hivePos != null && !level.isLoaded(entity.hivePos))) {
                 entity.hivePos = null;
-                if (entity instanceof ProductiveBee && worldIn instanceof ServerLevel) {
-                    PoiManager poiManager = ((ServerLevel) worldIn).getPoiManager();
+                if (entity instanceof ProductiveBee && level instanceof ServerLevel) {
+                    PoiManager poiManager = ((ServerLevel) level).getPoiManager();
                     Optional<PoiType> poiAtLocation = poiManager.getType(pos);
                     if (poiAtLocation.isPresent() && ((ProductiveBee) entity).getBeehiveInterests().test(poiAtLocation.get())) {
                         entity.hivePos = pos;
@@ -79,7 +79,7 @@ public class BeeCage extends Item
                 entity.setSavedFlowerPos(pos);
             }
 
-            worldIn.addFreshEntity(entity);
+            level.addFreshEntity(entity);
 
             postItemUse(context);
         }

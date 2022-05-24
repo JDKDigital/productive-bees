@@ -17,6 +17,10 @@
         {
             "type": "patchouli:text",
             "text": "Advanced Hives features a GUI from where you can see which bees are currently inside the hive as well as take out any produced resources. Advanced Hives can be further upgraded using an $(l:hives/expansion_boxes)expansion box$(/l). Attaching an $(l:hives/expansion_boxes)expansion box$(/l) will increase the bee capacity from 3 to 5 and allow $(l:items/upgrades)upgrades$(/l) to be installed."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "If you're tired of waiting for the bees to finish their job and get out of the hive, you can whack the hive or nest with a stick to force it out, loosing all production progress. This only works if it's safe for the bees to exit."
         }
     ]
 }

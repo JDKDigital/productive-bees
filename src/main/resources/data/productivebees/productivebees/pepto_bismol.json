@@ -1,0 +1,37 @@
+{
+    "primaryColor": "#FFC0CB",
+    "secondaryColor": "#FFFF00",
+    "particleColor": "#FFC0CB",
+    "size": 0.5,
+    "renderer": "thicc",
+    "passiveEffects": [
+        {
+            "effect": "minecraft:regeneration",
+            "duration": 400
+        },
+        {
+            "effect": "minecraft:absorption",
+            "duration": 400
+        },
+        {
+            "effect": "minecraft:haste",
+            "duration": 400
+        },
+        {
+            "effect": "minecraft:strength",
+            "duration": 400
+        },
+        {
+            "effect": "minecraft:instant_health",
+            "duration": 10
+        },
+        {
+            "effect": "minecraft:saturation",
+            "duration": 400
+        },
+        {
+            "effect": "minecraft:luck",
+            "duration": 400
+        }
+    ]
+}

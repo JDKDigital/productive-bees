@@ -3,16 +3,25 @@ package cy.jdkdigital.productivebees.datagen.recipe.builder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public abstract class AbstractRecipeBuilder implements RecipeBuilder {
     public static class IngredientOutput {
-        private Ingredient ingredient;
-        private int chance;
+        private final Ingredient ingredient;
+        protected final int chance;
+        protected final int min;
+        protected final int max;
 
-        public IngredientOutput(Ingredient ingredient, int chance) {
+        public IngredientOutput(Ingredient ingredient, int chance, int min, int max) {
             this.ingredient = ingredient;
             this.chance = chance;
+            this.min = min;
+            this.max = max;
+        }
+
+        public IngredientOutput(Ingredient ingredient, int chance) {
+            this(ingredient, chance, 0, 0);
         }
 
         public IngredientOutput(Ingredient ingredient) {
@@ -25,12 +34,60 @@ public abstract class AbstractRecipeBuilder implements RecipeBuilder {
             if (chance != 100) {
                 output.addProperty("chance", chance);
             }
+            if (min != 0) {
+                output.addProperty("min", chance);
+            }
+            if (max != 0) {
+                output.addProperty("max", chance);
+            }
             return output;
         }
     }
+
+    public static class ModItemOutput extends IngredientOutput {
+        private final String ingredient;
+
+        public ModItemOutput(String ingredient, int chance, int min, int max) {
+            super(Ingredient.of(Items.STICK), chance, min, max);
+            this.ingredient = ingredient;
+        }
+
+        public ModItemOutput(String ingredient, int chance) {
+            this(ingredient, chance, 0, 0);
+        }
+
+        public ModItemOutput(String ingredient) {
+            this(ingredient, 100);
+        }
+
+        public JsonElement toJson() {
+            JsonObject output = new JsonObject();
+            JsonObject item = new JsonObject();
+
+            if (ingredient.startsWith("#")) {
+                item.addProperty("tag", ingredient);
+            } else {
+                item.addProperty("item", ingredient);
+            }
+
+            output.add("item", item);
+
+            if (chance != 100) {
+                output.addProperty("chance", chance);
+            }
+            if (min != 0) {
+                output.addProperty("min", min);
+            }
+            if (max != 0) {
+                output.addProperty("max", max);
+            }
+            return output;
+        }
+    }
+
     public static class FluidOutput {
-        private String fluidString;
-        private int amount;
+        private final String fluidString;
+        private final int amount;
 
         public FluidOutput(String fluidString, int amount) {
             this.fluidString = fluidString;
@@ -38,7 +95,7 @@ public abstract class AbstractRecipeBuilder implements RecipeBuilder {
         }
 
         public FluidOutput(String fluidString) {
-            this(fluidString, 100);
+            this(fluidString, 50);
         }
 
         public JsonElement toJson() {

@@ -124,7 +124,9 @@ dependencies {
 //    implementation fg.deobf("curse.maven:cucumber-272335:3561215")
 //    implementation fg.deobf("curse.maven:beyond-earth-377448:3632972")
 //    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3568309")
-//    implementation fg.deobf("curse.maven:croptopia-fabric-415438:3590394")
+    implementation fg.deobf("curse.maven:croptopia-fabric-415438:3707657")
+    implementation fg.deobf("curse.maven:pams-harvestcraft-2-food-core-372534:3740562")
+    implementation fg.deobf("curse.maven:pams-harvestcraft-2-food-extended-402231:3740472")
 //    implementation fg.deobf("curse.maven:gems-jewels-392943:3568024")
 //    implementation fg.deobf("curse.maven:silent-lib-242998:3543045")
 //    implementation fg.deobf("curse.maven:silents-gems-220311:3553197")
@@ -143,7 +145,8 @@ dependencies {
 //    implementation fg.deobf("curse.maven:mantle-74924:3634761")
 //    implementation fg.deobf("curse.maven:tinkers-construct-74072:3634768")
 //    implementation fg.deobf("curse.maven:applied-energistics-2-223794:3646192")
-//    implementation fg.deobf("curse.maven:flashs-npcs-517167:3626736")
+    implementation fg.deobf("curse.maven:terrablender-563928:3723138")
+    implementation fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3712165")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

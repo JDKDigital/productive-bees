@@ -31,8 +31,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -46,7 +44,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     {
         @Override
         public boolean isContainerItem(Item item) {
-            return item.equals(Items.HONEY_BOTTLE) || item.builtInRegistryHolder().is(ModTags.HONEY_BUCKETS) || item.equals(Items.HONEY_BLOCK);
+            return item.equals(Items.HONEY_BOTTLE) || item.builtInRegistryHolder().is(ModTags.Forge.HONEY_BUCKETS) || item.equals(Items.HONEY_BLOCK);
         }
 
         @Override
@@ -157,7 +155,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
                     LazyOptional<IFluidHandler> itemFluidHandler = invItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
                     boolean isHoneyBottle = invItem.getItem().equals(Items.HONEY_BOTTLE);
                     boolean isHoneyBlock = invItem.getItem().equals(Items.HONEY_BLOCK);
-                    boolean isHoneyBucket = invItem.is(ModTags.HONEY_BUCKETS);
+                    boolean isHoneyBucket = invItem.is(ModTags.Forge.HONEY_BUCKETS);
 
                     int addAmount = 0;
                     if (isHoneyBottle) {
@@ -220,9 +218,8 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
         return upgradeHandler;
     }
 
-    @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return inventoryHandler.cast();
         } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
@@ -233,13 +230,11 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
         return super.getCapability(cap, side);
     }
 
-    @Nonnull
     @Override
     public Component getName() {
         return new TranslatableComponent(ModBlocks.HONEY_GENERATOR.get().getDescriptionId());
     }
 
-    @Nullable
     @Override
     public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory, final Player player) {
         return new HoneyGeneratorContainer(windowId, playerInventory, this);

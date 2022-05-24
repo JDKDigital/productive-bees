@@ -32,13 +32,6 @@
     ],
     "conditions": [
         {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:nuggets/vibranium"
-            }
-        },
-        {
             "type": "forge:mod_loaded",
             "modid": "allthemodium"
         }

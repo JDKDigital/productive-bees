@@ -2,16 +2,10 @@ package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
-import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
-import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
@@ -70,46 +64,6 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
     }
 
     @Override
-    public void setIngredients(BlockConversionRecipe recipe, IIngredients ingredients) {
-        ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.bee.get()));
-
-        if (recipe.stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
-            ingredients.setInputs(VanillaTypes.ITEM, Arrays.asList(recipe.fromDisplay.getItems()));
-        } else {
-            ingredients.setInputs(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateFrom.getFluidState().getType(), 1000)));
-        }
-        if (recipe.stateTo.getFluidState().getType().equals(Fluids.EMPTY)) {
-            ingredients.setOutputs(VanillaTypes.ITEM, Arrays.asList(recipe.toDisplay.getItems()));
-        } else {
-            ingredients.setOutputs(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateTo.getFluidState().getType(), 1000)));
-        }
-    }
-
-    @Override
-    public void setRecipe(IRecipeLayout recipeLayout, BlockConversionRecipe recipe, IIngredients ingredients) {
-        IGuiIngredientGroup<BeeIngredient> beeIngredients = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
-
-        beeIngredients.init(0, true, 38, 5);
-        beeIngredients.set(ingredients);
-
-        IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-        IGuiFluidStackGroup fluidStacks = recipeLayout.getFluidStacks();
-
-        if (recipe.stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
-            itemStacks.init(1, true, 5, 25);
-        } else {
-            fluidStacks.init(1, true, 5, 26);
-        }
-        if (recipe.stateTo.getFluidState().getType().equals(Fluids.EMPTY)) {
-            itemStacks.init(2, false, 65, 25);
-        } else {
-            fluidStacks.init(2, false, 65, 26);
-        }
-        itemStacks.set(ingredients);
-        fluidStacks.set(ingredients);
-    }
-
-    @Override
     public void setRecipe(IRecipeLayoutBuilder builder, BlockConversionRecipe recipe, List<? extends IFocus<?>> focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 38, 5)
                 .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.bee.get())
@@ -118,18 +72,19 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
         if (recipe.stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
             builder.addSlot(RecipeIngredientRole.INPUT, 5, 25)
                     .addItemStacks(Arrays.asList(recipe.fromDisplay.getItems()))
-                    .setSlotName("resultBlock");
+                    .setSlotName("sourceBlock");
         } else {
             builder.addSlot(RecipeIngredientRole.INPUT, 5, 26)
                     .addIngredients(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateFrom.getFluidState().getType(), 1000)))
-                    .setSlotName("resultFluid");
+                    .setSlotName("sourceFluid");
         }
+
         if (recipe.stateTo.getFluidState().getType().equals(Fluids.EMPTY)) {
             builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 25)
                     .addItemStacks(Arrays.asList(recipe.toDisplay.getItems()))
                     .setSlotName("resultBlock");
         } else {
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 5, 26)
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 26)
                     .addIngredients(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateTo.getFluidState().getType(), 1000)))
                     .setSlotName("resultFluid");
         }
