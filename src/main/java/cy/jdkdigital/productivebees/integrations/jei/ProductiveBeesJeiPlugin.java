@@ -225,16 +225,16 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "stone_chip_hive_" + id[1]), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), chipItemOutput));
         });
         Registry.BLOCK.getTagOrEmpty(ModTags.LUMBER).forEach(blockHolder -> {
-                    Block b = blockHolder.value();
+            Block b = blockHolder.value();
             chipRecipes.add(WoodChip.getRecipe(b));
 
             String[] id = b.getRegistryName().toString().split(":");
             Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
             blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 7, 100}));
-            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_block_hive_" + id[1]), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), blockItemOutput));
+            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_block_hive_" + id[1]), Lazy.of(() -> beeList.get("productivebees:lumber_bee")), blockItemOutput));
             Map<Ingredient, IntArrayTag> chipItemOutput = new HashMap<>();
             chipItemOutput.put(Ingredient.of(WoodChip.getStack(b)), new IntArrayTag(new int[]{1, 7, 100}));
-            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_hive_" + id[1]), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), chipItemOutput));
+            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_hive_" + id[1]), Lazy.of(() -> beeList.get("productivebees:lumber_bee")), chipItemOutput));
         });
         registration.addRecipes(chipRecipes, VanillaRecipeCategoryUid.CRAFTING);
         registration.addRecipes(chipHiveRecipes, CATEGORY_ADVANCED_BEEHIVE_UID);

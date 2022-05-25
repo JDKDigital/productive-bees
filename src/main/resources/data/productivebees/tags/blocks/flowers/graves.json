@@ -20,6 +20,10 @@
         {
             "id": "tombstone:decorative_subaraki_grave",
             "required": false
+        },
+        {
+            "id": "tombstone:decorative_tombstone",
+            "required": false
         }
     ]
 }

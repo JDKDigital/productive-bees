@@ -1,6 +1,6 @@
 {
     "name": "Tinkers Construct",
-    "icon": "tconstruct:casting_table",
+    "icon": "tconstruct:seared_table",
     "read_by_default": true,
     "sortnum": 8,
     "category": "productivebees:bees_modded",
@@ -11,8 +11,8 @@
             "text": "Bees for Tinkers Construct materials. The bees are obtained by pouring a material over a spawn egg in the casting table."
         },
         {
-            "type": "patchouli:empty",
-            "draw_filler": false
+            "type": "patchouli:text",
+            "text": "turn the page"
         },
         {
             "type": "patchouli:text",

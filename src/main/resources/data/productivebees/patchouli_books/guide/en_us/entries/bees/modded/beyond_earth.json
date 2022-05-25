@@ -11,8 +11,8 @@
             "text": "Bees Beyond Earth"
         },
         {
-            "type": "patchouli:empty",
-            "draw_filler": false
+            "type": "patchouli:text",
+            "text": "turn the page"
         },
         {
             "type": "patchouli:text",

@@ -58,6 +58,8 @@ import java.util.Map;
 
 public class BeeHelper
 {
+    private static Map<String, List<BlockConversionRecipe>> blockConversionRecipeMap = new HashMap();
+
     public static Entity itemInteract(Bee entity, ItemStack itemStack, ServerLevel world, CompoundTag nbt, Player player) {
         Entity bee = null;
 
@@ -117,7 +119,6 @@ public class BeeHelper
     public static Entity getBreedingResult(Bee beeEntity, AgeableMob targetEntity, ServerLevel world) {
         BeeBreedingRecipe recipe = getRandomBreedingRecipe(beeEntity, targetEntity, world);
         if (recipe != null) {
-            Lazy<BeeIngredient> possibleOffspring = recipe.offspring;
             if (recipe.offspring != null) {
                 BeeIngredient beeIngredient = recipe.offspring.get();
 
@@ -178,11 +179,14 @@ public class BeeHelper
     }
 
     public static BlockConversionRecipe getBlockConversionRecipe(Bee beeEntity, BlockState flowerBlockState) {
-        if (beeEntity.level instanceof ServerLevel) {
+        List<BlockConversionRecipe> recipes = new ArrayList<>();
+        String cacheKey = beeEntity.getEncodeId() + flowerBlockState.toString();
+        if (blockConversionRecipeMap.containsKey(cacheKey)) {
+            recipes = blockConversionRecipeMap.get(cacheKey);
+        } else if (beeEntity.level instanceof ServerLevel) {
             Container beeInv = new BlockStateInventory(beeEntity, flowerBlockState);
 
             // Get block conversion recipes
-            List<BlockConversionRecipe> recipes = new ArrayList<>();
             Map<ResourceLocation, Recipe<Container>> allRecipes = beeEntity.level.getRecipeManager().byType(ModRecipeTypes.BLOCK_CONVERSION_TYPE);
             for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
                 BlockConversionRecipe recipe = (BlockConversionRecipe) entry.getValue();
@@ -191,11 +195,12 @@ public class BeeHelper
                 }
             }
 
-            if (!recipes.isEmpty()) {
-                return recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
-            }
+            blockConversionRecipeMap.put(cacheKey, recipes);
         }
 
+        if (!recipes.isEmpty()) {
+            return recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
+        }
         return null;
     }
 
@@ -334,7 +339,7 @@ public class BeeHelper
         attributeMapChild.put(BeeAttributes.ENDURANCE, Math.max((int) attributeMapChild.get(BeeAttributes.ENDURANCE), parentEndurance));
 
         int parentTemper = Mth.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.TEMPER), (int) attributeMapParent2.get(BeeAttributes.TEMPER));
-        attributeMapChild.put(BeeAttributes.TEMPER, Math.max((int) attributeMapChild.get(BeeAttributes.TEMPER), parentTemper));
+        attributeMapChild.put(BeeAttributes.TEMPER, Math.min((int) attributeMapChild.get(BeeAttributes.TEMPER), parentTemper));
 
         int parentBehavior = Mth.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.BEHAVIOR), (int) attributeMapParent2.get(BeeAttributes.BEHAVIOR));
         attributeMapChild.put(BeeAttributes.BEHAVIOR, Math.max((int) attributeMapChild.get(BeeAttributes.BEHAVIOR), parentBehavior));

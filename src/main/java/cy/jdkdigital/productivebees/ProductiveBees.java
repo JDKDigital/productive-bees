@@ -14,7 +14,10 @@ import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
-import cy.jdkdigital.productivebees.setup.*;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.setup.ClientProxy;
+import cy.jdkdigital.productivebees.setup.IProxy;
+import cy.jdkdigital.productivebees.setup.ServerProxy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -33,7 +36,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -43,7 +45,6 @@ import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
@@ -56,6 +57,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.GameData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -95,11 +97,6 @@ public final class ProductiveBees
         ModRecipeTypes.RECIPE_SERIALIZERS.register(modEventBus);
         ModParticles.PARTICLE_TYPES.register(modEventBus);
         ModLootModifiers.LOOT_SERIALIZERS.register(modEventBus);
-
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            modEventBus.addListener(ClientSetup::init);
-            modEventBus.addListener(EventPriority.LOWEST, ClientSetup::registerParticles);
-        });
 
         modEventBus.addListener(this::onInterModEnqueue);
         modEventBus.addGenericListener(Feature.class, this::onRegisterFeatures);
@@ -193,7 +190,7 @@ public final class ProductiveBees
         ImmutableList<Block> beehives = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive && !(block instanceof DragonEggHive)).collect(ImmutableList.toImmutableList());
         for (Block block : beehives) {
             for (BlockState state : block.getStateDefinition().getPossibleStates()) {
-                PoiType.TYPE_BY_STATE.put(state, PoiType.BEEHIVE);
+                GameData.getBlockStatePointOfInterestTypeMap().put(state, PoiType.BEEHIVE);
                 try {
                     PoiType.BEEHIVE.matchingStates.add(state);
                 } catch (Exception e) {
