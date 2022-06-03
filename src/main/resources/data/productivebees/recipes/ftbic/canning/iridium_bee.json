@@ -1,0 +1,51 @@
+{
+  "type": "ftbic:canning",
+  "inputItems": [
+    {
+      "ingredient": {
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:crystalline"
+          }
+        }
+      }
+    },
+    {
+      "ingredient": {
+        "tag": "forge:ingots/iridium"
+      }
+    }
+  ],
+  "outputItems": [
+    {
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:iridium"
+        }
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:ingots/iridium"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iridium"
+    }
+  ]
+}

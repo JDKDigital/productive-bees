@@ -1,0 +1,24 @@
+{
+    "primaryColor": "#ffccff",
+    "secondaryColor": "#d4e4fc",
+    "particleColor": "#8c9fac",
+    "flowerTag": "forge:storage_blocks/iridium",
+    "description": "productivebees.ingredient.description.only_spawnegg",
+    "size": 0.8,
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:nuggets/iridium"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/iridium"
+            }
+        }
+    ]
+}
