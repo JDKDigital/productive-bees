@@ -67,50 +67,20 @@ public class BottlerRecipeCategory implements IRecipeCategory<BottlerRecipe>
     }
 
     @Override
-    public void setIngredients(BottlerRecipe recipe, IIngredients ingredients) {
-        List<Fluid> fluids = TagOutputRecipe.getAllFluidsFromName(recipe.fluidInput.getFirst());
-        List<FluidStack> fluidStacks = new ArrayList<>();
-        for (Fluid fluid: fluids) {
-            fluidStacks.add(new FluidStack(fluid, recipe.fluidInput.getSecond()));
-        }
-        ingredients.setInputs(VanillaTypes.FLUID, fluidStacks);
-        ingredients.setInputIngredients(Lists.newArrayList(recipe.itemInput));
-        ingredients.setOutputs(VanillaTypes.ITEM, Arrays.asList(recipe.result.getItems()));
-    }
-
-    @Override
-    public void setRecipe(IRecipeLayout iRecipeLayout, @Nonnull BottlerRecipe recipe, IIngredients ingredients) {
-        IGuiFluidStackGroup fluids = iRecipeLayout.getFluidStacks();
-        fluids.init(0, true, 9, 27);
-        fluids.set(0, ingredients.getInputs(VanillaTypes.FLUID).get(0));
-
-        IGuiItemStackGroup itemStacks = iRecipeLayout.getItemStacks();
-        itemStacks.init(1, true, 42, 26);
-        itemStacks.init(2, false, 98, 26);
-        itemStacks.set(1, ingredients.getInputs(VanillaTypes.ITEM).get(0));
-        itemStacks.set(2, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
-
-        fluids.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-            int amount = recipe.fluidInput.getSecond();
-            tooltip.add(new TranslatableComponent("productivebees.centrifuge.tooltip.amount", amount + "mB"));
-        });
-    }
-
-    @Override
     public void setRecipe(IRecipeLayoutBuilder builder, BottlerRecipe recipe, List<? extends IFocus<?>> focuses) {
         List<Fluid> fluids = TagOutputRecipe.getAllFluidsFromName(recipe.fluidInput.getFirst());
         List<FluidStack> fluidStacks = new ArrayList<>();
         for (Fluid fluid: fluids) {
             fluidStacks.add(new FluidStack(fluid, recipe.fluidInput.getSecond()));
         }
-        builder.addSlot(RecipeIngredientRole.INPUT, 10, 28)
+        builder.addSlot(RecipeIngredientRole.INPUT, 9, 27)
                 .addIngredients(VanillaTypes.FLUID, fluidStacks)
                 .setSlotName("inputFluid");
         builder.addSlot(RecipeIngredientRole.INPUT, 43, 27)
                 .addItemStacks(Arrays.stream(recipe.itemInput.getItems()).toList())
                 .setSlotName("inputItem");
         builder.addSlot(RecipeIngredientRole.OUTPUT, 99, 27)
-                .addItemStacks(Arrays.stream(recipe.result.getItems()).toList())
+                .addItemStack(recipe.result)
                 .setSlotName("result");
     }
 }

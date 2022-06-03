@@ -17,6 +17,7 @@ import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -36,10 +37,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -245,7 +243,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         if (honeycombRecipe.isPresent()) {
             count = ((ConfigurableHoneycombRecipe) honeycombRecipe.get()).count;
         }
-        Map<ResourceLocation, ShapelessRecipe> recipes = new HashMap<>();
+        List<CraftingRecipe> recipes = new ArrayList<>();
         for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
             String beeType = entry.getKey();
             ResourceLocation idComb = new ResourceLocation(beeType + "_honeycomb");
@@ -265,12 +263,12 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             NonNullList<Ingredient> combBlockInput = NonNullList.create();
             combBlockInput.add(Ingredient.of(combBlock));
 
-            recipes.put(idComb, new ShapelessRecipe(idComb, "", combBlock, combInput));
+            recipes.add(new ShapelessRecipe(idComb, "", combBlock, combInput));
             ItemStack combOutput = comb.copy();
             combOutput.setCount(count);
-            recipes.put(idCombBlock, new ShapelessRecipe(idCombBlock, "", combOutput, combBlockInput));
+            recipes.add(new ShapelessRecipe(idCombBlock, "", combOutput, combBlockInput));
         }
-        registration.addRecipes(recipes.values(), VanillaRecipeCategoryUid.CRAFTING);
+        registration.addRecipes(RecipeTypes.CRAFTING, recipes);
     }
 
     @Override

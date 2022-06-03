@@ -99,7 +99,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                     level.isNight() &&
                     level.getBlockState(front).isAir() &&
                     getBeeListAsNBTList(blockEntity).size() + blockEntity.beesOutsideHive() == 0 &&
-                    level.getBrightness(LightLayer.BLOCK, front) <= 8
+                    level.getBrightness(LightLayer.BLOCK, front) == 0
             ) {
                 EntityType<ConfigurableBee> beeType = ModEntities.CONFIGURABLE_BEE.get();
                 ConfigurableBee newBee = beeType.create(level);

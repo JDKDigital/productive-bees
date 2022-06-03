@@ -3,12 +3,12 @@
     "source": "productivebees:spacial",
     "result": "productivebees:fluix",
     "item": {
-        "item": "appliedenergistics2:fluix_pearl"
+        "item": "ae2:fluix_pearl"
     },
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "appliedenergistics2"
+            "modid": "ae2"
         },
         {
             "type": "productivebees:bee_exists",

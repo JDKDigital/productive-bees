@@ -5,15 +5,16 @@
         "item": "productivebees:configurable_honeycomb",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:sulfur"
+                "type": "productivebees:starry"
             }
         }
     },
     "outputs": [
         {
             "item": {
-                "tag": "forge:dusts/sulfur"
-            }
+                "item": "atmadditions:atm_star"
+            },
+            "chance": 5
         },
         {
             "item": {
@@ -25,15 +26,6 @@
                 "fluid": "productivebees:honey"
             },
             "amount": 50
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:dusts/sulfur"
-            }
         }
     ]
 }

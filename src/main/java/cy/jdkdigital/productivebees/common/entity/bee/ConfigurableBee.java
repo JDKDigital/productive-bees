@@ -77,20 +77,22 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         String type = "";
         if (tag != null) {
             type = tag.contains("type") ? tag.getString("type") : tag.contains("EntityTag") ? tag.getCompound("EntityTag").getString("type") : "";
-        }
 
-        if (type.equals("productivebees:ghostly") && ProductiveBees.rand.nextFloat() < 0.02f) {
-            this.setCustomName(new TextComponent("BooBee"));
-        } else if (type.equals("productivebees:blitz") && ProductiveBees.rand.nextFloat() < 0.02f) {
-            this.setCustomName(new TextComponent("King BitzBee"));
-        } else if (type.equals("productivebees:basalz") && ProductiveBees.rand.nextFloat() < 0.02f) {
-            this.setCustomName(new TextComponent("Queen BazBee"));
-        } else if (type.equals("productivebees:blizz") && ProductiveBees.rand.nextFloat() < 0.02f) {
-            this.setCustomName(new TextComponent("Shiny BizBee"));
-        } else if (type.equals("productivebees:redstone") && ProductiveBees.rand.nextFloat() < 0.01f) {
-            this.setCustomName(new TextComponent("Redastone Bee"));
-        } else if (type.equals("productivebees:destabilized_redstone") && ProductiveBees.rand.nextFloat() < 0.10f) {
-            this.setCustomName(new TextComponent("Destabilized RedaStone Bee"));
+            if (type.equals("productivebees:ghostly") && ProductiveBees.rand.nextFloat() < 0.02f) {
+                this.setCustomName(new TextComponent("BooBee"));
+            } else if (type.equals("productivebees:blitz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+                this.setCustomName(new TextComponent("King BitzBee"));
+            } else if (type.equals("productivebees:basalz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+                this.setCustomName(new TextComponent("Queen BazBee"));
+            } else if (type.equals("productivebees:blizz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+                this.setCustomName(new TextComponent("Shiny BizBee"));
+            } else if (type.equals("productivebees:redstone") && ProductiveBees.rand.nextFloat() < 0.01f) {
+                this.setCustomName(new TextComponent("Redastone Bee"));
+            } else if (type.equals("productivebees:destabilized_redstone") && ProductiveBees.rand.nextFloat() < 0.10f) {
+                this.setCustomName(new TextComponent("Destabilized RedaStone Bee"));
+            } else if (type.equals("productivebees:compressed_iron") && ProductiveBees.rand.nextFloat() < 0.05f) {
+                this.setCustomName(new TextComponent("Depressed Iron Bee"));
+            }
         }
 
         return super.finalizeSpawn(world, difficulty, spawnReason, livingEntityData, tag);

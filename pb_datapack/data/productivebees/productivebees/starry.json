@@ -1,0 +1,18 @@
+{
+    "primaryColor": "#ffffff",
+    "secondaryColor": "#ffa500",
+    "flowerBlock": "allthecompressed:atm_star_block",
+    "renderer": "thicc",
+    "size": 1.25,
+    "selfbreed": false,
+    "selfheal": true,
+    "attributes": {
+        "endurance": 3
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "productivebees"
+        }
+    ]
+}

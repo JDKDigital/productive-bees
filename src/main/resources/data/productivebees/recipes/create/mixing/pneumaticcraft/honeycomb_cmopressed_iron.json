@@ -6,21 +6,19 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:sulfur"
+                    "type": "productivebees:compressed_iron"
                 }
             }
         }
     ],
     "results": [
         {
-            "item": "thermal:sulfur"
-        },
-        {
-            "item": "productivebees:wax"
+            "item": "pneumaticcraft:ingot_iron_compressed",
+            "chace": 0.5
         },
         {
             "fluid": "productivebees:honey",
-            "amount": 100
+            "amount": 50
         }
     ],
     "heatRequirement": "heated",
@@ -31,7 +29,7 @@
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "thermal"
+            "modid": "pneumaticcraft"
         }
     ]
 }

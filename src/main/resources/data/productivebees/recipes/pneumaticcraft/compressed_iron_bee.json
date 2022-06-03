@@ -1,0 +1,18 @@
+{
+  "type": "pneumaticcraft:pressure_chamber",
+  "inputs": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:iron\"}}"
+    }
+  ],
+  "pressure": 2.0,
+  "results": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:compressed_iron\"}}"
+    }
+  ]
+}

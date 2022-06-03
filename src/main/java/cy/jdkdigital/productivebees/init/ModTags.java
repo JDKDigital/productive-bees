@@ -19,6 +19,7 @@ public class ModTags
 {
     public static Map<ResourceLocation, TagKey<Block>> blockTagCache = new HashMap<>();
     public static Map<ResourceLocation, TagKey<Item>> itemTagCache = new HashMap<>();
+    public static Map<ResourceLocation, TagKey<Fluid>> fluidTagCache = new HashMap<>();
     public static Map<ResourceLocation, TagKey<EntityType<?>>> entityTagCache = new HashMap<>();
 
     public static final TagKey<Block> SOLITARY_OVERWORLD_NESTS = getBlockTag("solitary_overworld_nests");
@@ -59,7 +60,10 @@ public class ModTags
     }
 
     public static TagKey<Fluid> getFluidTag(ResourceLocation resourceLocation) {
-        return FluidTags.create(resourceLocation);
+        if (!fluidTagCache.containsKey(resourceLocation)) {
+            fluidTagCache.put(resourceLocation, FluidTags.create(resourceLocation));
+        }
+        return fluidTagCache.get(resourceLocation);
     }
 
     public static TagKey<EntityType<?>> getEntityTag(ResourceLocation name) {

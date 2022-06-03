@@ -10,13 +10,11 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -27,15 +25,14 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
+public class BottlerRecipe implements Recipe<Container>
 {
     public final ResourceLocation id;
     public final Pair<String, Integer> fluidInput;
     public final Ingredient itemInput;
-    public final Ingredient result;
+    public final ItemStack result;
 
-    public BottlerRecipe(ResourceLocation id, Pair<String, Integer> fluidInput, Ingredient itemInput, Ingredient result) {
-        super(result);
+    public BottlerRecipe(ResourceLocation id, Pair<String, Integer> fluidInput, Ingredient itemInput, ItemStack result) {
         this.id = id;
         this.fluidInput = fluidInput;
         this.itemInput = itemInput;
@@ -47,16 +44,21 @@ public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
             return false;
         }
 
-        Fluid recipeFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidInput.getFirst()));
-        if (recipeFluid != null && !recipeFluid.equals(Fluids.EMPTY) && !recipeFluid.equals(fluid.getFluid())) {
-            return false;
-        }
-        Optional<Holder<Fluid>> fluidTag = Registry.FLUID.getHolder(ResourceKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(fluidInput.getFirst())));
-        if (fluidTag.isPresent() && !fluidTag.get().is(ModTags.getFluidTag(fluid.getFluid().getRegistryName()))) {
+        if (fluid.getAmount() < fluidInput.getSecond()) {
             return false;
         }
 
-        return fluid.getAmount() >= fluidInput.getSecond();
+        Fluid recipeFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidInput.getFirst()));
+        if (recipeFluid != null && recipeFluid.equals(fluid.getFluid())) {
+            return true;
+        }
+
+        TagKey<Fluid> fluidTag = ModTags.getFluidTag(new ResourceLocation(fluidInput.getFirst()));
+        if (fluid.getFluid().is(fluidTag)) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -78,7 +80,7 @@ public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public ItemStack getResultItem() {
-        return getRecipeOutputs().entrySet().iterator().next().getKey().copy();
+        return this.result;
     }
 
     @Nonnull
@@ -132,12 +134,7 @@ public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
                 input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "input"));
             }
 
-            Ingredient output;
-            if (GsonHelper.isArrayNode(json, "output")) {
-                output = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "output"));
-            } else {
-                output = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "output"));
-            }
+            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
 
             return this.factory.create(id, fluidInput, input, output);
         }
@@ -145,9 +142,9 @@ public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
         public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 Pair<String, Integer> fluidInput = Pair.of(buffer.readUtf(), buffer.readInt());
-                return this.factory.create(id, fluidInput, Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer));
+                return this.factory.create(id, fluidInput, Ingredient.fromNetwork(buffer), buffer.readItem());
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee bottler recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading bottler recipe from packet. " + id, e);
                 throw e;
             }
         }
@@ -157,16 +154,16 @@ public class BottlerRecipe extends TagOutputRecipe implements Recipe<Container>
                 buffer.writeUtf(recipe.fluidInput.getFirst());
                 buffer.writeInt(recipe.fluidInput.getSecond());
                 recipe.itemInput.toNetwork(buffer);
-                recipe.result.toNetwork(buffer);
+                buffer.writeItem(recipe.result);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee bottler recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing bottler recipe to packet. " + recipe.getId(), e);
                 throw e;
             }
         }
 
         public interface IRecipeFactory<T extends BottlerRecipe>
         {
-            T create(ResourceLocation id, Pair<String, Integer> fluidInput, Ingredient input, Ingredient output);
+            T create(ResourceLocation id, Pair<String, Integer> fluidInput, Ingredient input, ItemStack output);
         }
     }
 }

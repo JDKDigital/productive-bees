@@ -35,6 +35,7 @@ public class ModItems
 
     public static final List<RegistryObject<Item>> SPAWN_EGGS = Lists.newArrayList();
 
+//    public static final RegistryObject<Item> GUIDE_BOOK = createItem("guide_book", () -> new Item(new Item.Properties().stacksTo(1).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEY_BUCKET = createItem("honey_bucket", () -> new BucketItem(ModFluids.HONEY, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> BEE_CAGE = createItem("bee_cage", () -> new BeeCage(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> STURDY_BEE_CAGE = createItem("sturdy_bee_cage", () -> new SturdyBeeCage(new Item.Properties().stacksTo(1).tab(ModItemGroups.PRODUCTIVE_BEES)));
