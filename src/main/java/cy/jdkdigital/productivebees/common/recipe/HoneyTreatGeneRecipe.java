@@ -62,7 +62,6 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
                 } else if (itemstack.getItem().equals(ModItems.GENE.get())) {
                     String attribute = Gene.getAttributeName(itemstack);
                     boolean isTypeGene = BeeReloadListener.INSTANCE.getData(attribute) != null;
-                    ProductiveBees.LOGGER.info("gene " + attribute + " isTypeGene:" + isTypeGene + " size:" + addedGenes.size());
 
                     // Treats can have either 1 type gene or a mix of other genes
                     if (isTypeGene) {

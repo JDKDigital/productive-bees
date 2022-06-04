@@ -1,0 +1,21 @@
+{
+    "primaryColor": "#010000",
+    "secondaryColor": "#804f40",
+    "particleColor": "#3b2754",
+    "flowerFluid": "pneumaticcraft:oil",
+    "waterproof": true,
+    "renderer": "thicc",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "pneumaticcraft"
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:mod_loaded",
+                "modid": "beyond_earth"
+            }
+        }
+    ]
+}

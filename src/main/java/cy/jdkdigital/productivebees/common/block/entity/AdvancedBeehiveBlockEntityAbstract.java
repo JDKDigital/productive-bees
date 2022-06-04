@@ -87,17 +87,21 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     private static void tickBees(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {
         blockEntity.beeHandler.ifPresent(h -> {
             Iterator<AdvancedBeehiveBlockEntityAbstract.Inhabitant> inhabitantIterator = h.getInhabitants().iterator();
+            boolean hasReleased = false;
             while (inhabitantIterator.hasNext()) {
                 AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant = inhabitantIterator.next();
                 if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
                     BeehiveBlockEntity.BeeReleaseStatus beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
                     if (AdvancedBeehiveBlockEntityAbstract.releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt.copy(), null, beeState)) {
+                        hasReleased = true;
                         inhabitantIterator.remove();
-                        blockEntity.setChanged();
                     }
                 } else {
                     inhabitant.ticksInHive += blockEntity.tickCounter;
                 }
+            }
+            if (hasReleased) {
+                blockEntity.setChanged();
             }
         });
     }

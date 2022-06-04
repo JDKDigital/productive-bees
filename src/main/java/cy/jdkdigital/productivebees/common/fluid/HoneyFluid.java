@@ -53,10 +53,8 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
     @Override
     public void animateTick(Level worldIn, BlockPos pos, FluidState state, Random random) {
         BlockPos blockpos = pos.above();
-        if (worldIn.getBlockState(blockpos).isAir() && !worldIn.getBlockState(blockpos).isViewBlocking(worldIn, blockpos)) {
-            if (random.nextInt(100) == 0) {
-                worldIn.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.HONEY_BLOCK_SLIDE, SoundSource.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
-            }
+        if (random.nextInt(100) == 0 && !worldIn.getBlockState(blockpos).getFluidState().equals(state)) {
+            worldIn.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.HONEY_BLOCK_SLIDE, SoundSource.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
         }
     }
 
