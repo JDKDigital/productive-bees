@@ -7,8 +7,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -17,39 +17,41 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
-import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModFeatures
 {
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, ProductiveBees.MODID);
+    public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister.create(ForgeRegistries.TREE_DECORATOR_TYPES, ProductiveBees.MODID);
 
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SAND_NEST = register("sand_nest", () -> new SolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SNOW_NEST = register("snow_nest", () -> new SolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC, true));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> STONE_NEST = register("stone_nest", () -> new SolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> COARSE_DIRT_NEST = register("coarse_dirt_nest", () -> new SolitaryNestFeature(0.30F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> GRAVEL_NEST = register("gravel_nest", () -> new SolitaryNestFeature(0.15F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SLIMY_NEST = register("slimy_nest", () -> new SolitaryNestFeature(0.10F, ReplaceBlockConfiguration.CODEC, true));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SUGAR_CANE_NEST = register("sugar_cane_nest", () -> new ReedSolitaryNestFeature(0.40F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> GLOWSTONE_NEST = register("glowstone_nest", () -> new CavernSolitaryNestFeature(0.90F, ReplaceBlockConfiguration.CODEC, false));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_QUARTZ_NEST = register("nether_quartz_nest", () -> new OreSolitaryNestFeature(0.20F, ReplaceBlockConfiguration.CODEC, 10, 70));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_QUARTZ_NEST_HIGH = register("nether_quartz_nest_high", () -> new OreSolitaryNestFeature(0.70F, ReplaceBlockConfiguration.CODEC, 70, 100));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_FORTRESS_NEST = register("nether_fortress_nest", () -> new StructureSolitaryNestFeature(0.90F, ReplaceBlockConfiguration.CODEC, 35));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SOUL_SAND_NEST = register("soul_sand_nest", () -> new CavernSolitaryNestFeature(0.10F, ReplaceBlockConfiguration.CODEC, true));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> END_NEST = register("end_nest", () -> new SolitaryNestFeature(0.15F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> OBSIDIAN_PILLAR_NEST = register("obsidian_pillar_nest", () -> new StructureSolitaryNestFeature(1.00F, ReplaceBlockConfiguration.CODEC, 25));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> BUMBLE_BEE_NEST = register("bumble_bee_nest", () -> new SolitaryNestFeature(0.01F, ReplaceBlockConfiguration.CODEC));
+    public static NetherBeehiveDecorator NETHER_BEEHIVE_DECORATOR = new NetherBeehiveDecorator(0.5F);
 
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> OAK_WOOD_NEST_FEATURE = register("oak_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SPRUCE_WOOD_NEST_FEATURE = register("spruce_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> BIRCH_WOOD_NEST_FEATURE = register("birch_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> DARK_OAK_WOOD_NEST_FEATURE = register("dark_oak_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> JUNGLE_WOOD_NEST_FEATURE = register("jungle_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.10F, ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> ACACIA_WOOD_NEST_FEATURE = register("acacia_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SAND_NEST = FEATURES.register("sand_nest", () -> new SolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SNOW_NEST = FEATURES.register("snow_nest", () -> new SolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC, true));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> STONE_NEST = FEATURES.register("stone_nest", () -> new SolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> COARSE_DIRT_NEST = FEATURES.register("coarse_dirt_nest", () -> new SolitaryNestFeature(0.30F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> GRAVEL_NEST = FEATURES.register("gravel_nest", () -> new SolitaryNestFeature(0.15F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SLIMY_NEST = FEATURES.register("slimy_nest", () -> new SolitaryNestFeature(0.10F, ReplaceBlockConfiguration.CODEC, true));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SUGAR_CANE_NEST = FEATURES.register("sugar_cane_nest", () -> new ReedSolitaryNestFeature(0.40F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> GLOWSTONE_NEST = FEATURES.register("glowstone_nest", () -> new CavernSolitaryNestFeature(0.90F, ReplaceBlockConfiguration.CODEC, false));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_QUARTZ_NEST = FEATURES.register("nether_quartz_nest", () -> new OreSolitaryNestFeature(0.20F, ReplaceBlockConfiguration.CODEC, 10, 70));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_QUARTZ_NEST_HIGH = FEATURES.register("nether_quartz_nest_high", () -> new OreSolitaryNestFeature(0.70F, ReplaceBlockConfiguration.CODEC, 70, 100));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> NETHER_FORTRESS_NEST = FEATURES.register("nether_fortress_nest", () -> new StructureSolitaryNestFeature(0.90F, ReplaceBlockConfiguration.CODEC, 35));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SOUL_SAND_NEST = FEATURES.register("soul_sand_nest", () -> new CavernSolitaryNestFeature(0.10F, ReplaceBlockConfiguration.CODEC, true));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> END_NEST = FEATURES.register("end_nest", () -> new SolitaryNestFeature(0.15F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> OBSIDIAN_PILLAR_NEST = FEATURES.register("obsidian_pillar_nest", () -> new StructureSolitaryNestFeature(1.00F, ReplaceBlockConfiguration.CODEC, 25));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> BUMBLE_BEE_NEST = FEATURES.register("bumble_bee_nest", () -> new SolitaryNestFeature(0.01F, ReplaceBlockConfiguration.CODEC));
 
-    private static <E extends FeatureConfiguration> RegistryObject<Feature<E>> register(String name, Supplier<Feature<E>> supplier) {
-        return FEATURES.register(name, supplier);
-    }
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> OAK_WOOD_NEST_FEATURE = FEATURES.register("oak_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SPRUCE_WOOD_NEST_FEATURE = FEATURES.register("spruce_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> BIRCH_WOOD_NEST_FEATURE = FEATURES.register("birch_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> DARK_OAK_WOOD_NEST_FEATURE = FEATURES.register("dark_oak_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> JUNGLE_WOOD_NEST_FEATURE = FEATURES.register("jungle_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.10F, ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> ACACIA_WOOD_NEST_FEATURE = FEATURES.register("acacia_wood_nest_feature", () -> new WoodSolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
+
+    public static RegistryObject<TreeDecoratorType<NetherBeehiveDecorator>> NETHER_BEEHIVE = TREE_DECORATORS.register("nether_beehive", () -> new TreeDecoratorType<>(NetherBeehiveDecorator.CODEC));
+
+    public static final RegistryObject<Feature<DecoratedHugeFungusConfiguration>> DECORATED_HUGE_FUNGUS = FEATURES.register("decorated_huge_fungus", () -> new DecoratedHugeFungusFeature(DecoratedHugeFungusConfiguration.CODEC));
 
     private static Holder<PlacedFeature> place(ConfiguredFeature<?, ?> feature) {
         return Holder.direct(new PlacedFeature(Holder.direct(feature), new ArrayList<>()));
@@ -105,6 +107,13 @@ public class ModFeatures
                 // Must spawn where chorus fruit exist
                 event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, place(ModConfiguredFeatures.END_NEST_FEATURE));
             }
+        }
+
+        if (event.getName().toString().equals("minecraft:crimson_forest")) {
+            event.getGeneration().getFeatures(GenerationStep.Decoration.VEGETAL_DECORATION).add(Holder.direct(ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_PLACED));
+        }
+        if (event.getName().toString().equals("minecraft:warped_forest")) {
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, Holder.direct(ModConfiguredFeatures.WARPED_FUNGUS_BEES_PLACED));
         }
 
         if (!category.equals(Biome.BiomeCategory.THEEND) && !category.equals(Biome.BiomeCategory.NETHER)) {

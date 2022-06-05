@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -80,6 +81,8 @@ public final class ModBlocks
 
     public static final RegistryObject<Block> BUMBLE_BEE_NEST = createBlock("bumble_bee_nest", () -> new BumbleBeeNest(Block.Properties.copy(Blocks.GRASS_BLOCK)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> SUGARBAG_NEST = createBlock("sugarbag_nest", () -> new SugarbagNest(Block.Properties.copy(Blocks.BEE_NEST)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> WARPED_BEE_NEST = createBlock("warped_bee_nest", () -> new BeehiveBlock(Block.Properties.copy(Blocks.BEE_NEST)), ModItemGroups.PRODUCTIVE_BEES);
+    public static final RegistryObject<Block> CRIMSON_BEE_NEST = createBlock("crimson_bee_nest", () -> new BeehiveBlock(Block.Properties.copy(Blocks.BEE_NEST)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> ADVANCED_OAK_BEEHIVE = createBlock("advanced_oak_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
     public static final RegistryObject<Block> EXPANSION_BOX_OAK = createBlock("expansion_box_oak", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)), ModItemGroups.PRODUCTIVE_BEES);
 

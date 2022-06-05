@@ -94,6 +94,7 @@ public final class ProductiveBees
         ModTileEntityTypes.BLOCK_ENTITIES.register(modEventBus);
         ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
+        ModFeatures.TREE_DECORATORS.register(modEventBus);
         ModRecipeTypes.RECIPE_SERIALIZERS.register(modEventBus);
         ModParticles.PARTICLE_TYPES.register(modEventBus);
         ModLootModifiers.LOOT_SERIALIZERS.register(modEventBus);
@@ -156,6 +157,7 @@ public final class ProductiveBees
 
     public void onRegisterFeatures(final RegistryEvent.Register<Feature<?>> event) {
         ModConfiguredFeatures.registerConfiguredFeatures();
+        ModConfiguredFeatures.registerPlacedFeatures();
     }
 
     public void onRegisterRecipeSerializer(final RegistryEvent.Register<RecipeSerializer<?>> event) {
