@@ -94,6 +94,7 @@ public abstract class AdvancedBeehiveTileEntityAbstract extends BeehiveTileEntit
                     BeehiveTileEntity.State beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveTileEntity.State.HONEY_DELIVERED : BeehiveTileEntity.State.BEE_RELEASED;
                     if (this.releaseBee(this.getBlockState(), inhabitant.nbt.copy(), null, beeState)) {
                         inhabitantIterator.remove();
+                        setChanged();
                     }
                 } else {
                     inhabitant.ticksInHive += tickCounter;

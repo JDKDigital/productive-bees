@@ -1,0 +1,33 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "item": "forestry:bee_comb_simmering"
+    },
+    "outputs": [
+        {
+            "chance": 100,
+            "item": {
+                "item": "forestry:refractory_wax"
+            }
+        },
+        {
+            "chance": 70,
+            "item": {
+                "item": "forestry:phosphor",
+                "count": 2
+            }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 0
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

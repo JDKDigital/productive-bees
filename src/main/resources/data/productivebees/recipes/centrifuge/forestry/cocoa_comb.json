@@ -1,0 +1,32 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "item": "forestry:bee_comb_cocoa"
+    },
+    "outputs": [
+        {
+            "chance": 100,
+            "item": {
+                "item": "forestry:beeswax"
+            }
+        },
+        {
+            "chance": 50,
+            "item": {
+                "item": "minecraft:cocoa_beans"
+            }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 0
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

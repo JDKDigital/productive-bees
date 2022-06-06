@@ -66,17 +66,17 @@ public class BeeCage extends Item
                 entity.hivePos = null;
                 if (entity instanceof ProductiveBeeEntity && worldIn instanceof ServerWorld) {
                     PointOfInterestManager poiManager = ((ServerWorld) worldIn).getPoiManager();
-                    Optional<PointOfInterestType> poiAtLocation = poiManager.getType(blockPos);
+                    Optional<PointOfInterestType> poiAtLocation = poiManager.getType(pos);
                     if (poiAtLocation.isPresent() && ((ProductiveBeeEntity) entity).getBeehiveInterests().test(poiAtLocation.get())) {
-                        entity.hivePos = blockPos;
+                        entity.hivePos = pos;
                     }
                 }
             }
 
             entity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
 
-            if (entity.isFlowerValid(blockPos)) {
-                entity.setSavedFlowerPos(blockPos);
+            if (entity.isFlowerValid(pos)) {
+                entity.setSavedFlowerPos(pos);
             }
 
             worldIn.addFreshEntity(entity);

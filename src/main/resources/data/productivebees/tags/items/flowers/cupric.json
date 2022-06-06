@@ -1,0 +1,67 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:storage_blocks/copper",
+    {
+      "id": "cavesandcliffs:copper_ore",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:deepslate_copper_ore",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:copper_block",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:raw_copper_block",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:cut_copper",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:exposed_cut_copper",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:weathered_cut_copper",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:oxidized_cut_copper",
+      "cavesandcliffs:exposed_copper",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:weathered_copper",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:oxidized_copper",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:waxed_copper_block",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:waxed_exposed_copper",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:waxed_weathered_copper",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:waxed_oxidized_copper",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:lightning_rod",
+      "required": false
+    }
+  ]
+}

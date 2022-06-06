@@ -1,10 +1,18 @@
 {
     "type": "thermal:smelter",
-    "input": [
+    "ingredients": [
+        {
+            "item": "minecraft:ender_pearl",
+            "count": 4
+        },
         {
             "type": "forge:nbt",
             "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:ender\"}}"
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:ender"
+                }
+            }
         }
     ],
     "result": {

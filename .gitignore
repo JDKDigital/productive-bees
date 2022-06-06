@@ -1,5 +1,5 @@
 # eclipse
-bin
+/bin
 *.launch
 .settings
 .metadata
@@ -7,32 +7,32 @@ bin
 .project
 
 # idea
-out
+/out
 *.ipr
 *.iws
 *.iml
 .idea
 
 # gradle
-build
+/build
 .gradle
 
 # other
 .idea
-eclipse
-run
-gen
-src/generated
+/eclipse
+/run
+/gen
+/src/generated
 
 # Files from Forge MDK
-changelog.txt
-CREDITS.txt
-LICENSE.txt
-README.txt
-TODO.md
+/changelog.txt
+/CREDITS.txt
+/LICENSE.txt
+/README.txt
+/TODO.md
 
 *.psd
 
 
-logs/latest.log
-logs/debug.log
+/logs/latest.log
+/logs/debug.log

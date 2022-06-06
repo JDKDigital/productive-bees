@@ -1,10 +1,18 @@
 {
     "type": "thermal:smelter",
-    "input": [
+    "ingredients": [
+        {
+            "item": "minecraft:glowstone_dust",
+            "count": 16
+        },
         {
             "type": "forge:nbt",
             "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:glowing\"}}"
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:glowing"
+                }
+            }
         }
     ],
     "result": {

@@ -126,9 +126,9 @@ dependencies {
     implementation fg.deobf("curse.maven:cyclops-core-232758:3292066")
     implementation fg.deobf("curse.maven:curios-309927:3275653")
     implementation fg.deobf("curse.maven:observerlib-316833:3320850")
-    implementation fg.deobf("curse.maven:cofh-core-69162:3407019")
-    implementation fg.deobf("curse.maven:thermal-foundation-222880:3412300")
-    implementation fg.deobf("curse.maven:thermal-expansion-69163:3404884")
+    implementation fg.deobf("curse.maven:cofh-core-69162:3621734")
+    implementation fg.deobf("curse.maven:thermal-foundation-222880:3621736")
+    implementation fg.deobf("curse.maven:thermal-expansion-69163:3607549")
     implementation fg.deobf("curse.maven:cucumber-272335:3249370")
     implementation fg.deobf("curse.maven:immersive-engineering-231951:3377691")
     implementation fg.deobf("curse.maven:titanium-287342:3346366")
@@ -149,6 +149,7 @@ dependencies {
     implementation fg.deobf("curse.maven:ftb-teams-forge-404468:3535953")
     implementation fg.deobf("curse.maven:ftb-library-forge-404465:3553840")
     implementation fg.deobf("curse.maven:ftb-quests-forge-289412:3575814")
+    implementation fg.deobf("curse.maven:forestry-59751:3616694")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

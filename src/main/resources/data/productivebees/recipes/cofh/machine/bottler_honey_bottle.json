@@ -1,6 +1,6 @@
 {
     "type": "thermal:bottler",
-    "ingredient": [
+    "ingredients": [
         {
             "item": "minecraft:glass_bottle"
         },

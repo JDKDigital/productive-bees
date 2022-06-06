@@ -1,10 +1,18 @@
 {
     "type": "thermal:smelter",
-    "input": [
+    "ingredients": [
+        {
+            "item": "minecraft:redstone",
+            "count": 16
+        },
         {
             "type": "forge:nbt",
             "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:redstone\"}}"
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:redstone"
+                }
+            }
         }
     ],
     "result": {

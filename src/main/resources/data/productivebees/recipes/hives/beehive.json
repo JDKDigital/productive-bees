@@ -15,5 +15,14 @@
     },
     "result": {
         "item": "minecraft:beehive"
-    }
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:mod_loaded",
+                "modid": "buzzier_bees"
+            }
+        }
+    ]
 }

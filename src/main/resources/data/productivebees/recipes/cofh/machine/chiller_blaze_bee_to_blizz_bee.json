@@ -1,6 +1,6 @@
 {
     "type": "thermal:chiller",
-    "input": [
+    "ingredients": [
         {
             "fluid": "minecraft:water",
             "amount": 1000
@@ -8,7 +8,11 @@
         {
             "type": "forge:nbt",
             "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:blazing\"}}"
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:blazing"
+                }
+            }
         }
     ],
     "result": {

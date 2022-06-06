@@ -1,0 +1,38 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "item": "forestry:bee_comb_wheaten"
+    },
+    "outputs": [
+        {
+            "chance": 20,
+            "item": {
+                "item": "forestry:honey_drop_honey"
+            }
+        },
+        {
+            "chance": 20,
+            "item": {
+                "item": "forestry:beeswax"
+            }
+        },
+        {
+            "chance": 80,
+            "item": {
+                "item": "minecraft:wheat"
+            }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 0
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

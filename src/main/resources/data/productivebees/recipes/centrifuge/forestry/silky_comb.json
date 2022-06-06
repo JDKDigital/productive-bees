@@ -1,0 +1,32 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "item": "forestry:bee_comb_silky"
+    },
+    "outputs": [
+        {
+            "chance": 100,
+            "item": {
+                "item": "forestry:honey_drop_honey"
+            }
+        },
+        {
+            "chance": 80,
+            "item": {
+                "item": "forestry:propolis_silky"
+            }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 0
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "forestry"
+        }
+    ]
+}

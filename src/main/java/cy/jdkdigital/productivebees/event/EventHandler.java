@@ -21,6 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.ItemLootEntry;
+import net.minecraft.loot.LootPool;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -90,9 +91,12 @@ public class EventHandler
     @SubscribeEvent
     public static void onLootSetup(LootTableLoadEvent event) {
         if (event.getName().toString().contains("chests/village")) {
-            event.getTable().getPool("main").entries.add(
-                ItemLootEntry.lootTableItem(ModItems.STURDY_BEE_CAGE.get()).setWeight(4).build()
-            );
+            LootPool pool = event.getTable().getPool("main");
+            if (pool != null) {
+                pool.entries.add(
+                    ItemLootEntry.lootTableItem(ModItems.STURDY_BEE_CAGE.get()).setWeight(4).build()
+                );
+            }
         }
     }
 

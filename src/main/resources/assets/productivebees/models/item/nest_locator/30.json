@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "productivebees:item/nest_locator/30"
+		"layer0": "productivebees:item/nest_locator/00"
 	}
 }

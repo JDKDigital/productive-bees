@@ -1,3 +1,14 @@
+0.6.9.27
+
+-- Fixed copper bee tag issue
+
+
+0.6.9.26
+
+-- Fixed a crash when main loot pool is missing
+-- Fixed setting hive and flower position with bee cage
+
+
 0.6.9.25
 
 -- Fixed nocturnal bees not working at night
