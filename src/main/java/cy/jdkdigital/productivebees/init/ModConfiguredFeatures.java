@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.gen.feature.DecoratedHugeFungusConfiguration
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -97,8 +98,8 @@ public class ModConfiguredFeatures
     public static void registerPlacedFeatures() {
         Registry<PlacedFeature> registry = BuiltinRegistries.PLACED_FEATURE;
 
-        CRIMSON_FUNGUS_BEES_PLACED = Registry.register(registry, rLoc("crimson_fungus_bees"), new PlacedFeature(Holder.direct(CRIMSON_FUNGUS_BEES), List.of(BiomeFilter.biome())));
-        WARPED_FUNGUS_BEES_PLACED = Registry.register(registry, rLoc("warped_fungus_bees"), new PlacedFeature(Holder.direct(WARPED_FUNGUS_BEES), List.of(BiomeFilter.biome())));
+        CRIMSON_FUNGUS_BEES_PLACED = Registry.register(registry, rLoc("crimson_fungus_bees"), new PlacedFeature(Holder.direct(CRIMSON_FUNGUS_BEES), List.of(CountOnEveryLayerPlacement.of(8), BiomeFilter.biome())));
+        WARPED_FUNGUS_BEES_PLACED = Registry.register(registry, rLoc("warped_fungus_bees"), new PlacedFeature(Holder.direct(WARPED_FUNGUS_BEES), List.of(CountOnEveryLayerPlacement.of(8), BiomeFilter.biome())));
     }
 
     private static ResourceLocation rLoc(String name) {

@@ -3,14 +3,20 @@ package cy.jdkdigital.productivebees.gen.feature;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.block.SolitaryNest;
+import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModConfiguredFeatures;
+import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModFeatures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
@@ -58,7 +64,6 @@ public class NetherBeehiveDecorator extends TreeDecorator {
 
     @Override
     public void place(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, Random pRandom, List<BlockPos> pLogPositions, List<BlockPos> pLeafPositions) {
-        ProductiveBees.LOGGER.info("Look mom, my decorator was called " + nest);
         if (!(pRandom.nextFloat() >= this.probability) && nest != null) {
             int i = !pLeafPositions.isEmpty() ? Math.max(pLeafPositions.get(0).getY() - 1, pLogPositions.get(0).getY() + 1) : Math.min(pLogPositions.get(0).getY() + 1 + pRandom.nextInt(3), pLogPositions.get(pLogPositions.size() - 1).getY());
             List<BlockPos> list = pLogPositions.stream().filter((pos) -> pos.getY() == i).flatMap((pos) -> Stream.of(SPAWN_DIRECTIONS).map(pos::relative)).collect(Collectors.toList());
@@ -66,14 +71,35 @@ public class NetherBeehiveDecorator extends TreeDecorator {
                 Collections.shuffle(list);
                 Optional<BlockPos> optional = list.stream().filter((pos) -> Feature.isAir(pLevel, pos) && Feature.isAir(pLevel, pos.relative(WORLDGEN_FACING))).findFirst();
                 if (optional.isPresent()) {
-                    pBlockSetter.accept(optional.get(), nest.setValue(BeehiveBlock.FACING, WORLDGEN_FACING));
+
+                    // Find log position
+                    Direction facing = WORLDGEN_FACING;
+                    for (Direction d: Direction.Plane.HORIZONTAL) {
+                        if (pLogPositions.contains(optional.get().relative(d))) {
+                            facing = d.getOpposite();
+                            break;
+                        }
+                    }
+
+                    pBlockSetter.accept(optional.get(), nest.setValue(BeehiveBlock.FACING, facing));
                     pLevel.getBlockEntity(optional.get(), BlockEntityType.BEEHIVE).ifPresent((blockEntity) -> {
                         int j = 2 + pRandom.nextInt(2);
 
                         for(int k = 0; k < j; ++k) {
                             CompoundTag compoundtag = new CompoundTag();
                             compoundtag.putString("id", Registry.ENTITY_TYPE.getKey(EntityType.BEE).toString());
-                            blockEntity.storeBee(compoundtag, pRandom.nextInt(599), false);
+
+//                            EntityType<ConfigurableBee> beeType = ModEntities.CONFIGURABLE_BEE.get();
+//                            ConfigurableBee newBee = beeType.create(level);
+//                            if (newBee != null) {
+//                                if (nest) {
+//                                    newBee.setBeeType("productivebees:crimson");
+//                                } else {
+//                                    newBee.setBeeType("productivebees:warped");
+//                                }
+//                                newBee.setAttributes();
+//                                blockEntity.storeBee(newBee, pRandom.nextInt(599), false);
+//                            }
                         }
                     });
                 }

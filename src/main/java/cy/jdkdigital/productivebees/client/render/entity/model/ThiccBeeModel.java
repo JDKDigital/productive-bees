@@ -46,7 +46,7 @@ public class ThiccBeeModel extends PartialBeeModel
         body.addOrReplaceChild(
                 ProductiveBeeModel.RIGHT_ANTENNA,
                 CubeListBuilder
-                        .create().texOffs(0, 18)
+                        .create().texOffs(0, 3)
                         .addBox(-2.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F),
                 PartPose.offset(-1.5F, -4.0F, -3.0F)
         );

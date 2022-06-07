@@ -32,6 +32,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -104,7 +105,6 @@ public final class ProductiveBees
         modEventBus.addGenericListener(RecipeSerializer.class, this::onRegisterRecipeSerializer);
         modEventBus.addListener(this::onCommonSetup);
         modEventBus.addListener(EventHandler::onEntityAttributeCreate);
-//        modEventBus.addListener(CombTextureLoader.INSTANCE::onTextureStitch);
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.SERVER_CONFIG);
@@ -189,7 +189,8 @@ public final class ProductiveBees
 
     private void fixPOI(final FMLCommonSetupEvent event) {
         PoiType.BEEHIVE.matchingStates = this.makePOIStatesMutable(PoiType.BEEHIVE.matchingStates);
-        ImmutableList<Block> beehives = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive && !(block instanceof DragonEggHive)).collect(ImmutableList.toImmutableList());
+        ImmutableList<Block> beehives = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> (block instanceof AdvancedBeehive) && !(block instanceof DragonEggHive)).collect(ImmutableList.toImmutableList());
+        // Hives
         for (Block block : beehives) {
             for (BlockState state : block.getStateDefinition().getPossibleStates()) {
                 GameData.getBlockStatePointOfInterestTypeMap().put(state, PoiType.BEEHIVE);
@@ -200,6 +201,18 @@ public final class ProductiveBees
                 }
             }
         }
+        // Nests
+//        ImmutableList<Block> beeNests = ImmutableList.of(ModBlocks.CRIMSON_BEE_NEST.get(), ModBlocks.WARPED_BEE_NEST.get());
+//        for (Block block : beeNests) {
+//            for (BlockState state : block.getStateDefinition().getPossibleStates()) {
+//                GameData.getBlockStatePointOfInterestTypeMap().put(state, PoiType.BEE_NEST);
+//                try {
+//                    PoiType.BEE_NEST.matchingStates.add(state);
+//                } catch (Exception e) {
+//                    LOGGER.warn("Could not add blockstate to beenest POI " + state);
+//                }
+//            }
+//        }
     }
 
     private Set<BlockState> makePOIStatesMutable(Set<BlockState> toCopy) {

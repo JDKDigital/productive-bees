@@ -4,6 +4,8 @@
         "productivebees:sugarbag_nest",
         "#productivebees:expansion_boxes",
         "#productivebees:advanced_beehives",
-        "#productivebees:nests/wood_nests"
+        "#productivebees:nests/wood_nests",
+        "productivebees:crimson_bee_nest",
+        "productivebees:warped_bee_nest"
     ]
 }

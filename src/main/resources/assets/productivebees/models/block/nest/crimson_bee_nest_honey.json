@@ -1,0 +1,6 @@
+{
+  "parent": "productivebees:block/nest/crimson_bee_nest",
+  "textures": {
+    "front": "productivebees:block/nest/crimson_bee_nest_front_honey"
+  }
+}

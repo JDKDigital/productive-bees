@@ -113,6 +113,13 @@ public class ModTileEntityTypes
             ).build(null)
     );
 
+    public static final RegistryObject<BlockEntityType<NetherBeeNestBlockEntity>> NETHER_BEE_NEST = BLOCK_ENTITIES.register("nether_bee_nest", () ->
+            BlockEntityType.Builder.of(NetherBeeNestBlockEntity::new,
+                    ModBlocks.CRIMSON_BEE_NEST.get(),
+                    ModBlocks.CRIMSON_BEE_NEST.get()
+            ).build(null)
+    );
+
     public static final RegistryObject<BlockEntityType<SugarbagNestBlockEntity>> SUGARBAG_NEST = register("sugarbag_nest", SugarbagNestBlockEntity::new, ModBlocks.SUGARBAG_NEST);
     public static final RegistryObject<BlockEntityType<DragonEggHiveBlockEntity>> DRACONIC_BEEHIVE = register("draconic_beehive", DragonEggHiveBlockEntity::new, ModBlocks.DRAGON_EGG_HIVE);
     public static final RegistryObject<BlockEntityType<SolitaryHiveBlockEntity>> SOLITARY_HIVE = register("solitary_hive", SolitaryHiveBlockEntity::new, ModBlocks.BAMBOO_HIVE);

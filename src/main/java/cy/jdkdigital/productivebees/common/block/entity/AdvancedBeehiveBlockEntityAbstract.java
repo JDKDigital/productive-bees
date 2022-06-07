@@ -92,7 +92,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant = inhabitantIterator.next();
                 if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
                     BeehiveBlockEntity.BeeReleaseStatus beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-                    if (AdvancedBeehiveBlockEntityAbstract.releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt.copy(), null, beeState)) {
+                    if (AdvancedBeehiveBlockEntityAbstract.releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt, null, beeState)) {
                         hasReleased = true;
                         inhabitantIterator.remove();
                     }
@@ -118,7 +118,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         if (level instanceof ServerLevel serverLevel) {
             List<Entity> releasedBees = Lists.newArrayList();
             beeHandler.ifPresent(h -> {
-                h.getInhabitants().removeIf((tag) -> AdvancedBeehiveBlockEntityAbstract.releaseBee(serverLevel, getBlockPos(), blockState, this, tag.nbt.copy(), releasedBees, beeState));
+                h.getInhabitants().removeIf((tag) -> AdvancedBeehiveBlockEntityAbstract.releaseBee(serverLevel, getBlockPos(), blockState, this, tag.nbt, releasedBees, beeState));
             });
             if (player != null) {
                 for (Entity entity : releasedBees) {
@@ -186,6 +186,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     }
 
                     entity.discard();
+                    this.setChanged();
                 }
             });
         }
@@ -211,14 +212,15 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
 
         if (!stayInside) {
-            tag.remove("Passengers");
-            tag.remove("Leash");
-            tag.remove("UUID");
 
             Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
             BlockPos frontPos = hivePos.relative(direction);
             boolean isPositionBlocked = !level.getBlockState(frontPos).getCollisionShape(level, frontPos).isEmpty();
             if (!isPositionBlocked || beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY) {
+                tag.remove("Passengers");
+                tag.remove("Leash");
+                tag.remove("UUID");
+
                 // Spawn entity
                 boolean spawned = false;
                 Bee beeEntity = (Bee) EntityType.loadEntityRecursive(tag, level, (spawnedEntity) -> spawnedEntity);

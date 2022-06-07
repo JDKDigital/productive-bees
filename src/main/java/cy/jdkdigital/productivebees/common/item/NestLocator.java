@@ -210,6 +210,7 @@ public class NestLocator extends Item
                         poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
                         poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() ||
                         poiType == ModPointOfInterestTypes.BUMBLE_BEE_NEST.get() ||
+                        poiType == ModPointOfInterestTypes.NETHER_NEST.get() ||
                         poiType == ModPointOfInterestTypes.SUGARBAG_NEST.get(), pos, distance, PoiManager.Occupancy.ANY);
 
         List<BlockPos> nearbyNestPositions = stream.map(PoiRecord::getPos).filter((nestPos) -> {

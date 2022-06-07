@@ -65,7 +65,10 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public ConfigurableBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
 
-        beehiveInterests = (poiType) -> poiType == PoiType.BEEHIVE ||
+        beehiveInterests = (poiType) ->
+                poiType == PoiType.BEEHIVE ||
+                poiType == PoiType.BEE_NEST ||
+                poiType == ModPointOfInterestTypes.NETHER_NEST.get() ||
                 (poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() && isWild()) ||
                 (poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() && isWild()) ||
                 (poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic()) ||

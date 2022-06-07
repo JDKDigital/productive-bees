@@ -17,10 +17,7 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.*;
 import net.minecraft.world.level.material.Material;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfiguration> {
@@ -29,7 +26,6 @@ public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfi
     }
 
     public boolean place(FeaturePlaceContext<DecoratedHugeFungusConfiguration> pContext) {
-        ProductiveBees.LOGGER.info("Look mom, my feature was called");
         WorldGenLevel worldgenlevel = pContext.level();
         BlockPos blockpos = pContext.origin();
         Random random = pContext.random();
@@ -38,8 +34,6 @@ public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfi
         Block block = configuration.validBaseState.getBlock();
         BlockState blockstate = worldgenlevel.getBlockState(blockpos.below());
 
-        ProductiveBees.LOGGER.info(block);
-        ProductiveBees.LOGGER.info(blockstate);
         if (blockstate.is(block)) {
             int i = Mth.nextInt(random, 4, 13);
             if (random.nextInt(12) == 0) {
@@ -55,38 +49,27 @@ public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfi
 
             boolean flag = !configuration.planted && random.nextFloat() < 0.06F;
             worldgenlevel.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 4);
-            this.placeStem(worldgenlevel, random, configuration, blockpos, i, flag);
-            this.placeHat(worldgenlevel, random, configuration, blockpos, i, flag);
+
+            List<BlockPos> pLogPositions = new ArrayList<>();
+            List<BlockPos> pLeafPositions = new ArrayList<>();
+
+            this.placeStem(worldgenlevel, random, configuration, blockpos, i, flag, pLogPositions);
+            this.placeHat(worldgenlevel, random, configuration, blockpos, i, flag, pLeafPositions);
 
             if (!configuration.decorators.isEmpty()) {
-                Set<BlockPos> set = Sets.newHashSet();
-                Set<BlockPos> set1 = Sets.newHashSet();
-                Set<BlockPos> set2 = Sets.newHashSet();
                 BiConsumer<BlockPos, BlockState> biconsumer = (pos, state) -> {
-                    set.add(pos.immutable());
-                    worldgenlevel.setBlock(pos, state, 19);
-                };
-                BiConsumer<BlockPos, BlockState> biconsumer1 = (pos, state) -> {
-                    set1.add(pos.immutable());
-                    worldgenlevel.setBlock(pos, state, 19);
-                };
-                BiConsumer<BlockPos, BlockState> biconsumer2 = (pos, state) -> {
-                    set2.add(pos.immutable());
                     worldgenlevel.setBlock(pos, state, 19);
                 };
 
-                List<BlockPos> list = Lists.newArrayList(set);
-                List<BlockPos> list1 = Lists.newArrayList(set1);
-                list.sort(Comparator.comparingInt(Vec3i::getY));
-                list1.sort(Comparator.comparingInt(Vec3i::getY));
+                pLogPositions.sort(Comparator.comparingInt(Vec3i::getY));
+                pLeafPositions.sort(Comparator.comparingInt(Vec3i::getY));
                 configuration.decorators.forEach((decorator) -> {
                     if (decorator instanceof NetherBeehiveDecorator) {
                         ((NetherBeehiveDecorator) decorator).setNest(configuration.nestState);
                     }
-                    decorator.place(worldgenlevel, biconsumer2, random, list, list1);
+                    decorator.place(worldgenlevel, biconsumer, random, pLogPositions, pLeafPositions);
                 });
             }
-
             return true;
         }
         return false;
@@ -96,7 +79,7 @@ public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfi
         return pLevel.isStateAtPosition(pPos, (state) -> state.getMaterial().isReplaceable() || pReplacePlants && state.getMaterial() == Material.PLANT);
     }
 
-    private void placeStem(LevelAccessor pLevel, Random pRandom, HugeFungusConfiguration pConfig, BlockPos pPos, int pHeight, boolean pDoubleWide) {
+    private void placeStem(LevelAccessor pLevel, Random pRandom, HugeFungusConfiguration pConfig, BlockPos pPos, int pHeight, boolean pDoubleWide, List<BlockPos> positions) {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         BlockState blockstate = pConfig.stemState;
         int i = pDoubleWide ? 1 : 0;
@@ -108,6 +91,7 @@ public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfi
                 for(int l = 0; l < pHeight; ++l) {
                     blockpos$mutableblockpos.setWithOffset(pPos, j, l, k);
                     if (isReplaceable(pLevel, blockpos$mutableblockpos, true)) {
+                        positions.add(blockpos$mutableblockpos.immutable());
                         if (pConfig.planted) {
                             if (!pLevel.getBlockState(blockpos$mutableblockpos.below()).isAir()) {
                                 pLevel.destroyBlock(blockpos$mutableblockpos, true);
@@ -128,7 +112,7 @@ public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfi
 
     }
 
-    private void placeHat(LevelAccessor pLevel, Random pRandom, HugeFungusConfiguration pConfig, BlockPos pPos, int pHeight, boolean pDoubleWide) {
+    private void placeHat(LevelAccessor pLevel, Random pRandom, HugeFungusConfiguration pConfig, BlockPos pPos, int pHeight, boolean pDoubleWide, List<BlockPos> positions) {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         boolean flag = pConfig.hatState.is(Blocks.NETHER_WART_BLOCK);
         int i = Math.min(pRandom.nextInt(1 + pHeight / 3) + 5, pHeight);
@@ -153,6 +137,7 @@ public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfi
                     boolean flag5 = k < j + 3;
                     blockpos$mutableblockpos.setWithOffset(pPos, i1, k, j1);
                     if (isReplaceable(pLevel, blockpos$mutableblockpos, false)) {
+                        positions.add(blockpos$mutableblockpos.immutable());
                         if (pConfig.planted && !pLevel.getBlockState(blockpos$mutableblockpos.below()).isAir()) {
                             pLevel.destroyBlock(blockpos$mutableblockpos, true);
                         }

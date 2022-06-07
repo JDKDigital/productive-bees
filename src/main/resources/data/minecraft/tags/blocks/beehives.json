@@ -1,6 +1,8 @@
 {
     "replace": false,
     "values": [
-        "#productivebees:advanced_beehives"
+        "#productivebees:advanced_beehives",
+        "productivebees:crimson_bee_nest",
+        "productivebees:warped_bee_nest"
     ]
 }

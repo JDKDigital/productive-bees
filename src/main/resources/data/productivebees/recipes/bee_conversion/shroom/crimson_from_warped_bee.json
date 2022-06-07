@@ -1,0 +1,18 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:warped",
+    "result": "productivebees:crimson",
+    "item": {
+        "item": "minecraft:crimson_fungus"
+    },
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:warped"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:crimson"
+        }
+    ]
+}

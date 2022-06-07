@@ -61,6 +61,13 @@ public final class ModPointOfInterestTypes
         return blocks;
     }, 1);
 
+    public static final RegistryObject<PoiType> NETHER_NEST = register("nether_nest", () -> {
+        List<RegistryObject<Block>> blocks = new ArrayList<>();
+        blocks.add(ModBlocks.CRIMSON_BEE_NEST);
+        blocks.add(ModBlocks.WARPED_BEE_NEST);
+        return blocks;
+    }, 1);
+
     public static final RegistryObject<PoiType> BUMBLE_BEE_NEST = register("bumble_bee_nest", () -> {
         List<RegistryObject<Block>> blocks = new ArrayList<>();
         blocks.add(ModBlocks.BUMBLE_BEE_NEST);

@@ -1,0 +1,18 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:crimson",
+    "result": "productivebees:brown_shroom",
+    "item": {
+        "item": "minecraft:brown_mushroom"
+    },
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:crimson"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:brown_shroom"
+        }
+    ]
+}

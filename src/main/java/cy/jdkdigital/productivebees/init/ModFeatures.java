@@ -24,7 +24,7 @@ public class ModFeatures
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, ProductiveBees.MODID);
     public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister.create(ForgeRegistries.TREE_DECORATOR_TYPES, ProductiveBees.MODID);
 
-    public static NetherBeehiveDecorator NETHER_BEEHIVE_DECORATOR = new NetherBeehiveDecorator(0.5F);
+    public static NetherBeehiveDecorator NETHER_BEEHIVE_DECORATOR = new NetherBeehiveDecorator(0.02F);
 
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SAND_NEST = FEATURES.register("sand_nest", () -> new SolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC));
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SNOW_NEST = FEATURES.register("snow_nest", () -> new SolitaryNestFeature(0.05F, ReplaceBlockConfiguration.CODEC, true));
@@ -108,12 +108,12 @@ public class ModFeatures
                 event.getGeneration().addFeature(GenerationStep.Decoration.TOP_LAYER_MODIFICATION, place(ModConfiguredFeatures.END_NEST_FEATURE));
             }
         }
-
-        if (event.getName().toString().equals("minecraft:crimson_forest")) {
-            event.getGeneration().getFeatures(GenerationStep.Decoration.VEGETAL_DECORATION).add(Holder.direct(ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_PLACED));
-        }
-        if (event.getName().toString().equals("minecraft:warped_forest")) {
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, Holder.direct(ModConfiguredFeatures.WARPED_FUNGUS_BEES_PLACED));
+        if (category.equals(Biome.BiomeCategory.NETHER)) {
+            if (event.getName().toString().equals("minecraft:crimson_forest")) {
+                event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, Holder.direct(ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_PLACED));
+            } else if (event.getName().toString().equals("minecraft:warped_forest")) {
+                event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, Holder.direct(ModConfiguredFeatures.WARPED_FUNGUS_BEES_PLACED));
+            }
         }
 
         if (!category.equals(Biome.BiomeCategory.THEEND) && !category.equals(Biome.BiomeCategory.NETHER)) {
