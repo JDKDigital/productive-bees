@@ -3,6 +3,8 @@
 - Added compressed iron bee (pneumaticcraft)
 - Added iridium bee
 - Added Pepto Beesmol (blame Shiny)
+- Added nether bee nests spawning in Crimson and Warped Forest
+- Added Red, Brown, Crimson and Warped shroom bees.
 - Fixed Fluix bee,
 - Fixed bottler recipes
 - Fixed a concurrency issue sometimes preventing load (thanks to Quinteger)
