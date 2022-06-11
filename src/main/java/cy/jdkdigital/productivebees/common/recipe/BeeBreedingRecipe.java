@@ -17,7 +17,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -89,10 +88,10 @@ public class BeeBreedingRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return ModRecipeTypes.BEE_BREEDING_TYPE;
+        return ModRecipeTypes.BEE_BREEDING_TYPE.get();
     }
 
-    public static class Serializer<T extends BeeBreedingRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends BeeBreedingRecipe> implements RecipeSerializer<T>
     {
         final BeeBreedingRecipe.Serializer.IRecipeFactory<T> factory;
 

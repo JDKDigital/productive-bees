@@ -18,7 +18,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
@@ -100,7 +99,7 @@ public class WoodChipRecipe implements CraftingRecipe
         return ModRecipeTypes.WOOD_CHIP.get();
     }
 
-    public static class Serializer<T extends WoodChipRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends WoodChipRecipe> implements RecipeSerializer<T>
     {
         final WoodChipRecipe.Serializer.IRecipeFactory<T> factory;
 

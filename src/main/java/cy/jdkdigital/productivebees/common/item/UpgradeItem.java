@@ -5,7 +5,6 @@ import cy.jdkdigital.productivebees.common.block.entity.UpgradeableBlockEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +12,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -32,22 +32,16 @@ public class UpgradeItem extends Item
             return;
         }
 
-        String upgradeType = stack.getItem().getRegistryName().getPath();
+        String upgradeType = ForgeRegistries.ITEMS.getKey(stack.getItem()).getPath();
 
-        double value = 0.0F;
-        switch (upgradeType) {
-            case "upgrade_productivity":
-                value = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get();
-                break;
-            case "upgrade_breeding":
-                value = ProductiveBeesConfig.UPGRADES.breedingChance.get();
-                break;
-            case "upgrade_time":
-                value = ProductiveBeesConfig.UPGRADES.timeBonus.get();
-                break;
-        }
+        double value = switch (upgradeType) {
+            case "upgrade_productivity" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier.get();
+            case "upgrade_breeding" -> ProductiveBeesConfig.UPGRADES.breedingChance.get();
+            case "upgrade_time" -> ProductiveBeesConfig.UPGRADES.timeBonus.get();
+            default -> 0.0F;
+        };
 
-        tooltip.add(new TranslatableComponent("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).withStyle(ChatFormatting.GOLD));
+        tooltip.add(Component.translatable("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).withStyle(ChatFormatting.GOLD));
     }
 
     @Override

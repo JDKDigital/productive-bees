@@ -21,7 +21,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedHashMap;
@@ -105,10 +104,10 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements Recipe<Con
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return ModRecipeTypes.ADVANCED_BEEHIVE_TYPE;
+        return ModRecipeTypes.ADVANCED_BEEHIVE_TYPE.get();
     }
 
-    public static class Serializer<T extends AdvancedBeehiveRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends AdvancedBeehiveRecipe> implements RecipeSerializer<T>
     {
         final IRecipeFactory<T> factory;
 

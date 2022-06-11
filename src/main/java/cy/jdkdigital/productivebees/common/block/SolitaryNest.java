@@ -7,17 +7,15 @@ import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.recipe.BeeSpawningRecipe;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -25,7 +23,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -39,7 +36,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -59,20 +55,20 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModTileEntityTypes.SOLITARY_NEST.get(), SolitaryNestBlockEntity::tick);
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.SOLITARY_NEST.get(), SolitaryNestBlockEntity::tick);
     }
 
     public int getMaxHoneyLevel() {
         return 0;
     }
 
-    public Entity getNestingBeeType(Level world, Biome biome) {
-        List<BeeSpawningRecipe> spawningRecipes = getSpawningRecipes(world, biome);
+    public Entity getNestingBeeType(Level level, Biome biome) {
+        List<BeeSpawningRecipe> spawningRecipes = getSpawningRecipes(level, biome);
         if (!spawningRecipes.isEmpty()) {
-            BeeSpawningRecipe spawningRecipe = spawningRecipes.get(ProductiveBees.rand.nextInt(spawningRecipes.size()));
-            BeeIngredient beeIngredient = spawningRecipe.output.get(world.random.nextInt(spawningRecipe.output.size())).get();
+            BeeSpawningRecipe spawningRecipe = spawningRecipes.get(level.random.nextInt(spawningRecipes.size()));
+            BeeIngredient beeIngredient = spawningRecipe.output.get(level.random.nextInt(spawningRecipe.output.size())).get();
             if (beeIngredient != null) {
-                Entity bee = beeIngredient.getBeeEntity().create(world);
+                Entity bee = beeIngredient.getBeeEntity().create(level);
                 if (bee instanceof ConfigurableBee) {
                     ((ConfigurableBee) bee).setBeeType(beeIngredient.getBeeType().toString());
                     ((ConfigurableBee) bee).setAttributes();
@@ -88,12 +84,12 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
     public List<BeeSpawningRecipe> getSpawningRecipes(Level world, Biome biome) {
         // Get and cache recipes for nest type
         if (recipes.isEmpty()) {
-            Map<ResourceLocation, Recipe<Container>> allRecipes = new HashMap<>();
-            allRecipes.putAll(world.getRecipeManager().byType(ModRecipeTypes.BEE_SPAWNING_BIG_TYPE));
-            allRecipes.putAll(world.getRecipeManager().byType(ModRecipeTypes.BEE_SPAWNING_TYPE));
-            ItemStack nestItem = new ItemStack(ForgeRegistries.ITEMS.getValue(this.getRegistryName()));
-            for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
-                BeeSpawningRecipe recipe = (BeeSpawningRecipe) entry.getValue();
+            Map<ResourceLocation, BeeSpawningRecipe> allRecipes = new HashMap<>();
+            allRecipes.putAll(world.getRecipeManager().byType(ModRecipeTypes.BEE_SPAWNING_BIG_TYPE.get()));
+            allRecipes.putAll(world.getRecipeManager().byType(ModRecipeTypes.BEE_SPAWNING_TYPE.get()));
+            ItemStack nestItem = new ItemStack(this);
+            for (Map.Entry<ResourceLocation, BeeSpawningRecipe> entry : allRecipes.entrySet()) {
+                BeeSpawningRecipe recipe = entry.getValue();
                 if (recipe.matches(nestItem)) {
                     recipes.add(recipe);
                 }
@@ -103,11 +99,10 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         List<BeeSpawningRecipe> spawningRecipes = new ArrayList<>();
         if (!recipes.isEmpty()) {
             for (BeeSpawningRecipe recipe : recipes) {
-                if (
-                        (recipe.biomes.isEmpty() && world.dimension() == Level.OVERWORLD) || recipe.biomes.contains(biome.getBiomeCategory().getName())
-                ) {
+                // TODO use biome tags
+//                if ((recipe.biomes.isEmpty() && world.dimension() == Level.OVERWORLD) || recipe.biomes.contains(ForgeRegistries.BIOMES.getKey(biome).toString())) {
                     spawningRecipes.add(recipe);
-                }
+//                }
             }
         }
         return spawningRecipes;
@@ -182,7 +177,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
         if (stack.hasTag() && stack.getTag().getInt("spawnCount") >= ProductiveBeesConfig.BEES.cuckooSpawnCount.get()) {
-            tooltip.add(new TranslatableComponent("productivebees.hive.tooltip.nest_inactive").withStyle(ChatFormatting.BOLD));
+            tooltip.add(Component.translatable("productivebees.hive.tooltip.nest_inactive").withStyle(ChatFormatting.BOLD));
         }
     }
 }

@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.PoweredBlock;
@@ -38,7 +39,7 @@ public class InvisibleRedstone extends PoweredBlock
 
 
     @Override
-    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
         worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
     }
 }

@@ -35,13 +35,7 @@ public class FluidTagEmptyCondition implements ICondition
     @Override
     public boolean test(ICondition.IContext context)
     {
-        return context.getTag(tag_name).getValues().isEmpty();
-    }
-
-    @Override
-    public boolean test()
-    {
-        return test(IContext.EMPTY);
+        return context.getTag(tag_name).isEmpty();
     }
 
     @Override

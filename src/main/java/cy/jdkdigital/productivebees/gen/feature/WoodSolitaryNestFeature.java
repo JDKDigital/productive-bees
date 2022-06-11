@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -24,7 +25,7 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
     public boolean place(FeaturePlaceContext<ReplaceBlockConfiguration> context) {
         WorldGenLevel world = context.level();
         ChunkGenerator chunkGenerator = context.chunkGenerator();
-        Random rand = context.random();
+        RandomSource rand = context.random();
         BlockPos blockPos = context.origin();
         ReplaceBlockConfiguration featureConfig = context.config();
 
@@ -34,7 +35,8 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
             }
 
             // Get to ground level
-            blockPos = blockPos.atY(chunkGenerator.getBaseHeight(blockPos.getX(), blockPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, world));
+            // TODO better way to end un surface, probably placement modifiers
+            blockPos = blockPos.atY(chunkGenerator.getSeaLevel());
 
             // Go to ground surface
             while (blockPos.getY() < 127 && !world.isEmptyBlock(blockPos)) {

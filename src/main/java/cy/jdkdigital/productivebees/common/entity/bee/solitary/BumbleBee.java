@@ -38,7 +38,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
 
     public BumbleBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
-        beehiveInterests = (poiType) -> poiType == ModPointOfInterestTypes.BUMBLE_BEE_NEST.get();
+        beehiveInterests = (poi) -> poi.value() == ModPointOfInterestTypes.BUMBLE_BEE_NEST.get();
     }
 
     @Override
@@ -80,9 +80,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
         }
     }
 
-    @Override
-    public boolean canBeControlledByRider() {
-        Entity entity = this.getControllingPassenger();
+    private boolean canBeControlledBy(Entity entity) {
         if (!(entity instanceof Player playerEntity)) {
             return false;
         } else {
@@ -92,7 +90,8 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
 
     @Nullable
     public Entity getControllingPassenger() {
-        return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
+        Entity entity = this.getFirstPassenger();
+        return entity != null && this.canBeControlledBy(entity) ? entity : null;
     }
 
     @Override
@@ -174,8 +173,8 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
         if (!entity.isAlive()) {
             return false;
         } else {
-            Entity rider = entity.getPassengers().isEmpty() ? null : entity.getPassengers().get(0);
-            if (entity.isVehicle() && entity.canBeControlledByRider() && rider instanceof Player) {
+            Entity rider = entity.getControllingPassenger();
+            if (entity.isVehicle() && rider instanceof Player) {
                 entity.yRotO = rider.getYRot();
                 entity.setYRot(rider.getYRot() % 360.0F);
                 entity.setXRot((rider.getXRot() * 0.5F) % 360.0F);

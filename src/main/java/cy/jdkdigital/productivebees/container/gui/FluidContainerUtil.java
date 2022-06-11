@@ -89,7 +89,6 @@ class FluidContainerUtil
             }
 
             vertexBuffer.end();
-            BufferUploader.end(vertexBuffer);
             RenderSystem.disableDepthTest();
             RenderSystem.disableBlend();
         }

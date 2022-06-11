@@ -4,13 +4,13 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.container.FeederContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.animal.Bee;
@@ -49,10 +49,10 @@ public class FeederBlockEntity extends CapabilityBlockEntity
     });
 
     public FeederBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.FEEDER.get(), pos, state);
+        super(ModBlockEntityTypes.FEEDER.get(), pos, state);
     }
 
-    public Block getRandomBlockFromInventory(TagKey<Block> tag) {
+    public Block getRandomBlockFromInventory(TagKey<Block> tag, RandomSource random) {
         return inventoryHandler.map(h -> {
             List<Block> possibleBlocks = new ArrayList<>();
             for (int slot = 0; slot < h.getSlots(); ++slot) {
@@ -65,7 +65,7 @@ public class FeederBlockEntity extends CapabilityBlockEntity
                 }
             }
 
-            return possibleBlocks.get(ProductiveBees.rand.nextInt(possibleBlocks.size()));
+            return possibleBlocks.get(random.nextInt(possibleBlocks.size()));
         }).orElse(Blocks.AIR);
     }
 
@@ -81,7 +81,7 @@ public class FeederBlockEntity extends CapabilityBlockEntity
     @Nonnull
     @Override
     public Component getName() {
-        return new TranslatableComponent(ModBlocks.FEEDER.get().getDescriptionId());
+        return Component.translatable(ModBlocks.FEEDER.get().getDescriptionId());
     }
 
     @Nullable

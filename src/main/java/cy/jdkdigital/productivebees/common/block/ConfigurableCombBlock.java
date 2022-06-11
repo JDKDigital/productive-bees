@@ -39,13 +39,6 @@ public class ConfigurableCombBlock extends CombBlock implements EntityBlock
         return getColor();
     }
 
-    @Override
-    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-        if (!this.equals(ForgeRegistries.BLOCKS.getValue(this.getRegistryName()))) {
-            super.fillItemCategory(group, items);
-        }
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {

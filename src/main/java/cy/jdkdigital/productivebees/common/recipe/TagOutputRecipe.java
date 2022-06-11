@@ -56,7 +56,7 @@ public abstract class TagOutputRecipe
         ItemStack preferredItem = null;
         int currBest = modPreference.size();
         for (ItemStack item : list) {
-            ResourceLocation rl = item.getItem().getRegistryName();
+            ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item.getItem());
             if (rl != null) {
                 String modId = rl.getNamespace();
                 int priority = 100;
@@ -92,7 +92,7 @@ public abstract class TagOutputRecipe
                             continue;
                         }
 
-                        ResourceLocation rl = fluid.getRegistryName();
+                        ResourceLocation rl = ForgeRegistries.FLUIDS.getKey(fluid);
                         if (rl != null) {
                             String modId = rl.getNamespace();
                             int priority = currBest;

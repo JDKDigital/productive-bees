@@ -1,0 +1,7 @@
+{
+  "biomes": "minecraft:crimson_forest",
+  "generation_stage": "VEGETAL_DECORATION",
+  "features": "productivebees:crimson_fungus_bees",
+  "type": "productivebees:nest",
+  "maxTemperature": 100
+}

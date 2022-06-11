@@ -3,8 +3,6 @@ package cy.jdkdigital.productivebees.common.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -28,10 +26,10 @@ public class BiomeModUpgradeItem extends UpgradeItem
             CompoundTag data = tag.getCompound(KEY);
             if (data.contains("biome")) {
                 String biome = data.getString("biome");
-                tooltip.add(new TextComponent(biome).withStyle(ChatFormatting.GOLD));
+                tooltip.add(Component.literal(biome).withStyle(ChatFormatting.GOLD));
             }
             else {
-                tooltip.add(new TranslatableComponent("productivebees.information.upgrade.unconfigured").withStyle(ChatFormatting.WHITE));
+                tooltip.add(Component.translatable("productivebees.information.upgrade.unconfigured").withStyle(ChatFormatting.WHITE));
             }
         }
     }

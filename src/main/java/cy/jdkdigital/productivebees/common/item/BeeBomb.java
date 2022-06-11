@@ -7,8 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -79,13 +77,13 @@ public class BeeBomb extends Item
         ListTag beeList = BeeBomb.getBees(stack);
         if (!beeList.isEmpty()) {
             if (Screen.hasShiftDown()) {
-                list.add(new TranslatableComponent("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.DARK_AQUA));
+                list.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.DARK_AQUA));
                 for (Tag bee : beeList) {
                     String beeType = ((CompoundTag) bee).getString("entity");
-                    list.add(new TextComponent(beeType).withStyle(ChatFormatting.GOLD));
+                    list.add(Component.literal(beeType).withStyle(ChatFormatting.GOLD));
                 }
             } else {
-                list.add(new TranslatableComponent("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
+                list.add(Component.translatable("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
             }
         }
     }

@@ -1,0 +1,7 @@
+{
+  "biomes": "#minecraft:is_nether",
+  "generation_stage": "TOP_LAYER_MODIFICATION",
+  "features": "productivebees:soul_sand_nest",
+  "type": "productivebees:nest",
+  "maxTemperature": 100
+}

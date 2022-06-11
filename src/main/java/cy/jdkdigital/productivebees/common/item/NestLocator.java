@@ -4,14 +4,15 @@ import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
+import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModPointOfInterestTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -80,11 +81,11 @@ public class NestLocator extends Item
         CompoundTag nbt = stack.getOrCreateTag().getCompound(KEY);
 
         nbt.remove("nest");
-        if (nest != null && nest.getRegistryName() != null) {
-            nbt.putString("nest", nest.getRegistryName().toString());
-            nbt.putString("nestName", new TranslatableComponent(nest.getDescriptionId()).getString());
+        if (nest != null && ForgeRegistries.BLOCKS.getKey(nest) != null) {
+            nbt.putString("nest", ForgeRegistries.BLOCKS.getKey(nest).toString());
+            nbt.putString("nestName", Component.translatable(nest.getDescriptionId()).getString());
 
-            player.displayClientMessage(new TranslatableComponent("productivebees.nest_locator.tuned", nbt.getString("nestName")), false);
+            player.displayClientMessage(Component.translatable("productivebees.nest_locator.tuned", nbt.getString("nestName")), false);
         }
 
         stack.getOrCreateTag().put(KEY, nbt);
@@ -130,6 +131,10 @@ public class NestLocator extends Item
                 setNestBlock(stack, ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft", "bee_nest")), context.getPlayer());
             } else if (block instanceof SolitaryNest) {
                 setNestBlock(stack, block, context.getPlayer());
+            } else if (ForgeRegistries.BLOCKS.getKey(block).getPath().contains("warped")) {
+                setNestBlock(stack, ModBlocks.WARPED_BEE_NEST.get(), context.getPlayer());
+            } else if (ForgeRegistries.BLOCKS.getKey(block).getPath().contains("crimson")) {
+                setNestBlock(stack, ModBlocks.CRIMSON_BEE_NEST.get(), context.getPlayer());
             } else {
                 // Set block if it's a component in crafting a nest
                 ItemStack in = new ItemStack(block.asItem());
@@ -140,8 +145,8 @@ public class NestLocator extends Item
                         for (ItemStack ss : s.getItems()) {
                             if (ss.getItem().equals(in.getItem())) {
                                 ItemStack output = recipe.getResultItem();
-                                if (output.getItem() instanceof BlockItem) {
-                                    Block foundBlock = ForgeRegistries.BLOCKS.getValue(output.getItem().getRegistryName());
+                                if (output.getItem() instanceof BlockItem blockItem) {
+                                    Block foundBlock = blockItem.getBlock();
                                     if (foundBlock instanceof SolitaryNest) {
                                         setNestBlock(stack, foundBlock, context.getPlayer());
                                         break done;
@@ -174,11 +179,11 @@ public class NestLocator extends Item
 
                 if (nearest != null) {
                     // Show distance in chat
-                    player.displayClientMessage(new TranslatableComponent("productivebees.nest_locator.found_hive", Math.round(nearest.getFirst() * 100.0) / 100.0), false);
+                    player.displayClientMessage(Component.translatable("productivebees.nest_locator.found_hive", Math.round(nearest.getFirst() * 100.0) / 100.0), false);
                     setPosition(stack, nearest.getSecond());
                 } else {
                     // Unset position
-                    player.displayClientMessage(new TranslatableComponent("productivebees.nest_locator.not_found_hive", getNestName(stack)), false);
+                    player.displayClientMessage(Component.translatable("productivebees.nest_locator.not_found_hive", getNestName(stack)), false);
                     setPosition(stack, null);
                 }
             }
@@ -193,9 +198,9 @@ public class NestLocator extends Item
         super.appendHoverText(stack, world, tooltip, flagIn);
 
         if (hasNest(stack)) {
-            tooltip.add(new TranslatableComponent("productivebees.information.nestlocator.configured", getNestName(stack)).withStyle(ChatFormatting.GOLD));
+            tooltip.add(Component.translatable("productivebees.information.nestlocator.configured", getNestName(stack)).withStyle(ChatFormatting.GOLD));
         } else {
-            tooltip.add(new TranslatableComponent("productivebees.information.nestlocator.unconfigured").withStyle(ChatFormatting.GOLD));
+            tooltip.add(Component.translatable("productivebees.information.nestlocator.unconfigured").withStyle(ChatFormatting.GOLD));
         }
     }
 
@@ -203,15 +208,14 @@ public class NestLocator extends Item
         Vec3 playerPos = new Vec3(pos.getX(), pos.getY(), pos.getZ());
 
         PoiManager poiManager = world.getPoiManager();
-        Stream<PoiRecord> stream = poiManager.getInSquare((poiType) ->
-                poiType == PoiType.BEEHIVE ||
-                        poiType == PoiType.BEE_NEST ||
-                        poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
-                        poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
-                        poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() ||
-                        poiType == ModPointOfInterestTypes.BUMBLE_BEE_NEST.get() ||
-                        poiType == ModPointOfInterestTypes.NETHER_NEST.get() ||
-                        poiType == ModPointOfInterestTypes.SUGARBAG_NEST.get(), pos, distance, PoiManager.Occupancy.ANY);
+        Stream<PoiRecord> stream = poiManager.getInSquare((poi) ->
+                        poi.is(PoiTypeTags.BEE_HOME) ||
+                        poi.value() == ModPointOfInterestTypes.SOLITARY_HIVE.get() ||
+                        poi.value() == ModPointOfInterestTypes.SOLITARY_NEST.get() ||
+                        poi.value() == ModPointOfInterestTypes.DRACONIC_NEST.get() ||
+                        poi.value() == ModPointOfInterestTypes.BUMBLE_BEE_NEST.get() ||
+                        poi.value() == ModPointOfInterestTypes.NETHER_NEST.get() ||
+                        poi.value() == ModPointOfInterestTypes.SUGARBAG_NEST.get(), pos, distance, PoiManager.Occupancy.ANY);
 
         List<BlockPos> nearbyNestPositions = stream.map(PoiRecord::getPos).filter((nestPos) -> {
             BlockState state = world.getBlockState(nestPos);

@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -25,7 +26,7 @@ public class SugarCaneNest extends SolitaryNest
 
     @SuppressWarnings("deprecation")
     @Override
-    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
         super.tick(state, worldIn, pos, rand);
         if (!state.canSurvive(worldIn, pos)) {
             worldIn.destroyBlock(pos, true);

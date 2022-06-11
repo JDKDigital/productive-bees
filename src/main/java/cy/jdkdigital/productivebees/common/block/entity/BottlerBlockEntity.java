@@ -4,13 +4,12 @@ import cy.jdkdigital.productivebees.common.block.Bottler;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
 import cy.jdkdigital.productivebees.container.BottlerContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.animal.Bee;
@@ -73,7 +72,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
     }
 
     public BottlerBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.BOTTLER.get(), pos, state);
+        super(ModBlockEntityTypes.BOTTLER.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, BottlerBlockEntity blockEntity) {
@@ -121,7 +120,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
 
     @Override
     public Component getName() {
-        return new TranslatableComponent(ModBlocks.BOTTLER.get().getDescriptionId());
+        return Component.translatable(ModBlocks.BOTTLER.get().getDescriptionId());
     }
 
     @Nullable

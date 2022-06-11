@@ -5,11 +5,10 @@ import cy.jdkdigital.productivebees.common.block.Centrifuge;
 import cy.jdkdigital.productivebees.container.PoweredCentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +29,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
     public LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(() -> new EnergyStorage(10000));
 
     public PoweredCentrifugeBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.POWERED_CENTRIFUGE.get(), pos, state);
+        super(ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, PoweredCentrifugeBlockEntity blockEntity) {
@@ -70,7 +69,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 
     @Override
     public Component getName() {
-        return new TranslatableComponent(ModBlocks.POWERED_CENTRIFUGE.get().getDescriptionId());
+        return Component.translatable(ModBlocks.POWERED_CENTRIFUGE.get().getDescriptionId());
     }
 
     @Nullable

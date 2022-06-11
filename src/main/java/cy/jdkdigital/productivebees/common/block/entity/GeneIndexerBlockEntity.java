@@ -5,11 +5,10 @@ import cy.jdkdigital.productivebees.common.recipe.CombineGeneRecipe;
 import cy.jdkdigital.productivebees.container.GeneIndexerContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -63,7 +62,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
     });
 
     public GeneIndexerBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.GENE_INDEXER.get(), pos, state);
+        super(ModBlockEntityTypes.GENE_INDEXER.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, GeneIndexerBlockEntity blockEntity) {
@@ -184,7 +183,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
     @Nonnull
     @Override
     public Component getName() {
-        return new TranslatableComponent(ModBlocks.GENE_INDEXER.get().getDescriptionId());
+        return Component.translatable(ModBlocks.GENE_INDEXER.get().getDescriptionId());
     }
 
     @Nonnull
@@ -199,7 +198,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
     @Nonnull
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent(ModBlocks.GENE_INDEXER.get().getDescriptionId());
+        return Component.translatable(ModBlocks.GENE_INDEXER.get().getDescriptionId());
     }
 
     @Nullable

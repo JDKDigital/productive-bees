@@ -13,7 +13,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
@@ -68,10 +67,10 @@ public class IncubationRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return ModRecipeTypes.INCUBATION_TYPE;
+        return ModRecipeTypes.INCUBATION_TYPE.get();
     }
 
-    public static class Serializer<T extends IncubationRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends IncubationRecipe> implements RecipeSerializer<T>
     {
         final IncubationRecipe.Serializer.IRecipeFactory<T> factory;
 

@@ -8,7 +8,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -47,8 +46,8 @@ public class Honeycomb extends Item
         if (tag != null && tag.contains("type")) {
             CompoundTag nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
-                String name = new TranslatableComponent("entity.productivebees." + ProductiveBee.getBeeName(tag.getString("type")) + "_bee").getString();
-                return new TranslatableComponent("item.productivebees.honeycomb_configurable", name.replace(" Bee", ""));
+                String name = Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(tag.getString("type")) + "_bee").getString();
+                return Component.translatable("item.productivebees.honeycomb_configurable", name.replace(" Bee", ""));
             }
         }
         return super.getName(stack);

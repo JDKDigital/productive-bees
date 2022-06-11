@@ -19,7 +19,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -108,10 +107,10 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return ModRecipeTypes.CENTRIFUGE_TYPE;
+        return ModRecipeTypes.CENTRIFUGE_TYPE.get();
     }
 
-    public static class Serializer<T extends CentrifugeRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends CentrifugeRecipe> implements RecipeSerializer<T>
     {
         final CentrifugeRecipe.Serializer.IRecipeFactory<T> factory;
 

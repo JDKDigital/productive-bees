@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -24,7 +25,7 @@ public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
     public boolean place(FeaturePlaceContext<ReplaceBlockConfiguration> context) {
         WorldGenLevel world = context.level();
         ChunkGenerator chunkGenerator = context.chunkGenerator();
-        Random rand = context.random();
+        RandomSource rand = context.random();
         BlockPos blockPos = context.origin();
         ReplaceBlockConfiguration featureConfig = context.config();
 

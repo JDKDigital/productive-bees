@@ -13,7 +13,7 @@ public class SolitaryBee extends ProductiveBee
 {
     public SolitaryBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
-        beehiveInterests = (poiType) -> poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() || poiType == ModPointOfInterestTypes.SOLITARY_NEST.get();
+        beehiveInterests = (poi) -> poi.value() == ModPointOfInterestTypes.SOLITARY_HIVE.get() || poi.value() == ModPointOfInterestTypes.SOLITARY_NEST.get();
         beeAttributes.put(BeeAttributes.TYPE, "solitary");
     }
 

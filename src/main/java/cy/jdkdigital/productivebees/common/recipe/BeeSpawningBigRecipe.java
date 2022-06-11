@@ -26,6 +26,6 @@ public class BeeSpawningBigRecipe extends BeeSpawningRecipe
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return ModRecipeTypes.BEE_SPAWNING_BIG_TYPE;
+        return ModRecipeTypes.BEE_SPAWNING_BIG_TYPE.get();
     }
 }

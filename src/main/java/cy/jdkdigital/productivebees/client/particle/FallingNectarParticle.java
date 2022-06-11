@@ -15,7 +15,7 @@ public class FallingNectarParticle extends DripParticle
 {
     public FallingNectarParticle(ClientLevel world, double x, double y, double z, Fluid fluid) {
         super(world, x, y, z, fluid);
-        this.lifetime = (int) (16.0D / (ProductiveBees.rand.nextDouble() * 0.8D + 0.2D));
+        this.lifetime = (int) (16.0D / (world.random.nextDouble() * 0.8D + 0.2D));
         this.gravity = 0.007F;
     }
 

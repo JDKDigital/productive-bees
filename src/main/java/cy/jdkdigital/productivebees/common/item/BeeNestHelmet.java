@@ -7,7 +7,6 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -35,9 +34,9 @@ public class BeeNestHelmet extends ArmorItem
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(stack, level, list, flag);
 
-        list.add(new TranslatableComponent("productivebees.information.bee_helmet.info1").withStyle(ChatFormatting.DARK_PURPLE));
-        list.add(new TranslatableComponent("productivebees.information.bee_helmet.info2").withStyle(ChatFormatting.LIGHT_PURPLE));
-        list.add(new TranslatableComponent("productivebees.information.bee_helmet.info3", 100 * ProductiveBeesConfig.BEES.kamikazBeeChance.get()).withStyle(ChatFormatting.LIGHT_PURPLE));
+        list.add(Component.translatable("productivebees.information.bee_helmet.info1").withStyle(ChatFormatting.DARK_PURPLE));
+        list.add(Component.translatable("productivebees.information.bee_helmet.info2").withStyle(ChatFormatting.LIGHT_PURPLE));
+        list.add(Component.translatable("productivebees.information.bee_helmet.info3", 100 * ProductiveBeesConfig.BEES.kamikazBeeChance.get()).withStyle(ChatFormatting.LIGHT_PURPLE));
     }
 
 //    @Nullable

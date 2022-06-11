@@ -8,7 +8,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -79,13 +78,13 @@ public class FilterUpgradeItem extends UpgradeItem
         List<Supplier<BeeIngredient>> beeList = getAllowedBees(stack);
 
         for (Supplier<BeeIngredient> allowedBee: beeList) {
-            tooltip.add(new TranslatableComponent("productivebees.information.upgrade.upgrade_filter_entity", allowedBee.get().getBeeType()).withStyle(ChatFormatting.GOLD));
+            tooltip.add(Component.translatable("productivebees.information.upgrade.upgrade_filter_entity", allowedBee.get().getBeeType()).withStyle(ChatFormatting.GOLD));
         }
         
         if (beeList.isEmpty()) {
-            tooltip.add(new TranslatableComponent("productivebees.information.upgrade.upgrade_filter_empty").withStyle(ChatFormatting.WHITE));
+            tooltip.add(Component.translatable("productivebees.information.upgrade.upgrade_filter_empty").withStyle(ChatFormatting.WHITE));
         } else {
-            tooltip.add(new TranslatableComponent("productivebees.information.upgrade.upgrade_filter").withStyle(ChatFormatting.WHITE));
+            tooltip.add(Component.translatable("productivebees.information.upgrade.upgrade_filter").withStyle(ChatFormatting.WHITE));
         }
     }
 

@@ -1,0 +1,12 @@
+{
+  "biomes": [
+    "minecraft:windswept_savanna",
+    "minecraft:wooded_badlands",
+    "minecraft:old_growth_pine_taiga",
+    "minecraft:old_growth_spruce_taiga"
+  ],
+  "generation_stage": "TOP_LAYER_MODIFICATION",
+  "features": "productivebees:coarse_dirt_nest",
+  "type": "productivebees:nest",
+  "maxTemperature": 100
+}

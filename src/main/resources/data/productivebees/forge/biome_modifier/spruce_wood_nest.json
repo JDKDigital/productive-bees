@@ -1,0 +1,7 @@
+{
+  "biomes": "#minecraft:is_taiga",
+  "generation_stage": "TOP_LAYER_MODIFICATION",
+  "features": "productivebees:spruce_wood_nest",
+  "type": "productivebees:nest",
+  "maxTemperature": 100
+}

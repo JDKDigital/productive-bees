@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.client.render.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -13,19 +14,21 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 public class WoodChipRenderer extends BlockEntityWithoutLevelRenderer
 {
     private static HashMap<String, TextureAtlasSprite> blockTextureLocations = new HashMap<>();
+    protected static RandomSource random = RandomSource.create();
 
     public WoodChipRenderer() {
         super(null, null);
@@ -94,7 +97,7 @@ public class WoodChipRenderer extends BlockEntityWithoutLevelRenderer
     }
 
     protected static TextureAtlasSprite getBlockSprite(@Nonnull Block block) {
-        String woodName = block.getRegistryName().toString();
+        String woodName = ForgeRegistries.BLOCKS.getKey(block).toString();
         if (blockTextureLocations.get(woodName) != null) {
             return blockTextureLocations.get(woodName);
         }
@@ -102,7 +105,7 @@ public class WoodChipRenderer extends BlockEntityWithoutLevelRenderer
         BlockRenderDispatcher manager = Minecraft.getInstance().getBlockRenderer();
         BakedModel model = manager.getBlockModel(block.defaultBlockState());
 
-        List<BakedQuad> quads = model.getQuads(block.defaultBlockState(), Direction.NORTH, new Random());
+        List<BakedQuad> quads = model.getQuads(block.defaultBlockState(), Direction.NORTH, WoodChipRenderer.random);
         if (quads.isEmpty()) {
             return null;
         }

@@ -1,0 +1,7 @@
+{
+  "biomes": "#minecraft:is_nether",
+  "generation_stage": "TOP_LAYER_MODIFICATION",
+  "features": "productivebees:nether_quartz_nest_high",
+  "type": "productivebees:nest",
+  "maxTemperature": 100
+}

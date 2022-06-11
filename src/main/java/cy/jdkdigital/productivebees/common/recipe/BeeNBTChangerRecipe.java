@@ -17,7 +17,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 
@@ -53,7 +53,7 @@ public class BeeNBTChangerRecipe implements Recipe<Container>
 
             boolean matchesItem = false;
             for (ItemStack stack : this.item.getItems()) {
-                if (stack.getItem().getRegistryName().toString().equals(itemName)) {
+                if (ForgeRegistries.ITEMS.getKey(stack.getItem()).toString().equals(itemName)) {
                     matchesItem = true;
                 }
             }
@@ -95,10 +95,10 @@ public class BeeNBTChangerRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return ModRecipeTypes.BEE_NBT_CHANGER_TYPE;
+        return ModRecipeTypes.BEE_NBT_CHANGER_TYPE.get();
     }
 
-    public static class Serializer<T extends BeeNBTChangerRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends BeeNBTChangerRecipe> implements RecipeSerializer<T>
     {
         final BeeNBTChangerRecipe.Serializer.IRecipeFactory<T> factory;
 

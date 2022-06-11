@@ -10,7 +10,7 @@ public class PoppingNectarParticle extends LavaParticle
 {
     public PoppingNectarParticle(ClientLevel world, double x, double y, double z) {
         super(world, x, y, z);
-        this.lifetime = (int) (10.0D / (ProductiveBees.rand.nextDouble() * 0.8D + 0.2D));
+        this.lifetime = (int) (10.0D / (world.random.nextDouble() * 0.8D + 0.2D));
     }
 
     @Nonnull

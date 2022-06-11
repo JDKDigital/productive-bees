@@ -33,7 +33,7 @@ public class BeeEffect implements INBTSerializable<CompoundTag>
         tag.putInt("i", effects.size());
         getEffects().forEach((effect, duration) -> {
             CompoundTag effectTag = new CompoundTag();
-            effectTag.putString("effect", "" + effect.getRegistryName());
+            effectTag.putString("effect", "" + ForgeRegistries.MOB_EFFECTS.getKey(effect));
             effectTag.putInt("duration", duration);
 
             tag.put("effect_" + (tag.size() - 1), effectTag);

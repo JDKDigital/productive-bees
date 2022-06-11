@@ -1,6 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +15,7 @@ public class CombBlockBlockEntity extends AbstractBlockEntity
     }
 
     public CombBlockBlockEntity(String type, BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.COMB_BLOCK.get(), pos, state);
+        super(ModBlockEntityTypes.COMB_BLOCK.get(), pos, state);
         this.type = type;
     }
 

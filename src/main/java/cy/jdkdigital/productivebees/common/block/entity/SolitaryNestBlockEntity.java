@@ -3,7 +3,7 @@ package cy.jdkdigital.productivebees.common.block.entity;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.init.ModEntities;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -30,7 +30,7 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
     }
 
     public SolitaryNestBlockEntity(BlockPos pos, BlockState state) {
-        this(ModTileEntityTypes.SOLITARY_NEST.get(), pos, state);
+        this(ModBlockEntityTypes.SOLITARY_NEST.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, SolitaryNestBlockEntity blockEntity) {

@@ -21,7 +21,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -89,10 +88,10 @@ public class BlockConversionRecipe implements Recipe<Container>
     @Nonnull
     @Override
     public RecipeType<?> getType() {
-        return ModRecipeTypes.BLOCK_CONVERSION_TYPE;
+        return ModRecipeTypes.BLOCK_CONVERSION_TYPE.get();
     }
 
-    public static class Serializer<T extends BlockConversionRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends BlockConversionRecipe> implements RecipeSerializer<T>
     {
         final BlockConversionRecipe.Serializer.IRecipeFactory<T> factory;
 

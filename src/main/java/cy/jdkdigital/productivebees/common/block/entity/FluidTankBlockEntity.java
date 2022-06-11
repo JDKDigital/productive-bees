@@ -48,9 +48,9 @@ public abstract class FluidTankBlockEntity extends CapabilityBlockEntity
                     if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {
                         // Look up bottler recipes from input
                         List<BottlerRecipe> recipes = new ArrayList<>();
-                        Map<ResourceLocation, Recipe<Container>> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.BOTTLER_TYPE);
-                        for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
-                            BottlerRecipe recipe = (BottlerRecipe) entry.getValue();
+                        Map<ResourceLocation, BottlerRecipe> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.BOTTLER_TYPE.get());
+                        for (Map.Entry<ResourceLocation, BottlerRecipe> entry : allRecipes.entrySet()) {
+                            BottlerRecipe recipe = entry.getValue();
                             if (recipe.matches(fluidStack, fluidContainerItem)) {
                                 recipes.add(recipe);
                             }

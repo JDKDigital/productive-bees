@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -66,14 +65,14 @@ public class Jar extends Block implements EntityBlock
                 ItemStack cage = ItemStack.of(itemTag);
 
                 String entityId = cage.getTag().getString("name");
-                tooltip.add(new TranslatableComponent("productivebees.information.jar.bee", entityId));
+                tooltip.add(Component.translatable("productivebees.information.jar.bee", entityId));
             }
             else {
-                tooltip.add(new TranslatableComponent("productivebees.information.jar.fill_tip"));
+                tooltip.add(Component.translatable("productivebees.information.jar.fill_tip"));
             }
         }
         else {
-            tooltip.add(new TranslatableComponent("productivebees.information.jar.fill_tip"));
+            tooltip.add(Component.translatable("productivebees.information.jar.fill_tip"));
         }
     }
 }

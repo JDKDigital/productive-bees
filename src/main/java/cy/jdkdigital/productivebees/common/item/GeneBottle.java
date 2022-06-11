@@ -57,7 +57,7 @@ public class GeneBottle extends Item
 
 //    @Override
 //    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
-//        if (this.allowdedIn(group)) {
+//        if (this.allowedIn(group)) {
 //            if () {
 //                items.add(getStack(block));
 //            }

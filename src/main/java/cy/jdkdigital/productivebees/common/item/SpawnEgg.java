@@ -7,7 +7,6 @@ import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -58,8 +57,8 @@ public class SpawnEgg extends SpawnEggItem
         if (tag != null && tag.contains("type")) {
             CompoundTag nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
-                String name = new TranslatableComponent("entity.productivebees." + ProductiveBee.getBeeName(tag.getString("type")) + "_bee").getString();
-                return new TranslatableComponent("item.productivebees.spawn_egg_configurable", name);
+                String name = Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(tag.getString("type")) + "_bee").getString();
+                return Component.translatable("item.productivebees.spawn_egg_configurable", name);
             }
         }
         return super.getName(stack);

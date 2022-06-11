@@ -128,7 +128,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                                 // Check temper
                                 if (beeEntity instanceof ProductiveBee) {
                                     int temper = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.TEMPER);
-                                    if (temper == 0 || (temper == 1 && ProductiveBees.rand.nextFloat() < .5)) {
+                                    if (temper == 0 || (temper == 1 && level.random.nextFloat() < .5)) {
                                         beeEntity.setStayOutOfHiveCountdown(400);
                                         break;
                                     }
@@ -141,6 +141,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     }
                 }
             }
+            this.setChanged();
         }
     }
 
@@ -212,7 +213,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
 
         if (!stayInside) {
-
             Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
             BlockPos frontPos = hivePos.relative(direction);
             boolean isPositionBlocked = !level.getBlockState(frontPos).getCollisionShape(level, frontPos).isEmpty();

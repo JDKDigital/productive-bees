@@ -7,7 +7,6 @@ import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -40,8 +39,8 @@ public class CombBlockItem extends BlockItem
         if (tag != null && tag.contains("type")) {
             CompoundTag nbt = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
             if (nbt != null) {
-                String name = new TranslatableComponent("entity.productivebees." + ProductiveBee.getBeeName(tag.getString("type")) + "_bee").getString();
-                return new TranslatableComponent("block.productivebees.comb_configurable", name.replace(" Bee", ""));
+                String name = Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(tag.getString("type")) + "_bee").getString();
+                return Component.translatable("block.productivebees.comb_configurable", name.replace(" Bee", ""));
             }
         }
         return super.getName(stack);

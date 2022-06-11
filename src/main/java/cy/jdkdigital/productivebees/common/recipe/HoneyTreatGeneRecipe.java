@@ -19,7 +19,6 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -154,7 +153,7 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
         return ModRecipeTypes.GENE_TREAT.get();
     }
 
-    public static class Serializer<T extends HoneyTreatGeneRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends HoneyTreatGeneRecipe> implements RecipeSerializer<T>
     {
         final HoneyTreatGeneRecipe.Serializer.IRecipeFactory<T> factory;
 

@@ -5,13 +5,12 @@ import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.container.CatcherContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -46,7 +45,7 @@ public class CatcherBlockEntity extends FluidTankBlockEntity implements Upgradea
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
 
     public CatcherBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.CATCHER.get(), pos, state);
+        super(ModBlockEntityTypes.CATCHER.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, CatcherBlockEntity blockEntity) {
@@ -117,7 +116,7 @@ public class CatcherBlockEntity extends FluidTankBlockEntity implements Upgradea
     @Nonnull
     @Override
     public Component getName() {
-        return new TranslatableComponent(ModBlocks.CATCHER.get().getDescriptionId());
+        return Component.translatable(ModBlocks.CATCHER.get().getDescriptionId());
     }
 
     @Nullable

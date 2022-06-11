@@ -14,15 +14,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -32,7 +32,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -65,40 +64,39 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public ConfigurableBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
 
-        beehiveInterests = (poiType) ->
-                poiType == PoiType.BEEHIVE ||
-                poiType == PoiType.BEE_NEST ||
-                poiType == ModPointOfInterestTypes.NETHER_NEST.get() ||
-                (poiType == ModPointOfInterestTypes.SOLITARY_HIVE.get() && isWild()) ||
-                (poiType == ModPointOfInterestTypes.SOLITARY_NEST.get() && isWild()) ||
-                (poiType == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic()) ||
-                (poiType == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals("productivebees:sugarbag"));
+        beehiveInterests = (poi) -> poi.is(PoiTypeTags.BEE_HOME) ||
+                    poi.value() == ModPointOfInterestTypes.NETHER_NEST.get() ||
+                    (poi.value() == ModPointOfInterestTypes.SOLITARY_HIVE.get() && isWild()) ||
+                    (poi.value() == ModPointOfInterestTypes.SOLITARY_NEST.get() && isWild()) ||
+                    (poi.value() == ModPointOfInterestTypes.DRACONIC_NEST.get() && isDraconic()) ||
+                    (poi.value() == ModPointOfInterestTypes.SUGARBAG_NEST.get() && getBeeType().equals("productivebees:sugarbag"));
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag tag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag tag) {
         String type = "";
         if (tag != null) {
+            RandomSource random = level.getRandom();
             type = tag.contains("type") ? tag.getString("type") : tag.contains("EntityTag") ? tag.getCompound("EntityTag").getString("type") : "";
 
-            if (type.equals("productivebees:ghostly") && ProductiveBees.rand.nextFloat() < 0.02f) {
-                this.setCustomName(new TextComponent("BooBee"));
-            } else if (type.equals("productivebees:blitz") && ProductiveBees.rand.nextFloat() < 0.02f) {
-                this.setCustomName(new TextComponent("King BitzBee"));
-            } else if (type.equals("productivebees:basalz") && ProductiveBees.rand.nextFloat() < 0.02f) {
-                this.setCustomName(new TextComponent("Queen BazBee"));
-            } else if (type.equals("productivebees:blizz") && ProductiveBees.rand.nextFloat() < 0.02f) {
-                this.setCustomName(new TextComponent("Shiny BizBee"));
-            } else if (type.equals("productivebees:redstone") && ProductiveBees.rand.nextFloat() < 0.01f) {
-                this.setCustomName(new TextComponent("Redastone Bee"));
-            } else if (type.equals("productivebees:destabilized_redstone") && ProductiveBees.rand.nextFloat() < 0.10f) {
-                this.setCustomName(new TextComponent("Destabilized RedaStone Bee"));
-            } else if (type.equals("productivebees:compressed_iron") && ProductiveBees.rand.nextFloat() < 0.05f) {
-                this.setCustomName(new TextComponent("Depressed Iron Bee"));
+            if (type.equals("productivebees:ghostly") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("BooBee"));
+            } else if (type.equals("productivebees:blitz") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("King BitzBee"));
+            } else if (type.equals("productivebees:basalz") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("Queen BazBee"));
+            } else if (type.equals("productivebees:blizz") && random.nextFloat() < 0.02f) {
+                this.setCustomName(Component.literal("Shiny BizBee"));
+            } else if (type.equals("productivebees:redstone") && random.nextFloat() < 0.01f) {
+                this.setCustomName(Component.literal("Redastone Bee"));
+            } else if (type.equals("productivebees:destabilized_redstone") && random.nextFloat() < 0.10f) {
+                this.setCustomName(Component.literal("Destabilized RedaStone Bee"));
+            } else if (type.equals("productivebees:compressed_iron") && random.nextFloat() < 0.05f) {
+                this.setCustomName(Component.literal("Depressed Iron Bee"));
             }
         }
 
-        return super.finalizeSpawn(world, difficulty, spawnReason, livingEntityData, tag);
+        return super.finalizeSpawn(level, difficulty, spawnReason, livingEntityData, tag);
     }
 
     @Override
@@ -315,7 +313,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     protected Component getTypeName() {
         CompoundTag nbt = getNBTData();
         if (nbt != null) {
-            return new TranslatableComponent("entity.productivebees." + getBeeName() + "_bee");
+            return Component.translatable("entity.productivebees." + getBeeName() + "_bee");
         }
         return super.getTypeName();
     }
@@ -381,9 +379,9 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 TagKey<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerTag")));
                 return flowerBlock.is(flowerTag);
             } else if (nbt.contains("flowerBlock")) {
-                return flowerBlock.getBlock().getRegistryName().toString().equals(nbt.getString("flowerBlock"));
+                return ForgeRegistries.BLOCKS.getKey(flowerBlock.getBlock()).toString().equals(nbt.getString("flowerBlock"));
             } else if (nbt.contains("flowerFluid") && !flowerBlock.getFluidState().isEmpty()) {
-                return flowerBlock.getFluidState().getType().getRegistryName().toString().equals(nbt.getString("flowerFluid"));
+                return ForgeRegistries.FLUIDS.getKey(flowerBlock.getFluidState().getType()).toString().equals(nbt.getString("flowerFluid"));
             }
         }
         return super.isFlowerBlock(flowerBlock);

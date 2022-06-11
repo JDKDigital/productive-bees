@@ -7,12 +7,12 @@ import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import mcjty.theoneprobe.api.ITheOneProbe;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.function.Function;
 
 public class TopPlugin implements Function<ITheOneProbe, Void>
 {
-    MutableComponent formattedName = new TextComponent("Productive Bees").withStyle(ChatFormatting.BLUE).withStyle(ChatFormatting.ITALIC);
+    MutableComponent formattedName = Component.literal("Productive Bees").withStyle(ChatFormatting.BLUE).withStyle(ChatFormatting.ITALIC);
 
     @Nullable
     @Override
@@ -36,22 +36,22 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
 
                 List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> bees = nest.getBeeList();
                 if (!bees.isEmpty()) {
-                    probeInfo.text(new TranslatableComponent("productivebees.top.solitary.bee", bees.get(0).localizedName));
+                    probeInfo.text(Component.translatable("productivebees.top.solitary.bee", bees.get(0).localizedName));
                     if (bees.get(0).minOccupationTicks - bees.get(0).ticksInHive > 0) {
                         probeInfo.progress(Math.max(0, bees.get(0).minOccupationTicks - bees.get(0).ticksInHive), bees.get(0).minOccupationTicks);
                     }
                 } else {
                     if (nest.getNestTickCooldown() > 0) {
-                        probeInfo.text(new TranslatableComponent("productivebees.top.solitary.repopulation_countdown"));
+                        probeInfo.text(Component.translatable("productivebees.top.solitary.repopulation_countdown"));
                         probeInfo.progress(nest.getNestTickCooldown() / 20, ProductiveBeesConfig.GENERAL.nestSpawnCooldown.get() / 20);
                     }
                     else {
-                        probeInfo.text(new TranslatableComponent("productivebees.top.solitary.repopulation_countdown_inactive"));
+                        probeInfo.text(Component.translatable("productivebees.top.solitary.repopulation_countdown_inactive"));
                         if (nest.canRepopulate()) {
-                            probeInfo.text(new TranslatableComponent("productivebees.top.solitary.can_repopulate_true"));
+                            probeInfo.text(Component.translatable("productivebees.top.solitary.can_repopulate_true"));
                         }
                         else {
-                            probeInfo.text(new TranslatableComponent("productivebees.top.solitary.can_repopulate_false"));
+                            probeInfo.text(Component.translatable("productivebees.top.solitary.can_repopulate_false"));
                         }
                     }
                 }
@@ -71,7 +71,7 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                 }
             }
 
-            ResourceLocation registryName = blockState.getBlock().getRegistryName();
+            ResourceLocation registryName = ForgeRegistries.BLOCKS.getKey(blockState.getBlock());
             if (registryName != null && registryName.getNamespace().equals(ProductiveBees.MODID)) {
                 probeInfo.horizontal()
                         .item(new ItemStack(blockState.getBlock().asItem()))

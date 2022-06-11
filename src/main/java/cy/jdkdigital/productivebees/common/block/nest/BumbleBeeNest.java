@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.common.block.nest;
 
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.entity.BumbleBeeNestBlockEntity;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -31,7 +31,7 @@ public class BumbleBeeNest extends SolitaryNest
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModTileEntityTypes.BUMBLE_BEE_NEST.get(), BumbleBeeNestBlockEntity::tick);
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.BUMBLE_BEE_NEST.get(), BumbleBeeNestBlockEntity::tick);
     }
 
     @Override

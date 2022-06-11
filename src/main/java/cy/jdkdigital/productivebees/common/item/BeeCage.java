@@ -7,10 +7,10 @@ import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -60,24 +60,22 @@ public class BeeCage extends Item
         Bee entity = getEntityFromStack(stack, level, true);
 
         if (entity != null) {
-            BlockPos blockPos = pos.relative(context.getClickedFace());
 
-            if ((context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) || (entity.hivePos != null && !level.isLoaded(entity.hivePos))) {
+            if (entity.isFlowerValid(pos)) {
+                entity.setSavedFlowerPos(pos);
+            } else if ((context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) || (entity.hivePos != null && !level.isLoaded(entity.hivePos))) {
                 entity.hivePos = null;
                 if (entity instanceof ProductiveBee && level instanceof ServerLevel) {
                     PoiManager poiManager = ((ServerLevel) level).getPoiManager();
-                    Optional<PoiType> poiAtLocation = poiManager.getType(pos);
+                    Optional<Holder<PoiType>> poiAtLocation = poiManager.getType(pos);
                     if (poiAtLocation.isPresent() && ((ProductiveBee) entity).getBeehiveInterests().test(poiAtLocation.get())) {
                         entity.hivePos = pos;
                     }
                 }
             }
 
+            BlockPos blockPos = pos.relative(context.getClickedFace());
             entity.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-
-            if (entity.isFlowerValid(pos)) {
-                entity.setSavedFlowerPos(pos);
-            }
 
             level.addFreshEntity(entity);
 
@@ -145,7 +143,7 @@ public class BeeCage extends Item
 
         nbt.putBoolean("isProductiveBee", target instanceof ProductiveBee);
 
-        String modId = target.getType().getRegistryName().getNamespace();
+        String modId = Registry.ENTITY_TYPE.getKey(target.getType()).getNamespace();
         String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
 
         if (modId.equals("minecraft")) {
@@ -186,11 +184,11 @@ public class BeeCage extends Item
     @Override
     public Component getName(ItemStack stack) {
         if (!isFilled(stack)) {
-            return new TranslatableComponent(this.getDescriptionId());
+            return Component.translatable(this.getDescriptionId());
         }
 
         String entityId = stack.getTag().getString("name");
-        return new TranslatableComponent(this.getDescriptionId()).append(new TextComponent(" (" + entityId + ")"));
+        return Component.translatable(this.getDescriptionId()).append(Component.literal(" (" + entityId + ")"));
     }
 
     @Override
@@ -202,15 +200,15 @@ public class BeeCage extends Item
             if (Screen.hasShiftDown()) {
                 boolean hasStung = tag.getBoolean("HasStung");
                 if (hasStung) {
-                    list.add(new TranslatableComponent("productivebees.information.health.dying").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.ITALIC));
+                    list.add(Component.translatable("productivebees.information.health.dying").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.ITALIC));
                 }
                 BeeHelper.populateBeeInfoFromTag(tag, list);
 
                 if (tag.contains("HivePos")) {
-                    list.add(new TranslatableComponent("productivebees.information.cage_release"));
+                    list.add(Component.translatable("productivebees.information.cage_release"));
                 }
             } else {
-                list.add(new TranslatableComponent("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
+                list.add(Component.translatable("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));
             }
         }
     }

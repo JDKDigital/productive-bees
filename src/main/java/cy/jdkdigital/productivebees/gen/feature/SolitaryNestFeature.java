@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.WorldGenLevel;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Random;
 
@@ -39,7 +41,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
     @Override
     public boolean place(FeaturePlaceContext<ReplaceBlockConfiguration> context) {
         WorldGenLevel world = context.level();
-        Random rand = context.random();
+        RandomSource rand = context.random();
         BlockPos blockPos = context.origin();
         ReplaceBlockConfiguration featureConfig = context.config();
 
@@ -70,7 +72,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
     }
 
     protected boolean nestShouldNotGenerate(BlockState state) {
-        return !ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("enable_" + state.getBlock().getRegistryName()).get();
+        return !ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("enable_" + ForgeRegistries.BLOCKS.getKey(state.getBlock()).toString()).get();
     }
 
     protected boolean placeNest(WorldGenLevel world, BlockPos pos, BlockState state) {

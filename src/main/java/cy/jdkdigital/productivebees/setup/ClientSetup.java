@@ -101,11 +101,11 @@ public class ClientSetup
 
     @SubscribeEvent
     public static void registerEntityRenderers(RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModTileEntityTypes.CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
-        event.registerBlockEntityRenderer(ModTileEntityTypes.POWERED_CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
-        event.registerBlockEntityRenderer(ModTileEntityTypes.BOTTLER.get(), BottlerTileEntityRenderer::new);
-        event.registerBlockEntityRenderer(ModTileEntityTypes.FEEDER.get(), FeederTileEntityRenderer::new);
-        event.registerBlockEntityRenderer(ModTileEntityTypes.JAR.get(), JarTileEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.BOTTLER.get(), BottlerTileEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.FEEDER.get(), FeederTileEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.JAR.get(), JarTileEntityRenderer::new);
     }
 
     private static void registerBlockRendering() {

@@ -2,20 +2,21 @@ package cy.jdkdigital.productivebees.integrations.hwyla;
 
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
-import mcp.mobius.waila.api.BlockAccessor;
-import mcp.mobius.waila.api.IComponentProvider;
-import mcp.mobius.waila.api.IServerDataProvider;
-import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.config.IPluginConfig;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.IBlockComponentProvider;
+import snownee.jade.api.IServerDataProvider;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
 
 import java.util.List;
 
-public class SolitaryNestProvider implements IComponentProvider, IServerDataProvider<BlockEntity>
+public class SolitaryNestProvider implements IBlockComponentProvider, IServerDataProvider<BlockEntity>
 {
     static final SolitaryNestProvider INSTANCE = new SolitaryNestProvider();
 
@@ -29,17 +30,17 @@ public class SolitaryNestProvider implements IComponentProvider, IServerDataProv
 
         List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> bees = tileEntity.getBeeList();
         if (!bees.isEmpty()) {
-            tooltip.add(new TranslatableComponent("productivebees.top.solitary.bee", bees.get(0).localizedName));
+            tooltip.add(Component.translatable("productivebees.top.solitary.bee", bees.get(0).localizedName));
         } else {
             int cooldown = tileEntity.getNestTickCooldown();
             if (cooldown > 0) {
-                tooltip.add(new TranslatableComponent("productivebees.top.solitary.repopulation_countdown", Math.round(cooldown / 20f) + "s"));
+                tooltip.add(Component.translatable("productivebees.top.solitary.repopulation_countdown", Math.round(cooldown / 20f) + "s"));
             } else {
-                tooltip.add(new TranslatableComponent("productivebees.top.solitary.repopulation_countdown_inactive"));
+                tooltip.add(Component.translatable("productivebees.top.solitary.repopulation_countdown_inactive"));
                 if (tileEntity.canRepopulate()) {
-                    tooltip.add(new TranslatableComponent("productivebees.top.solitary.can_repopulate_true"));
+                    tooltip.add(Component.translatable("productivebees.top.solitary.can_repopulate_true"));
                 } else {
-                    tooltip.add(new TranslatableComponent("productivebees.top.solitary.can_repopulate_false"));
+                    tooltip.add(Component.translatable("productivebees.top.solitary.can_repopulate_false"));
                 }
             }
         }
@@ -50,5 +51,10 @@ public class SolitaryNestProvider implements IComponentProvider, IServerDataProv
         if (te instanceof SolitaryNestBlockEntity nest) {
             nest.savePacketNBT(tag);
         }
+    }
+
+    @Override
+    public ResourceLocation getUid() {
+        return null;
     }
 }

@@ -13,11 +13,13 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
@@ -72,9 +74,9 @@ public class EventHandler
     public static void cocoaBreakSpawn(BlockEvent.BreakEvent event) {
         if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().getValue(CocoaBlock.AGE) == 2) {
             Player player = event.getPlayer();
-            Level world = player.level;
-            if (world instanceof ServerLevel && player instanceof ServerPlayer && ProductiveBees.rand.nextFloat() < ProductiveBeesConfig.BEES.sugarbagBeeChance.get()) {
-                ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(world);
+            Level level = player.level;
+            if (level instanceof ServerLevel && player instanceof ServerPlayer && level.random.nextFloat() < ProductiveBeesConfig.BEES.sugarbagBeeChance.get()) {
+                ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(level);
                 BlockPos pos = event.getPos();
                 if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:sugarbag") != null) {
                     bee.setBeeType("productivebees:sugarbag");
@@ -82,10 +84,10 @@ public class EventHandler
 
                     bee.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
 
-                    world.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
-                    world.playSound(player, pos, SoundEvents.BEEHIVE_WORK, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                    level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+                    level.playSound(player, pos, SoundEvents.BEEHIVE_WORK, SoundSource.NEUTRAL, 1.0F, 1.0F);
 
-                    world.addFreshEntity(bee);
+                    level.addFreshEntity(bee);
                 }
             }
         }
@@ -121,20 +123,20 @@ public class EventHandler
     public static void onItemFished(ItemFishedEvent event) {
         Player player = event.getPlayer();
         if (player != null) {
-            boolean willSpawn = ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
+            boolean willSpawn = player.level.random.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
             int fishingLuck = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FISHING_LUCK, player.getMainHandItem());
             for (int i = 0; i < (1 + fishingLuck); i++) {
-                willSpawn = willSpawn || ProductiveBees.rand.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
+                willSpawn = willSpawn || player.level.random.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
             }
 
             if (willSpawn) {
                 ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
                 BlockPos pos = event.getHookEntity().blockPosition();
                 if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:prismarine") != null) {
-                    Biome fishingBiome = player.level.getBiome(pos).value();
-                    if (fishingBiome.getBiomeCategory().equals(Biome.BiomeCategory.OCEAN)) {
+                    Holder<Biome> fishingBiome = player.level.getBiome(pos);
+                    if (fishingBiome.is(BiomeTags.IS_OCEAN) || fishingBiome.is(BiomeTags.IS_DEEP_OCEAN)) {
                         bee.setBeeType("productivebees:prismarine");
-                        if (BeeReloadListener.INSTANCE.getData("productivebees:oily") != null && ProductiveBees.rand.nextBoolean()) {
+                        if (BeeReloadListener.INSTANCE.getData("productivebees:oily") != null && player.level.random.nextBoolean()) {
                             bee.setBeeType("productivebees:oily");
                         }
                         bee.setAttributes();

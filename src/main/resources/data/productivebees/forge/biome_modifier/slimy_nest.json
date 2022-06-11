@@ -1,0 +1,7 @@
+{
+  "biomes": "#forge:is_swamp",
+  "generation_stage": "TOP_LAYER_MODIFICATION",
+  "features": "productivebees:slimy_nest",
+  "type": "productivebees:nest",
+  "maxTemperature": 100
+}

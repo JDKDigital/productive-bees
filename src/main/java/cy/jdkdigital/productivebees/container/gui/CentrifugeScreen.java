@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
@@ -49,10 +48,10 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeContaine
                 List<FormattedCharSequence> tooltipList = new ArrayList<>();
 
                 if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(new TranslatableComponent("productivebees.screen.fluid_level", new TranslatableComponent(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mB").getVisualOrderText());
+                    tooltipList.add(Component.translatable("productivebees.screen.fluid_level", Component.translatable(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mB").getVisualOrderText());
                 }
                 else {
-                    tooltipList.add(new TranslatableComponent("productivebees.hive.tooltip.empty").getVisualOrderText());
+                    tooltipList.add(Component.translatable("productivebees.hive.tooltip.empty").getVisualOrderText());
                 }
 
                 renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
@@ -65,7 +64,7 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeContaine
             // Energy level tooltip
             if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
                 List<FormattedCharSequence> tooltipList = new ArrayList<>();
-                tooltipList.add(new TranslatableComponent("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
+                tooltipList.add(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
 
                 renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
             }

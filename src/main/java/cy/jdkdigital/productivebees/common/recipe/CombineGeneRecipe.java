@@ -15,7 +15,6 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -124,7 +123,7 @@ public class CombineGeneRecipe implements CraftingRecipe
         return ModRecipeTypes.GENE_GENE.get();
     }
 
-    public static class Serializer<T extends CombineGeneRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends CombineGeneRecipe> implements RecipeSerializer<T>
     {
         final CombineGeneRecipe.Serializer.IRecipeFactory<T> factory;
 

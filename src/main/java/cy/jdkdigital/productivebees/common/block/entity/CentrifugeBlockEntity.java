@@ -13,7 +13,7 @@ import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
@@ -23,9 +23,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -34,7 +34,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -99,7 +98,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
 
     public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.CENTRIFUGE.get(), pos, state);
+        super(ModBlockEntityTypes.CENTRIFUGE.get(), pos, state);
     }
 
     public CentrifugeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -128,7 +127,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                     int totalTime = blockEntity.getProcessingTime();
 
                     if (++blockEntity.recipeProgress >= totalTime) {
-                        blockEntity.completeGeneProcessing(invHandler);
+                        blockEntity.completeGeneProcessing(invHandler, level.random);
                         blockEntity.recipeProgress = 0;
                         blockEntity.setChanged();
                     }
@@ -148,7 +147,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                         int totalTime = blockEntity.getProcessingTime();
 
                         if (++blockEntity.recipeProgress >= totalTime) {
-                            blockEntity.completeRecipeProcessing(recipe, invHandler);
+                            blockEntity.completeRecipeProcessing(recipe, invHandler, level.random);
                             blockEntity.recipeProgress = 0;
                             blockEntity.setChanged();
                         }
@@ -248,10 +247,10 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
         currentRecipe = BeeHelper.getCentrifugeRecipe(level.getRecipeManager(), inputHandler);
 
-        Map<ResourceLocation, Recipe<Container>> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.CENTRIFUGE_TYPE);
+        Map<ResourceLocation, CentrifugeRecipe> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.CENTRIFUGE_TYPE.get());
         Container inv = new RecipeWrapper(inputHandler);
-        for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
-            CentrifugeRecipe recipe = (CentrifugeRecipe) entry.getValue();
+        for (Map.Entry<ResourceLocation, CentrifugeRecipe> entry : allRecipes.entrySet()) {
+            CentrifugeRecipe recipe = entry.getValue();
             if (recipe.matches(inv, level)) {
                 currentRecipe = recipe;
                 break;
@@ -284,11 +283,11 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         return false;
     }
 
-    private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
+    private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler, RandomSource random) {
         if (canProcessRecipe(recipe, invHandler)) {
             recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
-                if (ProductiveBees.rand.nextInt(100) <= recipeValues.get(2).getAsInt()) {
-                    int count = Mth.nextInt(ProductiveBees.rand, Mth.floor(recipeValues.get(0).getAsInt()), Mth.floor(recipeValues.get(1).getAsInt()));
+                if (random.nextInt(100) <= recipeValues.get(2).getAsInt()) {
+                    int count = Mth.nextInt(random, Mth.floor(recipeValues.get(0).getAsInt()), Mth.floor(recipeValues.get(1).getAsInt()));
                     itemStack.setCount(count);
                     ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack.copy());
                 }
@@ -305,7 +304,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         }
     }
 
-    private void completeGeneProcessing(IItemHandlerModifiable invHandler) {
+    private void completeGeneProcessing(IItemHandlerModifiable invHandler, RandomSource random) {
         ItemStack geneBottle = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
 
         CompoundTag entityData = GeneBottle.getGenes(geneBottle);
@@ -315,16 +314,16 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
         double chance = ProductiveBeesConfig.BEE_ATTRIBUTES.geneExtractChance.get();
         for (String attributeName : BeeAttributes.attributeList()) {
-            if (ProductiveBees.rand.nextDouble() <= chance) {
+            if (random.nextDouble() <= chance) {
                 int value = entityData.getInt("bee_" + attributeName);
                 ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.getAttributeByName(attributeName), value));
             }
         }
 
         // Chance to get a type gene
-        if (ProductiveBees.rand.nextDouble() <= chance) {
+        if (random.nextDouble() <= chance) {
             int typePurity = ProductiveBeesConfig.BEE_ATTRIBUTES.typeGenePurity.get();
-            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type"), ProductiveBees.rand.nextInt(Math.max(0, typePurity - 5)) + 10));
+            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type"), random.nextInt(Math.max(0, typePurity - 5)) + 10));
         }
 
         invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
@@ -380,7 +379,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     @Nonnull
     @Override
     public Component getName() {
-        return new TranslatableComponent(ModBlocks.CENTRIFUGE.get().getDescriptionId());
+        return Component.translatable(ModBlocks.CENTRIFUGE.get().getDescriptionId());
     }
 
     @Nullable

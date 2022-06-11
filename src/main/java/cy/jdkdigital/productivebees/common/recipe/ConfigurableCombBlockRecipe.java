@@ -14,7 +14,6 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -101,7 +100,7 @@ public class ConfigurableCombBlockRecipe implements CraftingRecipe
         return ModRecipeTypes.CONFIGURABLE_COMB_BLOCK.get();
     }
 
-    public static class Serializer<T extends ConfigurableCombBlockRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T>
+    public static class Serializer<T extends ConfigurableCombBlockRecipe> implements RecipeSerializer<T>
     {
         final ConfigurableCombBlockRecipe.Serializer.IRecipeFactory<T> factory;
 

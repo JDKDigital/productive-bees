@@ -57,7 +57,7 @@ public class BeeIngredientFactory
                             continue;
                         }
                         EntityType<? extends Bee> bee = (EntityType<? extends Bee>) registryObject;
-                        addBee(bee.getRegistryName().toString(), new BeeIngredient(bee));
+                        addBee(ForgeRegistries.ENTITIES.getKey(bee).toString(), new BeeIngredient(bee));
                     }
                 }
             } catch (IllegalStateException e) {

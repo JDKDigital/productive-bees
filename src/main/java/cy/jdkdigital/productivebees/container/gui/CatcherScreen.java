@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.container.CatcherContainer;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
@@ -42,7 +41,7 @@ public class CatcherScreen extends AbstractContainerScreen<CatcherContainer>
             if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
                 if (isHovering(80, 17, 18, 18, mouseX, mouseY)) {
                     List<FormattedCharSequence> tooltipList = new ArrayList<>();
-                    tooltipList.add(new TranslatableComponent("productivebees.Catcher.tooltip.treat_item").getVisualOrderText());
+                    tooltipList.add(Component.translatable("productivebees.Catcher.tooltip.treat_item").getVisualOrderText());
 
                     renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
                 }

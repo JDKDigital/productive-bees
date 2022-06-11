@@ -1,8 +1,10 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
@@ -24,6 +26,44 @@ public final class ModPointOfInterestTypes
 
     public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, ProductiveBees.MODID);
 
+    public static final RegistryObject<PoiType> ADVANCED_HIVES = register("advanced_beehive", () -> {
+        List<RegistryObject<Block>> blocks = new ArrayList<>();
+        blocks.add(ModBlocks.ADVANCED_OAK_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_SPRUCE_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BIRCH_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_JUNGLE_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_ACACIA_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_DARK_OAK_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_CRIMSON_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_WARPED_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_SNAKE_BLOCK_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_ROSEWOOD_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_YUCCA_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_KOUSA_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_ASPEN_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_GRIMWOOD_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_WILLOW_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_WISTERIA_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BAMBOO_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_MAPLE_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_DRIFTWOOD_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_RIVER_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_POISE_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_FIR_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_DEAD_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_PALM_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_MAGIC_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_CHERRY_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_UMBRAN_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_WILLOW_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_REDWOOD_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_HELLBARK_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_MAHOGANY_BEEHIVE);
+        blocks.add(ModBlocks.ADVANCED_BOP_JACARANDA_BEEHIVE);
+
+        return blocks;
+    }, 1);
+    
     public static final RegistryObject<PoiType> SOLITARY_HIVE = register("solitary_hive", ModBlocks.BAMBOO_HIVE, 1);
     public static final RegistryObject<PoiType> SOLITARY_NEST = register("solitary_nest", () -> {
         List<RegistryObject<Block>> blocks = new ArrayList<>();
@@ -85,16 +125,12 @@ public final class ModPointOfInterestTypes
     }
 
     private static RegistryObject<PoiType> register(String name, List<RegistryObject<Block>> blocks, int maxFreeTickets) {
-        return register(name, () -> {
+        return POI_TYPES.register(name, () -> {
             Set<BlockState> blockStates = new HashSet<>();
             for (RegistryObject<Block> block : blocks) {
-                blockStates.addAll(PoiType.getBlockStates(block.get()));
+                blockStates.addAll(block.get().getStateDefinition().getPossibleStates());
             }
-            return new PoiType(name, blockStates, maxFreeTickets, 1);
+            return new PoiType(blockStates, maxFreeTickets, 1);
         });
-    }
-
-    private static RegistryObject<PoiType> register(String name, Supplier<PoiType> supplier) {
-        return POI_TYPES.register(name, supplier);
     }
 }

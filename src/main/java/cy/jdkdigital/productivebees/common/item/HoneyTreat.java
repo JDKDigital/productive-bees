@@ -14,7 +14,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -131,7 +130,7 @@ public class HoneyTreat extends Item
                     if (((CompoundTag) inbt).contains("purity")) {
                         purity = ((CompoundTag) inbt).getInt("purity");
                     }
-                    if (ProductiveBees.rand.nextInt(100) <= purity) {
+                    if (ProductiveBees.random.nextInt(100) <= purity) {
                         productiveBee.setAttributeValue(Gene.getAttribute(insertedGene), Gene.getValue(insertedGene));
                         world.levelEvent(2005, pos, 0);
                     }
@@ -168,10 +167,10 @@ public class HoneyTreat extends Item
                     Integer value = Gene.getValue(insertedGene);
                     BeeAttribute<?> attribute = Gene.getAttribute(insertedGene);
                     if (BeeAttributes.keyMap.containsKey(attribute)) {
-                        Component translatedValue = new TranslatableComponent(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
-                        list.add((new TranslatableComponent("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(" (" + purity + "%)"));
+                        Component translatedValue = Component.translatable(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
+                        list.add((Component.translatable("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(" (" + purity + "%)"));
                     } else {
-                        list.add((new TranslatableComponent("productivebees.information.attribute.type", Gene.getAttributeName(insertedGene))).withStyle(ChatFormatting.GOLD).append(" (" + purity + "%)"));
+                        list.add((Component.translatable("productivebees.information.attribute.type", Gene.getAttributeName(insertedGene))).withStyle(ChatFormatting.GOLD).append(" (" + purity + "%)"));
                     }
                 });
             }

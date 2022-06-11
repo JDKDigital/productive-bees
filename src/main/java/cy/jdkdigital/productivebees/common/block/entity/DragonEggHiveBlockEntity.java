@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -13,7 +13,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
 {
     public DragonEggHiveBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.DRACONIC_BEEHIVE.get(), pos, state);
+        super(ModBlockEntityTypes.DRACONIC_BEEHIVE.get(), pos, state);
         MAX_BEES = 3;
     }
 

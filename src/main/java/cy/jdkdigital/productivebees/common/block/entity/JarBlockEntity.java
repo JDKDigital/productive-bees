@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -54,7 +54,7 @@ public class JarBlockEntity extends AbstractBlockEntity
     });
 
     public JarBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.JAR.get(), pos, state);
+        super(ModBlockEntityTypes.JAR.get(), pos, state);
     }
 
     @Nonnull
@@ -89,6 +89,6 @@ public class JarBlockEntity extends AbstractBlockEntity
         CompoundTag invTag = tag.getCompound("inv");
         this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag));
 
-        tickCount = ProductiveBees.rand.nextInt(360);
+        tickCount = ProductiveBees.random.nextInt(360);
     }
 }

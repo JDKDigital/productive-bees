@@ -7,7 +7,7 @@ import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Entity;
@@ -68,12 +68,12 @@ public class CupidBee extends ProductiveBee
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag tag) {
-        if (ProductiveBees.rand.nextFloat() < 0.01f) {
-            this.setCustomName(new TextComponent("Leena CuBee"));
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag tag) {
+        if (level.getRandom().nextFloat() < 0.05f) {
+            this.setCustomName(Component.literal("Leena CuBee"));
         }
 
-        return super.finalizeSpawn(world, difficulty, spawnReason, livingEntityData, tag);
+        return super.finalizeSpawn(level, difficulty, spawnReason, livingEntityData, tag);
     }
 
     public void tick() {

@@ -3,7 +3,7 @@ package cy.jdkdigital.productivebees.common.block;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,11 +11,10 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -47,7 +46,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 
 public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
 {
@@ -58,7 +56,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModTileEntityTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveBlockEntity::tick);
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveBlockEntity::tick);
     }
 
     public int getMaxHoneyLevel() {
@@ -85,29 +83,29 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
         if (stateNBT != null) {
             if (stateNBT.contains("honey_level")) {
                 String honeyLevel = stateNBT.getString("honey_level");
-                tooltip.add(new TranslatableComponent("productivebees.hive.tooltip.honey_level", honeyLevel).withStyle(ChatFormatting.GOLD)); // mergeStyle
+                tooltip.add(Component.translatable("productivebees.hive.tooltip.honey_level", honeyLevel).withStyle(ChatFormatting.GOLD)); // mergeStyle
             }
         }
         if (entityNBT != null) {
             if (entityNBT.contains("Bees")) {
                 ListTag beeList = entityNBT.getCompound("Bees").getList("Inhabitants", 10);
                 if (beeList.size() > 0) {
-                    tooltip.add(new TranslatableComponent("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.BOLD));
+                    tooltip.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.BOLD));
                     for (int i = 0; i < beeList.size(); ++i) {
                         CompoundTag tag = beeList.getCompound(i);
                         String name = tag.getString("Name");
 
-                        tooltip.add(new TextComponent(name).withStyle(ChatFormatting.GREEN));
+                        tooltip.add(Component.literal(name).withStyle(ChatFormatting.GREEN));
                     }
                 } else {
-                    tooltip.add(new TranslatableComponent("productivebees.hive.tooltip.empty"));
+                    tooltip.add(Component.translatable("productivebees.hive.tooltip.empty"));
                 }
             }
         }
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         if (state.hasProperty(BeehiveBlock.HONEY_LEVEL) && state.getValue(BeehiveBlock.HONEY_LEVEL) >= getMaxHoneyLevel()) {
             for (int i = 0; i < random.nextInt(1) + 1; ++i) {
                 this.dripHoney(world, pos, state);

@@ -1,0 +1,7 @@
+{
+  "biomes": "#productivebees:is_mountain_or_hill",
+  "generation_stage": "TOP_LAYER_MODIFICATION",
+  "features": "productivebees:stone_nest",
+  "type": "productivebees:nest",
+  "maxTemperature": 100
+}

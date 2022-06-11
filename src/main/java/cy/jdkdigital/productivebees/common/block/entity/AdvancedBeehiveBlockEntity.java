@@ -10,7 +10,7 @@ import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
@@ -21,7 +21,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
@@ -66,7 +65,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     public AdvancedBeehiveBlockEntity(BlockPos pos, BlockState state) {
-        this(ModTileEntityTypes.ADVANCED_BEEHIVE.get(), pos, state);
+        this(ModBlockEntityTypes.ADVANCED_BEEHIVE.get(), pos, state);
         MAX_BEES = 3;
     }
 
@@ -79,7 +78,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     @Nonnull
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent(this.getBlockState().getBlock().getDescriptionId());
+        return Component.translatable(this.getBlockState().getBlock().getDescriptionId());
     }
 
     @Override
@@ -241,16 +240,16 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
                 Map<BeeAttribute<?>, Object> attributes = ((ProductiveBee) beeEntity).getBeeAttributes();
                 // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
-                int attr = ProductiveBees.rand.nextInt(attributes.size() + 2);
+                int attr = level.random.nextInt(attributes.size() + 2);
                 if (attr >= BeeAttributes.attributeList().size()) {
                     // Type gene
                     String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType() : beeEntity.getEncodeId();
-                    ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(type, ProductiveBees.rand.nextInt(4) + 1));
+                    ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
                 } else {
                     BeeAttribute<?> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
                     Object value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
                     if (value instanceof Integer) {
-                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(attribute, (Integer) value, 1, ProductiveBees.rand.nextInt(4) + 1));
+                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(attribute, (Integer) value, 1, level.random.nextInt(4) + 1));
                     }
                 }
             });

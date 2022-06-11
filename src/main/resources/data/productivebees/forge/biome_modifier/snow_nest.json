@@ -1,0 +1,7 @@
+{
+  "biomes": "#forge:is_snowy",
+  "generation_stage": "TOP_LAYER_MODIFICATION",
+  "features": ["productivebees:snow_nest", "productivebees:snow_block_nest"],
+  "type": "productivebees:nest",
+  "maxTemperature": 0
+}

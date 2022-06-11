@@ -9,7 +9,7 @@ import cy.jdkdigital.productivebees.container.IncubatorContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
-import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,8 +17,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -64,7 +64,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     protected LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(() -> new EnergyStorage(10000));
 
     public IncubatorBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.INCUBATOR.get(), pos, state);
+        super(ModBlockEntityTypes.INCUBATOR.get(), pos, state);
     }
 
     public int getProcessingTime() {
@@ -93,7 +93,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                     int totalTime = blockEntity.getProcessingTime();
 
                     if (++blockEntity.recipeProgress >= totalTime) {
-                        blockEntity.completeIncubation(invHandler);
+                        blockEntity.completeIncubation(invHandler, level.random);
                         blockEntity.recipeProgress = 0;
                         blockEntity.setChanged();
                     }
@@ -132,7 +132,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                 );
     }
 
-    private void completeIncubation(IItemHandlerModifiable invHandler) {
+    private void completeIncubation(IItemHandlerModifiable invHandler, RandomSource random) {
         if (canProcessInput(invHandler)) {
             ItemStack inItem = invHandler.getStackInSlot(0);
 
@@ -160,7 +160,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
                             if (((CompoundTag) inbt).contains("purity")) {
                                 purity = ((CompoundTag) inbt).getInt("purity");
                             }
-                            if (ProductiveBees.rand.nextInt(100) <= purity) {
+                            if (random.nextInt(100) <= purity) {
                                 ItemStack egg = BeeCreator.getSpawnEgg(beeName);
                                 if (egg.getItem() instanceof SpawnEggItem) {
                                     invHandler.setStackInSlot(2, egg);
@@ -216,7 +216,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     @Nonnull
     @Override
     public Component getName() {
-        return new TranslatableComponent(ModBlocks.INCUBATOR.get().getDescriptionId());
+        return Component.translatable(ModBlocks.INCUBATOR.get().getDescriptionId());
     }
 
     @Nullable

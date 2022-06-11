@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,6 +33,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.util.AirAndWaterRandomPos;
+import net.minecraft.world.entity.ai.util.HoverRandomPos;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiRecord;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
@@ -53,6 +56,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
@@ -67,7 +71,7 @@ public class ProductiveBee extends Bee
 {
     protected Map<BeeAttribute<?>, Object> beeAttributes = new HashMap<>();
 
-    protected Predicate<PoiType> beehiveInterests = (poiType) -> poiType == PoiType.BEEHIVE;
+    protected Predicate<Holder<PoiType>> beehiveInterests = (poi) -> poi.is(PoiTypeTags.BEE_HOME);
 
     private boolean renderStatic = false;
     private int happyCounter = 0;
@@ -121,7 +125,7 @@ public class ProductiveBee extends Bee
         this.goalSelector.addGoal(5, this.goToHiveGoal);
 
         if (!ProductiveBeesConfig.BEES.disableWanderGoal.get()) {
-            this.goalSelector.addGoal(8, new Bee.BeeWanderGoal());
+            this.goalSelector.addGoal(8, new BetterBeeWanderGoal());
         }
         this.goalSelector.addGoal(9, new FloatGoal(this));
 
@@ -274,7 +278,7 @@ public class ProductiveBee extends Bee
         return getBreedingIngredient().test(stack);
     }
 
-    public Predicate<PoiType> getBeehiveInterests() {
+    public Predicate<Holder<PoiType>> getBeehiveInterests() {
         return beehiveInterests;
     }
 
@@ -528,16 +532,16 @@ public class ProductiveBee extends Bee
     }
 
     public void postPollinate() {
-        if (ProductiveBee.this.hasNectar() && ProductiveBee.this.savedFlowerPos != null) {
-            BlockState flowerBlockState = ProductiveBee.this.level.getBlockState(ProductiveBee.this.savedFlowerPos);
-            BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(ProductiveBee.this, flowerBlockState);
+        if (hasNectar() && savedFlowerPos != null) {
+            BlockState flowerBlockState = level.getBlockState(savedFlowerPos);
+            BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(this, flowerBlockState);
             if (recipe != null) {
-                if (ProductiveBees.rand.nextInt(100) <= recipe.chance) {
-                    ProductiveBee.this.level.setBlock(ProductiveBee.this.savedFlowerPos, recipe.stateTo, 3);
-                    ProductiveBee.this.level.levelEvent(2005, ProductiveBee.this.savedFlowerPos, 0);
+                if (level.random.nextInt(100) <= recipe.chance) {
+                    level.setBlock(savedFlowerPos, recipe.stateTo, 3);
+                    level.levelEvent(2005, savedFlowerPos, 0);
                 }
                 // Set flag to prevent produce when trying to convert blocks
-                ProductiveBee.this.setHasConverted(true);
+                setHasConverted(true);
             }
         }
     }
@@ -679,7 +683,7 @@ public class ProductiveBee extends Bee
                 if (nbt != null) {
                     if (nbt.contains("flowerTag")) {
                         Optional<Holder<EntityType<?>>> flowerTag = Registry.ENTITY_TYPE.getHolder(ResourceKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(nbt.getString("flowerTag"))));
-                        return flowerTag.isPresent() ? findEntities(entity -> flowerTag.get().is(entity.getType().getRegistryName()), 5D) : Optional.empty();
+                        return flowerTag.isPresent() ? findEntities(entity -> flowerTag.get().is(Registry.ENTITY_TYPE.getKey(entity.getType())), 5D) : Optional.empty();
                     }
                 }
             }
@@ -839,8 +843,19 @@ public class ProductiveBee extends Bee
         public ProductiveTemptGoal(PathfinderMob entity, double speed) {
             super(entity, speed, Ingredient.EMPTY, false);
             List<ItemStack> listOfStuff = Arrays.asList(Ingredient.of(ItemTags.FLOWERS).getItems());
-//            listOfStuff.addAll(Arrays.asList(ProductiveBee.this.getBreedingItem().getItems()));
+//            listOfStuff.addAll(Arrays.asList(ProductiveBee.this.getBreedingItem().getItems())); TODO
             items = Ingredient.of(listOfStuff.stream());
+        }
+    }
+
+    public class BetterBeeWanderGoal extends Bee.BeeWanderGoal {
+        public BetterBeeWanderGoal() {
+            super();
+        }
+
+        public boolean canUse() {
+            // Trigger if the bee gets too far from it's hive, it will engage it to return
+            return super.canUse() || (ProductiveBee.this.hivePos != null && !ProductiveBee.this.closerThan(ProductiveBee.this.hivePos, 22));
         }
     }
 

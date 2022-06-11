@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.container.IncubatorContainer;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
@@ -45,7 +44,7 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorContainer>
             // Energy level tooltip
             if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
                 List<FormattedCharSequence> tooltipList = new ArrayList<>();
-                tooltipList.add(new TranslatableComponent("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
+                tooltipList.add(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
 
                 renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
             }
@@ -55,7 +54,7 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorContainer>
             if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
                 if (isHovering(80 - 13, 17, 18, 18, mouseX, mouseY)) {
                     List<FormattedCharSequence> tooltipList = new ArrayList<>();
-                    tooltipList.add(new TranslatableComponent("productivebees.incubator.tooltip.treat_item").getVisualOrderText());
+                    tooltipList.add(Component.translatable("productivebees.incubator.tooltip.treat_item").getVisualOrderText());
 
                     renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
                 }

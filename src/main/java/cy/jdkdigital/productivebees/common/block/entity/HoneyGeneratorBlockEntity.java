@@ -8,7 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -90,7 +89,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     protected LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(() -> new EnergyStorage(100000));
 
     public HoneyGeneratorBlockEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntityTypes.HONEY_GENERATOR.get(), pos, state);
+        super(ModBlockEntityTypes.HONEY_GENERATOR.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, HoneyGeneratorBlockEntity blockEntity) {
@@ -232,7 +231,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
 
     @Override
     public Component getName() {
-        return new TranslatableComponent(ModBlocks.HONEY_GENERATOR.get().getDescriptionId());
+        return Component.translatable(ModBlocks.HONEY_GENERATOR.get().getDescriptionId());
     }
 
     @Override

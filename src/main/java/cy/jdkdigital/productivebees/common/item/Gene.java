@@ -9,8 +9,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -36,7 +34,7 @@ public class Gene extends Item
     }
 
     public static ItemStack getStack(BeeAttribute<?> attribute, int value, int count) {
-        return getStack(attribute, value, count, ProductiveBees.rand.nextInt(40) + 15);
+        return getStack(attribute, value, count, ProductiveBees.random.nextInt(40) + 15);
     }
 
     public static ItemStack getStack(BeeAttribute<?> attribute, int value, int count, int purity) {
@@ -93,17 +91,17 @@ public class Gene extends Item
         BeeAttribute<?> attribute = getAttribute(stack);
 
         if (attribute != null && BeeAttributes.keyMap.containsKey(attribute) && BeeAttributes.keyMap.get(attribute).containsKey(value)) {
-            Component translatedValue = new TranslatableComponent(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
-            list.add((new TranslatableComponent("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(new TextComponent(" (" + getPurity(stack) + "%)")));
+            Component translatedValue = Component.translatable(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
+            list.add((Component.translatable("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(Component.literal(" (" + getPurity(stack) + "%)")));
         } else {
             String type = getAttributeName(stack);
-            list.add(new TranslatableComponent("productivebees.information.attribute.type", type).withStyle(ChatFormatting.GOLD).append(new TextComponent(" (" + getPurity(stack) + "%)")));
+            list.add(Component.translatable("productivebees.information.attribute.type", type).withStyle(ChatFormatting.GOLD).append(Component.literal(" (" + getPurity(stack) + "%)")));
         }
     }
 
     @Override
     public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-        if (this.allowdedIn(group)) {
+        if (this.allowedIn(group)) {
             items.add(getStack(BeeAttributes.PRODUCTIVITY, 0, 1, 100));
             items.add(getStack(BeeAttributes.PRODUCTIVITY, 1, 1, 100));
             items.add(getStack(BeeAttributes.PRODUCTIVITY, 2, 1, 100));
