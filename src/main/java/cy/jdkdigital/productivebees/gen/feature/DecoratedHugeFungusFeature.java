@@ -2,10 +2,8 @@ package cy.jdkdigital.productivebees.gen.feature;
 
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
@@ -21,7 +19,7 @@ import net.minecraft.world.level.levelgen.feature.WeepingVinesFeature;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.material.Material;
 
-import java.util.*;
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfiguration> {

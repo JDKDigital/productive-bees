@@ -4,11 +4,9 @@ import cy.jdkdigital.productivebees.common.block.entity.CombBlockBlockEntity;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
@@ -17,9 +15,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ConfigurableCombBlock extends CombBlock implements EntityBlock

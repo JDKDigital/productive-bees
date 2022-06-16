@@ -357,7 +357,7 @@
   "entity.productivebees.zinc_bee": "Zinc Bee",
   "entity.productivebees.zircon_bee": "Zircon Bee",
   "entity.productivebees.zombie_bee": "ZomBee",
-  "fluid.productivebees.honey": "Honey",
+  "fluid_type.productivebees.honey": "Honey",
   "item.productivebees.bee_bomb": "Bee Bomb",
   "item.productivebees.bee_bomb_angry": "Aggravating Bee Bomb",
   "item.productivebees.bee_cage": "Bee Cage",

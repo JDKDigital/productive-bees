@@ -1,10 +1,9 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.container.FeederContainer;
-import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

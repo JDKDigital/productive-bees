@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.fluid;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -16,11 +17,9 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public abstract class HoneyFluid extends ForgeFlowingFluid
 {
@@ -30,15 +29,10 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
 
     protected HoneyFluid() {
         super(new ForgeFlowingFluid.Properties(
+                ModFluids.HONEY_FLUID_TYPE,
                 ModFluids.HONEY,
-                ModFluids.HONEY_FLOWING,
-                FluidAttributes.builder(HoneyFluid.STILL, HoneyFluid.FLOWING)
-                        .overlay(HoneyFluid.OVERLAY)
-                        .translationKey("fluid." + ProductiveBees.MODID + ".honey")
-                        .color(0xffffc916)
-                        .density(3000)
-                        .viscosity(6000)
-        ).bucket(ModItems.HONEY_BUCKET));
+                ModFluids.HONEY_FLOWING
+        ).bucket(ModItems.HONEY_BUCKET).block(ModBlocks.HONEY));
     }
 
     @Override

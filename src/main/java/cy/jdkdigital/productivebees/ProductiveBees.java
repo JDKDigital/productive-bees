@@ -69,6 +69,7 @@ public final class ProductiveBees
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModPointOfInterestTypes.POI_TYPES.register(modEventBus);
+        ModFluids.FLUID_TYPES.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);

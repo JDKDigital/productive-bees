@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.client.particle;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 

@@ -13,7 +13,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class InvisibleRedstone extends PoweredBlock
 {

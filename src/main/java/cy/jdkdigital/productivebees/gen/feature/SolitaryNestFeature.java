@@ -21,8 +21,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Random;
-
 public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
 {
     private final float probability;

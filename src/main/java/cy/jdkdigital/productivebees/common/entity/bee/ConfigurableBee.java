@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.init.*;
@@ -40,6 +39,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
@@ -381,7 +381,12 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             } else if (nbt.contains("flowerBlock")) {
                 return ForgeRegistries.BLOCKS.getKey(flowerBlock.getBlock()).toString().equals(nbt.getString("flowerBlock"));
             } else if (nbt.contains("flowerFluid") && !flowerBlock.getFluidState().isEmpty()) {
-                return ForgeRegistries.FLUIDS.getKey(flowerBlock.getFluidState().getType()).toString().equals(nbt.getString("flowerFluid"));
+                if (nbt.getString("flowerFluid").contains("#")) {
+                    TagKey<Fluid> flowerFluid = ModTags.getFluidTag(new ResourceLocation(nbt.getString("flowerFluid").replace("#", "")));
+                    return flowerBlock.getFluidState().is(flowerFluid);
+                } else {
+                    return ForgeRegistries.FLUIDS.getKey(flowerBlock.getFluidState().getType()).toString().equals(nbt.getString("flowerFluid"));
+                }
             }
         }
         return super.isFlowerBlock(flowerBlock);

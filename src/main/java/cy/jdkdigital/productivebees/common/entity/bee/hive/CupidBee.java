@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.util.BeeAttributes;

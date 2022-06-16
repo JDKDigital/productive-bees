@@ -14,7 +14,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class SturdyCageModifier extends LootModifier
 {

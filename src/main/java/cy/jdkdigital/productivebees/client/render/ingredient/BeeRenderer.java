@@ -12,7 +12,11 @@ import net.minecraft.world.entity.Entity;
 
 public class BeeRenderer
 {
-    public static void render(PoseStack matrixStack, int xPosition, int yPosition, BeeIngredient beeIngredient, Minecraft minecraft) {
+    public static void render(PoseStack poseStack, BeeIngredient beeIngredient, Minecraft minecraft) {
+        render(poseStack, 0, 0, beeIngredient, minecraft);
+    }
+
+    public static void render(PoseStack poseStack, int xPosition, int yPosition, BeeIngredient beeIngredient, Minecraft minecraft) {
         Entity bee = beeIngredient.getCachedEntity(minecraft.level);
 
         if (minecraft.player != null && bee != null) {
@@ -29,19 +33,19 @@ public class BeeRenderer
 
             float scaledSize = 18;
 
-            matrixStack.pushPose();
-            matrixStack.translate(7D + xPosition, 12D + yPosition, 1.5);
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(190.0F));
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(20.0F));
-            matrixStack.mulPose(Vector3f.XP.rotationDegrees(20.0F));
-            matrixStack.translate(0.0F, -0.2F, 1);
-            matrixStack.scale(scaledSize, scaledSize, scaledSize);
+            poseStack.pushPose();
+            poseStack.translate(7D + xPosition, 12D + yPosition, 1.5);
+            poseStack.mulPose(Vector3f.ZP.rotationDegrees(190.0F));
+            poseStack.mulPose(Vector3f.YP.rotationDegrees(20.0F));
+            poseStack.mulPose(Vector3f.XP.rotationDegrees(20.0F));
+            poseStack.translate(0.0F, -0.2F, 1);
+            poseStack.scale(scaledSize, scaledSize, scaledSize);
 
             EntityRenderDispatcher entityRendererManager = minecraft.getEntityRenderDispatcher();
             MultiBufferSource.BufferSource buffer = minecraft.renderBuffers().bufferSource();
-            entityRendererManager.render(bee, 0, 0, 0.0D, minecraft.getFrameTime(), 1, matrixStack, buffer, 15728880);
+            entityRendererManager.render(bee, 0, 0, 0.0D, minecraft.getFrameTime(), 1, poseStack, buffer, 15728880);
             buffer.endBatch();
-            matrixStack.popPose();
+            poseStack.popPose();
         }
     }
 }

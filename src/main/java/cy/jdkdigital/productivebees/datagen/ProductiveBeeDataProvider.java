@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.datagen;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.datagen.recipe.provider.CentrifugeRecipeProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

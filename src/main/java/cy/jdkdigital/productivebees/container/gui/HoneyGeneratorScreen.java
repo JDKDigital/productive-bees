@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.client.RenderProperties;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -94,7 +95,7 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
 
                 FluidContainerUtil.setColors(fluidStack);
 
-                FluidContainerUtil.drawTiledSprite(getGuiLeft() + 127, getGuiTop() + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(fluidStack.getFluid().getAttributes().getStillTexture()), 16, 16, getBlitOffset());
+                FluidContainerUtil.drawTiledSprite(getGuiLeft() + 127, getGuiTop() + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(RenderProperties.get(fluidStack.getFluid()).getStillTexture()), 16, 16, getBlitOffset());
 
                 FluidContainerUtil.resetColor();
             }

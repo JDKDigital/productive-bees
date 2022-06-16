@@ -1,11 +1,15 @@
 package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.RenderProperties;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
@@ -34,7 +38,7 @@ class FluidContainerUtil
 
     public static void setColors(@Nonnull FluidStack fluid) {
         if (!fluid.isEmpty()) {
-            setColors(fluid.getFluid().getAttributes().getColor(fluid));
+            setColors(RenderProperties.get(fluid.getFluid()).getColorTint());
         }
     }
 

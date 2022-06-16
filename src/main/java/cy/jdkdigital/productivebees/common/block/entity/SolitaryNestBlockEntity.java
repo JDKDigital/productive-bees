@@ -2,8 +2,8 @@ package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
-import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
+import cy.jdkdigital.productivebees.init.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

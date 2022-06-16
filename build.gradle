@@ -19,7 +19,7 @@ apply plugin: 'idea'
 apply plugin: 'maven-publish'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
-version = "${version}"
+version = "${mc_version}-${version}"
 group = 'cy.jdkdigital.productivebees'
 archivesBaseName = 'productivebees'
 
@@ -100,21 +100,26 @@ repositories {
     maven {
         url 'https://maven.blamejared.com'
     }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${forgeversion}"
+    minecraft "net.minecraftforge:forge:${mc_version}-${forgeversion}"
 
-    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+//    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
 //    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
 //    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
-    implementation fg.deobf("curse.maven:the-one-probe-245211:3822185")
-    implementation fg.deobf("curse.maven:jade-324717:3822958")
-    implementation fg.deobf("curse.maven:cloth-config-348521:3822832")
-    implementation fg.deobf("curse.maven:architectury-forge-419699:3822993")
-    implementation fg.deobf("curse.maven:roughly-enough-items-310111:3822851")
-//    implementation fg.deobf("curse.maven:jei-238222:3788739")
+    implementation fg.deobf("curse.maven:the-one-probe-245211:3825695")
+//    implementation fg.deobf("curse.maven:jade-324717:3824831")
+//    implementation fg.deobf("curse.maven:cloth-config-348521:3822832")
+//    implementation fg.deobf("curse.maven:architectury-forge-419699:3822993")
+//    implementation fg.deobf("curse.maven:roughly-enough-items-310111:3822851")
+    implementation fg.deobf("curse.maven:jei-238222:3834070")
 ////    implementation fg.deobf("curse.maven:trophymanager-510170:3566467")
     implementation fg.deobf("curse.maven:jumpy-boats-542110:3821646")
     implementation fg.deobf("curse.maven:everythingcopper-579545:3823113")

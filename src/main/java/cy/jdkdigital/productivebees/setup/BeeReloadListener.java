@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.integrations.patchouli.ProductiveBeesPatchouli;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
