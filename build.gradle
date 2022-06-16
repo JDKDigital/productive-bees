@@ -105,7 +105,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${forgeversion}"
 
-//    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
 //    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
 //    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
