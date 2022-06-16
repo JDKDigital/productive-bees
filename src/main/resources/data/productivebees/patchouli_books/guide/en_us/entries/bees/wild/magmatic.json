@@ -7,7 +7,7 @@
         {
             "type": "patchouli:text",
             "title": "Magmatic Bee",
-            "text": "Found living in nether brick nests in nether fortresses. Magmatic Bees prefer pollinating magma blocks or nether wart.",
+            "text": "Found living in nether brick nests in nether fortresses. Magmatic Bees prefer pollinating magma blocks or nether wart.$(br)Be careful of what material you build their enclosure with, these buggers can turn cobblestone into lava.",
             "anchor": "magmatic"
         },
         {

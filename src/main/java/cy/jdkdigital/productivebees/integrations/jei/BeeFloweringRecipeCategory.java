@@ -7,17 +7,21 @@ import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
 import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -71,8 +75,10 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
     }
 
     @Override
-    public void setIngredients(Recipe recipe, IIngredients ingredients) {
-        ingredients.setInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT, Collections.singletonList(recipe.getBee()));
+    public void setRecipe(IRecipeLayoutBuilder builder, Recipe recipe, IFocusGroup focuses) {
+        builder.addSlot(RecipeIngredientRole.INPUT, 29, 12)
+                .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.bee)
+                .setSlotName("source");
 
         List<ItemStack> itemStacks = new ArrayList<>();
         List<FluidStack> fluidStacks = new ArrayList<>();
@@ -80,6 +86,8 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
             List<Block> blockList = new ArrayList<>();
             if (recipe.blockTag != null) {
                 blockList = Streams.stream(Registry.BLOCK.getTagOrEmpty(recipe.blockTag)).map(Holder::value).toList();
+            } else if (recipe.fluidTag != null) {
+                fluidStacks = Streams.stream(Registry.FLUID.getTagOrEmpty(recipe.fluidTag)).map(fluidHolder -> new FluidStack(fluidHolder.value(), 1000)).toList();
             } else if (recipe.block != null) {
                 blockList.add(recipe.block);
             } else if (recipe.fluid != null) {
@@ -97,31 +105,18 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 }
             }
         } catch (Exception e) {
-            ProductiveBees.LOGGER.warn("Failed to find flowering requirements for " + recipe.getBee());
-        }
-        List<List<ItemStack>> items = new ArrayList<>();
-        items.add(itemStacks);
-        ingredients.setInputLists(VanillaTypes.ITEM, items);
-
-        ingredients.setInputs(VanillaTypes.FLUID, fluidStacks);
-    }
-
-    @Override
-    public void setRecipe(IRecipeLayout recipeLayout, @Nonnull Recipe recipe, IIngredients ingredients) {
-        IGuiIngredientGroup<BeeIngredient> ingredientStacks = recipeLayout.getIngredientsGroup(ProductiveBeesJeiPlugin.BEE_INGREDIENT);
-        ingredientStacks.init(0, true, 29, 12);
-        ingredientStacks.set(0, ingredients.getInputs(ProductiveBeesJeiPlugin.BEE_INGREDIENT).get(0));
-
-        if (!ingredients.getInputs(VanillaTypes.ITEM).isEmpty()) {
-            IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-            itemStacks.init(1, true, 26, 51);
-            itemStacks.set(1, ingredients.getInputs(VanillaTypes.ITEM).get(0));
+            ProductiveBees.LOGGER.warn("Failed to find flowering requirements for " + recipe);
         }
 
-        if (!ingredients.getInputs(VanillaTypes.FLUID).isEmpty()) {
-            IGuiFluidStackGroup fluidStacks = recipeLayout.getFluidStacks();
-            fluidStacks.init(1, true, 26, 51);
-            fluidStacks.set(1, ingredients.getInputs(VanillaTypes.FLUID).get(0));
+        if (!fluidStacks.isEmpty()) {
+            builder.addSlot(RecipeIngredientRole.INPUT, 26, 51)
+                    .addIngredients(VanillaTypes.FLUID, fluidStacks)
+                    .setSlotName("inputFluid");
+        }
+        if (!itemStacks.isEmpty()) {
+            builder.addSlot(RecipeIngredientRole.INPUT, 26, 51)
+                    .addItemStacks(itemStacks)
+                    .setSlotName("inputItem");
         }
     }
 
@@ -150,59 +145,51 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getValue().getBeeType().toString());
                 if (nbt.contains("flowerTag")) {
                     TagKey<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerTag")));
-                    recipes.add(new Recipe(flowerTag, entry.getValue()));
+                    recipes.add(Recipe.createBlock(flowerTag, entry.getValue()));
                 } else if (nbt.contains("flowerBlock")) {
-                    Block flowerBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString("flowerBlock")));
-                    recipes.add(new Recipe(flowerBlock, entry.getValue()));
+                    if (nbt.getString("flowerBlock").contains("#")) {
+                        TagKey<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerBlock").replace("#", "")));
+                        recipes.add(Recipe.createBlock(flowerTag, entry.getValue()));
+                    } else {
+                        Block flowerBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString("flowerBlock")));
+                        recipes.add(Recipe.createBlock(flowerBlock, entry.getValue()));
+                    }
                 } else if (nbt.contains("flowerFluid")) {
-                    Fluid flowerFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(nbt.getString("flowerFluid")));
-                    recipes.add(new Recipe(flowerFluid, entry.getValue()));
+                    if (nbt.getString("flowerFluid").contains("#")) {
+                        TagKey<Fluid> flowerFluid = ModTags.getFluidTag(new ResourceLocation(nbt.getString("flowerFluid").replace("#", "")));
+                        recipes.add(Recipe.createFluid(flowerFluid, entry.getValue()));
+                    } else {
+                        Fluid flowerFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(nbt.getString("flowerFluid")));
+                        recipes.add(Recipe.createFluid(flowerFluid, entry.getValue()));
+                    }
                 } else {
-                    recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
+                    recipes.add(Recipe.createBlock(defaultBlockTag, entry.getValue()));
                 }
             } else if (flowering.containsKey(entry.getValue().getBeeType().toString())) {
                 TagKey<Block> blockTag = flowering.get(entry.getValue().getBeeType().toString());
-                recipes.add(new Recipe(blockTag, entry.getValue()));
+                recipes.add(Recipe.createBlock(blockTag, entry.getValue()));
             } else {
-                recipes.add(new Recipe(defaultBlockTag, entry.getValue()));
+                recipes.add(Recipe.createBlock(defaultBlockTag, entry.getValue()));
             }
         }
         return recipes;
     }
 
-    public static class Recipe
-    {
-        private final BeeIngredient bee;
-
-        private final TagKey<Block> blockTag;
-
-        private final Block block;
-
-        private final Fluid fluid;
-
-        public Recipe(TagKey<Block> blockTag, BeeIngredient bee) {
-            this.blockTag = blockTag;
-            this.block = null;
-            this.fluid = null;
-            this.bee = bee;
+    public record Recipe(TagKey<Block> blockTag, Block block, TagKey<Fluid> fluidTag, Fluid fluid, BeeIngredient bee) {
+        public static Recipe createBlock(TagKey<Block> blockTag, BeeIngredient bee) {
+            return new Recipe(blockTag, null, null, null, bee);
         }
 
-        public Recipe(Block block, BeeIngredient bee) {
-            this.blockTag = null;
-            this.block = block;
-            this.fluid = null;
-            this.bee = bee;
+        public static Recipe createBlock(Block block, BeeIngredient bee) {
+            return new Recipe(null, block, null, null, bee);
         }
 
-        public Recipe(Fluid fluid, BeeIngredient bee) {
-            this.blockTag = null;
-            this.block = null;
-            this.fluid = fluid;
-            this.bee = bee;
+        public static Recipe createFluid(TagKey<Fluid> fluidTag, BeeIngredient bee) {
+            return new Recipe(null, null, fluidTag, null, bee);
         }
 
-        public BeeIngredient getBee() {
-            return this.bee;
+        public static Recipe createFluid(Fluid fluid, BeeIngredient bee) {
+            return new Recipe(null, null, null, fluid, bee);
         }
     }
 }

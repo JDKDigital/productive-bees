@@ -41,6 +41,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
@@ -383,7 +384,12 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             } else if (nbt.contains("flowerBlock")) {
                 return flowerBlock.getBlock().getRegistryName().toString().equals(nbt.getString("flowerBlock"));
             } else if (nbt.contains("flowerFluid") && !flowerBlock.getFluidState().isEmpty()) {
-                return flowerBlock.getFluidState().getType().getRegistryName().toString().equals(nbt.getString("flowerFluid"));
+                if (nbt.getString("flowerFluid").contains("#")) {
+                    TagKey<Fluid> flowerFluid = ModTags.getFluidTag(new ResourceLocation(nbt.getString("flowerFluid").replace("#", "")));
+                    return flowerBlock.getFluidState().is(flowerFluid);
+                } else {
+                    return flowerBlock.getFluidState().getType().getRegistryName().toString().equals(nbt.getString("flowerFluid"));
+                }
             }
         }
         return super.isFlowerBlock(flowerBlock);
