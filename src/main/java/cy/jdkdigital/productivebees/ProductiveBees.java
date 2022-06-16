@@ -189,8 +189,9 @@ public final class ProductiveBees
 
     private void fixPOI(final FMLCommonSetupEvent event) {
         PoiType.BEEHIVE.matchingStates = this.makePOIStatesMutable(PoiType.BEEHIVE.matchingStates);
-        ImmutableList<Block> beehives = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> (block instanceof AdvancedBeehive) && !(block instanceof DragonEggHive)).collect(ImmutableList.toImmutableList());
+        ImmutableList<Block> beehives = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block instanceof AdvancedBeehive && !(block instanceof DragonEggHive)).collect(ImmutableList.toImmutableList());
         // Hives
+        LOGGER.info("Adding modded beehives to vanilla beehive POI");
         for (Block block : beehives) {
             for (BlockState state : block.getStateDefinition().getPossibleStates()) {
                 GameData.getBlockStatePointOfInterestTypeMap().put(state, PoiType.BEEHIVE);
@@ -201,18 +202,7 @@ public final class ProductiveBees
                 }
             }
         }
-        // Nests
-//        ImmutableList<Block> beeNests = ImmutableList.of(ModBlocks.CRIMSON_BEE_NEST.get(), ModBlocks.WARPED_BEE_NEST.get());
-//        for (Block block : beeNests) {
-//            for (BlockState state : block.getStateDefinition().getPossibleStates()) {
-//                GameData.getBlockStatePointOfInterestTypeMap().put(state, PoiType.BEE_NEST);
-//                try {
-//                    PoiType.BEE_NEST.matchingStates.add(state);
-//                } catch (Exception e) {
-//                    LOGGER.warn("Could not add blockstate to beenest POI " + state);
-//                }
-//            }
-//        }
+//        LOGGER.info("If you see this line, I messed up and bees will not enter newly placed hives. Please come bonk me on the head.");
     }
 
     private Set<BlockState> makePOIStatesMutable(Set<BlockState> toCopy) {

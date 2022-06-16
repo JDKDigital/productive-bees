@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Collections;
 import java.util.List;
@@ -86,20 +87,15 @@ public class NetherBeehiveDecorator extends TreeDecorator {
                         int j = 2 + pRandom.nextInt(2);
 
                         for(int k = 0; k < j; ++k) {
-                            CompoundTag compoundtag = new CompoundTag();
-                            compoundtag.putString("id", Registry.ENTITY_TYPE.getKey(EntityType.BEE).toString());
+                            EntityType<ConfigurableBee> beeType = ModEntities.CONFIGURABLE_BEE.get();
+                            ConfigurableBee newBee = beeType.create(ProductiveBees.proxy.getWorld());
+                            if (newBee != null) {
+                                newBee.setBeeType(ForgeRegistries.BLOCKS.getKey(nest.getBlock()).getPath().equals("warped_bee_nest") ? "productivebees:warped" : "productivebees:crimson");
+                                newBee.setAttributes();
+                                newBee.hivePos = optional.get();
 
-//                            EntityType<ConfigurableBee> beeType = ModEntities.CONFIGURABLE_BEE.get();
-//                            ConfigurableBee newBee = beeType.create(level);
-//                            if (newBee != null) {
-//                                if (nest) {
-//                                    newBee.setBeeType("productivebees:crimson");
-//                                } else {
-//                                    newBee.setBeeType("productivebees:warped");
-//                                }
-//                                newBee.setAttributes();
-//                                blockEntity.storeBee(newBee, pRandom.nextInt(599), false);
-//                            }
+                                blockEntity.addOccupant(newBee, false);
+                            }
                         }
                     });
                 }

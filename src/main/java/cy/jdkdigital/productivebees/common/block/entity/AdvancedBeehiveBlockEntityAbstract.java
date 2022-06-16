@@ -141,6 +141,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     }
                 }
             }
+            this.setChanged();
         }
     }
 
@@ -212,7 +213,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
 
         if (!stayInside) {
-
             Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
             BlockPos frontPos = hivePos.relative(direction);
             boolean isPositionBlocked = !level.getBlockState(frontPos).getCollisionShape(level, frontPos).isEmpty();

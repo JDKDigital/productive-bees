@@ -120,7 +120,7 @@ dependencies {
     implementation fg.deobf("curse.maven:flywheel-486392:3737402")
     implementation fg.deobf("curse.maven:create-328085:3737418")
 //    implementation fg.deobf("curse.maven:cucumber-272335:3561215")
-//    implementation fg.deobf("curse.maven:beyond-earth-377448:3632972")
+    implementation fg.deobf("curse.maven:beyond-earth-377448:3807783")
 //    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3568309")
 //    implementation fg.deobf("curse.maven:croptopia-fabric-415438:3707657")
 //    implementation fg.deobf("curse.maven:pams-harvestcraft-2-food-core-372534:3740562")

@@ -121,7 +121,7 @@ public class ProductiveBee extends Bee
         this.goalSelector.addGoal(5, this.goToHiveGoal);
 
         if (!ProductiveBeesConfig.BEES.disableWanderGoal.get()) {
-            this.goalSelector.addGoal(8, new Bee.BeeWanderGoal());
+            this.goalSelector.addGoal(8, new BetterBeeWanderGoal());
         }
         this.goalSelector.addGoal(9, new FloatGoal(this));
 
@@ -841,6 +841,17 @@ public class ProductiveBee extends Bee
             List<ItemStack> listOfStuff = Arrays.asList(Ingredient.of(ItemTags.FLOWERS).getItems());
 //            listOfStuff.addAll(Arrays.asList(ProductiveBee.this.getBreedingItem().getItems()));
             items = Ingredient.of(listOfStuff.stream());
+        }
+    }
+
+    public class BetterBeeWanderGoal extends Bee.BeeWanderGoal {
+        public BetterBeeWanderGoal() {
+            super();
+        }
+
+        public boolean canUse() {
+            // Trigger if the bee gets too far from it's hive, it will engage it to return
+            return super.canUse() || (ProductiveBee.this.hivePos != null && !ProductiveBee.this.closerThan(ProductiveBee.this.hivePos, 22));
         }
     }
 

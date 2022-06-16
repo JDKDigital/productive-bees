@@ -1,10 +1,16 @@
+1.18.2-0.9.0.6
+
+-- Wax and comb blocks can catch fire
+-- Wax blocks burn indefinitely
+
+
 1.18.2-0.9.0.5
 
 - Added compressed iron bee (pneumaticcraft)
 - Added iridium bee
 - Added Pepto Beesmol (blame Shiny)
-- Added nether bee nests spawning in Crimson and Warped Forest
-- Added Red, Brown, Crimson and Warped shroom bees.
+- Added nether bee nests spawning in Crimson and Warped Forest (textures by the lovely Lena)
+- Added Red, Brown, Crimson and Warped shroom bees (textures by the lovely Lena)
 - Fixed Fluix bee,
 - Fixed bottler recipes
 - Fixed a concurrency issue sometimes preventing load (thanks to Quinteger)

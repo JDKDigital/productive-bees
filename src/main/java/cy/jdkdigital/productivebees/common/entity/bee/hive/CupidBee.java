@@ -70,7 +70,7 @@ public class CupidBee extends ProductiveBee
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag tag) {
         if (ProductiveBees.rand.nextFloat() < 0.01f) {
-            this.setCustomName(new TextComponent("Leena CuBee"));
+            this.setCustomName(new TextComponent("Lena CuBee"));
         }
 
         return super.finalizeSpawn(world, difficulty, spawnReason, livingEntityData, tag);
