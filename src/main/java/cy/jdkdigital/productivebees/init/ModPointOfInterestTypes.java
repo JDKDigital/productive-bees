@@ -1,6 +1,9 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,10 +19,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-@SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ModPointOfInterestTypes
 {
+    public static final TagKey<PoiType> ADVANCED_HIVES_TAG = TagKey.create(Registry.POINT_OF_INTEREST_TYPE_REGISTRY, new ResourceLocation(ProductiveBees.MODID, "advanced_beehive"));
+
     public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, ProductiveBees.MODID);
 
     public static final RegistryObject<PoiType> ADVANCED_HIVES = register("advanced_beehive", () -> {

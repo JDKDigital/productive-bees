@@ -1,3 +1,9 @@
+1.19-0.10.0.2
+
+-- Added beekeeper villager profession
+-- Fixed crash during nether worldgen
+
+
 1.19-0.10.0.1
 
 -- Updated to Forge 41.0.28+

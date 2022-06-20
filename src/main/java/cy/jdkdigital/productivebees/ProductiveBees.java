@@ -69,6 +69,7 @@ public final class ProductiveBees
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModPointOfInterestTypes.POI_TYPES.register(modEventBus);
+        ModProfessions.PROFESSIONS.register(modEventBus);
         ModFluids.FLUID_TYPES.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
@@ -144,6 +145,7 @@ public final class ProductiveBees
     public void onCommonSetup(FMLCommonSetupEvent event) {
         PacketHandler.init();
         ModAdvancements.register();
+        ModProfessions.register();
 
         DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), new CageDispenseBehavior());
         DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), new CageDispenseBehavior());
