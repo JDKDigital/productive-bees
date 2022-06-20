@@ -101,7 +101,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 }
             }
             if (hasReleased) {
-                blockEntity.setChanged();
+                blockEntity.setNonSuperChanged();
             }
         });
     }
@@ -130,7 +130,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                                     int temper = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.TEMPER);
                                     if (temper == 0 || (temper == 1 && ProductiveBees.rand.nextFloat() < .5)) {
                                         beeEntity.setStayOutOfHiveCountdown(400);
-                                        break;
+                                        continue;
                                     }
                                 }
                                 beeEntity.setTarget(player);
@@ -141,7 +141,9 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     }
                 }
             }
-            this.setChanged();
+            if (!releasedBees.isEmpty()) {
+                setNonSuperChanged();
+            }
         }
     }
 
@@ -187,7 +189,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     }
 
                     entity.discard();
-                    this.setChanged();
+                    setNonSuperChanged();
                 }
             });
         }
@@ -374,7 +376,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             @Override
             public void onContentsChanged() {
                 super.onContentsChanged();
-                AdvancedBeehiveBlockEntityAbstract.this.setChanged();
+                AdvancedBeehiveBlockEntityAbstract.this.setNonSuperChanged();
             }
         };
     }
@@ -388,19 +390,18 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         return super.getCapability(cap, side);
     }
 
-    @Override
-    public void setChanged() {
+    // sets changed just like in BlockEntity::setChanged to skip BeehiveBlockEntity::setChanged
+    public void setNonSuperChanged() {
         if (this.level != null) {
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+            setChanged(this.level, this.worldPosition, this.getBlockState());
         }
-
-        super.setChanged();
     }
 
     @Override
     public void load(CompoundTag tag) {
-        super.load(tag);
         this.loadPacketNBT(tag);
+        tag.remove("Bees"); // remove vanilla bee data
+        super.load(tag);
     }
 
     @Override
@@ -411,15 +412,14 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     public void savePacketNBT(CompoundTag tag) {
         beeHandler.ifPresent(h -> {
-            tag.remove("Bees");
+            tag.remove("Bees"); // remove vanilla bee data
             CompoundTag compound = ((INBTSerializable<CompoundTag>) h).serializeNBT();
-            tag.put("Bees", compound);
+            tag.put("BeeList", compound);
         });
     }
 
     public void loadPacketNBT(CompoundTag tag) {
-        CompoundTag beeTag = tag.getCompound("Bees");
-        beeHandler.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(beeTag));
+        beeHandler.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound(tag.contains("BeeList") ? "BeeList" : "Bees")));
     }
 
     @Override

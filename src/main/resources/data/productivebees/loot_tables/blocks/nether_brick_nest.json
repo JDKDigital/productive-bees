@@ -12,8 +12,8 @@
                             "source": "block_entity",
                             "ops": [
                                 {
-                                    "source": "Bees",
-                                    "target": "BlockEntityTag.Bees",
+                                    "source": "BeeList",
+                                    "target": "BlockEntityTag.BeeList",
                                     "op": "replace"
                                 }
                             ]

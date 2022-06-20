@@ -1,9 +1,6 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -14,10 +11,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.*;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.HugeFungusConfiguration;
+import net.minecraft.world.level.levelgen.feature.WeepingVinesFeature;
 import net.minecraft.world.level.material.Material;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
 import java.util.function.BiConsumer;
 
 public class DecoratedHugeFungusFeature extends Feature<DecoratedHugeFungusConfiguration> {

@@ -2,10 +2,10 @@ package cy.jdkdigital.productivebees.datagen.recipe.provider;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
-import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.datagen.recipe.builder.AbstractRecipeBuilder;
 import cy.jdkdigital.productivebees.datagen.recipe.builder.CentrifugeRecipeBuilder;
+import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;

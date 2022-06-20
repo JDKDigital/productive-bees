@@ -5,12 +5,13 @@ import cy.jdkdigital.productivebees.gen.feature.DecoratedHugeFungusConfiguration
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
-import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.CountOnEveryLayerPlacement;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;

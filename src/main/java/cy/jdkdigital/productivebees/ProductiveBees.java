@@ -22,7 +22,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.TagManager;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -123,7 +122,7 @@ public final class ProductiveBees
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {
-        BeeReloadListener.INSTANCE.context = new ConditionContext((TagManager) event.getServerResources().listeners().get(0));
+        BeeReloadListener.INSTANCE.context = new ConditionContext(event.getServerResources().tagManager);
         event.addListener(BeeReloadListener.INSTANCE);
     }
 

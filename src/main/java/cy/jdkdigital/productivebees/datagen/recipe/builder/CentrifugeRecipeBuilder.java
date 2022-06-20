@@ -18,7 +18,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
