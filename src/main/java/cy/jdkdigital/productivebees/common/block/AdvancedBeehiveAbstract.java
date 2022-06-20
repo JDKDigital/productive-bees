@@ -17,7 +17,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
@@ -27,7 +26,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -87,8 +85,8 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
             }
         }
         if (entityNBT != null) {
-            if (entityNBT.contains("Bees")) {
-                ListTag beeList = entityNBT.getCompound("Bees").getList("Inhabitants", 10);
+            if (entityNBT.contains("BeeList")) {
+                ListTag beeList = entityNBT.getCompound("BeeList").getList("Inhabitants", 10);
                 if (beeList.size() > 0) {
                     tooltip.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.BOLD));
                     for (int i = 0; i < beeList.size(); ++i) {
@@ -158,38 +156,6 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
             }
         }
         super.attack(state, level, pos, player);
-    }
-
-    @Override
-    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
-        if (!world.isClientSide && player.isCreative() && world.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof AdvancedBeehiveBlockEntityAbstract beehiveTileEntity) {
-                int honeyLevel = 0;
-                if (state.hasProperty(BeehiveBlock.HONEY_LEVEL)) {
-                    honeyLevel = state.getValue(BeehiveBlock.HONEY_LEVEL);
-                }
-                boolean hasBees = !beehiveTileEntity.isEmpty();
-                if (!hasBees && honeyLevel == 0) {
-                    return;
-                }
-
-                ItemStack itemStack = new ItemStack(this);
-                CompoundTag compoundNBT = new CompoundTag();
-                if (hasBees) {
-                    CompoundTag nbt = new CompoundTag();
-                    nbt.put("Inhabitants", AdvancedBeehiveBlockEntityAbstract.getBeeListAsNBTList(beehiveTileEntity));
-                    compoundNBT.put("Bees", nbt);
-                }
-
-                compoundNBT.putInt("honey_level", honeyLevel);
-                itemStack.addTagElement("BlockStateTag", compoundNBT);
-                ItemEntity hiveEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
-                hiveEntity.setDefaultPickUpDelay();
-                world.addFreshEntity(hiveEntity);
-            }
-        }
-        super.playerWillDestroy(world, pos, state, player);
     }
 
     @Override
