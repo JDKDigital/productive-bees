@@ -16,12 +16,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-@SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ModPointOfInterestTypes
 {
-    private static Method blockStatesInjector;
-
     public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, ProductiveBees.MODID);
 
     public static final RegistryObject<PoiType> SOLITARY_HIVE = register("solitary_hive", ModBlocks.BAMBOO_HIVE, 1);

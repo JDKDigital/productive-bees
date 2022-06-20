@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:gift",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:honey_bottle"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:honeycomb"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "productivebees:sturdy_bee_cage"
+        }
+      ]
+    }
+  ]
+}

@@ -4,11 +4,7 @@
     {
       "ingredient": {
         "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-          "EntityTag": {
-            "type": "productivebees:crystalline"
-          }
-        }
+        "nbt": "{EntityTag: {type: \"productivebees:crystalline\"}}"
       }
     },
     {

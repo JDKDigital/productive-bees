@@ -32,7 +32,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -86,6 +85,7 @@ public final class ProductiveBees
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModPointOfInterestTypes.POI_TYPES.register(modEventBus);
+        ModProfessions.PROFESSIONS.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
@@ -167,6 +167,7 @@ public final class ProductiveBees
     public void onCommonSetup(FMLCommonSetupEvent event) {
         PacketHandler.init();
         ModAdvancements.register();
+        ModProfessions.register();
 
         DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), new CageDispenseBehavior());
         DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), new CageDispenseBehavior());
@@ -196,13 +197,14 @@ public final class ProductiveBees
             for (BlockState state : block.getStateDefinition().getPossibleStates()) {
                 GameData.getBlockStatePointOfInterestTypeMap().put(state, PoiType.BEEHIVE);
                 try {
+                    LOGGER.debug(state);
                     PoiType.BEEHIVE.matchingStates.add(state);
                 } catch (Exception e) {
                     LOGGER.warn("Could not add blockstate to beehive POI " + state);
                 }
             }
         }
-//        LOGGER.info("If you see this line, I messed up and bees will not enter newly placed hives. Please come bonk me on the head.");
+        PoiType.BEEHIVE.maxTickets = 1;
     }
 
     private Set<BlockState> makePOIStatesMutable(Set<BlockState> toCopy) {
