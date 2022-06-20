@@ -20,8 +20,6 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ModPointOfInterestTypes
 {
-    private static Method blockStatesInjector;
-
     public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, ProductiveBees.MODID);
 
     public static final RegistryObject<PoiType> ADVANCED_HIVES = register("advanced_beehive", () -> {

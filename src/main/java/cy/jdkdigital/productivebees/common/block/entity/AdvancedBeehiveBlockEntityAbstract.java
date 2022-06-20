@@ -175,7 +175,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
                     Bee beeEntity = (Bee) entity;
 
-                    h.addInhabitant(new Inhabitant(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), ((Bee) entity).getSavedFlowerPos(), entity.getName().getString()));
+                    addBee(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), ((Bee) entity).getSavedFlowerPos(), entity.getName().getString());
                     if (beeEntity.hasSavedFlowerPos() && (!this.hasSavedFlowerPos() || (this.level != null && level.random.nextBoolean()))) {
                         this.savedFlowerPos = beeEntity.getSavedFlowerPos();
                     }
@@ -190,6 +190,12 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 }
             });
         }
+    }
+
+    public void addBee(CompoundTag tag, int ticksInHive, int timeInHive, BlockPos flowerPos, String name) {
+        beeHandler.ifPresent(h -> {
+            h.addInhabitant(new Inhabitant(tag, ticksInHive, timeInHive, flowerPos, name));
+        });
     }
 
     @Override
@@ -348,7 +354,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         public final String localizedName;
 
         public Inhabitant(CompoundTag nbt, int ticksInHive, int minOccupationTicks, BlockPos flowerPos, String localizedName) {
-            nbt.remove("UUID");
+            BeehiveBlockEntity.removeIgnoredBeeTags(nbt);
             this.nbt = nbt;
             this.ticksInHive = ticksInHive;
             this.minOccupationTicks = minOccupationTicks;

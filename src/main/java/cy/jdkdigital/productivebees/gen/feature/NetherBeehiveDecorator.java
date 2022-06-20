@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
@@ -9,6 +10,9 @@ import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModFeatures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -79,15 +83,14 @@ public class NetherBeehiveDecorator extends TreeDecorator {
                     context.level().getBlockEntity(optional.get(), ModBlockEntityTypes.NETHER_BEE_NEST.get()).ifPresent((blockEntity) -> {
                         int j = 2 + context.random().nextInt(2);
 
-                        for(int k = 0; k < j; ++k) {
-                            EntityType<ConfigurableBee> beeType = ModEntities.CONFIGURABLE_BEE.get();
-                            ConfigurableBee newBee = beeType.create(ProductiveBees.proxy.getWorld());
-                            if (newBee != null) {
-                                newBee.setBeeType(ForgeRegistries.BLOCKS.getKey(nest.getBlock()).getPath().equals("warped_bee_nest") ? "productivebees:warped" : "productivebees:crimson");
-                                newBee.setAttributes();
-                                newBee.hivePos = optional.get();
+                        String type = ForgeRegistries.BLOCKS.getKey(nest.getBlock()).getPath().equals("warped_bee_nest") ? "warped" : "crimson";
 
-                                blockEntity.addOccupant(newBee, false);
+                        for(int k = 0; k < j; ++k) {
+                            try {
+                                CompoundTag bee = TagParser.parseTag("{id:\"productivebees:configurable_bee\",bee_type: \"hive\", bee_temper: 1, bee_behavior: 1, type: \"productivebees:" + type + "\", bee_endurance: 2, bee_weather_tolerance: 0, bee_productivity: 1, HasConverted: false}");
+                                blockEntity.addBee(bee, context.random().nextInt(599), 600, null, Component.translatable("entity.productivebees." + type + "_bee").getString());
+                            } catch (CommandSyntaxException e) {
+                                ProductiveBees.LOGGER.warn("Failed to put bees into nether nest :(" + e.getMessage());
                             }
                         }
                     });
