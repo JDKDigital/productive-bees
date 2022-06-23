@@ -32,7 +32,10 @@
     },
     {
       "id": "cavesandcliffs:oxidized_cut_copper",
-      "cavesandcliffs:exposed_copper",
+      "required": false
+    },
+    {
+      "id": "cavesandcliffs:exposed_copper",
       "required": false
     },
     {
