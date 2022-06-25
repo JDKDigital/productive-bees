@@ -196,7 +196,6 @@ public final class ProductiveBees
             for (BlockState state : block.getStateDefinition().getPossibleStates()) {
                 GameData.getBlockStatePointOfInterestTypeMap().put(state, PoiType.BEEHIVE);
                 try {
-                    LOGGER.debug(state);
                     PoiType.BEEHIVE.matchingStates.add(state);
                 } catch (Exception e) {
                     LOGGER.warn("Could not add blockstate to beehive POI " + state);

@@ -218,7 +218,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         } else if (!world.isClientSide()) {
             final BlockEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof AdvancedBeehiveBlockEntity) {
-                this.updateState(world, pos, state, false);
                 world.sendBlockUpdated(pos, state, state, 3);
                 openGui((ServerPlayer) player, (AdvancedBeehiveBlockEntity) tileEntity);
             }
@@ -227,6 +226,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     public void openGui(ServerPlayer player, AdvancedBeehiveBlockEntity tileEntity) {
+        this.updateState(tileEntity.getLevel(), tileEntity.getBlockPos(), tileEntity.getBlockState(), false);
         NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

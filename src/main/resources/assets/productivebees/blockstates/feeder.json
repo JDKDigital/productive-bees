@@ -1,13 +1,7 @@
 {
     "variants": {
-        "type=bottom": {
-            "model": "minecraft:block/smooth_stone_slab"
-        },
-        "type=double": {
-            "model": "minecraft:block/smooth_stone"
-        },
-        "type=top": {
-            "model": "minecraft:block/smooth_stone_slab_top"
+        "": {
+            "model": "productivebees:block/feeder"
         }
     }
 }

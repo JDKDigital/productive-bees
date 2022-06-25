@@ -11,14 +11,22 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FeederTileEntityRenderer implements BlockEntityRenderer<FeederBlockEntity>
+public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBlockEntity>
 {
     public static final HashMap<Integer, List<Pair<Float, Float>>> POSITIONS = new HashMap<>()
     {{
@@ -42,10 +50,11 @@ public class FeederTileEntityRenderer implements BlockEntityRenderer<FeederBlock
         }});
     }};
 
-    public FeederTileEntityRenderer(BlockEntityRendererProvider.Context context) {
+    public FeederBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
 
     public void render(FeederBlockEntity tileEntityIn, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        SlabType slabType = tileEntityIn.getBlockState().getValue(SlabBlock.TYPE);
         tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             int filledSlots = 0;
             for (int slot = 0; slot < handler.getSlots(); ++slot) {
@@ -68,7 +77,7 @@ public class FeederTileEntityRenderer implements BlockEntityRenderer<FeederBlock
                     float zScale = isFlower ? 0.775F : 0.575F;
 
                     poseStack.pushPose();
-                    poseStack.translate(pos.getFirst(), 0.52D, pos.getSecond());
+                    poseStack.translate(pos.getFirst(), 0.52D + (slabType.equals(SlabType.TOP) || slabType.equals(SlabType.DOUBLE) ? 0.5d : 0), pos.getSecond());
                     poseStack.mulPose(Vector3f.XP.rotationDegrees(rotation));
                     poseStack.scale(0.575F, zScale, 0.575F);
                     Minecraft.getInstance().getItemRenderer().renderStatic(slotStack, ItemTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, 0);
@@ -76,5 +85,13 @@ public class FeederTileEntityRenderer implements BlockEntityRenderer<FeederBlock
                 }
             }
         });
+
+        BlockState slabState;
+        if (tileEntityIn.baseBlock != null) {
+            slabState = tileEntityIn.baseBlock.defaultBlockState();
+        } else {
+            slabState = Blocks.SMOOTH_STONE_SLAB.defaultBlockState();
+        }
+        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(slabState.setValue(SlabBlock.TYPE, tileEntityIn.getBlockState().getValue(SlabBlock.TYPE)).setValue(SlabBlock.TYPE, slabType), poseStack, bufferIn, combinedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
     }
 }

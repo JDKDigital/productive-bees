@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+        {
+            "id": "ftbic:uranium_block",
+            "required": false
+        }
+    ]
+}

@@ -7,8 +7,10 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -30,6 +32,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,6 +41,7 @@ import java.util.List;
 
 public class FeederBlockEntity extends CapabilityBlockEntity
 {
+    public Block baseBlock;
     private int tickCounter = 0;
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(3, this)
@@ -100,6 +104,24 @@ public class FeederBlockEntity extends CapabilityBlockEntity
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void savePacketNBT(CompoundTag tag) {
+        super.savePacketNBT(tag);
+
+        if (baseBlock != null) {
+            tag.putString("baseBlock", ForgeRegistries.BLOCKS.getKey(baseBlock).toString());
+        }
+    }
+
+    @Override
+    public void loadPacketNBT(CompoundTag tag) {
+        super.loadPacketNBT(tag);
+
+        if (tag.contains("baseBlock")) {
+            baseBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(tag.getString("baseBlock")));
         }
     }
 }
