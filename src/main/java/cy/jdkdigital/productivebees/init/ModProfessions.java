@@ -24,11 +24,7 @@ public class ModProfessions
     public static final int EXPERT = 4;
     public static final int MASTER = 5;
 
-    private static final Predicate<Holder<PoiType>> beeKeeperPoi = (poi) -> {
-        ProductiveBees.LOGGER.info(poi.value() + " - " + poi.value().maxTickets());
-//        return poi.value().equals(ModPointOfInterestTypes.ADVANCED_HIVES.get());
-        return poi.is(ModPointOfInterestTypes.ADVANCED_HIVES_TAG);
-    };
+    private static final Predicate<Holder<PoiType>> beeKeeperPoi = (poi) -> poi.is(ModPointOfInterestTypes.ADVANCED_HIVES.getKey());
 
     public static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, ProductiveBees.MODID);
 

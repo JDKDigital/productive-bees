@@ -60,7 +60,7 @@ public class BeeAttributesHandler implements IBeeAttributes
 
     @Override
     public void readFromNBT(Tag tag) {
-        ProductiveBees.LOGGER.info("readFromNBT " + (tag instanceof CompoundTag));
+//        ProductiveBees.LOGGER.info("readFromNBT " + (tag instanceof CompoundTag));
         if (tag instanceof CompoundTag) {
             CompoundTag nbt = (CompoundTag) tag;
 
@@ -72,7 +72,7 @@ public class BeeAttributesHandler implements IBeeAttributes
             beeAttributes.put(BeeAttributes.TYPE, nbt.getString("bee_type"));
 
             for (Map.Entry<BeeAttribute<?>, Object> entry : getAttributes().entrySet()) {
-                ProductiveBees.LOGGER.info(entry.getKey() + " - " + entry.getValue());
+//                ProductiveBees.LOGGER.info(entry.getKey() + " - " + entry.getValue());
             }
         }
     }
