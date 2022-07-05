@@ -13,8 +13,8 @@
     ],
     "results": [
         {
-            "item": "powah:uraninite_raw_poor",
-            "count": 2
+            "item": "powah:uraninite_raw",
+            "chance": 0.7
         },
         {
             "fluid": "productivebees:honey",

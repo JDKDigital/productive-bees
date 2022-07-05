@@ -14,7 +14,8 @@
     "results": [
         {
             "item": "mysticalagriculture:imperium_essence",
-            "count": 2
+            "count": 2,
+            "chance": 0.5
         },
         {
             "item": "productivebees:wax"

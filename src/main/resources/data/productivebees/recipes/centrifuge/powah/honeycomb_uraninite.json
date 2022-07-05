@@ -12,10 +12,9 @@
     "outputs": [
         {
             "item": {
-                "item": "powah:uraninite_raw_poor"
+                "item": "powah:uraninite_raw"
             },
-            "min": 1,
-            "max": 2
+            "chance": 70
         },
         {
             "item": {

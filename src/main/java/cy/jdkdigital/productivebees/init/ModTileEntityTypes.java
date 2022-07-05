@@ -116,7 +116,7 @@ public class ModTileEntityTypes
     public static final RegistryObject<BlockEntityType<NetherBeeNestBlockEntity>> NETHER_BEE_NEST = BLOCK_ENTITIES.register("nether_bee_nest", () ->
             BlockEntityType.Builder.of(NetherBeeNestBlockEntity::new,
                     ModBlocks.CRIMSON_BEE_NEST.get(),
-                    ModBlocks.CRIMSON_BEE_NEST.get()
+                    ModBlocks.WARPED_BEE_NEST.get()
             ).build(null)
     );
 

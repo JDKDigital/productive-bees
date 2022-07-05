@@ -710,7 +710,7 @@ public class ProductiveBee extends Bee
             BlockPos blockpos = ProductiveBee.this.blockPosition();
             BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
 
-            List<Entity> entities = level.getEntities(ProductiveBee.this, (new AABB(blockpos).expandTowards(distance, distance, distance)), predicate);
+            List<Entity> entities = level.getEntities(ProductiveBee.this, (new AABB(blockpos).inflate(distance, distance, distance)), predicate);
             if (entities.size() > 0) {
                 PathfinderMob entity = (PathfinderMob) entities.get(0);
                 entity.getNavigation().setSpeedModifier(0);

@@ -1,13 +1,19 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModFeatures;
+import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.BeehiveBlock;
@@ -55,9 +61,9 @@ public class NetherBeehiveDecorator extends TreeDecorator {
     }
 
     @Override
-    public void place(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, Random pRandom, List<BlockPos> pLogPositions, List<BlockPos> pLeafPositions) {
-        if (!(pRandom.nextFloat() >= this.probability) && nest != null) {
-            int i = !pLeafPositions.isEmpty() ? Math.max(pLeafPositions.get(0).getY() - 1, pLogPositions.get(0).getY() + 1) : Math.min(pLogPositions.get(0).getY() + 1 + pRandom.nextInt(3), pLogPositions.get(pLogPositions.size() - 1).getY());
+    public void place(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, Random random, List<BlockPos> pLogPositions, List<BlockPos> pLeafPositions) {
+        if (!(random.nextFloat() >= this.probability) && nest != null) {
+            int i = !pLeafPositions.isEmpty() ? Math.max(pLeafPositions.get(0).getY() - 1, pLogPositions.get(0).getY() + 1) : Math.min(pLogPositions.get(0).getY() + 1 + random.nextInt(3), pLogPositions.get(pLogPositions.size() - 1).getY());
             List<BlockPos> list = pLogPositions.stream().filter((pos) -> pos.getY() == i).flatMap((pos) -> Stream.of(SPAWN_DIRECTIONS).map(pos::relative)).collect(Collectors.toList());
             if (!list.isEmpty()) {
                 Collections.shuffle(list);
@@ -74,18 +80,17 @@ public class NetherBeehiveDecorator extends TreeDecorator {
                     }
 
                     pBlockSetter.accept(optional.get(), nest.setValue(BeehiveBlock.FACING, facing));
-                    pLevel.getBlockEntity(optional.get(), BlockEntityType.BEEHIVE).ifPresent((blockEntity) -> {
-                        int j = 2 + pRandom.nextInt(2);
+                    pLevel.getBlockEntity(optional.get(), ModTileEntityTypes.NETHER_BEE_NEST.get()).ifPresent((blockEntity) -> {
+                        int j = 2 + random.nextInt(2);
+
+                        String type = ForgeRegistries.BLOCKS.getKey(nest.getBlock()).getPath().equals("warped_bee_nest") ? "warped" : "crimson";
 
                         for(int k = 0; k < j; ++k) {
-                            EntityType<ConfigurableBee> beeType = ModEntities.CONFIGURABLE_BEE.get();
-                            ConfigurableBee newBee = beeType.create(ProductiveBees.proxy.getWorld());
-                            if (newBee != null) {
-                                newBee.setBeeType(ForgeRegistries.BLOCKS.getKey(nest.getBlock()).getPath().equals("warped_bee_nest") ? "productivebees:warped" : "productivebees:crimson");
-                                newBee.setAttributes();
-                                newBee.hivePos = optional.get();
-
-                                blockEntity.addOccupant(newBee, false);
+                            try {
+                                CompoundTag bee = TagParser.parseTag("{id:\"productivebees:configurable_bee\",bee_type: \"hive\", bee_temper: 1, bee_behavior: 1, type: \"productivebees:" + type + "\", bee_endurance: 2, bee_weather_tolerance: 0, bee_productivity: 1, HasConverted: false}");
+                                blockEntity.addBee(bee, random.nextInt(599), 600, null, new TranslatableComponent("entity.productivebees." + type + "_bee").getString());
+                            } catch (CommandSyntaxException e) {
+                                ProductiveBees.LOGGER.warn("Failed to put bees into nether nest :(" + e.getMessage());
                             }
                         }
                     });
