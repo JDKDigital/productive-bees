@@ -2,6 +2,7 @@
 
 -- Fixed Hoarder bees not picking up stuff
 -- Fixed Uraninite (Powah) combs not producing anything
+-- Shuffled bee spawning recipes a bit for more variety in the wood nests
 
 
 1.18.2-0.9.0.8
