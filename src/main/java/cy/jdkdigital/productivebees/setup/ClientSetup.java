@@ -4,7 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.*;
 import cy.jdkdigital.productivebees.client.render.block.BottlerTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.CentrifugeTileEntityRenderer;
-import cy.jdkdigital.productivebees.client.render.block.FeederTileEntityRenderer;
+import cy.jdkdigital.productivebees.client.render.block.FeederBlockEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.JarTileEntityRenderer;
 import cy.jdkdigital.productivebees.common.item.BeeBomb;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
@@ -104,7 +104,7 @@ public class ClientSetup
         event.registerBlockEntityRenderer(ModBlockEntityTypes.CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntityTypes.BOTTLER.get(), BottlerTileEntityRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntityTypes.FEEDER.get(), FeederTileEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.FEEDER.get(), FeederBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntityTypes.JAR.get(), JarTileEntityRenderer::new);
     }
 

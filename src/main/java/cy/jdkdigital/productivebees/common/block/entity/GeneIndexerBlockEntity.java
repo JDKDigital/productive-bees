@@ -157,7 +157,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
                     int purity = Gene.getPurity(stack);
                     if (purity < 100) {
                         // Create a list for each attribute variant having the same attribute but different purity
-                        String key = Gene.getAttributeName(stack);
+                        String key = Gene.getAttributeName(stack) + "-" + Gene.getValue(stack);
 
                         // Initiate internal map
                         if (!blockEntity.index.containsKey(key)) {

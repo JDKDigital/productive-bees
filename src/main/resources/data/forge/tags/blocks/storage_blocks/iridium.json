@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+        {
+            "id": "ftbic:iridium_block",
+            "required": false
+        }
+    ]
+}

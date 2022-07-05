@@ -1,3 +1,11 @@
+1.19-0.10.0.3
+
+-- Fixed bees not recognizing hives
+-- Feeding slab can be disguised as any slab by right clicking it with the desired slab
+-- Fixed bottler recipes again
+-- Fixed gene indexer combining incompatible genes
+
+
 1.19-0.10.0.2
 
 -- Added beekeeper villager profession

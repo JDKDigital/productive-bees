@@ -6,12 +6,14 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -33,7 +35,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -135,6 +136,18 @@ public class Feeder extends SlabBlock implements EntityBlock
     @Nonnull
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+        ItemStack heldItem = player.getItemInHand(handIn);
+        if (heldItem.getItem() instanceof BlockItem) {
+            Block heldBlock = ((BlockItem) heldItem.getItem()).getBlock();
+            if (heldBlock.defaultBlockState().is(BlockTags.SLABS)) {
+                final BlockEntity blockEntity = world.getBlockEntity(pos);
+                if (blockEntity instanceof FeederBlockEntity) {
+                    ((FeederBlockEntity) blockEntity).baseBlock = heldBlock;
+                    return InteractionResult.SUCCESS;
+                }
+            }
+        }
+
         if (!world.isClientSide()) {
             final BlockEntity tileEntity = world.getBlockEntity(pos);
 

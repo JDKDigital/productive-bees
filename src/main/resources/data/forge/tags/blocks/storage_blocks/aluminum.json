@@ -4,6 +4,10 @@
         {
             "id": "electrodynamics:resourceblockaluminum",
             "required": false
+        },
+        {
+            "id": "ftbic:aluminum_block",
+            "required": false
         }
     ]
 }

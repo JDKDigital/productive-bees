@@ -4,6 +4,10 @@
         {
             "id": "electrodynamics:resourceblockbronze",
             "required": false
+        },
+        {
+            "id": "ftbic:bronze_block",
+            "required": false
         }
     ]
 }
