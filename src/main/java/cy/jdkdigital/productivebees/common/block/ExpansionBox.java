@@ -146,10 +146,10 @@ public class ExpansionBox extends Block implements EntityBlock
             Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentHive(worldIn, pos);
             if (pair != null) {
                 final BlockEntity tileEntity = worldIn.getBlockEntity(pair.getLeft().getLeft());
-                if (tileEntity instanceof AdvancedBeehiveBlockEntity) {
+                if (tileEntity instanceof AdvancedBeehiveBlockEntity hiveBlockEntity) {
                     this.updateState(worldIn, pos, state, false);
-                    BlockState blockState = tileEntity.getBlockState();
-                    worldIn.sendBlockUpdated(pos, blockState, blockState, 3);
+                    BlockState blockState = hiveBlockEntity.getBlockState();
+                    worldIn.sendBlockUpdated(pair.getLeft().getLeft(), blockState, blockState, 3);
                     ((AdvancedBeehive) blockState.getBlock()).openGui((ServerPlayer) player, (AdvancedBeehiveBlockEntity) tileEntity);
                 }
             }
