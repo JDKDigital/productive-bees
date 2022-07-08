@@ -96,7 +96,7 @@ public class CatcherBlockEntity extends FluidTankBlockEntity implements Upgradea
 
     private AABB getBoundingBox() {
         int rangeUpgrades = getUpgradeCount(ModItems.UPGRADE_RANGE.get());
-        return new AABB(worldPosition).expandTowards(rangeUpgrades, 2.0D + rangeUpgrades, rangeUpgrades);
+        return new AABB(worldPosition).inflate(rangeUpgrades, 2.0D + rangeUpgrades, rangeUpgrades);
     }
 
     @Override

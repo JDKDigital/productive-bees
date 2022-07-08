@@ -21,7 +21,7 @@
         },
         {
             "type": "patchouli:text",
-            "text": "When installed in a hive, the BaBee upgrade will give a small chance for the bees living inside the hive to breed and produce new offspring without your involvement. $(br)When installed in a $(l:blocks/catcher)catcher$(/l), only BaBees will be caught and put in cages."
+            "text": "When installed in a hive, the BaBee upgrade will give a small chance for the bees living inside the hive to breed and produce new offspring without your involvement. Note that bees which can't breed normally do not work with this upgrade. $(br)When installed in a $(l:blocks/catcher)catcher$(/l), only BaBees will be caught and put in cages."
         },
         {
             "type": "patchouli:crafting",

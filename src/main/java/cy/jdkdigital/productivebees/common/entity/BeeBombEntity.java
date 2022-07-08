@@ -67,7 +67,7 @@ public class BeeBombEntity extends ThrowableItemProjectile
 
                 ListTag bees = BeeBomb.getBees(bomb);
                 if (!(entity instanceof Player)) {
-                    List<Player> players = level.getEntitiesOfClass(Player.class, (new AABB(blockPos).expandTowards(2.0D, 2.0D, 2.0D)));
+                    List<Player> players = level.getEntitiesOfClass(Player.class, (new AABB(blockPos).inflate(2.0D, 2.0D, 2.0D)));
                     if (players.size() > 0) {
                         entity = players.iterator().next();
                     }

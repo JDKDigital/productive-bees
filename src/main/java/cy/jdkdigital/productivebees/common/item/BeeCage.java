@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModAdvancements;
@@ -10,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -137,9 +139,10 @@ public class BeeCage extends Item
         }
         target.saveWithoutId(nbt);
 
-        nbt.remove("Motion");
-        nbt.remove("Pos");
-        nbt.remove("Rotation");
+        AdvancedBeehiveBlockEntityAbstract.removeIgnoredBeeTags(nbt);
+        if (target.hasHive()) {
+            nbt.put("HivePos", NbtUtils.writeBlockPos(target.getHivePos()));
+        }
 
         nbt.putBoolean("isProductiveBee", target instanceof ProductiveBee);
 

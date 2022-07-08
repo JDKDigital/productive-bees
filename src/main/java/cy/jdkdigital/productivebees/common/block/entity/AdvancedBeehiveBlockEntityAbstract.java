@@ -41,12 +41,20 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEntity
 {
+    private static final List<String> IGNORED_BEE_TAGS = Arrays.asList(
+        "ForgeCaps", "ForgeData", "AbsorptionAmount", "Attributes", "CitadelData", "KubeJSPersistentData",
+        "Air", "ArmorDropChances", "ArmorItems", "Brain", "CanPickUpLoot", "DeathTime", "FallDistance", "InLove",
+        "FallFlying", "Fire", "HandDropChances", "HandItems", "HurtByTimestamp", "HurtTime", "LeftHanded",
+        "Motion", "NoGravity", "OnGround", "PortalCooldown", "Pos", "Rotation", "CannotEnterHiveTicks",
+        "TicksSincePollination", "CropsGrownSincePollination", "HivePos", "Passengers", "Leash", "UUID"
+    );
     public int MAX_BEES = 3;
     private LazyOptional<IInhabitantStorage> beeHandler = LazyOptional.of(this::createBeeHandler);
     private BlockEntityType<?> tileEntityType;
@@ -319,6 +327,14 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         return blockEntity.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListTag());
     }
 
+    public static void removeIgnoredBeeTags(CompoundTag tag) {
+        for(String s : IGNORED_BEE_TAGS) {
+            if (tag.contains(s)) {
+                tag.remove(s);
+            }
+        }
+    }
+
     public static boolean spawnBeeInWorldAtPosition(ServerLevel world, Entity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
         BlockPos offset = pos.relative(direction);
         boolean isPositionBlocked = !world.getBlockState(offset).getCollisionShape(world, offset).isEmpty();
@@ -356,7 +372,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         public final String localizedName;
 
         public Inhabitant(CompoundTag nbt, int ticksInHive, int minOccupationTicks, BlockPos flowerPos, String localizedName) {
-            BeehiveBlockEntity.removeIgnoredBeeTags(nbt);
+            AdvancedBeehiveBlockEntityAbstract.removeIgnoredBeeTags(nbt);
             this.nbt = nbt;
             this.ticksInHive = ticksInHive;
             this.minOccupationTicks = minOccupationTicks;

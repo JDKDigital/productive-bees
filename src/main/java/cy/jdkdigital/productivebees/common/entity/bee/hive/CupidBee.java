@@ -111,7 +111,7 @@ public class CupidBee extends ProductiveBee
     public List<Entity> findNearbyBreedables(float distance) {
         BlockPos pos = blockPosition();
 
-        return level.getEntities(this, (new AABB(pos).expandTowards(distance, distance, distance)), predicate);
+        return level.getEntities(this, (new AABB(pos).inflate(distance, distance, distance)), predicate);
     }
 
     public class GoToBreedableGoal extends Goal

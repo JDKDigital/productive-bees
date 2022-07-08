@@ -184,7 +184,7 @@ public class HoarderBee extends ProductiveBee
     }
 
     public List<ItemEntity> getItemsNearby(BlockPos pos, double distance) {
-        return level.getEntitiesOfClass(ItemEntity.class, (new AABB(pos).expandTowards(distance, distance, distance)));
+        return level.getEntitiesOfClass(ItemEntity.class, (new AABB(pos).inflate(distance, distance, distance)));
     }
 
     public boolean isInventoryEmpty() {

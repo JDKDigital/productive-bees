@@ -11,7 +11,8 @@
                         "type": "productivebees:imperium"
                     }
                 }
-            }
+            },
+            "chance": 70
         },
         {
             "item": {

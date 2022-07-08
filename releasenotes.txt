@@ -1,3 +1,12 @@
+1.19-0.10.0.4
+
+-- Fixed Hoarder bees not picking up stuff
+-- Fixed Uraninite (Powah) combs not producing anything
+-- Shuffled bee spawning recipes a bit for more variety in the wood nests
+-- Fixed sync issue when opening a hive from the expansion box
+-- Stripping data from bees when entering a hive or cage to make the data footprint smaller
+
+
 1.19-0.10.0.3
 
 -- Fixed bees not recognizing hives

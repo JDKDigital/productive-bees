@@ -201,57 +201,57 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                     });
                 });
             }
-        }
 
-        // Produce offspring if breeding upgrade is installed
-        int breedingUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
-        if (breedingUpgrades > 0 && !beeEntity.isBaby() && getOccupantCount() > 0 && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
-            boolean canBreed = !(beeEntity instanceof ProductiveBee) || ((ProductiveBee) beeEntity).canSelfBreed();
-            if (canBreed) {
-                // Count nearby bee entities
-                List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(worldPosition).expandTowards(3.0D, 3.0D, 3.0D)));
-                if (bees.size() < ProductiveBeesConfig.UPGRADES.breedingMaxNearbyEntities.get()) {
-                    // Breed this bee with a random bee inside
-                    Inhabitant otherBeeInhabitant = getBeeList().get(level.random.nextInt(getOccupantCount()));
-                    Entity otherBee = EntityType.loadEntityRecursive(otherBeeInhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
-                    if (otherBee instanceof Bee) {
-                        if (!(otherBee instanceof ProductiveBee productiveOtherBee) || productiveOtherBee.canSelfBreed()) {
-                            Entity offspring = BeeHelper.getBreedingResult(beeEntity, (Bee) otherBee, (ServerLevel) this.level);
-                            if (offspring != null) {
-                                if (offspring instanceof ProductiveBee && beeEntity instanceof ProductiveBee) {
-                                    BeeHelper.setOffspringAttributes((ProductiveBee) offspring, (ProductiveBee) beeEntity, (Bee) otherBee);
+            // Produce offspring if breeding upgrade is installed
+            int breedingUpgrades = getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
+            if (breedingUpgrades > 0 && !beeEntity.isBaby() && getOccupantCount() > 0 && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.breedingChance.get() * breedingUpgrades)) {
+                boolean canBreed = !(beeEntity instanceof ProductiveBee) || ((ProductiveBee) beeEntity).canSelfBreed();
+                if (canBreed) {
+                    // Count nearby bee entities
+                    List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(worldPosition).inflate(3.0D, 3.0D, 3.0D)));
+                    if (bees.size() < ProductiveBeesConfig.UPGRADES.breedingMaxNearbyEntities.get()) {
+                        // Breed this bee with a random bee inside
+                        Inhabitant otherBeeInhabitant = getBeeList().get(level.random.nextInt(getOccupantCount()));
+                        Entity otherBee = EntityType.loadEntityRecursive(otherBeeInhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
+                        if (otherBee instanceof Bee) {
+                            if (!(otherBee instanceof ProductiveBee productiveOtherBee) || productiveOtherBee.canSelfBreed()) {
+                                Entity offspring = BeeHelper.getBreedingResult(beeEntity, (Bee) otherBee, (ServerLevel) this.level);
+                                if (offspring != null) {
+                                    if (offspring instanceof ProductiveBee && beeEntity instanceof ProductiveBee) {
+                                        BeeHelper.setOffspringAttributes((ProductiveBee) offspring, (ProductiveBee) beeEntity, (Bee) otherBee);
+                                    }
+                                    if (offspring instanceof Animal) {
+                                        ((Animal) offspring).setAge(-24000);
+                                    }
+                                    offspring.moveTo(beeEntity.getX(), beeEntity.getY(), beeEntity.getZ(), 0.0F, 0.0F);
+                                    level.addFreshEntity(offspring);
                                 }
-                                if (offspring instanceof Animal) {
-                                    ((Animal) offspring).setAge(-24000);
-                                }
-                                offspring.moveTo(beeEntity.getX(), beeEntity.getY(), beeEntity.getZ(), 0.0F, 0.0F);
-                                level.addFreshEntity(offspring);
                             }
                         }
                     }
                 }
             }
-        }
 
-        // Produce genes
-        int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get());
-        if (samplerUpgrades > 0 && !beeEntity.isBaby() && beeEntity instanceof ProductiveBee && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
-            getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                Map<BeeAttribute<?>, Object> attributes = ((ProductiveBee) beeEntity).getBeeAttributes();
-                // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
-                int attr = level.random.nextInt(attributes.size() + 2);
-                if (attr >= BeeAttributes.attributeList().size()) {
-                    // Type gene
-                    String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType() : beeEntity.getEncodeId();
-                    ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
-                } else {
-                    BeeAttribute<?> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
-                    Object value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
-                    if (value instanceof Integer) {
-                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(attribute, (Integer) value, 1, level.random.nextInt(4) + 1));
+            // Produce genes
+            int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get());
+            if (samplerUpgrades > 0 && !beeEntity.isBaby() && beeEntity instanceof ProductiveBee && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
+                getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                    Map<BeeAttribute<?>, Object> attributes = ((ProductiveBee) beeEntity).getBeeAttributes();
+                    // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
+                    int attr = level.random.nextInt(attributes.size() + 2);
+                    if (attr >= BeeAttributes.attributeList().size()) {
+                        // Type gene
+                        String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType() : beeEntity.getEncodeId();
+                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
+                    } else {
+                        BeeAttribute<?> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
+                        Object value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
+                        if (value instanceof Integer) {
+                            ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(attribute, (Integer) value, 1, level.random.nextInt(4) + 1));
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         // Add to the countdown for it's spot to become available in the hive
