@@ -11,11 +11,9 @@ import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -143,9 +141,14 @@ public class ProductiveBee extends Bee
         if (!level.isClientSide && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getBeeEffect();
             if (effect != null && effect.getEffects().size() > 0) {
-                List<Player> players = level.getEntitiesOfClass(Player.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
-                if (players.size() > 0) {
-                    players.forEach(playerEntity -> {
+                List<LivingEntity> entities = new ArrayList<>();
+                if (getBeeType().equals("")) {
+                    entities = level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
+                } else {
+                    entities = level.getEntitiesOfClass(Player.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D)).stream().map(player -> (LivingEntity) player).collect(Collectors.toList());
+                }
+                if (entities.size() > 0) {
+                    entities.forEach(playerEntity -> {
                         for (Map.Entry<MobEffect, Integer> entry : effect.getEffects().entrySet()) {
                             MobEffect potionEffect = entry.getKey();
                             Integer duration = entry.getValue();
@@ -161,7 +164,7 @@ public class ProductiveBee extends Bee
             // Rain tolerance improvements
             int tolerance = getAttributeValue(BeeAttributes.WEATHER_TOLERANCE);
             if (tolerance < 2 && level.random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
-                if ((tolerance < 1 && level.isRaining()) || level.isThundering()) {
+                if (tolerance < 1 && (level.isRainingAt(blockPosition()) || level.isThundering())) {
                     beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tolerance + 1);
                 }
             }
@@ -174,14 +177,15 @@ public class ProductiveBee extends Bee
                 }
                 // If nocturnal, it can become metaturnal or back to diurnal
                 else if (behavior == 1 && !level.isNight()) {
-                    beeAttributes.put(BeeAttributes.BEHAVIOR, level.random.nextFloat() < 0.85F ? 2 : 0);
+                    beeAttributes.put(BeeAttributes.BEHAVIOR, level.random.nextFloat() < 0.9F ? 2 : 0);
                 }
             }
 
             // It might die when leashed outside
-            boolean isInDanger = (tolerance < 1 && level.isRaining()) || (behavior < 1 && level.isNight());
-            if (isInDanger && level.random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
-                setHealth(getHealth() - (getMaxHealth() / 3) - 1);
+            boolean isInDangerFromRain = tolerance < 1 && level.isRainingAt(blockPosition());
+            boolean isInDayCycleDanger = (behavior < 1 && level.isNight()) || (behavior == 1 && level.isDay());
+            if ((isInDangerFromRain || isInDayCycleDanger) && level.random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
+                hurt(isInDangerFromRain ? DamageSource.DROWN : DamageSource.GENERIC, (getMaxHealth() / 3) - 1);
             }
         }
 
@@ -248,10 +252,7 @@ public class ProductiveBee extends Bee
 
         BlockState flowerBlock = level.getBlockState(pos);
 
-        return (
-                isFlowerBlock(flowerBlock) ||
-                        (flowerBlock.getBlock() instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBee.this::isFlowerBlock))
-        );
+        return isFlowerBlock(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBee.this::isFlowerBlock));
     }
 
     public List<ItemStack> getBreedingItems() {
@@ -323,9 +324,13 @@ public class ProductiveBee extends Bee
             boolean shouldReturnToHive =
                     this.isTiredOfLookingForNectar() ||
                     this.hasNectar() ||
-                    (level.isNight() && !canOperateDuringNight()) ||
-                    (level.isRaining() && !canOperateDuringRain()) ||
-                    (level.isThundering() && !canOperateDuringThunder());
+                    (
+                        level instanceof ServerLevel sLevel && sLevel.canSleepThroughNights() && (
+                            (level.isNight() && !canOperateDuringNight()) ||
+                            (level.isRainingAt(blockPosition()) && !canOperateDuringRain()) ||
+                            (level.isThundering() && !canOperateDuringThunder())
+                        )
+                    );
 
             return shouldReturnToHive && !this.isHiveNearFire();
         } else {
@@ -625,7 +630,7 @@ public class ProductiveBee extends Bee
                 return false;
             } else if (ProductiveBee.this.hasNectar()) {
                 return false;
-            } else if (ProductiveBee.this.level.isRaining() && !ProductiveBee.this.canOperateDuringRain()) {
+            } else if (ProductiveBee.this.level.isRainingAt(ProductiveBee.this.blockPosition()) && !ProductiveBee.this.canOperateDuringRain()) {
                 return false;
             } else if (ProductiveBee.this.level.isThundering() && !ProductiveBee.this.canOperateDuringThunder()) {
                 return false;
@@ -648,7 +653,7 @@ public class ProductiveBee extends Bee
                 return false;
             } else if (!ProductiveBee.this.hasSavedFlowerPos()) {
                 return false;
-            } else if (ProductiveBee.this.level.isRaining() && !ProductiveBee.this.canOperateDuringRain()) {
+            } else if (ProductiveBee.this.level.isRainingAt(ProductiveBee.this.blockPosition()) && !ProductiveBee.this.canOperateDuringRain()) {
                 return false;
             } else if (ProductiveBee.this.level.isThundering() && !ProductiveBee.this.canOperateDuringThunder()) {
                 return false;
@@ -678,8 +683,8 @@ public class ProductiveBee extends Bee
                 CompoundTag nbt = ((ConfigurableBee) ProductiveBee.this).getNBTData();
                 if (nbt != null) {
                     if (nbt.contains("flowerTag")) {
-                        Optional<Holder<EntityType<?>>> flowerTag = Registry.ENTITY_TYPE.getHolder(ResourceKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(nbt.getString("flowerTag"))));
-                        return flowerTag.isPresent() ? findEntities(entity -> flowerTag.get().is(entity.getType().getRegistryName()), 5D) : Optional.empty();
+                        var flowerTag = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(nbt.getString("flowerTag")));
+                        return findEntities(entity -> entity.getType().is(flowerTag), 5D);
                     }
                 }
             }

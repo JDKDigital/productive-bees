@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[38,)"
+loaderVersion="[40,)"
 issueTrackerURL="https://github.com/JDKDigital/productive-bees/issues"
 license="MIT"
 
@@ -19,7 +19,7 @@ Useful bees
 [[dependencies.productivebees]] #optional
     modId="forge"
     mandatory=true
-    versionRange="[40.0.18,)"
+    versionRange="[40.1.18,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.productivebees]]

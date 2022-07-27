@@ -27,19 +27,16 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
     @Override
     public void setInhabitants(List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> inhabitantList) {
         this.inhabitantList = inhabitantList;
-        onContentsChanged();
     }
 
     @Override
     public void addInhabitant(AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant) {
         this.inhabitantList.add(inhabitant);
-        onContentsChanged();
     }
 
     @Override
     public void clearInhabitants() {
         this.inhabitantList.clear();
-        onContentsChanged();
     }
 
     @Nonnull
@@ -49,7 +46,6 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
 
         for (AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant : this.getInhabitants()) {
             CompoundTag copyNbt = inhabitant.nbt.copy();
-            copyNbt.remove("UUID");
 
             CompoundTag tag = new CompoundTag();
             tag.put("EntityData", copyNbt);
@@ -86,14 +82,8 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        this.clearInhabitants();
         ListTag list = nbt.getList("Inhabitants", 10);
         setInhabitantsFromListNBT(list);
-        onLoad();
-    }
-
-    protected void onLoad() {
-
     }
 
     @Override

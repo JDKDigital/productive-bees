@@ -1,0 +1,37 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:patrick"
+            }
+        }
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "allthetweaks:patrick_star"
+            },
+            "chance": 5
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 50
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "allthetweaks"
+        }
+    ]
+}

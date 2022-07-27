@@ -149,7 +149,6 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue cupidBeeAnimalsPerPollination;
         public final ForgeConfigSpec.IntValue cupidBeeAnimalDensity;
         public final ForgeConfigSpec.IntValue cuckooSpawnCount;
-        public final ForgeConfigSpec.DoubleValue fishingBeeChance;
         public final ForgeConfigSpec.DoubleValue kamikazBeeChance;
         public final ForgeConfigSpec.BooleanValue disableWanderGoal;
 
@@ -177,10 +176,6 @@ public class ProductiveBeesConfig
             cuckooSpawnCount = builder
                     .comment("How many cuckoo bees can spawn from a nest before it shuts off")
                     .defineInRange("cuckooSpawnCount", 2, 0, Integer.MAX_VALUE);
-
-            fishingBeeChance = builder
-                    .comment("Chance of catching a bee when fishing")
-                    .defineInRange("fishingBeeChance", 0.05, 0, 1);
 
             kamikazBeeChance = builder
                     .comment("Chance to spawn a KamikazBee when hit while wearing bee nest armor")

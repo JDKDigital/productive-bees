@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:bee_fishing",
+  "bee": "productivebees:oily",
+  "biomes": [
+    "minecraft:deep_frozen_ocean",
+    "minecraft:deep_cold_ocean",
+    "minecraft:deep_ocean",
+    "minecraft:deep_lukewarm_ocean"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:oily"
+    }
+  ]
+}

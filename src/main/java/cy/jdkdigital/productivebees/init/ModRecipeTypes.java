@@ -22,6 +22,7 @@ public final class ModRecipeTypes
     public static final RegistryObject<RecipeSerializer<?>> INCUBATION = createRecipeType("incubation", () -> new IncubationRecipe.Serializer<>(IncubationRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_BREEDING = createRecipeType("bee_breeding", () -> new BeeBreedingRecipe.Serializer<>(BeeBreedingRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_CONVERSION = createRecipeType("bee_conversion", () -> new BeeConversionRecipe.Serializer<>(BeeConversionRecipe::new));
+    public static final RegistryObject<RecipeSerializer<?>> BEE_FISHING = createRecipeType("bee_fishing", () -> new BeeFishingRecipe.Serializer<>(BeeFishingRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_SPAWNING = createRecipeType("bee_spawning", () -> new BeeSpawningRecipe.Serializer<>(BeeSpawningRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_SPAWNING_BIG = createRecipeType("bee_spawning_big", () -> new BeeSpawningBigRecipe.Serializer<>(BeeSpawningBigRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_NBT_CHANGER = createRecipeType("bee_nbt_changer", () -> new BeeNBTChangerRecipe.Serializer<>(BeeNBTChangerRecipe::new));
@@ -43,8 +44,9 @@ public final class ModRecipeTypes
     public static RecipeType<BlockConversionRecipe> BLOCK_CONVERSION_TYPE;
     public static RecipeType<BeeConversionRecipe> BEE_CONVERSION_TYPE;
     public static RecipeType<IncubationRecipe> INCUBATION_TYPE;
-    public static RecipeType<BeeSpawningBigRecipe> BEE_SPAWNING_BIG_TYPE;
+    public static RecipeType<BeeFishingRecipe> BEE_FISHING_TYPE;
     public static RecipeType<BeeSpawningRecipe> BEE_SPAWNING_TYPE;
+    public static RecipeType<BeeSpawningBigRecipe> BEE_SPAWNING_BIG_TYPE;
     public static RecipeType<BeeNBTChangerRecipe> BEE_NBT_CHANGER_TYPE;
     public static RecipeType<BottlerRecipe> BOTTLER_TYPE;
     public static RecipeType<CentrifugeRecipe> CENTRIFUGE_TYPE;
@@ -55,8 +57,9 @@ public final class ModRecipeTypes
         BLOCK_CONVERSION_TYPE = RecipeType.register(ProductiveBees.MODID + ":block_conversion");
         BEE_CONVERSION_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_conversion");
         INCUBATION_TYPE = RecipeType.register(ProductiveBees.MODID + ":incubation");
-        BEE_SPAWNING_BIG_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_spawning_big");
+        BEE_FISHING_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_fishing");
         BEE_SPAWNING_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_spawning");
+        BEE_SPAWNING_BIG_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_spawning_big");
         BEE_NBT_CHANGER_TYPE = RecipeType.register(ProductiveBees.MODID + ":bee_nbt_changer");
         BOTTLER_TYPE = RecipeType.register(ProductiveBees.MODID + ":bottler");
         CENTRIFUGE_TYPE = RecipeType.register(ProductiveBees.MODID + ":centrifuge");

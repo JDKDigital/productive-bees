@@ -81,7 +81,7 @@
         },
         {
             "type": "patchouli:text",
-            "text": "When installed in a hive, a small sample of pollinating bees will be extracted with each visit. It shouldn't bee hurting them at all."
+            "text": "When installed in a hive, a small sample of pollinating bees will be extracted with each visit. It shouldn't bee hurting them at all. Multiple can be installed in the same hive for improved rate."
         },
         {
             "type": "patchouli:crafting",

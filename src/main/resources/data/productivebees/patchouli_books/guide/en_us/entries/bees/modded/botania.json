@@ -1,6 +1,6 @@
 {
     "name": "Botania",
-    "icon": "botania:manapool",
+    "icon": "botania:creative_pool",
     "read_by_default": true,
     "sortnum": 8,
     "category": "productivebees:bees_modded",

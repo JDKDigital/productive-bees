@@ -9,6 +9,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 
@@ -70,9 +71,14 @@ public class ModTags
         return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, name);
     }
 
+    public static TagKey<Biome> getBiomeTag(ResourceLocation name) {
+        return TagKey.create(Registry.BIOME_REGISTRY, name);
+    }
+
     public static class Forge {
         public static final TagKey<Item> HONEY_BUCKETS = getItemTag(new ResourceLocation("forge", "buckets/honey"));
         public static final TagKey<Item> EGGS = getItemTag(new ResourceLocation("forge", "eggs"));
+        public static final TagKey<Item> FISHING_RODS = getItemTag(new ResourceLocation("forge", "rods/fishing"));
         public static final TagKey<Item> WAX = getItemTag(new ResourceLocation("forge", "wax"));
         public static final TagKey<Item> WITHER_SKULL_FRAGMENTS = getItemTag(new ResourceLocation("forge", "fragments/wither_skull"));
         public static final TagKey<Item> SILICON = getItemTag(new ResourceLocation("forge", "silicon"));

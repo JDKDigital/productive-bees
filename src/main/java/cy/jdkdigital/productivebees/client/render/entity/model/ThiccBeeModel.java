@@ -48,7 +48,7 @@ public class ThiccBeeModel extends PartialBeeModel
                 CubeListBuilder
                         .create().texOffs(0, 3)
                         .addBox(-2.5F, -2.0F, -3.0F, 1.0F, 2.0F, 3.0F),
-                PartPose.offset(-1.5F, -4.0F, -3.0F)
+                PartPose.offset(0.0F, -2.0F, -5.0F)
         );
 
         CubeDeformation var5 = new CubeDeformation(0.001F);

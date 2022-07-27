@@ -5,17 +5,11 @@
         "item": "productivebees:configurable_honeycomb",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:starry"
+                "type": "productivebees:soul_lava"
             }
         }
     },
     "outputs": [
-        {
-            "item": {
-                "item": "atmadditions:atm_star"
-            },
-            "chance": 5
-        },
         {
             "item": {
                 "tag": "forge:wax"
@@ -23,9 +17,15 @@
         },
         {
             "fluid": {
-                "fluid": "productivebees:honey"
+                "fluid": "allthemodium:soul_lava"
             },
-            "amount": 50
+            "amount": 20
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "allthemodium"
         }
     ]
 }

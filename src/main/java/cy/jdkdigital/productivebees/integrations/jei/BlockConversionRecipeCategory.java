@@ -6,7 +6,7 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
@@ -20,7 +20,6 @@ import net.minecraftforge.fluids.FluidStack;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConversionRecipe>
 {
@@ -64,17 +63,21 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, BlockConversionRecipe recipe, List<? extends IFocus<?>> focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, BlockConversionRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 38, 5)
                 .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.bee.get())
                 .setSlotName("source");
 
-        if (recipe.stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
+        if (!recipe.input.isEmpty()) {
+            builder.addSlot(RecipeIngredientRole.INPUT, 5, 26)
+                    .addItemStacks(Arrays.asList(recipe.input.getItems()))
+                    .setSlotName("sourceBlocks");
+        } else if (recipe.stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
             builder.addSlot(RecipeIngredientRole.INPUT, 5, 25)
                     .addItemStacks(Arrays.asList(recipe.fromDisplay.getItems()))
                     .setSlotName("sourceBlock");
         } else {
-            builder.addSlot(RecipeIngredientRole.INPUT, 5, 26)
+            builder.addSlot(RecipeIngredientRole.INPUT, 5, 25)
                     .addIngredients(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateFrom.getFluidState().getType(), 1000)))
                     .setSlotName("sourceFluid");
         }

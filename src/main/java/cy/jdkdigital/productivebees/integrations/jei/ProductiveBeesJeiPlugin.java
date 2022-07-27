@@ -52,6 +52,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final ResourceLocation CATEGORY_ADVANCED_BEEHIVE_UID = new ResourceLocation(ProductiveBees.MODID, "advanced_beehive");
     public static final ResourceLocation CATEGORY_BEE_BREEDING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_breeding");
     public static final ResourceLocation CATEGORY_BEE_CONVERSION_UID = new ResourceLocation(ProductiveBees.MODID, "bee_conversion");
+    public static final ResourceLocation CATEGORY_BEE_FISHING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_fishing");
     public static final ResourceLocation CATEGORY_BEE_SPAWNING_UID = new ResourceLocation(ProductiveBees.MODID, "bee_spawning");
     public static final ResourceLocation CATEGORY_BEE_SPAWNING_BIG_UID = new ResourceLocation(ProductiveBees.MODID, "bee_spawning_big");
     public static final ResourceLocation CATEGORY_CENTRIFUGE_UID = new ResourceLocation(ProductiveBees.MODID, "centrifuge");
@@ -92,6 +93,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCategories(new BeeBreedingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeConversionRecipeCategory(guiHelper));
         registration.addRecipeCategories(new CentrifugeRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new BeeFishingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeBigCategory(guiHelper));
         registration.addRecipeCategories(new BeeFloweringRecipeCategory(guiHelper));
@@ -125,6 +127,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Centrifuge recipes
         Map<ResourceLocation, Recipe<Container>> centrifugeRecipesMap = recipeManager.byType(ModRecipeTypes.CENTRIFUGE_TYPE);
         registration.addRecipes(centrifugeRecipesMap.values(), CATEGORY_CENTRIFUGE_UID);
+        // Fishing recipes
+        Map<ResourceLocation, Recipe<Container>> beeFishingRecipesMap = recipeManager.byType(ModRecipeTypes.BEE_FISHING_TYPE);
+        registration.addRecipes(beeFishingRecipesMap.values(), CATEGORY_BEE_FISHING_UID);
         // Spawning recipes
         Map<ResourceLocation, Recipe<Container>> beeSpawningRecipesMap = recipeManager.byType(ModRecipeTypes.BEE_SPAWNING_TYPE);
         registration.addRecipes(beeSpawningRecipesMap.values(), CATEGORY_BEE_SPAWNING_UID);

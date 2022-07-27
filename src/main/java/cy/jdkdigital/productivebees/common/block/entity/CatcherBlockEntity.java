@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class CatcherBlockEntity extends FluidTankBlockEntity implements UpgradeableBlockEntity
+public class CatcherBlockEntity extends CapabilityBlockEntity implements UpgradeableBlockEntity
 {
     protected int tickCounter = 0;
 
@@ -39,7 +39,7 @@ public class CatcherBlockEntity extends FluidTankBlockEntity implements Upgradea
     {
         @Override
         public boolean isContainerItem(Item item) {
-            return item == ModItems.BEE_CAGE.get();
+            return item instanceof BeeCage;
         }
     });
 
@@ -58,9 +58,13 @@ public class CatcherBlockEntity extends FluidTankBlockEntity implements Upgradea
                         // We have a valid inventory for catching, look for entities above
                         List<Bee> bees = level.getEntitiesOfClass(Bee.class, blockEntity.getBoundingBox());
                         int babeeUpgrades = blockEntity.getUpgradeCount(ModItems.UPGRADE_BREEDING.get());
+                        int notBabeeUpgrades = blockEntity.getUpgradeCount(ModItems.UPGRADE_NOT_BABEE.get());
                         List<ItemStack> filterUpgrades = blockEntity.getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
                         for (Bee bee : bees) {
                             if (babeeUpgrades > 0 && !bee.isBaby()) {
+                                continue;
+                            }
+                            if (notBabeeUpgrades > 0 && bee.isBaby()) {
                                 continue;
                             }
 
@@ -92,7 +96,6 @@ public class CatcherBlockEntity extends FluidTankBlockEntity implements Upgradea
                 }
             });
         }
-        FluidTankBlockEntity.tick(level, pos, state, blockEntity);
     }
 
     private AABB getBoundingBox() {

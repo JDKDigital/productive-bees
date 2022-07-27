@@ -50,6 +50,9 @@ minecraft {
         }
 
         server {
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
@@ -115,24 +118,28 @@ dependencies {
 //    implementation fg.deobf("curse.maven:trophymanager-510170:3566467")
     implementation fg.deobf("curse.maven:jumpy-boats-542110:3564082")
     implementation fg.deobf("curse.maven:everythingcopper-579545:3759328")
-    implementation fg.deobf("curse.maven:alltheores-405593:3811648")
-//    implementation fg.deobf("curse.maven:allthemodium-364466:3570257")
+    implementation fg.deobf("curse.maven:alltheores-405593:3860919")
+    implementation fg.deobf("curse.maven:allthecompressed-514045:3812893")
+    implementation fg.deobf("curse.maven:all-the-tweaks-364120:3851716")
+    implementation fg.deobf("curse.maven:allthemodium-364466:3862033")
     implementation fg.deobf("curse.maven:architectury-forge-419699:3855244")
     implementation fg.deobf("curse.maven:cloth-config-348521:3782776")
     implementation fg.deobf("curse.maven:powah-rearchitected-633483:3855683")
-//    implementation fg.deobf("curse.maven:flywheel-486392:3737402")
-//    implementation fg.deobf("curse.maven:create-328085:3737418")
+    implementation fg.deobf("curse.maven:flywheel-486392:3737402")
+    implementation fg.deobf("curse.maven:create-328085:3737418")
 //    implementation fg.deobf("curse.maven:rhino-416294:3837949")
 //    implementation fg.deobf("curse.maven:kubejs-238086:3844402")
 //    implementation fg.deobf("curse.maven:ponderjs-521714:3620231")
-//    implementation fg.deobf("curse.maven:cucumber-272335:3561215")
+    implementation fg.deobf("curse.maven:cucumber-272335:3859559")
 //    implementation fg.deobf("curse.maven:beyond-earth-377448:3807783")
-//    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3568309")
+    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3878782")
+    implementation fg.deobf("curse.maven:mysticalagradditions-256247:3859536")
 //    implementation fg.deobf("curse.maven:croptopia-fabric-415438:3707657")
 //    implementation fg.deobf("curse.maven:pams-harvestcraft-2-food-core-372534:3740562")
 //    implementation fg.deobf("curse.maven:pams-harvestcraft-2-food-extended-402231:3740472")
 //    implementation fg.deobf("curse.maven:gems-jewels-392943:3568024")
-//    implementation fg.deobf("curse.maven:botania-225643:3818541")
+    implementation fg.deobf("curse.maven:curios-309927:3841948")
+    implementation fg.deobf("curse.maven:botania-225643:3847141")
 //    implementation fg.deobf("curse.maven:silent-lib-242998:3708359")
 //    implementation fg.deobf("curse.maven:silent-gear-297039:3811128")
 //    implementation fg.deobf("curse.maven:silents-gems-220311:3553197")
@@ -141,9 +148,8 @@ dependencies {
 //    implementation fg.deobf("curse.maven:ftb-library-forge-404465:3598890")
 //    implementation fg.deobf("curse.maven:ftb-quests-forge-289412:3596442")
 //    implementation fg.deobf("curse.maven:ftb-chunks-forge-314906:3601595")
-//    implementation fg.deobf("curse.maven:curios-309927:3841948")
 //    implementation fg.deobf("curse.maven:mekanism-268560:3810540")
-//    implementation fg.deobf("curse.maven:ftb-industrial-contraptions-forge-539097:3807215")
+    implementation fg.deobf("curse.maven:ftb-industrial-contraptions-forge-539097:3873952")
 //    implementation fg.deobf("curse.maven:pneumaticcraft-repressurized-281849:3815728")
 //    implementation fg.deobf("curse.maven:cofh-core-69162:3803484")
 //    implementation fg.deobf("curse.maven:thermal-foundation-222880:3803495")
@@ -154,6 +160,7 @@ dependencies {
 //    implementation fg.deobf("curse.maven:applied-energistics-2-223794:3646192")
 //    implementation fg.deobf("curse.maven:terrablender-563928:3725996")
 //    implementation fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3811457")
+    implementation fg.deobf("curse.maven:blood-magic-224791:3864897")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
