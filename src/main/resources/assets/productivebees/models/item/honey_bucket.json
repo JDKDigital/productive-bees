@@ -1,5 +1,9 @@
 {
-    "parent": "forge:item/bucket_drip",
-    "loader": "forge:bucket",
-    "fluid": "productivebees:honey"
+    "parent": "forge:item/default",
+    "loader": "forge:fluid_container",
+    "fluid": "productivebees:honey",
+    "textures": {
+        "base": "minecraft:item/bucket",
+        "fluid": "forge:item/mask/bucket_fluid"
+    }
 }

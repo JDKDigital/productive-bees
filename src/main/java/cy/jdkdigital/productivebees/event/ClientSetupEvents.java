@@ -19,7 +19,6 @@ import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -27,10 +26,9 @@ import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
@@ -40,7 +38,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class ClientSetupEvents
 {
     @SubscribeEvent
-    public static void registerItemColors(final ColorHandlerEvent.Item event) {
+    public static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
         ItemColors colors = event.getItemColors();
         BlockColors blockColors = event.getBlockColors();
 
@@ -73,7 +71,7 @@ public class ClientSetupEvents
     }
 
     @SubscribeEvent
-    public static void registerBlockColors(final ColorHandlerEvent.Block event) {
+    public static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
         BlockColors colors = event.getBlockColors();
         colors.register((blockState, lightReader, pos, tintIndex) -> {
             return lightReader != null && pos != null ? BiomeColors.getAverageGrassColor(lightReader, pos) : -1;
@@ -135,7 +133,7 @@ public class ClientSetupEvents
     }
 
     @SubscribeEvent
-    public static void registerModelLoaders(ModelRegistryEvent event) {
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(ProductiveBees.MODID, "comb"), CombModel.Loader.INSTANCE);
+    public static void registerModelLoaders(RegisterGeometryLoaders event) {
+        event.register("comb", CombModel.Loader.INSTANCE);
     }
 }

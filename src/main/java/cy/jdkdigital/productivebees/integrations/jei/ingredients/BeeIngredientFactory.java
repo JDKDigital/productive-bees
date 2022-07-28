@@ -51,13 +51,13 @@ public class BeeIngredientFactory
         if (ingredientList.isEmpty()) {
             // Add all beehive inhabitors, entity type check must be done before using the entry
             try {
-                for (EntityType<?> registryObject : ForgeRegistries.ENTITIES.getValues()) {
+                for (EntityType<?> registryObject : ForgeRegistries.ENTITY_TYPES.getValues()) {
                     if (registryObject.is(EntityTypeTags.BEEHIVE_INHABITORS)) {
                         if (registryObject.equals(ModEntities.CONFIGURABLE_BEE.get())) {
                             continue;
                         }
                         EntityType<? extends Bee> bee = (EntityType<? extends Bee>) registryObject;
-                        addBee(ForgeRegistries.ENTITIES.getKey(bee).toString(), new BeeIngredient(bee));
+                        addBee(ForgeRegistries.ENTITY_TYPES.getKey(bee).toString(), new BeeIngredient(bee));
                     }
                 }
             } catch (IllegalStateException e) {

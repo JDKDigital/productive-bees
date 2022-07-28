@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.RenderProperties;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
@@ -38,7 +38,7 @@ class FluidContainerUtil
 
     public static void setColors(@Nonnull FluidStack fluid) {
         if (!fluid.isEmpty()) {
-            setColors(RenderProperties.get(fluid.getFluid()).getColorTint());
+            setColors(IClientFluidTypeExtensions.of(fluid.getFluid()).getTintColor());
         }
     }
 

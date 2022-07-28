@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.client.IFluidTypeRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -36,8 +36,8 @@ public final class ModFluids
     public static RegistryObject<FluidType> HONEY_FLUID_TYPE = FLUID_TYPES.register("honey", () -> new FluidType(FluidType.Properties.create().canExtinguish(true).supportsBoating(true).motionScale(0.007D))
     {
         @Override
-        public void initializeClient(Consumer<IFluidTypeRenderProperties> consumer) {
-            consumer.accept(new IFluidTypeRenderProperties() {
+        public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+            consumer.accept(new IClientFluidTypeExtensions() {
                 @Override
                 public ResourceLocation getStillTexture() {
                     return HoneyFluid.STILL;
@@ -54,7 +54,7 @@ public final class ModFluids
                 }
 
                 @Override
-                public int getColorTint() {
+                public int getTintColor() {
                     return 0xffffc916;
                 }
             });

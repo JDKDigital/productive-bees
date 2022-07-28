@@ -115,13 +115,13 @@ dependencies {
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-    implementation fg.deobf("curse.maven:jei-238222:3834070")
+    implementation fg.deobf("curse.maven:jei-238222:3876379")
 
-    implementation fg.deobf("curse.maven:the-one-probe-245211:3838419")
-    implementation fg.deobf("curse.maven:jade-324717:3834997")
+    implementation fg.deobf("curse.maven:the-one-probe-245211:3871444")
+    implementation fg.deobf("curse.maven:jade-324717:3872400")
 ////    implementation fg.deobf("curse.maven:trophymanager-510170:3566467")
-    implementation fg.deobf("curse.maven:jumpy-boats-542110:3821646")
-    implementation fg.deobf("curse.maven:everythingcopper-579545:3823113")
+    implementation fg.deobf("curse.maven:jumpy-boats-542110:3877554")
+    implementation fg.deobf("curse.maven:everythingcopper-579545:3877610")
 //    implementation fg.deobf("curse.maven:alltheores-405593:3811648")
 ////    implementation fg.deobf("curse.maven:allthemodium-364466:3570257")
 //    implementation fg.deobf("curse.maven:flywheel-486392:3737402")

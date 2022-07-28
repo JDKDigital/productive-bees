@@ -24,7 +24,7 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.common.crafting.StrictNBTIngredient;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -94,13 +94,13 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
             BeeCage.captureEntity(bee, cage);
             BeeCage.captureEntity(baBee, babeeCage);
             ItemStack treats = new ItemStack(ModItems.HONEY_TREAT.get(), ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
-            recipes.add(new IncubationRecipe(new ResourceLocation(ProductiveBees.MODID, "cage_incubation"), NBTIngredient.of(babeeCage), Ingredient.of(treats), NBTIngredient.of(cage)));
+            recipes.add(new IncubationRecipe(new ResourceLocation(ProductiveBees.MODID, "cage_incubation"), StrictNBTIngredient.of(babeeCage), Ingredient.of(treats), StrictNBTIngredient.of(cage)));
         }
 
         // Spawn egg incubation
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
-            NBTIngredient spawnEgg = NBTIngredient.of(BeeCreator.getSpawnEgg(entry.getKey()));
-            NBTIngredient treat = NBTIngredient.of(HoneyTreat.getTypeStack(entry.getKey(), 100));
+            StrictNBTIngredient spawnEgg = StrictNBTIngredient.of(BeeCreator.getSpawnEgg(entry.getKey()));
+            StrictNBTIngredient treat = StrictNBTIngredient.of(HoneyTreat.getTypeStack(entry.getKey(), 100));
             recipes.add(new IncubationRecipe(new ResourceLocation(entry.getKey() + "_incubation"), Ingredient.of(Items.EGG), treat, spawnEgg));
         }
 

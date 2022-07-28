@@ -1,11 +1,13 @@
 package cy.jdkdigital.productivebees.integrations.hwyla;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import snownee.jade.api.BlockAccessor;
@@ -18,6 +20,8 @@ import java.util.List;
 
 public class SolitaryNestProvider implements IBlockComponentProvider, IServerDataProvider<BlockEntity>
 {
+    public static final ResourceLocation UID = new ResourceLocation(ProductiveBees.MODID, "solitary_nest");
+
     static final SolitaryNestProvider INSTANCE = new SolitaryNestProvider();
 
     @Override
@@ -55,6 +59,6 @@ public class SolitaryNestProvider implements IBlockComponentProvider, IServerDat
 
     @Override
     public ResourceLocation getUid() {
-        return null;
+        return UID;
     }
 }

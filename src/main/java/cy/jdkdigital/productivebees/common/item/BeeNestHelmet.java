@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.client.model.BeeNestHelmetModel;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.Model;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -18,7 +19,8 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -39,12 +41,6 @@ public class BeeNestHelmet extends ArmorItem
         list.add(Component.translatable("productivebees.information.bee_helmet.info3", 100 * ProductiveBeesConfig.BEES.kamikazBeeChance.get()).withStyle(ChatFormatting.LIGHT_PURPLE));
     }
 
-//    @Nullable
-//    @Override
-//    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-//        return ProductiveBees.MODID + ":textures/armor/bee_nest_diamond.png";
-//    }
-
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
         super.onArmorTick(stack, level, player);
@@ -59,12 +55,12 @@ public class BeeNestHelmet extends ArmorItem
     }
 
     @Override
-    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
-        consumer.accept(new IItemRenderProperties()
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions()
         {
             @Override
-            public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-            return BeeNestHelmetModel.INSTANCE.get();
+            public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
+                return BeeNestHelmetModel.INSTANCE.get();
             }
         });
     }

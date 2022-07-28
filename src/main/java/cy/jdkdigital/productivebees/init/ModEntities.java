@@ -23,9 +23,9 @@ import net.minecraftforge.registries.RegistryObject;
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEntities
 {
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
-    public static final DeferredRegister<EntityType<?>> HIVE_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
-    public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = DeferredRegister.create(ForgeRegistries.ENTITIES, ProductiveBees.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ProductiveBees.MODID);
+    public static final DeferredRegister<EntityType<?>> HIVE_BEES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ProductiveBees.MODID);
+    public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ProductiveBees.MODID);
 
     public static RegistryObject<EntityType<ThrowableItemProjectile>> BEE_BOMB = createEntity("bee_bomb", EntityType.Builder.<ThrowableItemProjectile>of(BeeBombEntity::new, MobCategory.MISC).sized(0.25F, 0.25F));
 

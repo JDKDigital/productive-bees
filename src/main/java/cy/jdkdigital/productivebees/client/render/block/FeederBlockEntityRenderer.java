@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
-import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
@@ -89,6 +88,6 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
         } else {
             slabState = Blocks.SMOOTH_STONE_SLAB.defaultBlockState();
         }
-        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(slabState.setValue(SlabBlock.TYPE, tileEntityIn.getBlockState().getValue(SlabBlock.TYPE)).setValue(SlabBlock.TYPE, slabType), poseStack, bufferIn, combinedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
+        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(slabState.setValue(SlabBlock.TYPE, tileEntityIn.getBlockState().getValue(SlabBlock.TYPE)).setValue(SlabBlock.TYPE, slabType), poseStack, bufferIn, combinedLightIn, combinedOverlayIn);
     }
 }

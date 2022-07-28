@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 public class ModBlockEntityTypes
 {
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, ProductiveBees.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, ProductiveBees.MODID);
 
     public static final RegistryObject<BlockEntityType<AdvancedBeehiveBlockEntity>> ADVANCED_BEEHIVE = BLOCK_ENTITIES.register("advanced_beehive", () ->
             BlockEntityType.Builder.of(AdvancedBeehiveBlockEntity::new,

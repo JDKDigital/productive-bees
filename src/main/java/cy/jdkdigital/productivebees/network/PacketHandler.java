@@ -27,7 +27,7 @@ public class PacketHandler
         channel.messageBuilder(Messages.BeeDataMessage.class, getId(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(Messages.BeeDataMessage::decode)
                 .encoder(Messages.BeeDataMessage::encode)
-                .consumer(Messages.BeeDataMessage::handle)
+                .consumerNetworkThread(Messages.BeeDataMessage::handle)
                 .add();
     }
 

@@ -67,6 +67,6 @@ public class Catcher extends CapabilityContainerBlock
     }
 
     public void openGui(ServerPlayer player, CatcherBlockEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

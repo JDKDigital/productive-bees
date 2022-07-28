@@ -54,17 +54,17 @@ public class BeeIngredient
      * productivebees:osmium, prouctivebees:leafcutter_bee
      */
     public ResourceLocation getBeeType() {
-        return beeType != null ? beeType : ForgeRegistries.ENTITIES.getKey(bee);
+        return beeType != null ? beeType : ForgeRegistries.ENTITY_TYPES.getKey(bee);
     }
 
     public static BeeIngredient fromNetwork(FriendlyByteBuf buffer) {
         String beeName = buffer.readUtf();
 
-        return new BeeIngredient(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeName)), buffer.readResourceLocation(), buffer.readBoolean());
+        return new BeeIngredient(ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(beeName)), buffer.readResourceLocation(), buffer.readBoolean());
     }
 
     public final void toNetwork(FriendlyByteBuf buffer) {
-        buffer.writeUtf("" + ForgeRegistries.ENTITIES.getKey(bee));
+        buffer.writeUtf("" + ForgeRegistries.ENTITY_TYPES.getKey(bee));
         buffer.writeResourceLocation(getBeeType());
         buffer.writeBoolean(configurable);
     }

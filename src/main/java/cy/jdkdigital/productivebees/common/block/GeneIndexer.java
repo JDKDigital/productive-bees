@@ -86,6 +86,6 @@ public class GeneIndexer extends CapabilityContainerBlock
     }
 
     public void openGui(ServerPlayer player, GeneIndexerBlockEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

@@ -2,9 +2,9 @@ package cy.jdkdigital.productivebees.datagen;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ProductiveBeeDataProvider {

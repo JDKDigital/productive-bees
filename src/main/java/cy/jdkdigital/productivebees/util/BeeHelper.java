@@ -146,7 +146,7 @@ public class BeeHelper
 
         // If no specific recipe exist for the target bee or the bees are the same type, create a child like the parent
         if (beeEntity != null && (!(beeEntity instanceof ProductiveBee) || ((ProductiveBee) beeEntity).canSelfBreed())) {
-            return ForgeRegistries.ENTITIES.getValue(new ResourceLocation(beeEntity.getEncodeId())).create(world);
+            return ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(beeEntity.getEncodeId())).create(world);
         }
 
         return null;

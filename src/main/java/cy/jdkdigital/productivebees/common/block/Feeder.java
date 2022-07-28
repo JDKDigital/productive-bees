@@ -164,6 +164,6 @@ public class Feeder extends SlabBlock implements EntityBlock
     }
 
     public void openGui(ServerPlayer player, FeederBlockEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

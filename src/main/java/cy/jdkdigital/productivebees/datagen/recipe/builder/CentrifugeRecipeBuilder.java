@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.common.crafting.StrictNBTIngredient;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,7 +52,7 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
         if (fluid != null) {
             fluid = new AbstractRecipeBuilder.FluidOutput("productivebees:honey");
         }
-        return new CentrifugeRecipeBuilder(NBTIngredient.of(stack), output, fluid, conditions, true);
+        return new CentrifugeRecipeBuilder(StrictNBTIngredient.of(stack), output, fluid, conditions, true);
     }
 
     public static CentrifugeRecipeBuilder configurable(String beeName) {

@@ -18,7 +18,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.common.util.Lazy;
 
 public class BeeNestHelmetModel<T extends LivingEntity> extends HumanoidModel<T>
@@ -50,7 +49,7 @@ public class BeeNestHelmetModel<T extends LivingEntity> extends HumanoidModel<T>
             poseStack.translate(-0.5F, 0, -0.5F);
             poseStack.mulPose(Vector3f.XP.rotationDegrees(5));
             poseStack.mulPose(Vector3f.ZP.rotationDegrees(1));
-            blockRenderer.renderSingleBlock(nest, poseStack, ClientProxy.buffer, packedLight, packedOverlay, EmptyModelData.INSTANCE);
+            blockRenderer.renderSingleBlock(nest, poseStack, ClientProxy.buffer, packedLight, packedOverlay);
             poseStack.popPose();
         }
     }

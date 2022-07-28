@@ -43,9 +43,9 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -153,9 +153,9 @@ public class EventHandler
         Entity entity = entityInteract.getTarget();
 
         if (!itemStack.isEmpty() && entity instanceof Bee) {
-            Level world = entityInteract.getWorld();
+            Level world = entityInteract.getLevel();
             if (world instanceof ServerLevel) {
-                Player player = entityInteract.getPlayer();
+                Player player = entityInteract.getEntity();
                 BlockPos pos = entity.blockPosition();
 
                 Entity newBee = BeeHelper.itemInteract((Bee) entity, itemStack, (ServerLevel) world, entity.serializeNBT(), player);
@@ -223,7 +223,7 @@ public class EventHandler
 
     @SubscribeEvent
     public static void onItemFished(ItemFishedEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (player != null) {
             boolean willSpawn = player.level.random.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
             int fishingLuck = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FISHING_LUCK, player.getMainHandItem());

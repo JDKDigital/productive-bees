@@ -26,7 +26,7 @@ public class ModProfessions
 
     private static final Predicate<Holder<PoiType>> beeKeeperPoi = (poi) -> poi.is(ModPointOfInterestTypes.ADVANCED_HIVES.getKey());
 
-    public static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, ProductiveBees.MODID);
+    public static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.VILLAGER_PROFESSIONS, ProductiveBees.MODID);
 
     public static final RegistryObject<VillagerProfession> BEEKEEPER = PROFESSIONS.register("beekeeper", () -> new VillagerProfession("beekeeper", beeKeeperPoi, beeKeeperPoi, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_LEATHERWORKER));
 

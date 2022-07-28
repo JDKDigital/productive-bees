@@ -58,6 +58,6 @@ public class Incubator extends CapabilityContainerBlock
     }
 
     public void openGui(ServerPlayer player, IncubatorBlockEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

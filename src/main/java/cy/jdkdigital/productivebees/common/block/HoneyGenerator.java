@@ -167,6 +167,6 @@ public class HoneyGenerator extends CapabilityContainerBlock
     }
 
     public void openGui(ServerPlayer player, HoneyGeneratorBlockEntity tileEntity) {
-        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

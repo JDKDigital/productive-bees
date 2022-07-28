@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.handler.attributes;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.nbt.CompoundTag;
