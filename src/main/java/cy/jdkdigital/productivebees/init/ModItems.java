@@ -69,6 +69,7 @@ public class ModItems
     public static final RegistryObject<Item> UPGRADE_PRODUCTIVITY = createItem("upgrade_productivity", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_TIME = createItem("upgrade_time", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_BREEDING = createItem("upgrade_breeding", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> UPGRADE_NOT_BABEE = createItem("upgrade_not_babee", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_COMB_BLOCK = createItem("upgrade_comb_block", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_ANTI_TELEPORT = createItem("upgrade_anti_teleport", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_RANGE = createItem("upgrade_range", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));

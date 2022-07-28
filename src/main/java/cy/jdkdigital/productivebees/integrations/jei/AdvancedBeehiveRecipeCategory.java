@@ -73,7 +73,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
                     innerList.add(newStack);
                 });
 
-                builder.addSlot(RecipeIngredientRole.OUTPUT, startX + (i[0] * 18), startY + ((int) Math.floor((i[0] / 3.0F) * 18)))
+                builder.addSlot(RecipeIngredientRole.OUTPUT, startX + (i[0] * 18), startY + ((int) (Math.floor((i[0] / 3.0F)) * 18)))
                         .addItemStacks(innerList)
                         .addTooltipCallback((recipeSlotView, tooltip) -> {
                             int chance = value.get(2).getAsInt();

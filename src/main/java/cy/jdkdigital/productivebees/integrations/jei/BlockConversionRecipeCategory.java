@@ -62,7 +62,11 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
                 .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.bee.get())
                 .setSlotName("source");
 
-        if (recipe.stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
+        if (!recipe.input.isEmpty()) {
+            builder.addSlot(RecipeIngredientRole.INPUT, 5, 26)
+                    .addItemStacks(Arrays.asList(recipe.input.getItems()))
+                    .setSlotName("sourceBlocks");
+        } else if (recipe.stateFrom.getFluidState().getType().equals(Fluids.EMPTY)) {
             builder.addSlot(RecipeIngredientRole.INPUT, 5, 25)
                     .addItemStacks(Arrays.asList(recipe.fromDisplay.getItems()))
                     .setSlotName("sourceBlock");

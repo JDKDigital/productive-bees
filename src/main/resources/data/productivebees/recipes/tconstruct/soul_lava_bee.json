@@ -1,0 +1,40 @@
+{
+    "type": "tconstruct:casting_table",
+    "cast": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:ghostly\"}}"
+    },
+    "cast_consumed": true,
+    "fluid": {
+        "name": "allthemodium:soul_lava",
+        "amount": 1000
+    },
+    "result": {
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:soul_lava"
+            }
+        }
+    },
+    "cooling_time": 420,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "tconstruct"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "allthemodium"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:ghostly"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:soul_lava"
+        }
+    ]
+}

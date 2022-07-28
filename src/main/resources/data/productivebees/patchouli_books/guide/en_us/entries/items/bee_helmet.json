@@ -10,7 +10,7 @@
         },
         {
             "type": "patchouli:crafting",
-            "recipe": "productivebees:bee_nest_diamond_helmet"
+            "recipe": "productivebees:bee_nest_helmet"
         }
     ]
 }

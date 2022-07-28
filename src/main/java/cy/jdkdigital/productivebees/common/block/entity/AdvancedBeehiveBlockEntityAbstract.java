@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.common.block.entity;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehiveAbstract;
-import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBee;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
@@ -14,13 +13,11 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
@@ -56,7 +53,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         "TicksSincePollination", "CropsGrownSincePollination", "HivePos", "Passengers", "Leash", "UUID"
     );
     public int MAX_BEES = 3;
-    private LazyOptional<IInhabitantStorage> beeHandler = LazyOptional.of(this::createBeeHandler);
+    private LazyOptional<IInhabitantStorage> beeHandler = LazyOptional.of(InhabitantStorage::new);
     private BlockEntityType<?> tileEntityType;
 
     protected int tickCounter = 0;
@@ -174,6 +171,11 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     @Override
+    public void addOccupant(@Nonnull Entity beeEntity, boolean hasNectar) {
+        this.addOccupantWithPresetTicks(beeEntity, hasNectar, 0);
+    }
+
+    @Override
     public void addOccupantWithPresetTicks(Entity entity, boolean hasNectar, int ticksInHive) {
         if (entity instanceof Bee && acceptsBee((Bee) entity)) {
             beeHandler.ifPresent(h -> {
@@ -196,7 +198,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     }
 
                     entity.discard();
-                    setNonSuperChanged();
                 }
             });
         }
@@ -206,11 +207,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         beeHandler.ifPresent(h -> {
             h.addInhabitant(new Inhabitant(tag, ticksInHive, timeInHive, flowerPos, name));
         });
-    }
-
-    @Override
-    public void addOccupant(@Nonnull Entity beeEntity, boolean hasNectar) {
-        this.addOccupantWithPresetTicks(beeEntity, hasNectar, 0);
+        this.setNonSuperChanged();
     }
 
     public static boolean releaseBee(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity, CompoundTag tag, @Nullable List<Entity> releasedBees, BeehiveBlockEntity.BeeReleaseStatus beeState) {
@@ -220,27 +217,22 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
         boolean stayInside =
             beeState != BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY &&
-            level.dimension() == Level.OVERWORLD &&
+            level.canSleepThroughNights() &&
             (
                 (level.isNight() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
-                (level.isRaining() && tag.getInt("bee_weather_tolerance") == 0) // it's raining and the bees is not tolerant
+                (!level.isNight() && tag.getInt("bee_behavior") == 1) || // it's day and the bee is nocturnal
+                (level.isRainingAt(hivePos) && tag.getInt("bee_weather_tolerance") == 0) // it's raining and the bee is not tolerant
             );
-
 
         if (!stayInside) {
             Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
             BlockPos frontPos = hivePos.relative(direction);
             boolean isPositionBlocked = !level.getBlockState(frontPos).getCollisionShape(level, frontPos).isEmpty();
             if (!isPositionBlocked || beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY) {
-                tag.remove("Passengers");
-                tag.remove("Leash");
-                tag.remove("UUID");
-
                 // Spawn entity
                 boolean spawned = false;
                 Bee beeEntity = (Bee) EntityType.loadEntityRecursive(tag, level, (spawnedEntity) -> spawnedEntity);
                 if (beeEntity != null) {
-
                     // Hoarder bees should leave their inventory behind
                     AtomicBoolean hasOffloaded = new AtomicBoolean(true);
                     if (beeEntity instanceof HoarderBee) {
@@ -257,9 +249,11 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
                     spawned = spawnBeeInWorldAtPosition(level, beeEntity, hivePos, direction, null);
                     if (spawned && hasOffloaded.get()) {
-                        if (blockEntity.hasSavedFlowerPos() && !beeEntity.hasSavedFlowerPos() && (beeEntity.getEncodeId().contains("dye_bee") || level.random.nextFloat() <= 0.9F)) {
+                        if (blockEntity.savedFlowerPos != null && !beeEntity.hasSavedFlowerPos() && (beeEntity.getEncodeId().contains("dye_bee") || level.random.nextFloat() <= 0.9F)) {
                             beeEntity.setSavedFlowerPos(blockEntity.savedFlowerPos);
                         }
+                        beeEntity.hivePos = hivePos;
+
                         blockEntity.beeReleasePostAction(level, beeEntity, state, beeState);
 
                         if (releasedBees != null) {
@@ -322,11 +316,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         return block instanceof AdvancedBeehiveAbstract ? ((AdvancedBeehiveAbstract) block).getMaxHoneyLevel() : 5;
     }
 
-    @Nonnull
-    public static ListTag getBeeListAsNBTList(AdvancedBeehiveBlockEntityAbstract blockEntity) {
-        return blockEntity.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::getInhabitantListAsListNBT).orElse(new ListTag());
-    }
-
     public static void removeIgnoredBeeTags(CompoundTag tag) {
         for(String s : IGNORED_BEE_TAGS) {
             if (tag.contains(s)) {
@@ -347,16 +336,9 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         if (age != null && entity instanceof Bee) {
             ((Bee) entity).setAge(age);
         }
-        // Check if the entity is in beehive_inhabitors tag
-        if (entity.getType().is(EntityTypeTags.BEEHIVE_INHABITORS)) {
-            world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BEEHIVE_EXIT, SoundSource.BLOCKS, 1.0F, 1.0F);
-            CompoundTag tag = new CompoundTag();
-            if (entity instanceof ConfigurableBee) {
-                tag.putString("type", ((ConfigurableBee) entity).getBeeType());
-            }
-            return world.addFreshEntity(entity);
-        }
-        return false;
+
+        world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BEEHIVE_EXIT, SoundSource.BLOCKS, 1.0F, 1.0F);
+        return world.addFreshEntity(entity);
     }
 
     public List<Inhabitant> getBeeList() {
@@ -389,17 +371,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     ", nbt=" + nbt +
                     '}';
         }
-    }
-
-    private IInhabitantStorage createBeeHandler() {
-        return new InhabitantStorage()
-        {
-            @Override
-            public void onContentsChanged() {
-                super.onContentsChanged();
-                AdvancedBeehiveBlockEntityAbstract.this.setNonSuperChanged();
-            }
-        };
     }
 
     @Nonnull

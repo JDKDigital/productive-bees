@@ -1,0 +1,22 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:patrick",
+    "result": "productivebees:starry",
+    "item": {
+        "item": "allthetweaks:atm_star_block"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "allthetweaks"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:patrick"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:starry"
+        }
+    ]
+}

@@ -49,6 +49,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final RecipeType<AdvancedBeehiveRecipe> ADVANCED_BEEHIVE_TYPE = RecipeType.create(ProductiveBees.MODID, "advanced_beehive", AdvancedBeehiveRecipe.class);
     public static final RecipeType<BeeBreedingRecipe> BEE_BREEDING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_breeding", BeeBreedingRecipe.class);
     public static final RecipeType<BeeConversionRecipe> BEE_CONVERSION_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_conversion", BeeConversionRecipe.class);
+    public static final RecipeType<BeeFishingRecipe> BEE_FISHING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_fishing", BeeFishingRecipe.class);
     public static final RecipeType<BeeSpawningRecipe> BEE_SPAWNING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_spawning", BeeSpawningRecipe.class);
     public static final RecipeType<BeeSpawningBigRecipe> BEE_SPAWNING_BIG_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_spawning_big", BeeSpawningBigRecipe.class);
     public static final RecipeType<CentrifugeRecipe> CENTRIFUGE_TYPE = RecipeType.create(ProductiveBees.MODID, "centrifuge", CentrifugeRecipe.class);
@@ -89,6 +90,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCategories(new BeeBreedingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeConversionRecipeCategory(guiHelper));
         registration.addRecipeCategories(new CentrifugeRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new BeeFishingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeBigCategory(guiHelper));
         registration.addRecipeCategories(new BeeFloweringRecipeCategory(guiHelper));
@@ -122,6 +124,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Centrifuge recipes
         Map<ResourceLocation, CentrifugeRecipe> centrifugeRecipesMap = recipeManager.byType(ModRecipeTypes.CENTRIFUGE_TYPE.get());
         registration.addRecipes(CENTRIFUGE_TYPE, centrifugeRecipesMap.values().stream().toList());
+        // Fishing recipes
+        Map<ResourceLocation, BeeFishingRecipe> fishingRecipesMap = recipeManager.byType(ModRecipeTypes.BEE_FISHING_TYPE.get());
+        registration.addRecipes(BEE_FISHING_TYPE, fishingRecipesMap.values().stream().toList());
         // Spawning recipes
         Map<ResourceLocation, BeeSpawningRecipe> beeSpawningRecipesMap = recipeManager.byType(ModRecipeTypes.BEE_SPAWNING_TYPE.get());
         registration.addRecipes(BEE_SPAWNING_TYPE, beeSpawningRecipesMap.values().stream().toList());

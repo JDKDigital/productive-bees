@@ -24,6 +24,7 @@ public final class ModRecipeTypes
     public static final RegistryObject<RecipeSerializer<?>> INCUBATION = RECIPE_SERIALIZERS.register("incubation", () -> new IncubationRecipe.Serializer<>(IncubationRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_BREEDING = RECIPE_SERIALIZERS.register("bee_breeding", () -> new BeeBreedingRecipe.Serializer<>(BeeBreedingRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_CONVERSION = RECIPE_SERIALIZERS.register("bee_conversion", () -> new BeeConversionRecipe.Serializer<>(BeeConversionRecipe::new));
+    public static final RegistryObject<RecipeSerializer<?>> BEE_FISHING = RECIPE_SERIALIZERS.register("bee_fishing", () -> new BeeFishingRecipe.Serializer<>(BeeFishingRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_SPAWNING = RECIPE_SERIALIZERS.register("bee_spawning", () -> new BeeSpawningRecipe.Serializer<>(BeeSpawningRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_SPAWNING_BIG = RECIPE_SERIALIZERS.register("bee_spawning_big", () -> new BeeSpawningBigRecipe.Serializer<>(BeeSpawningBigRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_NBT_CHANGER = RECIPE_SERIALIZERS.register("bee_nbt_changer", () -> new BeeNBTChangerRecipe.Serializer<>(BeeNBTChangerRecipe::new));
@@ -41,8 +42,9 @@ public final class ModRecipeTypes
     public static RegistryObject<RecipeType<BlockConversionRecipe>> BLOCK_CONVERSION_TYPE = registerRecipeType("block_conversion");
     public static RegistryObject<RecipeType<BeeConversionRecipe>> BEE_CONVERSION_TYPE = registerRecipeType("bee_conversion");
     public static RegistryObject<RecipeType<IncubationRecipe>> INCUBATION_TYPE = registerRecipeType("incubation");
-    public static RegistryObject<RecipeType<BeeSpawningBigRecipe>> BEE_SPAWNING_BIG_TYPE = registerRecipeType("bee_spawning_big");
+    public static RegistryObject<RecipeType<BeeFishingRecipe>> BEE_FISHING_TYPE = registerRecipeType("bee_fishing");
     public static RegistryObject<RecipeType<BeeSpawningRecipe>> BEE_SPAWNING_TYPE = registerRecipeType("bee_spawning");
+    public static RegistryObject<RecipeType<BeeSpawningBigRecipe>> BEE_SPAWNING_BIG_TYPE = registerRecipeType("bee_spawning_big");
     public static RegistryObject<RecipeType<BeeNBTChangerRecipe>> BEE_NBT_CHANGER_TYPE = registerRecipeType("bee_nbt_changer");
     public static RegistryObject<RecipeType<BottlerRecipe>> BOTTLER_TYPE = registerRecipeType("bottler");
     public static RegistryObject<RecipeType<CentrifugeRecipe>> CENTRIFUGE_TYPE = registerRecipeType("centrifuge");

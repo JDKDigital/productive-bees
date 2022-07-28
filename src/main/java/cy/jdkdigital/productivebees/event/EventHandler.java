@@ -6,8 +6,10 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBee;
+import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
@@ -50,6 +52,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID)
 public class EventHandler
@@ -225,35 +230,43 @@ public class EventHandler
     public static void onItemFished(ItemFishedEvent event) {
         Player player = event.getEntity();
         if (player != null) {
-            boolean willSpawn = player.level.random.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
-            int fishingLuck = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FISHING_LUCK, player.getMainHandItem());
-            for (int i = 0; i < (1 + fishingLuck); i++) {
-                willSpawn = willSpawn || player.level.random.nextDouble() < ProductiveBeesConfig.BEES.fishingBeeChance.get();
+            BlockPos pos = event.getHookEntity().blockPosition();
+            Biome fishingBiome = player.level.getBiome(pos).value();
+            List<BeeFishingRecipe> possibleRecipes = new ArrayList<>();
+            var recipes = BeeFishingRecipe.getRecipeList(fishingBiome, player.level);
+            if (!recipes.isEmpty()) {
+                for (BeeFishingRecipe recipe: recipes) {
+                    boolean willSpawn = player.level.random.nextDouble() < recipe.chance;
+                    int fishingLuck = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FISHING_LUCK, player.getMainHandItem());
+                    for (int i = 0; i < (1 + fishingLuck); i++) {
+                        willSpawn = willSpawn || player.level.random.nextDouble() < recipe.chance;
+                    }
+
+                    if (willSpawn) {
+                        possibleRecipes.add(recipe);
+                    }
+                }
             }
 
-            if (willSpawn) {
-                ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(player.level);
-                BlockPos pos = event.getHookEntity().blockPosition();
-                if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:prismarine") != null) {
-                    Holder<Biome> fishingBiome = player.level.getBiome(pos);
-                    if (fishingBiome.is(BiomeTags.IS_OCEAN) || fishingBiome.is(BiomeTags.IS_DEEP_OCEAN)) {
-                        bee.setBeeType("productivebees:prismarine");
-                        if (BeeReloadListener.INSTANCE.getData("productivebees:oily") != null && player.level.random.nextBoolean()) {
-                            bee.setBeeType("productivebees:oily");
-                        }
-                        bee.setAttributes();
-
-                        bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
-
-                        player.level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
-                        player.level.playSound(player, pos, SoundEvents.BEE_HURT, SoundSource.NEUTRAL, 1.0F, 1.0F);
-
-                        player.level.addFreshEntity(bee);
-
-                        bee.setTarget(player);
-
-                        ModAdvancements.FISH_BEE.trigger((ServerPlayer) player, bee);
+            if (!possibleRecipes.isEmpty()) {
+                BeeFishingRecipe chosenRecipe = possibleRecipes.get(player.level.random.nextInt(possibleRecipes.size()));
+                BeeIngredient beeIngredient = chosenRecipe.output.get();
+                Bee bee = (Bee) beeIngredient.getBeeEntity().create(player.level);
+                if (bee != null) {
+                    if (bee instanceof ConfigurableBee configBee) {
+                        configBee.setBeeType(beeIngredient.getBeeType().toString());
+                        configBee.setAttributes();
                     }
+
+                    bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
+
+                    player.level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+                    player.level.playSound(player, pos, SoundEvents.BEE_HURT, SoundSource.NEUTRAL, 1.0F, 1.0F);
+
+                    player.level.addFreshEntity(bee);
+                    bee.setTarget(player);
+
+                    ModAdvancements.FISH_BEE.trigger((ServerPlayer) player, bee);
                 }
             }
         }

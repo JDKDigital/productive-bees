@@ -1,0 +1,23 @@
+{
+    "primaryColor": "#ffffff",
+    "secondaryColor": "#f2f542",
+    "tertiaryColor": "#f2f542",
+    "flowerBlock": "allthetweaks:atm_star_block",
+    "renderer": "default_shell",
+    "size": 1.5,
+    "selfbreed": false,
+    "selfheal": true,
+    "attributes": {
+        "endurance": 3
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "allthemodium"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "allthetweaks"
+        }
+    ]
+}
