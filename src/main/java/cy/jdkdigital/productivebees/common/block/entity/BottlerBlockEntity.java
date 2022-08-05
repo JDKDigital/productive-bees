@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.common.block.Bottler;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
 import cy.jdkdigital.productivebees.container.BottlerContainer;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

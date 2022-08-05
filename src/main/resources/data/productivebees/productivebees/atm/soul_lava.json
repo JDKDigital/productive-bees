@@ -4,6 +4,8 @@
     "flowerFluid": "allthemodium:soul_lava",
     "breedingItem": "allthemodium:soul_lava_bucket",
     "selfbreed": false,
+    "particleType": "lava",
+    "fireproof": true,
     "conditions": [
         {
             "type": "forge:mod_loaded",

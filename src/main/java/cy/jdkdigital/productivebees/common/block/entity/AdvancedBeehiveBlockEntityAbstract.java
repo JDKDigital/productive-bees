@@ -47,11 +47,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEntity
 {
     private static final List<String> IGNORED_BEE_TAGS = Arrays.asList(
-        "ForgeCaps", "ForgeData", "AbsorptionAmount", "Attributes", "CitadelData", "KubeJSPersistentData",
-        "Air", "ArmorDropChances", "ArmorItems", "Brain", "CanPickUpLoot", "DeathTime", "FallDistance", "InLove",
-        "FallFlying", "Fire", "HandDropChances", "HandItems", "HurtByTimestamp", "HurtTime", "LeftHanded",
-        "Motion", "NoGravity", "OnGround", "PortalCooldown", "Pos", "Rotation", "CannotEnterHiveTicks",
-        "TicksSincePollination", "CropsGrownSincePollination", "HivePos", "Passengers", "Leash", "UUID"
+            "AbsorptionAmount", "Attributes", "CitadelData", "KubeJSPersistentData",
+            "Air", "ArmorDropChances", "ArmorItems", "Brain", "CanPickUpLoot", "DeathTime", "FallDistance", "InLove",
+            "FallFlying", "Fire", "HandDropChances", "HandItems", "HurtByTimestamp", "HurtTime", "LeftHanded",
+            "Motion", "NoGravity", "OnGround", "PortalCooldown", "Pos", "Rotation", "CannotEnterHiveTicks",
+            "TicksSincePollination", "CropsGrownSincePollination", "HivePos", "Passengers", "Leash", "UUID"
+    );
+    private static final List<String> OPTIONAL_IGNORED_BEE_TAGS = Arrays.asList(
+            "ForgeCaps", "ForgeData"
     );
     public int MAX_BEES = 3;
     private LazyOptional<IInhabitantStorage> beeHandler = LazyOptional.of(InhabitantStorage::new);
@@ -217,13 +220,13 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         }
 
         boolean stayInside =
-            beeState != BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY &&
-            level.canSleepThroughNights() &&
-            (
-                (level.isNight() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
-                (!level.isNight() && tag.getInt("bee_behavior") == 1) || // it's day and the bee is nocturnal
-                (level.isRainingAt(hivePos) && tag.getInt("bee_weather_tolerance") == 0) // it's raining and the bee is not tolerant
-            );
+                beeState != BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY &&
+                        level.canSleepThroughNights() &&
+                        (
+                                (level.isNight() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
+                                        (!level.isNight() && tag.getInt("bee_behavior") == 1) || // it's day and the bee is nocturnal
+                                        (level.isRainingAt(hivePos) && tag.getInt("bee_weather_tolerance") == 0) // it's raining and the bee is not tolerant
+                        );
 
         if (!stayInside) {
             Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
@@ -318,9 +321,16 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     public static void removeIgnoredBeeTags(CompoundTag tag) {
-        for(String s : IGNORED_BEE_TAGS) {
+        for (String s : IGNORED_BEE_TAGS) {
             if (tag.contains(s)) {
                 tag.remove(s);
+            }
+        }
+        if (ProductiveBeesConfig.GENERAL.stripForgeCaps.get()) {
+            for (String s : OPTIONAL_IGNORED_BEE_TAGS) {
+                if (tag.contains(s)) {
+                    tag.remove(s);
+                }
             }
         }
     }
@@ -328,12 +338,13 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     public static boolean spawnBeeInWorldAtPosition(ServerLevel world, Entity entity, BlockPos pos, Direction direction, @Nullable Integer age) {
         BlockPos offset = pos.relative(direction);
         boolean isPositionBlocked = !world.getBlockState(offset).getCollisionShape(world, offset).isEmpty();
-        float width = entity.getBbWidth();
-        double spawnOffset = isPositionBlocked ? 0.0D : 0.55D + (double) (width / 2.0F);
-        double x = (double) pos.getX() + 0.5D + spawnOffset * (double) direction.getStepX();
-        double y = (double) pos.getY() + 0.5D - (double) (entity.getBbHeight() / 2.0F);
-        double z = (double) pos.getZ() + 0.5D + spawnOffset * (double) direction.getStepZ();
-        entity.moveTo(x, y, z, entity.getYRot(), entity.getXRot());
+        float f = entity.getBbWidth();
+        double d3 = isPositionBlocked ? 0.0D : 0.55D + (double) (f / 2.0F);
+        double d0 = (double) pos.getX() + 0.5D + d3 * (double) direction.getStepX();
+        double d1 = (double) pos.getY() + 0.5D - (double) (entity.getBbHeight() / 2.0F);
+        double d2 = (double) pos.getZ() + 0.5D + d3 * (double) direction.getStepZ();
+        entity.moveTo(d0, d1, d2, entity.getYRot(), entity.getXRot());
+
         if (age != null && entity instanceof Bee) {
             ((Bee) entity).setAge(age);
         }

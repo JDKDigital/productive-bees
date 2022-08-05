@@ -44,8 +44,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
         ReplaceBlockConfiguration featureConfig = context.config();
 
         for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
-            boolean probabilityCheck = rand.nextFloat() > this.probability;
-            if (nestShouldNotGenerate(targetBlockState.state) || probabilityCheck) {
+            if (rand.nextFloat() > this.probability) {
                 return false;
             }
 
@@ -67,10 +66,6 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
             }
         }
         return false;
-    }
-
-    protected boolean nestShouldNotGenerate(BlockState state) {
-        return !ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("enable_" + state.getBlock().getRegistryName()).get();
     }
 
     protected boolean placeNest(WorldGenLevel world, BlockPos pos, BlockState state) {

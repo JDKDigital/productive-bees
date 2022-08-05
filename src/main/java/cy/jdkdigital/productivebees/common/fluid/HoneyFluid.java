@@ -8,13 +8,21 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
@@ -99,6 +107,26 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
         return 100.0F;
     }
 
+    public boolean shouldFreeze(LevelReader pLevel, Biome biome, BlockPos pos) {
+        if (!biome.warmEnoughToRain(pos)) {
+            if (pos.getY() >= pLevel.getMinBuildHeight() && pos.getY() < pLevel.getMaxBuildHeight() && pLevel.getBrightness(LightLayer.BLOCK, pos) < 10) {
+                BlockState blockstate = pLevel.getBlockState(pos);
+                FluidState fluidstate = pLevel.getFluidState(pos);
+                if (fluidstate.getType() == ModFluids.HONEY.get() && blockstate.getBlock() instanceof LiquidBlock) {
+                    boolean flag = this.isHoneyAt(pLevel, pos.west()) && this.isHoneyAt(pLevel, pos.east()) && this.isHoneyAt(pLevel, pos.north()) && this.isHoneyAt(pLevel, pos.south());
+                    if (!flag) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isHoneyAt(LevelReader level, BlockPos pPos) {
+        return level.getFluidState(pPos).is(ModTags.HONEY);
+    }
+
     public static class Flowing extends HoneyFluid
     {
         public Flowing() {
@@ -120,6 +148,18 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
         public boolean isSource(FluidState state) {
             return false;
         }
+
+//        @Override
+//        protected void randomTick(Level pLevel, BlockPos pPos, FluidState pState, Random pRandom) {
+//            if (pLevel instanceof ServerLevel sLevel && pLevel.random.nextInt(16) == 0) {
+//                if (sLevel.isLoaded(pPos)) {
+//                    Biome biome = sLevel.getBiome(pPos).value();
+//                    if (shouldFreeze(sLevel, biome, pPos)) {
+//                        sLevel.setBlockAndUpdate(pPos, Blocks.HONEY_BLOCK.defaultBlockState());
+//                    }
+//                }
+//            }
+//        }
     }
 
     public static class Source extends HoneyFluid

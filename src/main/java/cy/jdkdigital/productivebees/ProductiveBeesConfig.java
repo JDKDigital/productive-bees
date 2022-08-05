@@ -1,9 +1,12 @@
 package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
+import cy.jdkdigital.productivebees.gen.feature.*;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
@@ -73,6 +76,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue nestLocatorDistance;
         public final ForgeConfigSpec.IntValue nestSpawnCooldown;
         public final ForgeConfigSpec.BooleanValue centrifugeHopperMode;
+        public final ForgeConfigSpec.BooleanValue stripForgeCaps;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -136,6 +140,10 @@ public class ProductiveBeesConfig
             centrifugeHopperMode = builder
                     .comment("Centrifuges will pick up items thrown on it")
                     .define("centrifugeHopperMode", true);
+
+            stripForgeCaps = builder
+                    .comment("Having a lot of bees (or bee cages in an inventory) in a single chunk can overload the chunk with data. A lot of data is already stripped from the bees as they are saved, but this will also remove all Forge capabilities, which is data added to the bees by other mods. Turn off to keep the data.")
+                    .define("stripForgeCaps", true);
 
             builder.pop();
         }
@@ -230,18 +238,34 @@ public class ProductiveBeesConfig
 
     public static class WorldGen
     {
-        public final Map<String, ForgeConfigSpec.BooleanValue> nestConfigs = new HashMap<>();
+        public final Map<String, ForgeConfigSpec.DoubleValue> nestConfigs = new HashMap<>();
 
         public WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push("Worldgen");
-            builder.comment("Which nests should generate in the level. Nest will still be craftable and attract bees when placed in the world.");
+            builder.comment("Probability for a nest to generate in the world given it's conditions. Nest will still be craftable and attract bees when placed in the world.");
 
-            for (RegistryObject<Block> blockReg : ModBlocks.BLOCKS.getEntries()) {
-                ResourceLocation resName = blockReg.getId();
-                if (resName.toString().contains("_nest")) {
-                    nestConfigs.put("enable_" + resName, builder.define("enable_" + resName, true));
-                }
-            }
+            nestConfigs.put("stone_nest", builder.defineInRange("stone_nest", 0.1D, 0.0D, 1.0D));
+            nestConfigs.put("coarse_dirt_nest", builder.defineInRange("coarse_dirt_nest", 0.60D, 0.0D, 1.0D));
+            nestConfigs.put("sand_nest", builder.defineInRange("sand_nest", 0.1D, 0.0D, 1.0D));
+            nestConfigs.put("snow_nest", builder.defineInRange("snow_nest", 0.1D, 0.0D, 1.0D));
+            nestConfigs.put("gravel_nest", builder.defineInRange("gravel_nest", 0.15D, 0.0D, 1.0D));
+            nestConfigs.put("sugar_cane_nest", builder.defineInRange("sugar_cane_nest", 0.40D, 0.0D, 1.0D));
+            nestConfigs.put("slimy_nest", builder.defineInRange("slimy_nest", 0.10D, 0.0D, 1.0D));
+            nestConfigs.put("glowstone_nest", builder.defineInRange("glowstone_nest", 0.90D, 0.0D, 1.0D));
+            nestConfigs.put("soul_sand_nest", builder.defineInRange("soul_sand_nest", 0.10D, 0.0D, 1.0D));
+            nestConfigs.put("nether_quartz_nest", builder.defineInRange("nether_quartz_nest", 0.20D, 0.0D, 1.0D));
+            nestConfigs.put("nether_brick_nest", builder.defineInRange("nether_brick_nest", 0.90D, 0.0D, 1.0D));
+            nestConfigs.put("end_stone_nest", builder.defineInRange("end_stone_nest", 0.15D, 0.0D, 1.0D));
+            nestConfigs.put("obsidian_nest", builder.defineInRange("obsidian_nest", 1.00D, 0.0D, 1.0D));
+            nestConfigs.put("bumble_bee_nest", builder.defineInRange("bumble_bee_nest", 0.02D, 0.0D, 1.0D));
+            nestConfigs.put("oak_wood_nest", builder.defineInRange("oak_wood_nest", 0.15D, 0.0D, 1.0D));
+            nestConfigs.put("spruce_wood_nest", builder.defineInRange("spruce_wood_nest", 0.2D, 0.0D, 1.0D));
+            nestConfigs.put("dark_oak_wood_nest", builder.defineInRange("dark_oak_wood_nest", 0.2D, 0.0D, 1.0D));
+            nestConfigs.put("birch_wood_nest", builder.defineInRange("birch_wood_nest", 0.2D, 0.0D, 1.0D));
+            nestConfigs.put("jungle_wood_nest", builder.defineInRange("jungle_wood_nest", 0.10D, 0.0D, 1.0D));
+            nestConfigs.put("acacia_wood_nest", builder.defineInRange("acacia_wood_nest", 0.2D, 0.0D, 1.0D));
+            nestConfigs.put("nether_bee_nest", builder.defineInRange("nether_bee_nest", 0.02D, 0.0D, 1.0D));
+            nestConfigs.put("sugarbag_nest", builder.defineInRange("sugarbag_nest", 0.02D, 0.0D, 1.0D));
 
             builder.pop();
         }

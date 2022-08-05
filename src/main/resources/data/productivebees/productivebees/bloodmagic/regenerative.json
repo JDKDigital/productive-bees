@@ -6,6 +6,7 @@
     "renderer": "thicc",
     "selfbreed": false,
     "selfheal": true,
+    "createComb": false,
     "attributes": {
         "endurance": 3,
         "temper": 2,

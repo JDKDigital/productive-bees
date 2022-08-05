@@ -53,13 +53,8 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
         }
     });
 
-    protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
+    protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000, fluidStack -> fluidStack.getFluid().is(ModTags.HONEY))
     {
-        @Override
-        public boolean isFluidValid(FluidStack stack) {
-            return stack.getFluid().isSame(ModFluids.HONEY.get());
-        }
-
         @Override
         protected void onContentsChanged() {
             super.onContentsChanged();

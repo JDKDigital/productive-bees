@@ -18,6 +18,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class InventoryHandlerHelper
 {
@@ -226,6 +227,10 @@ public class InventoryHandlerHelper
     {
         public FluidHandler(int capacity) {
             super(capacity);
+        }
+
+        public FluidHandler(int capacity, Predicate<FluidStack> validator) {
+            super(capacity, validator);
         }
 
         @Override

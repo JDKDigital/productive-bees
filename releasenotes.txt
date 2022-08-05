@@ -1,3 +1,10 @@
+1.18.2-0.9.0.11
+
+-- Leashes now drop when a leashed bee is picked up in a cage
+-- Bee nest spawn probability moved into configs
+-- Soul lava bee made fireproof
+
+
 1.18.2-0.9.0.10
 
 -- Added new ATM bees; Soul Lava, Starry and ...Patrick

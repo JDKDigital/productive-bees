@@ -4,6 +4,7 @@
     "particleColor": "#FFC0CB",
     "size": 0.5,
     "renderer": "thicc",
+    "createComb": false,
     "passiveEffects": [
         {
             "effect": "minecraft:regeneration",
