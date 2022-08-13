@@ -1,0 +1,38 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:end_gobber"
+                }
+            }
+        }
+    ],
+    "results": [
+        {
+            "item": "gobber2:gobber2_globette_end",
+            "chance": 0.15
+        },
+        {
+            "item": "productivebees:wax"
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 50
+        }
+    ],
+    "heatRequirement": "heated",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "gobber"
+        }
+    ]
+}

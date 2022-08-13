@@ -12,6 +12,7 @@ import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -451,7 +452,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         compound.putString("type", getBeeType());
     }
 
-    protected CompoundTag getNBTData() {
+    public CompoundTag getNBTData() {
         CompoundTag nbt = BeeReloadListener.INSTANCE.getData(getBeeType());
 
         return nbt != null ? nbt : new CompoundTag();

@@ -40,6 +40,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -162,6 +163,10 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                     }
                     if (!nbt.getBoolean("selfbreed")) {
                         description = new TranslatableComponent("productivebees.ingredient.description.selfbreed", description);
+                    }
+                    // Spirit soul transformation special case
+                    if (ModList.get().isLoaded("spirit") && beeId.equals("soulsteel")) {
+                        description = new TranslatableComponent("productivebees.ingredient.description.soul_transformation", description);
                     }
                 } else {
                     description = new TranslatableComponent("productivebees.ingredient.description." + (beeId));

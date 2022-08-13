@@ -2,11 +2,13 @@ package cy.jdkdigital.productivebees.integrations.top;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
-import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.*;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import mcjty.theoneprobe.api.ITheOneProbe;
+import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -15,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -25,6 +28,17 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
     @Nullable
     @Override
     public Void apply(ITheOneProbe theOneProbe) {
+        theOneProbe.registerEntityDisplayOverride((probeMode, probeInfo, player, level, entity, iProbeHitEntityData) -> {
+            if (entity instanceof ProductiveBee bee && probeMode.equals(ProbeMode.EXTENDED)) {
+                List<Component> list =  new ArrayList<>();
+                BeeHelper.populateBeeInfoFromEntity(bee, list);
+                for (Component component: list) {
+                    probeInfo.mcText(component);
+                }
+            }
+            return false;
+        });
+
         theOneProbe.registerBlockDisplayOverride((mode, probeInfo, player, world, blockState, data) -> {
             BlockEntity tileEntity = world.getBlockEntity(data.getPos());
             if (tileEntity instanceof SolitaryNestBlockEntity nest) {
@@ -59,27 +73,18 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
             }
 
             // Centrifuge
-            if (tileEntity instanceof CentrifugeBlockEntity centrifugeTileEntity) {
-                if (centrifugeTileEntity.recipeProgress > 0) {
+            if (tileEntity instanceof IRecipeProcessingBlockEntity recipeProcessingBlockEntity) {
+                if (recipeProcessingBlockEntity.getRecipeProgress() > 0) {
                     probeInfo.horizontal()
                             .item(new ItemStack(blockState.getBlock().asItem()))
                             .vertical()
                             .itemLabel(new ItemStack(blockState.getBlock().asItem()))
-                            .progress((int) Math.floor(centrifugeTileEntity.recipeProgress), centrifugeTileEntity.getProcessingTime())
+                            .progress((int) Math.floor(recipeProcessingBlockEntity.getRecipeProgress()), recipeProcessingBlockEntity.getProcessingTime())
                             .text(formattedName);
                     return true;
                 }
             }
 
-            ResourceLocation registryName = blockState.getBlock().getRegistryName();
-            if (registryName != null && registryName.getNamespace().equals(ProductiveBees.MODID)) {
-                probeInfo.horizontal()
-                        .item(new ItemStack(blockState.getBlock().asItem()))
-                        .vertical()
-                        .itemLabel(new ItemStack(blockState.getBlock().asItem()))
-                        .text(formattedName);
-                return true;
-            }
             return false;
         });
 

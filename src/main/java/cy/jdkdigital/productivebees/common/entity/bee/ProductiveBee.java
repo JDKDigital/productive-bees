@@ -78,9 +78,10 @@ public class ProductiveBee extends Bee
     public ProductiveBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
 
-        setAttributeValue(BeeAttributes.PRODUCTIVITY, level.random.nextInt(3));
+        Random random = new Random();
+        setAttributeValue(BeeAttributes.PRODUCTIVITY, random.nextInt(3));
         setAttributeValue(BeeAttributes.TEMPER, 1);
-        setAttributeValue(BeeAttributes.ENDURANCE, level.random.nextInt(3));
+        setAttributeValue(BeeAttributes.ENDURANCE, random.nextInt(3));
         setAttributeValue(BeeAttributes.BEHAVIOR, 0);
         setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
         setAttributeValue(BeeAttributes.TYPE, "hive");
@@ -141,7 +142,7 @@ public class ProductiveBee extends Bee
         if (!level.isClientSide && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getBeeEffect();
             if (effect != null && effect.getEffects().size() > 0) {
-                List<LivingEntity> entities = new ArrayList<>();
+                List<LivingEntity> entities;
                 if (getBeeType().equals("")) {
                     entities = level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
                 } else {
@@ -407,11 +408,11 @@ public class ProductiveBee extends Bee
         return getAttributeValue(BeeAttributes.BEHAVIOR) > 0;
     }
 
-    boolean canOperateDuringRain() {
+    public boolean canOperateDuringRain() {
         return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) > 0;
     }
 
-    boolean canOperateDuringThunder() {
+    public boolean canOperateDuringThunder() {
         return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 2;
     }
 

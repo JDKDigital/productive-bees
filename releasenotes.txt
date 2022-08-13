@@ -1,8 +1,16 @@
+1.18.2-0.9.0.12
+
+-- Filter upgrades now work in centrifuges, only allowing combs produced by the bees on the filter
+-- Added Gobber bees
+-- Added support for soul steel from Spirit
+
+
 1.18.2-0.9.0.11
 
 -- Leashes now drop when a leashed bee is picked up in a cage
 -- Bee nest spawn probability moved into configs
 -- Soul lava bee made fireproof
+-- Stacked filled bee cages will only use 1 item at a time instead of deleting the whole stack
 
 
 1.18.2-0.9.0.10

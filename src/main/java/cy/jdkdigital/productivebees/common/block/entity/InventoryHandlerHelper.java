@@ -124,8 +124,8 @@ public class InventoryHandlerHelper
             return item == Items.GLASS_BOTTLE;
         }
 
-        public boolean isInputSlotItem(int slot, Item item) {
-            return (slot == BOTTLE_SLOT && isContainerItem(item)) || (slot == FLUID_ITEM_OUTPUT_SLOT && !isContainerItem(item));
+        public boolean isInputSlotItem(int slot, ItemStack item) {
+            return (slot == BOTTLE_SLOT && isContainerItem(item.getItem())) || (slot == FLUID_ITEM_OUTPUT_SLOT && !isContainerItem(item.getItem()));
         }
 
         @Override
@@ -135,7 +135,7 @@ public class InventoryHandlerHelper
 
         public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
             // Always allow an input item into an input slot
-            if (isInputSlotItem(slot, stack.getItem())) {
+            if (isInputSlotItem(slot, stack)) {
                 return true;
             }
 
@@ -206,7 +206,6 @@ public class InventoryHandlerHelper
 
     public static class UpgradeHandler extends ItemHandler
     {
-
         public UpgradeHandler(int size, BlockEntity tileEntity) {
             super(size, tileEntity);
         }
@@ -217,8 +216,8 @@ public class InventoryHandlerHelper
         }
 
         @Override
-        public boolean isInputSlotItem(int slot, Item item) {
-            return item instanceof UpgradeItem;
+        public boolean isInputSlotItem(int slot, ItemStack item) {
+            return item.getItem() instanceof UpgradeItem;
         }
     }
 

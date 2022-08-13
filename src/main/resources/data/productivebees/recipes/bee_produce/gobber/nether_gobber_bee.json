@@ -1,6 +1,6 @@
 {
     "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:ender",
+    "ingredient": "productivebees:nether_gobber",
     "results": [
         {
             "item": {
@@ -8,29 +8,22 @@
                 "item": "productivebees:configurable_honeycomb",
                 "nbt": {
                     "EntityTag": {
-                        "type": "productivebees:ender"
+                        "type": "productivebees:nether_gobber"
                     }
                 }
-            },
-            "chance": 40
+            }
         },
         {
             "item": {
-                "item": "minecraft:chorus_fruit"
+                "tag": "forge:pollen"
             },
-            "chance": 10
-        },
-        {
-            "item": {
-                "item": "minecraft:chorus_flower"
-            },
-            "chance": 1
+            "chance": 5
         }
     ],
     "conditions": [
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:ender"
+            "bee": "productivebees:nether_gobber"
         }
     ]
 }

@@ -44,7 +44,7 @@ public class BeeCage extends Item
 
     public static boolean isFilled(ItemStack itemStack) {
         CompoundTag tag = itemStack.getTag();
-        return !itemStack.isEmpty() && tag != null && tag.contains("entity");
+        return !itemStack.isEmpty() && itemStack.getItem() instanceof BeeCage && tag != null && tag.contains("entity");
     }
 
     @Override

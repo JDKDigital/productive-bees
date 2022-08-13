@@ -1,0 +1,47 @@
+{
+  "type": "spirit:soul_transmutation",
+  "entityInput": "minecraft:bee",
+  "consumesActivator": false,
+  "itemInputs": [
+    {
+      "item": "spirit:crude_soul_crystal"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_powder"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_powder"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    },
+    {
+      "item": "spirit:soul_powder"
+    },
+    {
+      "item": "spirit:soul_steel_ingot"
+    }
+  ],
+  "entityOutput": "productivebees:configurable_bee",
+  "outputNbt": {
+    "type":"productivebees:soulsteel"
+  },
+  "duration": 30,
+  "shouldSummonMob": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "spirit"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:soulsteel"
+    }
+  ]
+}

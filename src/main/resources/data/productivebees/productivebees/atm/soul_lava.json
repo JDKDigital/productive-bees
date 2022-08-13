@@ -1,6 +1,7 @@
 {
     "primaryColor": "#323e8f",
     "secondaryColor": "#5a8eb7",
+    "particleColor": "#323e8f",
     "flowerFluid": "allthemodium:soul_lava",
     "breedingItem": "allthemodium:soul_lava_bucket",
     "selfbreed": false,

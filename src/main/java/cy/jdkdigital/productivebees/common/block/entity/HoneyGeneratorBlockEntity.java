@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
 import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -19,6 +20,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -39,6 +42,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements UpgradeableBlockEntity
 {
     protected int tickCounter = 0;
+    public int fluidId = 0;
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(2, this)
     {
@@ -63,6 +67,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
             } else {
                 HoneyGeneratorBlockEntity.this.setFilled(false);
             }
+            HoneyGeneratorBlockEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
             HoneyGeneratorBlockEntity.this.setChanged();
         }
     });
@@ -203,6 +208,10 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     @Override
     public void loadPacketNBT(CompoundTag tag) {
         super.loadPacketNBT(tag);
+
+        // set fluid ID for screens
+        Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
+        fluidId = Registry.FLUID.getId(fluid);
 
         // Rebuild cached attached TEs
         refreshConnectedTileEntityCache();

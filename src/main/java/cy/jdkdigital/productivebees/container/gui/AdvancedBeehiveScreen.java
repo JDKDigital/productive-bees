@@ -133,7 +133,7 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
             // Bees
             int i = 0;
             for (AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
-                if (minecraft.player != null && positions.containsKey(i)) {
+                if (minecraft != null && positions.containsKey(i)) {
                     String type = inhabitant.nbt.getString("type");
                     if (type.isEmpty()) {
                         type = inhabitant.nbt.getString("id");

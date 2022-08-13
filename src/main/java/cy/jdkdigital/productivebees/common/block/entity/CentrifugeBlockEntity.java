@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
+import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
@@ -14,6 +15,8 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
@@ -28,6 +31,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -54,9 +58,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class CentrifugeBlockEntity extends FluidTankBlockEntity implements UpgradeableBlockEntity
+public class CentrifugeBlockEntity extends FluidTankBlockEntity implements UpgradeableBlockEntity, IRecipeProcessingBlockEntity
 {
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
@@ -71,8 +76,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         }
 
         @Override
-        public boolean isInputSlotItem(int slot, Item item) {
-            boolean isProcessableItem = item.equals(ModItems.GENE_BOTTLE.get()) || item.equals(ModItems.HONEY_TREAT.get()) || CentrifugeBlockEntity.this.canProcessItemStack(new ItemStack(item));
+        public boolean isInputSlotItem(int slot, ItemStack item) {
+            boolean isProcessableItem = item.getItem().equals(ModItems.GENE_BOTTLE.get()) || item.getItem().equals(ModItems.HONEY_TREAT.get()) || CentrifugeBlockEntity.this.canProcessItemStack(item);
 
             return (isProcessableItem && slot == InventoryHandlerHelper.INPUT_SLOT) || (!isProcessableItem && super.isInputSlotItem(slot, item));
         }
@@ -104,6 +109,11 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
     public CentrifugeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+    }
+
+    @Override
+    public int getRecipeProgress() {
+        return recipeProgress;
     }
 
     public int getProcessingTime() {
@@ -231,9 +241,27 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(2, null);
         inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, stack);
 
+        boolean isAllowedByFilter = true;
+        List<ItemStack> filterUpgrades = this.getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
+        if (filterUpgrades.size() > 0) {
+            isAllowedByFilter = false;
+            for (ItemStack filter : filterUpgrades) {
+                List<Supplier<BeeIngredient>> allowedBees = FilterUpgradeItem.getAllowedBees(filter);
+                for (Supplier<BeeIngredient> allowedBee : allowedBees) {
+                    List<ItemStack> produceList = BeeHelper.getBeeProduce(level, (Bee) allowedBee.get().getCachedEntity(level), false);
+                    for (ItemStack pStack: produceList) {
+                        if (pStack.getItem().equals(stack.getItem())) {
+                            isAllowedByFilter = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         CentrifugeRecipe recipe = getRecipe(inv);
 
-        return recipe != null;
+        return isAllowedByFilter && recipe != null;
     }
 
     private CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {

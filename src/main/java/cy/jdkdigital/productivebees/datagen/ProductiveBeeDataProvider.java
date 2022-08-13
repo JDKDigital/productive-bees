@@ -15,9 +15,6 @@ public class ProductiveBeeDataProvider {
         DataGenerator gen = event.getGenerator();
 
         if (event.includeClient()) {
-//            gen.addProvider(new GeomancyLanguageProvider(gen));
-//            gen.addProvider(new GeomancyBlockStates(gen, event.getExistingFileHelper()));
-//            gen.addProvider(new GeomancyItemModelProvider(gen, event.getExistingFileHelper()));
         }
 
         if (event.includeServer()) {

@@ -39,7 +39,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuProvider, UpgradeableBlockEntity
+public class IncubatorBlockEntity extends CapabilityBlockEntity implements UpgradeableBlockEntity, IRecipeProcessingBlockEntity
 {
     public int recipeProgress = 0;
     public boolean isRunning = false;
@@ -47,11 +47,11 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(3, this)
     {
         @Override
-        public boolean isInputSlotItem(int slot, Item item) {
+        public boolean isInputSlotItem(int slot, ItemStack item) {
             return
-                (slot == 0 && item instanceof BeeCage) ||
-                (slot == 0 && item.builtInRegistryHolder().is(ModTags.Forge.EGGS)) ||
-                (slot == 1 && item instanceof HoneyTreat);
+                (slot == 0 && item.getItem() instanceof BeeCage) ||
+                (slot == 0 && item.is(ModTags.Forge.EGGS)) ||
+                (slot == 1 && item.getItem() instanceof HoneyTreat);
         }
     });
 
@@ -65,6 +65,11 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
 
     public IncubatorBlockEntity(BlockPos pos, BlockState state) {
         super(ModTileEntityTypes.INCUBATOR.get(), pos, state);
+    }
+
+    @Override
+    public int getRecipeProgress() {
+        return recipeProgress;
     }
 
     public int getProcessingTime() {
@@ -133,45 +138,43 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuP
     }
 
     private void completeIncubation(IItemHandlerModifiable invHandler) {
+        ItemStack inItem = invHandler.getStackInSlot(0);
+
+        boolean eggProcessing = inItem.is(ModTags.Forge.EGGS);
+        boolean cageProcessing = inItem.getItem() instanceof BeeCage;
+
         if (canProcessInput(invHandler)) {
-            ItemStack inItem = invHandler.getStackInSlot(0);
+            if (cageProcessing) {
+                CompoundTag nbt = inItem.getTag();
+                if (nbt != null && nbt.contains("Age")) {
+                    nbt.putInt("Age", 0);
+                }
+                invHandler.setStackInSlot(2, inItem);
+                invHandler.getStackInSlot(1).shrink(ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
+                invHandler.setStackInSlot(0, ItemStack.EMPTY);
+            } else if (eggProcessing) {
+                ItemStack treatItem = invHandler.getStackInSlot(1);
 
-            boolean eggProcessing = inItem.is(ModTags.Forge.EGGS);
-            boolean cageProcessing = inItem.getItem() instanceof BeeCage;
-
-            if (canProcessInput(invHandler)) {
-                if (cageProcessing) {
-                    CompoundTag nbt = inItem.getTag();
-                    if (nbt != null && nbt.contains("Age")) {
-                        nbt.putInt("Age", 0);
-                    }
-                    invHandler.setStackInSlot(2, inItem);
-                    invHandler.getStackInSlot(1).shrink(ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
-                    invHandler.setStackInSlot(0, ItemStack.EMPTY);
-                } else if (eggProcessing) {
-                    ItemStack treatItem = invHandler.getStackInSlot(1);
-
-                    ListTag genes = HoneyTreat.getGenes(treatItem);
-                    for (Tag inbt : genes) {
-                        ItemStack insertedGene = ItemStack.of((CompoundTag) inbt);
-                        String beeName = Gene.getAttributeName(insertedGene);
-                        if (!beeName.isEmpty()) {
-                            int purity = Gene.getPurity(insertedGene);
-                            if (((CompoundTag) inbt).contains("purity")) {
-                                purity = ((CompoundTag) inbt).getInt("purity");
-                            }
-                            if (ProductiveBees.rand.nextInt(100) <= purity) {
-                                ItemStack egg = BeeCreator.getSpawnEgg(beeName);
-                                if (egg.getItem() instanceof SpawnEggItem) {
-                                    invHandler.setStackInSlot(2, egg);
-                                }
+                ListTag genes = HoneyTreat.getGenes(treatItem);
+                for (Tag inbt : genes) {
+                    ItemStack insertedGene = ItemStack.of((CompoundTag) inbt);
+                    String beeName = Gene.getAttributeName(insertedGene);
+                    if (!beeName.isEmpty()) {
+                        int purity = Gene.getPurity(insertedGene);
+                        if (((CompoundTag) inbt).contains("purity")) {
+                            purity = ((CompoundTag) inbt).getInt("purity");
+                        }
+                        if (ProductiveBees.rand.nextInt(100) <= purity) {
+                            ItemStack egg = BeeCreator.getSpawnEgg(beeName);
+                            if (egg.getItem() instanceof SpawnEggItem) {
+                                invHandler.setStackInSlot(2, egg);
                             }
                         }
                     }
-
-                    inItem.shrink(1);
-                    invHandler.getStackInSlot(1).shrink(1);
                 }
+
+                inItem.shrink(1);
+                invHandler.getStackInSlot(1).shrink(1);
             }
         }
     }

@@ -157,7 +157,20 @@ public class BeeHelper
         return null;
     }
 
-    public static BeeBreedingRecipe getRandomBreedingRecipe(Bee beeEntity, AgeableMob targetEntity, ServerLevel world) {
+    public static BeeBreedingRecipe getRandomBreedingRecipe(Bee beeEntity, AgeableMob targetEntity, ServerLevel level) {
+        Container beeInv = new IdentifierInventory(beeEntity, (Bee) targetEntity);
+
+        // Get breeding recipes
+        List<BeeBreedingRecipe> recipes = getBreedingRecipes(beeEntity, targetEntity, level);
+
+        if (!recipes.isEmpty()) {
+            return recipes.get(level.random.nextInt(recipes.size()));
+        }
+
+        return null;
+    }
+
+    public static List<BeeBreedingRecipe> getBreedingRecipes(Bee beeEntity, AgeableMob targetEntity, ServerLevel world) {
         Container beeInv = new IdentifierInventory(beeEntity, (Bee) targetEntity);
 
         // Get breeding recipes
@@ -170,11 +183,7 @@ public class BeeHelper
             }
         }
 
-        if (!recipes.isEmpty()) {
-            return recipes.get(ProductiveBees.rand.nextInt(recipes.size()));
-        }
-
-        return null;
+        return recipes;
     }
 
     public static BlockConversionRecipe getBlockConversionRecipe(Bee beeEntity, BlockState flowerBlockState) {
@@ -345,6 +354,15 @@ public class BeeHelper
 
         int parentWeatherTolerance = Mth.nextInt(ProductiveBees.rand, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
         attributeMapChild.put(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
+    }
+
+    public static List<Component> populateBeeInfoFromEntity(Bee bee, @Nullable List<Component> list) {
+        var tag = new CompoundTag();
+        bee.saveWithoutId(tag);
+        if (bee instanceof ProductiveBee) {
+            tag.putBoolean("isProductiveBee", true);
+        }
+        return populateBeeInfoFromTag(tag, list);
     }
 
     public static List<Component> populateBeeInfoFromTag(CompoundTag tag, @Nullable List<Component> list) {
