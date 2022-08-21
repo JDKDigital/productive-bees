@@ -9,6 +9,7 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
@@ -64,7 +65,7 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, BeeBreedingRecipe recipe, List<? extends IFocus<?>> focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, BeeBreedingRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 12, 17)
                 .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredients.get(0).get())
                 .setSlotName("parent1");

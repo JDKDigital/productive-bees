@@ -2,6 +2,16 @@
     "primaryColor": "#60AE11",
     "secondaryColor": "#804f40",
     "flowerTag": "productivebees:flowers/radioactive",
+    "passiveEffects": [
+        {
+            "effect": "minecraft:nausea",
+            "duration": 150
+        },
+        {
+            "effect": "minecraft:weakness",
+            "duration": 150
+        }
+    ],
     "conditions": [
         {
             "type": "forge:not",

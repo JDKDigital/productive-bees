@@ -39,7 +39,7 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeContaine
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         this.font.draw(matrixStack, this.title, -5f, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.menu.tileEntity.getName(), -5f, (float) (this.getYSize() - 96 + 2), 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle, -5f, (float) (this.getYSize() - 96 + 2), 4210752);
 
         this.menu.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);

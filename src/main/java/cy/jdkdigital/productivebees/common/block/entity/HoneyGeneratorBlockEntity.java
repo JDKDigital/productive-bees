@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.HoneyGenerator;
 import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
@@ -95,6 +96,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
 
     public static void tick(Level level, BlockPos pos, BlockState state, HoneyGeneratorBlockEntity blockEntity) {
         int tickRate = 10;
+
         if (++blockEntity.tickCounter % tickRate == 0) {
             double consumeModifier = 1d + blockEntity.getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
             double speedModifier = 1d + (blockEntity.getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
@@ -212,9 +214,6 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
         // set fluid ID for screens
         Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
         fluidId = Registry.FLUID.getId(fluid);
-
-        // Rebuild cached attached TEs
-        refreshConnectedTileEntityCache();
     }
 
     @Override

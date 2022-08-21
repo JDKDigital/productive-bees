@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import com.mojang.authlib.GameProfile;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -230,11 +231,11 @@ public class FarmerBee extends ProductiveBee
                                 } else {
                                     // right click crop if certain mods are installed
                                     if (
+                                            ProductiveBeesConfig.GENERAL.forceEnableFarmerBeeRightClickHarvest.get() ||
                                             ModList.get().isLoaded("right_click_get_crops") ||
                                             ModList.get().isLoaded("croptopia") ||
                                             ModList.get().isLoaded("quark") ||
                                             ModList.get().isLoaded("harvest") ||
-                                            ModList.get().isLoaded("pamhc2crops") ||
                                             ModList.get().isLoaded("simplefarming") ||
                                             ModList.get().isLoaded("reap")
                                     ) {

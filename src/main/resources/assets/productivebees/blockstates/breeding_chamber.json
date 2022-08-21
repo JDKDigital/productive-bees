@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "": [
+            {
+                "model": "productivebees:block/breeding_chamber"
+            }
+        ]
+    }
+}

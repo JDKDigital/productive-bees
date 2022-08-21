@@ -9,7 +9,7 @@
         },
         {
             "type": "patchouli:text",
-            "text": "Bees being entities in the world and not just a block or item will inherently use more resources. A big resource hog from entities is pathing and AI of which bees are not great. To prevent unnecessary AI calculations, make sure all bees have a place to live and their required flower block. Also keep the bees in an enclosure that's not too big, or they will start wandering off."
+            "text": "Bees being entities in the world and not just a block or item will inherently use more resources. A big resource hog from entities is pathing and AI of which bees are not great. To prevent unnecessary AI calculations, make sure all bees have a place to live and their required flower block. Also keep the bees in an enclosure that's not too big, or they will start wandering off. Alternatively you can use a simulator upgrade in the hive to prevent the bee entities being in the world."
         },
         {
             "type": "patchouli:text",

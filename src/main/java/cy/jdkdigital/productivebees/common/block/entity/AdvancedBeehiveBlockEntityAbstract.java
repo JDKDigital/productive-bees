@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBee;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -94,13 +95,22 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     private static void tickBees(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {
         blockEntity.beeHandler.ifPresent(h -> {
-            Iterator<AdvancedBeehiveBlockEntityAbstract.Inhabitant> inhabitantIterator = h.getInhabitants().iterator();
+            Iterator<Inhabitant> inhabitantIterator = h.getInhabitants().iterator();
             boolean hasReleased = false;
             while (inhabitantIterator.hasNext()) {
-                AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant = inhabitantIterator.next();
+                Inhabitant inhabitant = inhabitantIterator.next();
                 if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
                     BeehiveBlockEntity.BeeReleaseStatus beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-                    if (AdvancedBeehiveBlockEntityAbstract.releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt, null, beeState)) {
+                    if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0) {
+                        // for simulated hives, count all the way up to timeInHive + pollinationTime
+                        if (inhabitant.ticksInHive > (inhabitant.minOccupationTicks + 450)) {
+                            simulateBee(level, hivePos, state, blockEntity, inhabitant);
+                            hasReleased = true;
+                        } else if (willLeaveHive(level, inhabitant.nbt, beeState)){
+                            // only add count if outside is favourable
+                            inhabitant.ticksInHive += blockEntity.tickCounter;
+                        }
+                    } else if (releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt, null, beeState)) {
                         hasReleased = true;
                         inhabitantIterator.remove();
                     }
@@ -214,23 +224,35 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         this.setNonSuperChanged();
     }
 
+    public static void simulateBee(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity, Inhabitant inhabitant) {
+        Bee beeEntity = (Bee) EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
+        if (beeEntity != null) {
+            // state depends on whether the outside is having a valid flower block
+            Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
+            BeehiveBlockEntity.BeeReleaseStatus beeState = beeEntity.isFlowerValid(hivePos.below().relative(direction)) ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
+
+            blockEntity.beeReleasePostAction(level, beeEntity, state, beeState);
+            inhabitant.ticksInHive = 0;
+
+            // update bee data
+            CompoundTag compoundNBT = new CompoundTag();
+            beeEntity.save(compoundNBT);
+            AdvancedBeehiveBlockEntityAbstract.removeIgnoredBeeTags(compoundNBT);
+            inhabitant.nbt = compoundNBT;
+        }
+    }
+
     public static boolean releaseBee(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity, CompoundTag tag, @Nullable List<Entity> releasedBees, BeehiveBlockEntity.BeeReleaseStatus beeState) {
         if (state.getBlock().equals(Blocks.AIR) || level == null) {
             return false;
         }
 
-        boolean stayInside =
-                beeState != BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY &&
-                        level.canSleepThroughNights() &&
-                        (
-                                (level.isNight() && tag.getInt("bee_behavior") == 0) || // it's night and the bee is diurnal
-                                        (!level.isNight() && tag.getInt("bee_behavior") == 1) || // it's day and the bee is nocturnal
-                                        (level.isRainingAt(hivePos) && tag.getInt("bee_weather_tolerance") == 0) // it's raining and the bee is not tolerant
-                        );
+        Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
+        BlockPos frontPos = hivePos.relative(direction);
 
-        if (!stayInside) {
-            Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
-            BlockPos frontPos = hivePos.relative(direction);
+        boolean willLeaveHive = willLeaveHive(level, tag, beeState);
+
+        if (willLeaveHive) {
             boolean isPositionBlocked = !level.getBlockState(frontPos).getCollisionShape(level, frontPos).isEmpty();
             if (!isPositionBlocked || beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY) {
                 // Spawn entity
@@ -271,6 +293,17 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             return false;
         }
         return false;
+    }
+
+    private static boolean willLeaveHive(ServerLevel level, CompoundTag tag, BeehiveBlockEntity.BeeReleaseStatus beeState) {
+        boolean willLeaveHive = beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY; // in an emergency
+        if (!willLeaveHive && !level.dimensionType().hasFixedTime()) { // Weather and day/night cycle only counts in the overworld
+            willLeaveHive =
+                    (!level.isNight() && tag.getInt("bee_behavior") != 1) || // it's day and the bee is not nocturnal
+                            (level.isNight() && tag.getInt("bee_behavior") != 0) && // it's night and the bee is not diurnal
+                                    (!level.isRaining() || tag.getInt("bee_weather_tolerance") > 0); // it's not raining or the bee is tolerant
+        }
+        return willLeaveHive;
     }
 
     protected void beeReleasePostAction(Level level, Bee beeEntity, BlockState state, BeehiveBlockEntity.BeeReleaseStatus beeState) {
@@ -359,7 +392,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     public static class Inhabitant
     {
-        public final CompoundTag nbt;
+        public CompoundTag nbt;
         public int ticksInHive;
         public final int minOccupationTicks;
         public final BlockPos flowerPos;

@@ -6,10 +6,7 @@ import cy.jdkdigital.productivebees.client.render.block.BottlerTileEntityRendere
 import cy.jdkdigital.productivebees.client.render.block.CentrifugeTileEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.FeederBlockEntityRenderer;
 import cy.jdkdigital.productivebees.client.render.block.JarTileEntityRenderer;
-import cy.jdkdigital.productivebees.common.item.BeeBomb;
-import cy.jdkdigital.productivebees.common.item.BeeCage;
-import cy.jdkdigital.productivebees.common.item.HoneyTreat;
-import cy.jdkdigital.productivebees.common.item.NestLocator;
+import cy.jdkdigital.productivebees.common.item.*;
 import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.client.Minecraft;
@@ -51,11 +48,13 @@ public class ClientSetup
             MenuScreens.register(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
             MenuScreens.register(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
             MenuScreens.register(ModContainerTypes.GENE_INDEXER.get(), GeneIndexerScreen::new);
+            MenuScreens.register(ModContainerTypes.BREEDING_CHAMBER.get(), BreedingChamberScreen::new);
 
             ItemProperties.register(ModItems.BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity, i) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.STURDY_BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity, i) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.BEE_BOMB.get(), new ResourceLocation("loaded"), (stack, world, entity, i) -> BeeBomb.isLoaded(stack) ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.HONEY_TREAT.get(), new ResourceLocation("genetic"), (stack, world, entity, i) -> HoneyTreat.hasGene(stack) ? 1.0F : 0.0F);
+            ItemProperties.register(ModItems.GENE.get(), new ResourceLocation("genetic"), (stack, world, entity, i) -> Gene.color(stack));
             ItemProperties.register(ModItems.NEST_LOCATOR.get(), new ResourceLocation("angle"), new ClampedItemPropertyFunction() {
                 public float unclampedCall(@Nonnull ItemStack stack, @Nullable ClientLevel world, @Nullable LivingEntity player, int i) {
                     if ((player != null || stack.isFramed()) && NestLocator.hasPosition(stack)) {

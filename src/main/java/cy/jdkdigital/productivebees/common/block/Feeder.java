@@ -65,7 +65,7 @@ public class Feeder extends SlabBlock implements EntityBlock
         BlockState state = super.getStateForPlacement(context);
 
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        if (fluidstate.getType().is(ModTags.HONEY) && state != null) {
+        if (fluidstate.is(ModTags.HONEY) && state != null) {
             return state.setValue(HONEYLOGGED, true);
         }
         return state;

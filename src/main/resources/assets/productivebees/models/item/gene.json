@@ -2,5 +2,37 @@
     "parent": "item/generated",
     "textures": {
         "layer0": "productivebees:item/gene"
-    }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "genetic": 0.1
+            },
+            "model": "productivebees:item/gene/productivity"
+        },
+        {
+            "predicate": {
+                "genetic": 0.2
+            },
+            "model": "productivebees:item/gene/endurance"
+        },
+        {
+            "predicate": {
+                "genetic": 0.3
+            },
+            "model": "productivebees:item/gene/temper"
+        },
+        {
+            "predicate": {
+                "genetic": 0.4
+            },
+            "model": "productivebees:item/gene/behavior"
+        },
+        {
+            "predicate": {
+                "genetic": 0.5
+            },
+            "model": "productivebees:item/gene/tolerance"
+        }
+    ]
 }

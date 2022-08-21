@@ -5,6 +5,10 @@ import cy.jdkdigital.productivebees.common.item.StoneChip;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.common.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.common.recipe.ConfigurableHoneycombRecipe;
+import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
+import cy.jdkdigital.productivebees.container.gui.BreedingChamberScreen;
+import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
+import cy.jdkdigital.productivebees.container.gui.IncubatorScreen;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
@@ -83,6 +87,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.OAK_WOOD_NEST.get()), CATEGORY_BEE_SPAWNING_BIG_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.INCUBATOR.get()), CATEGORY_INCUBATION_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BOTTLER.get()), CATEGORY_BOTTLER_UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BREEDING_CHAMBER.get()), CATEGORY_BEE_BREEDING_UID);
     }
 
     @Override
@@ -279,6 +284,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             recipes.add(new ShapelessRecipe(idCombBlock, "", combOutput, combBlockInput));
         }
         registration.addRecipes(RecipeTypes.CRAFTING, recipes);
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addRecipeClickArea(CentrifugeScreen.class, 35, 35, 24, 16, CATEGORY_CENTRIFUGE_UID);
+        registration.addRecipeClickArea(BottlerScreen.class, 142, 37, 14, 14, CATEGORY_BOTTLER_UID);
+        registration.addRecipeClickArea(BreedingChamberScreen.class, 72, 14, 45, 22, CATEGORY_BEE_BREEDING_UID);
+        registration.addRecipeClickArea(IncubatorScreen.class, 64, 35, 45, 16, CATEGORY_INCUBATION_UID);
     }
 
     @Override

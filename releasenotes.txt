@@ -1,8 +1,16 @@
-1.18.2-0.9.0.12
+1.18.2-0.9.1.0
 
+-- Added a simulation upgrade which makes a hive simulate bees trips to flowers instead of adding the entities into the world
+-- Added breeding chamber where you can choose which offspring to get
 -- Filter upgrades now work in centrifuges, only allowing combs produced by the bees on the filter
 -- Added Gobber bees
 -- Added support for soul steel from Spirit
+-- Added bee attribute details to expanded TOP info box
+-- Fixed nocturnal bees not leaving hive in the nether
+-- Sturdy bee cages stack size changed to 16
+-- Radioactive bees now cause nausea and weakness
+-- Gene vials now have different colors depending on the attribute
+-- Fixed Jungle Wood Nest not being discoverable with nest locator
 
 
 1.18.2-0.9.0.11

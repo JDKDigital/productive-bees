@@ -36,7 +36,7 @@ public class GeneIndexerScreen extends AbstractContainerScreen<GeneIndexerContai
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         this.font.draw(matrixStack, this.title, 10f, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.menu.tileEntity.getName(), 10f, (float) (this.getYSize() - 96 + 2), 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle, 10f, (float) (this.getYSize() - 96 + 2), 4210752);
     }
 
     @Override

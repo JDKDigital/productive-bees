@@ -134,6 +134,7 @@ public class ModTileEntityTypes
     public static final RegistryObject<BlockEntityType<CatcherBlockEntity>> CATCHER = register("catcher", CatcherBlockEntity::new, ModBlocks.CATCHER);
     public static final RegistryObject<BlockEntityType<IncubatorBlockEntity>> INCUBATOR = register("incubator", IncubatorBlockEntity::new, ModBlocks.INCUBATOR);
     public static final RegistryObject<BlockEntityType<GeneIndexerBlockEntity>> GENE_INDEXER = register("gene_indexer", GeneIndexerBlockEntity::new, ModBlocks.GENE_INDEXER);
+    public static final RegistryObject<BlockEntityType<BreedingChamberBlockEntity>> BREEDING_CHAMBER = register("breeding_chamber", BreedingChamberBlockEntity::new, ModBlocks.BREEDING_CHAMBER);
 
     private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, Supplier<Block> block) {
         return BLOCK_ENTITIES.register(name, () ->

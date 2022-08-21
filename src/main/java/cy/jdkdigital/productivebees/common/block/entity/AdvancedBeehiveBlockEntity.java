@@ -5,9 +5,11 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
+import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
@@ -45,9 +47,11 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -58,7 +62,15 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     private int abandonCountdown = 0;
     protected boolean hasTicked = false;
 
-    protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(11, this));
+    protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this) {
+        @Override
+        public boolean isInputSlotItem(int slot, ItemStack item) {
+            if (slot == AdvancedBeehiveContainer.SLOT_CAGE) {
+                return item.getItem() instanceof BeeCage;
+            }
+            return super.isInputSlotItem(slot, item);
+        }
+    });
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
 
     public AdvancedBeehiveBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
@@ -126,7 +138,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 if (honeyLevel >= 5) {
                     int finalHoneyLevel = honeyLevel;
                     blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
-                        ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                        ItemStack bottles = inv.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
                         if (!bottles.isEmpty()) {
                             final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
                             boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
@@ -143,6 +155,47 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 // Update any attached expansion box if the honey level reaches max
                 if (state.getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE && honeyLevel >= getMaxHoneyLevel(state)) {
                     ((AdvancedBeehive) state.getBlock()).updateState(level, pos, state, false);
+                }
+
+                // Insert or extract bees for simulated hives
+                if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0) {
+                    blockEntity.inventoryHandler.ifPresent(h -> {
+                        if (h instanceof InventoryHandlerHelper.ItemHandler invHelper) {
+                            ItemStack cageStack = h.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE);
+                            if (!cageStack.isEmpty() && cageStack.getItem() instanceof BeeCage) {
+                                if (BeeCage.isFilled(cageStack) && invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
+                                    // release into hive if space is available
+                                    if (!blockEntity.isFull()) {
+                                        Bee bee = BeeCage.getEntityFromStack(cageStack, level, true);
+                                        if (blockEntity.acceptsBee(bee) && (!(bee instanceof ProductiveBee pBee) || pBee.getAttributeValue(BeeAttributes.TYPE).equals("hive"))) {
+                                            blockEntity.addOccupant(bee, bee.hasNectar());
+                                            if (cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
+                                                invHelper.addOutput(new ItemStack(cageStack.getItem()));
+                                            }
+                                            cageStack.shrink(1);
+                                            level.sendBlockUpdated(pos, state, state, 3);
+                                        }
+                                    }
+                                } else if (!blockEntity.isEmpty()) {
+                                    // grab a bee from the hive and add to the cage
+                                    blockEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantStorage -> {
+                                        Iterator<Inhabitant> inhabitantIterator = inhabitantStorage.getInhabitants().iterator();
+                                        Inhabitant inhabitant = inhabitantIterator.next();
+                                        Bee beeEntity = (Bee) EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
+                                        beeEntity.hivePos = blockEntity.worldPosition;
+                                        ItemStack filledCage = new ItemStack(cageStack.getItem());
+                                        BeeCage.captureEntity(beeEntity, filledCage);
+                                        if (invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
+                                            cageStack.shrink(1);
+                                            invHelper.addOutput(filledCage);
+                                            inhabitantIterator.remove();
+                                            level.sendBlockUpdated(pos, state, state, 3);
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
                 }
             }
         }

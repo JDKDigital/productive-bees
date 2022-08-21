@@ -92,6 +92,45 @@
         {
             "type": "patchouli:text",
             "text": "When installed in a hive, Lumber and Quarry bees will produce full blocks instead of chips."
+        },
+        {
+            "type": "patchouli:crafting",
+            "recipe": "productivebees:upgrades/simulator",
+            "text": "Usable in: $(l:hives/advanced_hives#expanded)Expanded Hives$(/l).",
+            "anchor": "simulator"
+        },
+        {
+            "type": "patchouli:text",
+            "text": "When installed in a hive, bees will no longer come out of the hive, their flower trip will instead be simulated for better server performance. The bees flower block or feeding slab with flower blocks must be placed at the foot of the hive, not blocking the front, but right below that."
+        },
+        {
+            "type": "multiblock",
+            "name": "Simulated Hive",
+            "multiblock": {
+                "mapping": {
+                    "H": "productivebees:advanced_oak_beehive[expanded=up]",
+                    "E": "productivebees:expansion_box_oak[expanded=up]",
+                    "F": "productivebees:feeder[type=top]"
+                },
+                "pattern": [
+                    [
+                        " E"
+                    ],
+                    [
+                        " H"
+                    ],
+                    [
+                        "F0"
+                    ]
+                ],
+                "symmetrical": true,
+                "offset": [
+                    0,
+                    1,
+                    0
+                ]
+            },
+            "enable_visualize": false
         }
     ]
 }

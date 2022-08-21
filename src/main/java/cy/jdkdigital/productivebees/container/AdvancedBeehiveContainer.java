@@ -22,47 +22,50 @@ public class AdvancedBeehiveContainer extends AbstractContainer
 {
     public final AdvancedBeehiveBlockEntity tileEntity;
 
-    public static final HashMap<Integer, List<Integer>> BEE_POSITIONS = new HashMap<Integer, List<Integer>>()
+    public static final int SLOT_BOTTLE = 0;
+    public static final int SLOT_CAGE = 11;
+
+    public static final HashMap<Integer, List<Integer>> BEE_POSITIONS = new HashMap<>()
     {{
-        put(0, new ArrayList<Integer>()
+        put(0, new ArrayList<>()
         {{
             add(35);
             add(24);
         }});
-        put(1, new ArrayList<Integer>()
+        put(1, new ArrayList<>()
         {{
             add(53);
             add(34);
         }});
-        put(2, new ArrayList<Integer>()
+        put(2, new ArrayList<>()
         {{
             add(35);
             add(45);
         }});
     }};
-    public static final HashMap<Integer, List<Integer>> BEE_POSITIONS_EXPANDED = new HashMap<Integer, List<Integer>>()
+    public static final HashMap<Integer, List<Integer>> BEE_POSITIONS_EXPANDED = new HashMap<>()
     {{
-        put(0, new ArrayList<Integer>()
+        put(0, new ArrayList<>()
         {{
             add(17);
             add(23);
         }});
-        put(1, new ArrayList<Integer>()
+        put(1, new ArrayList<>()
         {{
             add(17);
             add(44);
         }});
-        put(2, new ArrayList<Integer>()
+        put(2, new ArrayList<>()
         {{
             add(35);
             add(34);
         }});
-        put(3, new ArrayList<Integer>()
+        put(3, new ArrayList<>()
         {{
             add(53);
             add(23);
         }});
-        put(4, new ArrayList<Integer>()
+        put(4, new ArrayList<>()
         {{
             add(53);
             add(44);
@@ -85,7 +88,9 @@ public class AdvancedBeehiveContainer extends AbstractContainer
         // Inventory slots
         this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
             // Bottle slot
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 86 - (expanded ? 13 : 0), 17));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_BOTTLE, 86 - (expanded ? 13 : 0), 17));
+            // Cage slot for simulated hives
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_CAGE, 86 - (expanded ? 13 : 0), 53));
 
             addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116 - (expanded ? 13 : 0), 17, 3, 18, 3, 18);
         });

@@ -37,7 +37,7 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorContainer>
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         this.font.draw(matrixStack, this.title, -5.0f, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.menu.tileEntity.getName(), -5.0f, (float) (this.getYSize() - 96 + 2), 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle, -5.0f, (float) (this.getYSize() - 96 + 2), 4210752);
 
         this.menu.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();

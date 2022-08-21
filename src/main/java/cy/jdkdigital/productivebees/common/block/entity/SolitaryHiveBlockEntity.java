@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,5 +14,10 @@ public class SolitaryHiveBlockEntity extends SolitaryNestBlockEntity
 
     public boolean canRepopulate() {
         return false;
+    }
+
+    @Override
+    public int getSpawnCount() {
+        return ProductiveBeesConfig.BEES.cuckooSpawnCount.get(); // never spawn cuckoos
     }
 }

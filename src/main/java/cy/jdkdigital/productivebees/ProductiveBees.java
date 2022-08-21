@@ -75,6 +75,13 @@ public final class ProductiveBees
     public static final Logger LOGGER = LogManager.getLogger();
 
     public ProductiveBees() {
+//        TODO
+//         - new nest features
+//         - custom comb textures
+//         - shroom bee from planting trees
+//         - item conversion in feeding slabs
+//         - twilight forest bees
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
@@ -116,9 +123,7 @@ public final class ProductiveBees
     }
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {
-        if (ModList.get().isLoaded("theoneprobe")) {
-            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
-        }
+        InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {

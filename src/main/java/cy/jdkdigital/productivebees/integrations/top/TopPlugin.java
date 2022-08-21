@@ -1,18 +1,20 @@
 package cy.jdkdigital.productivebees.integrations.top;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.common.block.entity.*;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
+import cy.jdkdigital.productivebees.common.block.entity.IRecipeProcessingBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import mcjty.theoneprobe.api.CompoundText;
 import mcjty.theoneprobe.api.ITheOneProbe;
 import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.TextStyleClass;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -30,11 +32,20 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
     public Void apply(ITheOneProbe theOneProbe) {
         theOneProbe.registerEntityDisplayOverride((probeMode, probeInfo, player, level, entity, iProbeHitEntityData) -> {
             if (entity instanceof ProductiveBee bee && probeMode.equals(ProbeMode.EXTENDED)) {
+                probeInfo.horizontal()
+                        .entity(entity)
+                        .vertical()
+                        .text(CompoundText.create().name(entity.getName()))
+                        .text(CompoundText.create().style(TextStyleClass.MODNAME).text("Productive Bees"));
+
                 List<Component> list =  new ArrayList<>();
                 BeeHelper.populateBeeInfoFromEntity(bee, list);
                 for (Component component: list) {
                     probeInfo.mcText(component);
                 }
+                probeInfo.text(formattedName);
+
+                return true;
             }
             return false;
         });
@@ -46,7 +57,7 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                         .item(new ItemStack(blockState.getBlock().asItem()))
                         .vertical()
                         .itemLabel(new ItemStack(blockState.getBlock().asItem()))
-                        .text(formattedName);
+                        .text(CompoundText.create().style(TextStyleClass.MODNAME).text("Productive Bees"));
 
                 List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> bees = nest.getBeeList();
                 if (!bees.isEmpty()) {
@@ -79,8 +90,8 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                             .item(new ItemStack(blockState.getBlock().asItem()))
                             .vertical()
                             .itemLabel(new ItemStack(blockState.getBlock().asItem()))
-                            .progress((int) Math.floor(recipeProcessingBlockEntity.getRecipeProgress()), recipeProcessingBlockEntity.getProcessingTime())
-                            .text(formattedName);
+                            .progress(recipeProcessingBlockEntity.getRecipeProgress() / 20, recipeProcessingBlockEntity.getProcessingTime() / 20)
+                            .text(CompoundText.create().style(TextStyleClass.MODNAME).text("Productive Bees"));
                     return true;
                 }
             }

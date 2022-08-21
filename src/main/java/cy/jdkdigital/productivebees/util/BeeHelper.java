@@ -158,8 +158,6 @@ public class BeeHelper
     }
 
     public static BeeBreedingRecipe getRandomBreedingRecipe(Bee beeEntity, AgeableMob targetEntity, ServerLevel level) {
-        Container beeInv = new IdentifierInventory(beeEntity, (Bee) targetEntity);
-
         // Get breeding recipes
         List<BeeBreedingRecipe> recipes = getBreedingRecipes(beeEntity, targetEntity, level);
 

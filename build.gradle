@@ -114,8 +114,8 @@ dependencies {
 
     implementation fg.deobf("curse.maven:the-one-probe-245211:3671753")
     implementation fg.deobf("curse.maven:jade-324717:3803226")
-//    implementation fg.deobf("curse.maven:jei-238222:3885885")
-    implementation fg.deobf("curse.maven:roughly-enough-items-310111:3929175")
+    implementation fg.deobf("curse.maven:jei-238222:3885885")
+//    implementation fg.deobf("curse.maven:roughly-enough-items-310111:3929175")
 //    implementation fg.deobf("curse.maven:trophymanager-510170:3929175")
     implementation fg.deobf("curse.maven:jumpy-boats-542110:3564082")
     implementation fg.deobf("curse.maven:everythingcopper-579545:3759328")
@@ -150,6 +150,7 @@ dependencies {
 //    implementation fg.deobf("curse.maven:ftb-quests-forge-289412:3596442")
 //    implementation fg.deobf("curse.maven:ftb-chunks-forge-314906:3601595")
 //    implementation fg.deobf("curse.maven:mekanism-268560:3810540")
+    implementation fg.deobf("curse.maven:buddycards-425991:3911357")
     implementation fg.deobf("curse.maven:ftb-industrial-contraptions-forge-539097:3873952")
 //    implementation fg.deobf("curse.maven:pneumaticcraft-repressurized-281849:3815728")
 //    implementation fg.deobf("curse.maven:cofh-core-69162:3803484")

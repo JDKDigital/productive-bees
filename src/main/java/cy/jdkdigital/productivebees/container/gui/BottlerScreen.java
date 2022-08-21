@@ -34,7 +34,7 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         this.font.draw(matrixStack, this.title, 8.0F, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.menu.tileEntity.getName(), 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle, 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
 
         // Draw fluid tank
         this.menu.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {

@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
@@ -149,21 +150,30 @@ public class HoneyGenerator extends CapabilityContainerBlock
     }
 
     @Override
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState newState, boolean something) {
-        BlockEntity generatorTile = world.getBlockEntity(pos);
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState newState, boolean something) {
+        BlockEntity generatorTile = level.getBlockEntity(pos);
         if (generatorTile instanceof HoneyGeneratorBlockEntity) {
             ((HoneyGeneratorBlockEntity) generatorTile).refreshConnectedTileEntityCache();
         }
-        super.onPlace(state, world, pos, newState, something);
+        super.onPlace(state, level, pos, newState, something);
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState stae, LevelAccessor world, BlockPos pos, BlockPos facingPos) {
-        BlockEntity generatorTile = world.getBlockEntity(pos);
+    public BlockState updateShape(BlockState state, Direction direction, BlockState stae, LevelAccessor level, BlockPos pos, BlockPos facingPos) {
+        BlockEntity generatorTile = level.getBlockEntity(pos);
         if (generatorTile instanceof HoneyGeneratorBlockEntity) {
             ((HoneyGeneratorBlockEntity) generatorTile).refreshConnectedTileEntityCache();
         }
-        return super.updateShape(state, direction, stae, world, pos, facingPos);
+        return super.updateShape(state, direction, stae, level, pos, facingPos);
+    }
+
+    @Override
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @org.jetbrains.annotations.Nullable LivingEntity pPlacer, ItemStack pStack) {
+        super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
+        BlockEntity generatorTile = pLevel.getBlockEntity(pPos);
+        if (generatorTile instanceof HoneyGeneratorBlockEntity) {
+            ((HoneyGeneratorBlockEntity) generatorTile).refreshConnectedTileEntityCache();
+        }
     }
 
     public void openGui(ServerPlayer player, HoneyGeneratorBlockEntity tileEntity) {

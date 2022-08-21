@@ -39,4 +39,7 @@ public class ModContainerTypes
     public static final RegistryObject<MenuType<GeneIndexerContainer>> GENE_INDEXER = CONTAINER_TYPES.register("gene_indexer", () ->
             IForgeMenuType.create(GeneIndexerContainer::new)
     );
+    public static final RegistryObject<MenuType<BreedingChamberContainer>> BREEDING_CHAMBER = CONTAINER_TYPES.register("breeding_chamber", () ->
+            IForgeMenuType.create(BreedingChamberContainer::new)
+    );
 }

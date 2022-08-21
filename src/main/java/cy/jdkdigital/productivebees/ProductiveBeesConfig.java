@@ -1,15 +1,8 @@
 package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
-import cy.jdkdigital.productivebees.gen.feature.*;
-import cy.jdkdigital.productivebees.init.ModBlocks;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +62,8 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue incubatorProcessingTime;
         public final ForgeConfigSpec.IntValue incubatorPowerUse;
         public final ForgeConfigSpec.IntValue incubatorTreatUse;
+        public final ForgeConfigSpec.IntValue breedingChamberProcessingTime;
+        public final ForgeConfigSpec.IntValue breedingChamberPowerUse;
         public final ForgeConfigSpec.IntValue generatorPowerGen;
         public final ForgeConfigSpec.IntValue generatorHoneyUse;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
@@ -77,6 +72,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue nestSpawnCooldown;
         public final ForgeConfigSpec.BooleanValue centrifugeHopperMode;
         public final ForgeConfigSpec.BooleanValue stripForgeCaps;
+        public final ForgeConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -113,6 +109,14 @@ public class ProductiveBeesConfig
                     .comment("How many treats to use when incubating a bee. Default 20.")
                     .defineInRange("incubatorTreatUse", 20, 1, 64);
 
+            breedingChamberProcessingTime = builder
+                    .comment("How many ticks it takes for process a recipe in the breeding chamber. Default 6000.")
+                    .defineInRange("breedingChamberProcessingTime", 6000, 20, Integer.MAX_VALUE);
+
+            breedingChamberPowerUse = builder
+                    .comment("How much FE to use per tick for an incubator when processing an item. Default 10.")
+                    .defineInRange("breedingChamberPowerUse", 50, 1, Integer.MAX_VALUE);
+
             generatorPowerGen = builder
                     .comment("How much FE to generate per tick. Default 60.")
                     .defineInRange("generatorPowerGen", 60, 1, Integer.MAX_VALUE);
@@ -145,12 +149,17 @@ public class ProductiveBeesConfig
                     .comment("Having a lot of bees (or bee cages in an inventory) in a single chunk can overload the chunk with data. A lot of data is already stripped from the bees as they are saved, but this will also remove all Forge capabilities, which is data added to the bees by other mods. Turn off to keep the data.")
                     .define("stripForgeCaps", true);
 
+            forceEnableFarmerBeeRightClickHarvest = builder
+                    .comment("Enable this if you have a right click harvest handler but none of the following mods: right_click_get_crops, croptopia, quark, harvest, simplefarming, reap")
+                    .define("forceEnableFarmerBeeRightClickHarvest", false);
+
             builder.pop();
         }
     }
 
     public static class Bees
     {
+        public final ForgeConfigSpec.BooleanValue allowBeeSimulation;
         public final ForgeConfigSpec.BooleanValue spawnUndeadBees;
         public final ForgeConfigSpec.DoubleValue spawnUndeadBeesChance;
         public final ForgeConfigSpec.DoubleValue sugarbagBeeChance;
@@ -162,6 +171,10 @@ public class ProductiveBeesConfig
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
+
+            allowBeeSimulation = builder
+                    .comment("Allow for bee simulation in hives. This will stop bees from exiting the hive and instead simulate a trip to flower blocks saving on performance.")
+                    .define("allowBeeSimulation", true);
 
             spawnUndeadBees = builder
                     .comment("Spawn skeletal and zombie bees as night?")
