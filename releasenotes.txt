@@ -1,13 +1,22 @@
+1.19.2-0.10.1.2
+
+-- Fixed bee fishing breaking normal fishing
+
+
+1.19.2-0.10.1.1
+
+-- Fixed crash with randomSource
+
+
 1.19.1-0.10.1.0
 
 -- Updated to 1.19.1
--- Added new ATM bees; Soul Lava, Starry and ...Patrick
--- Added Pure bee for Botania, it's like a pure daisy with wings
 -- Added bee fishing recipe with JEI display
 -- Added new upgrade to catch only adult bees in the catcher
 -- Fixed bees popping in and out in other dimensions (maybe)
 -- Fixed bees forgetting where they live when leaving for work in the morning
--- Moved some data files around, sorry to anyone who was overwriting them (list is here: https://github.com/JDKDigital/productive-bees/commit/df4b81a49b201bcc31d633491c948085b828d263)
+-- Added Pure bee for Botania, it's like a pure daisy with wings
+-- Added new ATM bees; Soul Lava, Starry and ...Patrick
 
 
 1.19-0.10.0.5

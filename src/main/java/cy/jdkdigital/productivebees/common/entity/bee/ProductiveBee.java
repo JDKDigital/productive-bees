@@ -81,9 +81,10 @@ public class ProductiveBee extends Bee
     public ProductiveBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
 
-        setAttributeValue(BeeAttributes.PRODUCTIVITY, level.random.nextInt(3));
+        Random rand = new Random();
+        setAttributeValue(BeeAttributes.PRODUCTIVITY, rand.nextInt(3));
         setAttributeValue(BeeAttributes.TEMPER, 1);
-        setAttributeValue(BeeAttributes.ENDURANCE, level.random.nextInt(3));
+        setAttributeValue(BeeAttributes.ENDURANCE, rand.nextInt(3));
         setAttributeValue(BeeAttributes.BEHAVIOR, 0);
         setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
         setAttributeValue(BeeAttributes.TYPE, "hive");

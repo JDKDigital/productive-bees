@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -16,7 +17,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -46,22 +46,23 @@ public class BeeFishingRecipe implements Recipe<Container>
         return false;
     }
 
-    public boolean matches(Biome biome) {
+    public boolean matches(Biome biome, Level level) {
+        var key = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getKey(biome);
         for (String biomeId: this.biomes) {
-            var key = ForgeRegistries.BIOMES.getKey(biome);
-            if (key.toString().equals(biomeId)) {
+            if (key != null && key.toString().equals(biomeId)) {
                 return true;
             }
         }
         return false;
     }
 
-    public static List<Biome> getBiomeList(BeeFishingRecipe recipe) {
+    public static List<Biome> getBiomeList(BeeFishingRecipe recipe, Level level) {
+        var biomeRegistry = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
         if (!cachedBiomes.containsKey(recipe)) {
             List<Biome> list = new ArrayList<>();
 
             for (String biomeId: recipe.biomes) {
-                Biome biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biomeId));
+                Biome biome = biomeRegistry.get(new ResourceLocation(biomeId));
                 list.add(biome);
             }
 
@@ -76,7 +77,7 @@ public class BeeFishingRecipe implements Recipe<Container>
 
             Map<ResourceLocation, BeeFishingRecipe> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.BEE_FISHING_TYPE.get());
             for (Map.Entry<ResourceLocation, BeeFishingRecipe> recipe: allRecipes.entrySet()) {
-                if (recipe.getValue().matches(biome)) {
+                if (recipe.getValue().matches(biome, level)) {
                     list.add(recipe.getValue());
                 }
             }

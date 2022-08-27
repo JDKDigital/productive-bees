@@ -14,6 +14,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.Registry;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -21,8 +22,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -40,7 +39,7 @@ public class BeeFishingRecipeCategory implements IRecipeCategory<BeeFishingRecip
     }
 
     @Override
-    public @NotNull RecipeType<BeeFishingRecipe> getRecipeType() {
+    public RecipeType<BeeFishingRecipe> getRecipeType() {
         return ProductiveBeesJeiPlugin.BEE_FISHING_TYPE;
     }
 
@@ -69,10 +68,13 @@ public class BeeFishingRecipeCategory implements IRecipeCategory<BeeFishingRecip
 
         Minecraft minecraft = Minecraft.getInstance();
 
-        for (Biome biome : BeeFishingRecipe.getBiomeList(recipe)) {
-            var key = ForgeRegistries.BIOMES.getKey(biome);
-            minecraft.font.draw(poseStack, Language.getInstance().getVisualOrder(Component.translatable("biome.minecraft." + key.getPath())), xPos, yPos.get(), 0xFF000000);
-            yPos.addAndGet(minecraft.font.lineHeight + 2);
+        var biomeRegistry = ProductiveBees.proxy.getWorld().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
+        for (Biome biome : BeeFishingRecipe.getBiomeList(recipe, ProductiveBees.proxy.getWorld())) {
+            var key = biomeRegistry.getKey(biome);
+            if (key != null) {
+                minecraft.font.draw(poseStack, Language.getInstance().getVisualOrder(Component.translatable("biome.minecraft." + key.getPath())), xPos, yPos.get(), 0xFF000000);
+                yPos.addAndGet(minecraft.font.lineHeight + 2);
+            }
         }
     }
 
