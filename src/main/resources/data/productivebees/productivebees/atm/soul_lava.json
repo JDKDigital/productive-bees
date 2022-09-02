@@ -7,6 +7,9 @@
     "selfbreed": false,
     "particleType": "lava",
     "fireproof": true,
+    "invulnerability": [
+        "mekanism.radiation"
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",

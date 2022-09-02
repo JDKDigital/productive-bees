@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.util;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.Feeder;
+import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
@@ -17,6 +19,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -34,6 +37,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -50,10 +54,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BeeHelper
 {
@@ -186,12 +187,11 @@ public class BeeHelper
 
     public static BlockConversionRecipe getBlockConversionRecipe(Bee beeEntity, BlockState flowerBlockState) {
         List<BlockConversionRecipe> recipes = new ArrayList<>();
-        String cacheKey = beeEntity.getEncodeId() + flowerBlockState.toString();
+        BlockStateInventory beeInv = new BlockStateInventory(beeEntity, flowerBlockState);
+        String cacheKey = beeInv.getIdentifier(0) + beeInv.getIdentifier(1);
         if (blockConversionRecipeMap.containsKey(cacheKey)) {
             recipes = blockConversionRecipeMap.get(cacheKey);
         } else if (beeEntity.level instanceof ServerLevel) {
-            Container beeInv = new BlockStateInventory(beeEntity, flowerBlockState);
-
             // Get block conversion recipes
             Map<ResourceLocation, Recipe<Container>> allRecipes = beeEntity.level.getRecipeManager().byType(ModRecipeTypes.BLOCK_CONVERSION_TYPE);
             for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
@@ -354,13 +354,56 @@ public class BeeHelper
         attributeMapChild.put(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
     }
 
-    public static List<Component> populateBeeInfoFromEntity(Bee bee, @Nullable List<Component> list) {
+    public static CompoundTag getBeeAsCompoundTag(BeeIngredient beeIngredient) throws CommandSyntaxException {
+        CompoundTag bee;
+        if (beeIngredient.isConfigurable()) {
+            String type = beeIngredient.getBeeType().getPath();
+            bee = TagParser.parseTag("{id:\"productivebees:configurable_bee\",bee_type: \"hive\", type: \"productivebees:" + type + "\", HasConverted: false}");
+        } else {
+            bee = TagParser.parseTag("{id:\"" + beeIngredient.getBeeType().toString() + "\",bee_type: \"solitary\", HasConverted: false}");
+        }
+
+        Random random = new Random();
+        bee.putInt("bee_productivity", random.nextInt(3));
+        bee.putInt("bee_temper", 1);
+        bee.putInt("bee_endurance", random.nextInt(3));
+        bee.putInt("bee_behavior", 0);
+        bee.putInt("bee_weather_tolerance", 0);
+
+        switch (beeIngredient.getBeeType().getPath()) {
+            case "mason_bee", "blue_banded_bee" -> bee.putInt("bee_temper", 0);
+            case "sweat_bee" -> bee.putInt("bee_temper", 2);
+        }
+
+        if (beeIngredient.isConfigurable()) {
+            CompoundTag data = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
+            if (data.contains("productivity")) {
+                bee.putInt("bee_productivity", data.getInt("productivity"));
+            }
+            if (data.contains("temper")) {
+                bee.putInt("bee_temper", data.getInt("temper"));
+            }
+            if (data.contains(("endurance"))) {
+                bee.putInt("bee_endurance", data.getInt("endurance"));
+            }
+            if (data.contains(("behavior"))) {
+                bee.putInt("bee_behavior", data.getInt("behavior"));
+            }
+            if (data.contains(("weather_tolerance"))) {
+                bee.putInt("bee_weather_tolerance", data.getInt("weather_tolerance"));
+            }
+        }
+
+        return bee;
+    }
+
+    public static void populateBeeInfoFromEntity(Bee bee, List<Component> list) {
         var tag = new CompoundTag();
         bee.saveWithoutId(tag);
         if (bee instanceof ProductiveBee) {
             tag.putBoolean("isProductiveBee", true);
         }
-        return populateBeeInfoFromTag(tag, list);
+        populateBeeInfoFromTag(tag, list);
     }
 
     public static List<Component> populateBeeInfoFromTag(CompoundTag tag, @Nullable List<Component> list) {
@@ -518,7 +561,7 @@ public class BeeHelper
         private BlockState state;
 
         public BlockStateInventory(Bee bee1, BlockState state) {
-            super(bee1, "");
+            super(bee1, state.toString());
             this.state = state;
         }
 

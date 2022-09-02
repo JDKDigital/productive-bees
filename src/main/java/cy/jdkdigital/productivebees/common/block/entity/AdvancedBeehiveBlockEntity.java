@@ -113,20 +113,22 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                     blockEntity.getOccupantCount() + blockEntity.beesOutsideHive() == 0 &&
                     level.getBrightness(LightLayer.BLOCK, front) == 0
             ) {
-                EntityType<ConfigurableBee> beeType = ModEntities.CONFIGURABLE_BEE.get();
-                ConfigurableBee newBee = beeType.create(level);
-                if (newBee != null) {
-                    if (level.random.nextBoolean()) {
-                        newBee.setBeeType("productivebees:skeletal");
-                    } else {
-                        newBee.setBeeType("productivebees:zombie");
-                    }
-                    newBee.setAttributes();
-                    newBee.hivePos = pos;
+                List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(pos).inflate(3.0D, 3.0D, 3.0D)));
+                if (bees.size() < ProductiveBeesConfig.UPGRADES.breedingMaxNearbyEntities.get()) {
+                    EntityType<ConfigurableBee> beeType = ModEntities.CONFIGURABLE_BEE.get();
+                    ConfigurableBee newBee = beeType.create(level);
+                    if (newBee != null) {
+                        if (level.random.nextBoolean()) {
+                            newBee.setBeeType("productivebees:skeletal");
+                        } else {
+                            newBee.setBeeType("productivebees:zombie");
+                        }
+                        newBee.setAttributes();
+                        newBee.hivePos = pos;
 
-                    blockEntity.addOccupant(newBee, false);
+                        blockEntity.addOccupant(newBee, false);
+                    }
                 }
-                blockEntity.setChanged();
             }
         }
 

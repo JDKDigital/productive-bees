@@ -4,6 +4,9 @@
     "description": "productivebees.ingredient.description.only_spawnegg",
     "flowerTag": "forge:storage_blocks/manasteel",
     "selfbreed": false,
+    "invulnerability": [
+        "mekanism.radiation"
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",

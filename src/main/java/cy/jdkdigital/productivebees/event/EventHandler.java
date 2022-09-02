@@ -14,6 +14,7 @@ import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +22,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
@@ -34,10 +36,13 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
@@ -46,6 +51,8 @@ import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.SaplingGrowTreeEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -57,6 +64,43 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID)
 public class EventHandler
 {
+    @SubscribeEvent
+    public static void onTreeGrow(SaplingGrowTreeEvent event) {
+        if (event.getWorld() instanceof ServerLevel serverLevel) {
+            ConfiguredFeature<TreeConfiguration, ?> chosenFeature = null;
+            float r = serverLevel.getRandom().nextFloat();
+            boolean hasFlower = hasFlowers(event.getWorld(), event.getPos());
+            if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("oak_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.OAK_SAPLING)) {
+                chosenFeature = ModConfiguredFeatures.OAK_SOLITARY_NEST;
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("birch_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.BIRCH_SAPLING)) {
+                chosenFeature = ModConfiguredFeatures.BIRCH_SOLITARY_NEST;
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("spruce_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.SPRUCE_SAPLING)) {
+                chosenFeature = ModConfiguredFeatures.SPRUCE_SOLITARY_NEST;
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("acacia_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.ACACIA_SAPLING)) {
+                chosenFeature = ModConfiguredFeatures.ACACIA_SOLITARY_NEST;
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("dark_oak_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.DARK_OAK_SAPLING)) {
+                chosenFeature = ModConfiguredFeatures.DARK_OAK_SOLITARY_NEST;
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("jungle_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.JUNGLE_SAPLING)) {
+                chosenFeature = ModConfiguredFeatures.JUNGLE_SOLITARY_NEST;
+            }
+
+            if (chosenFeature != null) {
+                event.setResult(Event.Result.DENY);
+                serverLevel.setBlock(event.getPos(), Blocks.AIR.defaultBlockState(), 4);
+                chosenFeature.place(serverLevel, serverLevel.getChunkSource().getGenerator(), serverLevel.getRandom(), event.getPos());
+            }
+        }
+    }
+
+    private static boolean hasFlowers(LevelAccessor pLevel, BlockPos pPos) {
+        for(BlockPos blockpos : BlockPos.MutableBlockPos.betweenClosed(pPos.below().north(2).west(2), pPos.above().south(2).east(2))) {
+            if (pLevel.getBlockState(blockpos).is(BlockTags.FLOWERS)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @SubscribeEvent
     public static void onWandererTradesEvent(WandererTradesEvent event) {
         event.getGenericTrades().add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 10), ItemStack.EMPTY, new ItemStack(ModItems.STURDY_BEE_CAGE.get()), 1, 12, 6, 0.2F));

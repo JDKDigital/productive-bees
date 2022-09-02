@@ -6,6 +6,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModFeatures;
 import cy.jdkdigital.productivebees.init.ModTileEntityTypes;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -34,8 +37,7 @@ public class NetherBeehiveDecorator extends TreeDecorator {
                     )
                     .apply(configurationInstance, NetherBeehiveDecorator::new));
 
-    private static final Direction WORLDGEN_FACING = Direction.SOUTH;
-    private static final Direction[] SPAWN_DIRECTIONS = Direction.Plane.HORIZONTAL.stream().filter((direction) -> direction != WORLDGEN_FACING.getOpposite()).toArray((i) -> new Direction[i]);
+    private static final Direction[] SPAWN_DIRECTIONS = Direction.Plane.HORIZONTAL.stream().filter((direction) -> direction != Direction.SOUTH.getOpposite()).toArray(Direction[]::new);
 
     /** Probability to generate a beehive */
     public final float probability;
@@ -62,11 +64,11 @@ public class NetherBeehiveDecorator extends TreeDecorator {
             List<BlockPos> list = pLogPositions.stream().filter((pos) -> pos.getY() == i).flatMap((pos) -> Stream.of(SPAWN_DIRECTIONS).map(pos::relative)).collect(Collectors.toList());
             if (!list.isEmpty()) {
                 Collections.shuffle(list);
-                Optional<BlockPos> optional = list.stream().filter((pos) -> Feature.isAir(pLevel, pos) && Feature.isAir(pLevel, pos.relative(WORLDGEN_FACING))).findFirst();
+                Optional<BlockPos> optional = list.stream().filter((pos) -> Feature.isAir(pLevel, pos) && Feature.isAir(pLevel, pos.relative(Direction.SOUTH))).findFirst();
                 if (optional.isPresent()) {
 
                     // Find log position
-                    Direction facing = WORLDGEN_FACING;
+                    Direction facing = Direction.SOUTH;
                     for (Direction d: Direction.Plane.HORIZONTAL) {
                         if (pLogPositions.contains(optional.get().relative(d))) {
                             facing = d.getOpposite();
@@ -82,8 +84,11 @@ public class NetherBeehiveDecorator extends TreeDecorator {
 
                         for(int k = 0; k < j; ++k) {
                             try {
-                                CompoundTag bee = TagParser.parseTag("{id:\"productivebees:configurable_bee\",bee_type: \"hive\", bee_temper: 1, bee_behavior: 1, type: \"productivebees:" + type + "\", bee_endurance: 2, bee_weather_tolerance: 0, bee_productivity: 1, HasConverted: false}");
-                                blockEntity.addBee(bee, random.nextInt(599), 600, null, new TranslatableComponent("entity.productivebees." + type + "_bee").getString());
+                                var beeIngredient = BeeIngredientFactory.getIngredient("productivebees:" + type);
+                                if (beeIngredient.get() != null) {
+                                    CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient.get());
+                                    blockEntity.addBee(bee, random.nextInt(599), 600, null, new TranslatableComponent("entity.productivebees." + type + "_bee").getString());
+                                }
                             } catch (CommandSyntaxException e) {
                                 ProductiveBees.LOGGER.warn("Failed to put bees into nether nest :(" + e.getMessage());
                             }

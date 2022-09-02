@@ -5,16 +5,34 @@ import cy.jdkdigital.productivebees.gen.feature.DecoratedHugeFungusConfiguration
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.features.TreeFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.valueproviders.BiasedToBottomInt;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.CountOnEveryLayerPlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.featuresize.ThreeLayersFeatureSize;
+import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.AcaciaFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.DarkOakFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.SpruceFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.DarkOakTrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
+import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
+import java.util.OptionalInt;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModConfiguredFeatures
@@ -42,10 +60,28 @@ public class ModConfiguredFeatures
     public static ConfiguredFeature<?, ?> SUGAR_CANE_NEST_FEATURE;
     public static ConfiguredFeature<?, ?> BUMBLE_BEE_NEST_FEATURE;
 
-    public static ConfiguredFeature<?, ?> CRIMSON_FUNGUS_BEES;
-    public static PlacedFeature CRIMSON_FUNGUS_BEES_PLACED;
+    public static ConfiguredFeature<BlockStateConfiguration, ?> GLOWSTONE_NEST;
+    public static ConfiguredFeature<OreConfiguration, ?> NETHER_QUARTZ_NEST;
+    public static PlacedFeature GLOWSTONE_NEST_EXTRA_PLACED;
+    public static PlacedFeature GLOWSTONE_NEST_PLACED;
+    public static PlacedFeature NETHER_QUARTZ_NEST_PLACED;
 
+    public static ConfiguredFeature<TreeConfiguration, ?> OAK_SOLITARY_NEST;
+    public static ConfiguredFeature<TreeConfiguration, ?> BIRCH_SOLITARY_NEST;
+    public static ConfiguredFeature<TreeConfiguration, ?> SPRUCE_SOLITARY_NEST;
+    public static ConfiguredFeature<TreeConfiguration, ?> ACACIA_SOLITARY_NEST;
+    public static ConfiguredFeature<TreeConfiguration, ?> DARK_OAK_SOLITARY_NEST;
+    public static ConfiguredFeature<TreeConfiguration, ?> JUNGLE_SOLITARY_NEST;
+    public static PlacedFeature OAK_SOLITARY_NEST_PLACED;
+    public static PlacedFeature BIRCH_SOLITARY_NEST_PLACED;
+    public static PlacedFeature SPRUCE_SOLITARY_NEST_PLACED;
+    public static PlacedFeature ACACIA_SOLITARY_NEST_PLACED;
+    public static PlacedFeature DARK_OAK_SOLITARY_NEST_PLACED;
+    public static PlacedFeature JUNGLE_SOLITARY_NEST_PLACED;
+
+    public static ConfiguredFeature<?, ?> CRIMSON_FUNGUS_BEES;
     public static ConfiguredFeature<?, ?> WARPED_FUNGUS_BEES;
+    public static PlacedFeature CRIMSON_FUNGUS_BEES_PLACED;
     public static PlacedFeature WARPED_FUNGUS_BEES_PLACED;
 
     public static void registerConfiguredFeatures() {
@@ -73,6 +109,17 @@ public class ModConfiguredFeatures
         END_NEST_FEATURE = Registry.register(registry, rLoc("end_nest_feature"), new ConfiguredFeature<>(ModFeatures.END_NEST.get(), (new ReplaceBlockConfiguration(Blocks.END_STONE.defaultBlockState(), ModBlocks.END_NEST.get().defaultBlockState()))));
         SUGAR_CANE_NEST_FEATURE = Registry.register(registry, rLoc("sugar_cane_nest_feature"), new ConfiguredFeature<>(ModFeatures.SUGAR_CANE_NEST.get(), (new ReplaceBlockConfiguration(Blocks.SUGAR_CANE.defaultBlockState(), ModBlocks.SUGAR_CANE_NEST.get().defaultBlockState()))));
         BUMBLE_BEE_NEST_FEATURE = Registry.register(registry, rLoc("bumble_bee_nest_feature"), new ConfiguredFeature<>(ModFeatures.BUMBLE_BEE_NEST.get(), (new ReplaceBlockConfiguration(Blocks.GRASS_BLOCK.defaultBlockState(), ModBlocks.BUMBLE_BEE_NEST.get().defaultBlockState()))));
+        NETHER_FORTRESS_NEST_FEATURE = Registry.register(registry, rLoc("nether_fortress_nest_feature"), new ConfiguredFeature<>(ModFeatures.NETHER_FORTRESS_NEST.get(), (new ReplaceBlockConfiguration(Blocks.NETHER_BRICKS.defaultBlockState(), ModBlocks.NETHER_BRICK_NEST.get().defaultBlockState()))));
+
+        GLOWSTONE_NEST = Registry.register(registry, rLoc("glowstone_nest"), new ConfiguredFeature<>(ModFeatures.GLOWSTONE_NEST_BLOB.get(), new BlockStateConfiguration(ModBlocks.GLOWSTONE_NEST.get().defaultBlockState())));
+        NETHER_QUARTZ_NEST = Registry.register(registry, rLoc("nether_quartz_nest"), new ConfiguredFeature<>(ModFeatures.NETHER_QUARTZ_NEST_ORE.get(), new OreConfiguration(new BlockMatchTest(Blocks.NETHERRACK), Blocks.NETHER_QUARTZ_ORE.defaultBlockState(), 14)));
+
+        OAK_SOLITARY_NEST = Registry.register(registry, rLoc("oak_solitary_nest"), new ConfiguredFeature<>(ModFeatures.SOLITARY_NEST_TREE.get(), TreeFeatures.createOak().decorators(List.of(ModFeatures.WOOD_NEST_DECORATOR)).build()));
+        BIRCH_SOLITARY_NEST = Registry.register(registry, rLoc("bich_solitary_nest"), new ConfiguredFeature<>(ModFeatures.SOLITARY_NEST_TREE.get(), TreeFeatures.createBirch().decorators(List.of(ModFeatures.WOOD_NEST_DECORATOR)).build()));
+        SPRUCE_SOLITARY_NEST = Registry.register(registry, rLoc("spruce_solitary_nest"), new ConfiguredFeature<>(ModFeatures.SOLITARY_NEST_TREE.get(), (new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(Blocks.SPRUCE_LOG), new StraightTrunkPlacer(5, 2, 1), BlockStateProvider.simple(Blocks.SPRUCE_LEAVES), new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2), UniformInt.of(1, 2)), new TwoLayersFeatureSize(2, 0, 2))).ignoreVines().decorators(List.of(ModFeatures.WOOD_NEST_DECORATOR)).build()));
+        ACACIA_SOLITARY_NEST = Registry.register(registry, rLoc("acacia_solitary_nest"), new ConfiguredFeature<>(ModFeatures.SOLITARY_NEST_TREE.get(), (new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(Blocks.ACACIA_LOG), new ForkingTrunkPlacer(5, 2, 2), BlockStateProvider.simple(Blocks.ACACIA_LEAVES), new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)), new TwoLayersFeatureSize(1, 0, 2))).ignoreVines().decorators(List.of(ModFeatures.WOOD_NEST_DECORATOR)).build()));
+        DARK_OAK_SOLITARY_NEST = Registry.register(registry, rLoc("dark_oak_solitary_nest"), new ConfiguredFeature<>(ModFeatures.SOLITARY_NEST_TREE.get(), (new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(Blocks.DARK_OAK_LOG), new DarkOakTrunkPlacer(6, 2, 1), BlockStateProvider.simple(Blocks.DARK_OAK_LEAVES), new DarkOakFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0)), new ThreeLayersFeatureSize(1, 1, 0, 1, 2, OptionalInt.empty()))).ignoreVines().decorators(List.of(ModFeatures.WOOD_NEST_DECORATOR)).build()));
+        JUNGLE_SOLITARY_NEST = Registry.register(registry, rLoc("jungle_solitary_nest"), new ConfiguredFeature<>(ModFeatures.SOLITARY_NEST_TREE.get(), TreeFeatures.createJungleTree().decorators(List.of(ModFeatures.WOOD_NEST_DECORATOR)).build()));
 
         CRIMSON_FUNGUS_BEES = Registry.register(registry, rLoc("crimson_fungus_bees"), new ConfiguredFeature<>(ModFeatures.DECORATED_HUGE_FUNGUS.get(),
                 new DecoratedHugeFungusConfiguration(
@@ -98,6 +145,17 @@ public class ModConfiguredFeatures
 
     public static void registerPlacedFeatures() {
         Registry<PlacedFeature> registry = BuiltinRegistries.PLACED_FEATURE;
+
+        GLOWSTONE_NEST_EXTRA_PLACED = Registry.register(registry, rLoc("glowstone_nest_extra"), new PlacedFeature(Holder.direct(GLOWSTONE_NEST), List.of(CountPlacement.of(BiasedToBottomInt.of(0, 9)), InSquarePlacement.spread(), PlacementUtils.RANGE_4_4, BiomeFilter.biome())));
+        GLOWSTONE_NEST_PLACED = Registry.register(registry, rLoc("glowstone_nest"), new PlacedFeature(Holder.direct(GLOWSTONE_NEST), List.of(CountPlacement.of(10), InSquarePlacement.spread(), PlacementUtils.FULL_RANGE, BiomeFilter.biome())));
+        NETHER_QUARTZ_NEST_PLACED = Registry.register(registry, rLoc("nether_quartz_nest"), new PlacedFeature(Holder.direct(NETHER_QUARTZ_NEST), List.of(CountPlacement.of(16), InSquarePlacement.spread(), PlacementUtils.RANGE_10_10, BiomeFilter.biome())));
+
+        OAK_SOLITARY_NEST_PLACED = Registry.register(registry, rLoc("oak_solitary_nest"), new PlacedFeature(Holder.direct(OAK_SOLITARY_NEST), List.of(InSquarePlacement.spread(), RarityFilter.onAverageOnceEvery(10), VegetationPlacements.TREE_THRESHOLD, PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING), BiomeFilter.biome())));
+        BIRCH_SOLITARY_NEST_PLACED = Registry.register(registry, rLoc("birch_solitary_nest"), new PlacedFeature(Holder.direct(BIRCH_SOLITARY_NEST), List.of(InSquarePlacement.spread(), RarityFilter.onAverageOnceEvery(10), VegetationPlacements.TREE_THRESHOLD, PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, PlacementUtils.filteredByBlockSurvival(Blocks.BIRCH_SAPLING), BiomeFilter.biome())));
+        SPRUCE_SOLITARY_NEST_PLACED = Registry.register(registry, rLoc("spruce_solitary_nest"), new PlacedFeature(Holder.direct(SPRUCE_SOLITARY_NEST), List.of(InSquarePlacement.spread(), RarityFilter.onAverageOnceEvery(10), VegetationPlacements.TREE_THRESHOLD, PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, PlacementUtils.filteredByBlockSurvival(Blocks.SPRUCE_SAPLING), BiomeFilter.biome())));
+        ACACIA_SOLITARY_NEST_PLACED = Registry.register(registry, rLoc("acacia_solitary_nest"), new PlacedFeature(Holder.direct(ACACIA_SOLITARY_NEST), List.of(InSquarePlacement.spread(), RarityFilter.onAverageOnceEvery(10), VegetationPlacements.TREE_THRESHOLD, PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, PlacementUtils.filteredByBlockSurvival(Blocks.ACACIA_SAPLING), BiomeFilter.biome())));
+        DARK_OAK_SOLITARY_NEST_PLACED = Registry.register(registry, rLoc("dark_oak_solitary_nest"), new PlacedFeature(Holder.direct(DARK_OAK_SOLITARY_NEST), List.of(InSquarePlacement.spread(), RarityFilter.onAverageOnceEvery(10), VegetationPlacements.TREE_THRESHOLD, PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, PlacementUtils.filteredByBlockSurvival(Blocks.DARK_OAK_SAPLING), BiomeFilter.biome())));
+        JUNGLE_SOLITARY_NEST_PLACED = Registry.register(registry, rLoc("jungle_solitary_nest"), new PlacedFeature(Holder.direct(JUNGLE_SOLITARY_NEST), List.of(InSquarePlacement.spread(), PlacementUtils.countExtra(1, 0.1F, 6), VegetationPlacements.TREE_THRESHOLD, PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, PlacementUtils.filteredByBlockSurvival(Blocks.JUNGLE_SAPLING), BiomeFilter.biome())));
 
         CRIMSON_FUNGUS_BEES_PLACED = Registry.register(registry, rLoc("crimson_fungus_bees"), new PlacedFeature(Holder.direct(CRIMSON_FUNGUS_BEES), List.of(CountOnEveryLayerPlacement.of(8), BiomeFilter.biome())));
         WARPED_FUNGUS_BEES_PLACED = Registry.register(registry, rLoc("warped_fungus_bees"), new PlacedFeature(Holder.direct(WARPED_FUNGUS_BEES), List.of(CountOnEveryLayerPlacement.of(8), BiomeFilter.biome())));

@@ -12,6 +12,9 @@
     "attributes": {
         "endurance": 3
     },
+    "invulnerability": [
+        "mekanism.radiation"
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",

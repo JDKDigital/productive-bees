@@ -114,7 +114,6 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
                 HoneyTreat.addGene(honeyTreat, gene);
             });
             honeyTreat.setCount(1);
-            ProductiveBees.LOGGER.info("assemble " + honeyTreat);
 
             return honeyTreat;
         }
@@ -129,7 +128,6 @@ public class HoneyTreatGeneRecipe implements CraftingRecipe
     @Nonnull
     @Override
     public ItemStack getResultItem() {
-        ProductiveBees.LOGGER.info("getResultItem " + this.honeyTreat);
         return this.honeyTreat;
     }
 

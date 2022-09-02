@@ -3,6 +3,9 @@
     "secondaryColor": "#b77d04",
     "description": "productivebees.ingredient.description.only_spawnegg",
     "flowerBlock": "mythicbotany:alfsteel_block",
+    "invulnerability": [
+        "mekanism.radiation"
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",

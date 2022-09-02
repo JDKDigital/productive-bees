@@ -6,6 +6,9 @@
     "description": "productivebees.ingredient.description.only_spawnegg",
     "flowerBlock": "mysticalagradditions:insanium_block",
     "selfbreed": false,
+    "invulnerability": [
+        "mekanism.radiation"
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",

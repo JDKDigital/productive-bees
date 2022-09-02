@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
 import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
@@ -137,22 +138,22 @@ public class ProductiveBee extends Bee
     public void tick() {
         super.tick();
 
-        // "Positive" effect to nearby players
+        // "Positive" effect to nearby entities
         if (!level.isClientSide && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getBeeEffect();
             if (effect != null && effect.getEffects().size() > 0) {
                 List<LivingEntity> entities;
-                if (getBeeType().equals("")) {
+                if (getBeeType().equals("productivebees:pepto_bismol")) {
                     entities = level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
                 } else {
                     entities = level.getEntitiesOfClass(Player.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D)).stream().map(player -> (LivingEntity) player).collect(Collectors.toList());
                 }
                 if (entities.size() > 0) {
-                    entities.forEach(playerEntity -> {
+                    entities.forEach(entity -> {
                         for (Map.Entry<MobEffect, Integer> entry : effect.getEffects().entrySet()) {
                             MobEffect potionEffect = entry.getKey();
                             Integer duration = entry.getValue();
-                            playerEntity.addEffect(new MobEffectInstance(potionEffect, duration));
+                            entity.addEffect(new MobEffectInstance(potionEffect, duration));
                         }
                     });
                 }
@@ -224,6 +225,19 @@ public class ProductiveBee extends Bee
     @Override
     public boolean isAngry() {
         return super.isAngry() && getAttributeValue(BeeAttributes.TEMPER) > 0;
+    }
+
+    @Override
+    public void setHasNectar(boolean hasNectar) {
+        // Only allow removing nectar state or setting on an allowed list of bees.
+        // Use internal method to prevent other mods from setting nectar state
+        if (!hasNectar || this.getType().is(ModTags.EXTERNAL_CAN_POLLINATE)) {
+            internalSetHasNectar(false);
+        }
+    }
+
+    public void internalSetHasNectar(boolean hasNectar) {
+        super.setHasNectar(hasNectar);
     }
 
     @Override
@@ -651,6 +665,9 @@ public class ProductiveBee extends Bee
         @Override
         public void stop() {
             super.stop();
+            if (this.hasPollinatedLongEnough()) {
+                ProductiveBee.this.internalSetHasNectar(true);
+            }
             ProductiveBee.this.postPollinate();
         }
 

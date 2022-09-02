@@ -149,7 +149,7 @@ dependencies {
 //    implementation fg.deobf("curse.maven:ftb-library-forge-404465:3598890")
 //    implementation fg.deobf("curse.maven:ftb-quests-forge-289412:3596442")
 //    implementation fg.deobf("curse.maven:ftb-chunks-forge-314906:3601595")
-//    implementation fg.deobf("curse.maven:mekanism-268560:3810540")
+    implementation fg.deobf("curse.maven:mekanism-268560:3875976")
     implementation fg.deobf("curse.maven:buddycards-425991:3911357")
     implementation fg.deobf("curse.maven:ftb-industrial-contraptions-forge-539097:3873952")
 //    implementation fg.deobf("curse.maven:pneumaticcraft-repressurized-281849:3815728")
@@ -157,13 +157,15 @@ dependencies {
 //    implementation fg.deobf("curse.maven:thermal-foundation-222880:3803495")
 //    implementation fg.deobf("curse.maven:thermal-expansion-69163:3803489")
 //    implementation fg.deobf("curse.maven:thermal-integration-626708:3803496")
-//    implementation fg.deobf("curse.maven:mantle-74924:3784500")
-//    implementation fg.deobf("curse.maven:tinkers-construct-74072:3784732")
+    implementation fg.deobf("curse.maven:mantle-74924:3829975")
+    implementation fg.deobf("curse.maven:tinkers-construct-74072:3829979")
 //    implementation fg.deobf("curse.maven:applied-energistics-2-223794:3646192")
 //    implementation fg.deobf("curse.maven:terrablender-563928:3725996")
 //    implementation fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3811457")
     implementation fg.deobf("curse.maven:blood-magic-224791:3864897")
     implementation fg.deobf("curse.maven:spark-361579:3824951")
+    implementation fg.deobf("curse.maven:spirit-495509:3931224")
+    implementation fg.deobf("curse.maven:fast-leaf-decay-230976:3693140")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

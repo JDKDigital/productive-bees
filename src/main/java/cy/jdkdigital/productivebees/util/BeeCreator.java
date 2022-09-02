@@ -6,13 +6,19 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BeeCreator
@@ -67,7 +73,7 @@ public class BeeCreator
         data.putDouble("attack", json.has("attack") ? json.get("attack").getAsFloat() : 2.0D);
 
         data.putBoolean("translucent", (json.has("translucent") && json.get("translucent").getAsBoolean()) || data.getString("renderer").equals("translucent_with_center"));
-        data.putBoolean("useGlowLayer", (!json.has("useGlowLayer") || json.get("useGlowLayer").getAsBoolean()));
+        data.putBoolean("useGlowLayer", !json.has("useGlowLayer") || json.get("useGlowLayer").getAsBoolean());
         data.putBoolean("fireproof", json.has("fireproof") && json.get("fireproof").getAsBoolean());
         data.putBoolean("withered", json.has("withered") && json.get("withered").getAsBoolean());
         data.putBoolean("blinding", json.has("blinding") && json.get("blinding").getAsBoolean());
@@ -81,20 +87,25 @@ public class BeeCreator
         data.putBoolean("waterproof", json.has("waterproof") && json.get("waterproof").getAsBoolean());
         data.putBoolean("coldResistant", json.has("coldResistant") && json.get("coldResistant").getAsBoolean());
         data.putBoolean("selfbreed", !json.has("selfbreed") || json.get("selfbreed").getAsBoolean());
-        data.putBoolean("selfheal", !json.has("selfheal") || json.get("selfheal").getAsBoolean());
+        data.putBoolean("selfheal", json.has("selfheal") && json.get("selfheal").getAsBoolean());
+        data.putBoolean("irradiated", json.has("irradiated") && json.get("irradiated").getAsBoolean());
+
+        ListTag invulnerability = new ListTag();
+        if (json.has("invulnerability")) {
+            for (JsonElement damageSource: json.get("invulnerability").getAsJsonArray()) {
+                invulnerability.add(StringTag.valueOf(damageSource.getAsString()));
+            }
+        }
+        data.put("invulnerability", invulnerability);
 
         if (json.has("attributes")) {
             for (Map.Entry<String, JsonElement> entry : json.get("attributes").getAsJsonObject().entrySet()) {
                 switch (entry.getKey()) {
-                    case "productivity":
-                    case "endurance":
-                    case "temper":
-                    case "behavior":
-                    case "weather_tolerance":
-                        data.putInt(entry.getKey(), entry.getValue().getAsInt());
+                    case "productivity", "endurance", "temper", "behavior", "weather_tolerance" -> data.putInt(entry.getKey(), entry.getValue().getAsInt());
                 }
             }
         }
+
         if (json.has("passiveEffects")) {
             Map<MobEffect, Integer> effects = new HashMap<>();
             for (JsonElement el : json.get("passiveEffects").getAsJsonArray()) {

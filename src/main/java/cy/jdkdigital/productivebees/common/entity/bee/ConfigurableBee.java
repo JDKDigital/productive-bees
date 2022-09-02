@@ -12,8 +12,9 @@ import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -51,6 +52,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +108,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     @Override
     public void tick() {
         super.tick();
+
         if (!this.level.isClientSide) {
             --teleportCooldown;
             if (--attackCooldown < 0) {
@@ -117,13 +120,12 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
 
             // Draconic bees
-            if (--breathCollectionCooldown <= 0) {
+            if (level.dimension() == Level.END && isDraconic() && --breathCollectionCooldown <= 0) {
                 breathCollectionCooldown = 600;
-                if (isDraconic() && level.dimension() == Level.END) {
-                    this.setHasNectar(true);
-                }
+                this.internalSetHasNectar(true);
             }
 
+            // Redstone bees
             if (tickCount % 21 == 0 && hasNectar() && isRedstoned()) {
                 for (int i = 1; i <= 2; ++i) {
                     BlockPos beePosDown = this.blockPosition().below(i);
@@ -155,6 +157,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     @Override
     public void aiStep() {
         super.aiStep();
+        // self healing bees
         if (!this.level.isClientSide && this.isAlive()) {
             if (tickCount % 120 == 0 && this.canSelfHeal() && this.getHealth() < this.getMaxHealth()) {
                 this.addEffect(new MobEffectInstance(MobEffects.HEAL, 1));
@@ -373,7 +376,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public boolean isFlowerBlock(BlockState flowerBlock) {
-        boolean canConvertBlock = BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
+        boolean canConvertBlock = !flowerBlock.isAir() && BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
         if (canConvertBlock) {
             return true;
         }
@@ -535,6 +538,10 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         return getNBTData().getBoolean("coldResistant");
     }
 
+    public boolean isIrradiated() {
+        return getNBTData().getBoolean("irradiated");
+    }
+
     public String getParticleType() {
         return getNBTData().getString("particleType");
     }
@@ -562,25 +569,38 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     @Override
     public Map<MobEffect, Integer> getAggressiveEffects() {
         if (isWithered()) {
-            return new HashMap<MobEffect, Integer>()
+            return new HashMap<>()
             {{
                 put(MobEffects.WITHER, 350);
             }};
         }
         if (hasMunchies()) {
-            return new HashMap<MobEffect, Integer>()
+            return new HashMap<>()
             {{
                 put(MobEffects.HUNGER, 530);
             }};
         }
         if (isBlinding()) {
-            return new HashMap<MobEffect, Integer>()
+            return new HashMap<>()
             {{
                 put(MobEffects.BLINDNESS, 450);
             }};
         }
 
         return null;
+    }
+
+    public List<String> getInvulnerabilities() {
+        Tag inv = getNBTData().get("invulnerability");
+
+        List<String> list = new ArrayList<>();
+        if (inv instanceof ListTag listInv) {
+            listInv.forEach(tag -> {
+                list.add(tag.getAsString());
+            });
+        }
+
+        return list;
     }
 
     @Override
@@ -603,7 +623,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         if (isFireproof() && (source.equals(DamageSource.HOT_FLOOR) || source.equals(DamageSource.IN_FIRE) || source.equals(DamageSource.ON_FIRE) || source.equals(DamageSource.LAVA))) {
             return true;
         }
-        return super.isInvulnerableTo(source);
+        return super.isInvulnerableTo(source) || getInvulnerabilities().contains(source.msgId);
     }
 
     @Override

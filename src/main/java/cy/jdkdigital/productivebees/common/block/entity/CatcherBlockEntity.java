@@ -83,7 +83,7 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements Upgrade
                                 isAllowed = true;
                             }
 
-                            if (isAllowed) {
+                            if (isAllowed && invItem.getCount() > 0) {
                                 ItemStack cageStack = new ItemStack(invItem.getItem());
                                 BeeCage.captureEntity(bee, cageStack);
                                 if (((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(cageStack)) {

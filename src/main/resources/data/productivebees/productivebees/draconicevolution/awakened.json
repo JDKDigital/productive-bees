@@ -10,6 +10,9 @@
     "draconic": true,
     "selfbreed": false,
     "nestingPreference": "productivebees:nests/draconic_nests",
+    "invulnerability": [
+        "mekanism.radiation"
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",

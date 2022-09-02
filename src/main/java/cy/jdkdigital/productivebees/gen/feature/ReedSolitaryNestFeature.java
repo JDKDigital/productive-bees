@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockCon
 
 import java.util.Random;
 
-public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
+public class ReedSolitaryNestFeature extends SolitaryNestFeature
 {
     private final float probability;
 

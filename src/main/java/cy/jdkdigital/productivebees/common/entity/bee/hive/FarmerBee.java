@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import com.mojang.authlib.GameProfile;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 
 public class FarmerBee extends ProductiveBee
 {
-    public static final UUID FARMER_BEE_UUID = UUID.nameUUIDFromBytes("pb_farmer_bee".getBytes(StandardCharsets.UTF_8));
+    public static final UUID FARMER_BEE_UUID = UUID.nameUUIDFromBytes("pb_farmer_bee".getBytes(StandardCharsets.UTF_8)); // 4b9dd067-5433-3648-90a3-0d48ac6041f7
     private BlockPos targetHarvestPos = null;
     private LocateCropGoal locateCropGoal;
 

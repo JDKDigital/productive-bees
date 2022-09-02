@@ -162,6 +162,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.BooleanValue allowBeeSimulation;
         public final ForgeConfigSpec.BooleanValue spawnUndeadBees;
         public final ForgeConfigSpec.DoubleValue spawnUndeadBeesChance;
+        public final ForgeConfigSpec.DoubleValue deadBeeConvertChance;
         public final ForgeConfigSpec.DoubleValue sugarbagBeeChance;
         public final ForgeConfigSpec.IntValue cupidBeeAnimalsPerPollination;
         public final ForgeConfigSpec.IntValue cupidBeeAnimalDensity;
@@ -182,6 +183,9 @@ public class ProductiveBeesConfig
 
             spawnUndeadBeesChance = builder
                     .defineInRange("spawnUndeadBeesChance", 0.05, 0, 1);
+
+            deadBeeConvertChance = builder
+                    .defineInRange("deadBeeConvertChance", 0.03, 0, 1);
 
             sugarbagBeeChance = builder
                     .defineInRange("sugarbagBeeChance", 0.02, 0, 1);
