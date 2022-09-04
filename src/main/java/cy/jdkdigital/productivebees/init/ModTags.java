@@ -77,6 +77,7 @@ public class ModTags
     }
 
     public static class Forge {
+        public static final TagKey<Item> COMBS = getItemTag(new ResourceLocation("forge", "storage_blocks/honeycombs"));
         public static final TagKey<Item> HONEY_BUCKETS = getItemTag(new ResourceLocation("forge", "buckets/honey"));
         public static final TagKey<Item> EGGS = getItemTag(new ResourceLocation("forge", "eggs"));
         public static final TagKey<Item> FISHING_RODS = getItemTag(new ResourceLocation("forge", "rods/fishing"));

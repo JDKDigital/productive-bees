@@ -24,6 +24,7 @@ public class CentrifugeScreen extends AbstractContainerScreen<CentrifugeContaine
 {
     private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/centrifuge.png");
     private static final ResourceLocation GUI_TEXTURE_POWERED = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/powered_centrifuge.png");
+    private static final ResourceLocation GUI_TEXTURE_HEATED = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/heated_centrifuge.png");
 
     public CentrifugeScreen(CentrifugeContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);

@@ -111,9 +111,7 @@ public class ConfigurableCombBlockRecipe implements CraftingRecipe
 
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
-            Integer count = GsonHelper.getAsInt(json, "count", 4);
-
-            return this.factory.create(id, count);
+            return this.factory.create(id, 4);
         }
 
         public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {

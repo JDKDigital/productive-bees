@@ -264,7 +264,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         return isAllowedByFilter && recipe != null;
     }
 
-    private CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
+    protected CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
         if (input.isEmpty() || input == ItemStack.EMPTY || level == null) {
             return null;
@@ -312,24 +312,22 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         return false;
     }
 
-    private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
-        if (canProcessRecipe(recipe, invHandler)) {
-            recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
-                if (ProductiveBees.rand.nextInt(100) <= recipeValues.get(2).getAsInt()) {
-                    int count = Mth.nextInt(ProductiveBees.rand, Mth.floor(recipeValues.get(0).getAsInt()), Mth.floor(recipeValues.get(1).getAsInt()));
-                    itemStack.setCount(count);
-                    ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack.copy());
-                }
-            });
-
-            invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
-
-            Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
-            if (fluidOutput != null) {
-                fluidInventory.ifPresent(fluidHandler -> {
-                    fluidHandler.fill(new FluidStack(fluidOutput.getFirst(), fluidOutput.getSecond()), IFluidHandler.FluidAction.EXECUTE);
-                });
+    protected void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
+        recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
+            if (ProductiveBees.rand.nextInt(100) <= recipeValues.get(2).getAsInt()) {
+                int count = Mth.nextInt(ProductiveBees.rand, Mth.floor(recipeValues.get(0).getAsInt()), Mth.floor(recipeValues.get(1).getAsInt()));
+                itemStack.setCount(count);
+                ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack.copy());
             }
+        });
+
+        invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
+
+        Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
+        if (fluidOutput != null) {
+            fluidInventory.ifPresent(fluidHandler -> {
+                fluidHandler.fill(new FluidStack(fluidOutput.getFirst(), fluidOutput.getSecond()), IFluidHandler.FluidAction.EXECUTE);
+            });
         }
     }
 

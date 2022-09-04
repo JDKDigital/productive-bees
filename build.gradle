@@ -121,7 +121,7 @@ dependencies {
     implementation fg.deobf("curse.maven:everythingcopper-579545:3759328")
     implementation fg.deobf("curse.maven:alltheores-405593:3860919")
     implementation fg.deobf("curse.maven:allthecompressed-514045:3812893")
-    implementation fg.deobf("curse.maven:all-the-tweaks-364120:3851716")
+//    implementation fg.deobf("curse.maven:all-the-tweaks-364120:3851716")
     implementation fg.deobf("curse.maven:allthemodium-364466:3862033")
     implementation fg.deobf("curse.maven:architectury-forge-419699:3929416")
     implementation fg.deobf("curse.maven:cloth-config-348521:3782776")

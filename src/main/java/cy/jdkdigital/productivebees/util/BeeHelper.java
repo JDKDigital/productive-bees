@@ -223,11 +223,10 @@ public class BeeHelper
         if (beeId == null ) {
             return outputList;
         }
-        
+
         if (beeEntity instanceof ConfigurableBee) {
             beeId = ((ConfigurableBee) beeEntity).getBeeType();
         }
-
         Map<ResourceLocation, Recipe<Container>> allRecipes = world.getRecipeManager().byType(ModRecipeTypes.ADVANCED_BEEHIVE_TYPE);
         Container beeInv = new IdentifierInventory(beeId);
         for (Map.Entry<ResourceLocation, Recipe<Container>> entry : allRecipes.entrySet()) {
@@ -278,25 +277,32 @@ public class BeeHelper
                 if (flowerBlock != null) {
                     Item flowerItem = flowerBlock.asItem();
 
-                    Map<ResourceLocation, Recipe<CraftingContainer>> recipes = world.getRecipeManager().byType(RecipeType.CRAFTING);
-                    for (Map.Entry<ResourceLocation, Recipe<CraftingContainer>> entry : recipes.entrySet()) {
-                        Recipe<CraftingContainer> recipe = entry.getValue();
-                        List<Ingredient> ingredients = recipe.getIngredients();
-                        if (ingredients.size() == 1) {
-                            Ingredient ingredient = ingredients.get(0);
-                            ItemStack[] stacks = ingredient.getItems();
-                            if (stacks.length > 0 && stacks[0].getItem().equals(flowerItem)) {
-                                ItemStack dye = new ItemStack(recipe.getResultItem().getItem(), 1);
-                                outputList.add(dye);
-                                break;
-                            }
-                        }
+                    ItemStack dye = getRecipeOutputFromInput(world, flowerItem);
+                    if (!dye.isEmpty()) {
+                        dye.setCount(1);
+                        outputList.add(dye);
                     }
                 }
             }
         }
 
         return outputList;
+    }
+
+    public static ItemStack getRecipeOutputFromInput(Level level, Item input) {
+        Map<ResourceLocation, Recipe<CraftingContainer>> recipes = level.getRecipeManager().byType(RecipeType.CRAFTING);
+        for (Map.Entry<ResourceLocation, Recipe<CraftingContainer>> entry : recipes.entrySet()) {
+            Recipe<CraftingContainer> recipe = entry.getValue();
+            List<Ingredient> ingredients = recipe.getIngredients();
+            if (ingredients.size() == 1) {
+                Ingredient ingredient = ingredients.get(0);
+                ItemStack[] stacks = ingredient.getItems();
+                if (stacks.length > 0 && stacks[0].getItem().equals(input)) {
+                    return recipe.getResultItem().copy();
+                }
+            }
+        }
+        return ItemStack.EMPTY;
     }
 
     @Nullable

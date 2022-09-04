@@ -83,7 +83,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
         if (stateNBT != null) {
             if (stateNBT.contains("honey_level")) {
                 String honeyLevel = stateNBT.getString("honey_level");
-                tooltip.add(new TranslatableComponent("productivebees.hive.tooltip.honey_level", honeyLevel).withStyle(ChatFormatting.GOLD)); // mergeStyle
+                tooltip.add(new TranslatableComponent("productivebees.hive.tooltip.honey_level", honeyLevel).withStyle(ChatFormatting.GOLD));
             }
         }
         if (entityNBT != null) {

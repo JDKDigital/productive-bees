@@ -42,6 +42,7 @@ public class ClientSetup
             MenuScreens.register(ModContainerTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveScreen::new);
             MenuScreens.register(ModContainerTypes.CENTRIFUGE.get(), CentrifugeScreen::new);
             MenuScreens.register(ModContainerTypes.POWERED_CENTRIFUGE.get(), CentrifugeScreen::new);
+            MenuScreens.register(ModContainerTypes.HEATED_CENTRIFUGE.get(), CentrifugeScreen::new);
             MenuScreens.register(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
             MenuScreens.register(ModContainerTypes.FEEDER.get(), FeederScreen::new);
             MenuScreens.register(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);

@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -31,6 +32,10 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 
     public PoweredCentrifugeBlockEntity(BlockPos pos, BlockState state) {
         super(ModTileEntityTypes.POWERED_CENTRIFUGE.get(), pos, state);
+    }
+
+    public PoweredCentrifugeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, PoweredCentrifugeBlockEntity blockEntity) {
@@ -50,7 +55,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 
     public int getProcessingTime() {
         return (int) (
-                ProductiveBeesConfig.GENERAL.centrifugePoweredProcessingTime.get() * getProcessingTimeModifier()
+            ProductiveBeesConfig.GENERAL.centrifugePoweredProcessingTime.get() * getProcessingTimeModifier()
         );
     }
 

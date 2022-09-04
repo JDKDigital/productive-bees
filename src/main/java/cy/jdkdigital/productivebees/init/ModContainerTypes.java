@@ -21,6 +21,9 @@ public class ModContainerTypes
     public static final RegistryObject<MenuType<PoweredCentrifugeContainer>> POWERED_CENTRIFUGE = CONTAINER_TYPES.register("powered_centrifuge", () ->
             IForgeMenuType.create(PoweredCentrifugeContainer::new)
     );
+    public static final RegistryObject<MenuType<HeatedCentrifugeContainer>> HEATED_CENTRIFUGE = CONTAINER_TYPES.register("heated_centrifuge", () ->
+            IForgeMenuType.create(HeatedCentrifugeContainer::new)
+    );
     public static final RegistryObject<MenuType<BottlerContainer>> BOTTLER = CONTAINER_TYPES.register("bottler", () ->
             IForgeMenuType.create(BottlerContainer::new)
     );

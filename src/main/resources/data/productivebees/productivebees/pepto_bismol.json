@@ -5,6 +5,7 @@
     "size": 0.5,
     "renderer": "thicc",
     "createComb": false,
+    "description": "productivebees.ingredient.description.pepto_bismol_bee",
     "invulnerability": [
         "mekanism.radiation"
     ],

@@ -1,3 +1,11 @@
+1.18.2-0.9.1.1
+
+-- Added breeding chamber to pickaxe mineable tag
+-- Fixed stacked sturdy cages all being used at the same time
+-- Fixed bees not exiting hive in other dimensions
+-- Fixed some bees not working in simulated hives
+
+
 1.18.2-0.9.1.0
 
 -- Added a simulation upgrade which makes a hive simulate bees trips to flowers instead of adding the entities into the world

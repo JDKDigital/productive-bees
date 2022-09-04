@@ -319,8 +319,8 @@ public class ProductiveBee extends Bee
         if (this.stayOutOfHiveCountdown <= 0 && !this.beePollinateGoal.isPollinating() && !this.hasStung() && this.getTarget() == null) {
             boolean shouldReturnToHive = this.isTiredOfLookingForNectar() || this.hasNectar();
 
-            if (!level.dimensionType().hasFixedTime()) { // in overworld, return to hive if raining or when night
-                shouldReturnToHive = shouldReturnToHive ||
+            if (!shouldReturnToHive && !level.dimensionType().hasFixedTime()) { // in overworld, return to hive if raining or when night
+                shouldReturnToHive =
                     (level.isNight() && !canOperateDuringNight()) ||
                     (level.isRaining() && !canOperateDuringRain()) ||
                     (level.isThundering() && !canOperateDuringThunder());
