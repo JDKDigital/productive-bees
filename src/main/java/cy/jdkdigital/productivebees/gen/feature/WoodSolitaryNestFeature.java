@@ -48,7 +48,7 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
                     newPos = blockPos.offset(x, 0, z);
-                    if (targetBlockState.target.test(world.getBlockState(newPos), world.getRandom())) {
+                    if (targetBlockState.target.test(world.getBlockState(newPos), rand)) {
                         break blockFound;
                     }
                     newPos = null;
@@ -57,12 +57,12 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
 
             if (newPos != null) {
                 // For thicc trees, we need to move the nest to the outside of the tree
-                while (targetBlockState.target.test(world.getBlockState(newPos.east(1)), world.getRandom())) {
+                while (targetBlockState.target.test(world.getBlockState(newPos.east(1)), rand)) {
                     newPos = newPos.east(1);
                 }
 
-                if (targetBlockState.target.test(world.getBlockState(newPos), world.getRandom())) {
-                    return placeNest(world, newPos, targetBlockState.state);
+                if (targetBlockState.target.test(world.getBlockState(newPos), rand)) {
+                    return placeNest(world, newPos, targetBlockState.state, rand);
                 }
             }
         }

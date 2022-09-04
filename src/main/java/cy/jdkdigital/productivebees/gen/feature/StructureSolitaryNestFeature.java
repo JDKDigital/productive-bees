@@ -39,10 +39,10 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature
 
             // Go to nearby structure
             nearby:
-            if (!targetBlockState.target.test(world.getBlockState(blockPos), world.getRandom())) {
+            if (!targetBlockState.target.test(world.getBlockState(blockPos), rand)) {
                 // Skip or look around?
                 for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
-                    if (targetBlockState.target.test(world.getBlockState(blockPos.relative(dir, 2)), world.getRandom())) {
+                    if (targetBlockState.target.test(world.getBlockState(blockPos.relative(dir, 2)), rand)) {
                         blockPos = blockPos.relative(dir, 3);
                         break nearby;
                     }
@@ -51,7 +51,7 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature
             }
 
             // Expand up
-            blockPos = blockPos.relative(Direction.UP, world.getRandom().nextInt(this.offsetSpan));
+            blockPos = blockPos.relative(Direction.UP, rand.nextInt(this.offsetSpan));
 
             // Move to structure edge
             edgeFinding:
@@ -66,8 +66,8 @@ public class StructureSolitaryNestFeature extends SolitaryNestFeature
             }
 
             BlockState state = placeOntop ? world.getBlockState(blockPos.below()) : world.getBlockState(blockPos);
-            if (targetBlockState.target.test(state, world.getRandom())) {
-                return placeNest(world, blockPos, targetBlockState.state);
+            if (targetBlockState.target.test(state, rand)) {
+                return placeNest(world, blockPos, targetBlockState.state, rand);
             }
         }
         return false;

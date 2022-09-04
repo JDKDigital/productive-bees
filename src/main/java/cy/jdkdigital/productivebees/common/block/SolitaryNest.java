@@ -16,6 +16,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -62,11 +63,11 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         return 0;
     }
 
-    public Entity getNestingBeeType(Level level, Biome biome) {
+    public Entity getNestingBeeType(Level level, Biome biome, RandomSource random) {
         List<BeeSpawningRecipe> spawningRecipes = getSpawningRecipes(level, biome);
         if (!spawningRecipes.isEmpty()) {
-            BeeSpawningRecipe spawningRecipe = spawningRecipes.get(level.random.nextInt(spawningRecipes.size()));
-            BeeIngredient beeIngredient = spawningRecipe.output.get(level.random.nextInt(spawningRecipe.output.size())).get();
+            BeeSpawningRecipe spawningRecipe = spawningRecipes.get(random.nextInt(spawningRecipes.size()));
+            BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
             if (beeIngredient != null) {
                 Entity bee = beeIngredient.getBeeEntity().create(level);
                 if (bee instanceof ConfigurableBee) {

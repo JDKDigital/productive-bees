@@ -48,7 +48,7 @@ public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
                     newPos = blockPos.offset(x, 0, z);
-                    if (targetBlockState.target.test(world.getBlockState(newPos), world.getRandom())) {
+                    if (targetBlockState.target.test(world.getBlockState(newPos), rand)) {
                         break blockFound;
                     }
                     newPos = null;
@@ -56,12 +56,12 @@ public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
             }
 
             if (newPos != null) {
-                if (!targetBlockState.target.test(world.getBlockState(newPos.below()), world.getRandom())) {
+                if (!targetBlockState.target.test(world.getBlockState(newPos.below()), rand)) {
                     newPos = newPos.above();
                 }
                 BlockState state = placeOntop ? world.getBlockState(newPos.below()) : world.getBlockState(newPos);
-                if (targetBlockState.target.test(state, world.getRandom())) {
-                    return placeNest(world, newPos, targetBlockState.state);
+                if (targetBlockState.target.test(state, rand)) {
+                    return placeNest(world, newPos, targetBlockState.state, rand);
                 }
             }
         }

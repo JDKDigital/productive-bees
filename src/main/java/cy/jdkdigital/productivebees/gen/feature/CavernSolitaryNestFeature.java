@@ -50,8 +50,8 @@ public class CavernSolitaryNestFeature extends SolitaryNestFeature
             }
 
             BlockState state = placeOntop ? world.getBlockState(blockPos.below()) : world.getBlockState(blockPos);
-            if (targetBlockState.target.test(state, world.getRandom())) {
-                return placeNest(world, blockPos, targetBlockState.state);
+            if (targetBlockState.target.test(state, rand)) {
+                return placeNest(world, blockPos, targetBlockState.state, rand);
             }
         }
         return false;

@@ -41,8 +41,8 @@ public class OreSolitaryNestFeature extends SolitaryNestFeature
 
             while (blockPos.getY() < yMax) {
                 blockPos = blockPos.above(2);
-                if (targetBlockState.target.test(world.getBlockState(blockPos), world.getRandom())) {
-                    return placeNest(world, blockPos, targetBlockState.state);
+                if (targetBlockState.target.test(world.getBlockState(blockPos), rand)) {
+                    return placeNest(world, blockPos, targetBlockState.state, rand);
                 }
             }
         }

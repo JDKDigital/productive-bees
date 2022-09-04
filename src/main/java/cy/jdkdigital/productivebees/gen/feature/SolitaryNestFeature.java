@@ -38,7 +38,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
 
     @Override
     public boolean place(FeaturePlaceContext<ReplaceBlockConfiguration> context) {
-        WorldGenLevel world = context.level();
+        WorldGenLevel level = context.level();
         RandomSource rand = context.random();
         BlockPos blockPos = context.origin();
         ReplaceBlockConfiguration featureConfig = context.config();
@@ -53,7 +53,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
             blockPos = blockPos.south(rand.nextInt(14)).east(rand.nextInt(14));
 
             // Go to surface
-            while (blockPos.getY() < 50 || !world.isEmptyBlock(blockPos)) {
+            while (blockPos.getY() < 50 || !level.isEmptyBlock(blockPos)) {
                 blockPos = blockPos.above();
             }
 
@@ -61,9 +61,9 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
                 blockPos = blockPos.below();
             }
 
-            BlockState state = placeOntop ? world.getBlockState(blockPos.below()) : world.getBlockState(blockPos);
-            if (targetBlockState.target.test(state, world.getRandom())) {
-                return placeNest(world, blockPos, targetBlockState.state);
+            BlockState state = placeOntop ? level.getBlockState(blockPos.below()) : level.getBlockState(blockPos);
+            if (targetBlockState.target.test(state, rand)) {
+                return placeNest(level, blockPos, targetBlockState.state, rand);
             }
         }
         return false;
@@ -73,12 +73,12 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
         return !ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("enable_" + ForgeRegistries.BLOCKS.getKey(state.getBlock()).toString()).get();
     }
 
-    protected boolean placeNest(WorldGenLevel world, BlockPos pos, BlockState state) {
+    protected boolean placeNest(WorldGenLevel level, BlockPos pos, BlockState state, RandomSource rand) {
         // Check if there's air around and face that way, default to UP
         Direction direction = state.getBlock() instanceof WoodNest ? Direction.SOUTH : Direction.UP;
         for (Direction dir : BlockStateProperties.FACING.getPossibleValues()) {
             BlockPos blockPos = pos.relative(dir, 1);
-            if (world.isEmptyBlock(blockPos)) {
+            if (level.isEmptyBlock(blockPos)) {
                 direction = dir;
                 break;
             }
@@ -87,17 +87,17 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
         // Replace target block with nest
         BlockState newState = state.setValue(BlockStateProperties.FACING, direction);
 
-        boolean result = world.setBlock(pos, newState, 1);
+        boolean result = level.setBlock(pos, newState, 1);
 
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof SolitaryNestBlockEntity) {
             ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
-            Entity newBee = ((SolitaryNest) newState.getBlock()).getNestingBeeType(world.getLevel(), world.getLevel().getBiome(pos).value());
+            Entity newBee = ((SolitaryNest) newState.getBlock()).getNestingBeeType(level.getLevel(), level.getLevel().getBiome(pos).value(), rand);
             if (newBee instanceof Bee) {
                 ((Bee) newBee).setHealth(((Bee) newBee).getMaxHealth());
                 newBee.setPos(pos.getX(), pos.getY(), pos.getZ());
-                ((SolitaryNestBlockEntity) blockEntity).addOccupantWithPresetTicks(newBee, false, world.getRandom().nextInt(599));
+                ((SolitaryNestBlockEntity) blockEntity).addOccupantWithPresetTicks(newBee, false, level.getRandom().nextInt(599));
             }
         }
 
