@@ -172,16 +172,16 @@
         },
         {
             "type": "patchouli:text",
-            "title": "Tinkers Bronze Bee",
+            "title": "Amethyst Bronze Bee",
             "text": "This bee cannot be bred. Spawn egg is crafted from a $(l:bees/modded/ingot_bees#copper)Copper Bee$(/l) spawn egg using a casting table.",
-            "anchor": "tinkers_bronze",
-            "flag": "productivebees:tinkers_bronze"
+            "anchor": "amethyst_bronze",
+            "flag": "productivebees:amethyst_bronze"
         },
         {
             "type": "patchouli:entity",
-            "name": "Tinkers Bronze Bee",
-            "entity": "productivebees:configurable_bee{type:'productivebees:tinkers_bronze'}",
-            "flag": "productivebees:tinkers_bronze"
+            "name": "Amethyst Bronze Bee",
+            "entity": "productivebees:configurable_bee{type:'productivebees:amethyst_bronze'}",
+            "flag": "productivebees:amethyst_bronze"
         }
     ]
 }
