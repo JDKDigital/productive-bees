@@ -1,29 +1,32 @@
 {
-    "type": "tconstruct:melting",
-    "ingredient": [
+    "type": "create:mixing",
+    "ingredients": [
         {
             "type": "forge:nbt",
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                        "type": "productivebees:tinkers_bronze"
+                    "type": "productivebees:amethyst_bronze"
                 }
             }
         }
     ],
-    "result": {
-        "fluid": "tconstruct:molten_tinkers_bronze",
-        "amount": 64
-    },
-    "temperature": 700,
-    "time": 19,
-    "byproducts": [
+    "results": [
+        {
+            "item": "tconstruct:amethyst_bronze_nugget",
+            "count": 6
+        },
         {
             "fluid": "productivebees:honey",
             "amount": 100
         }
     ],
+    "heatRequirement": "heated",
     "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        },
         {
             "type": "forge:mod_loaded",
             "modid": "tconstruct"
