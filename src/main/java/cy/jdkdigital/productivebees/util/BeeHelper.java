@@ -14,6 +14,7 @@ import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -48,6 +49,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -55,6 +57,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Supplier;
 
 public class BeeHelper
 {
@@ -170,7 +173,7 @@ public class BeeHelper
     }
 
     public static List<BeeBreedingRecipe> getBreedingRecipes(Bee beeEntity, AgeableMob targetEntity, ServerLevel world) {
-        Container beeInv = new IdentifierInventory(beeEntity, (Bee) targetEntity);
+        IdentifierInventory beeInv = new IdentifierInventory(beeEntity, (Bee) targetEntity);
 
         // Get breeding recipes
         List<BeeBreedingRecipe> recipes = new ArrayList<>();
@@ -180,6 +183,12 @@ public class BeeHelper
             if (recipe.matches(beeInv, world)) {
                 recipes.add(recipe);
             }
+        }
+
+        // If the two bees are the same, add a runtime breeding recipe
+        if (beeEntity.getType().equals(targetEntity.getType()) && (!(beeEntity instanceof ProductiveBee peeBee) || (peeBee.canSelfBreed() && peeBee.getBeeType().equals(((ProductiveBee) targetEntity).getBeeType())))) {
+            Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeInv.getIdentifier()));
+            recipes.add(new BeeBreedingRecipe(new ResourceLocation(ProductiveBees.MODID, "bee_breeding_" + new ResourceLocation(beeInv.getIdentifier()).getPath() + "_self"), List.of(beeIngredient, beeIngredient), beeIngredient));
         }
 
         return recipes;

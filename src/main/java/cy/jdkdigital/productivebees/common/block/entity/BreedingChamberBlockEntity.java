@@ -62,6 +62,16 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         }
 
         @Override
+        public boolean isInputSlot(int slot) {
+            return slot != BreedingChamberContainer.SLOT_OUTPUT;
+        }
+
+        @Override
+        public int[] getOutputSlots() {
+            return new int[]{BreedingChamberContainer.SLOT_OUTPUT};
+        }
+
+        @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
 
@@ -85,6 +95,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 
     private void reset() {
         recipeProgress = 0;
+        currentBreedingRecipes = new ArrayList<>(); // reset recipe cache
         setRunning(false);
         setChanged();
     }
@@ -154,7 +165,6 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                     }
                 } else {
                     blockEntity.reset();
-                    blockEntity.currentBreedingRecipes = new ArrayList<>(); // reset recipe cache
                 }
             });
         }
@@ -203,7 +213,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     private boolean completeBreeding(IItemHandlerModifiable invHandler) {
-        if (level != null && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_OUTPUT).isEmpty() && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).getItem() instanceof BeeCage && canProcessInput(invHandler, false)) {
+        if (level != null && chosenRecipe != null && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_OUTPUT).isEmpty() && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).getItem() instanceof BeeCage && canProcessInput(invHandler, false)) {
             var beeIngredient = chosenRecipe.offspring.get();
 
             Bee bee = (Bee) beeIngredient.getBeeEntity().create(level);

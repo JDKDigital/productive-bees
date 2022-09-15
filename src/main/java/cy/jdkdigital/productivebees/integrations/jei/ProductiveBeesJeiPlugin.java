@@ -83,6 +83,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.ADVANCED_OAK_BEEHIVE.get()), CATEGORY_ADVANCED_BEEHIVE_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.CENTRIFUGE.get()), CATEGORY_CENTRIFUGE_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.POWERED_CENTRIFUGE.get()), CATEGORY_CENTRIFUGE_UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.HEATED_CENTRIFUGE.get()), CATEGORY_CENTRIFUGE_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.COARSE_DIRT_NEST.get()), CATEGORY_BEE_SPAWNING_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.OAK_WOOD_NEST.get()), CATEGORY_BEE_SPAWNING_BIG_UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.INCUBATOR.get()), CATEGORY_INCUBATION_UID);
@@ -291,7 +292,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeClickArea(CentrifugeScreen.class, 35, 35, 24, 16, CATEGORY_CENTRIFUGE_UID);
         registration.addRecipeClickArea(BottlerScreen.class, 142, 37, 14, 14, CATEGORY_BOTTLER_UID);
         registration.addRecipeClickArea(BreedingChamberScreen.class, 72, 14, 45, 22, CATEGORY_BEE_BREEDING_UID);
-        registration.addRecipeClickArea(IncubatorScreen.class, 64, 35, 45, 16, CATEGORY_INCUBATION_UID);
+        registration.addRecipeClickArea(IncubatorScreen.class, 64, 35, 14, 16, CATEGORY_INCUBATION_UID);
     }
 
     @Override

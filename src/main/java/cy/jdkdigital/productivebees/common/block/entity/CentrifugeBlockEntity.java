@@ -294,9 +294,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             // Check if output slots has space for recipe output
             List<ItemStack> outputList = Lists.newArrayList();
 
-            recipe.getRecipeOutputs().forEach((key, value) -> {
+            recipe.getRecipeOutputs().forEach((stack, value) -> {
                 // Check for item with max possible output
-                ItemStack item = new ItemStack(key.getItem(), value.get(1).getAsInt());
+                ItemStack item = new ItemStack(stack.getItem(), value.get(1).getAsInt());
                 outputList.add(item);
             });
 
@@ -316,8 +316,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
             if (ProductiveBees.rand.nextInt(100) <= recipeValues.get(2).getAsInt()) {
                 int count = Mth.nextInt(ProductiveBees.rand, Mth.floor(recipeValues.get(0).getAsInt()), Mth.floor(recipeValues.get(1).getAsInt()));
-                itemStack.setCount(count);
-                ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack.copy());
+                ItemStack output = itemStack.copy();
+                output.setCount(count);
+                ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(output);
             }
         });
 

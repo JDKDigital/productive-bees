@@ -1,3 +1,12 @@
+1.18.2-0.9.1.2
+
+-- Fixed crash when growing nests in trees
+-- Fixed occasional crash when pulling bees from simulated hives
+-- Fixed bees popping in and out during bedtime hours
+-- Allow breeding of bees of the same type in breeding chamber
+-- Fixed input items being pulled from breeding chamber with pipes
+
+
 1.18.2-0.9.1.1
 
 -- Added breeding chamber to pickaxe mineable tag

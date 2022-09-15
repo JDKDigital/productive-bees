@@ -65,11 +65,11 @@ public class WoodNestDecorator extends TreeDecorator {
         }).filter(Objects::nonNull).toList();
 
         if (!list.isEmpty() && this.nest != null) {
-            BlockPos nestPos = list.get(list.size() == 1 ? 0 : random.nextInt(list.size()));
+            BlockPos nestPos = list.get(list.size() <= 1 ? 0 : random.nextInt(list.size()));
             if (nestPos != null) {
                 List<Direction> nestDirections = Stream.of(SPAWN_DIRECTIONS).filter(direction -> Feature.isAir(pLevel, nestPos.relative(direction))).toList();
                 if (!nestDirections.isEmpty()) {
-                    pBlockSetter.accept(nestPos, this.nest.getBlock().defaultBlockState().setValue(BlockStateProperties.FACING, nestDirections.size() == 1 ? nestDirections.get(0) : nestDirections.get(random.nextInt(0, nestDirections.size() - 1))));
+                    pBlockSetter.accept(nestPos, this.nest.getBlock().defaultBlockState().setValue(BlockStateProperties.FACING, nestDirections.size() == 1 ? nestDirections.get(0) : nestDirections.get(random.nextInt(nestDirections.size()))));
                     pLevel.getBlockEntity(nestPos, ModTileEntityTypes.SOLITARY_NEST.get()).ifPresent((nestBlockEntity) -> {
                         ProductiveBees.LOGGER.debug("Spawned wood nest at " + nestPos + " " + this.nest);
 

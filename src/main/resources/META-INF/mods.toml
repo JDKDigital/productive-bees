@@ -19,7 +19,7 @@ Useful bees
 [[dependencies.productivebees]] #optional
     modId="forge"
     mandatory=true
-    versionRange="[40.1.18,)"
+    versionRange="[40.1.79,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.productivebees]]

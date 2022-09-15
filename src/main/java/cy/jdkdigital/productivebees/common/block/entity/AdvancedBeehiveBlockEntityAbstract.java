@@ -77,7 +77,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {
-        if (level instanceof ServerLevel serverLevel && blockEntity.tickCounter++ % 100 == 0) {
+        if (level instanceof ServerLevel serverLevel && ++blockEntity.tickCounter % 100 == 0) {
             tickBees(serverLevel, pos, state, blockEntity);
             blockEntity.tickCounter = 0;
         }
@@ -310,11 +310,11 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     private static boolean willLeaveHive(ServerLevel level, CompoundTag tag, BeehiveBlockEntity.BeeReleaseStatus beeState) {
-        boolean willLeaveHive = beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY || !level.dimensionType().hasFixedTime(); // in an emergency
-        if (!willLeaveHive) { // Weather and day/night cycle only counts in the overworld
+        boolean willLeaveHive = beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY; // in an emergency
+        if (!willLeaveHive && !level.dimensionType().hasFixedTime()) { // Weather and day/night cycle only counts in the overworld
             willLeaveHive =
-                    (!level.isNight() && tag.getInt("bee_behavior") != 1) || // it's day and the bee is not nocturnal
-                    (level.isNight() && tag.getInt("bee_behavior") != 0) && // it's night and the bee is not diurnal
+                    ((!level.isNight() && tag.getInt("bee_behavior") != 1) || // it's day and the bee is not nocturnal
+                    (level.isNight() && tag.getInt("bee_behavior") != 0)) && // it's night and the bee is not diurnal
                     (!level.isRaining() || tag.getInt("bee_weather_tolerance") > 0); // it's not raining or the bee is tolerant
         }
         return willLeaveHive;

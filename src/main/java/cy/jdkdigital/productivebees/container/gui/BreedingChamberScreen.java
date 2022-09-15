@@ -6,10 +6,12 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import cy.jdkdigital.productivebees.container.IncubatorContainer;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,6 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -29,6 +32,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamberContainer>
 {
@@ -129,11 +133,31 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
         });
 
         // Draw output bee
-        if (this.menu.tileEntity.chosenRecipe != null && minecraft != null) {
-            BeeIngredient beeIngredient = this.menu.tileEntity.chosenRecipe.offspring.get();
+        if (minecraft != null) {
+            if (this.menu.tileEntity.chosenRecipe != null) {
+                BeeIngredient beeIngredient = this.menu.tileEntity.chosenRecipe.offspring.get();
 
-            if (beeIngredient != null) {
-                BeeRenderer.render(matrixStack, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient, minecraft);
+                if (beeIngredient != null) {
+                    BeeRenderer.render(matrixStack, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient, minecraft);
+                }
+            } else {
+                this.menu.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                    ItemStack cage1 = handler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1);
+                    ItemStack cage2 = handler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2);
+                    if (BeeCage.isFilled(cage1) && BeeCage.isFilled(cage2)) {
+                        CompoundTag tag1 = cage1.getTag();
+                        CompoundTag tag2 = cage2.getTag();
+                        if (tag1 != null) {
+                            CompoundTag beeData = BeeReloadListener.INSTANCE.getData(tag1.contains("type") ? tag1.getString("type") : tag1.getString("entity"));
+                            if (tag1.getString("name").equals(tag2.getString("name")) && (!tag1.getBoolean("isProductiveBee") || beeData.getBoolean("selfbreed"))) {
+                                Supplier<BeeIngredient> beeIngredient = BeeIngredientFactory.getIngredient(tag1.getString("type"));
+                                if (beeIngredient.get() != null) {
+                                    BeeRenderer.render(matrixStack, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient.get(), minecraft);
+                                }
+                            }
+                        }
+                    }
+                });
             }
         }
     }
