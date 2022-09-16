@@ -310,9 +310,9 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     private static boolean willLeaveHive(ServerLevel level, CompoundTag tag, BeehiveBlockEntity.BeeReleaseStatus beeState) {
-        boolean willLeaveHive = beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY; // in an emergency
-        if (!willLeaveHive && !level.dimensionType().hasFixedTime()) { // Weather and day/night cycle only counts in the overworld
-            willLeaveHive =
+        boolean willLeaveHive = beeState == BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY || level.dimensionType().hasFixedTime(); // in an emergency or dim without time
+        if (!level.dimensionType().hasFixedTime()) { // Weather and day/night cycle only counts in dim with time
+            willLeaveHive = willLeaveHive &&
                     ((!level.isNight() && tag.getInt("bee_behavior") != 1) || // it's day and the bee is not nocturnal
                     (level.isNight() && tag.getInt("bee_behavior") != 0)) && // it's night and the bee is not diurnal
                     (!level.isRaining() || tag.getInt("bee_weather_tolerance") > 0); // it's not raining or the bee is tolerant

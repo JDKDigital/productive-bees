@@ -30,6 +30,7 @@ public class ModFeatures
     public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister.create(ForgeRegistries.TREE_DECORATOR_TYPES, ProductiveBees.MODID);
 
     public static NetherBeehiveDecorator NETHER_BEEHIVE_DECORATOR = new NetherBeehiveDecorator(ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("nether_bee_nest").get().floatValue());
+    public static NetherBeehiveDecorator NETHER_BEEHIVE_DECORATOR_100 = new NetherBeehiveDecorator(1.0F);
     public static WoodNestDecorator WOOD_NEST_DECORATOR = new WoodNestDecorator();
 
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SAND_NEST = FEATURES.register("sand_nest", () -> new SolitaryNestFeature(ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("sand_nest").get().floatValue(), ReplaceBlockConfiguration.CODEC));

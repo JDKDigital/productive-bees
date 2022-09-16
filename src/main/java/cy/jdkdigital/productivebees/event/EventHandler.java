@@ -13,6 +13,7 @@ import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.nbt.CompoundTag;
@@ -41,6 +42,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -65,29 +67,31 @@ import java.util.List;
 public class EventHandler
 {
     @SubscribeEvent
-    public static void onTreeGrow(SaplingGrowTreeEvent event) {
+    public static void onBlockGrow(SaplingGrowTreeEvent event) {
         if (event.getWorld() instanceof ServerLevel serverLevel) {
-            ConfiguredFeature<TreeConfiguration, ?> chosenFeature = null;
+            ConfiguredFeature<?, ?> chosenFeature = null;
             float r = serverLevel.getRandom().nextFloat();
             boolean hasFlower = hasFlowers(event.getWorld(), event.getPos());
-            if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("oak_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.OAK_SAPLING)) {
+            Block grownBlock =  serverLevel.getBlockState(event.getPos()).getBlock();
+
+            if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("oak_wood_nest").get() && grownBlock.equals(Blocks.OAK_SAPLING)) {
                 chosenFeature = ModConfiguredFeatures.OAK_SOLITARY_NEST;
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("birch_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.BIRCH_SAPLING)) {
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("birch_wood_nest").get() && grownBlock.equals(Blocks.BIRCH_SAPLING)) {
                 chosenFeature = ModConfiguredFeatures.BIRCH_SOLITARY_NEST;
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("spruce_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.SPRUCE_SAPLING)) {
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("spruce_wood_nest").get() && grownBlock.equals(Blocks.SPRUCE_SAPLING)) {
                 chosenFeature = ModConfiguredFeatures.SPRUCE_SOLITARY_NEST;
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("acacia_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.ACACIA_SAPLING)) {
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("acacia_wood_nest").get() && grownBlock.equals(Blocks.ACACIA_SAPLING)) {
                 chosenFeature = ModConfiguredFeatures.ACACIA_SOLITARY_NEST;
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("dark_oak_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.DARK_OAK_SAPLING)) {
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("dark_oak_wood_nest").get() && grownBlock.equals(Blocks.DARK_OAK_SAPLING)) {
                 chosenFeature = ModConfiguredFeatures.DARK_OAK_SOLITARY_NEST;
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("jungle_wood_nest").get() && serverLevel.getBlockState(event.getPos()).getBlock().equals(Blocks.JUNGLE_SAPLING)) {
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("jungle_wood_nest").get() && grownBlock.equals(Blocks.JUNGLE_SAPLING)) {
                 chosenFeature = ModConfiguredFeatures.JUNGLE_SOLITARY_NEST;
+            } else if (r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("nether_bee_nest").get() && (grownBlock.equals(Blocks.CRIMSON_FUNGUS) || grownBlock.equals(Blocks.WARPED_FUNGUS))) {
+                chosenFeature = grownBlock.equals(Blocks.CRIMSON_FUNGUS) ? ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_GROW : ModConfiguredFeatures.WARPED_FUNGUS_BEES_GROW;
             }
 
             if (chosenFeature != null) {
-                event.setResult(Event.Result.DENY);
-                serverLevel.setBlock(event.getPos(), Blocks.AIR.defaultBlockState(), 4);
-                chosenFeature.place(serverLevel, serverLevel.getChunkSource().getGenerator(), serverLevel.getRandom(), event.getPos());
+                event.setFeature(Holder.direct(chosenFeature));
             }
         }
     }
@@ -207,12 +211,15 @@ public class EventHandler
 
                 Entity newBee = BeeHelper.itemInteract((Bee) entity, itemStack, (ServerLevel) world, entity.serializeNBT(), player);
 
-                if (newBee != null) {
+                if (newBee instanceof Bee) {
                     // PLay event with smoke
                     world.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
                     world.playSound(player, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BEEHIVE_WORK, SoundSource.NEUTRAL, 1.0F, 1.0F);
 
                     world.addFreshEntity(newBee);
+                    if (((Bee) entity).isLeashed()) {
+                        ((Bee) newBee).setLeashedTo(((Bee) entity).getLeashHolder(), false);
+                    }
                     entity.discard();
                 }
             }

@@ -80,7 +80,9 @@ public class ModConfiguredFeatures
     public static PlacedFeature JUNGLE_SOLITARY_NEST_PLACED;
 
     public static ConfiguredFeature<?, ?> CRIMSON_FUNGUS_BEES;
+    public static ConfiguredFeature<?, ?> CRIMSON_FUNGUS_BEES_GROW;
     public static ConfiguredFeature<?, ?> WARPED_FUNGUS_BEES;
+    public static ConfiguredFeature<?, ?> WARPED_FUNGUS_BEES_GROW;
     public static PlacedFeature CRIMSON_FUNGUS_BEES_PLACED;
     public static PlacedFeature WARPED_FUNGUS_BEES_PLACED;
 
@@ -131,6 +133,16 @@ public class ModConfiguredFeatures
                         List.of(ModFeatures.NETHER_BEEHIVE_DECORATOR),
                         false
                 )));
+        CRIMSON_FUNGUS_BEES_GROW = Registry.register(registry, rLoc("crimson_fungus_bees"), new ConfiguredFeature<>(ModFeatures.DECORATED_HUGE_FUNGUS.get(),
+                new DecoratedHugeFungusConfiguration(
+                        Blocks.CRIMSON_NYLIUM.defaultBlockState(),
+                        Blocks.CRIMSON_STEM.defaultBlockState(),
+                        Blocks.NETHER_WART_BLOCK.defaultBlockState(),
+                        Blocks.SHROOMLIGHT.defaultBlockState(),
+                        ModBlocks.CRIMSON_BEE_NEST.get().defaultBlockState(),
+                        List.of(ModFeatures.NETHER_BEEHIVE_DECORATOR_100),
+                        false
+                )));
         WARPED_FUNGUS_BEES = Registry.register(registry, rLoc("warped_fungus_bees"), new ConfiguredFeature<>(ModFeatures.DECORATED_HUGE_FUNGUS.get(),
                 new DecoratedHugeFungusConfiguration(
                         Blocks.WARPED_NYLIUM.defaultBlockState(),
@@ -139,6 +151,16 @@ public class ModConfiguredFeatures
                         Blocks.SHROOMLIGHT.defaultBlockState(),
                         ModBlocks.WARPED_BEE_NEST.get().defaultBlockState(),
                         List.of(ModFeatures.NETHER_BEEHIVE_DECORATOR),
+                        false
+                )));
+        WARPED_FUNGUS_BEES_GROW = Registry.register(registry, rLoc("warped_fungus_bees"), new ConfiguredFeature<>(ModFeatures.DECORATED_HUGE_FUNGUS.get(),
+                new DecoratedHugeFungusConfiguration(
+                        Blocks.WARPED_NYLIUM.defaultBlockState(),
+                        Blocks.WARPED_STEM.defaultBlockState(),
+                        Blocks.WARPED_WART_BLOCK.defaultBlockState(),
+                        Blocks.SHROOMLIGHT.defaultBlockState(),
+                        ModBlocks.WARPED_BEE_NEST.get().defaultBlockState(),
+                        List.of(ModFeatures.NETHER_BEEHIVE_DECORATOR_100),
                         false
                 )));
     }
