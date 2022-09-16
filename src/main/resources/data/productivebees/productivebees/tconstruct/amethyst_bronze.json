@@ -1,22 +1,22 @@
 {
-    "primaryColor": "#ffdb7e",
+    "primaryColor": "#C687BD",
     "secondaryColor": "#7a5800",
-    "particleColor": "#ffdb7e",
+    "particleColor": "#C687BD",
     "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerTag": "forge:storage_blocks/silicon_bronze",
+    "flowerTag": "forge:storage_blocks/amethyst_bronze",
     "conditions": [
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/silicon_bronze"
+                "tag": "forge:ingots/amethyst_bronze"
             }
         },
         {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/silicon_bronze"
+                "tag": "forge:storage_blocks/amethyst_bronze"
             }
         }
     ]

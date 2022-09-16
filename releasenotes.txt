@@ -4,6 +4,7 @@
 -- Fixed bees being shy in other dimensions
 -- Fixed honey generators forgetting what they are connected to
 -- Fixed breeding chamber not passing on genes to offspring
+-- Changed Tinkers Bronze to Amethyst Bronze
 
 
 1.18.2-0.9.1.2

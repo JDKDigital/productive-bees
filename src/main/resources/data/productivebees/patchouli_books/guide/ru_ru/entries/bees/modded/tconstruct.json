@@ -174,14 +174,14 @@
             "type": "patchouli:text",
             "title": "Пчела из плохой бронзы",
             "text": "Эту пчелу нельзя развести. Яйца призыва создаётся от $(l:bees/modded/ingot_bees#copper)Яйца призыва: Медной пчелы$(/l), используя «Разливочный стол».",
-            "anchor": "tinkers_bronze",
-            "flag": "productivebees:tinkers_bronze"
+            "anchor": "amethyst_bronze",
+            "flag": "productivebees:amethyst_bronze"
         },
         {
             "type": "patchouli:entity",
             "name": "Пчела из плохой бронзы",
-            "entity": "productivebees:configurable_bee{type:'productivebees:tinkers_bronze'}",
-            "flag": "productivebees:tinkers_bronze"
+            "entity": "productivebees:configurable_bee{type:'productivebees:amethyst_bronze'}",
+            "flag": "productivebees:amethyst_bronze"
         }
     ]
 }
