@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import cy.jdkdigital.productivebees.container.IncubatorContainer;
@@ -148,8 +149,8 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
                         CompoundTag tag1 = cage1.getTag();
                         CompoundTag tag2 = cage2.getTag();
                         if (tag1 != null) {
-                            CompoundTag beeData = BeeReloadListener.INSTANCE.getData(tag1.contains("type") ? tag1.getString("type") : tag1.getString("entity"));
-                            if (tag1.getString("name").equals(tag2.getString("name")) && (!tag1.getBoolean("isProductiveBee") || beeData.getBoolean("selfbreed"))) {
+                            var beeData = BeeIngredientFactory.getIngredient(tag1.contains("type") ? tag1.getString("type") : tag1.getString("entity"));
+                            if (tag1.getString("name").equals(tag2.getString("name")) && (!tag1.getBoolean("isProductiveBee") || (beeData.get() != null && (beeData.get().getCachedEntity(this.menu.tileEntity.getLevel()) instanceof ProductiveBee pBee) && pBee.canSelfBreed()))) {
                                 Supplier<BeeIngredient> beeIngredient = BeeIngredientFactory.getIngredient(tag1.getString("type"));
                                 if (beeIngredient.get() != null) {
                                     BeeRenderer.render(matrixStack, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient.get(), minecraft);

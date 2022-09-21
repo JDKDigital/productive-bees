@@ -72,15 +72,18 @@ public class WoodNestDecorator extends TreeDecorator {
                     pBlockSetter.accept(nestPos, this.nest.getBlock().defaultBlockState().setValue(BlockStateProperties.FACING, nestDirections.size() == 1 ? nestDirections.get(0) : nestDirections.get(random.nextInt(nestDirections.size()))));
                     pLevel.getBlockEntity(nestPos, ModTileEntityTypes.SOLITARY_NEST.get()).ifPresent((nestBlockEntity) -> {
                         ProductiveBees.LOGGER.debug("Spawned wood nest at " + nestPos + " " + this.nest);
+                        if (!this.recipes.isEmpty()) {
+                            BeeSpawningRecipe spawningRecipe = this.recipes.get(random.nextInt(this.recipes.size()));
+                            if (!spawningRecipe.output.isEmpty()) {
+                                BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
 
-                        BeeSpawningRecipe spawningRecipe = this.recipes.get(random.nextInt(this.recipes.size()));
-                        BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
-
-                        try {
-                            CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
-                            nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, new TranslatableComponent("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
-                        } catch (CommandSyntaxException e) {
-                            ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
+                                try {
+                                    CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
+                                    nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, new TranslatableComponent("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
+                                } catch (CommandSyntaxException e) {
+                                    ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
+                                }
+                            }
                         }
                     });
                 }

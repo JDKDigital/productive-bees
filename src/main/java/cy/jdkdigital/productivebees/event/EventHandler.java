@@ -218,7 +218,7 @@ public class EventHandler
 
                     world.addFreshEntity(newBee);
                     if (((Bee) entity).isLeashed()) {
-                        ((Bee) newBee).setLeashedTo(((Bee) entity).getLeashHolder(), false);
+                        ((Bee) entity).dropLeash(true, true);
                     }
                     entity.discard();
                 }

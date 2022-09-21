@@ -10,7 +10,11 @@
         },
         {
             "type": "patchouli:text",
-            "text": "The Feeder can be honeylogged giving the bees an excellent place to dip their toes and recover from a long day of works, aka it gives them regeneration."
+            "text": "Feeding slabs can be honeylogged giving the bees an excellent place to dip their toes and recover from a long day of works, aka it gives them regeneration."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "Since a $(l:items/upgrades#simulator)simulated hive$(/l) only has 1 flowerblock position, feeding slabs work very well with them, letting you have up to 3 different bees working in the hive."
         }
     ]
 }
