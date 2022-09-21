@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -12,12 +13,10 @@ import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockCon
 
 public class CavernSolitaryNestFeature extends SolitaryNestFeature
 {
-    private final float probability;
     private boolean top;
 
-    public CavernSolitaryNestFeature(float probability, Codec<ReplaceBlockConfiguration> configFactory, boolean top) {
-        super(probability, configFactory);
-        this.probability = probability;
+    public CavernSolitaryNestFeature(String configKey, Codec<ReplaceBlockConfiguration> configFactory, boolean top) {
+        super(configKey, configFactory);
         this.top = top;
     }
 
@@ -28,7 +27,7 @@ public class CavernSolitaryNestFeature extends SolitaryNestFeature
         BlockPos blockPos = context.origin();
         ReplaceBlockConfiguration featureConfig = context.config();
         for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
-            if (rand.nextFloat() > this.probability) {
+            if (rand.nextFloat() > ProductiveBeesConfig.WORLD_GEN.nestConfigs.get(configKey).get().floatValue()) {
                 return false;
             }
 

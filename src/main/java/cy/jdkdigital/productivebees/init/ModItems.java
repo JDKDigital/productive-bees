@@ -76,7 +76,7 @@ public class ModItems
     public static final RegistryObject<Item> UPGRADE_RANGE = createItem("upgrade_range", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_FILTER = createItem("upgrade_filter", () -> new FilterUpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_BEE_SAMPLER = createItem("upgrade_bee_sampler", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> UPGRADE_SIMULATOR = createItem("upgrade_simulator", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ProductiveBeesConfig.BEES.allowBeeSimulation.get() ? ModItemGroups.PRODUCTIVE_BEES : CreativeModeTab.TAB_MISC)));
+    public static final RegistryObject<Item> UPGRADE_SIMULATOR = createItem("upgrade_simulator", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
 
     public static final RegistryObject<Item> ADV_BREED_BEE = createItem("adv_breed_bee", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ADV_BREED_ALL_BEES = createItem("adv_breed_all_bees", () -> new Item(new Item.Properties()));

@@ -1,12 +1,19 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
+import cy.jdkdigital.productivebees.common.recipe.BeeSpawningRecipe;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
@@ -21,16 +28,16 @@ import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockCon
 
 public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
 {
-    private final float probability;
+    protected final String configKey;
     protected boolean placeOntop;
 
-    public SolitaryNestFeature(float probability, Codec<ReplaceBlockConfiguration> configFactory) {
-        this(probability, configFactory, false);
+    public SolitaryNestFeature(String configKey, Codec<ReplaceBlockConfiguration> configFactory) {
+        this(configKey, configFactory, false);
     }
 
-    public SolitaryNestFeature(float probability, Codec<ReplaceBlockConfiguration> configFactory, boolean placeOntop) {
+    public SolitaryNestFeature(String configKey, Codec<ReplaceBlockConfiguration> configFactory, boolean placeOntop) {
         super(configFactory);
-        this.probability = probability;
+        this.configKey = configKey;
         this.placeOntop = placeOntop;
     }
 
@@ -42,7 +49,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
         ReplaceBlockConfiguration featureConfig = context.config();
 
         for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
-            if (rand.nextFloat() > this.probability) {
+            if (rand.nextFloat() > ProductiveBeesConfig.WORLD_GEN.nestConfigs.get(configKey).get().floatValue()) {
                 return false;
             }
 
@@ -66,7 +73,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
         return false;
     }
 
-    protected boolean placeNest(WorldGenLevel level, BlockPos pos, BlockState state, RandomSource rand) {
+    protected boolean placeNest(WorldGenLevel level, BlockPos pos, BlockState state, RandomSource random) {
         // Check if there's air around and face that way, default to UP
         Direction direction = state.getBlock() instanceof WoodNest ? Direction.SOUTH : Direction.UP;
         for (Direction dir : BlockStateProperties.FACING.getPossibleValues()) {
@@ -84,13 +91,16 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if (blockEntity instanceof SolitaryNestBlockEntity) {
+        if (blockEntity instanceof SolitaryNestBlockEntity nestBlockEntity && state.getBlock() instanceof SolitaryNest nestBlock) {
             ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
-            Entity newBee = ((SolitaryNest) newState.getBlock()).getNestingBeeType(level.getLevel(), level.getLevel().getBiome(pos).value(), rand);
-            if (newBee instanceof Bee) {
-                ((Bee) newBee).setHealth(((Bee) newBee).getMaxHealth());
-                newBee.setPos(pos.getX(), pos.getY(), pos.getZ());
-                ((SolitaryNestBlockEntity) blockEntity).addOccupantWithPresetTicks(newBee, false, level.getRandom().nextInt(599));
+            var recipes = nestBlock.getSpawningRecipes(level.getLevel(), level.getBiome(pos).value());
+            BeeSpawningRecipe spawningRecipe = recipes.get(random.nextInt(recipes.size()));
+            BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
+            try {
+                CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
+                nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, Component.translatable("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
+            } catch (CommandSyntaxException e) {
+                ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
             }
         }
 

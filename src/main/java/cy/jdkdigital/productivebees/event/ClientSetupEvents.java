@@ -39,14 +39,11 @@ public class ClientSetupEvents
 {
     @SubscribeEvent
     public static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
-        ItemColors colors = event.getItemColors();
-        BlockColors blockColors = event.getBlockColors();
-
         for (RegistryObject<Item> eggItem : ModItems.SPAWN_EGGS) {
             if (ObfuscationReflectionHelper.getPrivateValue(RegistryObject.class, eggItem, "value") != null) {
                 Item item = eggItem.get();
                 if (item instanceof SpawnEgg) {
-                    colors.register((stack, tintIndex) -> ((SpawnEgg) item).getColor(tintIndex, stack), item);
+                    event.register((stack, tintIndex) -> ((SpawnEgg) item).getColor(tintIndex, stack), item);
                 }
             }
         }
@@ -55,18 +52,18 @@ public class ClientSetupEvents
         for (RegistryObject<Item> registryItem : ModItems.ITEMS.getEntries()) {
             Item item = registryItem.get();
             if (item instanceof Honeycomb) {
-                colors.register(((Honeycomb) item)::getColor, item);
+                event.register(((Honeycomb) item)::getColor, item);
             } else if (item instanceof BlockItem) {
                 Block block = ((BlockItem) item).getBlock();
                 if (block instanceof CombBlock) {
-                    colors.register((stack, tintIndex) -> ((CombBlock) block).getColor(stack), item);
+                    event.register((stack, tintIndex) -> ((CombBlock) block).getColor(stack), item);
                 }
             }
         }
 
-        colors.register((stack, tintIndex) -> {
+        event.register((stack, tintIndex) -> {
             BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().defaultBlockState();
-            return blockColors.getColor(blockstate, null, null, tintIndex);
+            return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
         }, ModBlocks.BUMBLE_BEE_NEST.get());
     }
 

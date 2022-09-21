@@ -24,6 +24,8 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class WoodNestDecorator extends TreeDecorator {
+    public static final WoodNestDecorator INSTANCE = new WoodNestDecorator();
+
     public static final Codec<WoodNestDecorator> CODEC = Codec.unit(WoodNestDecorator::new);
 
     private static final Direction[] SPAWN_DIRECTIONS = Direction.Plane.HORIZONTAL.stream().filter((direction) -> direction != Direction.SOUTH.getOpposite()).toArray(Direction[]::new);

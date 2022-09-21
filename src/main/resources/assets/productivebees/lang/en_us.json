@@ -516,7 +516,7 @@
   "productivebees.information.upgrade.unconfigured": "Unconfigured",
   "productivebees.information.upgrade.upgrade_anti_teleport": "Prevents bees living in this hive from teleporting.",
   "productivebees.information.upgrade.upgrade_bee_sampler": "Slowly extracts genes from visiting bees totally not hurting them in the process.\nMultiple upgrades can be installed for a greater chance.",
-  "productivebees.information.upgrade.upgrade_breeding": "When installed in a hive it gives a %s%% chance for a new baby bee to be spawned from the hive every time honey is delivered.\nThe type of bee is based on which bees are present in the hive.\nMultiple upgrades can be installed for a greater chance.\nWhen installed in a Catcher only baby bees will be caught.",
+  "productivebees.information.upgrade.upgrade_breeding": "When installed in a hive it gives a %s%% chance for a new baby bee to be spawned from the hive every time honey is delivered.\nThe type of bee is based on which bees are present in the hive.\nThis does not work with bees that can't self breed.\nMultiple upgrades can be installed for a greater chance.\nWhen installed in a Catcher only baby bees will be caught.",
   "productivebees.information.upgrade.upgrade_not_babee": "When installed in a Catcher only adult bees will be caught.",
   "productivebees.information.upgrade.upgrade_comb_block": "Changes the produced output to blocks instead of chips for Lumber and Quarry bees.",
   "productivebees.information.upgrade.upgrade_filter": "To clear the filter, put it in the crafting grid.",
@@ -599,5 +599,7 @@
   "productivebees.top.solitary.egg_count": "Eggs: %s",
   "productivebees.top.solitary.repopulation_countdown": "Repopulation cooldown %s\nUse additional treats to speed up",
   "productivebees.top.solitary.repopulation_countdown_inactive": "Nest is empty. Use a honey treat on it to attract a bee.",
-  "config.jade.plugin_productivebees.solitary_nest": "Solitary Nest"
+  "config.jade.plugin_productivebees.productive_bee": "Productive Bees",
+  "config.jade.plugin_productivebees.solitary_nest": "Solitary Nest",
+  "config.jade.plugin_productivebees.bee_attributes": "Attributes"
 }

@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -11,11 +12,8 @@ import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockCon
 
 public class WoodSolitaryNestFeature extends SolitaryNestFeature
 {
-    private final float probability;
-
-    public WoodSolitaryNestFeature(float probability, Codec<ReplaceBlockConfiguration> configFactory) {
-        super(probability, configFactory, false);
-        this.probability = probability;
+    public WoodSolitaryNestFeature(String configKey, Codec<ReplaceBlockConfiguration> configFactory) {
+        super(configKey, configFactory, false);
     }
 
     @Override
@@ -27,7 +25,7 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
         ReplaceBlockConfiguration featureConfig = context.config();
 
         for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
-            if (rand.nextFloat() > this.probability) {
+            if (rand.nextFloat() > ProductiveBeesConfig.WORLD_GEN.nestConfigs.get(configKey).get().floatValue()) {
                 return false;
             }
 

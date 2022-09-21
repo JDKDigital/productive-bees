@@ -4,6 +4,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModFeatures;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
@@ -25,23 +26,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NetherBeehiveDecorator extends TreeDecorator {
-    public static NetherBeehiveDecorator INSTANCE = new NetherBeehiveDecorator(0.02F);
+    public static NetherBeehiveDecorator INSTANCE = new NetherBeehiveDecorator();
 
-    public static final Codec<NetherBeehiveDecorator> CODEC = RecordCodecBuilder
-            .create((configurationInstance) -> configurationInstance.group(
-                Codec.FLOAT.fieldOf("probability").orElse(0f).forGetter((configuration) -> configuration.probability)
-            )
-            .apply(configurationInstance, NetherBeehiveDecorator::new));
+    public static final Codec<NetherBeehiveDecorator> CODEC = Codec.unit(NetherBeehiveDecorator::new);
 
     private static final Direction[] SPAWN_DIRECTIONS = Direction.Plane.HORIZONTAL.stream().filter((direction) -> direction != Direction.SOUTH.getOpposite()).toArray(Direction[]::new);
 
-    /** Probability to generate a beehive */
-    public final float probability;
-
     private BlockState nest;
 
-    public NetherBeehiveDecorator(float probability) {
-        this.probability = probability;
+    public NetherBeehiveDecorator() {
     }
 
     @Override
@@ -55,7 +48,7 @@ public class NetherBeehiveDecorator extends TreeDecorator {
 
     @Override
     public void place(Context context) {
-        if (!(context.random().nextFloat() >= this.probability) && nest != null) {
+        if (!(context.random().nextFloat() >= ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("nether_bee_nest").get().floatValue()) && nest != null) {
             if (context.leaves().isEmpty() || context.logs().isEmpty()) {
                 return;
             }

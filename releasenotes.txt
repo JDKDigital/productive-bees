@@ -1,7 +1,8 @@
-1.19.2-0.10.1.2
+1.19.2-0.10.2.0
 
 -- Added a simulation upgrade which makes a hive simulate bees trips to flowers instead of adding the entities into the world
 -- Added breeding chamber where you can choose which offspring to get
+-- Added Heated Centrifuge
 -- Added Gobber bees
 -- Added nuclear waste bee (sorry)
 -- Added support for soul steel from Spirit
