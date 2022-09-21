@@ -11,9 +11,8 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,12 +43,12 @@ public class IncubatorContainer extends AbstractContainer
         {
             @Override
             public int get() {
-                return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+                return tileEntity.getCapability(ForgeCapabilities.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
             }
 
             @Override
             public void set(int value) {
-                tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+                tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
                     if (handler.getEnergyStored() > 0) {
                         handler.extractEnergy(handler.getEnergyStored(), false);
                     }
@@ -73,7 +72,7 @@ public class IncubatorContainer extends AbstractContainer
             }
         });
 
-        this.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+        this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 0, 52 - 13, 35));
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 1, 80 - 13, 53));
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 2, 108 - 13, 35));

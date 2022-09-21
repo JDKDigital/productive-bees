@@ -4,6 +4,10 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.StoneChip;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.common.recipe.*;
+import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
+import cy.jdkdigital.productivebees.container.gui.BreedingChamberScreen;
+import cy.jdkdigital.productivebees.container.gui.CentrifugeScreen;
+import cy.jdkdigital.productivebees.container.gui.IncubatorScreen;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
@@ -36,6 +40,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -79,6 +84,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.OAK_WOOD_NEST.get()), BEE_SPAWNING_BIG_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.INCUBATOR.get()), INCUBATION_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BOTTLER.get()), BOTTLER_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BREEDING_CHAMBER.get()), BEE_BREEDING_TYPE);
     }
 
     @Override
@@ -159,6 +165,10 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                     }
                     if (!nbt.getBoolean("selfbreed")) {
                         description = Component.translatable("productivebees.ingredient.description.selfbreed", description);
+                    }
+                    // Spirit soul transformation special case
+                    if (ModList.get().isLoaded("spirit") && beeId.equals("soulsteel")) {
+                        description = Component.translatable("productivebees.ingredient.description.soul_transformation", description);
                     }
                 } else {
                     description = Component.translatable("productivebees.ingredient.description." + (beeId));
@@ -271,6 +281,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             recipes.add(new ShapelessRecipe(idCombBlock, "", combOutput, combBlockInput));
         }
         registration.addRecipes(RecipeTypes.CRAFTING, recipes);
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addRecipeClickArea(CentrifugeScreen.class, 35, 35, 24, 16, CENTRIFUGE_TYPE);
+        registration.addRecipeClickArea(BottlerScreen.class, 142, 37, 14, 14, BOTTLER_TYPE);
+        registration.addRecipeClickArea(BreedingChamberScreen.class, 72, 14, 45, 22, BEE_BREEDING_TYPE);
+        registration.addRecipeClickArea(IncubatorScreen.class, 64, 35, 45, 16, INCUBATION_TYPE);
     }
 
     @Override

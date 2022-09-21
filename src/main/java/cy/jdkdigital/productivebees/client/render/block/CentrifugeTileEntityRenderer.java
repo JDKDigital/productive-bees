@@ -10,8 +10,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 public class CentrifugeTileEntityRenderer implements BlockEntityRenderer<CentrifugeBlockEntity>
 {
@@ -20,9 +21,10 @@ public class CentrifugeTileEntityRenderer implements BlockEntityRenderer<Centrif
 
     public void render(CentrifugeBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if (ProductiveBeesConfig.CLIENT.renderCombsInCentrifuge.get()) {
-            tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(itemHandler -> {
+            tileEntityIn.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(itemHandler -> {
                 ItemStack stack = itemHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
                 if (!stack.isEmpty()) {
+                    ItemRenderer ir = Minecraft.getInstance().getItemRenderer();
                     long time = System.currentTimeMillis();
                     double d = (time / 50) % 360;
                     int stackCount = stack.getCount();
@@ -36,7 +38,7 @@ public class CentrifugeTileEntityRenderer implements BlockEntityRenderer<Centrif
                         matrixStackIn.translate(0.5D + dX, 0.6375D, 0.5D + dZ);
                         matrixStackIn.mulPose(Vector3f.YP.rotationDegrees((float) angle + 90F));
                         matrixStackIn.scale(0.35F, 0.35F, 0.35F);
-                        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
+                        ir.renderStatic(stack, ItemTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
                         matrixStackIn.popPose();
                     }
                 }

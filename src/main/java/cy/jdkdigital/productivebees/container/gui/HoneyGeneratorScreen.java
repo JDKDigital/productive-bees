@@ -11,9 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -37,9 +36,9 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         this.font.draw(matrixStack, this.title, -5.0f, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.menu.tileEntity.getName(), -5.0f, (float) (this.getYSize() - 96 + 2), 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle, -5.0f, (float) (this.getYSize() - 96 + 2), 4210752);
 
-        this.menu.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
 
             // Fluid level tooltip
@@ -56,7 +55,7 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
             }
         });
 
-        this.menu.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
 
             // Energy level tooltip
@@ -80,14 +79,14 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
 
         // Draw energy level
         blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
-        this.menu.tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
             float energyAmount = (float) handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52f / (float) handler.getMaxEnergyStored()));
             blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 8, 0, 4, 52 - energyLevel);
         });
 
         // Draw fluid tank
-        this.menu.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
 
             if (fluidStack.getAmount() > 0) {

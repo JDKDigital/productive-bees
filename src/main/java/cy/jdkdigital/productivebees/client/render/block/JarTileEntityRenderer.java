@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 public class JarTileEntityRenderer implements BlockEntityRenderer<JarBlockEntity>
 {
@@ -24,7 +24,7 @@ public class JarTileEntityRenderer implements BlockEntityRenderer<JarBlockEntity
     public void render(JarBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         boolean shouldRender = ProductiveBeesConfig.CLIENT.renderBeesInJars.get();
         if (shouldRender) {
-            tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+            tileEntityIn.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                 if (!handler.getStackInSlot(0).isEmpty()) {
                     ItemStack cage = handler.getStackInSlot(0);
                     if (cage.getItem() instanceof BeeCage && BeeCage.isFilled(cage)) {

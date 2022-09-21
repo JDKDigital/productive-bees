@@ -10,8 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +34,10 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         this.font.draw(matrixStack, this.title, 8.0F, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.menu.tileEntity.getName(), 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle, 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
 
         // Draw fluid tank
-        this.menu.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
 
             // Fluid level tooltip
@@ -64,7 +64,7 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
         blit(matrixStack, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
 
         // Draw fluid tank
-        this.menu.tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
             int fluidLevel = (int) (fluidStack.getAmount() * (52 / 10000F));
             if (fluidStack.getAmount() > 0) {

@@ -27,7 +27,7 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
         ReplaceBlockConfiguration featureConfig = context.config();
 
         for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
-            if (nestShouldNotGenerate(targetBlockState.state) || rand.nextFloat() > this.probability) {
+            if (rand.nextFloat() > this.probability) {
                 return false;
             }
 

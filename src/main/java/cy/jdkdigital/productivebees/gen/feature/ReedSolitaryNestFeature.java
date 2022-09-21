@@ -10,7 +10,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.ReplaceBlockConfiguration;
 
-public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
+public class ReedSolitaryNestFeature extends SolitaryNestFeature
 {
     private final float probability;
 
@@ -28,7 +28,7 @@ public class ReedSolitaryNestFeature extends WoodSolitaryNestFeature
         ReplaceBlockConfiguration featureConfig = context.config();
 
         for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
-            if (nestShouldNotGenerate(targetBlockState.state) || rand.nextFloat() > this.probability) {
+            if (rand.nextFloat() > this.probability) {
                 return false;
             }
 

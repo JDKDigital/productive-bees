@@ -8,7 +8,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
 {
@@ -24,7 +24,7 @@ public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
 
                 // Auto harvest if empty bottles are in
                 if (honeyLevel >= 5) {
-                    blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
                         ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
                             final ItemStack filledBottle = level.dimension() == Level.END ? new ItemStack(Items.DRAGON_BREATH) : new ItemStack(Items.HONEY_BOTTLE);

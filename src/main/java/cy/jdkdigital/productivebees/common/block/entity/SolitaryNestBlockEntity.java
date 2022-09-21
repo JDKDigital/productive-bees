@@ -21,6 +21,7 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
 {
     // Used for calculating if a new bee should move in (initial value, will be overriden by recipe value)
     private int nestTickTimer = -1;
+
     // Counter for cuckoo bee spawns
     private int spawnCount = 0;
 
@@ -57,6 +58,10 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
         AdvancedBeehiveBlockEntityAbstract.tick(level, pos, state, blockEntity);
     }
 
+    public int getSpawnCount() {
+        return spawnCount;
+    }
+
     public boolean canRepopulate() {
         SolitaryNest nest = ((SolitaryNest) this.getBlockState().getBlock());
         boolean blockConditionsMet = nest.canRepopulateIn(level, level.getBiome(this.getBlockPos()).value());
@@ -74,7 +79,7 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
     protected void beeReleasePostAction(Level level, Bee beeEntity, BlockState state, BeeReleaseStatus beeState) {
         super.beeReleasePostAction(level, beeEntity, state, beeState);
 
-        if (beeEntity.getEncodeId() != null && spawnCount < ProductiveBeesConfig.BEES.cuckooSpawnCount.get() && !beeEntity.isBaby() && beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED && level.random.nextFloat() <= 0.1f) {
+        if (beeEntity.getEncodeId() != null && getSpawnCount() < ProductiveBeesConfig.BEES.cuckooSpawnCount.get() && !beeEntity.isBaby() && beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED && level.random.nextFloat() <= 0.1f) {
             // Cuckoo behavior
             Bee offspring = switch (beeEntity.getEncodeId()) {
                 case "productivebees:blue_banded_bee" -> ModEntities.NEON_CUCKOO_BEE.get().create(level);

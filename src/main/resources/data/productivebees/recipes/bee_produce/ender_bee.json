@@ -16,9 +16,15 @@
         },
         {
             "item": {
-                "tag": "forge:pollen"
+                "item": "minecraft:chorus_fruit"
             },
-            "chance": 5
+            "chance": 10
+        },
+        {
+            "item": {
+                "item": "minecraft:chorus_flower"
+            },
+            "chance": 1
         }
     ],
     "conditions": [

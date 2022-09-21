@@ -1,12 +1,8 @@
 package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
-import cy.jdkdigital.productivebees.init.ModBlocks;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +62,8 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue incubatorProcessingTime;
         public final ForgeConfigSpec.IntValue incubatorPowerUse;
         public final ForgeConfigSpec.IntValue incubatorTreatUse;
+        public final ForgeConfigSpec.IntValue breedingChamberProcessingTime;
+        public final ForgeConfigSpec.IntValue breedingChamberPowerUse;
         public final ForgeConfigSpec.IntValue generatorPowerGen;
         public final ForgeConfigSpec.IntValue generatorHoneyUse;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
@@ -73,6 +71,8 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue nestLocatorDistance;
         public final ForgeConfigSpec.IntValue nestSpawnCooldown;
         public final ForgeConfigSpec.BooleanValue centrifugeHopperMode;
+        public final ForgeConfigSpec.BooleanValue stripForgeCaps;
+        public final ForgeConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push("General");
@@ -109,6 +109,14 @@ public class ProductiveBeesConfig
                     .comment("How many treats to use when incubating a bee. Default 20.")
                     .defineInRange("incubatorTreatUse", 20, 1, 64);
 
+            breedingChamberProcessingTime = builder
+                    .comment("How many ticks it takes for process a recipe in the breeding chamber. Default 6000.")
+                    .defineInRange("breedingChamberProcessingTime", 6000, 20, Integer.MAX_VALUE);
+
+            breedingChamberPowerUse = builder
+                    .comment("How much FE to use per tick for an incubator when processing an item. Default 10.")
+                    .defineInRange("breedingChamberPowerUse", 50, 1, Integer.MAX_VALUE);
+
             generatorPowerGen = builder
                     .comment("How much FE to generate per tick. Default 60.")
                     .defineInRange("generatorPowerGen", 60, 1, Integer.MAX_VALUE);
@@ -137,14 +145,24 @@ public class ProductiveBeesConfig
                     .comment("Centrifuges will pick up items thrown on it")
                     .define("centrifugeHopperMode", true);
 
+            stripForgeCaps = builder
+                    .comment("Having a lot of bees (or bee cages in an inventory) in a single chunk can overload the chunk with data. A lot of data is already stripped from the bees as they are saved, but this will also remove all Forge capabilities, which is data added to the bees by other mods. Turn off to keep the data.")
+                    .define("stripForgeCaps", true);
+
+            forceEnableFarmerBeeRightClickHarvest = builder
+                    .comment("Enable this if you have a right click harvest handler but none of the following mods: right_click_get_crops, croptopia, quark, harvest, simplefarming, reap")
+                    .define("forceEnableFarmerBeeRightClickHarvest", false);
+
             builder.pop();
         }
     }
 
     public static class Bees
     {
+        public final ForgeConfigSpec.BooleanValue allowBeeSimulation;
         public final ForgeConfigSpec.BooleanValue spawnUndeadBees;
         public final ForgeConfigSpec.DoubleValue spawnUndeadBeesChance;
+        public final ForgeConfigSpec.DoubleValue deadBeeConvertChance;
         public final ForgeConfigSpec.DoubleValue sugarbagBeeChance;
         public final ForgeConfigSpec.IntValue cupidBeeAnimalsPerPollination;
         public final ForgeConfigSpec.IntValue cupidBeeAnimalDensity;
@@ -155,12 +173,19 @@ public class ProductiveBeesConfig
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
 
+            allowBeeSimulation = builder
+                    .comment("Allow for bee simulation in hives. This will stop bees from exiting the hive and instead simulate a trip to flower blocks saving on performance.")
+                    .define("allowBeeSimulation", true);
+
             spawnUndeadBees = builder
                     .comment("Spawn skeletal and zombie bees as night?")
                     .define("spawnUndeadBees", true);
 
             spawnUndeadBeesChance = builder
                     .defineInRange("spawnUndeadBeesChance", 0.05, 0, 1);
+
+            deadBeeConvertChance = builder
+                    .defineInRange("deadBeeConvertChance", 0.03, 0, 1);
 
             sugarbagBeeChance = builder
                     .defineInRange("sugarbagBeeChance", 0.02, 0, 1);
@@ -230,18 +255,34 @@ public class ProductiveBeesConfig
 
     public static class WorldGen
     {
-        public final Map<String, ForgeConfigSpec.BooleanValue> nestConfigs = new HashMap<>();
+        public final Map<String, ForgeConfigSpec.DoubleValue> nestConfigs = new HashMap<>();
 
         public WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push("Worldgen");
-            builder.comment("Which nests should generate in the level. Nest will still be craftable and attract bees when placed in the world.");
+            builder.comment("Probability for a nest to generate in the world given it's conditions. Nest will still be craftable and attract bees when placed in the world.");
 
-            for (RegistryObject<Block> blockReg : ModBlocks.BLOCKS.getEntries()) {
-                ResourceLocation resName = blockReg.getId();
-                if (resName.toString().contains("_nest")) {
-                    nestConfigs.put("enable_" + resName, builder.define("enable_" + resName, true));
-                }
-            }
+            nestConfigs.put("stone_nest", builder.defineInRange("stone_nest", 0.1D, 0.0D, 1.0D));
+            nestConfigs.put("coarse_dirt_nest", builder.defineInRange("coarse_dirt_nest", 0.60D, 0.0D, 1.0D));
+            nestConfigs.put("sand_nest", builder.defineInRange("sand_nest", 0.1D, 0.0D, 1.0D));
+            nestConfigs.put("snow_nest", builder.defineInRange("snow_nest", 0.1D, 0.0D, 1.0D));
+            nestConfigs.put("gravel_nest", builder.defineInRange("gravel_nest", 0.15D, 0.0D, 1.0D));
+            nestConfigs.put("sugar_cane_nest", builder.defineInRange("sugar_cane_nest", 0.40D, 0.0D, 1.0D));
+            nestConfigs.put("slimy_nest", builder.defineInRange("slimy_nest", 0.10D, 0.0D, 1.0D));
+            nestConfigs.put("glowstone_nest", builder.defineInRange("glowstone_nest", 0.90D, 0.0D, 1.0D));
+            nestConfigs.put("soul_sand_nest", builder.defineInRange("soul_sand_nest", 0.10D, 0.0D, 1.0D));
+            nestConfigs.put("nether_quartz_nest", builder.defineInRange("nether_quartz_nest", 0.20D, 0.0D, 1.0D));
+            nestConfigs.put("nether_brick_nest", builder.defineInRange("nether_brick_nest", 0.90D, 0.0D, 1.0D));
+            nestConfigs.put("end_stone_nest", builder.defineInRange("end_stone_nest", 0.15D, 0.0D, 1.0D));
+            nestConfigs.put("obsidian_nest", builder.defineInRange("obsidian_nest", 1.00D, 0.0D, 1.0D));
+            nestConfigs.put("bumble_bee_nest", builder.defineInRange("bumble_bee_nest", 0.02D, 0.0D, 1.0D));
+            nestConfigs.put("oak_wood_nest", builder.defineInRange("oak_wood_nest", 0.15D, 0.0D, 1.0D));
+            nestConfigs.put("spruce_wood_nest", builder.defineInRange("spruce_wood_nest", 0.2D, 0.0D, 1.0D));
+            nestConfigs.put("dark_oak_wood_nest", builder.defineInRange("dark_oak_wood_nest", 0.2D, 0.0D, 1.0D));
+            nestConfigs.put("birch_wood_nest", builder.defineInRange("birch_wood_nest", 0.2D, 0.0D, 1.0D));
+            nestConfigs.put("jungle_wood_nest", builder.defineInRange("jungle_wood_nest", 0.10D, 0.0D, 1.0D));
+            nestConfigs.put("acacia_wood_nest", builder.defineInRange("acacia_wood_nest", 0.2D, 0.0D, 1.0D));
+            nestConfigs.put("nether_bee_nest", builder.defineInRange("nether_bee_nest", 0.02D, 0.0D, 1.0D));
+            nestConfigs.put("sugarbag_nest", builder.defineInRange("sugarbag_nest", 0.02D, 0.0D, 1.0D));
 
             builder.pop();
         }

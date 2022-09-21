@@ -8,7 +8,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
@@ -125,9 +124,7 @@ public class ConfigurableHoneycombRecipe implements CraftingRecipe
 
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
-            Integer count = GsonHelper.getAsInt(json, "count", 4);
-
-            return this.factory.create(id, count);
+            return this.factory.create(id, 4);
         }
 
         public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {

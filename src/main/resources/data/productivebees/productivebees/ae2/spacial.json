@@ -3,6 +3,7 @@
     "secondaryColor": "#93c7ff",
     "tertiaryColor": "#93c7ff",
     "particleColor": "#66aefc",
+    "description": "productivebees.ingredient.description.spacial_bee",
     "renderer": "default_crystal",
     "size": 0.7,
     "flowerBlock": "ae2:quartz_block",

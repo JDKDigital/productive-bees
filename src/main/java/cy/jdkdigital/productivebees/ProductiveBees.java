@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.dispenser.CageDispenseBehavior;
 import cy.jdkdigital.productivebees.dispenser.ShearsDispenseItemBehavior;
 import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
@@ -33,11 +34,12 @@ import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ConditionContext;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -60,12 +62,22 @@ public final class ProductiveBees
     public static final Logger LOGGER = LogManager.getLogger();
 
     public ProductiveBees() {
-        // bee cage ingredient
+//        TODO
+//         - bee cage ingredient
+//         - custom comb textures
+//         - shroom bee from planting trees
+//         - item conversion in feeding slabs
+//         - twilight forest bees
+//         - beekeeper house
+//         - entity pollination in JEI
+//         - show fake bee outside simulated hive
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.addListener(this::onDataSync);
+        MinecraftForge.EVENT_BUS.addListener(this::onEntityAttacked);
+        MinecraftForge.EVENT_BUS.addListener(this::onEntityDeath);
         MinecraftForge.EVENT_BUS.addListener(this::onEntityHurt);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -105,14 +117,41 @@ public final class ProductiveBees
     }
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {
-        if (ModList.get().isLoaded("theoneprobe")) {
-            InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
-        }
+        InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {
         BeeReloadListener.INSTANCE.context = new ConditionContext(event.getServerResources().tagManager);
         event.addListener(BeeReloadListener.INSTANCE);
+    }
+
+    private void onEntityAttacked(LivingAttackEvent event) {
+        if (event.getEntity() instanceof ConfigurableBee bee) {
+            if (bee.isIrradiated() && event.getSource().getMsgId().equals("mekanism.radiation")) {
+                if (bee.breathCollectionCooldown < 0) {
+                    bee.breathCollectionCooldown = 600;
+                    bee.internalSetHasNectar(true);
+                } else {
+                    bee.breathCollectionCooldown-= event.getAmount();
+                }
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    private void onEntityDeath(LivingDeathEvent event) {
+        if (event.getEntity() instanceof ConfigurableBee bee) {
+            if (
+                    event.getSource().getMsgId().equals("mekanism.radiation") &&
+                    bee.getBeeType().equals("productivebees:radioactive") &&
+                    ProductiveBeesConfig.BEES.deadBeeConvertChance.get() > event.getEntity().getLevel().random.nextDouble() &&
+                    BeeIngredientFactory.getIngredient("productivebees:wasted_radioactive").get() != null
+            ) {
+                event.setCanceled(true);
+                bee.setHealth(bee.getMaxHealth());
+                bee.setBeeType("productivebees:wasted_radioactive");
+            }
+        }
     }
 
     private void onEntityHurt(LivingHurtEvent event) {

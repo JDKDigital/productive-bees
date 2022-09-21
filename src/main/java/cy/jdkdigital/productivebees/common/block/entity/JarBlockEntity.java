@@ -11,9 +11,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
@@ -60,7 +60,7 @@ public class JarBlockEntity extends AbstractBlockEntity
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return inventoryHandler.cast();
         }
         return super.getCapability(cap, side);
@@ -78,7 +78,7 @@ public class JarBlockEntity extends AbstractBlockEntity
     public void savePacketNBT(CompoundTag tag) {
         super.savePacketNBT(tag);
         CompoundTag finalTag = tag;
-        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> {
+        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
             CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
             finalTag.put("inv", compound);
         });
@@ -87,7 +87,7 @@ public class JarBlockEntity extends AbstractBlockEntity
     public void loadPacketNBT(CompoundTag tag) {
         super.loadPacketNBT(tag);
         CompoundTag invTag = tag.getCompound("inv");
-        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag));
+        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag));
 
         tickCount = ProductiveBees.random.nextInt(360);
     }

@@ -25,6 +25,17 @@ public class Gene extends Item
     public static final String VALUE_KEY = "productivebees_gene_value";
     public static final String PURITY_KEY = "productivebees_gene_purity";
 
+    public static float color(ItemStack itemStack) {
+        return switch (getAttributeName(itemStack)) {
+            case "productivity" -> 0.1F;
+            case "endurance" -> 0.2F;
+            case "temper" -> 0.3F;
+            case "behavior" -> 0.4F;
+            case "weather_tolerance" -> 0.5F;
+            default -> 0.0F;
+        };
+    }
+
     public Gene(Properties properties) {
         super(properties);
     }

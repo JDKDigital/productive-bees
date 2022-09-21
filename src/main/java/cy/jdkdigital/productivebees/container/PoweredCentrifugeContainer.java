@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
@@ -32,12 +32,12 @@ public class PoweredCentrifugeContainer extends CentrifugeContainer
         {
             @Override
             public int get() {
-                return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+                return tileEntity.getCapability(ForgeCapabilities.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
             }
 
             @Override
             public void set(int value) {
-                tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(handler -> {
+                tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
                     if (handler.getEnergyStored() > 0) {
                         handler.extractEnergy(handler.getEnergyStored(), false);
                     }

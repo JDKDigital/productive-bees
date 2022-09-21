@@ -9,12 +9,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 import java.util.ArrayList;
@@ -37,10 +37,10 @@ public abstract class FluidTankBlockEntity extends CapabilityBlockEntity
     }
 
     public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
-        blockEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+        blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler -> {
             FluidStack fluidStack = fluidHandler.getFluidInTank(0);
             if (fluidStack.getAmount() >= 0 && level instanceof ServerLevel) {
-                blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(invHandler -> {
+                blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(invHandler -> {
                     ItemStack fluidContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                     ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
                     if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {
@@ -59,9 +59,9 @@ public abstract class FluidTankBlockEntity extends CapabilityBlockEntity
                             if (existingOutput.isEmpty() || existingOutput.getItem().equals(recipe.getResultItem().getItem())) {
                                 processOutput(fluidHandler, invHandler, recipe.getResultItem().copy(), recipe.fluidInput.getSecond(), true);
                             }
-                        } else if (fluidContainerItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()) {
+                        } else if (fluidContainerItem.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
                             // try filling fluid container
-                            fluidContainerItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).ifPresent(h -> {
+                            fluidContainerItem.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(h -> {
                                 int amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
                                 processOutput(fluidHandler, invHandler, h.getFluidInTank(0).getAmount() == h.getTankCapacity(0) ? fluidContainerItem : null, amount, false);
                             });

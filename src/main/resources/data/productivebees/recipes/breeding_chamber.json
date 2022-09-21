@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "IDI",
+        "IHI",
+        "III"
+    ],
+    "key": {
+        "H": {
+            "item": "productivebees:upgrade_breeding"
+        },
+        "I": {
+            "tag": "forge:ingots/iron"
+        },
+        "D": {
+            "item": "minecraft:rose_bush"
+        }
+    },
+    "result": {
+        "item": "productivebees:breeding_chamber"
+    }
+}

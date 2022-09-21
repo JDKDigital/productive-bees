@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
 
     public void render(FeederBlockEntity tileEntityIn, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         SlabType slabType = tileEntityIn.getBlockState().getValue(SlabBlock.TYPE);
-        tileEntityIn.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+        tileEntityIn.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
             int filledSlots = 0;
             for (int slot = 0; slot < handler.getSlots(); ++slot) {
                 if (!handler.getStackInSlot(slot).isEmpty()) {

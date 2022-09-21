@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.init;
 
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.item.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -38,7 +39,7 @@ public class ModItems
 //    public static final RegistryObject<Item> GUIDE_BOOK = createItem("guide_book", () -> new Item(new Item.Properties().stacksTo(1).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEY_BUCKET = createItem("honey_bucket", () -> new BucketItem(ModFluids.HONEY, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> BEE_CAGE = createItem("bee_cage", () -> new BeeCage(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
-    public static final RegistryObject<Item> STURDY_BEE_CAGE = createItem("sturdy_bee_cage", () -> new SturdyBeeCage(new Item.Properties().stacksTo(1).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> STURDY_BEE_CAGE = createItem("sturdy_bee_cage", () -> new SturdyBeeCage(new Item.Properties().stacksTo(16).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> HONEY_TREAT = createItem("honey_treat", () -> new HoneyTreat(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> GENE_BOTTLE = createItem("gene_bottle", () -> new GeneBottle(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> GENE = createItem("gene", () -> new Gene(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
@@ -75,6 +76,7 @@ public class ModItems
     public static final RegistryObject<Item> UPGRADE_RANGE = createItem("upgrade_range", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_FILTER = createItem("upgrade_filter", () -> new FilterUpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_BEE_SAMPLER = createItem("upgrade_bee_sampler", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> UPGRADE_SIMULATOR = createItem("upgrade_simulator", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ProductiveBeesConfig.BEES.allowBeeSimulation.get() ? ModItemGroups.PRODUCTIVE_BEES : CreativeModeTab.TAB_MISC)));
 
     public static final RegistryObject<Item> ADV_BREED_BEE = createItem("adv_breed_bee", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ADV_BREED_ALL_BEES = createItem("adv_breed_all_bees", () -> new Item(new Item.Properties()));

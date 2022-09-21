@@ -6,6 +6,9 @@
         "endurance": 3
     },
     "selfbreed": false,
+    "invulnerability": [
+        "mekanism.radiation"
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",

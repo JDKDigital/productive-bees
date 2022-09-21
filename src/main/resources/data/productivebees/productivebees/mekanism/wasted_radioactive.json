@@ -1,0 +1,16 @@
+{
+    "primaryColor": "#80B425",
+    "secondaryColor": "#bb8d23",
+    "particleColor": "#80B425",
+    "flowerTag": "minecraft:air",
+    "description": "productivebees.ingredient.description.wasted_radioactive_bee",
+    "irradiated" : true,
+    "particleType": "pop",
+    "useGlowLayer": true,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mekanism"
+        }
+    ]
+}

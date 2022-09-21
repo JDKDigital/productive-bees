@@ -1,0 +1,29 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:nether_gobber",
+    "results": [
+        {
+            "item": {
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:nether_gobber"
+                    }
+                }
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
+        }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:nether_gobber"
+        }
+    ]
+}

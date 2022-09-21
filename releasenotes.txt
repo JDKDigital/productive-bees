@@ -1,5 +1,27 @@
 1.19.2-0.10.1.2
 
+-- Added a simulation upgrade which makes a hive simulate bees trips to flowers instead of adding the entities into the world
+-- Added breeding chamber where you can choose which offspring to get
+-- Added Gobber bees
+-- Added nuclear waste bee (sorry)
+-- Added support for soul steel from Spirit
+-- Added bee attribute details to expanded TOP info box
+-- Wood solitary nests can now grow with trees grown next to flowers
+-- Filter upgrades now work in centrifuges, only allowing combs produced by the bees on the filter
+-- Sturdy bee cages stack size changed to 16
+-- Radioactive bees now cause nausea and weakness
+-- Gene vials now have different colors depending on the attribute
+-- Skeletal and ZomBee spawn count limited
+-- Fixed nocturnal bees not leaving hive in the nether
+-- Fixed problem with all bees being able to convert blocks
+-- Fixed Jungle Wood Nest not being discoverable with nest locator
+-- Blacklisted bee cages from being used in a claimed chunk (FTB Chunks)
+-- Added invulnerability list to config bees allowing for any invulnerabilities
+-- Fixed some more world gen crashes
+
+
+1.19.2-0.10.1.2
+
 -- Fixed bee fishing breaking normal fishing
 
 

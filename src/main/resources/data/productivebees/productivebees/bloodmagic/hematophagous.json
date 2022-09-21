@@ -2,7 +2,7 @@
     "primaryColor": "#7a0300",
     "secondaryColor": "#0f0f66",
     "particleColor": "#7a0300",
-    "description": "productivebees.ingredient.description.only_spawnegg",
+    "description": "productivebees.ingredient.description.hematophagous_bee",
     "flowerTag": "productivebees:animals",
     "flowerType": "entity_types",
     "conditions": [

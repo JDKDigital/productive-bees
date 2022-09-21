@@ -4,8 +4,8 @@
         "top": "productivebees:block/incubator/top",
         "bottom": "productivebees:block/centrifuge/bottom",
         "particle": "productivebees:block/centrifuge/side",
-        "side": "productivebees:block/centrifuge/side",
-        "front": "productivebees:block/centrifuge/side",
+        "side": "productivebees:block/centrifuge/powered_side",
+        "front": "productivebees:block/centrifuge/powered_side",
         "inside": "productivebees:block/centrifuge/inner"
     },
     "elements": [

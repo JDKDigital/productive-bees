@@ -14,10 +14,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
@@ -30,6 +31,10 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 
     public PoweredCentrifugeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), pos, state);
+    }
+
+    public PoweredCentrifugeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, PoweredCentrifugeBlockEntity blockEntity) {
@@ -49,7 +54,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 
     public int getProcessingTime() {
         return (int) (
-                ProductiveBeesConfig.GENERAL.centrifugePoweredProcessingTime.get() * getProcessingTimeModifier()
+            ProductiveBeesConfig.GENERAL.centrifugePoweredProcessingTime.get() * getProcessingTimeModifier()
         );
     }
 
@@ -61,7 +66,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityEnergy.ENERGY) {
+        if (cap == ForgeCapabilities.ENERGY) {
             return energyHandler.cast();
         }
         return super.getCapability(cap, side);

@@ -1,5 +1,8 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import com.google.common.base.Suppliers;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
@@ -7,6 +10,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.recipe.BeeSpawningRecipe;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
+import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import net.minecraft.ChatFormatting;
@@ -28,6 +32,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -43,9 +48,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class SolitaryNest extends AdvancedBeehiveAbstract
 {
+    public static Supplier<BiMap<Block, Block>> BLOCK_TO_NEST = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
+            .put(Blocks.OAK_LOG, ModBlocks.OAK_WOOD_NEST.get())
+            .put(Blocks.BIRCH_LOG, ModBlocks.BIRCH_WOOD_NEST.get())
+            .put(Blocks.SPRUCE_LOG, ModBlocks.SPRUCE_WOOD_NEST.get())
+            .put(Blocks.ACACIA_LOG, ModBlocks.ACACIA_WOOD_NEST.get())
+            .put(Blocks.DARK_OAK_LOG, ModBlocks.DARK_OAK_WOOD_NEST.get())
+            .put(Blocks.JUNGLE_LOG, ModBlocks.JUNGLE_WOOD_NEST.get())
+            .put(Blocks.GLOWSTONE, ModBlocks.GLOWSTONE_NEST.get())
+            .put(Blocks.NETHER_QUARTZ_ORE, ModBlocks.NETHER_QUARTZ_NEST.get())
+            .put(Blocks.NETHER_BRICKS, ModBlocks.NETHER_BRICK_NEST.get())
+            .put(Blocks.GOLD_ORE, ModBlocks.NETHER_GOLD_NEST.get())
+            .put(Blocks.END_STONE, ModBlocks.END_NEST.get())
+            .put(Blocks.OBSIDIAN, ModBlocks.OBSIDIAN_PILLAR_NEST.get())
+            .put(Blocks.SLIME_BLOCK, ModBlocks.SLIMY_NEST.get())
+            .put(Blocks.SUGAR_CANE, ModBlocks.SUGAR_CANE_NEST.get())
+            .put(Blocks.DIRT, ModBlocks.COARSE_DIRT_NEST.get())
+            .put(Blocks.STONE, ModBlocks.STONE_NEST.get())
+            .put(Blocks.SAND, ModBlocks.SAND_NEST.get())
+            .put(Blocks.SNOW_BLOCK, ModBlocks.SNOW_NEST.get())
+            .put(Blocks.GRAVEL, ModBlocks.GRAVEL_NEST.get())
+        .build());
     List<BeeSpawningRecipe> recipes = new ArrayList<>();
 
     public SolitaryNest(Properties properties) {

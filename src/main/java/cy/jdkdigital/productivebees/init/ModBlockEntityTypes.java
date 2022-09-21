@@ -126,6 +126,7 @@ public class ModBlockEntityTypes
     public static final RegistryObject<BlockEntityType<BumbleBeeNestBlockEntity>> BUMBLE_BEE_NEST = register("bumble_bee_nest", BumbleBeeNestBlockEntity::new, ModBlocks.BUMBLE_BEE_NEST);
     public static final RegistryObject<BlockEntityType<CentrifugeBlockEntity>> CENTRIFUGE = register("centrifuge", CentrifugeBlockEntity::new, ModBlocks.CENTRIFUGE);
     public static final RegistryObject<BlockEntityType<PoweredCentrifugeBlockEntity>> POWERED_CENTRIFUGE = register("powered_centrifuge", PoweredCentrifugeBlockEntity::new, ModBlocks.POWERED_CENTRIFUGE);
+    public static final RegistryObject<BlockEntityType<HeatedCentrifugeBlockEntity>> HEATED_CENTRIFUGE = register("heated_centrifuge", HeatedCentrifugeBlockEntity::new, ModBlocks.HEATED_CENTRIFUGE);
     public static final RegistryObject<BlockEntityType<BottlerBlockEntity>> BOTTLER = register("bottler", BottlerBlockEntity::new, ModBlocks.BOTTLER);
     public static final RegistryObject<BlockEntityType<FeederBlockEntity>> FEEDER = register("feeder", FeederBlockEntity::new, ModBlocks.FEEDER);
     public static final RegistryObject<BlockEntityType<JarBlockEntity>> JAR = register("jar", JarBlockEntity::new, ModBlocks.JAR);
@@ -134,6 +135,7 @@ public class ModBlockEntityTypes
     public static final RegistryObject<BlockEntityType<CatcherBlockEntity>> CATCHER = register("catcher", CatcherBlockEntity::new, ModBlocks.CATCHER);
     public static final RegistryObject<BlockEntityType<IncubatorBlockEntity>> INCUBATOR = register("incubator", IncubatorBlockEntity::new, ModBlocks.INCUBATOR);
     public static final RegistryObject<BlockEntityType<GeneIndexerBlockEntity>> GENE_INDEXER = register("gene_indexer", GeneIndexerBlockEntity::new, ModBlocks.GENE_INDEXER);
+    public static final RegistryObject<BlockEntityType<BreedingChamberBlockEntity>> BREEDING_CHAMBER = register("breeding_chamber", BreedingChamberBlockEntity::new, ModBlocks.BREEDING_CHAMBER);
 
     private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, Supplier<Block> block) {
         return BLOCK_ENTITIES.register(name, () ->

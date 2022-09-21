@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
 import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -18,16 +19,16 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements UpgradeableBlockEntity
 {
     protected int tickCounter = 0;
+    public int fluidId = 0;
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(2, this)
     {
@@ -52,13 +54,8 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
         }
     });
 
-    protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
+    protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000, fluidStack -> fluidStack.getFluid().is(ModTags.HONEY))
     {
-        @Override
-        public boolean isFluidValid(FluidStack stack) {
-            return stack.getFluid().isSame(ModFluids.HONEY.get());
-        }
-
         @Override
         protected void onContentsChanged() {
             super.onContentsChanged();
@@ -67,6 +64,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
             } else {
                 HoneyGeneratorBlockEntity.this.setFilled(false);
             }
+            HoneyGeneratorBlockEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
             HoneyGeneratorBlockEntity.this.setChanged();
         }
     });
@@ -94,6 +92,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
 
     public static void tick(Level level, BlockPos pos, BlockState state, HoneyGeneratorBlockEntity blockEntity) {
         int tickRate = 10;
+
         if (++blockEntity.tickCounter % tickRate == 0) {
             double consumeModifier = 1d + blockEntity.getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
             double speedModifier = 1d + (blockEntity.getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
@@ -151,7 +150,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
                     ItemStack outputInvItem = invHandler.getStackInSlot(1);
                     ItemStack outputItem = ItemStack.EMPTY;
 
-                    LazyOptional<IFluidHandler> itemFluidHandler = invItem.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+                    LazyOptional<IFluidHandler> itemFluidHandler = invItem.getCapability(ForgeCapabilities.FLUID_HANDLER);
                     boolean isHoneyBottle = invItem.getItem().equals(Items.HONEY_BOTTLE);
                     boolean isHoneyBlock = invItem.getItem().equals(Items.HONEY_BLOCK);
                     boolean isHoneyBucket = invItem.is(ModTags.Forge.HONEY_BUCKETS);
@@ -208,8 +207,9 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     public void loadPacketNBT(CompoundTag tag) {
         super.loadPacketNBT(tag);
 
-        // Rebuild cached attached TEs
-        refreshConnectedTileEntityCache();
+        // set fluid ID for screens
+        Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
+        fluidId = Registry.FLUID.getId(fluid);
     }
 
     @Override
@@ -219,11 +219,11 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
 
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return inventoryHandler.cast();
-        } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        } else if (cap == ForgeCapabilities.FLUID_HANDLER) {
             return fluidInventory.cast();
-        } else if (cap == CapabilityEnergy.ENERGY) {
+        } else if (cap == ForgeCapabilities.ENERGY) {
             return energyHandler.cast();
         }
         return super.getCapability(cap, side);
@@ -246,7 +246,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
             for (Direction direction : directions) {
                 BlockEntity te = level.getBlockEntity(worldPosition.relative(direction));
                 if (te != null) {
-                    te.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).ifPresent(recipients::add);
+                    te.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).ifPresent(recipients::add);
                 }
             }
             this.recipients = recipients;

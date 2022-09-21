@@ -39,6 +39,7 @@ public class ModTags
     public static final TagKey<Block> POWDERY = getBlockTag("flowers/powdery");
 
     public static final TagKey<EntityType<?>> RANCHABLES = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
+    public static final TagKey<EntityType<?>> EXTERNAL_CAN_POLLINATE = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "external_can_pollinate"));
 
     public static final TagKey<Fluid> HONEY = FluidTags.create(new ResourceLocation("forge", "honey"));
 
@@ -76,6 +77,7 @@ public class ModTags
     }
 
     public static class Forge {
+        public static final TagKey<Item> COMBS = getItemTag(new ResourceLocation("forge", "storage_blocks/honeycombs"));
         public static final TagKey<Item> HONEY_BUCKETS = getItemTag(new ResourceLocation("forge", "buckets/honey"));
         public static final TagKey<Item> EGGS = getItemTag(new ResourceLocation("forge", "eggs"));
         public static final TagKey<Item> FISHING_RODS = getItemTag(new ResourceLocation("forge", "rods/fishing"));

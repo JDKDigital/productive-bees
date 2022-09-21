@@ -33,7 +33,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
@@ -65,7 +65,7 @@ public class Feeder extends SlabBlock implements EntityBlock
         BlockState state = super.getStateForPlacement(context);
 
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        if (fluidstate.getType().is(ModTags.HONEY) && state != null) {
+        if (fluidstate.is(ModTags.HONEY) && state != null) {
             return state.setValue(HONEYLOGGED, true);
         }
         return state;
@@ -122,7 +122,7 @@ public class Feeder extends SlabBlock implements EntityBlock
             BlockEntity tileEntity = worldIn.getBlockEntity(pos);
             if (tileEntity instanceof FeederBlockEntity) {
                 // Drop inventory
-                tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
                         Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }

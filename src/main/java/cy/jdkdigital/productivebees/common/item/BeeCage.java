@@ -44,7 +44,7 @@ public class BeeCage extends Item
 
     public static boolean isFilled(ItemStack itemStack) {
         CompoundTag tag = itemStack.getTag();
-        return !itemStack.isEmpty() && tag != null && tag.contains("entity");
+        return !itemStack.isEmpty() && itemStack.getItem() instanceof BeeCage && tag != null && tag.contains("entity");
     }
 
     @Override
@@ -90,24 +90,30 @@ public class BeeCage extends Item
     protected void postItemUse(UseOnContext context) {
         // Delete stack
         if (context.getPlayer() != null) {
-            context.getPlayer().getInventory().removeItem(context.getItemInHand());
+            if (context.getPlayer().isCreative()) {
+                context.getPlayer().getInventory().removeItem(context.getItemInHand());
+            } else {
+                context.getItemInHand().shrink(1);
+            }
         }
     }
 
     @Nonnull
     @Override
     public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity targetIn, InteractionHand hand) {
-        if (targetIn.getCommandSenderWorld().isClientSide() || (!(targetIn instanceof Bee) || !targetIn.isAlive()) || (isFilled(itemStack))) {
+        if (targetIn.getCommandSenderWorld().isClientSide() || (!(targetIn instanceof Bee target) || !targetIn.isAlive()) || (isFilled(itemStack))) {
             return InteractionResult.PASS;
         }
-
-        Bee target = (Bee) targetIn;
 
         boolean addToInventory = true;
         ItemStack cageStack = new ItemStack(itemStack.getItem());
         if (itemStack.getCount() == 1) {
             cageStack = itemStack;
             addToInventory = false;
+        }
+
+        if (target.isLeashed()) {
+            target.dropLeash(true, true);
         }
 
         captureEntity(target, cageStack);

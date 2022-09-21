@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
@@ -142,6 +143,12 @@ public class HoarderBee extends ProductiveBee
     public void resetTicksWithoutNectarSinceExitingHive() {
         super.resetTicksWithoutNectarSinceExitingHive();
         outOfHiveCounter = 0;
+    }
+
+    @Override
+    protected void dropEquipment() {
+        super.dropEquipment();
+        this.spawnAtLocation(Items.SHULKER_SHELL);
     }
 
     public void openAbdomen() {

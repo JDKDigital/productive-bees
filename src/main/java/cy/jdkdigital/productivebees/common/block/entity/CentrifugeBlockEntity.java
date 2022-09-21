@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Centrifuge;
+import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
@@ -13,6 +14,7 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
@@ -27,6 +29,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -40,11 +43,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
@@ -52,9 +54,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class CentrifugeBlockEntity extends FluidTankBlockEntity implements UpgradeableBlockEntity
+public class CentrifugeBlockEntity extends FluidTankBlockEntity implements UpgradeableBlockEntity, IRecipeProcessingBlockEntity
 {
     private CentrifugeRecipe currentRecipe = null;
     public int recipeProgress = 0;
@@ -69,8 +72,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         }
 
         @Override
-        public boolean isInputSlotItem(int slot, Item item) {
-            boolean isProcessableItem = item.equals(ModItems.GENE_BOTTLE.get()) || item.equals(ModItems.HONEY_TREAT.get()) || CentrifugeBlockEntity.this.canProcessItemStack(new ItemStack(item));
+        public boolean isInputSlotItem(int slot, ItemStack item) {
+            boolean isProcessableItem = item.getItem().equals(ModItems.GENE_BOTTLE.get()) || item.getItem().equals(ModItems.HONEY_TREAT.get()) || CentrifugeBlockEntity.this.canProcessItemStack(item);
 
             return (isProcessableItem && slot == InventoryHandlerHelper.INPUT_SLOT) || (!isProcessableItem && super.isInputSlotItem(slot, item));
         }
@@ -102,6 +105,11 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
     public CentrifugeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+    }
+
+    @Override
+    public int getRecipeProgress() {
+        return recipeProgress;
     }
 
     public int getProcessingTime() {
@@ -167,14 +175,14 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
     @Override
     public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
-        this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
+        this.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler -> {
             FluidStack fluidStack = fluidHandler.getFluidInTank(0);
             if (fluidStack.getAmount() > 0) {
                 Direction[] directions = Direction.values();
                 for (Direction direction : directions) {
                     BlockEntity te = level.getBlockEntity(worldPosition.relative(direction));
                     if (te != null && fluidStack.getAmount() > 0) {
-                        te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, direction.getOpposite()).ifPresent(h -> {
+                        te.getCapability(ForgeCapabilities.FLUID_HANDLER, direction.getOpposite()).ifPresent(h -> {
                             int amount = h.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
                             if (amount > 0) {
                                 amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
@@ -229,12 +237,30 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(2, null);
         inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, stack);
 
+        boolean isAllowedByFilter = true;
+        List<ItemStack> filterUpgrades = this.getInstalledUpgrades(ModItems.UPGRADE_FILTER.get());
+        if (filterUpgrades.size() > 0) {
+            isAllowedByFilter = false;
+            for (ItemStack filter : filterUpgrades) {
+                List<Supplier<BeeIngredient>> allowedBees = FilterUpgradeItem.getAllowedBees(filter);
+                for (Supplier<BeeIngredient> allowedBee : allowedBees) {
+                    List<ItemStack> produceList = BeeHelper.getBeeProduce(level, (Bee) allowedBee.get().getCachedEntity(level), false);
+                    for (ItemStack pStack: produceList) {
+                        if (pStack.getItem().equals(stack.getItem())) {
+                            isAllowedByFilter = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         CentrifugeRecipe recipe = getRecipe(inv);
 
-        return recipe != null;
+        return isAllowedByFilter && recipe != null;
     }
 
-    private CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
+    protected CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
         if (input.isEmpty() || input == ItemStack.EMPTY || level == null) {
             return null;
@@ -282,24 +308,22 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         return false;
     }
 
-    private void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler, RandomSource random) {
-        if (canProcessRecipe(recipe, invHandler)) {
-            recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
-                if (random.nextInt(100) <= recipeValues.get(2).getAsInt()) {
-                    int count = Mth.nextInt(random, Mth.floor(recipeValues.get(0).getAsInt()), Mth.floor(recipeValues.get(1).getAsInt()));
-                    itemStack.setCount(count);
-                    ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack.copy());
-                }
-            });
-
-            invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
-
-            Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
-            if (fluidOutput != null) {
-                fluidInventory.ifPresent(fluidHandler -> {
-                    fluidHandler.fill(new FluidStack(fluidOutput.getFirst(), fluidOutput.getSecond()), IFluidHandler.FluidAction.EXECUTE);
-                });
+    protected void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler, RandomSource random) {
+        recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
+            if (random.nextInt(100) <= recipeValues.get(2).getAsInt()) {
+                int count = Mth.nextInt(random, Mth.floor(recipeValues.get(0).getAsInt()), Mth.floor(recipeValues.get(1).getAsInt()));
+                itemStack.setCount(count);
+                ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(itemStack.copy());
             }
+        });
+
+        invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
+
+        Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
+        if (fluidOutput != null) {
+            fluidInventory.ifPresent(fluidHandler -> {
+                fluidHandler.fill(new FluidStack(fluidOutput.getFirst(), fluidOutput.getSecond()), IFluidHandler.FluidAction.EXECUTE);
+            });
         }
     }
 
@@ -366,10 +390,10 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return inventoryHandler.cast();
         }
-        if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        if (cap == ForgeCapabilities.FLUID_HANDLER) {
             return fluidInventory.cast();
         }
         return super.getCapability(cap, side);

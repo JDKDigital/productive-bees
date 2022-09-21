@@ -21,6 +21,9 @@ public class ModContainerTypes
     public static final RegistryObject<MenuType<PoweredCentrifugeContainer>> POWERED_CENTRIFUGE = CONTAINER_TYPES.register("powered_centrifuge", () ->
             IForgeMenuType.create(PoweredCentrifugeContainer::new)
     );
+    public static final RegistryObject<MenuType<HeatedCentrifugeContainer>> HEATED_CENTRIFUGE = CONTAINER_TYPES.register("heated_centrifuge", () ->
+            IForgeMenuType.create(HeatedCentrifugeContainer::new)
+    );
     public static final RegistryObject<MenuType<BottlerContainer>> BOTTLER = CONTAINER_TYPES.register("bottler", () ->
             IForgeMenuType.create(BottlerContainer::new)
     );
@@ -38,5 +41,8 @@ public class ModContainerTypes
     );
     public static final RegistryObject<MenuType<GeneIndexerContainer>> GENE_INDEXER = CONTAINER_TYPES.register("gene_indexer", () ->
             IForgeMenuType.create(GeneIndexerContainer::new)
+    );
+    public static final RegistryObject<MenuType<BreedingChamberContainer>> BREEDING_CHAMBER = CONTAINER_TYPES.register("breeding_chamber", () ->
+            IForgeMenuType.create(BreedingChamberContainer::new)
     );
 }

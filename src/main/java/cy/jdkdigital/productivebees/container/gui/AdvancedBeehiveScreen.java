@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.common.block.entity.DragonEggHiveBlockEntity
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
@@ -25,6 +26,7 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
@@ -36,6 +38,7 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
 {
     private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive.png");
     private static final ResourceLocation GUI_TEXTURE_EXPANDED = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_expanded.png");
+    private static final ResourceLocation GUI_TEXTURE_SIMULATED = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/advanced_beehive_simulated.png");
 
     public AdvancedBeehiveScreen(AdvancedBeehiveContainer screenContainer, Inventory inv, Component titleIn) {
         super(screenContainer, inv, titleIn);
@@ -51,12 +54,19 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
     @Override
     protected void renderLabels(@Nonnull PoseStack matrixStack, int mouseX, int mouseY) {
         boolean expanded = this.menu.tileEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+        boolean simulated = expanded && this.menu.tileEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0;
 
         this.font.draw(matrixStack, this.title, expanded ? -5f : 8.0F, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.menu.tileEntity.getDisplayName(), expanded ? -5f : 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle, expanded ? -5f : 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
 
         assert minecraft != null;
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
+        List<FormattedCharSequence> tooltipList = new ArrayList<FormattedCharSequence>();
+
+        // Cage slot tooltip
+        if (simulated && isHovering(86 - 13, 53, 16, 16, mouseX, mouseY) && this.menu.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).map(iItemHandler -> iItemHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()).orElse(false)) {
+            tooltipList.add(Component.translatable("productivebees.advanced_hive.tooltip.bee_cage").getVisualOrderText());
+        }
 
         this.menu.tileEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {
             // Bee Tooltips
@@ -81,7 +91,6 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
 
                     if (positions.containsKey(j) && isHovering(positions.get(j).get(0) - (expanded ? 13 : 0), positions.get(j).get(1), 16, 16, mouseX, mouseY)) {
                         CompoundTag tag = inhabitant.nbt.copy();
-                        List<FormattedCharSequence> tooltipList = new ArrayList<FormattedCharSequence>();
                         tooltipList.add(bee.getName().getVisualOrderText());
 
                         if (Screen.hasShiftDown()) {
@@ -104,20 +113,21 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
                         } else {
                             tooltipList.add(Component.translatable("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE).getVisualOrderText());
                         }
-                        renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
                     }
                     j++;
                 }
             }
         });
+        renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
     }
 
     @Override
     protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         boolean expanded = this.menu.tileEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+        boolean simulated = expanded && this.menu.tileEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0;
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, expanded ? GUI_TEXTURE_EXPANDED : GUI_TEXTURE);
+        RenderSystem.setShaderTexture(0, expanded ? (simulated ? GUI_TEXTURE_SIMULATED : GUI_TEXTURE_EXPANDED) : GUI_TEXTURE);
 
         int honeyLevel = this.menu.tileEntity.getBlockState().getValue(BeehiveBlock.HONEY_LEVEL);
         // Draw main screen
@@ -128,11 +138,16 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
         int xOffset = this.menu.tileEntity instanceof DragonEggHiveBlockEntity ? 13 : 0;
         blit(matrixStack, getGuiLeft() + 87 - (expanded ? 13 : 0), getGuiTop() + 37, 202 + xOffset, honeyLevel * 13, 13, 13);
 
+        // draw bee cage
+        if (simulated && this.menu.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).map(iItemHandler -> iItemHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()).orElse(false)) {
+            blit(matrixStack, getGuiLeft() + 87 - 13, getGuiTop() + 53, 202 + xOffset, 78, 14, 16);
+        }
+
         this.menu.tileEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {
             // Bees
             int i = 0;
             for (AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant : inhabitantHandler.getInhabitants()) {
-                if (minecraft.player != null && positions.containsKey(i)) {
+                if (minecraft != null && positions.containsKey(i)) {
                     String type = inhabitant.nbt.getString("type");
                     if (type.isEmpty()) {
                         type = inhabitant.nbt.getString("id");

@@ -3,6 +3,7 @@
     "secondaryColor": "#804f40",
     "particleColor": "#3b2754",
     "flowerFluid": "#forge:crude_oil",
+    "description": "productivebees.ingredient.description.oily_bee",
     "waterproof": true,
     "renderer": "thicc",
     "conditions": [

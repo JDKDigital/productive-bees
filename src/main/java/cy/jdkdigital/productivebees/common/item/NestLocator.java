@@ -19,15 +19,10 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiRecord;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
@@ -136,25 +131,9 @@ public class NestLocator extends Item
                 setNestBlock(stack, ModBlocks.CRIMSON_BEE_NEST.get(), context.getPlayer());
             } else {
                 // Set block if it's a component in crafting a nest
-                ItemStack in = new ItemStack(block.asItem());
-                done:
-                for (Recipe<CraftingContainer> recipe : world.getRecipeManager().byType(RecipeType.CRAFTING).values()) {
-                    out:
-                    for (Ingredient s : recipe.getIngredients()) {
-                        for (ItemStack ss : s.getItems()) {
-                            if (ss.getItem().equals(in.getItem())) {
-                                ItemStack output = recipe.getResultItem();
-                                if (output.getItem() instanceof BlockItem blockItem) {
-                                    Block foundBlock = blockItem.getBlock();
-                                    if (foundBlock instanceof SolitaryNest) {
-                                        setNestBlock(stack, foundBlock, context.getPlayer());
-                                        break done;
-                                    }
-                                }
-                                break out;
-                            }
-                        }
-                    }
+                Block nest = SolitaryNest.BLOCK_TO_NEST.get().get(block);
+                if (nest instanceof SolitaryNest) {
+                    setNestBlock(stack, nest, context.getPlayer());
                 }
             }
             return InteractionResult.SUCCESS;

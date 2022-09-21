@@ -7,7 +7,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 abstract class CapabilityContainerBlock extends BaseEntityBlock
 {
@@ -22,7 +22,7 @@ abstract class CapabilityContainerBlock extends BaseEntityBlock
             BlockEntity tileEntity = worldIn.getBlockEntity(pos);
             if (tileEntity != null) {
                 // Drop inventory
-                tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+                tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                     for (int slot = 0; slot < handler.getSlots(); ++slot) {
                         Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
                     }

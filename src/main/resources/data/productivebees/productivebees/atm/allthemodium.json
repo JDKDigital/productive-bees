@@ -5,6 +5,9 @@
     "breedingItem": "allthemodium:vibranium_ingot",
     "breedingItemCount": 4,
     "selfbreed": false,
+    "invulnerability": [
+        "mekanism.radiation"
+    ],
     "conditions": [
         {
             "type": "forge:mod_loaded",

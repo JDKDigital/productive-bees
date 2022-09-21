@@ -17,8 +17,8 @@
             "name": "Vertically Expanded",
             "multiblock": {
                 "mapping": {
-                    "H": "productivebees:advanced_oak_beehive",
-                    "E": "productivebees:expansion_box_oak"
+                    "H": "productivebees:advanced_oak_beehive[expanded=up]",
+                    "E": "productivebees:expansion_box_oak[expanded=up]"
                 },
                 "pattern": [
                     [
@@ -45,8 +45,8 @@
             "name": "Horizontally Expanded",
             "multiblock": {
                 "mapping": {
-                    "H": "productivebees:advanced_oak_beehive",
-                    "E": "productivebees:expansion_box_oak"
+                    "H": "productivebees:advanced_oak_beehive[expanded=left]",
+                    "E": "productivebees:expansion_box_oak[expanded=left]"
                 },
                 "pattern": [
                     [

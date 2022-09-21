@@ -11,7 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -35,9 +35,9 @@ public class CatcherScreen extends AbstractContainerScreen<CatcherContainer>
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         this.font.draw(matrixStack, this.title, 8.0F, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.menu.tileEntity.getName(), 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
+        this.font.draw(matrixStack, this.playerInventoryTitle, 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
 
-        this.menu.tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+        this.menu.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
             if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
                 if (isHovering(80, 17, 18, 18, mouseX, mouseY)) {
                     List<FormattedCharSequence> tooltipList = new ArrayList<>();

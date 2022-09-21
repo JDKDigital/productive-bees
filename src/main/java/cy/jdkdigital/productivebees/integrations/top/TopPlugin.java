@@ -3,9 +3,14 @@ package cy.jdkdigital.productivebees.integrations.top;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
-import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.IRecipeProcessingBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.util.BeeHelper;
+import mcjty.theoneprobe.api.CompoundText;
 import mcjty.theoneprobe.api.ITheOneProbe;
+import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.TextStyleClass;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -15,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -25,6 +31,26 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
     @Nullable
     @Override
     public Void apply(ITheOneProbe theOneProbe) {
+        theOneProbe.registerEntityDisplayOverride((probeMode, probeInfo, player, level, entity, iProbeHitEntityData) -> {
+            if (entity instanceof ProductiveBee bee && probeMode.equals(ProbeMode.EXTENDED)) {
+                probeInfo.horizontal()
+                        .entity(entity)
+                        .vertical()
+                        .text(CompoundText.create().name(entity.getName()))
+                        .text(CompoundText.create().style(TextStyleClass.MODNAME).text("Productive Bees"));
+
+                List<Component> list =  new ArrayList<>();
+                BeeHelper.populateBeeInfoFromEntity(bee, list);
+                for (Component component: list) {
+                    probeInfo.mcText(component);
+                }
+                probeInfo.text(formattedName);
+
+                return true;
+            }
+            return false;
+        });
+
         theOneProbe.registerBlockDisplayOverride((mode, probeInfo, player, world, blockState, data) -> {
             BlockEntity tileEntity = world.getBlockEntity(data.getPos());
             if (tileEntity instanceof SolitaryNestBlockEntity nest) {
@@ -32,7 +58,7 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                         .item(new ItemStack(blockState.getBlock().asItem()))
                         .vertical()
                         .itemLabel(new ItemStack(blockState.getBlock().asItem()))
-                        .text(formattedName);
+                        .text(CompoundText.create().style(TextStyleClass.MODNAME).text("Productive Bees"));
 
                 List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> bees = nest.getBeeList();
                 if (!bees.isEmpty()) {
@@ -59,14 +85,14 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
             }
 
             // Centrifuge
-            if (tileEntity instanceof CentrifugeBlockEntity centrifugeTileEntity) {
-                if (centrifugeTileEntity.recipeProgress > 0) {
+            if (tileEntity instanceof IRecipeProcessingBlockEntity recipeProcessingBlockEntity) {
+                if (recipeProcessingBlockEntity.getRecipeProgress() > 0) {
                     probeInfo.horizontal()
                             .item(new ItemStack(blockState.getBlock().asItem()))
                             .vertical()
                             .itemLabel(new ItemStack(blockState.getBlock().asItem()))
-                            .progress((int) Math.floor(centrifugeTileEntity.recipeProgress), centrifugeTileEntity.getProcessingTime())
-                            .text(formattedName);
+                            .progress(recipeProcessingBlockEntity.getRecipeProgress() / 20, recipeProcessingBlockEntity.getProcessingTime() / 20)
+                            .text(CompoundText.create().style(TextStyleClass.MODNAME).text("Productive Bees"));
                     return true;
                 }
             }
