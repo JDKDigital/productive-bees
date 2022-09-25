@@ -40,6 +40,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
 {
     protected int tickCounter = 0;
     public int fluidId = 0;
+    public boolean hasLoaded = false;
 
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(2, this)
     {
@@ -92,6 +93,11 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
 
     public static void tick(Level level, BlockPos pos, BlockState state, HoneyGeneratorBlockEntity blockEntity) {
         int tickRate = 10;
+
+        if (!blockEntity.hasLoaded) {
+            blockEntity.refreshConnectedTileEntityCache();
+            blockEntity.hasLoaded = true;
+        }
 
         if (++blockEntity.tickCounter % tickRate == 0) {
             double consumeModifier = 1d + blockEntity.getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());

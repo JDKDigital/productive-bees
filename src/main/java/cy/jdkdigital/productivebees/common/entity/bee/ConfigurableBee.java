@@ -373,7 +373,11 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public boolean isFlowerBlock(BlockState flowerBlock) {
-        boolean canConvertBlock = !flowerBlock.isAir() && BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
+        if (flowerBlock.isAir()) {
+            return false;
+        }
+
+        boolean canConvertBlock = BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
         if (canConvertBlock) {
             return true;
         }
@@ -444,12 +448,14 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         setBeeType(compound.getString("type"));
+        breathCollectionCooldown = compound.getInt("breathCollectionCooldown");
     }
 
     @Override
     public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putString("type", getBeeType());
+        compound.putInt("breathCollectionCooldown", breathCollectionCooldown);
     }
 
     public CompoundTag getNBTData() {

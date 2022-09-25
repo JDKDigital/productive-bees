@@ -26,15 +26,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NetherBeehiveDecorator extends TreeDecorator {
-    public static NetherBeehiveDecorator INSTANCE = new NetherBeehiveDecorator();
-
-    public static final Codec<NetherBeehiveDecorator> CODEC = Codec.unit(NetherBeehiveDecorator::new);
+    public static final Codec<NetherBeehiveDecorator> CODEC = RecordCodecBuilder
+            .create((configurationInstance) -> configurationInstance.group(
+                            Codec.FLOAT.fieldOf("probability").orElse(0f).forGetter((configuration) -> configuration.probability)
+                    )
+                    .apply(configurationInstance, NetherBeehiveDecorator::new));
 
     private static final Direction[] SPAWN_DIRECTIONS = Direction.Plane.HORIZONTAL.stream().filter((direction) -> direction != Direction.SOUTH.getOpposite()).toArray(Direction[]::new);
+    private float probability = 0;
 
     private BlockState nest;
 
-    public NetherBeehiveDecorator() {
+    public NetherBeehiveDecorator(float probability) {
+        this.probability = probability;
     }
 
     @Override
@@ -48,7 +52,10 @@ public class NetherBeehiveDecorator extends TreeDecorator {
 
     @Override
     public void place(Context context) {
-        if (!(context.random().nextFloat() >= ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("nether_bee_nest").get().floatValue()) && nest != null) {
+        if (probability == 0.0F) {
+            probability = ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("nether_bee_nest").get().floatValue();
+        }
+        if (!(context.random().nextFloat() >= probability) && nest != null) {
             if (context.leaves().isEmpty() || context.logs().isEmpty()) {
                 return;
             }

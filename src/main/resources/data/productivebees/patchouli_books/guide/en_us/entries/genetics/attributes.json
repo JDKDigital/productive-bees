@@ -24,7 +24,7 @@
         {
             "type": "patchouli:text",
             "title": "Beehavior",
-            "text": "Levels are:$(br)Diurnal - works only during daytime$(br)Nocturnal - works only during nighttime$(br)Metaturnal - works all day and night"
+            "text": "Most bees only work during the day, but this can be changed. Leash a Diurnal bee to something during night and it has a chance to turn Nocturnal$(br)Leash a Nocturnal bee during day and it has a chance to turn Metaturnal$(br)Be careful though as they can take damage with leashed in an environment they are not accustomed to"
         },
         {
             "type": "patchouli:text",

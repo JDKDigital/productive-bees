@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -58,6 +59,16 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         }
 
         @Override
+        public boolean isInputSlot(int slot) {
+            return slot != BreedingChamberContainer.SLOT_OUTPUT;
+        }
+
+        @Override
+        public int[] getOutputSlots() {
+            return new int[]{BreedingChamberContainer.SLOT_OUTPUT};
+        }
+
+        @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
 
@@ -81,6 +92,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 
     private void reset() {
         recipeProgress = 0;
+        currentBreedingRecipes = new ArrayList<>(); // reset recipe cache
         setRunning(false);
         setChanged();
     }
@@ -150,7 +162,6 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                     }
                 } else {
                     blockEntity.reset();
-                    blockEntity.currentBreedingRecipes = new ArrayList<>(); // reset recipe cache
                 }
             });
         }
@@ -167,6 +178,10 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 
         Bee bee1 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
         Bee bee2 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
+
+        if (bee1 == null || bee1.isBaby() || bee2 == null || bee2.isBaby()) {
+            return false;
+        }
 
         Ingredient breedingIngredient1 = Ingredient.of(ItemTags.FLOWERS);
         int breedingCount1 = 1;
@@ -186,7 +201,6 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         ItemStack breedingItem2 = invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_2);
 
         return energy > ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() && // has enough power
-                bee1 != null && bee2 != null && // has 2 bees
                 ( // breeding items match the two bees on firstRun
                     !firstRun ||
                     (
@@ -199,20 +213,19 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     private boolean completeBreeding(IItemHandlerModifiable invHandler) {
-        if (level != null && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_OUTPUT).isEmpty() && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).getItem() instanceof BeeCage && canProcessInput(invHandler, false)) {
+        if (level != null && chosenRecipe != null && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_OUTPUT).isEmpty() && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).getItem() instanceof BeeCage && canProcessInput(invHandler, false)) {
             var beeIngredient = chosenRecipe.offspring.get();
 
-            Bee bee = (Bee) beeIngredient.getBeeEntity().create(level);
-            if (bee != null) {
+            Entity offspring = beeIngredient.getBeeEntity().create(level);
+            if (offspring instanceof Bee bee) {
                 if (bee instanceof ConfigurableBee) {
                     ((ConfigurableBee) bee).setBeeType(beeIngredient.getBeeType().toString());
                     ((ConfigurableBee) bee).setAttributes();
                 }
 
-                if (bee instanceof ProductiveBee) {
-                    Bee bee1 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
-                    Bee bee2 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
-
+                Bee bee1 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, true);
+                if (bee instanceof ProductiveBee && bee1 instanceof ProductiveBee) {
+                    Bee bee2 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, true);
                     BeeHelper.setOffspringAttributes((ProductiveBee) bee, (ProductiveBee) bee1, bee2);
                 }
 

@@ -167,15 +167,6 @@ public class HoneyGenerator extends CapabilityContainerBlock
         return super.updateShape(state, direction, stae, level, pos, facingPos);
     }
 
-    @Override
-    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @org.jetbrains.annotations.Nullable LivingEntity pPlacer, ItemStack pStack) {
-        super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
-        BlockEntity generatorTile = pLevel.getBlockEntity(pPos);
-        if (generatorTile instanceof HoneyGeneratorBlockEntity) {
-            ((HoneyGeneratorBlockEntity) generatorTile).refreshConnectedTileEntityCache();
-        }
-    }
-
     public void openGui(ServerPlayer player, HoneyGeneratorBlockEntity tileEntity) {
         NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }

@@ -135,6 +135,7 @@ public final class ProductiveBees
                     bee.breathCollectionCooldown-= event.getAmount();
                 }
                 event.setCanceled(true);
+                bee.level.broadcastEntityEvent(bee, (byte) 2);
             }
         }
     }

@@ -457,6 +457,8 @@ public class ProductiveBee extends Bee
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
 
+        this.internalSetHasNectar(tag.getBoolean("HasNectar"));
+
         if (tag.contains("bee_productivity")) {
             beeAttributes.clear();
             setAttributeValue(BeeAttributes.PRODUCTIVITY, tag.getInt("bee_productivity"));

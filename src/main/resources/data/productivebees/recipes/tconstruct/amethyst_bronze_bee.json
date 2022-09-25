@@ -7,14 +7,14 @@
     },
     "cast_consumed": true,
     "fluid": {
-        "name": "tconstruct:molten_glass",
-        "amount": 576
+        "name": "tconstruct:molten_amethyst",
+        "amount": 800
     },
     "result": {
         "item": "productivebees:spawn_egg_configurable_bee",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:tinkers_bronze"
+                "type": "productivebees:amethyst_bronze"
             }
         }
     },
@@ -30,7 +30,7 @@
         },
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:tinkers_bronze"
+            "bee": "productivebees:amethyst_bronze"
         }
     ]
 }

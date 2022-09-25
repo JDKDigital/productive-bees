@@ -73,7 +73,17 @@ public class ModConfiguredFeatures
                     Blocks.NETHER_WART_BLOCK.defaultBlockState(),
                     Blocks.SHROOMLIGHT.defaultBlockState(),
                     ModBlocks.CRIMSON_BEE_NEST.get().defaultBlockState(),
-                    List.of(NetherBeehiveDecorator.INSTANCE),
+                    List.of(ModFeatures.NETHER_BEEHIVE_DECORATOR),
+                    false
+            )));
+    public static RegistryObject<ConfiguredFeature<?, ?>> CRIMSON_FUNGUS_BEES_GROW = CONFIGURED_FEATURES.register("crimson_fungus_bees_grow", () -> new ConfiguredFeature<>(ModFeatures.DECORATED_HUGE_FUNGUS.get(),
+            new DecoratedHugeFungusConfiguration(
+                    Blocks.CRIMSON_NYLIUM.defaultBlockState(),
+                    Blocks.CRIMSON_STEM.defaultBlockState(),
+                    Blocks.NETHER_WART_BLOCK.defaultBlockState(),
+                    Blocks.SHROOMLIGHT.defaultBlockState(),
+                    ModBlocks.CRIMSON_BEE_NEST.get().defaultBlockState(),
+                    List.of(ModFeatures.NETHER_BEEHIVE_DECORATOR_100),
                     false
             )));
     public static RegistryObject<ConfiguredFeature<?, ?>> WARPED_FUNGUS_BEES = CONFIGURED_FEATURES.register("warped_fungus_bees", () -> new ConfiguredFeature<>(ModFeatures.DECORATED_HUGE_FUNGUS.get(),
@@ -83,12 +93,19 @@ public class ModConfiguredFeatures
                     Blocks.WARPED_WART_BLOCK.defaultBlockState(),
                     Blocks.SHROOMLIGHT.defaultBlockState(),
                     ModBlocks.WARPED_BEE_NEST.get().defaultBlockState(),
-                    List.of(NetherBeehiveDecorator.INSTANCE),
+                    List.of(ModFeatures.NETHER_BEEHIVE_DECORATOR),
                     false
             )));
-//    public static RegistryObject<ConfiguredFeature<?, ?>> GLOWSTONE_NEST = CONFIGURED_FEATURES.register("glowstone_nest", new ConfiguredFeature<>(ModFeatures.GLOWSTONE_NEST_BLOB.get(), new BlockStateConfiguration(ModBlocks.GLOWSTONE_NEST.get().defaultBlockState())));
-//    public static RegistryObject<ConfiguredFeature<?, ?>> NETHER_QUARTZ_NEST = CONFIGURED_FEATURES.register("nether_quartz_nest", new ConfiguredFeature<>(ModFeatures.NETHER_QUARTZ_NEST_ORE.get(), new OreConfiguration(new BlockMatchTest(Blocks.NETHERRACK), Blocks.NETHER_QUARTZ_ORE.defaultBlockState(), 14)));
-
+    public static RegistryObject<ConfiguredFeature<?, ?>> WARPED_FUNGUS_BEES_GROW = CONFIGURED_FEATURES.register("warped_fungus_bees_grow", () -> new ConfiguredFeature<>(ModFeatures.DECORATED_HUGE_FUNGUS.get(),
+            new DecoratedHugeFungusConfiguration(
+                    Blocks.WARPED_NYLIUM.defaultBlockState(),
+                    Blocks.WARPED_STEM.defaultBlockState(),
+                    Blocks.WARPED_WART_BLOCK.defaultBlockState(),
+                    Blocks.SHROOMLIGHT.defaultBlockState(),
+                    ModBlocks.WARPED_BEE_NEST.get().defaultBlockState(),
+                    List.of(ModFeatures.NETHER_BEEHIVE_DECORATOR_100),
+                    false
+            )));
 
     public static RegistryObject<PlacedFeature> SAND_NEST_PLACED = PLACED_FEATURES.register("sand_nest", () -> new PlacedFeature(Holder.direct(SAND_NEST_FEATURE.get()), List.of(BiomeFilter.biome())));
     public static RegistryObject<PlacedFeature> COARSE_DIRT_PLACED = PLACED_FEATURES.register("coarse_dirt_nest", () -> new PlacedFeature(Holder.direct(COARSE_DIRT_NEST_FEATURE.get()), List.of(BiomeFilter.biome())));
@@ -115,10 +132,6 @@ public class ModConfiguredFeatures
     public static RegistryObject<PlacedFeature> CRIMSON_FUNGUS_BEES_PLACED = PLACED_FEATURES.register("crimson_fungus_bees", () -> new PlacedFeature(Holder.direct(CRIMSON_FUNGUS_BEES.get()), List.of(CountOnEveryLayerPlacement.of(8), BiomeFilter.biome())));
     public static RegistryObject<PlacedFeature> WARPED_FUNGUS_BEES_PLACED = PLACED_FEATURES.register("warped_fungus_bees", () -> new PlacedFeature(Holder.direct(WARPED_FUNGUS_BEES.get()), List.of(CountOnEveryLayerPlacement.of(8), BiomeFilter.biome())));
 
-//    public static PlacedFeature GLOWSTONE_NEST_EXTRA_PLACED;
-//    public static PlacedFeature GLOWSTONE_NEST_PLACED;
-//    public static PlacedFeature NETHER_QUARTZ_NEST_PLACED;
-
     public static RegistryObject<ConfiguredFeature<TreeConfiguration, ?>> OAK_SOLITARY_NEST = CONFIGURED_FEATURES.register("oak_solitary_nest", () -> new ConfiguredFeature<>(ModFeatures.SOLITARY_NEST_TREE.get(), TreeFeatures.createOak().decorators(List.of(WoodNestDecorator.INSTANCE)).build()));
     public static RegistryObject<ConfiguredFeature<TreeConfiguration, ?>> BIRCH_SOLITARY_NEST = CONFIGURED_FEATURES.register("bich_solitary_nest", () -> new ConfiguredFeature<>(ModFeatures.SOLITARY_NEST_TREE.get(), TreeFeatures.createBirch().decorators(List.of(WoodNestDecorator.INSTANCE)).build()));
     public static RegistryObject<ConfiguredFeature<TreeConfiguration, ?>> SPRUCE_SOLITARY_NEST = CONFIGURED_FEATURES.register("spruce_solitary_nest", () -> new ConfiguredFeature<>(ModFeatures.SOLITARY_NEST_TREE.get(), (new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(Blocks.SPRUCE_LOG), new StraightTrunkPlacer(5, 2, 1), BlockStateProvider.simple(Blocks.SPRUCE_LEAVES), new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2), UniformInt.of(1, 2)), new TwoLayersFeatureSize(2, 0, 2))).ignoreVines().decorators(List.of(WoodNestDecorator.INSTANCE)).build()));
@@ -132,16 +145,4 @@ public class ModConfiguredFeatures
     public static RegistryObject<PlacedFeature> ACACIA_SOLITARY_NEST_PLACED = PLACED_FEATURES.register("acacia_solitary_nest", () -> new PlacedFeature(Holder.direct(ACACIA_SOLITARY_NEST.get()), List.of(InSquarePlacement.spread(), RarityFilter.onAverageOnceEvery(10), VegetationPlacements.TREE_THRESHOLD, PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, PlacementUtils.filteredByBlockSurvival(Blocks.ACACIA_SAPLING), BiomeFilter.biome())));
     public static RegistryObject<PlacedFeature> DARK_OAK_SOLITARY_NEST_PLACED = PLACED_FEATURES.register("dark_oak_solitary_nest", () -> new PlacedFeature(Holder.direct(DARK_OAK_SOLITARY_NEST.get()), List.of(InSquarePlacement.spread(), RarityFilter.onAverageOnceEvery(10), VegetationPlacements.TREE_THRESHOLD, PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, PlacementUtils.filteredByBlockSurvival(Blocks.DARK_OAK_SAPLING), BiomeFilter.biome())));
     public static RegistryObject<PlacedFeature> JUNGLE_SOLITARY_NEST_PLACED = PLACED_FEATURES.register("jungle_solitary_nest", () -> new PlacedFeature(Holder.direct(JUNGLE_SOLITARY_NEST.get()), List.of(InSquarePlacement.spread(), PlacementUtils.countExtra(1, 0.1F, 6), VegetationPlacements.TREE_THRESHOLD, PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, PlacementUtils.filteredByBlockSurvival(Blocks.JUNGLE_SAPLING), BiomeFilter.biome())));
-
-    public static void registerPlacedFeatures() {
-        Registry<PlacedFeature> registry = BuiltinRegistries.PLACED_FEATURE;
-
-//        GLOWSTONE_NEST_EXTRA_PLACED = Registry.register(registry, rLoc("glowstone_nest_extra"), new PlacedFeature(Holder.direct(GLOWSTONE_NEST), List.of(CountPlacement.of(BiasedToBottomInt.of(0, 9)), InSquarePlacement.spread(), PlacementUtils.RANGE_4_4, BiomeFilter.biome())));
-//        GLOWSTONE_NEST_PLACED = Registry.register(registry, rLoc("glowstone_nest"), new PlacedFeature(Holder.direct(GLOWSTONE_NEST), List.of(CountPlacement.of(10), InSquarePlacement.spread(), PlacementUtils.FULL_RANGE, BiomeFilter.biome())));
-//        NETHER_QUARTZ_NEST_PLACED = Registry.register(registry, rLoc("nether_quartz_nest"), new PlacedFeature(Holder.direct(NETHER_QUARTZ_NEST), List.of(CountPlacement.of(16), InSquarePlacement.spread(), PlacementUtils.RANGE_10_10, BiomeFilter.biome())));
-    }
-
-    private static ResourceLocation rLoc(String name) {
-        return new ResourceLocation(ProductiveBees.MODID, name);
-    }
 }

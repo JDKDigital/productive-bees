@@ -13,6 +13,7 @@ import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -41,6 +42,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -163,7 +165,7 @@ public class BeeHelper
     }
 
     public static List<BeeBreedingRecipe> getBreedingRecipes(Bee beeEntity, AgeableMob targetEntity, ServerLevel level) {
-        Container beeInv = new IdentifierInventory(beeEntity, (Bee) targetEntity);
+        IdentifierInventory beeInv = new IdentifierInventory(beeEntity, (Bee) targetEntity);
 
         // Get breeding recipes
         List<BeeBreedingRecipe> recipes = new ArrayList<>();
@@ -173,6 +175,12 @@ public class BeeHelper
             if (recipe.matches(beeInv, level)) {
                 recipes.add(recipe);
             }
+        }
+
+        // If the two bees are the same, add a runtime breeding recipe
+        if (beeEntity.getType().equals(targetEntity.getType()) && (!(beeEntity instanceof ProductiveBee peeBee) || (peeBee.canSelfBreed() && peeBee.getBeeType().equals(((ProductiveBee) targetEntity).getBeeType())))) {
+            Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeInv.getIdentifier()));
+            recipes.add(new BeeBreedingRecipe(new ResourceLocation(ProductiveBees.MODID, "bee_breeding_" + new ResourceLocation(beeInv.getIdentifier()).getPath() + "_self"), List.of(beeIngredient, beeIngredient), beeIngredient));
         }
 
         return recipes;
@@ -322,11 +330,11 @@ public class BeeHelper
         return flowerBlockState.is(tag) ? flowerBlock : null;
     }
 
-    public static void setOffspringAttributes(ProductiveBee newBee, ProductiveBee productiveBeeEntity, AgeableMob targetEntity) {
-        Map<BeeAttribute<?>, Object> attributeMapParent1 = productiveBeeEntity.getBeeAttributes();
+    public static void setOffspringAttributes(ProductiveBee newBee, ProductiveBee parent1, AgeableMob parent2) {
+        Map<BeeAttribute<?>, Object> attributeMapParent1 = parent1.getBeeAttributes();
         Map<BeeAttribute<?>, Object> attributeMapParent2 = new HashMap<>();
-        if (targetEntity instanceof ProductiveBee) {
-            attributeMapParent2 = ((ProductiveBee) targetEntity).getBeeAttributes();
+        if (parent2 instanceof ProductiveBee) {
+            attributeMapParent2 = ((ProductiveBee) parent2).getBeeAttributes();
         } else {
             // Default bee attributes
             attributeMapParent2.put(BeeAttributes.PRODUCTIVITY, 0);
@@ -339,19 +347,19 @@ public class BeeHelper
         Map<BeeAttribute<?>, Object> attributeMapChild = newBee.getBeeAttributes();
 
         int parentProductivity = Mth.nextInt(newBee.level.random, (int) attributeMapParent1.get(BeeAttributes.PRODUCTIVITY), (int) attributeMapParent2.get(BeeAttributes.PRODUCTIVITY));
-        attributeMapChild.put(BeeAttributes.PRODUCTIVITY, Math.max((int) attributeMapChild.get(BeeAttributes.PRODUCTIVITY), parentProductivity));
+        newBee.setAttributeValue(BeeAttributes.PRODUCTIVITY, Math.max((int) attributeMapChild.get(BeeAttributes.PRODUCTIVITY), parentProductivity));
 
         int parentEndurance = Mth.nextInt(newBee.level.random, (int) attributeMapParent1.get(BeeAttributes.ENDURANCE), (int) attributeMapParent2.get(BeeAttributes.ENDURANCE));
-        attributeMapChild.put(BeeAttributes.ENDURANCE, Math.max((int) attributeMapChild.get(BeeAttributes.ENDURANCE), parentEndurance));
+        newBee.setAttributeValue(BeeAttributes.ENDURANCE, Math.max((int) attributeMapChild.get(BeeAttributes.ENDURANCE), parentEndurance));
 
         int parentTemper = Mth.nextInt(newBee.level.random, (int) attributeMapParent1.get(BeeAttributes.TEMPER), (int) attributeMapParent2.get(BeeAttributes.TEMPER));
-        attributeMapChild.put(BeeAttributes.TEMPER, Math.min((int) attributeMapChild.get(BeeAttributes.TEMPER), parentTemper));
+        newBee.setAttributeValue(BeeAttributes.TEMPER, Math.min((int) attributeMapChild.get(BeeAttributes.TEMPER), parentTemper));
 
         int parentBehavior = Mth.nextInt(newBee.level.random, (int) attributeMapParent1.get(BeeAttributes.BEHAVIOR), (int) attributeMapParent2.get(BeeAttributes.BEHAVIOR));
-        attributeMapChild.put(BeeAttributes.BEHAVIOR, Math.max((int) attributeMapChild.get(BeeAttributes.BEHAVIOR), parentBehavior));
+        newBee.setAttributeValue(BeeAttributes.BEHAVIOR, Math.max((int) attributeMapChild.get(BeeAttributes.BEHAVIOR), parentBehavior));
 
         int parentWeatherTolerance = Mth.nextInt(newBee.level.random, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
-        attributeMapChild.put(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
+        newBee.setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
     }
 
     public static CompoundTag getBeeAsCompoundTag(BeeIngredient beeIngredient) throws CommandSyntaxException {

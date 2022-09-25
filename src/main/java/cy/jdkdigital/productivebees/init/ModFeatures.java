@@ -45,6 +45,11 @@ public class ModFeatures
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> DARK_OAK_WOOD_NEST_FEATURE = FEATURES.register("dark_oak_wood_nest_feature", () -> new WoodSolitaryNestFeature("dark_oak_wood_nest", ReplaceBlockConfiguration.CODEC));
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> JUNGLE_WOOD_NEST_FEATURE = FEATURES.register("jungle_wood_nest_feature", () -> new WoodSolitaryNestFeature("jungle_wood_nest", ReplaceBlockConfiguration.CODEC));
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> ACACIA_WOOD_NEST_FEATURE = FEATURES.register("acacia_wood_nest_feature", () -> new WoodSolitaryNestFeature("acacia_wood_nest", ReplaceBlockConfiguration.CODEC));
+
+    public static NetherBeehiveDecorator NETHER_BEEHIVE_DECORATOR = new NetherBeehiveDecorator(0.0F);
+    public static NetherBeehiveDecorator NETHER_BEEHIVE_DECORATOR_100 = new NetherBeehiveDecorator(1.0F);
+    public static WoodNestDecorator WOOD_NEST_DECORATOR = new WoodNestDecorator();
+
     public static RegistryObject<TreeDecoratorType<NetherBeehiveDecorator>> NETHER_BEEHIVE = TREE_DECORATORS.register("nether_beehive", () -> new TreeDecoratorType<>(NetherBeehiveDecorator.CODEC));
     public static RegistryObject<TreeDecoratorType<WoodNestDecorator>> WOOD_NEST = TREE_DECORATORS.register("wood_nest", () -> new TreeDecoratorType<>(WoodNestDecorator.CODEC));
 

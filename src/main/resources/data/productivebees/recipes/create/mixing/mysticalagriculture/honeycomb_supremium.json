@@ -13,7 +13,8 @@
     ],
     "results": [
         {
-            "item": "mysticalagriculture:supremium_essence"
+            "item": "mysticalagriculture:supremium_essence",
+            "chance": 0.3
         },
         {
             "item": "productivebees:wax"

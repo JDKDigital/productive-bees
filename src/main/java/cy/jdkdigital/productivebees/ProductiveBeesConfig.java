@@ -147,7 +147,7 @@ public class ProductiveBeesConfig
 
             stripForgeCaps = builder
                     .comment("Having a lot of bees (or bee cages in an inventory) in a single chunk can overload the chunk with data. A lot of data is already stripped from the bees as they are saved, but this will also remove all Forge capabilities, which is data added to the bees by other mods. Turn off to keep the data.")
-                    .define("stripForgeCaps", true);
+                    .define("stripForgeCaps", false);
 
             forceEnableFarmerBeeRightClickHarvest = builder
                     .comment("Enable this if you have a right click harvest handler but none of the following mods: right_click_get_crops, croptopia, quark, harvest, simplefarming, reap")

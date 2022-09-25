@@ -64,22 +64,25 @@ public class WoodNestDecorator extends TreeDecorator {
         }).filter(Objects::nonNull).toList();
 
         if (!list.isEmpty() && this.nest != null) {
-            BlockPos nestPos = list.get(list.size() == 1 ? 0 : random.nextInt(list.size()));
+            BlockPos nestPos = list.get(list.size() <= 1 ? 0 : random.nextInt(list.size()));
             if (nestPos != null) {
                 List<Direction> nestDirections = Stream.of(SPAWN_DIRECTIONS).filter(direction -> context.isAir(nestPos.relative(direction))).toList();
                 if (!nestDirections.isEmpty()) {
-                    context.setBlock(nestPos, this.nest.getBlock().defaultBlockState().setValue(BlockStateProperties.FACING, nestDirections.size() == 1 ? nestDirections.get(0) : nestDirections.get(random.nextInt(0, nestDirections.size() - 1))));
+                    context.setBlock(nestPos, this.nest.getBlock().defaultBlockState().setValue(BlockStateProperties.FACING, nestDirections.size() == 1 ? nestDirections.get(0) : nestDirections.get(random.nextInt(nestDirections.size()))));
                     pLevel.getBlockEntity(nestPos, ModBlockEntityTypes.SOLITARY_NEST.get()).ifPresent((nestBlockEntity) -> {
                         ProductiveBees.LOGGER.debug("Spawned wood nest at " + nestPos + " " + this.nest);
+                        if (!this.recipes.isEmpty()) {
+                            BeeSpawningRecipe spawningRecipe = this.recipes.get(random.nextInt(this.recipes.size()));
+                            if (!spawningRecipe.output.isEmpty()) {
+                                BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
 
-                        BeeSpawningRecipe spawningRecipe = this.recipes.get(random.nextInt(this.recipes.size()));
-                        BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
-
-                        try {
-                            CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
-                            nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, Component.translatable("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
-                        } catch (CommandSyntaxException e) {
-                            ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
+                                try {
+                                    CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
+                                    nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, Component.translatable("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
+                                } catch (CommandSyntaxException e) {
+                                    ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
+                                }
+                            }
                         }
                     });
                 }
