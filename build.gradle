@@ -85,6 +85,7 @@ repositories {
         url "https://dvs1.progwml6.com/files/maven/"
     }
     maven {
+        name = "Patchouli Maven"
         url 'https://maven.blamejared.com'
     }
     maven {
@@ -102,7 +103,7 @@ dependencies {
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-    implementation fg.deobf("curse.maven:jei-238222:3944627")
+    implementation fg.deobf("curse.maven:jei-238222:3969039")
 
     implementation fg.deobf("curse.maven:the-one-probe-245211:3927520")
     implementation fg.deobf("curse.maven:jade-324717:3916646")
@@ -137,7 +138,7 @@ dependencies {
 //    implementation fg.deobf("curse.maven:thermal-integration-626708:3803496")
 //    implementation fg.deobf("curse.maven:mantle-74924:3784500")
 //    implementation fg.deobf("curse.maven:tinkers-construct-74072:3784732")
-////    implementation fg.deobf("curse.maven:applied-energistics-2-223794:3646192")
+    implementation fg.deobf("curse.maven:applied-energistics-2-223794:4008855")
 //    implementation fg.deobf("curse.maven:terrablender-563928:3822142")
 //    implementation fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3826003")
 }
