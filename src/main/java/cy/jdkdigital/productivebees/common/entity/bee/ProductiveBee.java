@@ -166,7 +166,9 @@ public class ProductiveBee extends Bee
             int tolerance = getAttributeValue(BeeAttributes.WEATHER_TOLERANCE);
             if (tolerance < 2 && level.random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
                 if (tolerance < 1 && (level.isRaining() || level.isThundering())) {
-                    beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, tolerance + 1);
+                    beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 1);
+                } else if (tolerance == 1 && level.isThundering()) {
+                    beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 2);
                 }
             }
             // Behavior improvement

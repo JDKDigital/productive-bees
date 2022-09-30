@@ -140,7 +140,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                 if (!invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1).isEmpty() && !invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2).isEmpty()) {
                     Bee bee1 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
                     Bee bee2 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
-                    if (blockEntity.currentBreedingRecipes.isEmpty() && ++blockEntity.recipeLookupCooldown > 0) {
+                    if (blockEntity.currentBreedingRecipes.isEmpty() && ++blockEntity.recipeLookupCooldown > 0 && bee1 != null && bee2 != null) {
                         blockEntity.currentBreedingRecipes = BeeHelper.getBreedingRecipes(bee1, bee2, serverLevel);
                         if (blockEntity.currentBreedingRecipes.size() > 0 && !blockEntity.currentBreedingRecipes.contains(blockEntity.chosenRecipe)) { // Pick a random recipe from the list as active recipe
                             blockEntity.setRecipe(blockEntity.currentBreedingRecipes.get(level.random.nextInt(blockEntity.currentBreedingRecipes.size())));
