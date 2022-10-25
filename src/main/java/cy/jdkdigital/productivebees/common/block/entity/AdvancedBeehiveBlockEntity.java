@@ -71,6 +71,11 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             }
             return super.isInputSlotItem(slot, item);
         }
+
+        @Override
+        public boolean isInputSlot(int slot) {
+            return super.isInputSlot(slot) || slot == AdvancedBeehiveContainer.SLOT_CAGE;
+        }
     });
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
 

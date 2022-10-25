@@ -166,6 +166,8 @@ dependencies {
     implementation fg.deobf("curse.maven:spark-361579:3824951")
     implementation fg.deobf("curse.maven:spirit-495509:3931224")
     implementation fg.deobf("curse.maven:fast-leaf-decay-230976:3693140")
+    implementation fg.deobf("curse.maven:functional-storage-556861:3956952")
+    implementation fg.deobf("curse.maven:titanium-287342:3819942")
     implementation fg.deobf("curse.maven:compact-machines-224218:3905502")
 }
 

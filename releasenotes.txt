@@ -2,6 +2,7 @@
 
 -- Fixed occasional crash with breeding chamber
 -- Fixed weather tolerance: any not being obtainable
+-- Fixed pipes pulling from cage slot in simulated hives
 
 
 1.18.2-0.9.1.5

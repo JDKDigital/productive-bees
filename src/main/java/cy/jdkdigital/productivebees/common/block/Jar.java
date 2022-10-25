@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.JarBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -56,8 +57,8 @@ public class Jar extends Block implements EntityBlock
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
         CompoundTag tag = stack.getTag();
-        if (tag != null && tag.contains("inv")) {
-            CompoundTag invTag = tag.getCompound("inv");
+        if (tag != null && tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("inv")) {
+            CompoundTag invTag = tag.getCompound("BlockEntityTag").getCompound("inv");
 
             ListTag tagList = invTag.getList("Items", 10);
             if (tagList.size() > 0) {
@@ -67,8 +68,7 @@ public class Jar extends Block implements EntityBlock
 
                 String entityId = cage.getTag().getString("name");
                 tooltip.add(new TranslatableComponent("productivebees.information.jar.bee", entityId));
-            }
-            else {
+            } else {
                 tooltip.add(new TranslatableComponent("productivebees.information.jar.fill_tip"));
             }
         }
