@@ -216,9 +216,9 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
     @Override
     protected int getTimeInHive(boolean hasNectar, @Nullable Bee beeEntity) {
-        double timeUpgradeModifier = 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
+        double timeUpgradeModifier = Math.max(0, 1 - (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get()));
         return (int) (
-            super.getTimeInHive(hasNectar, beeEntity) * Math.max(0, timeUpgradeModifier)
+            super.getTimeInHive(hasNectar, beeEntity) * timeUpgradeModifier + 20
         );
     }
 
@@ -264,7 +264,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 boolean canBreed = !(beeEntity instanceof ProductiveBee) || ((ProductiveBee) beeEntity).canSelfBreed();
                 if (canBreed) {
                     // Count nearby bee entities
-                    List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(worldPosition).inflate(3.0D, 3.0D, 3.0D)));
+                    List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(this.worldPosition).inflate(5.0D, 5.0D, 5.0D)));
                     if (bees.size() < ProductiveBeesConfig.UPGRADES.breedingMaxNearbyEntities.get()) {
                         // Breed this bee with a random bee inside
                         Inhabitant otherBeeInhabitant = getBeeList().get(level.random.nextInt(getOccupantCount()));
@@ -319,7 +319,8 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     protected int beesOutsideHive() {
-        return (int) Math.ceil(abandonCountdown % getTimeInHive(true, null));
+        int timeInHive = getTimeInHive(true, null);
+        return timeInHive > 0 ? (int) Math.ceil(abandonCountdown % timeInHive) : 0;
     }
 
     @Override

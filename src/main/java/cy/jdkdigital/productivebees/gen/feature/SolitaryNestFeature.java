@@ -94,13 +94,17 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
         if (blockEntity instanceof SolitaryNestBlockEntity nestBlockEntity && state.getBlock() instanceof SolitaryNest nestBlock) {
             ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
             var recipes = nestBlock.getSpawningRecipes(level.getLevel(), level.getBiome(pos).value());
-            BeeSpawningRecipe spawningRecipe = recipes.get(random.nextInt(recipes.size()));
-            BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
-            try {
-                CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
-                nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, Component.translatable("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
-            } catch (CommandSyntaxException e) {
-                ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
+            if (recipes.size() > 0) {
+                BeeSpawningRecipe spawningRecipe = recipes.size() == 1 ? recipes.get(0) : recipes.get(random.nextInt(recipes.size()));
+                if (spawningRecipe.output.size() > 0) {
+                    BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
+                    try {
+                        CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
+                        nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, Component.translatable("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
+                    } catch (CommandSyntaxException e) {
+                        ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
+                    }
+                }
             }
         }
 

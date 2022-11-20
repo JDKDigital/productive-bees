@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.Gene;
@@ -135,7 +136,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
 
     private void completeIncubation(IItemHandlerModifiable invHandler, RandomSource random) {
         if (canProcessInput(invHandler)) {
-            ItemStack inItem = invHandler.getStackInSlot(0);
+            ItemStack inItem = invHandler.getStackInSlot(0).copy();
 
             boolean eggProcessing = inItem.is(ModTags.Forge.EGGS);
             boolean cageProcessing = inItem.getItem() instanceof BeeCage;
@@ -145,9 +146,10 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
                 if (nbt != null && nbt.contains("Age")) {
                     nbt.putInt("Age", 0);
                 }
+                inItem.setCount(1);
                 invHandler.setStackInSlot(2, inItem);
                 invHandler.getStackInSlot(1).shrink(ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
-                invHandler.setStackInSlot(0, ItemStack.EMPTY);
+                invHandler.getStackInSlot(0).shrink(1);
             } else if (eggProcessing) {
                 ItemStack treatItem = invHandler.getStackInSlot(1);
 
@@ -168,10 +170,9 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
                         }
                     }
                 }
+                invHandler.getStackInSlot(0).shrink(1);
+                treatItem.shrink(1);
             }
-
-            inItem.shrink(1);
-            invHandler.getStackInSlot(1).shrink(1);
         }
     }
 

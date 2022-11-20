@@ -72,7 +72,7 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorContainer>
 
         // Draw progress
         int progress = (int) (this.menu.tileEntity.recipeProgress * (24 / (float) this.menu.tileEntity.getProcessingTime()));
-        blit(matrixStack, getGuiLeft() + 77 - 13, getGuiTop() + 35, 202, 52, progress + 1, 16);
+        blit(matrixStack, getGuiLeft() + 76 - 13, getGuiTop() + 35, 202, 52, progress + 1, 16);
 
         // Draw energy level
         blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);

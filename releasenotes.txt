@@ -1,3 +1,26 @@
+1.19.2-0.10.3.0
+
+-- Fixed crash with framed blocks slab when used on feeding slab
+-- Fixed crash if speed upgrades were modified to give more than 100% time reduction in hives
+-- Added Awakened Supremium Bee (Mystical Aggriculture)
+-- Added Inert, Water, Air, Fire, and Earth Crystal Bee (Elementalcraft)
+-- Added Dark Gem Bee (Evilcraft)
+-- Added Iesnium Bee (Occultism)
+
+
+
+1.19.2-0.10.2.1
+
+-- Fixed weather tolerance: any not being obtainable
+-- Fixed pipes pulling from cage slot in simulated hives
+-- Added crimson and warped nests to growables
+-- Fixed honey generators forgetting what they are connected to
+-- Fixed breeding chamber not passing on genes to offspring
+-- Changed Tinkers Bronze to Amethyst Bronze
+-- Allow breeding of bees of the same type in breeding chamber
+-- Fixed input items being pulled from breeding chamber with pipes
+
+
 1.19.2-0.10.2.0
 
 -- Added a simulation upgrade which makes a hive simulate bees trips to flowers instead of adding the entities into the world

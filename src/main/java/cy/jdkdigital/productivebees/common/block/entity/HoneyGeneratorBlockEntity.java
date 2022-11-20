@@ -113,8 +113,8 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
                     blockEntity.setOn(false);
                 }
             }));
+            blockEntity.sendOutPower(tickRate);
         }
-        blockEntity.sendOutPower(tickRate);
         FluidTankBlockEntity.tick(level, pos, state, blockEntity);
     }
 
