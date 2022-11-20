@@ -1,0 +1,41 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:dark_gem"
+            }
+        }
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "evilcraft:dark_gem"
+            },
+            "chance": 70
+        },
+        {
+            "item": {
+                "item": "evilcraft:dark_gem_crushed"
+            },
+            "chance": 30
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "evilcraft"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:dark_gem"
+        }
+    ]
+}

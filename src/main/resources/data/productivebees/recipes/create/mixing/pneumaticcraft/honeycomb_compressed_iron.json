@@ -6,18 +6,19 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:tertium"
+                    "type": "productivebees:compressed_iron"
                 }
             }
         }
     ],
     "results": [
         {
-            "item": "mysticalagriculture:tertium_essence",
+            "item": "pneumaticcraft:ingot_iron_compressed",
             "chance": 0.5
         },
         {
-            "item": "productivebees:wax"
+            "fluid": "productivebees:honey",
+            "amount": 50
         }
     ],
     "heatRequirement": "heated",
@@ -28,7 +29,7 @@
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
+            "modid": "pneumaticcraft"
         }
     ]
 }

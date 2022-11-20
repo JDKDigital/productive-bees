@@ -30,7 +30,7 @@
   ],
   "entityOutput": "productivebees:configurable_bee",
   "outputNbt": {
-    "type":"productivebees:soulsteel"
+    "type":"productivebees:spirit"
   },
   "duration": 30,
   "shouldSummonMob": true,
@@ -41,7 +41,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:soulsteel"
+      "bee": "productivebees:spirit"
     }
   ]
 }

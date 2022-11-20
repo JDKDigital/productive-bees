@@ -1,0 +1,48 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:inert_crystal"
+            }
+        }
+    },
+    "outputs": [
+        {
+            "item": {
+                "type": "forge:nbt",
+                "item": "elementalcraft:pure_ore",
+                "nbt": {
+                    "elementalcraft": {
+                        "ore": "forge:inert_crystal"
+                    }
+                }
+            },
+            "min": 1,
+            "max": 2
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 100
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "elementalcraft"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:inert_crystal"
+        }
+    ]
+}

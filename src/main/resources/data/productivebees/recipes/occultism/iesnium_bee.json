@@ -1,24 +1,21 @@
 {
-  "type": "pneumaticcraft:pressure_chamber",
-  "inputs": [
+  "type": "occultism:spirit_fire",
+  "ingredient": [
     {
       "type": "forge:nbt",
       "item": "productivebees:spawn_egg_configurable_bee",
       "nbt": "{EntityTag:{type:\"productivebees:iron\"}}"
     }
   ],
-  "pressure": 2.0,
-  "results": [
-    {
-      "type": "forge:nbt",
-      "item": "productivebees:spawn_egg_configurable_bee",
-      "nbt": "{EntityTag:{type:\"productivebees:compressed_iron\"}}"
-    }
-  ],
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:iesnium\"}}"
+  },
   "conditions": [
     {
       "type": "forge:mod_loaded",
-      "modid": "pneumaticcraft"
+      "modid": "occultism"
     },
     {
       "type": "productivebees:bee_exists",
@@ -26,7 +23,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:compressed_iron"
+      "bee": "productivebees:iesnium"
     }
   ]
 }

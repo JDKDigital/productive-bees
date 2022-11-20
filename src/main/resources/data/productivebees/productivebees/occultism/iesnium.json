@@ -1,0 +1,23 @@
+{
+    "primaryColor": "#52a0ae",
+    "secondaryColor": "#8ecbce",
+    "particleColor": "#3c8794",
+    "flowerTag": "forge:storage_blocks/iesnium",
+    "description": "productivebees.ingredient.description.only_spawnegg",
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:raw_ores/iesnium"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:storage_blocks/iesnium"
+            }
+        }
+    ]
+}

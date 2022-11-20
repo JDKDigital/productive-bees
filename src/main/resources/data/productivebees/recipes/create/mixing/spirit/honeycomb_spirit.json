@@ -6,14 +6,18 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:tertium"
+                    "type": "productivebees:spirit"
                 }
             }
         }
     ],
     "results": [
         {
-            "item": "mysticalagriculture:tertium_essence",
+            "item": "spirit:soul_steel_ingot",
+            "chance": 0.5
+        },
+        {
+            "item": "spirit:soul_powder",
             "chance": 0.5
         },
         {
@@ -28,7 +32,7 @@
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
+            "modid": "spirit"
         }
     ]
 }

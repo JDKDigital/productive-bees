@@ -6,18 +6,29 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:prudentium"
+                    "type": "productivebees:inert_crystal"
                 }
             }
         }
     ],
     "results": [
         {
-            "item": "mysticalagriculture:prudentium_essence",
+            "type": "forge:nbt",
+            "item": "elementalcraft:pure_ore",
+            "nbt": {
+                "elementalcraft": {
+                    "ore": "forge:inert_crystal"
+                }
+            },
+            "chance": 0.75,
             "count": 2
         },
         {
             "item": "productivebees:wax"
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 100
         }
     ],
     "heatRequirement": "heated",
@@ -28,7 +39,11 @@
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
+            "modid": "elementalcraft"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:inert_crystal"
         }
     ]
 }

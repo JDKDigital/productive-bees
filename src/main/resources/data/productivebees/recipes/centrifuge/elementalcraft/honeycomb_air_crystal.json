@@ -1,0 +1,41 @@
+{
+    "type": "productivebees:centrifuge",
+    "ingredient": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:air_crystal"
+            }
+        }
+    },
+    "outputs": [
+        {
+            "item": {
+                "item": "elementalcraft:aircrystal"
+            },
+            "chance": 50
+        },
+        {
+            "item": {
+                "tag": "forge:wax"
+            }
+        },
+        {
+            "fluid": {
+                "fluid": "productivebees:honey"
+            },
+            "amount": 100
+        }
+    ],
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "elementalcraft"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:air_crystal"
+        }
+    ]
+}

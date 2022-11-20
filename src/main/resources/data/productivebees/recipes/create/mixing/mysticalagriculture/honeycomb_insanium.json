@@ -18,10 +18,6 @@
         },
         {
             "item": "productivebees:wax"
-        },
-        {
-            "fluid": "productivebees:honey",
-            "amount": 100
         }
     ],
     "heatRequirement": "heated",
