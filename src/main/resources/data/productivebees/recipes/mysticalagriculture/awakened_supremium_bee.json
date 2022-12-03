@@ -1,0 +1,47 @@
+{
+    "type": "mysticalagriculture:awakening",
+    "essences": {
+        "air": 20,
+        "earth": 20,
+        "water": 20,
+        "fire": 20
+    },
+    "input": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:supremium\"}}"
+    },
+    "ingredients": [
+        {
+            "item": "mysticalagriculture:awakened_supremium_block"
+        },
+        {
+            "item": "mysticalagriculture:awakened_supremium_block"
+        },
+        {
+            "item": "mysticalagriculture:awakened_supremium_block"
+        },
+        {
+            "item": "mysticalagriculture:awakened_supremium_block"
+        }
+    ],
+    "result": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": "{EntityTag:{type:\"productivebees:awakened_supremium\"}}"
+    },
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "mysticalagriculture"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:supremium"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:awakened_supremium"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#839cb8",
+    "secondaryColor": "#0d1119",
+    "particleColor": "#5c687d",
+    "description": "productivebees.ingredient.description.only_spawnegg",
+    "flowerTag": "spirit:soul_steel_block",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "spirit"
+        }
+    ]
+}

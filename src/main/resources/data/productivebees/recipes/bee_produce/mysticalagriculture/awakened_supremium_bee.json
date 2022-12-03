@@ -1,0 +1,30 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:awakened_supremium",
+    "results": [
+        {
+            "item": {
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:awakened_supremium"
+                    }
+                }
+            },
+            "chance": 40
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
+        }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:awakened_supremium"
+        }
+    ]
+}

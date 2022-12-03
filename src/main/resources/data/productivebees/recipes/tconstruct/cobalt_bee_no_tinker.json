@@ -1,0 +1,53 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CCC",
+        "CNC",
+        "CCC"
+    ],
+    "key": {
+        "N": {
+            "item": "productivebees:spawn_egg_configurable_bee",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:iron"
+                }
+            }
+        },
+        "C": {
+            "tag": "forge:ingots/cobalt"
+        }
+    },
+    "result": {
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:cobalt"
+            }
+        }
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:mod_loaded",
+                "modid": "tconstruct"
+            }
+        },
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:tag_empty",
+                "tag": "forge:ingots/cobalt"
+            }
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:iron"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:cobalt"
+        }
+    ]
+}

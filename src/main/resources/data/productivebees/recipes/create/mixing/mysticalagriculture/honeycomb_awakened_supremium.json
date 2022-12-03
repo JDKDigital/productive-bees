@@ -6,15 +6,15 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:tertium"
+                    "type": "productivebees:awakened_supremium"
                 }
             }
         }
     ],
     "results": [
         {
-            "item": "mysticalagriculture:tertium_essence",
-            "chance": 0.5
+            "item": "mysticalagriculture:awakened_supremium_essence",
+            "chance": 0.1
         },
         {
             "item": "productivebees:wax"

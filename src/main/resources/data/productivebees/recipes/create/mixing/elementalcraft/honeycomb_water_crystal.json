@@ -6,18 +6,22 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:tertium"
+                    "type": "productivebees:water_crystal"
                 }
             }
         }
     ],
     "results": [
         {
-            "item": "mysticalagriculture:tertium_essence",
+            "item": "elementalcraft:watercrystal",
             "chance": 0.5
         },
         {
             "item": "productivebees:wax"
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 100
         }
     ],
     "heatRequirement": "heated",
@@ -28,7 +32,11 @@
         },
         {
             "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
+            "modid": "elementalcraft"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:water_crystal"
         }
     ]
 }
