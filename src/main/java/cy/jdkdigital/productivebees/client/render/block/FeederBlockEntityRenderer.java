@@ -89,6 +89,11 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
         } else {
             slabState = Blocks.SMOOTH_STONE_SLAB.defaultBlockState();
         }
-        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(slabState.setValue(SlabBlock.TYPE, tileEntityIn.getBlockState().getValue(SlabBlock.TYPE)).setValue(SlabBlock.TYPE, slabType), poseStack, bufferIn, combinedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
+
+        if (slabState.getBlock() instanceof SlabBlock) {
+            slabState = slabState.setValue(SlabBlock.TYPE, tileEntityIn.getBlockState().getValue(SlabBlock.TYPE)).setValue(SlabBlock.TYPE, slabType);
+        }
+
+        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(slabState, poseStack, bufferIn, combinedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
     }
 }

@@ -139,7 +139,7 @@ public class Feeder extends SlabBlock implements EntityBlock
         ItemStack heldItem = player.getItemInHand(handIn);
         if (heldItem.getItem() instanceof BlockItem) {
             Block heldBlock = ((BlockItem) heldItem.getItem()).getBlock();
-            if (heldBlock.defaultBlockState().is(BlockTags.SLABS)) {
+            if (heldBlock instanceof SlabBlock) {
                 final BlockEntity blockEntity = world.getBlockEntity(pos);
                 if (blockEntity instanceof FeederBlockEntity) {
                     ((FeederBlockEntity) blockEntity).baseBlock = heldBlock;

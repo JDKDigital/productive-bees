@@ -38,6 +38,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class IncubatorBlockEntity extends CapabilityBlockEntity implements UpgradeableBlockEntity, IRecipeProcessingBlockEntity
 {
@@ -137,21 +138,22 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
                 );
     }
 
-    private void completeIncubation(IItemHandlerModifiable invHandler) {
-        ItemStack inItem = invHandler.getStackInSlot(0);
-
-        boolean eggProcessing = inItem.is(ModTags.Forge.EGGS);
-        boolean cageProcessing = inItem.getItem() instanceof BeeCage;
-
+    private void completeIncubation(IItemHandlerModifiable invHandler, Random random) {
         if (canProcessInput(invHandler)) {
+            ItemStack inItem = invHandler.getStackInSlot(0).copy();
+
+            boolean eggProcessing = inItem.is(ModTags.Forge.EGGS);
+            boolean cageProcessing = inItem.getItem() instanceof BeeCage;
+
             if (cageProcessing) {
                 CompoundTag nbt = inItem.getTag();
                 if (nbt != null && nbt.contains("Age")) {
                     nbt.putInt("Age", 0);
                 }
+                inItem.setCount(1);
                 invHandler.setStackInSlot(2, inItem);
                 invHandler.getStackInSlot(1).shrink(ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
-                invHandler.setStackInSlot(0, ItemStack.EMPTY);
+                invHandler.getStackInSlot(0).shrink(1);
             } else if (eggProcessing) {
                 ItemStack treatItem = invHandler.getStackInSlot(1);
 
@@ -164,7 +166,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
                         if (((CompoundTag) inbt).contains("purity")) {
                             purity = ((CompoundTag) inbt).getInt("purity");
                         }
-                        if (ProductiveBees.rand.nextInt(100) <= purity) {
+                        if (random.nextInt(100) <= purity) {
                             ItemStack egg = BeeCreator.getSpawnEgg(beeName);
                             if (egg.getItem() instanceof SpawnEggItem) {
                                 invHandler.setStackInSlot(2, egg);
@@ -172,9 +174,8 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
                         }
                     }
                 }
-
-                inItem.shrink(1);
-                invHandler.getStackInSlot(1).shrink(1);
+                invHandler.getStackInSlot(0).shrink(1);
+                treatItem.shrink(1);
             }
         }
     }
