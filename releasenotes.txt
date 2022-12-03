@@ -2,6 +2,8 @@
 
 -- Fixed crash with framed blocks slab when used on feeding slab
 -- Fixed crash if speed upgrades were modified to give more than 100% time reduction in hives
+-- Fixed incubator growing full stack of bees with a single operation
+-- Fixed some occational worldgen issues
 -- Added Awakened Supremium Bee (Mystical Aggriculture)
 -- Added Inert, Water, Air, Fire, and Earth Crystal Bee (Elementalcraft)
 -- Added Dark Gem Bee (Evilcraft)
