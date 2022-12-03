@@ -50,6 +50,17 @@ public class FeederBlockEntity extends CapabilityBlockEntity
         public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
             return true;
         }
+
+        @Override
+        public boolean isInputSlot(int slot) {
+            return false;
+        }
+
+        @Override
+        protected void onContentsChanged(int slot) {
+            super.onContentsChanged(slot);
+            setChanged();
+        }
     });
 
     public FeederBlockEntity(BlockPos pos, BlockState state) {

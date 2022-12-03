@@ -6,13 +6,11 @@ import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.entity.JarBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import cy.jdkdigital.productivebees.util.BeeHelper;
-import mcp.mobius.waila.api.*;
-import net.minecraft.network.chat.Component;
+import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.api.TooltipPosition;
+import mcp.mobius.waila.api.WailaPlugin;
 import net.minecraft.resources.ResourceLocation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @WailaPlugin(value = ProductiveBees.MODID)
 public class ProductiveBeesWailaPlugin implements IWailaPlugin

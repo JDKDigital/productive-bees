@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.common.block.HeatedCentrifuge;
-import cy.jdkdigital.productivebees.common.block.PoweredCentrifuge;
 import cy.jdkdigital.productivebees.common.block.entity.HeatedCentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import net.minecraft.network.FriendlyByteBuf;

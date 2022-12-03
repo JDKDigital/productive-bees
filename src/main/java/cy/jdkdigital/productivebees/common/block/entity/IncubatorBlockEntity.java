@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.Gene;
@@ -19,11 +18,9 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
@@ -99,7 +96,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
                     int totalTime = blockEntity.getProcessingTime();
 
                     if (++blockEntity.recipeProgress >= totalTime) {
-                        blockEntity.completeIncubation(invHandler);
+                        blockEntity.completeIncubation(invHandler, level.random);
                         blockEntity.recipeProgress = 0;
                         blockEntity.setChanged();
                     }

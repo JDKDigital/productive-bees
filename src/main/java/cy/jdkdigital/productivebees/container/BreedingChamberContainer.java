@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.BreedingChamber;
 import cy.jdkdigital.productivebees.common.block.entity.BreedingChamberBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;

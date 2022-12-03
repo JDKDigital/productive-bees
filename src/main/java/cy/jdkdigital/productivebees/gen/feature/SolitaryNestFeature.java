@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
