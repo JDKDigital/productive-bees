@@ -29,7 +29,7 @@ public class GeneIndexer extends CapabilityContainerBlock
 {
     public GeneIndexer(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.ENABLED, true).setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.ENABLED, false).setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
     }
 
     @Override
@@ -57,14 +57,13 @@ public class GeneIndexer extends CapabilityContainerBlock
 
     @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos p_220069_5_, boolean p_220069_6_) {
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighbor, boolean p_220069_6_) {
         boolean flag = level.hasNeighborSignal(pos);
-        if (flag != state.getValue(BlockStateProperties.ENABLED)) {
-            level.setBlock(pos, state.setValue(BlockStateProperties.ENABLED, flag), 4);
-            BlockEntity tile = level.getBlockEntity(pos);
-            if (tile instanceof GeneIndexerBlockEntity) {
-                ((GeneIndexerBlockEntity) tile).setDirty();
-            }
+        level.setBlock(pos, state.setValue(BlockStateProperties.ENABLED, flag), Block.UPDATE_INVISIBLE);
+
+        BlockEntity tile = level.getBlockEntity(pos);
+        if (tile instanceof GeneIndexerBlockEntity geneIndexerBlockEntity) {
+            geneIndexerBlockEntity.setDirty();
         }
     }
 

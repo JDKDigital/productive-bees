@@ -170,10 +170,6 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                     if (!nbt.getBoolean("selfbreed")) {
                         description = new TranslatableComponent("productivebees.ingredient.description.selfbreed", description);
                     }
-                    // Spirit soul transformation special case
-                    if (ModList.get().isLoaded("spirit") && beeId.equals("soulsteel")) {
-                        description = new TranslatableComponent("productivebees.ingredient.description.soul_transformation", description);
-                    }
                 } else {
                     description = new TranslatableComponent("productivebees.ingredient.description." + (beeId));
                     if (beeId.equals("lumber_bee") || beeId.equals("quarry_bee") || beeId.equals("rancher_bee") || beeId.equals("collector_bee") || beeId.equals("hoarder_bee") || beeId.equals("farmer_bee") || beeId.equals("cupid_bee")) {

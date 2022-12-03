@@ -595,7 +595,6 @@
   "productivebees.ingredient.description.hematophagous_bee": "It pollinates from animals, I just haven't found a way to show that in JEI yet. To acquire this bee, look up the crafting recipe for its spawn egg.",
   "productivebees.ingredient.description.only_spawnegg": "To acquire this bee, look up the crafting recipe for its spawn egg.",
   "productivebees.ingredient.description.selfbreed": "%s\n\nThis species of bees can't breed amongst themselves.",
-  "productivebees.ingredient.description.soul_transformation": "%s\n\nAlternatively there's a soul transformation recipe. Check the uses of the Suol Pedestal to see it.",
   "productivebees.nest_locator.found_hive": "A nest was located %s meters that way!",
   "productivebees.nest_locator.not_found_hive": "No nests of the type %s could be found nearby.",
   "productivebees.nest_locator.tuned": "Nest Locator tuned to %s",
