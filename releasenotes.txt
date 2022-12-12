@@ -1,3 +1,10 @@
+1.19.2-0.10.3.1
+
+-- Spirit bee (finalized)
+-- Fixed some inconsistencies with the Indexer
+-- Improved automation of feeding slab
+
+
 1.19.2-0.10.3.0
 
 -- Fixed crash with framed blocks slab when used on feeding slab
@@ -8,7 +15,6 @@
 -- Added Inert, Water, Air, Fire, and Earth Crystal Bee (Elementalcraft)
 -- Added Dark Gem Bee (Evilcraft)
 -- Added Iesnium Bee (Occultism)
-
 
 
 1.19.2-0.10.2.1
