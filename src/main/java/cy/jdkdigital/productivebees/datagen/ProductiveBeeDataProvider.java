@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.datagen;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.datagen.recipe.provider.CentrifugeRecipeProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,8 +17,6 @@ public class ProductiveBeeDataProvider {
         if (event.includeClient()) {
         }
 
-        if (event.includeServer()) {
-//            gen.addProvider(new CentrifugeRecipeProvider(gen));
-        }
+        gen.addProvider(event.includeServer(), new CentrifugeRecipeProvider(gen.getPackOutput()));
     }
 }

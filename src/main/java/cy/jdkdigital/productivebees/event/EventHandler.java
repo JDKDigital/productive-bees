@@ -6,17 +6,27 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBee;
+import cy.jdkdigital.productivebees.common.item.Gene;
+import cy.jdkdigital.productivebees.common.item.StoneChip;
+import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,9 +39,7 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -43,6 +51,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -58,35 +67,140 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID)
 public class EventHandler
 {
     @SubscribeEvent
+    public static void tab(CreativeModeTabEvent.Register event) {
+        ProductiveBees.TAB = event.registerCreativeModeTab(new ResourceLocation(ProductiveBees.MODID, ProductiveBees.MODID), builder -> {
+            builder.icon(() -> new ItemStack(Items.BEE_NEST));
+            builder.title(Component.literal("Productive Bees"));
+        });
+    }
+
+    @SubscribeEvent
+    public static void tabContents(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab().equals(ProductiveBees.TAB)) {
+            for (RegistryObject<Item> item: ModItems.ITEMS.getEntries()) {
+                if (
+                    !item.equals(ModItems.CONFIGURABLE_HONEYCOMB) &&
+                    !item.equals(ModItems.CONFIGURABLE_COMB_BLOCK) &&
+                    !item.equals(ModItems.CONFIGURABLE_SPAWN_EGG) &&
+                    !item.equals(ModItems.WOOD_CHIP) &&
+                    !item.equals(ModItems.STONE_CHIP) &&
+                    !item.equals(ModItems.GENE) &&
+                    !item.equals(ModItems.GENE_BOTTLE) &&
+                    !item.equals(ModItems.ADV_BREED_ALL_BEES) &&
+                    !item.equals(ModItems.ADV_BREED_BEE)
+                ) {
+                    event.accept(new ItemStack(item.get(), 1));
+                }
+            }
+
+            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+                String beeType = entry.getKey();
+
+                // Add comb item
+                if (entry.getValue().getBoolean("createComb")) {
+                    ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
+                    BeeCreator.setTag(beeType, comb);
+
+                    event.accept(comb);
+
+                    // Add comb block
+                    ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
+                    BeeCreator.setTag(beeType, combBlock);
+
+                    event.accept(combBlock);
+                }
+            }
+
+            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 0, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 1, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 2, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 3, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, 0, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, 1, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, 2, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.BEHAVIOR, 0, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.BEHAVIOR, 1, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.BEHAVIOR, 2, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.TEMPER, 0, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.TEMPER, 1, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.TEMPER, 2, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.TEMPER, 3, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 0, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 1, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 2, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 3, 1, 100));
+
+            try {
+                BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.LUMBER).forEach(blockHolder -> {
+                    Block block = blockHolder.value();
+                    if (ForgeRegistries.BLOCKS.getKey(block) != null) {
+                        event.accept(WoodChip.getStack(block));
+                    }
+                });
+            } catch (IllegalStateException ise) {
+                // tag not initialized yet
+            }
+
+            try {
+                BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.QUARRY).forEach(blockHolder -> {
+                    Block block = blockHolder.value();
+                    if (ForgeRegistries.BLOCKS.getKey(block) != null) {
+                        event.accept(StoneChip.getStack(block));
+                    }
+                });
+            } catch (IllegalStateException ise) {
+                // tag not initialized yet
+            }
+        }
+
+        if (event.getTab().equals(ProductiveBees.TAB) || event.getTab().equals(CreativeModeTabs.SPAWN_EGGS)) {
+            for (RegistryObject<Item> spawnEgg: ModItems.SPAWN_EGGS) {
+                if (!spawnEgg.equals(ModItems.CONFIGURABLE_SPAWN_EGG)) {
+                    event.accept(spawnEgg);
+                }
+            }
+            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+                String beeType = entry.getKey();
+
+                // Add spawn egg item
+                event.accept(BeeCreator.getSpawnEgg(beeType));
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onBlockGrow(SaplingGrowTreeEvent event) {
         if (event.getLevel() instanceof ServerLevel serverLevel) {
-            ConfiguredFeature<?, ?> chosenFeature = null;
-            float r = serverLevel.getRandom().nextFloat();
+            ResourceKey<ConfiguredFeature<?, ?>> featureKey = null;
+            float r = 0; // serverLevel.getRandom().nextFloat();
             boolean hasFlower = hasFlowers(event.getLevel(), event.getPos());
             Block grownBlock =  serverLevel.getBlockState(event.getPos()).getBlock();
             if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("oak_wood_nest").get() && grownBlock.equals(Blocks.OAK_SAPLING)) {
-                chosenFeature = ModConfiguredFeatures.OAK_SOLITARY_NEST.get();
+                featureKey = ModConfiguredFeatures.OAK_WOOD_NEST_FEATURE;
             } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("birch_wood_nest").get() && grownBlock.equals(Blocks.BIRCH_SAPLING)) {
-                chosenFeature = ModConfiguredFeatures.BIRCH_SOLITARY_NEST.get();
+                featureKey = ModConfiguredFeatures.BIRCH_WOOD_NEST_FEATURE;
             } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("spruce_wood_nest").get() && grownBlock.equals(Blocks.SPRUCE_SAPLING)) {
-                chosenFeature = ModConfiguredFeatures.SPRUCE_SOLITARY_NEST.get();
+                featureKey = ModConfiguredFeatures.SPRUCE_WOOD_NEST_FEATURE;
             } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("acacia_wood_nest").get() && grownBlock.equals(Blocks.ACACIA_SAPLING)) {
-                chosenFeature = ModConfiguredFeatures.ACACIA_SOLITARY_NEST.get();
+                featureKey = ModConfiguredFeatures.ACACIA_WOOD_NEST_FEATURE;
             } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("dark_oak_wood_nest").get() && grownBlock.equals(Blocks.DARK_OAK_SAPLING)) {
-                chosenFeature = ModConfiguredFeatures.DARK_OAK_SOLITARY_NEST.get();
+                featureKey = ModConfiguredFeatures.DARK_OAK_WOOD_NEST_FEATURE;
             } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("jungle_wood_nest").get() && grownBlock.equals(Blocks.JUNGLE_SAPLING)) {
-                chosenFeature = ModConfiguredFeatures.JUNGLE_SOLITARY_NEST.get();
+                featureKey = ModConfiguredFeatures.JUNGLE_WOOD_NEST_FEATURE;
             } else if (r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("nether_bee_nest").get() && (grownBlock.equals(Blocks.CRIMSON_FUNGUS) || grownBlock.equals(Blocks.WARPED_FUNGUS))) {
-                chosenFeature = grownBlock.equals(Blocks.CRIMSON_FUNGUS) ? ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_GROW.get() : ModConfiguredFeatures.WARPED_FUNGUS_BEES_GROW.get();
+                featureKey = grownBlock.equals(Blocks.CRIMSON_FUNGUS) ? ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_GROW : ModConfiguredFeatures.WARPED_FUNGUS_BEES_GROW;
             }
 
-            if (chosenFeature != null) {
-                event.setFeature(Holder.direct(chosenFeature));
+            if (featureKey != null) {
+                event.setFeature(featureKey);
+                ProductiveBees.LOGGER.info("result: " + event.getResult());
+                ProductiveBees.LOGGER.info("feature: " + event.getFeature());
             }
         }
     }

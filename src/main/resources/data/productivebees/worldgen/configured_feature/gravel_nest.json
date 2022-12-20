@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:gravel_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:gravel"
+        },
+        "state": {
+          "Name": "productivebees:gravel_nest"
+        }
+      }
+    ]
+  }
+}

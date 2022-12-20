@@ -1,0 +1,27 @@
+{
+  "type": "productivebees:decorated_huge_fungus",
+  "config": {
+    "hat_state": {
+      "Name": "minecraft:warped_wart_block"
+    },
+    "decor_state": {
+      "Name": "minecraft:shroomlight"
+    },
+    "stem_state": {
+      "Name": "minecraft:warped_stem"
+    },
+    "valid_base_block": {
+      "Name": "minecraft:warped_nylium"
+    },
+    "nest_state": {
+      "Name": "productivebees:warped_bee_nest"
+    },
+    "decorators": [
+      {
+        "type": "productivebees:nether_beehive",
+        "probability": 5
+      }
+    ],
+    "planted": false
+  }
+}

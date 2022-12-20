@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.dispenser.ShearsDispenseItemBehavior;
 import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
-import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -24,6 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -60,6 +60,7 @@ public final class ProductiveBees
     public static final IProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
     public static final Logger LOGGER = LogManager.getLogger();
+    public static CreativeModeTab TAB;
 
     public ProductiveBees() {
 //        TODO
@@ -95,8 +96,6 @@ public final class ProductiveBees
         ModFeatures.FEATURES.register(modEventBus);
         ModFeatures.TREE_DECORATORS.register(modEventBus);
         ModFeatures.BIOME_MODIFIERS.register(modEventBus);
-        ModConfiguredFeatures.CONFIGURED_FEATURES.register(modEventBus);
-        ModConfiguredFeatures.PLACED_FEATURES.register(modEventBus);
         ModRecipeTypes.RECIPE_SERIALIZERS.register(modEventBus);
         ModRecipeTypes.RECIPE_TYPES.register(modEventBus);
         ModParticles.PARTICLE_TYPES.register(modEventBus);
@@ -105,6 +104,8 @@ public final class ProductiveBees
         modEventBus.addListener(this::onInterModEnqueue);
         modEventBus.addListener(this::onCommonSetup);
         modEventBus.addListener(EventHandler::onEntityAttributeCreate);
+        modEventBus.addListener(EventHandler::tab);
+        modEventBus.addListener(EventHandler::tabContents);
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.SERVER_CONFIG);
@@ -117,7 +118,7 @@ public final class ProductiveBees
     }
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {
-        InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
+//        InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {

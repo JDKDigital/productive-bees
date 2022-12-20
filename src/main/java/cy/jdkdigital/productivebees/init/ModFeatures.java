@@ -39,12 +39,12 @@ public class ModFeatures
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> OBSIDIAN_PILLAR_NEST = FEATURES.register("obsidian_pillar_nest", () -> new StructureSolitaryNestFeature("obsidian_nest", ReplaceBlockConfiguration.CODEC, 25));
     public static final RegistryObject<Feature<ReplaceBlockConfiguration>> BUMBLE_BEE_NEST = FEATURES.register("bumble_bee_nest", () -> new SolitaryNestFeature("bumble_bee_nest", ReplaceBlockConfiguration.CODEC));
 
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> OAK_WOOD_NEST_FEATURE = FEATURES.register("oak_wood_nest_feature", () -> new WoodSolitaryNestFeature("oak_wood_nest", ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SPRUCE_WOOD_NEST_FEATURE = FEATURES.register("spruce_wood_nest_feature", () -> new WoodSolitaryNestFeature("spruce_wood_nest", ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> BIRCH_WOOD_NEST_FEATURE = FEATURES.register("birch_wood_nest_feature", () -> new WoodSolitaryNestFeature("birch_wood_nest", ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> DARK_OAK_WOOD_NEST_FEATURE = FEATURES.register("dark_oak_wood_nest_feature", () -> new WoodSolitaryNestFeature("dark_oak_wood_nest", ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> JUNGLE_WOOD_NEST_FEATURE = FEATURES.register("jungle_wood_nest_feature", () -> new WoodSolitaryNestFeature("jungle_wood_nest", ReplaceBlockConfiguration.CODEC));
-    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> ACACIA_WOOD_NEST_FEATURE = FEATURES.register("acacia_wood_nest_feature", () -> new WoodSolitaryNestFeature("acacia_wood_nest", ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> OAK_WOOD_NEST_FEATURE = FEATURES.register("oak_wood_nest", () -> new WoodSolitaryNestFeature("oak_wood_nest", ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> SPRUCE_WOOD_NEST_FEATURE = FEATURES.register("spruce_wood_nest", () -> new WoodSolitaryNestFeature("spruce_wood_nest", ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> BIRCH_WOOD_NEST_FEATURE = FEATURES.register("birch_wood_nest", () -> new WoodSolitaryNestFeature("birch_wood_nest", ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> DARK_OAK_WOOD_NEST_FEATURE = FEATURES.register("dark_oak_wood_nest", () -> new WoodSolitaryNestFeature("dark_oak_wood_nest", ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> JUNGLE_WOOD_NEST_FEATURE = FEATURES.register("jungle_wood_nest", () -> new WoodSolitaryNestFeature("jungle_wood_nest", ReplaceBlockConfiguration.CODEC));
+    public static final RegistryObject<Feature<ReplaceBlockConfiguration>> ACACIA_WOOD_NEST_FEATURE = FEATURES.register("acacia_wood_nest", () -> new WoodSolitaryNestFeature("acacia_wood_nest", ReplaceBlockConfiguration.CODEC));
 
     public static NetherBeehiveDecorator NETHER_BEEHIVE_DECORATOR = new NetherBeehiveDecorator(0.0F);
     public static NetherBeehiveDecorator NETHER_BEEHIVE_DECORATOR_100 = new NetherBeehiveDecorator(1.0F);

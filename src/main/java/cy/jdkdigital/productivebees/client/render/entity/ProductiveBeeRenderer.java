@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.entity.layers.BeeBodyLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
@@ -69,7 +69,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
 
         if (entity instanceof ConfigurableBee configurableBee && configurableBee.getRenderTransform().equals("flipped")) {
             matrixStack.translate(0.0D, entity.getBbHeight() + 0.1F, 0.0D);
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+            matrixStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
         }
     }
 

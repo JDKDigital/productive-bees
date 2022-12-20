@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:soul_sand_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:soul_sand"
+        },
+        "state": {
+          "Name": "productivebees:soul_sand_nest"
+        }
+      }
+    ]
+  }
+}

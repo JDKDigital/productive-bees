@@ -7,7 +7,7 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -55,7 +55,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
         @Override
         protected void onContentsChanged() {
             super.onContentsChanged();
-            BottlerBlockEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
+            BottlerBlockEntity.this.fluidId = BuiltInRegistries.FLUID.getId(getFluid().getFluid());
             BottlerBlockEntity.this.updateBottleState();
         }
     });
@@ -77,8 +77,8 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
     public static void tick(Level level, BlockPos pos, BlockState state, BottlerBlockEntity blockEntity) {
         BlockState aboveState = level.getBlockState(pos.above());
         if (++blockEntity.tickCounter % 7 == 0 && aboveState.getBlock() == Blocks.PISTON_HEAD && aboveState.getValue(DirectionalBlock.FACING) == Direction.DOWN) {
-            // Check for ProductiveBeeEntity on top of block
-            List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(pos).expandTowards(0.0D, 1.0D, 0.0D)));
+            // Check for bees on top of block
+            List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(pos).expandTowards(0.0D, 1.0D, 0.0D))).stream().filter(e -> !e.isBaby()).toList();
             if (!bees.isEmpty()) {
                 Bee bee = bees.iterator().next();
                 blockEntity.inventoryHandler.ifPresent(inv -> {
@@ -102,7 +102,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
 
         // set fluid ID for screens
         Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
-        fluidId = Registry.FLUID.getId(fluid);
+        fluidId = BuiltInRegistries.FLUID.getId(fluid);
     }
 
     @Nonnull

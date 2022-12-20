@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.block.Block;
@@ -74,22 +75,6 @@ public class WoodChip extends Item
     }
 
     @Override
-    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-        if (this.allowedIn(group)) {
-            try {
-                Registry.BLOCK.getTagOrEmpty(ModTags.LUMBER).forEach(blockHolder -> {
-                    Block block = blockHolder.value();
-                    if (ForgeRegistries.BLOCKS.getKey(block) != null && ForgeRegistries.BLOCKS.getKey(block).getPath().contains("log")) {
-                        items.add(getStack(block));
-                    }
-                });
-            } catch (IllegalStateException ise) {
-                // tag not initialized yet
-            }
-        }
-    }
-
-    @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions()
         {
@@ -113,6 +98,6 @@ public class WoodChip extends Item
                 list.add(ingredient);
             }
         }
-        return new ShapelessRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_" + id), "", new ItemStack(b.asItem()), list);
+        return new ShapelessRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_" + id), "", CraftingBookCategory.MISC, new ItemStack(b.asItem()), list);
     }
 }

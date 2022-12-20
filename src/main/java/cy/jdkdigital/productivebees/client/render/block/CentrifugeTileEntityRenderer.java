@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
@@ -36,7 +36,7 @@ public class CentrifugeTileEntityRenderer implements BlockEntityRenderer<Centrif
 
                         matrixStackIn.pushPose();
                         matrixStackIn.translate(0.5D + dX, 0.6375D, 0.5D + dZ);
-                        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees((float) angle + 90F));
+                        matrixStackIn.mulPose(Axis.YP.rotationDegrees((float) angle + 90F));
                         matrixStackIn.scale(0.35F, 0.35F, 0.35F);
                         ir.renderStatic(stack, ItemTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
                         matrixStackIn.popPose();

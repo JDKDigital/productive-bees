@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.init;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -16,7 +17,7 @@ import net.minecraftforge.registries.RegistryObject;
 public final class ModRecipeTypes
 {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, ProductiveBees.MODID);
-    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, ProductiveBees.MODID);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, ProductiveBees.MODID);
 
     public static final RegistryObject<RecipeSerializer<?>> ADVANCED_BEEHIVE = RECIPE_SERIALIZERS.register("advanced_beehive", () -> new AdvancedBeehiveRecipe.Serializer<>(AdvancedBeehiveRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> CENTRIFUGE = RECIPE_SERIALIZERS.register("centrifuge", () -> new CentrifugeRecipe.Serializer<>(CentrifugeRecipe::new));

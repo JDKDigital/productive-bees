@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:oak_wood_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:oak_log"
+        },
+        "state": {
+          "Name": "productivebees:oak_wood_nest"
+        }
+      }
+    ]
+  }
+}

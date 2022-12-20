@@ -52,20 +52,4 @@ public class Honeycomb extends Item
         }
         return super.getName(stack);
     }
-
-    @Override
-    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-        if (!this.equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
-            super.fillItemCategory(group, items);
-        } else if (group == CreativeModeTab.TAB_SEARCH) {
-            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
-                String beeType = entry.getKey();
-                if (entry.getValue().getBoolean("createComb")) {
-                    ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                    BeeCreator.setTag(beeType, comb);
-                    items.add(comb);
-                }
-            }
-        }
-    }
 }

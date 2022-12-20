@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.crafting.conditions;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
@@ -24,7 +25,7 @@ public class FluidTagEmptyCondition implements ICondition
     }
 
     public FluidTagEmptyCondition(ResourceLocation tag) {
-        this.tag_name = TagKey.create(Registry.FLUID_REGISTRY, tag);
+        this.tag_name = TagKey.create(Registries.FLUID, tag);
     }
 
     @Override

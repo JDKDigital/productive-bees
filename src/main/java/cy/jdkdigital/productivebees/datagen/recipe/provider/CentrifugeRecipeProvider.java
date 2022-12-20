@@ -6,7 +6,7 @@ import cy.jdkdigital.productivebees.datagen.recipe.builder.AbstractRecipeBuilder
 import cy.jdkdigital.productivebees.datagen.recipe.builder.CentrifugeRecipeBuilder;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -19,12 +19,12 @@ import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
 import java.util.function.Consumer;
 
 public class CentrifugeRecipeProvider extends RecipeProvider {
-    public CentrifugeRecipeProvider(DataGenerator gen) {
+    public CentrifugeRecipeProvider(PackOutput gen) {
         super(gen);
     }
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
         // Vanilla
         CentrifugeRecipeBuilder.item(Items.HONEYCOMB)
                 .addOutput(new AbstractRecipeBuilder.IngredientOutput(Ingredient.of(ModTags.Forge.WAX)))

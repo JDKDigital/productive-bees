@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,12 +20,16 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.common.util.Lazy;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
+import java.util.Optional;
 
 public class BlockConversionRecipe implements Recipe<Container>
 {
@@ -147,8 +152,8 @@ public class BlockConversionRecipe implements Recipe<Container>
             try {
                 BeeIngredient source = BeeIngredient.fromNetwork(buffer);
                 Ingredient input = Ingredient.fromNetwork(buffer);
-                BlockState from = NbtUtils.readBlockState(buffer.readAnySizeNbt());
-                BlockState to = NbtUtils.readBlockState(buffer.readAnySizeNbt());
+                BlockState from = readBlockState(buffer.readAnySizeNbt());
+                BlockState to = readBlockState(buffer.readAnySizeNbt());
 
                 return this.factory.create(id, Lazy.of(() -> source), input, from, to, buffer.readInt(), Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer));
             } catch (Exception e) {
@@ -191,13 +196,42 @@ public class BlockConversionRecipe implements Recipe<Container>
             CompoundTag propertyTag = new CompoundTag();
 
             JsonObject properties = GsonHelper.getAsJsonObject(json, "Properties");
-            for(Map.Entry<String, JsonElement> entry : properties.entrySet()) {
+            for (Map.Entry<String, JsonElement> entry : properties.entrySet()) {
                 propertyTag.putString(entry.getKey(), entry.getValue().getAsString());
             }
 
             tag.put("Properties", propertyTag);
         }
 
-        return NbtUtils.readBlockState(tag);
+        return readBlockState(tag);
+    }
+
+    private static BlockState readBlockState(CompoundTag tag) {
+        ResourceLocation resourcelocation = new ResourceLocation(tag.getString("Name"));
+        Block block = BuiltInRegistries.BLOCK.get(resourcelocation);
+        BlockState blockstate = block.defaultBlockState();
+        if (tag.contains("Properties", 10)) {
+            CompoundTag compoundtag = tag.getCompound("Properties");
+            StateDefinition<Block, BlockState> statedefinition = block.getStateDefinition();
+
+            for (String propertyName : compoundtag.getAllKeys()) {
+                Property<?> property = statedefinition.getProperty(propertyName);
+                if (property != null) {
+                    blockstate = setValueHelper(blockstate, property, propertyName, compoundtag, tag);
+                }
+            }
+        }
+
+        return blockstate;
+    }
+
+    private static <T extends Comparable<T>> BlockState setValueHelper(BlockState blockState, Property<T> property, String propertyName, CompoundTag tag, CompoundTag stateTag) {
+        Optional<T> optional = property.getValue(tag.getString(propertyName));
+        if (optional.isPresent()) {
+            return blockState.setValue(property, optional.get());
+        } else {
+            ProductiveBees.LOGGER.warn("Unable to read property: {} with value: {} for blockstate: {}", propertyName, tag.getString(propertyName), stateTag.toString());
+            return blockState;
+        }
     }
 }

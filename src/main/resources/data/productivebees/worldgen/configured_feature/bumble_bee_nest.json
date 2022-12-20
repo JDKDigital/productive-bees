@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:bumble_bee_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:grass_block"
+        },
+        "state": {
+          "Name": "productivebees:bumble_bee_nest"
+        }
+      }
+    ]
+  }
+}

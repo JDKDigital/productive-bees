@@ -17,19 +17,17 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class SpawnEgg extends SpawnEggItem
+public class SpawnEgg extends ForgeSpawnEggItem
 {
-    private final Supplier<EntityType<?>> entityType;
-
-    public SpawnEgg(Supplier<EntityType<?>> entityType, int primaryColor, int secondaryColor, Item.Properties properties) {
-        super(null, primaryColor, secondaryColor, properties);
-        this.entityType = entityType;
+    public SpawnEgg(Supplier<EntityType<? extends Mob>> entityType, int primaryColor, int secondaryColor, Item.Properties properties) {
+        super(entityType, primaryColor, secondaryColor, properties);
     }
 
     @Nonnull
@@ -39,10 +37,10 @@ public class SpawnEgg extends SpawnEggItem
             CompoundTag entityTag = compound.getCompound("EntityTag");
 
             if (entityTag.contains("id", 8)) {
-                return EntityType.byString(entityTag.getString("id")).orElse(this.entityType.get());
+                return EntityType.byString(entityTag.getString("id")).orElse(getDefaultType());
             }
         }
-        return this.entityType.get();
+        return getDefaultType();
     }
 
     @Override
@@ -50,8 +48,8 @@ public class SpawnEgg extends SpawnEggItem
         Optional<Mob> result = super.spawnOffspringFromSpawnEgg(pPlayer, pMob, pEntityType, pServerLevel, pPos, pStack);
 
         if (result.isEmpty() && pMob instanceof ConfigurableBee) {
-            EntityType<?> entitytype = this.getType(pStack.getTag());
-            return Optional.of((Mob) entitytype.create(pServerLevel));
+            EntityType<?> entityType = this.getType(pStack.getTag());
+            return Optional.of((Mob) entityType.create(pServerLevel));
         }
 
         return result;
@@ -80,16 +78,5 @@ public class SpawnEgg extends SpawnEggItem
             }
         }
         return super.getName(stack);
-    }
-
-    @Override
-    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-        if (!this.equals(ModItems.CONFIGURABLE_SPAWN_EGG.get())) {
-            super.fillItemCategory(group, items);
-        } else if (group == CreativeModeTab.TAB_SEARCH) {
-            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
-                items.add(BeeCreator.getSpawnEgg(entry.getKey()));
-            }
-        }
     }
 }

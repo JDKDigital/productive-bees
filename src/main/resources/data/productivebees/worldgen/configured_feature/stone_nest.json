@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:stone_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:stone"
+        },
+        "state": {
+          "Name": "productivebees:stone_nest"
+        }
+      }
+    ]
+  }
+}

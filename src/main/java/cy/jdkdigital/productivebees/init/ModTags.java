@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -69,11 +70,11 @@ public class ModTags
     }
 
     public static TagKey<EntityType<?>> getEntityTag(ResourceLocation name) {
-        return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, name);
+        return TagKey.create(Registries.ENTITY_TYPE, name);
     }
 
     public static TagKey<Biome> getBiomeTag(ResourceLocation name) {
-        return TagKey.create(Registry.BIOME_REGISTRY, name);
+        return TagKey.create(Registries.BIOME, name);
     }
 
     public static class Forge {

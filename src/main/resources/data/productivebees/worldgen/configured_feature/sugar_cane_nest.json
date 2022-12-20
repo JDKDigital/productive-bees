@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:sugar_cane_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:sugar_cane"
+        },
+        "state": {
+          "Name": "productivebees:sugar_cane_nest"
+        }
+      }
+    ]
+  }
+}

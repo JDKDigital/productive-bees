@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:end_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:end_stone"
+        },
+        "state": {
+          "Name": "productivebees:end_stone_nest"
+        }
+      }
+    ]
+  }
+}

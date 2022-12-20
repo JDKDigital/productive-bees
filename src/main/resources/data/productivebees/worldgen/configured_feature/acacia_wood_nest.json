@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:acacia_wood_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:acacia_log"
+        },
+        "state": {
+          "Name": "productivebees:acacia_wood_nest"
+        }
+      }
+    ]
+  }
+}

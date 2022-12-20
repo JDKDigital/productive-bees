@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:nether_quartz_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:nether_quartz_ore"
+        },
+        "state": {
+          "Name": "productivebees:nether_quartz_nest"
+        }
+      }
+    ]
+  }
+}

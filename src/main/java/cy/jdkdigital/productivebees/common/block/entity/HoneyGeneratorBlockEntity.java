@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -65,7 +66,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
             } else {
                 HoneyGeneratorBlockEntity.this.setFilled(false);
             }
-            HoneyGeneratorBlockEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
+            HoneyGeneratorBlockEntity.this.fluidId = BuiltInRegistries.FLUID.getId(getFluid().getFluid());
             HoneyGeneratorBlockEntity.this.setChanged();
         }
     });
@@ -215,7 +216,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
 
         // set fluid ID for screens
         Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
-        fluidId = Registry.FLUID.getId(fluid);
+        fluidId = BuiltInRegistries.FLUID.getId(fluid);
     }
 
     @Override

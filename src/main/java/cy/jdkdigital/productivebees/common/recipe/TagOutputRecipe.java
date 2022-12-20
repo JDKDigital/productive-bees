@@ -4,6 +4,8 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -79,7 +81,7 @@ public abstract class TagOutputRecipe
         // Try loading fluid from fluid tag
         if (preferredFluid == null || preferredFluid.equals(Fluids.EMPTY)) {
             try {
-                HolderSet.Named<Fluid> fluidTag = Registry.FLUID.getOrCreateTag(TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(fluidName)));
+                HolderSet.Named<Fluid> fluidTag = BuiltInRegistries.FLUID.getOrCreateTag(TagKey.create(Registries.FLUID, new ResourceLocation(fluidName)));
                 if (fluidTag.size() > 0) {
                     int currBest = 100;
                     for (Holder<Fluid> fluidHolder: fluidTag.stream().toList()) {
@@ -122,7 +124,7 @@ public abstract class TagOutputRecipe
         // Try loading fluid from fluid tag
         if (fluids.get(0).equals(Fluids.EMPTY)) {
             try {
-                HolderSet.Named<Fluid> fluidTag = Registry.FLUID.getOrCreateTag(TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(fluidName)));
+                HolderSet.Named<Fluid> fluidTag = BuiltInRegistries.FLUID.getOrCreateTag(TagKey.create(Registries.FLUID, new ResourceLocation(fluidName)));
                 if (fluidTag.size() > 0) {
                     return fluidTag.stream().map(Holder::value).toList();
                 }

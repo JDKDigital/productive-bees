@@ -86,8 +86,6 @@ public class ClientSetup
                 }
             });
         });
-
-        registerBlockRendering();
     }
 
     @SubscribeEvent
@@ -106,14 +104,5 @@ public class ClientSetup
         event.registerBlockEntityRenderer(ModBlockEntityTypes.BOTTLER.get(), BottlerTileEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntityTypes.FEEDER.get(), FeederBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntityTypes.JAR.get(), JarTileEntityRenderer::new);
-    }
-
-    private static void registerBlockRendering() {
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.COMB_GHOSTLY.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.SLIMY_NEST.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BUMBLE_BEE_NEST.get(), RenderType.cutoutMipped());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.SUGAR_CANE_NEST.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.JAR.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.INVISIBLE_REDSTONE_BLOCK.get(), RenderType.cutout());
     }
 }

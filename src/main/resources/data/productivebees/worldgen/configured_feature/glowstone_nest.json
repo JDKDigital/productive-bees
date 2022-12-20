@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:glowstone_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:glowstone"
+        },
+        "state": {
+          "Name": "productivebees:glowstone_nest"
+        }
+      }
+    ]
+  }
+}

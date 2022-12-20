@@ -15,7 +15,7 @@ public class ArrowButton extends Button
     private final int textureY = 0;
 
     public ArrowButton(int x, int y, Button.OnPress onPress) {
-        super(x, y, 10, 10, Component.translatable("Next"), onPress);
+        super(x, y, 10, 10, Component.translatable("Next"), onPress, DEFAULT_NARRATION);
     }
 
     @Override
@@ -27,9 +27,9 @@ public class ArrowButton extends Button
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
         int i = this.getYImage(this.isHovered);
-        this.blit(stack, this.x, this.y, this.textureX, this.textureY + i * this.height, this.width, this.height);
+        this.blit(stack, this.getX(), this.getY(), this.textureX, this.textureY + i * this.height, this.width, this.height);
         if (this.isHovered) {
-            super.renderToolTip(stack, mouseX, mouseY);
+//            super.renderToolTip(stack, mouseX, mouseY);
         }
     }
 }

@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:nether_fortress_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:nether_bricks"
+        },
+        "state": {
+          "Name": "productivebees:nether_brick_nest"
+        }
+      }
+    ]
+  }
+}

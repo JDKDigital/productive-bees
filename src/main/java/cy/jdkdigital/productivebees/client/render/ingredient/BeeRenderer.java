@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.ingredient;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
@@ -35,9 +35,9 @@ public class BeeRenderer
 
             poseStack.pushPose();
             poseStack.translate(7D + xPosition, 12D + yPosition, 1.5);
-            poseStack.mulPose(Vector3f.ZP.rotationDegrees(190.0F));
-            poseStack.mulPose(Vector3f.YP.rotationDegrees(20.0F));
-            poseStack.mulPose(Vector3f.XP.rotationDegrees(20.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(190.0F));
+            poseStack.mulPose(Axis.YP.rotationDegrees(20.0F));
+            poseStack.mulPose(Axis.XP.rotationDegrees(20.0F));
             poseStack.translate(0.0F, -0.2F, 1);
             poseStack.scale(scaledSize, scaledSize, scaledSize);
 

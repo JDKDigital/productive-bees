@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -74,7 +74,7 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
 
                     poseStack.pushPose();
                     poseStack.translate(pos.getFirst(), 0.52D + (slabType.equals(SlabType.TOP) || slabType.equals(SlabType.DOUBLE) ? 0.5d : 0), pos.getSecond());
-                    poseStack.mulPose(Vector3f.XP.rotationDegrees(rotation));
+                    poseStack.mulPose(Axis.XP.rotationDegrees(rotation));
                     poseStack.scale(0.575F, zScale, 0.575F);
                     Minecraft.getInstance().getItemRenderer().renderStatic(slotStack, ItemTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, 0);
                     poseStack.popPose();

@@ -173,25 +173,13 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public void spawnFluidParticle(Level worldIn, double xMin, double xMax, double zMin, double zMax, double posY, ParticleOptions particleData) {
-        NectarParticleType particle;
-        switch (getParticleType()) {
-            case "pop":
-                particle = ModParticles.COLORED_POPPING_NECTAR.get();
-                break;
-            case "lava":
-                particle = ModParticles.COLORED_LAVA_NECTAR.get();
-                break;
-            case "portal":
-                particle = ModParticles.COLORED_PORTAL_NECTAR.get();
-                break;
-            case "rising":
-                particle = ModParticles.COLORED_RISING_NECTAR.get();
-                break;
-            case "drip":
-            default:
-                particle = ModParticles.COLORED_FALLING_NECTAR.get();
-                break;
-        }
+        NectarParticleType particle = switch (getParticleType()) {
+            case "pop" -> ModParticles.COLORED_POPPING_NECTAR.get();
+            case "lava" -> ModParticles.COLORED_LAVA_NECTAR.get();
+            case "portal" -> ModParticles.COLORED_PORTAL_NECTAR.get();
+            case "rising" -> ModParticles.COLORED_RISING_NECTAR.get();
+            default -> ModParticles.COLORED_FALLING_NECTAR.get();
+        };
 
         if (hasParticleColor()) {
             particle.setColor(getParticleColor());
@@ -614,7 +602,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         if (isDraconic() && source.equals(DamageSource.DRAGON_BREATH)) {
             return true;
         }
-        if (isTranslucent() && source.equals(DamageSource.ANVIL)) {
+        if (isTranslucent() && source.equals(DamageSource.anvil(this))) {
             return true;
         }
         if (isWaterproof() && source.equals(DamageSource.DROWN)) {

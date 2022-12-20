@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.setup.ClientProxy;
 import net.minecraft.client.Minecraft;
@@ -44,11 +44,11 @@ public class BeeNestHelmetModel<T extends LivingEntity> extends HumanoidModel<T>
             poseStack.pushPose();
             head.translateAndRotate(poseStack);
             poseStack.translate(0.0D, -0.3D, 0.0D);
-            poseStack.mulPose(Vector3f.YP.rotationDegrees(180.0F));
+            poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
             poseStack.scale(0.825F, -0.825F, -0.825F);
             poseStack.translate(-0.5F, 0, -0.5F);
-            poseStack.mulPose(Vector3f.XP.rotationDegrees(5));
-            poseStack.mulPose(Vector3f.ZP.rotationDegrees(1));
+            poseStack.mulPose(Axis.XP.rotationDegrees(5));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(1));
             blockRenderer.renderSingleBlock(nest, poseStack, ClientProxy.buffer, packedLight, packedOverlay);
             poseStack.popPose();
         }

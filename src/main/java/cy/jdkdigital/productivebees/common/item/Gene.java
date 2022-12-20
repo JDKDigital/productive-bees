@@ -109,28 +109,4 @@ public class Gene extends Item
             list.add(Component.translatable("productivebees.information.attribute.type", type).withStyle(ChatFormatting.GOLD).append(Component.literal(" (" + getPurity(stack) + "%)")));
         }
     }
-
-    @Override
-    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-        if (this.allowedIn(group)) {
-            items.add(getStack(BeeAttributes.PRODUCTIVITY, 0, 1, 100));
-            items.add(getStack(BeeAttributes.PRODUCTIVITY, 1, 1, 100));
-            items.add(getStack(BeeAttributes.PRODUCTIVITY, 2, 1, 100));
-            items.add(getStack(BeeAttributes.PRODUCTIVITY, 3, 1, 100));
-            items.add(getStack(BeeAttributes.WEATHER_TOLERANCE, 0, 1, 100));
-            items.add(getStack(BeeAttributes.WEATHER_TOLERANCE, 1, 1, 100));
-            items.add(getStack(BeeAttributes.WEATHER_TOLERANCE, 2, 1, 100));
-            items.add(getStack(BeeAttributes.BEHAVIOR, 0, 1, 100));
-            items.add(getStack(BeeAttributes.BEHAVIOR, 1, 1, 100));
-            items.add(getStack(BeeAttributes.BEHAVIOR, 2, 1, 100));
-            items.add(getStack(BeeAttributes.TEMPER, 0, 1, 100));
-            items.add(getStack(BeeAttributes.TEMPER, 1, 1, 100));
-            items.add(getStack(BeeAttributes.TEMPER, 2, 1, 100));
-            items.add(getStack(BeeAttributes.TEMPER, 3, 1, 100));
-            items.add(getStack(BeeAttributes.ENDURANCE, 0, 1, 100));
-            items.add(getStack(BeeAttributes.ENDURANCE, 1, 1, 100));
-            items.add(getStack(BeeAttributes.ENDURANCE, 2, 1, 100));
-            items.add(getStack(BeeAttributes.ENDURANCE, 3, 1, 100));
-        }
-    }
 }

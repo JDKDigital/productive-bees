@@ -29,15 +29,15 @@ public class ModEntities
 
     public static RegistryObject<EntityType<ThrowableItemProjectile>> BEE_BOMB = createEntity("bee_bomb", EntityType.Builder.<ThrowableItemProjectile>of(BeeBombEntity::new, MobCategory.MISC).sized(0.25F, 0.25F));
 
-    public static RegistryObject<EntityType<Bee>> DYE_BEE = createHiveBee("dye_bee", ProductiveBee::new, 16768648, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<Bee>> LUMBER_BEE = createHiveBee("lumber_bee", LumberBee::new, 8306542, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<Bee>> QUARRY_BEE = createHiveBee("quarry_bee", QuarryBee::new, 7566195, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<Bee>> RANCHER_BEE = createHiveBee("rancher_bee", RancherBee::new, 9615358, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<Bee>> COLLECTOR_BEE = createHiveBee("collector_bee", HoarderBee::new, 8306149, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<Bee>> HOARDER_BEE = createHiveBee("hoarder_bee", HoarderBee::new, 8306149, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<Bee>> FARMER_BEE = createHiveBee("farmer_bee", FarmerBee::new, 9615358, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<Bee>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBee::new, 894731, 6238757, ModItemGroups.PRODUCTIVE_BEES);
-    public static RegistryObject<EntityType<Bee>> CUPID_BEE = createHiveBee("cupid_bee", CupidBee::new, 894731, 6238757, ModItemGroups.PRODUCTIVE_BEES);
+    public static RegistryObject<EntityType<Bee>> DYE_BEE = createHiveBee("dye_bee", ProductiveBee::new, 16768648, 6238757);
+    public static RegistryObject<EntityType<Bee>> LUMBER_BEE = createHiveBee("lumber_bee", LumberBee::new, 8306542, 6238757);
+    public static RegistryObject<EntityType<Bee>> QUARRY_BEE = createHiveBee("quarry_bee", QuarryBee::new, 7566195, 6238757);
+    public static RegistryObject<EntityType<Bee>> RANCHER_BEE = createHiveBee("rancher_bee", RancherBee::new, 9615358, 6238757);
+    public static RegistryObject<EntityType<Bee>> COLLECTOR_BEE = createHiveBee("collector_bee", HoarderBee::new, 8306149, 6238757);
+    public static RegistryObject<EntityType<Bee>> HOARDER_BEE = createHiveBee("hoarder_bee", HoarderBee::new, 8306149, 6238757);
+    public static RegistryObject<EntityType<Bee>> FARMER_BEE = createHiveBee("farmer_bee", FarmerBee::new, 9615358, 6238757);
+    public static RegistryObject<EntityType<Bee>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBee::new, 894731, 6238757);
+    public static RegistryObject<EntityType<Bee>> CUPID_BEE = createHiveBee("cupid_bee", CupidBee::new, 894731, 6238757);
 
     public static RegistryObject<EntityType<Bee>> ASHY_MINING_BEE = createSolitaryBee("ashy_mining_bee", MiningBee::new, 11709345, 6238757);
     public static RegistryObject<EntityType<Bee>> BLUE_BANDED_BEE = createSolitaryBee("blue_banded_bee", BlueBandedBee::new, 9615358, 6238757);
@@ -54,29 +54,26 @@ public class ModEntities
     public static RegistryObject<EntityType<Bee>> SWEAT_BEE = createSolitaryBee("sweat_bee", SweatBee::new, 9748939, 6238757);
     public static RegistryObject<EntityType<BumbleBee>> BUMBLE = createSolitaryBee("bumble_bee", BumbleBee::new, 9748939, 6238757);
 
-    public static RegistryObject<EntityType<ConfigurableBee>> CONFIGURABLE_BEE = createHiveBee("configurable_bee", ConfigurableBee::new, 16768648, 6238757, ModItemGroups.PRODUCTIVE_BEES);
+    public static RegistryObject<EntityType<ConfigurableBee>> CONFIGURABLE_BEE = createHiveBee("configurable_bee", ConfigurableBee::new, 16768648, 6238757);
 
-    public static <E extends Bee> RegistryObject<EntityType<E>> createHiveBee(String name, EntityType.EntityFactory<E> supplier, int primaryColor, int secondaryColor, CreativeModeTab itemGroup) {
-        return createBee(HIVE_BEES, name, supplier, primaryColor, secondaryColor, itemGroup);
+    public static <E extends Bee> RegistryObject<EntityType<E>> createHiveBee(String name, EntityType.EntityFactory<E> supplier, int primaryColor, int secondaryColor) {
+        return createBee(HIVE_BEES, name, supplier, primaryColor, secondaryColor);
     }
 
     public static <E extends Bee> RegistryObject<EntityType<E>> createSolitaryBee(String name, EntityType.EntityFactory<E> supplier, int primaryColor, int secondaryColor) {
-        return createBee(SOLITARY_BEES, name, supplier, primaryColor, secondaryColor, ModItemGroups.PRODUCTIVE_BEES);
+        return createBee(SOLITARY_BEES, name, supplier, primaryColor, secondaryColor);
     }
 
-    public static <E extends Bee> RegistryObject<EntityType<E>> createBee(DeferredRegister<EntityType<?>> registry, String name, EntityType.EntityFactory<E> supplier, int primaryColor, int secondaryColor, CreativeModeTab itemGroup) {
+    public static <E extends Bee> RegistryObject<EntityType<E>> createBee(DeferredRegister<EntityType<?>> registry, String name, EntityType.EntityFactory<E> supplier, int primaryColor, int secondaryColor) {
         EntityType.Builder<E> builder = EntityType.Builder.of(supplier, MobCategory.CREATURE).sized(0.7F, 0.6F).setTrackingRange(8);
 
         RegistryObject<EntityType<E>> entity = registry.register(name, () -> builder.build(ProductiveBees.MODID + ":" + name));
 
-        if (itemGroup != null) {
-            RegistryObject<Item> spawnEgg = ModItems.ITEMS.register("spawn_egg_" + name, () -> new SpawnEgg(entity::get, secondaryColor, primaryColor, new Item.Properties().tab(itemGroup)));
-            if (name.equals("configurable_bee")) {
-                ModItems.CONFIGURABLE_SPAWN_EGG = spawnEgg;
-            }
-            ModItems.SPAWN_EGGS.add(spawnEgg);
+        RegistryObject<Item> spawnEgg = ModItems.ITEMS.register("spawn_egg_" + name, () -> new SpawnEgg(entity::get, secondaryColor, primaryColor, new Item.Properties()));
+        if (name.equals("configurable_bee")) {
+            ModItems.CONFIGURABLE_SPAWN_EGG = spawnEgg;
         }
-
+        ModItems.SPAWN_EGGS.add(spawnEgg);
 
         return entity;
     }

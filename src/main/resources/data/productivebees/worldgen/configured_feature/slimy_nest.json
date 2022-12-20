@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:slimy_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:grass_block"
+        },
+        "state": {
+          "Name": "productivebees:slimy_nest"
+        }
+      }
+    ]
+  }
+}

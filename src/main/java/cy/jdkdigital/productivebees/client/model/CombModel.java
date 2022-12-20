@@ -7,14 +7,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.*;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -31,47 +33,36 @@ import net.minecraftforge.client.model.geometry.UnbakedGeometryHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 
 public final class CombModel implements IUnbakedGeometry<CombModel>
 {
-    public static final CombModel INSTANCE = new CombModel(ImmutableList.of());
+    private final ImmutableList<String> textures;
+    private final ImmutableSet<Integer> fullBrightLayers;
 
-    public ImmutableList<Material> textures;
-    public final ImmutableSet<Integer> fullBrightLayers;
+    Material base;
+    Material crystal;
+    Material particle;
 
-    public CombModel(ImmutableList<Material> textures) {
-        this(textures, ImmutableSet.of());
-    }
-
-    public CombModel(@Nullable ImmutableList<Material> textures, ImmutableSet<Integer> fullBrightLayers) {
+    public CombModel(ImmutableList<String> textures, ImmutableSet<Integer> fullBrightLayers) {
         this.textures = textures;
         this.fullBrightLayers = fullBrightLayers;
+
+        base = new Material(InventoryMenu.BLOCK_ATLAS, new ResourceLocation(textures.get(0)));
+        crystal = new Material(InventoryMenu.BLOCK_ATLAS, new ResourceLocation(textures.get(1)));
+        particle = new Material(InventoryMenu.BLOCK_ATLAS, new ResourceLocation(textures.get(2)));
     }
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
-        TextureAtlasSprite particle = spriteGetter.apply(
-            context.hasMaterial("particle") ? context.getMaterial("particle") : textures.get(0)
+    public BakedModel bake(IGeometryBakingContext context, ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
+        TextureAtlasSprite particleTexture = spriteGetter.apply(
+                context.hasMaterial("particle") ? context.getMaterial("particle") : particle
         );
 
-        CompositeModel.Baked.Builder builder = CompositeModel.Baked.builder(context, particle, new Overrides(this, overrides, modelTransform, context, spriteGetter), context.getTransforms());
+        CompositeModel.Baked.Builder builder = CompositeModel.Baked.builder(context, particleTexture, new Overrides(this, overrides, modelTransform, context, spriteGetter), context.getTransforms());
 
         return builder.build();
-    }
-
-    @Override
-    public Collection<Material> getMaterials(IGeometryBakingContext owner, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        ImmutableList.Builder<Material> builder = ImmutableList.builder();
-        for (int i = 0; owner.hasMaterial("layer" + i); i++) {
-            Material mat = owner.getMaterial("layer" + i);
-            builder.add(mat);
-        }
-        textures =  builder.build();
-        return textures;
     }
 
     public static class Overrides extends ItemOverrides {
@@ -109,22 +100,23 @@ public final class CombModel implements IUnbakedGeometry<CombModel>
                             Material texture = new Material(InventoryMenu.BLOCK_ATLAS, new ResourceLocation(nbt.getString("combTexture")));
                             sprite = spriteGetter.apply(texture);
                         } else {
-                            sprite = spriteGetter.apply(combModel.textures.get(0));
+                            sprite = spriteGetter.apply(combModel.base);
                         }
+
                         CompositeModel.Baked.Builder builder = CompositeModel.Baked.builder(context, sprite, nested, context.getTransforms());
                         boolean fullBright = combModel.fullBrightLayers.contains(0);
 
-                        var unbaked = UnbakedGeometryHelper.createUnbakedItemElements(0, sprite);
+                        var unbaked = UnbakedGeometryHelper.createUnbakedItemElements(0, sprite.contents());
                         var quads = UnbakedGeometryHelper.bakeElements(unbaked, $ -> sprite, modelState, new ResourceLocation(ProductiveBees.MODID, "base"));
 
                         builder.addQuads(renderType(fullBright), quads);
 
                         // Crystal bees have glowing bits on the comb texture
                         if (nbt.contains("renderer") && nbt.getString("renderer").equals("default_crystal")) {
-                            TextureAtlasSprite crystalSprite = spriteGetter.apply(combModel.textures.get(1));
+                            TextureAtlasSprite crystalSprite = spriteGetter.apply(combModel.crystal);
                             fullBright = combModel.fullBrightLayers.contains(1);
 
-                            unbaked = UnbakedGeometryHelper.createUnbakedItemElements(0, crystalSprite);
+                            unbaked = UnbakedGeometryHelper.createUnbakedItemElements(0, crystalSprite.contents());
                             quads = UnbakedGeometryHelper.bakeElements(unbaked, $ -> crystalSprite, modelState, new ResourceLocation(ProductiveBees.MODID, "crystal"));
 
                             builder.addQuads(renderType(fullBright), quads);
@@ -153,7 +145,14 @@ public final class CombModel implements IUnbakedGeometry<CombModel>
                     fullbrightLayers.add(arr.get(i).getAsInt());
                 }
             }
-            return new CombModel(null, fullbrightLayers.build());
+            ImmutableList.Builder<String> textures = ImmutableList.builder();
+            if (jsonObject.has("textures")) {
+                JsonObject arr = GsonHelper.getAsJsonObject(jsonObject, "textures");
+                textures.add(arr.get("base").getAsString());
+                textures.add(arr.get("crystal").getAsString());
+                textures.add(arr.get("particle").getAsString());
+            }
+            return new CombModel(textures.build(), fullbrightLayers.build());
         }
     }
 

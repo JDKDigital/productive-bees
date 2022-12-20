@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:jungle_wood_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:jungle_log"
+        },
+        "state": {
+          "Name": "productivebees:jungle_wood_nest"
+        }
+      }
+    ]
+  }
+}

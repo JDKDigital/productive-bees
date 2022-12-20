@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.common.block.Bottler;
 import cy.jdkdigital.productivebees.common.block.entity.BottlerBlockEntity;
 import net.minecraft.client.Minecraft;
@@ -24,7 +24,7 @@ public class BottlerTileEntityRenderer implements BlockEntityRenderer<BottlerBlo
         if (hasBottle) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5D, 1.0625D, 0.5D);
-            matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(90.0F));
+            matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F));
             matrixStackIn.scale(0.375F, 0.375F, 0.375F);
             Minecraft.getInstance().getItemRenderer().renderStatic(new ItemStack(Items.GLASS_BOTTLE), ItemTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
             matrixStackIn.popPose();

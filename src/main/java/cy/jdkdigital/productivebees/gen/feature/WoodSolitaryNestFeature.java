@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -23,14 +24,17 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
         RandomSource rand = context.random();
         BlockPos blockPos = context.origin();
         ReplaceBlockConfiguration featureConfig = context.config();
+        ProductiveBees.LOGGER.info("try placing wood solitary nest feature");
 
         for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
             if (rand.nextFloat() > ProductiveBeesConfig.WORLD_GEN.nestConfigs.get(configKey).get().floatValue()) {
                 return false;
             }
 
+            ProductiveBees.LOGGER.info("random check success");
+
             // Get to ground level
-            // TODO better way to end un surface, probably placement modifiers
+            // TODO better way to end on surface, probably placement modifiers
             blockPos = blockPos.atY(chunkGenerator.getSeaLevel());
 
             // Go to ground surface

@@ -19,7 +19,7 @@ import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -92,7 +92,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         @Override
         protected void onContentsChanged() {
             super.onContentsChanged();
-            CentrifugeBlockEntity.this.fluidId = Registry.FLUID.getId(getFluid().getFluid());
+            CentrifugeBlockEntity.this.fluidId = BuiltInRegistries.FLUID.getId(getFluid().getFluid());
             CentrifugeBlockEntity.this.setChanged();
         }
     });
@@ -379,7 +379,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
         // set fluid ID for screens
         Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
-        fluidId = Registry.FLUID.getId(fluid);
+        fluidId = BuiltInRegistries.FLUID.getId(fluid);
     }
 
     @Override

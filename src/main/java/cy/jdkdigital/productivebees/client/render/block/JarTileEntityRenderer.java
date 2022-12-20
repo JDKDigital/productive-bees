@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.JarBlockEntity;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
@@ -52,7 +52,7 @@ public class JarTileEntityRenderer implements BlockEntityRenderer<JarBlockEntity
 
         matrixStack.pushPose();
         matrixStack.translate(0.5f, 0.4f, 0.5f);
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(angle));
+        matrixStack.mulPose(Axis.YP.rotationDegrees(angle));
         matrixStack.translate(0.0f, -0.2f, 0.0f);
         matrixStack.scale(f, f, f);
 

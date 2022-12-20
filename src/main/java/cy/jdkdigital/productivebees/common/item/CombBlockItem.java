@@ -45,21 +45,4 @@ public class CombBlockItem extends BlockItem
         }
         return super.getName(stack);
     }
-
-    @Override
-    public void fillItemCategory(@Nonnull CreativeModeTab group, @Nonnull NonNullList<ItemStack> items) {
-        if (!this.equals(ModItems.CONFIGURABLE_HONEYCOMB.get())) {
-            super.fillItemCategory(group, items);
-        } else if (group == CreativeModeTab.TAB_SEARCH) {
-            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
-                String beeType = entry.getKey();
-                if (entry.getValue().getBoolean("createComb")) {
-                    // Add comb block
-                    ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-                    BeeCreator.setTag(beeType, combBlock);
-                    items.add(combBlock);
-                }
-            }
-        }
-    }
 }

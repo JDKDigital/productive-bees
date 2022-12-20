@@ -75,7 +75,7 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     private void explode() {
-        Explosion.BlockInteraction explosionMode = getMobGriefingEvent(level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
+        Level.ExplosionInteraction explosionMode = getMobGriefingEvent(level, this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         float f = this.entityData.get(POWERED) ? 2.0F : 1.0F;
         this.dead = true;
         float explosionRadius = 1.6F;

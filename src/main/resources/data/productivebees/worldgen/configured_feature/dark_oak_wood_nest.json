@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:dark_oak_wood_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:dark_oak_log"
+        },
+        "state": {
+          "Name": "productivebees:dark_oak_wood_nest"
+        }
+      }
+    ]
+  }
+}

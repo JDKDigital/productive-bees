@@ -1,0 +1,25 @@
+{
+  "type": "productivebees:snow_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:snow"
+        },
+        "state": {
+          "Name": "productivebees:snow_nest"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:snow_block"
+        },
+        "state": {
+          "Name": "productivebees:snow_nest"
+        }
+      }
+    ]
+  }
+}

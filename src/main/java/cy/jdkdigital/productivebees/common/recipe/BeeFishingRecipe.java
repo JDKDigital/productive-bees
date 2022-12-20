@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -47,7 +48,7 @@ public class BeeFishingRecipe implements Recipe<Container>
     }
 
     public boolean matches(Biome biome, Level level) {
-        var key = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getKey(biome);
+        var key = level.registryAccess().registryOrThrow(Registries.BIOME).getKey(biome);
         for (String biomeId: this.biomes) {
             if (key != null && key.toString().equals(biomeId)) {
                 return true;
@@ -57,7 +58,7 @@ public class BeeFishingRecipe implements Recipe<Container>
     }
 
     public static List<Biome> getBiomeList(BeeFishingRecipe recipe, Level level) {
-        var biomeRegistry = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
+        var biomeRegistry = level.registryAccess().registryOrThrow(Registries.BIOME);
         if (!cachedBiomes.containsKey(recipe)) {
             List<Biome> list = new ArrayList<>();
 

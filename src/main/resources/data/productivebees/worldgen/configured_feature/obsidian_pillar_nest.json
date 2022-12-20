@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:obsidian_pillar_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:obsidian"
+        },
+        "state": {
+          "Name": "productivebees:obsidian_nest"
+        }
+      }
+    ]
+  }
+}

@@ -56,7 +56,6 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
 
             try {
                 if (!CraftingHelper.processConditions(entry.getValue().getAsJsonObject(), "conditions", context)) {
-                    ProductiveBees.LOGGER.debug("Skipping loading productive bee {} as its conditions were not met", id);
                     continue;
                 }
             } catch (Exception e) {

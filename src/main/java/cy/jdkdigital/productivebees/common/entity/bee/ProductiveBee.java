@@ -14,6 +14,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -686,8 +688,8 @@ public class ProductiveBee extends Bee
                 CompoundTag nbt = ((ConfigurableBee) ProductiveBee.this).getNBTData();
                 if (nbt != null) {
                     if (nbt.contains("flowerTag")) {
-                        Optional<Holder<EntityType<?>>> flowerTag = Registry.ENTITY_TYPE.getHolder(ResourceKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(nbt.getString("flowerTag"))));
-                        return flowerTag.isPresent() ? findEntities(entity -> flowerTag.get().is(Registry.ENTITY_TYPE.getKey(entity.getType())), 5D) : Optional.empty();
+                        Optional<Holder.Reference<EntityType<?>>> flowerTag = BuiltInRegistries.ENTITY_TYPE.getHolder(ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation(nbt.getString("flowerTag"))));
+                        return flowerTag.isPresent() ? findEntities(entity -> flowerTag.get().is(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType())), 5D) : Optional.empty();
                     }
                 }
             }
@@ -742,7 +744,7 @@ public class ProductiveBee extends Bee
                 return false;
             }
 
-            HolderSet.Named<Block> nestTag = Registry.BLOCK.getOrCreateTag(ProductiveBee.this.getNestingTag());
+            HolderSet.Named<Block> nestTag = BuiltInRegistries.BLOCK.getOrCreateTag(ProductiveBee.this.getNestingTag());
             try {
                 if (nestTag.size() == 0) {
                     return false;

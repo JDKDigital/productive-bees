@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
@@ -152,7 +153,7 @@ public class BeeCage extends Item
 
         nbt.putBoolean("isProductiveBee", target instanceof ProductiveBee);
 
-        String modId = Registry.ENTITY_TYPE.getKey(target.getType()).getNamespace();
+        String modId = BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).getNamespace();
         String modName = ModList.get().getModObjectById(modId).get().getClass().getSimpleName();
 
         if (modId.equals("minecraft")) {

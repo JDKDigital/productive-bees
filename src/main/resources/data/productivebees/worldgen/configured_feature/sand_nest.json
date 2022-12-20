@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:sand_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:sand"
+        },
+        "state": {
+          "Name": "productivebees:sand_nest"
+        }
+      }
+    ]
+  }
+}

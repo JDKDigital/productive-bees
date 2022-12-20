@@ -1,0 +1,16 @@
+{
+  "type": "productivebees:birch_wood_nest",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:birch_log"
+        },
+        "state": {
+          "Name": "productivebees:birch_wood_nest"
+        }
+      }
+    ]
+  }
+}
