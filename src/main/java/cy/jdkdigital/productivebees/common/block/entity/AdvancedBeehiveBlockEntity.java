@@ -164,46 +164,56 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 }
 
                 // Insert or extract bees for simulated hives
-                if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0) {
-                    blockEntity.inventoryHandler.ifPresent(h -> {
-                        if (h instanceof InventoryHandlerHelper.ItemHandler invHelper) {
-                            ItemStack cageStack = h.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE);
-                            if (!cageStack.isEmpty() && cageStack.getItem() instanceof BeeCage) {
-                                if (BeeCage.isFilled(cageStack) && invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
-                                    // release into hive if space is available
-                                    if (!blockEntity.isFull()) {
-                                        Bee bee = BeeCage.getEntityFromStack(cageStack, level, true);
-                                        if (bee != null && blockEntity.acceptsBee(bee) && (!(bee instanceof ProductiveBee pBee) || pBee.getAttributeValue(BeeAttributes.TYPE).equals("hive"))) {
-                                            blockEntity.addOccupant(bee, bee.hasNectar());
-                                            if (cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
-                                                invHelper.addOutput(new ItemStack(cageStack.getItem()));
-                                            }
-                                            cageStack.shrink(1);
-                                            level.sendBlockUpdated(pos, state, state, 3);
-                                        }
-                                    }
-                                } else if (!blockEntity.isEmpty()) {
-                                    // grab a bee from the hive and add to the cage
-                                    blockEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantStorage -> {
-                                        Iterator<Inhabitant> inhabitantIterator = inhabitantStorage.getInhabitants().iterator();
-                                        Inhabitant inhabitant = inhabitantIterator.next();
-                                        Entity entity = EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
-                                        if (entity instanceof Bee beeEntity) {
-                                            beeEntity.hivePos = blockEntity.worldPosition;
-                                            ItemStack filledCage = new ItemStack(cageStack.getItem());
-                                            BeeCage.captureEntity(beeEntity, filledCage);
-                                            if (invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
+                try {
+                    if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0) {
+                        ItemStack cageStackReplacement = new ItemStack(ModItems.BEE_CAGE.get());
+                        blockEntity.inventoryHandler.ifPresent(h -> {
+                            if (h instanceof InventoryHandlerHelper.ItemHandler invHelper) {
+                                ItemStack cageStack = h.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE);
+                                if (!cageStack.isEmpty() && cageStack.getItem() instanceof BeeCage) {
+                                    if (BeeCage.isFilled(cageStack) && invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
+                                        // release into hive if space is available
+                                        if (!blockEntity.isFull()) {
+                                            Bee bee = BeeCage.getEntityFromStack(cageStack, level, true);
+                                            if (bee != null && blockEntity.acceptsBee(bee) && (!(bee instanceof ProductiveBee pBee) || pBee.getAttributeValue(BeeAttributes.TYPE).equals("hive"))) {
+                                                blockEntity.addOccupant(bee, bee.hasNectar());
+                                                if (cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
+                                                    invHelper.addOutput(new ItemStack(cageStack.getItem()));
+                                                    cageStackReplacement.setItem(ModItems.STURDY_BEE_CAGE.get());
+                                                }
                                                 cageStack.shrink(1);
-                                                invHelper.addOutput(filledCage);
-                                                inhabitantIterator.remove();
                                                 level.sendBlockUpdated(pos, state, state, 3);
                                             }
                                         }
-                                    });
+                                    } else if (!blockEntity.isEmpty()) {
+                                        // grab a bee from the hive and add to the cage
+                                        blockEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantStorage -> {
+                                            Iterator<Inhabitant> inhabitantIterator = inhabitantStorage.getInhabitants().iterator();
+                                            Inhabitant inhabitant = inhabitantIterator.next();
+                                            Entity entity = EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
+                                            if (entity instanceof Bee beeEntity) {
+                                                beeEntity.hivePos = blockEntity.worldPosition;
+                                                ItemStack filledCage = new ItemStack(cageStack.getItem());
+                                                BeeCage.captureEntity(beeEntity, filledCage);
+                                                if (invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
+                                                    if (cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
+                                                        cageStackReplacement.setItem(ModItems.STURDY_BEE_CAGE.get());
+                                                    }
+                                                    cageStack.shrink(1);
+                                                    invHelper.addOutput(filledCage);
+                                                    inhabitantIterator.remove();
+                                                    level.sendBlockUpdated(pos, state, state, 3);
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
+                } catch (Exception e) {
+                    ProductiveBees.LOGGER.error('something went wrong' + e);
+                    invHelper.addOutput(cageStackReplacement);
                 }
             }
         }
