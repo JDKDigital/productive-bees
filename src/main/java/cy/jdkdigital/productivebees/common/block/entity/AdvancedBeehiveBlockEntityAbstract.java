@@ -99,11 +99,12 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         blockEntity.beeHandler.ifPresent(h -> {
             Iterator<Inhabitant> inhabitantIterator = h.getInhabitants().iterator();
             boolean hasReleased = false;
+            boolean isSimulatedHive = ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0;
             while (inhabitantIterator.hasNext()) {
                 Inhabitant inhabitant = inhabitantIterator.next();
                 if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
                     BeehiveBlockEntity.BeeReleaseStatus beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-                    if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0) {
+                    if (isSimulatedHive) {
                         // for simulated hives, count all the way up to timeInHive + pollinationTime
                         if (inhabitant.ticksInHive > (inhabitant.minOccupationTicks + 450)) {
                             simulateBee(level, hivePos, state, blockEntity, inhabitant);
@@ -112,7 +113,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                             // only add count if outside is favourable
                             inhabitant.ticksInHive += blockEntity.tickCounter;
                         }
-                    } else if (releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt, null, beeState)) {
+                    } else if (!isSimulatedHive && releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt, null, beeState)) {
                         hasReleased = true;
                         inhabitantIterator.remove();
                     }
