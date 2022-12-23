@@ -6,7 +6,7 @@ import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFa
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
@@ -15,7 +15,6 @@ import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
-import java.util.List;
 
 public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversionRecipe>
 {
@@ -25,7 +24,7 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
     public BeeConversionRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/jei/bee_conversion_recipe.png");
         this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
-        this.icon = guiHelper.createDrawableIngredient(BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":quarry_bee"));
+        this.icon = guiHelper.createDrawableIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, BeeIngredientFactory.getOrCreateList().get(ProductiveBees.MODID + ":quarry_bee"));
     }
 
     @Nonnull
@@ -59,7 +58,7 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, BeeConversionRecipe recipe, List<? extends IFocus<?>> focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, BeeConversionRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 42, 27)
                 .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.source.get())
                 .setSlotName("source");

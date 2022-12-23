@@ -5,7 +5,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -106,7 +106,7 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
 
         if (!fluidStacks.isEmpty()) {
             builder.addSlot(RecipeIngredientRole.INPUT, 26, 51)
-                    .addIngredients(VanillaTypes.FLUID, fluidStacks)
+                    .addIngredients(ForgeTypes.FLUID_STACK, fluidStacks)
                     .setSlotName("inputFluid");
         }
         if (!itemStacks.isEmpty()) {

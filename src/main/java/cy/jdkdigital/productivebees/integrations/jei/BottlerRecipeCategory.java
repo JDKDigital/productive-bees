@@ -4,7 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.BottlerRecipe;
 import cy.jdkdigital.productivebees.common.recipe.TagOutputRecipe;
 import cy.jdkdigital.productivebees.init.ModBlocks;
-import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -69,7 +69,7 @@ public class BottlerRecipeCategory implements IRecipeCategory<BottlerRecipe>
             fluidStacks.add(new FluidStack(fluid, recipe.fluidInput.getSecond()));
         }
         builder.addSlot(RecipeIngredientRole.INPUT, 9, 27)
-                .addIngredients(VanillaTypes.FLUID, fluidStacks)
+                .addIngredients(ForgeTypes.FLUID_STACK, fluidStacks)
                 .setSlotName("inputFluid");
         builder.addSlot(RecipeIngredientRole.INPUT, 43, 27)
                 .addItemStacks(Arrays.stream(recipe.itemInput.getItems()).toList())

@@ -10,13 +10,10 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
@@ -43,7 +40,7 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
     public IncubationRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/jei/incubator.png");
         this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.INCUBATOR.get()));
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.INCUBATOR.get()));
     }
 
     @Nonnull
@@ -77,25 +74,7 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
     }
 
     @Override
-    public void setIngredients(IncubationRecipe recipe, IIngredients ingredients) {
-        List<ItemStack> inputs = Arrays.asList(recipe.input.getItems());
-        List<ItemStack> catalyst = Arrays.asList(recipe.catalyst.getItems());
-        ingredients.setInputLists(VanillaTypes.ITEM, Arrays.asList(inputs, catalyst));
-        ingredients.setOutputs(VanillaTypes.ITEM, Arrays.asList(recipe.result.getItems()));
-    }
-
-    @Override
-    public void setRecipe(IRecipeLayout recipeLayout, IncubationRecipe recipe, IIngredients ingredients) {
-        IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-
-        itemStacks.init(0, true, 8, 8);
-        itemStacks.init(1, true, 36, 26);
-        itemStacks.init(2, false, 64, 8);
-        itemStacks.set(ingredients);
-    }
-
-    @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, IncubationRecipe recipe, List<? extends IFocus<?>> focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, IncubationRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 9, 9)
                 .addItemStacks(Arrays.stream(recipe.input.getItems()).toList())
                 .setSlotName("input");

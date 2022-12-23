@@ -34,7 +34,7 @@ public class BeeFishingRecipeCategory implements IRecipeCategory<BeeFishingRecip
     public BeeFishingRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/jei/bee_fishing_recipe.png");
         this.background = guiHelper.createDrawable(location, 0, 0, 126, 110);
-        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(Items.FISHING_ROD));
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Items.FISHING_ROD));
     }
 
     @Nonnull

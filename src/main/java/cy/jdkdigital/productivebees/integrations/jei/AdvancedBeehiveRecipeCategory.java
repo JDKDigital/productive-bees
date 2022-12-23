@@ -3,10 +3,11 @@ package cy.jdkdigital.productivebees.integrations.jei;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
@@ -28,7 +29,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     public AdvancedBeehiveRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/gui/jei/bee_produce_recipe.png");
         this.background = guiHelper.createDrawable(location, 0, 0, 126, 70);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.ADVANCED_OAK_BEEHIVE.get()));
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.ADVANCED_OAK_BEEHIVE.get()));
     }
 
     @Nonnull
@@ -62,7 +63,7 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, AdvancedBeehiveRecipe recipe, List<? extends IFocus<?>> focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, AdvancedBeehiveRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 7, 27)
                 .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient.get())
                 .setSlotName("source");

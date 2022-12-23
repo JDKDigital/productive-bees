@@ -108,13 +108,15 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${forgeversion}"
 
-    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
+
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
     implementation fg.deobf("curse.maven:the-one-probe-245211:3671753")
     implementation fg.deobf("curse.maven:jade-324717:3803226")
-    implementation fg.deobf("curse.maven:jei-238222:3885885")
+    implementation fg.deobf("curse.maven:jei-238222:4062344")
 //    implementation fg.deobf("curse.maven:roughly-enough-items-310111:3929175")
 //    implementation fg.deobf("curse.maven:trophymanager-510170:3929175")
     implementation fg.deobf("curse.maven:jumpy-boats-542110:3564082")
@@ -138,7 +140,8 @@ dependencies {
 //    implementation fg.deobf("curse.maven:croptopia-fabric-415438:3707657")
 //    implementation fg.deobf("curse.maven:pams-harvestcraft-2-food-core-372534:3740562")
 //    implementation fg.deobf("curse.maven:pams-harvestcraft-2-food-extended-402231:3740472")
-//    implementation fg.deobf("curse.maven:gems-jewels-392943:3568024")
+    implementation fg.deobf("curse.maven:datapack-anvil-432817:3820869")
+    implementation fg.deobf("curse.maven:elemental-craft-395158:4010449")
     implementation fg.deobf("curse.maven:curios-309927:3841948")
     implementation fg.deobf("curse.maven:botania-225643:3847141")
 //    implementation fg.deobf("curse.maven:silent-lib-242998:3708359")

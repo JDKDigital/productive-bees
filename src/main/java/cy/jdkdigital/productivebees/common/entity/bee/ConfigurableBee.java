@@ -99,6 +99,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 this.setCustomName(new TextComponent("Destabilized RedaStone Bee"));
             } else if (type.equals("productivebees:compressed_iron") && ProductiveBees.rand.nextFloat() < 0.05f) {
                 this.setCustomName(new TextComponent("Depressed Iron Bee"));
+            } else if (type.equals("productivebees:sponge") && ProductiveBees.rand.nextFloat() < 0.05f) {
+                this.setCustomName(new TextComponent("SpongeBee BlockPants"));
             }
         }
 
@@ -328,7 +330,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     @Override
     public float getSizeModifier() {
         CompoundTag nbt = getNBTData();
-        return nbt != null ? nbt.getFloat("size") : super.getSizeModifier();
+        return nbt != null ? hasNectar() ? nbt.getFloat("pollinatedSize") : nbt.getFloat("size") : super.getSizeModifier();
     }
 
     public float getSpeedModifier() {

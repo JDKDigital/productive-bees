@@ -1,3 +1,13 @@
+1.18.2-0.9.3.0
+
+-- Added sponge bee
+-- Putting a sponge in the bottle slot of a hive will keep it empty of honey
+-- New spawn egg textures
+-- Quarry bees can play with Create stone blocks
+-- Lumber bees can play with leaves
+-- Added support for JEI 10
+
+
 1.18.2-0.9.2.0
 
 -- Fixed crash with framed blocks slab when used on feeding slab

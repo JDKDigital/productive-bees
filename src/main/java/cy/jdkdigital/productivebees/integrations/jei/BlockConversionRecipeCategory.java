@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
-import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -78,7 +78,7 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
                     .setSlotName("sourceBlock");
         } else {
             builder.addSlot(RecipeIngredientRole.INPUT, 5, 25)
-                    .addIngredients(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateFrom.getFluidState().getType(), 1000)))
+                    .addIngredients(ForgeTypes.FLUID_STACK, Collections.singletonList(new FluidStack(recipe.stateFrom.getFluidState().getType(), 1000)))
                     .setSlotName("sourceFluid");
         }
 
@@ -88,7 +88,7 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
                     .setSlotName("resultBlock");
         } else {
             builder.addSlot(RecipeIngredientRole.OUTPUT, 65, 26)
-                    .addIngredients(VanillaTypes.FLUID, Collections.singletonList(new FluidStack(recipe.stateTo.getFluidState().getType(), 1000)))
+                    .addIngredients(ForgeTypes.FLUID_STACK, Collections.singletonList(new FluidStack(recipe.stateTo.getFluidState().getType(), 1000)))
                     .setSlotName("resultFluid");
         }
     }
