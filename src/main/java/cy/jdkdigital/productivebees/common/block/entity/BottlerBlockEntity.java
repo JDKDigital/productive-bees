@@ -78,7 +78,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
         BlockState aboveState = level.getBlockState(pos.above());
         if (++blockEntity.tickCounter % 7 == 0 && aboveState.getBlock() == Blocks.PISTON_HEAD && aboveState.getValue(DirectionalBlock.FACING) == Direction.DOWN) {
             // Check for ProductiveBeeEntity on top of block
-            List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(pos).expandTowards(0.0D, 1.0D, 0.0D)));
+            List<Bee> bees = level.getEntitiesOfClass(Bee.class, (new AABB(pos).expandTowards(0.0D, 1.0D, 0.0D))).stream().filter(e -> !e.isBaby()).toList();
             if (!bees.isEmpty()) {
                 Bee bee = bees.iterator().next();
                 blockEntity.inventoryHandler.ifPresent(inv -> {

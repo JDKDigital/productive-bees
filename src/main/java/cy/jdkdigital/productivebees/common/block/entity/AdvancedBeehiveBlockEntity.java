@@ -31,11 +31,13 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.BottleItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -65,7 +67,15 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             if (slot == AdvancedBeehiveContainer.SLOT_CAGE) {
                 return item.getItem() instanceof BeeCage;
             }
+            if (slot == AdvancedBeehiveContainer.SLOT_BOTTLE && item.is(Blocks.SPONGE.asItem())) {
+                return true;
+            }
             return super.isInputSlotItem(slot, item);
+        }
+
+        @Override
+        public boolean isInputSlot(int slot) {
+            return super.isInputSlot(slot) || slot == AdvancedBeehiveContainer.SLOT_CAGE;
         }
     });
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
@@ -138,7 +148,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                     int finalHoneyLevel = honeyLevel;
                     blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
                         ItemStack bottles = inv.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
-                        if (!bottles.isEmpty()) {
+                        if (!bottles.isEmpty() && bottles.getItem() instanceof BottleItem) {
                             final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
                             boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
                             if (addedBottle) {
@@ -255,6 +265,12 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                             ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
                         }
                     });
+
+                    // If there's a sponge in the bottle slot, empty honey level
+                    ItemStack itemInBottleSlot = inv.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
+                    if (!itemInBottleSlot.isEmpty() && itemInBottleSlot.is(Blocks.SPONGE.asItem())) {
+                        level.setBlockAndUpdate(getBlockPos(), state.setValue(BeehiveBlock.HONEY_LEVEL, 0));
+                    }
                 });
             }
 

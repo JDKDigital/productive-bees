@@ -65,7 +65,7 @@ public final class ProductiveBees
 //        TODO
 //         - bee cage ingredient
 //         - custom comb textures
-//         - shroom bee from planting trees
+//         - show bee name when in jar
 //         - item conversion in feeding slabs
 //         - twilight forest bees
 //         - beekeeper house

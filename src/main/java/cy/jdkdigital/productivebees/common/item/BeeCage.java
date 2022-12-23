@@ -62,7 +62,6 @@ public class BeeCage extends Item
         Bee entity = getEntityFromStack(stack, level, true);
 
         if (entity != null) {
-
             if (entity.isFlowerValid(pos)) {
                 entity.setSavedFlowerPos(pos);
             } else if ((context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) || (entity.hivePos != null && !level.isLoaded(entity.hivePos))) {

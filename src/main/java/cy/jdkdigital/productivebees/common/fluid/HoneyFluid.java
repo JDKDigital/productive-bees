@@ -139,18 +139,6 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
         public boolean isSource(FluidState state) {
             return false;
         }
-
-//        @Override
-//        protected void randomTick(Level pLevel, BlockPos pPos, FluidState pState, Random pRandom) {
-//            if (pLevel instanceof ServerLevel sLevel && pLevel.random.nextInt(16) == 0) {
-//                if (sLevel.isLoaded(pPos)) {
-//                    Biome biome = sLevel.getBiome(pPos).value();
-//                    if (shouldFreeze(sLevel, biome, pPos)) {
-//                        sLevel.setBlockAndUpdate(pPos, Blocks.HONEY_BLOCK.defaultBlockState());
-//                    }
-//                }
-//            }
-//        }
     }
 
     public static class Source extends HoneyFluid
