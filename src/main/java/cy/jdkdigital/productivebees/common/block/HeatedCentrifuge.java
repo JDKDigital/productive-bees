@@ -10,11 +10,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -40,5 +44,12 @@ public class HeatedCentrifuge extends PoweredCentrifuge
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
 
         pTooltip.add(new TranslatableComponent("productivebees.heated_centrifuge.tooltip").withStyle(ChatFormatting.GOLD));
+    }
+
+    @SuppressWarnings("deprecation")
+    @Nonnull
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+        return Block.box(0, 0, 0, 16, 16, 16);
     }
 }
