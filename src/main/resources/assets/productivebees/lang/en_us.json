@@ -346,6 +346,7 @@
   "entity.productivebees.spectrum_bee": "Spectrum Bee",
   "entity.productivebees.spinel_bee": "Spinel Bee",
   "entity.productivebees.spirit_bee": "Spirit Bee",
+  "entity.productivebees.sponge_bee": "Sponge Bee",
   "entity.productivebees.starmetal_bee": "Starmetal Bee",
   "entity.productivebees.starry_bee": "Starry Bee",
   "entity.productivebees.steel_bee": "Steel Bee",
@@ -471,7 +472,7 @@
   "jei.productivebees.incubation": "Incubation",
   "productivebees.centrifuge.tooltip.amount": "Amount: %s",
   "productivebees.centrifuge.tooltip.chance": "Chance: %s",
-  "productivebees.incubator.tooltip.treat_item": "Here goes honey teats",
+  "productivebees.incubator.tooltip.treat_item": "Here goes honey treats",
   "productivebees.advanced_hive.tooltip.bee_cage": "Put empty bee cages to pull out bees or filled bee cages to insert bees",
   "productivebees.heated_centrifuge.tooltip": "\"It's ruining the honey\" - some vegan",
   "productivebees.breeding_chamber.tooltip.cage": "Put empty bee cages here",
@@ -609,5 +610,7 @@
   "productivebees.top.solitary.repopulation_countdown_inactive": "Nest is empty. Use a honey treat on it to attract a bee.",
   "config.jade.plugin_productivebees.productive_bee": "Productive Bees",
   "config.jade.plugin_productivebees.solitary_nest": "Solitary Nest",
-  "config.jade.plugin_productivebees.bee_attributes": "Attributes"
+  "config.jade.plugin_productivebees.jar": "Bee Jar",
+  "config.jade.plugin_productivebees.bee_attributes": "Attributes",
+  "productivebees.top.jar.bee": "%s"
 }

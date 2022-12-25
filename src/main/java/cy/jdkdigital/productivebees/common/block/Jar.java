@@ -55,8 +55,8 @@ public class Jar extends Block implements EntityBlock
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
         CompoundTag tag = stack.getTag();
-        if (tag != null && tag.contains("inv")) {
-            CompoundTag invTag = tag.getCompound("inv");
+        if (tag != null && tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("inv")) {
+            CompoundTag invTag = tag.getCompound("BlockEntityTag").getCompound("inv");
 
             ListTag tagList = invTag.getList("Items", 10);
             if (tagList.size() > 0) {
@@ -66,8 +66,7 @@ public class Jar extends Block implements EntityBlock
 
                 String entityId = cage.getTag().getString("name");
                 tooltip.add(Component.translatable("productivebees.information.jar.bee", entityId));
-            }
-            else {
+            } else {
                 tooltip.add(Component.translatable("productivebees.information.jar.fill_tip"));
             }
         }

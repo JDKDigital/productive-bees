@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
@@ -15,8 +14,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -92,19 +89,20 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof SolitaryNestBlockEntity nestBlockEntity && state.getBlock() instanceof SolitaryNest nestBlock) {
-            ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
-            var recipes = nestBlock.getSpawningRecipes(level.getLevel(), level.getBiome(pos).value());
-            if (recipes.size() > 0) {
-                BeeSpawningRecipe spawningRecipe = recipes.size() == 1 ? recipes.get(0) : recipes.get(random.nextInt(recipes.size()));
-                if (spawningRecipe.output.size() > 0) {
-                    BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
-                    try {
+            try {
+                var recipes = nestBlock.getSpawningRecipes(level.getLevel(), level.getBiome(pos).value());
+                if (recipes.size() > 0) {
+                    BeeSpawningRecipe spawningRecipe = recipes.size() == 1 ? recipes.get(0) : recipes.get(random.nextInt(recipes.size()));
+                    if (spawningRecipe.output.size() > 0) {
+                        BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
+
                         CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
                         nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, Component.translatable("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
-                    } catch (CommandSyntaxException e) {
-                        ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
                     }
                 }
+                ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
+            } catch (Exception e) {
+                ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
             }
         }
 

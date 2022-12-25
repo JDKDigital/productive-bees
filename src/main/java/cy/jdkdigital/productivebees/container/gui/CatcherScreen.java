@@ -36,17 +36,6 @@ public class CatcherScreen extends AbstractContainerScreen<CatcherContainer>
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         this.font.draw(matrixStack, this.title, 8.0F, 6.0F, 4210752);
         this.font.draw(matrixStack, this.playerInventoryTitle, 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
-
-        this.menu.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-            if (handler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).isEmpty()) {
-                if (isHovering(80, 17, 18, 18, mouseX, mouseY)) {
-                    List<FormattedCharSequence> tooltipList = new ArrayList<>();
-                    tooltipList.add(Component.translatable("productivebees.Catcher.tooltip.treat_item").getVisualOrderText());
-
-                    renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
-                }
-            }
-        });
     }
 
     @Override

@@ -40,11 +40,15 @@ public class CombBlockBlockEntity extends AbstractBlockEntity
     @Override
     public void savePacketNBT(CompoundTag tag) {
         super.savePacketNBT(tag);
-        tag.putString("type", type);
+        if (type != null) {
+            tag.putString("type", type);
+        }
     }
 
     public void loadPacketNBT(CompoundTag tag) {
         super.loadPacketNBT(tag);
-        this.type = tag.getString("type");
+        if (tag.contains("type")) {
+            this.type = tag.getString("type");
+        }
     }
 }

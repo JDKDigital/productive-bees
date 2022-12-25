@@ -33,7 +33,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
     private int tickCounter = 0;
     private boolean needsReindexing = true;
     private boolean isRunning = true;
-    private Map<String, Map<Integer, Integer>> index = new HashMap<>(); // Map<String(name of attribute or bee type), Map<Slot, Purity>>
+    private final Map<String, Map<Integer, Integer>> index = new HashMap<>(); // Map<String(name of attribute or bee type), Map<Slot, Purity>>
 
     private final LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(104, this)
     {
@@ -45,8 +45,8 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            if (tileEntity instanceof GeneIndexerBlockEntity) {
-                ((GeneIndexerBlockEntity) tileEntity).setDirty();
+            if (tileEntity instanceof GeneIndexerBlockEntity geneIndexerBlockEntity) {
+                geneIndexerBlockEntity.setDirty();
             }
         }
 

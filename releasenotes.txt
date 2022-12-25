@@ -1,3 +1,14 @@
+1.19.2-0.10.4.0
+
+-- Added sponge bee
+-- Putting a sponge in the bottle slot of a hive will keep it empty of honey
+-- New spawn egg textures
+-- Quarry bees can play with Create stone blocks
+-- Lumber bees can play with leaves
+-- Bottling bees will no longer be stopped by having babees under the piston
+-- Fixed stacked bees in sturdy cages lost when released
+
+
 1.19.2-0.10.3.1
 
 -- Spirit bee (finalized)
