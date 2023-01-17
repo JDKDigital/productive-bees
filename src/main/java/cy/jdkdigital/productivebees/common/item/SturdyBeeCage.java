@@ -12,7 +12,6 @@ public class SturdyBeeCage extends BeeCage
 
     @Override
     protected void postItemUse(UseOnContext context) {
-        context.getItemInHand().setTag(null);
         // Shrink stack and add empty to player inv
         if (context.getPlayer() != null) {
             if (!context.getPlayer().getAbilities().instabuild) {

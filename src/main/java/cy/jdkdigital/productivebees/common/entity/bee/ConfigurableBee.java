@@ -85,21 +85,21 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         if (tag != null) {
             type = tag.contains("type") ? tag.getString("type") : tag.contains("EntityTag") ? tag.getCompound("EntityTag").getString("type") : "";
 
-            if (type.equals("productivebees:ghostly") && ProductiveBees.rand.nextFloat() < 0.02f) {
+            if (type.equals("productivebees:ghostly") && this.random.nextFloat() < 0.02f) {
                 this.setCustomName(new TextComponent("BooBee"));
-            } else if (type.equals("productivebees:blitz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+            } else if (type.equals("productivebees:blitz") && this.random.nextFloat() < 0.02f) {
                 this.setCustomName(new TextComponent("King BitzBee"));
-            } else if (type.equals("productivebees:basalz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+            } else if (type.equals("productivebees:basalz") && this.random.nextFloat() < 0.02f) {
                 this.setCustomName(new TextComponent("Queen BazBee"));
-            } else if (type.equals("productivebees:blizz") && ProductiveBees.rand.nextFloat() < 0.02f) {
+            } else if (type.equals("productivebees:blizz") && this.random.nextFloat() < 0.02f) {
                 this.setCustomName(new TextComponent("Shiny BizBee"));
-            } else if (type.equals("productivebees:redstone") && ProductiveBees.rand.nextFloat() < 0.01f) {
+            } else if (type.equals("productivebees:redstone") && this.random.nextFloat() < 0.01f) {
                 this.setCustomName(new TextComponent("Redastone Bee"));
-            } else if (type.equals("productivebees:destabilized_redstone") && ProductiveBees.rand.nextFloat() < 0.10f) {
+            } else if (type.equals("productivebees:destabilized_redstone") && this.random.nextFloat() < 0.10f) {
                 this.setCustomName(new TextComponent("Destabilized RedaStone Bee"));
-            } else if (type.equals("productivebees:compressed_iron") && ProductiveBees.rand.nextFloat() < 0.05f) {
+            } else if (type.equals("productivebees:compressed_iron") && this.random.nextFloat() < 0.05f) {
                 this.setCustomName(new TextComponent("Depressed Iron Bee"));
-            } else if (type.equals("productivebees:sponge") && ProductiveBees.rand.nextFloat() < 0.05f) {
+            } else if (type.equals("productivebees:sponge") && this.random.nextFloat() < 0.05f) {
                 this.setCustomName(new TextComponent("SpongeBee BlockPants"));
             }
         }
