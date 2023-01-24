@@ -30,7 +30,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, HeatedCentrifugeBlockEntity blockEntity) {
-        CentrifugeBlockEntity.tick(level, pos, state, blockEntity);
+        PoweredCentrifugeBlockEntity.tick(level, pos, state, blockEntity);
     }
 
     protected double getEnergyConsumptionModifier() {

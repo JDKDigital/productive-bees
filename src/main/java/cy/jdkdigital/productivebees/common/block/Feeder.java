@@ -64,7 +64,7 @@ public class Feeder extends SlabBlock implements EntityBlock
         BlockState state = super.getStateForPlacement(context);
 
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        if (fluidstate.is(ModTags.HONEY) && state != null) {
+        if (fluidstate.is(ModTags.HONEY) && fluidstate.isSource() && state != null) {
             return state.setValue(HONEYLOGGED, true);
         }
         return state;
@@ -141,7 +141,8 @@ public class Feeder extends SlabBlock implements EntityBlock
             if (heldBlock instanceof SlabBlock) {
                 final BlockEntity blockEntity = world.getBlockEntity(pos);
                 if (blockEntity instanceof FeederBlockEntity) {
-                    ((FeederBlockEntity) blockEntity).baseBlock = heldBlock;
+                    ((FeederBlockEntity) blockEntity).baseBlock = heldBlock instanceof Feeder ? null : heldBlock;
+                    blockEntity.setChanged();
                     return InteractionResult.SUCCESS;
                 }
             }

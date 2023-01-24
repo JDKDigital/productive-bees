@@ -7,7 +7,7 @@
     "minecraft:deep_ocean",
     "minecraft:deep_lukewarm_ocean"
   ],
-  "chance": 0.30,
+  "chance": 0.03,
   "conditions": [
     {
       "type": "productivebees:bee_exists",
