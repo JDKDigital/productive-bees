@@ -80,10 +80,10 @@ repositories {
     maven {
         url 'https://www.dogforce-games.com/maven/'
     }
-    maven {
-        name = "JEI Maven"
-        url "https://dvs1.progwml6.com/files/maven/"
-    }
+//    maven {
+//        name = "JEI Maven"
+//        url "https://dvs1.progwml6.com/files/maven/"
+//    }
     maven {
         name = "Patchouli Maven"
         url 'https://maven.blamejared.com'
@@ -98,15 +98,15 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forgeversion}"
 
-//    compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
-//    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
 //
 //    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
 //    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-//    implementation fg.deobf("curse.maven:jei-238222:4175833")
+    implementation fg.deobf("curse.maven:jei-238222:4360330")
 //
     implementation fg.deobf("curse.maven:the-one-probe-245211:4159743")
-//    implementation fg.deobf("curse.maven:jade-324717:3916646")
+    implementation fg.deobf("curse.maven:jade-324717:4330163")
     implementation fg.deobf("curse.maven:trophymanager-510170:4165097")
     implementation fg.deobf("curse.maven:jumpy-boats-542110:4145484")
     implementation fg.deobf("curse.maven:everythingcopper-579545:4176053")

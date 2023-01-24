@@ -24,14 +24,11 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
         RandomSource rand = context.random();
         BlockPos blockPos = context.origin();
         ReplaceBlockConfiguration featureConfig = context.config();
-        ProductiveBees.LOGGER.info("try placing wood solitary nest feature");
 
         for(OreConfiguration.TargetBlockState targetBlockState : featureConfig.targetStates) {
             if (rand.nextFloat() > ProductiveBeesConfig.WORLD_GEN.nestConfigs.get(configKey).get().floatValue()) {
                 return false;
             }
-
-            ProductiveBees.LOGGER.info("random check success");
 
             // Get to ground level
             // TODO better way to end on surface, probably placement modifiers
@@ -43,6 +40,8 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
             }
             // Go up some more
             blockPos = blockPos.above(rand.nextInt(4));
+
+            ProductiveBees.LOGGER.info(blockPos);
 
             // Locate tree log in chunk
             BlockPos newPos = null;
