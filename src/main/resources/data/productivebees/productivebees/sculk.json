@@ -1,0 +1,19 @@
+{
+    "primaryColor": "#141414",
+    "particleColor": "#141414",
+    "beeTexture": "productivebees:textures/entity/bee/wither/bee",
+    "combTexture": "productivebees:item/honeycombs/withered",
+    "selfbreed": false,
+    "flowerTag": "productivebees:flowers/wither_flowers",
+    "attributes": {
+        "temper": 2,
+        "behavior": 1
+    },
+    "withered": true,
+    "passiveEffects": [
+        {
+            "effect": "minecraft:wither",
+            "duration": 150
+        }
+    ]
+}
