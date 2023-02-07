@@ -434,7 +434,7 @@
   "entity.productivebees.zinc_bee": "zinc Bee",
   "entity.productivebees.zircon_bee": "zircon Bee",
   "entity.productivebees.zombie_bee": "zomBee",
-  "fluid.productivebees.honey": "Miel",
+  "fluid_type.productivebees.honey": "Miel",
   "item.productivebees.bee_bomb": "Abeja BomBa",
   "item.productivebees.bee_bomb_angry": "Abeja BomBa Agresiva",
   "item.productivebees.bee_cage": "Jaula de abeja",

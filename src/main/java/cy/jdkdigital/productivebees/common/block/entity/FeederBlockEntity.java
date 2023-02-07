@@ -32,6 +32,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.compress.utils.Lists;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -67,20 +68,26 @@ public class FeederBlockEntity extends CapabilityBlockEntity
     }
 
     public Block getRandomBlockFromInventory(TagKey<Block> tag, RandomSource random) {
-        return inventoryHandler.map(h -> {
-            List<Block> possibleBlocks = new ArrayList<>();
-            for (int slot = 0; slot < h.getSlots(); ++slot) {
-                Item slotItem = h.getStackInSlot(slot).getItem();
-                if (slotItem instanceof BlockItem) {
-                    Block itemBlock = ((BlockItem) slotItem).getBlock();
-                    if (itemBlock.builtInRegistryHolder().is(tag)) {
-                        possibleBlocks.add(itemBlock);
-                    }
+        List<Block> possibleBlocks = new ArrayList<>();
+        for (ItemStack stack: getInventoryItems()) {
+            if (stack.getItem() instanceof BlockItem blockItem) {
+                Block itemBlock = blockItem.getBlock();
+                if (tag == null || itemBlock.builtInRegistryHolder().is(tag)) {
+                    possibleBlocks.add(itemBlock);
                 }
             }
+        }
+        return possibleBlocks.size() > 0 ? possibleBlocks.get(random.nextInt(possibleBlocks.size())) : Blocks.AIR;
+    }
 
-            return possibleBlocks.get(random.nextInt(possibleBlocks.size()));
-        }).orElse(Blocks.AIR);
+    public List<ItemStack> getInventoryItems() {
+        return inventoryHandler.map(h -> {
+            List<ItemStack> items = new ArrayList<>();
+            for (int slot = 0; slot < h.getSlots(); ++slot) {
+                items.add(h.getStackInSlot(slot));
+            }
+            return items;
+        }).orElse(Lists.newArrayList());
     }
 
     @Nonnull

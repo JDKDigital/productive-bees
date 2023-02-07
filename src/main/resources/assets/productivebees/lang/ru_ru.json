@@ -368,7 +368,7 @@
   "entity.productivebees.zircon_bee": "Циркониевая пчела",
   "entity.productivebees.zombie_bee": "Пчела-зомби",
 
-  "fluid.productivebees.honey": "Мёд",
+  "fluid_type.productivebees.honey": "Мёд",
 
   "item.productivebees.bee_bomb": "Пчелобомба",
   "item.productivebees.bee_bomb_angry": "Раздражающая пчелобомба",

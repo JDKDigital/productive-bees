@@ -36,8 +36,9 @@ public class BlockConversionRecipe implements Recipe<Container>
     public final int chance;
     public Ingredient fromDisplay;
     public Ingredient toDisplay;
+    public boolean pollinates;
 
-    public BlockConversionRecipe(ResourceLocation id, Lazy<BeeIngredient> bee, Ingredient input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay) {
+    public BlockConversionRecipe(ResourceLocation id, Lazy<BeeIngredient> bee, Ingredient input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay, boolean pollinates) {
         this.id = id;
         this.bee = bee;
         this.input = input;
@@ -46,6 +47,7 @@ public class BlockConversionRecipe implements Recipe<Container>
         this.chance = chance;
         this.fromDisplay = fromDisplay;
         this.toDisplay = toDisplay;
+        this.pollinates = pollinates;
     }
 
     @Override
@@ -139,8 +141,9 @@ public class BlockConversionRecipe implements Recipe<Container>
             }
 
             int chance = GsonHelper.getAsInt(json, "chance", 100);
+            boolean pollinates = GsonHelper.getAsBoolean(json, "pollinates", false);
 
-            return this.factory.create(id, sourceBee, input, from, to, chance, fromDisplay, toDisplay);
+            return this.factory.create(id, sourceBee, input, from, to, chance, fromDisplay, toDisplay, pollinates);
         }
 
         public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
@@ -150,7 +153,7 @@ public class BlockConversionRecipe implements Recipe<Container>
                 BlockState from = NbtUtils.readBlockState(buffer.readAnySizeNbt());
                 BlockState to = NbtUtils.readBlockState(buffer.readAnySizeNbt());
 
-                return this.factory.create(id, Lazy.of(() -> source), input, from, to, buffer.readInt(), Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer));
+                return this.factory.create(id, Lazy.of(() -> source), input, from, to, buffer.readInt(), Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer), buffer.readBoolean());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading block conversion recipe from packet. " + id, e);
                 throw e;
@@ -170,6 +173,7 @@ public class BlockConversionRecipe implements Recipe<Container>
 
                 recipe.fromDisplay.toNetwork(buffer);
                 recipe.toDisplay.toNetwork(buffer);
+                buffer.writeBoolean(recipe.pollinates);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing block conversion recipe to packet. " + recipe.getId(), e);
                 throw e;
@@ -178,7 +182,7 @@ public class BlockConversionRecipe implements Recipe<Container>
 
         public interface IRecipeFactory<T extends BlockConversionRecipe>
         {
-            T create(ResourceLocation id, Lazy<BeeIngredient> beeInput, Ingredient input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay);
+            T create(ResourceLocation id, Lazy<BeeIngredient> beeInput, Ingredient input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay, boolean pollinates);
         }
     }
 

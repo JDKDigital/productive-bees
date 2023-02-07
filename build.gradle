@@ -85,7 +85,6 @@ repositories {
         url "https://dvs1.progwml6.com/files/maven/"
     }
     maven {
-        name = "Patchouli Maven"
         url 'https://maven.blamejared.com'
     }
     maven {
@@ -104,6 +103,10 @@ dependencies {
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     implementation fg.deobf("curse.maven:jei-238222:3969039")
+
+    dependencies {
+        compileOnly fg.deobf("com.almostreliable.mods:almostunified-forge:1.19.2-0.3.4")
+    }
 
     implementation fg.deobf("curse.maven:the-one-probe-245211:3927520")
     implementation fg.deobf("curse.maven:jade-324717:3916646")

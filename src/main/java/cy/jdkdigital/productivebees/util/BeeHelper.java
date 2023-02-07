@@ -42,6 +42,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
@@ -53,7 +54,8 @@ import java.util.*;
 
 public class BeeHelper
 {
-    private static Map<String, List<BlockConversionRecipe>> blockConversionRecipeMap = new HashMap();
+    private static final Map<String, List<BlockConversionRecipe>> blockConversionRecipeMap = new HashMap<>();
+    private static final Map<String, List<BeeNBTChangerRecipe>> nbtChangerRecipeMap = new HashMap<>();
 
     public static Entity itemInteract(Bee entity, ItemStack itemStack, ServerLevel level, CompoundTag nbt, Player player) {
         Entity bee = null;
@@ -215,6 +217,42 @@ public class BeeHelper
         return getBlockConversionRecipe(beeEntity, flowerBlockState) != null;
     }
 
+    public static List<BeeNBTChangerRecipe> getNBTChangerRecipes(Bee beeEntity, BlockEntity blockEntity) {
+        if (blockEntity instanceof FeederBlockEntity feederBlockEntity) {
+            var items = feederBlockEntity.getInventoryItems();
+            if (items.size() > 0) {
+                List<BeeNBTChangerRecipe> recipes = new ArrayList<>();
+                Map<ResourceLocation, BeeNBTChangerRecipe> allRecipes = null;
+                for (ItemStack item : items) {
+                    var inv = new IdentifierInventory(beeEntity, ForgeRegistries.ITEMS.getKey(item.getItem()).toString());
+                    String cacheKey = inv.getIdentifier(0) + inv.getIdentifier(1);
+                    if (nbtChangerRecipeMap.containsKey(cacheKey)) {
+                        recipes = nbtChangerRecipeMap.get(cacheKey);
+                    } else if (beeEntity.level instanceof ServerLevel) {
+                        if (allRecipes == null) {
+                            allRecipes = beeEntity.level.getRecipeManager().byType(ModRecipeTypes.BEE_NBT_CHANGER_TYPE.get());
+                        }
+                        for (Map.Entry<ResourceLocation, BeeNBTChangerRecipe> entry : allRecipes.entrySet()) {
+                            if (entry.getValue().matches(inv, beeEntity.level)) {
+                                ProductiveBees.LOGGER.info("adding recipe to map " + entry.getValue());
+                                recipes.add(entry.getValue());
+                            }
+                        }
+                        nbtChangerRecipeMap.put(cacheKey, recipes);
+                    }
+                }
+                if (!recipes.isEmpty()) {
+                    return recipes;
+                }
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public static boolean hasNBTChangerRecipe(Bee beeEntity, BlockEntity feederBlockEntity) {
+        return getNBTChangerRecipes(beeEntity, feederBlockEntity).size() > 0;
+    }
+
     public static List<ItemStack> getBeeProduce(Level level, Bee beeEntity, boolean hasCombBlockUpgrade) {
         AdvancedBeehiveRecipe matchedRecipe = null;
         BlockPos flowerPos = beeEntity.getSavedFlowerPos();
@@ -323,7 +361,7 @@ public class BeeHelper
         Block flowerBlock = flowerBlockState.getBlock();
         if (flowerBlock instanceof Feeder) {
             BlockEntity feederTile = level.getBlockEntity(flowerPos);
-            if (feederTile instanceof FeederBlockEntity && ProductiveBee.isValidFeeder(feederTile, bee::isFlowerBlock)) {
+            if (feederTile instanceof FeederBlockEntity && ProductiveBee.isValidFeeder(bee, feederTile, bee::isFlowerBlock)) {
                 return ((FeederBlockEntity) feederTile).getRandomBlockFromInventory(tag, level.random);
             }
         }
