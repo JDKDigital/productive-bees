@@ -57,7 +57,7 @@ public final class ProductiveBees
     public static final String MODID = "productivebees";
     public static final RandomSource random = RandomSource.create();
 
-    public static final IProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    public static final IProxy proxy = DistExecutor.safeRunForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
     public static final Logger LOGGER = LogManager.getLogger();
 
