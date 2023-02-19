@@ -32,7 +32,7 @@
   ],
   "attribute": "Damage",
   "method": "decrement",
-  "value": 2,
+  "value": 1,
   "min": 0,
   "conditions": [
     {

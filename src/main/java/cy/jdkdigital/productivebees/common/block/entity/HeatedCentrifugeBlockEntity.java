@@ -52,7 +52,9 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
 
     @Override
     public boolean canProcessItemStack(ItemStack stack) {
-        if (stack.is(ModTags.Forge.COMBS)) {
+        var directProcess = super.canProcessItemStack(stack);
+
+        if (stack.is(ModTags.Forge.COMBS) && !directProcess) {
             ItemStack singleComb;
             // config honeycomb
             if (stack.getItem() instanceof CombBlockItem) {
@@ -64,13 +66,14 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
             return !singleComb.isEmpty() && super.canProcessItemStack(singleComb);
         }
 
-        return super.canProcessItemStack(stack);
+        return directProcess;
     }
 
     @Override
     protected CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-        if (input.is(ModTags.Forge.COMBS)) {
+        var directRecipe = super.getRecipe(inputHandler);
+        if (input.is(ModTags.Forge.COMBS) && directRecipe == null) {
             ItemStack singleComb;
             // config honeycomb
             if (input.getItem() instanceof CombBlockItem) {
@@ -84,13 +87,13 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
             return super.getRecipe(inv);
         }
 
-        return super.getRecipe(inputHandler);
+        return directRecipe;
     }
 
     @Override
     protected void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler, RandomSource random) {
         ItemStack input = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).copy();
-        if (input.is(ModTags.Forge.COMBS)) {
+        if (input.is(ModTags.Forge.COMBS) && !recipe.ingredient.test(input)) {
             ItemStack singleComb;
             if (input.getItem() instanceof CombBlockItem) {
                 singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get(), 4);

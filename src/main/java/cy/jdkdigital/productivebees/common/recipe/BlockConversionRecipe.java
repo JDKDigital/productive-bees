@@ -24,12 +24,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.Lazy;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class BlockConversionRecipe implements Recipe<Container>
 {
     public final ResourceLocation id;
-    public final Lazy<BeeIngredient> bee;
+    public final List<Lazy<BeeIngredient>> bees;
     public Ingredient input;
     public final BlockState stateFrom;
     public final BlockState stateTo;
@@ -38,9 +40,9 @@ public class BlockConversionRecipe implements Recipe<Container>
     public Ingredient toDisplay;
     public boolean pollinates;
 
-    public BlockConversionRecipe(ResourceLocation id, Lazy<BeeIngredient> bee, Ingredient input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay, boolean pollinates) {
+    public BlockConversionRecipe(ResourceLocation id, List<Lazy<BeeIngredient>> bees, Ingredient input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay, boolean pollinates) {
         this.id = id;
-        this.bee = bee;
+        this.bees = bees;
         this.input = input;
         this.stateFrom = from;
         this.stateTo = to;
@@ -52,7 +54,7 @@ public class BlockConversionRecipe implements Recipe<Container>
 
     @Override
     public boolean matches(Container inv, Level worldIn) {
-        if (inv instanceof BeeHelper.BlockStateInventory && bee.get() != null) {
+        if (inv instanceof BeeHelper.BlockStateInventory && bees.size() > 0) {
             String beeName = ((BeeHelper.BlockStateInventory) inv).getIdentifier(0);
             BlockState blockState = ((BeeHelper.BlockStateInventory) inv).getState();
 
@@ -63,7 +65,12 @@ public class BlockConversionRecipe implements Recipe<Container>
                 matchesBlock = (blockState.equals(this.stateFrom) || blockState.getBlock().defaultBlockState().equals(this.stateFrom));
             }
 
-            return bee.get().getBeeType().toString().equals(beeName) && matchesBlock;
+            boolean matchesBee = false;
+            for (Lazy<BeeIngredient> bee: bees) {
+                matchesBee = matchesBee || bee.get().getBeeType().toString().equals(beeName);
+            }
+
+            return matchesBee && matchesBlock;
         }
         return false;
     }
@@ -72,6 +79,12 @@ public class BlockConversionRecipe implements Recipe<Container>
     @Override
     public ItemStack assemble(Container inv) {
         return ItemStack.EMPTY;
+    }
+
+    public List<BeeIngredient> getBees() {
+        List<BeeIngredient> list = new ArrayList<>();
+        bees.forEach(bee -> list.add(bee.get()));
+        return list;
     }
 
     @Override
@@ -114,9 +127,19 @@ public class BlockConversionRecipe implements Recipe<Container>
         @Nonnull
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
-            String source = GsonHelper.getAsString(json, "bee");
+            List<Lazy<BeeIngredient>> bees = new ArrayList<>();
 
-            Lazy<BeeIngredient> sourceBee = Lazy.of(BeeIngredientFactory.getIngredient(source));
+            if (json.has("bee")) {
+                String source = GsonHelper.getAsString(json, "bee");
+                Lazy<BeeIngredient> sourceBee = Lazy.of(BeeIngredientFactory.getIngredient(source));
+                bees.add(sourceBee);
+            } else if (json.has("bees")) {
+                var beeArray = GsonHelper.getAsJsonArray(json, "bees");
+                beeArray.forEach(jsonElement -> {
+                    Lazy<BeeIngredient> sourceBee = Lazy.of(BeeIngredientFactory.getIngredient(jsonElement.getAsString()));
+                    bees.add(sourceBee);
+                });
+            }
 
             Ingredient input = Ingredient.EMPTY;
             BlockState from = Blocks.AIR.defaultBlockState();
@@ -143,17 +166,22 @@ public class BlockConversionRecipe implements Recipe<Container>
             int chance = GsonHelper.getAsInt(json, "chance", 100);
             boolean pollinates = GsonHelper.getAsBoolean(json, "pollinates", false);
 
-            return this.factory.create(id, sourceBee, input, from, to, chance, fromDisplay, toDisplay, pollinates);
+            return this.factory.create(id, bees, input, from, to, chance, fromDisplay, toDisplay, pollinates);
         }
 
         public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
-                BeeIngredient source = BeeIngredient.fromNetwork(buffer);
+                int beeCount = buffer.readInt();
+                List<Lazy<BeeIngredient>> bees = new ArrayList<>();
+                for (var i = 0;i < beeCount;i++) {
+                    BeeIngredient source = BeeIngredient.fromNetwork(buffer);
+                    bees.add(Lazy.of(() -> source));
+                }
                 Ingredient input = Ingredient.fromNetwork(buffer);
                 BlockState from = NbtUtils.readBlockState(buffer.readAnySizeNbt());
                 BlockState to = NbtUtils.readBlockState(buffer.readAnySizeNbt());
 
-                return this.factory.create(id, Lazy.of(() -> source), input, from, to, buffer.readInt(), Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer), buffer.readBoolean());
+                return this.factory.create(id, bees, input, from, to, buffer.readInt(), Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer), buffer.readBoolean());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading block conversion recipe from packet. " + id, e);
                 throw e;
@@ -162,7 +190,8 @@ public class BlockConversionRecipe implements Recipe<Container>
 
         public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
             try {
-                recipe.bee.get().toNetwork(buffer);
+                buffer.writeInt(recipe.bees.size());
+                recipe.bees.forEach(bee -> bee.get().toNetwork(buffer));
 
                 recipe.input.toNetwork(buffer);
 
@@ -182,7 +211,7 @@ public class BlockConversionRecipe implements Recipe<Container>
 
         public interface IRecipeFactory<T extends BlockConversionRecipe>
         {
-            T create(ResourceLocation id, Lazy<BeeIngredient> beeInput, Ingredient input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay, boolean pollinates);
+            T create(ResourceLocation id, List<Lazy<BeeIngredient>> beeInput, Ingredient input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay, boolean pollinates);
         }
     }
 

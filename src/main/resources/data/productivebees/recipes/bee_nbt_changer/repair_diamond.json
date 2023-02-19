@@ -1,0 +1,43 @@
+{
+  "type": "productivebees:bee_nbt_changer",
+  "bee": "productivebees:diamond",
+  "item": [
+    {
+      "item": "minecraft:diamond_sword"
+    },
+    {
+      "item": "minecraft:diamond_axe"
+    },
+    {
+      "item": "minecraft:diamond_hoe"
+    },
+    {
+      "item": "minecraft:diamond_pickaxe"
+    },
+    {
+      "item": "minecraft:diamond_sword"
+    },
+    {
+      "item": "minecraft:diamond_helmet"
+    },
+    {
+      "item": "minecraft:diamond_chestplate"
+    },
+    {
+      "item": "minecraft:diamond_leggings"
+    },
+    {
+      "item": "minecraft:diamond_boots"
+    }
+  ],
+  "attribute": "Damage",
+  "method": "decrement",
+  "value": 1,
+  "min": 0,
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:diamond"
+    }
+  ]
+}

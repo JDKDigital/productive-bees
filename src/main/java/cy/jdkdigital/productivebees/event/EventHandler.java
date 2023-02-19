@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.event;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.client.render.item.JarBlockItemRenderer;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBee;
@@ -43,6 +44,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -57,6 +59,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID)
@@ -319,5 +322,22 @@ public class EventHandler
     @SubscribeEvent
     public void registerCaps(RegisterCapabilitiesEvent event) {
         event.register(IInhabitantStorage.class);
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        Iterator<Entity> iter = JarBlockItemRenderer.beeEntities.values().iterator();
+
+        while (iter.hasNext()) {
+            Entity bee = iter.next();
+
+            bee.tickCount++;
+
+            // Every ~2.5 minutes or so remove bee from cache, so it doesn't tick forever
+            // tickCount is a multiple of 360, so it should look about seamless
+            if (bee.tickCount % (360 * 17) == 0) {
+                iter.remove();
+            }
+        }
     }
 }

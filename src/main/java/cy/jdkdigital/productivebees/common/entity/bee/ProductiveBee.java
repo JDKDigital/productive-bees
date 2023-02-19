@@ -51,6 +51,7 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -90,6 +91,7 @@ public class ProductiveBee extends Bee
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
+        this.setPathfindingMalus(BlockPathTypes.TRAPDOOR, -1.0F);
     }
 
     @Override

@@ -1,0 +1,43 @@
+{
+  "type": "productivebees:bee_nbt_changer",
+  "bee": "productivebees:gold",
+  "item": [
+    {
+      "item": "minecraft:gold_sword"
+    },
+    {
+      "item": "minecraft:gold_axe"
+    },
+    {
+      "item": "minecraft:gold_hoe"
+    },
+    {
+      "item": "minecraft:gold_pickaxe"
+    },
+    {
+      "item": "minecraft:gold_sword"
+    },
+    {
+      "item": "minecraft:gold_helmet"
+    },
+    {
+      "item": "minecraft:gold_chestplate"
+    },
+    {
+      "item": "minecraft:gold_leggings"
+    },
+    {
+      "item": "minecraft:gold_boots"
+    }
+  ],
+  "attribute": "Damage",
+  "method": "decrement",
+  "value": 1,
+  "min": 0,
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gold"
+    }
+  ]
+}

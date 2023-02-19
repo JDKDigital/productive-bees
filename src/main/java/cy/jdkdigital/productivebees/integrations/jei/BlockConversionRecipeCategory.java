@@ -59,7 +59,7 @@ public class BlockConversionRecipeCategory implements IRecipeCategory<BlockConve
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, BlockConversionRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 38, 5)
-                .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.bee.get())
+                .addIngredients(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.getBees())
                 .setSlotName("source");
 
         if (!recipe.input.isEmpty()) {

@@ -1,3 +1,13 @@
+1.19.2-0.10.5.0
+
+-- Added support for custom comb block heated centrifuge recipes
+-- Added support for block conversions to cause pollination of the bee
+-- Made bees visible in jars when picked up (thanks to YouCantCheatOnVACSecuredServers)
+-- Feeding slab fixes including a honey dupe bug (thanks to YouCantCheatOnVACSecuredServers)
+-- Added bee repair recipes for iron, gold, diamond and netherite tools and armors
+-- Fixed some bee recipes
+
+
 1.19.2-0.10.4.0
 
 -- Added sponge bee
