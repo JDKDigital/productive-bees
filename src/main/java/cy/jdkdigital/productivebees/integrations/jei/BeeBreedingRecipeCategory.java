@@ -12,6 +12,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -71,7 +72,7 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
         List<List<ItemStack>> breedingItems = new ArrayList<>();
         for (Lazy<BeeIngredient> ingredient : recipe.ingredients) {
             BeeIngredient beeIngredient = ingredient.get();
-            Entity bee = beeIngredient.getCachedEntity(ProductiveBees.proxy.getWorld());
+            Entity bee = beeIngredient.getCachedEntity(Minecraft.getInstance().level);
             if (bee instanceof ProductiveBee productiveBee) {
                 breedingItems.add(productiveBee.getBreedingItems());
             } else {

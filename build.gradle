@@ -107,7 +107,7 @@ dependencies {
 //
     implementation fg.deobf("curse.maven:the-one-probe-245211:4159743")
     implementation fg.deobf("curse.maven:jade-324717:4330163")
-    implementation fg.deobf("curse.maven:trophymanager-510170:4165097")
+//    implementation fg.deobf("curse.maven:trophymanager-510170:4165097")
     implementation fg.deobf("curse.maven:jumpy-boats-542110:4145484")
     implementation fg.deobf("curse.maven:everythingcopper-579545:4176053")
 //    implementation fg.deobf("curse.maven:alltheores-405593:3811648")

@@ -12,15 +12,15 @@
         },
         {
             "tag": "botania:petals/white"
-        },
-        {
-            "item": "minecraft:bee_spawn_egg"
         }
     ],
     "output": {
         "type": "forge:nbt",
         "item": "productivebees:spawn_egg_configurable_bee",
         "nbt": "{EntityTag:{type:\"productivebees:pure\"}}"
+    },
+    "reagent": {
+        "item": "minecraft:bee_spawn_egg"
     },
     "conditions": [
         {

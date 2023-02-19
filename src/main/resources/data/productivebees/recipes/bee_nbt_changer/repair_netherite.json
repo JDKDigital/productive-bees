@@ -1,0 +1,43 @@
+{
+  "type": "productivebees:bee_nbt_changer",
+  "bee": "productivebees:netherite",
+  "item": [
+    {
+      "item": "minecraft:netherite_sword"
+    },
+    {
+      "item": "minecraft:netherite_axe"
+    },
+    {
+      "item": "minecraft:netherite_hoe"
+    },
+    {
+      "item": "minecraft:netherite_pickaxe"
+    },
+    {
+      "item": "minecraft:netherite_sword"
+    },
+    {
+      "item": "minecraft:netherite_helmet"
+    },
+    {
+      "item": "minecraft:netherite_chestplate"
+    },
+    {
+      "item": "minecraft:netherite_leggings"
+    },
+    {
+      "item": "minecraft:netherite_boots"
+    }
+  ],
+  "attribute": "Damage",
+  "method": "decrement",
+  "value": 1,
+  "min": 0,
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:netherite"
+    }
+  ]
+}

@@ -41,8 +41,6 @@ public class WoodSolitaryNestFeature extends SolitaryNestFeature
             // Go up some more
             blockPos = blockPos.above(rand.nextInt(4));
 
-            ProductiveBees.LOGGER.info(blockPos);
-
             // Locate tree log in chunk
             BlockPos newPos = null;
             blockFound:

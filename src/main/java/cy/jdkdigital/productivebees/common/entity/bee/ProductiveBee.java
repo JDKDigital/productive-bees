@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBee;
+import cy.jdkdigital.productivebees.common.recipe.BeeNBTChangerRecipe;
 import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
@@ -52,6 +53,7 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -91,6 +93,7 @@ public class ProductiveBee extends Bee
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
+        this.setPathfindingMalus(BlockPathTypes.TRAPDOOR, -1.0F);
     }
 
     @Override
@@ -253,7 +256,7 @@ public class ProductiveBee extends Bee
 
         BlockState flowerBlock = level.getBlockState(pos);
 
-        return isFlowerBlock(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && isValidFeeder(level.getBlockEntity(pos), ProductiveBee.this::isFlowerBlock));
+        return isFlowerBlock(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && (isValidFeeder(this, level.getBlockEntity(pos), ProductiveBee.this::isFlowerBlock)));
     }
 
     public List<ItemStack> getBreedingItems() {
@@ -288,17 +291,17 @@ public class ProductiveBee extends Bee
         return true;
     }
 
-    public static boolean isValidFeeder(BlockEntity tile, Predicate<BlockState> validator) {
+    public static boolean isValidFeeder(Bee bee, BlockEntity tile, Predicate<BlockState> validator) {
         AtomicBoolean hasValidBlock = new AtomicBoolean(false);
-        if (tile instanceof FeederBlockEntity) {
-            tile.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                    Item slotItem = handler.getStackInSlot(slot).getItem();
-                    if (slotItem instanceof BlockItem && validator.test(((BlockItem) slotItem).getBlock().defaultBlockState())) {
-                        hasValidBlock.set(true);
-                    }
+        if (tile instanceof FeederBlockEntity feederBlockEntity) {
+            for (ItemStack stack: feederBlockEntity.getInventoryItems()) {
+                Item slotItem = stack.getItem();
+                if (slotItem instanceof BlockItem && validator.test(((BlockItem) slotItem).getBlock().defaultBlockState())) {
+                    hasValidBlock.set(true);
+                } else {
+                    hasValidBlock.set(BeeHelper.hasNBTChangerRecipe(bee, tile));
                 }
-            });
+            }
         }
         return hasValidBlock.get();
     }
@@ -544,7 +547,30 @@ public class ProductiveBee extends Bee
                     level.levelEvent(2005, savedFlowerPos, 0);
                 }
                 // Set flag to prevent produce when trying to convert blocks
-                setHasConverted(true);
+                setHasConverted(!recipe.pollinates);
+            } else {
+                BlockEntity blockEntity = level.getBlockEntity(savedFlowerPos);
+                if (blockEntity instanceof FeederBlockEntity feederBlockEntity) {
+                    List<BeeNBTChangerRecipe> nbtRecipes = BeeHelper.getNBTChangerRecipes(this, feederBlockEntity);
+                    if (nbtRecipes.size() > 0) {
+                        for (BeeNBTChangerRecipe nbtRecipe: nbtRecipes) {
+                            for (ItemStack stack : feederBlockEntity.getInventoryItems()) {
+                                var tag = stack.getTag();
+                                if (tag != null && tag.contains(nbtRecipe.attribute)) {
+                                    switch (nbtRecipe.method) {
+                                        case "decrement" -> tag.putInt(nbtRecipe.attribute, Math.max(nbtRecipe.min, tag.getInt(nbtRecipe.attribute) - nbtRecipe.value));
+                                        case "increment" -> tag.putInt(nbtRecipe.attribute, Math.min(nbtRecipe.max, tag.getInt(nbtRecipe.attribute) + nbtRecipe.value));
+                                        case "set" -> tag.putInt(nbtRecipe.attribute, nbtRecipe.value);
+                                    }
+                                    stack.setTag(tag);
+                                    // Set flag to prevent produce when trying to convert blocks
+                                    setHasConverted(true);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -606,7 +632,7 @@ public class ProductiveBee extends Bee
             boolean isInterested = false;
             try {
                 if (blockState.getBlock() instanceof Feeder) {
-                    isInterested = isValidFeeder(level.getBlockEntity(blockPos), ProductiveBee.this::isFlowerBlock);
+                    isInterested = isValidFeeder(ProductiveBee.this, level.getBlockEntity(blockPos), ProductiveBee.this::isFlowerBlock);
                 } else {
                     isInterested = ProductiveBee.this.isFlowerBlock(blockState);
                     if (isInterested && blockState.is(BlockTags.TALL_FLOWERS)) {

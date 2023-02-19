@@ -3,13 +3,9 @@
     "source": "productivebees:diamond",
     "result": "productivebees:black_opal",
     "item": {
-        "tag": "productivebees:flowers/gems/black_opal"
+        "tag": "productivebees:flowers/black_opal"
     },
     "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "gemsnjewels"
-        },
         {
             "type": "productivebees:bee_exists",
             "bee": "productivebees:diamond"

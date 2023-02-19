@@ -1,19 +1,25 @@
 {
-    "primaryColor": "#141414",
-    "particleColor": "#141414",
-    "beeTexture": "productivebees:textures/entity/bee/wither/bee",
-    "combTexture": "productivebees:item/honeycombs/withered",
-    "selfbreed": false,
-    "flowerTag": "productivebees:flowers/wither_flowers",
-    "attributes": {
-        "temper": 2,
-        "behavior": 1
-    },
-    "withered": true,
-    "passiveEffects": [
-        {
-            "effect": "minecraft:wither",
-            "duration": 150
-        }
-    ]
+  "primaryColor": "#141414",
+  "particleColor": "#141414",
+  "beeTexture": "productivebees:textures/entity/bee/sculk/bee",
+  "flowerBlock": "minecraft:sculk_shrieker",
+  "attributes": {
+    "temper": 2,
+    "behavior": 1
+  },
+  "passiveEffects": [
+    {
+      "effect": "minecraft:darkness",
+      "duration": 60
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "productivebees"
+      }
+    }
+  ]
 }

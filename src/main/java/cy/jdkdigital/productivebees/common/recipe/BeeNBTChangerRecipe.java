@@ -114,7 +114,7 @@ public class BeeNBTChangerRecipe implements Recipe<Container>
             Lazy<BeeIngredient> bee = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
 
             Ingredient item;
-            if (GsonHelper.isArrayNode(json, "ingredient")) {
+            if (GsonHelper.isArrayNode(json, "item")) {
                 item = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "item"));
             } else {
                 item = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "item"));

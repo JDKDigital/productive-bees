@@ -270,7 +270,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             return currentRecipe;
         }
 
-        currentRecipe = BeeHelper.getCentrifugeRecipe(level.getRecipeManager(), inputHandler);
+        currentRecipe = BeeHelper.getCentrifugeRecipe(level, inputHandler);
 
         Map<ResourceLocation, CentrifugeRecipe> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.CENTRIFUGE_TYPE.get());
         Container inv = new RecipeWrapper(inputHandler);

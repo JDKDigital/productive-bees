@@ -238,7 +238,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
                 } else if (!(beeEntity instanceof ProductiveBee)) {
                     BlockState flowerBlock = level.getBlockState(flowerPos);
-                    if (flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(level.getBlockEntity(flowerPos), blockState -> blockState.is(BlockTags.FLOWERS))) {
+                    if (flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, level.getBlockEntity(flowerPos), blockState -> blockState.is(BlockTags.FLOWERS))) {
                         beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
                     }
                 }

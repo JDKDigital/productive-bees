@@ -17,6 +17,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -84,8 +85,8 @@ public class IncubationRecipeCategory implements IRecipeCategory<IncubationRecip
         List<IncubationRecipe> recipes = new ArrayList<>();
 
         // babee to adult incubation
-        Bee bee = EntityType.BEE.create(ProductiveBees.proxy.getWorld());
-        Bee baBee = EntityType.BEE.create(ProductiveBees.proxy.getWorld());
+        Bee bee = EntityType.BEE.create(Minecraft.getInstance().level);
+        Bee baBee = EntityType.BEE.create(Minecraft.getInstance().level);
         if (bee != null && baBee != null) {
             ItemStack cage = new ItemStack(ModItems.BEE_CAGE.get());
             ItemStack babeeCage = cage.copy();

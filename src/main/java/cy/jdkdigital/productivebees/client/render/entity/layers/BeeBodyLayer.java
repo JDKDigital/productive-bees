@@ -20,12 +20,41 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<ProductiveBee>>
 {
     private final String modelType;
     private final EntityModel<ProductiveBee> model;
-    private boolean isChristmas;
+    private final boolean isChristmas;
+
+    Map<String, Map<String, ResourceLocation>> baseTextures = new HashMap<>() {{
+        put("default", new HashMap<>() {{
+            put("primary", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default/primary.png"));
+            put("abdomen", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default/abdomen.png"));
+        }});
+        put("default_crystal", new HashMap<>() {{
+            put("primary", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/primary.png"));
+            put("abdomen", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/abdomen.png"));
+            put("crystals", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals.png"));
+            put("crystals_clear", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default_crystal/crystals_clear.png"));
+        }});
+        put("default_foliage", new HashMap<>() {{
+            put("primary", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/primary.png"));
+            put("abdomen", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/abdomen.png"));
+            put("crystals", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default_foliage/crystals.png"));
+        }});
+        put("default_shell", new HashMap<>() {{
+            put("primary", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/primary.png"));
+            put("abdomen", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/abdomen.png"));
+            put("crystals", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/default_shell/crystals.png"));
+        }});
+        put("thicc", new HashMap<>() {{
+            put("primary", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/thicc/primary.png"));
+            put("abdomen", new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/thicc/abdomen.png"));
+        }});
+    }};
 
     public BeeBodyLayer(RenderLayerParent<ProductiveBee, ProductiveBeeModel<ProductiveBee>> rendererIn, ModelPart layer, String modelType, boolean isChristmas) {
         super(rendererIn);
@@ -70,11 +99,11 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
 
     private void renderColoredLayers(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
         float[] primaryColor = ColorUtil.getComponents(entity.getColor(0));
-        ResourceLocation location = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/primary.png");
+        ResourceLocation location = baseTextures.get(this.modelType).get("primary");
         renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, primaryColor[0], primaryColor[1], primaryColor[2]);
 
         float[] secondaryColor = ColorUtil.getComponents(entity.getColor(1));
-        ResourceLocation abdomenLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/abdomen.png");
+        ResourceLocation abdomenLocation = baseTextures.get(this.modelType).get("abdomen");
         renderColoredCutoutModel(this.model, abdomenLocation, matrixStackIn, bufferIn, packedLightIn, entity, secondaryColor[0], secondaryColor[1], secondaryColor[2]);
 
         if (this.modelType.equals("default_crystal")) {
@@ -84,7 +113,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
             if (entity instanceof ConfigurableBee) {
                 color = ((ConfigurableBee) entity).getTertiaryColor();
             }
-            ResourceLocation foliageLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals.png");
+            ResourceLocation foliageLocation = baseTextures.get(this.modelType).get("crystals");
             renderColoredCutoutModel(this.model, foliageLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
         }
     }
@@ -97,11 +126,11 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
             useGlowLayer = useGlowLayer && ((ConfigurableBee) entity).useGlowLayer();
         }
         // render a color version of the crystal layer
-        ResourceLocation crystalsLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals_clear.png");
+        ResourceLocation crystalsLocation = baseTextures.get(this.modelType).get("crystals_clear");
         renderColoredCutoutModel(this.model, crystalsLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
         if (useGlowLayer) {
             // render glowing layer on top
-            ResourceLocation crystalsOverlayLocation = new ResourceLocation(ProductiveBees.MODID, "textures/entity/bee/base/" + this.modelType + "/crystals.png");
+            ResourceLocation crystalsOverlayLocation = baseTextures.get(this.modelType).get("crystals");
             VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.eyes(crystalsOverlayLocation));
             this.model.renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, color[0], color[1], color[2], 1.0F);
         }

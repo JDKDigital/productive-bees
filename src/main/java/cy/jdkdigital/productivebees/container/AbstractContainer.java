@@ -42,7 +42,7 @@ abstract class AbstractContainer extends AbstractContainerMenu
                 }
             } else {
                 // Move from player inv into container
-                int upgradeSlotCount = this.getTileEntity() instanceof UpgradeableBlockEntity ? 4 : 0;
+                int upgradeSlotCount = this.getTileEntity() instanceof UpgradeableBlockEntity upgradeableBlockEntity && upgradeableBlockEntity.acceptsUpgrades() ? 4 : 0;
                 if (upgradeSlotCount > 0 && slotStack.getItem() instanceof UpgradeItem) {
                     if (!moveItemStackTo(slotStack, containerSlots - upgradeSlotCount, containerSlots, false)) {
                         return ItemStack.EMPTY;

@@ -67,13 +67,14 @@ public class BeeFishingRecipeCategory implements IRecipeCategory<BeeFishingRecip
         AtomicInteger yPos = new AtomicInteger(45);
 
         Minecraft minecraft = Minecraft.getInstance();
-
-        var biomeRegistry = ProductiveBees.proxy.getWorld().registryAccess().registryOrThrow(Registries.BIOME);
-        for (Biome biome : BeeFishingRecipe.getBiomeList(recipe, ProductiveBees.proxy.getWorld())) {
-            var key = biomeRegistry.getKey(biome);
-            if (key != null) {
-                minecraft.font.draw(poseStack, Language.getInstance().getVisualOrder(Component.translatable("biome.minecraft." + key.getPath())), xPos, yPos.get(), 0xFF000000);
-                yPos.addAndGet(minecraft.font.lineHeight + 2);
+        if (minecraft.level != null) {
+            var biomeRegistry = minecraft.level.registryAccess().registryOrThrow(Registries.BIOME);
+            for (Biome biome : BeeFishingRecipe.getBiomeList(recipe, minecraft.level)) {
+                var key = biomeRegistry.getKey(biome);
+                if (key != null) {
+                    minecraft.font.draw(poseStack, Language.getInstance().getVisualOrder(Component.translatable("biome.minecraft." + key.getPath())), xPos, yPos.get(), 0xFF000000);
+                    yPos.addAndGet(minecraft.font.lineHeight + 2);
+                }
             }
         }
     }
