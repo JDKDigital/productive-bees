@@ -1,3 +1,18 @@
+1.19.2-0.10.5.3
+
+-- Fixed issue with feeding slab not being recognized as valid flower position
+
+
+1.19.2-0.10.5.2
+
+-- Fixed a crash for certain installations missing a package
+
+
+1.19.2-0.10.5.1
+
+-- Fixed a recipe conflict with pure daisy
+
+
 1.19.2-0.10.5.0
 
 -- Added support for custom comb block heated centrifuge recipes
@@ -31,7 +46,7 @@
 -- Fixed crash with framed blocks slab when used on feeding slab
 -- Fixed crash if speed upgrades were modified to give more than 100% time reduction in hives
 -- Fixed incubator growing full stack of bees with a single operation
--- Fixed some occational worldgen issues
+-- Fixed some occasional worldgen issues
 -- Added Awakened Supremium Bee (Mystical Aggriculture)
 -- Added Inert, Water, Air, Fire, and Earth Crystal Bee (Elementalcraft)
 -- Added Dark Gem Bee (Evilcraft)

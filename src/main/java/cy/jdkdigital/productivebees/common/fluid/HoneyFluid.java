@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LightLayer;
@@ -98,25 +99,25 @@ public abstract class HoneyFluid extends ForgeFlowingFluid
         return 100.0F;
     }
 
-    public boolean shouldFreeze(LevelReader pLevel, Biome biome, BlockPos pos) {
-        if (!biome.warmEnoughToRain(pos)) {
-            if (pos.getY() >= pLevel.getMinBuildHeight() && pos.getY() < pLevel.getMaxBuildHeight() && pLevel.getBrightness(LightLayer.BLOCK, pos) < 10) {
-                BlockState blockstate = pLevel.getBlockState(pos);
-                FluidState fluidstate = pLevel.getFluidState(pos);
-                if (fluidstate.getType() == ModFluids.HONEY.get() && blockstate.getBlock() instanceof LiquidBlock) {
-                    boolean flag = this.isHoneyAt(pLevel, pos.west()) && this.isHoneyAt(pLevel, pos.east()) && this.isHoneyAt(pLevel, pos.north()) && this.isHoneyAt(pLevel, pos.south());
-                    if (!flag) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean isHoneyAt(LevelReader level, BlockPos pPos) {
-        return level.getFluidState(pPos).is(ModTags.HONEY);
-    }
+//    public boolean shouldFreeze(LevelReader pLevel, Biome biome, BlockPos pos) {
+//        if (!biome.warmEnoughToRain(pos)) {
+//            if (pos.getY() >= pLevel.getMinBuildHeight() && pos.getY() < pLevel.getMaxBuildHeight() && pLevel.getBrightness(LightLayer.BLOCK, pos) < 10) {
+//                BlockState blockstate = pLevel.getBlockState(pos);
+//                FluidState fluidstate = pLevel.getFluidState(pos);
+//                if (fluidstate.getType() == ModFluids.HONEY.get() && blockstate.getBlock() instanceof LiquidBlock) {
+//                    boolean flag = this.isHoneyAt(pLevel, pos.west()) && this.isHoneyAt(pLevel, pos.east()) && this.isHoneyAt(pLevel, pos.north()) && this.isHoneyAt(pLevel, pos.south());
+//                    if (!flag) {
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private boolean isHoneyAt(LevelReader level, BlockPos pPos) {
+//        return level.getFluidState(pPos).is(ModTags.HONEY);
+//    }
 
     public static class Flowing extends HoneyFluid
     {

@@ -248,13 +248,17 @@ public class ProductiveBee extends Bee
 
     @Override
     public boolean isFlowerValid(@Nullable BlockPos pos) {
+        return isFlowerValid(pos, ProductiveBee.this::isFlowerBlock);
+    }
+
+    public boolean isFlowerValid(@Nullable BlockPos pos, Predicate<BlockState> validator) {
         if (pos == null || !level.isLoaded(pos)) {
             return false;
         }
 
         BlockState flowerBlock = level.getBlockState(pos);
 
-        return isFlowerBlock(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && (isValidFeeder(this, level.getBlockEntity(pos), ProductiveBee.this::isFlowerBlock)));
+        return validator.test(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && (isValidFeeder(this, level.getBlockEntity(pos), validator)));
     }
 
     public List<ItemStack> getBreedingItems() {
@@ -296,8 +300,8 @@ public class ProductiveBee extends Bee
                 Item slotItem = stack.getItem();
                 if (slotItem instanceof BlockItem && validator.test(((BlockItem) slotItem).getBlock().defaultBlockState())) {
                     hasValidBlock.set(true);
-                } else {
-                    hasValidBlock.set(BeeHelper.hasNBTChangerRecipe(bee, tile));
+                } else if (BeeHelper.hasNBTChangerRecipe(bee, tile)) {
+                    hasValidBlock.set(true);
                 }
             }
         }

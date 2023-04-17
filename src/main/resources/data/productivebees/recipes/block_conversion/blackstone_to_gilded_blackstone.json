@@ -7,5 +7,11 @@
     "to": {
         "Name": "minecraft:gilded_blackstone"
     },
-    "chance": 100
+    "chance": 100,
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:gold"
+        }
+    ]
 }

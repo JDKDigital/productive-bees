@@ -115,5 +115,7 @@ public class ClientSetup
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.SUGAR_CANE_NEST.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.JAR.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.INVISIBLE_REDSTONE_BLOCK.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModFluids.HONEY.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(ModFluids.HONEY_FLOWING.get(), RenderType.translucent());
     }
 }

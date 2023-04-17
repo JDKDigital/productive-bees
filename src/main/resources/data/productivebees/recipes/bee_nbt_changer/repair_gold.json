@@ -3,31 +3,31 @@
   "bee": "productivebees:gold",
   "item": [
     {
-      "item": "minecraft:gold_sword"
+      "item": "minecraft:golden_sword"
     },
     {
-      "item": "minecraft:gold_axe"
+      "item": "minecraft:golden_axe"
     },
     {
-      "item": "minecraft:gold_hoe"
+      "item": "minecraft:golden_hoe"
     },
     {
-      "item": "minecraft:gold_pickaxe"
+      "item": "minecraft:golden_pickaxe"
     },
     {
-      "item": "minecraft:gold_sword"
+      "item": "minecraft:golden_sword"
     },
     {
-      "item": "minecraft:gold_helmet"
+      "item": "minecraft:golden_helmet"
     },
     {
-      "item": "minecraft:gold_chestplate"
+      "item": "minecraft:golden_chestplate"
     },
     {
-      "item": "minecraft:gold_leggings"
+      "item": "minecraft:golden_leggings"
     },
     {
-      "item": "minecraft:gold_boots"
+      "item": "minecraft:golden_boots"
     }
   ],
   "attribute": "Damage",
