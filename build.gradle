@@ -14,7 +14,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.19.1'
+    mappings channel: 'official', version: '1.19.2'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
@@ -97,20 +97,20 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forgeversion}"
 
-    compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
+//    compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
+//    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
+//
+//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+//    implementation fg.deobf("curse.maven:jei-238222:3969039")
 
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-    implementation fg.deobf("curse.maven:jei-238222:3969039")
-
-    compileOnly fg.deobf("com.almostreliable.mods:almostunified-forge:1.19.2-0.3.4")
+//    compileOnly fg.deobf("com.almostreliable.mods:almostunified-forge:1.19.2-0.3.4")
 
     implementation fg.deobf("curse.maven:the-one-probe-245211:3927520")
     implementation fg.deobf("curse.maven:jade-324717:3916646")
 //    implementation fg.deobf("curse.maven:trophymanager-510170:3566467")
-    implementation fg.deobf("curse.maven:jumpy-boats-542110:3877554")
-    implementation fg.deobf("curse.maven:everythingcopper-579545:3908968")
+//    implementation fg.deobf("curse.maven:jumpy-boats-542110:3877554")
+//    implementation fg.deobf("curse.maven:everythingcopper-579545:3908968")
 //    implementation fg.deobf("curse.maven:alltheores-405593:3811648")
 //    implementation fg.deobf("curse.maven:allthemodium-364466:3570257")
 //    implementation fg.deobf("curse.maven:flywheel-486392:3737402")
@@ -142,15 +142,13 @@ dependencies {
 //    implementation fg.deobf("curse.maven:thermal-foundation-222880:3803495")
 //    implementation fg.deobf("curse.maven:thermal-expansion-69163:3803489")
 //    implementation fg.deobf("curse.maven:thermal-integration-626708:3803496")
-    implementation fg.deobf("curse.maven:curios-309927:4398040")
-    implementation fg.deobf("curse.maven:botania-225643:4371117")
+//    implementation fg.deobf("curse.maven:curios-309927:4398040")
+//    implementation fg.deobf("curse.maven:botania-225643:4371117")
 //    implementation fg.deobf("curse.maven:mantle-74924:3784500")
 //    implementation fg.deobf("curse.maven:tinkers-construct-74072:3784732")
 //    implementation fg.deobf("curse.maven:applied-energistics-2-223794:4008855")
 //    implementation fg.deobf("curse.maven:terrablender-563928:3822142")
 //    implementation fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3826003")
-    implementation fg.deobf("curse.maven:rubidium-574856:3973894")
-    implementation fg.deobf("curse.maven:oculus-581495:4299147")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -158,11 +156,11 @@ jar {
     manifest {
         attributes([
                 "Specification-Title": "Productive Bees",
-                "Specification-Vendor": "productivebees",
+                "Specification-Vendor": "JDK Digital",
                 "Specification-Version": "1.0", // We are version 1 of ourselves
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"productivebees",
+                "Implementation-Vendor" :"JDK Digital",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }

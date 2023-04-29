@@ -7,7 +7,7 @@
     "renderer": "default_crystal",
     "particleType": "pop",
     "size": 0.6,
-    "flowerBlock": "feywild:fey_gem_block",
+    "flowerTag": "forge:ores/fey_gem",
     "selfbreed": false,
     "createComb": false,
     "conditions": [

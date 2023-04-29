@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#cccccc",
+  "secondaryColor": "#484849",
+  "tertiaryColor": "#cccccc",
+  "particleColor": "#cccccc",
+  "selfbreed": false,
+  "flowerTag": "forge:storage_blocks/swift_alloy",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "elementalcraft"
+    }
+  ]
+}

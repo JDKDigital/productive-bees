@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#cccccc",
+  "secondaryColor": "#484849",
+  "tertiaryColor": "#cccccc",
+  "particleColor": "#cccccc",
+  "renderer": "default_crystal",
+  "flowerBlock": "elementalcraft:springaline_block",
+  "size": 0.6,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "elementalcraft"
+    }
+  ]
+}

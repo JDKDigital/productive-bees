@@ -1,155 +1,168 @@
+1.19.2-0.10.6.0
+
+- Fixed zombie comb mixing recipe
+
+- Fix item stacking duplication in hives
+- add honey cauldron for crafting honey blocks
+- add petrified honey (all colors), maybe dyed honey blocks
+- expansion boxes on all sides but the front
+- check spirit bee spawning recipe
+
+
+
+
 1.19.2-0.10.5.3
 
--- Fixed issue with feeding slab not being recognized as valid flower position
+- Fixed issue with feeding slab not being recognized as valid flower position
 
 
 1.19.2-0.10.5.2
 
--- Fixed a crash for certain installations missing a package
+- Fixed a crash for certain installations missing a package
 
 
 1.19.2-0.10.5.1
 
--- Fixed a recipe conflict with pure daisy
+- Fixed a recipe conflict with pure daisy
 
 
 1.19.2-0.10.5.0
 
--- Added support for custom comb block heated centrifuge recipes
--- Added support for block conversions to cause pollination of the bee
--- Made bees visible in jars when picked up (thanks to YouCantCheatOnVACSecuredServers)
--- Feeding slab fixes including a honey dupe bug (thanks to YouCantCheatOnVACSecuredServers)
--- Added bee repair recipes for iron, gold, diamond and netherite tools and armors
--- Fixed some bee recipes
+- Added support for custom comb block heated centrifuge recipes
+- Added support for block conversions to cause pollination of the bee
+- Made bees visible in jars when picked up (thanks to YouCantCheatOnVACSecuredServers)
+- Feeding slab fixes including a honey dupe bug (thanks to YouCantCheatOnVACSecuredServers)
+- Added bee repair recipes for iron, gold, diamond and netherite tools and armors
+- Fixed some bee recipes
 
 
 1.19.2-0.10.4.0
 
--- Added sponge bee
--- Putting a sponge in the bottle slot of a hive will keep it empty of honey
--- New spawn egg textures
--- Quarry bees can play with Create stone blocks
--- Lumber bees can play with leaves
--- Bottling bees will no longer be stopped by having babees under the piston
--- Fixed stacked bees in sturdy cages lost when released
+- Added sponge bee
+- Putting a sponge in the bottle slot of a hive will keep it empty of honey
+- New spawn egg textures
+- Quarry bees can play with Create stone blocks
+- Lumber bees can play with leaves
+- Bottling bees will no longer be stopped by having babees under the piston
+- Fixed stacked bees in sturdy cages lost when released
 
 
 1.19.2-0.10.3.1
 
--- Spirit bee (finalized)
--- Fixed some inconsistencies with the Indexer
--- Improved automation of feeding slab
+- Spirit bee (finalized)
+- Fixed some inconsistencies with the Indexer
+- Improved automation of feeding slab
 
 
 1.19.2-0.10.3.0
 
--- Fixed crash with framed blocks slab when used on feeding slab
--- Fixed crash if speed upgrades were modified to give more than 100% time reduction in hives
--- Fixed incubator growing full stack of bees with a single operation
--- Fixed some occasional worldgen issues
--- Added Awakened Supremium Bee (Mystical Aggriculture)
--- Added Inert, Water, Air, Fire, and Earth Crystal Bee (Elementalcraft)
--- Added Dark Gem Bee (Evilcraft)
--- Added Iesnium Bee (Occultism)
+- Fixed crash with framed blocks slab when used on feeding slab
+- Fixed crash if speed upgrades were modified to give more than 100% time reduction in hives
+- Fixed incubator growing full stack of bees with a single operation
+- Fixed some occasional worldgen issues
+- Added Awakened Supremium Bee (Mystical Aggriculture)
+- Added Inert, Water, Air, Fire, and Earth Crystal Bee (Elementalcraft)
+- Added Dark Gem Bee (Evilcraft)
+- Added Iesnium Bee (Occultism)
 
 
 1.19.2-0.10.2.1
 
--- Fixed weather tolerance: any not being obtainable
--- Fixed pipes pulling from cage slot in simulated hives
--- Added crimson and warped nests to growables
--- Fixed honey generators forgetting what they are connected to
--- Fixed breeding chamber not passing on genes to offspring
--- Changed Tinkers Bronze to Amethyst Bronze
--- Allow breeding of bees of the same type in breeding chamber
--- Fixed input items being pulled from breeding chamber with pipes
+- Fixed weather tolerance: any not being obtainable
+- Fixed pipes pulling from cage slot in simulated hives
+- Added crimson and warped nests to growables
+- Fixed honey generators forgetting what they are connected to
+- Fixed breeding chamber not passing on genes to offspring
+- Changed Tinkers Bronze to Amethyst Bronze
+- Allow breeding of bees of the same type in breeding chamber
+- Fixed input items being pulled from breeding chamber with pipes
 
 
 1.19.2-0.10.2.0
 
--- Added a simulation upgrade which makes a hive simulate bees trips to flowers instead of adding the entities into the world
--- Added breeding chamber where you can choose which offspring to get
--- Added Heated Centrifuge
--- Added Gobber bees
--- Added nuclear waste bee (sorry)
--- Added support for soul steel from Spirit
--- Added bee attribute details to expanded TOP info box
--- Wood solitary nests can now grow with trees grown next to flowers
--- Filter upgrades now work in centrifuges, only allowing combs produced by the bees on the filter
--- Sturdy bee cages stack size changed to 16
--- Radioactive bees now cause nausea and weakness
--- Gene vials now have different colors depending on the attribute
--- Skeletal and ZomBee spawn count limited
--- Fixed nocturnal bees not leaving hive in the nether
--- Fixed problem with all bees being able to convert blocks
--- Fixed Jungle Wood Nest not being discoverable with nest locator
--- Blacklisted bee cages from being used in a claimed chunk (FTB Chunks)
--- Added invulnerability list to config bees allowing for any invulnerabilities
--- Fixed some more world gen crashes
+- Added a simulation upgrade which makes a hive simulate bees trips to flowers instead of adding the entities into the world
+- Added breeding chamber where you can choose which offspring to get
+- Added Heated Centrifuge
+- Added Gobber bees
+- Added nuclear waste bee (sorry)
+- Added support for soul steel from Spirit
+- Added bee attribute details to expanded TOP info box
+- Wood solitary nests can now grow with trees grown next to flowers
+- Filter upgrades now work in centrifuges, only allowing combs produced by the bees on the filter
+- Sturdy bee cages stack size changed to 16
+- Radioactive bees now cause nausea and weakness
+- Gene vials now have different colors depending on the attribute
+- Skeletal and ZomBee spawn count limited
+- Fixed nocturnal bees not leaving hive in the nether
+- Fixed problem with all bees being able to convert blocks
+- Fixed Jungle Wood Nest not being discoverable with nest locator
+- Blacklisted bee cages from being used in a claimed chunk (FTB Chunks)
+- Added invulnerability list to config bees allowing for any invulnerabilities
+- Fixed some more world gen crashes
 
 
 1.19.2-0.10.1.2
 
--- Fixed bee fishing breaking normal fishing
+- Fixed bee fishing breaking normal fishing
 
 
 1.19.2-0.10.1.1
 
--- Fixed crash with randomSource
+- Fixed crash with randomSource
 
 
 1.19.1-0.10.1.0
 
--- Updated to 1.19.1
--- Added bee fishing recipe with JEI display
--- Added new upgrade to catch only adult bees in the catcher
--- Fixed bees popping in and out in other dimensions (maybe)
--- Fixed bees forgetting where they live when leaving for work in the morning
--- Added Pure bee for Botania, it's like a pure daisy with wings
--- Added new ATM bees; Soul Lava, Starry and ...Patrick
+- Updated to 1.19.1
+- Added bee fishing recipe with JEI display
+- Added new upgrade to catch only adult bees in the catcher
+- Fixed bees popping in and out in other dimensions (maybe)
+- Fixed bees forgetting where they live when leaving for work in the morning
+- Added Pure bee for Botania, it's like a pure daisy with wings
+- Added new ATM bees; Soul Lava, Starry and ...Patrick
 
 
 1.19-0.10.0.5
 
--- Updated to Forge 41.0.98
+- Updated to Forge 41.0.98
 
 
 1.19-0.10.0.4
 
--- Fixed Hoarder bees not picking up stuff
--- Fixed Uraninite (Powah) combs not producing anything
--- Shuffled bee spawning recipes a bit for more variety in the wood nests
--- Fixed sync issue when opening a hive from the expansion box
--- Stripping data from bees when entering a hive or cage to make the data footprint smaller
+- Fixed Hoarder bees not picking up stuff
+- Fixed Uraninite (Powah) combs not producing anything
+- Shuffled bee spawning recipes a bit for more variety in the wood nests
+- Fixed sync issue when opening a hive from the expansion box
+- Stripping data from bees when entering a hive or cage to make the data footprint smaller
 
 
 1.19-0.10.0.3
 
--- Fixed bees not recognizing hives
--- Feeding slab can be disguised as any slab by right clicking it with the desired slab
--- Fixed bottler recipes again
--- Fixed gene indexer combining incompatible genes
+- Fixed bees not recognizing hives
+- Feeding slab can be disguised as any slab by right clicking it with the desired slab
+- Fixed bottler recipes again
+- Fixed gene indexer combining incompatible genes
 
 
 1.19-0.10.0.2
 
--- Added beekeeper villager profession
--- Fixed crash during nether worldgen
--- Wax and comb blocks can catch fire
--- Wax blocks burn indefinitely
+- Added beekeeper villager profession
+- Fixed crash during nether worldgen
+- Wax and comb blocks can catch fire
+- Wax blocks burn indefinitely
 
 
 1.19-0.10.0.1
 
--- Updated to Forge 41.0.28+
--- Re-enabled JEI support
--- Added support for fluid tags as flowering block
--- Added support for Thermal and Pneumaticraft oil
+- Updated to Forge 41.0.28+
+- Re-enabled JEI support
+- Added support for fluid tags as flowering block
+- Added support for Thermal and Pneumaticraft oil
 
 
 1.19-0.10.0.0
 
--- Port to 1.19
+- Port to 1.19
 
 
 1.18.2-0.9.0.5
@@ -167,100 +180,100 @@
 
 1.18.2-0.9.0.4
 
--- Fix bee tag conditions not working
+- Fix bee tag conditions not working
 
 
 1.18.2-0.9.0.2
 
--- Updated to Forge 40.0.34
+- Updated to Forge 40.0.34
 
 
 1.18.2-0.9.0.1
 
--- Updated to Forge 40.0.18
+- Updated to Forge 40.0.18
 
 
 1.18.2-0.9.0.0
 
--- Ported to 1.18.2
+- Ported to 1.18.2
 
 
 0.8.0.8
 
--- Fixed Lumber and Quarry bees only being able to produce from Feeding Slabs
--- Fixed shearing from dispensers causing crash
--- Fixed Quarry bees showing Lumber bees output in JEI
--- Fixed temper attribute picking the worst for offspring
--- Minor performance improvements
+- Fixed Lumber and Quarry bees only being able to produce from Feeding Slabs
+- Fixed shearing from dispensers causing crash
+- Fixed Quarry bees showing Lumber bees output in JEI
+- Fixed temper attribute picking the worst for offspring
+- Minor performance improvements
 
 
 0.8.0.7
 
--- Added a bee nest helmet, it's all the buzz
--- Chips from Lumber and Quarry bees now show properly in JEI
--- Fixed bees duplicating
--- Added desh, ostrum and calorite bees (Beyond Earth)
--- Added support for new JEI API
--- Fixed and balanced some mixing recipes
+- Added a bee nest helmet, it's all the buzz
+- Chips from Lumber and Quarry bees now show properly in JEI
+- Fixed bees duplicating
+- Added desh, ostrum and calorite bees (Beyond Earth)
+- Added support for new JEI API
+- Fixed and balanced some mixing recipes
 
 
 0.8.0.6
 
--- Updated Russian translations, thanks to DrHesperus
--- Farmer and Collector/Hoarder Bees now operate in an area around their home hive instead of themselves
--- Hives can now hold range upgrades which extend the operating area of Farmer and Collector/Hoarder Bees
--- ATM bees have been rebalanced
--- Releasing a bee on a flower block or a hive now correctly associates the bee with that location
--- Block conversion recipes now uses fuzzy match when checking a blockstate, fixing anvil repairing not working
--- Fixed milky comb output
--- Fixed AE2 spatial bee comb output
--- Fixed ars nouveau bee
--- Remove obsidian from Draconic bee flowers
--- Fixed problems when Electrodynamics is installed
+- Updated Russian translations, thanks to DrHesperus
+- Farmer and Collector/Hoarder Bees now operate in an area around their home hive instead of themselves
+- Hives can now hold range upgrades which extend the operating area of Farmer and Collector/Hoarder Bees
+- ATM bees have been rebalanced
+- Releasing a bee on a flower block or a hive now correctly associates the bee with that location
+- Block conversion recipes now uses fuzzy match when checking a blockstate, fixing anvil repairing not working
+- Fixed milky comb output
+- Fixed AE2 spatial bee comb output
+- Fixed ars nouveau bee
+- Remove obsidian from Draconic bee flowers
+- Fixed problems when Electrodynamics is installed
 
 
 0.8.0.5
 
--- Fixed nocturnal bees not working at night
--- Fixed weather tolerant bees not working in bad weather
--- Fixed crash with honey fluid in feeding slabs
--- Fixed crash when hitting an expansion box with a stick
--- Added better support for FTB Quests
--- Added support for custom breeding items and amount. Only Draconic bees have a custom item by default.
--- Dragon egg hives double production output
--- New GUI for breeding and bee conversion recipe categories
--- Re-enabled all Patchouli support
--- Added fluid pollination
--- Added Oily (Beyond Earth) and Salty bees
--- Fixed some recipes
+- Fixed nocturnal bees not working at night
+- Fixed weather tolerant bees not working in bad weather
+- Fixed crash with honey fluid in feeding slabs
+- Fixed crash when hitting an expansion box with a stick
+- Added better support for FTB Quests
+- Added support for custom breeding items and amount. Only Draconic bees have a custom item by default.
+- Dragon egg hives double production output
+- New GUI for breeding and bee conversion recipe categories
+- Re-enabled all Patchouli support
+- Added fluid pollination
+- Added Oily (Beyond Earth) and Salty bees
+- Fixed some recipes
 
 
 0.8.0.3
 
--- Added Dragonsteel bees (iceandfire)
--- Added Fluix Bee (appliedenergistics2)
--- Added Grave Bee (tombstone)
--- Added Regenerative and Hematophagous Bees (bloodmagic)
--- Type genes can no longer be combines with attribute genes on a honey treat
--- Fixed bumblebee boost
--- Fixed Create compat recipes
--- Fixed advancement spam
+- Added Dragonsteel bees (iceandfire)
+- Added Fluix Bee (appliedenergistics2)
+- Added Grave Bee (tombstone)
+- Added Regenerative and Hematophagous Bees (bloodmagic)
+- Type genes can no longer be combines with attribute genes on a honey treat
+- Fixed bumblebee boost
+- Fixed Create compat recipes
+- Fixed advancement spam
 
 
 0.8.0.2
 
--- Re-added WAILA and TOP support
--- Comb Block upgrade no longer work for combs, only on output from Lumber and Quarry bees
--- Productivity and Comb block Upgrade recipes altered
+- Re-added WAILA and TOP support
+- Comb Block upgrade no longer work for combs, only on output from Lumber and Quarry bees
+- Productivity and Comb block Upgrade recipes altered
 
 
 0.8.0.1
 
--- New textures for nest locator
--- Updated to Forge 38.0.12
--- Fixed a world gen crash
+- New textures for nest locator
+- Updated to Forge 38.0.12
+- Fixed a world gen crash
 
 
 0.8.0.0
 
--- New textures for upgrades and bee cages thanks to Dani Boye
+- New textures for upgrades and bee cages thanks to Dani Boye

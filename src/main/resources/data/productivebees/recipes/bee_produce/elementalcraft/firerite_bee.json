@@ -1,6 +1,6 @@
 {
   "type": "productivebees:advanced_beehive",
-  "ingredient": "productivebees:water_crystal",
+  "ingredient": "productivebees:firerite",
   "results": [
     {
       "item": {
@@ -8,7 +8,7 @@
         "item": "productivebees:configurable_honeycomb",
         "nbt": {
           "EntityTag": {
-            "type": "productivebees:water_crystal"
+            "type": "productivebees:firerite"
           }
         }
       }
@@ -23,7 +23,7 @@
   "conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:water_crystal"
+      "bee": "productivebees:firerite"
     }
   ]
 }

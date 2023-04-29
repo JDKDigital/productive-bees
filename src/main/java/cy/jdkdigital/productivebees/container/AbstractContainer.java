@@ -56,8 +56,7 @@ abstract class AbstractContainer extends AbstractContainerMenu
 
             if (slotStack.isEmpty()) {
                 slot.set(ItemStack.EMPTY);
-            }
-            else {
+            } else {
                 slot.setChanged();
             }
 

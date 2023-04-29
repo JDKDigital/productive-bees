@@ -1,0 +1,42 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:swift_alloy"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "elementalcraft:swift_alloy_nugget"
+      },
+      "min": 5,
+      "max": 8
+    },
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 100
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "elementalcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:swift_alloy"
+    }
+  ]
+}
