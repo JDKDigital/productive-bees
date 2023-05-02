@@ -237,6 +237,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 BeehiveBlockEntity.BeeReleaseStatus beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
                 if (beeEntity instanceof ProductiveBee pBee && pBee.isFlowerValid(flowerPos)) {
                     beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
+                    pBee.internalSetHasNectar(true);
+                    pBee.postPollinate();
                 } else if (!(beeEntity instanceof ProductiveBee)) {
                     BlockState flowerBlock = level.getBlockState(flowerPos);
                     if (beeEntity.isFlowerValid(flowerPos) || flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, level.getBlockEntity(flowerPos), blockState -> blockState.is(BlockTags.FLOWERS))) {
@@ -354,6 +356,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         } else if (i > 0) {
             beeEntity.setAge(Math.max(0, i - ticksInHive));
         }
+
+        beeEntity.resetLove();
 
         beeEntity.resetTicksWithoutNectarSinceExitingHive();
     }

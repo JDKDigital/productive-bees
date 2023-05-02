@@ -16,7 +16,7 @@
     "item": "productivebees:spawn_egg_configurable_bee",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:springaline"
+        "type": "productivebees:drenched_iron"
       }
     }
   },

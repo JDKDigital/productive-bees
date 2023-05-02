@@ -6,15 +6,15 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:slimy"
+                    "type": "productivebees:fireite"
                 }
             }
         }
     ],
     "results": [
         {
-            "item": "minecraft:slime_ball",
-            "chance": 0.2
+            "item": "elementalcraft:fireite_nugget",
+            "count": 5
         },
         {
             "item": "productivebees:wax"
@@ -31,8 +31,12 @@
             "modid": "create"
         },
         {
+            "type": "forge:mod_loaded",
+            "modid": "elementalcraft"
+        },
+        {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:slimy"
+            "bee": "productivebees:fireite"
         }
     ]
 }

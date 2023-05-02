@@ -1,10 +1,10 @@
 {
-  "primaryColor": "#cccccc",
-  "secondaryColor": "#484849",
-  "tertiaryColor": "#cccccc",
-  "particleColor": "#cccccc",
-  "selfbreed": false,
+  "primaryColor": "#ebb760",
+  "secondaryColor": "#c58114",
+  "particleColor": "#ebb760",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "flowerTag": "forge:storage_blocks/swift_alloy",
+  "selfbreed": false,
   "size": 0.6,
   "conditions": [
     {

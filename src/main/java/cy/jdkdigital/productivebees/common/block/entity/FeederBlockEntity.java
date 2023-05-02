@@ -31,6 +31,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,7 +52,12 @@ public class FeederBlockEntity extends CapabilityBlockEntity
 
         @Override
         public boolean isInputSlot(int slot) {
-            return false;
+            return true;
+        }
+
+        @Override
+        public boolean isInputSlotItem(int slot, ItemStack item) {
+            return true;
         }
 
         @Override

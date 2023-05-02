@@ -84,7 +84,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                     }
                 }
             }
-            return super.insertItem(slot, stack, simulate);
+            return super.insertItem(slot, stack, simulate, fromAutomation);
         }
 
         @Override

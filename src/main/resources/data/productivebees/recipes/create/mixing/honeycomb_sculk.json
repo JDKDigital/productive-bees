@@ -6,15 +6,15 @@
             "item": "productivebees:configurable_honeycomb",
             "nbt": {
                 "EntityTag": {
-                    "type": "productivebees:slimy"
+                    "type": "productivebees:sculk"
                 }
             }
         }
     ],
     "results": [
         {
-            "item": "minecraft:slime_ball",
-            "chance": 0.2
+            "item": "minecraft:echo_shard",
+            "chance": 0.3
         },
         {
             "item": "productivebees:wax"
@@ -32,7 +32,7 @@
         },
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:slimy"
+            "bee": "productivebees:sculk"
         }
     ]
 }

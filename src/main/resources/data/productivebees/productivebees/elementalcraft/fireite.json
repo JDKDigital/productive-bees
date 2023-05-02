@@ -1,8 +1,8 @@
 {
-  "primaryColor": "#cccccc",
-  "secondaryColor": "#484849",
-  "tertiaryColor": "#cccccc",
-  "particleColor": "#cccccc",
+  "primaryColor": "#db750e",
+  "secondaryColor": "#2c0d0d",
+  "particleColor": "#db750e",
+  "description": "productivebees.ingredient.description.only_spawnegg",
   "flowerTag": "forge:storage_blocks/fireite",
   "size": 0.6,
   "fireproof": true,

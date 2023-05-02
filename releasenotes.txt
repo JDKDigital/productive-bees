@@ -1,14 +1,17 @@
+1.19.2-0.10.6.1
+
+-  Fix feeding slab input slots not working
+
+
 1.19.2-0.10.6.0
 
 - Fixed zombie comb mixing recipe
-
-- Fix item stacking duplication in hives
-- add honey cauldron for crafting honey blocks
-- add petrified honey (all colors), maybe dyed honey blocks
-- expansion boxes on all sides but the front
-- check spirit bee spawning recipe
-
-
+- Added Drenched Iron, Springaline, Swift Allow, Fireite and Pure Crystal bees (Elementalcraft)
+- Added Mana bee (Botania). It can charge mana items left in a feeding slab.
+- Added Sculk bee
+- Updated Feywild bee to match new version
+- Performance improvement for the centrifuge
+- Fixed item stacking problems
 
 
 1.19.2-0.10.5.3

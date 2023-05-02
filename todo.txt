@@ -1,0 +1,6 @@
+1.20
+
+- add honey cauldron for crafting honey blocks
+- add petrified honey (all colors), maybe dyed honey blocks
+- expansion boxes on all sides but the front
+- redo hive compat to be dynamic

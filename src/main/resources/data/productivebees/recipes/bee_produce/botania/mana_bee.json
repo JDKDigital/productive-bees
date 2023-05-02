@@ -1,0 +1,29 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:mana",
+    "results": [
+        {
+            "item": {
+                "item": "botania:black_lotus"
+            }
+        },
+        {
+            "item": {
+                "item": "botania:blacker_lotus"
+            },
+            "chance": 5
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
+        }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:mana"
+        }
+    ]
+}

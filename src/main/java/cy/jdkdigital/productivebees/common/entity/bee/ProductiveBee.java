@@ -558,14 +558,15 @@ public class ProductiveBee extends Bee
                         for (BeeNBTChangerRecipe nbtRecipe: nbtRecipes) {
                             for (ItemStack stack : feederBlockEntity.getInventoryItems()) {
                                 var tag = stack.getTag();
-                                if (tag != null && tag.contains(nbtRecipe.attribute)) {
+                                if (tag != null && tag.contains(nbtRecipe.attribute) && tag.getInt(nbtRecipe.attribute) > nbtRecipe.min && tag.getInt(nbtRecipe.attribute) < nbtRecipe.max) {
                                     switch (nbtRecipe.method) {
                                         case "decrement" -> tag.putInt(nbtRecipe.attribute, Math.max(nbtRecipe.min, tag.getInt(nbtRecipe.attribute) - nbtRecipe.value));
                                         case "increment" -> tag.putInt(nbtRecipe.attribute, Math.min(nbtRecipe.max, tag.getInt(nbtRecipe.attribute) + nbtRecipe.value));
                                         case "set" -> tag.putInt(nbtRecipe.attribute, nbtRecipe.value);
+                                        case "unset" -> tag.remove(nbtRecipe.attribute);
                                     }
                                     stack.setTag(tag);
-                                    // Set flag to prevent produce when trying to convert blocks
+                                    // Set flag to prevent produce
                                     setHasConverted(true);
                                     return;
                                 }

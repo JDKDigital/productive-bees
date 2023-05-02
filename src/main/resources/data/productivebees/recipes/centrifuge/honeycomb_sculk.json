@@ -5,17 +5,16 @@
     "item": "productivebees:configurable_honeycomb",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:firerite"
+        "type": "productivebees:sculk"
       }
     }
   },
   "outputs": [
     {
       "item": {
-        "item": "elementalcraft:firerite"
+        "item": "minecraft:echo_shard"
       },
-      "min": 4,
-      "max": 7
+      "chance": 30
     },
     {
       "item": {
@@ -31,12 +30,8 @@
   ],
   "conditions": [
     {
-      "type": "forge:mod_loaded",
-      "modid": "elementalcraft"
-    },
-    {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:firerite"
+      "bee": "productivebees:sculk"
     }
   ]
 }

@@ -3,6 +3,18 @@
   "element_amount": 60000,
   "ingredients": [
     {
+      "item": "elementalcraft:pure_element_holder_core"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:water_crystal"
+        }
+      }
+    },
+    {
       "type": "forge:nbt",
       "item": "productivebees:spawn_egg_configurable_bee",
       "nbt": {
@@ -25,25 +37,7 @@
       "item": "productivebees:spawn_egg_configurable_bee",
       "nbt": {
         "EntityTag": {
-          "type": "productivebees:diamond"
-        }
-      }
-    },
-    {
-      "type": "forge:nbt",
-      "item": "productivebees:spawn_egg_configurable_bee",
-      "nbt": {
-        "EntityTag": {
           "type": "productivebees:air_crystal"
-        }
-      }
-    },
-    {
-      "type": "forge:nbt",
-      "item": "productivebees:spawn_egg_configurable_bee",
-      "nbt": {
-        "EntityTag": {
-          "type": "productivebees:water_crystal"
         }
       }
     }

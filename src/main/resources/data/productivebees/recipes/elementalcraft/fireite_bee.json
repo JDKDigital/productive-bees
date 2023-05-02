@@ -45,7 +45,7 @@
     "item": "productivebees:spawn_egg_configurable_bee",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:firerite"
+        "type": "productivebees:fireite"
       }
     }
   },
@@ -72,7 +72,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:firerite"
+      "bee": "productivebees:fireite"
     }
   ]
 }
