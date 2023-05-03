@@ -18,6 +18,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,7 +31,7 @@ public class JarBlockItemRenderer extends BlockEntityWithoutLevelRenderer {
     }
 
     @Override
-    public void renderByItem(ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int packedLightIn, int packedUV) {
+    public void renderByItem(ItemStack itemStack, ItemDisplayContext transformType, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int packedLightIn, int packedUV) {
         Item item = itemStack.getItem();
 
         if (item instanceof JarBlockItem jarBlockItem) {
@@ -75,7 +76,7 @@ public class JarBlockItemRenderer extends BlockEntityWithoutLevelRenderer {
         }
     }
 
-    public static void renderBee(Entity bee, PoseStack matrixStack, ItemTransforms.TransformType pTransformType) {
+    public static void renderBee(Entity bee, PoseStack matrixStack, ItemDisplayContext pTransformType) {
         float angle = bee.tickCount % 360;
 
         float f = 0.47F;
@@ -90,7 +91,7 @@ public class JarBlockItemRenderer extends BlockEntityWithoutLevelRenderer {
         matrixStack.mulPose(Axis.YP.rotationDegrees(angle));
         matrixStack.translate(0.0f, -0.2f, 0.0f);
         matrixStack.scale(f, f, f);
-        if (pTransformType == ItemTransforms.TransformType.GUI) {
+        if (pTransformType.equals(ItemDisplayContext.GUI)) {
             matrixStack.scale(1.2f, 1.2f, 1.2f);
         }
 
@@ -103,10 +104,10 @@ public class JarBlockItemRenderer extends BlockEntityWithoutLevelRenderer {
         matrixStack.popPose();
     }
 
-    public static void renderJar(PoseStack matrixStack, JarBlockItem jarBlockItem, ItemStack itemStack, int packedLight, int packedOverlay, ItemTransforms.TransformType transformType) {
+    public static void renderJar(PoseStack matrixStack, JarBlockItem jarBlockItem, ItemStack itemStack, int packedLight, int packedOverlay, ItemDisplayContext transformType) {
         matrixStack.pushPose();
         
-        if (transformType == ItemTransforms.TransformType.GUI) {
+        if (transformType.equals(ItemDisplayContext.GUI)) {
             float x = -0.5f;
             float y = -0.45f;
             float z = -0.5f;

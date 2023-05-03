@@ -598,25 +598,25 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public boolean isInvulnerableTo(@Nonnull DamageSource source) {
-        if (isWithered() && source.equals(DamageSource.WITHER)) {
+        if (isWithered() && source.equals(this.level.damageSources().wither())) {
             return true;
         }
-        if (isDraconic() && source.equals(DamageSource.DRAGON_BREATH)) {
+        if (isDraconic() && source.equals(this.level.damageSources().dragonBreath())) {
             return true;
         }
-        if (isTranslucent() && source.equals(DamageSource.anvil(this))) {
+        if (isTranslucent() && source.equals(this.level.damageSources().anvil(this))) {
             return true;
         }
-        if (isWaterproof() && source.equals(DamageSource.DROWN)) {
+        if (isWaterproof() && source.equals(this.level.damageSources().drown())) {
             return true;
         }
-        if (isColdResistant() && source.equals(DamageSource.FREEZE)) {
+        if (isColdResistant() && source.equals(this.level.damageSources().freeze())) {
             return true;
         }
-        if (isFireproof() && (source.equals(DamageSource.HOT_FLOOR) || source.equals(DamageSource.IN_FIRE) || source.equals(DamageSource.ON_FIRE) || source.equals(DamageSource.LAVA))) {
+        if (isFireproof() && (source.equals(this.level.damageSources().hotFloor()) || source.equals(this.level.damageSources().inFire()) || source.equals(this.level.damageSources().onFire()) || source.equals(this.level.damageSources().lava()))) {
             return true;
         }
-        return super.isInvulnerableTo(source) || getInvulnerabilities().contains(source.msgId);
+        return super.isInvulnerableTo(source) || getInvulnerabilities().contains(source.getMsgId());
     }
 
     @Override

@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
@@ -89,9 +88,15 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     }
 
     @Nullable
-    public Entity getControllingPassenger() {
-        Entity entity = this.getFirstPassenger();
-        return entity != null && this.canBeControlledBy(entity) ? entity : null;
+    public LivingEntity getControllingPassenger() {
+        if (!this.isNoAi()) {
+            Entity entity = this.getFirstPassenger();
+            if (entity instanceof Mob && this.canBeControlledBy(entity)) {
+                return (Mob)entity;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -130,23 +135,18 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     }
 
     @Override
-    public void travel(Vec3 travelVector) {
-        this.travel(this, this.steering, travelVector);
-    }
-
-    @Override
     public boolean boost() {
         return this.steering.boost(this.getRandom());
     }
 
     @Override
-    public void travelWithInput(Vec3 travelVec) {
-        super.travel(travelVec);
+    public Vec3 getRiddenInput(LivingEntity rider, Vec3 travelVec) {
+        return new Vec3(0.0D, 0.0D, 1.0D);
     }
 
     @Override
-    public float getSteeringSpeed() {
-        return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
+    protected float getRiddenSpeed(LivingEntity rider) {
+        return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * this.steering.boostFactor();
     }
 
     @Override
@@ -166,53 +166,5 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
         return super.mobInteract(player, hand);
-    }
-
-    @Override
-    public boolean travel(Mob entity, ItemBasedSteering boostHelper, Vec3 vec3d) {
-        if (!entity.isAlive()) {
-            return false;
-        } else {
-            Entity rider = entity.getControllingPassenger();
-            if (entity.isVehicle() && rider instanceof Player) {
-                entity.yRotO = rider.getYRot();
-                entity.setYRot(rider.getYRot() % 360.0F);
-                entity.setXRot((rider.getXRot() * 0.5F) % 360.0F);
-                entity.yBodyRot = entity.getYRot();
-                entity.yHeadRot = entity.getYRot();
-                entity.maxUpStep = 1.0F;
-                entity.flyingSpeed = entity.getSpeed() * 0.1F;
-                if (boostHelper.boosting && boostHelper.boostTime++ > boostHelper.boostTimeTotal) {
-                    boostHelper.boosting = false;
-                }
-
-                if (entity.isControlledByLocalInstance()) {
-                    float speed = this.getSteeringSpeed();
-                    if (boostHelper.boosting) {
-                        speed += speed * 2.15F * Mth.sin((float)boostHelper.boostTime / (float)boostHelper.boostTimeTotal * 3.1415927F);
-                    }
-
-                    entity.setSpeed(speed);
-                    this.travelWithInput(new Vec3(0.0D, !level.isEmptyBlock(blockPosition().below(3)) ? 1.0D : level.isEmptyBlock(blockPosition().below(1)) ? -1.0D : 0.0D, 1.0D));
-                    if (entity instanceof BumbleBee) {
-                        setNewPosRotationIncrements(0);
-                    }
-                } else {
-                    entity.calculateEntityAnimation(entity, false);
-                    entity.setDeltaMovement(Vec3.ZERO);
-                }
-
-                return true;
-            } else {
-                entity.maxUpStep = 0.5F;
-                entity.flyingSpeed = 0.02F;
-                this.travelWithInput(vec3d);
-                return false;
-            }
-        }
-    }
-
-    public void setNewPosRotationIncrements(int value) {
-        this.lerpSteps = value;
     }
 }

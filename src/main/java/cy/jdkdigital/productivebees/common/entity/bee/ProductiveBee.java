@@ -194,12 +194,12 @@ public class ProductiveBee extends Bee
             boolean isInDangerFromRain = tolerance < 1 && level.isRaining();
             boolean isInDayCycleDanger = (behavior < 1 && level.isNight()) || (behavior == 1 && level.isDay());
             if ((isInDangerFromRain || isInDayCycleDanger) && level.random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
-                hurt(isInDangerFromRain ? DamageSource.DROWN : DamageSource.GENERIC, (getMaxHealth() / 3) - 1);
+                hurt(isInDangerFromRain ? this.level.damageSources().drown() : this.level.damageSources().generic(), (getMaxHealth() / 3) - 1);
             }
         }
 
         // Kill below world border
-        if (this.getY() < -65.0D) {
+        if (this.getY() < -64.0D) {
             this.outOfWorld();
         }
     }
@@ -353,7 +353,7 @@ public class ProductiveBee extends Bee
         super.setHasStung(hasStung);
 
         if (hasStung && getBeeName().equals("kamikaz")) {
-            this.hurt(DamageSource.GENERIC, this.getHealth());
+            this.hurt(this.level.damageSources().generic(), this.getHealth());
         }
     }
 
@@ -431,7 +431,7 @@ public class ProductiveBee extends Bee
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        return source.equals(DamageSource.IN_WALL) || source.equals(DamageSource.SWEET_BERRY_BUSH) || (source.equals(DamageSource.WITHER) && getBeeType().contains("dye_bee")) || super.isInvulnerableTo(source);
+        return source.equals(this.level.damageSources().inWall()) || source.equals(this.level.damageSources().sweetBerryBush()) || (source.equals(this.level.damageSources().wither()) && getBeeType().contains("dye_bee")) || super.isInvulnerableTo(source);
     }
 
     @Nonnull

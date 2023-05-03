@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -64,7 +65,7 @@ public class CombineGeneRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
         // Combine genes
         List<ItemStack> stacks = new ArrayList<>();
         for (int j = 0; j < inv.getContainerSize(); ++j) {
@@ -102,7 +103,7 @@ public class CombineGeneRecipe implements CraftingRecipe
 
     @Nonnull
     @Override
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(RegistryAccess registryAccess) {
         return new ItemStack(ModItems.GENE.get());
     }
 

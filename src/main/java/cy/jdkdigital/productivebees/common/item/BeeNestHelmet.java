@@ -26,8 +26,8 @@ import java.util.function.Consumer;
 
 public class BeeNestHelmet extends ArmorItem
 {
-    public BeeNestHelmet(ArmorMaterial material, EquipmentSlot slot, Properties properties) {
-        super(material, slot, properties);
+    public BeeNestHelmet(ArmorMaterial material, Properties properties) {
+        super(material, Type.HELMET, properties);
     }
 
     @Override

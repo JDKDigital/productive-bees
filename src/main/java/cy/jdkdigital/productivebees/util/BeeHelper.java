@@ -338,7 +338,7 @@ public class BeeHelper
                 Ingredient ingredient = ingredients.get(0);
                 ItemStack[] stacks = ingredient.getItems();
                 if (stacks.length > 0 && stacks[0].getItem().equals(input)) {
-                    return recipe.getResultItem().copy();
+                    return recipe.getResultItem(level.registryAccess()).copy();
                 }
             }
         }

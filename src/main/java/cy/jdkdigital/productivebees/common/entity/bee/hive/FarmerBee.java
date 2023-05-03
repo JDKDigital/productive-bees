@@ -61,10 +61,10 @@ public class FarmerBee extends ProductiveBee
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        return source.equals(DamageSource.CACTUS) || super.isInvulnerableTo(source);
+        return source.equals(this.level.damageSources().cactus()) || super.isInvulnerableTo(source);
     }
 
-    public List<BlockPos> findHarvestablesNearby(BlockPos pos, double distance) {
+    public List<BlockPos> findHarvestablesNearby(BlockPos pos, int distance) {
         List<BlockPos> list = BlockPos.betweenClosedStream(pos.offset(-distance, -distance + 2, -distance), pos.offset(distance, distance - 2, distance)).map(BlockPos::immutable).collect(Collectors.toList());
         list.removeIf(blockPos -> !isCropValid(blockPos));
         return list;

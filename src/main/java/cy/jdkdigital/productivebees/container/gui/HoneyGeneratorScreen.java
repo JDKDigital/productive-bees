@@ -69,20 +69,20 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
     }
 
     @Override
-    protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, getGuiLeft() - 13, getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
+        blit(poseStack, getGuiLeft() - 13, getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
 
         // Draw energy level
-        blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
+        blit(poseStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
         this.menu.tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
             float energyAmount = (float) handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52f / (float) handler.getMaxEnergyStored()));
-            blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 8, 0, 4, 52 - energyLevel);
+            blit(poseStack, getGuiLeft() - 5, getGuiTop() + 17, 8, 0, 4, 52 - energyLevel);
         });
 
         // Draw fluid tank
@@ -90,13 +90,7 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
             FluidStack fluidStack = handler.getFluidInTank(0);
 
             if (fluidStack.getAmount() > 0) {
-                int fluidLevel = (int) (fluidStack.getAmount() * (52 / 10000F));
-
-                FluidContainerUtil.setColors(fluidStack);
-
-                FluidContainerUtil.drawTiledSprite(getGuiLeft() + 127, getGuiTop() + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(IClientFluidTypeExtensions.of(fluidStack.getFluid()).getStillTexture()), 16, 16, getBlitOffset());
-
-                FluidContainerUtil.resetColor();
+                FluidContainerUtil.renderFluidTank(poseStack, this, fluidStack, handler.getTankCapacity(0), 127, 69, 4, 52, 0);
             }
         });
     }

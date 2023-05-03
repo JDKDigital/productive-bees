@@ -50,7 +50,7 @@ public class ModItems
     public static final RegistryObject<Item> TREAT_ON_A_STICK = createItem("treat_on_a_stick", () -> new TreatOnAStick(new Item.Properties().durability(25),7));
     public static final RegistryObject<Item> WAX = createItem("wax", () -> new HoneycombItem(new Item.Properties()));
 
-    public static final RegistryObject<Item> BEE_NEST_DIAMOND_HELMET = createItem("bee_nest_diamond_helmet", () -> new BeeNestHelmet(ArmorMaterials.DIAMOND, EquipmentSlot.HEAD, (new Item.Properties())));
+    public static final RegistryObject<Item> BEE_NEST_DIAMOND_HELMET = createItem("bee_nest_diamond_helmet", () -> new BeeNestHelmet(ArmorMaterials.DIAMOND, new Item.Properties()));
 
     public static final RegistryObject<Item> CONFIGURABLE_HONEYCOMB = createItem("configurable_honeycomb", () -> new Honeycomb(new Item.Properties(), "#d2ab00"));
 

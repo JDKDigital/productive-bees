@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.TreeFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -51,11 +52,21 @@ public class SolitaryNestTreeFeature extends TreeFeature
             leavesPositions.add(pos.immutable());
             worldgenlevel.setBlock(pos, state, 19);
         };
+        FoliagePlacer.FoliageSetter foliageSetter = new FoliagePlacer.FoliageSetter() {
+            public void set(BlockPos pos, BlockState state) {
+                leavesPositions.add(pos.immutable());
+                worldgenlevel.setBlock(pos, state, 19);
+            }
+
+            public boolean isSet(BlockPos pos) {
+                return leavesPositions.contains(pos);
+            }
+        };
         BiConsumer<BlockPos, BlockState> decorationPlacer = (pos, state) -> {
             set3.add(pos.immutable());
             worldgenlevel.setBlock(pos, state, 19);
         };
-        boolean flag = this.doPlace(worldgenlevel, randomsource, blockpos, rootPlacer, trunkPlacer, leavesPlacer, treeconfiguration);
+        boolean flag = this.doPlace(worldgenlevel, randomsource, blockpos, rootPlacer, trunkPlacer, foliageSetter, treeconfiguration);
         if (flag && (!logPositions.isEmpty() || !leavesPositions.isEmpty())) {
             if (!treeconfiguration.decorators.isEmpty()) {
                 TreeDecorator.Context decoratorContext = new TreeDecorator.Context(worldgenlevel, decorationPlacer, randomsource, logPositions, leavesPositions, rootPositions);

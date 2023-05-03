@@ -1,13 +1,12 @@
 modLoader="javafml"
-loaderVersion="[44,)"
+loaderVersion="[45,)"
 issueTrackerURL="https://github.com/JDKDigital/productive-bees/issues"
-license="MIT"
+license="ARR"
 
 [[mods]] #mandatory
 modId="productivebees"
 version="${file.jarVersion}"
 displayName="Productive Bees"
-updateJSONURL="https://raw.githubusercontent.com/JDKDigital/productive-bees/dev-1.19/versions.json"
 # displayURL="http://example.com/"
 logoFile="logo.png"
 credits="Thanks to me"
@@ -19,12 +18,12 @@ Useful bees
 [[dependencies.productivebees]] #optional
     modId="forge"
     mandatory=true
-    versionRange="[44.1.7,)"
+    versionRange="[45,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.productivebees]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.3,1.20)"
+    versionRange="[1.19.4,1.20)"
     ordering="NONE"
     side="BOTH"

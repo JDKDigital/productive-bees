@@ -36,6 +36,10 @@ public class WoodNestDecorator extends TreeDecorator {
     public WoodNestDecorator() {
     }
 
+    public WoodNestDecorator(BlockState nest) {
+        setNest(nest);
+    }
+
     @Override
     protected TreeDecoratorType<?> type() {
         return ModFeatures.WOOD_NEST.get();
@@ -43,6 +47,10 @@ public class WoodNestDecorator extends TreeDecorator {
 
     public void setNest(BlockState nest) {
         this.nest = nest;
+    }
+
+    public BlockState getNest() {
+        return this.nest;
     }
 
     public void setBeeRecipes(List<BeeSpawningRecipe> recipe) {

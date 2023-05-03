@@ -1,18 +1,15 @@
 package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
-
-import javax.annotation.Nonnull;
+import org.joml.Matrix4f;
 
 class FluidContainerUtil
 {
@@ -36,73 +33,82 @@ class FluidContainerUtil
         RenderSystem.setShaderColor(getRed(color), getGreen(color), getBlue(color), getAlpha(color));
     }
 
-    public static void setColors(@Nonnull FluidStack fluid) {
-        if (!fluid.isEmpty()) {
-            setColors(IClientFluidTypeExtensions.of(fluid.getFluid()).getTintColor());
-        }
-    }
-
-    public static void resetColor() {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-    }
-
-    public static void drawTiledSprite(int xPosition, int yPosition, int yOffset, int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel) {
-        if (desiredWidth != 0 && desiredHeight != 0 && textureWidth != 0 && textureHeight != 0) {
-            bindTexture(TextureAtlas.LOCATION_BLOCKS);
-            int xTileCount = desiredWidth / textureWidth;
-            int xRemainder = desiredWidth - xTileCount * textureWidth;
-            int yTileCount = desiredHeight / textureHeight;
-            int yRemainder = desiredHeight - yTileCount * textureHeight;
-            int yStart = yPosition + yOffset;
-            float uMin = sprite.getU0();
-            float uMax = sprite.getU1();
-            float vMin = sprite.getV0();
-            float vMax = sprite.getV1();
-            float uDif = uMax - uMin;
-            float vDif = vMax - vMin;
-            RenderSystem.enableBlend();
-            RenderSystem.enableDepthTest();
-            BufferBuilder vertexBuffer = Tesselator.getInstance().getBuilder();
-            vertexBuffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-
-            for (int xTile = 0; xTile <= xTileCount; ++xTile) {
-                int width = xTile == xTileCount ? xRemainder : textureWidth;
-                if (width == 0) {
-                    break;
-                }
-
-                int x = xPosition + xTile * textureWidth;
-                int maskRight = textureWidth - width;
-                int shiftedX = x + textureWidth - maskRight;
-                float uMaxLocal = uMax - uDif * (float) maskRight / (float) textureWidth;
-
-                for (int yTile = 0; yTile <= yTileCount; ++yTile) {
-                    int height = yTile == yTileCount ? yRemainder : textureHeight;
-                    if (height == 0) {
-                        break;
-                    }
-
-                    int y = yStart - (yTile + 1) * textureHeight;
-                    int maskTop = textureHeight - height;
-                    float vMaxLocal = vMax - vDif * (float) maskTop / (float) textureHeight;
-                    vertexBuffer.vertex(x, y + textureHeight, zLevel).uv(uMin, vMaxLocal).endVertex();
-                    vertexBuffer.vertex(shiftedX, y + textureHeight, zLevel).uv(uMaxLocal, vMaxLocal).endVertex();
-                    vertexBuffer.vertex(shiftedX, y + maskTop, zLevel).uv(uMaxLocal, vMin).endVertex();
-                    vertexBuffer.vertex(x, y + maskTop, zLevel).uv(uMin, vMin).endVertex();
-                }
-            }
-
-            vertexBuffer.end();
-            RenderSystem.disableDepthTest();
-            RenderSystem.disableBlend();
-        }
-    }
-
-    public static TextureAtlasSprite getSprite(ResourceLocation spriteLocation) {
-        return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(spriteLocation);
-    }
-
     public static void bindTexture(ResourceLocation texture) {
-        Minecraft.getInstance().textureManager.bindForSetup(texture);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, texture);
+    }
+
+    public static void renderFluidTank(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int capacity, int x, int y, int width, int height, int depth) {
+        renderFluidTank(matrices, screen, stack, stack.getAmount(), capacity, x, y, width, height, depth);
+    }
+
+    public static void renderFluidTank(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int amount, int capacity, int x, int y, int width, int height, int depth) {
+        if(!stack.isEmpty() && capacity > 0) {
+            int maxY = y + height;
+            int fluidHeight = Math.min(height * amount / capacity, height);
+            renderTiledFluid(matrices, screen, stack, x, maxY - fluidHeight, width, fluidHeight, depth);
+        }
+    }
+
+    public static void renderTiledFluid(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int x, int y, int width, int height, int depth) {
+        if (!stack.isEmpty()) {
+            var attributes = IClientFluidTypeExtensions.of(stack.getFluid());
+            TextureAtlasSprite fluidSprite = screen.getMinecraft().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(attributes.getStillTexture());
+            setColors(attributes.getTintColor());
+            renderTiledTextureAtlas(matrices, screen, fluidSprite, x, y, width, height, depth, false);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        }
+    }
+
+    public static void renderTiledTextureAtlas(PoseStack matrices, AbstractContainerScreen<?> screen, TextureAtlasSprite sprite, int x, int y, int width, int height, int depth, boolean upsideDown) {
+        // start drawing sprites
+        bindTexture(sprite.atlasLocation());
+        BufferBuilder builder = Tesselator.getInstance().getBuilder();
+        builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+        // tile vertically
+        float u1 = sprite.getU0();
+        float v1 = sprite.getV0();
+        int spriteHeight = sprite.contents().height();
+        int spriteWidth = sprite.contents().width();
+        int startX = x + screen.getGuiLeft();
+        int startY = y + screen.getGuiTop();
+        do {
+            int renderHeight = Math.min(spriteHeight, height);
+            height -= renderHeight;
+            float v2 = sprite.getV((16f * renderHeight) / spriteHeight);
+
+            // we need to draw the quads per width too
+            int x2 = startX;
+            int widthLeft = width;
+            Matrix4f matrix = matrices.last().pose();
+            // tile horizontally
+            do {
+                int renderWidth = Math.min(spriteWidth, widthLeft);
+                widthLeft -= renderWidth;
+
+                float u2 = sprite.getU((16f * renderWidth) / spriteWidth);
+                if(upsideDown) {
+                    buildSquare(matrix, builder, x2, x2 + renderWidth, startY, startY + renderHeight, depth, u1, u2, v2, v1);
+                } else {
+                    buildSquare(matrix, builder, x2, x2 + renderWidth, startY, startY + renderHeight, depth, u1, u2, v1, v2);
+                }
+                x2 += renderWidth;
+            } while(widthLeft > 0);
+
+            startY += renderHeight;
+        } while(height > 0);
+
+        // RenderSystem.enableAlphaTest();
+        RenderSystem.enableDepthTest();
+        // finish drawing sprites
+        BufferUploader.drawWithShader(builder.end());
+    }
+
+    private static void buildSquare(Matrix4f matrix, BufferBuilder builder, int x1, int x2, int y1, int y2, int z, float u1, float u2, float v1, float v2) {
+        builder.vertex(matrix, x1, y2, z).uv(u1, v2).endVertex();
+        builder.vertex(matrix, x2, y2, z).uv(u2, v2).endVertex();
+        builder.vertex(matrix, x2, y1, z).uv(u2, v1).endVertex();
+        builder.vertex(matrix, x1, y1, z).uv(u1, v1).endVertex();
     }
 }

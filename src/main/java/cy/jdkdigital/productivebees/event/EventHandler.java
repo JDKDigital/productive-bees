@@ -4,6 +4,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.client.render.item.JarBlockItemRenderer;
+import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBee;
@@ -11,6 +12,7 @@ import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.StoneChip;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
+import cy.jdkdigital.productivebees.gen.feature.WoodNestDecorator;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
@@ -21,6 +23,7 @@ import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.Component;
@@ -49,6 +52,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.TickEvent;
@@ -177,31 +182,49 @@ public class EventHandler
 
     @SubscribeEvent
     public static void onBlockGrow(SaplingGrowTreeEvent event) {
-//        if (event.getLevel() instanceof ServerLevel serverLevel) {
-//            ResourceKey<ConfiguredFeature<?, ?>> featureKey = null;
-//            float r = serverLevel.getRandom().nextFloat();
-//            boolean hasFlower = hasFlowers(event.getLevel(), event.getPos());
-//            Block grownBlock =  serverLevel.getBlockState(event.getPos()).getBlock();
-//            if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("oak_wood_nest").get() && grownBlock.equals(Blocks.OAK_SAPLING)) {
-//                featureKey = ModConfiguredFeatures.OAK_WOOD_NEST_FEATURE;
-//            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("birch_wood_nest").get() && grownBlock.equals(Blocks.BIRCH_SAPLING)) {
-//                featureKey = ModConfiguredFeatures.BIRCH_WOOD_NEST_FEATURE;
-//            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("spruce_wood_nest").get() && grownBlock.equals(Blocks.SPRUCE_SAPLING)) {
-//                featureKey = ModConfiguredFeatures.SPRUCE_WOOD_NEST_FEATURE;
-//            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("acacia_wood_nest").get() && grownBlock.equals(Blocks.ACACIA_SAPLING)) {
-//                featureKey = ModConfiguredFeatures.ACACIA_WOOD_NEST_FEATURE;
-//            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("dark_oak_wood_nest").get() && grownBlock.equals(Blocks.DARK_OAK_SAPLING)) {
-//                featureKey = ModConfiguredFeatures.DARK_OAK_WOOD_NEST_FEATURE;
-//            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("jungle_wood_nest").get() && grownBlock.equals(Blocks.JUNGLE_SAPLING)) {
-//                featureKey = ModConfiguredFeatures.JUNGLE_WOOD_NEST_FEATURE;
-//            } else if (r < ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("nether_bee_nest").get() && (grownBlock.equals(Blocks.CRIMSON_FUNGUS) || grownBlock.equals(Blocks.WARPED_FUNGUS))) {
-//                featureKey = grownBlock.equals(Blocks.CRIMSON_FUNGUS) ? ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_GROW : ModConfiguredFeatures.WARPED_FUNGUS_BEES_GROW;
-//            }
-//
-//            if (featureKey != null) {
-//                event.setFeature(featureKey);
-//            }
-//        }
+        if (event.getLevel() instanceof ServerLevel serverLevel) {
+            TreeDecorator decorator = null;
+            float r = serverLevel.getRandom().nextFloat();
+            boolean hasFlower = hasFlowers(event.getLevel(), event.getPos());
+            Block grownBlock =  serverLevel.getBlockState(event.getPos()).getBlock();
+            if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.OAK_SAPLING)) {
+                decorator = new WoodNestDecorator(ModBlocks.OAK_WOOD_NEST.get().defaultBlockState());
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.BIRCH_SAPLING)) {
+                decorator = new WoodNestDecorator(ModBlocks.BIRCH_WOOD_NEST.get().defaultBlockState());
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.SPRUCE_SAPLING)) {
+                decorator = new WoodNestDecorator(ModBlocks.SPRUCE_WOOD_NEST.get().defaultBlockState());
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.ACACIA_SAPLING)) {
+                decorator = new WoodNestDecorator(ModBlocks.ACACIA_WOOD_NEST.get().defaultBlockState());
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.DARK_OAK_SAPLING)) {
+                decorator = new WoodNestDecorator(ModBlocks.DARK_OAK_WOOD_NEST.get().defaultBlockState());
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.JUNGLE_SAPLING)) {
+                decorator = new WoodNestDecorator(ModBlocks.JUNGLE_WOOD_NEST.get().defaultBlockState());
+            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.CHERRY_SAPLING)) {
+                decorator = new WoodNestDecorator(ModBlocks.CHERRY_WOOD_NEST.get().defaultBlockState());
+            } else if (r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && (grownBlock.equals(Blocks.CRIMSON_FUNGUS) || grownBlock.equals(Blocks.WARPED_FUNGUS))) {
+                var featureKey = grownBlock.equals(Blocks.CRIMSON_FUNGUS) ? ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_GROWN : ModConfiguredFeatures.WARPED_FUNGUS_BEES_GROWN;
+                var feature = event.getLevel().registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(featureKey).orElse(null);
+                event.setFeature(feature);
+            }
+
+            if (decorator != null) {
+                WoodNestDecorator woodNestDecorator = (WoodNestDecorator) decorator;
+                if (woodNestDecorator.getNest().getBlock() instanceof WoodNest woodNest) {
+                    woodNestDecorator.setBeeRecipes(woodNest.getSpawningRecipes(serverLevel, serverLevel.getBiome(event.getPos()).value()));
+                }
+
+                var feature = event.getFeature();
+                TreeDecorator finalDecorator = decorator;
+                feature.value().getFeatures().forEach(configuredFeature -> {
+                    if (configuredFeature.config() instanceof TreeConfiguration treeConfig) {
+                        List<TreeDecorator> decorators = new ArrayList<>(treeConfig.decorators);
+                        decorators.add(finalDecorator);
+                        treeConfig.decorators = decorators;
+                    }
+                });
+                event.setFeature(feature);
+            }
+        }
     }
 
     private static boolean hasFlowers(LevelAccessor pLevel, BlockPos pPos) {

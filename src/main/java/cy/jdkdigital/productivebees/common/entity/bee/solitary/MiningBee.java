@@ -15,7 +15,7 @@ public class MiningBee extends SolitaryBee
     }
 
     public boolean isInvulnerableTo(DamageSource source) {
-        return source == DamageSource.CACTUS || super.isInvulnerableTo(source);
+        return source.equals(this.level.damageSources().cactus()) || super.isInvulnerableTo(source);
     }
 
     @Override

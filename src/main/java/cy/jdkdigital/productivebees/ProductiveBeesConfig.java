@@ -256,6 +256,7 @@ public class ProductiveBeesConfig
     public static class WorldGen
     {
         public final Map<String, ForgeConfigSpec.DoubleValue> nestConfigs = new HashMap<>();
+        public final ForgeConfigSpec.DoubleValue treeGrowNestChance;
 
         public WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push("Worldgen");
@@ -283,6 +284,10 @@ public class ProductiveBeesConfig
             nestConfigs.put("acacia_wood_nest", builder.defineInRange("acacia_wood_nest", 0.2D, 0.0D, 1.0D));
             nestConfigs.put("nether_bee_nest", builder.defineInRange("nether_bee_nest", 0.02D, 0.0D, 1.0D));
             nestConfigs.put("sugarbag_nest", builder.defineInRange("sugarbag_nest", 0.02D, 0.0D, 1.0D));
+
+            treeGrowNestChance = builder
+                    .comment("Chance for a nest to spawn when growing a tree or fungus.")
+                    .defineInRange("treeGrowNestChance", 0.02, 0, 1);
 
             builder.pop();
         }

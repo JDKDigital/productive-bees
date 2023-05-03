@@ -18,8 +18,7 @@
     },
     "decorators": [
       {
-        "type": "productivebees:nether_beehive",
-        "probability": 5
+        "type": "productivebees:nether_beehive"
       }
     ],
     "planted": false

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
@@ -38,7 +39,7 @@ public class CentrifugeTileEntityRenderer implements BlockEntityRenderer<Centrif
                         matrixStackIn.translate(0.5D + dX, 0.6375D, 0.5D + dZ);
                         matrixStackIn.mulPose(Axis.YP.rotationDegrees((float) angle + 90F));
                         matrixStackIn.scale(0.35F, 0.35F, 0.35F);
-                        ir.renderStatic(stack, ItemTransforms.TransformType.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, 0);
+                        ir.renderStatic(stack, ItemDisplayContext.FIXED, combinedLightIn, combinedOverlayIn, matrixStackIn, bufferIn, tileEntityIn.getLevel(), 0);
                         matrixStackIn.popPose();
                     }
                 }

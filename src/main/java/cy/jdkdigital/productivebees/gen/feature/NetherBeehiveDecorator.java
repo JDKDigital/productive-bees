@@ -2,9 +2,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModFeatures;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
@@ -26,19 +24,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NetherBeehiveDecorator extends TreeDecorator {
-    public static final Codec<NetherBeehiveDecorator> CODEC = RecordCodecBuilder
-            .create((configurationInstance) -> configurationInstance.group(
-                            Codec.FLOAT.fieldOf("probability").orElse(0f).forGetter((configuration) -> configuration.probability)
-                    )
-                    .apply(configurationInstance, NetherBeehiveDecorator::new));
+    public static final Codec<NetherBeehiveDecorator> CODEC = Codec.unit(NetherBeehiveDecorator::new);
 
     private static final Direction[] SPAWN_DIRECTIONS = Direction.Plane.HORIZONTAL.stream().filter((direction) -> direction != Direction.SOUTH.getOpposite()).toArray(Direction[]::new);
-    private float probability = 0;
 
     private BlockState nest;
 
-    public NetherBeehiveDecorator(float probability) {
-        this.probability = probability;
+    public NetherBeehiveDecorator() {
     }
 
     @Override
@@ -52,49 +44,44 @@ public class NetherBeehiveDecorator extends TreeDecorator {
 
     @Override
     public void place(Context context) {
-        if (probability == 0.0F) {
-            probability = ProductiveBeesConfig.WORLD_GEN.nestConfigs.get("nether_bee_nest").get().floatValue();
+        if (context.leaves().isEmpty() || context.logs().isEmpty()) {
+            return;
         }
-        if (!(context.random().nextFloat() >= probability) && nest != null) {
-            if (context.leaves().isEmpty() || context.logs().isEmpty()) {
-                return;
-            }
 
-            int i = Math.max(context.leaves().get(0).getY() - 1, context.logs().get(0).getY() + 1);
+        int i = Math.max(context.leaves().get(0).getY() - 1, context.logs().get(0).getY() + 1);
 
-            List<BlockPos> list = context.logs().stream().filter((pos) -> pos.getY() == i).flatMap((pos) -> Stream.of(SPAWN_DIRECTIONS).map(pos::relative)).collect(Collectors.toList());
-            if (!list.isEmpty()) {
-                Collections.shuffle(list);
-                Optional<BlockPos> optional = list.stream().filter((pos) -> context.isAir(pos) && context.isAir(pos.relative(Direction.SOUTH))).findFirst();
-                if (optional.isPresent()) {
-                    // Find log position
-                    Direction facing = Direction.SOUTH;
-                    for (Direction d: Direction.Plane.HORIZONTAL) {
-                        if (context.logs().contains(optional.get().relative(d))) {
-                            facing = d.getOpposite();
-                            break;
+        List<BlockPos> list = context.logs().stream().filter((pos) -> pos.getY() == i).flatMap((pos) -> Stream.of(SPAWN_DIRECTIONS).map(pos::relative)).collect(Collectors.toList());
+        if (!list.isEmpty()) {
+            Collections.shuffle(list);
+            Optional<BlockPos> optional = list.stream().filter((pos) -> context.isAir(pos) && context.isAir(pos.relative(Direction.SOUTH))).findFirst();
+            if (optional.isPresent()) {
+                // Find log position
+                Direction facing = Direction.SOUTH;
+                for (Direction d: Direction.Plane.HORIZONTAL) {
+                    if (context.logs().contains(optional.get().relative(d))) {
+                        facing = d.getOpposite();
+                        break;
+                    }
+                }
+
+                context.setBlock(optional.get(), nest.setValue(BeehiveBlock.FACING, facing));
+                context.level().getBlockEntity(optional.get(), ModBlockEntityTypes.NETHER_BEE_NEST.get()).ifPresent((blockEntity) -> {
+                    int j = 2 + context.random().nextInt(2);
+
+                    String type = ForgeRegistries.BLOCKS.getKey(nest.getBlock()).getPath().equals("warped_bee_nest") ? "warped" : "crimson";
+
+                    for(int k = 0; k < j; ++k) {
+                        try {
+                            var beeIngredient = BeeIngredientFactory.getIngredient("productivebees:" + type);
+                            if (beeIngredient.get() != null) {
+                                CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient.get());
+                                blockEntity.addBee(bee, context.random().nextInt(599), 600, null, Component.translatable("entity.productivebees." + type + "_bee").getString());
+                            }
+                        } catch (CommandSyntaxException e) {
+                            ProductiveBees.LOGGER.warn("Failed to put bees into nether nest :(" + e.getMessage());
                         }
                     }
-
-                    context.setBlock(optional.get(), nest.setValue(BeehiveBlock.FACING, facing));
-                    context.level().getBlockEntity(optional.get(), ModBlockEntityTypes.NETHER_BEE_NEST.get()).ifPresent((blockEntity) -> {
-                        int j = 2 + context.random().nextInt(2);
-
-                        String type = ForgeRegistries.BLOCKS.getKey(nest.getBlock()).getPath().equals("warped_bee_nest") ? "warped" : "crimson";
-
-                        for(int k = 0; k < j; ++k) {
-                            try {
-                                var beeIngredient = BeeIngredientFactory.getIngredient("productivebees:" + type);
-                                if (beeIngredient.get() != null) {
-                                    CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient.get());
-                                    blockEntity.addBee(bee, context.random().nextInt(599), 600, null, Component.translatable("entity.productivebees." + type + "_bee").getString());
-                                }
-                            } catch (CommandSyntaxException e) {
-                                ProductiveBees.LOGGER.warn("Failed to put bees into nether nest :(" + e.getMessage());
-                            }
-                        }
-                    });
-                }
+                });
             }
         }
     }

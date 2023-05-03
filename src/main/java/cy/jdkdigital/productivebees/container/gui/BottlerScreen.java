@@ -56,23 +56,18 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
     }
 
     @Override
-    protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
+        blit(poseStack, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
 
         // Draw fluid tank
         this.menu.tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
-            int fluidLevel = (int) (fluidStack.getAmount() * (52 / 10000F));
             if (fluidStack.getAmount() > 0) {
-                FluidContainerUtil.setColors(fluidStack);
-
-                FluidContainerUtil.drawTiledSprite(this.getGuiLeft() + 140, this.getGuiTop() + 69, 0, 4, fluidLevel, FluidContainerUtil.getSprite(IClientFluidTypeExtensions.of(fluidStack.getFluid()).getStillTexture()), 16, 16, getBlitOffset());
-
-                FluidContainerUtil.resetColor();
+                FluidContainerUtil.renderFluidTank(poseStack, this, fluidStack, handler.getTankCapacity(0), 140, 69, 4, 52, 0);
             }
         });
     }

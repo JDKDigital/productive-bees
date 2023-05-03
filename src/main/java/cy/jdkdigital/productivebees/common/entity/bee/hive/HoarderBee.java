@@ -273,7 +273,7 @@ public class HoarderBee extends ProductiveBee
                     BlockPos beeLocation = HoarderBee.this.blockPosition();
                     int i = 0;
                     for (ItemEntity item : items) {
-                        BlockPos itemLocation = new BlockPos(item.getX(), item.getY(), item.getZ());
+                        BlockPos itemLocation = new BlockPos((int) item.getX(), (int) item.getY(), (int) item.getZ());
                         double distance = itemLocation.distSqr(beeLocation);
                         if (nearestItemDistance == -1 || distance < nearestItemDistance) {
                             nearestItemDistance = distance;

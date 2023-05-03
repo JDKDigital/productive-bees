@@ -56,8 +56,8 @@ public abstract class FluidTankBlockEntity extends CapabilityBlockEntity
 
                         if (recipes.size() > 0) {
                             BottlerRecipe recipe = recipes.iterator().next();
-                            if (existingOutput.isEmpty() || existingOutput.getItem().equals(recipe.getResultItem().getItem())) {
-                                processOutput(fluidHandler, invHandler, recipe.getResultItem().copy(), recipe.fluidInput.getSecond(), true);
+                            if (existingOutput.isEmpty() || existingOutput.getItem().equals(recipe.getResultItem(level.registryAccess()).getItem())) {
+                                processOutput(fluidHandler, invHandler, recipe.getResultItem(level.registryAccess()).copy(), recipe.fluidInput.getSecond(), true);
                             }
                         } else if (fluidContainerItem.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
                             // try filling fluid container

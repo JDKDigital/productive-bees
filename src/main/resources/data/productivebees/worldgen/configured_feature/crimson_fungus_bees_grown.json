@@ -21,6 +21,6 @@
         "type": "productivebees:nether_beehive"
       }
     ],
-    "planted": false
+    "planted": true
   }
 }
