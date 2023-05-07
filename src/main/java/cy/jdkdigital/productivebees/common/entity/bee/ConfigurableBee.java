@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.init.*;
@@ -358,7 +359,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
         }
 
-        return super.isFlowerValid(pos);
+        return super.isFlowerValid(pos, ConfigurableBee.this::isFlowerBlock);
     }
 
     @Override

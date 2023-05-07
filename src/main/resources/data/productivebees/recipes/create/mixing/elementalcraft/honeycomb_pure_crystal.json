@@ -1,0 +1,42 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:pure_crystal"
+                }
+            }
+        }
+    ],
+    "results": [
+        {
+            "item": "elementalcraft:purecrystal",
+            "chance": 0.1
+        },
+        {
+            "item": "productivebees:wax"
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 100
+        }
+    ],
+    "heatRequirement": "heated",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "elementalcraft"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:pure_crystal"
+        }
+    ]
+}

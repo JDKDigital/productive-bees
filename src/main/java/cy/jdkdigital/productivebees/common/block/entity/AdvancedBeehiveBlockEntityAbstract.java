@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
 import com.google.common.collect.Lists;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.common.block.Feeder;
@@ -234,11 +235,13 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             beeEntity.setSavedFlowerPos(flowerPos);
             if (level.isLoaded(flowerPos)) {
                 BeehiveBlockEntity.BeeReleaseStatus beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-                if (beeEntity instanceof ProductiveBee && beeEntity.isFlowerValid(flowerPos)) {
+                if (beeEntity instanceof ProductiveBee pBee && pBee.isFlowerValid(flowerPos)) {
                     beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
+                    pBee.internalSetHasNectar(true);
+                    pBee.postPollinate();
                 } else if (!(beeEntity instanceof ProductiveBee)) {
                     BlockState flowerBlock = level.getBlockState(flowerPos);
-                    if (flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, level.getBlockEntity(flowerPos), blockState -> blockState.is(BlockTags.FLOWERS))) {
+                    if (beeEntity.isFlowerValid(flowerPos) || flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, level.getBlockEntity(flowerPos), blockState -> blockState.is(BlockTags.FLOWERS))) {
                         beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
                     }
                 }
@@ -353,6 +356,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         } else if (i > 0) {
             beeEntity.setAge(Math.max(0, i - ticksInHive));
         }
+
+        beeEntity.resetLove();
 
         beeEntity.resetTicksWithoutNectarSinceExitingHive();
     }

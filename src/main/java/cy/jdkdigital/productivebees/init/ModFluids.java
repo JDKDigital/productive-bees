@@ -23,7 +23,7 @@ public final class ModFluids
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ProductiveBees.MODID);
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, ProductiveBees.MODID);
 
-    public static final Material MATERIAL_HONEY = (new Material.Builder(MaterialColor.TERRACOTTA_ORANGE)).noCollider().liquid().nonSolid().replaceable().liquid().build();
+    public static final Material MATERIAL_HONEY = (new Material.Builder(MaterialColor.TERRACOTTA_ORANGE)).noCollider().nonSolid().replaceable().liquid().build();
 
     public static final RegistryObject<ForgeFlowingFluid> HONEY = createFluid("honey", HoneyFluid.Source::new);
     public static final RegistryObject<ForgeFlowingFluid> HONEY_FLOWING = createFluid("flowing_honey", HoneyFluid.Flowing::new);

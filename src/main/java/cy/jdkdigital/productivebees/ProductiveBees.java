@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.dispenser.ShearsDispenseItemBehavior;
 import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -118,7 +119,7 @@ public final class ProductiveBees
     }
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {
-//        InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
+        InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {

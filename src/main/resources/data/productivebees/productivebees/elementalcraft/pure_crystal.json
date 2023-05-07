@@ -1,0 +1,24 @@
+{
+  "primaryColor": "#fffffe",
+  "secondaryColor": "#beb0dd",
+  "tertiaryColor": "#beb0dd",
+  "particleColor": "#fffffe",
+  "renderer": "default_crystal",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "elementalcraft:purerock",
+  "size": 0.6,
+  "selfbreed": false,
+  "selfheal": true,
+  "attributes": {
+    "endurance": 3
+  },
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "elementalcraft"
+    }
+  ]
+}

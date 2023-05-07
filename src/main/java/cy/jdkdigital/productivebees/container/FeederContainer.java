@@ -30,7 +30,7 @@ public class FeederContainer extends AbstractContainer
         this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
 
         this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            addSlotBox(inv, 0, 61, 34, 3, 18, 1, 18);
+            addSlotBox(inv, 0, 62, 35, 3, 18, 1, 18);
         });
 
         layoutPlayerInventorySlots(playerInventory, 0, 8, 84);

@@ -20,8 +20,8 @@ public class HoneyFluidBlock extends LiquidBlock
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos position, Entity entity) {
-        if (entity instanceof Bee) {
-            ((Bee) entity).addEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 0, false, true));
+        if (entity instanceof Bee bee) {
+            bee.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 80, 0, false, true));
         }
 
         super.entityInside(state, world, position, entity);

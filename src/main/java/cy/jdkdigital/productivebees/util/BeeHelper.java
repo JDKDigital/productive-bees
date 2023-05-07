@@ -234,7 +234,6 @@ public class BeeHelper
                         }
                         for (Map.Entry<ResourceLocation, BeeNBTChangerRecipe> entry : allRecipes.entrySet()) {
                             if (entry.getValue().matches(inv, beeEntity.level)) {
-                                ProductiveBees.LOGGER.info("adding recipe to map " + entry.getValue());
                                 recipes.add(entry.getValue());
                             }
                         }

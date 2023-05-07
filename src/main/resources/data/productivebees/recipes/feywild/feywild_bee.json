@@ -1,5 +1,5 @@
 {
-    "type": "feywild:fey_altar",
+    "type": "feywild:altar",
     "output": {
         "type": "forge:nbt",
         "item": "productivebees:spawn_egg_configurable_bee",

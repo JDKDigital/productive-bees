@@ -1,0 +1,65 @@
+{
+  "type": "elementalcraft:binding",
+  "element_amount": 2500,
+  "element_type": "water",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:amethyst"
+        }
+      }
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:crystalline"
+        }
+      }
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:water_crystal"
+        }
+      }
+    }
+  ],
+  "output": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:springaline"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "elementalcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:amethyst"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:water_crystal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:springaline"
+    }
+  ]
+}

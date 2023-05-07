@@ -48,6 +48,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.Nonnull;
@@ -69,6 +70,21 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         @Override
         public boolean isContainerItem(Item item) {
             return false;
+        }
+
+        @Nonnull
+        @Override
+        public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate, boolean fromAutomation) {
+            if (fromAutomation) {
+                // Skip recipe lookup if the item is different
+                ItemStack existing = this.stacks.get(slot);
+                if (!existing.isEmpty()) {
+                    if (!ItemHandlerHelper.canItemStacksStack(stack, existing)) {
+                        return stack;
+                    }
+                }
+            }
+            return super.insertItem(slot, stack, simulate, fromAutomation);
         }
 
         @Override

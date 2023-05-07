@@ -57,7 +57,12 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
 
         @Override
         public boolean isInputSlot(int slot) {
-            return false;
+            return true;
+        }
+
+        @Override
+        public boolean isInputSlotItem(int slot, ItemStack item) {
+            return this.isItemValid(slot, item);
         }
     });
 

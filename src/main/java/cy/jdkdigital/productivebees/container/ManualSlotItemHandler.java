@@ -18,7 +18,10 @@ public class ManualSlotItemHandler extends SlotItemHandler
 
     @Override
     public boolean mayPlace(@Nonnull ItemStack stack) {
-        return handler.isItemValid(this.getSlotIndex(), stack, false);
+        if (stack.isEmpty()) {
+            return false;
+        }
+        return handler.isInputSlotItem(this.getSlotIndex(), stack) && handler.isItemValid(this.getSlotIndex(), stack, false);
     }
 
     @Override
