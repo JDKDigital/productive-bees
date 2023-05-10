@@ -1,6 +1,6 @@
 {
   "type": "productivebees:advanced_beehive",
-  "ingredient": "productivebees:uraninite",
+  "ingredient": "productivebees:energized_steel",
   "results": [
     {
       "item": {
@@ -8,7 +8,7 @@
         "item": "productivebees:configurable_honeycomb",
         "nbt": {
           "EntityTag": {
-            "type": "productivebees:uraninite"
+            "type": "productivebees:energized_steel"
           }
         }
       }
@@ -23,7 +23,7 @@
   "conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:uraninite"
+      "bee": "productivebees:energized_steel"
     }
   ]
 }

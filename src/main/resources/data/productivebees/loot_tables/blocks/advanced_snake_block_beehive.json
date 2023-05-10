@@ -5,28 +5,65 @@
             "rolls": 1,
             "entries": [
                 {
-                    "type": "minecraft:item",
-                    "functions": [
+                    "type": "minecraft:alternatives",
+                    "children": [
                         {
-                            "function": "minecraft:copy_nbt",
-                            "source": "block_entity",
-                            "ops": [
+                            "type": "minecraft:item",
+                            "conditions": [
                                 {
-                                    "source": "BeeList",
-                                    "target": "BlockEntityTag.BeeList",
-                                    "op": "replace"
+                                    "condition": "minecraft:match_tool",
+                                    "predicate": {
+                                        "enchantments": [
+                                            {
+                                                "enchantment": "minecraft:silk_touch",
+                                                "levels": {
+                                                    "min": 1
+                                                }
+                                            }
+                                        ]
+                                    }
                                 }
-                            ]
+                            ],
+                            "functions": [
+                                {
+                                    "function": "minecraft:copy_nbt",
+                                    "source": "block_entity",
+                                    "ops": [
+                                        {
+                                            "source": "BeeList",
+                                            "target": "BlockEntityTag.BeeList",
+                                            "op": "replace"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "function": "minecraft:copy_state",
+                                    "block": "productivebees:advanced_snake_block_beehive",
+                                    "properties": [
+                                        "honey_level"
+                                    ]
+                                }
+                            ],
+                            "name": "productivebees:advanced_snake_block_beehive"
                         },
                         {
-                            "function": "minecraft:copy_state",
-                            "block": "productivebees:advanced_snake_block_beehive",
-                            "properties": [
-                                "honey_level"
-                            ]
+                            "type": "minecraft:item",
+                            "functions": [
+                                {
+                                    "function": "minecraft:copy_nbt",
+                                    "source": "block_entity",
+                                    "ops": [
+                                        {
+                                            "source": "BeeList",
+                                            "target": "BlockEntityTag.BeeList",
+                                            "op": "replace"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "name": "productivebees:advanced_snake_block_beehive"
                         }
-                    ],
-                    "name": "productivebees:advanced_snake_block_beehive"
+                    ]
                 }
             ]
         }

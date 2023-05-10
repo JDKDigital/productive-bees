@@ -1,0 +1,37 @@
+{
+  "type": "powah:energizing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:redstone\"}}"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:spirited_crystal\"}}"
+    },
+    {
+      "item": "powah:nitro_crystal_block"
+    },
+    {
+      "item": "powah:nitro_crystal_block"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:spirited_crystal\"}}"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:blazing_crystal\"}}"
+    }
+  ],
+  "energy": 2000000000,
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:nitro_crystal\"}}"
+  }
+}

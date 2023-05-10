@@ -5,16 +5,15 @@
     "item": "productivebees:configurable_honeycomb",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:uraninite"
+        "type": "productivebees:nitro_crystal"
       }
     }
   },
   "outputs": [
     {
       "item": {
-        "item": "powah:uraninite_raw"
-      },
-      "chance": 70
+        "item": "powah:crystal_nitro"
+      }
     },
     {
       "item": {

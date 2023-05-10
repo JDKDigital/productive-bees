@@ -80,7 +80,7 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
 
         IntStream.range(0, recipe.output.size()).forEach((i) -> {
             List<Integer> pos = BEE_POSITIONS.get(i);
-            builder.addSlot(RecipeIngredientRole.INPUT, pos.get(0), pos.get(1))
+            builder.addSlot(RecipeIngredientRole.OUTPUT, pos.get(0), pos.get(1))
                     .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.output.get(i).get())
                     .setSlotName("spawn" + i);
         });

@@ -1,0 +1,32 @@
+{
+  "type": "powah:energizing",
+  "ingredients": [
+    {
+      "item": "powah:energized_steel_block"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:iron\"}}"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:gold\"}}"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:iron\"}}"
+    },
+    {
+      "item": "powah:energized_steel_block"
+    }
+  ],
+  "energy": 100000,
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:energized_steel\"}}"
+  }
+}

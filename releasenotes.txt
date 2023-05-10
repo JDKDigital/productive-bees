@@ -1,3 +1,11 @@
+1.19.2-0.10.7.0
+
+- Added more Powah! bees (Energized Steel, Blazing Crystal, Niotic Crystal, Spirited Crystal and Nitro Crystal)
+- Added alternative recipe for Rose Gold bee spawn egg
+- Fixed spawn recipe having incorrect output designation in JEI
+- Fixed players no being able to put genes into the indexer manually
+
+
 1.19.2-0.10.6.1
 
 -  Fix feeding slab input slots not working
