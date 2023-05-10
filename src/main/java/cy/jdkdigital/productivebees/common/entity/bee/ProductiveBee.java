@@ -93,6 +93,7 @@ public class ProductiveBee extends Bee
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
+
         this.setPathfindingMalus(BlockPathTypes.TRAPDOOR, -1.0F);
     }
 

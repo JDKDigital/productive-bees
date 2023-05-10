@@ -1,0 +1,48 @@
+{
+    "type": "thermal:smelter",
+    "ingredients": [
+        {
+            "type": "forge:nbt",
+            "item": "productivebees:spawn_egg_configurable_bee",
+            "nbt": "{EntityTag:{type:\"productivebees:gold\"}}"
+        },
+        {
+            "value": [
+                {
+                    "tag": "forge:ingots/copper"
+                },
+                {
+                    "tag": "forge:dusts/copper"
+                }
+            ],
+            "count": 8
+        }
+    ],
+    "result": {
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+            "EntityTag": {
+                "type": "productivebees:rose_gold"
+            }
+        }
+    },
+    "energy": 8000,
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thermal"
+        },
+        {
+            "type": "thermal:flag",
+            "flag": "rose_gold"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:gold"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:rose_gold"
+        }
+    ]
+}

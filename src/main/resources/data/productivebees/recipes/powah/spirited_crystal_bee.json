@@ -1,0 +1,32 @@
+{
+  "type": "powah:energizing",
+  "ingredients": [
+    {
+      "item": "powah:spirited_crystal_block"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:niotic_crystal\"}}"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:emerald\"}}"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:niotic_crystal\"}}"
+    },
+    {
+      "item": "powah:spirited_crystal_block"
+    }
+  ],
+  "energy": 10000000,
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:spirited_crystal\"}}"
+  }
+}

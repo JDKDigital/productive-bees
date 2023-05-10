@@ -6,15 +6,14 @@
       "item": "productivebees:configurable_honeycomb",
       "nbt": {
         "EntityTag": {
-          "type": "productivebees:uraninite"
+          "type": "productivebees:blazing_crystal"
         }
       }
     }
   ],
   "results": [
     {
-      "item": "powah:uraninite_raw",
-      "chance": 0.7
+      "item": "powah:crystal_blazing"
     },
     {
       "fluid": "productivebees:honey",

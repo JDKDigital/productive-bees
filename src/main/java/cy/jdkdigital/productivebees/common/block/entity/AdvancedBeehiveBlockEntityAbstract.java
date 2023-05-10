@@ -468,8 +468,10 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     public void savePacketNBT(CompoundTag tag) {
         beeHandler.ifPresent(h -> {
             tag.remove("Bees"); // remove vanilla bee data
-            CompoundTag compound = ((INBTSerializable<CompoundTag>) h).serializeNBT();
-            tag.put("BeeList", compound);
+            if (h.getInhabitants().size() > 0) {
+                CompoundTag compound = ((INBTSerializable<CompoundTag>) h).serializeNBT();
+                tag.put("BeeList", compound);
+            }
         });
     }
 
