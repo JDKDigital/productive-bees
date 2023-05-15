@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/expansion_box_template",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/byg_holly_beehive_side",
+    "bottom": "productivebees:block/advanced_beehive/byg_holly_beehive_end",
+    "east": "productivebees:block/advanced_beehive/byg_holly_beehive_side",
+    "front": "productivebees:block/advanced_beehive/byg_holly_beehive_side",
+    "top": "productivebees:block/advanced_beehive/byg_holly_beehive_end",
+    "west": "productivebees:block/advanced_beehive/byg_holly_beehive_side"
+  }
+}

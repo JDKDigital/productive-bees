@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.block.entity.ExpansionBoxBlockEntity;
@@ -21,28 +22,38 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class ExpansionBox extends Block implements EntityBlock
 {
     public static final BooleanProperty HAS_HONEY = BooleanProperty.create("has_honey");
+    private final Supplier<BlockEntityType<ExpansionBoxBlockEntity>> blockEntitySupplier;
 
-    public ExpansionBox(final BlockBehaviour.Properties properties) {
+    public ExpansionBox(final BlockBehaviour.Properties properties, Supplier<BlockEntityType<ExpansionBoxBlockEntity>> blockEntitySupplier) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState()
                 .setValue(BeehiveBlock.FACING, Direction.NORTH)
                 .setValue(AdvancedBeehive.EXPANDED, VerticalHive.NONE)
                 .setValue(HAS_HONEY, false)
         );
+
+        this.blockEntitySupplier = blockEntitySupplier;
+    }
+
+    public Supplier<BlockEntityType<ExpansionBoxBlockEntity>> getBlockEntitySupplier() {
+        return blockEntitySupplier;
     }
 
     @Override
@@ -58,7 +69,7 @@ public class ExpansionBox extends Block implements EntityBlock
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new ExpansionBoxBlockEntity(pos, state);
+        return new ExpansionBoxBlockEntity(this, pos, state);
     }
 
     public void updateState(Level world, BlockPos pos, BlockState state, boolean isRemoved) {
@@ -69,13 +80,13 @@ public class ExpansionBox extends Block implements EntityBlock
             VerticalHive directionProperty = AdvancedBeehive.calculateExpandedDirection(world, hivePos, isRemoved);
 
             if (!isRemoved) {
-                updateStateWithDirection(world, pos, state, directionProperty);
+                updateStateWithDirection(world, pos, state, directionProperty, pair.getRight().getValue(BeehiveBlock.FACING));
             }
             ((AdvancedBeehive) pair.getRight().getBlock()).updateStateWithDirection(world, hivePos, pair.getRight(), directionProperty);
         } else {
             // No hive
             if (!isRemoved) {
-                updateStateWithDirection(world, pos, state, VerticalHive.NONE);
+                updateStateWithDirection(world, pos, state, VerticalHive.NONE, state.getValue(BeehiveBlock.FACING));
             }
         }
     }
@@ -99,15 +110,12 @@ public class ExpansionBox extends Block implements EntityBlock
         super.attack(state, level, pos, player);
     }
 
-    public void updateStateWithDirection(Level world, BlockPos pos, BlockState state, VerticalHive directionProperty) {
-        world.setBlockAndUpdate(pos, state.setValue(AdvancedBeehive.EXPANDED, directionProperty));
+    public void updateStateWithDirection(Level world, BlockPos pos, BlockState state, VerticalHive directionProperty, Direction facing) {
+        world.setBlockAndUpdate(pos, state.setValue(AdvancedBeehive.EXPANDED, directionProperty).setValue(BeehiveBlock.FACING, facing));
     }
 
     public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentHive(Level world, BlockPos pos) {
         for (Direction direction : BlockStateProperties.FACING.getPossibleValues()) {
-            if (direction == Direction.UP) {
-                continue;
-            }
             BlockPos newPos = pos.relative(direction);
             BlockState blockStateAtPos = world.getBlockState(newPos);
 

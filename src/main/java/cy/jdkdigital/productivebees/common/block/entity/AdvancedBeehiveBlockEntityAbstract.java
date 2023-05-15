@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.block.entity;
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
@@ -11,6 +12,7 @@ import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -231,7 +233,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         if (beeEntity != null) {
             // state depends on whether the outside is having a valid flower block
             Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
-            BlockPos flowerPos = hivePos.below().relative(direction);
+            BlockPos flowerPos = hivePos.below(state.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.DOWN) ? 2 : 1).relative(direction);
             beeEntity.setSavedFlowerPos(flowerPos);
             if (level.isLoaded(flowerPos)) {
                 BeehiveBlockEntity.BeeReleaseStatus beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;

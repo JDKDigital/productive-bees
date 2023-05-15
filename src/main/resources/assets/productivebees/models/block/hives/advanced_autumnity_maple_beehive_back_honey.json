@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/advanced_beehive_template",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/autumnity_maple_beehive_side",
+    "bottom": "productivebees:block/advanced_beehive/autumnity_maple_beehive_end_back",
+    "east": "productivebees:block/advanced_beehive/autumnity_maple_beehive_side_left",
+    "front": "productivebees:block/advanced_beehive/autumnity_maple_beehive_front_honey",
+    "top": "productivebees:block/advanced_beehive/autumnity_maple_beehive_end_front",
+    "west": "productivebees:block/advanced_beehive/autumnity_maple_beehive_side_right"
+  }
+}

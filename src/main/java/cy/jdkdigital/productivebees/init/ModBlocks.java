@@ -2,18 +2,27 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.*;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.ExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.BumbleBeeNest;
 import cy.jdkdigital.productivebees.common.block.nest.SugarCaneNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import cy.jdkdigital.productivebees.common.item.JarBlockItem;
+import cy.jdkdigital.productivebees.setup.HiveType;
+import cy.jdkdigital.productivebees.util.FakeIngredient;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.fml.ModList;
@@ -21,6 +30,11 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
@@ -44,13 +58,14 @@ public final class ModBlocks
     public static final RegistryObject<Block> GENE_INDEXER = createBlock("gene_indexer", () -> new GeneIndexer(Block.Properties.copy(Blocks.CAULDRON)));
     public static final RegistryObject<Block> BREEDING_CHAMBER = createBlock("breeding_chamber", () -> new BreedingChamber(Block.Properties.copy(Blocks.CAULDRON)));
 
-    public static final RegistryObject<Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.OAK_LOG)));
-    public static final RegistryObject<Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.SPRUCE_LOG)));
-    public static final RegistryObject<Block> DARK_OAK_WOOD_NEST = createBlock("dark_oak_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.DARK_OAK_LOG)));
-    public static final RegistryObject<Block> BIRCH_WOOD_NEST = createBlock("birch_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.BIRCH_LOG)));
-    public static final RegistryObject<Block> JUNGLE_WOOD_NEST = createBlock("jungle_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.JUNGLE_LOG)));
-    public static final RegistryObject<Block> ACACIA_WOOD_NEST = createBlock("acacia_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.ACACIA_LOG)));
-    public static final RegistryObject<Block> CHERRY_WOOD_NEST = createBlock("cherry_wood_nest", () -> new WoodNest(Block.Properties.copy(Blocks.CHERRY_LOG)));
+    public static final RegistryObject<Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest("#382b18", Block.Properties.copy(Blocks.OAK_LOG)));
+    public static final RegistryObject<Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest("#2e1608", Block.Properties.copy(Blocks.SPRUCE_LOG)));
+    public static final RegistryObject<Block> DARK_OAK_WOOD_NEST = createBlock("dark_oak_wood_nest", () -> new WoodNest("#292011", Block.Properties.copy(Blocks.DARK_OAK_LOG)));
+    public static final RegistryObject<Block> BIRCH_WOOD_NEST = createBlock("birch_wood_nest", () -> new WoodNest("#36342a", Block.Properties.copy(Blocks.BIRCH_LOG)));
+    public static final RegistryObject<Block> JUNGLE_WOOD_NEST = createBlock("jungle_wood_nest", () -> new WoodNest("#3e3013", Block.Properties.copy(Blocks.JUNGLE_LOG)));
+    public static final RegistryObject<Block> ACACIA_WOOD_NEST = createBlock("acacia_wood_nest", () -> new WoodNest("#504b40", Block.Properties.copy(Blocks.ACACIA_LOG)));
+    public static final RegistryObject<Block> CHERRY_WOOD_NEST = createBlock("cherry_wood_nest", () -> new WoodNest("#271620", Block.Properties.copy(Blocks.CHERRY_LOG)));
+    public static final RegistryObject<Block> MANGROVE_WOOD_NEST = createBlock("mangrove_wood_nest", () -> new WoodNest("#443522", Block.Properties.copy(Blocks.MANGROVE_LOG)));
 
     public static final RegistryObject<Block> BAMBOO_HIVE = createBlock("bamboo_hive", () -> new BambooHive(Block.Properties.of(Material.DECORATION, MaterialColor.SAND).sound(SoundType.SCAFFOLDING).strength(0.3F)));
     public static final RegistryObject<Block> DRAGON_EGG_HIVE = createBlock("dragon_egg_hive", () -> new DragonEggHive(Block.Properties.copy(Blocks.DRAGON_EGG)));
@@ -87,79 +102,137 @@ public final class ModBlocks
     public static final RegistryObject<Block> WARPED_BEE_NEST = createBlock("warped_bee_nest", () -> new NetherBeeNest(Block.Properties.copy(Blocks.BEE_NEST)));
     public static final RegistryObject<Block> CRIMSON_BEE_NEST = createBlock("crimson_bee_nest", () -> new NetherBeeNest(Block.Properties.copy(Blocks.BEE_NEST)));
 
-    public static final RegistryObject<Block> ADVANCED_OAK_BEEHIVE = createBlock("advanced_oak_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_SPRUCE_BEEHIVE = createBlock("advanced_spruce_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BIRCH_BEEHIVE = createBlock("advanced_birch_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_JUNGLE_BEEHIVE = createBlock("advanced_jungle_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_ACACIA_BEEHIVE = createBlock("advanced_acacia_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_DARK_OAK_BEEHIVE = createBlock("advanced_dark_oak_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_CRIMSON_BEEHIVE = createBlock("advanced_crimson_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_WARPED_BEEHIVE = createBlock("advanced_warped_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_SNAKE_BLOCK_BEEHIVE = createBlock("advanced_snake_block_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.DARK_PRISMARINE)));
-    public static final RegistryObject<Block> ADVANCED_ROSEWOOD_BEEHIVE = createBlockCompat("atmospheric", "advanced_rosewood_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_YUCCA_BEEHIVE = createBlockCompat("atmospheric", "advanced_yucca_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_KOUSA_BEEHIVE = createBlockCompat("atmospheric", "advanced_kousa_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_ASPEN_BEEHIVE = createBlockCompat("atmospheric,byg", "advanced_aspen_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_GRIMWOOD_BEEHIVE = createBlockCompat("atmospheric", "advanced_grimwood_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_WILLOW_BEEHIVE = createBlockCompat("swampexpansion,byg", "advanced_willow_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_WISTERIA_BEEHIVE = createBlockCompat("environmental", "advanced_wisteria_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BAMBOO_BEEHIVE = createBlockCompat("bamboo_blocks", "advanced_bamboo_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_MAPLE_BEEHIVE = createBlockCompat("autumnity,byg", "advanced_maple_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_DRIFTWOOD_BEEHIVE = createBlockCompat("upgrade_aquatic", "advanced_driftwood_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_RIVER_BEEHIVE = createBlockCompat("upgrade_aquatic", "advanced_river_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_POISE_BEEHIVE = createBlockCompat("endergetic", "advanced_poise_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_FIR_BEEHIVE = createBlockCompat("biomesoplenty,byg", "advanced_bop_fir_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_DEAD_BEEHIVE = createBlockCompat("biomesoplenty", "advanced_bop_dead_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_PALM_BEEHIVE = createBlockCompat("biomesoplenty,byg", "advanced_bop_palm_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_MAGIC_BEEHIVE = createBlockCompat("biomesoplenty,byg", "advanced_bop_magic_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_CHERRY_BEEHIVE = createBlockCompat("biomesoplenty,byg", "advanced_bop_cherry_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_UMBRAN_BEEHIVE = createBlockCompat("biomesoplenty", "advanced_bop_umbran_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_WILLOW_BEEHIVE = createBlockCompat("biomesoplenty", "advanced_bop_willow_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_REDWOOD_BEEHIVE = createBlockCompat("biomesoplenty,byg", "advanced_bop_redwood_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_HELLBARK_BEEHIVE = createBlockCompat("biomesoplenty", "advanced_bop_hellbark_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_MAHOGANY_BEEHIVE = createBlockCompat("biomesoplenty,byg", "advanced_bop_mahogany_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> ADVANCED_BOP_JACARANDA_BEEHIVE = createBlockCompat("biomesoplenty,byg", "advanced_bop_jacaranda_beehive", () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE)));
+    public static final Map<String, RegistryObject<? extends Block>> HIVES = new HashMap<>();
+    public static final Map<String, RegistryObject<? extends Block>> EXPANSIONS = new HashMap<>();
+    public static final Map<String, Map<String, HiveType>> HIVELIST = new HashMap<>()
+    {{
+        put(ProductiveBees.MODID, new HashMap<>()
+        {{
+            put("oak", new HiveType(Ingredient.of(Items.OAK_PLANKS)));
+            put("spruce", new HiveType(Ingredient.of(Items.SPRUCE_PLANKS)));
+            put("birch", new HiveType(Ingredient.of(Items.BIRCH_PLANKS)));
+            put("jungle", new HiveType(Ingredient.of(Items.JUNGLE_PLANKS)));
+            put("acacia", new HiveType(Ingredient.of(Items.ACACIA_PLANKS)));
+            put("dark_oak", new HiveType(Ingredient.of(Items.DARK_OAK_PLANKS)));
+            put("crimson", new HiveType(Ingredient.of(Items.CRIMSON_PLANKS)));
+            put("warped", new HiveType(Ingredient.of(Items.WARPED_PLANKS)));
+            put("mangrove", new HiveType(false, "#773934", "#ffffff", Ingredient.of(Items.MANGROVE_PLANKS)));
+            put("cherry", new HiveType(false, "#e6b3ad", "#ffffff", Ingredient.of(Items.CHERRY_PLANKS)));
+            put("bamboo", new HiveType(Ingredient.of(Items.MANGROVE_PLANKS)));
+            put("snake_block", new HiveType(Ingredient.of(Items.PRISMARINE_SHARD)));
+        }});
+        put("atmospheric", new HashMap<>()
+        {{
+            put("rosewood", new HiveType(new FakeIngredient("atmospheric:rosewood_planks")));
+            put("yucca", new HiveType(new FakeIngredient("atmospheric:yucca_planks")));
+            put("kousa", new HiveType(new FakeIngredient("atmospheric:kousa_planks")));
+            put("aspen", new HiveType(new FakeIngredient("atmospheric:aspen_planks")));
+            put("grimwood", new HiveType(new FakeIngredient("atmospheric:grimwood_planks")));
+        }});
+        put("upgrade_aquatic", new HashMap<>()
+        {{
+            put("driftwood", new HiveType(new FakeIngredient("upgrade_aquatic:driftwood_planks")));
+            put("river", new HiveType(new FakeIngredient("upgrade_aquatic:river_planks")));
+        }});
+        put("autumnity", new HashMap<>()
+        {{
+            put("willow", new HiveType(new FakeIngredient("autumnity:willow_planks")));
+            put("maple", new HiveType(new FakeIngredient("autumnity:maple_planks")));
+        }});
+        put("swampexpansion", new HashMap<>()
+        {{
+            put("maple", new HiveType(new FakeIngredient("swampexpansion:maple_planks")));
+        }});
+        put("endergetic", new HashMap<>()
+        {{
+            put("poise", new HiveType(new FakeIngredient("endergetic:poise_planks")));
+        }});
+        put("environmental", new HashMap<>()
+        {{
+            put("wisteria", new HiveType(new FakeIngredient("environmental:wisteria_planks")));
+        }});
+        put("quark", new HashMap<>()
+        {{
+            put("azalea", new HiveType(new FakeIngredient("quark:azalea_planks")));
+            put("blossom", new HiveType(new FakeIngredient("quark:blossom_planks")));
+            put("ancient", new HiveType(new FakeIngredient("quark:ancient_planks")));
+        }});
+        put("byg", new HashMap<>()
+        {{
+            put("aspen", new HiveType(new FakeIngredient("byg:aspen_planks")));
+            put("baobab", new HiveType(new FakeIngredient("byg:baobab_planks")));
+            put("blue_enchanted", new HiveType(new FakeIngredient("byg:blue_enchanted_planks")));
+            put("bulbis", new HiveType(new FakeIngredient("byg:bulbis_planks")));
+            put("cika", new HiveType(new FakeIngredient("byg:cika_planks")));
+            put("cypress", new HiveType(new FakeIngredient("byg:cypress_planks")));
+            put("ebony", new HiveType(new FakeIngredient("byg:ebony_planks")));
+            put("embur", new HiveType(new FakeIngredient("byg:embur_planks")));
+            put("ether", new HiveType(new FakeIngredient("byg:ether_planks")));
+            put("fir", new HiveType(new FakeIngredient("byg:fir_planks")));
+            put("green_enchanted", new HiveType(new FakeIngredient("byg:green_enchanted_planks")));
+            put("holly", new HiveType(new FakeIngredient("byg:holly_planks")));
+            put("imparius", new HiveType(new FakeIngredient("byg:imparius_planks")));
+            put("jacaranda", new HiveType(new FakeIngredient("byg:jacaranda_planks")));
+            put("lament", new HiveType(new FakeIngredient("byg:lament_planks")));
+            put("mahogany", new HiveType(new FakeIngredient("byg:mahogany_planks")));
+            put("maple", new HiveType(new FakeIngredient("byg:maple_planks")));
+            put("nightshade", new HiveType(new FakeIngredient("byg:nightshade_planks")));
+            put("palm", new HiveType(new FakeIngredient("byg:palm_planks")));
+            put("pine", new HiveType(new FakeIngredient("byg:pine_planks")));
+            put("rainbow_eucalyptus", new HiveType(new FakeIngredient("byg:rainbow_eucalyptus_planks")));
+            put("redwood", new HiveType(new FakeIngredient("byg:redwood_planks")));
+            put("skyris", new HiveType(new FakeIngredient("byg:skyris_planks")));
+            put("sythian", new HiveType(new FakeIngredient("byg:sythian_planks")));
+            put("white_mangrove", new HiveType(new FakeIngredient("byg:white_mangrove_planks")));
+            put("willow", new HiveType(new FakeIngredient("byg:willow_planks")));
+            put("witch_hazel", new HiveType(new FakeIngredient("byg:witch_hazel_planks")));
+            put("zelkova", new HiveType(new FakeIngredient("byg:zelkova_planks")));
+        }});
+        put("biomesoplenty", new HashMap<>()
+        {{
+            put("fir", new HiveType(new FakeIngredient("biomesoplenty:fir_planks")));
+            put("redwood", new HiveType(new FakeIngredient("biomesoplenty:redwood_planks")));
+            put("mahogany", new HiveType(new FakeIngredient("biomesoplenty:mahogany_planks")));
+            put("jacaranda", new HiveType(new FakeIngredient("biomesoplenty:jacaranda_planks")));
+            put("palm", new HiveType(new FakeIngredient("biomesoplenty:palm_planks")));
+            put("willow", new HiveType(new FakeIngredient("biomesoplenty:willow_planks")));
+            put("dead", new HiveType(new FakeIngredient("biomesoplenty:dead_planks")));
+            put("magic", new HiveType(new FakeIngredient("biomesoplenty:magic_planks")));
+            put("umbran", new HiveType(new FakeIngredient("biomesoplenty:umbran_planks")));
+            put("hellbark", new HiveType(new FakeIngredient("biomesoplenty:hellbark_planks")));
+        }});
+    }};
 
-    public static final RegistryObject<Block> EXPANSION_BOX_OAK = createBlock("expansion_box_oak", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_SPRUCE = createBlock("expansion_box_spruce", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BIRCH = createBlock("expansion_box_birch", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_JUNGLE = createBlock("expansion_box_jungle", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_ACACIA = createBlock("expansion_box_acacia", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_DARK_OAK = createBlock("expansion_box_dark_oak", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_CRIMSON = createBlock("expansion_box_crimson", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_WARPED = createBlock("expansion_box_warped", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_SNAKE_BLOCK = createBlock("expansion_box_snake_block", () -> new ExpansionBox(Block.Properties.copy(Blocks.DARK_PRISMARINE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_ROSEWOOD = createBlockCompat("atmospheric", "expansion_box_rosewood", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_YUCCA = createBlockCompat("atmospheric", "expansion_box_yucca", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_KOUSA = createBlockCompat("atmospheric", "expansion_box_kousa", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_ASPEN = createBlockCompat("atmospheric,byg", "expansion_box_aspen", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_GRIMWOOD = createBlockCompat("atmospheric", "expansion_box_grimwood", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_WILLOW = createBlockCompat("swampexpansion,byg", "expansion_box_willow", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_WISTERIA = createBlockCompat("bloomful", "expansion_box_wisteria", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BAMBOO = createBlockCompat("bamboo_blocks", "expansion_box_bamboo", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_MAPLE = createBlockCompat("autumnity,byg", "expansion_box_maple", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_DRIFTWOOD = createBlockCompat("upgrade_aquatic", "expansion_box_driftwood", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_RIVER = createBlockCompat("upgrade_aquatic", "expansion_box_river", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_POISE = createBlockCompat("endergetic", "expansion_box_poise", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_FIR = createBlockCompat("biomesoplenty,byg", "expansion_box_bop_fir", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_DEAD = createBlockCompat("biomesoplenty", "expansion_box_bop_dead", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_PALM = createBlockCompat("biomesoplenty,byg", "expansion_box_bop_palm", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_MAGIC = createBlockCompat("biomesoplenty,byg", "expansion_box_bop_magic", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_CHERRY = createBlockCompat("biomesoplenty,byg", "expansion_box_bop_cherry", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_UMBRAN = createBlockCompat("biomesoplenty", "expansion_box_bop_umbran", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_WILLOW = createBlockCompat("biomesoplenty", "expansion_box_bop_willow", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_REDWOOD = createBlockCompat("biomesoplenty,byg", "expansion_box_bop_redwood", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_HELLBARK = createBlockCompat("biomesoplenty", "expansion_box_bop_hellbark", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_MAHOGANY = createBlockCompat("biomesoplenty,byg", "expansion_box_bop_mahogany", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-    public static final RegistryObject<Block> EXPANSION_BOX_BOP_JACARANDA = createBlockCompat("biomesoplenty,byg", "expansion_box_bop_jacaranda", () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE)));
-
-    public static <B extends Block> RegistryObject<B> createBlockCompat(String mods, String name, Supplier<? extends B> supplier) {
-        return createBlockCompat(mods, name, supplier, true);
+    public static void registerHives() {
+        HIVELIST.forEach((modid, strings) -> {
+//            if (ModList.get().isLoaded(modid)) {
+                strings.forEach((name, type) -> {
+                    name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
+                    String hiveName = "advanced_" + name + "_beehive";
+                    String boxName = "expansion_box_" + name;
+                    if (!HIVES.containsKey(hiveName)) {
+                        HIVES.put(hiveName, registerBlock(hiveName, () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(hiveName, () -> createBlockEntityType((pos, state) -> new AdvancedBeehiveBlockEntity((AdvancedBeehive) HIVES.get(hiveName).get(), pos, state), HIVES.get(hiveName).get()))), true));
+                        EXPANSIONS.put(boxName, registerBlock(boxName, () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(boxName, () -> createBlockEntityType((pos, state) -> new ExpansionBoxBlockEntity((ExpansionBox) EXPANSIONS.get(boxName).get(), pos, state), EXPANSIONS.get(boxName).get()))), true));
+                    }
+                });
+//            }
+        });
     }
 
-    public static <B extends Block> RegistryObject<B> createBlockCompat(String mods, String name, Supplier<? extends B> supplier, boolean createItem) {
-        String[] modNames = mods.split(",");
-        return createBlock(name, supplier, createItem);
+    public static RegistryObject<? extends Block> registerBlock(final String name, final Supplier<? extends Block> sup, boolean registerItem) {
+        var block = BLOCKS.register(name, sup);
+        if (registerItem) {
+            ModItems.createItem(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        }
+        return block;
+    }
+
+    public static <E extends BlockEntity, T extends BlockEntityType<E>> Supplier<T> registerBlockEntity(String id, Supplier<T> supplier) {
+        return ModBlockEntityTypes.BLOCK_ENTITIES.register(id, supplier);
+    }
+
+    public static <E extends BlockEntity> BlockEntityType<E> createBlockEntityType(BlockEntityType.BlockEntitySupplier<E> factory, Block... blocks) {
+        return BlockEntityType.Builder.of(factory, blocks).build(null);
     }
 
     public static <B extends Block> RegistryObject<B> createBlock(String name, Supplier<? extends B> supplier) {

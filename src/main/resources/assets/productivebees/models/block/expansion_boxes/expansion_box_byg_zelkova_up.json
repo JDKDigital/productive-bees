@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/expansion_box_template",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/byg_zelkova_beehive_side_down",
+    "bottom": "productivebees:block/advanced_beehive/byg_zelkova_beehive_end",
+    "east": "productivebees:block/advanced_beehive/byg_zelkova_beehive_side_down",
+    "front": "productivebees:block/advanced_beehive/byg_zelkova_beehive_side_down",
+    "top": "productivebees:block/advanced_beehive/byg_zelkova_beehive_end",
+    "west": "productivebees:block/advanced_beehive/byg_zelkova_beehive_side_down"
+  }
+}

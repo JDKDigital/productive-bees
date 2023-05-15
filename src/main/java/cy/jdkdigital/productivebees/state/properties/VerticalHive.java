@@ -8,8 +8,10 @@ public enum VerticalHive implements StringRepresentable
 {
     NONE("none"),
     UP("up"),
+    DOWN("down"),
     LEFT("left"),
-    RIGHT("right");
+    RIGHT("right"),
+    BACK("back");
 
     private final String name;
 
@@ -21,5 +23,18 @@ public enum VerticalHive implements StringRepresentable
     @Override
     public String getSerializedName() {
         return this.name;
+    }
+
+    @Override
+    public String toString() {
+        return getSerializedName();
+    }
+
+    public VerticalHive opposite() {
+        if (this.equals(UP)) return DOWN;
+        if (this.equals(DOWN)) return UP;
+        if (this.equals(LEFT)) return RIGHT;
+        if (this.equals(RIGHT)) return LEFT;
+        return NONE;
     }
 }

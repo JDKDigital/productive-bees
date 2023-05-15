@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/advanced_beehive_template",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/bamboo_beehive_side_left",
+    "bottom": "productivebees:block/advanced_beehive/bamboo_beehive_end_left",
+    "east": "productivebees:block/advanced_beehive/bamboo_beehive_side",
+    "front": "productivebees:block/advanced_beehive/bamboo_beehive_front_right",
+    "top": "productivebees:block/advanced_beehive/bamboo_beehive_end_left",
+    "west": "productivebees:block/advanced_beehive/bamboo_beehive_side"
+  }
+}

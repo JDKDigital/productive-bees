@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -79,6 +78,7 @@ public class ModTags
 
     public static class Forge {
         public static final TagKey<Item> COMBS = getItemTag(new ResourceLocation("forge", "storage_blocks/honeycombs"));
+        public static final TagKey<Item> HONEYCOMBS = getItemTag(new ResourceLocation("forge", "honeycombs"));
         public static final TagKey<Item> HONEY_BUCKETS = getItemTag(new ResourceLocation("forge", "buckets/honey"));
         public static final TagKey<Item> EGGS = getItemTag(new ResourceLocation("forge", "eggs"));
         public static final TagKey<Item> FISHING_RODS = getItemTag(new ResourceLocation("forge", "rods/fishing"));
@@ -86,5 +86,7 @@ public class ModTags
         public static final TagKey<Item> WITHER_SKULL_FRAGMENTS = getItemTag(new ResourceLocation("forge", "fragments/wither_skull"));
         public static final TagKey<Item> SILICON = getItemTag(new ResourceLocation("forge", "silicon"));
         public static final TagKey<Item> SOURCE_GEM = getItemTag(new ResourceLocation("forge", "gems/source"));
+        public static final TagKey<Item> CAMPFIRES = getItemTag(new ResourceLocation("forge", "campfires"));
+        public static final TagKey<Item> HIVES = getItemTag(new ResourceLocation("forge", "hives"));
     }
 }

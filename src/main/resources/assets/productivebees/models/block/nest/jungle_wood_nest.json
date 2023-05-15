@@ -1,9 +1,7 @@
 {
-    "parent": "productivebees:block/nest/wood_nest",
+    "parent": "productivebees:block/nest/wood_nest_tinted",
     "textures": {
-        "particle": "block/jungle_log",
         "end": "block/jungle_log_top",
-        "front": "productivebees:block/nest/wood/jungle",
         "side": "block/jungle_log"
     }
 }

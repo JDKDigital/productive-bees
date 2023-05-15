@@ -17,8 +17,8 @@ import javax.annotation.Nullable;
 
 public class ExpansionBoxBlockEntity extends BlockEntity
 {
-    public ExpansionBoxBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.EXPANSION_BOX.get(), pos, state);
+    public ExpansionBoxBlockEntity(ExpansionBox box, BlockPos pos, BlockState state) {
+        super(box.getBlockEntitySupplier().get(), pos, state);
     }
 
     @Nonnull

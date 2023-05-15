@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.RancherBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.model.*;
 import cy.jdkdigital.productivebees.common.block.CombBlock;
+import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.common.item.SpawnEgg;
@@ -19,6 +20,7 @@ import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -30,6 +32,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.RegistryObject;
@@ -58,6 +61,9 @@ public class ClientSetupEvents
                 if (block instanceof CombBlock) {
                     event.register((stack, tintIndex) -> ((CombBlock) block).getColor(stack), item);
                 }
+                if (block instanceof WoodNest) {
+                    event.register((stack, tintIndex) -> ((WoodNest) block).getColor(tintIndex), block);
+                }
             }
         }
 
@@ -65,25 +71,51 @@ public class ClientSetupEvents
             BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().defaultBlockState();
             return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
         }, ModBlocks.BUMBLE_BEE_NEST.get());
+
+        ModBlocks.HIVELIST.forEach((modid, strings) -> {
+            if (ModList.get().isLoaded(modid)) {
+                strings.forEach((name, type) -> {
+                    if (!type.hasTexture()) {
+                        name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
+                        TextColor primary = TextColor.parseColor(type.primary());
+                        event.register((stack, tintIndex) -> tintIndex == 0 ? primary.getValue() : -1, ModBlocks.HIVES.get("advanced_" + name + "_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + name).get());
+                    }
+                });
+            }
+        });
     }
 
     @SubscribeEvent
     public static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
-        BlockColors colors = event.getBlockColors();
-        colors.register((blockState, lightReader, pos, tintIndex) -> {
+        event.register((blockState, lightReader, pos, tintIndex) -> {
             return lightReader != null && pos != null ? BiomeColors.getAverageGrassColor(lightReader, pos) : -1;
         }, ModBlocks.SUGAR_CANE_NEST.get());
 
-        colors.register((blockState, lightReader, pos, tintIndex) -> {
+        event.register((blockState, lightReader, pos, tintIndex) -> {
             return lightReader != null && pos != null ? BiomeColors.getAverageGrassColor(lightReader, pos) : GrassColor.get(0.5D, 1.0D);
         }, ModBlocks.BUMBLE_BEE_NEST.get());
 
         for (RegistryObject<Block> registryBlock : ModBlocks.BLOCKS.getEntries()) {
             Block block = registryBlock.get();
             if (block instanceof CombBlock) {
-                colors.register((blockState, lightReader, pos, tintIndex) -> ((CombBlock) block).getColor(lightReader, pos), block);
+                event.register((blockState, lightReader, pos, tintIndex) -> ((CombBlock) block).getColor(lightReader, pos), block);
+            }
+            if (block instanceof WoodNest) {
+                event.register((blockState, lightReader, pos, tintIndex) -> ((WoodNest) block).getColor(tintIndex), block);
             }
         }
+
+        ModBlocks.HIVELIST.forEach((modid, strings) -> {
+            if (ModList.get().isLoaded(modid)) {
+                strings.forEach((name, type) -> {
+                    if (!type.hasTexture()) {
+                        name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
+                        TextColor primary = TextColor.parseColor(type.primary());
+                        event.register((blockState, lightReader, pos, tintIndex) -> tintIndex == 0 ? primary.getValue() : -1, ModBlocks.HIVES.get("advanced_" + name + "_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + name).get());
+                    }
+                });
+            }
+        });
     }
 
     @SubscribeEvent

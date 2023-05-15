@@ -1,6 +1,8 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,6 +21,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -30,24 +34,37 @@ import net.minecraftforge.network.NetworkHooks;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class AdvancedBeehive extends AdvancedBeehiveAbstract
 {
+    private final Supplier<BlockEntityType<AdvancedBeehiveBlockEntity>> blockEntitySupplier;
     public static final EnumProperty<VerticalHive> EXPANDED = EnumProperty.create("expanded", VerticalHive.class);
 
-    public AdvancedBeehive(final Properties properties) {
+    public AdvancedBeehive(final Properties properties, Supplier<BlockEntityType<AdvancedBeehiveBlockEntity>> blockEntitySupplier) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState()
                 .setValue(BeehiveBlock.FACING, Direction.NORTH)
                 .setValue(EXPANDED, VerticalHive.NONE)
                 .setValue(BeehiveBlock.HONEY_LEVEL, 0)
         );
+        this.blockEntitySupplier = blockEntitySupplier;
+    }
+
+    public Supplier<BlockEntityType<AdvancedBeehiveBlockEntity>> getBlockEntitySupplier() {
+        return blockEntitySupplier;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new AdvancedBeehiveBlockEntity(pos, state);
+        return new AdvancedBeehiveBlockEntity(this, pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, getBlockEntitySupplier().get(), AdvancedBeehiveBlockEntity::tick);
     }
 
     @Override
@@ -75,7 +92,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
             if (!isRemoved) {
                 updateStateWithDirection(world, pos, state, directionProperty);
             }
-            ((ExpansionBox) pair.getRight().getBlock()).updateStateWithDirection(world, boxPos, pair.getRight(), directionProperty);
+            ((ExpansionBox) pair.getRight().getBlock()).updateStateWithDirection(world, boxPos, pair.getRight(), directionProperty, state.getValue(BeehiveBlock.FACING));
         } else {
             // No expansion box
             if (!isRemoved) {
@@ -101,9 +118,6 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
     public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentBox(Level world, BlockPos pos) {
         for (Direction direction : BlockStateProperties.FACING.getPossibleValues()) {
-            if (direction == Direction.DOWN) {
-                continue;
-            }
             BlockPos newPos = pos.relative(direction);
             BlockState blockStateAtPos = world.getBlockState(newPos);
 
@@ -115,31 +129,42 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
         return null;
     }
 
-    public static VerticalHive calculateExpandedDirection(Level world, BlockPos pos, boolean isRemoved) {
-        Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentBox(world, pos);
-
+    public static VerticalHive calculateExpandedDirection(Level world, BlockPos hivePos, boolean isRemoved) {
+        Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentBox(world, hivePos);
         VerticalHive directionProperty = VerticalHive.NONE;
         if (!isRemoved && pair != null) {
-            BlockState state = world.getBlockState(pos);
-            Direction hiveDirection = state.getValue(BeehiveBlock.FACING);
+            BlockState hiveBlockState = world.getBlockState(hivePos);
+            Direction hiveDirection = hiveBlockState.getValue(BeehiveBlock.FACING);
             Direction boxDirection = pair.getLeft().getRight();
 
             Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
             BlockPos boxPos = posAndDirection.getLeft();
 
-            boolean isValidExpandedPos = pos.getY() != boxPos.getY();
-            if (!isValidExpandedPos && (hiveDirection == Direction.NORTH || hiveDirection == Direction.SOUTH)) {
-                isValidExpandedPos = boxDirection == Direction.WEST || boxDirection == Direction.EAST;
-            } else if (!isValidExpandedPos && (hiveDirection == Direction.WEST || hiveDirection == Direction.EAST)) {
-                isValidExpandedPos = boxDirection == Direction.SOUTH || boxDirection == Direction.NORTH;
+            boolean isValidExpandedPos = !boxPos.equals(hivePos.relative(hiveDirection));
+            if (!isValidExpandedPos && hiveDirection == Direction.NORTH) {
+                isValidExpandedPos = boxDirection == Direction.WEST || boxDirection == Direction.EAST || boxDirection == Direction.SOUTH;
+            } else if (!isValidExpandedPos && hiveDirection == Direction.SOUTH) {
+                isValidExpandedPos = boxDirection == Direction.WEST || boxDirection == Direction.EAST || boxDirection == Direction.NORTH;
+            } else if (!isValidExpandedPos && hiveDirection == Direction.WEST) {
+                isValidExpandedPos = boxDirection == Direction.SOUTH || boxDirection == Direction.NORTH || boxDirection == Direction.EAST;
+            } else if (!isValidExpandedPos && hiveDirection == Direction.EAST) {
+                isValidExpandedPos = boxDirection == Direction.SOUTH || boxDirection == Direction.NORTH || boxDirection == Direction.WEST;
             }
 
             if (isValidExpandedPos) {
-                directionProperty =
-                        pos.getY() != boxPos.getY() ? VerticalHive.UP : (
-                                pos.getX() < boxPos.getX() || pos.getZ() < boxPos.getZ() ? hiveDirection == Direction.NORTH || hiveDirection == Direction.EAST ? VerticalHive.LEFT : VerticalHive.RIGHT : (
-                                        pos.getX() > boxPos.getX() || pos.getZ() > boxPos.getZ() ? hiveDirection == Direction.NORTH || hiveDirection == Direction.EAST ? VerticalHive.RIGHT : VerticalHive.LEFT : (
-                                                VerticalHive.NONE)));
+                if (hivePos.getY() - boxPos.getY() > 0) {
+                    directionProperty = VerticalHive.DOWN;
+                } else if (hivePos.getY() - boxPos.getY() < 0) {
+                    directionProperty = VerticalHive.UP;
+                } else if (hivePos.getX() < boxPos.getX()) {
+                    directionProperty =  hiveDirection == Direction.WEST ? VerticalHive.BACK : hiveDirection == Direction.NORTH ? VerticalHive.LEFT : VerticalHive.RIGHT;
+                } else if (hivePos.getX() > boxPos.getX()) {
+                    directionProperty =  hiveDirection == Direction.EAST ? VerticalHive.BACK : hiveDirection == Direction.SOUTH ? VerticalHive.LEFT : VerticalHive.RIGHT;
+                } else if (hivePos.getZ() < boxPos.getZ()) {
+                    directionProperty = hiveDirection == Direction.NORTH ? VerticalHive.BACK : hiveDirection == Direction.EAST ? VerticalHive.LEFT : VerticalHive.RIGHT;
+                } else if (hivePos.getZ() > boxPos.getZ()) {
+                    directionProperty = hiveDirection == Direction.SOUTH ? VerticalHive.BACK : hiveDirection == Direction.WEST ? VerticalHive.LEFT : VerticalHive.RIGHT;
+                }
             }
         }
         return directionProperty;

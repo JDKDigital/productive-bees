@@ -51,12 +51,6 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
         super(properties);
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, ModBlockEntityTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveBlockEntity::tick);
-    }
-
     public int getMaxHoneyLevel() {
         return 5;
     }

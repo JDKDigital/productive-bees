@@ -80,12 +80,12 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     });
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
 
-    public AdvancedBeehiveBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
-        super(tileEntityType, pos, state);
+    public AdvancedBeehiveBlockEntity(AdvancedBeehive hiveBlock, BlockPos pos, BlockState state) {
+        this(hiveBlock.getBlockEntitySupplier().get(), pos, state);
     }
 
-    public AdvancedBeehiveBlockEntity(BlockPos pos, BlockState state) {
-        this(ModBlockEntityTypes.ADVANCED_BEEHIVE.get(), pos, state);
+    public AdvancedBeehiveBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
+        super(tileEntityType, pos, state);
         MAX_BEES = 3;
     }
 

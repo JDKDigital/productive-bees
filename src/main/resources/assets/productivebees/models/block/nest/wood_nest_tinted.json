@@ -1,0 +1,32 @@
+{
+  "parent": "productivebees:block/nest/wood_nest",
+  "textures": {
+    "particle": "#side",
+    "end": "#end",
+    "front": "#side",
+    "side": "#side",
+    "opening": "productivebees:block/nest/opening"
+  },
+  "render_type": "cutout_mipped",
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "down": {"texture": "#end", "cullface": "down"},
+        "up": {"texture": "#end", "cullface": "up"},
+        "north": {"texture": "#side", "cullface": "north"},
+        "south": {"texture": "#side","cullface": "south"},
+        "west": {"texture": "#side", "cullface": "west"},
+        "east": {"texture": "#front", "cullface": "east"}
+      }
+    },
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "east": {"texture": "#opening", "cullface": "east", "tintindex": 1}
+      }
+    }
+  ]
+}

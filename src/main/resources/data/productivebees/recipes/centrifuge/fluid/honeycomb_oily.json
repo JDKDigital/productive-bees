@@ -1,0 +1,28 @@
+{
+  "type": "productivebees:centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "beyond_earth"
+    }
+  ],
+  "ingredient": {
+    "type": "forge:nbt",
+    "count": 1,
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": "{EntityTag:{type:\"productivebees:oily\"}}"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "amount": 50,
+      "fluid": {
+        "fluid": "beyond_earth:oil"
+      }
+    }
+  ]
+}

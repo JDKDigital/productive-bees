@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
+import cy.jdkdigital.productivebees.loot.OptionalLootItem;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -17,6 +18,7 @@ import cy.jdkdigital.productivebees.setup.IProxy;
 import cy.jdkdigital.productivebees.setup.ServerProxy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -29,6 +31,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -48,6 +51,8 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -63,16 +68,11 @@ public final class ProductiveBees
     public static final Logger LOGGER = LogManager.getLogger();
     public static CreativeModeTab TAB;
 
+    public static final DeferredRegister<LootPoolEntryType> LOOT_POOL_ENTRIES = DeferredRegister.create(Registries.LOOT_POOL_ENTRY_TYPE, MODID);
+    public static final RegistryObject<LootPoolEntryType> OPTIONAL_LOOT_ITEM = LOOT_POOL_ENTRIES.register("optional_loot_item", () -> new LootPoolEntryType(new OptionalLootItem.Serializer()));
+
     public ProductiveBees() {
-//        TODO
-//         - bee cage ingredient
-//         - custom comb textures
-//         - show bee name when in jar
-//         - item conversion in feeding slabs
-//         - twilight forest bees
-//         - beekeeper house
-//         - entity pollination in JEI
-//         - show fake bee outside simulated hive
+        ModBlocks.registerHives();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -101,6 +101,7 @@ public final class ProductiveBees
         ModRecipeTypes.RECIPE_TYPES.register(modEventBus);
         ModParticles.PARTICLE_TYPES.register(modEventBus);
         ModLootModifiers.LOOT_SERIALIZERS.register(modEventBus);
+        LOOT_POOL_ENTRIES.register(modEventBus);
 
         modEventBus.addListener(this::onInterModEnqueue);
         modEventBus.addListener(this::onCommonSetup);

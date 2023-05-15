@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/expansion_box_template",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/byg_skyris_beehive_side",
+    "bottom": "productivebees:block/advanced_beehive/byg_skyris_beehive_end_front",
+    "east": "productivebees:block/advanced_beehive/byg_skyris_beehive_side_right",
+    "front": "productivebees:block/advanced_beehive/byg_skyris_beehive_side",
+    "top": "productivebees:block/advanced_beehive/byg_skyris_beehive_end_back",
+    "west": "productivebees:block/advanced_beehive/byg_skyris_beehive_side_left"
+  }
+}

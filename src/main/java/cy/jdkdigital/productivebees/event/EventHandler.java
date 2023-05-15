@@ -200,7 +200,7 @@ public class EventHandler
             } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.JUNGLE_SAPLING)) {
                 decorator = new WoodNestDecorator(ModBlocks.JUNGLE_WOOD_NEST.get().defaultBlockState());
             } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.CHERRY_SAPLING)) {
-                decorator = new WoodNestDecorator(ModBlocks.CHERRY_WOOD_NEST.get().defaultBlockState());
+//                decorator = new WoodNestDecorator(ModBlocks.CHERRY_WOOD_NEST.get().defaultBlockState());
             } else if (r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && (grownBlock.equals(Blocks.CRIMSON_FUNGUS) || grownBlock.equals(Blocks.WARPED_FUNGUS))) {
                 var featureKey = grownBlock.equals(Blocks.CRIMSON_FUNGUS) ? ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_GROWN : ModConfiguredFeatures.WARPED_FUNGUS_BEES_GROWN;
                 var feature = event.getLevel().registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(featureKey).orElse(null);
@@ -261,38 +261,39 @@ public class EventHandler
                 return new MerchantOffer(new ItemStack(Items.EMERALD), ItemStack.EMPTY, new ItemStack(ModItems.HONEY_TREAT.get(), 2), 3, 100, 3, 0.2F);
             });
 
+            // TODO more variable trades, pick any random hive and expansion from the registered ones
             event.getTrades().get(ModProfessions.JOURNEYMAN).add((trader, rand) -> {
-                Block hive = ModBlocks.ADVANCED_OAK_BEEHIVE.get();
+                Block hive = ModBlocks.HIVES.get("advanced_oak_beehive").get();
                 if (trader instanceof Villager villager) {
                     VillagerType villagertype = villager.getVillagerData().getType();
                     if (villagertype.equals(VillagerType.JUNGLE)) {
-                        hive = ModBlocks.ADVANCED_JUNGLE_BEEHIVE.get();
+                        hive = ModBlocks.HIVES.get("advanced_jungle_beehive").get();
                     } else if (villagertype.equals(VillagerType.SAVANNA)) {
-                        hive = ModBlocks.ADVANCED_ACACIA_BEEHIVE.get();
+                        hive = ModBlocks.HIVES.get("advanced_acacia_beehive").get();
                     } else if (villagertype.equals(VillagerType.DESERT)) {
-                        hive = ModBlocks.ADVANCED_BIRCH_BEEHIVE.get();
+                        hive = ModBlocks.HIVES.get("advanced_birch_beehive").get();
                     } else if (villagertype.equals(VillagerType.SWAMP)) {
-                        hive = ModBlocks.ADVANCED_DARK_OAK_BEEHIVE.get();
+                        hive = ModBlocks.HIVES.get("advanced_dark_oak_beehive").get();
                     } else if (villagertype.equals(VillagerType.TAIGA) || villagertype.equals(VillagerType.SNOW)) {
-                        hive = ModBlocks.ADVANCED_SPRUCE_BEEHIVE.get();
+                        hive = ModBlocks.HIVES.get("advanced_spruce_beehive").get();
                     }
                 }
                 return new MerchantOffer(new ItemStack(Items.BEEHIVE, 1), new ItemStack(Items.EMERALD, 6), new ItemStack(hive), 1, 12, 6, 0.2F);
             });
             event.getTrades().get(ModProfessions.JOURNEYMAN).add((trader, rand) -> {
-                Block box = ModBlocks.EXPANSION_BOX_OAK.get();
+                Block box = ModBlocks.EXPANSIONS.get("expansion_box_oak").get();
                 if (trader instanceof Villager villager) {
                     VillagerType villagertype = villager.getVillagerData().getType();
                     if (villagertype.equals(VillagerType.JUNGLE)) {
-                        box = ModBlocks.EXPANSION_BOX_JUNGLE.get();
+                        box = ModBlocks.EXPANSIONS.get("expansion_box_jungle").get();
                     } else if (villagertype.equals(VillagerType.SAVANNA)) {
-                        box = ModBlocks.EXPANSION_BOX_ACACIA.get();
+                        box = ModBlocks.EXPANSIONS.get("expansion_box_acacia").get();
                     } else if (villagertype.equals(VillagerType.DESERT)) {
-                        box = ModBlocks.EXPANSION_BOX_BIRCH.get();
+                        box = ModBlocks.EXPANSIONS.get("expansion_box_birch").get();
                     } else if (villagertype.equals(VillagerType.SWAMP)) {
-                        box = ModBlocks.EXPANSION_BOX_DARK_OAK.get();
+                        box = ModBlocks.EXPANSIONS.get("expansion_box_dark_oak").get();
                     } else if (villagertype.equals(VillagerType.TAIGA) || villagertype.equals(VillagerType.SNOW)) {
-                        box = ModBlocks.EXPANSION_BOX_SPRUCE.get();
+                        box = ModBlocks.EXPANSIONS.get("expansion_box_spruce").get();
                     }
                 }
                 return new MerchantOffer(new ItemStack(Items.EMERALD, 4), ItemStack.EMPTY, new ItemStack(box), 1, 12, 6, 0.2F);

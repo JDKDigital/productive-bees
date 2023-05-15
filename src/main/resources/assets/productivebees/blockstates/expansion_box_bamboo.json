@@ -1,124 +1,94 @@
 {
-    "variants": {
-        "expanded=none,facing=north,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_small"
-        },
-        "expanded=up,facing=north,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive"
-        },
-        "expanded=left,facing=north,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_left"
-        },
-        "expanded=right,facing=north,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_right"
-        },
-        "expanded=none,facing=south,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_small",
-            "y": 180
-        },
-        "expanded=up,facing=south,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive",
-            "y": 180
-        },
-        "expanded=left,facing=south,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_left",
-            "y": 180
-        },
-        "expanded=right,facing=south,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_right",
-            "y": 180
-        },
-        "expanded=none,facing=west,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_small",
-            "y": 270
-        },
-        "expanded=up,facing=west,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive",
-            "y": 270
-        },
-        "expanded=left,facing=west,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_left",
-            "y": 270
-        },
-        "expanded=right,facing=west,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_right",
-            "y": 270
-        },
-        "expanded=none,facing=east,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_small",
-            "y": 90
-        },
-        "expanded=up,facing=east,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive",
-            "y": 90
-        },
-        "expanded=left,facing=east,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_left",
-            "y": 90
-        },
-        "expanded=right,facing=east,has_honey=false": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_right",
-            "y": 90
-        },
-        "expanded=none,facing=north,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_small"
-        },
-        "expanded=up,facing=north,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive"
-        },
-        "expanded=left,facing=north,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_left"
-        },
-        "expanded=right,facing=north,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_right"
-        },
-        "expanded=none,facing=south,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_small",
-            "y": 180
-        },
-        "expanded=up,facing=south,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive",
-            "y": 180
-        },
-        "expanded=left,facing=south,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_left",
-            "y": 180
-        },
-        "expanded=right,facing=south,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_right",
-            "y": 180
-        },
-        "expanded=none,facing=west,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_small",
-            "y": 270
-        },
-        "expanded=up,facing=west,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive",
-            "y": 270
-        },
-        "expanded=left,facing=west,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_left",
-            "y": 270
-        },
-        "expanded=right,facing=west,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_right",
-            "y": 270
-        },
-        "expanded=none,facing=east,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_small",
-            "y": 90
-        },
-        "expanded=up,facing=east,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive",
-            "y": 90
-        },
-        "expanded=left,facing=east,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_left",
-            "y": 90
-        },
-        "expanded=right,facing=east,has_honey=true": {
-            "model": "productivebees:block/expansion_box/bamboo_beehive_right",
-            "y": 90
-        }
+  "variants": {
+    "expanded=back,facing=east": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_back",
+      "y": 90
+    },
+    "expanded=back,facing=north": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_back"
+    },
+    "expanded=back,facing=south": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_back",
+      "y": 180
+    },
+    "expanded=back,facing=west": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_back",
+      "y": 270
+    },
+    "expanded=down,facing=east": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_down",
+      "y": 90
+    },
+    "expanded=down,facing=north": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_down"
+    },
+    "expanded=down,facing=south": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_down",
+      "y": 180
+    },
+    "expanded=down,facing=west": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_down",
+      "y": 270
+    },
+    "expanded=left,facing=east": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_left",
+      "y": 90
+    },
+    "expanded=left,facing=north": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_left"
+    },
+    "expanded=left,facing=south": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_left",
+      "y": 180
+    },
+    "expanded=left,facing=west": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_left",
+      "y": 270
+    },
+    "expanded=none,facing=east": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo",
+      "y": 90
+    },
+    "expanded=none,facing=north": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo"
+    },
+    "expanded=none,facing=south": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo",
+      "y": 180
+    },
+    "expanded=none,facing=west": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo",
+      "y": 270
+    },
+    "expanded=right,facing=east": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_right",
+      "y": 90
+    },
+    "expanded=right,facing=north": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_right"
+    },
+    "expanded=right,facing=south": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_right",
+      "y": 180
+    },
+    "expanded=right,facing=west": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_right",
+      "y": 270
+    },
+    "expanded=up,facing=east": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_up",
+      "y": 90
+    },
+    "expanded=up,facing=north": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_up"
+    },
+    "expanded=up,facing=south": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_up",
+      "y": 180
+    },
+    "expanded=up,facing=west": {
+      "model": "productivebees:block/expansion_boxes/expansion_box_bamboo_up",
+      "y": 270
     }
+  }
 }

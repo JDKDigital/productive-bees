@@ -1,0 +1,13 @@
+{
+  "parent": "productivebees:block/expansion_box_tinted",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/side_right",
+    "bottom": "productivebees:block/advanced_beehive/tinted/end_right",
+    "east": "productivebees:block/advanced_beehive/tinted/side",
+    "front": "productivebees:block/advanced_beehive/tinted/side_left",
+    "top": "productivebees:block/advanced_beehive/tinted/end_right",
+    "west": "productivebees:block/advanced_beehive/tinted/side",
+    "front_overlay": "productivebees:block/advanced_beehive/tinted/side_left_overlay",
+    "back_overlay": "productivebees:block/advanced_beehive/tinted/side_right_overlay"
+  }
+}

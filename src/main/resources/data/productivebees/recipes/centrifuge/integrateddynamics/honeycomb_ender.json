@@ -1,0 +1,34 @@
+{
+  "type": "productivebees:centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "integrateddynamics"
+    }
+  ],
+  "ingredient": {
+    "type": "forge:nbt",
+    "count": 1,
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": "{EntityTag:{type:\"productivebees:ender\"}}"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "chance": 20,
+      "item": {
+        "item": "minecraft:ender_pearl"
+      }
+    },
+    {
+      "amount": 50,
+      "fluid": {
+        "fluid": "integrateddynamics:liquid_chorus"
+      }
+    }
+  ]
+}

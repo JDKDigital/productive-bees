@@ -1,0 +1,34 @@
+{
+  "type": "productivebees:centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "integrateddynamics"
+    }
+  ],
+  "ingredient": {
+    "type": "forge:nbt",
+    "count": 1,
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": "{EntityTag:{type:\"productivebees:menril\"}}"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "chance": 10,
+      "item": {
+        "item": "integrateddynamics:crystalized_menril_chunk"
+      }
+    },
+    {
+      "amount": 50,
+      "fluid": {
+        "fluid": "integrateddynamics:menril_resin"
+      }
+    }
+  ]
+}

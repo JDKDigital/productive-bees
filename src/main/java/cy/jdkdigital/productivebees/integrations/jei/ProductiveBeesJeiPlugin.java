@@ -78,7 +78,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ADVANCED_OAK_BEEHIVE.get()), ADVANCED_BEEHIVE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.HIVES.get("advanced_oak_beehive").get()), ADVANCED_BEEHIVE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.CENTRIFUGE.get()), CENTRIFUGE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.POWERED_CENTRIFUGE.get()), CENTRIFUGE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.HEATED_CENTRIFUGE.get()), CENTRIFUGE_TYPE);

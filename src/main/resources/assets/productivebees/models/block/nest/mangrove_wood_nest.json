@@ -1,0 +1,7 @@
+{
+    "parent": "productivebees:block/nest/wood_nest_tinted",
+    "textures": {
+        "end": "block/mangrove_log_top",
+        "side": "block/mangrove_log"
+    }
+}
