@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/mangrove/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/mangrove/side_down",
+    "east": "productivebees:block/advanced_beehive/tinted/mangrove/side_down",
+    "front": "productivebees:block/advanced_beehive/tinted/mangrove/front_down",
+    "west": "productivebees:block/advanced_beehive/tinted/mangrove/side_down"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/crimson/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/crimson/side_up",
+    "east": "productivebees:block/advanced_beehive/tinted/crimson/side_up",
+    "front": "productivebees:block/advanced_beehive/tinted/crimson/side_up",
+    "west": "productivebees:block/advanced_beehive/tinted/crimson/side_up"
+  }
+}

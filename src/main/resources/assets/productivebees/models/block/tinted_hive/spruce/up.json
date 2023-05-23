@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/spruce/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/spruce/side_up",
+    "east": "productivebees:block/advanced_beehive/tinted/spruce/side_up",
+    "front": "productivebees:block/advanced_beehive/tinted/spruce/front_up",
+    "west": "productivebees:block/advanced_beehive/tinted/spruce/side_up"
+  }
+}

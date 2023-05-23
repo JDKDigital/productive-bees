@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/dark_oak/small_honey",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/dark_oak/side_up",
+    "east": "productivebees:block/advanced_beehive/tinted/dark_oak/side_up",
+    "front": "productivebees:block/advanced_beehive/tinted/dark_oak/front_up",
+    "west": "productivebees:block/advanced_beehive/tinted/dark_oak/side_up"
+  }
+}

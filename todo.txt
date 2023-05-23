@@ -1,14 +1,17 @@
 1.20
 
 - expansion boxes on all sides but the front
+- layered wood nest model
 
 
 - redo hive compat to be dynamic
-- layered wood nest model
-- add honey cauldron for crafting honey blocks
+
 - add petrified honey (all colors), maybe dyed honey blocks
+- add honey cauldron for crafting honey blocks
+- farmer and hoarder sim hive support
+- fruit tree bees (or farmer bee support)
 - resin/amber encased mobs + wannabee to get drops from encased mobs
-- block conversion in feeding slabs
+- item/block conversion in feeding slabs
 - move configs into recipes
 - blue carpenter bee
 - orchid bee https://www.google.com/search?q=orchid+bee&sxsrf=AJOqlzU5ZPQMPhFeLTNSlbSrx0tya09LrA:1675839923020&source=lnms&tbm=isch&sa=X&ved=2ahUKEwi-jr-aroX9AhWKgP0HHYJjCKUQ_AUoAXoECAEQAw&biw=1920&bih=973&dpr=1#imgrc=m4vpRlNWuNOYSM
@@ -20,3 +23,4 @@
 - beekeeper house
 - entity pollination in JEI
 - show fake bee outside simulated hive.
+- GUI revamp for fluid and power indicators

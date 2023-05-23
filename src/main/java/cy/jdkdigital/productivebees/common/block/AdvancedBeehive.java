@@ -1,8 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
-import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

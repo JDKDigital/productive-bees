@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/tinted_hive/aspen/small",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/aspen/end_back",
+    "east": "productivebees:block/advanced_beehive/tinted/aspen/side_left",
+    "top": "productivebees:block/advanced_beehive/tinted/aspen/end_front",
+    "west": "productivebees:block/advanced_beehive/tinted/aspen/side_right",
+    "bottom_overlay": "productivebees:block/advanced_beehive/tinted/aspen/end_back_overlay",
+    "top_overlay": "productivebees:block/advanced_beehive/tinted/aspen/end_front_overlay"
+  }
+}

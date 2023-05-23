@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/jungle/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/jungle/side_up",
+    "east": "productivebees:block/advanced_beehive/tinted/jungle/side_up",
+    "front": "productivebees:block/advanced_beehive/tinted/jungle/side_up",
+    "west": "productivebees:block/advanced_beehive/tinted/jungle/side_up"
+  }
+}

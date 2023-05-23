@@ -8,7 +8,12 @@ import cy.jdkdigital.productivebees.client.render.entity.HoarderBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.RancherBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.model.*;
+import cy.jdkdigital.productivebees.common.block.CanvasBeehive;
+import cy.jdkdigital.productivebees.common.block.CanvasExpansionBox;
 import cy.jdkdigital.productivebees.common.block.CombBlock;
+import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.CanvasBlockEntityInterface;
+import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.Honeycomb;
@@ -83,6 +88,14 @@ public class ClientSetupEvents
                 });
             }
         });
+        ModBlocks.hiveStyles.forEach(style -> event.register((stack, tintIndex) -> {
+            if (tintIndex == 0 && stack.getItem() instanceof BlockItem blockItem) {
+                if ((blockItem.getBlock() instanceof CanvasBeehive || blockItem.getBlock() instanceof CanvasExpansionBox) && stack.getTag() != null && stack.getTag().contains("color")) {
+                    return stack.getTag().getInt("color");
+                }
+            }
+            return 16777215;
+        }, ModBlocks.HIVES.get("advanced_" + style + "_canvas_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + style + "_canvas").get()));
     }
 
     @SubscribeEvent
@@ -116,6 +129,18 @@ public class ClientSetupEvents
                 });
             }
         });
+
+        ModBlocks.hiveStyles.forEach(style -> event.register((blockState, lightReader, pos, tintIndex) -> {
+            if (tintIndex == 0 && pos != null && (blockState.getBlock() instanceof CanvasBeehive || blockState.getBlock() instanceof CanvasExpansionBox) && lightReader != null) {
+                if (lightReader.getBlockEntity(pos) instanceof CanvasBeehiveBlockEntity canvasBlockEntity) {
+                    return canvasBlockEntity.getColor(tintIndex);
+                }
+                if (lightReader.getBlockEntity(pos) instanceof CanvasExpansionBoxBlockEntity canvasBlockEntity) {
+                    return canvasBlockEntity.getColor(tintIndex);
+                }
+            }
+            return 16777215;
+        }, ModBlocks.HIVES.get("advanced_" + style + "_canvas_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + style + "_canvas").get()));
     }
 
     @SubscribeEvent

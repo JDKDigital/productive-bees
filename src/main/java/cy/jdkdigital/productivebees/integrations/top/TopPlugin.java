@@ -2,9 +2,7 @@ package cy.jdkdigital.productivebees.integrations.top;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
-import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
-import cy.jdkdigital.productivebees.common.block.entity.IRecipeProcessingBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.*;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import mcjty.theoneprobe.api.CompoundText;
@@ -81,6 +79,14 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                         }
                     }
                 }
+                return true;
+            }
+
+            // Canvas hive and expansionbox
+            if (tileEntity instanceof CanvasBeehiveBlockEntity || tileEntity instanceof CanvasExpansionBoxBlockEntity) {
+                String style = blockState.getBlock().getDescriptionId().replace("block.productivebees.advanced_", "").replace("_canvas_beehive", "");
+                style = style.substring(0, 1).toUpperCase() + style.substring(1);
+                probeInfo.text(Component.translatable("productivebees.information.canvas.style", Component.literal(style).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.WHITE));
                 return true;
             }
 

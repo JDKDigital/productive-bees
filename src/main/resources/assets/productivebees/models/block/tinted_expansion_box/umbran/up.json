@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/umbran/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/umbran/side_down",
+    "east": "productivebees:block/advanced_beehive/tinted/umbran/side_down",
+    "front": "productivebees:block/advanced_beehive/tinted/umbran/side_down",
+    "west": "productivebees:block/advanced_beehive/tinted/umbran/side_down"
+  }
+}

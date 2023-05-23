@@ -70,6 +70,20 @@ public class BlockLootProvider implements DataProvider
             });
         });
 
+        ModBlocks.hiveStyles.forEach(style -> {
+            Block hive = ModBlocks.HIVES.get("advanced_" + style + "_canvas_beehive").get();
+            Block box = ModBlocks.EXPANSIONS.get("expansion_box_" + style + "_canvas").get();
+            Function<Block, LootTable.Builder> hiveFunc = functionTable.getOrDefault(hive, BlockLootProvider::genHiveDrop);
+            tables.put(BuiltInRegistries.BLOCK.getKey(hive), hiveFunc.apply(hive));
+            Function<Block, LootTable.Builder> expansionFunc = functionTable.getOrDefault(box, BlockLootProvider::genExpansionDrop);
+            tables.put(BuiltInRegistries.BLOCK.getKey(box), expansionFunc.apply(box));
+        });
+
+        ModBlocks.PETRIFIED_HONEY_BLOCKS.forEach(registryObject -> {
+            Function<Block, LootTable.Builder> expansionFunc = functionTable.getOrDefault(registryObject.get(), BlockLootProvider::genBlockDrop);
+            tables.put(BuiltInRegistries.BLOCK.getKey(registryObject.get()), expansionFunc.apply(registryObject.get()));
+        });
+
         List<CompletableFuture<?>> output = new ArrayList<>();
         for (Map.Entry<ResourceLocation, LootTable.Builder> e : tables.entrySet()) {
             Path path = pathProvider.json(e.getKey());
@@ -93,5 +107,13 @@ public class BlockLootProvider implements DataProvider
         return LootTable.lootTable().withPool(
                 LootPool.lootPool().setRolls(ConstantValue.exactly(1))
                         .add(expansionBox));
+    }
+
+    protected static LootTable.Builder genBlockDrop(Block expansion) {
+        LootPoolEntryContainer.Builder<?> builder = LootItem.lootTableItem(expansion).when(ExplosionCondition.survivesExplosion());
+
+        return LootTable.lootTable().withPool(
+                LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                        .add(builder));
     }
 }

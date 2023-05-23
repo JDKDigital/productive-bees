@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/birch/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/birch/side_down",
+    "east": "productivebees:block/advanced_beehive/tinted/birch/side_down",
+    "front": "productivebees:block/advanced_beehive/tinted/birch/front_down",
+    "west": "productivebees:block/advanced_beehive/tinted/birch/side_down"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/aspen/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/aspen/side_down",
+    "east": "productivebees:block/advanced_beehive/tinted/aspen/side_down",
+    "front": "productivebees:block/advanced_beehive/tinted/aspen/front_down",
+    "west": "productivebees:block/advanced_beehive/tinted/aspen/side_down"
+  }
+}

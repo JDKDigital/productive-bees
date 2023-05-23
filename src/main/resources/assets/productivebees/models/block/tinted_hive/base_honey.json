@@ -1,0 +1,37 @@
+{
+  "parent": "productivebees:block/tinted_hive/base",
+  "render_type": "cutout_mipped",
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "texture": "#down", "cullface": "down", "tintindex": 0 },
+        "up":    { "texture": "#up", "cullface": "up", "tintindex": 0 },
+        "north": { "texture": "#front", "cullface": "north", "tintindex": 0 },
+        "south": { "texture": "#back", "cullface": "south", "tintindex": 0 },
+        "west":  { "texture": "#east", "cullface": "west", "tintindex": 0 },
+        "east":  { "texture": "#west", "cullface": "east", "tintindex": 0 }
+      }
+    },
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#bottom_overlay", "cullface": "down", "tintindex": 1 },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#top_overlay", "cullface": "up", "tintindex": 1 },
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#front_overlay", "cullface": "north", "tintindex": 1 },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#back_overlay", "cullface": "south", "tintindex": 1 },
+        "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#east_overlay", "cullface": "west", "tintindex": 1 },
+        "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#west_overlay", "cullface": "east", "tintindex": 1 }
+      }
+    },
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#honey", "cullface": "north", "tintindex": 1 }
+      }
+    }
+  ]
+}

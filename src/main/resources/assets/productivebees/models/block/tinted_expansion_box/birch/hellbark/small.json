@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/base",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/acacia/end",
+    "top": "productivebees:block/advanced_beehive/tinted/acacia/end",
+    "front": "productivebees:block/advanced_beehive/tinted/acacia/side",
+    "back": "productivebees:block/advanced_beehive/tinted/acacia/side",
+    "east": "productivebees:block/advanced_beehive/tinted/acacia/side",
+    "west": "productivebees:block/advanced_beehive/tinted/acacia/side"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "group": "hives",
+  "ingredient": {
+    "tag": "productivebees:canvas_beehives"
+  },
+  "result": "productivebees:advanced_redwood_canvas_beehive"
+}

@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/spruce/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/spruce/side_left",
+    "bottom": "productivebees:block/advanced_beehive/tinted/spruce/end_left",
+    "front": "productivebees:block/advanced_beehive/tinted/spruce/side_right",
+    "top": "productivebees:block/advanced_beehive/tinted/spruce/end_left",
+    "front_overlay": "productivebees:block/advanced_beehive/tinted/spruce/side_right_overlay",
+    "back_overlay": "productivebees:block/advanced_beehive/tinted/spruce/side_left_overlay"
+  }
+}

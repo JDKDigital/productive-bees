@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/base",
+  "textures": {
+    "bottom": "productivebees:block/comb/base",
+    "top": "productivebees:block/comb/base",
+    "front": "productivebees:block/comb/base",
+    "back": "productivebees:block/comb/base",
+    "east": "productivebees:block/comb/base",
+    "west": "productivebees:block/comb/base"
+  }
+}

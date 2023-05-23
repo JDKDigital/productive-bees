@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/base",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/hellbark/end",
+    "top": "productivebees:block/advanced_beehive/tinted/hellbark/end",
+    "front": "productivebees:block/advanced_beehive/tinted/hellbark/side",
+    "back": "productivebees:block/advanced_beehive/tinted/hellbark/side",
+    "east": "productivebees:block/advanced_beehive/tinted/hellbark/side",
+    "west": "productivebees:block/advanced_beehive/tinted/hellbark/side"
+  }
+}

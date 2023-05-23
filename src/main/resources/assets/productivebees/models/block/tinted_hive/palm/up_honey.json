@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/palm/small_honey",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/palm/side_up",
+    "east": "productivebees:block/advanced_beehive/tinted/palm/side_up",
+    "front": "productivebees:block/advanced_beehive/tinted/palm/front_up",
+    "west": "productivebees:block/advanced_beehive/tinted/palm/side_up"
+  }
+}

@@ -153,6 +153,7 @@ dependencies {
 //    implementation fg.deobf("curse.maven:applied-energistics-2-223794:4008855")
 //    implementation fg.deobf("curse.maven:terrablender-563928:3822142")
 //    implementation fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3826003")
+    implementation fg.deobf("curse.maven:corail-woodcutter-331983:4442781")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

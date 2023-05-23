@@ -1,28 +1,44 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "WWW",
-        "CHC",
-        "FWS"
-    ],
-    "key": {
-        "W": {
-            "item": "minecraft:crimson_planks"
-        },
-        "H": {
-            "item": "minecraft:beehive"
-        },
-        "C": {
-            "tag": "forge:honeycombs"
-        },
-        "F": {
-            "tag": "forge:campfires"
-        },
-        "S": {
-            "tag": "forge:shears"
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "productivebees"
         }
-    },
-    "result": {
-        "item": "productivebees:advanced_crimson_beehive"
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "group": "hives",
+        "key": {
+          "C": {
+            "tag": "forge:honeycombs"
+          },
+          "F": {
+            "tag": "forge:campfires"
+          },
+          "H": {
+            "tag": "forge:hives"
+          },
+          "S": {
+            "tag": "forge:shears"
+          },
+          "W": {
+            "item": "minecraft:crimson_planks"
+          }
+        },
+        "pattern": [
+          "WWW",
+          "CHC",
+          "FWS"
+        ],
+        "result": {
+          "item": "productivebees:advanced_crimson_beehive"
+        },
+        "show_notification": true
+      }
     }
+  ]
 }

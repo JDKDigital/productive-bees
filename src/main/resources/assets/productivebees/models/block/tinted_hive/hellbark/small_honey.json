@@ -1,0 +1,12 @@
+{
+  "parent": "productivebees:block/tinted_hive/base_honey",
+  "textures": {
+    "honey": "productivebees:block/advanced_beehive/tinted/hellbark/honey",
+    "bottom": "productivebees:block/advanced_beehive/tinted/hellbark/end",
+    "top": "productivebees:block/advanced_beehive/tinted/hellbark/end",
+    "front": "productivebees:block/advanced_beehive/tinted/hellbark/front",
+    "back": "productivebees:block/advanced_beehive/tinted/hellbark/side",
+    "east": "productivebees:block/advanced_beehive/tinted/hellbark/side",
+    "west": "productivebees:block/advanced_beehive/tinted/hellbark/side"
+  }
+}

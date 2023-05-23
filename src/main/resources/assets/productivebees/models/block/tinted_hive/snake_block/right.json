@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/snake_block/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/snake_block/side_right",
+    "bottom": "productivebees:block/advanced_beehive/tinted/snake_block/end_right",
+    "front": "productivebees:block/advanced_beehive/tinted/snake_block/front_left",
+    "top": "productivebees:block/advanced_beehive/tinted/snake_block/end_right"
+  }
+}

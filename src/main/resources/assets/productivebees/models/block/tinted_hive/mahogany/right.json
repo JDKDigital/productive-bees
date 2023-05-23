@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/mahogany/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/mahogany/side_right",
+    "bottom": "productivebees:block/advanced_beehive/tinted/mahogany/end_right",
+    "front": "productivebees:block/advanced_beehive/tinted/mahogany/front_left",
+    "top": "productivebees:block/advanced_beehive/tinted/mahogany/end_right"
+  }
+}

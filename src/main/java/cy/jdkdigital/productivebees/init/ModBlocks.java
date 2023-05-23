@@ -3,6 +3,8 @@ package cy.jdkdigital.productivebees.init;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.*;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.ExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.BumbleBeeNest;
 import cy.jdkdigital.productivebees.common.block.nest.SugarCaneNest;
@@ -11,10 +13,7 @@ import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import cy.jdkdigital.productivebees.common.item.JarBlockItem;
 import cy.jdkdigital.productivebees.setup.HiveType;
 import cy.jdkdigital.productivebees.util.FakeIngredient;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -31,10 +30,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
@@ -102,31 +98,37 @@ public final class ModBlocks
     public static final RegistryObject<Block> WARPED_BEE_NEST = createBlock("warped_bee_nest", () -> new NetherBeeNest(Block.Properties.copy(Blocks.BEE_NEST)));
     public static final RegistryObject<Block> CRIMSON_BEE_NEST = createBlock("crimson_bee_nest", () -> new NetherBeeNest(Block.Properties.copy(Blocks.BEE_NEST)));
 
+    public static final RegistryObject<Block> PETRIFIED_HONEY = createBlock("petrified_honey", () -> new Block(BlockBehaviour.Properties.of(Material.CLAY, MaterialColor.TERRACOTTA_ORANGE).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
+    public static final List<RegistryObject<Block>> PETRIFIED_HONEY_BLOCKS = Arrays.stream(DyeColor.values()).map(dyeColor -> {
+        return createBlock(dyeColor.getSerializedName() + "_petrified_honey", () -> new Block(BlockBehaviour.Properties.of(Material.CLAY, dyeColor.getMaterialColor()).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
+    }).toList();
+
     public static final Map<String, RegistryObject<? extends Block>> HIVES = new HashMap<>();
     public static final Map<String, RegistryObject<? extends Block>> EXPANSIONS = new HashMap<>();
+
     public static final Map<String, Map<String, HiveType>> HIVELIST = new HashMap<>()
     {{
         put(ProductiveBees.MODID, new HashMap<>()
         {{
-            put("oak", new HiveType(Ingredient.of(Items.OAK_PLANKS)));
-            put("spruce", new HiveType(Ingredient.of(Items.SPRUCE_PLANKS)));
-            put("birch", new HiveType(Ingredient.of(Items.BIRCH_PLANKS)));
-            put("jungle", new HiveType(Ingredient.of(Items.JUNGLE_PLANKS)));
-            put("acacia", new HiveType(Ingredient.of(Items.ACACIA_PLANKS)));
-            put("dark_oak", new HiveType(Ingredient.of(Items.DARK_OAK_PLANKS)));
-            put("crimson", new HiveType(Ingredient.of(Items.CRIMSON_PLANKS)));
-            put("warped", new HiveType(Ingredient.of(Items.WARPED_PLANKS)));
-            put("mangrove", new HiveType(false, "#773934", "#ffffff", Ingredient.of(Items.MANGROVE_PLANKS)));
-            put("cherry", new HiveType(false, "#e6b3ad", "#ffffff", Ingredient.of(Items.CHERRY_PLANKS)));
-            put("bamboo", new HiveType(Ingredient.of(Items.MANGROVE_PLANKS)));
-            put("snake_block", new HiveType(Ingredient.of(Items.PRISMARINE_SHARD)));
+            put("oak", new HiveType(false, "#c29d62", "oak", Ingredient.of(Items.OAK_PLANKS)));
+            put("spruce", new HiveType(false, "#886539", "spruce", Ingredient.of(Items.SPRUCE_PLANKS)));
+            put("birch", new HiveType(false, "#d7cb8d", "birch", Ingredient.of(Items.BIRCH_PLANKS)));
+            put("jungle", new HiveType(false, "#b88764", "jungle", Ingredient.of(Items.JUNGLE_PLANKS)));
+            put("acacia", new HiveType(false, "#c26d3f", "acacia", Ingredient.of(Items.ACACIA_PLANKS)));
+            put("dark_oak", new HiveType(false, "#53381a", "dark_oak", Ingredient.of(Items.DARK_OAK_PLANKS)));
+            put("crimson", new HiveType(false, "#924160", "crimson", Ingredient.of(Items.CRIMSON_PLANKS)));
+            put("warped", new HiveType(false, "#279994", "warped", Ingredient.of(Items.WARPED_PLANKS)));
+            put("mangrove", new HiveType(false, "#773934", "mangrove", Ingredient.of(Items.MANGROVE_PLANKS)));
+            put("cherry", new HiveType(false, "#e6b3ad", "cherry", Ingredient.of(Items.CHERRY_PLANKS)));
+            put("bamboo", new HiveType(false, "#e3cc6a", "bamboo", Ingredient.of(Items.BAMBOO_PLANKS)));
+            put("snake_block", new HiveType(false, "#477566", "snake_block", Ingredient.of(Items.PRISMARINE_SHARD)));
         }});
         put("atmospheric", new HashMap<>()
         {{
             put("rosewood", new HiveType(new FakeIngredient("atmospheric:rosewood_planks")));
             put("yucca", new HiveType(new FakeIngredient("atmospheric:yucca_planks")));
             put("kousa", new HiveType(new FakeIngredient("atmospheric:kousa_planks")));
-            put("aspen", new HiveType(new FakeIngredient("atmospheric:aspen_planks")));
+            put("aspen", new HiveType(false, "#efcd7c", "aspen", new FakeIngredient("atmospheric:aspen_planks")));
             put("grimwood", new HiveType(new FakeIngredient("atmospheric:grimwood_planks")));
         }});
         put("upgrade_aquatic", new HashMap<>()
@@ -136,8 +138,7 @@ public final class ModBlocks
         }});
         put("autumnity", new HashMap<>()
         {{
-            put("willow", new HiveType(new FakeIngredient("autumnity:willow_planks")));
-            put("maple", new HiveType(new FakeIngredient("autumnity:maple_planks")));
+            put("maple", new HiveType(true, "#aa6e3d", "", new FakeIngredient("autumnity:maple_planks")));
         }});
         put("swampexpansion", new HashMap<>()
         {{
@@ -145,7 +146,7 @@ public final class ModBlocks
         }});
         put("endergetic", new HashMap<>()
         {{
-            put("poise", new HiveType(new FakeIngredient("endergetic:poise_planks")));
+            put("poise", new HiveType(false, "#8f4b90", "oak", new FakeIngredient("endergetic:poise_planks")));
         }});
         put("environmental", new HashMap<>()
         {{
@@ -159,7 +160,7 @@ public final class ModBlocks
         }});
         put("byg", new HashMap<>()
         {{
-            put("aspen", new HiveType(new FakeIngredient("byg:aspen_planks")));
+            put("aspen", new HiveType(false, "#efcd7c", "aspen", new FakeIngredient("byg:aspen_planks")));
             put("baobab", new HiveType(new FakeIngredient("byg:baobab_planks")));
             put("blue_enchanted", new HiveType(new FakeIngredient("byg:blue_enchanted_planks")));
             put("bulbis", new HiveType(new FakeIngredient("byg:bulbis_planks")));
@@ -168,44 +169,72 @@ public final class ModBlocks
             put("ebony", new HiveType(new FakeIngredient("byg:ebony_planks")));
             put("embur", new HiveType(new FakeIngredient("byg:embur_planks")));
             put("ether", new HiveType(new FakeIngredient("byg:ether_planks")));
-            put("fir", new HiveType(new FakeIngredient("byg:fir_planks")));
+            put("fir", new HiveType(false, "#b28f6c", "fir", new FakeIngredient("byg:fir_planks")));
             put("green_enchanted", new HiveType(new FakeIngredient("byg:green_enchanted_planks")));
             put("holly", new HiveType(new FakeIngredient("byg:holly_planks")));
             put("imparius", new HiveType(new FakeIngredient("byg:imparius_planks")));
-            put("jacaranda", new HiveType(new FakeIngredient("byg:jacaranda_planks")));
+            put("jacaranda", new HiveType(false, "#c19b9d", "jacaranda", new FakeIngredient("byg:jacaranda_planks")));
             put("lament", new HiveType(new FakeIngredient("byg:lament_planks")));
-            put("mahogany", new HiveType(new FakeIngredient("byg:mahogany_planks")));
+            put("mahogany", new HiveType(false, "#9e6a88", "mahogany", new FakeIngredient("byg:mahogany_planks")));
             put("maple", new HiveType(new FakeIngredient("byg:maple_planks")));
             put("nightshade", new HiveType(new FakeIngredient("byg:nightshade_planks")));
-            put("palm", new HiveType(new FakeIngredient("byg:palm_planks")));
+            put("palm", new HiveType(false, "#a89b7a", "palm", new FakeIngredient("byg:palm_planks")));
             put("pine", new HiveType(new FakeIngredient("byg:pine_planks")));
             put("rainbow_eucalyptus", new HiveType(new FakeIngredient("byg:rainbow_eucalyptus_planks")));
             put("redwood", new HiveType(new FakeIngredient("byg:redwood_planks")));
             put("skyris", new HiveType(new FakeIngredient("byg:skyris_planks")));
             put("sythian", new HiveType(new FakeIngredient("byg:sythian_planks")));
             put("white_mangrove", new HiveType(new FakeIngredient("byg:white_mangrove_planks")));
-            put("willow", new HiveType(new FakeIngredient("byg:willow_planks")));
+            put("willow", new HiveType(false, "#55662d", "willow", new FakeIngredient("byg:willow_planks")));
             put("witch_hazel", new HiveType(new FakeIngredient("byg:witch_hazel_planks")));
             put("zelkova", new HiveType(new FakeIngredient("byg:zelkova_planks")));
         }});
         put("biomesoplenty", new HashMap<>()
         {{
-            put("fir", new HiveType(new FakeIngredient("biomesoplenty:fir_planks")));
-            put("redwood", new HiveType(new FakeIngredient("biomesoplenty:redwood_planks")));
-            put("mahogany", new HiveType(new FakeIngredient("biomesoplenty:mahogany_planks")));
-            put("jacaranda", new HiveType(new FakeIngredient("biomesoplenty:jacaranda_planks")));
-            put("palm", new HiveType(new FakeIngredient("biomesoplenty:palm_planks")));
-            put("willow", new HiveType(new FakeIngredient("biomesoplenty:willow_planks")));
-            put("dead", new HiveType(new FakeIngredient("biomesoplenty:dead_planks")));
-            put("magic", new HiveType(new FakeIngredient("biomesoplenty:magic_planks")));
-            put("umbran", new HiveType(new FakeIngredient("biomesoplenty:umbran_planks")));
-            put("hellbark", new HiveType(new FakeIngredient("biomesoplenty:hellbark_planks")));
+            put("fir", new HiveType(false, "#b3a78c", "fir", new FakeIngredient("biomesoplenty:fir_planks")));
+            put("redwood", new HiveType(false, "#a5553a", "redwood", new FakeIngredient("biomesoplenty:redwood_planks")));
+            put("mahogany", new HiveType(false, "#cf8987", "mahogany", new FakeIngredient("biomesoplenty:mahogany_planks")));
+            put("jacaranda", new HiveType(false, "#dbbfb5", "jacaranda", new FakeIngredient("biomesoplenty:jacaranda_planks")));
+            put("palm", new HiveType(false, "#d19445", "palm", new FakeIngredient("biomesoplenty:palm_planks")));
+            put("willow", new HiveType(false, "#a2b084", "willow", new FakeIngredient("biomesoplenty:willow_planks")));
+            put("dead", new HiveType(false, "#958e85", "dead", new FakeIngredient("biomesoplenty:dead_planks")));
+            put("magic", new HiveType(false, "#537abf", "magic", new FakeIngredient("biomesoplenty:magic_planks")));
+            put("umbran", new HiveType(false, "#7d6a8f", "umbran", new FakeIngredient("biomesoplenty:umbran_planks")));
+            put("hellbark", new HiveType(false, "#3b3031", "hellbark", new FakeIngredient("biomesoplenty:hellbark_planks")));
         }});
+    }};
+
+    public static List<String> hiveStyles = new ArrayList<>() {{
+        add("acacia");
+        add("aspen");
+        add("bamboo");
+        add("birch");
+        add("cherry");
+        add("concrete");
+        add("comb");
+        add("crimson");
+        add("dark_oak");
+        add("dead");
+        add("fir");
+        add("hellbark");
+        add("jacaranda");
+        add("jungle");
+        add("magic");
+        add("mahogany");
+        add("mangrove");
+        add("oak");
+        add("palm");
+        add("redwood");
+        add("snake_block");
+        add("spruce");
+        add("umbran");
+        add("warped");
+        add("willow");
     }};
 
     public static void registerHives() {
         HIVELIST.forEach((modid, strings) -> {
-//            if (ModList.get().isLoaded(modid)) {
+            if (ProductiveBees.isDataGen || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
                     String hiveName = "advanced_" + name + "_beehive";
@@ -215,7 +244,14 @@ public final class ModBlocks
                         EXPANSIONS.put(boxName, registerBlock(boxName, () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(boxName, () -> createBlockEntityType((pos, state) -> new ExpansionBoxBlockEntity((ExpansionBox) EXPANSIONS.get(boxName).get(), pos, state), EXPANSIONS.get(boxName).get()))), true));
                     }
                 });
-//            }
+            }
+        });
+
+        hiveStyles.forEach(style -> {
+            String canvasHiveName = "advanced_" + style + "_canvas_beehive";
+            HIVES.put(canvasHiveName, registerBlock(canvasHiveName, () -> new CanvasBeehive(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(canvasHiveName, () -> createBlockEntityType((pos, state) -> new CanvasBeehiveBlockEntity((CanvasBeehive) HIVES.get(canvasHiveName).get(), pos, state), HIVES.get(canvasHiveName).get()))), true));
+            String canvasBoxName = "expansion_box_" + style + "_canvas";
+            EXPANSIONS.put(canvasBoxName, registerBlock(canvasBoxName, () -> new CanvasExpansionBox(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(canvasBoxName, () -> createBlockEntityType((pos, state) -> new CanvasExpansionBoxBlockEntity((CanvasExpansionBox) EXPANSIONS.get(canvasBoxName).get(), pos, state), EXPANSIONS.get(canvasBoxName).get()))), true));
         });
     }
 

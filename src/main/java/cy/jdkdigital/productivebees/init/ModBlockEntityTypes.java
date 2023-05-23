@@ -36,7 +36,9 @@ public class ModBlockEntityTypes
                     ModBlocks.BIRCH_WOOD_NEST.get(),
                     ModBlocks.DARK_OAK_WOOD_NEST.get(),
                     ModBlocks.ACACIA_WOOD_NEST.get(),
-                    ModBlocks.SPRUCE_WOOD_NEST.get()
+                    ModBlocks.SPRUCE_WOOD_NEST.get(),
+                    ModBlocks.CHERRY_WOOD_NEST.get(),
+                    ModBlocks.MANGROVE_WOOD_NEST.get()
             ).build(null)
     );
 

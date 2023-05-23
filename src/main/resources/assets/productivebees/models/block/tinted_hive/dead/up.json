@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/dead/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/dead/side_up",
+    "east": "productivebees:block/advanced_beehive/tinted/dead/side_up",
+    "front": "productivebees:block/advanced_beehive/tinted/dead/front_up",
+    "west": "productivebees:block/advanced_beehive/tinted/dead/side_up"
+  }
+}

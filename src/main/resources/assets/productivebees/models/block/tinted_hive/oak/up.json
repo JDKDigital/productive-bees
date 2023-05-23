@@ -1,0 +1,12 @@
+{
+  "parent": "productivebees:block/tinted_hive/oak/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/oak/side_up",
+    "east": "productivebees:block/advanced_beehive/tinted/oak/side_up",
+    "front": "productivebees:block/advanced_beehive/tinted/oak/front_up",
+    "west": "productivebees:block/advanced_beehive/tinted/oak/side_up",
+    "back_overlay": "productivebees:block/advanced_beehive/tinted/oak/side_up_overlay",
+    "east_overlay": "productivebees:block/advanced_beehive/tinted/oak/side_up_overlay",
+    "west_overlay": "productivebees:block/advanced_beehive/tinted/oak/side_up_overlay"
+  }
+}

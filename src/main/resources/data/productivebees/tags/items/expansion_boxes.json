@@ -1,36 +1,270 @@
 {
-    "replace": false,
-    "values": [
-        "productivebees:expansion_box_oak",
-        "productivebees:expansion_box_spruce",
-        "productivebees:expansion_box_birch",
-        "productivebees:expansion_box_jungle",
-        "productivebees:expansion_box_acacia",
-        "productivebees:expansion_box_dark_oak",
-        "productivebees:expansion_box_crimson",
-        "productivebees:expansion_box_warped",
-        "productivebees:expansion_box_snake_block",
-        "productivebees:expansion_box_rosewood",
-        "productivebees:expansion_box_yucca",
-        "productivebees:expansion_box_kousa",
-        "productivebees:expansion_box_aspen",
-        "productivebees:expansion_box_willow",
-        "productivebees:expansion_box_wisteria",
-        "productivebees:expansion_box_bamboo",
-        "productivebees:expansion_box_maple",
-        "productivebees:expansion_box_driftwood",
-        "productivebees:expansion_box_river",
-        "productivebees:expansion_box_poise",
-        "productivebees:expansion_box_bop_fir",
-        "productivebees:expansion_box_bop_dead",
-        "productivebees:expansion_box_bop_palm",
-        "productivebees:expansion_box_bop_magic",
-        "productivebees:expansion_box_bop_cherry",
-        "productivebees:expansion_box_bop_umbran",
-        "productivebees:expansion_box_bop_willow",
-        "productivebees:expansion_box_bop_redwood",
-        "productivebees:expansion_box_bop_hellbark",
-        "productivebees:expansion_box_bop_mahogany",
-        "productivebees:expansion_box_bop_jacaranda"
-    ]
+  "values": [
+    {
+      "id": "productivebees:expansion_box_byg_ebony",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_witch_hazel",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_skyris",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_ether",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_pine",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_zelkova",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_lament",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_palm",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_sythian",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_jacaranda",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_fir",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_cika",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_embur",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_green_enchanted",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_mahogany",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_redwood",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_imparius",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_aspen",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_bulbis",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_nightshade",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_white_mangrove",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_cypress",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_willow",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_blue_enchanted",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_rainbow_eucalyptus",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_baobab",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_maple",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_byg_holly",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes",
+    {
+      "id": "productivebees:expansion_box_environmental_wisteria",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes",
+    {
+      "id": "productivebees:expansion_box_atmospheric_rosewood",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_atmospheric_kousa",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_atmospheric_grimwood",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_atmospheric_yucca",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_atmospheric_aspen",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes",
+    {
+      "id": "productivebees:expansion_box_swampexpansion_maple",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes",
+    {
+      "id": "productivebees:expansion_box_upgrade_aquatic_river",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_upgrade_aquatic_driftwood",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes",
+    {
+      "id": "productivebees:expansion_box_endergetic_poise",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes",
+    {
+      "id": "productivebees:expansion_box_biomesoplenty_magic",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_biomesoplenty_umbran",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_biomesoplenty_mahogany",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_biomesoplenty_willow",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_biomesoplenty_redwood",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_biomesoplenty_palm",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_biomesoplenty_dead",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_biomesoplenty_jacaranda",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_biomesoplenty_fir",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_biomesoplenty_hellbark",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes",
+    {
+      "id": "productivebees:expansion_box_quark_blossom",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_quark_azalea",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_quark_ancient",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes",
+    {
+      "id": "productivebees:expansion_box_autumnity_maple",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes",
+    {
+      "id": "productivebees:expansion_box_bamboo",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_cherry",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_crimson",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_birch",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_oak",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_acacia",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_warped",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_jungle",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_dark_oak",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_mangrove",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_snake_block",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_spruce",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes"
+  ]
 }

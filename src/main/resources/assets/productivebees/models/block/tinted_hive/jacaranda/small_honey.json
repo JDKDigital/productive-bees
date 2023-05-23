@@ -1,0 +1,12 @@
+{
+  "parent": "productivebees:block/tinted_hive/base_honey",
+  "textures": {
+    "honey": "productivebees:block/advanced_beehive/tinted/jacaranda/honey",
+    "bottom": "productivebees:block/advanced_beehive/tinted/jacaranda/end",
+    "top": "productivebees:block/advanced_beehive/tinted/jacaranda/end",
+    "front": "productivebees:block/advanced_beehive/tinted/jacaranda/front",
+    "back": "productivebees:block/advanced_beehive/tinted/jacaranda/side",
+    "east": "productivebees:block/advanced_beehive/tinted/jacaranda/side",
+    "west": "productivebees:block/advanced_beehive/tinted/jacaranda/side"
+  }
+}

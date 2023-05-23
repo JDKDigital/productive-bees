@@ -37,11 +37,20 @@ public class ModTags
     public static final TagKey<Block> QUARRY = getBlockTag("flowers/quarry");
     public static final TagKey<Block> LUMBER = getBlockTag("flowers/lumber");
     public static final TagKey<Block> POWDERY = getBlockTag("flowers/powdery");
+    public static final TagKey<Block> HIVES_BLOCK = getBlockTag("advanced_beehives");
+    public static final TagKey<Block> BOXES_BLOCK = getBlockTag("expansion_boxes");
+    public static final TagKey<Block> CANVAS_HIVES_BLOCK = getBlockTag("canvas_beehives");
+    public static final TagKey<Block> CANVAS_BOXES_BLOCK = getBlockTag("canvas_expansion_boxes");
 
     public static final TagKey<EntityType<?>> RANCHABLES = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
     public static final TagKey<EntityType<?>> EXTERNAL_CAN_POLLINATE = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "external_can_pollinate"));
 
     public static final TagKey<Fluid> HONEY = FluidTags.create(new ResourceLocation("forge", "honey"));
+
+    public static final TagKey<Item> CANVAS_HIVES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "canvas_beehives"));
+    public static final TagKey<Item> CANVAS_BOXES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "canvas_expansion_boxes"));
+    public static final TagKey<Item> HIVES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "advanced_beehives"));
+    public static final TagKey<Item> BOXES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "expansion_boxes"));
 
     public static TagKey<Block> getBlockTag(String name) {
         return getBlockTag(new ResourceLocation(ProductiveBees.MODID, name));
@@ -88,5 +97,6 @@ public class ModTags
         public static final TagKey<Item> SOURCE_GEM = getItemTag(new ResourceLocation("forge", "gems/source"));
         public static final TagKey<Item> CAMPFIRES = getItemTag(new ResourceLocation("forge", "campfires"));
         public static final TagKey<Item> HIVES = getItemTag(new ResourceLocation("forge", "hives"));
+        public static final TagKey<Item> DYES = getItemTag(new ResourceLocation("forge", "dyes"));
     }
 }

@@ -1,34 +1,44 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "WWW",
-        "CHC",
-        "FWS"
-    ],
-    "key": {
-        "W": {
-            "item": "bamboo_blocks:bamboo_planks"
-        },
-        "H": {
-            "item": "bamboo_blocks:bamboo_beehive"
-        },
-        "C": {
-            "tag": "forge:honeycombs"
-        },
-        "F": {
-            "tag": "forge:campfires"
-        },
-        "S": {
-            "tag": "forge:shears"
-        }
-    },
-    "result": {
-        "item": "productivebees:advanced_bamboo_beehive"
-    },
-    "conditions": [
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
         {
-            "type": "forge:mod_loaded",
-            "modid": "bamboo_blocks"
+          "type": "forge:mod_loaded",
+          "modid": "productivebees"
         }
-    ]
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "group": "hives",
+        "key": {
+          "C": {
+            "tag": "forge:honeycombs"
+          },
+          "F": {
+            "tag": "forge:campfires"
+          },
+          "H": {
+            "tag": "forge:hives"
+          },
+          "S": {
+            "tag": "forge:shears"
+          },
+          "W": {
+            "item": "minecraft:bamboo_planks"
+          }
+        },
+        "pattern": [
+          "WWW",
+          "CHC",
+          "FWS"
+        ],
+        "result": {
+          "item": "productivebees:advanced_bamboo_beehive"
+        },
+        "show_notification": true
+      }
+    }
+  ]
 }

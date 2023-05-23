@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/jacaranda/small",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/jacaranda/end_back",
+    "east": "productivebees:block/advanced_beehive/tinted/jacaranda/side_left",
+    "top": "productivebees:block/advanced_beehive/tinted/jacaranda/end_front",
+    "west": "productivebees:block/advanced_beehive/tinted/jacaranda/side_right"
+  }
+}

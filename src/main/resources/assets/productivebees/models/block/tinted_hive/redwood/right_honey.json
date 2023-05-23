@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/redwood/small_honey",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/redwood/side_right",
+    "bottom": "productivebees:block/advanced_beehive/tinted/redwood/end_right",
+    "front": "productivebees:block/advanced_beehive/tinted/redwood/front_left",
+    "top": "productivebees:block/advanced_beehive/tinted/redwood/end_right"
+  }
+}

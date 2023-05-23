@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/hellbark/small_honey",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/hellbark/end_back",
+    "east": "productivebees:block/advanced_beehive/tinted/hellbark/side_left",
+    "top": "productivebees:block/advanced_beehive/tinted/hellbark/end_front",
+    "west": "productivebees:block/advanced_beehive/tinted/hellbark/side_right"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/acacia/small_honey",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/acacia/side_left",
+    "bottom": "productivebees:block/advanced_beehive/tinted/acacia/end_left",
+    "front": "productivebees:block/advanced_beehive/tinted/acacia/front_right",
+    "top": "productivebees:block/advanced_beehive/tinted/acacia/end_left"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/jungle/small_honey",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/jungle/side_left",
+    "bottom": "productivebees:block/advanced_beehive/tinted/jungle/end_left",
+    "front": "productivebees:block/advanced_beehive/tinted/jungle/front_right",
+    "top": "productivebees:block/advanced_beehive/tinted/jungle/end_left"
+  }
+}

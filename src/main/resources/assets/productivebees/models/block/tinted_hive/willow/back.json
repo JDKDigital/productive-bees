@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/willow/small",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/willow/end_back",
+    "east": "productivebees:block/advanced_beehive/tinted/willow/side_left",
+    "top": "productivebees:block/advanced_beehive/tinted/willow/end_front",
+    "west": "productivebees:block/advanced_beehive/tinted/willow/side_right"
+  }
+}

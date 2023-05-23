@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/base",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/warped/end",
+    "top": "productivebees:block/advanced_beehive/tinted/warped/end",
+    "front": "productivebees:block/advanced_beehive/tinted/warped/side",
+    "back": "productivebees:block/advanced_beehive/tinted/warped/side",
+    "east": "productivebees:block/advanced_beehive/tinted/warped/side",
+    "west": "productivebees:block/advanced_beehive/tinted/warped/side"
+  }
+}
