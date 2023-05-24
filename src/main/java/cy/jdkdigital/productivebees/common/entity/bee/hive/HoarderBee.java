@@ -50,6 +50,10 @@ public class HoarderBee extends ProductiveBee
         return false;
     }
 
+    public int getInventorySize() {
+        return inventory.getContainerSize();
+    }
+
     @Override
     protected void registerGoals() {
         registerBaseGoals();
@@ -335,14 +339,8 @@ public class HoarderBee extends ProductiveBee
                             List<ItemEntity> items = HoarderBee.this.getItemsNearby(1);
                             if (!items.isEmpty()) {
                                 ItemEntity item = items.iterator().next();
-                                ItemStack itemstack = item.getItem().copy();
 
-                                ItemStack remaining = HoarderBee.this.inventory.addItem(itemstack);
-                                if (remaining.isEmpty()) {
-                                    item.discard();
-                                } else {
-                                    item.setItem(remaining);
-                                }
+                                HoarderBee.this.pickupItem(item);
 
                                 HoarderBee.this.closeAbdomen();
 
@@ -356,6 +354,17 @@ public class HoarderBee extends ProductiveBee
 
         private void moveToNextTarget(Vec3 nextTarget) {
             HoarderBee.this.getMoveControl().setWantedPosition(nextTarget.x, nextTarget.y, nextTarget.z, 1.0F);
+        }
+    }
+
+    public void pickupItem(ItemEntity item) {
+        ItemStack itemstack = item.getItem().copy();
+
+        ItemStack remaining = this.inventory.addItem(itemstack);
+        if (remaining.isEmpty()) {
+            item.discard();
+        } else {
+            item.setItem(remaining);
         }
     }
 }

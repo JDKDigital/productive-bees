@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehiveAbstract;
 import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.common.entity.bee.hive.FarmerBee;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBee;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
@@ -27,6 +28,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
@@ -36,6 +38,7 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -48,6 +51,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Stream;
 
 public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEntity
 {
@@ -231,32 +235,50 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     public static void simulateBee(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity, Inhabitant inhabitant) {
         Bee beeEntity = (Bee) EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
         if (beeEntity != null) {
-            // state depends on whether the outside is having a valid flower block
-            Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
-            BlockPos flowerPos = hivePos.below(state.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.DOWN) ? 2 : 1).relative(direction);
-            beeEntity.setSavedFlowerPos(flowerPos);
-            if (level.isLoaded(flowerPos)) {
-                BeehiveBlockEntity.BeeReleaseStatus beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-                if (beeEntity instanceof ProductiveBee pBee && pBee.isFlowerValid(flowerPos)) {
-                    beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
-                    pBee.internalSetHasNectar(true);
-                    pBee.postPollinate();
-                } else if (!(beeEntity instanceof ProductiveBee)) {
-                    BlockState flowerBlock = level.getBlockState(flowerPos);
-                    if (beeEntity.isFlowerValid(flowerPos) || flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, level.getBlockEntity(flowerPos), blockState -> blockState.is(BlockTags.FLOWERS))) {
-                        beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
+            BeehiveBlockEntity.BeeReleaseStatus beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
+            if (beeEntity instanceof FarmerBee farmerBee && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity) {
+                List<BlockPos> harvestablesNearby = farmerBee.findHarvestablesNearby(hivePos, 5 + advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get()));
+                harvestablesNearby.forEach(pos -> {
+                    if (level.isLoaded(pos) && farmerBee.isCropValid(pos)) {
+                        farmerBee.harvestBlock(pos);
+                    }
+                });
+            } else if (beeEntity instanceof HoarderBee hoarderBee && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity) {
+                List<ItemEntity> items = hoarderBee.getItemsNearby(hivePos, 5 + advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get()));
+                int max = hoarderBee.getInventorySize();
+                for (ItemEntity item: items) {
+                    if (max > 0) {
+                       hoarderBee.pickupItem(item);
+                       max = max - 1;
                     }
                 }
-                blockEntity.beeReleasePostAction(level, beeEntity, state, beeState);
-                inhabitant.ticksInHive = 0;
-                inhabitant.minOccupationTicks = blockEntity.getTimeInHive(beeState.equals(BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED), beeEntity);
-
-                // update bee data
-                CompoundTag compoundNBT = new CompoundTag();
-                beeEntity.save(compoundNBT);
-                AdvancedBeehiveBlockEntityAbstract.removeIgnoredBeeTags(compoundNBT);
-                inhabitant.nbt = compoundNBT;
+            } else {
+                // state depends on whether the outside is having a valid flower block
+                Direction direction = state.hasProperty(BlockStateProperties.FACING) ? state.getValue(BlockStateProperties.FACING) : state.getValue(BeehiveBlock.FACING);
+                BlockPos flowerPos = hivePos.below(state.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.DOWN) ? 2 : 1).relative(direction);
+                beeEntity.setSavedFlowerPos(flowerPos);
+                if (level.isLoaded(flowerPos)) {
+                    if (beeEntity instanceof ProductiveBee pBee && pBee.isFlowerValid(flowerPos)) {
+                        beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
+                        pBee.internalSetHasNectar(true);
+                        pBee.postPollinate();
+                    } else if (!(beeEntity instanceof ProductiveBee)) {
+                        BlockState flowerBlock = level.getBlockState(flowerPos);
+                        if (beeEntity.isFlowerValid(flowerPos) || flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, level.getBlockEntity(flowerPos), blockState -> blockState.is(BlockTags.FLOWERS))) {
+                            beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
+                        }
+                    }
+                }
             }
+            blockEntity.beeReleasePostAction(level, beeEntity, state, beeState);
+            inhabitant.ticksInHive = 0;
+            inhabitant.minOccupationTicks = blockEntity.getTimeInHive(beeState.equals(BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED), beeEntity);
+
+            // update bee data
+            CompoundTag compoundNBT = new CompoundTag();
+            beeEntity.save(compoundNBT);
+            AdvancedBeehiveBlockEntityAbstract.removeIgnoredBeeTags(compoundNBT);
+            inhabitant.nbt = compoundNBT;
         }
     }
 
@@ -277,22 +299,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 boolean spawned = false;
                 Bee beeEntity = (Bee) EntityType.loadEntityRecursive(tag, level, (spawnedEntity) -> spawnedEntity);
                 if (beeEntity != null) {
-                    // Hoarder bees should leave their inventory behind
-                    AtomicBoolean hasOffloaded = new AtomicBoolean(true);
-                    if (beeEntity instanceof HoarderBee) {
-                        if (((HoarderBee) beeEntity).holdsItem()) {
-                            blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-                                ((HoarderBee) beeEntity).emptyIntoInventory(((InventoryHandlerHelper.ItemHandler) inv));
-
-                                if (!((HoarderBee) beeEntity).isInventoryEmpty()) {
-                                    hasOffloaded.set(false);
-                                }
-                            });
-                        }
-                    }
-
                     spawned = spawnBeeInWorldAtPosition(level, beeEntity, hivePos, direction, null);
-                    if (spawned && hasOffloaded.get()) {
+                    if (spawned) {
                         if (blockEntity.savedFlowerPos != null && !beeEntity.hasSavedFlowerPos() && (beeEntity.getEncodeId().contains("dye_bee") || level.random.nextFloat() <= 0.9F)) {
                             beeEntity.setSavedFlowerPos(blockEntity.savedFlowerPos);
                         }
@@ -333,6 +341,15 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
         if (beeEntity instanceof ProductiveBee && ((ProductiveBee) beeEntity).hasConverted()) {
             return;
+        }
+
+        // Hoarder bees should leave their inventory behind
+        if (beeEntity instanceof HoarderBee) {
+            if (((HoarderBee) beeEntity).holdsItem()) {
+                this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
+                    ((HoarderBee) beeEntity).emptyIntoInventory(((InventoryHandlerHelper.ItemHandler) inv));
+                });
+            }
         }
 
         // Deliver honey on the way out

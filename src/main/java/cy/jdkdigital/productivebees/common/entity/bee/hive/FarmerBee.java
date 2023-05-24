@@ -70,7 +70,7 @@ public class FarmerBee extends ProductiveBee
         return list;
     }
 
-    private boolean isCropValid(BlockPos blockPos) {
+    public boolean isCropValid(BlockPos blockPos) {
         if (blockPos == null) {
             return false;
         }
@@ -207,44 +207,7 @@ public class FarmerBee extends ProductiveBee
                         } else {
                             BlockPos pos = FarmerBee.this.targetHarvestPos;
                             if (FarmerBee.this.isCropValid(pos)) {
-                                BlockState cropBlockState = FarmerBee.this.level.getBlockState(pos);
-                                Block cropBlock = cropBlockState.getBlock();
-                                if (cropBlock instanceof AttachedStemBlock) {
-                                    BlockState fruitBlock = FarmerBee.this.level.getBlockState(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)));
-                                    if (fruitBlock.getBlock() instanceof StemGrownBlock) {
-                                        FarmerBee.this.level.destroyBlock(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)), true);
-                                    }
-                                } else if (cropBlock instanceof SugarCaneBlock || cropBlock instanceof CactusBlock) {
-                                    int i = 0;
-                                    while (i++ < 5 && FarmerBee.this.level.getBlockState(pos.below()).getBlock().equals(cropBlock)) {
-                                        pos = pos.below();
-                                    }
-                                    FarmerBee.this.level.destroyBlock(pos.above(), true);
-                                } else if (cropBlock instanceof SweetBerryBushBlock) {
-                                    int i = cropBlockState.getValue(SweetBerryBushBlock.AGE);
-                                    if (i > 1) {
-                                        int j = 1 + FarmerBee.this.level.random.nextInt(2);
-                                        Block.popResource(FarmerBee.this.level, pos, new ItemStack(Items.SWEET_BERRIES, j + (i == 3 ? 1 : 0)));
-                                        FarmerBee.this.level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + FarmerBee.this.level.random.nextFloat() * 0.4F);
-                                        FarmerBee.this.level.setBlock(pos, cropBlockState.setValue(SweetBerryBushBlock.AGE, 1), 2);
-                                    }
-                                } else {
-                                    // right click crop if certain mods are installed
-                                    if (
-                                            ProductiveBeesConfig.GENERAL.forceEnableFarmerBeeRightClickHarvest.get() ||
-                                            ModList.get().isLoaded("right_click_get_crops") ||
-                                            ModList.get().isLoaded("croptopia") ||
-                                            ModList.get().isLoaded("quark") ||
-                                            ModList.get().isLoaded("harvest") ||
-                                            ModList.get().isLoaded("simplefarming") ||
-                                            ModList.get().isLoaded("reap")
-                                    ) {
-                                        Player fakePlayer = FakePlayerFactory.get((ServerLevel) level, new GameProfile(FARMER_BEE_UUID, "farmer_bee"));
-                                        ForgeHooks.onRightClickBlock(fakePlayer, InteractionHand.MAIN_HAND, pos, new BlockHitResult(FarmerBee.this.getEyePosition(), FarmerBee.this.getMotionDirection(), pos, true));
-                                    } else {
-                                        FarmerBee.this.level.destroyBlock(pos, true);
-                                    }
-                                }
+                                FarmerBee.this.harvestBlock(pos);
                             }
 
                             FarmerBee.this.targetHarvestPos = null;
@@ -257,6 +220,47 @@ public class FarmerBee extends ProductiveBee
 
         private void moveToNextTarget(Vec3 nextTarget) {
             FarmerBee.this.getMoveControl().setWantedPosition(nextTarget.x, nextTarget.y, nextTarget.z, 1.0F);
+        }
+    }
+
+    public void harvestBlock(BlockPos pos) {
+        BlockState cropBlockState = this.level.getBlockState(pos);
+        Block cropBlock = cropBlockState.getBlock();
+        if (cropBlock instanceof AttachedStemBlock) {
+            BlockState fruitBlock = this.level.getBlockState(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)));
+            if (fruitBlock.getBlock() instanceof StemGrownBlock) {
+                this.level.destroyBlock(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)), true);
+            }
+        } else if (cropBlock instanceof SugarCaneBlock || cropBlock instanceof CactusBlock) {
+            int i = 0;
+            while (i++ < 5 && this.level.getBlockState(pos.below()).getBlock().equals(cropBlock)) {
+                pos = pos.below();
+            }
+            this.level.destroyBlock(pos.above(), true);
+        } else if (cropBlock instanceof SweetBerryBushBlock) {
+            int i = cropBlockState.getValue(SweetBerryBushBlock.AGE);
+            if (i > 1) {
+                int j = 1 + this.level.random.nextInt(2);
+                Block.popResource(this.level, pos, new ItemStack(Items.SWEET_BERRIES, j + (i == 3 ? 1 : 0)));
+                this.level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + this.level.random.nextFloat() * 0.4F);
+                this.level.setBlock(pos, cropBlockState.setValue(SweetBerryBushBlock.AGE, 1), 2);
+            }
+        } else {
+            // right click crop if certain mods are installed
+            if (
+                    ProductiveBeesConfig.GENERAL.forceEnableFarmerBeeRightClickHarvest.get() ||
+                            ModList.get().isLoaded("right_click_get_crops") ||
+                            ModList.get().isLoaded("croptopia") ||
+                            ModList.get().isLoaded("quark") ||
+                            ModList.get().isLoaded("harvest") ||
+                            ModList.get().isLoaded("simplefarming") ||
+                            ModList.get().isLoaded("reap")
+            ) {
+                Player fakePlayer = FakePlayerFactory.get((ServerLevel) level, new GameProfile(FARMER_BEE_UUID, "farmer_bee"));
+                ForgeHooks.onRightClickBlock(fakePlayer, InteractionHand.MAIN_HAND, pos, new BlockHitResult(this.getEyePosition(), this.getMotionDirection(), pos, true));
+            } else {
+                this.level.destroyBlock(pos, true);
+            }
         }
     }
 }
