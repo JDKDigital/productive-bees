@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.common.block.entity.ExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.BumbleBeeNest;
 import cy.jdkdigital.productivebees.common.block.nest.SugarCaneNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
+import cy.jdkdigital.productivebees.common.item.AmberItem;
 import cy.jdkdigital.productivebees.common.item.CombBlockItem;
 import cy.jdkdigital.productivebees.common.item.JarBlockItem;
 import cy.jdkdigital.productivebees.setup.HiveType;
@@ -97,6 +98,8 @@ public final class ModBlocks
     public static final RegistryObject<Block> SUGARBAG_NEST = createBlock("sugarbag_nest", () -> new SugarbagNest(Block.Properties.copy(Blocks.BEE_NEST)));
     public static final RegistryObject<Block> WARPED_BEE_NEST = createBlock("warped_bee_nest", () -> new NetherBeeNest(Block.Properties.copy(Blocks.BEE_NEST)));
     public static final RegistryObject<Block> CRIMSON_BEE_NEST = createBlock("crimson_bee_nest", () -> new NetherBeeNest(Block.Properties.copy(Blocks.BEE_NEST)));
+
+    public static final RegistryObject<Block> AMBER = createBlock("amber", () -> new Amber(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_ORANGE).strength(0.3F).noOcclusion().sound(SoundType.GLASS)));
 
     public static final RegistryObject<Block> PETRIFIED_HONEY = createBlock("petrified_honey", () -> new Block(BlockBehaviour.Properties.of(Material.CLAY, MaterialColor.TERRACOTTA_ORANGE).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
     public static final List<RegistryObject<Block>> PETRIFIED_HONEY_BLOCKS = Arrays.stream(DyeColor.values()).map(dyeColor -> {
@@ -240,8 +243,8 @@ public final class ModBlocks
                     String hiveName = "advanced_" + name + "_beehive";
                     String boxName = "expansion_box_" + name;
                     if (!HIVES.containsKey(hiveName)) {
-                        HIVES.put(hiveName, registerBlock(hiveName, () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(hiveName, () -> createBlockEntityType((pos, state) -> new AdvancedBeehiveBlockEntity((AdvancedBeehive) HIVES.get(hiveName).get(), pos, state), HIVES.get(hiveName).get()))), true));
-                        EXPANSIONS.put(boxName, registerBlock(boxName, () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(boxName, () -> createBlockEntityType((pos, state) -> new ExpansionBoxBlockEntity((ExpansionBox) EXPANSIONS.get(boxName).get(), pos, state), EXPANSIONS.get(boxName).get()))), true));
+                        HIVES.put(hiveName, createBlock(hiveName, () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(hiveName, () -> createBlockEntityType((pos, state) -> new AdvancedBeehiveBlockEntity((AdvancedBeehive) HIVES.get(hiveName).get(), pos, state), HIVES.get(hiveName).get()))), true));
+                        EXPANSIONS.put(boxName, createBlock(boxName, () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(boxName, () -> createBlockEntityType((pos, state) -> new ExpansionBoxBlockEntity((ExpansionBox) EXPANSIONS.get(boxName).get(), pos, state), EXPANSIONS.get(boxName).get()))), true));
                     }
                 });
             }
@@ -249,18 +252,10 @@ public final class ModBlocks
 
         hiveStyles.forEach(style -> {
             String canvasHiveName = "advanced_" + style + "_canvas_beehive";
-            HIVES.put(canvasHiveName, registerBlock(canvasHiveName, () -> new CanvasBeehive(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(canvasHiveName, () -> createBlockEntityType((pos, state) -> new CanvasBeehiveBlockEntity((CanvasBeehive) HIVES.get(canvasHiveName).get(), pos, state), HIVES.get(canvasHiveName).get()))), true));
+            HIVES.put(canvasHiveName, createBlock(canvasHiveName, () -> new CanvasBeehive(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(canvasHiveName, () -> createBlockEntityType((pos, state) -> new CanvasBeehiveBlockEntity((CanvasBeehive) HIVES.get(canvasHiveName).get(), pos, state), HIVES.get(canvasHiveName).get()))), true));
             String canvasBoxName = "expansion_box_" + style + "_canvas";
-            EXPANSIONS.put(canvasBoxName, registerBlock(canvasBoxName, () -> new CanvasExpansionBox(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(canvasBoxName, () -> createBlockEntityType((pos, state) -> new CanvasExpansionBoxBlockEntity((CanvasExpansionBox) EXPANSIONS.get(canvasBoxName).get(), pos, state), EXPANSIONS.get(canvasBoxName).get()))), true));
+            EXPANSIONS.put(canvasBoxName, createBlock(canvasBoxName, () -> new CanvasExpansionBox(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(canvasBoxName, () -> createBlockEntityType((pos, state) -> new CanvasExpansionBoxBlockEntity((CanvasExpansionBox) EXPANSIONS.get(canvasBoxName).get(), pos, state), EXPANSIONS.get(canvasBoxName).get()))), true));
         });
-    }
-
-    public static RegistryObject<? extends Block> registerBlock(final String name, final Supplier<? extends Block> sup, boolean registerItem) {
-        var block = BLOCKS.register(name, sup);
-        if (registerItem) {
-            ModItems.createItem(name, () -> new BlockItem(block.get(), new Item.Properties()));
-        }
-        return block;
     }
 
     public static <E extends BlockEntity, T extends BlockEntityType<E>> Supplier<T> registerBlockEntity(String id, Supplier<T> supplier) {
@@ -284,6 +279,8 @@ public final class ModBlocks
                 ModItems.CONFIGURABLE_COMB_BLOCK = ModItems.ITEMS.register(name, () -> new CombBlockItem(block.get(), properties));
             } else if (name.equals("jar_oak")) {
                 ModItems.ITEMS.register(name, () -> new JarBlockItem(block.get(), properties));
+            } else if (name.equals("amber")) {
+                ModItems.ITEMS.register(name, () -> new AmberItem(block.get(), properties));
             } else {
                 if (name.equals("comb_netherite")) {
                     properties.fireResistant();

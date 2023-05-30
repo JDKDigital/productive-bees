@@ -1,22 +1,24 @@
 package cy.jdkdigital.productivebees.util;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.Feeder;
+import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.common.entity.bee.hive.WannaBee;
 import cy.jdkdigital.productivebees.common.item.StoneChip;
 import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.common.recipe.*;
-import cy.jdkdigital.productivebees.init.ModEntities;
-import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import cy.jdkdigital.productivebees.init.ModTags;
+import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.TagParser;
@@ -31,6 +33,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
@@ -40,9 +43,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
@@ -55,6 +64,7 @@ import java.util.*;
 public class BeeHelper
 {
     private static final Map<String, List<BlockConversionRecipe>> blockConversionRecipeMap = new HashMap<>();
+    private static final Map<String, List<ItemConversionRecipe>> itemConversionRecipeMap = new HashMap<>();
     private static final Map<String, List<BeeNBTChangerRecipe>> nbtChangerRecipeMap = new HashMap<>();
 
     public static Entity itemInteract(Bee entity, ItemStack itemStack, ServerLevel level, CompoundTag nbt, Player player) {
@@ -217,39 +227,59 @@ public class BeeHelper
         return getBlockConversionRecipe(beeEntity, flowerBlockState) != null;
     }
 
-    public static List<BeeNBTChangerRecipe> getNBTChangerRecipes(Bee beeEntity, BlockEntity blockEntity) {
-        if (blockEntity instanceof FeederBlockEntity feederBlockEntity) {
-            var items = feederBlockEntity.getInventoryItems();
-            if (items.size() > 0) {
-                List<BeeNBTChangerRecipe> recipes = new ArrayList<>();
-                Map<ResourceLocation, BeeNBTChangerRecipe> allRecipes = null;
-                for (ItemStack item : items) {
-                    var inv = new IdentifierInventory(beeEntity, ForgeRegistries.ITEMS.getKey(item.getItem()).toString());
-                    String cacheKey = inv.getIdentifier(0) + inv.getIdentifier(1);
-                    if (nbtChangerRecipeMap.containsKey(cacheKey)) {
-                        recipes = nbtChangerRecipeMap.get(cacheKey);
-                    } else if (beeEntity.level instanceof ServerLevel) {
-                        if (allRecipes == null) {
-                            allRecipes = beeEntity.level.getRecipeManager().byType(ModRecipeTypes.BEE_NBT_CHANGER_TYPE.get());
-                        }
-                        for (Map.Entry<ResourceLocation, BeeNBTChangerRecipe> entry : allRecipes.entrySet()) {
-                            if (entry.getValue().matches(inv, beeEntity.level)) {
-                                recipes.add(entry.getValue());
-                            }
-                        }
-                        nbtChangerRecipeMap.put(cacheKey, recipes);
-                    }
-                }
-                if (!recipes.isEmpty()) {
-                    return recipes;
+    public static ItemConversionRecipe getItemConversionRecipe(Bee beeEntity, ItemStack item) {
+        List<ItemConversionRecipe> recipes = new ArrayList<>();
+        ItemInventory beeInv = new ItemInventory(beeEntity, item);
+        String cacheKey = beeInv.getIdentifier(0) + beeInv.getIdentifier(1);
+        if (itemConversionRecipeMap.containsKey(cacheKey)) {
+            recipes = itemConversionRecipeMap.get(cacheKey);
+        } else if (beeEntity.level instanceof ServerLevel) {
+            // Get item conversion recipes
+            Map<ResourceLocation, ItemConversionRecipe> allRecipes = beeEntity.level.getRecipeManager().byType(ModRecipeTypes.ITEM_CONVERSION_TYPE.get());
+            for (Map.Entry<ResourceLocation, ItemConversionRecipe> entry : allRecipes.entrySet()) {
+                ItemConversionRecipe recipe = entry.getValue();
+                if (recipe.matches(beeInv, beeEntity.level)) {
+                    recipes.add(recipe);
                 }
             }
+
+            itemConversionRecipeMap.put(cacheKey, recipes);
         }
-        return new ArrayList<>();
+
+        if (!recipes.isEmpty()) {
+            return recipes.get(beeEntity.level.random.nextInt(recipes.size()));
+        }
+        return null;
     }
 
-    public static boolean hasNBTChangerRecipe(Bee beeEntity, BlockEntity feederBlockEntity) {
-        return getNBTChangerRecipes(beeEntity, feederBlockEntity).size() > 0;
+    public static boolean hasItemConversionRecipe(Bee beeEntity, ItemStack item) {
+        return getItemConversionRecipe(beeEntity, item) != null;
+    }
+
+    public static BeeNBTChangerRecipe getNBTChangerRecipe(Bee beeEntity, ItemStack item) {
+        List<BeeNBTChangerRecipe> recipes = new ArrayList<>();
+        var inv = new ItemInventory(beeEntity, item);
+        String cacheKey = inv.getIdentifier(0) + inv.getIdentifier(1);
+        if (nbtChangerRecipeMap.containsKey(cacheKey)) {
+            recipes = nbtChangerRecipeMap.get(cacheKey);
+        } else if (beeEntity.level instanceof ServerLevel) {
+            Map<ResourceLocation, BeeNBTChangerRecipe> allRecipes = beeEntity.level.getRecipeManager().byType(ModRecipeTypes.BEE_NBT_CHANGER_TYPE.get());
+            for (Map.Entry<ResourceLocation, BeeNBTChangerRecipe> entry : allRecipes.entrySet()) {
+                if (entry.getValue().matches(inv, beeEntity.level)) {
+                    recipes.add(entry.getValue());
+                }
+            }
+
+            nbtChangerRecipeMap.put(cacheKey, recipes);
+        }
+        if (!recipes.isEmpty()) {
+            return recipes.get(beeEntity.level.random.nextInt(recipes.size()));
+        }
+        return null;
+    }
+
+    public static boolean hasNBTChangerRecipe(Bee beeEntity, ItemStack item) {
+        return getNBTChangerRecipe(beeEntity, item) != null;
     }
 
     public static List<ItemStack> getBeeProduce(Level level, Bee beeEntity, boolean hasCombBlockUpgrade) {
@@ -286,7 +316,7 @@ public class BeeHelper
             });
         } else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
-                Block flowerBlock = getFloweringBlock(level, flowerPos, ModTags.LUMBER, (ProductiveBee) beeEntity);
+                Block flowerBlock = getFloweringBlockFromTag(level, flowerPos, ModTags.LUMBER, (ProductiveBee) beeEntity);
                 if (flowerBlock != null) {
                     ItemStack woodChip;
                     if (hasCombBlockUpgrade) {
@@ -299,7 +329,7 @@ public class BeeHelper
             }
         } else if (beeId.equals("productivebees:quarry_bee")) {
             if (flowerPos != null) {
-                Block flowerBlock = getFloweringBlock(level, flowerPos, ModTags.QUARRY, (ProductiveBee) beeEntity);
+                Block flowerBlock = getFloweringBlockFromTag(level, flowerPos, ModTags.QUARRY, (ProductiveBee) beeEntity);
                 if (flowerBlock != null) {
                     ItemStack stoneChip;
                     if (hasCombBlockUpgrade) {
@@ -312,7 +342,7 @@ public class BeeHelper
             }
         } else if (beeId.equals("productivebees:dye_bee")) {
             if (flowerPos != null) {
-                Block flowerBlock = getFloweringBlock(level, flowerPos, BlockTags.FLOWERS, (ProductiveBee) beeEntity);
+                Block flowerBlock = getFloweringBlockFromTag(level, flowerPos, BlockTags.FLOWERS, (ProductiveBee) beeEntity);
                 if (flowerBlock != null) {
                     Item flowerItem = flowerBlock.asItem();
 
@@ -320,6 +350,38 @@ public class BeeHelper
                     if (!dye.isEmpty()) {
                         dye.setCount(1);
                         outputList.add(dye);
+                    }
+                }
+            }
+        } else if (beeId.equals("productivebees:wanna_bee")) {
+            if (flowerPos != null && level instanceof ServerLevel serverLevel) {
+                PathfinderMob entity = null;
+                var blockEntity = level.getBlockEntity(flowerPos);
+                if (blockEntity instanceof AmberBlockEntity amberBlockEntity) {
+                    entity = amberBlockEntity.getCachedEntity();
+                } else if (blockEntity instanceof FeederBlockEntity feederBlockEntity) {
+                    ItemStack amberItem = feederBlockEntity.getSpecificItemFromInventory(ModBlocks.AMBER.get().asItem(), level.random);
+                    var tag = amberItem.getTag();
+                    if(tag != null && tag.contains("EntityData")) {
+                        entity = AmberBlockEntity.createEntity(serverLevel, tag.getCompound("EntityData"));
+                    }
+                }
+
+                if (entity != null) {
+                    LootTable lootTable = serverLevel.getServer().getLootTables().get(entity.getLootTable());
+                    if (lootTable != null) {
+                        Player fakePlayer = FakePlayerFactory.get(serverLevel, new GameProfile(WannaBee.WANNA_BEE_UUID, "wanna_bee"));
+                        LootContext.Builder lootContextBuilder = new LootContext.Builder(serverLevel);
+                        lootContextBuilder.withParameter(LootContextParams.LAST_DAMAGE_PLAYER, fakePlayer);
+                        lootContextBuilder.withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic());
+                        lootContextBuilder.withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, fakePlayer);
+                        lootContextBuilder.withOptionalParameter(LootContextParams.KILLER_ENTITY, fakePlayer);
+                        lootContextBuilder.withParameter(LootContextParams.THIS_ENTITY, entity);
+                        lootContextBuilder.withParameter(LootContextParams.ORIGIN, new Vec3(flowerPos.getX(), flowerPos.getY(), flowerPos.getZ()));
+
+                        List<ItemStack> list = lootTable.getRandomItems(lootContextBuilder.create(LootContextParamSets.ENTITY)).stream().filter(itemStack -> !itemStack.is(ModTags.WANNABEE_LOOT_BLACKLIST)).toList();
+
+                        outputList.add(list.get(level.random.nextInt(list.size())));
                     }
                 }
             }
@@ -349,16 +411,29 @@ public class BeeHelper
         return level.getRecipeManager().getRecipeFor(ModRecipeTypes.CENTRIFUGE_TYPE.get(), new RecipeWrapper(inputHandler), level).orElse(null);
     }
 
-    private static Block getFloweringBlock(Level level, BlockPos flowerPos, TagKey<Block> tag, ProductiveBee bee) {
+    private static Block getFloweringBlockFromTag(Level level, BlockPos flowerPos, TagKey<Block> tag, ProductiveBee bee) {
         BlockState flowerBlockState = level.getBlockState(flowerPos);
         Block flowerBlock = flowerBlockState.getBlock();
         if (flowerBlock instanceof Feeder) {
             BlockEntity feederTile = level.getBlockEntity(flowerPos);
-            if (feederTile instanceof FeederBlockEntity && ProductiveBee.isValidFeeder(bee, feederTile, bee::isFlowerBlock)) {
-                return ((FeederBlockEntity) feederTile).getRandomBlockFromInventory(tag, level.random);
+            if (feederTile instanceof FeederBlockEntity feederBlockEntity && ProductiveBee.isValidFeeder(bee, feederTile, bee::isFlowerBlock)) {
+                return feederBlockEntity.getRandomBlockFromInventory(tag, level.random);
             }
         }
         return flowerBlockState.is(tag) ? flowerBlock : null;
+    }
+
+    public static void encaseMob(PathfinderMob target, Level level, Direction direction) {
+        // Encase mob
+        if (target != null && !target.getType().is(ModTags.EXTERNAL_CAN_POLLINATE)) {
+            if (level.isEmptyBlock(target.blockPosition())) {
+                level.setBlockAndUpdate(target.blockPosition(), ModBlocks.AMBER.get().defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, direction));
+                if (level.getBlockEntity(target.blockPosition()) instanceof AmberBlockEntity amberBlockEntity) {
+                    amberBlockEntity.setEntity(target);
+                    target.remove(Entity.RemovalReason.DISCARDED);
+                }
+            }
+        }
     }
 
     public static void setOffspringAttributes(ProductiveBee newBee, ProductiveBee parent1, AgeableMob parent2) {
@@ -458,27 +533,27 @@ public class BeeHelper
             list.add((Component.translatable("productivebees.information.attribute.health", current, max)).withStyle(ChatFormatting.DARK_GRAY));
 
             String type = tag.getString("bee_type");
-            Component type_value = Component.translatable("productivebees.information.attribute.type." + type).withStyle(ColorUtil.getColor(type));
+            Component type_value = Component.translatable("productivebees.information.attribute.type." + type).withStyle(ColorUtil.getBeeTypeColor(type));
             list.add((Component.translatable("productivebees.information.attribute.type", type_value)).withStyle(ChatFormatting.DARK_GRAY));
 
             int productivity = tag.getInt("bee_productivity");
-            Component productivity_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).withStyle(ColorUtil.getColor(productivity));
+            Component productivity_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.PRODUCTIVITY).get(productivity)).withStyle(ColorUtil.getAttributeColor(productivity));
             list.add((Component.translatable("productivebees.information.attribute.productivity", productivity_value)).withStyle(ChatFormatting.DARK_GRAY));
 
             int tolerance = tag.getInt("bee_weather_tolerance");
-            Component tolerance_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).withStyle(ColorUtil.getColor(tolerance));
+            Component tolerance_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.WEATHER_TOLERANCE).get(tolerance)).withStyle(ColorUtil.getAttributeColor(tolerance));
             list.add((Component.translatable("productivebees.information.attribute.weather_tolerance", tolerance_value)).withStyle(ChatFormatting.DARK_GRAY));
 
             int behavior = tag.getInt("bee_behavior");
-            Component behavior_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).withStyle(ColorUtil.getColor(behavior));
+            Component behavior_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.BEHAVIOR).get(behavior)).withStyle(ColorUtil.getAttributeColor(behavior));
             list.add((Component.translatable("productivebees.information.attribute.behavior", behavior_value)).withStyle(ChatFormatting.DARK_GRAY));
 
             int endurance = tag.getInt("bee_endurance");
-            Component endurance_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.ENDURANCE).get(endurance)).withStyle(ColorUtil.getColor(endurance));
+            Component endurance_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.ENDURANCE).get(endurance)).withStyle(ColorUtil.getAttributeColor(endurance));
             list.add((Component.translatable("productivebees.information.attribute.endurance", endurance_value)).withStyle(ChatFormatting.DARK_GRAY));
 
             int temper = tag.getInt("bee_temper");
-            Component temper_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).withStyle(ColorUtil.getColor(temper));
+            Component temper_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).withStyle(ColorUtil.getAttributeColor(temper));
             list.add((Component.translatable("productivebees.information.attribute.temper", temper_value)).withStyle(ChatFormatting.DARK_GRAY));
 
             CompoundTag beeData = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
@@ -606,6 +681,19 @@ public class BeeHelper
 
         public BlockState getState() {
             return state;
+        }
+    }
+
+    public static class ItemInventory extends IdentifierInventory {
+        private ItemStack input;
+
+        public ItemInventory(Bee bee1, ItemStack input) {
+            super(bee1, input.toString());
+            this.input = input;
+        }
+
+        public ItemStack getInput() {
+            return input;
         }
     }
 }

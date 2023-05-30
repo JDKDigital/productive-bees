@@ -74,7 +74,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 
             if (slot == BreedingChamberContainer.SLOT_BEE_1 || slot == BreedingChamberContainer.SLOT_BEE_2) {
                 // Bee input changed, reset processing
-                if (this.tileEntity instanceof BreedingChamberBlockEntity breedingChamberBlockEntity) {
+                if (this.blockEntity instanceof BreedingChamberBlockEntity breedingChamberBlockEntity) {
                     breedingChamberBlockEntity.reset();
                     breedingChamberBlockEntity.setRecipe(null);
                 }

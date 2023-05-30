@@ -43,7 +43,7 @@ public class ProductiveBeeProvider implements IEntityComponentProvider, IServerD
         if (entity instanceof ProductiveBee bee && showDetails) {
             bee.saveWithoutId(compoundTag);
             compoundTag.putBoolean("isProductiveBee", true);
-            AdvancedBeehiveBlockEntityAbstract.removeIgnoredBeeTags(compoundTag);
+            AdvancedBeehiveBlockEntityAbstract.removeIgnoredTags(compoundTag);
         }
     }
 

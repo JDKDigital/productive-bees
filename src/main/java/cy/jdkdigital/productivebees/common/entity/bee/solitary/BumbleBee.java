@@ -150,7 +150,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
 
     @Override
     public float getSizeModifier() {
-        return 1.25F;
+        return 1.25F + (hasCustomName() && getCustomName().getString().equals("Bleh") ? 1.0f : 0);
     }
 
     @Override

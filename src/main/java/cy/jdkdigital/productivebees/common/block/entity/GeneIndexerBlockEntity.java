@@ -45,7 +45,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            if (tileEntity instanceof GeneIndexerBlockEntity geneIndexerBlockEntity) {
+            if (blockEntity instanceof GeneIndexerBlockEntity geneIndexerBlockEntity) {
                 geneIndexerBlockEntity.setDirty();
             }
         }

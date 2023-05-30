@@ -77,14 +77,14 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
                 renderColoredCutoutModel(this.model, this.getTextureLocation(entity), matrixStackIn, bufferIn, packedLightIn, entity, 1.0F, 1.0F, 1.0F);
             }
 
-            if (entity.getColor(0) >= 0) {
+            if (entity.isColored()) {
                 if (entity instanceof ConfigurableBee && ((ConfigurableBee) entity).hasBeeTexture()) {
                     if (this.modelType.equals("default_crystal") && ((ConfigurableBee) entity).useGlowLayer()) {
-                        renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity);
+                        renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks);
                     }
                     return;
                 }
-                renderColoredLayers(matrixStackIn, bufferIn, packedLightIn, entity);
+                renderColoredLayers(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks);
             }
 
             if (entity.hasNectar() && !entity.hasConverted()) {
@@ -97,32 +97,32 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
         }
     }
 
-    private void renderColoredLayers(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        float[] primaryColor = ColorUtil.getComponents(entity.getColor(0));
+    private void renderColoredLayers(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity, float partialTicks) {
+        float[] primaryColor = entity.getColor(0, partialTicks);
         ResourceLocation location = baseTextures.get(this.modelType).get("primary");
         renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, primaryColor[0], primaryColor[1], primaryColor[2]);
 
-        float[] secondaryColor = ColorUtil.getComponents(entity.getColor(1));
+        float[] secondaryColor = entity.getColor(1, partialTicks);
         ResourceLocation abdomenLocation = baseTextures.get(this.modelType).get("abdomen");
         renderColoredCutoutModel(this.model, abdomenLocation, matrixStackIn, bufferIn, packedLightIn, entity, secondaryColor[0], secondaryColor[1], secondaryColor[2]);
 
         if (this.modelType.equals("default_crystal")) {
-            renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity);
+            renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks);
         } else if (this.modelType.equals("default_foliage") || this.modelType.equals("default_shell")) {
             float[] color = primaryColor;
             if (entity instanceof ConfigurableBee) {
-                color = ((ConfigurableBee) entity).getTertiaryColor();
+                color = ((ConfigurableBee) entity).getTertiaryColor(partialTicks);
             }
             ResourceLocation foliageLocation = baseTextures.get(this.modelType).get("crystals");
             renderColoredCutoutModel(this.model, foliageLocation, matrixStackIn, bufferIn, packedLightIn, entity, color[0], color[1], color[2]);
         }
     }
 
-    private void renderCrystalLayer(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, ProductiveBee entity) {
-        float[] color = ColorUtil.getComponents(entity.getColor(0));
+    private void renderCrystalLayer(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, ProductiveBee entity, float partialTicks) {
+        float[] color = entity.getColor(0, partialTicks);
         boolean useGlowLayer = !entity.getRenderStatic();
         if (entity instanceof ConfigurableBee) {
-            color = ((ConfigurableBee) entity).getTertiaryColor();
+            color = ((ConfigurableBee) entity).getTertiaryColor(partialTicks);
             useGlowLayer = useGlowLayer && ((ConfigurableBee) entity).useGlowLayer();
         }
         // render a color version of the crystal layer
@@ -137,7 +137,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     }
 
     private void renderNectarLayer(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (entity.getColor(0) >= 0) {
+        if (entity.isColored()) {
             float[] colors = new float[]{1.0F, 1.0F, 1.0F};
             if (entity instanceof ConfigurableBee) {
                 if (((ConfigurableBee) entity).hasBeeTexture()) {
@@ -154,7 +154,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     }
 
     private void renderChristmasHat(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (isChristmas && entity.getColor(0)  >= 0 && !entity.getRenderStatic()) {
+        if (isChristmas && entity.isColored() && !entity.getRenderStatic()) {
             if (entity instanceof ConfigurableBee) {
                 if (((ConfigurableBee) entity).hasBeeTexture()) {
                     return;
@@ -167,8 +167,8 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     }
 
     private void renderSaddle(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (entity instanceof BumbleBee && ((BumbleBee) entity).isSaddled()) {
-            ResourceLocation location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/bumble/saddle.png");
+        if (entity instanceof BumbleBee bumbleBee && bumbleBee.isSaddled()) {
+            ResourceLocation location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/bumble" + (bumbleBee.hasCustomName() && bumbleBee.getCustomName().getString().equals("Bleh") ? "_bleh" : "") + "/saddle.png");
             renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, 1.0f, 1.0f, 1.0f);
         }
     }

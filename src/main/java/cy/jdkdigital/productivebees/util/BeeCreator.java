@@ -32,8 +32,14 @@ public class BeeCreator
         if (json.has("description")) {
             data.putString("description", json.get("description").getAsString());
         }
+        data.putBoolean("inverseFlower", false);
         if (json.has("flowerTag") && !json.get("flowerTag").getAsString().isEmpty()) {
-            data.putString("flowerTag", json.get("flowerTag").getAsString());
+            String tagName = json.get("flowerTag").getAsString();
+            if (tagName.startsWith("!")) {
+                tagName = tagName.substring(1);
+                data.putBoolean("inverseFlower", true);
+            }
+            data.putString("flowerTag", tagName);
         } else if (json.has("flowerBlock") && !json.get("flowerBlock").getAsString().isEmpty()) {
             data.putString("flowerBlock", json.get("flowerBlock").getAsString());
         } else if (json.has("flowerFluid") && !json.get("flowerFluid").getAsString().isEmpty()) {
@@ -57,6 +63,12 @@ public class BeeCreator
         if (json.has("attackResponse")) {
             data.putString("attackResponse", json.get("attackResponse").getAsString());
         }
+
+        if (json.has("postPollination")) {
+            data.putString("postPollination", json.get("postPollination").getAsString());
+        }
+
+        data.putBoolean("colorCycle", json.has("colorCycle") && json.get("colorCycle").getAsBoolean());
 
         data.putString("breedingItem", json.has("breedingItem") ? json.get("breedingItem").getAsString() : "");
         data.putInt("breedingItemCount", json.has("breedingItemCount") ? json.get("breedingItemCount").getAsInt() : 1);

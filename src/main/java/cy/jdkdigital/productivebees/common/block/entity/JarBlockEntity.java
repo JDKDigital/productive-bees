@@ -47,8 +47,8 @@ public class JarBlockEntity extends AbstractBlockEntity
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
 
-            if (tileEntity.hasLevel()) {
-                tileEntity.getLevel().sendBlockUpdated(tileEntity.getBlockPos(), tileEntity.getBlockState(), tileEntity.getBlockState(), 3);
+            if (blockEntity.hasLevel()) {
+                blockEntity.getLevel().sendBlockUpdated(blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity.getBlockState(), 3);
             }
         }
     });

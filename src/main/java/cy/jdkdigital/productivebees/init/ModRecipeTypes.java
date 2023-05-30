@@ -37,10 +37,12 @@ public final class ModRecipeTypes
     public static final RegistryObject<RecipeSerializer<?>> CONFIGURABLE_HONEYCOMB = RECIPE_SERIALIZERS.register("configurable_honeycomb", () -> new ConfigurableHoneycombRecipe.Serializer<>(ConfigurableHoneycombRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> CONFIGURABLE_COMB_BLOCK = RECIPE_SERIALIZERS.register("configurable_comb_block", () -> new ConfigurableCombBlockRecipe.Serializer<>(ConfigurableCombBlockRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BLOCK_CONVERSION = RECIPE_SERIALIZERS.register("block_conversion", () -> new BlockConversionRecipe.Serializer<>(BlockConversionRecipe::new));
+    public static final RegistryObject<RecipeSerializer<?>> ITEM_CONVERSION = RECIPE_SERIALIZERS.register("item_conversion", () -> new ItemConversionRecipe.Serializer<>(ItemConversionRecipe::new));
 
     public static RegistryObject<RecipeType<AdvancedBeehiveRecipe>> ADVANCED_BEEHIVE_TYPE = registerRecipeType("advanced_beehive");
     public static RegistryObject<RecipeType<BeeBreedingRecipe>> BEE_BREEDING_TYPE = registerRecipeType("bee_breeding");
     public static RegistryObject<RecipeType<BlockConversionRecipe>> BLOCK_CONVERSION_TYPE = registerRecipeType("block_conversion");
+    public static RegistryObject<RecipeType<ItemConversionRecipe>> ITEM_CONVERSION_TYPE = registerRecipeType("item_conversion");
     public static RegistryObject<RecipeType<BeeConversionRecipe>> BEE_CONVERSION_TYPE = registerRecipeType("bee_conversion");
     public static RegistryObject<RecipeType<IncubationRecipe>> INCUBATION_TYPE = registerRecipeType("incubation");
     public static RegistryObject<RecipeType<BeeFishingRecipe>> BEE_FISHING_TYPE = registerRecipeType("bee_fishing");

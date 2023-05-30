@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.client.render.entity.layers.BeeBodyLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -87,8 +88,12 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
     public ResourceLocation getTextureLocation(ProductiveBee bee) {
         String textureLocation = ProductiveBees.MODID + ":textures/entity/bee/" + bee.getBeeName() + "/bee";
 
+        if (bee instanceof BumbleBee && bee.hasCustomName() && bee.getCustomName().getString().equals("Bleh")) {
+            textureLocation = ProductiveBees.MODID + ":textures/entity/bee/" + bee.getBeeName() + "_bleh/bee";
+        }
+
         // Colored bees use tinted base texture
-        if (bee.getColor(0)  >= 0) {
+        if (bee.isColored()) {
             String modelType = bee.getRenderer();
             textureLocation = ProductiveBees.MODID + ":textures/entity/bee/base/" + modelType + "/bee";
         }

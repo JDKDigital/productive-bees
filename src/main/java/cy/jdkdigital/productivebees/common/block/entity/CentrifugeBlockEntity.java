@@ -65,7 +65,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     public int fluidId = 0;
     public int transferCooldown = -1;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this)
+    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(11, this)
     {
         @Override
         public boolean isContainerItem(Item item) {

@@ -85,7 +85,6 @@ repositories {
 //        url "https://dvs1.progwml6.com/files/maven/"
 //    }
     maven {
-        name = "Patchouli Maven"
         url 'https://maven.blamejared.com'
     }
     maven {

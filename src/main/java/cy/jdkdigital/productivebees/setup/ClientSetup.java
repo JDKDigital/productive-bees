@@ -2,18 +2,12 @@ package cy.jdkdigital.productivebees.setup;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.*;
-import cy.jdkdigital.productivebees.client.render.block.BottlerTileEntityRenderer;
-import cy.jdkdigital.productivebees.client.render.block.CentrifugeTileEntityRenderer;
-import cy.jdkdigital.productivebees.client.render.block.FeederBlockEntityRenderer;
-import cy.jdkdigital.productivebees.client.render.block.JarTileEntityRenderer;
+import cy.jdkdigital.productivebees.client.render.block.*;
 import cy.jdkdigital.productivebees.common.item.*;
 import cy.jdkdigital.productivebees.container.gui.*;
 import cy.jdkdigital.productivebees.init.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
@@ -99,10 +93,11 @@ public class ClientSetup
 
     @SubscribeEvent
     public static void registerEntityRenderers(RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModBlockEntityTypes.CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), CentrifugeTileEntityRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntityTypes.BOTTLER.get(), BottlerTileEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.CENTRIFUGE.get(), CentrifugeBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), CentrifugeBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.BOTTLER.get(), BottlerBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntityTypes.FEEDER.get(), FeederBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntityTypes.JAR.get(), JarTileEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.JAR.get(), JarBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.AMBER.get(), AmberBlockEntityRenderer::new);
     }
 }

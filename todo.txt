@@ -2,20 +2,24 @@
 
 - expansion boxes on all sides but the front
 - layered wood nest model
-
+- farmer and hoarder sim hive support
+- add petrified honey (all colors),
+- resin/amber encased mobs + wannabee to get drops from encased mobs
+- item/block conversion in feeding slabs
+- no insert cage when not sim
 
 - redo hive compat to be dynamic
 
-- add petrified honey (all colors), maybe dyed honey blocks
+- all bees should produce raw ore instead of ingots
+- double feeding slab with double inventory
+- increased crop pollination for solitary bees
 - add honey cauldron for crafting honey blocks
-- farmer and hoarder sim hive support
 - fruit tree bees (or farmer bee support)
-- resin/amber encased mobs + wannabee to get drops from encased mobs
-- item/block conversion in feeding slabs
 - move configs into recipes
+- undead bee spawns as recipes
 - blue carpenter bee
+- maybe dyed honey blocks
 - orchid bee https://www.google.com/search?q=orchid+bee&sxsrf=AJOqlzU5ZPQMPhFeLTNSlbSrx0tya09LrA:1675839923020&source=lnms&tbm=isch&sa=X&ved=2ahUKEwi-jr-aroX9AhWKgP0HHYJjCKUQ_AUoAXoECAEQAw&biw=1920&bih=973&dpr=1#imgrc=m4vpRlNWuNOYSM
-
 - bee cage ingredient
 - custom comb textures
 - show bee name when in jar
@@ -24,3 +28,5 @@
 - entity pollination in JEI
 - show fake bee outside simulated hive.
 - GUI revamp for fluid and power indicators
+- bee spawn blocks (custom nests)
+- differentiated spawn items for nest, part of recipe

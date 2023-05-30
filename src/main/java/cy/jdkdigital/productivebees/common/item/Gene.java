@@ -6,16 +6,13 @@ import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -102,7 +99,7 @@ public class Gene extends Item
         BeeAttribute<?> attribute = getAttribute(stack);
 
         if (attribute != null && BeeAttributes.keyMap.containsKey(attribute) && BeeAttributes.keyMap.get(attribute).containsKey(value)) {
-            Component translatedValue = Component.translatable(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
+            Component translatedValue = Component.translatable(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getAttributeColor(value));
             list.add((Component.translatable("productivebees.information.attribute." + getAttributeName(stack), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(Component.literal(" (" + getPurity(stack) + "%)")));
         } else {
             String type = getAttributeName(stack);

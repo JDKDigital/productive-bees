@@ -1,0 +1,11 @@
+{
+  "primaryColor": "#fa9310",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#d4700e",
+  "particleColor": "#fa9310",
+  "renderer": "default_crystal",
+  "flowerTag": "!productivebees:bee_encase_blacklist",
+  "flowerType": "entity_types",
+  "size": 0.7,
+  "postPollination": "amber_encase"
+}

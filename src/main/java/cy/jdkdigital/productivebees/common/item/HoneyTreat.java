@@ -168,7 +168,7 @@ public class HoneyTreat extends Item
                     Integer value = Gene.getValue(insertedGene);
                     BeeAttribute<?> attribute = Gene.getAttribute(insertedGene);
                     if (BeeAttributes.keyMap.containsKey(attribute)) {
-                        Component translatedValue = Component.translatable(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getColor(value));
+                        Component translatedValue = Component.translatable(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getAttributeColor(value));
                         list.add((Component.translatable("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(" (" + purity + "%)"));
                     } else {
                         list.add((Component.translatable("productivebees.information.attribute.type", Gene.getAttributeName(insertedGene))).withStyle(ChatFormatting.GOLD).append(" (" + purity + "%)"));

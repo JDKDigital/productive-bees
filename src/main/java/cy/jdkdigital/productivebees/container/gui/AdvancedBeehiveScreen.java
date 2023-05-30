@@ -54,7 +54,7 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
     @Override
     protected void renderLabels(@Nonnull PoseStack matrixStack, int mouseX, int mouseY) {
         boolean expanded = this.menu.tileEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
-        boolean simulated = expanded && this.menu.tileEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0;
+        boolean simulated = expanded && this.menu.tileEntity.isSim();
 
         this.font.draw(matrixStack, this.title, expanded ? -5f : 8.0F, 6.0F, 4210752);
         this.font.draw(matrixStack, this.playerInventoryTitle, expanded ? -5f : 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
@@ -124,7 +124,7 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
     @Override
     protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         boolean expanded = this.menu.tileEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
-        boolean simulated = expanded && this.menu.tileEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0;
+        boolean simulated = expanded && this.menu.tileEntity.isSim();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, expanded ? (simulated ? GUI_TEXTURE_SIMULATED : GUI_TEXTURE_EXPANDED) : GUI_TEXTURE);

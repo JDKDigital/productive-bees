@@ -46,16 +46,19 @@ public class BeeNBTChangerRecipe implements Recipe<Container>
 
     @Override
     public boolean matches(Container inv, Level worldIn) {
-        if (inv instanceof BeeHelper.IdentifierInventory && bee.get() != null) {
-            String beeName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(0);
-            String itemName = ((BeeHelper.IdentifierInventory) inv).getIdentifier(1);
+        if (inv instanceof BeeHelper.ItemInventory && bee.get() != null) {
+            String beeName = ((BeeHelper.ItemInventory) inv).getIdentifier(0);
+            ItemStack item = ((BeeHelper.ItemInventory) inv).getInput();
 
             String parentName = bee.get().getBeeType().toString();
 
             boolean matchesItem = false;
             for (ItemStack stack : this.item.getItems()) {
-                if (ForgeRegistries.ITEMS.getKey(stack.getItem()).toString().equals(itemName)) {
-                    matchesItem = true;
+                if (ItemStack.isSame(stack, item)) {
+                    var tag = item.getTag();
+                    if (tag != null && tag.contains(attribute) && tag.getInt(attribute) > min && tag.getInt(attribute) < max) {
+                        matchesItem = true;
+                    }
                 }
             }
 

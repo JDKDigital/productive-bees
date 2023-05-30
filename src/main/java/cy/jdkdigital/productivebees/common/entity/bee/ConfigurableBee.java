@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.entity.bee;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -35,11 +36,14 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -295,12 +299,32 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
-    public int getColor(int tintIndex) {
+    public float[] getColor(int tintIndex, float partialTicks) {
         CompoundTag nbt = getNBTData();
         if (nbt.contains("primaryColor")) {
-            return tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("secondaryColor");
+            if (nbt.getBoolean("colorCycle") && !nbt.getString("renderer").contains("crystal")) {
+                return ColorUtil.getCycleColor(nbt.getInt("primaryColor"),nbt.getInt("tertiaryColor"), tickCount, partialTicks);
+            }
+            return  ColorUtil.getCacheColor(tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("secondaryColor"));
         }
-        return super.getColor(tintIndex);
+        return super.getColor(tintIndex, partialTicks);
+    }
+
+    public float[] getParticleColor() {
+        return ColorUtil.getCacheColor(getNBTData().getInt("particleColor"));
+    }
+
+    public float[] getTertiaryColor(float partialTicks) {
+        CompoundTag nbt = getNBTData();
+        if (nbt.getBoolean("colorCycle") && nbt.getString("renderer").contains("crystal")) {
+            return ColorUtil.getCycleColor(nbt.getInt("primaryColor"), nbt.getInt("tertiaryColor"), tickCount, partialTicks);
+        }
+        return ColorUtil.getCacheColor(nbt.getInt("tertiaryColor"));
+    }
+
+    public boolean isColored() {
+        CompoundTag nbt = getNBTData();
+        return !nbt.contains("beeTexture");
     }
 
     @Nonnull
@@ -552,14 +576,6 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         return getNBTData().getString("flowerType");
     }
 
-    public float[] getParticleColor() {
-        return ColorUtil.getCacheColor(getNBTData().getInt("particleColor"));
-    }
-
-    public float[] getTertiaryColor() {
-        return ColorUtil.getCacheColor(getNBTData().getInt("tertiaryColor"));
-    }
-
     @Override
     public Map<MobEffect, Integer> getAggressiveEffects() {
         if (isWithered()) {
@@ -644,6 +660,18 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     level.playSound(null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 0.3F, 0.3F);
                     this.playSound(SoundEvents.ENDERMAN_TELEPORT, 0.2F, 1.0F);
                 }
+            }
+        }
+    }
+
+    @Override
+    public void postPollinate() {
+        super.postPollinate();
+
+        if (getNBTData().contains("postPollination")) {
+            switch (getNBTData().getString("postPollination")) {
+                case "amber_encase":
+                    BeeHelper.encaseMob(target, level, this.getDirection());
             }
         }
     }

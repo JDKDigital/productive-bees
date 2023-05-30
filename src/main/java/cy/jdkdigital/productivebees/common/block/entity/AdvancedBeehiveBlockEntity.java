@@ -9,7 +9,6 @@ import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
-import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
@@ -75,7 +74,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
         @Override
         public boolean isInputSlot(int slot) {
-            return super.isInputSlot(slot) || slot == AdvancedBeehiveContainer.SLOT_CAGE;
+            return super.isInputSlot(slot) || (slot == AdvancedBeehiveContainer.SLOT_CAGE && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim());
         }
     });
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
@@ -104,6 +103,10 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     @Override
     public boolean isSedated() {
         return true;
+    }
+
+    public boolean isSim() {
+        return getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0;
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntity blockEntity) {
@@ -167,7 +170,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 }
 
                 // Insert or extract bees for simulated hives
-                if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0) {
+                if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity.isSim()) {
                     blockEntity.inventoryHandler.ifPresent(h -> {
                         if (h instanceof InventoryHandlerHelper.ItemHandler invHelper) {
                             ItemStack cageStack = h.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE);

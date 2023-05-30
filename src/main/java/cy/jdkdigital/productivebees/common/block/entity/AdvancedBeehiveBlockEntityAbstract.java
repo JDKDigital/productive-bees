@@ -38,7 +38,6 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -50,8 +49,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Stream;
 
 public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEntity
 {
@@ -109,7 +106,10 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 Inhabitant inhabitant = inhabitantIterator.next();
                 if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
                     BeehiveBlockEntity.BeeReleaseStatus beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-                    if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0) {
+                    if (inhabitant.nbt.contains("HasConverted") && inhabitant.nbt.getBoolean("HasConverted")) {
+                        beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
+                    }
+                    if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim()) {
                         // for simulated hives, count all the way up to timeInHive + pollinationTime
                         if (inhabitant.ticksInHive > (inhabitant.minOccupationTicks + 450)) {
                             simulateBee(level, hivePos, state, blockEntity, inhabitant);
@@ -235,6 +235,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     public static void simulateBee(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity, Inhabitant inhabitant) {
         Bee beeEntity = (Bee) EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
         if (beeEntity != null) {
+            beeEntity.hivePos = hivePos;
             BeehiveBlockEntity.BeeReleaseStatus beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
             if (beeEntity instanceof FarmerBee farmerBee && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity) {
                 List<BlockPos> harvestablesNearby = farmerBee.findHarvestablesNearby(hivePos, 5 + advancedBeehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get()));
@@ -277,7 +278,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             // update bee data
             CompoundTag compoundNBT = new CompoundTag();
             beeEntity.save(compoundNBT);
-            AdvancedBeehiveBlockEntityAbstract.removeIgnoredBeeTags(compoundNBT);
+            AdvancedBeehiveBlockEntityAbstract.removeIgnoredTags(compoundNBT);
             inhabitant.nbt = compoundNBT;
         }
     }
@@ -334,7 +335,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     protected void beeReleasePostAction(Level level, Bee beeEntity, BlockState state, BeehiveBlockEntity.BeeReleaseStatus beeState) {
         beeEntity.resetTicksWithoutNectarSinceExitingHive();
-        beeEntity.heal(2);
+        beeEntity.heal(beeEntity.getMaxHealth());
 
         applyHiveTime(getTimeInHive(beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED, beeEntity), beeEntity);
         beeEntity.dropOffNectar();
@@ -390,13 +391,17 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         return block instanceof AdvancedBeehiveAbstract ? ((AdvancedBeehiveAbstract) block).getMaxHoneyLevel() : 5;
     }
 
-    public static void removeIgnoredBeeTags(CompoundTag tag) {
+    public static void removeIgnoredTags(CompoundTag tag) {
+        removeIgnoredTags(tag, false);
+    }
+
+    public static void removeIgnoredTags(CompoundTag tag, boolean stripCaps) {
         for (String s : IGNORED_BEE_TAGS) {
             if (tag.contains(s)) {
                 tag.remove(s);
             }
         }
-        if (ProductiveBeesConfig.GENERAL.stripForgeCaps.get()) {
+        if (ProductiveBeesConfig.GENERAL.stripForgeCaps.get() || stripCaps) {
             for (String s : OPTIONAL_IGNORED_BEE_TAGS) {
                 if (tag.contains(s)) {
                     tag.remove(s);
@@ -436,7 +441,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         public final String localizedName;
 
         public Inhabitant(CompoundTag nbt, int ticksInHive, int minOccupationTicks, BlockPos flowerPos, String localizedName) {
-            AdvancedBeehiveBlockEntityAbstract.removeIgnoredBeeTags(nbt);
+            AdvancedBeehiveBlockEntityAbstract.removeIgnoredTags(nbt);
             this.nbt = nbt;
             this.ticksInHive = ticksInHive;
             this.minOccupationTicks = minOccupationTicks;

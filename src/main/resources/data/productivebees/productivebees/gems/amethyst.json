@@ -4,7 +4,6 @@
     "tertiaryColor": "#32005c",
     "particleColor": "#7217c4",
     "renderer": "default_crystal",
-    "size": 0.85,
     "flowerTag": "productivebees:flowers/amethyst",
     "size": 0.6
 }

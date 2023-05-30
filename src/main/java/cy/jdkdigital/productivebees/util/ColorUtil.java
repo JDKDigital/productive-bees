@@ -10,7 +10,7 @@ public class ColorUtil
     // Color calc cache
     private static final Map<Integer, float[]> colorCache = new HashMap<>();
 
-    public static float[] getCacheColor(Integer color) {
+    public static float[] getCacheColor(int color) {
         if (!colorCache.containsKey(color)) {
             colorCache.put(color, ColorUtil.getComponents(color));
         }
@@ -27,17 +27,25 @@ public class ColorUtil
         return f;
     }
 
-    public static ChatFormatting getColor(String type) {
-        switch (type) {
-            case "hive":
-                return ChatFormatting.YELLOW;
-            case "solitary":
-                return ChatFormatting.GRAY;
-        }
-        return ChatFormatting.WHITE;
+    public static float[] getCycleColor(int color, int color2, int tickCount, float partialTicks) {
+        float f3 = ((float)(tickCount % 25) + partialTicks) / 25.0F;
+        float[] afloat1 = ColorUtil.getCacheColor(color);
+        float[] afloat2 = ColorUtil.getCacheColor(color2);
+        var f = afloat1[0] * (1.0F - f3) + afloat2[0] * f3;
+        var f1 = afloat1[1] * (1.0F - f3) + afloat2[1] * f3;
+        var f2 = afloat1[2] * (1.0F - f3) + afloat2[2] * f3;
+        return new float[]{f, f1, f2};
     }
 
-    public static ChatFormatting getColor(int level) {
+    public static ChatFormatting getBeeTypeColor(String type) {
+        return switch (type) {
+            case "hive" -> ChatFormatting.YELLOW;
+            case "solitary" -> ChatFormatting.GRAY;
+            default -> ChatFormatting.WHITE;
+        };
+    }
+
+    public static ChatFormatting getAttributeColor(int level) {
         return switch (level) {
             case -3 -> ChatFormatting.GOLD;
             case -2 -> ChatFormatting.DARK_RED;

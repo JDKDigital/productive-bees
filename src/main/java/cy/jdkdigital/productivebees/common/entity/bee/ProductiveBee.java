@@ -3,18 +3,22 @@ package cy.jdkdigital.productivebees.common.entity.bee;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Feeder;
+import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBee;
+import cy.jdkdigital.productivebees.common.entity.bee.solitary.ResinBee;
 import cy.jdkdigital.productivebees.common.recipe.BeeNBTChangerRecipe;
 import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
+import cy.jdkdigital.productivebees.common.recipe.ItemConversionRecipe;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.*;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -303,7 +307,9 @@ public class ProductiveBee extends Bee
                 Item slotItem = stack.getItem();
                 if (slotItem instanceof BlockItem && validator.test(((BlockItem) slotItem).getBlock().defaultBlockState())) {
                     hasValidBlock.set(true);
-                } else if (BeeHelper.hasNBTChangerRecipe(bee, tile)) {
+                } else if (BeeHelper.hasItemConversionRecipe(bee, stack)) {
+                    hasValidBlock.set(true);
+                } else if (BeeHelper.hasNBTChangerRecipe(bee, stack)) {
                     hasValidBlock.set(true);
                 }
             }
@@ -545,8 +551,8 @@ public class ProductiveBee extends Bee
     public void postPollinate() {
         if (hasNectar() && savedFlowerPos != null) {
             BlockState flowerBlockState = level.getBlockState(savedFlowerPos);
-            BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(this, flowerBlockState);
-            if (recipe != null) {
+            if (BeeHelper.hasBlockConversionRecipe(this, flowerBlockState)) {
+                BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(this, flowerBlockState);
                 if (level.random.nextInt(100) <= recipe.chance) {
                     level.setBlock(savedFlowerPos, recipe.stateTo, 3);
                     level.levelEvent(2005, savedFlowerPos, 0);
@@ -556,24 +562,58 @@ public class ProductiveBee extends Bee
             } else {
                 BlockEntity blockEntity = level.getBlockEntity(savedFlowerPos);
                 if (blockEntity instanceof FeederBlockEntity feederBlockEntity) {
-                    List<BeeNBTChangerRecipe> nbtRecipes = BeeHelper.getNBTChangerRecipes(this, feederBlockEntity);
-                    if (nbtRecipes.size() > 0) {
-                        for (BeeNBTChangerRecipe nbtRecipe: nbtRecipes) {
-                            for (ItemStack stack : feederBlockEntity.getInventoryItems()) {
-                                var tag = stack.getTag();
-                                if (tag != null && tag.contains(nbtRecipe.attribute) && tag.getInt(nbtRecipe.attribute) > nbtRecipe.min && tag.getInt(nbtRecipe.attribute) < nbtRecipe.max) {
-                                    switch (nbtRecipe.method) {
-                                        case "decrement" -> tag.putInt(nbtRecipe.attribute, Math.max(nbtRecipe.min, tag.getInt(nbtRecipe.attribute) - nbtRecipe.value));
-                                        case "increment" -> tag.putInt(nbtRecipe.attribute, Math.min(nbtRecipe.max, tag.getInt(nbtRecipe.attribute) + nbtRecipe.value));
-                                        case "set" -> tag.putInt(nbtRecipe.attribute, nbtRecipe.value);
-                                        case "unset" -> tag.remove(nbtRecipe.attribute);
+                    BlockEntity hiveBlockEntity = hivePos != null ? level.getBlockEntity(hivePos) : null;
+                    for (ItemStack stack : feederBlockEntity.getInventoryItems()) {
+                        if (stack.getItem() instanceof BlockItem blockItem) {
+                            BlockConversionRecipe blockRecipe = BeeHelper.getBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState());
+                            if (blockRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
+                                if (level.random.nextInt(100) <= blockRecipe.chance) {
+                                    ItemStack output = new ItemStack(blockRecipe.stateTo.getBlock().asItem());
+                                    if (beehiveBlockEntity.isSim()) {
+                                        beehiveBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
+                                            if (!output.equals(ItemStack.EMPTY) && h instanceof InventoryHandlerHelper.ItemHandler itemHandler && itemHandler.addOutput(output)) {
+                                                stack.shrink(1);
+                                            }
+                                        });
+                                    } else {
+                                        Block.popResource(level, feederBlockEntity.getBlockPos().relative(Direction.UP), output);
+                                        stack.shrink(1);
                                     }
-                                    stack.setTag(tag);
-                                    // Set flag to prevent produce
-                                    setHasConverted(true);
-                                    return;
+                                }
+                                setHasConverted(!blockRecipe.pollinates);
+                                return;
+                            }
+                        }
+                        ItemConversionRecipe itemRecipe = BeeHelper.getItemConversionRecipe(this, stack);
+                        if (itemRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
+                            if (level.random.nextInt(100) <= itemRecipe.chance) {
+                                if (beehiveBlockEntity.isSim()) {
+                                    beehiveBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
+                                        if (h instanceof InventoryHandlerHelper.ItemHandler itemHandler && itemHandler.addOutput(itemRecipe.output.copy())) {
+                                            stack.shrink(1);
+                                        }
+                                    });
+                                } else {
+                                    Block.popResource(level, feederBlockEntity.getBlockPos().relative(Direction.UP), itemRecipe.output.copy());
+                                    stack.shrink(1);
                                 }
                             }
+                            setHasConverted(!itemRecipe.pollinates);
+                            return;
+                        }
+                        BeeNBTChangerRecipe nbtRecipe = BeeHelper.getNBTChangerRecipe(this, stack);
+                        CompoundTag tag = stack.getTag();
+                        if (nbtRecipe != null && tag != null) {
+                            switch (nbtRecipe.method) {
+                                case "decrement" -> tag.putInt(nbtRecipe.attribute, Math.max(nbtRecipe.min, tag.getInt(nbtRecipe.attribute) - nbtRecipe.value));
+                                case "increment" -> tag.putInt(nbtRecipe.attribute, Math.min(nbtRecipe.max, tag.getInt(nbtRecipe.attribute) + nbtRecipe.value));
+                                case "set" -> tag.putInt(nbtRecipe.attribute, nbtRecipe.value);
+                                case "unset" -> tag.remove(nbtRecipe.attribute);
+                            }
+                            stack.setTag(tag);
+                            // Set flag to prevent produce
+                            setHasConverted(true);
+                            return;
                         }
                     }
                 }
@@ -581,13 +621,21 @@ public class ProductiveBee extends Bee
         }
     }
 
+    private void insertConversionResult() {
+
+    }
+
     @Override
     protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return this.isBaby() ? sizeIn.height * 0.25F : sizeIn.height * 0.5F;
     }
 
-    public int getColor(int tintIndex) {
-        return -1;
+    public float[] getColor(int tintIndex, float tickCount) {
+        return  ColorUtil.getCacheColor(-1);
+    }
+
+    public boolean isColored() {
+        return false;
     }
 
     public boolean isFlowerBlock(BlockState flowerBlock) {
@@ -715,6 +763,9 @@ public class ProductiveBee extends Bee
         public Optional<BlockPos> findNearbyFlower() {
             if (ProductiveBee.this instanceof RancherBee) {
                 return findEntities(RancherBee.predicate, 5D);
+            }
+            if (ProductiveBee.this instanceof ResinBee) {
+                return findEntities(ResinBee.predicate, 5D);
             }
             if (ProductiveBee.this instanceof ConfigurableBee && ((ConfigurableBee) ProductiveBee.this).getFlowerType().equals("entity_types")) {
                 CompoundTag nbt = ((ConfigurableBee) ProductiveBee.this).getNBTData();

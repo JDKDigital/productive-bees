@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
@@ -90,15 +89,15 @@ public class InventoryHandlerHelper
 
     public static class ItemHandler extends ItemStackHandler
     {
-        protected BlockEntity tileEntity;
+        protected BlockEntity blockEntity;
 
         public ItemHandler(int size) {
             this(size, null);
         }
 
-        public ItemHandler(int size, @Nullable BlockEntity tileEntity) {
+        public ItemHandler(int size, @Nullable BlockEntity blockEntity) {
             super(size);
-            this.tileEntity = tileEntity;
+            this.blockEntity = blockEntity;
         }
 
         public int[] getOutputSlots() {
@@ -108,8 +107,8 @@ public class InventoryHandlerHelper
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            if (tileEntity != null) {
-                tileEntity.setChanged();
+            if (blockEntity != null) {
+                blockEntity.setChanged();
             }
         }
 

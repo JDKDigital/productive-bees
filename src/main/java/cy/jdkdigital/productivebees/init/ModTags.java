@@ -44,6 +44,7 @@ public class ModTags
 
     public static final TagKey<EntityType<?>> RANCHABLES = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
     public static final TagKey<EntityType<?>> EXTERNAL_CAN_POLLINATE = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "external_can_pollinate"));
+    public static final TagKey<EntityType<?>> BEE_ENCASE_BLACKLIST = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "bee_encase_blacklist"));
 
     public static final TagKey<Fluid> HONEY = FluidTags.create(new ResourceLocation("forge", "honey"));
 
@@ -51,6 +52,7 @@ public class ModTags
     public static final TagKey<Item> CANVAS_BOXES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "canvas_expansion_boxes"));
     public static final TagKey<Item> HIVES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "advanced_beehives"));
     public static final TagKey<Item> BOXES = getItemTag(new ResourceLocation(ProductiveBees.MODID, "expansion_boxes"));
+    public static final TagKey<Item> WANNABEE_LOOT_BLACKLIST = getItemTag(new ResourceLocation(ProductiveBees.MODID, "wannabee_loot_blacklist"));
 
     public static TagKey<Block> getBlockTag(String name) {
         return getBlockTag(new ResourceLocation(ProductiveBees.MODID, name));

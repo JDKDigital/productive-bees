@@ -33,5 +33,11 @@
     "type": "forge:nbt",
     "item": "productivebees:spawn_egg_configurable_bee",
     "nbt": "{EntityTag:{type:\"productivebees:nitro_crystal\"}}"
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "powah"
+    }
+  ]
 }

@@ -7,7 +7,6 @@ import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -15,9 +14,9 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
-public class CentrifugeTileEntityRenderer implements BlockEntityRenderer<CentrifugeBlockEntity>
+public class CentrifugeBlockEntityRenderer implements BlockEntityRenderer<CentrifugeBlockEntity>
 {
-    public CentrifugeTileEntityRenderer(BlockEntityRendererProvider.Context context) {
+    public CentrifugeBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
 
     public void render(CentrifugeBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {

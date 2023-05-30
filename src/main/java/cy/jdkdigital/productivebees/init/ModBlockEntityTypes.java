@@ -49,6 +49,12 @@ public class ModBlockEntityTypes
             ).build(null)
     );
 
+    public static final RegistryObject<BlockEntityType<AmberBlockEntity>> AMBER = BLOCK_ENTITIES.register("amber", () ->
+            BlockEntityType.Builder.of(AmberBlockEntity::new,
+                    ModBlocks.AMBER.get()
+            ).build(null)
+    );
+
     public static final RegistryObject<BlockEntityType<SugarbagNestBlockEntity>> SUGARBAG_NEST = register("sugarbag_nest", SugarbagNestBlockEntity::new, ModBlocks.SUGARBAG_NEST);
     public static final RegistryObject<BlockEntityType<AdvancedBeehiveBlockEntity>> DRACONIC_BEEHIVE = register("draconic_beehive", DragonEggHiveBlockEntity::new, ModBlocks.DRAGON_EGG_HIVE);
     public static final RegistryObject<BlockEntityType<SolitaryHiveBlockEntity>> SOLITARY_HIVE = register("solitary_hive", SolitaryHiveBlockEntity::new, ModBlocks.BAMBOO_HIVE);

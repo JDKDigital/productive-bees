@@ -15,9 +15,9 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
-public class JarTileEntityRenderer implements BlockEntityRenderer<JarBlockEntity>
+public class JarBlockEntityRenderer implements BlockEntityRenderer<JarBlockEntity>
 {
-    public JarTileEntityRenderer(BlockEntityRendererProvider.Context context) {
+    public JarBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
 
     @Override

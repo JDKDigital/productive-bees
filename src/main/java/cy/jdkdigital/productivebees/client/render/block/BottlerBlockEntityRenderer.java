@@ -6,7 +6,6 @@ import cy.jdkdigital.productivebees.common.block.Bottler;
 import cy.jdkdigital.productivebees.common.block.entity.BottlerBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -15,9 +14,9 @@ import net.minecraft.world.item.Items;
 
 import javax.annotation.Nonnull;
 
-public class BottlerTileEntityRenderer implements BlockEntityRenderer<BottlerBlockEntity>
+public class BottlerBlockEntityRenderer implements BlockEntityRenderer<BottlerBlockEntity>
 {
-    public BottlerTileEntityRenderer(BlockEntityRendererProvider.Context context) {
+    public BottlerBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
 
     public void render(BottlerBlockEntity tileEntityIn, float partialTicks, @Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {

@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -31,7 +32,6 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -60,6 +60,10 @@ public class FeederBlockEntity extends CapabilityBlockEntity
             return true;
         }
 
+        public int[] getOutputSlots() {
+            return new int[]{0, 1, 2};
+        }
+
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
@@ -82,6 +86,16 @@ public class FeederBlockEntity extends CapabilityBlockEntity
             }
         }
         return possibleBlocks.size() > 0 ? possibleBlocks.get(random.nextInt(possibleBlocks.size())) : Blocks.AIR;
+    }
+
+    public ItemStack getSpecificItemFromInventory(Item item, RandomSource random) {
+        List<ItemStack> possibleItems = new ArrayList<>();
+        for (ItemStack stack: getInventoryItems()) {
+            if (stack.is(item)) {
+                possibleItems.add(stack);
+            }
+        }
+        return possibleItems.size() > 0 ? possibleItems.get(random.nextInt(possibleItems.size())) : ItemStack.EMPTY;
     }
 
     public List<ItemStack> getInventoryItems() {

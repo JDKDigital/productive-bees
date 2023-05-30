@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "productivebees:block/amber"
+    },
+    "facing=south": {
+      "model": "productivebees:block/amber",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "productivebees:block/amber",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "productivebees:block/amber",
+      "y": 90
+    }
+  }
+}
