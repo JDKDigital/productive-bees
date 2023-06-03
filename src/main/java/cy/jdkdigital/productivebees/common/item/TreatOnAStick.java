@@ -27,7 +27,7 @@ public class TreatOnAStick extends Item
             return InteractionResultHolder.pass(itemstack);
         } else {
             Entity entity = player.getVehicle();
-            if (player.isPassenger() && entity instanceof ItemSteerable itemsteerable && entity.getType() == ModEntities.BUMBLE.get()) {
+            if (player.isPassenger() && entity instanceof ItemSteerable itemsteerable && entity.getType().equals(ModEntities.BUMBLE.get())) {
                 if (itemsteerable.boost()) {
                     itemstack.hurtAndBreak(this.consumeItemDamage, player, (p_41312_) -> {
                         p_41312_.broadcastBreakEvent(hand);

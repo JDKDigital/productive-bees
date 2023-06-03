@@ -38,7 +38,7 @@ public class ModEntities
     public static RegistryObject<EntityType<Bee>> FARMER_BEE = createHiveBee("farmer_bee", FarmerBee::new, 9615358, 6238757);
     public static RegistryObject<EntityType<Bee>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBee::new, 894731, 6238757);
     public static RegistryObject<EntityType<Bee>> CUPID_BEE = createHiveBee("cupid_bee", CupidBee::new, 894731, 6238757);
-    public static RegistryObject<EntityType<WannaBee>> WANNA_BEE = createHiveBee("wanna_bee", WannaBee::new, 894731, 6238757);
+    public static RegistryObject<EntityType<Bee>> WANNA_BEE = createHiveBee("wanna_bee", WannaBee::new, 894731, 6238757);
 
     public static RegistryObject<EntityType<Bee>> ASHY_MINING_BEE = createSolitaryBee("ashy_mining_bee", MiningBee::new, 11709345, 6238757);
     public static RegistryObject<EntityType<Bee>> BLUE_BANDED_BEE = createSolitaryBee("blue_banded_bee", BlueBandedBee::new, 9615358, 6238757);
@@ -53,7 +53,7 @@ public class ModEntities
     public static RegistryObject<EntityType<Bee>> REED_BEE = createSolitaryBee("reed_bee", ReedBee::new, 13806336, 6238757);
     public static RegistryObject<EntityType<Bee>> RESIN_BEE = createSolitaryBee("resin_bee", ResinBee::new, 13939231, 6238757);
     public static RegistryObject<EntityType<Bee>> SWEAT_BEE = createSolitaryBee("sweat_bee", SweatBee::new, 9748939, 6238757);
-    public static RegistryObject<EntityType<BumbleBee>> BUMBLE = createSolitaryBee("bumble_bee", BumbleBee::new, 9748939, 6238757);
+    public static RegistryObject<EntityType<Bee>> BUMBLE = createSolitaryBee("bumble_bee", BumbleBee::new, 9748939, 6238757);
 
     public static RegistryObject<EntityType<ConfigurableBee>> CONFIGURABLE_BEE = createHiveBee("configurable_bee", ConfigurableBee::new, 16768648, 6238757);
 

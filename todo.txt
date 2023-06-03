@@ -10,6 +10,8 @@
 
 - redo hive compat to be dynamic
 
+- block upgrade for comb block production instead of using it for lumber and quarry
+- sticky sponge, sponge soaking up honey becomes sticky instead of wet, eat it to clean it
 - all bees should produce raw ore instead of ingots
 - double feeding slab with double inventory
 - increased crop pollination for solitary bees
@@ -30,3 +32,4 @@
 - GUI revamp for fluid and power indicators
 - bee spawn blocks (custom nests)
 - differentiated spawn items for nest, part of recipe
+- more bee helmet versions
