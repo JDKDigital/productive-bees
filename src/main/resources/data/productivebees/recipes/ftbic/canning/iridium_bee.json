@@ -10,7 +10,7 @@
     },
     {
       "ingredient": {
-        "tag": "forge:ingots/iridium"
+        "tag": "forge:raw_materials/iridium"
       }
     }
   ],
@@ -34,7 +34,7 @@
       "type": "forge:not",
       "value": {
         "type": "forge:tag_empty",
-        "tag": "forge:ingots/iridium"
+        "tag": "forge:raw_materials/iridium"
       }
     },
     {

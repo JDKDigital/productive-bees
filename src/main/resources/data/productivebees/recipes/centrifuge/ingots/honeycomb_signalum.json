@@ -12,7 +12,7 @@
     "outputs": [
         {
             "item": {
-                "tag": "forge:ingots/signalum"
+                "tag": "forge:dusts/signalum"
             },
             "chance": 40
         },
@@ -33,12 +33,8 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/signalum"
+                "tag": "forge:dusts/signalum"
             }
-        },
-        {
-            "type": "forge:tag_empty",
-            "tag": "forge:dusts/signalum"
         }
     ]
 }

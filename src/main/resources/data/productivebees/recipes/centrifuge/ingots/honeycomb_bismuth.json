@@ -12,7 +12,7 @@
     "outputs": [
         {
             "item": {
-                "tag": "forge:ingots/bismuth"
+                "tag": "forge:raw_materials/bismuth"
             },
             "chance": 40
         },
@@ -33,7 +33,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/bismuth"
+                "tag": "forge:raw_materials/bismuth"
             }
         },
         {

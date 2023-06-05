@@ -17,7 +17,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/uranium"
+                "tag": "forge:raw_materials/uranium"
             }
         },
         {

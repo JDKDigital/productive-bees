@@ -12,7 +12,7 @@
     "outputs": [
         {
             "item": {
-                "tag": "forge:ingots/soulsteel"
+                "tag": "forge:raw_materials/soulsteel"
             },
             "chance": 50
         },
@@ -27,7 +27,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/soulsteel"
+                "tag": "forge:raw_materials/soulsteel"
             }
         },
         {

@@ -9,7 +9,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/knightslime"
+                "tag": "forge:raw_materials/knightslime"
             }
         },
         {

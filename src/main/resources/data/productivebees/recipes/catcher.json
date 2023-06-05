@@ -10,7 +10,7 @@
             "item": "minecraft:dirt"
         },
         "I": {
-            "tag": "forge:ingots/iron"
+            "tag": "forge:raw_materials/iron"
         },
         "D": {
             "item": "minecraft:dispenser"

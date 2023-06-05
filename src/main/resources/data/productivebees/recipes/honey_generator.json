@@ -10,7 +10,7 @@
             "tag": "forge:buckets/honey"
         },
         "I": {
-            "tag": "forge:ingots/iron"
+            "tag": "forge:raw_materials/iron"
         },
         "F": {
             "item": "minecraft:furnace"

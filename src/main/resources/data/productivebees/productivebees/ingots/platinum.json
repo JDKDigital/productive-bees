@@ -10,7 +10,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/platinum"
+                "tag": "forge:raw_materials/platinum"
             }
         },
         {

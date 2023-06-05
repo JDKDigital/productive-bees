@@ -7,7 +7,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/tin"
+                "tag": "forge:raw_materials/tin"
             }
         },
         {

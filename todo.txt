@@ -7,12 +7,12 @@
 - resin/amber encased mobs + wannabee to get drops from encased mobs
 - item/block conversion in feeding slabs
 - no insert cage when not sim
+- all bees should produce raw ore instead of ingots
 
 - redo hive compat to be dynamic
 
 - block upgrade for comb block production instead of using it for lumber and quarry
 - sticky sponge, sponge soaking up honey becomes sticky instead of wet, eat it to clean it
-- all bees should produce raw ore instead of ingots
 - double feeding slab with double inventory
 - increased crop pollination for solitary bees
 - add honey cauldron for crafting honey blocks

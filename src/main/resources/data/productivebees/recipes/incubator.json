@@ -10,7 +10,7 @@
             "item": "minecraft:hay_block"
         },
         "I": {
-            "tag": "forge:ingots/iron"
+            "tag": "forge:raw_materials/iron"
         },
         "D": {
             "item": "minecraft:daylight_detector"

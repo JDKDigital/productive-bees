@@ -40,10 +40,10 @@
             "tag": "forge:storage_blocks/honeycombs"
         },
         {
-            "tag": "forge:ingots/draconium_awakened"
+            "tag": "forge:raw_materials/draconium_awakened"
         },
         {
-            "tag": "forge:ingots/draconium_awakened"
+            "tag": "forge:raw_materials/draconium_awakened"
         }
     ],
     "conditions": [

@@ -15,7 +15,7 @@
             }
         },
         "C": {
-            "tag": "forge:ingots/cobalt"
+            "tag": "forge:raw_materials/cobalt"
         }
     },
     "result": {
@@ -38,7 +38,7 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:ingots/cobalt"
+                "tag": "forge:raw_materials/cobalt"
             }
         },
         {
