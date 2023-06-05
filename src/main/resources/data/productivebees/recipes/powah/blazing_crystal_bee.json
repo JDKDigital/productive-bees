@@ -28,5 +28,23 @@
     "type": "forge:nbt",
     "item": "productivebees:spawn_egg_configurable_bee",
     "nbt": "{EntityTag:{type:\"productivebees:blazing_crystal\"}}"
-  }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "powah"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:blazing"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:energized_steel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:blazing_crystal"
+    }
+  ]
 }

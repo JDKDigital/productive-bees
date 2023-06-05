@@ -109,12 +109,6 @@ public class ClientSetup
     }
 
     private static void registerBlockRendering() {
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.COMB_GHOSTLY.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.SLIMY_NEST.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BUMBLE_BEE_NEST.get(), RenderType.cutoutMipped());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.SUGAR_CANE_NEST.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.JAR.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(ModBlocks.INVISIBLE_REDSTONE_BLOCK.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModFluids.HONEY.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModFluids.HONEY_FLOWING.get(), RenderType.translucent());
     }

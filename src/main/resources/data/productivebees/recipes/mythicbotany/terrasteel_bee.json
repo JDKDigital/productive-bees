@@ -5,26 +5,26 @@
         "item": "productivebees:spawn_egg_configurable_bee",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:alfsteel"
+                "type": "productivebees:terrasteel"
             }
         }
     },
-    "mana": 4000000,
+    "mana": 500000,
     "ingredients": [
         {
             "type": "forge:nbt",
             "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:elementium\"}}"
+            "nbt": "{EntityTag:{type:\"productivebees:manasteel\"}}"
         },
         {
-            "tag": "botania:dragonstone_gems"
+            "item": "botania:mana_diamond"
         },
         {
-            "item": "botania:pixie_dust"
+            "item": "botania:mana_pearl"
         }
     ],
-    "fromColor": 14441208,
-    "toColor": 16765496,
+    "fromColor": 4892655,
+    "toColor": 4836381,
     "conditions": [
         {
             "type": "forge:mod_loaded",

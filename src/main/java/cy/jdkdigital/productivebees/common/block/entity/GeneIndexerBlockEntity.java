@@ -39,7 +39,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
     {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
-            return stack.getItem().equals(ModItems.GENE.get());
+            return stack.getItem() instanceof Gene;
         }
 
         @Override
@@ -56,8 +56,13 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
         }
 
         @Override
-        public boolean isInputSlot(int slot) {
+        public boolean isInsertableSlot(int slot) {
             return true;
+        }
+
+        @Override
+        public boolean isInputSlot(int slot) {
+            return false;
         }
 
         @Override

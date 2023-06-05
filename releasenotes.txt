@@ -1,3 +1,16 @@
+1.19.2-0.10.7.2
+
+- Removed some debug output spam
+
+
+1.19.2-0.10.7.1
+
+- Fixed Arcane bee spawn egg recipe
+- Fixed Alfsteel spawn egg recipe
+- Added Gaiasteel bee (Botanic Additions)
+- Fixed being unable to pull from gene indexer
+
+
 1.19.2-0.10.7.0
 
 - Added more Powah! bees (Energized Steel, Blazing Crystal, Niotic Crystal, Spirited Crystal and Nitro Crystal)

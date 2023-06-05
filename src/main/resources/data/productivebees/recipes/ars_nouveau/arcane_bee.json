@@ -1,72 +1,57 @@
 {
-    "type": "ars_nouveau:enchanting_apparatus",
-    "pedestalItems": [
-        {
-            "item": {
-                "tag": "forge:gems/source"
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:gems/source"
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:gems/source"
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:gems/source"
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:gems/source"
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:gems/source"
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:gems/source"
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:gems/source"
-            }
-        }
-    ],
-    "reagent": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:diamond\"}}"
-        }
-    ],
-    "output": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:arcane\"}}"
+  "type": "ars_nouveau:enchanting_apparatus",
+  "keepNbtOfReagent": false,
+  "pedestalItems": [
+    {
+      "tag": "forge:gems/source"
     },
-    "sourceCost": 0,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "ars_nouveau"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:diamond"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:arcane"
-        }
-    ]
+    {
+      "tag": "forge:gems/source"
+    },
+    {
+      "tag": "forge:gems/source"
+    },
+    {
+      "tag": "forge:gems/source"
+    },
+    {
+      "tag": "forge:gems/source"
+    },
+    {
+      "tag": "forge:gems/source"
+    },
+    {
+      "tag": "forge:gems/source"
+    },
+    {
+      "tag": "forge:gems/source"
+    }
+  ],
+  "reagent": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:diamond\"}}"
+    }
+  ],
+  "output": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:arcane\"}}"
+  },
+  "sourceCost": 0,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ars_nouveau"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:arcane"
+    }
+  ]
 }

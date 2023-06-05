@@ -1,6 +1,7 @@
 {
-    "parent": "block/tinted_cross",
-    "textures": {
-        "cross": "productivebees:block/nest/sugar_cane"
-    }
+  "parent": "block/tinted_cross",
+  "render_type": "cutout",
+  "textures": {
+    "cross": "productivebees:block/nest/sugar_cane"
+  }
 }
