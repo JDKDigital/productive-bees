@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.UpgradeItem;
 import cy.jdkdigital.productivebees.common.item.WoodChip;

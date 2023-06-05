@@ -33,6 +33,18 @@
     {
       "type": "forge:mod_loaded",
       "modid": "powah"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gold"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:energized_steel"
     }
   ]
 }

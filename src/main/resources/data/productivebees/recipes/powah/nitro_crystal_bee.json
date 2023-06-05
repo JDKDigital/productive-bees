@@ -38,6 +38,22 @@
     {
       "type": "forge:mod_loaded",
       "modid": "powah"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:redstone"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:spirited_crystal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:blazing_crystal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:nitro_crystal"
     }
   ]
 }

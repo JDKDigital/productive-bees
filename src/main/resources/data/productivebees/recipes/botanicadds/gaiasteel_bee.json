@@ -1,15 +1,15 @@
 {
-    "type": "mythicbotany:infuser",
+    "type": "botanicadds:gaia_plate",
     "group": "infuser",
-    "output": {
+    "result": {
         "item": "productivebees:spawn_egg_configurable_bee",
         "nbt": {
             "EntityTag": {
-                "type": "productivebees:alfsteel"
+                "type": "productivebees:gaiasteel"
             }
         }
     },
-    "mana": 4000000,
+    "mana": 2000000,
     "ingredients": [
         {
             "type": "forge:nbt",
@@ -20,15 +20,16 @@
             "tag": "botania:dragonstone_gems"
         },
         {
-            "item": "botania:pixie_dust"
+            "item": "botania:gaia_ingot"
+        },
+        {
+            "item": "botanicadds:gaiasteel_ingot"
         }
     ],
-    "fromColor": 14441208,
-    "toColor": 16765496,
     "conditions": [
         {
             "type": "forge:mod_loaded",
-            "modid": "mythicbotany"
+            "modid": "botanicadds"
         },
         {
             "type": "forge:mod_loaded",
@@ -36,7 +37,7 @@
         },
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:alfsteel"
+            "bee": "productivebees:gaiasteel"
         },
         {
             "type": "productivebees:bee_exists",
