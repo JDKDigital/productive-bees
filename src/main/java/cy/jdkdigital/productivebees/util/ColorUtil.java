@@ -28,13 +28,11 @@ public class ColorUtil
     }
 
     public static ChatFormatting getColor(String type) {
-        switch (type) {
-            case "hive":
-                return ChatFormatting.YELLOW;
-            case "solitary":
-                return ChatFormatting.GRAY;
-        }
-        return ChatFormatting.WHITE;
+        return switch (type) {
+            case "hive" -> ChatFormatting.YELLOW;
+            case "solitary" -> ChatFormatting.GRAY;
+            default -> ChatFormatting.WHITE;
+        };
     }
 
     public static ChatFormatting getColor(int level) {
