@@ -9,8 +9,6 @@ import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBee;
 import cy.jdkdigital.productivebees.common.item.Gene;
-import cy.jdkdigital.productivebees.common.item.StoneChip;
-import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
 import cy.jdkdigital.productivebees.gen.feature.WoodNestDecorator;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
@@ -22,7 +20,6 @@ import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
@@ -94,8 +91,6 @@ public class EventHandler
                     !item.equals(ModItems.CONFIGURABLE_HONEYCOMB) &&
                     !item.equals(ModItems.CONFIGURABLE_COMB_BLOCK) &&
                     !item.equals(ModItems.CONFIGURABLE_SPAWN_EGG) &&
-                    !item.equals(ModItems.WOOD_CHIP) &&
-                    !item.equals(ModItems.STONE_CHIP) &&
                     !item.equals(ModItems.GENE) &&
                     !item.equals(ModItems.GENE_BOTTLE) &&
                     !item.equals(ModItems.ADV_BREED_ALL_BEES) &&
@@ -141,28 +136,6 @@ public class EventHandler
             event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 1, 1, 100));
             event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 2, 1, 100));
             event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 3, 1, 100));
-
-            try {
-                BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.LUMBER).forEach(blockHolder -> {
-                    Block block = blockHolder.value();
-                    if (ForgeRegistries.BLOCKS.getKey(block) != null) {
-                        event.accept(WoodChip.getStack(block));
-                    }
-                });
-            } catch (IllegalStateException ise) {
-                // tag not initialized yet
-            }
-
-            try {
-                BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.QUARRY).forEach(blockHolder -> {
-                    Block block = blockHolder.value();
-                    if (ForgeRegistries.BLOCKS.getKey(block) != null) {
-                        event.accept(StoneChip.getStack(block));
-                    }
-                });
-            } catch (IllegalStateException ise) {
-                // tag not initialized yet
-            }
         }
 
         if (event.getTab().equals(ProductiveBees.TAB) || event.getTab().equals(CreativeModeTabs.SPAWN_EGGS)) {
@@ -183,24 +156,26 @@ public class EventHandler
     @SubscribeEvent
     public static void onBlockGrow(SaplingGrowTreeEvent event) {
         if (event.getLevel() instanceof ServerLevel serverLevel) {
-            TreeDecorator decorator = null;
+            WoodNestDecorator decorator = null;
             float r = serverLevel.getRandom().nextFloat();
-            boolean hasFlower = hasFlowers(event.getLevel(), event.getPos());
+            boolean canSpawnNest = hasFlowers(event.getLevel(), event.getPos()) && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get();
             Block grownBlock =  serverLevel.getBlockState(event.getPos()).getBlock();
-            if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.OAK_SAPLING)) {
+            if (canSpawnNest && grownBlock.equals(Blocks.OAK_SAPLING)) {
                 decorator = new WoodNestDecorator(ModBlocks.OAK_WOOD_NEST.get().defaultBlockState());
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.BIRCH_SAPLING)) {
+            } else if (canSpawnNest && grownBlock.equals(Blocks.BIRCH_SAPLING)) {
                 decorator = new WoodNestDecorator(ModBlocks.BIRCH_WOOD_NEST.get().defaultBlockState());
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.SPRUCE_SAPLING)) {
+            } else if (canSpawnNest && grownBlock.equals(Blocks.SPRUCE_SAPLING)) {
                 decorator = new WoodNestDecorator(ModBlocks.SPRUCE_WOOD_NEST.get().defaultBlockState());
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.ACACIA_SAPLING)) {
+            } else if (canSpawnNest && grownBlock.equals(Blocks.ACACIA_SAPLING)) {
                 decorator = new WoodNestDecorator(ModBlocks.ACACIA_WOOD_NEST.get().defaultBlockState());
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.DARK_OAK_SAPLING)) {
+            } else if (canSpawnNest && grownBlock.equals(Blocks.DARK_OAK_SAPLING)) {
                 decorator = new WoodNestDecorator(ModBlocks.DARK_OAK_WOOD_NEST.get().defaultBlockState());
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.JUNGLE_SAPLING)) {
+            } else if (canSpawnNest && grownBlock.equals(Blocks.JUNGLE_SAPLING)) {
                 decorator = new WoodNestDecorator(ModBlocks.JUNGLE_WOOD_NEST.get().defaultBlockState());
-            } else if (hasFlower && r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && grownBlock.equals(Blocks.CHERRY_SAPLING)) {
-//                decorator = new WoodNestDecorator(ModBlocks.CHERRY_WOOD_NEST.get().defaultBlockState());
+            } else if (canSpawnNest && grownBlock.equals(Blocks.CHERRY_SAPLING)) {
+                decorator = new WoodNestDecorator(ModBlocks.CHERRY_WOOD_NEST.get().defaultBlockState());
+//            } else if (hasFlower && grownBlock.equals(Blocks.MANGROVE_SAPLING)) {
+//                decorator = new WoodNestDecorator(ModBlocks.MANGROVE_WOOD_NEST.get().defaultBlockState());
             } else if (r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && (grownBlock.equals(Blocks.CRIMSON_FUNGUS) || grownBlock.equals(Blocks.WARPED_FUNGUS))) {
                 var featureKey = grownBlock.equals(Blocks.CRIMSON_FUNGUS) ? ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_GROWN : ModConfiguredFeatures.WARPED_FUNGUS_BEES_GROWN;
                 var feature = event.getLevel().registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(featureKey).orElse(null);
@@ -208,9 +183,8 @@ public class EventHandler
             }
 
             if (decorator != null) {
-                WoodNestDecorator woodNestDecorator = (WoodNestDecorator) decorator;
-                if (woodNestDecorator.getNest().getBlock() instanceof WoodNest woodNest) {
-                    woodNestDecorator.setBeeRecipes(woodNest.getSpawningRecipes(serverLevel, serverLevel.getBiome(event.getPos()).value()));
+                if (decorator.getNest().getBlock() instanceof WoodNest woodNest) {
+                    decorator.setBeeRecipes(woodNest.getSpawningRecipes(serverLevel, serverLevel.getBiome(event.getPos()), ItemStack.EMPTY));
                 }
 
                 var feature = event.getFeature();

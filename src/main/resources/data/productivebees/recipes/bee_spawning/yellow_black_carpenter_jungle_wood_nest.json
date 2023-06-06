@@ -1,12 +1,9 @@
 {
     "type": "productivebees:bee_spawning",
     "ingredient": {
-        "item": "productivebees:dark_oak_wood_nest"
+        "item": "productivebees:jungle_wood_nest"
     },
     "results": [
-        {
-            "bee": "productivebees:blue_banded_bee"
-        },
         {
             "bee": "productivebees:green_carpenter_bee"
         },

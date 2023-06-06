@@ -4,7 +4,6 @@ import cy.jdkdigital.productivebees.common.block.Bottler;
 import cy.jdkdigital.productivebees.common.block.entity.BottlerBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

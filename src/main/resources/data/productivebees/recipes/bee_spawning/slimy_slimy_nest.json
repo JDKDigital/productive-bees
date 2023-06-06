@@ -8,9 +8,7 @@
             "bee": "productivebees:slimy"
         }
     ],
-    "biomes": [
-        "swamp"
-    ],
+    "biomes": "#forge:is_swamp",
     "conditions": [
         {
             "type": "productivebees:bee_exists",

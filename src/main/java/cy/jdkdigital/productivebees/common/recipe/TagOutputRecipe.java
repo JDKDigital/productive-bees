@@ -3,7 +3,6 @@ package cy.jdkdigital.productivebees.common.recipe;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.IntArrayTag;

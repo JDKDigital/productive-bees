@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
 import com.google.common.collect.Lists;
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehiveAbstract;

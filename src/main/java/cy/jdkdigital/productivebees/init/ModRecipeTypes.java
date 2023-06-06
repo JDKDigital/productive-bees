@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.*;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
@@ -27,10 +26,7 @@ public final class ModRecipeTypes
     public static final RegistryObject<RecipeSerializer<?>> BEE_CONVERSION = RECIPE_SERIALIZERS.register("bee_conversion", () -> new BeeConversionRecipe.Serializer<>(BeeConversionRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_FISHING = RECIPE_SERIALIZERS.register("bee_fishing", () -> new BeeFishingRecipe.Serializer<>(BeeFishingRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_SPAWNING = RECIPE_SERIALIZERS.register("bee_spawning", () -> new BeeSpawningRecipe.Serializer<>(BeeSpawningRecipe::new));
-    public static final RegistryObject<RecipeSerializer<?>> BEE_SPAWNING_BIG = RECIPE_SERIALIZERS.register("bee_spawning_big", () -> new BeeSpawningBigRecipe.Serializer<>(BeeSpawningBigRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_NBT_CHANGER = RECIPE_SERIALIZERS.register("bee_nbt_changer", () -> new BeeNBTChangerRecipe.Serializer<>(BeeNBTChangerRecipe::new));
-    public static final RegistryObject<RecipeSerializer<?>> WOOD_CHIP = RECIPE_SERIALIZERS.register("wood_chip", () -> new WoodChipRecipe.Serializer<>(WoodChipRecipe::new));
-    public static final RegistryObject<RecipeSerializer<?>> STONE_CHIP = RECIPE_SERIALIZERS.register("stone_chip", () -> new StoneChipRecipe.Serializer<>(StoneChipRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> GENE_TREAT = RECIPE_SERIALIZERS.register("gene_treat", () -> new HoneyTreatGeneRecipe.Serializer<>(HoneyTreatGeneRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> GENE_GENE = RECIPE_SERIALIZERS.register("gene_gene", () -> new CombineGeneRecipe.Serializer<>(CombineGeneRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> BEE_CAGE_BOMB = RECIPE_SERIALIZERS.register("bee_cage_bomb", () -> new BeeBombBeeCageRecipe.Serializer<>(BeeBombBeeCageRecipe::new));
@@ -47,7 +43,6 @@ public final class ModRecipeTypes
     public static RegistryObject<RecipeType<IncubationRecipe>> INCUBATION_TYPE = registerRecipeType("incubation");
     public static RegistryObject<RecipeType<BeeFishingRecipe>> BEE_FISHING_TYPE = registerRecipeType("bee_fishing");
     public static RegistryObject<RecipeType<BeeSpawningRecipe>> BEE_SPAWNING_TYPE = registerRecipeType("bee_spawning");
-    public static RegistryObject<RecipeType<BeeSpawningBigRecipe>> BEE_SPAWNING_BIG_TYPE = registerRecipeType("bee_spawning_big");
     public static RegistryObject<RecipeType<BeeNBTChangerRecipe>> BEE_NBT_CHANGER_TYPE = registerRecipeType("bee_nbt_changer");
     public static RegistryObject<RecipeType<BottlerRecipe>> BOTTLER_TYPE = registerRecipeType("bottler");
     public static RegistryObject<RecipeType<CentrifugeRecipe>> CENTRIFUGE_TYPE = registerRecipeType("centrifuge");

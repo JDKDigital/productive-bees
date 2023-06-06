@@ -248,7 +248,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
                     BeeHelper.getBeeProduce(level, beeEntity, getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) > 0).forEach((stackIn) -> {
                         ItemStack stack = stackIn.copy();
-                        applyHiveProductionModifier(stack);
                         if (!stack.isEmpty()) {
                             if (beeEntity instanceof ProductiveBee) {
                                 int productivity = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
@@ -331,10 +330,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         // Add to the countdown for it's spot to become available in the hive
         // this prevents other bees from moving in straight away
         abandonCountdown += getTimeInHive(true, beeEntity);
-    }
-
-    protected void applyHiveProductionModifier(ItemStack stack) {
-        //
     }
 
     protected int beesOutsideHive() {

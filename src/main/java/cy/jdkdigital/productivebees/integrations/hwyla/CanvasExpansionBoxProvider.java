@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.hwyla;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

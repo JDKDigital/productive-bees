@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRecipe>
 {
@@ -74,15 +73,15 @@ public class BeeSpawningRecipeCategory implements IRecipeCategory<BeeSpawningRec
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, BeeSpawningRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 4, 26)
+        builder.addSlot(RecipeIngredientRole.INPUT, 36, 27)
                 .addItemStacks(Arrays.asList(recipe.ingredient.getItems()))
                 .setSlotName("nestBlock");
+        builder.addSlot(RecipeIngredientRole.INPUT, 11, 27)
+                .addItemStacks(Arrays.asList(recipe.spawnItem.getItems()))
+                .setSlotName("spawnItem");
 
-        IntStream.range(0, recipe.output.size()).forEach((i) -> {
-            List<Integer> pos = BEE_POSITIONS.get(i);
-            builder.addSlot(RecipeIngredientRole.OUTPUT, pos.get(0), pos.get(1))
-                    .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.output.get(i).get())
-                    .setSlotName("spawn" + i);
-        });
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 95, 27)
+                .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.output.get(0).get())
+                .setSlotName("spawn");
     }
 }

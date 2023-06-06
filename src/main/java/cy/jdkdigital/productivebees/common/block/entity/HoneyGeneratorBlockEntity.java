@@ -6,7 +6,6 @@ import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
 import cy.jdkdigital.productivebees.init.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

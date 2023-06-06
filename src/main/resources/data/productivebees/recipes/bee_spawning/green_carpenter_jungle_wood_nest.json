@@ -5,13 +5,7 @@
     },
     "results": [
         {
-            "bee": "productivebees:blue_banded_bee"
-        },
-        {
             "bee": "productivebees:green_carpenter_bee"
-        },
-        {
-            "bee": "productivebees:yellow_black_carpenter_bee"
         }
     ]
 }

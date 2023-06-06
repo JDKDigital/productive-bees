@@ -1,7 +1,5 @@
 package cy.jdkdigital.productivebees.integrations.patchouli;
 
-import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-
 public class ProductiveBeesPatchouli
 {
     public static void setBeeFlags() {

@@ -73,8 +73,7 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                         probeInfo.text(Component.translatable("productivebees.top.solitary.repopulation_countdown_inactive"));
                         if (nest.canRepopulate()) {
                             probeInfo.text(Component.translatable("productivebees.top.solitary.can_repopulate_true"));
-                        }
-                        else {
+                        } else {
                             probeInfo.text(Component.translatable("productivebees.top.solitary.can_repopulate_false"));
                         }
                     }

@@ -3,12 +3,18 @@ package cy.jdkdigital.productivebees.common.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +23,9 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -28,35 +36,27 @@ public class BeeSpawningRecipe implements Recipe<Container>
 {
     public final ResourceLocation id;
     public final Ingredient ingredient;
+    public final Ingredient spawnItem;
     public final List<Lazy<BeeIngredient>> output;
-    public final List<String> biomes;
-    public final String temperature;
+    public final String biomes;
+    public final TagKey<Biome> biomeKey;
 
-    public BeeSpawningRecipe(ResourceLocation id, Ingredient ingredient, List<Lazy<BeeIngredient>> output, List<String> biomes, String temperature) {
+    public BeeSpawningRecipe(ResourceLocation id, Ingredient ingredient, Ingredient spawnItem, List<Lazy<BeeIngredient>> output, String biomes) {
         this.id = id;
         this.ingredient = ingredient;
+        this.spawnItem = spawnItem;
         this.output = output;
-        this.biomes = biomes;
-        this.temperature = temperature;
+        this.biomes = biomes.replace("#", "");
+        this.biomeKey = TagKey.create(Registries.BIOME, new ResourceLocation(this.biomes));
     }
 
     @Override
     public boolean matches(Container inv, Level worldIn) {
-        ItemStack inventoryItem = null;
-        for(int j = 0; j < inv.getContainerSize(); ++j) {
-            ItemStack itemstack = inv.getItem(j);
-            if (!itemstack.isEmpty()) {
-                if (inventoryItem != null) {
-                    return false;
-                }
-                inventoryItem = itemstack;
-            }
-        }
-        return matches(inventoryItem);
+        return false;
     }
 
-    public boolean matches(ItemStack nest) {
-        return ingredient.test(nest);
+    public boolean matches(ItemStack nest, ItemStack heldItem, Holder<Biome> biome, Level level) {
+        return ingredient.test(nest) && (heldItem.equals(ItemStack.EMPTY) || spawnItem.test(heldItem)) && (this.biomes.equals("any") || biome.is(biomeKey));
     }
 
     @Nonnull
@@ -108,9 +108,18 @@ public class BeeSpawningRecipe implements Recipe<Container>
             Ingredient ingredient;
             if (GsonHelper.isArrayNode(json, "ingredient")) {
                 ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredient"));
-            }
-            else {
+            } else {
                 ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient"));
+            }
+            Ingredient spawnItem;
+            if (json.has("spawn_item")) {
+                if (GsonHelper.isArrayNode(json, "spawn_item")) {
+                    spawnItem = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "spawn_item"));
+                } else {
+                    spawnItem = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "spawn_item"));
+                }
+            } else {
+                spawnItem = Ingredient.of(ModItems.HONEY_TREAT.get());
             }
 
             JsonArray jsonArray = GsonHelper.getAsJsonArray(json, "results");
@@ -122,21 +131,18 @@ public class BeeSpawningRecipe implements Recipe<Container>
                 output.add(beeIngredient);
             });
 
-            List<String> biomes = new ArrayList<>();
+            String biomes = "any";
             if (json.has("biomes")) {
-                GsonHelper.getAsJsonArray(json, "biomes").forEach(jsonElement -> {
-                    biomes.add(jsonElement.getAsString());
-                });
+                biomes = GsonHelper.getAsString(json, "biomes");
             }
 
-            String temperature = json.has("temperature") ? json.get("temperature").getAsString() : "any";
-
-            return this.factory.create(id, ingredient, output, biomes, temperature);
+            return this.factory.create(id, ingredient, spawnItem, output, biomes);
         }
 
         public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
             try {
                 Ingredient ingredient = Ingredient.fromNetwork(buffer);
+                Ingredient spawnItem = Ingredient.fromNetwork(buffer);
 
                 List<Lazy<BeeIngredient>> output = new ArrayList<>();
                 IntStream.range(0, buffer.readInt()).forEach(
@@ -146,16 +152,7 @@ public class BeeSpawningRecipe implements Recipe<Container>
                         }
                 );
 
-                List<String> biomes = new ArrayList<>();
-                IntStream.range(0, buffer.readInt()).forEach(
-                        i -> {
-                            biomes.add(buffer.readUtf());
-                        }
-                );
-
-                String temperature = buffer.readUtf();
-
-                return this.factory.create(id, ingredient, output, biomes, temperature);
+                return this.factory.create(id, ingredient, spawnItem, output, buffer.readUtf());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading bee spawning recipe from packet. " + id, e);
                 throw e;
@@ -165,6 +162,7 @@ public class BeeSpawningRecipe implements Recipe<Container>
         public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
             try {
                 recipe.ingredient.toNetwork(buffer);
+                recipe.spawnItem.toNetwork(buffer);
 
                 buffer.writeInt(recipe.output.size());
                 for (Lazy<BeeIngredient> beeOutput : recipe.output) {
@@ -176,10 +174,7 @@ public class BeeSpawningRecipe implements Recipe<Container>
                     }
                 }
 
-                buffer.writeInt(recipe.biomes.size());
-                recipe.biomes.forEach(buffer::writeUtf);
-
-                buffer.writeUtf(recipe.temperature);
+                buffer.writeUtf(recipe.biomes);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee spawning recipe to packet. " + recipe.getId(), e);
                 throw e;
@@ -188,7 +183,7 @@ public class BeeSpawningRecipe implements Recipe<Container>
 
         public interface IRecipeFactory<T extends BeeSpawningRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, List<Lazy<BeeIngredient>> output, List<String> biomes, String temperature);
+            T create(ResourceLocation id, Ingredient input, Ingredient spawnItem, List<Lazy<BeeIngredient>> output, String biomes);
         }
     }
 }

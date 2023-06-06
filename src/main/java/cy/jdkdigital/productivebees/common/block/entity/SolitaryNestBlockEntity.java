@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
@@ -39,17 +40,15 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
             // Check if the nest has been activated and spawn a bee if it has
             Block block = state.getBlock();
             if (--blockEntity.nestTickTimer <= 0) {
-                if (blockEntity.canRepopulate()) {
-                    if (block instanceof SolitaryNest) {
-                        Entity newBee = ((SolitaryNest) block).getNestingBeeType(level, level.getBiome(pos).value(), level.random);
-                        if (newBee instanceof Bee) {
-                            ((Bee) newBee).setHealth(((Bee) newBee).getMaxHealth());
-                            ((Bee) newBee).hivePos = pos;
-                        }
-                        Direction direction = state.getValue(BlockStateProperties.FACING);
-                        spawnBeeInWorldAtPosition((ServerLevel) level, newBee, pos.relative(direction), direction, null);
-                        blockEntity.nestTickTimer = -1;
+                if (blockEntity.canRepopulate() && block instanceof SolitaryNest) {
+                    Entity newBee = ((SolitaryNest) block).getNestingBeeType(level, level.getBiome(pos), level.random);
+                    if (newBee instanceof Bee) {
+                        ((Bee) newBee).setHealth(((Bee) newBee).getMaxHealth());
+                        ((Bee) newBee).hivePos = pos;
                     }
+                    Direction direction = state.getValue(BlockStateProperties.FACING);
+                    spawnBeeInWorldAtPosition((ServerLevel) level, newBee, pos.relative(direction), direction, null);
+                    blockEntity.nestTickTimer = -1;
                 }
             }
 
@@ -63,8 +62,16 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
     }
 
     public boolean canRepopulate() {
+        return canRepopulate(ItemStack.EMPTY);
+    }
+
+    public boolean canRepopulate(ItemStack heldItem) {
         SolitaryNest nest = ((SolitaryNest) this.getBlockState().getBlock());
-        boolean blockConditionsMet = nest.canRepopulateIn(level, level.getBiome(this.getBlockPos()).value());
+        boolean blockConditionsMet = false;
+        if (level instanceof ServerLevel serverLevel) {
+            blockConditionsMet = !nest.getSpawningRecipes(serverLevel, serverLevel.getBiome(this.getBlockPos()), heldItem).isEmpty();
+        }
+
         return isEmpty() && blockConditionsMet;
     }
 

@@ -14,6 +14,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -90,7 +91,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
 
         if (blockEntity instanceof SolitaryNestBlockEntity nestBlockEntity && state.getBlock() instanceof SolitaryNest nestBlock) {
             try {
-                var recipes = nestBlock.getSpawningRecipes(level.getLevel(), level.getBiome(pos).value());
+                var recipes = nestBlock.getSpawningRecipes(level.getLevel(), level.getBiome(pos), ItemStack.EMPTY);
                 if (recipes.size() > 0) {
                     BeeSpawningRecipe spawningRecipe = recipes.size() == 1 ? recipes.get(0) : recipes.get(random.nextInt(recipes.size()));
                     if (spawningRecipe.output.size() > 0) {

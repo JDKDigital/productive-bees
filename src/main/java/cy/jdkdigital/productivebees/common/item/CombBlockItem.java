@@ -1,19 +1,14 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-import cy.jdkdigital.productivebees.util.BeeCreator;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
 
 public class CombBlockItem extends BlockItem
 {

@@ -8,9 +8,5 @@
             "bee": "productivebees:digger_bee"
         }
     ],
-    "biomes": [
-        "river",
-        "beach"
-    ],
-    "temperature": "warm"
+    "biomes": "#productivebees:is_beach_or_river"
 }

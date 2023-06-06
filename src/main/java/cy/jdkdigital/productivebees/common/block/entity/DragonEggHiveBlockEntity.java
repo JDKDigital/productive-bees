@@ -43,10 +43,4 @@ public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
 
         AdvancedBeehiveBlockEntity.tick(level, pos, state, blockEntity);
     }
-
-    @Override
-    protected void applyHiveProductionModifier(ItemStack stack) {
-        super.applyHiveProductionModifier(stack);
-        stack.setCount(stack.getCount() * 2);
-    }
 }

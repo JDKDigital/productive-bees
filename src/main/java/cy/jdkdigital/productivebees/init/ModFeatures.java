@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.init;
 
 import com.mojang.serialization.Codec;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.gen.feature.*;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.OreFeature;

@@ -2,7 +2,7 @@
     "parent": "productivebees:husbandry/bee_cage",
     "display": {
         "icon": {
-            "item": "productivebees:wood_chip"
+            "item": "productivebees:honeycomb_milky"
         },
         "title": {
             "translate": "advancements.husbandry.professional_bee.title"

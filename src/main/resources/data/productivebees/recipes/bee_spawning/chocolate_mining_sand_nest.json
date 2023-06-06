@@ -8,7 +8,5 @@
             "bee": "productivebees:chocolate_mining_bee"
         }
     ],
-    "biomes": [
-        "desert"
-    ]
+    "biomes": "#forge:is_sandy"
 }

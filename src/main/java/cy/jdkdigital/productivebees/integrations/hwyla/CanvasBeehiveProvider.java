@@ -1,23 +1,14 @@
 package cy.jdkdigital.productivebees.integrations.hwyla;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
-import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
-
-import java.util.List;
 
 public class CanvasBeehiveProvider implements IBlockComponentProvider
 {

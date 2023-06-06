@@ -8,9 +8,10 @@
             "bee": "productivebees:crystalline"
         }
     ],
-    "biomes": [
-        "nether"
-    ],
+    "spawn_item": {
+        "tag": "forge:gems/quartz"
+    },
+    "biomes": "#minecraft:is_nether",
     "conditions": [
         {
             "type": "productivebees:bee_exists",

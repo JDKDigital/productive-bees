@@ -1,9 +1,7 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.UpgradeItem;
-import cy.jdkdigital.productivebees.common.item.WoodChip;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -43,13 +41,7 @@ public class InventoryHandlerHelper
             if (stack.isEmpty() && emptySlot == 0) {
                 emptySlot = slot;
             } else if (stack.getItem().equals(insertStack.getItem()) && (stack.getCount() + insertStack.getCount()) <= stack.getMaxStackSize()) {
-                // Check tags
-                if (WoodChip.getBlock(insertStack) != null) {
-                    Block block = WoodChip.getBlock(stack);
-                    if (block != null && block.equals(WoodChip.getBlock(insertStack))) {
-                        return slot;
-                    }
-                } else if (!Gene.getAttributeName(insertStack).isEmpty()) {
+                if (!Gene.getAttributeName(insertStack).isEmpty()) {
                     if (
                         Gene.getAttributeName(stack).equals(Gene.getAttributeName(insertStack)) &&
                         Gene.getValue(stack).equals(Gene.getValue(insertStack)) &&

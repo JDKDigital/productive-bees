@@ -7,11 +7,15 @@
 - resin/amber encased mobs + wannabee to get drops from encased mobs
 - item/block conversion in feeding slabs
 - no insert cage when not sim
-- all bees should produce raw ore instead of ingots
+- all bees should produce raw ore instead of ingots/dust
+- block upgrade for comb block production instead of using it for lumber and quarry
 
 - redo hive compat to be dynamic
+- differentiated spawn items for nest, part of recipe
 
-- block upgrade for comb block production instead of using it for lumber and quarry
+- item pollination
+- proper sugarbag nest spawn (mangrove and jungle)
+- fix up Create mixin recipes to support more stuff
 - sticky sponge, sponge soaking up honey becomes sticky instead of wet, eat it to clean it
 - double feeding slab with double inventory
 - increased crop pollination for solitary bees
@@ -31,5 +35,4 @@
 - show fake bee outside simulated hive.
 - GUI revamp for fluid and power indicators
 - bee spawn blocks (custom nests)
-- differentiated spawn items for nest, part of recipe
 - more bee helmet versions

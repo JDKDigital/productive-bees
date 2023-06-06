@@ -8,9 +8,10 @@
             "bee": "productivebees:ender"
         }
     ],
-    "biomes": [
-        "the_end"
-    ],
+    "spawn_item": {
+        "tag": "forge:ender_pearls"
+    },
+    "biomes": "#minecraft:is_end",
     "conditions": [
         {
             "type": "productivebees:bee_exists",

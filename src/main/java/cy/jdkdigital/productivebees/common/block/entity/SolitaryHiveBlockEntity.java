@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.block.entity;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SolitaryHiveBlockEntity extends SolitaryNestBlockEntity
@@ -12,7 +13,7 @@ public class SolitaryHiveBlockEntity extends SolitaryNestBlockEntity
         MAX_BEES = 9;
     }
 
-    public boolean canRepopulate() {
+    public boolean canRepopulate(ItemStack heldItem) {
         return false;
     }
 

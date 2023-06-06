@@ -8,10 +8,5 @@
             "bee": "productivebees:sweat_bee"
         }
     ],
-    "biomes": [
-        "extreme_hills",
-        "icy",
-        "mountain"
-    ],
-    "temperature": "cold"
+    "biomes": "#forge:is_snowy"
 }

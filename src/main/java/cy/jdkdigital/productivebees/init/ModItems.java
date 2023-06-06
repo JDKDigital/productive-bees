@@ -2,14 +2,11 @@ package cy.jdkdigital.productivebees.init;
 
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.item.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -54,15 +51,13 @@ public class ModItems
 
     public static final RegistryObject<Item> CONFIGURABLE_HONEYCOMB = createItem("configurable_honeycomb", () -> new Honeycomb(new Item.Properties(), "#d2ab00"));
 
-    public static final RegistryObject<Item> HONEYCOMB_GHOSTLY = createItem("honeycomb_ghostly", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> HONEYCOMB_MILKY = createItem("honeycomb_milky", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> HONEYCOMB_POWDERY = createItem("honeycomb_powdery", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> HONEYCOMB_GHOSTLY = createItem("honeycomb_ghostly", () -> new HoneycombItem(new Item.Properties()));
+    public static final RegistryObject<Item> HONEYCOMB_MILKY = createItem("honeycomb_milky", () -> new HoneycombItem(new Item.Properties()));
+    public static final RegistryObject<Item> HONEYCOMB_POWDERY = createItem("honeycomb_powdery", () -> new HoneycombItem(new Item.Properties()));
 
     public static final RegistryObject<Item> DRACONIC_DUST = createItem("draconic_dust", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DRACONIC_CHUNK = createItem("draconic_chunk", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> WITHER_SKULL_CHIP = createItem("wither_skull_chip", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> WOOD_CHIP = createItem("wood_chip", () -> new WoodChip(new Item.Properties()));
-    public static final RegistryObject<Item> STONE_CHIP = createItem("stone_chip", () -> new StoneChip(new Item.Properties()));
 
     // Hive upgrades
     public static final RegistryObject<Item> UPGRADE_BASE = createItem("upgrade_base", () -> new Item(new Item.Properties()));

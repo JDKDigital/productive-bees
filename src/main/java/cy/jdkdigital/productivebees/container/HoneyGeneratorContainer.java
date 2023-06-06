@@ -4,7 +4,6 @@ import cy.jdkdigital.productivebees.common.block.HoneyGenerator;
 import cy.jdkdigital.productivebees.common.block.entity.HoneyGeneratorBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

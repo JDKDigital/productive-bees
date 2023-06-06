@@ -9,8 +9,7 @@ import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.WannaBee;
-import cy.jdkdigital.productivebees.common.item.StoneChip;
-import cy.jdkdigital.productivebees.common.item.WoodChip;
+import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
@@ -38,11 +37,16 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -308,8 +312,22 @@ public class BeeHelper
         if (matchedRecipe != null) {
             matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
                 if (level.random.nextInt(100) <= bounds.get(2).getAsInt()) {
-                    int count = Mth.nextInt(level.random, Mth.floor(bounds.get(0).getAsInt()), Mth.floor(bounds.get(1).getAsInt()));
                     ItemStack stack = itemStack.copy();
+                    int count = Mth.nextInt(level.random, Mth.floor(bounds.get(0).getAsInt()), Mth.floor(bounds.get(1).getAsInt()));
+                    if (hasCombBlockUpgrade && itemStack.getItem() instanceof HoneycombItem honeycombItem) {
+                        if (itemStack.getItem() instanceof Honeycomb) {
+                            stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
+                            stack.setTag(itemStack.getTag());
+                        } else {
+                            stack = switch (ForgeRegistries.ITEMS.getKey(honeycombItem).toString()) {
+                                case "productivebees:honeycomb_ghostly" -> new ItemStack(ModBlocks.COMB_GHOSTLY.get());
+                                case "productivebees:honeycomb_milky" -> new ItemStack(ModBlocks.COMB_MILKY.get());
+                                case "productivebees:honeycomb_powdery" -> new ItemStack(ModBlocks.COMB_POWDERY.get());
+                                case "minecraft:honeycomb" -> new ItemStack(Blocks.HONEYCOMB_BLOCK);
+                                default -> stack;
+                            };
+                        }
+                    }
                     stack.setCount(count);
                     outputList.add(stack);
                 }
@@ -318,26 +336,14 @@ public class BeeHelper
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlockFromTag(level, flowerPos, ModTags.LUMBER, (ProductiveBee) beeEntity);
                 if (flowerBlock != null) {
-                    ItemStack woodChip;
-                    if (hasCombBlockUpgrade) {
-                        woodChip = new ItemStack(flowerBlock.asItem());
-                    } else {
-                        woodChip = WoodChip.getStack(flowerBlock, level.random.nextInt(6) + 1);
-                    }
-                    outputList.add(woodChip);
+                    outputList.add(new ItemStack(flowerBlock.asItem()));
                 }
             }
         } else if (beeId.equals("productivebees:quarry_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlockFromTag(level, flowerPos, ModTags.QUARRY, (ProductiveBee) beeEntity);
                 if (flowerBlock != null) {
-                    ItemStack stoneChip;
-                    if (hasCombBlockUpgrade) {
-                        stoneChip = new ItemStack(flowerBlock.asItem());
-                    } else {
-                        stoneChip = StoneChip.getStack(flowerBlock, level.random.nextInt(6) + 1);
-                    }
-                    outputList.add(stoneChip);
+                    outputList.add(new ItemStack(flowerBlock.asItem()));
                 }
             }
         } else if (beeId.equals("productivebees:dye_bee")) {

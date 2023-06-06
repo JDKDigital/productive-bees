@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeMode
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BumbleBee;
-import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;

@@ -8,9 +8,10 @@
             "bee": "productivebees:magmatic"
         }
     ],
-    "biomes": [
-        "nether"
-    ],
+    "spawn_item": {
+        "item": "minecraft:magma_cream"
+    },
+    "biomes": "#minecraft:is_nether",
     "conditions": [
         {
             "type": "productivebees:bee_exists",

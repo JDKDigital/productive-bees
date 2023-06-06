@@ -16,6 +16,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,13 +43,13 @@ public class GlowstoneNestFeature extends Feature<BlockStateConfiguration>
     }
 
     public boolean place(FeaturePlaceContext<BlockStateConfiguration> conf) {
-        WorldGenLevel worldgenlevel = conf.level();
+        WorldGenLevel level = conf.level();
         BlockPos blockpos = conf.origin();
         RandomSource random = conf.random();
-        if (!worldgenlevel.isEmptyBlock(blockpos)) {
+        if (!level.isEmptyBlock(blockpos)) {
             return false;
         } else {
-            BlockState blockstate = worldgenlevel.getBlockState(blockpos.above());
+            BlockState blockstate = level.getBlockState(blockpos.above());
             if (!blockstate.is(Blocks.NETHERRACK) && !blockstate.is(Blocks.BASALT) && !blockstate.is(Blocks.BLACKSTONE)) {
                 return false;
             } else {
@@ -56,18 +57,18 @@ public class GlowstoneNestFeature extends Feature<BlockStateConfiguration>
                 Set<BlockPos> set = Sets.newHashSet();
                 BiConsumer<BlockPos, BlockState> glowstoneConsumer = (pos, blockState) -> {
                     set.add(pos.immutable());
-                    worldgenlevel.setBlock(pos, blockState, 2);
+                    level.setBlock(pos, blockState, 2);
                 };
 
                 glowstoneConsumer.accept(blockpos, glowstone);
 
                 for(int i = 0; i < 1500; ++i) {
                     BlockPos blockpos1 = blockpos.offset(random.nextInt(8) - random.nextInt(8), -random.nextInt(12), random.nextInt(8) - random.nextInt(8));
-                    if (worldgenlevel.getBlockState(blockpos1).isAir()) {
+                    if (level.getBlockState(blockpos1).isAir()) {
                         int j = 0;
 
                         for(Direction direction : Direction.values()) {
-                            if (worldgenlevel.getBlockState(blockpos1.relative(direction)).is(Blocks.GLOWSTONE)) {
+                            if (level.getBlockState(blockpos1.relative(direction)).is(Blocks.GLOWSTONE)) {
                                 ++j;
                             }
 
@@ -88,20 +89,20 @@ public class GlowstoneNestFeature extends Feature<BlockStateConfiguration>
 
                     List<BlockPos> positionsWithAir = glowstonePositions.stream().flatMap((pos) -> {
                         return Stream.of(Direction.values()).map(direction -> {
-                            return worldgenlevel.getBlockState(pos.relative(direction)).isAir() ? pos : null;
+                            return level.getBlockState(pos.relative(direction)).isAir() ? pos : null;
                         });
                     }).filter(Objects::nonNull).toList();
 
                     BlockPos nestPos = positionsWithAir.get(random.nextInt(positionsWithAir.size()));
 
-                    worldgenlevel.setBlock(nestPos, conf.config().state, 2);
+                    level.setBlock(nestPos, conf.config().state, 2);
 
-                    worldgenlevel.getBlockEntity(nestPos, ModBlockEntityTypes.SOLITARY_NEST.get()).ifPresent((nestBlockEntity) -> {
+                    level.getBlockEntity(nestPos, ModBlockEntityTypes.SOLITARY_NEST.get()).ifPresent((nestBlockEntity) -> {
                         ProductiveBees.LOGGER.debug("Spawned glowstone nest at " + nestPos + " " + conf.config().state);
 
                         BlockState nestBlock = nestBlockEntity.getBlockState();
                         if (nestBlock.getBlock() instanceof SolitaryNest solitaryNest) {
-                            List<BeeSpawningRecipe> recipes = solitaryNest.getSpawningRecipes(worldgenlevel.getLevel(), worldgenlevel.getBiome(blockpos).value());
+                            List<BeeSpawningRecipe> recipes = solitaryNest.getSpawningRecipes(level.getLevel(), level.getBiome(blockpos), ItemStack.EMPTY);
                             BeeSpawningRecipe spawningRecipe = recipes.get(random.nextInt(recipes.size()));
                             BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
                             try {

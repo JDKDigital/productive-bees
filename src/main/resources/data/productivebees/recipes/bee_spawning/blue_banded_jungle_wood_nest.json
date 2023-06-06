@@ -1,0 +1,11 @@
+{
+    "type": "productivebees:bee_spawning",
+    "ingredient": {
+        "item": "productivebees:jungle_wood_nest"
+    },
+    "results": [
+        {
+            "bee": "productivebees:blue_banded_bee"
+        }
+    ]
+}

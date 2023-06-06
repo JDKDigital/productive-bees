@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -32,7 +33,7 @@ public class SolitaryNestTreeFeature extends TreeFeature
 
     @Override
     public final boolean place(FeaturePlaceContext<TreeConfiguration> context) {
-        WorldGenLevel worldgenlevel = context.level();
+        WorldGenLevel level = context.level();
         RandomSource randomsource = context.random();
         BlockPos blockpos = context.origin();
         TreeConfiguration treeconfiguration = context.config();
@@ -42,20 +43,20 @@ public class SolitaryNestTreeFeature extends TreeFeature
         Set<BlockPos> set3 = Sets.newHashSet();
         BiConsumer<BlockPos, BlockState> rootPlacer = (pos, state) -> {
             rootPositions.add(pos.immutable());
-            worldgenlevel.setBlock(pos, state, 19);
+            level.setBlock(pos, state, 19);
         };
         BiConsumer<BlockPos, BlockState> trunkPlacer = (pos, state) -> {
             logPositions.add(pos.immutable());
-            worldgenlevel.setBlock(pos, state, 19);
+            level.setBlock(pos, state, 19);
         };
         BiConsumer<BlockPos, BlockState> leavesPlacer = (pos, state) -> {
             leavesPositions.add(pos.immutable());
-            worldgenlevel.setBlock(pos, state, 19);
+            level.setBlock(pos, state, 19);
         };
         FoliagePlacer.FoliageSetter foliageSetter = new FoliagePlacer.FoliageSetter() {
             public void set(BlockPos pos, BlockState state) {
                 leavesPositions.add(pos.immutable());
-                worldgenlevel.setBlock(pos, state, 19);
+                level.setBlock(pos, state, 19);
             }
 
             public boolean isSet(BlockPos pos) {
@@ -64,23 +65,23 @@ public class SolitaryNestTreeFeature extends TreeFeature
         };
         BiConsumer<BlockPos, BlockState> decorationPlacer = (pos, state) -> {
             set3.add(pos.immutable());
-            worldgenlevel.setBlock(pos, state, 19);
+            level.setBlock(pos, state, 19);
         };
-        boolean flag = this.doPlace(worldgenlevel, randomsource, blockpos, rootPlacer, trunkPlacer, foliageSetter, treeconfiguration);
+        boolean flag = this.doPlace(level, randomsource, blockpos, rootPlacer, trunkPlacer, foliageSetter, treeconfiguration);
         if (flag && (!logPositions.isEmpty() || !leavesPositions.isEmpty())) {
             if (!treeconfiguration.decorators.isEmpty()) {
-                TreeDecorator.Context decoratorContext = new TreeDecorator.Context(worldgenlevel, decorationPlacer, randomsource, logPositions, leavesPositions, rootPositions);
+                TreeDecorator.Context decoratorContext = new TreeDecorator.Context(level, decorationPlacer, randomsource, logPositions, leavesPositions, rootPositions);
                 treeconfiguration.decorators.forEach((decorator) -> {
                     if (decorator instanceof WoodNestDecorator woodNestDecorator) {
                         List<BlockPos> logList = logPositions.stream().toList();
-                        BlockState logBlock = worldgenlevel.getBlockState(logList.get(0));
+                        BlockState logBlock = level.getBlockState(logList.get(0));
                         if (logBlock.getBlock().equals(Blocks.DIRT)) {
-                            logBlock = worldgenlevel.getBlockState(logList.get(0).above());
+                            logBlock = level.getBlockState(logList.get(0).above());
                         }
                         Block nest = SolitaryNest.BLOCK_TO_NEST.get().get(logBlock.getBlock());
                         if (nest instanceof WoodNest woodNest) {
                             woodNestDecorator.setNest(woodNest.defaultBlockState());
-                            woodNestDecorator.setBeeRecipes(woodNest.getSpawningRecipes(worldgenlevel.getLevel(), worldgenlevel.getBiome(blockpos).value()));
+                            woodNestDecorator.setBeeRecipes(woodNest.getSpawningRecipes(level.getLevel(), level.getBiome(blockpos), ItemStack.EMPTY));
                         } else {
                             woodNestDecorator.setNest(null); // reset so next tree does not inherit
                         }
@@ -90,8 +91,8 @@ public class SolitaryNestTreeFeature extends TreeFeature
             }
 
             return BoundingBox.encapsulatingPositions(Iterables.concat(rootPositions, logPositions, leavesPositions, set3)).map((boundingBox) -> {
-                DiscreteVoxelShape discretevoxelshape = TreeFeature.updateLeaves(worldgenlevel, boundingBox, logPositions, set3, rootPositions);
-                StructureTemplate.updateShapeAtEdge(worldgenlevel, 3, discretevoxelshape, boundingBox.minX(), boundingBox.minY(), boundingBox.minZ());
+                DiscreteVoxelShape discretevoxelshape = TreeFeature.updateLeaves(level, boundingBox, logPositions, set3, rootPositions);
+                StructureTemplate.updateShapeAtEdge(level, 3, discretevoxelshape, boundingBox.minX(), boundingBox.minY(), boundingBox.minZ());
                 return true;
             }).orElse(false);
         } else {

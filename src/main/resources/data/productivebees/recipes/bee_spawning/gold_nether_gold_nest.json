@@ -8,9 +8,10 @@
             "bee": "productivebees:gold"
         }
     ],
-    "biomes": [
-        "nether"
-    ],
+    "spawn_item": {
+        "tag": "forge:ingots/gold"
+    },
+    "biomes": "#minecraft:is_nether",
     "conditions": [
         {
             "type": "productivebees:bee_exists",

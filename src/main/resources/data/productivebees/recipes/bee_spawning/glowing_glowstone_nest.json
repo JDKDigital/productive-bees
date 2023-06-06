@@ -8,9 +8,10 @@
             "bee": "productivebees:glowing"
         }
     ],
-    "biomes": [
-        "nether"
-    ],
+    "spawn_item": {
+        "tag": "forge:dusts/glowstone"
+    },
+    "biomes": "#minecraft:is_nether",
     "conditions": [
         {
             "type": "productivebees:bee_exists",

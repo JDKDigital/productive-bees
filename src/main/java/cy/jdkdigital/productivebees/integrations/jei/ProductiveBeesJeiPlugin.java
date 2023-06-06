@@ -1,8 +1,6 @@
 package cy.jdkdigital.productivebees.integrations.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.item.StoneChip;
-import cy.jdkdigital.productivebees.common.item.WoodChip;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.container.gui.BottlerScreen;
 import cy.jdkdigital.productivebees.container.gui.BreedingChamberScreen;
@@ -30,7 +28,6 @@ import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntArrayTag;
@@ -41,7 +38,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -57,7 +53,6 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final RecipeType<BeeConversionRecipe> BEE_CONVERSION_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_conversion", BeeConversionRecipe.class);
     public static final RecipeType<BeeFishingRecipe> BEE_FISHING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_fishing", BeeFishingRecipe.class);
     public static final RecipeType<BeeSpawningRecipe> BEE_SPAWNING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_spawning", BeeSpawningRecipe.class);
-    public static final RecipeType<BeeSpawningBigRecipe> BEE_SPAWNING_BIG_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_spawning_big", BeeSpawningBigRecipe.class);
     public static final RecipeType<CentrifugeRecipe> CENTRIFUGE_TYPE = RecipeType.create(ProductiveBees.MODID, "centrifuge", CentrifugeRecipe.class);
     public static final RecipeType<BeeFloweringRecipeCategory.Recipe> BEE_FLOWERING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_flowering", BeeFloweringRecipeCategory.Recipe.class);
     public static final RecipeType<IncubationRecipe> INCUBATION_TYPE = RecipeType.create(ProductiveBees.MODID, "incubation", IncubationRecipe.class);
@@ -83,7 +78,6 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.POWERED_CENTRIFUGE.get()), CENTRIFUGE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.HEATED_CENTRIFUGE.get()), CENTRIFUGE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.COARSE_DIRT_NEST.get()), BEE_SPAWNING_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.OAK_WOOD_NEST.get()), BEE_SPAWNING_BIG_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.INCUBATOR.get()), INCUBATION_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BOTTLER.get()), BOTTLER_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BREEDING_CHAMBER.get()), BEE_BREEDING_TYPE);
@@ -100,7 +94,6 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCategories(new CentrifugeRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeFishingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeCategory(guiHelper));
-        registration.addRecipeCategories(new BeeSpawningRecipeBigCategory(guiHelper));
         registration.addRecipeCategories(new BeeFloweringRecipeCategory(guiHelper));
         registration.addRecipeCategories(new IncubationRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BlockConversionRecipeCategory(guiHelper));
@@ -115,8 +108,6 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        registration.useNbtForSubtypes(ModItems.WOOD_CHIP.get());
-        registration.useNbtForSubtypes(ModItems.STONE_CHIP.get());
         registration.useNbtForSubtypes(ModItems.CONFIGURABLE_HONEYCOMB.get());
         registration.useNbtForSubtypes(ModItems.CONFIGURABLE_SPAWN_EGG.get());
         registration.useNbtForSubtypes(ModItems.CONFIGURABLE_COMB_BLOCK.get());
@@ -138,8 +129,6 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Spawning recipes
         Map<ResourceLocation, BeeSpawningRecipe> beeSpawningRecipesMap = recipeManager.byType(ModRecipeTypes.BEE_SPAWNING_TYPE.get());
         registration.addRecipes(BEE_SPAWNING_TYPE, beeSpawningRecipesMap.values().stream().toList());
-        Map<ResourceLocation, BeeSpawningBigRecipe> beeSpawningRecipesBigMap = recipeManager.byType(ModRecipeTypes.BEE_SPAWNING_BIG_TYPE.get());
-        registration.addRecipes(BEE_SPAWNING_BIG_TYPE, beeSpawningRecipesBigMap.values().stream().toList());
         // Breeding recipes
         Map<ResourceLocation, BeeBreedingRecipe> beeBreedingRecipeMap = recipeManager.byType(ModRecipeTypes.BEE_BREEDING_TYPE.get());
         registration.addRecipes(BEE_BREEDING_TYPE,beeBreedingRecipeMap.values().stream().toList());
@@ -218,33 +207,21 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         }
 
         // Chip recipes
-        Collection<CraftingRecipe> chipRecipes = new ArrayList<>();
         Collection<AdvancedBeehiveRecipe> chipHiveRecipes = new ArrayList<>();
         BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.QUARRY).forEach(blockHolder -> {
             Block b = blockHolder.value();
-            chipRecipes.add(StoneChip.getRecipe(b));
-
             String id = ForgeRegistries.BLOCKS.getKey(b).getPath();
             Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
             blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 7, 100}));
             chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "stone_chip_block_hive_" + id), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), blockItemOutput));
-            Map<Ingredient, IntArrayTag> chipItemOutput = new HashMap<>();
-            chipItemOutput.put(Ingredient.of(StoneChip.getStack(b)), new IntArrayTag(new int[]{1, 7, 100}));
-            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "stone_chip_hive_" + id), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), chipItemOutput));
         });
         BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.LUMBER).forEach(blockHolder -> {
             Block b = blockHolder.value();
-            chipRecipes.add(WoodChip.getRecipe(b));
-
             String id = ForgeRegistries.BLOCKS.getKey(b).getPath();
             Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
             blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 7, 100}));
             chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_block_hive_" + id), Lazy.of(() -> beeList.get("productivebees:lumber_bee")), blockItemOutput));
-            Map<Ingredient, IntArrayTag> chipItemOutput = new HashMap<>();
-            chipItemOutput.put(Ingredient.of(WoodChip.getStack(b)), new IntArrayTag(new int[]{1, 7, 100}));
-            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_hive_" + id), Lazy.of(() -> beeList.get("productivebees:lumber_bee")), chipItemOutput));
         });
-        registration.addRecipes(RecipeTypes.CRAFTING, chipRecipes.stream().toList());
         registration.addRecipes(ADVANCED_BEEHIVE_TYPE, chipHiveRecipes.stream().toList());
 
         // Configurable combs
