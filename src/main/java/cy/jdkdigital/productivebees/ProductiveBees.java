@@ -62,7 +62,7 @@ public final class ProductiveBees
 {
     public static final String MODID = "productivebees";
     public static final RandomSource random = RandomSource.create();
-    public static boolean isDataGen = true;
+    public static boolean isDevEnv = false;
 
     public static final IProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 

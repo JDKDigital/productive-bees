@@ -138,9 +138,8 @@
       "id": "productivebees:expansion_box_atmospheric_aspen",
       "required": false
     },
-    "#productivebees:canvas_expansion_boxes",
     {
-      "id": "productivebees:expansion_box_swampexpansion_maple",
+      "id": "productivebees:expansion_box_atmospheric_morado",
       "required": false
     },
     "#productivebees:canvas_expansion_boxes",
@@ -205,10 +204,6 @@
     },
     {
       "id": "productivebees:expansion_box_quark_azalea",
-      "required": false
-    },
-    {
-      "id": "productivebees:expansion_box_quark_ancient",
       "required": false
     },
     "#productivebees:canvas_expansion_boxes",

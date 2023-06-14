@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/tinted_hive/base",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/kousa/end",
+    "top": "productivebees:block/advanced_beehive/tinted/kousa/end",
+    "front": "productivebees:block/advanced_beehive/tinted/kousa/front",
+    "back": "productivebees:block/advanced_beehive/tinted/kousa/side",
+    "east": "productivebees:block/advanced_beehive/tinted/kousa/side",
+    "west": "productivebees:block/advanced_beehive/tinted/kousa/side"
+  }
+}

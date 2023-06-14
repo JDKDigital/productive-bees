@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/grimwood/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/grimwood/side_left",
+    "bottom": "productivebees:block/advanced_beehive/tinted/grimwood/end_left",
+    "front": "productivebees:block/advanced_beehive/tinted/grimwood/side_right",
+    "top": "productivebees:block/advanced_beehive/tinted/grimwood/end_left"
+  }
+}

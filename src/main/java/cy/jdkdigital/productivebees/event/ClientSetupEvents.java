@@ -75,7 +75,7 @@ public class ClientSetupEvents
         }, ModBlocks.BUMBLE_BEE_NEST.get());
 
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
-            if (ModList.get().isLoaded(modid)) {
+            if (ProductiveBees.isDevEnv || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     if (!type.hasTexture()) {
                         name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
@@ -116,7 +116,7 @@ public class ClientSetupEvents
         }
 
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
-            if (ModList.get().isLoaded(modid)) {
+            if (ProductiveBees.isDevEnv || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     if (!type.hasTexture()) {
                         name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;

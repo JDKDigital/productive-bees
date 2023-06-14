@@ -174,8 +174,8 @@ public class EventHandler
                 decorator = new WoodNestDecorator(ModBlocks.JUNGLE_WOOD_NEST.get().defaultBlockState());
             } else if (canSpawnNest && grownBlock.equals(Blocks.CHERRY_SAPLING)) {
                 decorator = new WoodNestDecorator(ModBlocks.CHERRY_WOOD_NEST.get().defaultBlockState());
-//            } else if (hasFlower && grownBlock.equals(Blocks.MANGROVE_SAPLING)) {
-//                decorator = new WoodNestDecorator(ModBlocks.MANGROVE_WOOD_NEST.get().defaultBlockState());
+            } else if (canSpawnNest && grownBlock.equals(Blocks.MANGROVE_PROPAGULE)) {
+                decorator = new WoodNestDecorator(ModBlocks.MANGROVE_WOOD_NEST.get().defaultBlockState());
             } else if (r < ProductiveBeesConfig.WORLD_GEN.treeGrowNestChance.get() && (grownBlock.equals(Blocks.CRIMSON_FUNGUS) || grownBlock.equals(Blocks.WARPED_FUNGUS))) {
                 var featureKey = grownBlock.equals(Blocks.CRIMSON_FUNGUS) ? ModConfiguredFeatures.CRIMSON_FUNGUS_BEES_GROWN : ModConfiguredFeatures.WARPED_FUNGUS_BEES_GROWN;
                 var feature = event.getLevel().registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(featureKey).orElse(null);

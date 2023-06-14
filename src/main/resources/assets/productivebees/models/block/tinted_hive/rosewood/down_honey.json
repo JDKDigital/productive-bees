@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/rosewood/small_honey",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/rosewood/side_down",
+    "east": "productivebees:block/advanced_beehive/tinted/rosewood/side_down",
+    "front": "productivebees:block/advanced_beehive/tinted/rosewood/front_down",
+    "west": "productivebees:block/advanced_beehive/tinted/rosewood/side_down"
+  }
+}

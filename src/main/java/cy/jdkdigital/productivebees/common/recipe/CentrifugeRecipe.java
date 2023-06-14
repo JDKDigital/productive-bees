@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.RegistryAccess;
@@ -27,17 +28,24 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Container>
+public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Container>, TimedRecipeInterface
 {
     public final ResourceLocation id;
     public final Ingredient ingredient;
     public final Map<String, Integer> fluidOutput;
+    private final Integer processingTime;
 
-    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<Ingredient, IntArrayTag> itemOutput, Map<String, Integer> fluidOutput) {
+    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<Ingredient, IntArrayTag> itemOutput, Map<String, Integer> fluidOutput, int processingTime) {
         super(itemOutput);
         this.id = id;
         this.ingredient = ingredient;
         this.fluidOutput = fluidOutput;
+        this.processingTime = processingTime;
+    }
+
+    @Override
+    public int getProcessingTime() {
+        return processingTime;
     }
 
     @Override
@@ -162,7 +170,9 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                 }
             });
 
-            return this.factory.create(id, ingredient, itemOutputs, fluidOutputs);
+            int processingTime = json.has("processingTime") ? json.get("processingTime").getAsInt() : ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get();;
+
+            return this.factory.create(id, ingredient, itemOutputs, fluidOutputs, processingTime);
         }
 
         @Override
@@ -180,7 +190,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                         i -> fluidOutput.put(buffer.readUtf(), buffer.readInt())
                 );
 
-                return this.factory.create(id, ingredient, itemOutput, fluidOutput);
+                return this.factory.create(id, ingredient, itemOutput, fluidOutput, buffer.readInt());
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error reading centrifuge recipe from packet. " + id, e);
                 throw e;
@@ -206,6 +216,8 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                     buffer.writeInt(value);
                 });
 
+                buffer.writeInt(recipe.getProcessingTime());
+
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing centrifuge recipe to packet. " + recipe.getId(), e);
                 throw e;
@@ -214,7 +226,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
 
         public interface IRecipeFactory<T extends CentrifugeRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, Map<Ingredient, IntArrayTag> itemOutput, Map<String, Integer> fluidOutput);
+            T create(ResourceLocation id, Ingredient input, Map<Ingredient, IntArrayTag> itemOutput, Map<String, Integer> fluidOutput, Integer processingTime);
         }
     }
 }

@@ -52,10 +52,9 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
         return Math.max(1, timeUpgradeModifier);
     }
 
-    public int getProcessingTime() {
-        return (int) (
-            ProductiveBeesConfig.GENERAL.centrifugePoweredProcessingTime.get() * getProcessingTimeModifier()
-        );
+    @Override
+    protected double getProcessingTimeModifier() {
+        return super.getProcessingTimeModifier() * 3;
     }
 
     protected boolean canOperate() {

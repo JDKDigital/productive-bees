@@ -7,13 +7,13 @@
 - resin/amber encased mobs + wannabee to get drops from encased mobs
 - item/block conversion in feeding slabs
 - no insert cage when not sim
-- all bees should produce raw ore instead of ingots/dust
 - block upgrade for comb block production instead of using it for lumber and quarry
-
-- redo hive compat to be dynamic
 - differentiated spawn items for nest, part of recipe
-
 - item pollination
+- redo hive compat to be dynamic
+
+- move configs into recipes
+- sussy bee that the sniffer digs up, turns sand and gravel into sussy versions
 - proper sugarbag nest spawn (mangrove and jungle)
 - fix up Create mixin recipes to support more stuff
 - sticky sponge, sponge soaking up honey becomes sticky instead of wet, eat it to clean it
@@ -21,7 +21,6 @@
 - increased crop pollination for solitary bees
 - add honey cauldron for crafting honey blocks
 - fruit tree bees (or farmer bee support)
-- move configs into recipes
 - undead bee spawns as recipes
 - blue carpenter bee
 - maybe dyed honey blocks

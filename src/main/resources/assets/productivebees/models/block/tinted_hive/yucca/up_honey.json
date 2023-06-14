@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/yucca/small_honey",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/yucca/side_up",
+    "east": "productivebees:block/advanced_beehive/tinted/yucca/side_up",
+    "front": "productivebees:block/advanced_beehive/tinted/yucca/front_up",
+    "west": "productivebees:block/advanced_beehive/tinted/yucca/side_up"
+  }
+}

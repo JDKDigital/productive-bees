@@ -116,7 +116,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             // Spawn skeletal and zombie bees in empty hives
             BlockPos front = pos.relative(state.getValue(BeehiveBlock.FACING));
             if (
-                    ProductiveBeesConfig.BEES.spawnUndeadBees.get() &&
                     level.random.nextDouble() <= ProductiveBeesConfig.BEES.spawnUndeadBeesChance.get() &&
                     level.isNight() &&
                     level.getBlockState(front).getCollisionShape(level, front).isEmpty() &&

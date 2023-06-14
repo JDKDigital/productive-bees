@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/driftwood/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/driftwood/side_right",
+    "bottom": "productivebees:block/advanced_beehive/tinted/driftwood/end_right",
+    "front": "productivebees:block/advanced_beehive/tinted/driftwood/side_left",
+    "top": "productivebees:block/advanced_beehive/tinted/driftwood/end_right"
+  }
+}

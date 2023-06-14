@@ -255,17 +255,17 @@ public class ProductiveBee extends Bee
 
     @Override
     public boolean isFlowerValid(@Nullable BlockPos pos) {
-        return isFlowerValid(pos, ProductiveBee.this::isFlowerBlock);
+        return isFlowerValid(pos, ProductiveBee.this::isFlowerBlock, ProductiveBee.this::isFlowerItem);
     }
 
-    public boolean isFlowerValid(@Nullable BlockPos pos, Predicate<BlockState> validator) {
+    public boolean isFlowerValid(@Nullable BlockPos pos, Predicate<BlockState> validator, Predicate<ItemStack> itemValidator) {
         if (pos == null || !level.isLoaded(pos)) {
             return false;
         }
 
         BlockState flowerBlock = level.getBlockState(pos);
 
-        return validator.test(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && (isValidFeeder(this, level.getBlockEntity(pos), validator)));
+        return validator.test(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && (isValidFeeder(this, level.getBlockEntity(pos), validator, itemValidator)));
     }
 
     public List<ItemStack> getBreedingItems() {
@@ -300,12 +300,14 @@ public class ProductiveBee extends Bee
         return true;
     }
 
-    public static boolean isValidFeeder(Bee bee, BlockEntity tile, Predicate<BlockState> validator) {
+    public static boolean isValidFeeder(Bee bee, BlockEntity tile, Predicate<BlockState> validator, Predicate<ItemStack> itemValidator) {
         AtomicBoolean hasValidBlock = new AtomicBoolean(false);
         if (tile instanceof FeederBlockEntity feederBlockEntity) {
             for (ItemStack stack: feederBlockEntity.getInventoryItems()) {
                 Item slotItem = stack.getItem();
                 if (slotItem instanceof BlockItem && validator.test(((BlockItem) slotItem).getBlock().defaultBlockState())) {
+                    hasValidBlock.set(true);
+                } else if (itemValidator != null && itemValidator.test(stack)) {
                     hasValidBlock.set(true);
                 } else if (BeeHelper.hasItemConversionRecipe(bee, stack)) {
                     hasValidBlock.set(true);
@@ -642,6 +644,10 @@ public class ProductiveBee extends Bee
         return flowerBlock.is(BlockTags.FLOWERS) || BeeHelper.hasBlockConversionRecipe(this, flowerBlock);
     }
 
+    public boolean isFlowerItem(ItemStack flowerItem) {
+        return flowerItem.is(ItemTags.FLOWERS) || BeeHelper.hasItemConversionRecipe(this, flowerItem);
+    }
+
     public TagKey<Block> getNestingTag() {
         return BlockTags.BEEHIVES;
     }
@@ -686,7 +692,7 @@ public class ProductiveBee extends Bee
             boolean isInterested = false;
             try {
                 if (blockState.getBlock() instanceof Feeder) {
-                    isInterested = isValidFeeder(ProductiveBee.this, level.getBlockEntity(blockPos), ProductiveBee.this::isFlowerBlock);
+                    isInterested = isValidFeeder(ProductiveBee.this, level.getBlockEntity(blockPos), ProductiveBee.this::isFlowerBlock, ProductiveBee.this::isFlowerItem);
                 } else {
                     isInterested = ProductiveBee.this.isFlowerBlock(blockState);
                     if (isInterested && blockState.is(BlockTags.TALL_FLOWERS)) {

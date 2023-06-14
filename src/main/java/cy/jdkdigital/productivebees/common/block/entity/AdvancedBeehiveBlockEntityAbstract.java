@@ -264,7 +264,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                         pBee.postPollinate();
                     } else if (!(beeEntity instanceof ProductiveBee)) {
                         BlockState flowerBlock = level.getBlockState(flowerPos);
-                        if (beeEntity.isFlowerValid(flowerPos) || flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, level.getBlockEntity(flowerPos), blockState -> blockState.is(BlockTags.FLOWERS))) {
+                        if (beeEntity.isFlowerValid(flowerPos) || flowerBlock.getBlock() instanceof Feeder && ProductiveBee.isValidFeeder(beeEntity, level.getBlockEntity(flowerPos), blockState -> blockState.is(BlockTags.FLOWERS), null)) {
                             beeState = BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED;
                         }
                     }

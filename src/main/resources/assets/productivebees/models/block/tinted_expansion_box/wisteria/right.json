@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/wisteria/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/wisteria/side_left",
+    "bottom": "productivebees:block/advanced_beehive/tinted/wisteria/end_left",
+    "front": "productivebees:block/advanced_beehive/tinted/wisteria/side_right",
+    "top": "productivebees:block/advanced_beehive/tinted/wisteria/end_left"
+  }
+}

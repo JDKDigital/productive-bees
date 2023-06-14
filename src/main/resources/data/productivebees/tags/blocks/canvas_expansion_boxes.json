@@ -41,7 +41,15 @@
       "required": false
     },
     {
+      "id": "productivebees:expansion_box_driftwood_canvas",
+      "required": false
+    },
+    {
       "id": "productivebees:expansion_box_fir_canvas",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_grimwood_canvas",
       "required": false
     },
     {
@@ -57,6 +65,10 @@
       "required": false
     },
     {
+      "id": "productivebees:expansion_box_kousa_canvas",
+      "required": false
+    },
+    {
       "id": "productivebees:expansion_box_magic_canvas",
       "required": false
     },
@@ -69,6 +81,10 @@
       "required": false
     },
     {
+      "id": "productivebees:expansion_box_maple_canvas",
+      "required": false
+    },
+    {
       "id": "productivebees:expansion_box_oak_canvas",
       "required": false
     },
@@ -78,6 +94,14 @@
     },
     {
       "id": "productivebees:expansion_box_redwood_canvas",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_river_canvas",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_rosewood_canvas",
       "required": false
     },
     {
@@ -98,6 +122,14 @@
     },
     {
       "id": "productivebees:expansion_box_willow_canvas",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_wisteria_canvas",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_yucca_canvas",
       "required": false
     }
   ]

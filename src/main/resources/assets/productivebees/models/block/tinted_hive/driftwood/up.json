@@ -1,0 +1,9 @@
+{
+  "parent": "productivebees:block/tinted_hive/driftwood/small",
+  "textures": {
+    "back": "productivebees:block/advanced_beehive/tinted/driftwood/side_up",
+    "east": "productivebees:block/advanced_beehive/tinted/driftwood/side_up",
+    "front": "productivebees:block/advanced_beehive/tinted/driftwood/front_up",
+    "west": "productivebees:block/advanced_beehive/tinted/driftwood/side_up"
+  }
+}

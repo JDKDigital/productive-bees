@@ -80,10 +80,6 @@ repositories {
     maven {
         url 'https://www.dogforce-games.com/maven/'
     }
-//    maven {
-//        name = "JEI Maven"
-//        url "https://dvs1.progwml6.com/files/maven/"
-//    }
     maven {
         url 'https://maven.blamejared.com'
     }

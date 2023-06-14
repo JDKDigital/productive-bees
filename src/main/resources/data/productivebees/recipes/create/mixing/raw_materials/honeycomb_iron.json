@@ -1,0 +1,34 @@
+{
+    "type": "create:mixing",
+    "ingredients": [
+        {
+            "type": "forge:nbt",
+            "item": "productivebees:configurable_honeycomb",
+            "nbt": {
+                "EntityTag": {
+                    "type": "productivebees:iron"
+                }
+            }
+        }
+    ],
+    "results": [
+        {
+            "item": "minecraft:raw_iron",
+            "chance": 0.49
+        },
+        {
+            "item": "productivebees:wax"
+        },
+        {
+            "fluid": "productivebees:honey",
+            "amount": 50
+        }
+    ],
+    "heatRequirement": "heated",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+        }
+    ]
+}

@@ -422,7 +422,7 @@ public class BeeHelper
         Block flowerBlock = flowerBlockState.getBlock();
         if (flowerBlock instanceof Feeder) {
             BlockEntity feederTile = level.getBlockEntity(flowerPos);
-            if (feederTile instanceof FeederBlockEntity feederBlockEntity && ProductiveBee.isValidFeeder(bee, feederTile, bee::isFlowerBlock)) {
+            if (feederTile instanceof FeederBlockEntity feederBlockEntity && ProductiveBee.isValidFeeder(bee, feederTile, bee::isFlowerBlock, bee::isFlowerItem)) {
                 return feederBlockEntity.getRandomBlockFromInventory(tag, level.random);
             }
         }

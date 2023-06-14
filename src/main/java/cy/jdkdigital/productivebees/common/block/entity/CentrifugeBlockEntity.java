@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
+import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
 import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -128,9 +129,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         return recipeProgress;
     }
 
-    public int getProcessingTime() {
+    public int getProcessingTime(TimedRecipeInterface recipe) {
         return (int) (
-            ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get() * getProcessingTimeModifier()
+                (recipe != null ? recipe.getProcessingTime() : 300) * getProcessingTimeModifier()
         );
     }
 
@@ -147,7 +148,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                 ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
                 if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {
                     level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
-                    int totalTime = blockEntity.getProcessingTime();
+                    int totalTime = blockEntity.getProcessingTime(null);
 
                     if (++blockEntity.recipeProgress >= totalTime) {
                         blockEntity.completeGeneProcessing(invHandler, level.random);
@@ -156,7 +157,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                     }
                 } else if (invItem.getItem().equals(ModItems.HONEY_TREAT.get())) {
                     level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
-                    int totalTime = blockEntity.getProcessingTime();
+                    int totalTime = blockEntity.getProcessingTime(null);
 
                     if (++blockEntity.recipeProgress >= totalTime) {
                         blockEntity.completeTreatProcessing(invHandler);
@@ -167,7 +168,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                     CentrifugeRecipe recipe = blockEntity.getRecipe(invHandler);
                     if (blockEntity.canProcessRecipe(recipe, invHandler)) {
                         level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
-                        int totalTime = blockEntity.getProcessingTime();
+                        int totalTime = blockEntity.getProcessingTime(recipe);
 
                         if (++blockEntity.recipeProgress >= totalTime) {
                             blockEntity.completeRecipeProcessing(recipe, invHandler, level.random);

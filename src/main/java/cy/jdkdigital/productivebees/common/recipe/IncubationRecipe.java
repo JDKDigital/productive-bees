@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
@@ -17,7 +18,7 @@ import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 
-public class IncubationRecipe implements Recipe<Container>
+public class IncubationRecipe implements Recipe<Container>, TimedRecipeInterface
 {
     public final ResourceLocation id;
     public final Ingredient input;
@@ -29,6 +30,11 @@ public class IncubationRecipe implements Recipe<Container>
         this.input = input;
         this.catalyst = catalyst;
         this.result = result;
+    }
+
+    @Override
+    public int getProcessingTime() {
+        return ProductiveBeesConfig.GENERAL.incubatorProcessingTime.get();
     }
 
     @Override

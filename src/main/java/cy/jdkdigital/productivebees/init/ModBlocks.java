@@ -130,24 +130,21 @@ public final class ModBlocks
         }});
         put("atmospheric", new HashMap<>()
         {{
-            put("rosewood", new HiveType(new FakeIngredient("atmospheric:rosewood_planks")));
-            put("yucca", new HiveType(new FakeIngredient("atmospheric:yucca_planks")));
-            put("kousa", new HiveType(new FakeIngredient("atmospheric:kousa_planks")));
-            put("aspen", new HiveType(false, "#efcd7c", "aspen", new FakeIngredient("atmospheric:aspen_planks")));
-            put("grimwood", new HiveType(new FakeIngredient("atmospheric:grimwood_planks")));
+            put("aspen", new HiveType(false, "#f7cf4c", "aspen", new FakeIngredient("atmospheric:aspen_planks")));
+            put("grimwood", new HiveType(false, "#382721", "grimwood", new FakeIngredient("atmospheric:grimwood_planks")));
+            put("kousa", new HiveType(false, "#84a083", "kousa", new FakeIngredient("atmospheric:kousa_planks")));
+            put("morado", new HiveType(false, "#a64443", "mangrove", new FakeIngredient("atmospheric:morado_planks")));
+            put("yucca", new HiveType(false, "#c17d6a", "yucca", new FakeIngredient("atmospheric:yucca_planks")));
+            put("rosewood", new HiveType(false, "#956f7b", "rosewood", new FakeIngredient("atmospheric:rosewood_planks")));
         }});
         put("upgrade_aquatic", new HashMap<>()
         {{
-            put("driftwood", new HiveType(new FakeIngredient("upgrade_aquatic:driftwood_planks")));
-            put("river", new HiveType(new FakeIngredient("upgrade_aquatic:river_planks")));
+            put("driftwood", new HiveType(false, "#82746b", "driftwood", new FakeIngredient("upgrade_aquatic:driftwood_planks")));
+            put("river", new HiveType(false, "#8c6646", "river", new FakeIngredient("upgrade_aquatic:river_planks")));
         }});
         put("autumnity", new HashMap<>()
         {{
-            put("maple", new HiveType(true, "#aa6e3d", "", new FakeIngredient("autumnity:maple_planks")));
-        }});
-        put("swampexpansion", new HashMap<>()
-        {{
-            put("maple", new HiveType(new FakeIngredient("swampexpansion:maple_planks")));
+            put("maple", new HiveType(false, "#aa6e3d", "maple", new FakeIngredient("autumnity:maple_planks")));
         }});
         put("endergetic", new HashMap<>()
         {{
@@ -155,44 +152,43 @@ public final class ModBlocks
         }});
         put("environmental", new HashMap<>()
         {{
-            put("wisteria", new HiveType(new FakeIngredient("environmental:wisteria_planks")));
+            put("wisteria", new HiveType(false, "#ebe8cc", "wisteria", new FakeIngredient("environmental:wisteria_planks")));
         }});
         put("quark", new HashMap<>()
         {{
-            put("azalea", new HiveType(new FakeIngredient("quark:azalea_planks")));
-            put("blossom", new HiveType(new FakeIngredient("quark:blossom_planks")));
-            put("ancient", new HiveType(new FakeIngredient("quark:ancient_planks")));
+            put("azalea", new HiveType(false, "#c1d368", "dark_oak", new FakeIngredient("quark:azalea_planks")));
+            put("blossom", new HiveType(false, "#6b3324", "rosewood", new FakeIngredient("quark:blossom_planks")));
         }});
         put("byg", new HashMap<>()
         {{
             put("aspen", new HiveType(false, "#efcd7c", "aspen", new FakeIngredient("byg:aspen_planks")));
-            put("baobab", new HiveType(new FakeIngredient("byg:baobab_planks")));
-            put("blue_enchanted", new HiveType(new FakeIngredient("byg:blue_enchanted_planks")));
-            put("bulbis", new HiveType(new FakeIngredient("byg:bulbis_planks")));
-            put("cika", new HiveType(new FakeIngredient("byg:cika_planks")));
-            put("cypress", new HiveType(new FakeIngredient("byg:cypress_planks")));
-            put("ebony", new HiveType(new FakeIngredient("byg:ebony_planks")));
-            put("embur", new HiveType(new FakeIngredient("byg:embur_planks")));
-            put("ether", new HiveType(new FakeIngredient("byg:ether_planks")));
+            put("baobab", new HiveType(false, "#b3995b", "acacia", new FakeIngredient("byg:baobab_planks")));
+            put("blue_enchanted", new HiveType(false, "#6574bb", "magic", new FakeIngredient("byg:blue_enchanted_planks")));
+            put("bulbis", new HiveType(false, "#893fb4", "warped", new FakeIngredient("byg:bulbis_planks")));
+            put("cika", new HiveType(false, "#a65642", "driftwood", new FakeIngredient("byg:cika_planks")));
+            put("cypress", new HiveType(false, "#aca272", "yucca", new FakeIngredient("byg:cypress_planks")));
+            put("ebony", new HiveType(false, "#343232", "rosewood", new FakeIngredient("byg:ebony_planks")));
+            put("embur", new HiveType(false, "#5d4b3c", "bamboo", new FakeIngredient("byg:embur_planks")));
+            put("ether", new HiveType(false, "#0d79ab", "cherry", new FakeIngredient("byg:ether_planks")));
             put("fir", new HiveType(false, "#b28f6c", "fir", new FakeIngredient("byg:fir_planks")));
-            put("green_enchanted", new HiveType(new FakeIngredient("byg:green_enchanted_planks")));
-            put("holly", new HiveType(new FakeIngredient("byg:holly_planks")));
-            put("imparius", new HiveType(new FakeIngredient("byg:imparius_planks")));
+            put("green_enchanted", new HiveType(false, "#54a564", "magic", new FakeIngredient("byg:green_enchanted_planks")));
+            put("holly", new HiveType(false, "#ddb4a2", "crimson", new FakeIngredient("byg:holly_planks")));
+            put("imparius", new HiveType(false, "#77b1b5", "dead", new FakeIngredient("byg:imparius_planks")));
             put("jacaranda", new HiveType(false, "#c19b9d", "jacaranda", new FakeIngredient("byg:jacaranda_planks")));
-            put("lament", new HiveType(new FakeIngredient("byg:lament_planks")));
+            put("lament", new HiveType(false, "#574fa1", "jungle", new FakeIngredient("byg:lament_planks")));
             put("mahogany", new HiveType(false, "#9e6a88", "mahogany", new FakeIngredient("byg:mahogany_planks")));
-            put("maple", new HiveType(new FakeIngredient("byg:maple_planks")));
-            put("nightshade", new HiveType(new FakeIngredient("byg:nightshade_planks")));
+            put("maple", new HiveType(false, "#978d83", "wisteria", new FakeIngredient("byg:maple_planks")));
+            put("nightshade", new HiveType(false, "#d6781c", "umbran", new FakeIngredient("byg:nightshade_planks")));
             put("palm", new HiveType(false, "#a89b7a", "palm", new FakeIngredient("byg:palm_planks")));
-            put("pine", new HiveType(new FakeIngredient("byg:pine_planks")));
+            put("pine", new HiveType(false, "#c5b99a", "dark_oak", new FakeIngredient("byg:pine_planks")));
             put("rainbow_eucalyptus", new HiveType(new FakeIngredient("byg:rainbow_eucalyptus_planks")));
-            put("redwood", new HiveType(new FakeIngredient("byg:redwood_planks")));
-            put("skyris", new HiveType(new FakeIngredient("byg:skyris_planks")));
-            put("sythian", new HiveType(new FakeIngredient("byg:sythian_planks")));
-            put("white_mangrove", new HiveType(new FakeIngredient("byg:white_mangrove_planks")));
+            put("redwood", new HiveType(false, "#9c4141", "redwood", new FakeIngredient("byg:redwood_planks")));
+            put("skyris", new HiveType(false, "#95bccb", "kousa", new FakeIngredient("byg:skyris_planks")));
+            put("sythian", new HiveType(false, "#ccb251", "oak", new FakeIngredient("byg:sythian_planks")));
+            put("white_mangrove", new HiveType(false, "#d1d1d1", "mangrove", new FakeIngredient("byg:white_mangrove_planks")));
             put("willow", new HiveType(false, "#55662d", "willow", new FakeIngredient("byg:willow_planks")));
-            put("witch_hazel", new HiveType(new FakeIngredient("byg:witch_hazel_planks")));
-            put("zelkova", new HiveType(new FakeIngredient("byg:zelkova_planks")));
+            put("witch_hazel", new HiveType(false, "#3b8c5b", "hellbark", new FakeIngredient("byg:witch_hazel_planks")));
+            put("zelkova", new HiveType(false, "#bf6d36", "birch", new FakeIngredient("byg:zelkova_planks")));
         }});
         put("biomesoplenty", new HashMap<>()
         {{
@@ -220,26 +216,34 @@ public final class ModBlocks
         add("crimson");
         add("dark_oak");
         add("dead");
+        add("driftwood");
         add("fir");
+        add("grimwood");
         add("hellbark");
         add("jacaranda");
         add("jungle");
+        add("kousa");
         add("magic");
         add("mahogany");
         add("mangrove");
+        add("maple");
         add("oak");
         add("palm");
         add("redwood");
+        add("river");
+        add("rosewood");
         add("snake_block");
         add("spruce");
         add("umbran");
         add("warped");
         add("willow");
+        add("wisteria");
+        add("yucca");
     }};
 
     public static void registerHives() {
         HIVELIST.forEach((modid, strings) -> {
-            if (ProductiveBees.isDataGen || ModList.get().isLoaded(modid)) {
+            if (ProductiveBees.isDevEnv || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
                     String hiveName = "advanced_" + name + "_beehive";

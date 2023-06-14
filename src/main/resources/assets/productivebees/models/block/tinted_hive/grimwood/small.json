@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/tinted_hive/base",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/grimwood/end",
+    "top": "productivebees:block/advanced_beehive/tinted/grimwood/end",
+    "front": "productivebees:block/advanced_beehive/tinted/grimwood/front",
+    "back": "productivebees:block/advanced_beehive/tinted/grimwood/side",
+    "east": "productivebees:block/advanced_beehive/tinted/grimwood/side",
+    "west": "productivebees:block/advanced_beehive/tinted/grimwood/side"
+  }
+}

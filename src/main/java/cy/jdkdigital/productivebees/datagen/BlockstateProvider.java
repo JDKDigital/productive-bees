@@ -88,7 +88,7 @@ public class BlockstateProvider implements DataProvider
         List<String> completedTypes = new ArrayList<>();
 
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
-            if (ProductiveBees.isDataGen || ModList.get().isLoaded(modid)) {
+            if (ProductiveBees.isDevEnv || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
                     if (!completedTypes.contains(name)) {

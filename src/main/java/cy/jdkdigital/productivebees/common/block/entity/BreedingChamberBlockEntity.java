@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.recipe.BeeBreedingRecipe;
+import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
 import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -113,9 +114,9 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
         return recipeProgress;
     }
 
-    public int getProcessingTime() {
+    public int getProcessingTime(TimedRecipeInterface recipe) {
         return (int) (
-                ProductiveBeesConfig.GENERAL.breedingChamberProcessingTime.get() * getProcessingTimeModifier()
+                (recipe != null ? recipe.getProcessingTime() : 6000) * getProcessingTimeModifier()
         );
     }
 
@@ -147,7 +148,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                     // Process breeding
                     if (blockEntity.isRunning || (!blockEntity.currentBreedingRecipes.isEmpty() && blockEntity.canProcessInput(invHandler, true))) {
                         blockEntity.setRunning(true);
-                        int totalTime = blockEntity.getProcessingTime();
+                        int totalTime = blockEntity.getProcessingTime(blockEntity.chosenRecipe);
 
                         if (blockEntity.recipeProgress == 0) {
                             // Consume breeding items when starting processing

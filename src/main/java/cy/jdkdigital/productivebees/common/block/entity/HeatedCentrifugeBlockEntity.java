@@ -39,10 +39,9 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         return Math.max(1, timeUpgradeModifier) * 3;
     }
 
-    public int getProcessingTime() {
-        return (int) (
-            ProductiveBeesConfig.GENERAL.centrifugePoweredProcessingTime.get() * getProcessingTimeModifier() / 3
-        );
+    @Override
+    protected double getProcessingTimeModifier() {
+        return super.getProcessingTimeModifier() * 3;
     }
 
     protected boolean canOperate() {

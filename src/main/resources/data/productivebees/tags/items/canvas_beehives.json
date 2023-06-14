@@ -41,7 +41,15 @@
       "required": false
     },
     {
+      "id": "productivebees:advanced_driftwood_canvas_beehive",
+      "required": false
+    },
+    {
       "id": "productivebees:advanced_fir_canvas_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_grimwood_canvas_beehive",
       "required": false
     },
     {
@@ -57,6 +65,10 @@
       "required": false
     },
     {
+      "id": "productivebees:advanced_kousa_canvas_beehive",
+      "required": false
+    },
+    {
       "id": "productivebees:advanced_magic_canvas_beehive",
       "required": false
     },
@@ -69,6 +81,10 @@
       "required": false
     },
     {
+      "id": "productivebees:advanced_maple_canvas_beehive",
+      "required": false
+    },
+    {
       "id": "productivebees:advanced_oak_canvas_beehive",
       "required": false
     },
@@ -78,6 +94,14 @@
     },
     {
       "id": "productivebees:advanced_redwood_canvas_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_river_canvas_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_rosewood_canvas_beehive",
       "required": false
     },
     {
@@ -98,6 +122,14 @@
     },
     {
       "id": "productivebees:advanced_willow_canvas_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_wisteria_canvas_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_yucca_canvas_beehive",
       "required": false
     }
   ]

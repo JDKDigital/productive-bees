@@ -20,6 +20,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -34,6 +35,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -378,7 +381,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
         }
 
-        return super.isFlowerValid(pos, ConfigurableBee.this::isFlowerBlock);
+        return super.isFlowerValid(pos, ConfigurableBee.this::isFlowerBlock, ConfigurableBee.this::isFlowerItem);
     }
 
     @Override
@@ -408,6 +411,22 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
         }
         return super.isFlowerBlock(flowerBlock);
+    }
+
+    public boolean isFlowerItem(ItemStack flowerItem) {
+        if (flowerItem.isEmpty()) {
+            return false;
+        }
+
+        CompoundTag nbt = getNBTData();
+        if (nbt != null && this.getFlowerType().equals("blocks")) {
+            if (nbt.contains("flowerTag")) {
+                TagKey<Item> flowerTag = ModTags.getItemTag(new ResourceLocation(nbt.getString("flowerTag")));
+                return flowerItem.is(flowerTag);
+            }
+        }
+
+        return super.isFlowerItem(flowerItem);
     }
 
     @Override

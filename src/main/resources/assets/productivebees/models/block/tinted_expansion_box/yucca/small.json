@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/tinted_expansion_box/base",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/yucca/end",
+    "top": "productivebees:block/advanced_beehive/tinted/yucca/end",
+    "front": "productivebees:block/advanced_beehive/tinted/yucca/side",
+    "back": "productivebees:block/advanced_beehive/tinted/yucca/side",
+    "east": "productivebees:block/advanced_beehive/tinted/yucca/side",
+    "west": "productivebees:block/advanced_beehive/tinted/yucca/side"
+  }
+}

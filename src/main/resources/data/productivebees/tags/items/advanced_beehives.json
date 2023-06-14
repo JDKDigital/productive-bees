@@ -138,9 +138,8 @@
       "id": "productivebees:advanced_atmospheric_aspen_beehive",
       "required": false
     },
-    "#productivebees:canvas_beehives",
     {
-      "id": "productivebees:advanced_swampexpansion_maple_beehive",
+      "id": "productivebees:advanced_atmospheric_morado_beehive",
       "required": false
     },
     "#productivebees:canvas_beehives",
@@ -205,10 +204,6 @@
     },
     {
       "id": "productivebees:advanced_quark_azalea_beehive",
-      "required": false
-    },
-    {
-      "id": "productivebees:advanced_quark_ancient_beehive",
       "required": false
     },
     "#productivebees:canvas_beehives",

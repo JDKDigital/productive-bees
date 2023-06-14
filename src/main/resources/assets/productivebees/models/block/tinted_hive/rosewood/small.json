@@ -1,0 +1,11 @@
+{
+  "parent": "productivebees:block/tinted_hive/base",
+  "textures": {
+    "bottom": "productivebees:block/advanced_beehive/tinted/rosewood/end",
+    "top": "productivebees:block/advanced_beehive/tinted/rosewood/end",
+    "front": "productivebees:block/advanced_beehive/tinted/rosewood/front",
+    "back": "productivebees:block/advanced_beehive/tinted/rosewood/side",
+    "east": "productivebees:block/advanced_beehive/tinted/rosewood/side",
+    "west": "productivebees:block/advanced_beehive/tinted/rosewood/side"
+  }
+}

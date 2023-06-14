@@ -4,6 +4,8 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
+import cy.jdkdigital.productivebees.common.recipe.IncubationRecipe;
+import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
 import cy.jdkdigital.productivebees.container.IncubatorContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -68,9 +70,9 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
         return recipeProgress;
     }
 
-    public int getProcessingTime() {
+    public int getProcessingTime(TimedRecipeInterface recipe) {
         return (int) (
-                ProductiveBeesConfig.GENERAL.incubatorProcessingTime.get() * getProcessingTimeModifier()
+                (recipe != null ? recipe.getProcessingTime() : 3600) * getProcessingTimeModifier()
         );
     }
 
@@ -91,7 +93,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
                 // Process incubation
                 if (blockEntity.isRunning || blockEntity.canProcessInput(invHandler)) {
                     blockEntity.setRunning(true);
-                    int totalTime = blockEntity.getProcessingTime();
+                    int totalTime = blockEntity.getProcessingTime(null);
 
                     if (++blockEntity.recipeProgress >= totalTime) {
                         blockEntity.completeIncubation(invHandler, level.random);

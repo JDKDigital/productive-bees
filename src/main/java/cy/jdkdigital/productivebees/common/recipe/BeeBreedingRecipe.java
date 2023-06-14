@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BeeBreedingRecipe implements Recipe<Container>
+public class BeeBreedingRecipe implements Recipe<Container>, TimedRecipeInterface
 {
     public final ResourceLocation id;
     public final List<Lazy<BeeIngredient>> ingredients;
@@ -34,6 +35,11 @@ public class BeeBreedingRecipe implements Recipe<Container>
         this.id = id;
         this.ingredients = ingredients;
         this.offspring = offspring;
+    }
+
+    @Override
+    public int getProcessingTime() {
+        return ProductiveBeesConfig.GENERAL.breedingChamberProcessingTime.get();
     }
 
     @Override
