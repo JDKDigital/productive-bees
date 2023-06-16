@@ -14,6 +14,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
@@ -62,7 +63,7 @@ public class BeeFishingRecipeCategory implements IRecipeCategory<BeeFishingRecip
     }
 
     @Override
-    public void draw(BeeFishingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack poseStack, double mouseX, double mouseY) {
+    public void draw(BeeFishingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         int xPos = 0;
         AtomicInteger yPos = new AtomicInteger(45);
 
@@ -72,7 +73,7 @@ public class BeeFishingRecipeCategory implements IRecipeCategory<BeeFishingRecip
             for (Biome biome : BeeFishingRecipe.getBiomeList(recipe, minecraft.level)) {
                 var key = biomeRegistry.getKey(biome);
                 if (key != null) {
-                    minecraft.font.draw(poseStack, Language.getInstance().getVisualOrder(Component.translatable("biome.minecraft." + key.getPath())), xPos, yPos.get(), 0xFF000000);
+                    guiGraphics.drawString(minecraft.font, Language.getInstance().getVisualOrder(Component.translatable("biome.minecraft." + key.getPath())), xPos, yPos.get(), 0xFF000000);
                     yPos.addAndGet(minecraft.font.lineHeight + 2);
                 }
             }

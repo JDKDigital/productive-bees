@@ -107,7 +107,7 @@ public class AdvancedBeehiveContainer extends AbstractContainer
     private static AdvancedBeehiveBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
-        final BlockEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
+        final BlockEntity tileAtPos = playerInventory.player.level().getBlockEntity(data.readBlockPos());
         if (tileAtPos instanceof AdvancedBeehiveBlockEntity) {
             return (AdvancedBeehiveBlockEntity) tileAtPos;
         }

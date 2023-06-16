@@ -186,7 +186,7 @@ public class HoarderBee extends ProductiveBee
     public void die(@Nonnull DamageSource damageSource) {
         super.die(damageSource);
         if (!isInventoryEmpty()) {
-            Containers.dropContents(level, this, inventory);
+            Containers.dropContents(level(), this, inventory);
         }
     }
 
@@ -195,7 +195,7 @@ public class HoarderBee extends ProductiveBee
     }
 
     public List<ItemEntity> getItemsNearby(BlockPos pos, double distance) {
-        return level.getEntitiesOfClass(ItemEntity.class, (new AABB(pos).inflate(distance, distance, distance)));
+        return level().getEntitiesOfClass(ItemEntity.class, (new AABB(pos).inflate(distance, distance, distance)));
     }
 
     public boolean isInventoryEmpty() {
@@ -265,7 +265,7 @@ public class HoarderBee extends ProductiveBee
 
             if (canStart && HoarderBee.this.hivePos != null) {
                 List<ItemEntity> items = new ArrayList<>();
-                BlockEntity hive = level.getBlockEntity(HoarderBee.this.hivePos);
+                BlockEntity hive = level().getBlockEntity(HoarderBee.this.hivePos);
                 if (hive instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
                     int radius = 5 + beehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get());
                     items = HoarderBee.this.getItemsNearby(HoarderBee.this.hivePos, radius);

@@ -19,7 +19,7 @@ import snownee.jade.api.config.IPluginConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductiveBeeProvider implements IEntityComponentProvider, IServerDataProvider<Entity>
+public class ProductiveBeeProvider implements IEntityComponentProvider, IServerDataProvider<EntityAccessor>
 {
     public static final ResourceLocation UID = new ResourceLocation(ProductiveBees.MODID, "productive_bee");
     public static final ProductiveBeeProvider INSTANCE = new ProductiveBeeProvider();
@@ -39,8 +39,8 @@ public class ProductiveBeeProvider implements IEntityComponentProvider, IServerD
     }
 
     @Override
-    public void appendServerData(CompoundTag compoundTag, ServerPlayer serverPlayer, Level level, Entity entity, boolean showDetails) {
-        if (entity instanceof ProductiveBee bee && showDetails) {
+    public void appendServerData(CompoundTag compoundTag, EntityAccessor entityAccessor) {
+        if (entityAccessor.getEntity() instanceof ProductiveBee bee) {
             bee.saveWithoutId(compoundTag);
             compoundTag.putBoolean("isProductiveBee", true);
             AdvancedBeehiveBlockEntityAbstract.removeIgnoredTags(compoundTag);

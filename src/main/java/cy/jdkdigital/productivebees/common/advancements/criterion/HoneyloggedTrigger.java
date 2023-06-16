@@ -39,13 +39,13 @@ public class HoneyloggedTrigger extends SimpleCriterionTrigger<HoneyloggedTrigge
     }
 
     public void trigger(ServerPlayer player, BlockPos pos, ItemStack item) {
-        BlockState blockstate = player.getLevel().getBlockState(pos);
+        BlockState blockstate = player.level().getBlockState(pos);
         this.trigger(player, trigger -> trigger.test(blockstate));
     }
 
     @Nonnull
     @Override
-    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.Composite andPredicate, DeserializationContext conditionArrayParser) {
+    protected Instance createInstance(JsonObject jsonObject, ContextAwarePredicate andPredicate, DeserializationContext conditionArrayParser) {
         Block block = getBlockCriteria(jsonObject);
 
         return new HoneyloggedTrigger.Instance(block);
@@ -56,7 +56,7 @@ public class HoneyloggedTrigger extends SimpleCriterionTrigger<HoneyloggedTrigge
         private final Block block;
 
         public Instance(@Nullable Block block) {
-            super(HoneyloggedTrigger.ID, EntityPredicate.Composite.ANY);
+            super(HoneyloggedTrigger.ID, ContextAwarePredicate.ANY);
             this.block = block;
         }
 

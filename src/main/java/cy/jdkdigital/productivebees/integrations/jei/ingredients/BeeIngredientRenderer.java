@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.TooltipFlag;
@@ -18,10 +19,10 @@ import java.util.List;
 public class BeeIngredientRenderer implements IIngredientRenderer<BeeIngredient>
 {
     @Override
-    public void render(PoseStack poseStack, BeeIngredient ingredient) {
+    public void render(GuiGraphics guiGraphics, BeeIngredient ingredient) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level != null) {
-            BeeRenderer.render(poseStack, ingredient, minecraft);
+            BeeRenderer.render(guiGraphics, ingredient, minecraft);
         }
     }
 

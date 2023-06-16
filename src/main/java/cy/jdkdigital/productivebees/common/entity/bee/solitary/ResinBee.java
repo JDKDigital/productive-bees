@@ -46,11 +46,11 @@ public class ResinBee extends SolitaryBee
 
     @Override
     public boolean isFlowerValid(BlockPos pos) {
-        if (!level.isLoaded(pos)) {
+        if (!level().isLoaded(pos)) {
             return false;
         }
 
-        List<Entity> entities = level.getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), predicate);
+        List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), predicate);
         if (!entities.isEmpty()) {
             target = (PathfinderMob) entities.get(0);
 
@@ -59,12 +59,12 @@ public class ResinBee extends SolitaryBee
             return true;
         }
 
-        return isFlowerBlock(level.getBlockState(pos));
+        return isFlowerBlock(level().getBlockState(pos));
     }
 
     @Override
     public void postPollinate() {
         super.postPollinate();
-        BeeHelper.encaseMob(target, level, this.getDirection());
+        BeeHelper.encaseMob(target, level(), this.getDirection());
     }
 }

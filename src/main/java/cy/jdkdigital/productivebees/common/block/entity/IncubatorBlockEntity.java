@@ -4,7 +4,6 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
-import cy.jdkdigital.productivebees.common.recipe.IncubationRecipe;
 import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
 import cy.jdkdigital.productivebees.container.IncubatorContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
@@ -63,6 +62,11 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
 
     public IncubatorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.INCUBATOR.get(), pos, state);
+    }
+
+    @Override
+    public TimedRecipeInterface getCurrentRecipe() {
+        return null;
     }
 
     @Override

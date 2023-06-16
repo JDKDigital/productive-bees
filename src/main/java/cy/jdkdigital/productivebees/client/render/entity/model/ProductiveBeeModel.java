@@ -128,7 +128,7 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
         rightAntenna.xRot = 0.0F;
         bone.xRot = 0.0F;
         bone.y = 19.0F;
-        boolean grounded = entity.isOnGround() && entity.getDeltaMovement().lengthSqr() < 1.0E-7D;
+        boolean grounded = entity.onGround() && entity.getDeltaMovement().lengthSqr() < 1.0E-7D;
         if (grounded) {
             setRotationAngle(rightWing, 0, -0.2618F, 0);
             setRotationAngle(leftWing, 0, 0.2618F, 0);

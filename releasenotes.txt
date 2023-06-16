@@ -1,8 +1,16 @@
-1.19.4-11.6.2
+1.20.1-12.0.0
 
-- Bumblebees can carry passengers again
-
-
-1.19.4-11.6.1
-
-- Ported to 1.19.4
+- Ported to 1.20
+- Added Canvas Hives and Canvas Expansion boxes in all available styles. Canvas hives can be dyed.
+- Expansion boxes can be put on all sides now except the front.
+- Added Cherry and Mangrove bee nests
+- Farmer and Hoarder bees now work in simulated hives harvesting and picking up items around the hive
+- Added petrified honey blocks in all colors
+- Resin and amber bees can now encase other mobs in amber
+- Added WannaBee. This bee can delicately extract mob drops from encased mobs.
+- Added support for doing block conversion recipes inside feeding slabs
+- Added support for item conversion recipes
+- Added support for item pollination
+- Block upgrades no longer required for Lumber and Quarry bees
+- Block upgrades makes bees produce comb blocks instead of honeycombs
+- Added differentiated spawn items for nests

@@ -1,7 +1,5 @@
 package cy.jdkdigital.productivebees.container.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
@@ -15,9 +13,9 @@ import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFa
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -44,19 +42,19 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
+    public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(guiGraphics);
+        super.render(guiGraphics, mouseX, mouseY, partialTicks);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
     @Override
-    protected void renderLabels(@Nonnull PoseStack matrixStack, int mouseX, int mouseY) {
+    protected void renderLabels(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY) {
         boolean expanded = this.menu.tileEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
         boolean simulated = expanded && this.menu.tileEntity.isSim();
 
-        this.font.draw(matrixStack, this.title, expanded ? -5f : 8.0F, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.playerInventoryTitle, expanded ? -5f : 8.0F, (float) (this.getYSize() - 96 + 2), 4210752);
+        guiGraphics.drawString(font, this.title, expanded ? -5 : 8, 6, 4210752, false);
+        guiGraphics.drawString(font, this.playerInventoryTitle, expanded ? -5 : 8, (this.getYSize() - 96 + 2), 4210752, false);
 
         assert minecraft != null;
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
@@ -117,29 +115,27 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
                 }
             }
         });
-        renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
+        guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
     }
 
     @Override
-    protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         boolean expanded = this.menu.tileEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
         boolean simulated = expanded && this.menu.tileEntity.isSim();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, expanded ? (simulated ? GUI_TEXTURE_SIMULATED : GUI_TEXTURE_EXPANDED) : GUI_TEXTURE);
+        var GUI = expanded ? (simulated ? GUI_TEXTURE_SIMULATED : GUI_TEXTURE_EXPANDED) : GUI_TEXTURE;
 
         int honeyLevel = this.menu.tileEntity.getBlockState().getValue(BeehiveBlock.HONEY_LEVEL);
         // Draw main screen
-        blit(matrixStack, getGuiLeft() - (expanded ? 13 : 0), getGuiTop(), 0, 0, this.getXSize() + (expanded ? 26 : 0), this.getYSize());
+        guiGraphics.blit(GUI, getGuiLeft() - (expanded ? 13 : 0), getGuiTop(), 0, 0, this.getXSize() + (expanded ? 26 : 0), this.getYSize());
         HashMap<Integer, List<Integer>> positions = expanded ? AdvancedBeehiveContainer.BEE_POSITIONS_EXPANDED : AdvancedBeehiveContainer.BEE_POSITIONS;
 
         // Draw honey level
         int xOffset = this.menu.tileEntity instanceof DragonEggHiveBlockEntity ? 13 : 0;
-        blit(matrixStack, getGuiLeft() + 87 - (expanded ? 13 : 0), getGuiTop() + 37, 202 + xOffset, honeyLevel * 13, 13, 13);
+        guiGraphics.blit(GUI, getGuiLeft() + 87 - (expanded ? 13 : 0), getGuiTop() + 37, 202 + xOffset, honeyLevel * 13, 13, 13);
 
         // draw bee cage
         if (simulated && this.menu.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).map(iItemHandler -> iItemHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE).isEmpty()).orElse(false)) {
-            blit(matrixStack, getGuiLeft() + 87 - 13, getGuiTop() + 53, 202 + xOffset, 78, 14, 16);
+            guiGraphics.blit(GUI, getGuiLeft() + 87 - 13, getGuiTop() + 53, 202 + xOffset, 78, 14, 16);
         }
 
         this.menu.tileEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantHandler -> {
@@ -154,7 +150,7 @@ public class AdvancedBeehiveScreen extends AbstractContainerScreen<AdvancedBeehi
                     BeeIngredient beeIngredient = BeeIngredientFactory.getIngredient(type).get();
 
                     if (beeIngredient != null) {
-                        BeeRenderer.render(matrixStack, getGuiLeft() + positions.get(i).get(0) - (expanded ? 13 : 0), getGuiTop() + positions.get(i).get(1), beeIngredient, minecraft);
+                        BeeRenderer.render(guiGraphics, getGuiLeft() + positions.get(i).get(0) - (expanded ? 13 : 0), getGuiTop() + positions.get(i).get(1), beeIngredient, minecraft);
                     }
                 }
                 i++;

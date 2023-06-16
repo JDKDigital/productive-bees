@@ -27,7 +27,7 @@ public class CalmBeeTrigger extends SimpleCriterionTrigger<CalmBeeTrigger.Instan
 
     @Nonnull
     @Override
-    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.Composite andPredicate, DeserializationContext conditionArrayParser) {
+    protected Instance createInstance(JsonObject jsonObject, ContextAwarePredicate andPredicate, DeserializationContext conditionArrayParser) {
         return new CalmBeeTrigger.Instance(GsonHelper.getAsString(jsonObject, "beeName"));
     }
 
@@ -36,7 +36,7 @@ public class CalmBeeTrigger extends SimpleCriterionTrigger<CalmBeeTrigger.Instan
         private final String beeName;
 
         public Instance(String beeName) {
-            super(CalmBeeTrigger.ID, EntityPredicate.Composite.ANY);
+            super(CalmBeeTrigger.ID, ContextAwarePredicate.ANY);
             this.beeName = beeName;
         }
 

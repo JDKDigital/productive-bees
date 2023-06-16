@@ -82,7 +82,7 @@ public class CupidBee extends ProductiveBee
             double d0 = this.random.nextGaussian() * 0.02D;
             double d1 = this.random.nextGaussian() * 0.02D;
             double d2 = this.random.nextGaussian() * 0.02D;
-            level.addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
+            level().addParticle(ParticleTypes.HEART, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
         }
     }
 
@@ -111,7 +111,7 @@ public class CupidBee extends ProductiveBee
     public List<Entity> findNearbyBreedables(float distance) {
         BlockPos pos = blockPosition();
 
-        return level.getEntities(this, (new AABB(pos).inflate(distance, distance, distance)), predicate);
+        return level().getEntities(this, (new AABB(pos).inflate(distance, distance, distance)), predicate);
     }
 
     public class GoToBreedableGoal extends Goal

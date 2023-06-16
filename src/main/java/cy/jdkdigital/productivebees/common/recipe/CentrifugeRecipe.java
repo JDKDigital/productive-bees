@@ -45,7 +45,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
 
     @Override
     public int getProcessingTime() {
-        return processingTime;
+        return processingTime > 0 ? processingTime : ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get();
     }
 
     @Override
@@ -170,7 +170,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                 }
             });
 
-            int processingTime = json.has("processingTime") ? json.get("processingTime").getAsInt() : ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get();;
+            int processingTime = json.has("processingTime") ? json.get("processingTime").getAsInt() : -1;
 
             return this.factory.create(id, ingredient, itemOutputs, fluidOutputs, processingTime);
         }

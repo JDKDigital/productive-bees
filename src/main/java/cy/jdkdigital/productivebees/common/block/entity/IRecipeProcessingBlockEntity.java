@@ -7,4 +7,6 @@ public interface IRecipeProcessingBlockEntity
     int getRecipeProgress();
 
     int getProcessingTime(TimedRecipeInterface recipe);
+
+    TimedRecipeInterface getCurrentRecipe();
 }

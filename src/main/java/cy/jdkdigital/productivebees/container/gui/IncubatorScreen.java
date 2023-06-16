@@ -1,12 +1,10 @@
 package cy.jdkdigital.productivebees.container.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.container.IncubatorContainer;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -26,16 +24,16 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorContainer>
     }
 
     @Override
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@Nonnull GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
-        this.font.draw(matrixStack, this.title, -5.0f, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.playerInventoryTitle, -5.0f, (float) (this.getYSize() - 96 + 2), 4210752);
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.drawString(font, this.title, -5, 6, 4210752);
+        guiGraphics.drawString(font, this.playerInventoryTitle, -5, (this.getYSize() - 96 + 2), 4210752);
 
         this.menu.tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
@@ -45,7 +43,7 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorContainer>
                 List<FormattedCharSequence> tooltipList = new ArrayList<>();
                 tooltipList.add(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
 
-                renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
+                guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
             }
         });
 
@@ -55,31 +53,27 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorContainer>
                     List<FormattedCharSequence> tooltipList = new ArrayList<>();
                     tooltipList.add(Component.translatable("productivebees.incubator.tooltip.treat_item").getVisualOrderText());
 
-                    renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
+                    guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
                 }
             }
         });
     }
 
     @Override
-    protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, GUI_TEXTURE);
-
+    protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         // Draw main screen
-        blit(matrixStack, getGuiLeft() - 13, getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 13, getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
 
         // Draw progress
-        int progress = (int) (this.menu.tileEntity.recipeProgress * (24 / (float) this.menu.tileEntity.getProcessingTime()));
-        blit(matrixStack, getGuiLeft() + 76 - 13, getGuiTop() + 35, 202, 52, progress + 1, 16);
+        int progress = (int) (this.menu.tileEntity.recipeProgress * (24 / (float) this.menu.tileEntity.getProcessingTime(this.menu.tileEntity.getCurrentRecipe())));
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() + 76 - 13, getGuiTop() + 35, 202, 52, progress + 1, 16);
 
         // Draw energy level
-        blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
         this.menu.tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52 / 10000F));
-            blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
+            guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
         });
     }
 }

@@ -48,7 +48,7 @@ public class BeeBombEntity extends ThrowableItemProjectile
     @Override
     protected void onHit(@Nonnull HitResult result) {
         super.onHit(result);
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             BlockPos blockPos = null;
             Entity entity = null;
             if (result.getType() == HitResult.Type.BLOCK) {
@@ -68,13 +68,13 @@ public class BeeBombEntity extends ThrowableItemProjectile
 
                 ListTag bees = BeeBomb.getBees(bomb);
                 if (!(entity instanceof Player)) {
-                    List<Player> players = level.getEntitiesOfClass(Player.class, (new AABB(blockPos).inflate(2.0D, 2.0D, 2.0D)));
+                    List<Player> players = level().getEntitiesOfClass(Player.class, (new AABB(blockPos).inflate(2.0D, 2.0D, 2.0D)));
                     if (players.size() > 0) {
                         entity = players.iterator().next();
                     }
                 }
                 for (Tag bee : bees) {
-                    Bee beeEntity = BeeCage.getEntityFromStack((CompoundTag) bee, level, true);
+                    Bee beeEntity = BeeCage.getEntityFromStack((CompoundTag) bee, level(), true);
                     if (beeEntity != null) {
                         beeEntity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
                         if (isAngry) {
@@ -85,7 +85,7 @@ public class BeeBombEntity extends ThrowableItemProjectile
                             }
                         }
 
-                        level.addFreshEntity(beeEntity);
+                        level().addFreshEntity(beeEntity);
                     }
                 }
             }

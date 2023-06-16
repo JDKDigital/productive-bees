@@ -74,7 +74,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
-        if (BOOST_TIME.equals(key) && this.level.isClientSide) {
+        if (BOOST_TIME.equals(key) && this.level().isClientSide) {
             this.steering.onSynced();
         }
         super.onSyncedDataUpdated(key);
@@ -121,12 +121,12 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     public void equipSaddle(@Nullable SoundSource soundCategory) {
         this.steering.setSaddle(true);
         if (soundCategory != null) {
-            level.playSound(null, this, SoundEvents.PIG_SADDLE, soundCategory, 0.5F, 1.0F);
+            level().playSound(null, this, SoundEvents.PIG_SADDLE, soundCategory, 0.5F, 1.0F);
         }
     }
 
     @Override
-    protected void tickRidden(LivingEntity rider, Vec3 direction) {
+    protected void tickRidden(Player rider, Vec3 direction) {
         super.tickRidden(rider, direction);
         this.setRot(rider.getYRot(), rider.getXRot() * 0.5F);
         this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
@@ -134,12 +134,12 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     }
 
     @Override
-    public @NotNull Vec3 getRiddenInput(LivingEntity rider, Vec3 travelVec) {
+    public @NotNull Vec3 getRiddenInput(Player rider, Vec3 travelVec) {
         return new Vec3(0.0D, 0.0D, 1.0D);
     }
 
     @Override
-    protected float getRiddenSpeed(LivingEntity rider) {
+    protected float getRiddenSpeed(Player rider) {
         return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * this.steering.boostFactor();
     }
 
@@ -158,7 +158,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         boolean flag = this.isFood(player.getItemInHand(hand));
         if (!flag && this.isSaddled() && !this.isVehicle() && !player.isSecondaryUseActive()) {
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 if (player instanceof ServerPlayer) {
                     ModAdvancements.SADDLE_BEE.trigger((ServerPlayer) player, this);
                 }
@@ -166,7 +166,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
                 player.startRiding(this);
             }
 
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
         return super.mobInteract(player, hand);
     }
@@ -176,7 +176,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
         super.travel(vec3);
 
         if (this.hasPlayerPassenger()) {
-            var dy = !level.isEmptyBlock(blockPosition().below(3)) ? .1D : level.isEmptyBlock(blockPosition().below(1)) ? -0.05D : 0.0D;
+            var dy = !level().isEmptyBlock(blockPosition().below(3)) ? .1D : level().isEmptyBlock(blockPosition().below(1)) ? -0.05D : 0.0D;
             if (dy != 0f) {
                 Vec3 vec = this.getDeltaMovement();
                 this.setDeltaMovement(vec.x(), vec.y() + dy, vec.z());

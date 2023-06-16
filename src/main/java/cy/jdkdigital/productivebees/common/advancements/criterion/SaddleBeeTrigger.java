@@ -3,8 +3,8 @@ package cy.jdkdigital.productivebees.common.advancements.criterion;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,14 +29,14 @@ public class SaddleBeeTrigger extends SimpleCriterionTrigger<SaddleBeeTrigger.In
 
     @Nonnull
     @Override
-    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.Composite andPredicate, DeserializationContext conditionArrayParser) {
+    protected Instance createInstance(JsonObject jsonObject, ContextAwarePredicate andPredicate, DeserializationContext conditionArrayParser) {
         return new SaddleBeeTrigger.Instance();
     }
 
     public static class Instance extends AbstractCriterionTriggerInstance
     {
         public Instance() {
-            super(SaddleBeeTrigger.ID, EntityPredicate.Composite.ANY);
+            super(SaddleBeeTrigger.ID, ContextAwarePredicate.ANY);
         }
 
         public static SaddleBeeTrigger.Instance any() {

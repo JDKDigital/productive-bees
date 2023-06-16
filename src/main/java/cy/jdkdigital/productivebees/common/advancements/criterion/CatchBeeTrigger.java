@@ -27,7 +27,7 @@ public class CatchBeeTrigger extends SimpleCriterionTrigger<CatchBeeTrigger.Inst
 
     @Nonnull
     @Override
-    protected Instance createInstance(JsonObject jsonObject, EntityPredicate.Composite andPredicate, DeserializationContext conditionArrayParser) {
+    protected Instance createInstance(JsonObject jsonObject, ContextAwarePredicate andPredicate, DeserializationContext conditionArrayParser) {
         return new CatchBeeTrigger.Instance(GsonHelper.getAsString(jsonObject, "beeName"));
     }
 
@@ -36,7 +36,7 @@ public class CatchBeeTrigger extends SimpleCriterionTrigger<CatchBeeTrigger.Inst
         private final String beeName;
 
         public Instance(String beeName) {
-            super(CatchBeeTrigger.ID, EntityPredicate.Composite.ANY);
+            super(CatchBeeTrigger.ID, ContextAwarePredicate.ANY);
             this.beeName = beeName;
         }
 

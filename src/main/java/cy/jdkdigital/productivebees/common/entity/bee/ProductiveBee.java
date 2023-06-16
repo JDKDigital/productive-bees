@@ -150,14 +150,14 @@ public class ProductiveBee extends Bee
         super.tick();
 
         // "Positive" effect to nearby entities
-        if (!level.isClientSide && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
+        if (!level().isClientSide && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.effectTicks.get() == 0) {
             BeeEffect effect = getBeeEffect();
             if (effect != null && effect.getEffects().size() > 0) {
                 List<LivingEntity> entities;
                 if (getBeeType().equals("productivebees:pepto_bismol")) {
-                    entities = level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
+                    entities = level().getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D));
                 } else {
-                    entities = level.getEntitiesOfClass(Player.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D)).stream().map(player -> (LivingEntity) player).collect(Collectors.toList());
+                    entities = level().getEntitiesOfClass(Player.class, (new AABB(new BlockPos(ProductiveBee.this.blockPosition()))).inflate(8.0D, 6.0D, 8.0D)).stream().map(player -> (LivingEntity) player).collect(Collectors.toList());
                 }
                 if (entities.size() > 0) {
                     entities.forEach(entity -> {
@@ -172,41 +172,39 @@ public class ProductiveBee extends Bee
         }
 
         // Attribute improvement while leashed
-        if (!level.isClientSide && isLeashed() && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0) {
+        if (!level().isClientSide && isLeashed() && tickCount % ProductiveBeesConfig.BEE_ATTRIBUTES.leashedTicks.get() == 0) {
             // Rain tolerance improvements
             int tolerance = getAttributeValue(BeeAttributes.WEATHER_TOLERANCE);
-            if (tolerance < 2 && level.random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
-                if (tolerance < 1 && (level.isRaining() || level.isThundering())) {
+            if (tolerance < 2 && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.toleranceChance.get()) {
+                if (tolerance < 1 && (level().isRaining() || level().isThundering())) {
                     beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 1);
-                } else if (tolerance == 1 && level.isThundering()) {
+                } else if (tolerance == 1 && level().isThundering()) {
                     beeAttributes.put(BeeAttributes.WEATHER_TOLERANCE, 2);
                 }
             }
             // Behavior improvement
             int behavior = getAttributeValue(BeeAttributes.BEHAVIOR);
-            if (behavior < 2 && level.random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.behaviorChance.get()) {
+            if (behavior < 2 && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.behaviorChance.get()) {
                 // If diurnal, it can change to nocturnal
-                if (behavior < 1 && level.isNight()) {
-                    beeAttributes.put(BeeAttributes.BEHAVIOR, level.random.nextFloat() < 0.85F ? 1 : 2);
+                if (behavior < 1 && level().isNight()) {
+                    beeAttributes.put(BeeAttributes.BEHAVIOR, level().random.nextFloat() < 0.85F ? 1 : 2);
                 }
                 // If nocturnal, it can become metaturnal or back to diurnal
-                else if (behavior == 1 && !level.isNight()) {
-                    beeAttributes.put(BeeAttributes.BEHAVIOR, level.random.nextFloat() < 0.9F ? 2 : 0);
+                else if (behavior == 1 && !level().isNight()) {
+                    beeAttributes.put(BeeAttributes.BEHAVIOR, level().random.nextFloat() < 0.9F ? 2 : 0);
                 }
             }
 
             // It might die when leashed outside
-            boolean isInDangerFromRain = tolerance < 1 && level.isRaining();
-            boolean isInDayCycleDanger = (behavior < 1 && level.isNight()) || (behavior == 1 && level.isDay());
-            if ((isInDangerFromRain || isInDayCycleDanger) && level.random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
-                hurt(isInDangerFromRain ? this.level.damageSources().drown() : this.level.damageSources().generic(), (getMaxHealth() / 3) - 1);
+            boolean isInDangerFromRain = tolerance < 1 && level().isRaining();
+            boolean isInDayCycleDanger = (behavior < 1 && level().isNight()) || (behavior == 1 && level().isDay());
+            if ((isInDangerFromRain || isInDayCycleDanger) && level().random.nextFloat() < ProductiveBeesConfig.BEE_ATTRIBUTES.damageChance.get()) {
+                hurt(isInDangerFromRain ? this.level().damageSources().drown() : this.level().damageSources().generic(), (getMaxHealth() / 3) - 1);
             }
         }
 
         // Kill below world border
-        if (this.getY() < -64.0D) {
-            this.outOfWorld();
-        }
+        this.checkBelowWorld();
     }
 
     @Override
@@ -259,13 +257,13 @@ public class ProductiveBee extends Bee
     }
 
     public boolean isFlowerValid(@Nullable BlockPos pos, Predicate<BlockState> validator, Predicate<ItemStack> itemValidator) {
-        if (pos == null || !level.isLoaded(pos)) {
+        if (pos == null || !level().isLoaded(pos)) {
             return false;
         }
 
-        BlockState flowerBlock = level.getBlockState(pos);
+        BlockState flowerBlock = level().getBlockState(pos);
 
-        return validator.test(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && (isValidFeeder(this, level.getBlockEntity(pos), validator, itemValidator)));
+        return validator.test(flowerBlock) || (flowerBlock.getBlock() instanceof Feeder && (isValidFeeder(this, level().getBlockEntity(pos), validator, itemValidator)));
     }
 
     public List<ItemStack> getBreedingItems() {
@@ -293,7 +291,7 @@ public class ProductiveBee extends Bee
     }
 
     public boolean doesHiveAcceptBee(BlockPos pos) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
+        BlockEntity blockEntity = level().getBlockEntity(pos);
         if (blockEntity instanceof AdvancedBeehiveBlockEntityAbstract) {
             return ((AdvancedBeehiveBlockEntityAbstract) blockEntity).acceptsBee(this);
         }
@@ -323,7 +321,7 @@ public class ProductiveBee extends Bee
     protected void usePlayerItem(Player player, InteractionHand hand, ItemStack stack) {
         super.usePlayerItem(player, hand, stack);
 
-        this.level.broadcastEntityEvent(this, (byte)13);
+        this.level().broadcastEntityEvent(this, (byte)13);
         this.breedItemCount++;
     }
 
@@ -340,11 +338,11 @@ public class ProductiveBee extends Bee
         if (this.stayOutOfHiveCountdown <= 0 && !this.beePollinateGoal.isPollinating() && !this.hasStung() && this.getTarget() == null) {
             boolean shouldReturnToHive = this.isTiredOfLookingForNectar() || this.hasNectar();
 
-            if (!shouldReturnToHive && !level.dimensionType().hasFixedTime()) { // in overworld, return to hive if raining or when night
+            if (!shouldReturnToHive && !level().dimensionType().hasFixedTime()) { // in overworld, return to hive if raining or when night
                 shouldReturnToHive =
-                    (level.isNight() && !canOperateDuringNight()) ||
-                    (level.isRaining() && !canOperateDuringRain()) ||
-                    (level.isThundering() && !canOperateDuringThunder());
+                    (level().isNight() && !canOperateDuringNight()) ||
+                    (level().isRaining() && !canOperateDuringRain()) ||
+                    (level().isThundering() && !canOperateDuringThunder());
             }
 
             return shouldReturnToHive && !this.isHiveNearFire();
@@ -357,16 +355,16 @@ public class ProductiveBee extends Bee
     public void setHasStung(boolean hasStung) {
         if (hasStung && getAttributeValue(BeeAttributes.ENDURANCE) == 2) {
             // 50% chance to not lose stinger
-            hasStung = level.random.nextBoolean();
+            hasStung = level().random.nextBoolean();
         }
         if (hasStung && getAttributeValue(BeeAttributes.ENDURANCE) == 3) {
             // 80% chance to not lose stinger
-            hasStung = level.random.nextFloat() < .2;
+            hasStung = level().random.nextFloat() < .2;
         }
         super.setHasStung(hasStung);
 
         if (hasStung && getBeeName().equals("kamikaz")) {
-            this.hurt(this.level.damageSources().generic(), this.getHealth());
+            this.hurt(this.level().damageSources().generic(), this.getHealth());
         }
     }
 
@@ -444,7 +442,7 @@ public class ProductiveBee extends Bee
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        return source.equals(this.level.damageSources().inWall()) || source.equals(this.level.damageSources().sweetBerryBush()) || (source.equals(this.level.damageSources().wither()) && getBeeType().contains("dye_bee")) || super.isInvulnerableTo(source);
+        return source.equals(this.level().damageSources().inWall()) || source.equals(this.level().damageSources().sweetBerryBush()) || (source.equals(this.level().damageSources().wither()) && getBeeType().contains("dye_bee")) || super.isInvulnerableTo(source);
     }
 
     @Nonnull
@@ -502,9 +500,9 @@ public class ProductiveBee extends Bee
 
         if (!this.isBaby()) {
             BlockPos pos = blockPosition();
-            if (level.isEmptyBlock(pos)) {
+            if (level().isEmptyBlock(pos)) {
                 this.setPos(pos.getX(), pos.getY(), pos.getZ());
-            } else if (level.isEmptyBlock(pos.below())) {
+            } else if (level().isEmptyBlock(pos.below())) {
                 pos = pos.below();
                 this.setPos(pos.getX(), pos.getY(), pos.getZ());
             }
@@ -539,7 +537,7 @@ public class ProductiveBee extends Bee
                             otherAnimal.isInLove()
             ) &&
                     (
-                            (level instanceof ServerLevel && BeeHelper.getRandomBreedingRecipe(this, otherAnimal, (ServerLevel) level) != null) || // check if there's an offspring recipe
+                            (level() instanceof ServerLevel serverLevel && BeeHelper.getRandomBreedingRecipe(this, otherAnimal, serverLevel) != null) || // check if there's an offspring recipe
                                     canSelfBreed() || // allows self breeding
                                     !(otherAnimal instanceof ProductiveBee) // or not a productive bee
                     );
@@ -552,24 +550,24 @@ public class ProductiveBee extends Bee
 
     public void postPollinate() {
         if (hasNectar() && savedFlowerPos != null) {
-            BlockState flowerBlockState = level.getBlockState(savedFlowerPos);
+            BlockState flowerBlockState = level().getBlockState(savedFlowerPos);
             if (BeeHelper.hasBlockConversionRecipe(this, flowerBlockState)) {
                 BlockConversionRecipe recipe = BeeHelper.getBlockConversionRecipe(this, flowerBlockState);
-                if (level.random.nextInt(100) <= recipe.chance) {
-                    level.setBlock(savedFlowerPos, recipe.stateTo, 3);
-                    level.levelEvent(2005, savedFlowerPos, 0);
+                if (recipe != null && level().random.nextInt(100) <= recipe.chance) {
+                    level().setBlock(savedFlowerPos, recipe.stateTo, 3);
+                    level().levelEvent(2005, savedFlowerPos, 0);
                 }
                 // Set flag to prevent produce when trying to convert blocks
                 setHasConverted(!recipe.pollinates);
             } else {
-                BlockEntity blockEntity = level.getBlockEntity(savedFlowerPos);
+                BlockEntity blockEntity = level().getBlockEntity(savedFlowerPos);
                 if (blockEntity instanceof FeederBlockEntity feederBlockEntity) {
-                    BlockEntity hiveBlockEntity = hivePos != null ? level.getBlockEntity(hivePos) : null;
+                    BlockEntity hiveBlockEntity = hivePos != null ? level().getBlockEntity(hivePos) : null;
                     for (ItemStack stack : feederBlockEntity.getInventoryItems()) {
                         if (stack.getItem() instanceof BlockItem blockItem) {
                             BlockConversionRecipe blockRecipe = BeeHelper.getBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState());
                             if (blockRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
-                                if (level.random.nextInt(100) <= blockRecipe.chance) {
+                                if (level().random.nextInt(100) <= blockRecipe.chance) {
                                     ItemStack output = new ItemStack(blockRecipe.stateTo.getBlock().asItem());
                                     if (beehiveBlockEntity.isSim()) {
                                         beehiveBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
@@ -578,7 +576,7 @@ public class ProductiveBee extends Bee
                                             }
                                         });
                                     } else {
-                                        Block.popResource(level, feederBlockEntity.getBlockPos().relative(Direction.UP), output);
+                                        Block.popResource(level(), feederBlockEntity.getBlockPos().relative(Direction.UP), output);
                                         stack.shrink(1);
                                     }
                                 }
@@ -588,7 +586,7 @@ public class ProductiveBee extends Bee
                         }
                         ItemConversionRecipe itemRecipe = BeeHelper.getItemConversionRecipe(this, stack);
                         if (itemRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
-                            if (level.random.nextInt(100) <= itemRecipe.chance) {
+                            if (level().random.nextInt(100) <= itemRecipe.chance) {
                                 if (beehiveBlockEntity.isSim()) {
                                     beehiveBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
                                         if (h instanceof InventoryHandlerHelper.ItemHandler itemHandler && itemHandler.addOutput(itemRecipe.output.copy())) {
@@ -596,7 +594,7 @@ public class ProductiveBee extends Bee
                                         }
                                     });
                                 } else {
-                                    Block.popResource(level, feederBlockEntity.getBlockPos().relative(Direction.UP), itemRecipe.output.copy());
+                                    Block.popResource(level(), feederBlockEntity.getBlockPos().relative(Direction.UP), itemRecipe.output.copy());
                                     stack.shrink(1);
                                 }
                             }
@@ -672,7 +670,7 @@ public class ProductiveBee extends Bee
 
         public boolean canBeeUse() {
             if (ProductiveBee.this.hivePos != null && ProductiveBee.this.wantsToEnterHive() && ProductiveBee.this.hivePos.closerToCenterThan(ProductiveBee.this.position(), 2.0D)) {
-                BlockEntity blockEntity = ProductiveBee.this.level.getBlockEntity(ProductiveBee.this.hivePos);
+                BlockEntity blockEntity = ProductiveBee.this.level().getBlockEntity(ProductiveBee.this.hivePos);
                 if (blockEntity instanceof BeehiveBlockEntity beehiveblockentity) {
                     if (!beehiveblockentity.isFull()) {
                         return true;
@@ -688,11 +686,11 @@ public class ProductiveBee extends Bee
     public class PollinateGoal extends Bee.BeePollinateGoal
     {
         public Predicate<BlockPos> flowerPredicate = (blockPos) -> {
-            BlockState blockState = ProductiveBee.this.level.getBlockState(blockPos);
+            BlockState blockState = ProductiveBee.this.level().getBlockState(blockPos);
             boolean isInterested = false;
             try {
                 if (blockState.getBlock() instanceof Feeder) {
-                    isInterested = isValidFeeder(ProductiveBee.this, level.getBlockEntity(blockPos), ProductiveBee.this::isFlowerBlock, ProductiveBee.this::isFlowerItem);
+                    isInterested = isValidFeeder(ProductiveBee.this, level().getBlockEntity(blockPos), ProductiveBee.this::isFlowerBlock, ProductiveBee.this::isFlowerItem);
                 } else {
                     isInterested = ProductiveBee.this.isFlowerBlock(blockState);
                     if (isInterested && blockState.is(BlockTags.TALL_FLOWERS)) {
@@ -718,9 +716,9 @@ public class ProductiveBee extends Bee
                 return false;
             } else if (ProductiveBee.this.hasNectar()) {
                 return false;
-            } else if (ProductiveBee.this.level.isRaining() && !ProductiveBee.this.canOperateDuringRain()) {
+            } else if (ProductiveBee.this.level().isRaining() && !ProductiveBee.this.canOperateDuringRain()) {
                 return false;
-            } else if (ProductiveBee.this.level.isThundering() && !ProductiveBee.this.canOperateDuringThunder()) {
+            } else if (ProductiveBee.this.level().isThundering() && !ProductiveBee.this.canOperateDuringThunder()) {
                 return false;
             } else {
                 Optional<BlockPos> optional = this.findNearbyFlower();
@@ -730,7 +728,7 @@ public class ProductiveBee extends Bee
                     return true;
                 }
                 // Failing to find a target will set a cooldown before next attempt
-                ProductiveBee.this.remainingCooldownBeforeLocatingNewFlower = 70 + level.random.nextInt(50);
+                ProductiveBee.this.remainingCooldownBeforeLocatingNewFlower = 70 + level().random.nextInt(50);
                 return false;
             }
         }
@@ -741,9 +739,9 @@ public class ProductiveBee extends Bee
                 return false;
             } else if (!ProductiveBee.this.hasSavedFlowerPos()) {
                 return false;
-            } else if (ProductiveBee.this.level.isRaining() && !ProductiveBee.this.canOperateDuringRain()) {
+            } else if (ProductiveBee.this.level().isRaining() && !ProductiveBee.this.canOperateDuringRain()) {
                 return false;
-            } else if (ProductiveBee.this.level.isThundering() && !ProductiveBee.this.canOperateDuringThunder()) {
+            } else if (ProductiveBee.this.level().isThundering() && !ProductiveBee.this.canOperateDuringThunder()) {
                 return false;
             } else if (this.hasPollinatedLongEnough()) {
                 return ProductiveBee.this.random.nextFloat() < 0.2F;
@@ -809,7 +807,7 @@ public class ProductiveBee extends Bee
             BlockPos blockpos = ProductiveBee.this.blockPosition();
             BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
 
-            List<Entity> entities = level.getEntities(ProductiveBee.this, (new AABB(blockpos).inflate(distance, distance, distance)), predicate);
+            List<Entity> entities = level().getEntities(ProductiveBee.this, (new AABB(blockpos).inflate(distance, distance, distance)), predicate);
             if (entities.size() > 0) {
                 PathfinderMob entity = (PathfinderMob) entities.get(0);
                 entity.getNavigation().setSpeedModifier(0);
@@ -849,7 +847,7 @@ public class ProductiveBee extends Bee
             return !ProductiveBee.this.hasRestriction() &&
                     ProductiveBee.this.wantsToEnterHive() &&
                     !this.isCloseEnough(ProductiveBee.this.hivePos) &&
-                    ProductiveBee.this.level.getBlockState(ProductiveBee.this.hivePos).is(nestTag);
+                    ProductiveBee.this.level().getBlockState(ProductiveBee.this.hivePos).is(nestTag);
         }
 
         private boolean isCloseEnough(BlockPos pos) {
@@ -863,7 +861,7 @@ public class ProductiveBee extends Bee
 
         @Override
         protected void blacklistTarget(BlockPos pos) {
-            BlockEntity tileEntity = ProductiveBee.this.level.getBlockEntity(pos);
+            BlockEntity tileEntity = ProductiveBee.this.level().getBlockEntity(pos);
             TagKey<Block> nestTag = ProductiveBee.this.getNestingTag();
             if (tileEntity != null && tileEntity.getBlockState().is(nestTag)) {
                 this.blacklistedTargets.add(pos);
@@ -905,7 +903,7 @@ public class ProductiveBee extends Bee
         private List<BlockPos> getNearbyFreeNests() {
             BlockPos pos = ProductiveBee.this.blockPosition();
 
-            PoiManager poiManager = ((ServerLevel) ProductiveBee.this.level).getPoiManager();
+            PoiManager poiManager = ((ServerLevel) ProductiveBee.this.level()).getPoiManager();
 
             Stream<PoiRecord> stream = poiManager.getInRange(ProductiveBee.this.beehiveInterests, pos, 30, PoiManager.Occupancy.ANY);
 
@@ -949,7 +947,7 @@ public class ProductiveBee extends Bee
         }
 
         public boolean canUse() {
-            // Trigger if the bee gets too far from it's hive, it will engage it to return
+            // Trigger if the bee gets too far from its hive, it will engage it to return
             return super.canUse() || (ProductiveBee.this.hivePos != null && !ProductiveBee.this.closerThan(ProductiveBee.this.hivePos, 22));
         }
     }

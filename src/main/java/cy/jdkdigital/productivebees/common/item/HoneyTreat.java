@@ -140,7 +140,7 @@ public class HoneyTreat extends Item
                 // Improve temper
                 int temper = productiveBee.getAttributeValue(BeeAttributes.TEMPER);
                 if (temper > 0) {
-                    if (player.level.random.nextFloat() < 0.05F) {
+                    if (player.level().random.nextFloat() < 0.05F) {
                         productiveBee.getBeeAttributes().put(BeeAttributes.TEMPER, --temper);
                     }
                 }

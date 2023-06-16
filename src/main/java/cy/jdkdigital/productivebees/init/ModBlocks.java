@@ -26,8 +26,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -66,12 +65,12 @@ public final class ModBlocks
     public static final RegistryObject<Block> CHERRY_WOOD_NEST = createBlock("cherry_wood_nest", () -> new WoodNest("#271620", Block.Properties.copy(Blocks.CHERRY_LOG)));
     public static final RegistryObject<Block> MANGROVE_WOOD_NEST = createBlock("mangrove_wood_nest", () -> new WoodNest("#443522", Block.Properties.copy(Blocks.MANGROVE_LOG)));
 
-    public static final RegistryObject<Block> BAMBOO_HIVE = createBlock("bamboo_hive", () -> new BambooHive(Block.Properties.of(Material.DECORATION, MaterialColor.SAND).sound(SoundType.SCAFFOLDING).strength(0.3F)));
+    public static final RegistryObject<Block> BAMBOO_HIVE = createBlock("bamboo_hive", () -> new BambooHive(Block.Properties.copy(Blocks.BAMBOO_BLOCK)));
     public static final RegistryObject<Block> DRAGON_EGG_HIVE = createBlock("dragon_egg_hive", () -> new DragonEggHive(Block.Properties.copy(Blocks.DRAGON_EGG)));
     public static final RegistryObject<Block> STONE_NEST = createBlock("stone_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.STONE)));
     public static final RegistryObject<Block> COARSE_DIRT_NEST = createBlock("coarse_dirt_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.COARSE_DIRT)));
     public static final RegistryObject<Block> SAND_NEST = createBlock("sand_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.SAND)));
-    public static final RegistryObject<Block> SNOW_NEST = createBlock("snow_nest", () -> new SolitaryNest(Block.Properties.of(Material.SAND).strength(0.2F).sound(SoundType.SNOW)));
+    public static final RegistryObject<Block> SNOW_NEST = createBlock("snow_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.SNOW_BLOCK).strength(0.2F)));
     public static final RegistryObject<Block> GRAVEL_NEST = createBlock("gravel_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.GRAVEL)));
     public static final RegistryObject<Block> SUGAR_CANE_NEST = createBlock("sugar_cane_nest", () -> new SugarCaneNest(Block.Properties.copy(Blocks.SUGAR_CANE)));
     public static final RegistryObject<Block> SLIMY_NEST = createBlock("slimy_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.SLIME_BLOCK)));
@@ -85,7 +84,7 @@ public final class ModBlocks
     public static final RegistryObject<LiquidBlock> HONEY = createBlock("honey",
             () -> new HoneyFluidBlock(
                     ModFluids.HONEY,
-                    Block.Properties.of(ModFluids.MATERIAL_HONEY).noCollission().strength(100.0F).noLootTable().color(ModFluids.MATERIAL_HONEY.getColor()).speedFactor(0.3F).jumpFactor(0.3F).friction(1.0f)
+                    Block.Properties.of().noCollission().strength(100.0F).noLootTable().mapColor(MapColor.TERRACOTTA_ORANGE).noCollission().replaceable().liquid().noLootTable().speedFactor(0.3F).jumpFactor(0.3F).friction(1.0f)
             ),
             false
     );
@@ -101,11 +100,11 @@ public final class ModBlocks
     public static final RegistryObject<Block> WARPED_BEE_NEST = createBlock("warped_bee_nest", () -> new NetherBeeNest(Block.Properties.copy(Blocks.BEE_NEST)));
     public static final RegistryObject<Block> CRIMSON_BEE_NEST = createBlock("crimson_bee_nest", () -> new NetherBeeNest(Block.Properties.copy(Blocks.BEE_NEST)));
 
-    public static final RegistryObject<Block> AMBER = createBlock("amber", () -> new Amber(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.TERRACOTTA_ORANGE).strength(0.3F).noOcclusion().sound(SoundType.GLASS)));
+    public static final RegistryObject<Block> AMBER = createBlock("amber", () -> new Amber(BlockBehaviour.Properties.copy(Blocks.ORANGE_STAINED_GLASS)));
 
-    public static final RegistryObject<Block> PETRIFIED_HONEY = createBlock("petrified_honey", () -> new Block(BlockBehaviour.Properties.of(Material.CLAY, MaterialColor.TERRACOTTA_ORANGE).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
+    public static final RegistryObject<Block> PETRIFIED_HONEY = createBlock("petrified_honey", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
     public static final List<RegistryObject<Block>> PETRIFIED_HONEY_BLOCKS = Arrays.stream(DyeColor.values()).map(dyeColor -> {
-        return createBlock(dyeColor.getSerializedName() + "_petrified_honey", () -> new Block(BlockBehaviour.Properties.of(Material.CLAY, dyeColor.getMaterialColor()).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
+        return createBlock(dyeColor.getSerializedName() + "_petrified_honey", () -> new Block(BlockBehaviour.Properties.of().mapColor(dyeColor.getMapColor()).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
     }).toList();
 
     public static final Map<String, RegistryObject<? extends Block>> HIVES = new HashMap<>();

@@ -110,6 +110,11 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     @Override
+    public TimedRecipeInterface getCurrentRecipe() {
+        return chosenRecipe;
+    }
+
+    @Override
     public int getRecipeProgress() {
         return recipeProgress;
     }

@@ -61,7 +61,7 @@ public class FarmerBee extends ProductiveBee
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        return source.equals(this.level.damageSources().cactus()) || super.isInvulnerableTo(source);
+        return source.equals(this.level().damageSources().cactus()) || super.isInvulnerableTo(source);
     }
 
     public List<BlockPos> findHarvestablesNearby(BlockPos pos, int distance) {
@@ -74,7 +74,7 @@ public class FarmerBee extends ProductiveBee
         if (blockPos == null) {
             return false;
         }
-        BlockState state = level.getBlockState(blockPos);
+        BlockState state = level().getBlockState(blockPos);
         Block block = state.getBlock();
 
         if (block instanceof CocoaBlock && state.getValue(CocoaBlock.AGE) == 2) {
@@ -89,10 +89,10 @@ public class FarmerBee extends ProductiveBee
 
         // Cactus and sugarcane blocks taller than 1 are harvestable
         if (block instanceof CactusBlock || block instanceof SugarCaneBlock) {
-            return level.getBlockState(blockPos.below()).getBlock().equals(state.getBlock());
+            return level().getBlockState(blockPos.below()).getBlock().equals(state.getBlock());
         }
 
-        return block instanceof CropBlock && !((CropBlock) block).isValidBonemealTarget(level, blockPos, state, false);
+        return block instanceof CropBlock && !((CropBlock) block).isValidBonemealTarget(level(), blockPos, state, false);
     }
 
     public class HarvestCropGoal extends Goal
@@ -161,7 +161,7 @@ public class FarmerBee extends ProductiveBee
 
         private BlockPos findNearestHarvestableTarget() {
             if (FarmerBee.this.hivePos != null) {
-                BlockEntity hive = FarmerBee.this.level.getBlockEntity(FarmerBee.this.hivePos);
+                BlockEntity hive = FarmerBee.this.level().getBlockEntity(FarmerBee.this.hivePos);
                 if (hive instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
                     int radius = 5 + beehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get());
                     List<BlockPos> harvestablesNearby = FarmerBee.this.findHarvestablesNearby(FarmerBee.this.hivePos, radius);
@@ -224,26 +224,26 @@ public class FarmerBee extends ProductiveBee
     }
 
     public void harvestBlock(BlockPos pos) {
-        BlockState cropBlockState = this.level.getBlockState(pos);
+        BlockState cropBlockState = this.level().getBlockState(pos);
         Block cropBlock = cropBlockState.getBlock();
         if (cropBlock instanceof AttachedStemBlock) {
-            BlockState fruitBlock = this.level.getBlockState(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)));
+            BlockState fruitBlock = this.level().getBlockState(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)));
             if (fruitBlock.getBlock() instanceof StemGrownBlock) {
-                this.level.destroyBlock(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)), true);
+                this.level().destroyBlock(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)), true);
             }
         } else if (cropBlock instanceof SugarCaneBlock || cropBlock instanceof CactusBlock) {
             int i = 0;
-            while (i++ < 5 && this.level.getBlockState(pos.below()).getBlock().equals(cropBlock)) {
+            while (i++ < 5 && this.level().getBlockState(pos.below()).getBlock().equals(cropBlock)) {
                 pos = pos.below();
             }
-            this.level.destroyBlock(pos.above(), true);
+            this.level().destroyBlock(pos.above(), true);
         } else if (cropBlock instanceof SweetBerryBushBlock) {
             int i = cropBlockState.getValue(SweetBerryBushBlock.AGE);
             if (i > 1) {
-                int j = 1 + this.level.random.nextInt(2);
-                Block.popResource(this.level, pos, new ItemStack(Items.SWEET_BERRIES, j + (i == 3 ? 1 : 0)));
-                this.level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + this.level.random.nextFloat() * 0.4F);
-                this.level.setBlock(pos, cropBlockState.setValue(SweetBerryBushBlock.AGE, 1), 2);
+                int j = 1 + this.level().random.nextInt(2);
+                Block.popResource(this.level(), pos, new ItemStack(Items.SWEET_BERRIES, j + (i == 3 ? 1 : 0)));
+                this.level().playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
+                this.level().setBlock(pos, cropBlockState.setValue(SweetBerryBushBlock.AGE, 1), 2);
             }
         } else {
             // right click crop if certain mods are installed
@@ -256,10 +256,10 @@ public class FarmerBee extends ProductiveBee
                             ModList.get().isLoaded("simplefarming") ||
                             ModList.get().isLoaded("reap")
             ) {
-                Player fakePlayer = FakePlayerFactory.get((ServerLevel) level, new GameProfile(FARMER_BEE_UUID, "farmer_bee"));
+                Player fakePlayer = FakePlayerFactory.get((ServerLevel) level(), new GameProfile(FARMER_BEE_UUID, "farmer_bee"));
                 ForgeHooks.onRightClickBlock(fakePlayer, InteractionHand.MAIN_HAND, pos, new BlockHitResult(this.getEyePosition(), this.getMotionDirection(), pos, true));
             } else {
-                this.level.destroyBlock(pos, true);
+                this.level().destroyBlock(pos, true);
             }
         }
     }

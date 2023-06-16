@@ -15,7 +15,7 @@ public class NomadBee extends SolitaryBee
     }
 
     public boolean isInvulnerableTo(DamageSource source) {
-        return source.equals(this.level.damageSources().cactus()) || super.isInvulnerableTo(source);
+        return source.equals(this.level().damageSources().cactus()) || super.isInvulnerableTo(source);
     }
 
     @Override

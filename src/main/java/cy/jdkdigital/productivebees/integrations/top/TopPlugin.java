@@ -96,7 +96,7 @@ public class TopPlugin implements Function<ITheOneProbe, Void>
                             .item(new ItemStack(blockState.getBlock().asItem()))
                             .vertical()
                             .itemLabel(new ItemStack(blockState.getBlock().asItem()))
-                            .progress(recipeProcessingBlockEntity.getRecipeProgress() / 20, recipeProcessingBlockEntity.getProcessingTime() / 20)
+                            .progress(recipeProcessingBlockEntity.getRecipeProgress() / 20, recipeProcessingBlockEntity.getProcessingTime(recipeProcessingBlockEntity.getCurrentRecipe()) / 20)
                             .text(CompoundText.create().style(TextStyleClass.MODNAME).text("Productive Bees"));
                     return true;
                 }

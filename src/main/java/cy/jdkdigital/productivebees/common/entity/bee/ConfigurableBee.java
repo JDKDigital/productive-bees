@@ -20,7 +20,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -44,11 +44,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -111,7 +110,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public void tick() {
         super.tick();
 
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             --teleportCooldown;
             if (--attackCooldown < 0) {
                 attackCooldown = 0;
@@ -122,7 +121,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
 
             // Draconic bees
-            if (level.dimension() == Level.END && isDraconic() && --breathCollectionCooldown <= 0) {
+            if (level().dimension() == Level.END && isDraconic() && --breathCollectionCooldown <= 0) {
                 breathCollectionCooldown = 600;
                 this.internalSetHasNectar(true);
             }
@@ -131,10 +130,10 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             if (tickCount % 21 == 0 && hasNectar() && isRedstoned()) {
                 for (int i = 1; i <= 2; ++i) {
                     BlockPos beePosDown = this.blockPosition().below(i);
-                    if (level.isEmptyBlock(beePosDown)) {
+                    if (level().isEmptyBlock(beePosDown)) {
                         BlockState redstoneState = ModBlocks.INVISIBLE_REDSTONE_BLOCK.get().defaultBlockState();
-                        level.setBlockAndUpdate(beePosDown, redstoneState);
-                        level.scheduleTick(beePosDown, redstoneState.getBlock(), 20);
+                        level().setBlockAndUpdate(beePosDown, redstoneState);
+                        level().scheduleTick(beePosDown, redstoneState.getBlock(), 20);
                     }
                 }
             }
@@ -160,7 +159,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public void aiStep() {
         super.aiStep();
         // self healing bees
-        if (!this.level.isClientSide && this.isAlive()) {
+        if (!this.level().isClientSide && this.isAlive()) {
             if (tickCount % 120 == 0 && this.canSelfHeal() && this.getHealth() < this.getMaxHealth()) {
                 this.addEffect(new MobEffectInstance(MobEffects.HEAL, 1));
             }
@@ -201,7 +200,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         if (this.teleportCooldown <= 0) {
             if (null != this.navigation.getPath() && isTeleporting()) {
                 if (this.hasHive()) {
-                    BlockEntity te = level.getBlockEntity(this.getHivePos());
+                    BlockEntity te = level().getBlockEntity(this.getHivePos());
                     if (te instanceof AdvancedBeehiveBlockEntity) {
                         int antiTeleportUpgrades = ((AdvancedBeehiveBlockEntity) te).getUpgradeCount(ModItems.UPGRADE_ANTI_TELEPORT.get());
                         if (antiTeleportUpgrades > 0) {
@@ -241,7 +240,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     target.setRemainingFireTicks(200);
                 case "lava":
                     // Place flowing lava on the targets location
-                    level.setBlock(target.blockPosition(), Blocks.LAVA.defaultBlockState(), 11);
+                    level().setBlock(target.blockPosition(), Blocks.LAVA.defaultBlockState(), 11);
             }
         }
     }
@@ -359,7 +358,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public boolean isFlowerValid(BlockPos pos) {
-        if (!level.isLoaded(pos)) {
+        if (!level().isLoaded(pos)) {
             return false;
         }
 
@@ -369,7 +368,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 if (nbt.contains("flowerTag")) {
                     TagKey<EntityType<?>> entityTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
 
-                    List<Entity> entities = level.getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), (entity -> entity.getType().is(entityTag)));
+                    List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), (entity -> entity.getType().is(entityTag)));
                     if (!entities.isEmpty()) {
                         target = (PathfinderMob) entities.get(0);
 
@@ -629,22 +628,22 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public boolean isInvulnerableTo(@Nonnull DamageSource source) {
-        if (isWithered() && source.equals(this.level.damageSources().wither())) {
+        if (isWithered() && source.equals(this.level().damageSources().wither())) {
             return true;
         }
-        if (isDraconic() && source.equals(this.level.damageSources().dragonBreath())) {
+        if (isDraconic() && source.equals(this.level().damageSources().dragonBreath())) {
             return true;
         }
-        if (isTranslucent() && source.equals(this.level.damageSources().anvil(this))) {
+        if (isTranslucent() && source.equals(this.level().damageSources().anvil(this))) {
             return true;
         }
-        if (isWaterproof() && source.equals(this.level.damageSources().drown())) {
+        if (isWaterproof() && source.equals(this.level().damageSources().drown())) {
             return true;
         }
-        if (isColdResistant() && source.equals(this.level.damageSources().freeze())) {
+        if (isColdResistant() && source.equals(this.level().damageSources().freeze())) {
             return true;
         }
-        if (isFireproof() && (source.equals(this.level.damageSources().hotFloor()) || source.equals(this.level.damageSources().inFire()) || source.equals(this.level.damageSources().onFire()) || source.equals(this.level.damageSources().lava()))) {
+        if (isFireproof() && (source.equals(this.level().damageSources().hotFloor()) || source.equals(this.level().damageSources().inFire()) || source.equals(this.level().damageSources().onFire()) || source.equals(this.level().damageSources().lava()))) {
             return true;
         }
         return super.isInvulnerableTo(source) || getInvulnerabilities().contains(source.getMsgId());
@@ -659,20 +658,26 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     private void teleport(double x, double y, double z) {
-        BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos(x, y, z);
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(x, y, z);
 
-        while (blockpos$mutable.getY() > 0 && !level.getBlockState(blockpos$mutable).getMaterial().blocksMotion()) {
-            blockpos$mutable.move(Direction.DOWN);
+        while(pos.getY() > this.level().getMinBuildHeight() && !this.level().getBlockState(pos).blocksMotion()) {
+            pos.move(Direction.DOWN);
         }
 
-        BlockState blockstate = level.getBlockState(blockpos$mutable);
-        if (blockstate.getMaterial().blocksMotion()) {
-            EntityTeleportEvent.EnderEntity event = new EntityTeleportEvent.EnderEntity(this, x, y, z);
-            if (!MinecraftForge.EVENT_BUS.post(event)) {
-                boolean hasTeleported = this.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
-                if (hasTeleported && !this.isSilent()) {
-                    level.playSound(null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 0.3F, 0.3F);
-                    this.playSound(SoundEvents.ENDERMAN_TELEPORT, 0.2F, 1.0F);
+        BlockState blockstate = this.level().getBlockState(pos);
+        boolean flag = blockstate.blocksMotion();
+        boolean flag1 = blockstate.getFluidState().is(FluidTags.WATER);
+        if (flag && !flag1) {
+            net.minecraftforge.event.entity.EntityTeleportEvent.EnderEntity event = net.minecraftforge.event.ForgeEventFactory.onEnderTeleport(this, x, y, z);
+            if (!event.isCanceled()) {
+                Vec3 vec3 = this.position();
+                boolean flag2 = this.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
+                if (flag2) {
+                    this.level().gameEvent(GameEvent.TELEPORT, vec3, GameEvent.Context.of(this));
+                    if (!this.isSilent()) {
+                        this.level().playSound(null, this.xo, this.yo, this.zo, SoundEvents.ENDERMAN_TELEPORT, this.getSoundSource(), 1.0F, 1.0F);
+                        this.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+                    }
                 }
             }
         }
@@ -685,7 +690,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         if (getNBTData().contains("postPollination")) {
             switch (getNBTData().getString("postPollination")) {
                 case "amber_encase":
-                    BeeHelper.encaseMob(target, level, this.getDirection());
+                    BeeHelper.encaseMob(target, level(), this.getDirection());
             }
         }
     }

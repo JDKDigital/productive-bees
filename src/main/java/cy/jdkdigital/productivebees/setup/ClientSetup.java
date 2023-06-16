@@ -54,15 +54,15 @@ public class ClientSetup
             ItemProperties.register(ModItems.HONEY_TREAT.get(), new ResourceLocation("genetic"), (stack, world, entity, i) -> HoneyTreat.hasGene(stack) ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.GENE.get(), new ResourceLocation("genetic"), (stack, world, entity, i) -> Gene.color(stack));
             ItemProperties.register(ModItems.NEST_LOCATOR.get(), new ResourceLocation("angle"), new ClampedItemPropertyFunction() {
-                public float unclampedCall(@Nonnull ItemStack stack, @Nullable ClientLevel world, @Nullable LivingEntity player, int i) {
+                public float unclampedCall(@Nonnull ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity player, int i) {
                     if ((player != null || stack.isFramed()) && NestLocator.hasPosition(stack)) {
                         boolean flag = player != null;
                         Entity entity = flag ? player : stack.getFrame();
-                        if (world == null && entity != null && entity.level instanceof ClientLevel) {
-                            world = (ClientLevel) entity.level;
+                        if (level == null && entity != null && entity.level() instanceof ClientLevel) {
+                            level = (ClientLevel) entity.level();
                         }
                         BlockPos pos = NestLocator.getPosition(stack);
-                        if (entity != null && world != null && pos != null) {
+                        if (entity != null && level != null && pos != null) {
                             double d1 = flag ? (double) entity.getYRot() : this.getFrameRotation((ItemFrame) entity);
                             d1 = Mth.positiveModulo(d1 / 360.0D, 1.0D);
                             double d2 = this.getPositionToAngle(pos, entity) / (double) ((float) Math.PI * 2F);

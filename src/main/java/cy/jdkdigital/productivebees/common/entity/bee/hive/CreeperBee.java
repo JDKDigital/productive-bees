@@ -47,7 +47,7 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public void tick() {
-        if (this.isAlive() && !this.level.isClientSide) {
+        if (this.isAlive() && !this.level().isClientSide) {
             int i = this.getCreeperState();
             if (i > 0 && this.timeSinceIgnited == 0) {
                 this.playSound(SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
@@ -74,11 +74,11 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     private void explode() {
-        Level.ExplosionInteraction explosionMode = getMobGriefingEvent(level, this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
+        Level.ExplosionInteraction explosionMode = getMobGriefingEvent(level(), this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         float f = this.entityData.get(POWERED) ? 2.0F : 1.0F;
         this.dead = true;
         float explosionRadius = 1.6F;
-        level.explode(this, this.getX(), this.getY(), this.getZ(), explosionRadius * f, explosionMode);
+        level().explode(this, this.getX(), this.getY(), this.getZ(), explosionRadius * f, explosionMode);
         this.discard();
         this.spawnLingeringCloud();
     }
@@ -86,7 +86,7 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
     private void spawnLingeringCloud() {
         Collection<MobEffectInstance> collection = this.getActiveEffects();
         if (!collection.isEmpty()) {
-            AreaEffectCloud areaeffectcloudentity = new AreaEffectCloud(level, this.getX(), this.getY(), this.getZ());
+            AreaEffectCloud areaeffectcloudentity = new AreaEffectCloud(level(), this.getX(), this.getY(), this.getZ());
             areaeffectcloudentity.setRadius(2.5F);
             areaeffectcloudentity.setRadiusOnUse(-0.5F);
             areaeffectcloudentity.setWaitTime(10);
@@ -97,7 +97,7 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
                 areaeffectcloudentity.addEffect(new MobEffectInstance(effectinstance));
             }
 
-            level.addFreshEntity(areaeffectcloudentity);
+            level().addFreshEntity(areaeffectcloudentity);
         }
     }
 

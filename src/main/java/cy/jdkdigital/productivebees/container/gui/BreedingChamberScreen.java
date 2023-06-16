@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.ingredient.BeeRenderer;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
@@ -9,6 +8,7 @@ import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
@@ -34,23 +34,16 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
     }
 
     @Override
-    protected void init() {
-        super.init();
-
-//        addWidget()
-    }
-
-    @Override
-    public void render(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@Nonnull GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
-        this.font.draw(matrixStack, this.title, -5.0f, 6.0F, 4210752);
-        this.font.draw(matrixStack, this.playerInventoryTitle, -5.0f, (float) (this.getYSize() - 96 + 2), 4210752);
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.drawString(font, this.title, -5, 6, 4210752);
+        guiGraphics.drawString(font, this.playerInventoryTitle, -5, (this.getYSize() - 96 + 2), 4210752);
 
         List<FormattedCharSequence> tooltipList = new ArrayList<>();
         this.menu.tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
@@ -99,28 +92,28 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
                 }
             });
         }
-        renderTooltip(matrixStack, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
+        guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
     }
 
     @Override
-    protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
 
         // Draw main screen
-        blit(matrixStack, getGuiLeft() - 13, getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 13, getGuiTop(), 0, 0, this.getXSize() + 26, this.getYSize());
 
         // Draw progress
-        int progress = (int) (this.menu.tileEntity.getRecipeProgress() * (45 / (float) this.menu.tileEntity.getProcessingTime()));
-        blit(matrixStack, getGuiLeft() + 85 - 13, getGuiTop() + 14, 202, 52, progress + 1, 22);
+        int progress = (int) (this.menu.tileEntity.getRecipeProgress() * (45 / (float) this.menu.tileEntity.getProcessingTime(this.menu.tileEntity.chosenRecipe)));
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() + 85 - 13, getGuiTop() + 14, 202, 52, progress + 1, 22);
 
         // Draw energy level
-        blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
         this.menu.tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
             int energyAmount = handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52 / 10000F));
-            blit(matrixStack, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
+            guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
         });
 
         // Draw output bee
@@ -129,7 +122,7 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
                 BeeIngredient beeIngredient = this.menu.tileEntity.chosenRecipe.offspring.get();
 
                 if (beeIngredient != null) {
-                    BeeRenderer.render(matrixStack, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient, minecraft);
+                    BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient, minecraft);
                 }
             } else {
                 this.menu.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
@@ -143,7 +136,7 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
                             if (tag1.getString("name").equals(tag2.getString("name")) && (!tag1.getBoolean("isProductiveBee") || (beeData.get() != null && (beeData.get().getCachedEntity(this.menu.tileEntity.getLevel()) instanceof ProductiveBee pBee) && pBee.canSelfBreed()))) {
                                 Supplier<BeeIngredient> beeIngredient = BeeIngredientFactory.getIngredient(tag1.getString("type"));
                                 if (beeIngredient.get() != null) {
-                                    BeeRenderer.render(matrixStack, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient.get(), minecraft);
+                                    BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient.get(), minecraft);
                                 }
                             }
                         }

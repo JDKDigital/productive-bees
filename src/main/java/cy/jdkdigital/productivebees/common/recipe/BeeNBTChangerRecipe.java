@@ -53,7 +53,7 @@ public class BeeNBTChangerRecipe implements Recipe<Container>
 
             boolean matchesItem = false;
             for (ItemStack stack : this.item.getItems()) {
-                if (ItemStack.isSame(stack, item)) {
+                if (ItemStack.isSameItem(stack, item)) {
                     var tag = item.getTag();
                     if (tag != null && tag.contains(attribute) && tag.getInt(attribute) > min && tag.getInt(attribute) < max) {
                         matchesItem = true;

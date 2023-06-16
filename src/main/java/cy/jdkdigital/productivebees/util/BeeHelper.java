@@ -50,7 +50,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -208,12 +208,12 @@ public class BeeHelper
         String cacheKey = beeInv.getIdentifier(0) + beeInv.getIdentifier(1);
         if (blockConversionRecipeMap.containsKey(cacheKey)) {
             recipes = blockConversionRecipeMap.get(cacheKey);
-        } else if (beeEntity.level instanceof ServerLevel) {
+        } else if (beeEntity.level() instanceof ServerLevel) {
             // Get block conversion recipes
-            Map<ResourceLocation, BlockConversionRecipe> allRecipes = beeEntity.level.getRecipeManager().byType(ModRecipeTypes.BLOCK_CONVERSION_TYPE.get());
+            Map<ResourceLocation, BlockConversionRecipe> allRecipes = beeEntity.level().getRecipeManager().byType(ModRecipeTypes.BLOCK_CONVERSION_TYPE.get());
             for (Map.Entry<ResourceLocation, BlockConversionRecipe> entry : allRecipes.entrySet()) {
                 BlockConversionRecipe recipe = entry.getValue();
-                if (recipe.matches(beeInv, beeEntity.level)) {
+                if (recipe.matches(beeInv, beeEntity.level())) {
                     recipes.add(recipe);
                 }
             }
@@ -222,7 +222,7 @@ public class BeeHelper
         }
 
         if (!recipes.isEmpty()) {
-            return recipes.get(beeEntity.level.random.nextInt(recipes.size()));
+            return recipes.get(beeEntity.level().random.nextInt(recipes.size()));
         }
         return null;
     }
@@ -237,12 +237,12 @@ public class BeeHelper
         String cacheKey = beeInv.getIdentifier(0) + beeInv.getIdentifier(1);
         if (itemConversionRecipeMap.containsKey(cacheKey)) {
             recipes = itemConversionRecipeMap.get(cacheKey);
-        } else if (beeEntity.level instanceof ServerLevel) {
+        } else if (beeEntity.level() instanceof ServerLevel) {
             // Get item conversion recipes
-            Map<ResourceLocation, ItemConversionRecipe> allRecipes = beeEntity.level.getRecipeManager().byType(ModRecipeTypes.ITEM_CONVERSION_TYPE.get());
+            Map<ResourceLocation, ItemConversionRecipe> allRecipes = beeEntity.level().getRecipeManager().byType(ModRecipeTypes.ITEM_CONVERSION_TYPE.get());
             for (Map.Entry<ResourceLocation, ItemConversionRecipe> entry : allRecipes.entrySet()) {
                 ItemConversionRecipe recipe = entry.getValue();
-                if (recipe.matches(beeInv, beeEntity.level)) {
+                if (recipe.matches(beeInv, beeEntity.level())) {
                     recipes.add(recipe);
                 }
             }
@@ -251,7 +251,7 @@ public class BeeHelper
         }
 
         if (!recipes.isEmpty()) {
-            return recipes.get(beeEntity.level.random.nextInt(recipes.size()));
+            return recipes.get(beeEntity.level().random.nextInt(recipes.size()));
         }
         return null;
     }
@@ -266,10 +266,10 @@ public class BeeHelper
         String cacheKey = inv.getIdentifier(0) + inv.getIdentifier(1);
         if (nbtChangerRecipeMap.containsKey(cacheKey)) {
             recipes = nbtChangerRecipeMap.get(cacheKey);
-        } else if (beeEntity.level instanceof ServerLevel) {
-            Map<ResourceLocation, BeeNBTChangerRecipe> allRecipes = beeEntity.level.getRecipeManager().byType(ModRecipeTypes.BEE_NBT_CHANGER_TYPE.get());
+        } else if (beeEntity.level() instanceof ServerLevel) {
+            Map<ResourceLocation, BeeNBTChangerRecipe> allRecipes = beeEntity.level().getRecipeManager().byType(ModRecipeTypes.BEE_NBT_CHANGER_TYPE.get());
             for (Map.Entry<ResourceLocation, BeeNBTChangerRecipe> entry : allRecipes.entrySet()) {
-                if (entry.getValue().matches(inv, beeEntity.level)) {
+                if (entry.getValue().matches(inv, beeEntity.level())) {
                     recipes.add(entry.getValue());
                 }
             }
@@ -277,7 +277,7 @@ public class BeeHelper
             nbtChangerRecipeMap.put(cacheKey, recipes);
         }
         if (!recipes.isEmpty()) {
-            return recipes.get(beeEntity.level.random.nextInt(recipes.size()));
+            return recipes.get(beeEntity.level().random.nextInt(recipes.size()));
         }
         return null;
     }
@@ -374,10 +374,10 @@ public class BeeHelper
                 }
 
                 if (entity != null) {
-                    LootTable lootTable = serverLevel.getServer().getLootTables().get(entity.getLootTable());
-                    if (lootTable != null) {
+                    LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(entity.getLootTable());
+                    if (!lootTable.equals(LootTable.EMPTY)) {
                         Player fakePlayer = FakePlayerFactory.get(serverLevel, new GameProfile(WannaBee.WANNA_BEE_UUID, "wanna_bee"));
-                        LootContext.Builder lootContextBuilder = new LootContext.Builder(serverLevel);
+                        LootParams.Builder lootContextBuilder = new LootParams.Builder(serverLevel);
                         lootContextBuilder.withParameter(LootContextParams.LAST_DAMAGE_PLAYER, fakePlayer);
                         lootContextBuilder.withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic());
                         lootContextBuilder.withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, fakePlayer);
@@ -458,19 +458,19 @@ public class BeeHelper
 
         Map<BeeAttribute<?>, Object> attributeMapChild = newBee.getBeeAttributes();
 
-        int parentProductivity = Mth.nextInt(newBee.level.random, (int) attributeMapParent1.get(BeeAttributes.PRODUCTIVITY), (int) attributeMapParent2.get(BeeAttributes.PRODUCTIVITY));
+        int parentProductivity = Mth.nextInt(newBee.level().random, (int) attributeMapParent1.get(BeeAttributes.PRODUCTIVITY), (int) attributeMapParent2.get(BeeAttributes.PRODUCTIVITY));
         newBee.setAttributeValue(BeeAttributes.PRODUCTIVITY, Math.max((int) attributeMapChild.get(BeeAttributes.PRODUCTIVITY), parentProductivity));
 
-        int parentEndurance = Mth.nextInt(newBee.level.random, (int) attributeMapParent1.get(BeeAttributes.ENDURANCE), (int) attributeMapParent2.get(BeeAttributes.ENDURANCE));
+        int parentEndurance = Mth.nextInt(newBee.level().random, (int) attributeMapParent1.get(BeeAttributes.ENDURANCE), (int) attributeMapParent2.get(BeeAttributes.ENDURANCE));
         newBee.setAttributeValue(BeeAttributes.ENDURANCE, Math.max((int) attributeMapChild.get(BeeAttributes.ENDURANCE), parentEndurance));
 
-        int parentTemper = Mth.nextInt(newBee.level.random, (int) attributeMapParent1.get(BeeAttributes.TEMPER), (int) attributeMapParent2.get(BeeAttributes.TEMPER));
+        int parentTemper = Mth.nextInt(newBee.level().random, (int) attributeMapParent1.get(BeeAttributes.TEMPER), (int) attributeMapParent2.get(BeeAttributes.TEMPER));
         newBee.setAttributeValue(BeeAttributes.TEMPER, Math.min((int) attributeMapChild.get(BeeAttributes.TEMPER), parentTemper));
 
-        int parentBehavior = Mth.nextInt(newBee.level.random, (int) attributeMapParent1.get(BeeAttributes.BEHAVIOR), (int) attributeMapParent2.get(BeeAttributes.BEHAVIOR));
+        int parentBehavior = Mth.nextInt(newBee.level().random, (int) attributeMapParent1.get(BeeAttributes.BEHAVIOR), (int) attributeMapParent2.get(BeeAttributes.BEHAVIOR));
         newBee.setAttributeValue(BeeAttributes.BEHAVIOR, Math.max((int) attributeMapChild.get(BeeAttributes.BEHAVIOR), parentBehavior));
 
-        int parentWeatherTolerance = Mth.nextInt(newBee.level.random, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
+        int parentWeatherTolerance = Mth.nextInt(newBee.level().random, (int) attributeMapParent1.get(BeeAttributes.WEATHER_TOLERANCE), (int) attributeMapParent2.get(BeeAttributes.WEATHER_TOLERANCE));
         newBee.setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, Math.max((int) attributeMapChild.get(BeeAttributes.WEATHER_TOLERANCE), parentWeatherTolerance));
     }
 

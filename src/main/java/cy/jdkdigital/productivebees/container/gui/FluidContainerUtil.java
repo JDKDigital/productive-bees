@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.container.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -38,11 +39,11 @@ class FluidContainerUtil
         RenderSystem.setShaderTexture(0, texture);
     }
 
-    public static void renderFluidTank(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int capacity, int x, int y, int width, int height, int depth) {
+    public static void renderFluidTank(GuiGraphics matrices, AbstractContainerScreen<?> screen, FluidStack stack, int capacity, int x, int y, int width, int height, int depth) {
         renderFluidTank(matrices, screen, stack, stack.getAmount(), capacity, x, y, width, height, depth);
     }
 
-    public static void renderFluidTank(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int amount, int capacity, int x, int y, int width, int height, int depth) {
+    public static void renderFluidTank(GuiGraphics matrices, AbstractContainerScreen<?> screen, FluidStack stack, int amount, int capacity, int x, int y, int width, int height, int depth) {
         if(!stack.isEmpty() && capacity > 0) {
             int maxY = y + height;
             int fluidHeight = Math.min(height * amount / capacity, height);
@@ -50,7 +51,7 @@ class FluidContainerUtil
         }
     }
 
-    public static void renderTiledFluid(PoseStack matrices, AbstractContainerScreen<?> screen, FluidStack stack, int x, int y, int width, int height, int depth) {
+    public static void renderTiledFluid(GuiGraphics matrices, AbstractContainerScreen<?> screen, FluidStack stack, int x, int y, int width, int height, int depth) {
         if (!stack.isEmpty()) {
             var attributes = IClientFluidTypeExtensions.of(stack.getFluid());
             TextureAtlasSprite fluidSprite = screen.getMinecraft().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(attributes.getStillTexture());
@@ -60,7 +61,7 @@ class FluidContainerUtil
         }
     }
 
-    public static void renderTiledTextureAtlas(PoseStack matrices, AbstractContainerScreen<?> screen, TextureAtlasSprite sprite, int x, int y, int width, int height, int depth, boolean upsideDown) {
+    public static void renderTiledTextureAtlas(GuiGraphics matrices, AbstractContainerScreen<?> screen, TextureAtlasSprite sprite, int x, int y, int width, int height, int depth, boolean upsideDown) {
         // start drawing sprites
         bindTexture(sprite.atlasLocation());
         BufferBuilder builder = Tesselator.getInstance().getBuilder();
@@ -81,7 +82,7 @@ class FluidContainerUtil
             // we need to draw the quads per width too
             int x2 = startX;
             int widthLeft = width;
-            Matrix4f matrix = matrices.last().pose();
+            Matrix4f matrix = matrices.pose().last().pose();
             // tile horizontally
             do {
                 int renderWidth = Math.min(spriteWidth, widthLeft);

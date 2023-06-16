@@ -6,9 +6,6 @@ import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
@@ -17,7 +14,7 @@ import snownee.jade.api.config.IPluginConfig;
 
 import java.util.List;
 
-public class SolitaryNestProvider implements IBlockComponentProvider, IServerDataProvider<BlockEntity>
+public class SolitaryNestProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor>
 {
     public static final ResourceLocation UID = new ResourceLocation(ProductiveBees.MODID, "solitary_nest");
 
@@ -49,9 +46,10 @@ public class SolitaryNestProvider implements IBlockComponentProvider, IServerDat
         }
     }
 
-    public void appendServerData(CompoundTag tag, ServerPlayer player, Level world, BlockEntity te, boolean showDetails) {
+    @Override
+    public void appendServerData(CompoundTag tag, BlockAccessor blockAccessor) {
         tag.getAllKeys().clear();
-        if (te instanceof SolitaryNestBlockEntity nest) {
+        if (blockAccessor.getBlockEntity() instanceof SolitaryNestBlockEntity nest) {
             nest.savePacketNBT(tag);
         }
     }

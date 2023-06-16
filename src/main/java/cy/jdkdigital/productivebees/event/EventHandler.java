@@ -23,7 +23,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
-import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -52,7 +52,7 @@ import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
@@ -76,16 +76,8 @@ import java.util.Map;
 public class EventHandler
 {
     @SubscribeEvent
-    public static void tab(CreativeModeTabEvent.Register event) {
-        ProductiveBees.TAB = event.registerCreativeModeTab(new ResourceLocation(ProductiveBees.MODID, ProductiveBees.MODID), builder -> {
-            builder.icon(() -> new ItemStack(Items.BEE_NEST));
-            builder.title(Component.literal("Productive Bees"));
-        });
-    }
-
-    @SubscribeEvent
-    public static void tabContents(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab().equals(ProductiveBees.TAB)) {
+    public static void tabContents(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey().equals(ProductiveBees.TAB_KEY)) {
             for (RegistryObject<Item> item: ModItems.ITEMS.getEntries()) {
                 if (
                     !item.equals(ModItems.CONFIGURABLE_HONEYCOMB) &&
@@ -138,7 +130,7 @@ public class EventHandler
             event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 3, 1, 100));
         }
 
-        if (event.getTab().equals(ProductiveBees.TAB) || event.getTab().equals(CreativeModeTabs.SPAWN_EGGS)) {
+        if (event.getTabKey().equals(ProductiveBees.TAB_KEY) || event.getTabKey().equals(CreativeModeTabs.SPAWN_EGGS)) {
             for (RegistryObject<Item> spawnEgg: ModItems.SPAWN_EGGS) {
                 if (!spawnEgg.equals(ModItems.CONFIGURABLE_SPAWN_EGG)) {
                     event.accept(spawnEgg);
@@ -336,7 +328,7 @@ public class EventHandler
     public static void cocoaBreakSpawn(BlockEvent.BreakEvent event) {
         if (event.getState().getBlock().equals(Blocks.COCOA) && event.getState().getValue(CocoaBlock.AGE) == 2) {
             Player player = event.getPlayer();
-            Level level = player.level;
+            Level level = player.level();
             if (level instanceof ServerLevel && player instanceof ServerPlayer && level.random.nextFloat() < ProductiveBeesConfig.BEES.sugarbagBeeChance.get()) {
                 ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(level);
                 BlockPos pos = event.getPos();
@@ -386,15 +378,15 @@ public class EventHandler
         Player player = event.getEntity();
         if (player != null) {
             BlockPos pos = event.getHookEntity().blockPosition();
-            Biome fishingBiome = player.level.getBiome(pos).value();
+            Biome fishingBiome = player.level().getBiome(pos).value();
             List<BeeFishingRecipe> possibleRecipes = new ArrayList<>();
-            var recipes = BeeFishingRecipe.getRecipeList(fishingBiome, player.level);
+            var recipes = BeeFishingRecipe.getRecipeList(fishingBiome, player.level());
             if (!recipes.isEmpty()) {
                 for (BeeFishingRecipe recipe: recipes) {
-                    boolean willSpawn = player.level.random.nextDouble() < recipe.chance;
+                    boolean willSpawn = player.level().random.nextDouble() < recipe.chance;
                     int fishingLuck = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FISHING_LUCK, player.getMainHandItem());
                     for (int i = 0; i < (1 + fishingLuck); i++) {
-                        willSpawn = willSpawn || player.level.random.nextDouble() < recipe.chance;
+                        willSpawn = willSpawn || player.level().random.nextDouble() < recipe.chance;
                     }
 
                     if (willSpawn) {
@@ -404,9 +396,9 @@ public class EventHandler
             }
 
             if (!possibleRecipes.isEmpty()) {
-                BeeFishingRecipe chosenRecipe = possibleRecipes.get(player.level.random.nextInt(possibleRecipes.size()));
+                BeeFishingRecipe chosenRecipe = possibleRecipes.get(player.level().random.nextInt(possibleRecipes.size()));
                 BeeIngredient beeIngredient = chosenRecipe.output.get();
-                Bee bee = (Bee) beeIngredient.getBeeEntity().create(player.level);
+                Bee bee = (Bee) beeIngredient.getBeeEntity().create(player.level());
                 if (bee != null) {
                     if (bee instanceof ConfigurableBee configBee) {
                         configBee.setBeeType(beeIngredient.getBeeType().toString());
@@ -415,10 +407,10 @@ public class EventHandler
 
                     bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
 
-                    player.level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
-                    player.level.playSound(player, pos, SoundEvents.BEE_HURT, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                    player.level().addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
+                    player.level().playSound(player, pos, SoundEvents.BEE_HURT, SoundSource.NEUTRAL, 1.0F, 1.0F);
 
-                    player.level.addFreshEntity(bee);
+                    player.level().addFreshEntity(bee);
                     bee.setTarget(player);
 
                     ModAdvancements.FISH_BEE.trigger((ServerPlayer) player, bee);

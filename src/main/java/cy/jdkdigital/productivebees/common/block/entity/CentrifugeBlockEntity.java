@@ -125,13 +125,19 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     }
 
     @Override
+    public TimedRecipeInterface getCurrentRecipe() {
+        return currentRecipe;
+    }
+
+    @Override
     public int getRecipeProgress() {
         return recipeProgress;
     }
 
+    @Override
     public int getProcessingTime(TimedRecipeInterface recipe) {
         return (int) (
-                (recipe != null ? recipe.getProcessingTime() : 300) * getProcessingTimeModifier()
+                (recipe != null ? recipe.getProcessingTime() : ProductiveBeesConfig.GENERAL.centrifugeProcessingTime.get()) * getProcessingTimeModifier()
         );
     }
 

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "group": "expansion_boxes",
-  "ingredient": {
-    "tag": "productivebees:canvas_expansion_boxes"
-  },
-  "result": "productivebees:expansion_box_jungle_canvas"
-}

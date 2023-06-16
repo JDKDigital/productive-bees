@@ -10,6 +10,7 @@ import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
 import cy.jdkdigital.productivebees.loot.OptionalLootItem;
+import cy.jdkdigital.productivebees.loot.condition.OptionalCopyBlockState;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -19,6 +20,9 @@ import cy.jdkdigital.productivebees.setup.ServerProxy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -32,6 +36,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -67,10 +73,23 @@ public final class ProductiveBees
     public static final IProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
     public static final Logger LOGGER = LogManager.getLogger();
-    public static CreativeModeTab TAB;
 
     public static final DeferredRegister<LootPoolEntryType> LOOT_POOL_ENTRIES = DeferredRegister.create(Registries.LOOT_POOL_ENTRY_TYPE, MODID);
+    public static final DeferredRegister<LootItemConditionType> LOOT_POOL_CONDITIONS = DeferredRegister.create(Registries.LOOT_CONDITION_TYPE, MODID);
+    public static final DeferredRegister<LootItemFunctionType> LOOT_POOL_FUNCTIONS = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, MODID);
+
     public static final RegistryObject<LootPoolEntryType> OPTIONAL_LOOT_ITEM = LOOT_POOL_ENTRIES.register("optional_loot_item", () -> new LootPoolEntryType(new OptionalLootItem.Serializer()));
+    public static final RegistryObject<LootItemFunctionType> OPTIONAL_BLOCK_STATE_PROPERTY = LOOT_POOL_FUNCTIONS.register("optional_copy_block_state", () -> new LootItemFunctionType(new OptionalCopyBlockState.Serializer()));
+
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+
+    public static ResourceKey<CreativeModeTab> TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(MODID, MODID));
+    public static RegistryObject<CreativeModeTab> TAB = CREATIVE_MODE_TABS.register(MODID, () -> {
+        return CreativeModeTab.builder()
+                .icon(() -> new ItemStack(Items.BEE_NEST))
+                .title(Component.literal("Productive Bees"))
+                .build();
+    });
 
     public ProductiveBees() {
         ModBlocks.registerHives();
@@ -103,11 +122,11 @@ public final class ProductiveBees
         ModParticles.PARTICLE_TYPES.register(modEventBus);
         ModLootModifiers.LOOT_SERIALIZERS.register(modEventBus);
         LOOT_POOL_ENTRIES.register(modEventBus);
+        CREATIVE_MODE_TABS.register(modEventBus);
 
         modEventBus.addListener(this::onInterModEnqueue);
         modEventBus.addListener(this::onCommonSetup);
         modEventBus.addListener(EventHandler::onEntityAttributeCreate);
-        modEventBus.addListener(EventHandler::tab);
         modEventBus.addListener(EventHandler::tabContents);
 
         // Config loading
@@ -139,7 +158,7 @@ public final class ProductiveBees
                     bee.breathCollectionCooldown-= event.getAmount();
                 }
                 event.setCanceled(true);
-                bee.level.broadcastEntityEvent(bee, (byte) 2);
+                bee.level().broadcastEntityEvent(bee, (byte) 2);
             }
         }
     }
@@ -149,7 +168,7 @@ public final class ProductiveBees
             if (
                     event.getSource().getMsgId().equals("mekanism.radiation") &&
                     bee.getBeeType().equals("productivebees:radioactive") &&
-                    ProductiveBeesConfig.BEES.deadBeeConvertChance.get() > event.getEntity().getLevel().random.nextDouble() &&
+                    ProductiveBeesConfig.BEES.deadBeeConvertChance.get() > event.getEntity().level().random.nextDouble() &&
                     BeeIngredientFactory.getIngredient("productivebees:wasted_radioactive").get() != null
             ) {
                 event.setCanceled(true);
@@ -168,8 +187,8 @@ public final class ProductiveBees
                 isWearingBeeHelmet = true;
             }
 
-            if (isWearingBeeHelmet && player.level.random.nextDouble() < ProductiveBeesConfig.BEES.kamikazBeeChance.get()) {
-                Level level = player.getLevel();
+            if (isWearingBeeHelmet && player.level().random.nextDouble() < ProductiveBeesConfig.BEES.kamikazBeeChance.get()) {
+                Level level = player.level();
                 ConfigurableBee bee = ModEntities.CONFIGURABLE_BEE.get().create(level);
                 BlockPos pos = player.blockPosition();
                 if (bee != null) {
