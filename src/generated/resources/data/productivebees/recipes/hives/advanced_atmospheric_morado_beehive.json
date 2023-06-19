@@ -1,0 +1,46 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "atmospheric"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "group": "hives",
+        "key": {
+          "C": {
+            "tag": "forge:honeycombs"
+          },
+          "F": {
+            "tag": "forge:campfires"
+          },
+          "H": {
+            "tag": "forge:hives"
+          },
+          "S": {
+            "tag": "forge:shears"
+          },
+          "W": [
+            {
+              "item": "atmospheric:morado_planks"
+            }
+          ]
+        },
+        "pattern": [
+          "WWW",
+          "CHC",
+          "FWS"
+        ],
+        "result": {
+          "item": "productivebees:advanced_atmospheric_morado_beehive"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

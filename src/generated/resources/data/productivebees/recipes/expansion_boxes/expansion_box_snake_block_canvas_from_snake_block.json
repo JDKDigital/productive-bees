@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "expansion_boxes",
+  "key": {
+    "H": {
+      "item": "productivebees:expansion_box_snake_block"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "PHP",
+    "PPP"
+  ],
+  "result": {
+    "item": "productivebees:expansion_box_snake_block_canvas"
+  },
+  "show_notification": true
+}

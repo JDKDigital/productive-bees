@@ -1,0 +1,94 @@
+{
+  "variants": {
+    "expanded=back,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/back",
+      "y": 90
+    },
+    "expanded=back,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/back"
+    },
+    "expanded=back,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/back",
+      "y": 180
+    },
+    "expanded=back,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/back",
+      "y": 270
+    },
+    "expanded=down,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/down",
+      "y": 90
+    },
+    "expanded=down,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/down"
+    },
+    "expanded=down,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/down",
+      "y": 180
+    },
+    "expanded=down,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/down",
+      "y": 270
+    },
+    "expanded=left,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/left",
+      "y": 90
+    },
+    "expanded=left,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/left"
+    },
+    "expanded=left,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/left",
+      "y": 180
+    },
+    "expanded=left,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/left",
+      "y": 270
+    },
+    "expanded=none,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/small",
+      "y": 90
+    },
+    "expanded=none,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/small"
+    },
+    "expanded=none,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/small",
+      "y": 180
+    },
+    "expanded=none,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/small",
+      "y": 270
+    },
+    "expanded=right,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/right",
+      "y": 90
+    },
+    "expanded=right,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/right"
+    },
+    "expanded=right,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/right",
+      "y": 180
+    },
+    "expanded=right,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/right",
+      "y": 270
+    },
+    "expanded=up,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/up",
+      "y": 90
+    },
+    "expanded=up,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/up"
+    },
+    "expanded=up,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/up",
+      "y": 180
+    },
+    "expanded=up,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/bamboo/up",
+      "y": 270
+    }
+  }
+}

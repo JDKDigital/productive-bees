@@ -22,7 +22,7 @@ public class CanvasExpansionBoxBlockEntity extends ExpansionBoxBlockEntity imple
 
     @Override
     public BlockEntityType<?> getType() {
-        return box.getBlockEntitySupplier().get();
+        return box != null ? box.getBlockEntitySupplier().get() : super.getType();
     }
 
     public void setColor(int color) {

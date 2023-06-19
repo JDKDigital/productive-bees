@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "hives",
+  "key": {
+    "H": {
+      "item": "productivebees:advanced_crimson_beehive"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "PHP",
+    "PPP"
+  ],
+  "result": {
+    "item": "productivebees:advanced_crimson_canvas_beehive"
+  },
+  "show_notification": true
+}

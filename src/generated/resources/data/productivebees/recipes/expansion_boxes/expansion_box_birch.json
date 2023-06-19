@@ -1,0 +1,35 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "productivebees"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "group": "expansion_boxes",
+        "key": {
+          "C": {
+            "tag": "forge:honeycombs"
+          },
+          "W": {
+            "item": "minecraft:birch_planks"
+          }
+        },
+        "pattern": [
+          "WWW",
+          "WCW",
+          "WWW"
+        ],
+        "result": {
+          "item": "productivebees:expansion_box_birch"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

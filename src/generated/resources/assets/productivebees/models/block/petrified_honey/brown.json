@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/honey_block",
+  "render_type": "translucent",
+  "textures": {
+    "down": "productivebees:block/petrified_honey/brown_bottom",
+    "particle": "productivebees:block/petrified_honey/brown_top",
+    "side": "productivebees:block/petrified_honey/brown_side",
+    "up": "productivebees:block/petrified_honey/brown_top"
+  }
+}

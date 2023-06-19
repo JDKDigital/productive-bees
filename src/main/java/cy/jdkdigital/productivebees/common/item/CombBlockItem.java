@@ -24,7 +24,7 @@ public class CombBlockItem extends BlockItem
                 return nbt.getInt("primaryColor");
             }
         }
-        return 0;
+        return -1;
     }
 
     @Nonnull

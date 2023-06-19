@@ -108,7 +108,7 @@ public class ClientSetupEvents
         for (RegistryObject<Block> registryBlock : ModBlocks.BLOCKS.getEntries()) {
             Block block = registryBlock.get();
             if (block instanceof CombBlock) {
-                event.register((blockState, lightReader, pos, tintIndex) -> ((CombBlock) block).getColor(lightReader, pos), block);
+                event.register((blockState, lightReader, pos, tintIndex) -> tintIndex == 0 ? ((CombBlock) block).getColor(lightReader, pos) : -1, block);
             }
             if (block instanceof WoodNest) {
                 event.register((blockState, lightReader, pos, tintIndex) -> ((WoodNest) block).getColor(tintIndex), block);
@@ -121,7 +121,7 @@ public class ClientSetupEvents
                     if (!type.hasTexture()) {
                         name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
                         TextColor primary = TextColor.parseColor(type.primary());
-                        event.register((blockState, lightReader, pos, tintIndex) -> tintIndex == 0 ? primary.getValue() : -1, ModBlocks.HIVES.get("advanced_" + name + "_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + name).get());
+                        event.register((blockState, lightReader, pos, tintIndex) -> tintIndex == 0 && primary != null ? primary.getValue() : -1, ModBlocks.HIVES.get("advanced_" + name + "_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + name).get());
                     }
                 });
             }
@@ -136,7 +136,7 @@ public class ClientSetupEvents
                     return canvasBlockEntity.getColor(tintIndex);
                 }
             }
-            return 16777215;
+            return -1;
         }, ModBlocks.HIVES.get("advanced_" + style + "_canvas_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + style + "_canvas").get()));
     }
 

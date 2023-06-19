@@ -22,7 +22,6 @@ out
 /eclipse
 /run
 /gen
-/src/generated
 
 # Files from Forge MDK
 changelog.txt

@@ -1,0 +1,94 @@
+{
+  "variants": {
+    "expanded=back,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/back",
+      "y": 90
+    },
+    "expanded=back,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/back"
+    },
+    "expanded=back,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/back",
+      "y": 180
+    },
+    "expanded=back,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/back",
+      "y": 270
+    },
+    "expanded=down,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/down",
+      "y": 90
+    },
+    "expanded=down,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/down"
+    },
+    "expanded=down,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/down",
+      "y": 180
+    },
+    "expanded=down,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/down",
+      "y": 270
+    },
+    "expanded=left,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/left",
+      "y": 90
+    },
+    "expanded=left,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/left"
+    },
+    "expanded=left,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/left",
+      "y": 180
+    },
+    "expanded=left,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/left",
+      "y": 270
+    },
+    "expanded=none,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/small",
+      "y": 90
+    },
+    "expanded=none,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/small"
+    },
+    "expanded=none,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/small",
+      "y": 180
+    },
+    "expanded=none,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/small",
+      "y": 270
+    },
+    "expanded=right,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/right",
+      "y": 90
+    },
+    "expanded=right,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/right"
+    },
+    "expanded=right,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/right",
+      "y": 180
+    },
+    "expanded=right,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/right",
+      "y": 270
+    },
+    "expanded=up,facing=east": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/up",
+      "y": 90
+    },
+    "expanded=up,facing=north": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/up"
+    },
+    "expanded=up,facing=south": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/up",
+      "y": 180
+    },
+    "expanded=up,facing=west": {
+      "model": "productivebees:block/tinted_expansion_box/hellbark/up",
+      "y": 270
+    }
+  }
+}

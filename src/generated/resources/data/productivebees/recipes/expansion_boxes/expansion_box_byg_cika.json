@@ -1,0 +1,37 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "byg"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "group": "expansion_boxes",
+        "key": {
+          "C": {
+            "tag": "forge:honeycombs"
+          },
+          "W": [
+            {
+              "item": "byg:cika_planks"
+            }
+          ]
+        },
+        "pattern": [
+          "WWW",
+          "WCW",
+          "WWW"
+        ],
+        "result": {
+          "item": "productivebees:expansion_box_byg_cika"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

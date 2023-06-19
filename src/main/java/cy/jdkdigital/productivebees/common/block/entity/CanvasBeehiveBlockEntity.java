@@ -20,7 +20,7 @@ public class CanvasBeehiveBlockEntity extends AdvancedBeehiveBlockEntity impleme
     @NotNull
     @Override
     public BlockEntityType<?> getType() {
-        return hiveBlock.getBlockEntitySupplier().get();
+        return hiveBlock != null ? hiveBlock.getBlockEntitySupplier().get() : super.getType();
     }
 
     public void setColor(int color) {
