@@ -268,11 +268,12 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
                             double totalProductivityMod = normalUpgradeMod + highEndUpgradeMod + nuclearUpgradeMod + cosmicUpgradeMod;
 
-                            if (totalProductivityMod > 0) {
+                            if (totalProductivityMod >= 1.0) {
                                 double upgradeMod = stack.getCount() * totalProductivityMod;
                                 stack.setCount(Math.round((float) upgradeMod));
                             }
 
+                            //TODO remove
                             System.out.println("----------------------------------");
                             System.out.println(String.format("normalUpgradeMod: %s [%s]", normalUpgradeMod, normalProductivityUpgrades));
                             System.out.println(String.format("highEndUpgradeMod: %s [%s]", highEndUpgradeMod, highEndProductivityUpgrades));
