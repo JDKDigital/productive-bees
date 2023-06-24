@@ -2,7 +2,7 @@
     "primaryColor": "#FFC0CB",
     "secondaryColor": "#FFFF00",
     "particleColor": "#FFC0CB",
-    "size": 0.5,
+    "size": 0.6,
     "renderer": "thicc",
     "createComb": false,
     "description": "productivebees.ingredient.description.pepto_bismol_bee",

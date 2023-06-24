@@ -1,10 +1,11 @@
 1.20
 
+- butcher bee
+- sim support for cubee
 - move configs into recipes
-- sussy bee that the sniffer digs up, turns sand and gravel into sussy versions
 - no insert cage when not sim
 - proper sugarbag nest spawn (mangrove and jungle)
-- fix up Create mixin recipes to support more stuff
+- fix up Create mixin recipes to support more stuff and fix disable conditions
 - sticky sponge, sponge soaking up honey becomes sticky instead of wet, eat it to clean it
 - double feeding slab with double inventory
 - increased crop pollination for solitary bees

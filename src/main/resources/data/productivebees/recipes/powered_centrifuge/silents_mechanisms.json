@@ -6,10 +6,10 @@
     ],
     "key": {
         "R": {
-            "tag": "forge:raw_materials/redstone_alloy"
+            "tag": "forge:ingots/redstone_alloy"
         },
         "I": {
-            "tag": "forge:raw_materials/bismuth_brass"
+            "tag": "forge:ingots/bismuth_brass"
         },
         "B": {
             "item": "silents_mechanisms:alloy_machine_frame"

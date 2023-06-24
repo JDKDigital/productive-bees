@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:block_conversion",
+    "bee": "productivebees:sussy",
+    "from": {
+        "Name": "minecraft:sand"
+    },
+    "to": {
+        "Name": "minecraft:suspicious_sand"
+    },
+    "chance": 70,
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:sussy"
+        }
+    ]
+}

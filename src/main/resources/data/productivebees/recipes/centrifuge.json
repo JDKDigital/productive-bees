@@ -7,7 +7,7 @@
     ],
     "key": {
         "I": {
-            "tag": "forge:raw_materials/iron"
+            "tag": "forge:ingots/iron"
         },
         "G": {
             "item": "minecraft:grindstone"

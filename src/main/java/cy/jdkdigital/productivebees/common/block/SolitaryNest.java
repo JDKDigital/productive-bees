@@ -42,6 +42,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
             .put(Blocks.SNOW_BLOCK, ModBlocks.SNOW_NEST.get())
             .put(Blocks.GRAVEL, ModBlocks.GRAVEL_NEST.get())
         .build());
-    Map<ItemStack, List<BeeSpawningRecipe>> recipes = new HashMap<>();
+    Map<String, List<BeeSpawningRecipe>> recipes = new HashMap<>();
 
     public SolitaryNest(Properties properties) {
         super(properties);
@@ -113,8 +114,9 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
     public List<BeeSpawningRecipe> getSpawningRecipes(Level level, Holder<Biome> biome, ItemStack heldItem) {
         List<BeeSpawningRecipe> spawningRecipes = new ArrayList<>();
+        String cacheKey = ForgeRegistries.ITEMS.getKey(heldItem.getItem()) + "_" + ForgeRegistries.BLOCKS.getKey(defaultBlockState().getBlock());
         // Get and cache recipes for nest type
-        if (!recipes.containsKey(heldItem)) {
+        if (!recipes.containsKey(cacheKey)) {
             Map<ResourceLocation, BeeSpawningRecipe> allRecipes = new HashMap<>(level.getRecipeManager().byType(ModRecipeTypes.BEE_SPAWNING_TYPE.get()));
             ItemStack nestItem = new ItemStack(this);
             for (Map.Entry<ResourceLocation, BeeSpawningRecipe> entry : allRecipes.entrySet()) {
@@ -123,9 +125,9 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
                     spawningRecipes.add(recipe);
                 }
             }
-            recipes.put(heldItem, spawningRecipes);
+            recipes.put(cacheKey, spawningRecipes);
         } else {
-            spawningRecipes = recipes.get(heldItem);
+            spawningRecipes = recipes.get(cacheKey);
         }
 
         return spawningRecipes;

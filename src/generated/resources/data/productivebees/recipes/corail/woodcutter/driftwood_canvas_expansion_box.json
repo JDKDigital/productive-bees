@@ -1,0 +1,22 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "corail_woodcutter"
+        }
+      ],
+      "recipe": {
+        "type": "corail_woodcutter:woodcutting",
+        "count": 1,
+        "group": "expansion_boxes",
+        "ingredient": {
+          "tag": "productivebees:canvas_expansion_boxes"
+        },
+        "result": "productivebees:expansion_box_driftwood_canvas"
+      }
+    }
+  ]
+}

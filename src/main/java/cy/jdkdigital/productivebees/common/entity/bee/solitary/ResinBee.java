@@ -65,6 +65,8 @@ public class ResinBee extends SolitaryBee
     @Override
     public void postPollinate() {
         super.postPollinate();
-        BeeHelper.encaseMob(target, level(), this.getDirection());
+        if (level().getRandom().nextInt(100) < 10) {
+            BeeHelper.encaseMob(target, level(), this.getDirection());
+        }
     }
 }

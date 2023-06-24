@@ -33,8 +33,8 @@ public class GeneIndexerScreen extends AbstractContainerScreen<GeneIndexerContai
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(font, this.title, 10, 6, 4210752);
-        guiGraphics.drawString(font, this.playerInventoryTitle, 10, (this.getYSize() - 96 + 2), 4210752);
+        guiGraphics.drawString(font, this.title, 10, 6, 4210752, false);
+        guiGraphics.drawString(font, this.playerInventoryTitle, 10, (this.getYSize() - 96 + 2), 4210752, false);
     }
 
     @Override

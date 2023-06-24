@@ -21,6 +21,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -158,19 +159,19 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                 } else if (jsonObject.has("fluid")) {
                     int amount = GsonHelper.getAsInt(jsonObject, "amount", 250);
 
-                    JsonObject fluid = GsonHelper.getAsJsonObject(jsonObject, "fluid");
+                    JsonObject fluidJson = GsonHelper.getAsJsonObject(jsonObject, "fluid");
                     String fluidResourceLocation = "";
-                    if (fluid.has("tag")) {
-                        fluidResourceLocation = GsonHelper.getAsString(fluid, "tag");
-                    } else if (fluid.has("fluid")) {
-                        fluidResourceLocation = GsonHelper.getAsString(fluid, "fluid");
+                    if (fluidJson.has("tag")) {
+                        fluidResourceLocation = GsonHelper.getAsString(fluidJson, "tag");
+                    } else if (fluidJson.has("fluid")) {
+                        fluidResourceLocation = GsonHelper.getAsString(fluidJson, "fluid");
                     }
 
                     fluidOutputs.put(fluidResourceLocation, amount);
                 }
             });
 
-            int processingTime = json.has("processingTime") ? json.get("processingTime").getAsInt() : -1;
+            int processingTime = json.has("processingTime") ? json.get("processingTime").getAsInt() : 0;
 
             return this.factory.create(id, ingredient, itemOutputs, fluidOutputs, processingTime);
         }

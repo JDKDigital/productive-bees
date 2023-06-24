@@ -19,9 +19,14 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEntities
 {
+    public static final UUID WANNA_BEE_UUID = UUID.nameUUIDFromBytes("pb_wanna_bee".getBytes(StandardCharsets.UTF_8));
+
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ProductiveBees.MODID);
     public static final DeferredRegister<EntityType<?>> HIVE_BEES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ProductiveBees.MODID);
     public static final DeferredRegister<EntityType<?>> SOLITARY_BEES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ProductiveBees.MODID);
@@ -37,7 +42,6 @@ public class ModEntities
     public static RegistryObject<EntityType<Bee>> FARMER_BEE = createHiveBee("farmer_bee", FarmerBee::new, 9615358, 6238757);
     public static RegistryObject<EntityType<Bee>> CREEPER_BEE = createHiveBee("creeper_bee", CreeperBee::new, 894731, 6238757);
     public static RegistryObject<EntityType<Bee>> CUPID_BEE = createHiveBee("cupid_bee", CupidBee::new, 894731, 6238757);
-    public static RegistryObject<EntityType<Bee>> WANNA_BEE = createHiveBee("wanna_bee", WannaBee::new, 894731, 6238757);
 
     public static RegistryObject<EntityType<Bee>> ASHY_MINING_BEE = createSolitaryBee("ashy_mining_bee", MiningBee::new, 11709345, 6238757);
     public static RegistryObject<EntityType<Bee>> BLUE_BANDED_BEE = createSolitaryBee("blue_banded_bee", BlueBandedBee::new, 9615358, 6238757);

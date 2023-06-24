@@ -1,0 +1,26 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "atmospheric"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "category": "misc",
+        "group": "hives",
+        "ingredients": [
+          {
+            "item": "productivebees:advanced_atmospheric_yucca_beehive"
+          }
+        ],
+        "result": {
+          "item": "productivebees:advanced_atmospheric_yucca_beehive"
+        }
+      }
+    }
+  ]
+}

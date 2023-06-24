@@ -10,7 +10,7 @@
             "item": "productivebees:upgrade_breeding"
         },
         "I": {
-            "tag": "forge:raw_materials/iron"
+            "tag": "forge:ingots/iron"
         },
         "D": {
             "item": "minecraft:rose_bush"

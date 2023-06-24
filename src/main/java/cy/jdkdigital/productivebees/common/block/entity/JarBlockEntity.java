@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +27,7 @@ public class JarBlockEntity extends AbstractBlockEntity
 
     public int tickCount = 0;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(1, this)
+    private final LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(1, this)
     {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
@@ -47,8 +48,8 @@ public class JarBlockEntity extends AbstractBlockEntity
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
 
-            if (blockEntity.hasLevel()) {
-                blockEntity.getLevel().sendBlockUpdated(blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity.getBlockState(), 3);
+            if (blockEntity.getLevel() instanceof ServerLevel serverLevel) {
+                serverLevel.sendBlockUpdated(blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity.getBlockState(), 3);
             }
         }
     });
@@ -77,10 +78,9 @@ public class JarBlockEntity extends AbstractBlockEntity
 
     public void savePacketNBT(CompoundTag tag) {
         super.savePacketNBT(tag);
-        CompoundTag finalTag = tag;
         this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
             CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
-            finalTag.put("inv", compound);
+            tag.put("inv", compound);
         });
     }
 

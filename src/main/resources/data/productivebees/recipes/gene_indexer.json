@@ -10,7 +10,7 @@
             "tag": "forge:workbenches"
         },
         "I": {
-            "tag": "forge:raw_materials/iron"
+            "tag": "forge:ingots/iron"
         },
         "D": {
             "item": "minecraft:comparator"

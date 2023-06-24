@@ -9,7 +9,7 @@
         {
             "value": [
                 {
-                    "tag": "forge:raw_materials/copper"
+                    "tag": "forge:ingots/copper"
                 },
                 {
                     "tag": "forge:dusts/copper"

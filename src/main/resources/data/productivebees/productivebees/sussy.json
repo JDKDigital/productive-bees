@@ -1,0 +1,10 @@
+{
+    "primaryColor": "#610bff",
+    "secondaryColor": "#b70000",
+    "particleColor": "#4200ba",
+    "size": 0.3,
+    "beeTexture": "productivebees:textures/entity/bee/sussy/bee",
+    "flowerBlock": "minecraft:air",
+    "createComb": false,
+    "postPollination": "sus"
+}

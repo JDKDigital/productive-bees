@@ -10,10 +10,12 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import ovh.corail.woodcutter.registry.ModRecipeSerializers;
 
 import java.util.function.Consumer;
 
@@ -59,6 +61,8 @@ public class HiveRecipeProvider extends RecipeProvider implements IConditionBuil
                                 ::save
                 )
                 .build(consumer, new ResourceLocation(ProductiveBees.MODID, "hives/advanced_" + name + "_beehive"));
+
+        buildHiveResetRecipes(modid, hive, new ResourceLocation(ProductiveBees.MODID, "hives/advanced_" + name + "_beehive_clear"), consumer);
     }
 
     private void buildBoxRecipe(String modid, String name, HiveType type, Consumer<FinishedRecipe> consumer) {
@@ -90,14 +94,26 @@ public class HiveRecipeProvider extends RecipeProvider implements IConditionBuil
                 .define('H', Ingredient.of(hivein))
                 .define('P', Ingredient.of(Items.PAPER))
                 .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
-                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "hives/advanced_" + style + "_canvas_hive_from_" + style));
+                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "hives/advanced_" + style + "_canvas_hive"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, box)
                 .group("expansion_boxes")
                 .pattern("PPP").pattern("PHP").pattern("PPP")
                 .define('H', Ingredient.of(boxin))
                 .define('P', Ingredient.of(Items.PAPER))
                 .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
-                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "expansion_boxes/expansion_box_" + style + "_canvas_from_" + style));
+                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "expansion_boxes/expansion_box_" + style + "_canvas"));
+    }
+
+    private void buildHiveResetRecipes(String modid, Block hive, ResourceLocation location, Consumer<FinishedRecipe> consumer) {
+        ConditionalRecipe.builder()
+                .addCondition(
+                        modLoaded(modid)
+                ).addRecipe(
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, hive).group("hives")
+                .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
+                .requires(hive)
+                ::save
+        ).build(consumer, location);
     }
 
     private void buildCanvasStonecutterRecipes(String style, Consumer<FinishedRecipe> consumer) {
@@ -120,29 +136,29 @@ public class HiveRecipeProvider extends RecipeProvider implements IConditionBuil
         Block hive = ModBlocks.HIVES.get("advanced_" + style + "_canvas_beehive").get();
         Block box = ModBlocks.EXPANSIONS.get("expansion_box_" + style + "_canvas").get();
 
-//        ConditionalRecipe.builder().addCondition(
-//            modLoaded("corail_woodcutter")
-//        ).addRecipe(
-//            woodcutter(Ingredient.of(ModTags.CANVAS_HIVES), RecipeCategory.MISC, hive)
-//                .group("hives")
-//                .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
-//                .unlockedBy("has_woodcutter", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STONECUTTER))
-//                ::save
-//        )
-//        .build(consumer, new ResourceLocation(ProductiveBees.MODID, "corail/woodcutter/" + style + "_canvas_hive"));
-//        ConditionalRecipe.builder().addCondition(
-//            modLoaded("corail_woodcutter")
-//        ).addRecipe(
-//            woodcutter(Ingredient.of(ModTags.CANVAS_BOXES), RecipeCategory.MISC, box)
-//                .group("expansion_boxes")
-//                .unlockedBy("has_box", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
-//                .unlockedBy("has_woodcutter", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STONECUTTER))
-//                ::save
-//        )
-//        .build(consumer, new ResourceLocation(ProductiveBees.MODID, "corail/woodcutter/" + style + "_canvas_expansion_box"));
+        ConditionalRecipe.builder().addCondition(
+            modLoaded("corail_woodcutter")
+        ).addRecipe(
+            woodcutter(Ingredient.of(ModTags.CANVAS_HIVES), RecipeCategory.MISC, hive)
+                .group("hives")
+                .unlockedBy("has_hive", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
+                .unlockedBy("has_woodcutter", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STONECUTTER))
+                ::save
+        )
+        .build(consumer, new ResourceLocation(ProductiveBees.MODID, "corail/woodcutter/" + style + "_canvas_hive"));
+        ConditionalRecipe.builder().addCondition(
+            modLoaded("corail_woodcutter")
+        ).addRecipe(
+            woodcutter(Ingredient.of(ModTags.CANVAS_BOXES), RecipeCategory.MISC, box)
+                .group("expansion_boxes")
+                .unlockedBy("has_box", InventoryChangeTrigger.TriggerInstance.hasItems(Items.BEEHIVE))
+                .unlockedBy("has_woodcutter", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STONECUTTER))
+                ::save
+        )
+        .build(consumer, new ResourceLocation(ProductiveBees.MODID, "corail/woodcutter/" + style + "_canvas_expansion_box"));
     }
 
-//    public static SingleItemRecipeBuilder woodcutter(Ingredient ingredient, RecipeCategory category, ItemLike output) {
-//        return new SingleItemRecipeBuilder(category, ModRecipeSerializers.WOODCUTTING, ingredient, output, 1);
-//    }
+    public static SingleItemRecipeBuilder woodcutter(Ingredient ingredient, RecipeCategory category, ItemLike output) {
+        return new SingleItemRecipeBuilder(category, ModRecipeSerializers.WOODCUTTING, ingredient, output, 1);
+    }
 }

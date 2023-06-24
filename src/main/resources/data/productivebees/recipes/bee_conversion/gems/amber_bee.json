@@ -1,7 +1,7 @@
 {
     "type": "productivebees:bee_conversion",
     "source": "productivebees:diamond",
-    "result": "productivebees:amber",
+    "result": "productivebees:amber_gem",
     "item": {
         "tag": "productivebees:flowers/amber"
     },
@@ -19,7 +19,7 @@
         },
         {
             "type": "productivebees:bee_exists",
-            "bee": "productivebees:amber"
+            "bee": "productivebees:amber_gem"
         }
     ]
 }

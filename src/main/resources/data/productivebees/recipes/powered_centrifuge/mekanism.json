@@ -10,7 +10,7 @@
             "tag": "forge:dusts/redstone"
         },
         "I": {
-            "tag": "forge:raw_materials/iron"
+            "tag": "forge:ingots/iron"
         },
         "B": {
             "item": "mekanism:basic_control_circuit"

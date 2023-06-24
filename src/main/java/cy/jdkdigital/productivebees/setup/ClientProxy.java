@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
-public class ClientProxy implements IProxy
+public class ClientProxy
 {
     @Nullable
     public static MultiBufferSource buffer;

@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:iron_sword"
+        },
+        {
+            "item": "minecraft:nether_bricks"
+        }
+    ],
+    "result": {
+        "item": "productivebees:nether_brick_nest"
+    }
+}

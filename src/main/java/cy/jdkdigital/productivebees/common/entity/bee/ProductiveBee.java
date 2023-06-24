@@ -775,8 +775,8 @@ public class ProductiveBee extends Bee
                 CompoundTag nbt = ((ConfigurableBee) ProductiveBee.this).getNBTData();
                 if (nbt != null) {
                     if (nbt.contains("flowerTag")) {
-                        Optional<Holder.Reference<EntityType<?>>> flowerTag = BuiltInRegistries.ENTITY_TYPE.getHolder(ResourceKey.create(Registries.ENTITY_TYPE, new ResourceLocation(nbt.getString("flowerTag"))));
-                        return flowerTag.isPresent() ? findEntities(entity -> flowerTag.get().is(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType())), 5D) : Optional.empty();
+                        var flowerTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
+                        return findEntities(entity -> entity instanceof PathfinderMob && nbt.getBoolean("inverseFlower") != entity.getType().is(flowerTag), 5D);
                     }
                 }
             }

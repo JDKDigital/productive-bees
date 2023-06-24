@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:wooden_sword"
+        },
+        {
+            "item": "minecraft:coarse_dirt"
+        }
+    ],
+    "result": {
+        "item": "productivebees:coarse_dirt_nest"
+    }
+}

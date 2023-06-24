@@ -90,6 +90,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof SolitaryNestBlockEntity nestBlockEntity && state.getBlock() instanceof SolitaryNest nestBlock) {
+            ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
             try {
                 var recipes = nestBlock.getSpawningRecipes(level.getLevel(), level.getBiome(pos), ItemStack.EMPTY);
                 if (recipes.size() > 0) {
@@ -101,7 +102,6 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
                         nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, Component.translatable("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
                     }
                 }
-                ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
             }

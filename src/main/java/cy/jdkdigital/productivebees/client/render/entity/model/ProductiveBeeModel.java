@@ -135,8 +135,7 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
             frontLegs.xRot = 0.0F;
             middleLegs.xRot = 0.0F;
             backLegs.xRot = 0.0F;
-        }
-        else {
+        } else {
             // maxSpeed - (sizeMod - minSize)/(magetXSize() - minSize) * (maxSpeed - minSpeed)
             setRotationAngle(rightWing, 0, 0, Mth.cos(ageInTicks % 98000 * 2.1F) * FAKE_PI * 0.15F);
             setRotationAngle(leftWing, rightWing.xRot, rightWing.yRot, -rightWing.zRot);

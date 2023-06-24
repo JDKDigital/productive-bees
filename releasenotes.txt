@@ -1,3 +1,17 @@
+1.20.1-12.1.0
+
+- Added recipe for WannaBee spawn egg
+- Added Sussy bees which can be found by sniffers. Sussy bees turn sand and gravel into suspicious sand and gravel if operating in the right biomes.
+- Added a way to obtain Amber bee eggs from suspicious blocks in cold ocean ruins
+- Amber blocks can be melted on campfires to release the encased mob
+- Re-added recipes for nests
+- Re-added hive clearing recipes
+- Resin bee chance to encase a mob lowered to 10%
+- Added WannaBee texture
+- Fixed text rendering in GUIS
+- Fixed some solitary and wild bees not spawning with their nests
+
+
 1.20.1-12.0.1
 
 - Fixed crash upon placing canvas hives when cooking for blockheads is installed

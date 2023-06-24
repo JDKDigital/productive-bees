@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:block_conversion",
+    "bee": "productivebees:sussy",
+    "from": {
+        "Name": "minecraft:gravel"
+    },
+    "to": {
+        "Name": "minecraft:suspicious_gravel"
+    },
+    "chance": 70,
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:sussy"
+        }
+    ]
+}

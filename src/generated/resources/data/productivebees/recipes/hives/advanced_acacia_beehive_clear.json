@@ -1,0 +1,26 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "productivebees"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "category": "misc",
+        "group": "hives",
+        "ingredients": [
+          {
+            "item": "productivebees:advanced_acacia_beehive"
+          }
+        ],
+        "result": {
+          "item": "productivebees:advanced_acacia_beehive"
+        }
+      }
+    }
+  ]
+}

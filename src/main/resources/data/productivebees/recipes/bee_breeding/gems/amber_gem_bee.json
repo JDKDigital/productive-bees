@@ -1,0 +1,18 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:crystalline",
+    "parent2": "productivebees:resin_bee",
+    "offspring": [
+        "productivebees:amber_gem"
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:crystalline"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:amber_gem"
+        }
+    ]
+}

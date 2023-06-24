@@ -8,7 +8,6 @@ import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
-import cy.jdkdigital.productivebees.common.entity.bee.hive.WannaBee;
 import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.init.*;
@@ -359,7 +358,7 @@ public class BeeHelper
                     }
                 }
             }
-        } else if (beeId.equals("productivebees:wanna_bee")) {
+        } else if (beeId.equals("productivebees:wanna")) {
             if (flowerPos != null && level instanceof ServerLevel serverLevel) {
                 PathfinderMob entity = null;
                 var blockEntity = level.getBlockEntity(flowerPos);
@@ -376,7 +375,7 @@ public class BeeHelper
                 if (entity != null) {
                     LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(entity.getLootTable());
                     if (!lootTable.equals(LootTable.EMPTY)) {
-                        Player fakePlayer = FakePlayerFactory.get(serverLevel, new GameProfile(WannaBee.WANNA_BEE_UUID, "wanna_bee"));
+                        Player fakePlayer = FakePlayerFactory.get(serverLevel, new GameProfile(ModEntities.WANNA_BEE_UUID, "wanna_bee"));
                         LootParams.Builder lootContextBuilder = new LootParams.Builder(serverLevel);
                         lootContextBuilder.withParameter(LootContextParams.LAST_DAMAGE_PLAYER, fakePlayer);
                         lootContextBuilder.withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic());
