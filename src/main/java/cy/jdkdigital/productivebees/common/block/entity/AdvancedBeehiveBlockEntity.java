@@ -256,7 +256,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                             }
 
                             // Apply upgrades
-                            // Apply upgrades
                             int normalProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
                             int highEndProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_HIGH_END_PRODUCTIVITY.get());
                             int nuclearProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_NUCLEAR_PRODUCTIVITY.get());
@@ -268,18 +267,20 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                             double cosmicUpgradeMod = ProductiveBeesConfig.UPGRADES.cosmicProductivityMultiplier.get() * (float) cosmicProductivityUpgrades;
 
                             double totalProductivityMod = normalUpgradeMod + highEndUpgradeMod + nuclearUpgradeMod + cosmicUpgradeMod;
-                            System.out.println("----------------------------------");
-                            System.out.println(String.format("normalUpgradeMod: %s [%s]", normalUpgradeMod, normalProductivityUpgrades));
-                            System.out.println(String.format("highEndUpgradeMod: %s [%s]", highEndUpgradeMod, highEndProductivityUpgrades));
-                            System.out.println(String.format("nuclearUpgradeMod: %s [%s]", nuclearUpgradeMod, nuclearProductivityUpgrades));
-                            System.out.println(String.format("cosmicUpgradeMod: %s [%s]", cosmicUpgradeMod, cosmicProductivityUpgrades));
-                            System.out.println(String.format("TOTAL: %s", totalProductivityMod));
-                            System.out.println("----------------------------------");
 
                             if (totalProductivityMod > 0) {
                                 double upgradeMod = stack.getCount() * totalProductivityMod;
                                 stack.setCount(Math.round((float) upgradeMod));
                             }
+
+                            System.out.println("----------------------------------");
+                            System.out.println(String.format("normalUpgradeMod: %s [%s]", normalUpgradeMod, normalProductivityUpgrades));
+                            System.out.println(String.format("highEndUpgradeMod: %s [%s]", highEndUpgradeMod, highEndProductivityUpgrades));
+                            System.out.println(String.format("nuclearUpgradeMod: %s [%s]", nuclearUpgradeMod, nuclearProductivityUpgrades));
+                            System.out.println(String.format("cosmicUpgradeMod: %s [%s]", cosmicUpgradeMod, cosmicProductivityUpgrades));
+                            System.out.println(String.format("TOTAL Modifier: %s", totalProductivityMod));
+                            System.out.println(String.format("TOTAL Stack: %s", stack.getCount()));
+                            System.out.println("----------------------------------");
 
                             ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
                         }
