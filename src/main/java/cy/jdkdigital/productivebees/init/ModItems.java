@@ -65,9 +65,12 @@ public class ModItems
     public static final RegistryObject<Item> WOOD_CHIP = createItem("wood_chip", () -> new WoodChip(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> STONE_CHIP = createItem("stone_chip", () -> new StoneChip(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
 
-    // Hive upgrades
     public static final RegistryObject<Item> UPGRADE_BASE = createItem("upgrade_base", () -> new Item(new Item.Properties().tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_PRODUCTIVITY = createItem("upgrade_productivity", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> UPGRADE_HIGH_END_PRODUCTIVITY = createItem("upgrade_high_end_productivity", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> UPGRADE_NUCLEAR_PRODUCTIVITY = createItem("upgrade_nuclear_productivity", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
+    public static final RegistryObject<Item> UPGRADE_COSMIC_PRODUCTIVITY = createItem("upgrade_cosmic_productivity", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
+
     public static final RegistryObject<Item> UPGRADE_TIME = createItem("upgrade_time", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_BREEDING = createItem("upgrade_breeding", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));
     public static final RegistryObject<Item> UPGRADE_NOT_BABEE = createItem("upgrade_not_babee", () -> new UpgradeItem((new Item.Properties().stacksTo(1)).tab(ModItemGroups.PRODUCTIVE_BEES)));

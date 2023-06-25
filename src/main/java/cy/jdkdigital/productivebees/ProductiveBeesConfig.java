@@ -292,6 +292,9 @@ public class ProductiveBeesConfig
     {
         public final ForgeConfigSpec.DoubleValue timeBonus;
         public final ForgeConfigSpec.DoubleValue productivityMultiplier;
+        public final ForgeConfigSpec.DoubleValue highEndProductivityMultiplier;
+        public final ForgeConfigSpec.DoubleValue nuclearProductivityMultiplier;
+        public final ForgeConfigSpec.DoubleValue cosmicProductivityMultiplier;
         public final ForgeConfigSpec.DoubleValue breedingChance;
         public final ForgeConfigSpec.IntValue breedingMaxNearbyEntities;
         public final ForgeConfigSpec.DoubleValue samplerChance;
@@ -302,9 +305,20 @@ public class ProductiveBeesConfig
             timeBonus = builder
                     .comment("Time bonus gained from time upgrade. 0.2 means 20% reduction of a bee's time inside the hive or centrifuge processing time.")
                     .defineInRange("timeBonus", 0.2, 0, 1);
+
             productivityMultiplier = builder
                     .comment("Multiplier per productivity upgrade installed in the hive.")
                     .defineInRange("productivityMultiplier", 1.4, 1, Integer.MAX_VALUE);
+            highEndProductivityMultiplier = builder
+                    .comment("Multiplier per high-end productivity upgrade installed in the hive.")
+                    .defineInRange("highEndProductivityMultiplier", 1.8, 1, Integer.MAX_VALUE);
+            nuclearProductivityMultiplier = builder
+                    .comment("Multiplier per nuclear productivity upgrade installed in the hive.")
+                    .defineInRange("nuclearProductivityMultiplier", 2.2, 1, Integer.MAX_VALUE);
+            cosmicProductivityMultiplier = builder
+                    .comment("Multiplier per cosmic productivity upgrade installed in the hive.")
+                    .defineInRange("cosmicProductivityMultiplier", 2.6, 1, Integer.MAX_VALUE);
+
             breedingChance = builder
                     .comment("Chance for a bee to produce an offspring after a hive visit.")
                     .defineInRange("breedingChance", 0.05, 0, 1);
