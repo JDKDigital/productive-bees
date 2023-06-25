@@ -248,6 +248,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                         applyHiveProductionModifier(stack);
                         if (!stack.isEmpty()) {
                             if (beeEntity instanceof ProductiveBee) {
+                                //TODO fix this that very high has an impact too
                                 int productivity = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
                                 if (productivity > 0) {
                                     float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
@@ -255,6 +256,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                                 }
                             }
 
+                            //Additions: New upgrade functionality
                             // Apply upgrades
                             int normalProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
                             int highEndProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_HIGH_END_PRODUCTIVITY.get());
@@ -386,7 +388,14 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         super.loadPacketNBT(tag);
 
         CompoundTag invTag = tag.getCompound("inv");
-        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag));
+        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
+            ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag);
+
+            //Additions: Sets right amount if it goes over 64
+            for (int i: InventoryHandlerHelper.OUTPUT_SLOTS) {
+                inv.getStackInSlot(i).setCount(tag.getInt("SlotItemAmount" + i));
+            }
+        });
 
         CompoundTag upgradesTag = tag.getCompound("upgrades");
         upgradeHandler.ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(upgradesTag));
@@ -400,6 +409,12 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         super.savePacketNBT(tag);
 
         this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
+
+            //Additions: Saves slot items amount
+            for (int i: InventoryHandlerHelper.OUTPUT_SLOTS) {
+                tag.putInt("SlotItemAmount" + i, inv.getStackInSlot(i).getCount());
+            }
+
             CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
             tag.put("inv", compound);
         });
@@ -408,7 +423,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
             tag.put("upgrades", compound);
         });
-
         tag.putInt("max_bees", MAX_BEES);
     }
 
