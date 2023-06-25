@@ -248,7 +248,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                         applyHiveProductionModifier(stack);
                         if (!stack.isEmpty()) {
                             if (beeEntity instanceof ProductiveBee) {
-                                //TODO fix this that very high has an impact too
                                 int productivity = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
                                 if (productivity > 0) {
                                     float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
@@ -256,34 +255,22 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                                 }
                             }
 
-                            //Additions: New upgrade functionality
                             // Apply upgrades
                             int normalProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
                             int highEndProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_HIGH_END_PRODUCTIVITY.get());
                             int nuclearProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_NUCLEAR_PRODUCTIVITY.get());
                             int cosmicProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_COSMIC_PRODUCTIVITY.get());
 
-                            double normalUpgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * (float) normalProductivityUpgrades;
-                            double highEndUpgradeMod = ProductiveBeesConfig.UPGRADES.highEndProductivityMultiplier.get() * (float) highEndProductivityUpgrades;
-                            double nuclearUpgradeMod = ProductiveBeesConfig.UPGRADES.nuclearProductivityMultiplier.get() * (float) nuclearProductivityUpgrades;
-                            double cosmicUpgradeMod = ProductiveBeesConfig.UPGRADES.cosmicProductivityMultiplier.get() * (float) cosmicProductivityUpgrades;
-
+                            double normalUpgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * normalProductivityUpgrades;
+                            double highEndUpgradeMod = ProductiveBeesConfig.UPGRADES.highEndProductivityMultiplier.get() * highEndProductivityUpgrades;
+                            double nuclearUpgradeMod = ProductiveBeesConfig.UPGRADES.nuclearProductivityMultiplier.get() * nuclearProductivityUpgrades;
+                            double cosmicUpgradeMod = ProductiveBeesConfig.UPGRADES.cosmicProductivityMultiplier.get() * cosmicProductivityUpgrades;
                             double totalProductivityMod = normalUpgradeMod + highEndUpgradeMod + nuclearUpgradeMod + cosmicUpgradeMod;
 
                             if (totalProductivityMod >= 1.0) {
-                                double upgradeMod = stack.getCount() * totalProductivityMod;
-                                stack.setCount(Math.round((float) upgradeMod));
+                                double newStackSize = stack.getCount() * totalProductivityMod;
+                                stack.setCount(Math.round((float) newStackSize));
                             }
-
-                            //TODO remove
-                            System.out.println("----------------------------------");
-                            System.out.println(String.format("normalUpgradeMod: %s [%s]", normalUpgradeMod, normalProductivityUpgrades));
-                            System.out.println(String.format("highEndUpgradeMod: %s [%s]", highEndUpgradeMod, highEndProductivityUpgrades));
-                            System.out.println(String.format("nuclearUpgradeMod: %s [%s]", nuclearUpgradeMod, nuclearProductivityUpgrades));
-                            System.out.println(String.format("cosmicUpgradeMod: %s [%s]", cosmicUpgradeMod, cosmicProductivityUpgrades));
-                            System.out.println(String.format("TOTAL Modifier: %s", totalProductivityMod));
-                            System.out.println(String.format("TOTAL Stack: %s", stack.getCount()));
-                            System.out.println("----------------------------------");
 
                             ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
                         }
@@ -391,7 +378,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
             ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag);
 
-            //Additions: Sets right amount if it goes over 64
+            // Load the stack size of each slot. Only relevant if it exceeds 64
             for (int i: InventoryHandlerHelper.OUTPUT_SLOTS) {
                 inv.getStackInSlot(i).setCount(tag.getInt("SlotItemAmount" + i));
             }
@@ -410,7 +397,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
         this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
 
-            //Additions: Saves slot items amount
+            // Save the stack size of each slot. Only relevant if it exceeds 64
             for (int i: InventoryHandlerHelper.OUTPUT_SLOTS) {
                 tag.putInt("SlotItemAmount" + i, inv.getStackInSlot(i).getCount());
             }

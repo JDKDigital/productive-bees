@@ -311,13 +311,13 @@ public class ProductiveBeesConfig
                     .defineInRange("productivityMultiplier", 1.4, 1, Integer.MAX_VALUE);
             highEndProductivityMultiplier = builder
                     .comment("Multiplier per high-end productivity upgrade installed in the hive.")
-                    .defineInRange("highEndProductivityMultiplier", 2.0, 1, Integer.MAX_VALUE);
+                    .defineInRange("highEndProductivityMultiplier", 1.8, 1, Integer.MAX_VALUE);
             nuclearProductivityMultiplier = builder
                     .comment("Multiplier per nuclear productivity upgrade installed in the hive.")
-                    .defineInRange("nuclearProductivityMultiplier", 3.0, 1, Integer.MAX_VALUE);
+                    .defineInRange("nuclearProductivityMultiplier", 2.2, 1, Integer.MAX_VALUE);
             cosmicProductivityMultiplier = builder
                     .comment("Multiplier per cosmic productivity upgrade installed in the hive.")
-                    .defineInRange("cosmicProductivityMultiplier", 4.0, 1, Integer.MAX_VALUE);
+                    .defineInRange("cosmicProductivityMultiplier", 2.6, 1, Integer.MAX_VALUE);
 
             breedingChance = builder
                     .comment("Chance for a bee to produce an offspring after a hive visit.")
