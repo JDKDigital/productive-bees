@@ -1,0 +1,146 @@
+{
+  "functions": [],
+  "paramSet": {
+    "all": [
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "last_damage_player"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "killer_entity"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "direct_killer_entity"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "damage_source"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "origin"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "block_state"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "this_entity"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "block_entity"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "explosion_radius"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "tool"
+        }
+      }
+    ],
+    "required": [
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "last_damage_player"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "killer_entity"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "direct_killer_entity"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "damage_source"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "origin"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "block_state"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "this_entity"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "block_entity"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "explosion_radius"
+        }
+      },
+      {
+        "name": {
+          "namespace": "minecraft",
+          "path": "tool"
+        }
+      }
+    ]
+  },
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:survives_explosion"
+            }
+          ],
+          "name": "productivebees:black_petrified_honey"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

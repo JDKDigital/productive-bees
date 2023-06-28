@@ -125,6 +125,7 @@ public final class ProductiveBees
         ModParticles.PARTICLE_TYPES.register(modEventBus);
         LOOT_SERIALIZERS.register(modEventBus);
         LOOT_POOL_ENTRIES.register(modEventBus);
+        LOOT_POOL_FUNCTIONS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
         modEventBus.addListener(this::onInterModEnqueue);

@@ -1,3 +1,8 @@
+1.20.1-12.1.1
+
+- Loot tables are back, so you don't lose your hive and bees when breaking them
+
+
 1.20.1-12.1.0
 
 - Added recipe for WannaBee spawn egg

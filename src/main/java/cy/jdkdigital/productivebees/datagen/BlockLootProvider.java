@@ -15,11 +15,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootDataType;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
@@ -83,7 +85,8 @@ public class BlockLootProvider implements DataProvider
         List<CompletableFuture<?>> output = new ArrayList<>();
         for (Map.Entry<ResourceLocation, LootTable.Builder> e : tables.entrySet()) {
             Path path = pathProvider.json(e.getKey());
-//            output.add(DataProvider.saveStable(cache, LootTables.serialize(e.getValue().setParamSet(LootContextParamSets.BLOCK).build()), path));
+            // LootTables.serialize(e.getValue().setParamSet(LootContextParamSets.BLOCK).build())
+            output.add(DataProvider.saveStable(cache, LootDataType.TABLE.parser().toJsonTree(e.getValue()), path));
         }
         return CompletableFuture.allOf(output.toArray(CompletableFuture[]::new));
     }

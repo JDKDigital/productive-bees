@@ -27,5 +27,11 @@
             },
             "amount": 50
         }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:draconic"
+        }
     ]
 }
