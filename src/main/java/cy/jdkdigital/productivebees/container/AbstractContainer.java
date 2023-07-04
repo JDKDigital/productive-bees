@@ -22,7 +22,7 @@ abstract class AbstractContainer extends AbstractContainerMenu
         super(type, id);
     }
 
-    protected abstract BlockEntity getTileEntity();
+    protected abstract BlockEntity getBlockEntity();
 
     @Nonnull
     @Override
@@ -42,7 +42,7 @@ abstract class AbstractContainer extends AbstractContainerMenu
                 }
             } else {
                 // Move from player inv into container
-                int upgradeSlotCount = this.getTileEntity() instanceof UpgradeableBlockEntity upgradeableBlockEntity && upgradeableBlockEntity.acceptsUpgrades() ? 4 : 0;
+                int upgradeSlotCount = this.getBlockEntity() instanceof UpgradeableBlockEntity upgradeableBlockEntity && upgradeableBlockEntity.acceptsUpgrades() ? 4 : 0;
                 if (upgradeSlotCount > 0 && slotStack.getItem() instanceof UpgradeItem) {
                     if (!moveItemStackTo(slotStack, containerSlots - upgradeSlotCount, containerSlots, false)) {
                         return ItemStack.EMPTY;

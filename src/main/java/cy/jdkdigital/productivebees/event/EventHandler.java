@@ -52,6 +52,7 @@ import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -376,7 +377,7 @@ public class EventHandler
     @SubscribeEvent
     public static void onItemFished(ItemFishedEvent event) {
         Player player = event.getEntity();
-        if (player != null) {
+        if (player != null && !(player instanceof FakePlayer)) {
             BlockPos pos = event.getHookEntity().blockPosition();
             Biome fishingBiome = player.level().getBiome(pos).value();
             List<BeeFishingRecipe> possibleRecipes = new ArrayList<>();

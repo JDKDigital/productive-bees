@@ -1,3 +1,9 @@
+1.20.1-12.1.2
+
+- Fixed powered and heated centrifuge speed modifiers
+- No more illegal babee breeding in the breeding chamber
+
+
 1.20.1-12.1.1
 
 - Loot tables are back, so you don't lose your hive and bees when breaking them

@@ -177,7 +177,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                                 if (BeeCage.isFilled(cageStack) && invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
                                     // release into hive if space is available
                                     if (!blockEntity.isFull()) {
-                                        Bee bee = BeeCage.getEntityFromStack(cageStack, level, true);
+                                        Bee bee = BeeCage.getCachedEntityFromStack(cageStack, level, true);
                                         if (bee != null && blockEntity.acceptsBee(bee) && (!(bee instanceof ProductiveBee pBee) || pBee.getAttributeValue(BeeAttributes.TYPE).equals("hive"))) {
                                             blockEntity.addOccupant(bee, bee.hasNectar());
                                             if (cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {

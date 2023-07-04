@@ -20,7 +20,7 @@ import java.util.Objects;
 
 public class BreedingChamberContainer extends AbstractContainer
 {
-    public final BreedingChamberBlockEntity tileEntity;
+    public final BreedingChamberBlockEntity blockEntity;
 
     public final ContainerLevelAccess canInteractWithCallable;
 
@@ -35,27 +35,27 @@ public class BreedingChamberContainer extends AbstractContainer
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public BreedingChamberContainer(final int windowId, final Inventory playerInventory, final BreedingChamberBlockEntity tileEntity) {
-        this(ModContainerTypes.BREEDING_CHAMBER.get(), windowId, playerInventory, tileEntity);
+    public BreedingChamberContainer(final int windowId, final Inventory playerInventory, final BreedingChamberBlockEntity blockEntity) {
+        this(ModContainerTypes.BREEDING_CHAMBER.get(), windowId, playerInventory, blockEntity);
     }
 
-    public BreedingChamberContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final BreedingChamberBlockEntity tileEntity) {
+    public BreedingChamberContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final BreedingChamberBlockEntity blockEntity) {
         super(type, windowId);
 
-        this.tileEntity = tileEntity;
-        this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
+        this.blockEntity = blockEntity;
+        this.canInteractWithCallable = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
 
         // Energy
         addDataSlot(new DataSlot()
         {
             @Override
             public int get() {
-                return tileEntity.getCapability(ForgeCapabilities.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+                return blockEntity.getCapability(ForgeCapabilities.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
             }
 
             @Override
             public void set(int value) {
-                tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
+                blockEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
                     if (handler.getEnergyStored() > 0) {
                         handler.extractEnergy(handler.getEnergyStored(), false);
                     }
@@ -70,16 +70,16 @@ public class BreedingChamberContainer extends AbstractContainer
         {
             @Override
             public int get() {
-                return tileEntity.recipeProgress;
+                return blockEntity.recipeProgress;
             }
 
             @Override
             public void set(int value) {
-                tileEntity.recipeProgress = value;
+                blockEntity.recipeProgress = value;
             }
         });
 
-        this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
+        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_CAGE, 134 - 13, 41));
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_BEE_1, 26 - 13, 17));
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_BEE_2, 62 - 13, 17));
@@ -88,7 +88,7 @@ public class BreedingChamberContainer extends AbstractContainer
             addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_OUTPUT, 152 - 13, 41));
         });
 
-        this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
+        this.blockEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
             addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
         });
 
@@ -111,7 +111,7 @@ public class BreedingChamberContainer extends AbstractContainer
     }
 
     @Override
-    protected BlockEntity getTileEntity() {
-        return tileEntity;
+    protected BlockEntity getBlockEntity() {
+        return blockEntity;
     }
 }

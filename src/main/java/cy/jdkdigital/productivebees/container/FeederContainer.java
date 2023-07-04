@@ -52,7 +52,7 @@ public class FeederContainer extends AbstractContainer
     }
 
     @Override
-    protected BlockEntity getTileEntity() {
+    protected BlockEntity getBlockEntity() {
         return tileEntity;
     }
 }

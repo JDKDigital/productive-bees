@@ -33,11 +33,15 @@ import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class BeeCage extends Item
 {
+    private static final Map<String, Bee> cachedEntities = new HashMap<>();
+
     public BeeCage(Properties properties) {
         super(properties);
     }
@@ -160,6 +164,23 @@ public class BeeCage extends Item
         nbt.putString("mod", modName);
 
         cageStack.setTag(nbt);
+    }
+
+    public static Bee getCachedEntityFromStack(ItemStack stack, Level world, boolean withInfo) {
+        // Bust cache when it becomes too big
+        if (cachedEntities.size() > 1000) {
+            cachedEntities.clear();
+        }
+
+        if (stack != null) {
+            String key = stack.hashCode() + (withInfo ? "_full" : "");
+            if (!cachedEntities.containsKey(key)) {
+                Bee cachedEntity = getEntityFromStack(stack, world, withInfo);
+                cachedEntities.put(key, cachedEntity);
+            }
+            return cachedEntities.getOrDefault(key, null);
+        }
+        return null;
     }
 
     @Nullable

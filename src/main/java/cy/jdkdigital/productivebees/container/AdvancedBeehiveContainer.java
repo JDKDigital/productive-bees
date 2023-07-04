@@ -120,7 +120,7 @@ public class AdvancedBeehiveContainer extends AbstractContainer
     }
 
     @Override
-    protected BlockEntity getTileEntity() {
+    protected BlockEntity getBlockEntity() {
         return tileEntity;
     }
 }

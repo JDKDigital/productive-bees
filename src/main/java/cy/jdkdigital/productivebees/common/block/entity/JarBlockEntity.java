@@ -70,7 +70,7 @@ public class JarBlockEntity extends AbstractBlockEntity
     @Nullable
     public Entity getCachedEntity(ItemStack cage) {
         if (this.cachedEntity == null) {
-            this.cachedEntity = BeeCage.getEntityFromStack(cage, this.getLevel(), false);
+            this.cachedEntity = BeeCage.getCachedEntityFromStack(cage, this.getLevel(), false);
         }
 
         return this.cachedEntity;

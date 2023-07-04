@@ -54,7 +54,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 
     @Override
     protected double getProcessingTimeModifier() {
-        return super.getProcessingTimeModifier() * 3;
+        return super.getProcessingTimeModifier() / 3;
     }
 
     protected boolean canOperate() {

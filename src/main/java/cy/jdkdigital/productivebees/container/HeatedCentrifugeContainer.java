@@ -65,7 +65,7 @@ public class HeatedCentrifugeContainer extends CentrifugeContainer
     }
 
     @Override
-    protected BlockEntity getTileEntity() {
+    protected BlockEntity getBlockEntity() {
         return tileEntity;
     }
 }

@@ -101,7 +101,7 @@ public class IncubatorContainer extends AbstractContainer
     }
 
     @Override
-    protected BlockEntity getTileEntity() {
+    protected BlockEntity getBlockEntity() {
         return tileEntity;
     }
 }

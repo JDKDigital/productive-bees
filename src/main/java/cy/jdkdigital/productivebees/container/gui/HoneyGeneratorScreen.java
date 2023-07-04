@@ -83,7 +83,7 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
             FluidStack fluidStack = handler.getFluidInTank(0);
 
             if (fluidStack.getAmount() > 0) {
-                FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, handler.getTankCapacity(0), 127, 69, 4, 52, 0);
+                FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, handler.getTankCapacity(0), 127, 17, 4, 52, 0);
             }
         });
     }

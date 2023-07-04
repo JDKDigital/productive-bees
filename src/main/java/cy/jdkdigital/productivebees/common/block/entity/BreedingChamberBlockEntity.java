@@ -140,8 +140,8 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
             }
             blockEntity.inventoryHandler.ifPresent(invHandler -> {
                 if (!invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1).isEmpty() && !invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2).isEmpty()) {
-                    Bee bee1 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
-                    Bee bee2 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
+                    Bee bee1 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
+                    Bee bee2 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
                     if (blockEntity.currentBreedingRecipes.isEmpty() && ++blockEntity.recipeLookupCooldown > 0 && bee1 != null && bee2 != null) {
                         blockEntity.currentBreedingRecipes = BeeHelper.getBreedingRecipes(bee1, bee2, serverLevel);
                         if (blockEntity.currentBreedingRecipes.size() > 0 && !blockEntity.currentBreedingRecipes.contains(blockEntity.chosenRecipe)) { // Pick a random recipe from the list as active recipe
@@ -182,8 +182,8 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     private boolean canProcessInput(IItemHandlerModifiable invHandler, boolean firstRun) {
         int energy = energyHandler.map(IEnergyStorage::getEnergyStored).orElse(0);
 
-        Bee bee1 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
-        Bee bee2 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
+        Bee bee1 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, true);
+        Bee bee2 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, true);
 
         if (bee1 == null || bee1.isBaby() || bee2 == null || bee2.isBaby()) {
             return false;
@@ -229,9 +229,9 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                     ((ConfigurableBee) bee).setAttributes();
                 }
 
-                Bee bee1 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, true);
+                Bee bee1 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, true);
                 if (bee instanceof ProductiveBee && bee1 instanceof ProductiveBee) {
-                    Bee bee2 = BeeCage.getEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, true);
+                    Bee bee2 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, true);
                     BeeHelper.setOffspringAttributes((ProductiveBee) bee, (ProductiveBee) bee1, bee2);
                 }
 
