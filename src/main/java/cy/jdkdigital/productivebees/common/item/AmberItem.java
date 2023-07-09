@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.item;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.render.item.AmberItemRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -27,8 +28,9 @@ public class AmberItem extends BlockItem
         super.appendHoverText(stack, level, list, flag);
 
         CompoundTag tag = stack.getTag();
-        if (tag != null && tag.contains("EntityData")) {
-            list.add(Component.translatable("productivebees.amber.tooltip.contained_entity", Component.literal(tag.getCompound("EntityData").getString("name")).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.WHITE));
+        ProductiveBees.LOGGER.info(tag);
+        if (tag != null && tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("EntityData")) {
+            list.add(Component.translatable("productivebees.amber.tooltip.contained_entity", Component.literal(tag.getCompound("BlockEntityTag").getCompound("EntityData").getString("name")).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.WHITE));
         }
     }
 

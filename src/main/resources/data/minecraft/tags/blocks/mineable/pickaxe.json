@@ -20,6 +20,7 @@
         "productivebees:nether_gold_nest",
         "productivebees:glowstone_nest",
         "productivebees:nether_brick_nest",
-        "productivebees:dragon_egg_hive"
+        "productivebees:dragon_egg_hive",
+        "productivebees:amber"
     ]
 }

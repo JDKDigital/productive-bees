@@ -81,10 +81,12 @@ public class Amber extends BaseEntityBlock
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         ItemStack stack = new ItemStack(ModBlocks.AMBER.get());
-        BlockEntity tileEntity = world.getBlockEntity(pos);
-        if (tileEntity instanceof AmberBlockEntity) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof AmberBlockEntity) {
             try {
-                stack.setTag(tileEntity.saveWithoutMetadata());
+                CompoundTag tag = new CompoundTag();
+                tag.put("BlockEntityTag", blockEntity.saveWithoutMetadata());
+                stack.setTag(tag);
             } catch (Exception e) {
                 // Crash can happen here if the server is shutting down as the client (WAILA) is trying to read the data
             }

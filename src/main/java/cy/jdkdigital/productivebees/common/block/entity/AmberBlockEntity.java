@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -49,16 +50,18 @@ public class AmberBlockEntity extends AbstractBlockEntity
 
     @Nullable
     public static PathfinderMob createEntity(Level world, CompoundTag tag) {
-        EntityType<?> type = EntityType.byString(tag.getString("entityType")).orElse(null);
-        if (type != null) {
-            try {
-                Entity loadedEntity = type.create(world);
-                if (loadedEntity instanceof PathfinderMob pathfinderMob) {
-                    loadedEntity.load(tag);
-                    return pathfinderMob;
+        if (tag != null) {
+            EntityType<?> type = EntityType.byString(tag.getString("entityType")).orElse(null);
+            if (type != null) {
+                try {
+                    Entity loadedEntity = type.create(world);
+                    if (loadedEntity instanceof PathfinderMob pathfinderMob) {
+                        loadedEntity.load(tag);
+                        return pathfinderMob;
+                    }
+                } catch (Exception e) {
+                    return null;
                 }
-            } catch (Exception e) {
-                return null;
             }
         }
         return null;
