@@ -257,10 +257,20 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                             }
 
                             // Apply upgrades
-                            int productivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
-                            if (productivityUpgrades > 0) {
-                                double upgradeMod = (stack.getCount() * (ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * (float) productivityUpgrades));
-                                stack.setCount(Math.round((float) upgradeMod));
+                            int normalProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
+                            int highEndProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_HIGH_END_PRODUCTIVITY.get());
+                            int nuclearProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_NUCLEAR_PRODUCTIVITY.get());
+                            int cosmicProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_COSMIC_PRODUCTIVITY.get());
+
+                            double normalUpgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * normalProductivityUpgrades;
+                            double highEndUpgradeMod = ProductiveBeesConfig.UPGRADES.highEndProductivityMultiplier.get() * highEndProductivityUpgrades;
+                            double nuclearUpgradeMod = ProductiveBeesConfig.UPGRADES.nuclearProductivityMultiplier.get() * nuclearProductivityUpgrades;
+                            double cosmicUpgradeMod = ProductiveBeesConfig.UPGRADES.cosmicProductivityMultiplier.get() * cosmicProductivityUpgrades;
+                            double totalProductivityMod = normalUpgradeMod + highEndUpgradeMod + nuclearUpgradeMod + cosmicUpgradeMod;
+
+                            if (totalProductivityMod >= 1.0) {
+                                double newStackSize = stack.getCount() * totalProductivityMod;
+                                stack.setCount(Math.round((float) newStackSize));
                             }
 
                             ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
@@ -362,7 +372,13 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         super.loadPacketNBT(tag);
 
         CompoundTag invTag = tag.getCompound("inv");
-        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag));
+        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
+            ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag);
+            // Load the stack size of each output slot. Only relevant if it exceeds 64
+            for (int i: InventoryHandlerHelper.OUTPUT_SLOTS) {
+                inv.getStackInSlot(i).setCount(tag.getInt("SlotItemAmount" + i));
+            }
+        });
 
         CompoundTag upgradesTag = tag.getCompound("upgrades");
         upgradeHandler.ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(upgradesTag));
@@ -376,6 +392,10 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         super.savePacketNBT(tag);
 
         this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
+            // Save the stack size of each output slot. Only relevant if it exceeds 64
+            for (int i: InventoryHandlerHelper.OUTPUT_SLOTS) {
+                tag.putInt("SlotItemAmount" + i, inv.getStackInSlot(i).getCount());
+            }
             CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
             tag.put("inv", compound);
         });
