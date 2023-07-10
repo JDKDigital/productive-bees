@@ -257,10 +257,20 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                             }
 
                             // Apply upgrades
-                            int productivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
-                            if (productivityUpgrades > 0) {
-                                double upgradeMod = (stack.getCount() * (ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * (float) productivityUpgrades));
-                                stack.setCount(Math.round((float) upgradeMod));
+                            int normalProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
+                            int highEndProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_HIGH_END_PRODUCTIVITY.get());
+                            int nuclearProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_NUCLEAR_PRODUCTIVITY.get());
+                            int cosmicProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_COSMIC_PRODUCTIVITY.get());
+
+                            double normalUpgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * normalProductivityUpgrades;
+                            double highEndUpgradeMod = ProductiveBeesConfig.UPGRADES.highEndProductivityMultiplier.get() * highEndProductivityUpgrades;
+                            double nuclearUpgradeMod = ProductiveBeesConfig.UPGRADES.nuclearProductivityMultiplier.get() * nuclearProductivityUpgrades;
+                            double cosmicUpgradeMod = ProductiveBeesConfig.UPGRADES.cosmicProductivityMultiplier.get() * cosmicProductivityUpgrades;
+                            double totalProductivityMod = normalUpgradeMod + highEndUpgradeMod + nuclearUpgradeMod + cosmicUpgradeMod;
+
+                            if (totalProductivityMod >= 1.0) {
+                                double newStackSize = stack.getCount() * totalProductivityMod;
+                                stack.setCount(Math.round((float) newStackSize));
                             }
 
                             ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
