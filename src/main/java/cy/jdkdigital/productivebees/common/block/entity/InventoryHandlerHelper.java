@@ -173,7 +173,7 @@ public class InventoryHandlerHelper
                 outputStacks.add(64);
                 stack.setCount(stack.getCount() - 64);
             }
-
+            //Add items to the available output slots for each of the splits created
             Iterator<Integer> iterator = outputStacks.iterator();
             while (iterator.hasNext()) {
                 stack.setCount(iterator.next());
@@ -190,6 +190,7 @@ public class InventoryHandlerHelper
                 }
             }
             stack.setCount(outputStacks.stream().mapToInt(Integer::intValue).sum());
+            //Returning the stack makes it possible for other methods to see if all or some items got added to the inventory
             return stack;
         }
 
