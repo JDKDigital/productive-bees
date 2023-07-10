@@ -571,7 +571,9 @@ public class ProductiveBee extends Bee
                                     ItemStack output = new ItemStack(blockRecipe.stateTo.getBlock().asItem());
                                     if (beehiveBlockEntity.isSim()) {
                                         beehiveBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
-                                            if (!output.equals(ItemStack.EMPTY) && h instanceof InventoryHandlerHelper.ItemHandler itemHandler && itemHandler.addOutput(output)) {
+                                            if (!output.equals(ItemStack.EMPTY) &&
+                                                    h instanceof InventoryHandlerHelper.ItemHandler itemHandler
+                                                    && itemHandler.addOutput(output).getCount() == 0) {
                                                 stack.shrink(1);
                                             }
                                         });
@@ -589,7 +591,8 @@ public class ProductiveBee extends Bee
                             if (level().random.nextInt(100) <= itemRecipe.chance) {
                                 if (beehiveBlockEntity.isSim()) {
                                     beehiveBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
-                                        if (h instanceof InventoryHandlerHelper.ItemHandler itemHandler && itemHandler.addOutput(itemRecipe.output.copy())) {
+                                        if (h instanceof InventoryHandlerHelper.ItemHandler itemHandler
+                                                && itemHandler.addOutput(itemRecipe.output.copy()).getCount() == 0) {
                                             stack.shrink(1);
                                         }
                                     });

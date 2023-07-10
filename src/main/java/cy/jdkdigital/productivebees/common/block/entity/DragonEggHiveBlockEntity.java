@@ -28,7 +28,8 @@ public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
                         ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
                             final ItemStack filledBottle = level.dimension() == Level.END ? new ItemStack(Items.DRAGON_BREATH) : new ItemStack(Items.HONEY_BOTTLE);
-                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
+                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv)
+                                    .addOutput(filledBottle).getCount() == 0;
                             if (addedBottle) {
                                 bottles.shrink(1);
                                 level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));

@@ -104,7 +104,8 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
                                     ItemStack combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(firstStack, secondStack));
 
                                     if (!firstStack.isEmpty() && !secondStack.isEmpty() && !combinedGene.isEmpty()) {
-                                        if (inventory instanceof InventoryHandlerHelper.ItemHandler && ((InventoryHandlerHelper.ItemHandler) inventory).addOutput(combinedGene)) {
+                                        if (inventory instanceof InventoryHandlerHelper.ItemHandler
+                                                && ((InventoryHandlerHelper.ItemHandler) inventory).addOutput(combinedGene).getCount() == 0) {
                                             firstStack.setCount(firstStack.getCount() - 1);
                                             secondStack.setCount(secondStack.getCount() - 1);
                                             inventory.setStackInSlot(firstEntry.get().getKey(), firstStack);
@@ -131,7 +132,8 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
                                     // Merge with self
                                     ItemStack combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(stack, stack.copy()));
                                     if (!stack.isEmpty() && !combinedGene.isEmpty()) {
-                                        if (inventory instanceof InventoryHandlerHelper.ItemHandler && ((InventoryHandlerHelper.ItemHandler) inventory).addOutput(combinedGene)) {
+                                        if (inventory instanceof InventoryHandlerHelper.ItemHandler
+                                                && ((InventoryHandlerHelper.ItemHandler) inventory).addOutput(combinedGene).getCount() == 0) {
                                             stack.setCount(stack.getCount() - 2);
                                             inventory.setStackInSlot(innerEntry.getKey(), stack);
 

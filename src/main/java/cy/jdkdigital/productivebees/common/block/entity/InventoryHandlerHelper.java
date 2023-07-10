@@ -15,6 +15,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -160,19 +162,35 @@ public class InventoryHandlerHelper
             return super.insertItem(slot, stack, simulate);
         }
 
-        public boolean addOutput(@Nonnull ItemStack stack) {
-            int slot = getAvailableOutputSlot(this, stack);
-            if (slot > 0) {
-                ItemStack existingStack = this.getStackInSlot(slot);
-                if (existingStack.isEmpty()) {
-                    setStackInSlot(slot, stack.copy());
-                } else {
-                    existingStack.grow(stack.getCount());
+        public ItemStack addOutput(@Nonnull ItemStack stack) {
+            //Split the stack into smaller pieces if its over 64 items big
+            List<Integer> outputStacks = new LinkedList<>();
+            while (stack.getCount() > 0) {
+                if (stack.getCount() <= 64) {
+                    outputStacks.add(stack.getCount());
+                    break;
                 }
-                onContentsChanged(slot);
-                return true;
+                outputStacks.add(64);
+                stack.setCount(stack.getCount() - 64);
             }
-            return false;
+
+            Iterator<Integer> iterator = outputStacks.iterator();
+            while (iterator.hasNext()) {
+                stack.setCount(iterator.next());
+                int slot = getAvailableOutputSlot(this, stack);
+                if (slot > 0) {
+                    ItemStack existingStack = this.getStackInSlot(slot);
+                    if (existingStack.isEmpty()) {
+                        setStackInSlot(slot, stack.copy());
+                    } else {
+                        existingStack.grow(stack.getCount());
+                    }
+                    onContentsChanged(slot);
+                    iterator.remove();
+                }
+            }
+            stack.setCount(outputStacks.stream().mapToInt(Integer::intValue).sum());
+            return stack;
         }
 
         public boolean canFitStacks(List<ItemStack> stacks) {

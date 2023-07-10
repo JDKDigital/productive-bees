@@ -152,7 +152,8 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                         ItemStack bottles = inv.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
                         if (!bottles.isEmpty() && bottles.getItem() instanceof BottleItem) {
                             final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
-                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle);
+                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv)
+                                    .addOutput(filledBottle).getCount() == 0;
                             if (addedBottle) {
                                 ((InventoryHandlerHelper.ItemHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
                                 bottles.shrink(1);
