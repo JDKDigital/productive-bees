@@ -372,13 +372,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         super.loadPacketNBT(tag);
 
         CompoundTag invTag = tag.getCompound("inv");
-        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag);
-            // Load the stack size of each output slot. Only relevant if it exceeds 64
-            for (int i: InventoryHandlerHelper.OUTPUT_SLOTS) {
-                inv.getStackInSlot(i).setCount(tag.getInt("SlotItemAmount" + i));
-            }
-        });
+        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag));
 
         CompoundTag upgradesTag = tag.getCompound("upgrades");
         upgradeHandler.ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(upgradesTag));
@@ -392,10 +386,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         super.savePacketNBT(tag);
 
         this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            // Save the stack size of each output slot. Only relevant if it exceeds 64
-            for (int i: InventoryHandlerHelper.OUTPUT_SLOTS) {
-                tag.putInt("SlotItemAmount" + i, inv.getStackInSlot(i).getCount());
-            }
             CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
             tag.put("inv", compound);
         });
