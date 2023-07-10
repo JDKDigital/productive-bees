@@ -38,6 +38,9 @@ public class UpgradeItem extends Item
             case "upgrade_productivity" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier.get();
             case "upgrade_breeding" -> ProductiveBeesConfig.UPGRADES.breedingChance.get();
             case "upgrade_time" -> ProductiveBeesConfig.UPGRADES.timeBonus.get();
+            case "upgrade_high_end_productivity" -> ProductiveBeesConfig.UPGRADES.highEndProductivityMultiplier.get();
+            case "upgrade_nuclear_productivity" -> ProductiveBeesConfig.UPGRADES.nuclearProductivityMultiplier.get();
+            case "upgrade_cosmic_productivity" -> ProductiveBeesConfig.UPGRADES.cosmicProductivityMultiplier.get();
             default -> 0.0F;
         };
 
