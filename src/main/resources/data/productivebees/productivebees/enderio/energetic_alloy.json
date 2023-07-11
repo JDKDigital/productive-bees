@@ -1,0 +1,13 @@
+{
+    "primaryColor": "#fcebc5",
+    "secondaryColor": "#e6a100",
+    "particleColor": "#fcd989",
+    "flowerBlock": "enderio:energetic_alloy_block",
+    "description": "productivebees.ingredient.description.only_spawnegg",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "enderio"
+        }
+    ]
+}

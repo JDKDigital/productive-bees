@@ -5,6 +5,7 @@
   "particleColor": "#fa9310",
   "renderer": "default_crystal",
   "flowerTag": "!productivebees:bee_encase_blacklist",
+  "description": "productivebees.ingredient.description.amber_bee",
   "flowerType": "entity_types",
   "size": 0.7,
   "postPollination": "amber_encase"

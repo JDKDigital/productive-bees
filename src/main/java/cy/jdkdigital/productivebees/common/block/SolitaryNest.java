@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import cy.jdkdigital.productivebees.common.item.HoneyTreat;
 import cy.jdkdigital.productivebees.common.recipe.BeeSpawningRecipe;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -17,6 +18,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -76,7 +78,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
             .put(Blocks.SNOW_BLOCK, ModBlocks.SNOW_NEST.get())
             .put(Blocks.GRAVEL, ModBlocks.GRAVEL_NEST.get())
         .build());
-    Map<String, List<BeeSpawningRecipe>> recipes = new HashMap<>();
+    static Map<String, List<BeeSpawningRecipe>> recipes = new HashMap<>();
 
     public SolitaryNest(Properties properties) {
         super(properties);
@@ -93,8 +95,8 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         return 0;
     }
 
-    public Entity getNestingBeeType(Level level, Holder<Biome> biome, RandomSource random) {
-        List<BeeSpawningRecipe> spawningRecipes = getSpawningRecipes(level, biome, ItemStack.EMPTY);
+    public static Entity getNestingBeeType(SolitaryNest block, Level level, Holder<Biome> biome, RandomSource random) {
+        List<BeeSpawningRecipe> spawningRecipes = getSpawningRecipes(block, level, biome, ItemStack.EMPTY);
         if (!spawningRecipes.isEmpty()) {
             BeeSpawningRecipe spawningRecipe = spawningRecipes.get(random.nextInt(spawningRecipes.size()));
             BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
@@ -112,13 +114,13 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
         return null;
     }
 
-    public List<BeeSpawningRecipe> getSpawningRecipes(Level level, Holder<Biome> biome, ItemStack heldItem) {
+    public static List<BeeSpawningRecipe> getSpawningRecipes(SolitaryNest block, Level level, Holder<Biome> biome, ItemStack heldItem) {
         List<BeeSpawningRecipe> spawningRecipes = new ArrayList<>();
-        String cacheKey = ForgeRegistries.ITEMS.getKey(heldItem.getItem()) + "_" + ForgeRegistries.BLOCKS.getKey(defaultBlockState().getBlock());
+        String cacheKey = ForgeRegistries.ITEMS.getKey(heldItem.getItem()) + "_" + ForgeRegistries.BLOCKS.getKey(block) + "_" + level.registryAccess().registryOrThrow(Registries.BIOME).getKey(biome.value());
         // Get and cache recipes for nest type
         if (!recipes.containsKey(cacheKey)) {
             Map<ResourceLocation, BeeSpawningRecipe> allRecipes = new HashMap<>(level.getRecipeManager().byType(ModRecipeTypes.BEE_SPAWNING_TYPE.get()));
-            ItemStack nestItem = new ItemStack(this);
+            ItemStack nestItem = new ItemStack(block);
             for (Map.Entry<ResourceLocation, BeeSpawningRecipe> entry : allRecipes.entrySet()) {
                 BeeSpawningRecipe recipe = entry.getValue();
                 if (recipe.matches(nestItem, heldItem, biome, level)) {
@@ -168,7 +170,9 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
             ItemStack heldItem = player.getItemInHand(hand);
             if (tileEntity != null && !heldItem.isEmpty()) {
-                //  heldItem.getItem() instanceof HoneyTreat && !HoneyTreat.hasGene(heldItem)
+                if (heldItem.getItem() instanceof HoneyTreat && HoneyTreat.hasGene(heldItem)) {
+                    return InteractionResult.PASS;
+                }
 
                 boolean itemUse = false;
                 int currentCooldown = tileEntity.getNestTickCooldown();

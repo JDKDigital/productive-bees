@@ -1,0 +1,64 @@
+{
+  "type": "enderio:alloy_smelting",
+  "energy": 20000,
+  "experience": 0.3,
+  "inputs": [
+    {
+      "count": 1,
+      "ingredient": {
+        "tag": "forge:end_stones"
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:dark_steel"
+          }
+        }
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:obsidian"
+          }
+        }
+      }
+    }
+  ],
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:end_steel"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "enderio"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dark_steel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:end_steel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:obsidian"
+    }
+  ]
+}

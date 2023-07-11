@@ -57,6 +57,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final RecipeType<BeeFloweringRecipeCategory.Recipe> BEE_FLOWERING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_flowering", BeeFloweringRecipeCategory.Recipe.class);
     public static final RecipeType<IncubationRecipe> INCUBATION_TYPE = RecipeType.create(ProductiveBees.MODID, "incubation", IncubationRecipe.class);
     public static final RecipeType<BlockConversionRecipe> BLOCK_CONVERSION_TYPE = RecipeType.create(ProductiveBees.MODID, "block_conversion", BlockConversionRecipe.class);
+    public static final RecipeType<ItemConversionRecipe> ITEM_CONVERSION_TYPE = RecipeType.create(ProductiveBees.MODID, "item_conversion", ItemConversionRecipe.class);
     public static final RecipeType<BottlerRecipe> BOTTLER_TYPE = RecipeType.create(ProductiveBees.MODID, "bottler", BottlerRecipe.class);
 
     public static final IIngredientType<BeeIngredient> BEE_INGREDIENT = () -> BeeIngredient.class;
@@ -81,6 +82,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.INCUBATOR.get()), INCUBATION_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BOTTLER.get()), BOTTLER_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BREEDING_CHAMBER.get()), BEE_BREEDING_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.FEEDER.get()), ITEM_CONVERSION_TYPE);
     }
 
     @Override
@@ -97,6 +99,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCategories(new BeeFloweringRecipeCategory(guiHelper));
         registration.addRecipeCategories(new IncubationRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BlockConversionRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new ItemConversionRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BottlerRecipeCategory(guiHelper));
     }
 
@@ -138,6 +141,9 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         // Block conversion recipes
         Map<ResourceLocation, BlockConversionRecipe> blockConversionRecipeMap = recipeManager.byType(ModRecipeTypes.BLOCK_CONVERSION_TYPE.get());
         registration.addRecipes(BLOCK_CONVERSION_TYPE, blockConversionRecipeMap.values().stream().toList());
+        // Item conversion recipes
+        Map<ResourceLocation, ItemConversionRecipe> itemConversionRecipeMap = recipeManager.byType(ModRecipeTypes.ITEM_CONVERSION_TYPE.get());
+        registration.addRecipes(ITEM_CONVERSION_TYPE, itemConversionRecipeMap.values().stream().toList());
         // Bottler recipes
         Map<ResourceLocation, BottlerRecipe> bottlerRecipeMap = recipeManager.byType(ModRecipeTypes.BOTTLER_TYPE.get());
         registration.addRecipes(BOTTLER_TYPE, bottlerRecipeMap.values().stream().toList());

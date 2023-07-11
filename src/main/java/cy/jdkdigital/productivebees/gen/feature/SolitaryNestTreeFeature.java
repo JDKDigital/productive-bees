@@ -81,7 +81,7 @@ public class SolitaryNestTreeFeature extends TreeFeature
                         Block nest = SolitaryNest.BLOCK_TO_NEST.get().get(logBlock.getBlock());
                         if (nest instanceof WoodNest woodNest) {
                             woodNestDecorator.setNest(woodNest.defaultBlockState());
-                            woodNestDecorator.setBeeRecipes(woodNest.getSpawningRecipes(level.getLevel(), level.getBiome(blockpos), ItemStack.EMPTY));
+                            woodNestDecorator.setBeeRecipes(SolitaryNest.getSpawningRecipes(woodNest, level.getLevel(), level.getBiome(blockpos), ItemStack.EMPTY));
                         } else {
                             woodNestDecorator.setNest(null); // reset so next tree does not inherit
                         }

@@ -429,7 +429,7 @@ public class ProductiveBee extends Bee
     }
 
     public int getTimeInHive(boolean hasNectar) {
-        return hasNectar ? 2400 : 600;
+        return hasNectar ? ProductiveBeesConfig.GENERAL.timeInHive.get() : ProductiveBeesConfig.GENERAL.timeInHive.get() / 2;
     }
 
     public void setRenderStatic() {

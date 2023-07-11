@@ -53,7 +53,7 @@ public class BeeSpawningRecipe implements Recipe<Container>
     }
 
     public boolean matches(ItemStack nest, ItemStack heldItem, Holder<Biome> biome, Level level) {
-        return ingredient.test(nest) && (heldItem.equals(ItemStack.EMPTY) || spawnItem.test(heldItem)) && (this.biomes.equals("any") || biome.is(biomeKey));
+         return ingredient.test(nest) && (heldItem.equals(ItemStack.EMPTY) || spawnItem.test(heldItem)) && (this.biomes.equals("any") || biome.is(biomeKey));
     }
 
     @Nonnull

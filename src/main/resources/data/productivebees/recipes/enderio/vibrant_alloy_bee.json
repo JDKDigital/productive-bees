@@ -1,0 +1,58 @@
+{
+  "type": "enderio:alloy_smelting",
+  "energy": 10000,
+  "experience": 0.3,
+  "inputs": [
+    {
+      "count": 1,
+      "ingredient": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:energetic_alloy"
+          }
+        }
+      }
+    },
+    {
+      "count": 1,
+      "ingredient": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:ender"
+          }
+        }
+      }
+    }
+  ],
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:vibrant_alloy"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "enderio"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:energetic_alloy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:vibrant_alloy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ender"
+    }
+  ]
+}

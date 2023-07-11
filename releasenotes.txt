@@ -1,3 +1,15 @@
+1.20.1-12.1.4
+
+- Added EnderIO bees
+- Added some documentation to amber bees
+
+
+1.20.1-12.1.3
+
+- Fixed nest repopulation not working for some nests
+- Added Polish translation thanks to JanProPL
+
+
 1.20.1-12.1.2
 
 - Fixed powered and heated centrifuge speed modifiers

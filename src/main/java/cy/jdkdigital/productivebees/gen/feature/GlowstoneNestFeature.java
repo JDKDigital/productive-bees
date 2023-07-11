@@ -102,7 +102,7 @@ public class GlowstoneNestFeature extends Feature<BlockStateConfiguration>
 
                         BlockState nestBlock = nestBlockEntity.getBlockState();
                         if (nestBlock.getBlock() instanceof SolitaryNest solitaryNest) {
-                            List<BeeSpawningRecipe> recipes = solitaryNest.getSpawningRecipes(level.getLevel(), level.getBiome(blockpos), ItemStack.EMPTY);
+                            List<BeeSpawningRecipe> recipes = SolitaryNest.getSpawningRecipes(solitaryNest, level.getLevel(), level.getBiome(blockpos), ItemStack.EMPTY);
                             BeeSpawningRecipe spawningRecipe = recipes.get(random.nextInt(recipes.size()));
                             BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
                             try {

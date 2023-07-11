@@ -92,7 +92,7 @@ public class SolitaryNestFeature extends Feature<ReplaceBlockConfiguration>
         if (blockEntity instanceof SolitaryNestBlockEntity nestBlockEntity && state.getBlock() instanceof SolitaryNest nestBlock) {
             ProductiveBees.LOGGER.debug("Spawned nest at " + pos + " " + newState);
             try {
-                var recipes = nestBlock.getSpawningRecipes(level.getLevel(), level.getBiome(pos), ItemStack.EMPTY);
+                var recipes = SolitaryNest.getSpawningRecipes(nestBlock, level.getLevel(), level.getBiome(pos), ItemStack.EMPTY);
                 if (recipes.size() > 0) {
                     BeeSpawningRecipe spawningRecipe = recipes.size() == 1 ? recipes.get(0) : recipes.get(random.nextInt(recipes.size()));
                     if (spawningRecipe.output.size() > 0) {

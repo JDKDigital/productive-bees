@@ -27,8 +27,8 @@ public class AmberItem extends BlockItem
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(stack, level, list, flag);
 
+        list.add(Component.translatable("productivebees.amber.tooltip.heating").withStyle(ChatFormatting.DARK_RED));
         CompoundTag tag = stack.getTag();
-        ProductiveBees.LOGGER.info(tag);
         if (tag != null && tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("EntityData")) {
             list.add(Component.translatable("productivebees.amber.tooltip.contained_entity", Component.literal(tag.getCompound("BlockEntityTag").getCompound("EntityData").getString("name")).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.WHITE));
         }

@@ -40,15 +40,17 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
             // Check if the nest has been activated and spawn a bee if it has
             Block block = state.getBlock();
             if (--blockEntity.nestTickTimer <= 0) {
-                if (blockEntity.canRepopulate() && block instanceof SolitaryNest) {
-                    Entity newBee = ((SolitaryNest) block).getNestingBeeType(level, level.getBiome(pos), level.random);
-                    if (newBee instanceof Bee) {
-                        ((Bee) newBee).setHealth(((Bee) newBee).getMaxHealth());
-                        ((Bee) newBee).hivePos = pos;
+                if (blockEntity.canRepopulate() && block instanceof SolitaryNest nest) {
+                    Entity newBee = SolitaryNest.getNestingBeeType(nest, level, level.getBiome(pos), level.random);
+                    if (newBee != null) {
+                        if (newBee instanceof Bee) {
+                            ((Bee) newBee).setHealth(((Bee) newBee).getMaxHealth());
+                            ((Bee) newBee).hivePos = pos;
+                        }
+                        Direction direction = state.getValue(BlockStateProperties.FACING);
+                        spawnBeeInWorldAtPosition((ServerLevel) level, newBee, pos.relative(direction), direction, null);
+                        blockEntity.nestTickTimer = -1;
                     }
-                    Direction direction = state.getValue(BlockStateProperties.FACING);
-                    spawnBeeInWorldAtPosition((ServerLevel) level, newBee, pos.relative(direction), direction, null);
-                    blockEntity.nestTickTimer = -1;
                 }
             }
 
@@ -69,7 +71,7 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
         SolitaryNest nest = ((SolitaryNest) this.getBlockState().getBlock());
         boolean blockConditionsMet = false;
         if (level instanceof ServerLevel serverLevel) {
-            blockConditionsMet = !nest.getSpawningRecipes(serverLevel, serverLevel.getBiome(this.getBlockPos()), heldItem).isEmpty();
+            blockConditionsMet = !SolitaryNest.getSpawningRecipes(nest, serverLevel, serverLevel.getBiome(this.getBlockPos()), heldItem).isEmpty();
         }
 
         return isEmpty() && blockConditionsMet;

@@ -1,0 +1,14 @@
+{
+    "primaryColor": "#3b3b3b",
+    "secondaryColor": "#171717",
+    "particleColor": "#7a7a7a",
+    "size": 0.7,
+    "flowerBlock": "enderio:dark_steel_block",
+    "description": "productivebees.ingredient.description.only_spawnegg",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "enderio"
+        }
+    ]
+}

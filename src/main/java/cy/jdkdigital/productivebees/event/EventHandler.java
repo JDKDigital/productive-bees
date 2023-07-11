@@ -4,6 +4,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.client.render.item.JarBlockItemRenderer;
+import cy.jdkdigital.productivebees.common.block.SolitaryNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
@@ -177,7 +178,7 @@ public class EventHandler
 
             if (decorator != null) {
                 if (decorator.getNest().getBlock() instanceof WoodNest woodNest) {
-                    decorator.setBeeRecipes(woodNest.getSpawningRecipes(serverLevel, serverLevel.getBiome(event.getPos()), ItemStack.EMPTY));
+                    decorator.setBeeRecipes(SolitaryNest.getSpawningRecipes(woodNest, serverLevel, serverLevel.getBiome(event.getPos()), ItemStack.EMPTY));
                 }
 
                 var feature = event.getFeature();
