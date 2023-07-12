@@ -170,7 +170,7 @@ public class HoarderBee extends ProductiveBee
     public void emptyIntoInventory(InventoryHandlerHelper.ItemHandler inv) {
         for (int i = 0; i < inventory.getContainerSize(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
-            if (inv.addOutput(itemstack.copy())) {
+            if (inv.addOutput(itemstack.copy()).getCount() == 0) {
                 inventory.removeItemNoUpdate(i);
             }
         }
