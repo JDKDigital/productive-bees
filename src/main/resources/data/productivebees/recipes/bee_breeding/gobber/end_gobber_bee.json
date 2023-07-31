@@ -1,22 +1,22 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:nether_gobber",
-    "parent2": "productivebees:ender",
-    "offspring": [
-        "productivebees:end_gobber"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:nether_gobber"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:ender"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:end_gobber"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:nether_gobber",
+  "parent2": "productivebees:ender",
+  "offspring": [
+    "productivebees:end_gobber"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:nether_gobber"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ender"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:end_gobber"
+    }
+  ]
 }

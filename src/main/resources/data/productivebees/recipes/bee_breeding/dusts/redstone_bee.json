@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:glowing",
-    "parent2": "productivebees:chocolate_mining_bee",
-    "offspring": [
-        "productivebees:redstone"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:glowing"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:redstone"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:glowing",
+  "parent2": "productivebees:chocolate_mining_bee",
+  "offspring": [
+    "productivebees:redstone"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:glowing"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:redstone"
+    }
+  ]
 }

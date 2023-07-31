@@ -1,36 +1,36 @@
 {
-    "type": "tconstruct:casting_table",
-    "cast": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:slimy\"}}"
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:slimy\"}}"
+  },
+  "cast_consumed": true,
+  "fluid": {
+    "name": "tconstruct:sky_slime",
+    "amount": 1000
+  },
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:sky_slimy"
+      }
+    }
+  },
+  "cooling_time": 87,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
     },
-    "cast_consumed": true,
-    "fluid": {
-        "name": "tconstruct:sky_slime",
-        "amount": 1000
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:slimy"
     },
-    "result": {
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:sky_slimy"
-            }
-        }
-    },
-    "cooling_time": 87,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "tconstruct"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:slimy"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:sky_slimy"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sky_slimy"
+    }
+  ]
 }

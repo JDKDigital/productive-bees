@@ -1,42 +1,42 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:earth_crystal"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:earth_crystal"
         }
-    ],
-    "results": [
-        {
-            "item": "elementalcraft:earthcrystal",
-            "chance": 0.5
-        },
-        {
-            "item": "productivebees:wax"
-        },
-        {
-            "fluid": "productivebees:honey",
-            "amount": 100
-        }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "elementalcraft"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:earth_crystal"
-        }
-    ]
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "elementalcraft:earthcrystal",
+      "chance": 0.5
+    },
+    {
+      "item": "productivebees:wax"
+    },
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "elementalcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:earth_crystal"
+    }
+  ]
 }

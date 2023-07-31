@@ -1,19 +1,19 @@
 {
-    "primaryColor": "#ba3d34",
-    "secondaryColor": "#8a0303",
-    "particleColor": "#ba3d34",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "renderer": "thicc",
-    "size": 0.9,
-    "attributes": {
-        "endurance": 3,
-        "productivity": 1
-    },
-    "flowerBlock": "evilcraft:hardened_blood",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "evilcraft"
-        }
-    ]
+  "primaryColor": "#ba3d34",
+  "secondaryColor": "#8a0303",
+  "particleColor": "#ba3d34",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "renderer": "thicc",
+  "size": 0.9,
+  "attributes": {
+    "endurance": 3,
+    "productivity": 1
+  },
+  "flowerBlock": "evilcraft:hardened_blood",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "evilcraft"
+    }
+  ]
 }

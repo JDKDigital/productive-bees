@@ -1,18 +1,18 @@
 {
-    "primaryColor": "#636363",
-    "secondaryColor": "#2e0b17",
-    "tertiaryColor": "#141414",
-    "particleColor": "#636363",
-    "renderer": "default_crystal",
-    "size": 0.7,
-    "attributes": {
-        "temper": 2
-    },
-    "flowerBlock": "evilcraft:dark_block",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "evilcraft"
-        }
-    ]
+  "primaryColor": "#636363",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#141414",
+  "particleColor": "#636363",
+  "renderer": "default_crystal",
+  "size": 0.7,
+  "attributes": {
+    "temper": 2
+  },
+  "flowerBlock": "evilcraft:dark_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "evilcraft"
+    }
+  ]
 }

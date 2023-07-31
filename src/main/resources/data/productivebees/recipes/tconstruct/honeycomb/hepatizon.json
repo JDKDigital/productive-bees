@@ -1,32 +1,32 @@
 {
-    "type": "tconstruct:melting",
-    "ingredient": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:hepatizon"
-                }
-            }
+  "type": "tconstruct:melting",
+  "ingredient": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:hepatizon"
         }
-    ],
-    "result": {
-        "fluid": "tconstruct:molten_hepatizon",
-        "amount": 48
-    },
-    "temperature": 1400,
-    "time": 26,
-    "byproducts": [
-        {
-            "fluid": "productivebees:honey",
-            "amount": 100
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "tconstruct"
-        }
-    ]
+      }
+    }
+  ],
+  "result": {
+    "fluid": "tconstruct:molten_hepatizon",
+    "amount": 48
+  },
+  "temperature": 1400,
+  "time": 26,
+  "byproducts": [
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ]
 }

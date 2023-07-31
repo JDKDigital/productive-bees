@@ -1,29 +1,29 @@
 {
-    "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:prosperity",
-    "results": [
-        {
-            "item": {
-                "type": "forge:nbt",
-                "item": "productivebees:configurable_honeycomb",
-                "nbt": {
-                    "EntityTag": {
-                        "type": "productivebees:prosperity"
-                    }
-                }
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:pollen"
-            },
-            "chance": 5
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:prosperity",
+  "results": [
+    {
+      "item": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:prosperity"
+          }
         }
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:prosperity"
-        }
-    ]
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:prosperity"
+    }
+  ]
 }

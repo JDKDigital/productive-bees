@@ -1,12 +1,12 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:bumble_bee_nest"
-    },
-    "biomes": "#forge:is_plains",
-    "results": [
-        {
-            "bee": "productivebees:bumble_bee"
-        }
-    ]
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:bumble_bee_nest"
+  },
+  "biomes": "#forge:is_plains",
+  "results": [
+    {
+      "bee": "productivebees:bumble_bee"
+    }
+  ]
 }

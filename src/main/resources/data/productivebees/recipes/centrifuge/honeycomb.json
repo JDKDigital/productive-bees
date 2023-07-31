@@ -1,19 +1,19 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "item": "minecraft:honeycomb"
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "item": "minecraft:honeycomb"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
     },
-    "outputs": [
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        },
-        {
-            "fluid": {
-                "fluid": "productivebees:honey"
-            },
-            "amount": 100
-        }
-    ]
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 100
+    }
+  ]
 }

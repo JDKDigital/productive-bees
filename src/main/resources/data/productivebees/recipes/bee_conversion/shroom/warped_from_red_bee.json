@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:red_shroom",
-    "result": "productivebees:warped",
-    "item": {
-        "item": "minecraft:warped_fungus"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:red_shroom",
+  "result": "productivebees:warped",
+  "item": {
+    "item": "minecraft:warped_fungus"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:red_shroom"
     },
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:red_shroom"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:warped"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:warped"
+    }
+  ]
 }

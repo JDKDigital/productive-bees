@@ -1,25 +1,25 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:diamond",
-    "result": "productivebees:coral",
-    "item": {
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:diamond",
+  "result": "productivebees:coral",
+  "item": {
+    "tag": "productivebees:flowers/coral"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
         "tag": "productivebees:flowers/coral"
+      }
     },
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/coral"
-            }
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:diamond"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:coral"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:coral"
+    }
+  ]
 }

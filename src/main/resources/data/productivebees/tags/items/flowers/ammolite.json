@@ -1,13 +1,13 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "#forge:storage_blocks/ammolite",
-            "required": false
-        },
-        {
-            "id": "silentgems:ammolite_glowrose",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:storage_blocks/ammolite",
+      "required": false
+    },
+    {
+      "id": "silentgems:ammolite_glowrose",
+      "required": false
+    }
+  ]
 }

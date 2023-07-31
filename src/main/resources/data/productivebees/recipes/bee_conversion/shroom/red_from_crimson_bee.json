@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:crimson",
-    "result": "productivebees:red_shroom",
-    "item": {
-        "item": "minecraft:red_mushroom"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:crimson",
+  "result": "productivebees:red_shroom",
+  "item": {
+    "item": "minecraft:red_mushroom"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crimson"
     },
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:crimson"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:red_shroom"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:red_shroom"
+    }
+  ]
 }

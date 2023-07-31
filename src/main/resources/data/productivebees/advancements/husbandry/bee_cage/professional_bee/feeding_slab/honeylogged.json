@@ -1,41 +1,41 @@
 {
-    "parent": "productivebees:husbandry/bee_cage/professional_bee/feeding_slab",
-    "display": {
-        "icon": {
-            "item": "productivebees:honey_bucket"
-        },
-        "title": {
-            "translate": "advancements.husbandry.honeylogged.title"
-        },
-        "description": {
-            "translate": "advancements.husbandry.honeylogged.description"
-        },
-        "frame": "task",
-        "show_toast": true,
-        "announce_to_chat": true,
-        "hidden": false
+  "parent": "productivebees:husbandry/bee_cage/professional_bee/feeding_slab",
+  "display": {
+    "icon": {
+      "item": "productivebees:honey_bucket"
     },
-    "criteria": {
-        "honeylog": {
-            "trigger": "minecraft:placed_block",
-            "conditions": {
-                "location": [
-                    {
-                        "block": {
-                            "block": "productivebees:feeder",
-                            "state": {
-                                "honeylogged": true
-                            }
-                        },
-                        "condition": "minecraft:block_state_property"
-                    }
-                ]
-            }
-        }
+    "title": {
+      "translate": "advancements.husbandry.honeylogged.title"
     },
-    "requirements": [
-        [
-            "honeylog"
+    "description": {
+      "translate": "advancements.husbandry.honeylogged.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "honeylog": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "block": {
+              "block": "productivebees:feeder",
+              "state": {
+                "honeylogged": true
+              }
+            },
+            "condition": "minecraft:block_state_property"
+          }
         ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "honeylog"
     ]
+  ]
 }

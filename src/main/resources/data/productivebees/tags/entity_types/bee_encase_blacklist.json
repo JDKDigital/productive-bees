@@ -1,6 +1,6 @@
 {
-    "replace": false,
-    "values": [
-        "#minecraft:beehive_inhabitors"
-    ]
+  "replace": false,
+  "values": [
+    "#minecraft:beehive_inhabitors"
+  ]
 }

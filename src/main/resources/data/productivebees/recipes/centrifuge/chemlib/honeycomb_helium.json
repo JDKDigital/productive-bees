@@ -1,0 +1,36 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:helium"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "chemlib:helium"
+      },
+      "min": 2,
+      "max": 3
+    },
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:helium"
+    }
+  ]
+}

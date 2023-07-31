@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#be36d6",
+  "particleColor": "#d54eed",
+  "size:": 0.5,
+  "beeTexture": "productivebees:textures/entity/bee/argon/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerFluid": "chemlib:argon_fluid",
+  "translucent": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

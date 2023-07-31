@@ -1,21 +1,21 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:glowstone_nest"
-    },
-    "results": [
-        {
-            "bee": "productivebees:glowing"
-        }
-    ],
-    "spawn_item": {
-        "tag": "forge:dusts/glowstone"
-    },
-    "biomes": "#minecraft:is_nether",
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:glowing"
-        }
-    ]
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:glowstone_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:glowing"
+    }
+  ],
+  "spawn_item": {
+    "tag": "forge:dusts/glowstone"
+  },
+  "biomes": "#minecraft:is_nether",
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:glowing"
+    }
+  ]
 }

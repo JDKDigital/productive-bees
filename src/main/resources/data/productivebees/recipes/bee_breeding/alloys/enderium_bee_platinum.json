@@ -1,22 +1,22 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:lead",
-    "parent2": "productivebees:platinum",
-    "offspring": [
-        "productivebees:enderium"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:lead"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:platinum"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:enderium"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:lead",
+  "parent2": "productivebees:platinum",
+  "offspring": [
+    "productivebees:enderium"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lead"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:platinum"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enderium"
+    }
+  ]
 }

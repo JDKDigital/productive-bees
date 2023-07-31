@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#6cf631",
-    "secondaryColor": "#3e5b68",
-    "tertiaryColor": "#54943a",
-    "particleColor": "#6cf631",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/chrysoprase",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/chrysoprase"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/chrysoprase"
-            }
-        }
-    ]
+  "primaryColor": "#6cf631",
+  "secondaryColor": "#3e5b68",
+  "tertiaryColor": "#54943a",
+  "particleColor": "#6cf631",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/chrysoprase",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/chrysoprase"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/chrysoprase"
+      }
+    }
+  ]
 }

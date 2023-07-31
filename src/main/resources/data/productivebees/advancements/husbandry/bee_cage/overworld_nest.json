@@ -1,35 +1,35 @@
 {
-    "parent": "productivebees:husbandry/bee_cage",
-    "display": {
-        "icon": {
-            "item": "productivebees:oak_wood_nest"
-        },
-        "title": {
-            "translate": "advancements.husbandry.overworld_nest.title"
-        },
-        "description": {
-            "translate": "advancements.husbandry.overworld_nest.description"
-        },
-        "frame": "task",
-        "show_toast": true,
-        "announce_to_chat": true,
-        "hidden": false
+  "parent": "productivebees:husbandry/bee_cage",
+  "display": {
+    "icon": {
+      "item": "productivebees:oak_wood_nest"
     },
-    "criteria": {
-        "get_item": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "tag": "productivebees:solitary_overworld_nests"
-                    }
-                ]
-            }
-        }
+    "title": {
+      "translate": "advancements.husbandry.overworld_nest.title"
     },
-    "requirements": [
-        [
-            "get_item"
+    "description": {
+      "translate": "advancements.husbandry.overworld_nest.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "productivebees:solitary_overworld_nests"
+          }
         ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
     ]
+  ]
 }

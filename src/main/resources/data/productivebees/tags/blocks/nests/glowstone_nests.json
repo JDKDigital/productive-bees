@@ -1,7 +1,7 @@
 {
-    "replace": false,
-    "values": [
-        "productivebees:glowstone_nest",
-        "#productivebees:advanced_beehives"
-    ]
+  "replace": false,
+  "values": [
+    "productivebees:glowstone_nest",
+    "#productivebees:advanced_beehives"
+  ]
 }

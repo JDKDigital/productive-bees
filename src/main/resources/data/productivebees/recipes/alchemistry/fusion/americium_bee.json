@@ -1,0 +1,39 @@
+{
+  "type": "alchemistry:fusion",
+  "group": "fusion",
+  "input1": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:plutonium"
+      }
+    }
+  },
+  "input2": {
+    "item": "chemlib:plutonium"
+  },
+  "output": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:americium"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "alchemistry"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:plutonium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:americium"
+    }
+  ]
+}

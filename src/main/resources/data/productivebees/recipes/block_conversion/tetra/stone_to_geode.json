@@ -1,20 +1,20 @@
 {
-    "type": "productivebees:block_conversion",
-    "bee": "productivebees:geode",
-    "from": {
-        "Name": "minecraft:stone"
-    },
-    "to": {
-        "Name": "tetra:block_geode"
-    },
-    "to_display": {
-        "item": "tetra:geode"
-    },
-    "chance": 15,
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:geode"
-        }
-    ]
+  "type": "productivebees:block_conversion",
+  "bee": "productivebees:geode",
+  "from": {
+    "Name": "minecraft:stone"
+  },
+  "to": {
+    "Name": "tetra:block_geode"
+  },
+  "to_display": {
+    "item": "tetra:geode"
+  },
+  "chance": 15,
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:geode"
+    }
+  ]
 }

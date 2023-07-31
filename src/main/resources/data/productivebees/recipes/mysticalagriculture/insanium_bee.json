@@ -1,53 +1,53 @@
 {
-    "type": "mysticalagriculture:infusion",
-    "input": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:supremium\"}}"
+  "type": "mysticalagriculture:infusion",
+  "input": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:supremium\"}}"
+  },
+  "ingredients": [
+    {
+      "item": "mysticalagradditions:insanium_essence"
     },
-    "ingredients": [
-        {
-            "item": "mysticalagradditions:insanium_essence"
-        },
-        {
-            "item": "mysticalagradditions:insanium_block"
-        },
-        {
-            "item": "mysticalagradditions:insanium_essence"
-        },
-        {
-            "item": "mysticalagradditions:insanium_block"
-        },
-        {
-            "item": "mysticalagradditions:insanium_essence"
-        },
-        {
-            "item": "mysticalagradditions:insanium_block"
-        },
-        {
-            "item": "mysticalagradditions:insanium_essence"
-        },
-        {
-            "item": "mysticalagradditions:insanium_block"
-        }
-    ],
-    "result": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:insanium\"}}"
+    {
+      "item": "mysticalagradditions:insanium_block"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mysticalagradditions"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:supremium"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:insanium"
-        }
-    ]
+    {
+      "item": "mysticalagradditions:insanium_essence"
+    },
+    {
+      "item": "mysticalagradditions:insanium_block"
+    },
+    {
+      "item": "mysticalagradditions:insanium_essence"
+    },
+    {
+      "item": "mysticalagradditions:insanium_block"
+    },
+    {
+      "item": "mysticalagradditions:insanium_essence"
+    },
+    {
+      "item": "mysticalagradditions:insanium_block"
+    }
+  ],
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:insanium\"}}"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mysticalagradditions"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:supremium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:insanium"
+    }
+  ]
 }

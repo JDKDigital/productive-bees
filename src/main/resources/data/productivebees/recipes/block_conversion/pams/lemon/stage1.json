@@ -1,25 +1,25 @@
 {
-    "type": "productivebees:block_conversion",
-    "bees": [
-        "productivebees:green_carpenter_bee",
-        "productivebees:yellow_black_carpenter_bee"
-    ],
-    "from": {
-        "Name": "pamhc2trees:pamlemon",
-        "Properties": {
-            "age": 0
-        }
-    },
-    "to": {
-        "Name": "pamhc2trees:pamlemon",
-        "Properties": {
-            "age": 1
-        }
-    },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "pamhc2trees"
-        }
-    ]
+  "type": "productivebees:block_conversion",
+  "bees": [
+    "productivebees:green_carpenter_bee",
+    "productivebees:yellow_black_carpenter_bee"
+  ],
+  "from": {
+    "Name": "pamhc2trees:pamlemon",
+    "Properties": {
+      "age": 0
+    }
+  },
+  "to": {
+    "Name": "pamhc2trees:pamlemon",
+    "Properties": {
+      "age": 1
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "pamhc2trees"
+    }
+  ]
 }

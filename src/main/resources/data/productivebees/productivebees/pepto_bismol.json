@@ -1,42 +1,42 @@
 {
-    "primaryColor": "#FFC0CB",
-    "secondaryColor": "#FFFF00",
-    "particleColor": "#FFC0CB",
-    "size": 0.6,
-    "renderer": "thicc",
-    "createComb": false,
-    "description": "productivebees.ingredient.description.pepto_bismol_bee",
-    "invulnerability": [
-        "mekanism.radiation"
-    ],
-    "passiveEffects": [
-        {
-            "effect": "minecraft:regeneration",
-            "duration": 400
-        },
-        {
-            "effect": "minecraft:absorption",
-            "duration": 400
-        },
-        {
-            "effect": "minecraft:haste",
-            "duration": 400
-        },
-        {
-            "effect": "minecraft:strength",
-            "duration": 400
-        },
-        {
-            "effect": "minecraft:instant_health",
-            "duration": 10
-        },
-        {
-            "effect": "minecraft:saturation",
-            "duration": 400
-        },
-        {
-            "effect": "minecraft:luck",
-            "duration": 400
-        }
-    ]
+  "primaryColor": "#FFC0CB",
+  "secondaryColor": "#FFFF00",
+  "particleColor": "#FFC0CB",
+  "size": 0.6,
+  "renderer": "thicc",
+  "createComb": false,
+  "description": "productivebees.ingredient.description.pepto_bismol_bee",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "passiveEffects": [
+    {
+      "effect": "minecraft:regeneration",
+      "duration": 400
+    },
+    {
+      "effect": "minecraft:absorption",
+      "duration": 400
+    },
+    {
+      "effect": "minecraft:haste",
+      "duration": 400
+    },
+    {
+      "effect": "minecraft:strength",
+      "duration": 400
+    },
+    {
+      "effect": "minecraft:instant_health",
+      "duration": 10
+    },
+    {
+      "effect": "minecraft:saturation",
+      "duration": 400
+    },
+    {
+      "effect": "minecraft:luck",
+      "duration": 400
+    }
+  ]
 }

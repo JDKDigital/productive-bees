@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#978574",
-    "secondaryColor": "#3e5b68",
-    "tertiaryColor": "#725e4c",
-    "particleColor": "#978574",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/tektite",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/tektite"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/tektite"
-            }
-        }
-    ]
+  "primaryColor": "#978574",
+  "secondaryColor": "#3e5b68",
+  "tertiaryColor": "#725e4c",
+  "particleColor": "#978574",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/tektite",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/tektite"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/tektite"
+      }
+    }
+  ]
 }

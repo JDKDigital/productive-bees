@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:blazing",
-    "parent2": "productivebees:leafcutter_bee",
-    "offspring": [
-        "productivebees:coal"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:blazing"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:coal"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:blazing",
+  "parent2": "productivebees:leafcutter_bee",
+  "offspring": [
+    "productivebees:coal"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:blazing"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:coal"
+    }
+  ]
 }

@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:redstone",
-    "parent2": "productivebees:sweat_bee",
-    "offspring": [
-        "productivebees:cinnabar"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:redstone"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:cinnabar"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:redstone",
+  "parent2": "productivebees:sweat_bee",
+  "offspring": [
+    "productivebees:cinnabar"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:redstone"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:cinnabar"
+    }
+  ]
 }

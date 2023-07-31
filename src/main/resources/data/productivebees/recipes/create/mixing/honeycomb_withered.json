@@ -1,38 +1,38 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:withered"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:withered"
         }
-    ],
-    "results": [
-        {
-            "item": "productivebees:wither_skull_chip",
-            "chance": 0.30
-        },
-        {
-            "item": "productivebees:wax"
-        },
-        {
-            "fluid": "productivebees:honey",
-            "amount": 100
-        }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:withered"
-        }
-    ]
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "productivebees:wither_skull_chip",
+      "chance": 0.30
+    },
+    {
+      "item": "productivebees:wax"
+    },
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:withered"
+    }
+  ]
 }

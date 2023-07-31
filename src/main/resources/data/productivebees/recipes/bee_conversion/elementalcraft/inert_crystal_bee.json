@@ -1,22 +1,22 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:diamond",
-    "result": "productivebees:inert_crystal",
-    "item": {
-        "item": "elementalcraft:inertcrystal_block"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:diamond",
+  "result": "productivebees:inert_crystal",
+  "item": {
+    "item": "elementalcraft:inertcrystal_block"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "elementalcraft"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "elementalcraft"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:diamond"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:inert_crystal"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:inert_crystal"
+    }
+  ]
 }

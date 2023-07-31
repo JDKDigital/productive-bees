@@ -1,14 +1,14 @@
 {
-    "primaryColor": "#748E00",
-    "secondaryColor": "#804f40",
-    "particleColor": "#748E00",
-    "size": 0.8,
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerBlock": "mysticalagriculture:inferium_block",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
-        }
-    ]
+  "primaryColor": "#748E00",
+  "secondaryColor": "#804f40",
+  "particleColor": "#748E00",
+  "size": 0.8,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "mysticalagriculture:inferium_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ]
 }

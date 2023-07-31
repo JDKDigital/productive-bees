@@ -1,34 +1,34 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:copper"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:copper"
         }
-    ],
-    "results": [
-        {
-            "item": "minecraft:raw_copper",
-            "chance": 0.4
-        },
-        {
-            "item": "productivebees:wax"
-        },
-        {
-            "fluid": "productivebees:honey",
-            "amount": 50
-        }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        }
-    ]
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:raw_copper",
+      "chance": 0.4
+    },
+    {
+      "item": "productivebees:wax"
+    },
+    {
+      "fluid": "productivebees:honey",
+      "amount": 50
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ]
 }

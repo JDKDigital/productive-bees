@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:water",
+  "parent2": "productivebees:oxygen",
+  "offspring": [
+    "productivebees:chlorine"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:water"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:oxygen"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chlorine"
+    }
+  ]
+}

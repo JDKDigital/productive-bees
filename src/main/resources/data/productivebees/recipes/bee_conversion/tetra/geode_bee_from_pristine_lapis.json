@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:quarry_bee",
-    "result": "productivebees:geode",
-    "item": {
-        "item": "tetra:pristine_lapis"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:quarry_bee",
+  "result": "productivebees:geode",
+  "item": {
+    "item": "tetra:pristine_lapis"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tetra"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "tetra"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:geode"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:geode"
+    }
+  ]
 }

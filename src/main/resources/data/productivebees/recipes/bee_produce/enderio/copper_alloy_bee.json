@@ -1,29 +1,29 @@
 {
-    "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:copper_alloy",
-    "results": [
-        {
-            "item": {
-                "type": "forge:nbt",
-                "item": "productivebees:configurable_honeycomb",
-                "nbt": {
-                    "EntityTag": {
-                        "type": "productivebees:copper_alloy"
-                    }
-                }
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:pollen"
-            },
-            "chance": 5
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:copper_alloy",
+  "results": [
+    {
+      "item": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:copper_alloy"
+          }
         }
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:copper_alloy"
-        }
-    ]
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:copper_alloy"
+    }
+  ]
 }

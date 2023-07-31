@@ -1,23 +1,23 @@
 {
-    "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:legendary_salvage",
-    "results": [
-        {
-            "item": {
-                "type": "forge:nbt",
-                "item": "productivebees:configurable_honeycomb",
-                "nbt": {
-                    "EntityTag": {
-                        "type": "productivebees:legendary_salvage"
-                    }
-                }
-            }
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:legendary_salvage",
+  "results": [
+    {
+      "item": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:legendary_salvage"
+          }
         }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mmorpg"
-        }
-    ]
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mmorpg"
+    }
+  ]
 }

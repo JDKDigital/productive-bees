@@ -1,22 +1,22 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:diamond",
-    "result": "productivebees:tourmaline",
-    "item": {
-        "item": "gemsnjewels:tourmaline_block"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:diamond",
+  "result": "productivebees:tourmaline",
+  "item": {
+    "item": "gemsnjewels:tourmaline_block"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "gemsnjewels"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "gemsnjewels"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:diamond"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:tourmaline"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:tourmaline"
+    }
+  ]
 }

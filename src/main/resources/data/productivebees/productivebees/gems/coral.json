@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#ff732f",
-    "secondaryColor": "#3e5b68",
-    "tertiaryColor": "#dc1e4b",
-    "particleColor": "#ff732f",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/coral",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/coral"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/coral"
-            }
-        }
-    ]
+  "primaryColor": "#ff732f",
+  "secondaryColor": "#3e5b68",
+  "tertiaryColor": "#dc1e4b",
+  "particleColor": "#ff732f",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/coral",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/coral"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/coral"
+      }
+    }
+  ]
 }

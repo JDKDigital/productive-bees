@@ -1,46 +1,46 @@
 {
-    "type": "mythicbotany:infuser",
-    "group": "infuser",
-    "output": {
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:alfsteel"
-            }
-        }
+  "type": "mythicbotany:infuser",
+  "group": "infuser",
+  "output": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:alfsteel"
+      }
+    }
+  },
+  "mana": 4000000,
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:elementium\"}}"
     },
-    "mana": 4000000,
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:elementium\"}}"
-        },
-        {
-            "tag": "botania:dragonstone_gems"
-        },
-        {
-            "item": "botania:pixie_dust"
-        }
-    ],
-    "fromColor": 14441208,
-    "toColor": 16765496,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mythicbotany"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "botania"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:alfsteel"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:elementium"
-        }
-    ]
+    {
+      "tag": "botania:dragonstone_gems"
+    },
+    {
+      "item": "botania:pixie_dust"
+    }
+  ],
+  "fromColor": 14441208,
+  "toColor": 16765496,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mythicbotany"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botania"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:alfsteel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:elementium"
+    }
+  ]
 }

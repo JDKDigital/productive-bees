@@ -1,0 +1,14 @@
+{
+  "type": "productivebees:bee_fishing",
+  "bee": "productivebees:water",
+  "biomes": [
+    "minecraft:river"
+  ],
+  "chance": 0.05,
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:water"
+    }
+  ]
+}

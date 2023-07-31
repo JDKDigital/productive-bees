@@ -1,31 +1,31 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:bloody"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:bloody"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "fluid": {
+        "fluid": "evilcraft:blood"
+      },
+      "amount": 100
     },
-    "outputs": [
-        {
-            "fluid": {
-                "fluid": "evilcraft:blood"
-            },
-            "amount": 100
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "evilcraft"
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "evilcraft"
+    }
+  ]
 }

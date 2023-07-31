@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#d5d3ca",
+  "particleColor": "#dedbd0",
+  "beeTexture": "productivebees:textures/entity/bee/scandium/bee",
+  "flowerBlock": "chemlib:scandium_metal_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

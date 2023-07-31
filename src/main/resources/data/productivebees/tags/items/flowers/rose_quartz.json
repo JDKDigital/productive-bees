@@ -1,13 +1,13 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "#forge:storage_blocks/rose_quartz",
-            "required": false
-        },
-        {
-            "id": "silentgems:rose_quartz_glowrose",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:storage_blocks/rose_quartz",
+      "required": false
+    },
+    {
+      "id": "silentgems:rose_quartz_glowrose",
+      "required": false
+    }
+  ]
 }

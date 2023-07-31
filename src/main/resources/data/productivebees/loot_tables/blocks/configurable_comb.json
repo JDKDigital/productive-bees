@@ -1,32 +1,32 @@
 {
-    "type": "minecraft:block",
-    "pools": [
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
         {
-            "rolls": 1,
-            "entries": [
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
                 {
-                    "type": "minecraft:item",
-                    "functions": [
-                        {
-                            "function": "minecraft:copy_nbt",
-                            "source": "block_entity",
-                            "ops": [
-                                {
-                                    "source": "type",
-                                    "target": "EntityTag.type",
-                                    "op": "replace"
-                                }
-                            ]
-                        }
-                    ],
-                    "name": "productivebees:configurable_comb"
+                  "source": "type",
+                  "target": "EntityTag.type",
+                  "op": "replace"
                 }
-            ],
-            "conditions": [
-                {
-                    "condition": "minecraft:survives_explosion"
-                }
-            ]
+              ]
+            }
+          ],
+          "name": "productivebees:configurable_comb"
         }
-    ]
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
 }

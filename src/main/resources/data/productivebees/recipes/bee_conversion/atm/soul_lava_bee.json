@@ -1,29 +1,29 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:ghostly",
-    "result": "productivebees:soul_lava",
-    "item": {
-        "item": "allthemodium:soul_lava_bucket"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:ghostly",
+  "result": "productivebees:soul_lava",
+  "item": {
+    "item": "allthemodium:soul_lava_bucket"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "tconstruct"
+      }
     },
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:mod_loaded",
-                "modid": "tconstruct"
-            }
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "allthemodium"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:ghostly"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:soul_lava"
-        }
-    ]
+    {
+      "type": "forge:mod_loaded",
+      "modid": "allthemodium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ghostly"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:soul_lava"
+    }
+  ]
 }

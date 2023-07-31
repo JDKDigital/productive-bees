@@ -1,53 +1,53 @@
 {
-    "type": "mysticalagriculture:infusion",
-    "input": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:prosperity\"}}"
+  "type": "mysticalagriculture:infusion",
+  "input": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:prosperity\"}}"
+  },
+  "ingredients": [
+    {
+      "item": "mysticalagriculture:inferium_essence"
     },
-    "ingredients": [
-        {
-            "item": "mysticalagriculture:inferium_essence"
-        },
-        {
-            "item": "mysticalagriculture:inferium_block"
-        },
-        {
-            "item": "mysticalagriculture:inferium_essence"
-        },
-        {
-            "item": "mysticalagriculture:inferium_block"
-        },
-        {
-            "item": "mysticalagriculture:inferium_essence"
-        },
-        {
-            "item": "mysticalagriculture:inferium_block"
-        },
-        {
-            "item": "mysticalagriculture:inferium_essence"
-        },
-        {
-            "item": "mysticalagriculture:inferium_block"
-        }
-    ],
-    "result": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:inferium\"}}"
+    {
+      "item": "mysticalagriculture:inferium_block"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:prosperity"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:inferium"
-        }
-    ]
+    {
+      "item": "mysticalagriculture:inferium_essence"
+    },
+    {
+      "item": "mysticalagriculture:inferium_block"
+    },
+    {
+      "item": "mysticalagriculture:inferium_essence"
+    },
+    {
+      "item": "mysticalagriculture:inferium_block"
+    },
+    {
+      "item": "mysticalagriculture:inferium_essence"
+    },
+    {
+      "item": "mysticalagriculture:inferium_block"
+    }
+  ],
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:inferium\"}}"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mysticalagriculture"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:prosperity"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:inferium"
+    }
+  ]
 }

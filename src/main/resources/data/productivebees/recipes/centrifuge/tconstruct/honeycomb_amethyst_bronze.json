@@ -1,35 +1,35 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:amethyst_bronze"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:amethyst_bronze"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:nuggets/amethyst_bronze"
+      },
+      "min": 3,
+      "max": 6
     },
-    "outputs": [
-        {
-            "item": {
-                "tag": "forge:nuggets/amethyst_bronze"
-            },
-            "min": 3,
-            "max": 6
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:nuggets/amethyst_bronze"
-            }
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:nuggets/amethyst_bronze"
+      }
+    }
+  ]
 }

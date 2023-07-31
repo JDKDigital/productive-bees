@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#fe48ef",
-    "secondaryColor": "#3e5b68",
-    "tertiaryColor": "#93239e",
-    "particleColor": "#fe48ef",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/kunzite",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/kunzite"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/kunzite"
-            }
-        }
-    ]
+  "primaryColor": "#fe48ef",
+  "secondaryColor": "#3e5b68",
+  "tertiaryColor": "#93239e",
+  "particleColor": "#fe48ef",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/kunzite",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/kunzite"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/kunzite"
+      }
+    }
+  ]
 }

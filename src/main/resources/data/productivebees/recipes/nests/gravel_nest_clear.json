@@ -1,11 +1,11 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "productivebees:gravel_nest"
-        }
-    ],
-    "result": {
-        "item": "productivebees:gravel_nest"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:gravel_nest"
     }
+  ],
+  "result": {
+    "item": "productivebees:gravel_nest"
+  }
 }

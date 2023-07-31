@@ -1,15 +1,15 @@
 {
-    "primaryColor": "#747474",
-    "secondaryColor": "#804f40",
-    "particleColor": "#747474",
-    "renderer": "thicc",
-    "size": 1.0,
-    "createComb": false,
-    "flowerBlock": "minecraft:stone",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "tetra"
-        }
-    ]
+  "primaryColor": "#747474",
+  "secondaryColor": "#804f40",
+  "particleColor": "#747474",
+  "renderer": "thicc",
+  "size": 1.0,
+  "createComb": false,
+  "flowerBlock": "minecraft:stone",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tetra"
+    }
+  ]
 }

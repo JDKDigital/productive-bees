@@ -1,34 +1,34 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:blazing"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:blazing"
         }
-    ],
-    "results": [
-        {
-            "item": "minecraft:blaze_powder",
-            "chance": 0.40
-        },
-        {
-            "item": "productivebees:wax"
-        },
-        {
-            "fluid": "productivebees:honey",
-            "amount": 50
-        }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        }
-    ]
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:blaze_powder",
+      "chance": 0.40
+    },
+    {
+      "item": "productivebees:wax"
+    },
+    {
+      "fluid": "productivebees:honey",
+      "amount": 50
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ]
 }

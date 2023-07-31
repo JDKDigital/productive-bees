@@ -1,35 +1,35 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:cobalt"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:cobalt"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:nuggets/cobalt"
+      },
+      "min": 2,
+      "max": 4
     },
-    "outputs": [
-        {
-            "item": {
-                "tag": "forge:nuggets/cobalt"
-            },
-            "min": 2,
-            "max": 4
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:nuggets/cobalt"
-            }
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:nuggets/cobalt"
+      }
+    }
+  ]
 }

@@ -1,40 +1,40 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:emeraldite"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:emeraldite"
         }
-    ],
-    "results": [
-        {
-            "item": "byg:emeraldite_shards",
-            "count": 2,
-            "chance": 0.3
-        },
-        {
-            "fluid": "productivebees:honey",
-            "amount": 50
-        }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "byg"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:emeraldite"
-        }
-    ]
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "byg:emeraldite_shards",
+      "count": 2,
+      "chance": 0.3
+    },
+    {
+      "fluid": "productivebees:honey",
+      "amount": 50
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "byg"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:emeraldite"
+    }
+  ]
 }

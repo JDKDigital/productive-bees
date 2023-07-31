@@ -1,15 +1,15 @@
 {
-    "primaryColor": "#3d3270",
-    "secondaryColor": "#2e0b17",
-    "tertiaryColor": "#6d4fa8",
-    "particleColor": "#6d4fa8",
-    "renderer": "default_crystal",
-    "size": 0.7,
-    "flowerBlock": "ae2:fluix_block",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "ae2"
-        }
-    ]
+  "primaryColor": "#3d3270",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#6d4fa8",
+  "particleColor": "#6d4fa8",
+  "renderer": "default_crystal",
+  "size": 0.7,
+  "flowerBlock": "ae2:fluix_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ae2"
+    }
+  ]
 }

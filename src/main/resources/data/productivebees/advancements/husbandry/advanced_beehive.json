@@ -1,35 +1,35 @@
 {
-    "parent": "minecraft:husbandry/safely_harvest_honey",
-    "display": {
-        "icon": {
-            "item": "productivebees:advanced_oak_beehive"
-        },
-        "title": {
-            "translate": "advancements.husbandry.advanced_beehive.title"
-        },
-        "description": {
-            "translate": "advancements.husbandry.advanced_beehive.description"
-        },
-        "frame": "task",
-        "show_toast": true,
-        "announce_to_chat": true,
-        "hidden": false
+  "parent": "minecraft:husbandry/safely_harvest_honey",
+  "display": {
+    "icon": {
+      "item": "productivebees:advanced_oak_beehive"
     },
-    "criteria": {
-        "get_hive": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "tag": "productivebees:advanced_beehives"
-                    }
-                ]
-            }
-        }
+    "title": {
+      "translate": "advancements.husbandry.advanced_beehive.title"
     },
-    "requirements": [
-        [
-            "get_hive"
+    "description": {
+      "translate": "advancements.husbandry.advanced_beehive.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_hive": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "productivebees:advanced_beehives"
+          }
         ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_hive"
     ]
+  ]
 }

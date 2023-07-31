@@ -1,11 +1,11 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "productivebees:nether_brick_nest"
-        }
-    ],
-    "result": {
-        "item": "productivebees:nether_brick_nest"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:nether_brick_nest"
     }
+  ],
+  "result": {
+    "item": "productivebees:nether_brick_nest"
+  }
 }

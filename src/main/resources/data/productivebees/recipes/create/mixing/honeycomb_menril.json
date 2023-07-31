@@ -1,31 +1,31 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:menril"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:menril"
         }
-    ],
-    "results": [
-        {
-            "fluid": "integrateddynamics:menril_resin",
-            "amount": 250
-        }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "integrateddynamics"
-        }
-    ]
+      }
+    }
+  ],
+  "results": [
+    {
+      "fluid": "integrateddynamics:menril_resin",
+      "amount": 250
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "integrateddynamics"
+    }
+  ]
 }

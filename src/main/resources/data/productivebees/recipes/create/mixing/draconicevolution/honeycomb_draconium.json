@@ -1,35 +1,35 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:draconium"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:draconium"
         }
-    ],
-    "results": [
-        {
-            "item": "draconicevolution:draconium_nugget",
-            "count": 2
-        },
-        {
-            "fluid": "productivebees:honey",
-            "amount": 100
-        }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "draconicevolution"
-        }
-    ]
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "draconicevolution:draconium_nugget",
+      "count": 2
+    },
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "draconicevolution"
+    }
+  ]
 }

@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:diamond",
-    "result": "productivebees:turquoise",
-    "item": {
-        "tag": "productivebees:flowers/turquoise"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:diamond",
+  "result": "productivebees:turquoise",
+  "item": {
+    "tag": "productivebees:flowers/turquoise"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:diamond"
     },
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:diamond"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:turquoise"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:turquoise"
+    }
+  ]
 }

@@ -1,11 +1,11 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:birch_wood_nest"
-    },
-    "results": [
-        {
-            "bee": "productivebees:yellow_black_carpenter_bee"
-        }
-    ]
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:birch_wood_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:yellow_black_carpenter_bee"
+    }
+  ]
 }

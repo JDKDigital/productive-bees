@@ -1,15 +1,15 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "HH",
-        "HH"
-    ],
-    "key": {
-        "H": {
-            "item": "productivebees:honeycomb_powdery"
-        }
-    },
-    "result": {
-        "item": "productivebees:comb_powdery"
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "HH",
+    "HH"
+  ],
+  "key": {
+    "H": {
+      "item": "productivebees:honeycomb_powdery"
     }
+  },
+  "result": {
+    "item": "productivebees:comb_powdery"
+  }
 }

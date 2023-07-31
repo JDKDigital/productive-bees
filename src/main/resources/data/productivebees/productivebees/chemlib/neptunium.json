@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#cbcbd1",
+  "particleColor": "#c0d1d3",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/neptunium/bee",
+  "size": 0.6,
+  "flowerItem": "chemlib:neptunium",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

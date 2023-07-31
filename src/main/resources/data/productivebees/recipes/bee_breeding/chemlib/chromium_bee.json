@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:lead",
+  "parent2": "productivebees:iron",
+  "offspring": [
+    "productivebees:chromium"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lead"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chromium"
+    }
+  ]
+}

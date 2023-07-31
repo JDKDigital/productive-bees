@@ -1,8 +1,8 @@
 {
-    "replace": false,
-    "values": [
-        "#minecraft:flowers",
-        "minecraft:cactus",
-        "minecraft:dead_bush"
-    ]
+  "replace": false,
+  "values": [
+    "#minecraft:flowers",
+    "minecraft:cactus",
+    "minecraft:dead_bush"
+  ]
 }

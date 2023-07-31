@@ -1,8 +1,8 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:yellow_black_carpenter_bee",
-    "parent2": "productivebees:green_carpenter_bee",
-    "offspring": [
-        "productivebees:lumber_bee"
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:yellow_black_carpenter_bee",
+  "parent2": "productivebees:green_carpenter_bee",
+  "offspring": [
+    "productivebees:lumber_bee"
+  ]
 }

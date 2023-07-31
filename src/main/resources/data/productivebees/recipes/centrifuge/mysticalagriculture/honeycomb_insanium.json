@@ -1,31 +1,31 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:insanium"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:insanium"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "mysticalagradditions:insanium_essence"
+      },
+      "chance": 10
     },
-    "outputs": [
-        {
-            "item": {
-                "item": "mysticalagradditions:insanium_essence"
-            },
-            "chance": 10
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mysticalagradditions"
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mysticalagradditions"
+    }
+  ]
 }

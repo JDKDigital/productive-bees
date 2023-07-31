@@ -1,22 +1,22 @@
 {
-    "primaryColor": "#4d3e7c",
-    "secondaryColor": "#9177ae",
-    "particleColor": "#8471a0",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "renderer": "thicc",
-    "size": 1.2,
-    "attributes": {
-        "endurance": 3,
-        "productivity": 1
-    },
-    "traits" : [
-        "lightning"
-    ],
-    "flowerBlock": "iceandfire:dragonsteel_lightning_block",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "iceandfire"
-        }
-    ]
+  "primaryColor": "#4d3e7c",
+  "secondaryColor": "#9177ae",
+  "particleColor": "#8471a0",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "renderer": "thicc",
+  "size": 1.2,
+  "attributes": {
+    "endurance": 3,
+    "productivity": 1
+  },
+  "traits": [
+    "lightning"
+  ],
+  "flowerBlock": "iceandfire:dragonsteel_lightning_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "iceandfire"
+    }
+  ]
 }

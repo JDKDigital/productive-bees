@@ -1,15 +1,15 @@
 {
-    "primaryColor": "#293c76",
-    "secondaryColor": "#484849",
-    "tertiaryColor": "#cccccc",
-    "particleColor": "#293c76",
-    "renderer": "default_crystal",
-    "flowerBlock": "elementalcraft:watercrystal_block",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "elementalcraft"
-        }
-    ]
+  "primaryColor": "#293c76",
+  "secondaryColor": "#484849",
+  "tertiaryColor": "#cccccc",
+  "particleColor": "#293c76",
+  "renderer": "default_crystal",
+  "flowerBlock": "elementalcraft:watercrystal_block",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "elementalcraft"
+    }
+  ]
 }

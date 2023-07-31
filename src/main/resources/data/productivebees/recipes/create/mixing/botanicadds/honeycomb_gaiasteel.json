@@ -1,35 +1,35 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:gaiasteel"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:gaiasteel"
         }
-    ],
-    "results": [
-        {
-            "item": "botanicadds:gaiasteel_nugget",
-            "count": 3
-        },
-        {
-            "fluid": "productivebees:honey",
-            "amount": 100
-        }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "botanicadds"
-        }
-    ]
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "botanicadds:gaiasteel_nugget",
+      "count": 3
+    },
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanicadds"
+    }
+  ]
 }

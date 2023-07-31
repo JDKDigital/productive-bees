@@ -1,11 +1,11 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "productivebees:spruce_wood_nest"
-        }
-    ],
-    "result": {
-        "item": "productivebees:spruce_wood_nest"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:spruce_wood_nest"
     }
+  ],
+  "result": {
+    "item": "productivebees:spruce_wood_nest"
+  }
 }

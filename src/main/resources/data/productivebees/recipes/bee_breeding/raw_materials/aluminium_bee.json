@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:crystalline",
-    "parent2": "productivebees:ashy_mining_bee",
-    "offspring": [
-        "productivebees:aluminum"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:crystalline"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:aluminum"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:crystalline",
+  "parent2": "productivebees:ashy_mining_bee",
+  "offspring": [
+    "productivebees:aluminum"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:aluminum"
+    }
+  ]
 }

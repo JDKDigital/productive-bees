@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#444784",
+  "particleColor": "#5b5e9a",
+  "size:": 0.7,
+  "beeTexture": "productivebees:textures/entity/bee/hafnium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "chemlib:hafnium_metal_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

@@ -1,22 +1,22 @@
 {
-    "type": "productivebees:bottler",
-    "fluid": {
-        "tag": "forge:milk",
-        "amount": 250
-    },
-    "input": {
-        "item": "minecraft:glass_bottle"
-    },
-    "output": {
-        "item": "productivebees:milk_bottle"
-    },
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "productivebees:fluid_tag_empty",
-                "tag": "forge:milk"
-            }
-        }
-    ]
+  "type": "productivebees:bottler",
+  "fluid": {
+    "tag": "forge:milk",
+    "amount": 250
+  },
+  "input": {
+    "item": "minecraft:glass_bottle"
+  },
+  "output": {
+    "item": "productivebees:milk_bottle"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "productivebees:fluid_tag_empty",
+        "tag": "forge:milk"
+      }
+    }
+  ]
 }

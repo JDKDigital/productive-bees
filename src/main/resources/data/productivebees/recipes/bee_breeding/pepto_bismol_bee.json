@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:sugarbag",
-    "parent2": "productivebees:neon_cuckoo_bee",
-    "offspring": [
-        "productivebees:pepto_bismol"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:pepto_bismol"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:sugarbag"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:sugarbag",
+  "parent2": "productivebees:neon_cuckoo_bee",
+  "offspring": [
+    "productivebees:pepto_bismol"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pepto_bismol"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sugarbag"
+    }
+  ]
 }

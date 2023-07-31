@@ -1,12 +1,12 @@
 {
-    "replace": false,
-    "values": [
-        "minecraft:nether_gold_ore",
-        "minecraft:deepslate_gold_ore",
-        "minecraft:gold_ore",
-        "minecraft:gold_block",
-        "minecraft:raw_gold_block",
-        "minecraft:gilded_blackstone",
-        "minecraft:light_weighted_pressure_plate"
-    ]
+  "replace": false,
+  "values": [
+    "minecraft:nether_gold_ore",
+    "minecraft:deepslate_gold_ore",
+    "minecraft:gold_ore",
+    "minecraft:gold_block",
+    "minecraft:raw_gold_block",
+    "minecraft:gilded_blackstone",
+    "minecraft:light_weighted_pressure_plate"
+  ]
 }

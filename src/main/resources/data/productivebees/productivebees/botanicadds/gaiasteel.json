@@ -1,15 +1,15 @@
 {
-    "primaryColor": "#862025",
-    "secondaryColor": "#3e0b0c",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerBlock": "botanicadds:gaiasteel_block",
-    "invulnerability": [
-        "mekanism.radiation"
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "botanicadds"
-        }
-    ]
+  "primaryColor": "#862025",
+  "secondaryColor": "#3e0b0c",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "botanicadds:gaiasteel_block",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanicadds"
+    }
+  ]
 }

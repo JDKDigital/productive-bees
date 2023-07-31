@@ -1,17 +1,17 @@
 {
-    "type": "productivebees:block_conversion",
-    "bee": "productivebees:iron",
-    "from": {
-        "Name": "minecraft:chipped_anvil"
-    },
-    "to": {
-        "Name": "minecraft:anvil"
-    },
-    "chance": 70,
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:iron"
-        }
-    ]
+  "type": "productivebees:block_conversion",
+  "bee": "productivebees:iron",
+  "from": {
+    "Name": "minecraft:chipped_anvil"
+  },
+  "to": {
+    "Name": "minecraft:anvil"
+  },
+  "chance": 70,
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iron"
+    }
+  ]
 }

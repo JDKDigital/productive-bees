@@ -1,45 +1,45 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:lumium"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:lumium"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:nuggets/lumium"
+      },
+      "min": 4,
+      "max": 6
     },
-    "outputs": [
-        {
-            "item": {
-                "tag": "forge:nuggets/lumium"
-            },
-            "min": 4,
-            "max": 6
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        },
-        {
-            "fluid": {
-                "fluid": "productivebees:honey"
-            },
-            "amount": 50
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:nuggets/lumium"
-            }
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:lumium"
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 50
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:nuggets/lumium"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lumium"
+    }
+  ]
 }

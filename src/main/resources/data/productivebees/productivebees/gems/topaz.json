@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#dd7d17",
-    "secondaryColor": "#064f2c",
-    "tertiaryColor": "#dd7d17",
-    "particleColor": "#dd7d17",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/topaz",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/topaz"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/topaz"
-            }
-        }
-    ]
+  "primaryColor": "#dd7d17",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#dd7d17",
+  "particleColor": "#dd7d17",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/topaz",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/topaz"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/topaz"
+      }
+    }
+  ]
 }

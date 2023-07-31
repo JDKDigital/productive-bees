@@ -1,31 +1,31 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:rare_salvage"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:rare_salvage"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "mmorpg:ore2"
+      },
+      "chance": 80
     },
-    "outputs": [
-        {
-            "item": {
-                "item": "mmorpg:ore2"
-            },
-            "chance": 80
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mmorpg"
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mmorpg"
+    }
+  ]
 }

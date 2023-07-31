@@ -1,16 +1,16 @@
 {
-    "primaryColor": "#191919",
-    "secondaryColor": "#717171",
-    "particleColor": "#717171",
-    "particleType": "pop",
-    "size": 0.5,
-    "flowerBlock": "minecraft:bedrock",
-    "breedingItem": "minecraft:flint_and_steel",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "enderio"
-        }
-    ]
+  "primaryColor": "#191919",
+  "secondaryColor": "#717171",
+  "particleColor": "#717171",
+  "particleType": "pop",
+  "size": 0.5,
+  "flowerBlock": "minecraft:bedrock",
+  "breedingItem": "minecraft:flint_and_steel",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "enderio"
+    }
+  ]
 }

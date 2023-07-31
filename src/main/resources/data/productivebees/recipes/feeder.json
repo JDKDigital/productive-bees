@@ -1,18 +1,18 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "S",
-        "C"
-    ],
-    "key": {
-        "S": {
-            "item": "minecraft:smooth_stone_slab"
-        },
-        "C": {
-            "tag": "forge:chests"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "C"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:smooth_stone_slab"
     },
-    "result": {
-        "item": "productivebees:feeder"
+    "C": {
+      "tag": "forge:chests"
     }
+  },
+  "result": {
+    "item": "productivebees:feeder"
+  }
 }

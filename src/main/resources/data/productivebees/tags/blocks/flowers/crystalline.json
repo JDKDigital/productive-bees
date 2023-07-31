@@ -1,9 +1,9 @@
 {
-    "replace": false,
-    "values": [
-        "#forge:storage_blocks/quartz",
-        "#forge:ores/quartz",
-        "minecraft:quartz_pillar",
-        "productivebees:quartz_netherrack"
-    ]
+  "replace": false,
+  "values": [
+    "#forge:storage_blocks/quartz",
+    "#forge:ores/quartz",
+    "minecraft:quartz_pillar",
+    "productivebees:quartz_netherrack"
+  ]
 }

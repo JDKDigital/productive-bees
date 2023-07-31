@@ -1,0 +1,14 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:iron",
+  "result": "productivebees:ytterbium",
+  "item": {
+    "item": "chemlib:ytterbium_metal_block"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ytterbium"
+    }
+  ]
+}

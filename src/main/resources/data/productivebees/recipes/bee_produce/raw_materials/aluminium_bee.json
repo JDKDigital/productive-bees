@@ -1,29 +1,29 @@
 {
-    "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:aluminum",
-    "results": [
-        {
-            "item": {
-                "type": "forge:nbt",
-                "item": "productivebees:configurable_honeycomb",
-                "nbt": {
-                    "EntityTag": {
-                        "type": "productivebees:aluminum"
-                    }
-                }
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:pollen"
-            },
-            "chance": 5
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:aluminum",
+  "results": [
+    {
+      "item": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:aluminum"
+          }
         }
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:aluminum"
-        }
-    ]
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:aluminum"
+    }
+  ]
 }

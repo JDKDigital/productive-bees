@@ -1,13 +1,13 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "#forge:storage_blocks/heliodor",
-            "required": false
-        },
-        {
-            "id": "silentgems:heliodor_glowrose",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:storage_blocks/heliodor",
+      "required": false
+    },
+    {
+      "id": "silentgems:heliodor_glowrose",
+      "required": false
+    }
+  ]
 }

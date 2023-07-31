@@ -1,14 +1,14 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "minecraft:iron_sword"
-        },
-        {
-            "item": "minecraft:stone"
-        }
-    ],
-    "result": {
-        "item": "productivebees:stone_nest"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_sword"
+    },
+    {
+      "item": "minecraft:stone"
     }
+  ],
+  "result": {
+    "item": "productivebees:stone_nest"
+  }
 }

@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#aaa9b0",
+  "particleColor": "#b2b7ae",
+  "beeTexture": "productivebees:textures/entity/bee/protactinium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.8,
+  "flowerBlock": "chemlib:protactinium_metal_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

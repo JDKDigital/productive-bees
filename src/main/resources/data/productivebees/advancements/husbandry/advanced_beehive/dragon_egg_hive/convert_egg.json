@@ -1,50 +1,50 @@
 {
-    "parent": "productivebees:husbandry/advanced_beehive/dragon_egg_hive",
-    "display": {
-        "icon": {
-            "item": "productivebees:inactive_dragon_egg"
-        },
-        "title": {
-            "translate": "advancements.husbandry.convert_egg.title"
-        },
-        "description": {
-            "translate": "advancements.husbandry.convert_egg.description"
-        },
-        "frame": "task",
-        "show_toast": true,
-        "announce_to_chat": true,
-        "hidden": false
+  "parent": "productivebees:husbandry/advanced_beehive/dragon_egg_hive",
+  "display": {
+    "icon": {
+      "item": "productivebees:inactive_dragon_egg"
     },
-    "criteria": {
-        "dragon_breath": {
-            "trigger": "minecraft:item_used_on_block",
-            "conditions": {
-                "location": [
-                    {
-                        "condition": "minecraft:location_check",
-                        "predicate": {
-                            "block": {
-                                "blocks": [
-                                    "productivebees:inactive_dragon_egg"
-                                ]
-                            }
-                        }
-                    },
-                    {
-                        "condition": "minecraft:match_tool",
-                        "predicate": {
-                            "items": [
-                                "minecraft:dragon_breath"
-                            ]
-                        }
-                    }
+    "title": {
+      "translate": "advancements.husbandry.convert_egg.title"
+    },
+    "description": {
+      "translate": "advancements.husbandry.convert_egg.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "dragon_breath": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": [
+                  "productivebees:inactive_dragon_egg"
                 ]
+              }
             }
-        }
-    },
-    "requirements": [
-        [
-            "dragon_breath"
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "minecraft:dragon_breath"
+              ]
+            }
+          }
         ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "dragon_breath"
     ]
+  ]
 }

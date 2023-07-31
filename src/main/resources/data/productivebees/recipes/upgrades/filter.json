@@ -1,28 +1,28 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "CPC",
-        "RBR",
-        "CWC"
-    ],
-    "key": {
-        "B": {
-            "item": "productivebees:upgrade_base"
-        },
-        "P": {
-            "item": "minecraft:comparator"
-        },
-        "C": {
-            "tag": "forge:storage_blocks/honeycombs"
-        },
-        "W": {
-            "item": "minecraft:writable_book"
-        },
-        "R": {
-            "tag": "forge:dusts/redstone"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CPC",
+    "RBR",
+    "CWC"
+  ],
+  "key": {
+    "B": {
+      "item": "productivebees:upgrade_base"
     },
-    "result": {
-        "item": "productivebees:upgrade_filter"
+    "P": {
+      "item": "minecraft:comparator"
+    },
+    "C": {
+      "tag": "forge:storage_blocks/honeycombs"
+    },
+    "W": {
+      "item": "minecraft:writable_book"
+    },
+    "R": {
+      "tag": "forge:dusts/redstone"
     }
+  },
+  "result": {
+    "item": "productivebees:upgrade_filter"
+  }
 }

@@ -1,32 +1,32 @@
 {
-    "parent": "productivebees:husbandry/bee_cage",
-    "display": {
-        "icon": {
-            "item": "productivebees:bee_cage",
-            "nbt": "{entity:\"something\"}"
-        },
-        "title": {
-            "translate": "advancements.husbandry.catch_any_bee.title"
-        },
-        "description": {
-            "translate": "advancements.husbandry.catch_any_bee.description"
-        },
-        "frame": "task",
-        "show_toast": true,
-        "announce_to_chat": true,
-        "hidden": false
+  "parent": "productivebees:husbandry/bee_cage",
+  "display": {
+    "icon": {
+      "item": "productivebees:bee_cage",
+      "nbt": "{entity:\"something\"}"
     },
-    "criteria": {
-        "catch": {
-            "trigger": "productivebees:catch_bee",
-            "conditions": {
-                "beeName": "any"
-            }
-        }
+    "title": {
+      "translate": "advancements.husbandry.catch_any_bee.title"
     },
-    "requirements": [
-        [
-            "catch"
-        ]
+    "description": {
+      "translate": "advancements.husbandry.catch_any_bee.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch": {
+      "trigger": "productivebees:catch_bee",
+      "conditions": {
+        "beeName": "any"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "catch"
     ]
+  ]
 }

@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#ffe59e",
-    "secondaryColor": "#3e5b68",
-    "tertiaryColor": "#d59042",
-    "particleColor": "#ffe59e",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/cats_eye",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/cats_eye"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/cats_eye"
-            }
-        }
-    ]
+  "primaryColor": "#ffe59e",
+  "secondaryColor": "#3e5b68",
+  "tertiaryColor": "#d59042",
+  "particleColor": "#ffe59e",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/cats_eye",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/cats_eye"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/cats_eye"
+      }
+    }
+  ]
 }

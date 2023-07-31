@@ -1,20 +1,20 @@
 {
-    "type": "productivebees:block_conversion",
-    "bee": "productivebees:pure",
-    "from": {
-        "Name": "minecraft:stone"
+  "type": "productivebees:block_conversion",
+  "bee": "productivebees:pure",
+  "from": {
+    "Name": "minecraft:stone"
+  },
+  "to": {
+    "Name": "botania:livingrock"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botania"
     },
-    "to": {
-        "Name": "botania:livingrock"
-    },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "botania"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:pure"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pure"
+    }
+  ]
 }

@@ -1,21 +1,21 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:nether_brick_nest"
-    },
-    "results": [
-        {
-            "bee": "productivebees:magmatic"
-        }
-    ],
-    "spawn_item": {
-        "item": "minecraft:magma_cream"
-    },
-    "biomes": "#minecraft:is_nether",
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:magmatic"
-        }
-    ]
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:nether_brick_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:magmatic"
+    }
+  ],
+  "spawn_item": {
+    "item": "minecraft:magma_cream"
+  },
+  "biomes": "#minecraft:is_nether",
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magmatic"
+    }
+  ]
 }

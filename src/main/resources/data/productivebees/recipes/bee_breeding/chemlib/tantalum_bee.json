@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:iron_bee",
+  "parent2": "productivebees:manganese",
+  "offspring": [
+    "productivebees:tantalum"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:manganese"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:tantalum"
+    }
+  ]
+}

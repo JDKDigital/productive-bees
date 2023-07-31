@@ -1,22 +1,22 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:iron",
-    "parent2": "productivebees:nickel",
-    "offspring": [
-        "productivebees:invar"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:iron"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:nickel"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:invar"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:iron",
+  "parent2": "productivebees:nickel",
+  "offspring": [
+    "productivebees:invar"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:nickel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:invar"
+    }
+  ]
 }

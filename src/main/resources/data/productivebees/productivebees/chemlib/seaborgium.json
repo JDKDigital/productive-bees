@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#4d54bb",
+  "particleColor": "#7d659e",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/seaborgium/bee",
+  "size": 0.5,
+  "flowerItem": "chemlib:seaborgium",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

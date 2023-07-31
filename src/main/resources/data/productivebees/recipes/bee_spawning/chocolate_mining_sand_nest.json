@@ -1,12 +1,12 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:sand_nest"
-    },
-    "results": [
-        {
-            "bee": "productivebees:chocolate_mining_bee"
-        }
-    ],
-    "biomes": "#forge:is_sandy"
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:sand_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:chocolate_mining_bee"
+    }
+  ],
+  "biomes": "#forge:is_sandy"
 }

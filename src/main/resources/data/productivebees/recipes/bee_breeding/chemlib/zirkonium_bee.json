@@ -1,0 +1,14 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:diamond",
+  "parent2": "productivebees:iron",
+  "offspring": [
+    "productivebees:zirkonium"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:zirkonium"
+    }
+  ]
+}

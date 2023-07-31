@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:diamond",
-    "result": "productivebees:netherite",
-    "item": {
-        "item": "minecraft:netherite_block"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:diamond",
+  "result": "productivebees:netherite",
+  "item": {
+    "item": "minecraft:netherite_block"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:diamond"
     },
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:diamond"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:netherite"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:netherite"
+    }
+  ]
 }

@@ -1,14 +1,14 @@
 {
-    "type": "productivebees:bottler",
-    "fluid": {
-        "fluid": "minecraft:water",
-        "amount": 250
-    },
-    "input": {
-        "item": "minecraft:glass_bottle"
-    },
-    "output": {
-        "item": "minecraft:potion",
-        "nbt": "{\"Potion\": \"minecraft:water\"}"
-    }
+  "type": "productivebees:bottler",
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 250
+  },
+  "input": {
+    "item": "minecraft:glass_bottle"
+  },
+  "output": {
+    "item": "minecraft:potion",
+    "nbt": "{\"Potion\": \"minecraft:water\"}"
+  }
 }

@@ -1,33 +1,33 @@
 {
-    "type": "thermal:smelter",
-    "input": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:ender\"}}"
-        }
-    ],
-    "result": {
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:resonant_ender"
-            }
-        }
+  "type": "thermal:smelter",
+  "input": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:ender\"}}"
+    }
+  ],
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:resonant_ender"
+      }
+    }
+  },
+  "energy": 8000,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
     },
-    "energy": 8000,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "thermal"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:ender"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:resonant_ender"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ender"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:resonant_ender"
+    }
+  ]
 }

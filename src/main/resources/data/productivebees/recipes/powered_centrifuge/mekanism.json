@@ -1,31 +1,31 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "RBR",
-        "ICI",
-        "RBR"
-    ],
-    "key": {
-        "R": {
-            "tag": "forge:dusts/redstone"
-        },
-        "I": {
-            "tag": "forge:ingots/iron"
-        },
-        "B": {
-            "item": "mekanism:basic_control_circuit"
-        },
-        "C": {
-            "item": "productivebees:centrifuge"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RBR",
+    "ICI",
+    "RBR"
+  ],
+  "key": {
+    "R": {
+      "tag": "forge:dusts/redstone"
     },
-    "result": {
-        "item": "productivebees:powered_centrifuge"
+    "I": {
+      "tag": "forge:ingots/iron"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mekanism"
-        }
-    ]
+    "B": {
+      "item": "mekanism:basic_control_circuit"
+    },
+    "C": {
+      "item": "productivebees:centrifuge"
+    }
+  },
+  "result": {
+    "item": "productivebees:powered_centrifuge"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mekanism"
+    }
+  ]
 }

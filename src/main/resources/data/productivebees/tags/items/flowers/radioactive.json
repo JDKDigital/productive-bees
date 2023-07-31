@@ -1,21 +1,21 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "#forge:storage_blocks/uranium",
-            "required": false
-        },
-        {
-            "id": "#forge:ores/uranium",
-            "required": false
-        },
-        {
-            "id": "#forge:storage_blocks/yellorium",
-            "required": false
-        },
-        {
-            "id": "#forge:ores/yellorite",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:storage_blocks/uranium",
+      "required": false
+    },
+    {
+      "id": "#forge:ores/uranium",
+      "required": false
+    },
+    {
+      "id": "#forge:storage_blocks/yellorium",
+      "required": false
+    },
+    {
+      "id": "#forge:ores/yellorite",
+      "required": false
+    }
+  ]
 }

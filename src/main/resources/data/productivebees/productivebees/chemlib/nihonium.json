@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#f3f4f9",
+  "particleColor": "#f3b9bf",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/nihonium/bee",
+  "size": 0.5,
+  "flowerItem": "chemlib:nihonium",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

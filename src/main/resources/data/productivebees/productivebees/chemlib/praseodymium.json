@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#86a245",
+  "particleColor": "#a2bc6e",
+  "beeTexture": "productivebees:textures/entity/bee/praseodymium/bee",
+  "flowerBlock": "chemlib:praseodymium_metal_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

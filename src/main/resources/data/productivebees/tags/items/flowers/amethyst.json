@@ -1,16 +1,16 @@
 {
-    "replace": false,
-    "values": [
-        "minecraft:amethyst_block",
-        "minecraft:budding_amethyst",
-        "minecraft:amethyst_cluster",
-        {
-            "id": "silentgems:amethyst_glowrose",
-            "required": false
-        },
-        {
-            "id": "oresabovediamonds:amethyst_block",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    "minecraft:amethyst_block",
+    "minecraft:budding_amethyst",
+    "minecraft:amethyst_cluster",
+    {
+      "id": "silentgems:amethyst_glowrose",
+      "required": false
+    },
+    {
+      "id": "oresabovediamonds:amethyst_block",
+      "required": false
+    }
+  ]
 }

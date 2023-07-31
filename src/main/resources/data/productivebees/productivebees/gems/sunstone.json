@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#ffcab0",
-    "secondaryColor": "#3e5b68",
-    "tertiaryColor": "#d45241",
-    "particleColor": "#ffcab0",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/sunstone",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/sunstone"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/sunstone"
-            }
-        }
-    ]
+  "primaryColor": "#ffcab0",
+  "secondaryColor": "#3e5b68",
+  "tertiaryColor": "#d45241",
+  "particleColor": "#ffcab0",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/sunstone",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/sunstone"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/sunstone"
+      }
+    }
+  ]
 }

@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#001bb6",
-    "secondaryColor": "#2e0b17",
-    "tertiaryColor": "#000c46",
-    "particleColor": "#001bb6",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/benitoite",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/benitoite"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/benitoite"
-            }
-        }
-    ]
+  "primaryColor": "#001bb6",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#000c46",
+  "particleColor": "#001bb6",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/benitoite",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/benitoite"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/benitoite"
+      }
+    }
+  ]
 }

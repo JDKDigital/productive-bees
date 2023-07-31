@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:creeper_bee",
-    "parent2": "productivebees:coal",
-    "offspring": [
-        "productivebees:niter"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:coal"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:niter"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:creeper_bee",
+  "parent2": "productivebees:coal",
+  "offspring": [
+    "productivebees:niter"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:coal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:niter"
+    }
+  ]
 }

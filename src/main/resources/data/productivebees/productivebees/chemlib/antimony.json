@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#382b18",
+  "particleColor": "#57452c",
+  "beeTexture": "productivebees:textures/entity/bee/antimony/bee",
+  "flowerItem": "chemlib:antimony_dust",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

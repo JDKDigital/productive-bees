@@ -1,29 +1,29 @@
 {
-    "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:redstone_alloy",
-    "results": [
-        {
-            "item": {
-                "type": "forge:nbt",
-                "item": "productivebees:configurable_honeycomb",
-                "nbt": {
-                    "EntityTag": {
-                        "type": "productivebees:redstone_alloy"
-                    }
-                }
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:pollen"
-            },
-            "chance": 5
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:redstone_alloy",
+  "results": [
+    {
+      "item": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:redstone_alloy"
+          }
         }
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:redstone_alloy"
-        }
-    ]
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:redstone_alloy"
+    }
+  ]
 }

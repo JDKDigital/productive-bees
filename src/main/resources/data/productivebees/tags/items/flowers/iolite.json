@@ -1,17 +1,17 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "#forge:storage_blocks/iolite",
-            "required": false
-        },
-        {
-            "id": "silentgems:iolite_glowrose",
-            "required": false
-        },
-        {
-            "id": "gemsnjewels:iolite_block",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:storage_blocks/iolite",
+      "required": false
+    },
+    {
+      "id": "silentgems:iolite_glowrose",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:iolite_block",
+      "required": false
+    }
+  ]
 }

@@ -1,41 +1,41 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:water_crystal"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:water_crystal"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "elementalcraft:watercrystal"
+      },
+      "chance": 50
     },
-    "outputs": [
-        {
-            "item": {
-                "item": "elementalcraft:watercrystal"
-            },
-            "chance": 50
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        },
-        {
-            "fluid": {
-                "fluid": "productivebees:honey"
-            },
-            "amount": 100
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "elementalcraft"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:water_crystal"
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 100
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "elementalcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:water_crystal"
+    }
+  ]
 }

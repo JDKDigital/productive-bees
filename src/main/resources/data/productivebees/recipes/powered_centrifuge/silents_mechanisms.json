@@ -1,30 +1,30 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "ICI",
-        "RBR"
-    ],
-    "key": {
-        "R": {
-            "tag": "forge:ingots/redstone_alloy"
-        },
-        "I": {
-            "tag": "forge:ingots/bismuth_brass"
-        },
-        "B": {
-            "item": "silents_mechanisms:alloy_machine_frame"
-        },
-        "C": {
-            "item": "productivebees:centrifuge"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ICI",
+    "RBR"
+  ],
+  "key": {
+    "R": {
+      "tag": "forge:ingots/redstone_alloy"
     },
-    "result": {
-        "item": "productivebees:powered_centrifuge"
+    "I": {
+      "tag": "forge:ingots/bismuth_brass"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "silents_mechanisms"
-        }
-    ]
+    "B": {
+      "item": "silents_mechanisms:alloy_machine_frame"
+    },
+    "C": {
+      "item": "productivebees:centrifuge"
+    }
+  },
+  "result": {
+    "item": "productivebees:powered_centrifuge"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "silents_mechanisms"
+    }
+  ]
 }

@@ -1,8 +1,8 @@
 {
-    "primaryColor": "#ffffff",
-    "secondaryColor": "#228B22",
-    "particleColor": "#cccccc",
-    "flowerTag": "productivebees:flowers/frozen",
-    "waterproof": true,
-    "coldResistant": true
+  "primaryColor": "#ffffff",
+  "secondaryColor": "#228B22",
+  "particleColor": "#cccccc",
+  "flowerTag": "productivebees:flowers/frozen",
+  "waterproof": true,
+  "coldResistant": true
 }

@@ -1,0 +1,49 @@
+{
+  "type": "alchemistry:fusion",
+  "group": "fusion",
+  "input1": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:curium"
+      }
+    }
+  },
+  "input2": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:manganese"
+      }
+    }
+  },
+  "output": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:hassium"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "alchemistry"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:curium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:manganese"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:hassium"
+    }
+  ]
+}

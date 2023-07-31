@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:magmatic",
-    "parent2": "productivebees:nomad_bee",
-    "offspring": [
-        "productivebees:blazing"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:magmatic"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:blazing"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:magmatic",
+  "parent2": "productivebees:nomad_bee",
+  "offspring": [
+    "productivebees:blazing"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magmatic"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:blazing"
+    }
+  ]
 }

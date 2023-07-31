@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#56565b",
+  "particleColor": "#acacad",
+  "beeTexture": "productivebees:textures/entity/bee/rhenium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "chemlib:rhenium_metal_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

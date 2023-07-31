@@ -1,31 +1,31 @@
 {
-    "parent": "minecraft:husbandry/fishy_business",
-    "display": {
-        "icon": {
-            "item": "productivebees:adv_breed_bee"
-        },
-        "title": {
-            "translate": "advancements.husbandry.fishy_bees.title"
-        },
-        "description": {
-            "translate": "advancements.husbandry.fishy_bees.description"
-        },
-        "frame": "task",
-        "show_toast": true,
-        "announce_to_chat": true,
-        "hidden": false
+  "parent": "minecraft:husbandry/fishy_business",
+  "display": {
+    "icon": {
+      "item": "productivebees:adv_breed_bee"
     },
-    "criteria": {
-        "catch": {
-            "trigger": "productivebees:fish_bee",
-            "conditions": {
-                "beeName": "any"
-            }
-        }
+    "title": {
+      "translate": "advancements.husbandry.fishy_bees.title"
     },
-    "requirements": [
-        [
-            "catch"
-        ]
+    "description": {
+      "translate": "advancements.husbandry.fishy_bees.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch": {
+      "trigger": "productivebees:fish_bee",
+      "conditions": {
+        "beeName": "any"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "catch"
     ]
+  ]
 }

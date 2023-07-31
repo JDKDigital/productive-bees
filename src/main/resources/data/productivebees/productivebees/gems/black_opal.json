@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#636363",
-    "secondaryColor": "#064f2c",
-    "tertiaryColor": "#141414",
-    "particleColor": "#636363",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/black_opal",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/black_opal"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/black_opal"
-            }
-        }
-    ]
+  "primaryColor": "#636363",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#141414",
+  "particleColor": "#636363",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/black_opal",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/black_opal"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/black_opal"
+      }
+    }
+  ]
 }

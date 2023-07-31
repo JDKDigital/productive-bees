@@ -1,42 +1,42 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:pulsating_alloy"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:pulsating_alloy"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "enderio:pulsating_alloy_nugget"
+      },
+      "min": 1,
+      "max": 12
     },
-    "outputs": [
-        {
-            "item": {
-                "item": "enderio:pulsating_alloy_nugget"
-            },
-            "min": 1,
-            "max": 12
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        },
-        {
-            "fluid": {
-                "fluid": "productivebees:honey"
-            },
-            "amount": 100
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "enderio"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:pulsating_alloy"
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 100
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "enderio"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pulsating_alloy"
+    }
+  ]
 }

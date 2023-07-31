@@ -1,25 +1,25 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "CEC",
-        "ABA",
-        "CAC"
-    ],
-    "key": {
-        "B": {
-            "item": "productivebees:upgrade_base"
-        },
-        "E": {
-            "tag": "forge:ender_pearls"
-        },
-        "A": {
-            "tag": "forge:rods/blaze"
-        },
-        "C": {
-            "tag": "forge:storage_blocks/honeycombs"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CEC",
+    "ABA",
+    "CAC"
+  ],
+  "key": {
+    "B": {
+      "item": "productivebees:upgrade_base"
     },
-    "result": {
-        "item": "productivebees:upgrade_simulator"
+    "E": {
+      "tag": "forge:ender_pearls"
+    },
+    "A": {
+      "tag": "forge:rods/blaze"
+    },
+    "C": {
+      "tag": "forge:storage_blocks/honeycombs"
     }
+  },
+  "result": {
+    "item": "productivebees:upgrade_simulator"
+  }
 }

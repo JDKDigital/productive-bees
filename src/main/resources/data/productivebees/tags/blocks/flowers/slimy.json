@@ -1,7 +1,7 @@
 {
-    "replace": false,
-    "values": [
-        "#productivebees:flowers/swamp_flowers",
-        "minecraft:slime_block"
-    ]
+  "replace": false,
+  "values": [
+    "#productivebees:flowers/swamp_flowers",
+    "minecraft:slime_block"
+  ]
 }

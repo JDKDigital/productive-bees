@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#c7c7c8",
+  "particleColor": "#cececf",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/lawrencium/bee",
+  "size": 0.5,
+  "flowerItem": "chemlib:lawrencium",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

@@ -1,63 +1,63 @@
 {
-    "type": "draconicevolution:fusion_crafting",
-    "result": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:draconium"
-            }
-        }
+  "type": "draconicevolution:fusion_crafting",
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:draconium"
+      }
+    }
+  },
+  "catalyst": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:draconic"
+      }
+    }
+  },
+  "total_energy": 1000000,
+  "tier": "WYVERN",
+  "ingredients": [
+    {
+      "item": "draconicevolution:draconium_core"
     },
-    "catalyst": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:draconic"
-            }
-        }
+    {
+      "item": "draconicevolution:draconium_core"
     },
-    "total_energy": 1000000,
-    "tier": "WYVERN",
-    "ingredients": [
-        {
-            "item": "draconicevolution:draconium_core"
-        },
-        {
-            "item": "draconicevolution:draconium_core"
-        },
-        {
-            "tag": "forge:raw_materials/draconium"
-        },
-        {
-            "tag": "forge:raw_materials/draconium"
-        },
-        {
-            "tag": "forge:storage_blocks/honeycombs"
-        },
-        {
-            "tag": "forge:storage_blocks/honeycombs"
-        },
-        {
-            "tag": "forge:storage_blocks/draconium"
-        },
-        {
-            "tag": "forge:storage_blocks/draconium"
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "draconicevolution"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:draconium"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:draconic"
-        }
-    ]
+    {
+      "tag": "forge:raw_materials/draconium"
+    },
+    {
+      "tag": "forge:raw_materials/draconium"
+    },
+    {
+      "tag": "forge:storage_blocks/honeycombs"
+    },
+    {
+      "tag": "forge:storage_blocks/honeycombs"
+    },
+    {
+      "tag": "forge:storage_blocks/draconium"
+    },
+    {
+      "tag": "forge:storage_blocks/draconium"
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "draconicevolution"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:draconium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:draconic"
+    }
+  ]
 }

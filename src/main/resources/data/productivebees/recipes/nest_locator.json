@@ -1,22 +1,22 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "GIG",
-        "GNG",
-        "GGG"
-    ],
-    "key": {
-        "I": {
-            "item": "minecraft:iron_bars"
-        },
-        "N": {
-            "item": "minecraft:note_block"
-        },
-        "G": {
-            "item": "minecraft:gold_nugget"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GIG",
+    "GNG",
+    "GGG"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_bars"
     },
-    "result": {
-        "item": "productivebees:nest_locator"
+    "N": {
+      "item": "minecraft:note_block"
+    },
+    "G": {
+      "item": "minecraft:gold_nugget"
     }
+  },
+  "result": {
+    "item": "productivebees:nest_locator"
+  }
 }

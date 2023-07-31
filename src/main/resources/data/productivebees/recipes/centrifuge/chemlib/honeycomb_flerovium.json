@@ -1,0 +1,36 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:flerovium"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "chemlib:flerovium"
+      },
+      "min": 1,
+      "max": 2
+    },
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:flerovium"
+    }
+  ]
+}

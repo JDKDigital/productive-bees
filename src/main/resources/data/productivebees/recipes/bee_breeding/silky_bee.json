@@ -1,14 +1,14 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:reed_bee",
-    "parent2": "productivebees:resin_bee",
-    "offspring": [
-        "productivebees:silky"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:silky"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:reed_bee",
+  "parent2": "productivebees:resin_bee",
+  "offspring": [
+    "productivebees:silky"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:silky"
+    }
+  ]
 }

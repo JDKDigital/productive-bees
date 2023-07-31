@@ -1,22 +1,22 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:crystalline",
-    "parent2": "productivebees:ender",
-    "offspring": [
-        "productivebees:spacial"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:crystalline"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:ender"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:spacial"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:crystalline",
+  "parent2": "productivebees:ender",
+  "offspring": [
+    "productivebees:spacial"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ender"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:spacial"
+    }
+  ]
 }

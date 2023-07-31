@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#4977f5",
+  "secondaryColor": "#232b3d",
+  "tertiaryColor": "#5e94e0",
+  "particleColor": "#0b1e42",
+  "description": "productivebees.ingredient.description.water_bee",
+  "size": 0.8,
+  "attributes": {
+    "weather_tolerance": 2
+  },
+  "waterproof": true,
+  "createComb": false,
+  "flowerFluid": "minecraft:water"
+}

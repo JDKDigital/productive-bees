@@ -1,23 +1,16 @@
 {
-    "primaryColor": "#dbaaa9",
-    "secondaryColor": "#804f40",
-    "particleColor": "#dbaaa9",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerTag": "forge:storage_blocks/pig_iron",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:raw_materials/pig_iron"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/pig_iron"
-            }
-        }
-    ]
+  "primaryColor": "#dbaaa9",
+  "secondaryColor": "#804f40",
+  "particleColor": "#dbaaa9",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "forge:storage_blocks/pig_iron",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/pig_iron"
+      }
+    }
+  ]
 }

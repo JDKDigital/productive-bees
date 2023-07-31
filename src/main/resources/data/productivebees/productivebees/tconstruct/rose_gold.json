@@ -1,23 +1,16 @@
 {
-    "primaryColor": "#eeb9a0",
-    "secondaryColor": "#804f40",
-    "particleColor": "#eeb9a0",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerTag": "forge:storage_blocks/rose_gold",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:raw_materials/rose_gold"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/rose_gold"
-            }
-        }
-    ]
+  "primaryColor": "#eeb9a0",
+  "secondaryColor": "#804f40",
+  "particleColor": "#eeb9a0",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "forge:storage_blocks/rose_gold",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/rose_gold"
+      }
+    }
+  ]
 }

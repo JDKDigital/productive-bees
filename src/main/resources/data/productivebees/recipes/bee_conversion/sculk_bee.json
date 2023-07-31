@@ -1,14 +1,14 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:digger_bee",
-    "result": "productivebees:sculk",
-    "item": {
-        "item": "minecraft:sculk"
-    },
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:sculk"
-        }
-    ]
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:digger_bee",
+  "result": "productivebees:sculk",
+  "item": {
+    "item": "minecraft:sculk"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sculk"
+    }
+  ]
 }

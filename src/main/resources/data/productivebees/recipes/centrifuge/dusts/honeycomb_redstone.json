@@ -1,33 +1,33 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:redstone"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:redstone"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:dusts/redstone"
+      },
+      "min": 1,
+      "max": 2,
+      "chance": 50
     },
-    "outputs": [
-        {
-            "item": {
-                "tag": "forge:dusts/redstone"
-            },
-            "min": 1,
-            "max": 2,
-            "chance": 50
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        },
-        {
-            "fluid": {
-                "fluid": "productivebees:honey"
-            },
-            "amount": 50
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 50
+    }
+  ]
 }

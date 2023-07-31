@@ -1,34 +1,34 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "BBB",
-        "BEB",
-        "BBB"
-    ],
-    "key": {
-        "E": {
-            "item": "productivebees:spawn_egg_nomad_bee"
-        },
-        "B": {
-            "item": "evilcraft:blood_orb_filled"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BBB",
+    "BEB",
+    "BBB"
+  ],
+  "key": {
+    "E": {
+      "item": "productivebees:spawn_egg_nomad_bee"
     },
-    "result": {
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:bloody"
-            }
-        }
+    "B": {
+      "item": "evilcraft:blood_orb_filled"
+    }
+  },
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:bloody"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "evilcraft"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "evilcraft"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:bloody"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:bloody"
+    }
+  ]
 }

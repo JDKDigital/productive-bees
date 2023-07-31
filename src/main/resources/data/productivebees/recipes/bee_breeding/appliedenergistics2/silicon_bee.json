@@ -1,14 +1,14 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:nomad_bee",
-    "parent2": "productivebees:reed_bee",
-    "offspring": [
-        "productivebees:silicon"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:silicon"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:nomad_bee",
+  "parent2": "productivebees:reed_bee",
+  "offspring": [
+    "productivebees:silicon"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:silicon"
+    }
+  ]
 }

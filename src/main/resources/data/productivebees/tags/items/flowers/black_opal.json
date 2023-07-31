@@ -1,17 +1,17 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "#forge:storage_blocks/black_opal",
-            "required": false
-        },
-        {
-            "id": "gemsnjewels:black_opal_block",
-            "required": false
-        },
-        {
-            "id": "oresabovediamonds:black_opal_block",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:storage_blocks/black_opal",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:black_opal_block",
+      "required": false
+    },
+    {
+      "id": "oresabovediamonds:black_opal_block",
+      "required": false
+    }
+  ]
 }

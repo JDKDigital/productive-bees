@@ -1,14 +1,14 @@
 {
-    "primaryColor": "#528dc6",
-    "secondaryColor": "#66b1e4",
-    "flowerBlock": "gobber2:gobber2_block",
-    "breedingItem": "gobber2:gobber2_glob",
-    "selfbreed": false,
-    "size": 0.5,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "gobber2"
-        }
-    ]
+  "primaryColor": "#528dc6",
+  "secondaryColor": "#66b1e4",
+  "flowerBlock": "gobber2:gobber2_block",
+  "breedingItem": "gobber2:gobber2_glob",
+  "selfbreed": false,
+  "size": 0.5,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "gobber2"
+    }
+  ]
 }

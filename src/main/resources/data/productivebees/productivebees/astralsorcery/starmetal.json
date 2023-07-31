@@ -1,14 +1,14 @@
 {
-    "primaryColor": "#0545b2",
-    "secondaryColor": "#eceee3",
-    "particleColor": "#0545b2",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerBlock": "astralsorcery:starmetal",
-    "selfbreed": false,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "astralsorcery"
-        }
-    ]
+  "primaryColor": "#0545b2",
+  "secondaryColor": "#eceee3",
+  "particleColor": "#0545b2",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "astralsorcery:starmetal",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "astralsorcery"
+    }
+  ]
 }

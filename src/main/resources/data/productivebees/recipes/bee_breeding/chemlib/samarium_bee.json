@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:cobalt",
+  "parent2": "productivebees:lanthanum",
+  "offspring": [
+    "productivebees:samarium"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:cobalt"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lanthanum"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:samarium"
+    }
+  ]
+}

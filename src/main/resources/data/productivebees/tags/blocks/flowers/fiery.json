@@ -1,7 +1,7 @@
 {
-    "replace": false,
-    "values": [
-        "minecraft:magma_block",
-        "minecraft:fire"
-    ]
+  "replace": false,
+  "values": [
+    "minecraft:magma_block",
+    "minecraft:fire"
+  ]
 }

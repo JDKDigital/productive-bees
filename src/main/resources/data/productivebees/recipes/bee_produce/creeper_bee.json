@@ -1,17 +1,17 @@
 {
-    "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:creeper_bee",
-    "results": [
-        {
-            "item": {
-                "item": "productivebees:honeycomb_powdery"
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:pollen"
-            },
-            "chance": 5
-        }
-    ]
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:creeper_bee",
+  "results": [
+    {
+      "item": {
+        "item": "productivebees:honeycomb_powdery"
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
+    }
+  ]
 }

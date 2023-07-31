@@ -1,14 +1,14 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:jungle_wood_nest"
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:jungle_wood_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:green_carpenter_bee"
     },
-    "results": [
-        {
-            "bee": "productivebees:green_carpenter_bee"
-        },
-        {
-            "bee": "productivebees:yellow_black_carpenter_bee"
-        }
-    ]
+    {
+      "bee": "productivebees:yellow_black_carpenter_bee"
+    }
+  ]
 }

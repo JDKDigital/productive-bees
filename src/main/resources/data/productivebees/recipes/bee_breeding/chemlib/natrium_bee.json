@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:water",
+  "parent2": "productivebees:phosphorus",
+  "offspring": [
+    "productivebees:natrium"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:water"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:phosphorus"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:natrium"
+    }
+  ]
+}

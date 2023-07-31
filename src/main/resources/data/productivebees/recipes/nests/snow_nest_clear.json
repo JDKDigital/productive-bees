@@ -1,11 +1,11 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "productivebees:snow_nest"
-        }
-    ],
-    "result": {
-        "item": "productivebees:snow_nest"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:snow_nest"
     }
+  ],
+  "result": {
+    "item": "productivebees:snow_nest"
+  }
 }

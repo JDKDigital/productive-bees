@@ -1,12 +1,12 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:gravel_nest"
-    },
-    "results": [
-        {
-            "bee": "productivebees:ashy_mining_bee"
-        }
-    ],
-    "biomes": "#productivebees:is_beach_or_river"
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:gravel_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:ashy_mining_bee"
+    }
+  ],
+  "biomes": "#productivebees:is_beach_or_river"
 }

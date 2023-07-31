@@ -1,14 +1,14 @@
 {
-    "primaryColor": "#cccc4c",
-    "secondaryColor": "#9c8c3c",
-    "particleColor": "#3c4c9c",
-    "size": 0.7,
-    "pollinatedSize": 1.1,
-    "beeTexture": "productivebees:textures/entity/bee/sponge/bee",
-    "createComb": false,
-    "waterproof": true,
-    "attributes": {
-        "endurance": 1
-    },
-    "flowerBlock": "minecraft:sponge"
+  "primaryColor": "#cccc4c",
+  "secondaryColor": "#9c8c3c",
+  "particleColor": "#3c4c9c",
+  "size": 0.7,
+  "pollinatedSize": 1.1,
+  "beeTexture": "productivebees:textures/entity/bee/sponge/bee",
+  "createComb": false,
+  "waterproof": true,
+  "attributes": {
+    "endurance": 1
+  },
+  "flowerBlock": "minecraft:sponge"
 }

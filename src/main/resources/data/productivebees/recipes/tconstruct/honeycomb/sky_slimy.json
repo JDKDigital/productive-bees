@@ -1,32 +1,32 @@
 {
-    "type": "tconstruct:melting",
-    "ingredient": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:sky_slimy"
-                }
-            }
+  "type": "tconstruct:melting",
+  "ingredient": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:sky_slimy"
         }
-    ],
-    "result": {
-        "fluid": "tconstruct:sky_slime",
-        "amount": 200
-    },
-    "temperature": 10,
-    "time": 29,
-    "byproducts": [
-        {
-            "fluid": "productivebees:honey",
-            "amount": 100
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "tconstruct"
-        }
-    ]
+      }
+    }
+  ],
+  "result": {
+    "fluid": "tconstruct:sky_slime",
+    "amount": 200
+  },
+  "temperature": 10,
+  "time": 29,
+  "byproducts": [
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ]
 }

@@ -1,53 +1,53 @@
 {
-    "type": "mythicbotany:infuser",
-    "group": "infuser",
-    "output": {
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:gaiasteel"
-            }
-        }
+  "type": "mythicbotany:infuser",
+  "group": "infuser",
+  "output": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:gaiasteel"
+      }
+    }
+  },
+  "mana": 2000000,
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:elementium\"}}"
     },
-    "mana": 2000000,
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:elementium\"}}"
-        },
-        {
-            "tag": "botania:dragonstone_gems"
-        },
-        {
-            "item": "botania:gaia_ingot"
-        },
-        {
-            "item": "botanicadds:gaiasteel_ingot"
-        }
-    ],
-    "fromColor": 14441208,
-    "toColor": 8790053,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mythicbotany"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "botanicadds"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "botania"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:gaiasteel"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:elementium"
-        }
-    ]
+    {
+      "tag": "botania:dragonstone_gems"
+    },
+    {
+      "item": "botania:gaia_ingot"
+    },
+    {
+      "item": "botanicadds:gaiasteel_ingot"
+    }
+  ],
+  "fromColor": 14441208,
+  "toColor": 8790053,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mythicbotany"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanicadds"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botania"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gaiasteel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:elementium"
+    }
+  ]
 }

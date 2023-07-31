@@ -1,0 +1,52 @@
+{
+  "type": "alchemistry:dissolver",
+  "group": "alchemistry:dissolver",
+  "input": {
+    "ingredient": {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:titanium"
+        }
+      }
+    }
+  },
+  "output": {
+    "rolls": 1,
+    "weighted": false,
+    "groups": [
+      {
+        "probability": 100,
+        "results": [
+          {
+            "item": "productivebees:spawn_egg_configurable_bee",
+            "nbt": {
+              "EntityTag": {
+                "type": "productivebees:ruthenium"
+              }
+            }
+          },
+          {
+            "count": 8,
+            "item": "chemlib:titanium"
+          }
+        ]
+      }
+    ]
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "alchemistry"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:titanium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ruthenium"
+    }
+  ]
+}

@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#ffbfc4",
-    "secondaryColor": "#064f2c",
-    "tertiaryColor": "#d67a91",
-    "particleColor": "#ffbfc4",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/morganite",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/morganite"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/morganite"
-            }
-        }
-    ]
+  "primaryColor": "#ffbfc4",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#d67a91",
+  "particleColor": "#ffbfc4",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/morganite",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/morganite"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/morganite"
+      }
+    }
+  ]
 }

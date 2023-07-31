@@ -1,7 +1,7 @@
 {
-    "primaryColor": "#222525",
-    "secondaryColor": "#804f40",
-    "particleColor": "#222525",
-    "flowerTag": "forge:storage_blocks/coal",
-    "size": 0.5
+  "primaryColor": "#222525",
+  "secondaryColor": "#804f40",
+  "particleColor": "#222525",
+  "flowerTag": "forge:storage_blocks/coal",
+  "size": 0.5
 }

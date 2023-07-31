@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#b6a577",
+  "particleColor": "#eed587",
+  "beeTexture": "productivebees:textures/entity/bee/potassium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "chemlib:potassium_metal_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

@@ -1,14 +1,14 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "minecraft:diamond_sword"
-        },
-        {
-            "item": "minecraft:obsidian"
-        }
-    ],
-    "result": {
-        "item": "productivebees:obsidian_nest"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond_sword"
+    },
+    {
+      "item": "minecraft:obsidian"
     }
+  ],
+  "result": {
+    "item": "productivebees:obsidian_nest"
+  }
 }

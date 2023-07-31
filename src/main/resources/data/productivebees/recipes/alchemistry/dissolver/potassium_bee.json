@@ -1,0 +1,42 @@
+{
+  "type": "alchemistry:dissolver",
+  "group": "alchemistry:dissolver",
+  "input": {
+    "ingredient": {
+      "item": "productivebees:spawn_egg_farmer_bee"
+    }
+  },
+  "output": {
+    "rolls": 1,
+    "weighted": false,
+    "groups": [
+      {
+        "probability": 100,
+        "results": [
+          {
+            "item": "productivebees:spawn_egg_configurable_bee",
+            "nbt": {
+              "EntityTag": {
+                "type": "productivebees:potassium"
+              }
+            }
+          },
+          {
+            "count": 2,
+            "item": "minecraft:wheat"
+          }
+        ]
+      }
+    ]
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "alchemistry"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:potassium"
+    }
+  ]
+}

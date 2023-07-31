@@ -1,33 +1,33 @@
 {
-    "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:lightning_dragonsteel",
-    "results": [
-        {
-            "item": {
-                "type": "forge:nbt",
-                "item": "productivebees:configurable_honeycomb",
-                "nbt": {
-                    "EntityTag": {
-                        "type": "productivebees:lightning_dragonsteel"
-                    }
-                }
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:pollen"
-            },
-            "chance": 5
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:lightning_dragonsteel",
+  "results": [
+    {
+      "item": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:lightning_dragonsteel"
+          }
         }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "iceandfire"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:lightning_dragonsteel"
-        }
-    ]
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lightning_dragonsteel"
+    }
+  ]
 }

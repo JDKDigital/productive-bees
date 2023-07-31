@@ -1,0 +1,14 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:skeletal",
+  "parent2": "productivebees:iron",
+  "offspring": [
+    "productivebees:magnesium"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magnesium"
+    }
+  ]
+}

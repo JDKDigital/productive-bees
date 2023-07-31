@@ -1,23 +1,16 @@
 {
-    "primaryColor": "#ab6cd7",
-    "secondaryColor": "#652e87",
-    "particleColor": "#ab6cd7",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerTag": "forge:storage_blocks/manyullyn",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:raw_materials/manyullyn"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/manyullyn"
-            }
-        }
-    ]
+  "primaryColor": "#ab6cd7",
+  "secondaryColor": "#652e87",
+  "particleColor": "#ab6cd7",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "forge:storage_blocks/manyullyn",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/manyullyn"
+      }
+    }
+  ]
 }

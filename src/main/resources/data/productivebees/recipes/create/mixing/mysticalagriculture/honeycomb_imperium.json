@@ -1,35 +1,35 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:imperium"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:imperium"
         }
-    ],
-    "results": [
-        {
-            "item": "mysticalagriculture:imperium_essence",
-            "count": 2,
-            "chance": 0.5
-        },
-        {
-            "item": "productivebees:wax"
-        }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
-        }
-    ]
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "mysticalagriculture:imperium_essence",
+      "count": 2,
+      "chance": 0.5
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ]
 }

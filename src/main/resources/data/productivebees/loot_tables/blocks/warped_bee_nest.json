@@ -1,27 +1,27 @@
 {
-    "type": "minecraft:block",
-    "pools": [
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
         {
-            "rolls": 1,
-            "entries": [
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
                 {
-                    "type": "minecraft:item",
-                    "functions": [
-                        {
-                            "function": "minecraft:copy_nbt",
-                            "source": "block_entity",
-                            "ops": [
-                                {
-                                    "source": "BeeList",
-                                    "target": "BlockEntityTag.BeeList",
-                                    "op": "replace"
-                                }
-                            ]
-                        }
-                    ],
-                    "name": "productivebees:warped_bee_nest"
+                  "source": "BeeList",
+                  "target": "BlockEntityTag.BeeList",
+                  "op": "replace"
                 }
-            ]
+              ]
+            }
+          ],
+          "name": "productivebees:warped_bee_nest"
         }
-    ]
+      ]
+    }
+  ]
 }

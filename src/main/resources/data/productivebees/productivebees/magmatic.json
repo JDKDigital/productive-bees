@@ -1,19 +1,19 @@
 {
-    "primaryColor": "#d06a1b",
-    "secondaryColor": "#100000",
-    "particleColor": "#d06a1b",
-    "beeTexture": "productivebees:textures/entity/bee/magmatic/bee",
-    "combTexture": "productivebees:item/honeycombs/magmatic",
-    "renderer": "translucent_with_center",
-    "flowerTag": "productivebees:flowers/magmatic_flowers",
-    "nestingPreference": "productivebees:nests/nether_brick_nests",
-    "attackResponse": "lava",
-    "particleType": "lava",
-    "fireproof": true,
-    "passiveEffects": [
-        {
-            "effect": "minecraft:fire_resistance",
-            "duration": 400
-        }
-    ]
+  "primaryColor": "#d06a1b",
+  "secondaryColor": "#100000",
+  "particleColor": "#d06a1b",
+  "beeTexture": "productivebees:textures/entity/bee/magmatic/bee",
+  "combTexture": "productivebees:item/honeycombs/magmatic",
+  "renderer": "translucent_with_center",
+  "flowerTag": "productivebees:flowers/magmatic_flowers",
+  "nestingPreference": "productivebees:nests/nether_brick_nests",
+  "attackResponse": "lava",
+  "particleType": "lava",
+  "fireproof": true,
+  "passiveEffects": [
+    {
+      "effect": "minecraft:fire_resistance",
+      "duration": 400
+    }
+  ]
 }

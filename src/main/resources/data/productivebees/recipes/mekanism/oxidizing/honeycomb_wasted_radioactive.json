@@ -1,8 +1,7 @@
 {
   "type": "mekanism:oxidizing",
   "input": {
-    "ingredient":
-    {
+    "ingredient": {
       "type": "forge:nbt",
       "item": "productivebees:configurable_honeycomb",
       "nbt": {

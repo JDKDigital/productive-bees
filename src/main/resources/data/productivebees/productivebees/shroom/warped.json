@@ -1,13 +1,13 @@
 {
-    "primaryColor": "#0c6138",
-    "secondaryColor": "#0c3326",
-    "tertiaryColor": "#9a562c",
-    "particleColor": "#9a3600",
-    "flowerBlock": "minecraft:warped_fungus",
-    "renderer": "default_foliage",
-    "size": 0.5,
-    "breedingItem": "minecraft:warped_fungus",
-    "attributes": {
-        "behavior": 1
-    }
+  "primaryColor": "#0c6138",
+  "secondaryColor": "#0c3326",
+  "tertiaryColor": "#9a562c",
+  "particleColor": "#9a3600",
+  "flowerBlock": "minecraft:warped_fungus",
+  "renderer": "default_foliage",
+  "size": 0.5,
+  "breedingItem": "minecraft:warped_fungus",
+  "attributes": {
+    "behavior": 1
+  }
 }

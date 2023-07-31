@@ -1,12 +1,12 @@
 {
-    "primaryColor": "#1dc1f2",
-    "secondaryColor": "#1b86a6",
-    "flowerBlock": "powah:niotic_crystal_block",
-    "selfbreed": false,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "powah"
-        }
-    ]
+  "primaryColor": "#1dc1f2",
+  "secondaryColor": "#1b86a6",
+  "flowerBlock": "powah:niotic_crystal_block",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "powah"
+    }
+  ]
 }

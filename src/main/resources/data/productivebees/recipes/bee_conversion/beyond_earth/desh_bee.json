@@ -1,25 +1,25 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:steel",
-    "result": "productivebees:desh",
-    "item": {
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:steel",
+  "result": "productivebees:desh",
+  "item": {
+    "tag": "forge:storage_blocks/desh"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
         "tag": "forge:storage_blocks/desh"
+      }
     },
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/desh"
-            }
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:steel"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:desh"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:steel"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:desh"
+    }
+  ]
 }

@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#18db8a",
-    "secondaryColor": "#064f2c",
-    "tertiaryColor": "#007b33",
-    "particleColor": "#18db8a",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/phosphophyllite",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/phosphophyllite"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/phosphophyllite"
-            }
-        }
-    ]
+  "primaryColor": "#18db8a",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#007b33",
+  "particleColor": "#18db8a",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/phosphophyllite",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/phosphophyllite"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/phosphophyllite"
+      }
+    }
+  ]
 }

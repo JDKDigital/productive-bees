@@ -1,18 +1,18 @@
 {
-    "primaryColor": "#316ff5",
-    "secondaryColor": "#08080f",
-    "tertiaryColor": "#400438",
-    "particleColor": "#316ff5",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerBlock": "botania:gaia_pylon",
-    "renderer": "default_foliage",
-    "size": 0.5,
-    "createComb": false,
-    "breedingItem": "botania:blacker_lotus",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "botania"
-        }
-    ]
+  "primaryColor": "#316ff5",
+  "secondaryColor": "#08080f",
+  "tertiaryColor": "#400438",
+  "particleColor": "#316ff5",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "botania:gaia_pylon",
+  "renderer": "default_foliage",
+  "size": 0.5,
+  "createComb": false,
+  "breedingItem": "botania:blacker_lotus",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botania"
+    }
+  ]
 }

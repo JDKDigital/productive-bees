@@ -1,42 +1,42 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:starry"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:starry"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "allthetweaks:atm_star_shard"
+      },
+      "chance": 5
     },
-    "outputs": [
-        {
-            "item": {
-                "item": "allthetweaks:atm_star_shard"
-            },
-            "chance": 5
-        },
-        {
-            "item": {
-                "item": "mysticalagradditions:nether_star_shard"
-            },
-            "chance": 50
-        },
-        {
-            "fluid": {
-                "fluid": "productivebees:honey"
-            },
-            "amount": 50
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "allthetweaks"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mysticalagradditions"
-        }
-    ]
+    {
+      "item": {
+        "item": "mysticalagradditions:nether_star_shard"
+      },
+      "chance": 50
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 50
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "allthetweaks"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mysticalagradditions"
+    }
+  ]
 }

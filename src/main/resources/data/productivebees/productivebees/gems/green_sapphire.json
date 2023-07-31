@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#8adb18",
-    "secondaryColor": "#064f2c",
-    "tertiaryColor": "#019500",
-    "particleColor": "#8adb18",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/green_sapphire",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/green_sapphire"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/green_sapphire"
-            }
-        }
-    ]
+  "primaryColor": "#8adb18",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#019500",
+  "particleColor": "#8adb18",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/green_sapphire",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/green_sapphire"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/green_sapphire"
+      }
+    }
+  ]
 }

@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#22d946",
-    "secondaryColor": "#2e0b17",
-    "tertiaryColor": "#127625",
-    "particleColor": "#22d946",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/malachite",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/malachite"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/malachite"
-            }
-        }
-    ]
+  "primaryColor": "#22d946",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#127625",
+  "particleColor": "#22d946",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/malachite",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/malachite"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/malachite"
+      }
+    }
+  ]
 }

@@ -1,25 +1,25 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "CHC",
-        "SBS",
-        "CHC"
-    ],
-    "key": {
-        "B": {
-            "item": "productivebees:upgrade_base"
-        },
-        "S": {
-            "item": "minecraft:diamond_sword"
-        },
-        "H": {
-            "item": "minecraft:honey_bottle"
-        },
-        "C": {
-            "tag": "forge:storage_blocks/honeycombs"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CHC",
+    "SBS",
+    "CHC"
+  ],
+  "key": {
+    "B": {
+      "item": "productivebees:upgrade_base"
     },
-    "result": {
-        "item": "productivebees:upgrade_bee_sampler"
+    "S": {
+      "item": "minecraft:diamond_sword"
+    },
+    "H": {
+      "item": "minecraft:honey_bottle"
+    },
+    "C": {
+      "tag": "forge:storage_blocks/honeycombs"
     }
+  },
+  "result": {
+    "item": "productivebees:upgrade_bee_sampler"
+  }
 }

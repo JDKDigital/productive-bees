@@ -1,28 +1,28 @@
 {
-    "type": "botania:mana_infusion",
-    "input": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:pure\"}}"
+  "type": "botania:mana_infusion",
+  "input": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:pure\"}}"
+  },
+  "output": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:mana\"}}"
+  },
+  "mana": 10000,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botania"
     },
-    "output": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:mana\"}}"
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pure"
     },
-    "mana": 10000,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "botania"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:pure"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:mana"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:mana"
+    }
+  ]
 }

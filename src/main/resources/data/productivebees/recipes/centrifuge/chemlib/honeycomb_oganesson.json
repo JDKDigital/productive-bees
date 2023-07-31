@@ -1,0 +1,36 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:oganesson"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "chemlib:oganesson"
+      },
+      "min": 0,
+      "max": 1
+    },
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:oganesson"
+    }
+  ]
+}

@@ -1,46 +1,46 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:dark_gem"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:dark_gem"
         }
-    ],
-    "results": [
-        {
-            "item": "evilcraft:dark_gem",
-            "chance": 0.8
-        },
-        {
-            "item": "evilcraft:dark_gem_crushed",
-            "chance": 0.2
-        },
-        {
-            "item": "productivebees:wax"
-        },
-        {
-            "fluid": "productivebees:honey",
-            "amount": 100
-        }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "evilcraft"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:dark_gem"
-        }
-    ]
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "evilcraft:dark_gem",
+      "chance": 0.8
+    },
+    {
+      "item": "evilcraft:dark_gem_crushed",
+      "chance": 0.2
+    },
+    {
+      "item": "productivebees:wax"
+    },
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "evilcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dark_gem"
+    }
+  ]
 }

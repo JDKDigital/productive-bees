@@ -1,42 +1,42 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:ice_dragonsteel"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:ice_dragonsteel"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "iceandfire:dragonsteel_ice_ingot"
+      },
+      "chance": 15
     },
-    "outputs": [
-        {
-            "item": {
-                "item": "iceandfire:dragonsteel_ice_ingot"
-            },
-            "chance": 15
-        },
-        {
-            "item": {
-                "item": "iceandfire:ice_dragon_blood"
-            },
-            "chance": 5
-        },
-        {
-            "fluid": {
-                "fluid": "productivebees:honey"
-            },
-            "amount": 0
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "iceandfire"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:ice_dragonsteel"
-        }
-    ]
+    {
+      "item": {
+        "item": "iceandfire:ice_dragon_blood"
+      },
+      "chance": 5
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 0
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "iceandfire"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ice_dragonsteel"
+    }
+  ]
 }

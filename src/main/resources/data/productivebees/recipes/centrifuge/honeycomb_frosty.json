@@ -1,33 +1,33 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:frosty"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:frosty"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "minecraft:snowball"
+      },
+      "min": 2,
+      "max": 4
     },
-    "outputs": [
-        {
-            "item": {
-                "item": "minecraft:snowball"
-            },
-            "min": 2,
-            "max": 4
-        },
-        {
-            "item": {
-                "item": "minecraft:ice"
-            },
-            "chance": 40
-        },
-        {
-            "fluid": {
-                "fluid": "productivebees:honey"
-            },
-            "amount": 50
-        }
-    ]
+    {
+      "item": {
+        "item": "minecraft:ice"
+      },
+      "chance": 40
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 50
+    }
+  ]
 }

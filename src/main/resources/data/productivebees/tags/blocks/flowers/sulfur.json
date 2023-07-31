@@ -1,10 +1,10 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "#forge:storage_blocks/sulfur",
-            "required": false
-        },
-        "minecraft:coal_ore"
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:storage_blocks/sulfur",
+      "required": false
+    },
+    "minecraft:coal_ore"
+  ]
 }

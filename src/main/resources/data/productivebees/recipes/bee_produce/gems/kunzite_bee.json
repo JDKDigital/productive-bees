@@ -1,23 +1,23 @@
 {
-    "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:kunzite",
-    "results": [
-        {
-            "item": {
-                "item": "productivebees:configurable_honeycomb"
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:pollen"
-            },
-            "chance": 5
-        }
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:kunzite"
-        }
-    ]
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:kunzite",
+  "results": [
+    {
+      "item": {
+        "item": "productivebees:configurable_honeycomb"
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:kunzite"
+    }
+  ]
 }

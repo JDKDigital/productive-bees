@@ -1,33 +1,33 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:desh"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:desh"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:raw_materials/desh"
+      },
+      "chance": 30
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:raw_materials/desh"
+      }
     },
-    "outputs": [
-        {
-            "item": {
-                "tag": "forge:raw_materials/desh"
-            },
-            "chance": 30
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:raw_materials/desh"
-            }
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:desh"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:desh"
+    }
+  ]
 }

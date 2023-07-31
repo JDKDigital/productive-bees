@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:samarium",
+  "parent2": "productivebees:neodymium",
+  "offspring": [
+    "productivebees:praseodymium"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:samarium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:neodymium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:praseodymium"
+    }
+  ]
+}

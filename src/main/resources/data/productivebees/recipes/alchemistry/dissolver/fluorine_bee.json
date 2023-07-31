@@ -1,0 +1,52 @@
+{
+  "type": "alchemistry:dissolver",
+  "group": "alchemistry:dissolver",
+  "input": {
+    "ingredient": {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:magmatic"
+        }
+      }
+    }
+  },
+  "output": {
+    "rolls": 1,
+    "weighted": false,
+    "groups": [
+      {
+        "probability": 100,
+        "results": [
+          {
+            "item": "productivebees:spawn_egg_configurable_bee",
+            "nbt": {
+              "EntityTag": {
+                "type": "productivebees:fluorine"
+              }
+            }
+          },
+          {
+            "count": 1,
+            "item": "minecraft:magma_cream"
+          }
+        ]
+      }
+    ]
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "alchemistry"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:magmatic"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:fluorine"
+    }
+  ]
+}

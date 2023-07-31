@@ -1,25 +1,25 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "WWW",
-        "WCW",
-        "WWW"
-    ],
-    "key": {
-        "W": {
-            "item": "biomesoplenty:umbran_planks"
-        },
-        "C": {
-            "item": "minecraft:honeycomb"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "WCW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "biomesoplenty:umbran_planks"
     },
-    "result": {
-        "item": "productivebees:expansion_box_bop_umbran"
-    },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "biomesoplenty"
-        }
-    ]
+    "C": {
+      "item": "minecraft:honeycomb"
+    }
+  },
+  "result": {
+    "item": "productivebees:expansion_box_bop_umbran"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biomesoplenty"
+    }
+  ]
 }

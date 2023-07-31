@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#787800",
-    "secondaryColor": "#2e0b17",
-    "tertiaryColor": "#b3b600",
-    "particleColor": "#787800",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/zircon",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/zircon"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/zircon"
-            }
-        }
-    ]
+  "primaryColor": "#787800",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#b3b600",
+  "particleColor": "#787800",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/zircon",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/zircon"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/zircon"
+      }
+    }
+  ]
 }

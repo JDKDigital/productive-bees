@@ -1,7 +1,7 @@
 {
-    "replace": false,
-    "values": [
-        "#productivebees:flowers/fiery",
-        "minecraft:nether_wart"
-    ]
+  "replace": false,
+  "values": [
+    "#productivebees:flowers/fiery",
+    "minecraft:nether_wart"
+  ]
 }

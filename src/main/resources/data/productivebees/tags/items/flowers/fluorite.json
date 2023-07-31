@@ -1,17 +1,17 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "#forge:storage_blocks/fluorite",
-            "required": false
-        },
-        {
-            "id": "mekanism:fluorite_ore",
-            "required": false
-        },
-        {
-            "id": "#forge:ores/fluorite",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:storage_blocks/fluorite",
+      "required": false
+    },
+    {
+      "id": "mekanism:fluorite_ore",
+      "required": false
+    },
+    {
+      "id": "#forge:ores/fluorite",
+      "required": false
+    }
+  ]
 }

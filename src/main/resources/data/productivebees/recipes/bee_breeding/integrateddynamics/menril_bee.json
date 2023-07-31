@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:crystalline",
-    "parent2": "productivebees:neon_cuckoo_bee",
-    "offspring": [
-        "productivebees:menril"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:crystalline"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:menril"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:crystalline",
+  "parent2": "productivebees:neon_cuckoo_bee",
+  "offspring": [
+    "productivebees:menril"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:crystalline"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:menril"
+    }
+  ]
 }

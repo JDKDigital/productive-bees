@@ -1,15 +1,15 @@
 {
-    "primaryColor": "#ece386",
-    "secondaryColor": "#586bb7",
-    "particleColor": "#b598db",
-    "flowerTag": "forge:storage_blocks/bismuth",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/bismuth"
-            }
-        }
-    ]
+  "primaryColor": "#ece386",
+  "secondaryColor": "#586bb7",
+  "particleColor": "#b598db",
+  "flowerTag": "forge:storage_blocks/bismuth",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/bismuth"
+      }
+    }
+  ]
 }

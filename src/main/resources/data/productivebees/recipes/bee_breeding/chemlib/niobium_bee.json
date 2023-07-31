@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:iron",
+  "parent2": "productivebees:manganese",
+  "offspring": [
+    "productivebees:niobium"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:manganese"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:niobium"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
-    "primaryColor": "#00fc1a",
-    "secondaryColor": "#884739",
-    "particleColor": "#00fc1a",
-    "flowerTag": "forge:bookshelves"
+  "primaryColor": "#00fc1a",
+  "secondaryColor": "#884739",
+  "particleColor": "#00fc1a",
+  "flowerTag": "forge:bookshelves"
 }

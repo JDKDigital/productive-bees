@@ -1,20 +1,20 @@
 {
-    "primaryColor": "#00FF00",
-    "secondaryColor": "#008000",
-    "particleColor": "#7CFC00",
-    "size": 0.8,
-    "flowerTag": "forge:storage_blocks/uraninite",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "powah"
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/uraninite"
-            }
-        }
-    ]
+  "primaryColor": "#00FF00",
+  "secondaryColor": "#008000",
+  "particleColor": "#7CFC00",
+  "size": 0.8,
+  "flowerTag": "forge:storage_blocks/uraninite",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "powah"
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/uraninite"
+      }
+    }
+  ]
 }

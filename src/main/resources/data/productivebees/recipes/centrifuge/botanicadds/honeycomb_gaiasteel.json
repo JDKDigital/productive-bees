@@ -1,32 +1,32 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:gaiasteel"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:gaiasteel"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "botanicadds:gaiasteel_nugget"
+      },
+      "min": 2,
+      "max": 3
     },
-    "outputs": [
-        {
-            "item": {
-                "item": "botanicadds:gaiasteel_nugget"
-            },
-            "min": 2,
-            "max": 3
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "botanicadds"
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanicadds"
+    }
+  ]
 }

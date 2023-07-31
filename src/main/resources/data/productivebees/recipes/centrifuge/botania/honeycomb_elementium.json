@@ -1,33 +1,33 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:elementium"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:elementium"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:nuggets/elementium"
+      },
+      "min": 1,
+      "max": 2,
+      "chance": 20
     },
-    "outputs": [
-        {
-            "item": {
-                "tag": "forge:nuggets/elementium"
-            },
-            "min": 1,
-            "max": 2,
-            "chance": 20
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "botania"
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botania"
+    }
+  ]
 }

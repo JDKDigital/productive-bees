@@ -1,11 +1,11 @@
 {
-    "replace": false,
-    "values": [
-        "#forge:storage_blocks/emerald",
-        "#forge:ores/emerald",
-        {
-            "id": "gemsnjewels:emerald_block",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    "#forge:storage_blocks/emerald",
+    "#forge:ores/emerald",
+    {
+      "id": "gemsnjewels:emerald_block",
+      "required": false
+    }
+  ]
 }

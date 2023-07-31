@@ -1,27 +1,27 @@
 {
-    "type": "minecraft:block",
-    "pools": [
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
         {
-            "rolls": 1,
-            "entries": [
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
                 {
-                    "type": "minecraft:item",
-                    "functions": [
-                        {
-                            "function": "minecraft:copy_nbt",
-                            "source": "block_entity",
-                            "ops": [
-                                {
-                                    "source": "inv",
-                                    "target": "BlockEntityTag.inv",
-                                    "op": "replace"
-                                }
-                            ]
-                        }
-                    ],
-                    "name": "productivebees:jar_oak"
+                  "source": "inv",
+                  "target": "BlockEntityTag.inv",
+                  "op": "replace"
                 }
-            ]
+              ]
+            }
+          ],
+          "name": "productivebees:jar_oak"
         }
-    ]
+      ]
+    }
+  ]
 }

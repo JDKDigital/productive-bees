@@ -1,13 +1,13 @@
 {
-    "primaryColor": "#b67c07",
-    "secondaryColor": "#7a5305",
-    "particleColor": "#b67c07",
-    "flowerBlock": "enderio:copper_alloy_block",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "enderio"
-        }
-    ]
+  "primaryColor": "#b67c07",
+  "secondaryColor": "#7a5305",
+  "particleColor": "#b67c07",
+  "flowerBlock": "enderio:copper_alloy_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "enderio"
+    }
+  ]
 }

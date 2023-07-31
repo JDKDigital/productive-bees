@@ -1,23 +1,23 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "minecraft:book"
-        },
-        {
-            "item": "productivebees:bee_cage"
-        }
-    ],
-    "result": {
-        "item": "patchouli:guide_book",
-        "nbt": {
-            "patchouli:book": "productivebees:guide"
-        }
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:book"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "patchouli"
-        }
-    ]
+    {
+      "item": "productivebees:bee_cage"
+    }
+  ],
+  "result": {
+    "item": "patchouli:guide_book",
+    "nbt": {
+      "patchouli:book": "productivebees:guide"
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "patchouli"
+    }
+  ]
 }

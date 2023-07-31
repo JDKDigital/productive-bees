@@ -1,11 +1,11 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:spruce_wood_nest"
-    },
-    "results": [
-        {
-            "bee": "productivebees:resin_bee"
-        }
-    ]
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:spruce_wood_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:resin_bee"
+    }
+  ]
 }

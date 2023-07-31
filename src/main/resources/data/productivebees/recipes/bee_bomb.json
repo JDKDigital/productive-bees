@@ -1,20 +1,20 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "GCP"
-    ],
-    "key": {
-        "G": {
-            "item": "minecraft:glass_bottle"
-        },
-        "C": {
-            "item": "productivebees:bee_cage"
-        },
-        "P": {
-            "item": "minecraft:gunpowder"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GCP"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass_bottle"
     },
-    "result": {
-        "item": "productivebees:bee_bomb"
+    "C": {
+      "item": "productivebees:bee_cage"
+    },
+    "P": {
+      "item": "minecraft:gunpowder"
     }
+  },
+  "result": {
+    "item": "productivebees:bee_bomb"
+  }
 }

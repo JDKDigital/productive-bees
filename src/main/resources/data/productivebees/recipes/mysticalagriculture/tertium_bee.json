@@ -1,53 +1,53 @@
 {
-    "type": "mysticalagriculture:infusion",
-    "input": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:prudentium\"}}"
+  "type": "mysticalagriculture:infusion",
+  "input": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:prudentium\"}}"
+  },
+  "ingredients": [
+    {
+      "item": "mysticalagriculture:tertium_essence"
     },
-    "ingredients": [
-        {
-            "item": "mysticalagriculture:tertium_essence"
-        },
-        {
-            "item": "mysticalagriculture:tertium_block"
-        },
-        {
-            "item": "mysticalagriculture:tertium_essence"
-        },
-        {
-            "item": "mysticalagriculture:tertium_block"
-        },
-        {
-            "item": "mysticalagriculture:tertium_essence"
-        },
-        {
-            "item": "mysticalagriculture:tertium_block"
-        },
-        {
-            "item": "mysticalagriculture:tertium_essence"
-        },
-        {
-            "item": "mysticalagriculture:tertium_block"
-        }
-    ],
-    "result": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:tertium\"}}"
+    {
+      "item": "mysticalagriculture:tertium_block"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:prudentium"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:tertium"
-        }
-    ]
+    {
+      "item": "mysticalagriculture:tertium_essence"
+    },
+    {
+      "item": "mysticalagriculture:tertium_block"
+    },
+    {
+      "item": "mysticalagriculture:tertium_essence"
+    },
+    {
+      "item": "mysticalagriculture:tertium_block"
+    },
+    {
+      "item": "mysticalagriculture:tertium_essence"
+    },
+    {
+      "item": "mysticalagriculture:tertium_block"
+    }
+  ],
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:tertium\"}}"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mysticalagriculture"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:prudentium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:tertium"
+    }
+  ]
 }

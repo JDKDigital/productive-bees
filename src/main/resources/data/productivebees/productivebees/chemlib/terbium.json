@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#c4c3c2",
+  "particleColor": "#d1cfca",
+  "beeTexture": "productivebees:textures/entity/bee/terbium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "chemlib:terbium_metal_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

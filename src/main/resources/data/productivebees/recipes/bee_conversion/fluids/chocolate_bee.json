@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:sugarbag",
-    "result": "productivebees:chocolate",
-    "item": {
-        "item": "minecraft:cocoa_beans"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:sugarbag",
+  "result": "productivebees:chocolate",
+  "item": {
+    "item": "minecraft:cocoa_beans"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sugarbag"
     },
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:sugarbag"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:chocolate"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:chocolate"
+    }
+  ]
 }

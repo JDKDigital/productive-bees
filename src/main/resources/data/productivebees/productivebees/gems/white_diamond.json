@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#fff9e4",
-    "secondaryColor": "#f7ed91",
-    "tertiaryColor": "#c5b520",
-    "particleColor": "#fff9e4",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/white_diamond",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/white_diamond"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/white_diamond"
-            }
-        }
-    ]
+  "primaryColor": "#fff9e4",
+  "secondaryColor": "#f7ed91",
+  "tertiaryColor": "#c5b520",
+  "particleColor": "#fff9e4",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/white_diamond",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/white_diamond"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/white_diamond"
+      }
+    }
+  ]
 }

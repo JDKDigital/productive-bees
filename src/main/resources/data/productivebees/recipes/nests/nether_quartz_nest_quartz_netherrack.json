@@ -1,14 +1,14 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "minecraft:iron_sword"
-        },
-        {
-            "item": "productivebees:quartz_netherrack"
-        }
-    ],
-    "result": {
-        "item": "productivebees:nether_quartz_nest"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_sword"
+    },
+    {
+      "item": "productivebees:quartz_netherrack"
     }
+  ],
+  "result": {
+    "item": "productivebees:nether_quartz_nest"
+  }
 }

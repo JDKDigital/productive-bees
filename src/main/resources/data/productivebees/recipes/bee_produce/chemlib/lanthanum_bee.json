@@ -1,0 +1,29 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:lanthanum",
+  "results": [
+    {
+      "item": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:lanthanum"
+          }
+        }
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lanthanum"
+    }
+  ]
+}

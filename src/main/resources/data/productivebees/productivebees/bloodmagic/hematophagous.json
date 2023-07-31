@@ -1,14 +1,14 @@
 {
-    "primaryColor": "#7a0300",
-    "secondaryColor": "#0f0f66",
-    "particleColor": "#7a0300",
-    "description": "productivebees.ingredient.description.hematophagous_bee",
-    "flowerTag": "productivebees:animals",
-    "flowerType": "entity_types",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "bloodmagic"
-        }
-    ]
+  "primaryColor": "#7a0300",
+  "secondaryColor": "#0f0f66",
+  "particleColor": "#7a0300",
+  "description": "productivebees.ingredient.description.hematophagous_bee",
+  "flowerTag": "productivebees:animals",
+  "flowerType": "entity_types",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "bloodmagic"
+    }
+  ]
 }

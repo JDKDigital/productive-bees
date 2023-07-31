@@ -1,25 +1,25 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "WWW",
-        "WCW",
-        "WWW"
-    ],
-    "key": {
-        "W": {
-            "item": "atmospheric:kousa_planks"
-        },
-        "C": {
-            "item": "minecraft:honeycomb"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "WCW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "atmospheric:kousa_planks"
     },
-    "result": {
-        "item": "productivebees:expansion_box_kousa"
-    },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "atmospheric"
-        }
-    ]
+    "C": {
+      "item": "minecraft:honeycomb"
+    }
+  },
+  "result": {
+    "item": "productivebees:expansion_box_kousa"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "atmospheric"
+    }
+  ]
 }

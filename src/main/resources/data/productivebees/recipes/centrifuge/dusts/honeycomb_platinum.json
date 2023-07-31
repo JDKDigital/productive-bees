@@ -1,44 +1,44 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:platinum"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:platinum"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:dusts/platinum"
+      },
+      "chance": 40
     },
-    "outputs": [
-        {
-            "item": {
-                "tag": "forge:dusts/platinum"
-            },
-            "chance": 40
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        },
-        {
-            "fluid": {
-                "fluid": "productivebees:honey"
-            },
-            "amount": 50
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:dusts/platinum"
-            }
-        },
-        {
-            "type": "forge:tag_empty",
-            "tag": "forge:raw_materials/platinum"
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 50
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:dusts/platinum"
+      }
+    },
+    {
+      "type": "forge:tag_empty",
+      "tag": "forge:raw_materials/platinum"
+    }
+  ]
 }

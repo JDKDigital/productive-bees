@@ -1,49 +1,49 @@
 {
-    "type": "create:mixing",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": {
-                "EntityTag": {
-                    "type": "productivebees:inert_crystal"
-                }
-            }
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:inert_crystal"
         }
-    ],
-    "results": [
-        {
-            "type": "forge:nbt",
-            "item": "elementalcraft:pure_ore",
-            "nbt": {
-                "elementalcraft": {
-                    "ore": "forge:inert_crystal"
-                }
-            },
-            "chance": 0.75,
-            "count": 2
-        },
-        {
-            "item": "productivebees:wax"
-        },
-        {
-            "fluid": "productivebees:honey",
-            "amount": 100
+      }
+    }
+  ],
+  "results": [
+    {
+      "type": "forge:nbt",
+      "item": "elementalcraft:pure_ore",
+      "nbt": {
+        "elementalcraft": {
+          "ore": "forge:inert_crystal"
         }
-    ],
-    "heatRequirement": "heated",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "create"
-        },
-        {
-            "type": "forge:mod_loaded",
-            "modid": "elementalcraft"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:inert_crystal"
-        }
-    ]
+      },
+      "chance": 0.75,
+      "count": 2
+    },
+    {
+      "item": "productivebees:wax"
+    },
+    {
+      "fluid": "productivebees:honey",
+      "amount": 100
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "elementalcraft"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:inert_crystal"
+    }
+  ]
 }

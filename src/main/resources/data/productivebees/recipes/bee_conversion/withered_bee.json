@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:skeletal",
-    "result": "productivebees:withered",
-    "item": {
-        "item": "minecraft:wither_rose"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:skeletal",
+  "result": "productivebees:withered",
+  "item": {
+    "item": "minecraft:wither_rose"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:skeletal"
     },
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:skeletal"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:withered"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:withered"
+    }
+  ]
 }

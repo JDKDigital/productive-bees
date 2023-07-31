@@ -1,23 +1,23 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "item": "productivebees:milk_bottle"
-        },
-        {
-            "item": "productivebees:milk_bottle"
-        },
-        {
-            "item": "productivebees:milk_bottle"
-        },
-        {
-            "item": "productivebees:milk_bottle"
-        },
-        {
-            "item": "minecraft:bucket"
-        }
-    ],
-    "result": {
-        "item": "minecraft:milk_bucket"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:milk_bottle"
+    },
+    {
+      "item": "productivebees:milk_bottle"
+    },
+    {
+      "item": "productivebees:milk_bottle"
+    },
+    {
+      "item": "productivebees:milk_bottle"
+    },
+    {
+      "item": "minecraft:bucket"
     }
+  ],
+  "result": {
+    "item": "minecraft:milk_bucket"
+  }
 }

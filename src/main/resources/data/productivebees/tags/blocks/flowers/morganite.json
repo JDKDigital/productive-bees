@@ -1,13 +1,13 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "#forge:storage_blocks/morganite",
-            "required": false
-        },
-        {
-            "id": "gemsnjewels:morganite_block",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "#forge:storage_blocks/morganite",
+      "required": false
+    },
+    {
+      "id": "gemsnjewels:morganite_block",
+      "required": false
+    }
+  ]
 }

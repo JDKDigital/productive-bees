@@ -1,31 +1,31 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:prismarine"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:prismarine"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "minecraft:prismarine_shard"
+      },
+      "chance": 20
     },
-    "outputs": [
-        {
-            "item": {
-                "item": "minecraft:prismarine_shard"
-            },
-            "chance": 20
-        },
-        {
-            "item": {
-                "item": "minecraft:prismarine_crystals"
-            },
-            "chance": 5
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        }
-    ]
+    {
+      "item": {
+        "item": "minecraft:prismarine_crystals"
+      },
+      "chance": 5
+    },
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ]
 }

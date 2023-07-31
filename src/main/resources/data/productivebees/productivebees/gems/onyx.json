@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#383838",
-    "secondaryColor": "#064f2c",
-    "tertiaryColor": "#1f1f1f",
-    "particleColor": "#383838",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/onyx",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/onyx"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/onyx"
-            }
-        }
-    ]
+  "primaryColor": "#383838",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#1f1f1f",
+  "particleColor": "#383838",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/onyx",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/onyx"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/onyx"
+      }
+    }
+  ]
 }

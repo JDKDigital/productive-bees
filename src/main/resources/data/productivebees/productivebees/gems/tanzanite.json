@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#a66ef4",
-    "secondaryColor": "#064f2c",
-    "tertiaryColor": "#3500aa",
-    "particleColor": "#a66ef4",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/tanzanite",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/tanzanite"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/tanzanite"
-            }
-        }
-    ]
+  "primaryColor": "#a66ef4",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#3500aa",
+  "particleColor": "#a66ef4",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/tanzanite",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/tanzanite"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/tanzanite"
+      }
+    }
+  ]
 }

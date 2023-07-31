@@ -1,7 +1,7 @@
 {
-    "replace": false,
-    "values": [
-        "#minecraft:logs",
-        "#minecraft:leaves"
-    ]
+  "replace": false,
+  "values": [
+    "#minecraft:logs",
+    "#minecraft:leaves"
+  ]
 }

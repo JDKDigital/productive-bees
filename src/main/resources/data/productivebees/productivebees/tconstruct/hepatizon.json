@@ -1,23 +1,16 @@
 {
-    "primaryColor": "#675072",
-    "secondaryColor": "#1b0426",
-    "particleColor": "#675072",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerTag": "forge:storage_blocks/hepatizon",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:raw_materials/hepatizon"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/hepatizon"
-            }
-        }
-    ]
+  "primaryColor": "#675072",
+  "secondaryColor": "#1b0426",
+  "particleColor": "#675072",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "forge:storage_blocks/hepatizon",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/hepatizon"
+      }
+    }
+  ]
 }

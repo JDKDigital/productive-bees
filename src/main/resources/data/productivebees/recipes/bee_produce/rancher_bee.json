@@ -1,11 +1,11 @@
 {
-    "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:rancher_bee",
-    "results": [
-        {
-            "item": {
-                "item": "productivebees:honeycomb_milky"
-            }
-        }
-    ]
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:rancher_bee",
+  "results": [
+    {
+      "item": {
+        "item": "productivebees:honeycomb_milky"
+      }
+    }
+  ]
 }

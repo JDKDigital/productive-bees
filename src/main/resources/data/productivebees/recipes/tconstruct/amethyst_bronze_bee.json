@@ -1,36 +1,36 @@
 {
-    "type": "tconstruct:casting_table",
-    "cast": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:copper\"}}"
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:copper\"}}"
+  },
+  "cast_consumed": true,
+  "fluid": {
+    "name": "tconstruct:molten_amethyst",
+    "amount": 800
+  },
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:amethyst_bronze"
+      }
+    }
+  },
+  "cooling_time": 87,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
     },
-    "cast_consumed": true,
-    "fluid": {
-        "name": "tconstruct:molten_amethyst",
-        "amount": 800
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:copper"
     },
-    "result": {
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:amethyst_bronze"
-            }
-        }
-    },
-    "cooling_time": 87,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "tconstruct"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:copper"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:amethyst_bronze"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:amethyst_bronze"
+    }
+  ]
 }

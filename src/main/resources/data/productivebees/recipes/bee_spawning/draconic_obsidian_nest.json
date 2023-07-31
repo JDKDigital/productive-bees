@@ -1,21 +1,21 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:obsidian_nest"
-    },
-    "results": [
-        {
-            "bee": "productivebees:draconic"
-        }
-    ],
-    "spawn_item": {
-        "item": "minecraft:dragon_breath"
-    },
-    "biomes": "#minecraft:is_end",
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:draconic"
-        }
-    ]
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:obsidian_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:draconic"
+    }
+  ],
+  "spawn_item": {
+    "item": "minecraft:dragon_breath"
+  },
+  "biomes": "#minecraft:is_end",
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:draconic"
+    }
+  ]
 }

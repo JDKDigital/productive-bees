@@ -1,13 +1,13 @@
 {
-    "primaryColor": "#1286af",
-    "secondaryColor": "#005b61",
-    "particleColor": "#acbfca",
-    "selfbreed": false,
-    "flowerBlock": "mmorpg:ore_block2",
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mmorpg"
-        }
-    ]
+  "primaryColor": "#1286af",
+  "secondaryColor": "#005b61",
+  "particleColor": "#acbfca",
+  "selfbreed": false,
+  "flowerBlock": "mmorpg:ore_block2",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mmorpg"
+    }
+  ]
 }

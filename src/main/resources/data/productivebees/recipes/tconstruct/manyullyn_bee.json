@@ -1,36 +1,36 @@
 {
-    "type": "tconstruct:casting_table",
-    "cast": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:netherite\"}}"
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:netherite\"}}"
+  },
+  "cast_consumed": true,
+  "fluid": {
+    "name": "tconstruct:molten_cobalt",
+    "amount": 1152
+  },
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:manyullyn"
+      }
+    }
+  },
+  "cooling_time": 87,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
     },
-    "cast_consumed": true,
-    "fluid": {
-        "name": "tconstruct:molten_cobalt",
-        "amount": 1152
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:netherite"
     },
-    "result": {
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:manyullyn"
-            }
-        }
-    },
-    "cooling_time": 87,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "tconstruct"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:netherite"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:manyullyn"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:manyullyn"
+    }
+  ]
 }

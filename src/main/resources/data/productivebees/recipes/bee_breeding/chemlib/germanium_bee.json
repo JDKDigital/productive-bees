@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:copper",
+  "parent2": "productivebees:zinc",
+  "offspring": [
+    "productivebees:germanium"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:zinc"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:germanium"
+    }
+  ]
+}

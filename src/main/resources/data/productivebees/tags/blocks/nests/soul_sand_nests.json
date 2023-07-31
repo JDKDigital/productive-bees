@@ -1,7 +1,7 @@
 {
-    "replace": false,
-    "values": [
-        "productivebees:soul_sand_nest",
-        "#productivebees:advanced_beehives"
-    ]
+  "replace": false,
+  "values": [
+    "productivebees:soul_sand_nest",
+    "#productivebees:advanced_beehives"
+  ]
 }

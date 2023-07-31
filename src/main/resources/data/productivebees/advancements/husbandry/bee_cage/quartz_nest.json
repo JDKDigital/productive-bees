@@ -1,37 +1,37 @@
 {
-    "parent": "productivebees:husbandry/bee_cage",
-    "display": {
-        "icon": {
-            "item": "productivebees:nether_quartz_nest"
-        },
-        "title": {
-            "translate": "advancements.husbandry.quartz_nest.title"
-        },
-        "description": {
-            "translate": "advancements.husbandry.quartz_nest.description"
-        },
-        "frame": "task",
-        "show_toast": true,
-        "announce_to_chat": true,
-        "hidden": false
+  "parent": "productivebees:husbandry/bee_cage",
+  "display": {
+    "icon": {
+      "item": "productivebees:nether_quartz_nest"
     },
-    "criteria": {
-        "get_item": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "items": [
-                            "productivebees:nether_quartz_nest"
-                        ]
-                    }
-                ]
-            }
-        }
+    "title": {
+      "translate": "advancements.husbandry.quartz_nest.title"
     },
-    "requirements": [
-        [
-            "get_item"
+    "description": {
+      "translate": "advancements.husbandry.quartz_nest.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "productivebees:nether_quartz_nest"
+            ]
+          }
         ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
     ]
+  ]
 }

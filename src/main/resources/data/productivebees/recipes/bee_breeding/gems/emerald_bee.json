@@ -1,22 +1,22 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:diamond",
-    "parent2": "productivebees:slimy",
-    "offspring": [
-        "productivebees:emerald"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:diamond"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:slimy"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:emerald"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:diamond",
+  "parent2": "productivebees:slimy",
+  "offspring": [
+    "productivebees:emerald"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:slimy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:emerald"
+    }
+  ]
 }

@@ -1,22 +1,22 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "productivebees:ghostly",
-    "result": "productivebees:soulium",
-    "item": {
-        "item": "mysticalagriculture:soulium_dagger"
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:ghostly",
+  "result": "productivebees:soulium",
+  "item": {
+    "item": "mysticalagriculture:soulium_dagger"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mysticalagriculture"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:ghostly"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:soulium"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ghostly"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:soulium"
+    }
+  ]
 }

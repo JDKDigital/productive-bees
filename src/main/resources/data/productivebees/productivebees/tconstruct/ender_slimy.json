@@ -1,17 +1,17 @@
 {
-    "primaryColor": "#d17bfc",
-    "secondaryColor": "#6200ae",
-    "particleColor": "#d17bfc",
-    "beeTexture": "productivebees:textures/entity/bee/ender_slimy/bee",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "renderer": "translucent_with_center",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:slimeball/ender"
-            }
-        }
-    ]
+  "primaryColor": "#d17bfc",
+  "secondaryColor": "#6200ae",
+  "particleColor": "#d17bfc",
+  "beeTexture": "productivebees:textures/entity/bee/ender_slimy/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "renderer": "translucent_with_center",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:slimeball/ender"
+      }
+    }
+  ]
 }

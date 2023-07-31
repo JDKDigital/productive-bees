@@ -1,15 +1,15 @@
 {
-    "primaryColor": "#FFFF00",
-    "secondaryColor": "#000001",
-    "particleType": "pop",
-    "attributes": {
-        "productivity": 3,
-        "endurance": 0,
-        "temper": 3
-    },
-    "createComb": false,
-    "selfbreed": false,
-    "speed": 5,
-    "attack": 6.0,
-    "size": 0.2
+  "primaryColor": "#FFFF00",
+  "secondaryColor": "#000001",
+  "particleType": "pop",
+  "attributes": {
+    "productivity": 3,
+    "endurance": 0,
+    "temper": 3
+  },
+  "createComb": false,
+  "selfbreed": false,
+  "speed": 5,
+  "attack": 6.0,
+  "size": 0.2
 }

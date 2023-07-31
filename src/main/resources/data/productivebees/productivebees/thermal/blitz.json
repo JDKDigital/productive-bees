@@ -1,17 +1,17 @@
 {
-    "primaryColor": "#e9edf3",
-    "secondaryColor": "#bdccd9",
-    "particleColor": "#ffd86f",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "beeTexture": "productivebees:textures/entity/bee/blitz/bee",
-    "flowerBlock": "thermal:niter_block",
-    "attributes": {
-        "weather_tolerance": 2
-    },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "thermal"
-        }
-    ]
+  "primaryColor": "#e9edf3",
+  "secondaryColor": "#bdccd9",
+  "particleColor": "#ffd86f",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/blitz/bee",
+  "flowerBlock": "thermal:niter_block",
+  "attributes": {
+    "weather_tolerance": 2
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ]
 }

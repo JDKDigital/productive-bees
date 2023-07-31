@@ -1,23 +1,23 @@
 {
-    "primaryColor": "#2394cc",
-    "secondaryColor": "#0f0f66",
-    "particleColor": "#2394cc",
-    "name": "Cosmic Bee",
-    "flowerTag": "forge:ores/cosmic",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/cosmicdust"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:ores/cosmic"
-            }
-        }
-    ]
+  "primaryColor": "#2394cc",
+  "secondaryColor": "#0f0f66",
+  "particleColor": "#2394cc",
+  "name": "Cosmic Bee",
+  "flowerTag": "forge:ores/cosmic",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/cosmicdust"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:ores/cosmic"
+      }
+    }
+  ]
 }

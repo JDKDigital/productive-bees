@@ -1,35 +1,35 @@
 {
-    "parent": "productivebees:husbandry/advanced_beehive",
-    "display": {
-        "icon": {
-            "item": "productivebees:expansion_box_oak"
-        },
-        "title": {
-            "translate": "advancements.husbandry.expansion_box.title"
-        },
-        "description": {
-            "translate": "advancements.husbandry.expansion_box.description"
-        },
-        "frame": "task",
-        "show_toast": true,
-        "announce_to_chat": true,
-        "hidden": false
+  "parent": "productivebees:husbandry/advanced_beehive",
+  "display": {
+    "icon": {
+      "item": "productivebees:expansion_box_oak"
     },
-    "criteria": {
-        "get_box": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "tag": "productivebees:expansion_boxes"
-                    }
-                ]
-            }
-        }
+    "title": {
+      "translate": "advancements.husbandry.expansion_box.title"
     },
-    "requirements": [
-        [
-            "get_box"
+    "description": {
+      "translate": "advancements.husbandry.expansion_box.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_box": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "productivebees:expansion_boxes"
+          }
         ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_box"
     ]
+  ]
 }

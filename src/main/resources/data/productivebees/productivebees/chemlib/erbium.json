@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#ddb6c8",
+  "particleColor": "#ddbec8",
+  "beeTexture": "productivebees:textures/entity/bee/erbium/bee",
+  "flowerBlock": "chemlib:erbium_metal_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

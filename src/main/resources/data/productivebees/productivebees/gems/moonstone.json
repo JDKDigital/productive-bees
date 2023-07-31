@@ -1,25 +1,25 @@
 {
-    "primaryColor": "#e4e4e4",
-    "secondaryColor": "#2e0b17",
-    "tertiaryColor": "#b6b6b6",
-    "particleColor": "#e4e4e4",
-    "renderer": "default_crystal",
-    "flowerTag": "productivebees:flowers/moonstone",
-    "size": 0.6,
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:gems/moonstone"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "productivebees:flowers/moonstone"
-            }
-        }
-    ]
+  "primaryColor": "#e4e4e4",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#b6b6b6",
+  "particleColor": "#e4e4e4",
+  "renderer": "default_crystal",
+  "flowerTag": "productivebees:flowers/moonstone",
+  "size": 0.6,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:gems/moonstone"
+      }
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "productivebees:flowers/moonstone"
+      }
+    }
+  ]
 }

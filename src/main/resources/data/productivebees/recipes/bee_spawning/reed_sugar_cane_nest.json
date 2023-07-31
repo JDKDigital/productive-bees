@@ -1,11 +1,11 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:sugar_cane_nest"
-    },
-    "results": [
-        {
-            "bee": "productivebees:reed_bee"
-        }
-    ]
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:sugar_cane_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:reed_bee"
+    }
+  ]
 }

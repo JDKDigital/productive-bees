@@ -1,38 +1,38 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        {
-            "type": "forge:nbt",
-            "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:ender\"}}"
-        },
-        {
-            "item": "thermal:ender_bucket"
-        },
-        {
-            "item": "thermal:ender_bucket"
-        }
-    ],
-    "result": {
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:resonant_ender"
-            }
-        }
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:ender\"}}"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "thermal"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:ender"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:resonant_ender"
-        }
-    ]
+    {
+      "item": "thermal:ender_bucket"
+    },
+    {
+      "item": "thermal:ender_bucket"
+    }
+  ],
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:resonant_ender"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ender"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:resonant_ender"
+    }
+  ]
 }

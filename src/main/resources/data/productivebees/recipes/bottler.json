@@ -1,22 +1,22 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "ISI",
-        "IGI",
-        "III"
-    ],
-    "key": {
-        "S": {
-            "item": "minecraft:smooth_stone_slab"
-        },
-        "I": {
-            "tag": "forge:ingots/iron"
-        },
-        "G": {
-            "tag": "forge:glass"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ISI",
+    "IGI",
+    "III"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:smooth_stone_slab"
     },
-    "result": {
-        "item": "productivebees:bottler"
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "G": {
+      "tag": "forge:glass"
     }
+  },
+  "result": {
+    "item": "productivebees:bottler"
+  }
 }

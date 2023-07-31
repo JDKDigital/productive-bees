@@ -1,22 +1,22 @@
 {
-    "primaryColor": "#bc3500",
-    "secondaryColor": "#5f2525",
-    "particleColor": "#faa420",
-    "tertiaryColor": "#bc3500",
-    "renderer": "default_crystal",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerTag": "forge:storage_blocks/draconium_awakened",
-    "fireproof": true,
-    "draconic": true,
-    "selfbreed": false,
-    "nestingPreference": "productivebees:nests/draconic_nests",
-    "invulnerability": [
-        "mekanism.radiation"
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "draconicevolution"
-        }
-    ]
+  "primaryColor": "#bc3500",
+  "secondaryColor": "#5f2525",
+  "particleColor": "#faa420",
+  "tertiaryColor": "#bc3500",
+  "renderer": "default_crystal",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "forge:storage_blocks/draconium_awakened",
+  "fireproof": true,
+  "draconic": true,
+  "selfbreed": false,
+  "nestingPreference": "productivebees:nests/draconic_nests",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "draconicevolution"
+    }
+  ]
 }

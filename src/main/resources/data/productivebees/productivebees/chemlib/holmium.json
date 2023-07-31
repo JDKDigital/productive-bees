@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#8acdcd",
+  "particleColor": "#94d2ce",
+  "beeTexture": "productivebees:textures/entity/bee/holmium/bee",
+  "flowerBlock": "chemlib:holmium_metal_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

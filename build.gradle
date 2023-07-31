@@ -85,8 +85,11 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
     implementation fg.deobf("curse.maven:jei-238222:4609866")
-    implementation fg.deobf("curse.maven:jade-324717:4573193")
+    implementation fg.deobf("curse.maven:jade-324717:4654448")
     implementation fg.deobf("curse.maven:the-one-probe-245211:4579432")
     implementation fg.deobf("curse.maven:corail-woodcutter-331983:4573934")
 

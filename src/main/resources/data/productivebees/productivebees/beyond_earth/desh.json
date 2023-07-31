@@ -1,15 +1,15 @@
 {
-    "primaryColor": "#e9ba5d",
-    "secondaryColor": "#9e4539",
-    "particleColor": "#e9ba5d",
-    "flowerTag": "forge:storage_blocks/desh",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/desh"
-            }
-        }
-    ]
+  "primaryColor": "#e9ba5d",
+  "secondaryColor": "#9e4539",
+  "particleColor": "#e9ba5d",
+  "flowerTag": "forge:storage_blocks/desh",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/desh"
+      }
+    }
+  ]
 }

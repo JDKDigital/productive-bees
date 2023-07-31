@@ -1,18 +1,18 @@
 {
-    "type": "productivebees:bee_spawning",
-    "ingredient": {
-        "item": "productivebees:slimy_nest"
-    },
-    "results": [
-        {
-            "bee": "productivebees:slimy"
-        }
-    ],
-    "biomes": "#forge:is_swamp",
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:slimy"
-        }
-    ]
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:slimy_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:slimy"
+    }
+  ],
+  "biomes": "#forge:is_swamp",
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:slimy"
+    }
+  ]
 }

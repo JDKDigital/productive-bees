@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#2b349d",
+  "particleColor": "#4148a5",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/mendelevium/bee",
+  "size": 0.5,
+  "flowerItem": "chemlib:mendelevium",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

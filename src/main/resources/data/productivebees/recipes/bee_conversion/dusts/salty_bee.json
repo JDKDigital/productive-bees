@@ -1,21 +1,21 @@
 {
-    "type": "productivebees:bee_conversion",
-    "source": "minecraft:bee",
-    "result": "productivebees:salty",
-    "item": {
+  "type": "productivebees:bee_conversion",
+  "source": "minecraft:bee",
+  "result": "productivebees:salty",
+  "item": {
+    "tag": "forge:salts"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
         "tag": "forge:salts"
+      }
     },
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:salts"
-            }
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:salty"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:salty"
+    }
+  ]
 }

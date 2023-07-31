@@ -1,25 +1,25 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "CWC",
-        "FBF",
-        "CWC"
-    ],
-    "key": {
-        "B": {
-            "item": "productivebees:upgrade_base"
-        },
-        "C": {
-            "tag": "forge:storage_blocks/honeycombs"
-        },
-        "W": {
-            "tag": "forge:storage_blocks/wax"
-        },
-        "F": {
-            "item": "minecraft:item_frame"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CWC",
+    "FBF",
+    "CWC"
+  ],
+  "key": {
+    "B": {
+      "item": "productivebees:upgrade_base"
     },
-    "result": {
-        "item": "productivebees:upgrade_comb_block"
+    "C": {
+      "tag": "forge:storage_blocks/honeycombs"
+    },
+    "W": {
+      "tag": "forge:storage_blocks/wax"
+    },
+    "F": {
+      "item": "minecraft:item_frame"
     }
+  },
+  "result": {
+    "item": "productivebees:upgrade_comb_block"
+  }
 }

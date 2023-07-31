@@ -1,22 +1,22 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "IDI",
-        "IHI",
-        "III"
-    ],
-    "key": {
-        "H": {
-            "tag": "forge:workbenches"
-        },
-        "I": {
-            "tag": "forge:ingots/iron"
-        },
-        "D": {
-            "item": "minecraft:comparator"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IDI",
+    "IHI",
+    "III"
+  ],
+  "key": {
+    "H": {
+      "tag": "forge:workbenches"
     },
-    "result": {
-        "item": "productivebees:gene_indexer"
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "D": {
+      "item": "minecraft:comparator"
     }
+  },
+  "result": {
+    "item": "productivebees:gene_indexer"
+  }
 }

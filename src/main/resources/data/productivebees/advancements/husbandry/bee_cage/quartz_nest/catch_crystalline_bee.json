@@ -1,33 +1,33 @@
 {
-    "parent": "productivebees:husbandry/bee_cage/quartz_nest",
-    "display": {
-        "icon": {
-            "type": "forge:nbt",
-            "item": "productivebees:configurable_honeycomb",
-            "nbt": "{EntityTag: {type: \"productivebees:crystalline\"}}"
-        },
-        "title": {
-            "translate": "advancements.husbandry.catch_crystalline_bee.title"
-        },
-        "description": {
-            "translate": "advancements.husbandry.catch_crystalline_bee.description"
-        },
-        "frame": "task",
-        "show_toast": true,
-        "announce_to_chat": true,
-        "hidden": false
+  "parent": "productivebees:husbandry/bee_cage/quartz_nest",
+  "display": {
+    "icon": {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": "{EntityTag: {type: \"productivebees:crystalline\"}}"
     },
-    "criteria": {
-        "catch": {
-            "trigger": "productivebees:catch_bee",
-            "conditions": {
-                "beeName": "productivebees:crystalline"
-            }
-        }
+    "title": {
+      "translate": "advancements.husbandry.catch_crystalline_bee.title"
     },
-    "requirements": [
-        [
-            "catch"
-        ]
+    "description": {
+      "translate": "advancements.husbandry.catch_crystalline_bee.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch": {
+      "trigger": "productivebees:catch_bee",
+      "conditions": {
+        "beeName": "productivebees:crystalline"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "catch"
     ]
+  ]
 }

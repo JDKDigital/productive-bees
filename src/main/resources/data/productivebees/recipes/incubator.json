@@ -1,22 +1,22 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "IDI",
-        "IHI",
-        "III"
-    ],
-    "key": {
-        "H": {
-            "item": "minecraft:hay_block"
-        },
-        "I": {
-            "tag": "forge:ingots/iron"
-        },
-        "D": {
-            "item": "minecraft:daylight_detector"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IDI",
+    "IHI",
+    "III"
+  ],
+  "key": {
+    "H": {
+      "item": "minecraft:hay_block"
     },
-    "result": {
-        "item": "productivebees:incubator"
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "D": {
+      "item": "minecraft:daylight_detector"
     }
+  },
+  "result": {
+    "item": "productivebees:incubator"
+  }
 }

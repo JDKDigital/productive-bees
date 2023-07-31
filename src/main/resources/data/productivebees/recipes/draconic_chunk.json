@@ -1,16 +1,16 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "DDD",
-        "DDD",
-        "DDD"
-    ],
-    "key": {
-        "D": {
-            "item": "productivebees:draconic_dust"
-        }
-    },
-    "result": {
-        "item": "productivebees:draconic_chunk"
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDD",
+    "DDD",
+    "DDD"
+  ],
+  "key": {
+    "D": {
+      "item": "productivebees:draconic_dust"
     }
+  },
+  "result": {
+    "item": "productivebees:draconic_chunk"
+  }
 }

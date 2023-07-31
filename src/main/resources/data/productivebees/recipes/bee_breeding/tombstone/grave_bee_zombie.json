@@ -1,22 +1,22 @@
 {
-    "type": "productivebees:bee_breeding",
-    "parent1": "productivebees:ghostly",
-    "parent2": "productivebees:zombie",
-    "offspring": [
-        "productivebees:grave"
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:ghostly"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:zombie"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:grave"
-        }
-    ]
+  "type": "productivebees:bee_breeding",
+  "parent1": "productivebees:ghostly",
+  "parent2": "productivebees:zombie",
+  "offspring": [
+    "productivebees:grave"
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ghostly"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:zombie"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:grave"
+    }
+  ]
 }

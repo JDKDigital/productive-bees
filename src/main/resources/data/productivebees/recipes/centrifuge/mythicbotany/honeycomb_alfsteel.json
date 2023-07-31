@@ -1,32 +1,32 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:alfsteel"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:alfsteel"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "mythicbotany:alfsteel_nugget"
+      },
+      "min": 2,
+      "max": 3
     },
-    "outputs": [
-        {
-            "item": {
-                "item": "mythicbotany:alfsteel_nugget"
-            },
-            "min": 2,
-            "max": 3
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mythicbotany"
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mythicbotany"
+    }
+  ]
 }

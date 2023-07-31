@@ -1,40 +1,40 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "xxx",
-        "xyx",
-        "xxx"
-    ],
-    "key": {
-        "x": {
-            "item": "thermal:blitz_powder"
-        },
-        "y": {
-            "type": "forge:nbt",
-            "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{EntityTag:{type:\"productivebees:blazing\"}}"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xxx",
+    "xyx",
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "thermal:blitz_powder"
     },
-    "result": {
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:blitz"
-            }
-        }
+    "y": {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:blazing\"}}"
+    }
+  },
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:blitz"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "thermal"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:blazing"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:blitz"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:blazing"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:blitz"
+    }
+  ]
 }

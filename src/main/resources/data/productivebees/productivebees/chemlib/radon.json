@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#df494b",
+  "particleColor": "#ea613d",
+  "size:": 0.7,
+  "beeTexture": "productivebees:textures/entity/bee/radon/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerFluid": "chemlib:radon_fluid",
+  "translucent": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

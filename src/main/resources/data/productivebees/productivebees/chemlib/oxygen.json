@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#edede1",
+  "particleColor": "#f5f5ed",
+  "size": 0.7,
+  "beeTexture": "productivebees:textures/entity/bee/oxygen/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerFluid": "chemlib:oxygen_fluid",
+  "translucent": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

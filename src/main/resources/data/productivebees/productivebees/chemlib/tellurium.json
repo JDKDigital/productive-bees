@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#957c74",
+  "particleColor": "#a29085",
+  "size:": 0.7,
+  "beeTexture": "productivebees:textures/entity/bee/tellurium/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerItem": "chemlib:tellurium",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

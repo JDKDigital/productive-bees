@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#eb9c67",
+  "particleColor": "#e6a780",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/copernicium/bee",
+  "size": 0.4,
+  "flowerItem": "chemlib:copernicium",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    }
+  ]
+}

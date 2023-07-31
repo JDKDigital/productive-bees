@@ -1,15 +1,15 @@
 {
-    "primaryColor": "#161616",
-    "secondaryColor": "#6238757",
-    "particleColor": "#cc00fa",
-    "particleType": "portal",
-    "size": 0.8,
-    "beeTexture": "productivebees:textures/entity/bee/ender/bee",
-    "combTexture": "productivebees:item/honeycombs/ender",
-    "attributes": {
-        "endurance": 1
-    },
-    "teleporting": true,
-    "flowerTag": "productivebees:flowers/ender",
-    "nestingPreference": "productivebees:nests/end_nests"
+  "primaryColor": "#161616",
+  "secondaryColor": "#6238757",
+  "particleColor": "#cc00fa",
+  "particleType": "portal",
+  "size": 0.8,
+  "beeTexture": "productivebees:textures/entity/bee/ender/bee",
+  "combTexture": "productivebees:item/honeycombs/ender",
+  "attributes": {
+    "endurance": 1
+  },
+  "teleporting": true,
+  "flowerTag": "productivebees:flowers/ender",
+  "nestingPreference": "productivebees:nests/end_nests"
 }

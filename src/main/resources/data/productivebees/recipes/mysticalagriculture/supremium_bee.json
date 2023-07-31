@@ -1,53 +1,53 @@
 {
-    "type": "mysticalagriculture:infusion",
-    "input": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:imperium\"}}"
+  "type": "mysticalagriculture:infusion",
+  "input": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:imperium\"}}"
+  },
+  "ingredients": [
+    {
+      "item": "mysticalagriculture:supremium_essence"
     },
-    "ingredients": [
-        {
-            "item": "mysticalagriculture:supremium_essence"
-        },
-        {
-            "item": "mysticalagriculture:supremium_block"
-        },
-        {
-            "item": "mysticalagriculture:supremium_essence"
-        },
-        {
-            "item": "mysticalagriculture:supremium_block"
-        },
-        {
-            "item": "mysticalagriculture:supremium_essence"
-        },
-        {
-            "item": "mysticalagriculture:supremium_block"
-        },
-        {
-            "item": "mysticalagriculture:supremium_essence"
-        },
-        {
-            "item": "mysticalagriculture:supremium_block"
-        }
-    ],
-    "result": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": "{EntityTag:{type:\"productivebees:supremium\"}}"
+    {
+      "item": "mysticalagriculture:supremium_block"
     },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "mysticalagriculture"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:imperium"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:supremium"
-        }
-    ]
+    {
+      "item": "mysticalagriculture:supremium_essence"
+    },
+    {
+      "item": "mysticalagriculture:supremium_block"
+    },
+    {
+      "item": "mysticalagriculture:supremium_essence"
+    },
+    {
+      "item": "mysticalagriculture:supremium_block"
+    },
+    {
+      "item": "mysticalagriculture:supremium_essence"
+    },
+    {
+      "item": "mysticalagriculture:supremium_block"
+    }
+  ],
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:supremium\"}}"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mysticalagriculture"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:imperium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:supremium"
+    }
+  ]
 }

@@ -1,9 +1,12 @@
 1.20.1-12.1.4
 
 - Added EnderIO bees
-- Added 3 new tiers of productivity upgrades
+- Added 3 new tiers of productivity upgrades. Thanks to AngryBacteria
+- Added 99 ChemLib bees. Big thanks to Lego for the work
+- Added water bee
+- Fixed bees loosing health when exiting hive
 - Added some documentation to amber bees
-
+- Fixed some advancements
 
 
 1.20.1-12.1.3
