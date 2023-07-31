@@ -30,6 +30,10 @@
     ],
     "conditions": [
         {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:aquamarine"
+        },
+        {
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",

@@ -35,12 +35,12 @@ public class UpgradeItem extends Item
         String upgradeType = ForgeRegistries.ITEMS.getKey(stack.getItem()).getPath();
 
         double value = switch (upgradeType) {
-            case "upgrade_productivity" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier.get();
             case "upgrade_breeding" -> ProductiveBeesConfig.UPGRADES.breedingChance.get();
             case "upgrade_time" -> ProductiveBeesConfig.UPGRADES.timeBonus.get();
-            case "upgrade_high_end_productivity" -> ProductiveBeesConfig.UPGRADES.highEndProductivityMultiplier.get();
-            case "upgrade_nuclear_productivity" -> ProductiveBeesConfig.UPGRADES.nuclearProductivityMultiplier.get();
-            case "upgrade_cosmic_productivity" -> ProductiveBeesConfig.UPGRADES.cosmicProductivityMultiplier.get();
+            case "upgrade_productivity" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier.get();
+            case "upgrade_productivity_2" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get();
+            case "upgrade_productivity_3" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get();
+            case "upgrade_productivity_4" -> ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get();
             default -> 0.0F;
         };
 

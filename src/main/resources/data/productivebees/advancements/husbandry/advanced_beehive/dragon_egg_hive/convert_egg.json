@@ -19,16 +19,26 @@
         "dragon_breath": {
             "trigger": "minecraft:item_used_on_block",
             "conditions": {
-                "location": {
-                    "block": {
-                        "block": "productivebees:inactive_dragon_egg"
+                "location": [
+                    {
+                        "condition": "minecraft:location_check",
+                        "predicate": {
+                            "block": {
+                                "blocks": [
+                                    "productivebees:inactive_dragon_egg"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "condition": "minecraft:match_tool",
+                        "predicate": {
+                            "items": [
+                                "minecraft:dragon_breath"
+                            ]
+                        }
                     }
-                },
-                "item": {
-                    "items": [
-                        "minecraft:dragon_breath"
-                    ]
-                }
+                ]
             }
         }
     },

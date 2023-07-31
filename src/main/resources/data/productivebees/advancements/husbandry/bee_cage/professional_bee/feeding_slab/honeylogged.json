@@ -16,22 +16,26 @@
         "hidden": false
     },
     "criteria": {
-        "get_item": {
+        "honeylog": {
             "trigger": "minecraft:placed_block",
             "conditions": {
-                "block": "productivebees:feeder",
-                "item": {
-                    "item": "productivebees:honey_bucket"
-                },
-                "state": {
-                    "honeylogged": true
-                }
+                "location": [
+                    {
+                        "block": {
+                            "block": "productivebees:feeder",
+                            "state": {
+                                "honeylogged": true
+                            }
+                        },
+                        "condition": "minecraft:block_state_property"
+                    }
+                ]
             }
         }
     },
     "requirements": [
         [
-            "get_item"
+            "honeylog"
         ]
     ]
 }

@@ -12,9 +12,10 @@
     "outputs": [
         {
             "item": {
-                "tag": "forge:dusts/lumium"
+                "tag": "forge:nuggets/lumium"
             },
-            "chance": 40
+            "min": 4,
+            "max": 6
         },
         {
             "item": {
@@ -33,8 +34,12 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:dusts/lumium"
+                "tag": "forge:nuggets/lumium"
             }
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:lumium"
         }
     ]
 }

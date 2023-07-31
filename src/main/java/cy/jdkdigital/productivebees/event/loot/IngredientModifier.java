@@ -63,7 +63,6 @@ public class IngredientModifier extends LootModifier
     @Nonnull
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        ProductiveBees.LOGGER.info("apply ingredient loot " + addition);
         if (context.getRandom().nextFloat() < chance) {
             generatedLoot.addAll(Arrays.asList(addition.getItems()));
         }

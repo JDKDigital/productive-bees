@@ -73,6 +73,9 @@ repositories {
     maven {
         url 'https://maven.blamejared.com'
     }
+    flatDir {
+        dir 'libs'
+    }
 }
 
 dependencies {
@@ -82,12 +85,12 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
-    implementation fg.deobf("curse.maven:jei-238222:4585879")
+    implementation fg.deobf("curse.maven:jei-238222:4609866")
     implementation fg.deobf("curse.maven:jade-324717:4573193")
     implementation fg.deobf("curse.maven:the-one-probe-245211:4579432")
     implementation fg.deobf("curse.maven:corail-woodcutter-331983:4573934")
 
-    implementation fg.deobf("curse.maven:ender-io-64578:4637542")
+    implementation fg.deobf("curse.maven:ender-io-64578:4662609")
 //    implementation fg.deobf("curse.maven:trophymanager-510170:4165097")
 //    implementation fg.deobf("curse.maven:jumpy-boats-542110:4145484")
 //    implementation fg.deobf("curse.maven:productivebees-579545:4176053")

@@ -89,6 +89,8 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                 blockList.add(recipe.block);
             } else if (recipe.fluid != null) {
                 fluidStacks.add(new FluidStack(recipe.fluid, 1000));
+            } else if (recipe.item != null) {
+                itemStacks.add(new ItemStack(recipe.item));
             }
 
             for (Block block : blockList) {
@@ -153,6 +155,9 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                         Fluid flowerFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(nbt.getString("flowerFluid")));
                         recipes.add(Recipe.createFluid(flowerFluid, entry.getValue()));
                     }
+                } else if (nbt.contains("flowerItem")) {
+                    Item flowerItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("flowerItem")));
+                    recipes.add(Recipe.createItem(flowerItem, entry.getValue()));
                 } else {
                     recipes.add(Recipe.createBlock(defaultBlockTag, null, entry.getValue()));
                 }
@@ -166,21 +171,25 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
         return recipes;
     }
 
-    public record Recipe(TagKey<Block> blockTag, TagKey<Item> itemTag, Block block, TagKey<Fluid> fluidTag, Fluid fluid, BeeIngredient bee) {
+    public record Recipe(TagKey<Block> blockTag, TagKey<Item> itemTag, Block block, TagKey<Fluid> fluidTag, Fluid fluid, Item item, BeeIngredient bee) {
         public static Recipe createBlock(TagKey<Block> blockTag, TagKey<Item> itemTag, BeeIngredient bee) {
-            return new Recipe(blockTag, itemTag, null, null, null, bee);
+            return new Recipe(blockTag, itemTag, null, null, null, null, bee);
         }
 
         public static Recipe createBlock(Block block, BeeIngredient bee) {
-            return new Recipe(null, null, block, null, null, bee);
+            return new Recipe(null, null, block, null, null, null, bee);
+        }
+
+        public static Recipe createItem(Item item, BeeIngredient bee) {
+            return new Recipe(null, null, null, null, null, item, bee);
         }
 
         public static Recipe createFluid(TagKey<Fluid> fluidTag, BeeIngredient bee) {
-            return new Recipe(null, null, null, fluidTag, null, bee);
+            return new Recipe(null, null, null, fluidTag, null, null, bee);
         }
 
         public static Recipe createFluid(Fluid fluid, BeeIngredient bee) {
-            return new Recipe(null, null, null, null, fluid, bee);
+            return new Recipe(null, null, null, null, fluid, null, bee);
         }
     }
 }

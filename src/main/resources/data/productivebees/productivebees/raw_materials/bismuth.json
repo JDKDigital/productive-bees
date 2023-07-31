@@ -8,13 +8,6 @@
             "type": "forge:not",
             "value": {
                 "type": "forge:tag_empty",
-                "tag": "forge:raw_materials/bismuth"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
                 "tag": "forge:storage_blocks/bismuth"
             }
         }

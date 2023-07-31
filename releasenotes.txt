@@ -1,7 +1,9 @@
 1.20.1-12.1.4
 
 - Added EnderIO bees
+- Added 3 new tiers of productivity upgrades
 - Added some documentation to amber bees
+
 
 
 1.20.1-12.1.3

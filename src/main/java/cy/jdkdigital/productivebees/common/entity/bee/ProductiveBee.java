@@ -86,13 +86,6 @@ public class ProductiveBee extends Bee
 
     public ProductiveBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
-
-        Random rand = new Random();
-        setAttributeValue(BeeAttributes.PRODUCTIVITY, rand.nextInt(3));
-        setAttributeValue(BeeAttributes.TEMPER, 1);
-        setAttributeValue(BeeAttributes.ENDURANCE, rand.nextInt(3));
-        setAttributeValue(BeeAttributes.BEHAVIOR, 0);
-        setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
         setAttributeValue(BeeAttributes.TYPE, "hive");
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
@@ -461,11 +454,13 @@ public class ProductiveBee extends Bee
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
 
-        tag.putInt("bee_productivity", this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
-        tag.putInt("bee_endurance", this.getAttributeValue(BeeAttributes.ENDURANCE));
-        tag.putInt("bee_temper", this.getAttributeValue(BeeAttributes.TEMPER));
-        tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
-        tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
+        if (this.getAttributeValue(BeeAttributes.PRODUCTIVITY) != null) {
+            tag.putInt("bee_productivity", this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
+            tag.putInt("bee_endurance", this.getAttributeValue(BeeAttributes.ENDURANCE));
+            tag.putInt("bee_temper", this.getAttributeValue(BeeAttributes.TEMPER));
+            tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
+            tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
+        }
         tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
         tag.putFloat("MaxHealth", getMaxHealth());
         tag.putBoolean("HasConverted", hasConverted());
@@ -485,6 +480,14 @@ public class ProductiveBee extends Bee
             setAttributeValue(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
             setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
             setAttributeValue(BeeAttributes.TYPE, tag.getString("bee_type"));
+        } else {
+            Random rand = new Random();
+            setAttributeValue(BeeAttributes.PRODUCTIVITY, rand.nextInt(3));
+            setAttributeValue(BeeAttributes.TEMPER, 1);
+            setAttributeValue(BeeAttributes.ENDURANCE, rand.nextInt(3));
+            setAttributeValue(BeeAttributes.BEHAVIOR, 0);
+            setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
+            setHealth(getMaxHealth());
         }
         setHasConverted(tag.contains("HasConverted") && tag.getBoolean("HasConverted"));
     }
@@ -634,7 +637,7 @@ public class ProductiveBee extends Bee
     }
 
     public float[] getColor(int tintIndex, float tickCount) {
-        return  ColorUtil.getCacheColor(-1);
+        return ColorUtil.getCacheColor(-1);
     }
 
     public boolean isColored() {

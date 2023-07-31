@@ -1,21 +1,14 @@
 {
-    "primaryColor": "#DAAA4C",
-    "secondaryColor": "#804f40",
-    "flowerTag": "forge:storage_blocks/brass",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:dusts/brass"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/brass"
-            }
-        }
-    ]
+  "primaryColor": "#DAAA4C",
+  "secondaryColor": "#804f40",
+  "flowerTag": "forge:storage_blocks/brass",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/brass"
+      }
+    }
+  ]
 }

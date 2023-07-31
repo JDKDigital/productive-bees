@@ -307,7 +307,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             if (nbt.getBoolean("colorCycle") && !nbt.getString("renderer").contains("crystal")) {
                 return ColorUtil.getCycleColor(nbt.getInt("primaryColor"),nbt.getInt("tertiaryColor"), tickCount, partialTicks);
             }
-            return  ColorUtil.getCacheColor(tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("secondaryColor"));
+            return ColorUtil.getCacheColor(tintIndex == 0 ? nbt.getInt("primaryColor") : nbt.getInt("secondaryColor"));
         }
         return super.getColor(tintIndex, partialTicks);
     }
@@ -427,6 +427,9 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             if (nbt.contains("flowerTag")) {
                 TagKey<Item> flowerTag = ModTags.getItemTag(new ResourceLocation(nbt.getString("flowerTag")));
                 return flowerItem.is(flowerTag);
+            }
+            if (nbt.contains("flowerItem")) {
+                return flowerItem.is(ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("flowerItem"))));
             }
         }
 

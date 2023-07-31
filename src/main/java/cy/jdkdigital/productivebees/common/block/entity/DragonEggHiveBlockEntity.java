@@ -1,6 +1,8 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
+import cy.jdkdigital.productivebees.common.block.DragonEggHive;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
@@ -17,9 +19,9 @@ public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
         MAX_BEES = 3;
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, DragonEggHiveBlockEntity blockEntity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntity blockEntity) {
         if (blockEntity.tickCounter % 23 == 0) {
-            if (state.getBlock() instanceof AdvancedBeehive) {
+            if (state.getBlock() instanceof DragonEggHive) {
                 int honeyLevel = state.getValue(BeehiveBlock.HONEY_LEVEL);
 
                 // Auto harvest if empty bottles are in
@@ -28,8 +30,7 @@ public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
                         ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
                             final ItemStack filledBottle = level.dimension() == Level.END ? new ItemStack(Items.DRAGON_BREATH) : new ItemStack(Items.HONEY_BOTTLE);
-                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv)
-                                    .addOutput(filledBottle).getCount() == 0;
+                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle).getCount() == 0;
                             if (addedBottle) {
                                 bottles.shrink(1);
                                 level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
@@ -42,6 +43,6 @@ public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
 
         blockEntity.hasTicked = true;
 
-        AdvancedBeehiveBlockEntity.tick(level, pos, state, blockEntity);
+        AdvancedBeehiveBlockEntity.tick(level, pos, level.getBlockState(pos), blockEntity);
     }
 }

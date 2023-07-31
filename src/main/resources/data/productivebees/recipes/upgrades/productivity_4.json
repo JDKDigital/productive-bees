@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CEC",
+    "EBE",
+    "CEC"
+  ],
+  "key": {
+    "B": {
+      "item": "productivebees:upgrade_bee_sampler"
+    },
+    "E": {
+      "item": "minecraft:heart_of_the_sea"
+    },
+    "C": {
+      "item": "productivebees:upgrade_productivity_3"
+    }
+  },
+  "result": {
+    "item": "productivebees:upgrade_productivity_4"
+  }
+}

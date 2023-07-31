@@ -1,21 +1,14 @@
 {
-    "primaryColor": "#fc8669",
-    "secondaryColor": "#884739",
-    "flowerTag": "forge:storage_blocks/constantan",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:dusts/constantan"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/constantan"
-            }
-        }
-    ]
+  "primaryColor": "#fc8669",
+  "secondaryColor": "#884739",
+  "flowerTag": "forge:storage_blocks/constantan",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/constantan"
+      }
+    }
+  ]
 }

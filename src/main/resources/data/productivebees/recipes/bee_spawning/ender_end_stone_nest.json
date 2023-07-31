@@ -9,7 +9,7 @@
         }
     ],
     "spawn_item": {
-        "tag": "forge:ender_pearls"
+        "item": "minecraft:popped_chorus_fruit"
     },
     "biomes": "#minecraft:is_end",
     "conditions": [

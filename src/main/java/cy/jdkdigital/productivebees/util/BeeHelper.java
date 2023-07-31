@@ -209,9 +209,8 @@ public class BeeHelper
             recipes = blockConversionRecipeMap.get(cacheKey);
         } else if (beeEntity.level() instanceof ServerLevel) {
             // Get block conversion recipes
-            Map<ResourceLocation, BlockConversionRecipe> allRecipes = beeEntity.level().getRecipeManager().byType(ModRecipeTypes.BLOCK_CONVERSION_TYPE.get());
-            for (Map.Entry<ResourceLocation, BlockConversionRecipe> entry : allRecipes.entrySet()) {
-                BlockConversionRecipe recipe = entry.getValue();
+            List<BlockConversionRecipe> allRecipes = beeEntity.level().getRecipeManager().getAllRecipesFor(ModRecipeTypes.BLOCK_CONVERSION_TYPE.get());
+            for (BlockConversionRecipe recipe : allRecipes) {
                 if (recipe.matches(beeInv, beeEntity.level())) {
                     recipes.add(recipe);
                 }
@@ -238,9 +237,8 @@ public class BeeHelper
             recipes = itemConversionRecipeMap.get(cacheKey);
         } else if (beeEntity.level() instanceof ServerLevel) {
             // Get item conversion recipes
-            Map<ResourceLocation, ItemConversionRecipe> allRecipes = beeEntity.level().getRecipeManager().byType(ModRecipeTypes.ITEM_CONVERSION_TYPE.get());
-            for (Map.Entry<ResourceLocation, ItemConversionRecipe> entry : allRecipes.entrySet()) {
-                ItemConversionRecipe recipe = entry.getValue();
+            List<ItemConversionRecipe> allRecipes = beeEntity.level().getRecipeManager().getAllRecipesFor(ModRecipeTypes.ITEM_CONVERSION_TYPE.get());
+            for (ItemConversionRecipe recipe : allRecipes) {
                 if (recipe.matches(beeInv, beeEntity.level())) {
                     recipes.add(recipe);
                 }
@@ -266,10 +264,10 @@ public class BeeHelper
         if (nbtChangerRecipeMap.containsKey(cacheKey)) {
             recipes = nbtChangerRecipeMap.get(cacheKey);
         } else if (beeEntity.level() instanceof ServerLevel) {
-            Map<ResourceLocation, BeeNBTChangerRecipe> allRecipes = beeEntity.level().getRecipeManager().byType(ModRecipeTypes.BEE_NBT_CHANGER_TYPE.get());
-            for (Map.Entry<ResourceLocation, BeeNBTChangerRecipe> entry : allRecipes.entrySet()) {
-                if (entry.getValue().matches(inv, beeEntity.level())) {
-                    recipes.add(entry.getValue());
+            List<BeeNBTChangerRecipe> allRecipes = beeEntity.level().getRecipeManager().getAllRecipesFor(ModRecipeTypes.BEE_NBT_CHANGER_TYPE.get());
+            for (BeeNBTChangerRecipe recipe : allRecipes) {
+                if (recipe.matches(inv, beeEntity.level())) {
+                    recipes.add(recipe);
                 }
             }
 

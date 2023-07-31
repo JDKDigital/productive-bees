@@ -1,12 +1,12 @@
 {
-    "primaryColor": "#d03621",
-    "secondaryColor": "#804f40",
-    "tertiaryColor": "#730c00",
-    "particleColor": "#ff0000",
-    "particleType": "lava",
-    "renderer": "default_crystal",
-    "useGlowLayer": false,
-    "redstoned": true,
-    "description": "productivebees.ingredient.description.redstone_bee",
-    "flowerTag": "productivebees:flowers/redstone"
+  "primaryColor": "#d03621",
+  "secondaryColor": "#804f40",
+  "tertiaryColor": "#730c00",
+  "particleColor": "#ff0000",
+  "particleType": "lava",
+  "renderer": "default_crystal",
+  "useGlowLayer": false,
+  "redstoned": true,
+  "description": "productivebees.ingredient.description.redstone_bee",
+  "flowerTag": "productivebees:flowers/redstone"
 }

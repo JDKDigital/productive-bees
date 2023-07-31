@@ -1,21 +1,14 @@
 {
-    "primaryColor": "#D0D1DA",
-    "secondaryColor": "#804f40",
-    "flowerTag": "forge:storage_blocks/titanium",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:raw_materials/titanium"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/titanium"
-            }
-        }
-    ]
+  "primaryColor": "#D0D1DA",
+  "secondaryColor": "#804f40",
+  "flowerTag": "forge:storage_blocks/titanium",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/titanium"
+      }
+    }
+  ]
 }

@@ -1,21 +1,14 @@
 {
-    "primaryColor": "#ADB7B2",
-    "secondaryColor": "#804f40",
-    "flowerTag": "forge:storage_blocks/invar",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:dusts/invar"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/invar"
-            }
-        }
-    ]
+  "primaryColor": "#ADB7B2",
+  "secondaryColor": "#804f40",
+  "flowerTag": "forge:storage_blocks/invar",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/invar"
+      }
+    }
+  ]
 }

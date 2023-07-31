@@ -73,7 +73,7 @@ public class BeeFishingRecipeCategory implements IRecipeCategory<BeeFishingRecip
             for (Biome biome : BeeFishingRecipe.getBiomeList(recipe, minecraft.level)) {
                 var key = biomeRegistry.getKey(biome);
                 if (key != null) {
-                    guiGraphics.drawString(minecraft.font, Language.getInstance().getVisualOrder(Component.translatable("biome.minecraft." + key.getPath())), xPos, yPos.get(), 0xFF000000);
+                    guiGraphics.drawString(minecraft.font, Language.getInstance().getVisualOrder(Component.translatable("biome.minecraft." + key.getPath())), xPos, yPos.get(), 0xFF000000, false);
                     yPos.addAndGet(minecraft.font.lineHeight + 2);
                 }
             }
@@ -86,6 +86,6 @@ public class BeeFishingRecipeCategory implements IRecipeCategory<BeeFishingRecip
                 .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.output.get())
                 .setSlotName("source");
 
-        builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addIngredients(VanillaTypes.ITEM_STACK, Arrays.asList(Ingredient.of(ModTags.Forge.EGGS).getItems()));
+        builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addIngredients(VanillaTypes.ITEM_STACK, Arrays.asList(Ingredient.of(ModTags.Forge.FISHING_RODS).getItems()));
     }
 }

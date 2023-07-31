@@ -76,6 +76,17 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         public boolean isInputSlot(int slot) {
             return super.isInputSlot(slot) || (slot == AdvancedBeehiveContainer.SLOT_CAGE && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim());
         }
+
+        @Override
+        protected void onContentsChanged(int slot) {
+            super.onContentsChanged(slot);
+            if (slot == AdvancedBeehiveContainer.SLOT_BOTTLE) {
+                ItemStack itemInBottleSlot = getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
+                if (!itemInBottleSlot.isEmpty() && itemInBottleSlot.is(Blocks.SPONGE.asItem()) && blockEntity.getLevel() instanceof ServerLevel level) {
+                    level.setBlockAndUpdate(blockEntity.getBlockPos(), level.getBlockState(blockEntity.getBlockPos()).setValue(BeehiveBlock.HONEY_LEVEL, 0));
+                }
+            }
+        }
     });
     protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
 
@@ -106,7 +117,11 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     public boolean isSim() {
-        return getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0;
+        return ProductiveBeesConfig.BEES.allowBeeSimulation.get() && (
+                getUpgradeCount(ModItems.UPGRADE_SIMULATOR.get()) > 0 ||
+                getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_3.get()) > 0 ||
+                getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get()) > 0
+        );
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntity blockEntity) {
@@ -152,8 +167,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                         ItemStack bottles = inv.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
                         if (!bottles.isEmpty() && bottles.getItem() instanceof BottleItem) {
                             final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
-                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv)
-                                    .addOutput(filledBottle).getCount() == 0;
+                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle).getCount() == 0;
                             if (addedBottle) {
                                 ((InventoryHandlerHelper.ItemHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
                                 bottles.shrink(1);
@@ -170,15 +184,15 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 }
 
                 // Insert or extract bees for simulated hives
-                if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity.isSim()) {
+                if (blockEntity.isSim()) {
                     blockEntity.inventoryHandler.ifPresent(h -> {
                         if (h instanceof InventoryHandlerHelper.ItemHandler invHelper) {
                             ItemStack cageStack = h.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE);
                             if (!cageStack.isEmpty() && cageStack.getItem() instanceof BeeCage) {
-                                if (BeeCage.isFilled(cageStack) && invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
-                                    // release into hive if space is available
+                                if (BeeCage.isFilled(cageStack) && (!cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get()) || invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem()))))) {
+                                    // insert into hive if space is available
                                     if (!blockEntity.isFull()) {
-                                        Bee bee = BeeCage.getCachedEntityFromStack(cageStack, level, true);
+                                        Bee bee = BeeCage.getEntityFromStack(cageStack, level, true);
                                         if (bee != null && blockEntity.acceptsBee(bee) && (!(bee instanceof ProductiveBee pBee) || pBee.getAttributeValue(BeeAttributes.TYPE).equals("hive"))) {
                                             blockEntity.addOccupant(bee, bee.hasNectar());
                                             if (cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
@@ -258,19 +272,18 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                             }
 
                             // Apply upgrades
-                            int normalProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
-                            int highEndProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_HIGH_END_PRODUCTIVITY.get());
-                            int nuclearProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_NUCLEAR_PRODUCTIVITY.get());
-                            int cosmicProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_COSMIC_PRODUCTIVITY.get());
+                            int ProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
+                            int productivity2Upgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_2.get());
+                            int productivity3Upgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_3.get());
+                            int productivity4Upgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get());
 
-                            double normalUpgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * normalProductivityUpgrades;
-                            double highEndUpgradeMod = ProductiveBeesConfig.UPGRADES.highEndProductivityMultiplier.get() * highEndProductivityUpgrades;
-                            double nuclearUpgradeMod = ProductiveBeesConfig.UPGRADES.nuclearProductivityMultiplier.get() * nuclearProductivityUpgrades;
-                            double cosmicUpgradeMod = ProductiveBeesConfig.UPGRADES.cosmicProductivityMultiplier.get() * cosmicProductivityUpgrades;
-                            double totalProductivityMod = normalUpgradeMod + highEndUpgradeMod + nuclearUpgradeMod + cosmicUpgradeMod;
+                            double upgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * ProductivityUpgrades;
+                            upgradeMod = upgradeMod + ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get() * productivity2Upgrades;
+                            upgradeMod = upgradeMod + ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get() * productivity3Upgrades;
+                            upgradeMod = upgradeMod + ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get() * productivity4Upgrades;
 
-                            if (totalProductivityMod >= 1.0) {
-                                double newStackSize = stack.getCount() * totalProductivityMod;
+                            if (upgradeMod >= 1.0) {
+                                double newStackSize = stack.getCount() * upgradeMod;
                                 stack.setCount(Math.round((float) newStackSize));
                             }
 
@@ -316,7 +329,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             }
 
             // Produce genes
-            int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get());
+            int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get());
             if (samplerUpgrades > 0 && !beeEntity.isBaby() && beeEntity instanceof ProductiveBee && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
                 getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
                     Map<BeeAttribute<?>, Object> attributes = ((ProductiveBee) beeEntity).getBeeAttributes();

@@ -1,21 +1,14 @@
 {
-    "primaryColor": "#A9DBE5",
-    "secondaryColor": "#804f40",
-    "flowerTag": "forge:storage_blocks/silver",
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:raw_materials/silver"
-            }
-        },
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:storage_blocks/silver"
-            }
-        }
-    ]
+  "primaryColor": "#A9DBE5",
+  "secondaryColor": "#804f40",
+  "flowerTag": "forge:storage_blocks/silver",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/silver"
+      }
+    }
+  ]
 }

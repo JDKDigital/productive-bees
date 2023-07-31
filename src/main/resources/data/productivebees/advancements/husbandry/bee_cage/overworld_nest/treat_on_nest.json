@@ -19,16 +19,26 @@
         "use_treat": {
             "trigger": "minecraft:item_used_on_block",
             "conditions": {
-                "location": {
-                    "block": {
-                        "tag": "productivebees:solitary_nests"
+                "location": [
+                    {
+                        "condition": "minecraft:location_check",
+                        "predicate": {
+                            "block": {
+                                "tag": [
+                                    "productivebees:solitary_nests"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "condition": "minecraft:match_tool",
+                        "predicate": {
+                            "items": [
+                                "productivebees:honey_treat"
+                            ]
+                        }
                     }
-                },
-                "item": {
-                    "items": [
-                        "productivebees:honey_treat"
-                    ]
-                }
+                ]
             }
         }
     },

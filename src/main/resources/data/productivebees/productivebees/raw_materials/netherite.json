@@ -1,13 +1,13 @@
 {
-    "primaryColor": "#4d494d",
-    "secondaryColor": "#804f40",
-    "particleColor": "#4d494d",
-    "flowerTag": "forge:storage_blocks/netherite",
-    "size": 0.7,
-    "attributes": {
-        "endurance": 2
-    },
-    "attackResponse": "fire",
-    "fireproof": true,
-    "withered": true
+  "primaryColor": "#4d494d",
+  "secondaryColor": "#804f40",
+  "particleColor": "#4d494d",
+  "flowerTag": "forge:storage_blocks/netherite",
+  "size": 0.7,
+  "attributes": {
+    "endurance": 2
+  },
+  "attackResponse": "fire",
+  "fireproof": true,
+  "withered": true
 }

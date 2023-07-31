@@ -1,40 +1,45 @@
 {
-    "type": "productivebees:centrifuge",
-    "ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:configurable_honeycomb",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:brass"
-            }
-        }
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:brass"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:nuggets/brass"
+      },
+      "min": 4,
+      "max": 6
     },
-    "outputs": [
-        {
-            "item": {
-                "tag": "forge:dusts/brass"
-            },
-            "chance": 40
-        },
-        {
-            "item": {
-                "tag": "forge:wax"
-            }
-        },
-        {
-            "fluid": {
-                "fluid": "productivebees:honey"
-            },
-            "amount": 50
-        }
-    ],
-    "conditions": [
-        {
-            "type": "forge:not",
-            "value": {
-                "type": "forge:tag_empty",
-                "tag": "forge:dusts/brass"
-            }
-        }
-    ]
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 50
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:nuggets/brass"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:brass"
+    }
+  ]
 }

@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.FarmerBee;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBee;
+import cy.jdkdigital.productivebees.event.BeeReleaseEvent;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
@@ -37,10 +38,12 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.entity.living.AnimalTameEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -108,7 +111,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                     if (inhabitant.nbt.contains("HasConverted") && inhabitant.nbt.getBoolean("HasConverted")) {
                         beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
                     }
-                    if (ProductiveBeesConfig.BEES.allowBeeSimulation.get() && blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim()) {
+                    if (blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim()) {
                         // for simulated hives, count all the way up to timeInHive + pollinationTime
                         if (inhabitant.ticksInHive > (inhabitant.minOccupationTicks + 450)) {
                             simulateBee(level, hivePos, state, blockEntity, inhabitant);
@@ -333,6 +336,10 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     protected void beeReleasePostAction(Level level, Bee beeEntity, BlockState state, BeehiveBlockEntity.BeeReleaseStatus beeState) {
+        if (MinecraftForge.EVENT_BUS.post(new BeeReleaseEvent(level, beeEntity, this, state, beeState))) {
+            return;
+        }
+
         beeEntity.resetTicksWithoutNectarSinceExitingHive();
         beeEntity.heal(beeEntity.getMaxHealth());
 
