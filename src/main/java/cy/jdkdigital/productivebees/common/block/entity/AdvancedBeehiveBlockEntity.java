@@ -251,11 +251,15 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                             if (beeEntity instanceof ProductiveBee) {
                                 int productivity = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
                                 if (productivity > 0) {
-                                    float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
-                                    stack.grow(Math.round(modifier));
+                                    if(stack.getCount() == 1) {
+                                        stack.grow(productivity);
+                                    }
+                                    else {
+                                        float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
+                                        stack.grow(Math.round(modifier));
+                                    }
                                 }
                             }
-
                             // Apply upgrades
                             int normalProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
                             int highEndProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_HIGH_END_PRODUCTIVITY.get());
