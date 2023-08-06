@@ -1,14 +1,14 @@
 {
-    "name": "Beyond Earth",
-    "icon": "beyond_earth:cheese",
+    "name": "Ad Astra",
+    "icon": "ad_astra:cheese",
     "read_by_default": true,
     "sortnum": 8,
     "category": "productivebees:bees_modded",
-    "flag": "mod:beyond_earth",
+    "flag": "mod:ad_astra",
     "pages": [
         {
             "type": "patchouli:text",
-            "text": "Bees Beyond Earth"
+            "text": "Bees Ad Astra"
         },
         {
             "type": "patchouli:text",

@@ -7,7 +7,7 @@
   ],
   "key": {
     "B": {
-      "item": "productivebees:upgrade_base"
+      "item": "productivebees:upgrade_anti_teleport"
     },
     "E": {
       "tag": "forge:ender_pearls"

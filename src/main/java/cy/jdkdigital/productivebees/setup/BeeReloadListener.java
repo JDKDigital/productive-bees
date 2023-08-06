@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.integrations.patchouli.ProductiveBeesPatchouli;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -66,6 +67,14 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
             ResourceLocation simpleId = id.getPath().contains("/") ? new ResourceLocation(id.getNamespace(), id.getPath().substring(id.getPath().lastIndexOf("/") + 1)) : id;
             CompoundTag nbt = BeeCreator.create(simpleId, entry.getValue().getAsJsonObject());
 
+            int i = id.getPath().lastIndexOf("/");
+            if (i > 0) {
+                String[] a = {id.getPath().substring(0, i), id.getPath().substring(i)};
+                nbt.putString("group", a[0].substring(0, 1).toUpperCase() + a[0].substring(1));
+            } else {
+                nbt.putString("group", "");
+            }
+
             data.remove(simpleId.toString());
             data.put(simpleId.toString(), nbt);
 
@@ -92,7 +101,7 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
     public void setData(Map<String, CompoundTag> data) {
         BEE_DATA = data;
         if (ModList.get().isLoaded("patchouli")) {
-//            ProductiveBeesPatchouli.setBeeFlags(); // TODO
+            ProductiveBeesPatchouli.setBeeFlags();
         }
     }
 }

@@ -84,7 +84,7 @@ public class HoneyTreat extends Item
         ListTag genes = getGenes(stack);
         for (Tag inbt : genes) {
             ItemStack insertedGene = ItemStack.of((CompoundTag) inbt);
-            BeeAttribute<?> existingAttribute = Gene.getAttribute(insertedGene);
+            BeeAttribute<Integer> existingAttribute = Gene.getAttribute(insertedGene);
             if (existingAttribute == null && !Gene.getAttributeName(insertedGene).isEmpty()) {
                 return true;
             }
@@ -166,7 +166,7 @@ public class HoneyTreat extends Item
                     }
 
                     Integer value = Gene.getValue(insertedGene);
-                    BeeAttribute<?> attribute = Gene.getAttribute(insertedGene);
+                    BeeAttribute<Integer> attribute = Gene.getAttribute(insertedGene);
                     if (BeeAttributes.keyMap.containsKey(attribute)) {
                         Component translatedValue = Component.translatable(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getAttributeColor(value));
                         list.add((Component.translatable("productivebees.information.attribute." + Gene.getAttributeName(insertedGene), translatedValue)).withStyle(ChatFormatting.DARK_GRAY).append(" (" + purity + "%)"));

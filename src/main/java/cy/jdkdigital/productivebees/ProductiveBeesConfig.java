@@ -312,13 +312,13 @@ public class ProductiveBeesConfig
                     .defineInRange("timeBonus", 0.2, 0, 1);
             productivityMultiplier = builder
                     .comment("Multiplier per productivity alpha upgrade installed in the hive.")
-                    .defineInRange("productivityMultiplier", 1.4, 1, Integer.MAX_VALUE);
+                    .defineInRange("productivityMultiplier", 1.2, 1, Integer.MAX_VALUE);
             productivityMultiplier2 = builder
                     .comment("Multiplier per productivity beta upgrade installed in the hive.")
-                    .defineInRange("productivityMultiplier2", 1.8, 1, Integer.MAX_VALUE);
+                    .defineInRange("productivityMultiplier2", 1.5, 1, Integer.MAX_VALUE);
             productivityMultiplier3 = builder
                     .comment("Multiplier per productivity gamma upgrade installed in the hive.")
-                    .defineInRange("productivityMultiplier3", 2.2, 1, Integer.MAX_VALUE);
+                    .defineInRange("productivityMultiplier3", 2.0, 1, Integer.MAX_VALUE);
             productivityMultiplier4 = builder
                     .comment("Multiplier per productivity omega upgrade installed in the hive.")
                     .defineInRange("productivityMultiplier4", 2.6, 1, Integer.MAX_VALUE);

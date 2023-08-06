@@ -91,7 +91,7 @@
         },
         {
             "type": "patchouli:text",
-            "text": "When installed in a hive, Lumber and Quarry bees will produce full blocks instead of chips."
+            "text": "When installed in a hive, bees will produce full comb blocks instead of honeycombs."
         },
         {
             "type": "patchouli:crafting",
@@ -123,11 +123,27 @@
                         "F0"
                     ]
                 ],
-                "symmetrical": true,
                 "offset": [
-                    0,
-                    1,
-                    0
+                    0, 1, 0
+                ]
+            },
+            "enable_visualize": false
+        },
+        {
+            "type": "multiblock",
+            "name": "Simulated Hive",
+            "multiblock": {
+                "mapping": {
+                    "H": "productivebees:advanced_oak_beehive[expanded=left,facing=east]",
+                    "E": "productivebees:expansion_box_oak[expanded=left,facing=east]",
+                    "F": "minecraft:iron_block"
+                },
+                "pattern": [
+                    ["HE","  "],
+                    ["0 ", "F "]
+                ],
+                "offset": [
+                    0, 1, 0
                 ]
             },
             "enable_visualize": false

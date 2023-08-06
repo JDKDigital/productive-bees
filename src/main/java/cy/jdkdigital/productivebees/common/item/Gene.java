@@ -37,15 +37,15 @@ public class Gene extends Item
         super(properties);
     }
 
-    public static ItemStack getStack(BeeAttribute<?> attribute, int value) {
+    public static ItemStack getStack(BeeAttribute<Integer> attribute, int value) {
         return getStack(attribute, value, 1);
     }
 
-    public static ItemStack getStack(BeeAttribute<?> attribute, int value, int count) {
+    public static ItemStack getStack(BeeAttribute<Integer> attribute, int value, int count) {
         return getStack(attribute, value, count, ProductiveBees.random.nextInt(40) + 15);
     }
 
-    public static ItemStack getStack(BeeAttribute<?> attribute, int value, int count, int purity) {
+    public static ItemStack getStack(BeeAttribute<Integer> attribute, int value, int count, int purity) {
         return getStack(attribute.toString(), value, count, purity);
     }
 
@@ -66,7 +66,7 @@ public class Gene extends Item
     }
 
     @Nullable
-    public static BeeAttribute<?> getAttribute(ItemStack stack) {
+    public static BeeAttribute<Integer> getAttribute(ItemStack stack) {
         String name = getAttributeName(stack);
         return BeeAttributes.getAttributeByName(name);
     }
@@ -96,7 +96,7 @@ public class Gene extends Item
 
         Integer value = getValue(stack);
 
-        BeeAttribute<?> attribute = getAttribute(stack);
+        BeeAttribute<Integer> attribute = getAttribute(stack);
 
         if (attribute != null && BeeAttributes.keyMap.containsKey(attribute) && BeeAttributes.keyMap.get(attribute).containsKey(value)) {
             Component translatedValue = Component.translatable(BeeAttributes.keyMap.get(attribute).get(value)).withStyle(ColorUtil.getAttributeColor(value));

@@ -17,9 +17,9 @@ public interface IBeeAttributes
 
     void readFromNBT(Tag list);
 
-    void setAttributeValue(BeeAttribute<?> attribute, int value);
+    void setAttributeValue(BeeAttribute<Integer> attribute, int value);
 
-    void setAttributeValue(BeeAttribute<?> attribute, String value);
+    void setAttributeValue(BeeAttribute<Integer> attribute, String value);
 
-    Map<BeeAttribute<?>, Object> getAttributes();
+    Map<BeeAttribute<Integer>, Object> getAttributes();
 }

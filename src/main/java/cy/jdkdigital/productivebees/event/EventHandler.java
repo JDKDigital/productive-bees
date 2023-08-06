@@ -24,7 +24,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -336,7 +335,7 @@ public class EventHandler
                 BlockPos pos = event.getPos();
                 if (bee != null && BeeReloadListener.INSTANCE.getData("productivebees:sugarbag") != null) {
                     bee.setBeeType("productivebees:sugarbag");
-                    bee.setAttributes();
+                    bee.setDefaultAttributes();
 
                     bee.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
 
@@ -404,7 +403,7 @@ public class EventHandler
                 if (bee != null) {
                     if (bee instanceof ConfigurableBee configBee) {
                         configBee.setBeeType(beeIngredient.getBeeType().toString());
-                        configBee.setAttributes();
+                        configBee.setDefaultAttributes();
                     }
 
                     bee.moveTo(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());

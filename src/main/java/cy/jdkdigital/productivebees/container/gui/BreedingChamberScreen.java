@@ -79,10 +79,6 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
         if (isHovering(159 - 13, 14, 10, 10, mouseX, mouseY)) {
             tooltipList.add(Component.translatable("productivebees.breeding_chamber.tooltip.next_bee").getVisualOrderText());
         }
-        // Down arrow
-        if (isHovering(159 - 13, 27, 10, 10, mouseX, mouseY)) {
-            tooltipList.add(Component.translatable("productivebees.breeding_chamber.tooltip.prev_bee").getVisualOrderText());
-        }
 
         // Empty cage slot
         if (isHovering(85 - 13, 14, 18, 18, mouseX, mouseY)) {

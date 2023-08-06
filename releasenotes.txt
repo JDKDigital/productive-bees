@@ -4,6 +4,7 @@
 - Added 3 new tiers of productivity upgrades. Thanks to AngryBacteria
 - Added 99 ChemLib bees. Big thanks to Lego for the work
 - Added water bee
+- Improved bee searching in JEI. You can now search for "@prod modname" to only see bees for a certain mod.
 - Fixed bees loosing health when exiting hive
 - Added some documentation to amber bees
 - Fixed some advancements

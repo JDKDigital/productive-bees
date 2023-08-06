@@ -43,7 +43,7 @@ public class BeeIngredient
             Entity newBee = getBeeEntity().create(world);
             if (newBee instanceof ConfigurableBee) {
                 ((ConfigurableBee) newBee).setBeeType(getBeeType().toString());
-                ((ConfigurableBee) newBee).setAttributes();
+                ((ConfigurableBee) newBee).setDefaultAttributes();
             }
             cache.put(this, newBee);
         }

@@ -122,7 +122,7 @@ public class NestLocator extends Item
             // Special case for vanilla
             if (block instanceof BeehiveBlock || block instanceof AdvancedBeehive) {
                 // Locate vanilla styled bee nests
-                setNestBlock(stack, ForgeRegistries.BLOCKS.getValue(new ResourceLocation("minecraft", "bee_nest")), context.getPlayer());
+                setNestBlock(stack, Blocks.BEE_NEST, context.getPlayer());
             } else if (block instanceof SolitaryNest) {
                 setNestBlock(stack, block, context.getPlayer());
             } else if (ForgeRegistries.BLOCKS.getKey(block).getPath().contains("warped")) {

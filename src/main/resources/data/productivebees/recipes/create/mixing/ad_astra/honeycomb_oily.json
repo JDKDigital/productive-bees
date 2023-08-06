@@ -13,7 +13,7 @@
   ],
   "results": [
     {
-      "fluid": "beyond_earth:oil",
+      "fluid": "ad_astra:oil",
       "amount": 50
     }
   ],
@@ -25,7 +25,7 @@
     },
     {
       "type": "forge:mod_loaded",
-      "modid": "beyond_earth"
+      "modid": "ad_astra"
     }
   ]
 }

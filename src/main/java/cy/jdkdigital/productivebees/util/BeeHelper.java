@@ -93,7 +93,7 @@ public class BeeHelper
                     bee = recipe.result.get().getBeeEntity().create(level);
                     if (bee instanceof ConfigurableBee) {
                         ((ConfigurableBee) bee).setBeeType(recipe.result.get().getBeeType().toString());
-                        ((ConfigurableBee) bee).setAttributes();
+                        ((ConfigurableBee) bee).setDefaultAttributes();
                     }
 
                     if (bee instanceof ProductiveBee && entity instanceof ProductiveBee) {
@@ -136,7 +136,7 @@ public class BeeHelper
                     Entity newBee = beeIngredient.getBeeEntity().create(world);
                     if (newBee instanceof ConfigurableBee) {
                         ((ConfigurableBee) newBee).setBeeType(beeIngredient.getBeeType().toString());
-                        ((ConfigurableBee) newBee).setAttributes();
+                        ((ConfigurableBee) newBee).setDefaultAttributes();
                     }
                     return newBee;
                 }
@@ -155,7 +155,7 @@ public class BeeHelper
             if (nbt != null && ((ConfigurableBee) beeEntity).canSelfBreed()) {
                 ConfigurableBee newBee = ModEntities.CONFIGURABLE_BEE.get().create(world);
                 newBee.setBeeType(type.toString());
-                newBee.setAttributes();
+                newBee.setDefaultAttributes();
                 return newBee;
             }
         }
@@ -440,8 +440,8 @@ public class BeeHelper
     }
 
     public static void setOffspringAttributes(ProductiveBee newBee, ProductiveBee parent1, AgeableMob parent2) {
-        Map<BeeAttribute<?>, Object> attributeMapParent1 = parent1.getBeeAttributes();
-        Map<BeeAttribute<?>, Object> attributeMapParent2 = new HashMap<>();
+        Map<BeeAttribute<Integer>, Object> attributeMapParent1 = parent1.getBeeAttributes();
+        Map<BeeAttribute<Integer>, Object> attributeMapParent2 = new HashMap<>();
         if (parent2 instanceof ProductiveBee) {
             attributeMapParent2 = ((ProductiveBee) parent2).getBeeAttributes();
         } else {
@@ -453,7 +453,11 @@ public class BeeHelper
             attributeMapParent2.put(BeeAttributes.WEATHER_TOLERANCE, 0);
         }
 
-        Map<BeeAttribute<?>, Object> attributeMapChild = newBee.getBeeAttributes();
+        Map<BeeAttribute<Integer>, Object> attributeMapChild = newBee.getBeeAttributes();
+        if (!attributeMapChild.containsKey(BeeAttributes.PRODUCTIVITY)) {
+            newBee.setDefaultAttributes();
+            attributeMapChild = newBee.getBeeAttributes();
+        }
 
         int parentProductivity = Mth.nextInt(newBee.level().random, (int) attributeMapParent1.get(BeeAttributes.PRODUCTIVITY), (int) attributeMapParent2.get(BeeAttributes.PRODUCTIVITY));
         newBee.setAttributeValue(BeeAttributes.PRODUCTIVITY, Math.max((int) attributeMapChild.get(BeeAttributes.PRODUCTIVITY), parentProductivity));

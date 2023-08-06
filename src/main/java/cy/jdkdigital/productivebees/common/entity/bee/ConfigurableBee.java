@@ -1,6 +1,5 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.init.*;
@@ -52,7 +51,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
@@ -281,7 +279,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         // /data get entity @s SelectedItem
     }
 
-    public void setAttributes() {
+    public void setDefaultAttributes() {
+        super.setDefaultAttributes();
         CompoundTag nbt = getNBTData();
         if (nbt.contains(("productivity"))) {
             setAttributeValue(BeeAttributes.PRODUCTIVITY, nbt.getInt("productivity"));

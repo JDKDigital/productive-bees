@@ -11,7 +11,7 @@
         },
         {
             "type": "patchouli:crafting",
-            "recipe": "productivebees:hives/dragon_egg_hive",
+            "recipe": "productivebees:nests/dragon_egg_hive",
             "text": "Ты можешь приготовить из остатков «Омлет»."
         },
         {

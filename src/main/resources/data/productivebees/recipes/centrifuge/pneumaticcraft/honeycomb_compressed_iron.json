@@ -12,7 +12,7 @@
   "outputs": [
     {
       "item": {
-        "tag": "forge:raw_materials/compressed_iron"
+        "tag": "forge:ingots/compressed_iron"
       },
       "chance": 50
     },
@@ -27,7 +27,7 @@
       "type": "forge:not",
       "value": {
         "type": "forge:tag_empty",
-        "tag": "forge:raw_materials/compressed_iron"
+        "tag": "forge:ingots/compressed_iron"
       }
     }
   ]

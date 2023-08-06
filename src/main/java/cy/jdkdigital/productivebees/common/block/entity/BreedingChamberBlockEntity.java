@@ -226,7 +226,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
             if (offspring instanceof Bee bee) {
                 if (bee instanceof ConfigurableBee) {
                     ((ConfigurableBee) bee).setBeeType(beeIngredient.getBeeType().toString());
-                    ((ConfigurableBee) bee).setAttributes();
+                    ((ConfigurableBee) bee).setDefaultAttributes();
                 }
 
                 Bee bee1 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, true);

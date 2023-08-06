@@ -9,10 +9,9 @@ import java.util.*;
 
 public class BeeAttributes
 {
-    public static Map<String, BeeAttribute<?>> map = new HashMap<>();
-    public static Map<BeeAttribute<?>, Map<Integer, String>> keyMap = new HashMap<>();
+    public static Map<String, BeeAttribute<Integer>> map = new HashMap<>();
+    public static Map<BeeAttribute<Integer>, Map<Integer, String>> keyMap = new HashMap<>();
 
-    public static final BeeAttribute<String> TYPE = register("type");
     public static final BeeAttribute<Integer> PRODUCTIVITY = register("productivity");
     public static final BeeAttribute<Integer> ENDURANCE = register("endurance");
     public static final BeeAttribute<Integer> TEMPER = register("temper");
@@ -24,8 +23,8 @@ public class BeeAttributes
     public static final UUID HEALTH_MOD_ID_STRONG = UUID.nameUUIDFromBytes("productivebees:health_modifier_strong".getBytes());
     public static final Map<Integer, AttributeModifier> HEALTH_MODS = new HashMap<>();
 
-    private static <T> BeeAttribute<T> register(String name) {
-        BeeAttribute<T> attribute = new BeeAttribute<T>(new ResourceLocation(ProductiveBees.MODID, name));
+    private static BeeAttribute<Integer> register(String name) {
+        BeeAttribute<Integer> attribute = new BeeAttribute<>(new ResourceLocation(ProductiveBees.MODID, name));
 
         map.put(name, attribute);
 
@@ -44,34 +43,34 @@ public class BeeAttributes
     }
 
     static {
-        keyMap.put(PRODUCTIVITY, new HashMap<Integer, String>()
+        keyMap.put(PRODUCTIVITY, new HashMap<>()
         {{
             put(0, "productivebees.information.attribute.productivity.normal");
             put(1, "productivebees.information.attribute.productivity.medium");
             put(2, "productivebees.information.attribute.productivity.high");
             put(3, "productivebees.information.attribute.productivity.very_high");
         }});
-        keyMap.put(ENDURANCE, new HashMap<Integer, String>()
+        keyMap.put(ENDURANCE, new HashMap<>()
         {{
             put(0, "productivebees.information.attribute.endurance.weak");
             put(1, "productivebees.information.attribute.endurance.normal");
             put(2, "productivebees.information.attribute.endurance.medium");
             put(3, "productivebees.information.attribute.endurance.strong");
         }});
-        keyMap.put(TEMPER, new HashMap<Integer, String>()
+        keyMap.put(TEMPER, new HashMap<>()
         {{
             put(0, "productivebees.information.attribute.temper.passive");
             put(1, "productivebees.information.attribute.temper.normal");
             put(2, "productivebees.information.attribute.temper.aggressive");
             put(3, "productivebees.information.attribute.temper.hostile");
         }});
-        keyMap.put(BEHAVIOR, new HashMap<Integer, String>()
+        keyMap.put(BEHAVIOR, new HashMap<>()
         {{
             put(0, "productivebees.information.attribute.behavior.diurnal");
             put(1, "productivebees.information.attribute.behavior.nocturnal");
             put(2, "productivebees.information.attribute.behavior.metaturnal");
         }});
-        keyMap.put(WEATHER_TOLERANCE, new HashMap<Integer, String>()
+        keyMap.put(WEATHER_TOLERANCE, new HashMap<>()
         {{
             put(0, "productivebees.information.attribute.weather_tolerance.none");
             put(1, "productivebees.information.attribute.weather_tolerance.rain");
@@ -84,7 +83,7 @@ public class BeeAttributes
     }
 
     @Nullable
-    public static BeeAttribute<?> getAttributeByName(String name) {
+    public static BeeAttribute<Integer> getAttributeByName(String name) {
         return map.get(name);
     }
 }

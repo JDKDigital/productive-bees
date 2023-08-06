@@ -24,11 +24,15 @@ public class BeeIngredientHelper implements IIngredientHelper<BeeIngredient>
     @Nonnull
     @Override
     public String getDisplayName(BeeIngredient beeIngredient) {
+        String name = beeIngredient.getBeeEntity().getDescription().getString();
         CompoundTag nbt = BeeReloadListener.INSTANCE.getData(beeIngredient.getBeeType().toString());
         if (nbt != null) {
-            return Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(beeIngredient.getBeeType().toString()) + "_bee").toString();
+            name = Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(beeIngredient.getBeeType().toString()) + "_bee").toString();
+            if (!nbt.getString("group").isEmpty()) {
+                name = name + " (" + nbt.getString("group") + ")";
+            }
         }
-        return beeIngredient.getBeeEntity().getDescription().getString();
+        return name;
     }
 
     @Nonnull

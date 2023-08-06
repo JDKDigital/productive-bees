@@ -73,7 +73,7 @@ import java.util.stream.Stream;
 
 public class ProductiveBee extends Bee
 {
-    protected Map<BeeAttribute<?>, Object> beeAttributes = new HashMap<>();
+    protected Map<BeeAttribute<Integer>, Object> beeAttributes = new HashMap<>();
 
     protected Predicate<Holder<PoiType>> beehiveInterests = (poi) -> poi.is(PoiTypeTags.BEE_HOME);
 
@@ -86,7 +86,6 @@ public class ProductiveBee extends Bee
 
     public ProductiveBee(EntityType<? extends Bee> entityType, Level world) {
         super(entityType, world);
-        setAttributeValue(BeeAttributes.TYPE, "hive");
 
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
@@ -382,11 +381,14 @@ public class ProductiveBee extends Bee
         return "default";
     }
 
-    public <T> T getAttributeValue(BeeAttribute<T> parameter) {
-        return (T) this.beeAttributes.get(parameter);
+    public Integer getAttributeValue(BeeAttribute<Integer> parameter) {
+        if (this.beeAttributes.get(parameter) != null) {
+            return (Integer) this.beeAttributes.get(parameter);
+        }
+        return 0;
     }
 
-    public void setAttributeValue(BeeAttribute<?> parameter, Integer value) {
+    public void setAttributeValue(BeeAttribute<Integer> parameter, Integer value) {
         // Give health boost based on endurance
         if (parameter.equals(BeeAttributes.ENDURANCE)) {
             AttributeInstance healthMod = this.getAttribute(Attributes.MAX_HEALTH);
@@ -401,12 +403,18 @@ public class ProductiveBee extends Bee
         this.beeAttributes.put(parameter, value);
     }
 
-    public void setAttributeValue(BeeAttribute<?> parameter, Object value) {
-        this.beeAttributes.put(parameter, value);
+    public Map<BeeAttribute<Integer>, Object> getBeeAttributes() {
+        return beeAttributes;
     }
 
-    public Map<BeeAttribute<?>, Object> getBeeAttributes() {
-        return beeAttributes;
+    public void setDefaultAttributes() {
+        Random rand = new Random();
+        setAttributeValue(BeeAttributes.PRODUCTIVITY, rand.nextInt(3));
+        setAttributeValue(BeeAttributes.TEMPER, 1);
+        setAttributeValue(BeeAttributes.ENDURANCE, rand.nextInt(3));
+        setAttributeValue(BeeAttributes.BEHAVIOR, 0);
+        setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
+        setHealth(getMaxHealth());
     }
 
     public boolean canOperateDuringNight() {
@@ -461,7 +469,7 @@ public class ProductiveBee extends Bee
             tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
             tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
         }
-        tag.putString("bee_type", this.getAttributeValue(BeeAttributes.TYPE));
+        tag.putString("bee_type", this instanceof SolitaryBee ? "solitary" : "hive");
         tag.putFloat("MaxHealth", getMaxHealth());
         tag.putBoolean("HasConverted", hasConverted());
     }
@@ -479,15 +487,8 @@ public class ProductiveBee extends Bee
             setAttributeValue(BeeAttributes.TEMPER, tag.getInt("bee_temper"));
             setAttributeValue(BeeAttributes.BEHAVIOR, tag.getInt("bee_behavior"));
             setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, tag.getInt("bee_weather_tolerance"));
-            setAttributeValue(BeeAttributes.TYPE, tag.getString("bee_type"));
         } else {
-            Random rand = new Random();
-            setAttributeValue(BeeAttributes.PRODUCTIVITY, rand.nextInt(3));
-            setAttributeValue(BeeAttributes.TEMPER, 1);
-            setAttributeValue(BeeAttributes.ENDURANCE, rand.nextInt(3));
-            setAttributeValue(BeeAttributes.BEHAVIOR, 0);
-            setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
-            setHealth(getMaxHealth());
+            setDefaultAttributes();
         }
         setHasConverted(tag.contains("HasConverted") && tag.getBoolean("HasConverted"));
     }

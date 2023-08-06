@@ -104,7 +104,7 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
                 Entity bee = beeIngredient.getBeeEntity().create(level);
                 if (bee instanceof ConfigurableBee) {
                     ((ConfigurableBee) bee).setBeeType(beeIngredient.getBeeType().toString());
-                    ((ConfigurableBee) bee).setAttributes();
+                    ((ConfigurableBee) bee).setDefaultAttributes();
                 }
                 return bee;
             } else {

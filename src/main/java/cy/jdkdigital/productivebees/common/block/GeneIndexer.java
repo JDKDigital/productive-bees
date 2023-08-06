@@ -25,11 +25,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GeneIndexer extends CapabilityContainerBlock
 {
@@ -67,8 +69,7 @@ public class GeneIndexer extends CapabilityContainerBlock
         boolean flag = level.hasNeighborSignal(pos);
         level.setBlock(pos, state.setValue(BlockStateProperties.ENABLED, flag), Block.UPDATE_INVISIBLE);
 
-        BlockEntity tile = level.getBlockEntity(pos);
-        if (tile instanceof GeneIndexerBlockEntity geneIndexerBlockEntity) {
+        if (level.getBlockEntity(pos) instanceof GeneIndexerBlockEntity geneIndexerBlockEntity) {
             geneIndexerBlockEntity.setDirty();
         }
     }
@@ -76,9 +77,8 @@ public class GeneIndexer extends CapabilityContainerBlock
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide()) {
-            final BlockEntity tileEntity = level.getBlockEntity(pos);
-            if (tileEntity instanceof GeneIndexerBlockEntity) {
-                openGui((ServerPlayer) player, (GeneIndexerBlockEntity) tileEntity);
+            if (level.getBlockEntity(pos) instanceof GeneIndexerBlockEntity blockEntity) {
+                openGui((ServerPlayer) player, blockEntity);
             }
         }
         return InteractionResult.SUCCESS;
@@ -99,5 +99,27 @@ public class GeneIndexer extends CapabilityContainerBlock
 
     public void openGui(ServerPlayer player, GeneIndexerBlockEntity tileEntity) {
         NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+    }
+
+    @Override
+    public boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        AtomicInteger value = new AtomicInteger();
+        if (level.getBlockEntity(pos) instanceof GeneIndexerBlockEntity blockEntity) {
+            blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
+                int filledSlots = 0;
+                for (int i = 0; i < h.getSlots(); i++) {
+                    if (!h.getStackInSlot(i).isEmpty()) {
+                        filledSlots++;
+                    }
+                }
+                value.set((int) Math.floor(15 * ((float) filledSlots / h.getSlots())));
+            });
+        }
+        return value.get();
     }
 }

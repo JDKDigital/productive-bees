@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.FilterUpgradeItem;
 import cy.jdkdigital.productivebees.common.item.Gene;
@@ -147,7 +148,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                         } else {
                             newBee.setBeeType("productivebees:zombie");
                         }
-                        newBee.setAttributes();
+                        newBee.setDefaultAttributes();
                         newBee.hivePos = pos;
 
                         blockEntity.addOccupant(newBee, false);
@@ -193,7 +194,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                                     // insert into hive if space is available
                                     if (!blockEntity.isFull()) {
                                         Bee bee = BeeCage.getEntityFromStack(cageStack, level, true);
-                                        if (bee != null && blockEntity.acceptsBee(bee) && (!(bee instanceof ProductiveBee pBee) || pBee.getAttributeValue(BeeAttributes.TYPE).equals("hive"))) {
+                                        if (bee != null && blockEntity.acceptsBee(bee) && !(bee instanceof SolitaryBee)) {
                                             blockEntity.addOccupant(bee, bee.hasNectar());
                                             if (cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
                                                 invHelper.addOutput(new ItemStack(cageStack.getItem()));
@@ -260,7 +261,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 productiveBee.setHasConverted(false);
             } else {
                 getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-                    BeeHelper.getBeeProduce(level, beeEntity, getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) > 0).forEach((stackIn) -> {
+                    BeeHelper.getBeeProduce(level, beeEntity, (getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get())) > 0).forEach((stackIn) -> {
                         ItemStack stack = stackIn.copy();
                         if (!stack.isEmpty()) {
                             if (beeEntity instanceof ProductiveBee) {
@@ -329,10 +330,10 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             }
 
             // Produce genes
-            int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get());
+            int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get());
             if (samplerUpgrades > 0 && !beeEntity.isBaby() && beeEntity instanceof ProductiveBee && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
                 getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-                    Map<BeeAttribute<?>, Object> attributes = ((ProductiveBee) beeEntity).getBeeAttributes();
+                    Map<BeeAttribute<Integer>, Object> attributes = ((ProductiveBee) beeEntity).getBeeAttributes();
                     // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
                     int attr = level.random.nextInt(attributes.size() + 2);
                     if (attr >= BeeAttributes.attributeList().size()) {
@@ -340,7 +341,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                         String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType() : beeEntity.getEncodeId();
                         ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
                     } else {
-                        BeeAttribute<?> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
+                        BeeAttribute<Integer> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
                         Object value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
                         if (value instanceof Integer) {
                             ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(attribute, (Integer) value, 1, level.random.nextInt(4) + 1));

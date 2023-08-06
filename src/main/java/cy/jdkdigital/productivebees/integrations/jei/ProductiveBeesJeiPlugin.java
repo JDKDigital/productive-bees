@@ -218,14 +218,14 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             Block b = blockHolder.value();
             String id = ForgeRegistries.BLOCKS.getKey(b).getPath();
             Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
-            blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 7, 100}));
+            blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 1, 100}));
             chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "stone_chip_block_hive_" + id), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), blockItemOutput));
         });
         BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.LUMBER).forEach(blockHolder -> {
             Block b = blockHolder.value();
             String id = ForgeRegistries.BLOCKS.getKey(b).getPath();
             Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
-            blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 7, 100}));
+            blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 1, 100}));
             chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_block_hive_" + id), Lazy.of(() -> beeList.get("productivebees:lumber_bee")), blockItemOutput));
         });
         registration.addRecipes(ADVANCED_BEEHIVE_TYPE, chipHiveRecipes.stream().toList());

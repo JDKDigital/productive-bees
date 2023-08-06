@@ -197,7 +197,7 @@ public final class ProductiveBees
                 BlockPos pos = player.blockPosition();
                 if (bee != null) {
                     bee.setBeeType("productivebees:kamikaz");
-                    bee.setAttributes();
+                    bee.setDefaultAttributes();
                     bee.setTarget(attacker);
                     bee.moveTo(pos.getX(), pos.getY() + 0.5, pos.getZ(), bee.getYRot(), bee.getXRot());
 

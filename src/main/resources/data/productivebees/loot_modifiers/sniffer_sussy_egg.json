@@ -6,7 +6,7 @@
     }
   ],
   "type": "productivebees:ingredient_modifier",
-  "chance": 0.05,
+  "chance": 0.15,
   "addition": {
     "type": "forge:nbt",
     "item": "productivebees:spawn_egg_configurable_bee",

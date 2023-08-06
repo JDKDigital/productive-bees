@@ -181,21 +181,21 @@ public class CentrifugeRecipeProvider extends RecipeProvider {
         CentrifugeRecipeBuilder.configurable("desh")
                 .addOutput(new AbstractRecipeBuilder.ModItemOutput("#forge:raw_materials/desh", 30))
                 .withCondition(new NotCondition(new TagEmptyCondition("forge:raw_materials/desh")))
-                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "centrifuge/beyond_earth/honeycomb_desh"));
+                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "centrifuge/ad_astra/honeycomb_desh"));
 
         CentrifugeRecipeBuilder.configurable("ostrum")
                 .addOutput(new AbstractRecipeBuilder.ModItemOutput("#forge:raw_materials/ostrum", 30))
                 .withCondition(new NotCondition(new TagEmptyCondition("forge:raw_materials/ostrum")))
-                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "centrifuge/beyond_earth/honeycomb_ostrum"));
+                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "centrifuge/ad_astra/honeycomb_ostrum"));
 
         CentrifugeRecipeBuilder.configurable("calorite")
                 .addOutput(new AbstractRecipeBuilder.ModItemOutput("#forge:raw_materials/calorite", 30))
                 .withCondition(new NotCondition(new TagEmptyCondition("forge:raw_materials/calorite")))
-                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "centrifuge/beyond_earth/honeycomb_calorite"));
+                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "centrifuge/ad_astra/honeycomb_calorite"));
 
         CentrifugeRecipeBuilder.configurable("oily")
-                .setFluidOutput(new AbstractRecipeBuilder.FluidOutput("beyond_earth:oil"))
-                .withCondition(new ModLoadedCondition("beyond_earth"))
+                .setFluidOutput(new AbstractRecipeBuilder.FluidOutput("ad_astra:oil"))
+                .withCondition(new ModLoadedCondition("ad_astra"))
                 .save(consumer, new ResourceLocation(ProductiveBees.MODID, "centrifuge/fluid/honeycomb_oily"));
 
         // Blood Magic

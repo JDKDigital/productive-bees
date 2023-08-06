@@ -499,7 +499,7 @@
   "productivebees.information.health.dying": "Умирающая",
   "productivebees.information.hold_shift": "Держи shift для получения дополнительной информации.",
   "productivebees.information.home_position": "Позиция улья: %s, %s, %s",
-  "productivebees.information.breeding_item": "Выведено предметов: %s",
+  "productivebees.information.breeding_item": "Предмет для разведения: %s\"",
   "productivebees.information.breeding_item_default": "Любой цветок",
   "productivebees.information.selfbreed_disabled": "Эту разновидность пчелы нельзя развести между собой.",
   "productivebees.information.jar.bee": "Пчела: %s",

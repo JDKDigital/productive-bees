@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import net.minecraft.core.BlockPos;
@@ -43,9 +44,12 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
                 if (blockEntity.canRepopulate() && block instanceof SolitaryNest nest) {
                     Entity newBee = SolitaryNest.getNestingBeeType(nest, level, level.getBiome(pos), level.random);
                     if (newBee != null) {
-                        if (newBee instanceof Bee) {
-                            ((Bee) newBee).setHealth(((Bee) newBee).getMaxHealth());
-                            ((Bee) newBee).hivePos = pos;
+                        if (newBee instanceof Bee bee) {
+                            bee.setHealth(((Bee) newBee).getMaxHealth());
+                            bee.hivePos = pos;
+                        }
+                        if (newBee instanceof ProductiveBee pBee) {
+                            pBee.setDefaultAttributes();
                         }
                         Direction direction = state.getValue(BlockStateProperties.FACING);
                         spawnBeeInWorldAtPosition((ServerLevel) level, newBee, pos.relative(direction), direction, null);
@@ -100,6 +104,9 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
                 spawnCount++;
                 offspring.setAge(-24000);
                 offspring.moveTo(beeEntity.getX(), beeEntity.getY(), beeEntity.getZ(), 0.0F, 0.0F);
+                if (offspring instanceof ProductiveBee pBee) {
+                    pBee.setDefaultAttributes();
+                }
                 level.addFreshEntity(offspring);
             }
         }
