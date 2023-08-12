@@ -12,6 +12,10 @@
     },
     {
       "type": "productivebees:bee_exists",
+      "bee": "productivebees:coal"
+    },
+    {
+      "type": "productivebees:bee_exists",
       "bee": "productivebees:boron"
     }
   ]

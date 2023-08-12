@@ -56,6 +56,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
@@ -421,7 +422,7 @@ public class EventHandler
     }
 
     @SubscribeEvent
-    public void registerCaps(RegisterCapabilitiesEvent event) {
+    public static void registerCaps(RegisterCapabilitiesEvent event) {
         event.register(IInhabitantStorage.class);
     }
 
@@ -439,6 +440,13 @@ public class EventHandler
             if (bee.tickCount % (360 * 17) == 0) {
                 iter.remove();
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntitySpawn(EntityJoinLevelEvent event) {
+        if (!event.loadedFromDisk() && event.getLevel() instanceof ServerLevel && event.getEntity() instanceof ProductiveBee entity) {
+            entity.setDefaultAttributes();
         }
     }
 }

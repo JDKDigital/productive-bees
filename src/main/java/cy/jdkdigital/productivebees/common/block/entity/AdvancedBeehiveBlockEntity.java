@@ -342,10 +342,8 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                         ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
                     } else {
                         BeeAttribute<Integer> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
-                        Object value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
-                        if (value instanceof Integer) {
-                            ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(attribute, (Integer) value, 1, level.random.nextInt(4) + 1));
-                        }
+                        Integer value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
+                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(attribute, value, 1, level.random.nextInt(4) + 1));
                     }
                 });
             }

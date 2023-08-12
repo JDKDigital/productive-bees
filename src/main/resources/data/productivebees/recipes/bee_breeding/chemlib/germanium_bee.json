@@ -8,6 +8,10 @@
   "conditions": [
     {
       "type": "productivebees:bee_exists",
+      "bee": "productivebees:copper"
+    },
+    {
+      "type": "productivebees:bee_exists",
       "bee": "productivebees:zinc"
     },
     {

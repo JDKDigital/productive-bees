@@ -28,7 +28,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
     private int tickCounter = 0;
     private int meltCounter = 0;
 
-    private static final Map<Integer, PathfinderMob> cachedEntities = new HashMap<>();
+    private static final Map<Integer, Entity> cachedEntities = new HashMap<>();
 
     public CompoundTag entityTag = null;
 
@@ -36,11 +36,11 @@ public class AmberBlockEntity extends AbstractBlockEntity
         super(ModBlockEntityTypes.AMBER.get(), pos, state);
     }
 
-    public PathfinderMob getCachedEntity() {
+    public Entity getCachedEntity() {
         if (entityTag != null) {
             int key = entityTag.hashCode();
             if (!cachedEntities.containsKey(key)) {
-                PathfinderMob cachedEntity = createEntity(level, entityTag);
+                Entity cachedEntity = createEntity(level, entityTag);
                 cachedEntities.put(key, cachedEntity);
             }
             return cachedEntities.getOrDefault(key, null);
@@ -49,15 +49,15 @@ public class AmberBlockEntity extends AbstractBlockEntity
     }
 
     @Nullable
-    public static PathfinderMob createEntity(Level world, CompoundTag tag) {
+    public static Entity createEntity(Level world, CompoundTag tag) {
         if (tag != null) {
             EntityType<?> type = EntityType.byString(tag.getString("entityType")).orElse(null);
             if (type != null) {
                 try {
                     Entity loadedEntity = type.create(world);
-                    if (loadedEntity instanceof PathfinderMob pathfinderMob) {
+                    if (loadedEntity != null) {
                         loadedEntity.load(tag);
-                        return pathfinderMob;
+                        return loadedEntity;
                     }
                 } catch (Exception e) {
                     return null;
@@ -107,13 +107,13 @@ public class AmberBlockEntity extends AbstractBlockEntity
 
             int meltingTime = below.is(Blocks.SOUL_CAMPFIRE) ? 400 : 800;
             if (amberBlockEntity.meltCounter > meltingTime) {
-                PathfinderMob mob = AmberBlockEntity.createEntity(level, amberBlockEntity.entityTag);
+                Entity mob = AmberBlockEntity.createEntity(level, amberBlockEntity.entityTag);
                 if (mob != null) {
                     mob.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 
                     List<Player> players = level.getEntitiesOfClass(Player.class, (new AABB(blockPos).inflate(10.0D, 5.0D, 10.0D)));
-                    if (players.size() > 0) {
-                        mob.setLastHurtByMob(players.iterator().next());
+                    if (players.size() > 0 && mob instanceof PathfinderMob pathfinderMob) {
+                        pathfinderMob.setLastHurtByMob(players.iterator().next());
                     }
                     // release entity
                     level.addFreshEntity(mob);

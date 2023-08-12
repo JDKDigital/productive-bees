@@ -1,0 +1,24 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:water",
+  "results": [
+    {
+      "item": {
+        "item": "minecraft:pufferfish"
+      },
+      "chance": 5
+    },
+    {
+      "item": {
+        "item": "minecraft:kelp"
+      },
+      "chance": 15
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:water"
+    }
+  ]
+}

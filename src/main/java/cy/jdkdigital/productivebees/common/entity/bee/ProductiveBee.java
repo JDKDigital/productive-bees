@@ -462,13 +462,12 @@ public class ProductiveBee extends Bee
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
 
-        if (this.getAttributeValue(BeeAttributes.PRODUCTIVITY) != null) {
-            tag.putInt("bee_productivity", this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
-            tag.putInt("bee_endurance", this.getAttributeValue(BeeAttributes.ENDURANCE));
-            tag.putInt("bee_temper", this.getAttributeValue(BeeAttributes.TEMPER));
-            tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
-            tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
-        }
+        tag.putInt("bee_productivity", this.getAttributeValue(BeeAttributes.PRODUCTIVITY));
+        tag.putInt("bee_endurance", this.getAttributeValue(BeeAttributes.ENDURANCE));
+        tag.putInt("bee_temper", this.getAttributeValue(BeeAttributes.TEMPER));
+        tag.putInt("bee_behavior", this.getAttributeValue(BeeAttributes.BEHAVIOR));
+        tag.putInt("bee_weather_tolerance", this.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE));
+
         tag.putString("bee_type", this instanceof SolitaryBee ? "solitary" : "hive");
         tag.putFloat("MaxHealth", getMaxHealth());
         tag.putBoolean("HasConverted", hasConverted());
@@ -783,7 +782,7 @@ public class ProductiveBee extends Bee
                 if (nbt != null) {
                     if (nbt.contains("flowerTag")) {
                         var flowerTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
-                        return findEntities(entity -> entity instanceof PathfinderMob && nbt.getBoolean("inverseFlower") != entity.getType().is(flowerTag), 5D);
+                        return findEntities(entity -> entity instanceof Mob && nbt.getBoolean("inverseFlower") != entity.getType().is(flowerTag), 5D);
                     }
                 }
             }
@@ -816,9 +815,11 @@ public class ProductiveBee extends Bee
 
             List<Entity> entities = level().getEntities(ProductiveBee.this, (new AABB(blockpos).inflate(distance, distance, distance)), predicate);
             if (entities.size() > 0) {
-                PathfinderMob entity = (PathfinderMob) entities.get(0);
-                entity.getNavigation().setSpeedModifier(0);
-                blockpos$mutable.set(entity.getX(), entity.getY(), entity.getZ());
+                Entity target = entities.get(0);
+                if (target instanceof PathfinderMob pathfinderMob) {
+                    pathfinderMob.getNavigation().setSpeedModifier(0);
+                }
+                blockpos$mutable.set(target.getX(), target.getY(), target.getZ());
                 return Optional.of(blockpos$mutable);
             }
 

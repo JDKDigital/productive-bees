@@ -12,6 +12,10 @@
     },
     {
       "type": "productivebees:bee_exists",
+      "bee": "productivebees:prismarine"
+    },
+    {
+      "type": "productivebees:bee_exists",
       "bee": "productivebees:cadmium"
     }
   ]

@@ -38,7 +38,7 @@ public class ItemLootModifier extends LootModifier
     @Nonnull
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        if (context.getRandom().nextFloat() < chance) {
+        if (context.getRandom().nextFloat() <= chance) {
             generatedLoot.add(new ItemStack(addition, 1));
         }
         return generatedLoot;

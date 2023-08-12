@@ -358,7 +358,7 @@ public class BeeHelper
             }
         } else if (beeId.equals("productivebees:wanna")) {
             if (flowerPos != null && level instanceof ServerLevel serverLevel) {
-                PathfinderMob entity = null;
+                Entity entity = null;
                 var blockEntity = level.getBlockEntity(flowerPos);
                 if (blockEntity instanceof AmberBlockEntity amberBlockEntity) {
                     entity = amberBlockEntity.getCachedEntity();
@@ -370,8 +370,8 @@ public class BeeHelper
                     }
                 }
 
-                if (entity != null) {
-                    LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(entity.getLootTable());
+                if (entity instanceof PathfinderMob pathfinderMob) {
+                    LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(pathfinderMob.getLootTable());
                     if (!lootTable.equals(LootTable.EMPTY)) {
                         Player fakePlayer = FakePlayerFactory.get(serverLevel, new GameProfile(ModEntities.WANNA_BEE_UUID, "wanna_bee"));
                         LootParams.Builder lootContextBuilder = new LootParams.Builder(serverLevel);
@@ -383,8 +383,9 @@ public class BeeHelper
                         lootContextBuilder.withParameter(LootContextParams.ORIGIN, new Vec3(flowerPos.getX(), flowerPos.getY(), flowerPos.getZ()));
 
                         List<ItemStack> list = lootTable.getRandomItems(lootContextBuilder.create(LootContextParamSets.ENTITY)).stream().filter(itemStack -> !itemStack.is(ModTags.WANNABEE_LOOT_BLACKLIST)).toList();
-
-                        outputList.add(list.get(level.random.nextInt(list.size())));
+                        if (list.size() > 0) {
+                            outputList.add(list.get(level.random.nextInt(list.size())));
+                        }
                     }
                 }
             }

@@ -19,12 +19,6 @@
         "item": "minecraft:tropical_fish"
       },
       "chance": 10
-    },
-    {
-      "item": {
-        "item": "minecraft:pufferfish"
-      },
-      "chance": 5
     }
   ],
   "conditions": [

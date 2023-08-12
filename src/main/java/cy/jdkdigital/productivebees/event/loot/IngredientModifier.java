@@ -49,22 +49,30 @@ public class IngredientModifier extends LootModifier
                     codecStart(inst)
                             .and(INGREDIENT.fieldOf("addition").forGetter(m -> m.addition))
                             .and(Codec.FLOAT.fieldOf("chance").forGetter(m -> m.chance))
+                            .and(Codec.BOOL.fieldOf("replace").orElse(false).forGetter(m -> m.replace))
                             .apply(inst, IngredientModifier::new)));
 
     private final Ingredient addition;
     private final float chance;
+    private final boolean replace;
 
-    protected IngredientModifier(LootItemCondition[] conditionsIn, Ingredient addition, float chance) {
+    protected IngredientModifier(LootItemCondition[] conditionsIn, Ingredient addition, float chance, boolean replace) {
         super(conditionsIn);
         this.addition = addition;
         this.chance = chance;
+        this.replace = replace;
     }
 
     @Nonnull
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        if (context.getRandom().nextFloat() < chance) {
-            generatedLoot.addAll(Arrays.asList(addition.getItems()));
+        if (context.getRandom().nextFloat() <= chance) {
+            if (replace && generatedLoot.size() > 0) {
+                generatedLoot.remove(0);
+            }
+            Arrays.stream(addition.getItems()).forEach(itemStack -> {
+                generatedLoot.add(itemStack.copy());
+            });
         }
         return generatedLoot;
     }

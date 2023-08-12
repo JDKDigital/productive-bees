@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.util;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextColor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,14 @@ public class ColorUtil
 {
     // Color calc cache
     private static final Map<Integer, float[]> colorCache = new HashMap<>();
+    private static final Map<String, Integer> stringColorCache = new HashMap<>();
+
+    public static Integer getCacheColor(String color) {
+        if (!stringColorCache.containsKey(color)) {
+            stringColorCache.put(color, TextColor.parseColor(color).getValue());
+        }
+        return stringColorCache.get(color);
+    }
 
     public static float[] getCacheColor(int color) {
         if (!colorCache.containsKey(color)) {

@@ -1,3 +1,8 @@
+1.20.1-12.1.5
+
+- Fixed some recipes causing connection issues on servers
+
+
 1.20.1-12.1.4
 
 - Added EnderIO bees
@@ -5,9 +10,12 @@
 - Added 99 ChemLib bees. Big thanks to Lego for the work
 - Added water bee
 - Improved bee searching in JEI. You can now search for "@prod modname" to only see bees for a certain mod.
-- Fixed bees loosing health when exiting hive
+- Fixed bees losing health when exiting hive
 - Added some documentation to amber bees
 - Fixed some advancements
+- Fixed crash when using WannaBee on encased Wither
+- Fixed awakened supremium bee recipe
+- Enabled self breeding for some of the Powah bees
 
 
 1.20.1-12.1.3

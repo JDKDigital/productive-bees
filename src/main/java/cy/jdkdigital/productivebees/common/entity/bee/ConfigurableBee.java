@@ -373,8 +373,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     TagKey<EntityType<?>> entityTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
 
                     List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), (entity -> nbt.getBoolean("inverseFlower") != entity.getType().is(entityTag)));
-                    if (!entities.isEmpty()) {
-                        target = (PathfinderMob) entities.get(0);
+                    if (!entities.isEmpty() && entities.get(0) instanceof PathfinderMob mob) {
+                        target = mob;
 
                         target.addEffect(new MobEffectInstance(MobEffects.LUCK, 400));
 

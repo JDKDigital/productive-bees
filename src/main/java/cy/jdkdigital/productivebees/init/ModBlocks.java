@@ -180,7 +180,7 @@ public final class ModBlocks
             put("nightshade", new HiveType(false, "#d6781c", "umbran", new FakeIngredient("byg:nightshade_planks")));
             put("palm", new HiveType(false, "#a89b7a", "palm", new FakeIngredient("byg:palm_planks")));
             put("pine", new HiveType(false, "#c5b99a", "dark_oak", new FakeIngredient("byg:pine_planks")));
-            put("rainbow_eucalyptus", new HiveType(new FakeIngredient("byg:rainbow_eucalyptus_planks")));
+//            put("rainbow_eucalyptus", new HiveType(new FakeIngredient("byg:rainbow_eucalyptus_planks"))); TODO
             put("redwood", new HiveType(false, "#9c4141", "redwood", new FakeIngredient("byg:redwood_planks")));
             put("skyris", new HiveType(false, "#95bccb", "kousa", new FakeIngredient("byg:skyris_planks")));
             put("sythian", new HiveType(false, "#ccb251", "oak", new FakeIngredient("byg:sythian_planks")));

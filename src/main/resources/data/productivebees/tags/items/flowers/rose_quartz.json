@@ -8,6 +8,10 @@
     {
       "id": "silentgems:rose_quartz_glowrose",
       "required": false
+    },
+    {
+      "id": "create:rose_quartz_block",
+      "required": false
     }
   ]
 }

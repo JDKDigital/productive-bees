@@ -9,7 +9,7 @@
         "item": "productivebees:spawn_egg_configurable_bee",
         "nbt": {
           "EntityTag": {
-            "type": "productivebees:c"
+            "type": "productivebees:iron"
           }
         }
       }

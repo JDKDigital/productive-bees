@@ -12,6 +12,7 @@ import cy.jdkdigital.productivebees.event.loot.ItemLootModifier;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
+import cy.jdkdigital.productivebees.loot.LootItemKilledByUUIDCondition;
 import cy.jdkdigital.productivebees.loot.OptionalLootItem;
 import cy.jdkdigital.productivebees.loot.condition.OptionalCopyBlockState;
 import cy.jdkdigital.productivebees.network.PacketHandler;
@@ -69,13 +70,13 @@ public final class ProductiveBees
 {
     public static final String MODID = "productivebees";
     public static final RandomSource random = RandomSource.create();
-    public static boolean isDevEnv = false;
+    public static boolean isDevEnv = true;
 
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static final DeferredRegister<LootPoolEntryType> LOOT_POOL_ENTRIES = DeferredRegister.create(Registries.LOOT_POOL_ENTRY_TYPE, MODID);
-    public static final DeferredRegister<LootItemConditionType> LOOT_POOL_CONDITIONS = DeferredRegister.create(Registries.LOOT_CONDITION_TYPE, MODID);
     public static final DeferredRegister<LootItemFunctionType> LOOT_POOL_FUNCTIONS = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, MODID);
+    public static final DeferredRegister<LootItemConditionType> LOOT_POOL_CONDITIONS = DeferredRegister.create(Registries.LOOT_CONDITION_TYPE, MODID);
     public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> LOOT_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, ProductiveBees.MODID);
 
     public static final RegistryObject<Codec<ItemLootModifier>> ITEM_MODIFIER = LOOT_SERIALIZERS.register("item_modifier", ItemLootModifier.CODEC);
@@ -83,6 +84,7 @@ public final class ProductiveBees
 
     public static final RegistryObject<LootPoolEntryType> OPTIONAL_LOOT_ITEM = LOOT_POOL_ENTRIES.register("optional_loot_item", () -> new LootPoolEntryType(new OptionalLootItem.Serializer()));
     public static final RegistryObject<LootItemFunctionType> OPTIONAL_BLOCK_STATE_PROPERTY = LOOT_POOL_FUNCTIONS.register("optional_copy_block_state", () -> new LootItemFunctionType(new OptionalCopyBlockState.Serializer()));
+    public static final RegistryObject<LootItemConditionType> KILLED_BY_UUID = LOOT_POOL_CONDITIONS.register("killed_by_uuid", () -> new LootItemConditionType(new LootItemKilledByUUIDCondition.Serializer()));
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
@@ -126,6 +128,7 @@ public final class ProductiveBees
         LOOT_SERIALIZERS.register(modEventBus);
         LOOT_POOL_ENTRIES.register(modEventBus);
         LOOT_POOL_FUNCTIONS.register(modEventBus);
+        LOOT_POOL_CONDITIONS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
         modEventBus.addListener(this::onInterModEnqueue);

@@ -20,6 +20,7 @@ import cy.jdkdigital.productivebees.common.item.SpawnEgg;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.network.chat.TextColor;
@@ -120,8 +121,7 @@ public class ClientSetupEvents
                 strings.forEach((name, type) -> {
                     if (!type.hasTexture()) {
                         name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
-                        TextColor primary = TextColor.parseColor(type.primary());
-                        event.register((blockState, lightReader, pos, tintIndex) -> tintIndex == 0 && primary != null ? primary.getValue() : -1, ModBlocks.HIVES.get("advanced_" + name + "_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + name).get());
+                        event.register((blockState, lightReader, pos, tintIndex) -> tintIndex == 0 && type.primary() != null ? ColorUtil.getCacheColor(type.primary()) : -1, ModBlocks.HIVES.get("advanced_" + name + "_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + name).get());
                     }
                 });
             }

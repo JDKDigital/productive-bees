@@ -22,6 +22,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -93,13 +94,17 @@ public class BlockstateProvider implements DataProvider
                     name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
                     if (!completedTypes.contains(name)) {
                         completedTypes.add(name);
-                        generateModels(name, type);
+                        Block hive = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(ProductiveBees.MODID, "advanced_" + name + "_beehive"));
+                        Block box = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(ProductiveBees.MODID, "expansion_box_" + name));
+                        generateModels(hive, box, name, type, blockstates, modelOutput);
                     }
                 });
             }
         });
         ModBlocks.hiveStyles.forEach(style ->  {
-            generateModels(style + "_canvas", new HiveType(false, "", style, Ingredient.of(Items.OAK_PLANKS)));
+            Block hive = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(ProductiveBees.MODID, "advanced_" + style + "_canvas_beehive"));
+            Block box = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(ProductiveBees.MODID, "expansion_box_" + style + "_canvas"));
+            generateModels(hive, box, style + "_canvas", new HiveType(false, "", style, Ingredient.of(Items.OAK_PLANKS)), blockstates, modelOutput);
         });
         for (DyeColor color: DyeColor.values()) {
             generateHoneyModels(color);
@@ -107,10 +112,8 @@ public class BlockstateProvider implements DataProvider
     }
 
 
-    private void generateModels(String name, HiveType type) {
-        Block baseHive = ModBlocks.HIVES.get("advanced_oak_beehive").get();
-        Block baseBox = ModBlocks.EXPANSIONS.get("expansion_box_oak").get();
-
+    public static void generateModels(Block hive, Block box, String name, HiveType type, Map<ResourceLocation, BlockStateGenerator> blockstates, BiConsumer<ResourceLocation, Supplier<JsonElement>> modelOutput) {
+        String modId = ForgeRegistries.BLOCKS.getKey(hive).getNamespace();
         var hiveTemplate = getHiveModelTemplate();
         var expansionTemplate = getExpansionModelTemplate();
 
@@ -129,21 +132,21 @@ public class BlockstateProvider implements DataProvider
         var textureMapBackHoney = type.hasTexture() ? getHiveTextureMap(VerticalHive.BACK, name, true) : new TextureMapping();
 
         String hiveModelBase = "block/hives/advanced_" + name + "_beehive";
-        var singleModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase), textureMap, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/small");
-        var upModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_up"), textureMapUp, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/up");
-        var downModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_down"), textureMapDown, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/down");
-        var leftModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_left"), textureMapLeft, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/left");
-        var rightModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_right"), textureMapRight, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/right");
-        var backModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_back"), textureMapBack, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/back");
-        var singleModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_honey"), textureMapHoney, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/small_honey");
-        var upModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_up_honey"), textureMapUpHoney, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/up_honey");
-        var downModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_down_honey"), textureMapDownHoney, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/down_honey");
-        var leftModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_left_honey"), textureMapLeftHoney, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/left_honey");
-        var rightModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_right_honey"), textureMapRightHoney, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/right_honey");
-        var backModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_back_honey"), textureMapBackHoney, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/back_honey");
+        var singleModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase), textureMap, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/small");
+        var upModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_up"), textureMapUp, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/up");
+        var downModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_down"), textureMapDown, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/down");
+        var leftModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_left"), textureMapLeft, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/left");
+        var rightModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_right"), textureMapRight, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/right");
+        var backModel = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_back"), textureMapBack, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/back");
+        var singleModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_honey"), textureMapHoney, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/small_honey");
+        var upModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_up_honey"), textureMapUpHoney, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/up_honey");
+        var downModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_down_honey"), textureMapDownHoney, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/down_honey");
+        var leftModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_left_honey"), textureMapLeftHoney, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/left_honey");
+        var rightModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_right_honey"), textureMapRightHoney, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/right_honey");
+        var backModelHoney = type.hasTexture() ? hiveTemplate.create(new ResourceLocation(ProductiveBees.MODID, hiveModelBase + "_back_honey"), textureMapBackHoney, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/back_honey");
 
-        this.blockstates.put(new ResourceLocation(ProductiveBees.MODID, "advanced_" + name + "_beehive"),
-                MultiVariantGenerator.multiVariant(baseHive)
+        blockstates.put(new ResourceLocation(modId, "advanced_" + name + "_beehive"),
+                MultiVariantGenerator.multiVariant(hive)
                         .with(
                                 PropertyDispatch.property(BlockStateProperties.HORIZONTAL_FACING).select(Direction.EAST, Variant.variant().with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)).select(Direction.SOUTH, Variant.variant().with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)).select(Direction.WEST, Variant.variant().with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)).select(Direction.NORTH, Variant.variant())
                         )
@@ -159,7 +162,7 @@ public class BlockstateProvider implements DataProvider
                         )
         );
         // Item model
-        getItemTemplate(type.hasTexture() ? hiveModelBase : "block/tinted_hive/" + type.style() + "/small").create(new ResourceLocation(ProductiveBees.MODID, "item/advanced_" + name + "_beehive"), new TextureMapping(), this.modelOutput);
+        getItemTemplate(type.hasTexture() ? new ResourceLocation(modId, hiveModelBase) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_hive/" + type.style() + "/small")).create(new ResourceLocation(modId, "item/advanced_" + name + "_beehive"), new TextureMapping(), modelOutput);
 
         // Expansion box
         var expansionTextureMap = type.hasTexture() ? getExpansionTextureMap(VerticalHive.NONE, name) : new TextureMapping();
@@ -170,15 +173,15 @@ public class BlockstateProvider implements DataProvider
         var expansionTextureMapBack = type.hasTexture() ? getExpansionTextureMap(VerticalHive.BACK, name) : new TextureMapping();
 
         String boxModelBase = "block/expansion_boxes/expansion_box_" + name;
-        var expansionSingleModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase), expansionTextureMap, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/small");
-        var expansionUpModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase + "_up"), expansionTextureMapUp, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/up");;
-        var expansionDownModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase + "_down"), expansionTextureMapDown, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/down");;
-        var expansionLeftModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase + "_left"), expansionTextureMapLeft, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/left");;
-        var expansionRightModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase + "_right"), expansionTextureMapRight, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/right");;
-        var expansionBackModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase + "_back"), expansionTextureMapBack, this.modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/back");;
+        var expansionSingleModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase), expansionTextureMap, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/small");
+        var expansionUpModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase + "_up"), expansionTextureMapUp, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/up");;
+        var expansionDownModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase + "_down"), expansionTextureMapDown, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/down");;
+        var expansionLeftModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase + "_left"), expansionTextureMapLeft, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/left");;
+        var expansionRightModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase + "_right"), expansionTextureMapRight, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/right");;
+        var expansionBackModel = type.hasTexture() ? expansionTemplate.create(new ResourceLocation(ProductiveBees.MODID, boxModelBase + "_back"), expansionTextureMapBack, modelOutput) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/back");;
 
-        this.blockstates.put(new ResourceLocation(ProductiveBees.MODID, "expansion_box_" + name),
-                MultiVariantGenerator.multiVariant(baseBox)
+        blockstates.put(new ResourceLocation(modId, "expansion_box_" + name),
+                MultiVariantGenerator.multiVariant(box)
                         .with(
                                 PropertyDispatch.property(BlockStateProperties.HORIZONTAL_FACING).select(Direction.EAST, Variant.variant().with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)).select(Direction.SOUTH, Variant.variant().with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)).select(Direction.WEST, Variant.variant().with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)).select(Direction.NORTH, Variant.variant())
                         )
@@ -195,7 +198,7 @@ public class BlockstateProvider implements DataProvider
         );
 
         // Item model
-        getItemTemplate(type.hasTexture() ? boxModelBase : "block/tinted_expansion_box/" + type.style() + "/small").create(new ResourceLocation(ProductiveBees.MODID, "item/expansion_box_" + name), new TextureMapping(), this.modelOutput);
+        getItemTemplate(type.hasTexture() ? new ResourceLocation(modId, boxModelBase) : new ResourceLocation(ProductiveBees.MODID, "block/tinted_expansion_box/" + type.style() + "/small")).create(new ResourceLocation(modId, "item/expansion_box_" + name), new TextureMapping(), modelOutput);
     }
 
     private void generateHoneyModels(DyeColor color) {
@@ -212,10 +215,10 @@ public class BlockstateProvider implements DataProvider
 
         this.blockstates.put(id, createSimpleBlock(honey, modelLocation));
 
-        getItemTemplate(modelLocation.getPath()).create(new ResourceLocation(ProductiveBees.MODID, "item/" + id.getPath()), new TextureMapping(), this.modelOutput);
+        getItemTemplate(modelLocation).create(new ResourceLocation(ProductiveBees.MODID, "item/" + id.getPath()), new TextureMapping(), this.modelOutput);
     }
 
-    private TextureMapping getHiveTextureMap(VerticalHive expand, String type, boolean hasHoney) {
+    public static TextureMapping getHiveTextureMap(VerticalHive expand, String type, boolean hasHoney) {
         var front = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + type + "_beehive_front" + (hasHoney ? "_honey" : ""));
         var back = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + type + "_beehive_side");
         var right = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + type + "_beehive_side");
@@ -253,7 +256,7 @@ public class BlockstateProvider implements DataProvider
                 .copySlot(TextureSlot.EAST, TextureSlot.PARTICLE);
     }
 
-    private TextureMapping getExpansionTextureMap(VerticalHive expand, String type) {
+    public static TextureMapping getExpansionTextureMap(VerticalHive expand, String type) {
         var front = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + type + "_beehive_side");
         var back = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + type + "_beehive_side");
         var left = new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive/" + type + "_beehive_side");
@@ -299,23 +302,23 @@ public class BlockstateProvider implements DataProvider
                 .copySlot(TextureSlot.UP, TextureSlot.PARTICLE);
     }
 
-    private ModelTemplate getHiveModelTemplate() {
+    public static ModelTemplate getHiveModelTemplate() {
         return new ModelTemplate(Optional.of(new ResourceLocation(ProductiveBees.MODID, "block/advanced_beehive_template")), Optional.empty(), TextureSlot.TOP, TextureSlot.BOTTOM, TextureSlot.EAST, TextureSlot.WEST, TextureSlot.FRONT, TextureSlot.BACK);
     }
 
-    private ModelTemplate getExpansionModelTemplate() {
+    public static ModelTemplate getExpansionModelTemplate() {
         return new ModelTemplate(Optional.of(new ResourceLocation(ProductiveBees.MODID, "block/expansion_box_template")), Optional.empty(), TextureSlot.TOP, TextureSlot.BOTTOM, TextureSlot.EAST, TextureSlot.WEST, TextureSlot.FRONT, TextureSlot.BACK);
     }
 
-    private ModelTemplate getHoneyBlockModelTemplate() {
+    public static ModelTemplate getHoneyBlockModelTemplate() {
         return new ModelTemplate(Optional.of(new ResourceLocation("block/honey_block")), Optional.empty(), TextureSlot.DOWN, TextureSlot.UP, TextureSlot.SIDE, TextureSlot.PARTICLE);
     }
 
-    private ModelTemplate getItemTemplate(String parent) {
-        return new ModelTemplate(Optional.of(new ResourceLocation(ProductiveBees.MODID, parent)), Optional.empty());
+    public static ModelTemplate getItemTemplate(ResourceLocation parent) {
+        return new ModelTemplate(Optional.of(parent), Optional.empty());
     }
 
-    static MultiVariantGenerator createSimpleBlock(Block block, ResourceLocation id) {
+    public static MultiVariantGenerator createSimpleBlock(Block block, ResourceLocation id) {
         return MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, id));
     }
 }

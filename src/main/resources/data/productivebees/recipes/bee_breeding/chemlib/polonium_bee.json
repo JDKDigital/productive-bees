@@ -8,6 +8,10 @@
   "conditions": [
     {
       "type": "productivebees:bee_exists",
+      "bee": "productivebees:thorium"
+    },
+    {
+      "type": "productivebees:bee_exists",
       "bee": "productivebees:radioactive"
     },
     {

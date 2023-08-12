@@ -8,6 +8,7 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -15,13 +16,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import net.minecraftforge.registries.ForgeRegistries;
 import ovh.corail.woodcutter.registry.ModRecipeSerializers;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
-public class HiveRecipeProvider extends RecipeProvider implements IConditionBuilder
+public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider implements IConditionBuilder
 {
-    public HiveRecipeProvider(PackOutput gen) {
+    public RecipeProvider(PackOutput gen) {
         super(gen);
     }
 
@@ -41,6 +44,15 @@ public class HiveRecipeProvider extends RecipeProvider implements IConditionBuil
         ModBlocks.hiveStyles.forEach(style -> {
             buildCanvasStonecutterRecipes(style, consumer);
             buildCanvasCorailWoodcutterRecipes(style, consumer);
+        });
+
+        Arrays.stream(DyeColor.values()).forEach(dyeColor -> {
+            Block h = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(ProductiveBees.MODID, dyeColor.getSerializedName() + "_petrified_honey"));
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, h)
+                .requires(ModBlocks.PETRIFIED_HONEY.get())
+                .requires(dyeColor.getTag())
+                .unlockedBy("has_honey", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.PETRIFIED_HONEY.get()))
+                .save(consumer, new ResourceLocation(ProductiveBees.MODID, "petrified_honey/" + dyeColor.getSerializedName()));
         });
     }
 

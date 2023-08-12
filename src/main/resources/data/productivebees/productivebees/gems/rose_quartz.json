@@ -11,13 +11,6 @@
       "type": "forge:not",
       "value": {
         "type": "forge:tag_empty",
-        "tag": "forge:gems/rose_quartz"
-      }
-    },
-    {
-      "type": "forge:not",
-      "value": {
-        "type": "forge:tag_empty",
         "tag": "productivebees:flowers/rose_quartz"
       }
     }

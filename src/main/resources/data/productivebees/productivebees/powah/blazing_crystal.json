@@ -2,7 +2,6 @@
   "primaryColor": "#f2c735",
   "secondaryColor": "#c9a324",
   "flowerBlock": "powah:blazing_crystal_block",
-  "selfbreed": false,
   "conditions": [
     {
       "type": "forge:mod_loaded",

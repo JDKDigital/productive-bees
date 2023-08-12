@@ -8,6 +8,14 @@
   "conditions": [
     {
       "type": "productivebees:bee_exists",
+      "bee": "productivebees:skeletal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sugarbag"
+    },
+    {
+      "type": "productivebees:bee_exists",
       "bee": "productivebees:manganese"
     }
   ]

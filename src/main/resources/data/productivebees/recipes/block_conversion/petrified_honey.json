@@ -1,0 +1,17 @@
+{
+  "type": "productivebees:block_conversion",
+  "bee": "productivebees:amber",
+  "from": {
+    "Name": "minecraft:honey_block"
+  },
+  "to": {
+    "Name": "productivebees:petrified_honey"
+  },
+  "chance": 100,
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:amber"
+    }
+  ]
+}
