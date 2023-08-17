@@ -407,14 +407,20 @@ public class ProductiveBee extends Bee
         return beeAttributes;
     }
 
+    public boolean hasBeeAttributes() {
+        return beeAttributes.containsKey(BeeAttributes.PRODUCTIVITY);
+    }
+
     public void setDefaultAttributes() {
-        Random rand = new Random();
-        setAttributeValue(BeeAttributes.PRODUCTIVITY, rand.nextInt(3));
-        setAttributeValue(BeeAttributes.TEMPER, 1);
-        setAttributeValue(BeeAttributes.ENDURANCE, rand.nextInt(3));
-        setAttributeValue(BeeAttributes.BEHAVIOR, 0);
-        setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
-        setHealth(getMaxHealth());
+        if (!hasBeeAttributes()) {
+            Random rand = new Random();
+            setAttributeValue(BeeAttributes.PRODUCTIVITY, rand.nextInt(3));
+            setAttributeValue(BeeAttributes.TEMPER, 1);
+            setAttributeValue(BeeAttributes.ENDURANCE, rand.nextInt(3));
+            setAttributeValue(BeeAttributes.BEHAVIOR, 0);
+            setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, 0);
+            setHealth(getMaxHealth());
+        }
     }
 
     public boolean canOperateDuringNight() {

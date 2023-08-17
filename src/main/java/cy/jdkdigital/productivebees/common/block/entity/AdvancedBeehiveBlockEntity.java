@@ -269,8 +269,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                                 if (productivity > 0) {
                                     if(stack.getCount() == 1) {
                                         stack.grow(productivity);
-                                    }
-                                    else {
+                                    } else {
                                         float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
                                         stack.grow(Math.round(modifier));
                                     }

@@ -1,3 +1,9 @@
+1.20.1-12.1.6
+
+- Fixed bee attributes getting scrambled when placing a bee from a cage
+- Fixed powered and heated centrifuge not consuming extra power when having speed upgrades
+
+
 1.20.1-12.1.5
 
 - Fixed some recipes causing connection issues on servers

@@ -151,7 +151,7 @@ public final class ProductiveBees
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {
-        BeeReloadListener.INSTANCE.context = new ConditionContext(event.getServerResources().tagManager);
+        BeeReloadListener.INSTANCE.context = event.getConditionContext();;
         event.addListener(BeeReloadListener.INSTANCE);
     }
 

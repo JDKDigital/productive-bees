@@ -34,7 +34,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     }
 
     protected double getEnergyConsumptionModifier() {
-        double timeUpgradeModifier = getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get();
+        double timeUpgradeModifier = 1D + (getUpgradeCount(ModItems.UPGRADE_TIME.get()) * ProductiveBeesConfig.UPGRADES.timeBonus.get());
 
         return Math.max(1, timeUpgradeModifier) * 3;
     }

@@ -281,21 +281,23 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     public void setDefaultAttributes() {
         super.setDefaultAttributes();
-        CompoundTag nbt = getNBTData();
-        if (nbt.contains(("productivity"))) {
-            setAttributeValue(BeeAttributes.PRODUCTIVITY, nbt.getInt("productivity"));
-        }
-        if (nbt.contains(("temper"))) {
-            setAttributeValue(BeeAttributes.TEMPER, nbt.getInt("temper"));
-        }
-        if (nbt.contains(("endurance"))) {
-            setAttributeValue(BeeAttributes.ENDURANCE, nbt.getInt("endurance"));
-        }
-        if (nbt.contains(("behavior"))) {
-            setAttributeValue(BeeAttributes.BEHAVIOR, nbt.getInt("behavior"));
-        }
-        if (nbt.contains(("weather_tolerance"))) {
-            setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, nbt.getInt("weather_tolerance"));
+        if (!hasBeeAttributes()) {
+            CompoundTag nbt = getNBTData();
+            if (nbt.contains(("productivity"))) {
+                setAttributeValue(BeeAttributes.PRODUCTIVITY, nbt.getInt("productivity"));
+            }
+            if (nbt.contains(("temper"))) {
+                setAttributeValue(BeeAttributes.TEMPER, nbt.getInt("temper"));
+            }
+            if (nbt.contains(("endurance"))) {
+                setAttributeValue(BeeAttributes.ENDURANCE, nbt.getInt("endurance"));
+            }
+            if (nbt.contains(("behavior"))) {
+                setAttributeValue(BeeAttributes.BEHAVIOR, nbt.getInt("behavior"));
+            }
+            if (nbt.contains(("weather_tolerance"))) {
+                setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, nbt.getInt("weather_tolerance"));
+            }
         }
     }
 

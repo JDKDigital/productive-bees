@@ -14,6 +14,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ConditionContext;
+import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
@@ -25,7 +26,7 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     public static final BeeReloadListener INSTANCE = new BeeReloadListener();
-    public ConditionContext context;
+    public ICondition.IContext context;
 
     private Map<String, CompoundTag> BEE_DATA = new HashMap<>();
     private Map<String, JsonObject> BEE_CONDITIONS = new HashMap<>();
