@@ -1,0 +1,14 @@
+{
+  "type": "productivebees:bee_spawning",
+  "ingredient": {
+    "item": "productivebees:mangrove_wood_nest"
+  },
+  "results": [
+    {
+      "bee": "productivebees:green_carpenter_bee"
+    },
+    {
+      "bee": "productivebees:yellow_black_carpenter_bee"
+    }
+  ]
+}

@@ -26,6 +26,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -43,36 +45,15 @@ public class FeederBlockEntity extends CapabilityBlockEntity
     public Block baseBlock;
     private int tickCounter = 0;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(3, this)
-    {
-        @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
-            return true;
-        }
-
-        @Override
-        public boolean isInputSlot(int slot) {
-            return true;
-        }
-
-        @Override
-        public boolean isInputSlotItem(int slot, ItemStack item) {
-            return true;
-        }
-
-        public int[] getOutputSlots() {
-            return new int[]{0, 1, 2};
-        }
-
-        @Override
-        protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
-            setChanged();
-        }
-    });
+    private LazyOptional<IItemHandlerModifiable> inventoryHandler;
 
     public FeederBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.FEEDER.get(), pos, state);
+        refreshInventoryHandler();
+    }
+
+    public boolean isDouble() {
+        return getBlockState().getValue(BlockStateProperties.SLAB_TYPE) == SlabType.DOUBLE;
     }
 
     public Block getRandomBlockFromInventory(TagKey<Block> tag, RandomSource random) {
@@ -105,7 +86,7 @@ public class FeederBlockEntity extends CapabilityBlockEntity
                 items.add(h.getStackInSlot(slot));
             }
             return items;
-        }).orElse(new ArrayList<>());
+        }).filter(itemStacks -> !itemStacks.isEmpty()).orElse(new ArrayList<>());
     }
 
     @Nonnull
@@ -120,6 +101,9 @@ public class FeederBlockEntity extends CapabilityBlockEntity
     @Nonnull
     @Override
     public Component getName() {
+        if (isDouble()) {
+            return Component.translatable(ModBlocks.FEEDER.get().getDescriptionId() + "_double");
+        }
         return Component.translatable(ModBlocks.FEEDER.get().getDescriptionId());
     }
 
@@ -158,5 +142,38 @@ public class FeederBlockEntity extends CapabilityBlockEntity
         if (tag.contains("baseBlock")) {
             baseBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(tag.getString("baseBlock")));
         }
+    }
+
+    public void refreshInventoryHandler() {
+        this.inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(isDouble() ? 6 : 3, this)
+        {
+            @Override
+            public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
+                return true;
+            }
+
+            @Override
+            public boolean isInputSlot(int slot) {
+                return true;
+            }
+
+            @Override
+            public boolean isInputSlotItem(int slot, ItemStack item) {
+                return true;
+            }
+
+            public int[] getOutputSlots() {
+                if (isDouble()) {
+                    return new int[]{0, 1, 2, 3, 4, 5};
+                }
+                return new int[]{0, 1, 2};
+            }
+
+            @Override
+            protected void onContentsChanged(int slot) {
+                super.onContentsChanged(slot);
+                setChanged();
+            }
+        });
     }
 }

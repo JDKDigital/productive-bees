@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "productivebees:mangrove_wood_nest"
+    }
+  ],
+  "result": {
+    "item": "productivebees:mangrove_wood_nest"
+  }
+}

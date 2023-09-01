@@ -92,6 +92,21 @@ public class HoneyTreat extends Item
         return false;
     }
 
+    public static void applyGenesToBee(Level level, ItemStack treat, ProductiveBee bee) {
+        ListTag genes = getGenes(treat);
+        for (Tag inbt : genes) {
+            ItemStack insertedGene = ItemStack.of((CompoundTag) inbt);
+            int purity = Gene.getPurity(insertedGene);
+            if (((CompoundTag) inbt).contains("purity")) {
+                purity = ((CompoundTag) inbt).getInt("purity");
+            }
+            if (ProductiveBees.random.nextInt(100) <= purity) {
+                bee.setAttributeValue(Gene.getAttribute(insertedGene), Gene.getValue(insertedGene));
+                level.levelEvent(2005, bee.blockPosition(), 0);
+            }
+        }
+    }
+
     @Override
     public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity target, InteractionHand hand) {
         Level level = target.getCommandSenderWorld();
@@ -122,20 +137,9 @@ public class HoneyTreat extends Item
 
         if (bee instanceof ProductiveBee) {
             ProductiveBee productiveBee = (ProductiveBee) target;
-            ListTag genes = getGenes(itemStack);
-            if (!genes.isEmpty()) {
-                // Apply genes from honey treat
-                for (Tag inbt : genes) {
-                    ItemStack insertedGene = ItemStack.of((CompoundTag) inbt);
-                    int purity = Gene.getPurity(insertedGene);
-                    if (((CompoundTag) inbt).contains("purity")) {
-                        purity = ((CompoundTag) inbt).getInt("purity");
-                    }
-                    if (ProductiveBees.random.nextInt(100) <= purity) {
-                        productiveBee.setAttributeValue(Gene.getAttribute(insertedGene), Gene.getValue(insertedGene));
-                        level.levelEvent(2005, pos, 0);
-                    }
-                }
+
+            if (hasGene(itemStack)) {
+                applyGenesToBee(level, itemStack, productiveBee);
             } else {
                 // Improve temper
                 int temper = productiveBee.getAttributeValue(BeeAttributes.TEMPER);

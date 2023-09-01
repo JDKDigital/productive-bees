@@ -75,7 +75,7 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
         this.menu.tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
             float energyAmount = (float) handler.getEnergyStored();
             int energyLevel = (int) (energyAmount * (52f / (float) handler.getMaxEnergyStored()));
-            guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 8, 0, 4, 52 - energyLevel);
+            guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
         });
 
         // Draw fluid tank

@@ -80,7 +80,7 @@ public class FarmerBee extends ProductiveBee
         if (block instanceof CocoaBlock && state.getValue(CocoaBlock.AGE) == 2) {
             return true;
         }
-        if (block instanceof SweetBerryBushBlock && state.getValue(SweetBerryBushBlock.AGE) == 3) {
+        if (state.hasProperty(SweetBerryBushBlock.AGE) && state.getValue(SweetBerryBushBlock.AGE) == 3) {
             return true;
         }
         if (block instanceof StemGrownBlock) {
@@ -237,11 +237,13 @@ public class FarmerBee extends ProductiveBee
                 pos = pos.below();
             }
             this.level().destroyBlock(pos.above(), true);
-        } else if (cropBlock instanceof SweetBerryBushBlock) {
+        } else if (cropBlockState.hasProperty(SweetBerryBushBlock.AGE)) {
             int i = cropBlockState.getValue(SweetBerryBushBlock.AGE);
             if (i > 1) {
                 int j = 1 + this.level().random.nextInt(2);
-                Block.popResource(this.level(), pos, new ItemStack(Items.SWEET_BERRIES, j + (i == 3 ? 1 : 0)));
+                var dropStack = cropBlock.getCloneItemStack(this.level(), pos, cropBlockState);
+                dropStack.setCount(j + (i == 3 ? 1 : 0));
+                Block.popResource(this.level(), pos, dropStack);
                 this.level().playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
                 this.level().setBlock(pos, cropBlockState.setValue(SweetBerryBushBlock.AGE, 1), 2);
             }

@@ -1,3 +1,16 @@
+1.20.1-12.1.8
+
+-- Fixed crash with newly placed double feeder slabs
+
+
+1.20.1-12.1.7
+
+- Gene honey treats can now be applied to caged bees in the incubator
+- Double feeding slab has double the slots
+- Added Cherry and Mangrove wood nest recipes
+- Fixed bees not spawning with correct default attributes
+
+
 1.20.1-12.1.6
 
 - Fixed bee attributes getting scrambled when placing a bee from a cage

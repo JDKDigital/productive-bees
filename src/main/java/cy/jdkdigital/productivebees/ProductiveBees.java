@@ -10,8 +10,8 @@ import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.event.loot.IngredientModifier;
 import cy.jdkdigital.productivebees.event.loot.ItemLootModifier;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.integrations.jei.ingredients.BeeIngredientFactory;
-import cy.jdkdigital.productivebees.integrations.top.TopPlugin;
+import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.compat.top.TopPlugin;
 import cy.jdkdigital.productivebees.loot.LootItemKilledByUUIDCondition;
 import cy.jdkdigital.productivebees.loot.OptionalLootItem;
 import cy.jdkdigital.productivebees.loot.condition.OptionalCopyBlockState;
@@ -42,7 +42,6 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.ConditionContext;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
@@ -218,9 +217,11 @@ public final class ProductiveBees
         ModAdvancements.register();
         ModProfessions.register();
 
-        DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), new CageDispenseBehavior());
-        DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), new CageDispenseBehavior());
-        DispenserBlock.registerBehavior(Items.SHEARS.asItem(), new ShearsDispenseItemBehavior());
+        event.enqueueWork(() -> {
+            DispenserBlock.registerBehavior(ModItems.BEE_CAGE.get(), new CageDispenseBehavior());
+            DispenserBlock.registerBehavior(ModItems.STURDY_BEE_CAGE.get(), new CageDispenseBehavior());
+            DispenserBlock.registerBehavior(Items.SHEARS.asItem(), new ShearsDispenseItemBehavior());
+        });
     }
 
     private void onDataSync(OnDatapackSyncEvent event) {

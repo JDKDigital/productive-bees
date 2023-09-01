@@ -20,6 +20,9 @@ import java.util.Objects;
 
 public class IncubatorContainer extends AbstractContainer
 {
+    public static final int SLOT_INPUT = 0;
+    public static final int SLOT_CATALYST = 1;
+    public static final int SLOT_OUTPUT = 2;
     public final IncubatorBlockEntity tileEntity;
 
     public final ContainerLevelAccess canInteractWithCallable;
@@ -73,9 +76,9 @@ public class IncubatorContainer extends AbstractContainer
         });
 
         this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 0, 52 - 13, 35));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 1, 80 - 13, 53));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, 2, 108 - 13, 35));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_INPUT, 52 - 13, 35));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_CATALYST, 80 - 13, 53));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_OUTPUT, 108 - 13, 35));
         });
 
         this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {

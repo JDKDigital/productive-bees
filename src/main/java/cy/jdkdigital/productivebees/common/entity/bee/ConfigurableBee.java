@@ -103,6 +103,16 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 this.setCustomName(Component.literal("Depressed Iron Bee"));
             } else if (type.equals("productivebees:sponge") && random.nextFloat() < 0.05f) {
                 this.setCustomName(Component.literal("SpongeBee BlockPants"));
+            } else if (type.equals("productivebees:sponge") && random.nextFloat() < 0.05f) {
+                this.setCustomName(Component.literal("SpongeBee BlockPants"));
+            } else if (type.equals("productivebees:water") && random.nextFloat() < 0.05f) {
+                switch (random.nextInt(5)) {
+                    case 0 -> this.setCustomName(Component.literal("Wet Bee"));
+                    case 1 -> this.setCustomName(Component.literal("Splashy Bee"));
+                    case 2 -> this.setCustomName(Component.literal("Fishy Bee"));
+                    case 3 -> this.setCustomName(Component.literal("Moist Bee"));
+                    case 4 -> this.setCustomName(Component.literal("Dripping Bee"));
+                }
             }
         }
 
@@ -280,8 +290,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     public void setDefaultAttributes() {
-        super.setDefaultAttributes();
         if (!hasBeeAttributes()) {
+            super.setDefaultAttributes();
             CompoundTag nbt = getNBTData();
             if (nbt.contains(("productivity"))) {
                 setAttributeValue(BeeAttributes.PRODUCTIVITY, nbt.getInt("productivity"));
@@ -298,6 +308,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             if (nbt.contains(("weather_tolerance"))) {
                 setAttributeValue(BeeAttributes.WEATHER_TOLERANCE, nbt.getInt("weather_tolerance"));
             }
+        } else {
+            super.setDefaultAttributes();
         }
     }
 

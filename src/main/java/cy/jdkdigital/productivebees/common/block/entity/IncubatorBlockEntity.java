@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.HoneyTreat;
@@ -11,6 +12,7 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeCreator;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -46,9 +48,9 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
             return
-                (slot == 0 && item.getItem() instanceof BeeCage) ||
-                (slot == 0 && item.is(ModTags.Forge.EGGS)) ||
-                (slot == 1 && item.getItem() instanceof HoneyTreat);
+                (slot == IncubatorContainer.SLOT_INPUT && item.getItem() instanceof BeeCage) ||
+                (slot == IncubatorContainer.SLOT_INPUT && item.is(ModTags.Forge.EGGS)) ||
+                (slot == IncubatorContainer.SLOT_CATALYST && item.getItem() instanceof HoneyTreat);
         }
     });
 
@@ -119,44 +121,58 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
     }
 
     /**
-     * Two recipes can be processed here, babees to adults and eggs to spawn eggs
+     * Three things can be processed here, babees to adults, eggs to spawn eggs and applying genes
      */
     private boolean canProcessInput(IItemHandlerModifiable invHandler) {
         int energy = energyHandler.map(IEnergyStorage::getEnergyStored).orElse(0);
-        ItemStack inItem = invHandler.getStackInSlot(0);
-        ItemStack treatItem = invHandler.getStackInSlot(1);
+        ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT);
+        ItemStack treatItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
 
         boolean eggProcessing = inItem.is(ModTags.Forge.EGGS);
         boolean cageProcessing = inItem.getItem() instanceof BeeCage && BeeCage.isFilled(inItem);
 
         return energy > ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() // has enough power
                 && (eggProcessing || cageProcessing) // valid processing
-                && invHandler.getStackInSlot(2).isEmpty() // output has room
+                && invHandler.getStackInSlot(IncubatorContainer.SLOT_OUTPUT).isEmpty() // output has room
                 && treatItem.getItem().equals(ModItems.HONEY_TREAT.get())
                 && (
-                    (cageProcessing && treatItem.getCount() >= ProductiveBeesConfig.GENERAL.incubatorTreatUse.get()) ||
+                    (cageProcessing && (treatItem.getCount() >= ProductiveBeesConfig.GENERAL.incubatorTreatUse.get() || HoneyTreat.hasGene(treatItem))) ||
                     (eggProcessing && !treatItem.isEmpty() && HoneyTreat.hasBeeType(treatItem))
                 );
     }
 
     private void completeIncubation(IItemHandlerModifiable invHandler, RandomSource random) {
         if (canProcessInput(invHandler)) {
-            ItemStack inItem = invHandler.getStackInSlot(0).copy();
+            ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT).copy();
 
             boolean eggProcessing = inItem.is(ModTags.Forge.EGGS);
             boolean cageProcessing = inItem.getItem() instanceof BeeCage;
 
             if (cageProcessing) {
-                CompoundTag nbt = inItem.getTag();
-                if (nbt != null && nbt.contains("Age")) {
-                    nbt.putInt("Age", 0);
+                ItemStack treat = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
+                if (HoneyTreat.hasGene(treat)) {
+                    // Apply gene to the bee inside cage
+                    var entity = BeeCage.getEntityFromStack(inItem, level, true);
+                    if (entity instanceof ProductiveBee pBee) {
+                        HoneyTreat.applyGenesToBee(level, treat, pBee);
+                        var newBeeStack = new ItemStack(inItem.getItem());
+                        BeeCage.captureEntity(pBee, newBeeStack);
+                        invHandler.setStackInSlot(IncubatorContainer.SLOT_OUTPUT, newBeeStack);
+                        invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT).shrink(1);
+                        treat.shrink(1);
+                    }
+                } else {
+                    CompoundTag nbt = inItem.getTag();
+                    if (nbt != null && nbt.contains("Age")) {
+                        nbt.putInt("Age", 0);
+                    }
+                    inItem.setCount(1);
+                    invHandler.setStackInSlot(IncubatorContainer.SLOT_OUTPUT, inItem);
+                    treat.shrink(ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
+                    invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT).shrink(1);
                 }
-                inItem.setCount(1);
-                invHandler.setStackInSlot(2, inItem);
-                invHandler.getStackInSlot(1).shrink(ProductiveBeesConfig.GENERAL.incubatorTreatUse.get());
-                invHandler.getStackInSlot(0).shrink(1);
             } else if (eggProcessing) {
-                ItemStack treatItem = invHandler.getStackInSlot(1);
+                ItemStack treatItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
 
                 ListTag genes = HoneyTreat.getGenes(treatItem);
                 for (Tag inbt : genes) {
@@ -170,12 +186,12 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
                         if (random.nextInt(100) <= purity) {
                             ItemStack egg = BeeCreator.getSpawnEgg(beeName);
                             if (egg.getItem() instanceof SpawnEggItem) {
-                                invHandler.setStackInSlot(2, egg);
+                                invHandler.setStackInSlot(IncubatorContainer.SLOT_OUTPUT, egg);
                             }
                         }
                     }
                 }
-                invHandler.getStackInSlot(0).shrink(1);
+                invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT).shrink(1);
                 treatItem.shrink(1);
             }
         }

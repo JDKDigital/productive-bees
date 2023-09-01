@@ -6,19 +6,31 @@
       "item": {
         "item": "minecraft:cod"
       },
-      "chance": 20
+      "chance": 10
     },
     {
       "item": {
         "item": "minecraft:salmon"
       },
-      "chance": 20
+      "chance": 10
     },
     {
       "item": {
         "item": "minecraft:tropical_fish"
       },
       "chance": 10
+    },
+    {
+      "item": {
+        "item": "minecraft:pufferfish"
+      },
+      "chance": 5
+    },
+    {
+      "item": {
+        "item": "minecraft:kelp"
+      },
+      "chance": 25
     }
   ],
   "conditions": [

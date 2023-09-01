@@ -17,6 +17,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -94,6 +95,15 @@ public class Feeder extends SlabBlock implements EntityBlock
     @Override
     public FluidState getFluidState(BlockState state) {
         return state.getValue(HONEYLOGGED) ? ModFluids.HONEY.get().getSource(false) : super.getFluidState(state);
+    }
+
+    @Override
+    public void onBlockStateChange(LevelReader level, BlockPos pos, BlockState oldState, BlockState newState) {
+        super.onBlockStateChange(level, pos, oldState, newState);
+        // Refresh inventory handler
+        if (level.getBlockEntity(pos) instanceof FeederBlockEntity feederBlockEntity) {
+            feederBlockEntity.refreshInventoryHandler();
+        }
     }
 
     @Nonnull

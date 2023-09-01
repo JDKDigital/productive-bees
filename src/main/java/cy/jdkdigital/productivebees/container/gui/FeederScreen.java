@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 public class FeederScreen extends AbstractContainerScreen<FeederContainer>
 {
     private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/feeder.png");
+    private static final ResourceLocation GUI_TEXTURE_DOUBLE = new ResourceLocation(ProductiveBees.MODID, "textures/gui/container/feeder_double.png");
 
     public FeederScreen(FeederContainer container, Inventory inv, Component titleIn) {
         super(container, inv, titleIn);
@@ -28,6 +29,6 @@ public class FeederScreen extends AbstractContainerScreen<FeederContainer>
     @Override
     protected void renderBg(@Nonnull GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         // Draw main screen
-        guiGraphics.blit(GUI_TEXTURE, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
+        guiGraphics.blit(menu.tileEntity.isDouble() ? GUI_TEXTURE_DOUBLE : GUI_TEXTURE, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.getXSize(), this.getYSize());
     }
 }
