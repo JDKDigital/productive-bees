@@ -1,31 +1,18 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
-import com.mojang.authlib.GameProfile;
-import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.compat.harvest.HarvestCompatHandler;
 import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.fml.ModList;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -66,33 +53,13 @@ public class FarmerBee extends ProductiveBee
 
     public List<BlockPos> findHarvestablesNearby(BlockPos pos, int distance) {
         List<BlockPos> list = BlockPos.betweenClosedStream(pos.offset(-distance, -distance + 2, -distance), pos.offset(distance, distance - 2, distance)).map(BlockPos::immutable).collect(Collectors.toList());
+        list.removeIf(blockPos -> this.level().getBlockState(blockPos).isAir());
         list.removeIf(blockPos -> !isCropValid(blockPos));
         return list;
     }
 
     public boolean isCropValid(BlockPos blockPos) {
-        if (blockPos == null) {
-            return false;
-        }
-        BlockState state = level().getBlockState(blockPos);
-        Block block = state.getBlock();
-
-        if (block instanceof CocoaBlock && state.getValue(CocoaBlock.AGE) == 2) {
-            return true;
-        }
-        if (state.hasProperty(SweetBerryBushBlock.AGE) && state.getValue(SweetBerryBushBlock.AGE) == 3) {
-            return true;
-        }
-        if (block instanceof StemGrownBlock) {
-            return true;
-        }
-
-        // Cactus and sugarcane blocks taller than 1 are harvestable
-        if (block instanceof CactusBlock || block instanceof SugarCaneBlock) {
-            return level().getBlockState(blockPos.below()).getBlock().equals(state.getBlock());
-        }
-
-        return block instanceof CropBlock && !((CropBlock) block).isValidBonemealTarget(level(), blockPos, state, false);
+        return HarvestCompatHandler.isCropValid(this, blockPos);
     }
 
     public class HarvestCropGoal extends Goal
@@ -105,8 +72,7 @@ public class FarmerBee extends ProductiveBee
                 FarmerBee.this.targetHarvestPos = null;
             }
 
-            return
-                    FarmerBee.this.targetHarvestPos != null &&
+            return FarmerBee.this.targetHarvestPos != null &&
                             !FarmerBee.this.isAngry() &&
                             !FarmerBee.this.closerThan(FarmerBee.this.targetHarvestPos, 2);
         }
@@ -224,45 +190,6 @@ public class FarmerBee extends ProductiveBee
     }
 
     public void harvestBlock(BlockPos pos) {
-        BlockState cropBlockState = this.level().getBlockState(pos);
-        Block cropBlock = cropBlockState.getBlock();
-        if (cropBlock instanceof AttachedStemBlock) {
-            BlockState fruitBlock = this.level().getBlockState(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)));
-            if (fruitBlock.getBlock() instanceof StemGrownBlock) {
-                this.level().destroyBlock(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)), true);
-            }
-        } else if (cropBlock instanceof SugarCaneBlock || cropBlock instanceof CactusBlock) {
-            int i = 0;
-            while (i++ < 5 && this.level().getBlockState(pos.below()).getBlock().equals(cropBlock)) {
-                pos = pos.below();
-            }
-            this.level().destroyBlock(pos.above(), true);
-        } else if (cropBlockState.hasProperty(SweetBerryBushBlock.AGE)) {
-            int i = cropBlockState.getValue(SweetBerryBushBlock.AGE);
-            if (i > 1) {
-                int j = 1 + this.level().random.nextInt(2);
-                var dropStack = cropBlock.getCloneItemStack(this.level(), pos, cropBlockState);
-                dropStack.setCount(j + (i == 3 ? 1 : 0));
-                Block.popResource(this.level(), pos, dropStack);
-                this.level().playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
-                this.level().setBlock(pos, cropBlockState.setValue(SweetBerryBushBlock.AGE, 1), 2);
-            }
-        } else {
-            // right click crop if certain mods are installed
-            if (
-                    ProductiveBeesConfig.GENERAL.forceEnableFarmerBeeRightClickHarvest.get() ||
-                            ModList.get().isLoaded("right_click_get_crops") ||
-                            ModList.get().isLoaded("croptopia") ||
-                            ModList.get().isLoaded("quark") ||
-                            ModList.get().isLoaded("harvest") ||
-                            ModList.get().isLoaded("simplefarming") ||
-                            ModList.get().isLoaded("reap")
-            ) {
-                Player fakePlayer = FakePlayerFactory.get((ServerLevel) level(), new GameProfile(FARMER_BEE_UUID, "farmer_bee"));
-                ForgeHooks.onRightClickBlock(fakePlayer, InteractionHand.MAIN_HAND, pos, new BlockHitResult(this.getEyePosition(), this.getMotionDirection(), pos, true));
-            } else {
-                this.level().destroyBlock(pos, true);
-            }
-        }
+        HarvestCompatHandler.harvestBlock(this, pos);
     }
 }

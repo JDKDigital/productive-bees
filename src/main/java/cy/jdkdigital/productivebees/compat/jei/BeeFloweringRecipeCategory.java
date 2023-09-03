@@ -2,8 +2,8 @@ package cy.jdkdigital.productivebees.compat.jei;
 
 import com.google.common.collect.Streams;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.forge.ForgeTypes;

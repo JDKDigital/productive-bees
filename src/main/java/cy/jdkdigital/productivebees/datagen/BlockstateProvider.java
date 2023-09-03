@@ -48,8 +48,8 @@ public class BlockstateProvider implements DataProvider
             strings.forEach((id, type) -> {
                 String name = id;
                 id = modid.equals(ProductiveBees.MODID) ? id : modid + "_" + id;
-                ProductiveBees.LOGGER.info("\"block.productivebees.advanced_" + id + "_beehive\": \"Advanced " + (name.substring(0, 1).toUpperCase() + name.substring(1)) + " Beehive\",");
-                ProductiveBees.LOGGER.info("\"block.productivebees.expansion_box_" + id + "\": \"" + (name.substring(0, 1).toUpperCase() + name.substring(1)) + " Expansion Box\",");
+                ProductiveBees.LOGGER.info("\"block.productivebees.advanced_" + id + "_beehive\": \"Advanced " + capName(name) + " Beehive\",");
+                ProductiveBees.LOGGER.info("\"block.productivebees.expansion_box_" + id + "\": \"" + capName(name) + " Expansion Box\",");
             });
         });
         ModBlocks.hiveStyles.forEach(style -> {
@@ -320,5 +320,15 @@ public class BlockstateProvider implements DataProvider
 
     public static MultiVariantGenerator createSimpleBlock(Block block, ResourceLocation id) {
         return MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, id));
+    }
+
+    private String capName(String name) {
+        String[] nameParts = name.split("_");
+
+        for (int i = 0; i < nameParts.length; i++) {
+            nameParts[i] = nameParts[i].substring(0, 1).toUpperCase() + nameParts[i].substring(1);
+        }
+
+        return String.join(" ", nameParts);
     }
 }

@@ -97,10 +97,6 @@
       "required": false
     },
     {
-      "id": "productivebees:advanced_byg_rainbow_eucalyptus_beehive",
-      "required": false
-    },
-    {
       "id": "productivebees:advanced_byg_baobab_beehive",
       "required": false
     },
@@ -149,6 +145,95 @@
     },
     {
       "id": "productivebees:advanced_upgrade_aquatic_driftwood_beehive",
+      "required": false
+    },
+    "#productivebees:canvas_beehives",
+    {
+      "id": "productivebees:advanced_regions_unexplored_pine_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_palm_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_redwood_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_socotra_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_eucalyptus_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_kapok_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_cobalt_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_dead_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_cypress_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_pink_bioshroom_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_magnolia_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_willow_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_yellow_bioshroom_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_blue_bioshroom_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_blackwood_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_joshua_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_baobab_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_maple_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_alpha_oak_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_green_bioshroom_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_larch_beehive",
+      "required": false
+    },
+    {
+      "id": "productivebees:advanced_regions_unexplored_mauve_beehive",
       "required": false
     },
     "#productivebees:canvas_beehives",

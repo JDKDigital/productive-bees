@@ -202,6 +202,32 @@ public final class ModBlocks
             put("umbran", new HiveType(false, "#7d6a8f", "umbran", new FakeIngredient("biomesoplenty:umbran_planks")));
             put("hellbark", new HiveType(false, "#3b3031", "hellbark", new FakeIngredient("biomesoplenty:hellbark_planks")));
         }});
+        put("regions_unexplored", new HashMap<>()
+        {{
+            put("alpha_oak", new HiveType(false, "#bc9862", "fir", new FakeIngredient("regions_unexplored:alpha_oak_planks")));
+            put("baobab", new HiveType(false, "#f8cfb4", "redwood", new FakeIngredient("regions_unexplored:baobab_planks")));
+            put("blackwood", new HiveType(false, "#3d332c", "spruce", new FakeIngredient("regions_unexplored:blackwood_planks")));
+            put("blue_bioshroom", new HiveType(false, "#82d9e7", "mahogany", new FakeIngredient("regions_unexplored:blue_bioshroom_planks")));
+//            put("brimwood", new HiveType(new FakeIngredient("regions_unexplored:brimwood_planks"))); TODO
+            put("cobalt", new HiveType(false, "#19317a", "jacaranda", new FakeIngredient("regions_unexplored:cobalt_planks")));
+            put("cypress", new HiveType(false, "#929062", "yucca", new FakeIngredient("regions_unexplored:cypress_planks")));
+            put("dead", new HiveType(false, "#786b66", "dead", new FakeIngredient("regions_unexplored:dead_planks")));
+            put("eucalyptus", new HiveType(false, "#c38362", "willow", new FakeIngredient("regions_unexplored:eucalyptus_planks")));
+            put("green_bioshroom", new HiveType(false, "#9ee487", "mahogany", new FakeIngredient("regions_unexplored:green_bioshroom_planks")));
+            put("joshua", new HiveType(false, "#c0a183", "kousa", new FakeIngredient("regions_unexplored:joshua_planks")));
+            put("kapok", new HiveType(false, "#b98c7b", "dark_oak", new FakeIngredient("regions_unexplored:kapok_planks")));
+            put("larch", new HiveType(false, "#b98c7b", "mangrove", new FakeIngredient("regions_unexplored:larch_planks")));
+            put("maple", new HiveType(false, "#c7a45e", "maple", new FakeIngredient("regions_unexplored:maple_planks")));
+            put("palm", new HiveType(false, "#e5d09d", "palm", new FakeIngredient("regions_unexplored:palm_planks")));
+            put("redwood", new HiveType(false, "#b75d45", "redwood", new FakeIngredient("regions_unexplored:redwood_planks")));
+            put("socotra", new HiveType(false, "#b4915c", "magic", new FakeIngredient("regions_unexplored:socotra_planks")));
+            put("magnolia", new HiveType(false, "#b74648", "umbran", new FakeIngredient("regions_unexplored:magnolia_planks")));
+            put("mauve", new HiveType(false, "#8e6e97", "hellbark", new FakeIngredient("regions_unexplored:mauve_planks")));
+            put("pine", new HiveType(false, "#dabb8f", "river", new FakeIngredient("regions_unexplored:pine_planks")));
+            put("willow", new HiveType(false, "#c5bda6", "willow", new FakeIngredient("regions_unexplored:willow_planks")));
+            put("pink_bioshroom", new HiveType(false, "#dd8dd9", "mahogany", new FakeIngredient("regions_unexplored:pink_bioshroom_planks")));
+            put("yellow_bioshroom", new HiveType(false, "#e2cd89", "mahogany", new FakeIngredient("regions_unexplored:yellow_bioshroom_planks")));
+        }});
     }};
 
     public static List<String> hiveStyles = new ArrayList<>() {{

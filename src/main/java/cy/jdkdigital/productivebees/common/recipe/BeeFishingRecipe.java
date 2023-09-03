@@ -2,9 +2,9 @@ package cy.jdkdigital.productivebees.common.recipe;
 
 import com.google.gson.JsonObject;
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;

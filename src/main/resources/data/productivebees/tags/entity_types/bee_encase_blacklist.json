@@ -1,6 +1,18 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:beehive_inhabitors"
+    "#minecraft:beehive_inhabitors",
+    {
+      "id": "minecolonies:citizen",
+      "required": false
+    },
+    {
+      "id": "minecolonies:visitor",
+      "required": false
+    },
+    {
+      "id": "minecolonies:mercenary",
+      "required": false
+    }
   ]
 }

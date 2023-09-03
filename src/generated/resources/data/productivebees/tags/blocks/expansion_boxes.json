@@ -97,10 +97,6 @@
       "required": false
     },
     {
-      "id": "productivebees:expansion_box_byg_rainbow_eucalyptus",
-      "required": false
-    },
-    {
       "id": "productivebees:expansion_box_byg_baobab",
       "required": false
     },
@@ -149,6 +145,95 @@
     },
     {
       "id": "productivebees:expansion_box_upgrade_aquatic_driftwood",
+      "required": false
+    },
+    "#productivebees:canvas_expansion_boxes",
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_pine",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_palm",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_redwood",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_socotra",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_eucalyptus",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_kapok",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_cobalt",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_dead",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_cypress",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_pink_bioshroom",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_magnolia",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_willow",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_yellow_bioshroom",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_blue_bioshroom",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_blackwood",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_joshua",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_baobab",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_maple",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_alpha_oak",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_green_bioshroom",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_larch",
+      "required": false
+    },
+    {
+      "id": "productivebees:expansion_box_regions_unexplored_mauve",
       "required": false
     },
     "#productivebees:canvas_expansion_boxes",

@@ -61,7 +61,7 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
             filledSlots = Math.min(2, filledSlots);
 
             if (filledSlots > 0) {
-                for (int slot = 0; slot < Math.min(2, handler.getSlots()); ++slot) {
+                for (int slot = 0; slot < Math.min(3, handler.getSlots()); ++slot) {
                     ItemStack slotStack = handler.getStackInSlot(slot);
 
                     if (slotStack.isEmpty()) {

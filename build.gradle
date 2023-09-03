@@ -96,6 +96,11 @@ dependencies {
     implementation fg.deobf("curse.maven:jade-324717:4654448")
     implementation fg.deobf("curse.maven:the-one-probe-245211:4579432")
     implementation fg.deobf("curse.maven:corail-woodcutter-331983:4573934")
+//    implementation fg.deobf("curse.maven:croptopia-415438:4636036")
+//    implementation fg.deobf("curse.maven:farmers-delight-398521:4679319")
+//    implementation fg.deobf("curse.maven:caupona-656147:4727564")
+    implementation fg.deobf("curse.maven:pams-harvestcraft-2-trees-365460:4625518")
+    implementation fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:4687624")
 
     implementation fg.deobf("curse.maven:ender-io-64578:4662609")
 //    implementation fg.deobf("curse.maven:trophymanager-510170:4165097")

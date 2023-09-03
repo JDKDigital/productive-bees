@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "productivebees:optional_loot_item",
+          "conditions": [
+            {
+              "condition": "minecraft:survives_explosion"
+            }
+          ],
+          "name": "productivebees:expansion_box_regions_unexplored_mauve"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "productivebees:blocks/expansion_box_regions_unexplored_mauve"
+}

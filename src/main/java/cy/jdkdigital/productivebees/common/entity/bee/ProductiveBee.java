@@ -614,6 +614,7 @@ public class ProductiveBee extends Bee
                         BeeNBTChangerRecipe nbtRecipe = BeeHelper.getNBTChangerRecipe(this, stack);
                         CompoundTag tag = stack.getTag();
                         if (nbtRecipe != null && tag != null) {
+                            // TODO support long
                             switch (nbtRecipe.method) {
                                 case "decrement" -> tag.putInt(nbtRecipe.attribute, Math.max(nbtRecipe.min, tag.getInt(nbtRecipe.attribute) - nbtRecipe.value));
                                 case "increment" -> tag.putInt(nbtRecipe.attribute, Math.min(nbtRecipe.max, tag.getInt(nbtRecipe.attribute) + nbtRecipe.value));

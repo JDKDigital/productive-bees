@@ -4,14 +4,14 @@ import com.mojang.serialization.Codec;
 import cy.jdkdigital.productivebees.common.crafting.conditions.BeeExistsCondition;
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
+import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
+import cy.jdkdigital.productivebees.compat.top.TopPlugin;
 import cy.jdkdigital.productivebees.dispenser.CageDispenseBehavior;
 import cy.jdkdigital.productivebees.dispenser.ShearsDispenseItemBehavior;
 import cy.jdkdigital.productivebees.event.EventHandler;
 import cy.jdkdigital.productivebees.event.loot.IngredientModifier;
 import cy.jdkdigital.productivebees.event.loot.ItemLootModifier;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
-import cy.jdkdigital.productivebees.compat.top.TopPlugin;
 import cy.jdkdigital.productivebees.loot.LootItemKilledByUUIDCondition;
 import cy.jdkdigital.productivebees.loot.OptionalLootItem;
 import cy.jdkdigital.productivebees.loot.condition.OptionalCopyBlockState;
@@ -69,7 +69,7 @@ public final class ProductiveBees
 {
     public static final String MODID = "productivebees";
     public static final RandomSource random = RandomSource.create();
-    public static boolean isDevEnv = true;
+    public static boolean isDevEnv = false;
 
     public static final Logger LOGGER = LogManager.getLogger();
 

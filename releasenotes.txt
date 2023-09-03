@@ -1,3 +1,9 @@
+1.20.1-12.1.9
+
+- Fixed occasional crash
+- Added support for friends and foes hives in recipes
+
+
 1.20.1-12.1.8
 
 -- Fixed crash with newly placed double feeder slabs

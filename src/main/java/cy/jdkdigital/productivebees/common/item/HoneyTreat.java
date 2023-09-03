@@ -129,15 +129,12 @@ public class HoneyTreat extends Item
             bee.ageUp((int) ((float) (-bee.getAge() / 20) * 0.1F), true);
         }
 
-        itemStack.shrink(1);
-
         BlockPos pos = target.blockPosition();
         level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
         bee.playAmbientSound();
 
         if (bee instanceof ProductiveBee) {
             ProductiveBee productiveBee = (ProductiveBee) target;
-
             if (hasGene(itemStack)) {
                 applyGenesToBee(level, itemStack, productiveBee);
             } else {
@@ -150,6 +147,8 @@ public class HoneyTreat extends Item
                 }
             }
         }
+
+        itemStack.shrink(1);
 
         return InteractionResult.CONSUME;
     }
