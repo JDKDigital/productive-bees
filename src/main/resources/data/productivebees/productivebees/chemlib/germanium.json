@@ -3,7 +3,7 @@
   "particleColor": "#e9e9eb",
   "size:": 0.7,
   "beeTexture": "productivebees:textures/entity/bee/germanium/bee",
-  "flowerItem": "chemlib:germanium_dust",
+  "flowerItem": "chemlib:germanium",
   "conditions": [
     {
       "type": "forge:mod_loaded",

@@ -1,0 +1,38 @@
+{
+  "type": "productivebees:centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "minecraft:strontium"
+    }
+  ],
+  "ingredient": {
+    "type": "forge:nbt",
+    "count": 1,
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": "{EntityTag:{type:\"productivebees:strontium\"}}"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "chance": 80,
+      "item": {
+        "item": "chemlib:strontium"
+      }
+    },
+    {
+      "amount": 50,
+      "fluid": {
+        "fluid": "productivebees:honey"
+      }
+    }
+  ]
+}

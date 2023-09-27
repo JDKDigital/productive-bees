@@ -1,7 +1,10 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
+import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
+import cy.jdkdigital.productivebees.compat.sussy.SussyCompatHandler;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -19,6 +22,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
@@ -382,10 +386,12 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
         if (this.getFlowerType().equals("entity_types")) {
             CompoundTag nbt = this.getNBTData();
-            if (nbt != null) {
-                if (nbt.contains("flowerTag")) {
-                    TagKey<EntityType<?>> entityTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
+            if (nbt != null && nbt.contains("flowerTag")) {
+                TagKey<EntityType<?>> entityTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
 
+                if (level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
+                    return amberBlockEntity.getCachedEntity().getType().is(entityTag);
+                } else {
                     List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), (entity -> nbt.getBoolean("inverseFlower") != entity.getType().is(entityTag)));
                     if (!entities.isEmpty() && entities.get(0) instanceof PathfinderMob mob) {
                         target = mob;
@@ -714,31 +720,10 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     BeeHelper.encaseMob(target, level(), this.getDirection());
                     break;
                 case "sus":
-                    if (savedFlowerPos != null && level().getBlockEntity(savedFlowerPos) instanceof BrushableBlockEntity brushableBlockEntity) {
-                        var biome = level().getBiome(savedFlowerPos);
-                        List<ResourceLocation> possibleTables = new ArrayList<>();
-                        if (biome.is(BiomeTags.HAS_TRAIL_RUINS)) {
-                            if (level().getRandom().nextInt(100) < 10) {
-                                possibleTables.add(BuiltInLootTables.TRAIL_RUINS_ARCHAEOLOGY_RARE);
-                            } else {
-                                possibleTables.add(BuiltInLootTables.TRAIL_RUINS_ARCHAEOLOGY_COMMON);
-                            }
-                        }
-                        if (biome.is(BiomeTags.HAS_DESERT_PYRAMID)) {
-                            if (level().getRandom().nextInt(100) < 40) {
-                                possibleTables.add(BuiltInLootTables.DESERT_PYRAMID_ARCHAEOLOGY);
-                            } else {
-                                possibleTables.add(BuiltInLootTables.DESERT_WELL_ARCHAEOLOGY);
-                            }
-                        }
-                        if (biome.is(BiomeTags.HAS_OCEAN_RUIN_WARM)) {
-                            possibleTables.add(BuiltInLootTables.OCEAN_RUIN_WARM_ARCHAEOLOGY);
-                        }
-                        if (biome.is(BiomeTags.HAS_OCEAN_RUIN_COLD)) {
-                            possibleTables.add(BuiltInLootTables.OCEAN_RUIN_COLD_ARCHAEOLOGY);
-                        }
+                    if (savedFlowerPos != null && level() instanceof ServerLevel level && level.getBlockEntity(savedFlowerPos) instanceof BrushableBlockEntity brushableBlockEntity) {
+                        List<ResourceLocation> possibleTables = SussyCompatHandler.getLootTables(level, savedFlowerPos);
                         if (possibleTables.size() > 0) {
-                            brushableBlockEntity.setLootTable(possibleTables.get(level().getRandom().nextInt(possibleTables.size())), level().getRandom().nextLong());
+                            brushableBlockEntity.setLootTable(possibleTables.get(level.getRandom().nextInt(possibleTables.size())), level.getRandom().nextLong());
                         }
                     }
                     break;

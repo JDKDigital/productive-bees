@@ -77,7 +77,6 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID)
 public class EventHandler
 {
-    @SubscribeEvent
     public static void tabContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(ProductiveBees.TAB_KEY)) {
             for (RegistryObject<Item> item: ModItems.ITEMS.getEntries()) {

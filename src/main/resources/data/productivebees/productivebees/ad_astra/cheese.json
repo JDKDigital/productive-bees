@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#d99c0d",
+  "particleColor": "#edc76d",
+  "beeTexture": "productivebees:textures/entity/bee/cheese/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "ad_astra:cheese_block",
+  "size:": 0.8,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ad_astra"
+    }
+  ]
+}

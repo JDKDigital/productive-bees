@@ -15,6 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,6 +23,8 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
 {
@@ -68,24 +71,27 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         return directProcess;
     }
 
+    static Map<ItemStack, CentrifugeRecipe> blockRecipeMap = new HashMap<>();
     @Override
     protected CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
         var directRecipe = super.getRecipe(inputHandler);
         if (input.is(ModTags.Forge.COMBS) && directRecipe == null) {
-            ItemStack singleComb;
-            // config honeycomb
-            if (input.getItem() instanceof CombBlockItem) {
-                singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                singleComb.setTag(input.getTag());
-            } else {
-                singleComb = BeeHelper.getRecipeOutputFromInput(level, input.getItem());
+            if (!blockRecipeMap.containsKey(input)) {
+                ItemStack singleComb;
+                // config honeycomb
+                if (input.getItem() instanceof CombBlockItem) {
+                    singleComb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
+                    singleComb.setTag(input.getTag());
+                } else {
+                    singleComb = BeeHelper.getRecipeOutputFromInput(level, input.getItem());
+                }
+                IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(2);
+                inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, singleComb);
+                blockRecipeMap.put(input, super.getRecipe(inv));
             }
-            IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(2);
-            inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, singleComb);
-            return super.getRecipe(inv);
+            return blockRecipeMap.get(input);
         }
-
         return directRecipe;
     }
 

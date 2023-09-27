@@ -1,0 +1,23 @@
+{
+  "primaryColor": "#000001",
+  "secondaryColor": "#d98b24",
+  "size": 0.7,
+  "attributes": {
+    "endurance": 0
+  },
+  "conditions": [
+    {
+      "type": "forge:or",
+      "values": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "gtceu"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ic2"
+        }
+      ]
+    }
+  ]
+}

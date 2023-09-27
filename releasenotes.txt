@@ -1,3 +1,26 @@
+1.20.1-12.2.3
+
+- Added Ether Gas Bee (Industrial Foregoing)
+- Bees pollinating on entities can now pollinate on amber encased entities
+- Fixed some recipes
+
+
+1.20.1-12.2.2
+
+- Fixed flowering item for some bees
+- Recipe adjustments
+
+
+1.20.1-12.2.1
+
+- Added hives for wood from Regions Unexplored
+- Added CheezyB
+- Added Flux Dust bee (Flux Networks)
+- Added sticky resin bee (IC2 and GTCEU)
+- Added suspicious clay and soul sand recipe for Sussy bee (ATM)
+- Fixed gene treats not being applied to bees
+
+
 1.20.1-12.1.9
 
 - Fixed occasional crash

@@ -1,0 +1,21 @@
+{
+  "type": "productivebees:block_conversion",
+  "bee": "productivebees:sussy",
+  "from": {
+    "Name": "minecraft:soul_sand"
+  },
+  "to": {
+    "Name": "allthemodium:suspicious_soul_sand"
+  },
+  "chance": 10,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "allthemodium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sussy"
+    }
+  ]
+}

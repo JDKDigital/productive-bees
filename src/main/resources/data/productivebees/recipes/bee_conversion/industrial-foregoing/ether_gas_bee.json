@@ -1,0 +1,14 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:pink_slimy",
+    "result": "productivebees:ether_gas",
+    "item": {
+        "item": "industrialforegoing:ether_gas_bucket"
+    },
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:ether_gas"
+        }
+    ]
+}

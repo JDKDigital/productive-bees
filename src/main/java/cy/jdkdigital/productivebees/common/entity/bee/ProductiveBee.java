@@ -3,10 +3,7 @@ package cy.jdkdigital.productivebees.common.entity.bee;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.Feeder;
-import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
-import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivebees.common.block.entity.*;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.RancherBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.ResinBee;
 import cy.jdkdigital.productivebees.common.recipe.BeeNBTChangerRecipe;
@@ -54,6 +51,7 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.Path;
@@ -302,6 +300,9 @@ public class ProductiveBee extends Bee
                 } else if (BeeHelper.hasNBTChangerRecipe(bee, stack)) {
                     hasValidBlock.set(true);
                 }
+            }
+            if (!hasValidBlock.get() && feederBlockEntity.getBlockState().getValue(BlockStateProperties.WATERLOGGED) && !feederBlockEntity.getBlockState().getValue(Feeder.HONEYLOGGED)) {
+                hasValidBlock.set(validator.test(Blocks.WATER.defaultBlockState()));
             }
         }
         return hasValidBlock.get();
@@ -787,6 +788,15 @@ public class ProductiveBee extends Bee
                 if (nbt != null) {
                     if (nbt.contains("flowerTag")) {
                         var flowerTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
+                        var amberBlocks = this.findNearestBlock(pos -> {
+                            if (ProductiveBee.this.level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
+                                return amberBlockEntity.getCachedEntity().getType().is(flowerTag);
+                            }
+                            return false;
+                        }, 5);
+                        if (amberBlocks.isPresent()) {
+                            return amberBlocks;
+                        }
                         return findEntities(entity -> entity instanceof Mob && nbt.getBoolean("inverseFlower") != entity.getType().is(flowerTag), 5D);
                     }
                 }

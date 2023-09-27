@@ -14,16 +14,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
-public class PamsHarvester implements HarvestCompatHandler.HarvestCompat
+public class PamsHarvester
 {
-    @Override
-    public boolean isCropValid(ProductiveBee bee, BlockPos pos) {
+    public static boolean isCropValid(ProductiveBee bee, BlockPos pos) {
         Block block = bee.level().getBlockState(pos).getBlock();
         return block instanceof BlockPamFruit || block instanceof BlockPamLogFruit;
     }
 
-    @Override
-    public void harvestBlock(ProductiveBee bee, BlockPos pos) {
+    public static void harvestBlock(ProductiveBee bee, BlockPos pos) {
         Player fakePlayer = FakePlayerFactory.get((ServerLevel) bee.level(), new GameProfile(FarmerBee.FARMER_BEE_UUID, "farmer_bee"));
         ForgeHooks.onRightClickBlock(fakePlayer, InteractionHand.MAIN_HAND, pos, new BlockHitResult(bee.getEyePosition(), bee.getMotionDirection(), pos, true));
     }

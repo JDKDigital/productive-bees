@@ -21,11 +21,9 @@
       "conditions": {
         "location": [
           {
-            "block": {
-              "block": "productivebees:feeder",
-              "state": {
-                "honeylogged": true
-              }
+            "block": "productivebees:feeder",
+            "state": {
+              "honeylogged": true
             },
             "condition": "minecraft:block_state_property"
           }

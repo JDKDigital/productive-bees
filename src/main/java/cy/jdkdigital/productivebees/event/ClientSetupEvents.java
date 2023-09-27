@@ -2,7 +2,6 @@ package cy.jdkdigital.productivebees.event;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.model.BeeNestHelmetModel;
-import cy.jdkdigital.productivebees.client.model.CombModel;
 import cy.jdkdigital.productivebees.client.render.entity.DyeBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.HoarderBeeRenderer;
 import cy.jdkdigital.productivebees.client.render.entity.ProductiveBeeRenderer;
@@ -181,10 +180,5 @@ public class ClientSetupEvents
         }
 
         event.registerEntityRenderer(ModEntities.BEE_BOMB.get(), ThrownItemRenderer::new);
-    }
-
-    @SubscribeEvent
-    public static void registerModelLoaders(RegisterGeometryLoaders event) {
-        event.register("comb", CombModel.Loader.INSTANCE);
     }
 }

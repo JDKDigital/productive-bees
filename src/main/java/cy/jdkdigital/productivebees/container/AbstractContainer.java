@@ -16,7 +16,7 @@ import net.minecraftforge.items.IItemHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-abstract class AbstractContainer extends AbstractContainerMenu
+public abstract class AbstractContainer extends AbstractContainerMenu
 {
     protected AbstractContainer(@Nullable MenuType<?> type, int id) {
         super(type, id);

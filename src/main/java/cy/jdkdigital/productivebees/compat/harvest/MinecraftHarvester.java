@@ -17,10 +17,9 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fml.ModList;
 
-public class MinecraftHarvester implements HarvestCompatHandler.HarvestCompat
+public class MinecraftHarvester
 {
-    @Override
-    public boolean isCropValid(ProductiveBee bee, BlockPos pos) {
+    public static boolean isCropValid(ProductiveBee bee, BlockPos pos) {
         if (pos == null) {
             return false;
         }
@@ -45,8 +44,7 @@ public class MinecraftHarvester implements HarvestCompatHandler.HarvestCompat
         return block instanceof CropBlock && !((CropBlock) block).isValidBonemealTarget(bee.level(), pos, state, false);
     }
 
-    @Override
-    public void harvestBlock(ProductiveBee bee, BlockPos pos) {
+    public static void harvestBlock(ProductiveBee bee, BlockPos pos) {
         BlockState cropBlockState = bee.level().getBlockState(pos);
         Block cropBlock = cropBlockState.getBlock();
         if (cropBlock instanceof AttachedStemBlock) {

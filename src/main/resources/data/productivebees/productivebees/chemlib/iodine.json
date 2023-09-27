@@ -2,7 +2,7 @@
   "primaryColor": "#be9dc8",
   "particleColor": "#c9aacb",
   "beeTexture": "productivebees:textures/entity/bee/iodine/bee",
-  "flowerItem": "chemlib:iodine_dust",
+  "flowerItem": "chemlib:iodine",
   "conditions": [
     {
       "type": "forge:mod_loaded",

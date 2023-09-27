@@ -30,16 +30,16 @@ public abstract class AbstractRecipeBuilder implements RecipeBuilder {
 
         public JsonElement toJson() {
             JsonObject output = new JsonObject();
-            output.add("item", ingredient.toJson());
-            if (chance != 100) {
-                output.addProperty("chance", chance);
+            if (max != 0) {
+                output.addProperty("max", chance);
             }
             if (min != 0) {
                 output.addProperty("min", chance);
             }
-            if (max != 0) {
-                output.addProperty("max", chance);
+            if (chance != 100) {
+                output.addProperty("chance", chance);
             }
+            output.add("item", ingredient.toJson());
             return output;
         }
     }
@@ -62,6 +62,16 @@ public abstract class AbstractRecipeBuilder implements RecipeBuilder {
 
         public JsonElement toJson() {
             JsonObject output = new JsonObject();
+            if (max != 0) {
+                output.addProperty("max", max);
+            }
+            if (min != 0) {
+                output.addProperty("min", min);
+            }
+            if (chance != 100) {
+                output.addProperty("chance", chance);
+            }
+
             JsonObject item = new JsonObject();
 
             if (ingredient.startsWith("#")) {
@@ -71,16 +81,6 @@ public abstract class AbstractRecipeBuilder implements RecipeBuilder {
             }
 
             output.add("item", item);
-
-            if (chance != 100) {
-                output.addProperty("chance", chance);
-            }
-            if (min != 0) {
-                output.addProperty("min", min);
-            }
-            if (max != 0) {
-                output.addProperty("max", max);
-            }
             return output;
         }
     }

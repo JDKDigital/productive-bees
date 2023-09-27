@@ -1,0 +1,21 @@
+{
+  "type": "productivebees:block_conversion",
+  "bee": "productivebees:sussy",
+  "from": {
+    "Name": "minecraft:clay"
+  },
+  "to": {
+    "Name": "allthemodium:suspicious_clay"
+  },
+  "chance": 20,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "allthemodium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sussy"
+    }
+  ]
+}

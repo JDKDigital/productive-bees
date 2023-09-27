@@ -111,7 +111,15 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject json) {
-            json.add("ingredient", input.toJson());
+            if (conditions.size() > 0) {
+                JsonArray cJson = new JsonArray();
+
+                conditions.forEach(condition -> {
+                    cJson.add(CraftingHelper.serialize(condition));
+                });
+
+                json.add("conditions", cJson);
+            }
 
             JsonArray jsonarray = new JsonArray();
             for (IngredientOutput ingredient : this.output) {
@@ -122,15 +130,7 @@ public class CentrifugeRecipeBuilder extends AbstractRecipeBuilder {
             }
             json.add("outputs", jsonarray);
 
-            if (conditions.size() > 0) {
-                JsonArray cJson = new JsonArray();
-
-                conditions.forEach(condition -> {
-                    cJson.add(CraftingHelper.serialize(condition));
-                });
-
-                json.add("conditions", cJson);
-            }
+            json.add("ingredient", input.toJson());
         }
 
         @Override

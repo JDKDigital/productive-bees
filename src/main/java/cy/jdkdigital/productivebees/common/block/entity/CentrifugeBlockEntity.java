@@ -237,9 +237,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     }
 
     private static void captureItem(IItemHandlerModifiable invHandler, ItemEntity itemEntity) {
-        ItemStack insertStack = itemEntity.getItem().copy();
-        ItemStack leftoverStack = invHandler.insertItem(InventoryHandlerHelper.INPUT_SLOT, insertStack, false);
-
+        ItemStack leftoverStack = invHandler.insertItem(InventoryHandlerHelper.INPUT_SLOT, itemEntity.getItem(), false);
         if (leftoverStack.isEmpty()) {
             itemEntity.discard();
         } else {

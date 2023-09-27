@@ -2,14 +2,18 @@ package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.common.block.Bottler;
 import cy.jdkdigital.productivebees.common.item.GeneBottle;
+import cy.jdkdigital.productivebees.common.recipe.BottlerRecipe;
 import cy.jdkdigital.productivebees.container.BottlerContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.animal.Bee;
@@ -30,12 +34,18 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidActionResult;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BottlerBlockEntity extends FluidTankBlockEntity
 {
@@ -94,6 +104,58 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
             }
         }
         FluidTankBlockEntity.tick(level, pos, state, blockEntity);
+    }
+
+    public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
+        blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler -> {
+            FluidStack fluidStack = fluidHandler.getFluidInTank(0);
+            if (fluidStack.getAmount() >= 0 && level instanceof ServerLevel) {
+                blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(invHandler -> {
+                    ItemStack fluidContainerItem = invHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                    ItemStack existingOutput = invHandler.getStackInSlot(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT);
+                    if (fluidContainerItem.getCount() > 0 && (existingOutput.isEmpty() || (existingOutput.getCount() < existingOutput.getMaxStackSize()))) {
+                        // Look up bottler recipes from input
+                        List<BottlerRecipe> recipes = new ArrayList<>();
+                        Map<ResourceLocation, BottlerRecipe> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.BOTTLER_TYPE.get());
+                        for (Map.Entry<ResourceLocation, BottlerRecipe> entry : allRecipes.entrySet()) {
+                            BottlerRecipe recipe = entry.getValue();
+                            if (recipe.matches(fluidStack, fluidContainerItem)) {
+                                recipes.add(recipe);
+                            }
+                        }
+
+                        if (recipes.size() > 0) {
+                            BottlerRecipe recipe = recipes.iterator().next();
+                            if (existingOutput.isEmpty() || existingOutput.getItem().equals(recipe.getResultItem(level.registryAccess()).getItem())) {
+                                processOutput(fluidHandler, invHandler, recipe.getResultItem(level.registryAccess()).copy(), recipe.fluidInput.getSecond(), true);
+                            }
+                        } else if (fluidContainerItem.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
+                            // try filling fluid container
+                            fluidContainerItem.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(h -> {
+                                int amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                                processOutput(fluidHandler, invHandler, h.getFluidInTank(0).getAmount() == h.getTankCapacity(0) ? fluidContainerItem : null, amount, false);
+                            });
+                        } else {
+                            // try to fill bucket
+                            FluidActionResult fillResult = FluidUtil.tryFillContainer(fluidContainerItem, fluidHandler, Integer.MAX_VALUE, null, true);
+                            if (fillResult.isSuccess()) {
+                                processOutput(fluidHandler, invHandler, fillResult.getResult(), 0, true);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private static void processOutput(IFluidHandler fluidHandler, IItemHandler itemHandler, ItemStack outputItem, int drainedAmount, boolean shrinkInputStack) {
+        if (shrinkInputStack) {
+            itemHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT).shrink(1);
+        }
+        if (outputItem != null) {
+            itemHandler.insertItem(InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, outputItem, false);
+        }
+        fluidHandler.drain(drainedAmount, IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override

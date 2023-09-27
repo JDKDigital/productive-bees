@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "alchemistry:dissolver",
+  "pattern": [
+    "EEE",
+    "EDE",
+    "EEE"
+  ],
+  "key": {
+    "D": {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:platnum"
+        }
+      }
+    },
+    "E": {
+      "item": "chemlib:rhodium"
+    }
+  },
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:rhodium"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "alchemistry"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:platinum"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:rhodium"
+    }
+  ]
+}

@@ -335,12 +335,13 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     protected void beeReleasePostAction(Level level, Bee beeEntity, BlockState state, BeehiveBlockEntity.BeeReleaseStatus beeState) {
+        beeEntity.setHealth(beeEntity.getMaxHealth());
+
         if (MinecraftForge.EVENT_BUS.post(new BeeReleaseEvent(level, beeEntity, this, state, beeState))) {
             return;
         }
 
         beeEntity.resetTicksWithoutNectarSinceExitingHive();
-        beeEntity.heal(beeEntity.getMaxHealth());
 
         applyHiveTime(getTimeInHive(beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED, beeEntity), beeEntity);
         beeEntity.dropOffNectar();

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
+import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -54,13 +55,17 @@ public class RancherBee extends ProductiveBee
             return false;
         }
 
-        List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), predicate);
-        if (!entities.isEmpty()) {
-            target = (PathfinderMob) entities.get(0);
+        if (level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
+            return amberBlockEntity.getCachedEntity().getType().is(ModTags.RANCHABLES);
+        } else {
+            List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), predicate);
+            if (!entities.isEmpty()) {
+                target = (PathfinderMob) entities.get(0);
 
-            target.addEffect(new MobEffectInstance(MobEffects.LUCK, 400));
+                target.addEffect(new MobEffectInstance(MobEffects.LUCK, 400));
 
-            return true;
+                return true;
+            }
         }
 
         return false;

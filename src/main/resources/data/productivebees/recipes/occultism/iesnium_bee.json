@@ -4,7 +4,7 @@
     {
       "type": "forge:nbt",
       "item": "productivebees:spawn_egg_configurable_bee",
-      "nbt": "{EntityTag:{type:\"productivebees:iron\"}}"
+      "nbt": "{EntityTag:{type:\"productivebees:silver\"}}"
     }
   ],
   "result": {
@@ -19,7 +19,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:iron"
+      "bee": "productivebees:silver"
     },
     {
       "type": "productivebees:bee_exists",

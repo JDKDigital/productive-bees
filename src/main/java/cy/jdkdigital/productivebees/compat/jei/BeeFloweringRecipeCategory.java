@@ -25,6 +25,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -145,7 +146,9 @@ public class BeeFloweringRecipeCategory implements IRecipeCategory<BeeFloweringR
                     recipes.add(Recipe.createBlock(flowerTag, itemFlowerTag, entry.getValue()));
                 } else if (nbt.contains("flowerBlock")) {
                     Block flowerBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString("flowerBlock")));
-                    recipes.add(Recipe.createBlock(flowerBlock, entry.getValue()));
+                    if (flowerBlock != null && !flowerBlock.equals(Blocks.AIR)) {
+                        recipes.add(Recipe.createBlock(flowerBlock, entry.getValue()));
+                    }
                 } else if (nbt.contains("flowerFluid")) {
                     if (nbt.getString("flowerFluid").contains("#")) {
                         TagKey<Fluid> flowerFluid = ModTags.getFluidTag(new ResourceLocation(nbt.getString("flowerFluid").replace("#", "")));

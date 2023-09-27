@@ -24,9 +24,32 @@
             "condition": "minecraft:location_check",
             "predicate": {
               "block": {
-                "tag": [
-                  "productivebees:solitary_nests"
-                ]
+                "blocks": [
+                  "minecraft:respawn_anchor"
+                ],
+                "state": {
+                  "charges": "4"
+                }
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "minecraft:glowstone"
+              ]
+            }
+          }
+        ]
+      },
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "productivebees:solitary_nests"
               }
             }
           },

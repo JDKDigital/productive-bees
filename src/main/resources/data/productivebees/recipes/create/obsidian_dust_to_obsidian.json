@@ -22,8 +22,17 @@
       }
     },
     {
-      "type": "forge:mod_loaded",
-      "modid": "create"
+      "type": "forge:or",
+      "values": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "create"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "enderio"
+        }
+      ]
     }
   ]
 }

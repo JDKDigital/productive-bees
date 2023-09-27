@@ -10,27 +10,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HarvestCompatHandler
 {
-    static Map<String, HarvestCompat> harvesters = new HashMap<>() {{
-        put("minecraft", new MinecraftHarvester());
-        put("pamhc2trees", new PamsHarvester());
-    }};
-
     public static boolean isCropValid(ProductiveBee bee, BlockPos pos) {
-        return harvesters.values().stream().anyMatch(harvestCompat -> harvestCompat.isCropValid(bee, pos));
+        boolean isValid = MinecraftHarvester.isCropValid(bee, pos);
+        if (!isValid && ModList.get().isLoaded("pamhc2trees")) {
+            isValid = PamsHarvester.isCropValid(bee, pos);
+        }
+        return isValid;
     }
 
     public static void harvestBlock(ProductiveBee bee, BlockPos pos) {
         AtomicBoolean hasHarvested = new AtomicBoolean(false);
-        harvesters.forEach((modId, harvestCompat) -> {
-            if (!hasHarvested.get() && (modId.equals("minecraft") || ModList.get().isLoaded(modId)) && harvestCompat.isCropValid(bee, pos)) {
-                harvestCompat.harvestBlock(bee, pos);
+        if (MinecraftHarvester.isCropValid(bee, pos)) {
+            MinecraftHarvester.harvestBlock(bee, pos);
+            hasHarvested.set(true);
+        }
+        if (!hasHarvested.get() && ModList.get().isLoaded("pamhc2trees")) {
+            if (PamsHarvester.isCropValid(bee, pos)) {
+                PamsHarvester.harvestBlock(bee, pos);
                 hasHarvested.set(true);
             }
-        });
-    }
-
-    public interface HarvestCompat {
-        boolean isCropValid(ProductiveBee bee, BlockPos pos);
-        void harvestBlock(ProductiveBee bee, BlockPos pos);
+        }
     }
 }

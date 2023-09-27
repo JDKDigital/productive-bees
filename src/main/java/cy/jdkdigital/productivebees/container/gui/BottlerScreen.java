@@ -61,8 +61,9 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerContainer>
         // Draw fluid tank
         this.menu.tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(handler -> {
             FluidStack fluidStack = handler.getFluidInTank(0);
+
             if (fluidStack.getAmount() > 0) {
-                FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, handler.getTankCapacity(0), 140, 69, 4, 52, 0);
+                FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, handler.getTankCapacity(0), 140, 17, 4, 52, 0);
             }
         });
     }

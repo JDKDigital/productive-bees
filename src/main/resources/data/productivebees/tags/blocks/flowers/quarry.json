@@ -5,11 +5,13 @@
     "#forge:stone",
     "#forge:sand",
     "#forge:gravel",
+    "minecraft:cobblestone",
     "minecraft:end_stone",
     "minecraft:netherrack",
     "minecraft:clay",
     "minecraft:blackstone",
     "minecraft:basalt",
+    "minecraft:calcite",
     {
       "id": "ae2:sky_stone_block",
       "required": false
@@ -40,6 +42,10 @@
     },
     {
       "id": "create:veridium",
+      "required": false
+    },
+    {
+      "id": "quark:corundum",
       "required": false
     }
   ]

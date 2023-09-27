@@ -44,16 +44,16 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
                 if (blockEntity.canRepopulate() && block instanceof SolitaryNest nest) {
                     Entity newBee = SolitaryNest.getNestingBeeType(nest, level, level.getBiome(pos), level.random);
                     if (newBee != null) {
-                        if (newBee instanceof Bee bee) {
-                            bee.setHealth(((Bee) newBee).getMaxHealth());
-                            bee.hivePos = pos;
-                        }
                         if (newBee instanceof ProductiveBee pBee) {
                             pBee.setDefaultAttributes();
                         }
                         Direction direction = state.getValue(BlockStateProperties.FACING);
                         spawnBeeInWorldAtPosition((ServerLevel) level, newBee, pos.relative(direction), direction, null);
                         blockEntity.nestTickTimer = -1;
+                        if (newBee instanceof Bee bee) {
+                            bee.setHealth(((Bee) newBee).getMaxHealth());
+                            bee.hivePos = pos;
+                        }
                     }
                 }
             }

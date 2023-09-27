@@ -7,7 +7,7 @@
   "to": {
     "Name": "minecraft:suspicious_gravel"
   },
-  "chance": 70,
+  "chance": 50,
   "conditions": [
     {
       "type": "productivebees:bee_exists",

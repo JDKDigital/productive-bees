@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
-abstract class CapabilityContainerBlock extends BaseEntityBlock
+public abstract class CapabilityContainerBlock extends BaseEntityBlock
 {
     protected CapabilityContainerBlock(Properties builder) {
         super(builder);
