@@ -64,7 +64,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this) {
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
-            if (slot == AdvancedBeehiveContainer.SLOT_CAGE) {
+            if (slot == AdvancedBeehiveContainer.SLOT_CAGE && isInputSlot(slot)) {
                 return item.getItem() instanceof BeeCage;
             }
             if (slot == AdvancedBeehiveContainer.SLOT_BOTTLE && item.is(Blocks.SPONGE.asItem())) {

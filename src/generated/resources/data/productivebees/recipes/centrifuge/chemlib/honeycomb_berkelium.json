@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:berkelium"
+      "bee": "productivebees:berkelium"
     }
   ],
   "ingredient": {

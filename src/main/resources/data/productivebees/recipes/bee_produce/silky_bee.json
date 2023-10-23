@@ -15,6 +15,12 @@
     },
     {
       "item": {
+        "item": "minecraft:spider_eye"
+      },
+      "chance": 5
+    },
+    {
+      "item": {
         "tag": "forge:pollen"
       },
       "chance": 5

@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.datagen;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.datagen.recipe.provider.CentrifugeRecipeProvider;
 import cy.jdkdigital.productivebees.datagen.recipe.provider.RecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;

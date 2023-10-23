@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee.solitary;
 
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.entity.bee.SolitaryBee;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeHelper;
@@ -50,13 +51,15 @@ public class ResinBee extends SolitaryBee
             return false;
         }
 
-        List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), predicate);
-        if (!entities.isEmpty()) {
-            target = (PathfinderMob) entities.get(0);
+        if (ProductiveBeesConfig.BEES.enableResinBeeEncasing.get()) {
+            List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), predicate);
+            if (!entities.isEmpty()) {
+                target = (PathfinderMob) entities.get(0);
 
-            target.addEffect(new MobEffectInstance(MobEffects.LUCK, 400));
+                target.addEffect(new MobEffectInstance(MobEffects.LUCK, 400));
 
-            return true;
+                return true;
+            }
         }
 
         return isFlowerBlock(level().getBlockState(pos));
@@ -65,7 +68,7 @@ public class ResinBee extends SolitaryBee
     @Override
     public void postPollinate() {
         super.postPollinate();
-        if (level().getRandom().nextInt(100) < 10) {
+        if (ProductiveBeesConfig.BEES.enableResinBeeEncasing.get() && level().getRandom().nextInt(100) < 10) {
             BeeHelper.encaseMob(target, level(), this.getDirection());
         }
     }

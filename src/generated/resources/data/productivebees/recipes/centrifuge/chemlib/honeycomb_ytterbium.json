@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:ytterbium"
+      "bee": "productivebees:ytterbium"
     }
   ],
   "ingredient": {

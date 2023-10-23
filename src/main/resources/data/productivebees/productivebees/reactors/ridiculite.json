@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#e2ace8",
+  "secondaryColor": "#ba8abf",
+  "particleColor": "#dcb4e0",
+  "size": 0.8,
+  "flowerTag": "forge:storage_blocks/ridiculite",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/ridiculite"
+      }
+    }
+  ]
+}

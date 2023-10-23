@@ -7,14 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:barium"
-    },
-    {
-      "type": "forge:not",
-      "value": {
-        "type": "forge:mod_loaded",
-        "modid": "gtceu"
-      }
+      "bee": "productivebees:barium"
     }
   ],
   "ingredient": {

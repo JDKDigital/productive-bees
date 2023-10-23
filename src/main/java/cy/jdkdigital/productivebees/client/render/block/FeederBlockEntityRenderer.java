@@ -52,15 +52,16 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
     public void render(FeederBlockEntity tileEntityIn, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         SlabType slabType = tileEntityIn.getBlockState().getValue(SlabBlock.TYPE);
         tileEntityIn.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-            int filledSlots = 0;
+            List<ItemStack> filledSlots = new ArrayList<>();
             for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                if (!handler.getStackInSlot(slot).isEmpty()) {
-                    filledSlots++;
+                var stack = handler.getStackInSlot(slot);
+                if (!stack.isEmpty()) {
+                    filledSlots.add(stack);
                 }
             }
-            filledSlots = Math.min(2, filledSlots);
 
-            if (filledSlots > 0) {
+            if (filledSlots.size() > 0) {
+                // TODO fix third item not rendering
                 for (int slot = 0; slot < Math.min(3, handler.getSlots()); ++slot) {
                     ItemStack slotStack = handler.getStackInSlot(slot);
 
@@ -69,7 +70,7 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
                     }
 
                     boolean isFlower = slotStack.is(ItemTags.FLOWERS);
-                    Pair<Float, Float> pos = POSITIONS.get(filledSlots).get(slot);
+                    Pair<Float, Float> pos = POSITIONS.get(Math.min(3, filledSlots.size())).get(slot);
                     float rotation = isFlower ? 90F : 35.0F * slot;
                     float zScale = isFlower ? 0.775F : 0.575F;
 

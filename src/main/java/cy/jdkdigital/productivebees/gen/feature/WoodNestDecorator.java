@@ -79,7 +79,7 @@ public class WoodNestDecorator extends TreeDecorator {
                     context.setBlock(nestPos, this.nest.getBlock().defaultBlockState().setValue(BlockStateProperties.FACING, nestDirections.size() == 1 ? nestDirections.get(0) : nestDirections.get(random.nextInt(nestDirections.size()))));
                     pLevel.getBlockEntity(nestPos, ModBlockEntityTypes.SOLITARY_NEST.get()).ifPresent((nestBlockEntity) -> {
                         ProductiveBees.LOGGER.debug("Spawned wood nest at " + nestPos + " " + this.nest);
-                        if (!this.recipes.isEmpty()) {
+                        if (!this.recipes.isEmpty() && !nestBlockEntity.isFull()) {
                             BeeSpawningRecipe spawningRecipe = this.recipes.get(random.nextInt(this.recipes.size()));
                             if (!spawningRecipe.output.isEmpty()) {
                                 BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();

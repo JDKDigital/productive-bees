@@ -6,9 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.fml.ModList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SussyCompatHandler
 {

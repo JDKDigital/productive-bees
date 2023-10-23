@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:strontium"
+      "bee": "productivebees:strontium"
     }
   ],
   "ingredient": {

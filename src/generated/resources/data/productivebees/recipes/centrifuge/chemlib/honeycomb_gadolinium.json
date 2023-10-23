@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:gadolinium"
+      "bee": "productivebees:gadolinium"
     }
   ],
   "ingredient": {

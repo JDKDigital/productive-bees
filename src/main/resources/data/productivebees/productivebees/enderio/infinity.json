@@ -4,7 +4,7 @@
   "particleColor": "#717171",
   "particleType": "pop",
   "size": 0.5,
-  "flowerBlock": "minecraft:bedrock",
+  "flowerBlock": "enderio:reinforced_obsidian_block",
   "breedingItem": "minecraft:flint_and_steel",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "conditions": [

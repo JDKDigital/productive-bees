@@ -1,0 +1,38 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:cyanite"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biggerreactors"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "count": 1,
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": "{EntityTag:{type:\"productivebees:cyanite\"}}"
+    }
+  ],
+  "results": [
+    {
+      "item": "biggerreactors:cyanite"
+    },
+    {
+      "item": "productivebees:wax"
+    },
+    {
+      "amount": 50,
+      "fluid": "productivebees:honey"
+    }
+  ]
+}

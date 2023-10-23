@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#1929d4",
+  "secondaryColor": "#0c1899",
+  "particleColor": "#2b38bd",
+  "size": 0.8,
+  "flowerTag": "forge:storage_blocks/blutonium",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/blutonium"
+      }
+    }
+  ]
+}

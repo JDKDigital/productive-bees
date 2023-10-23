@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:californium"
+      "bee": "productivebees:californium"
     }
   ],
   "ingredient": {

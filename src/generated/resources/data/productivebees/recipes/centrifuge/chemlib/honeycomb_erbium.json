@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:erbium"
+      "bee": "productivebees:erbium"
     }
   ],
   "ingredient": {

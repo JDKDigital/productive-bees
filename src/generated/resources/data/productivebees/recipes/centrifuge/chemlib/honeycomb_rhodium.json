@@ -7,14 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:rhodium"
-    },
-    {
-      "type": "forge:not",
-      "value": {
-        "type": "forge:mod_loaded",
-        "modid": "gtceu"
-      }
+      "bee": "productivebees:rhodium"
     }
   ],
   "ingredient": {

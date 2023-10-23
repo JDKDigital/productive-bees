@@ -1,0 +1,35 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "chemlib"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "count": 1,
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": "{EntityTag:{type:\"productivebees:thorium\"}}"
+    }
+  ],
+  "results": [
+    {
+      "chance": 0.8,
+      "item": "chemlib:thorium"
+    },
+    {
+      "item": "productivebees:wax"
+    },
+    {
+      "amount": 50,
+      "fluid": "productivebees:honey"
+    }
+  ]
+}

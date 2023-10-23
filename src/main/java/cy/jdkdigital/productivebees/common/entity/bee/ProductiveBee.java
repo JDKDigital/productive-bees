@@ -655,7 +655,10 @@ public class ProductiveBee extends Bee
     }
 
     public boolean isFlowerItem(ItemStack flowerItem) {
-        return flowerItem.is(ItemTags.FLOWERS) || BeeHelper.hasItemConversionRecipe(this, flowerItem);
+        if (flowerItem.getItem() instanceof BlockItem blockItem && isFlowerBlock(blockItem.getBlock().defaultBlockState())) {
+            return true;
+        }
+        return BeeHelper.hasItemConversionRecipe(this, flowerItem);
     }
 
     public TagKey<Block> getNestingTag() {

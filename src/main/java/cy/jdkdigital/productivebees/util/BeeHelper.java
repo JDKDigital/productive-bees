@@ -28,10 +28,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
@@ -430,6 +427,9 @@ public class BeeHelper
     public static void encaseMob(PathfinderMob target, Level level, Direction direction) {
         // Encase mob
         if (target != null && !target.getType().is(ModTags.EXTERNAL_CAN_POLLINATE)) {
+            if (target instanceof TamableAnimal tamableAnimal && tamableAnimal.isTame()) {
+                return;
+            }
             if (level.isEmptyBlock(target.blockPosition())) {
                 level.setBlockAndUpdate(target.blockPosition(), ModBlocks.AMBER.get().defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, direction));
                 if (level.getBlockEntity(target.blockPosition()) instanceof AmberBlockEntity amberBlockEntity) {

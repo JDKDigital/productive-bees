@@ -31,7 +31,7 @@
     {
       "type": "forge:nbt",
       "item": "productivebees:spawn_egg_configurable_bee",
-      "nbt": "{EntityTag:{type:\"productivebees:diamond\"}}"
+      "nbt": "{EntityTag:{type:\"productivebees:amethyst\"}}"
     }
   ],
   "output": {
@@ -47,7 +47,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:diamond"
+      "bee": "productivebees:amethyst"
     },
     {
       "type": "productivebees:bee_exists",

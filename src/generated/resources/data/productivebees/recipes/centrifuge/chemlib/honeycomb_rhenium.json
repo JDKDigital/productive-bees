@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:rhenium"
+      "bee": "productivebees:rhenium"
     }
   ],
   "ingredient": {

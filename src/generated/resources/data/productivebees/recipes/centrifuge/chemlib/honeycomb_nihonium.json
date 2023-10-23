@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:nihonium"
+      "bee": "productivebees:nihonium"
     }
   ],
   "ingredient": {

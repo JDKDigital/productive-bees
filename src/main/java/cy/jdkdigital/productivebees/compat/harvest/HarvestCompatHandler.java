@@ -4,8 +4,6 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.fml.ModList;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HarvestCompatHandler

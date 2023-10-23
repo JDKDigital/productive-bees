@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:nitrogen"
+      "bee": "productivebees:nitrogen"
     }
   ],
   "ingredient": {

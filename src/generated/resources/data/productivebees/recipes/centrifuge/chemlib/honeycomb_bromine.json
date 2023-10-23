@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:bromine"
+      "bee": "productivebees:bromine"
     }
   ],
   "ingredient": {

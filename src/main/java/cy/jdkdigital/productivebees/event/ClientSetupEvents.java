@@ -14,42 +14,118 @@ import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity
 import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.common.item.SpawnEgg;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientSetupEvents
 {
     @SubscribeEvent
+    public static void tabContents(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey().equals(ProductiveBees.TAB_KEY)) {
+            for (RegistryObject<Item> item: ModItems.ITEMS.getEntries()) {
+                if (
+                        !item.equals(ModItems.CONFIGURABLE_HONEYCOMB) &&
+                        !item.equals(ModItems.CONFIGURABLE_COMB_BLOCK) &&
+                        !item.equals(ModItems.CONFIGURABLE_SPAWN_EGG) &&
+                        !item.equals(ModItems.GENE) &&
+                        !item.equals(ModItems.GENE_BOTTLE) &&
+                        !item.equals(ModItems.ADV_BREED_ALL_BEES) &&
+                        !item.equals(ModItems.ADV_BREED_BEE)
+                ) {
+                    event.accept(new ItemStack(item.get(), 1));
+                }
+            }
+
+            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+                String beeType = entry.getKey();
+
+                // Add comb item
+                if (entry.getValue().getBoolean("createComb")) {
+                    ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
+                    BeeCreator.setTag(beeType, comb);
+
+                    event.accept(comb);
+
+                    // Add comb block
+                    ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
+                    BeeCreator.setTag(beeType, combBlock);
+
+                    event.accept(combBlock);
+                }
+            }
+
+            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 0, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 1, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 2, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 3, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, 0, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, 1, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, 2, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.BEHAVIOR, 0, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.BEHAVIOR, 1, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.BEHAVIOR, 2, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.TEMPER, 0, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.TEMPER, 1, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.TEMPER, 2, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.TEMPER, 3, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 0, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 1, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 2, 1, 100));
+            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 3, 1, 100));
+        }
+
+        if (event.getTabKey().equals(ProductiveBees.TAB_KEY) || event.getTabKey().equals(CreativeModeTabs.SPAWN_EGGS)) {
+            for (RegistryObject<Item> spawnEgg: ModItems.SPAWN_EGGS) {
+                if (!spawnEgg.equals(ModItems.CONFIGURABLE_SPAWN_EGG)) {
+                    event.accept(spawnEgg);
+                }
+            }
+            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
+                String beeType = entry.getKey();
+
+                // Add spawn egg item
+                event.accept(BeeCreator.getSpawnEgg(beeType));
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
         for (RegistryObject<Item> eggItem : ModItems.SPAWN_EGGS) {
-            if (ObfuscationReflectionHelper.getPrivateValue(RegistryObject.class, eggItem, "value") != null) {
-                Item item = eggItem.get();
-                if (item instanceof SpawnEgg) {
-                    event.register((stack, tintIndex) -> ((SpawnEgg) item).getColor(tintIndex, stack), item);
-                }
+            Item item = eggItem.get();
+            if (item instanceof SpawnEgg) {
+                event.register((stack, tintIndex) -> ((SpawnEgg) item).getColor(tintIndex, stack), item);
             }
         }
 

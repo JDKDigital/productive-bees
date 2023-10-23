@@ -1,12 +1,33 @@
+1.20.1-12.2.5
+
+- Fixed bug that allowed any bee to pollinate on a feeding slab with just flowers
+- Added config option to disable resin bees from trapping entities in amber
+- Added bees for Extreme Reactors and Bigger Reactors
+- Centrifuge performance improvements when connected to fast "pipes"
+- Fixed CheezyB flower block
+- Fixed feeding slabs only showing 2 items
+- Fixed being able to put cages into a non-sim hive
+- Some chemlib bees flower items changed
+- Fixed some chemlib honeycomb processing
+- Silky bees have a chance to produce spider eyes
+- Changed Infinity bee flower block to reinforced obsidian instead of bedrock
+- Tamed animals no longer get trapped in amber
+- Arcane bee now requires an amethyst bee instead of diamond
+
+
+1.20.1-12.2.4
+
+- Fixed chemlib bee comb recipes
+- Added a very boring option to turn off amber encasing for resin bees
+- Amber bees no longer trap tamed animals
+- Removed chemlib fallback recipes (Update Alchemistry to get the proper recipes)
+
+
 1.20.1-12.2.3
 
 - Added Ether Gas Bee (Industrial Foregoing)
 - Bees pollinating on entities can now pollinate on amber encased entities
 - Fixed some recipes
-
-
-1.20.1-12.2.2
-
 - Fixed flowering item for some bees
 - Recipe adjustments
 

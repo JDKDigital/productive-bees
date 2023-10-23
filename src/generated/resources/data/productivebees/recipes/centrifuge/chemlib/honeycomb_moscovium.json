@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:moscovium"
+      "bee": "productivebees:moscovium"
     }
   ],
   "ingredient": {

@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:hassium"
+      "bee": "productivebees:hassium"
     }
   ],
   "ingredient": {

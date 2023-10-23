@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:chlorine"
+      "bee": "productivebees:chlorine"
     }
   ],
   "ingredient": {

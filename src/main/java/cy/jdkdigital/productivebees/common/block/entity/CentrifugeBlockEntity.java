@@ -79,10 +79,8 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             if (fromAutomation) {
                 // Skip recipe lookup if the item is different
                 ItemStack existing = this.stacks.get(slot);
-                if (!existing.isEmpty()) {
-                    if (!ItemHandlerHelper.canItemStacksStack(stack, existing)) {
-                        return stack;
-                    }
+                if (!existing.isEmpty() && !ItemHandlerHelper.canItemStacksStack(stack, existing)) {
+                    return stack;
                 }
             }
             return super.insertItem(slot, stack, simulate, fromAutomation);
@@ -90,9 +88,19 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
-            boolean isProcessableItem = item.getItem().equals(ModItems.GENE_BOTTLE.get()) || item.getItem().equals(ModItems.HONEY_TREAT.get()) || CentrifugeBlockEntity.this.canProcessItemStack(item);
+            var currentStack = getStackInSlot(slot);
 
-            return (isProcessableItem && slot == InventoryHandlerHelper.INPUT_SLOT) || (!isProcessableItem && super.isInputSlotItem(slot, item));
+            if (currentStack.getCount() == currentStack.getMaxStackSize()) {
+                return false;
+            }
+
+            boolean isProcessableItem =
+                    ItemStack.isSameItemSameTags(currentStack, item) ||
+                    item.getItem().equals(ModItems.GENE_BOTTLE.get()) ||
+                    item.getItem().equals(ModItems.HONEY_TREAT.get()) ||
+                    CentrifugeBlockEntity.this.canProcessItemStack(item);
+
+            return !isProcessableItem || slot == InventoryHandlerHelper.INPUT_SLOT;
         }
 
         @Override

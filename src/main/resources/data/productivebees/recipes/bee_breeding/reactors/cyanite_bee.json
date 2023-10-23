@@ -1,0 +1,25 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:radioactive",
+  "result": "productivebees:cyanite",
+  "item": {
+    "tag": "forge:storage_blocks/cyanite"
+  },
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/cyanite"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:radioactive"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:cyanite"
+    }
+  ]
+}

@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:lawrencium"
+      "bee": "productivebees:lawrencium"
     }
   ],
   "ingredient": {

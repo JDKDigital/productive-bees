@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:mendelevium"
+      "bee": "productivebees:mendelevium"
     }
   ],
   "ingredient": {

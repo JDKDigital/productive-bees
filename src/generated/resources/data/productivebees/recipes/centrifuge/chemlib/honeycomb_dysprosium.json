@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:dysprosium"
+      "bee": "productivebees:dysprosium"
     }
   ],
   "ingredient": {

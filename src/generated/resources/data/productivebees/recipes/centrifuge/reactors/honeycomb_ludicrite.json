@@ -1,0 +1,40 @@
+{
+  "type": "productivebees:centrifuge",
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ludicrite"
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:ingots/ludicrite"
+      }
+    }
+  ],
+  "ingredient": {
+    "type": "forge:nbt",
+    "count": 1,
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": "{EntityTag:{type:\"productivebees:ludicrite\"}}"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "item": {
+        "tag": "#forge:ingots/ludicrite"
+      }
+    },
+    {
+      "amount": 50,
+      "fluid": {
+        "tag": "forge:honey"
+      }
+    }
+  ]
+}

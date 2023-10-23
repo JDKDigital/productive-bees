@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:scandium"
+      "bee": "productivebees:scandium"
     }
   ],
   "ingredient": {

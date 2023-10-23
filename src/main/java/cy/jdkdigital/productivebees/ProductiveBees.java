@@ -133,7 +133,6 @@ public final class ProductiveBees
         modEventBus.addListener(this::onInterModEnqueue);
         modEventBus.addListener(this::onCommonSetup);
         modEventBus.addListener(EventHandler::onEntityAttributeCreate);
-        modEventBus.addListener(EventHandler::tabContents);
 
         // Config loading
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ProductiveBeesConfig.SERVER_CONFIG);

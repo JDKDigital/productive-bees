@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:tennessine"
+      "bee": "productivebees:tennessine"
     }
   ],
   "ingredient": {

@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:krypton"
+      "bee": "productivebees:krypton"
     }
   ],
   "ingredient": {

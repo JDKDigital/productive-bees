@@ -1,25 +1,9 @@
 package cy.jdkdigital.productivebees.datagen.recipe.provider;
 
-import cy.jdkdigital.productivebees.ProductiveBees;
-import cy.jdkdigital.productivebees.common.crafting.conditions.BeeExistsCondition;
-import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
-import cy.jdkdigital.productivebees.datagen.recipe.builder.AbstractRecipeBuilder;
-import cy.jdkdigital.productivebees.datagen.recipe.builder.CentrifugeRecipeBuilder;
-import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
-import net.minecraftforge.common.crafting.conditions.NotCondition;
-import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class CentrifugeRecipeProvider extends RecipeProvider {

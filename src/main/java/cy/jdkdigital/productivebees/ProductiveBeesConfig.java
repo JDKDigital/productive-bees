@@ -169,6 +169,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.IntValue cuckooSpawnCount;
         public final ForgeConfigSpec.DoubleValue kamikazBeeChance;
         public final ForgeConfigSpec.BooleanValue disableWanderGoal;
+        public final ForgeConfigSpec.BooleanValue enableResinBeeEncasing;
 
         public Bees(ForgeConfigSpec.Builder builder) {
             builder.push("Bees");
@@ -209,6 +210,10 @@ public class ProductiveBeesConfig
             disableWanderGoal = builder
                     .comment("Disable the wander goal in bees to increase performance")
                     .define("disableWanderGoal", false);
+
+            enableResinBeeEncasing = builder
+                    .comment("Allow resin bees to encase mobs in amber. With this disabled it's only possible with an amber bee and it's also not as fun.")
+                    .define("enableResinBeeEncasing", true);
 
             builder.pop();
         }

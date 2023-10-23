@@ -1,0 +1,30 @@
+{
+  "type": "productivebees:item_conversion",
+  "bee": "productivebees:inanite",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:ridiculite"
+        }
+      }
+    }
+  ],
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:insanite"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:insanite"
+    }
+  ]
+}

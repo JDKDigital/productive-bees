@@ -7,7 +7,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "minecraft:radium"
+      "bee": "productivebees:radium"
     }
   ],
   "ingredient": {

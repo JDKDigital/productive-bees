@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#72c2d4",
+  "secondaryColor": "#60b2c4",
+  "particleColor": "#92c6d1",
+  "size": 0.8,
+  "flowerTag": "forge:storage_blocks/cyanite",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:storage_blocks/cyanite"
+      }
+    }
+  ]
+}

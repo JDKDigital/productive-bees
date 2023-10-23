@@ -9,15 +9,12 @@ import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBee;
-import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.gen.feature.WoodNestDecorator;
 import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
-import cy.jdkdigital.productivebees.util.BeeAttributes;
-import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -36,7 +33,6 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -53,7 +49,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.TreeConfigurati
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -72,80 +67,10 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID)
 public class EventHandler
 {
-    public static void tabContents(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey().equals(ProductiveBees.TAB_KEY)) {
-            for (RegistryObject<Item> item: ModItems.ITEMS.getEntries()) {
-                if (
-                    !item.equals(ModItems.CONFIGURABLE_HONEYCOMB) &&
-                    !item.equals(ModItems.CONFIGURABLE_COMB_BLOCK) &&
-                    !item.equals(ModItems.CONFIGURABLE_SPAWN_EGG) &&
-                    !item.equals(ModItems.GENE) &&
-                    !item.equals(ModItems.GENE_BOTTLE) &&
-                    !item.equals(ModItems.ADV_BREED_ALL_BEES) &&
-                    !item.equals(ModItems.ADV_BREED_BEE)
-                ) {
-                    event.accept(new ItemStack(item.get(), 1));
-                }
-            }
-
-            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
-                String beeType = entry.getKey();
-
-                // Add comb item
-                if (entry.getValue().getBoolean("createComb")) {
-                    ItemStack comb = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
-                    BeeCreator.setTag(beeType, comb);
-
-                    event.accept(comb);
-
-                    // Add comb block
-                    ItemStack combBlock = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-                    BeeCreator.setTag(beeType, combBlock);
-
-                    event.accept(combBlock);
-                }
-            }
-
-            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 0, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 1, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 2, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.PRODUCTIVITY, 3, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, 0, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, 1, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.WEATHER_TOLERANCE, 2, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.BEHAVIOR, 0, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.BEHAVIOR, 1, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.BEHAVIOR, 2, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.TEMPER, 0, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.TEMPER, 1, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.TEMPER, 2, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.TEMPER, 3, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 0, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 1, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 2, 1, 100));
-            event.accept(Gene.getStack(BeeAttributes.ENDURANCE, 3, 1, 100));
-        }
-
-        if (event.getTabKey().equals(ProductiveBees.TAB_KEY) || event.getTabKey().equals(CreativeModeTabs.SPAWN_EGGS)) {
-            for (RegistryObject<Item> spawnEgg: ModItems.SPAWN_EGGS) {
-                if (!spawnEgg.equals(ModItems.CONFIGURABLE_SPAWN_EGG)) {
-                    event.accept(spawnEgg);
-                }
-            }
-            for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
-                String beeType = entry.getKey();
-
-                // Add spawn egg item
-                event.accept(BeeCreator.getSpawnEgg(beeType));
-            }
-        }
-    }
-
     @SubscribeEvent
     public static void onBlockGrow(SaplingGrowTreeEvent event) {
         if (event.getLevel() instanceof ServerLevel serverLevel) {
