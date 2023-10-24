@@ -75,7 +75,7 @@ public abstract class AbstractRecipeBuilder implements RecipeBuilder {
             JsonObject item = new JsonObject();
 
             if (ingredient.startsWith("#")) {
-                item.addProperty("tag", ingredient);
+                item.addProperty("tag", ingredient.replace("#", ""));
             } else {
                 item.addProperty("item", ingredient);
             }

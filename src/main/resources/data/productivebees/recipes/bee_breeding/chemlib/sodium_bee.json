@@ -3,7 +3,7 @@
   "parent1": "productivebees:water",
   "parent2": "productivebees:phosphorus",
   "offspring": [
-    "productivebees:natrium"
+    "productivebees:sodium"
   ],
   "conditions": [
     {
@@ -16,7 +16,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:natrium"
+      "bee": "productivebees:sodium"
     }
   ]
 }

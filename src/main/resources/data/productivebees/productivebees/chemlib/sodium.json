@@ -2,7 +2,6 @@
   "primaryColor": "#e8d7a6",
   "particleColor": "#f6e5b2",
   "beeTexture": "productivebees:textures/entity/bee/sodium/bee",
-  "description": "productivebees.ingredient.description.only_spawnegg",
   "flowerBlock": "chemlib:sodium_metal_block",
   "conditions": [
     {

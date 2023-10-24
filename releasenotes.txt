@@ -1,3 +1,8 @@
+1.20.1-12.2.6
+
+- Fixed recipe errors
+
+
 1.20.1-12.2.5
 
 - Fixed bug that allowed any bee to pollinate on a feeding slab with just flowers
