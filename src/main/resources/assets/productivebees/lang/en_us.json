@@ -807,7 +807,7 @@
   "jei.productivebees.centrifuge": "Centrifuge",
   "jei.productivebees.incubation": "Incubation",
   "productivebees.centrifuge.tooltip.amount": "Amount: %s",
-  "productivebees.centrifuge.tooltip.chance": "Chance: %s%%",
+  "productivebees.centrifuge.tooltip.chance": "Chance: %s",
   "productivebees.incubator.tooltip.treat_item": "Here goes honey treats",
   "productivebees.advanced_hive.tooltip.bee_cage": "Put empty bee cages to pull out bees or filled bee cages to insert bees",
   "productivebees.heated_centrifuge.tooltip": "\"It's ruining the honey\" - some vegan",
