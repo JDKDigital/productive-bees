@@ -1,3 +1,11 @@
+1.20.1-12.2.7
+
+- Bee nests spawning from tree growth will no longer consider leaves and sapling as flowers even if they're tagged as such
+- Festive stuff
+- Massive bees don't take up the whole damn screen now
+- Fixed some flowering blocks
+
+
 1.20.1-12.2.6
 
 - Fixed recipe errors

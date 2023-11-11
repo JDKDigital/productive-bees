@@ -153,13 +153,7 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
     }
 
     private void renderChristmasHat(@Nonnull PoseStack matrixStackIn, @Nonnull MultiBufferSource bufferIn, int packedLightIn, @Nonnull ProductiveBee entity) {
-        if (isChristmas && entity.isColored() && !entity.getRenderStatic()) {
-            if (entity instanceof ConfigurableBee) {
-                if (((ConfigurableBee) entity).hasBeeTexture()) {
-                    return;
-                }
-            }
-
+        if (isChristmas && !entity.getRenderStatic()) {
             ResourceLocation location = ProductiveBeeRenderer.resLoc(ProductiveBees.MODID + ":textures/entity/bee/base/" + this.modelType + "/santa_hat.png");
             renderColoredCutoutModel(this.model, location, matrixStackIn, bufferIn, packedLightIn, entity, 1.0f, 1.0f, 1.0f);
         }

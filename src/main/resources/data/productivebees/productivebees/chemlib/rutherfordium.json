@@ -4,7 +4,7 @@
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/rutherfordium/bee",
   "size": 0.5,
-  "flowerBlock": "chemlib:rutherfordium_metal_block",
+  "flowerItem": "chemlib:rutherfordium",
   "selfbreed": false,
   "conditions": [
     {

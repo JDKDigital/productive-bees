@@ -121,7 +121,8 @@ public class EventHandler
 
     private static boolean hasFlowers(LevelAccessor pLevel, BlockPos pPos) {
         for(BlockPos blockpos : BlockPos.MutableBlockPos.betweenClosed(pPos.below().north(2).west(2), pPos.above().south(2).east(2))) {
-            if (pLevel.getBlockState(blockpos).is(BlockTags.FLOWERS)) {
+            var state = pLevel.getBlockState(blockpos);
+            if (state.is(BlockTags.FLOWERS) && !state.is(ModTags.NOT_FLOWERS)) {
                 return true;
             }
         }

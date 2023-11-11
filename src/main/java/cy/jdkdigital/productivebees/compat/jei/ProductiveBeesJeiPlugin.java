@@ -212,7 +212,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
             registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, Component.translatable("productivebees.ingredient.description." + itemName));
         }
 
-        // Chip recipes
+        // Quarry and lumber bee recipes
         Collection<AdvancedBeehiveRecipe> chipHiveRecipes = new ArrayList<>();
         BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.QUARRY).forEach(blockHolder -> {
             Block b = blockHolder.value();

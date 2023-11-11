@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.client.render.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import cy.jdkdigital.productivebees.ProductiveBees;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.client.render.entity.layers.BeeBodyLayer;
 import cy.jdkdigital.productivebees.client.render.entity.model.ProductiveBeeModel;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
@@ -41,7 +42,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
     protected boolean isChristmas;
 
     public ProductiveBeeRenderer(EntityRendererProvider.Context context) {
-        super(context, new ProductiveBeeModel<>(context.bakeLayer(PB_MAIN_LAYER)), 0.4F);
+        this(context, new ProductiveBeeModel<>(context.bakeLayer(PB_MAIN_LAYER)));
 
         addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_THICC_LAYER), "thicc", isChristmas));
         addLayer(new BeeBodyLayer(this, context.bakeLayer(PB_DEFAULT_LAYER), "default", isChristmas));
@@ -59,7 +60,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
         super(context, model, 0.4F);
 
         Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 21 && calendar.get(Calendar.DATE) <= 26) {
+        if (ProductiveBeesConfig.CLIENT.alwaysChristmas.get() || (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 21 && calendar.get(Calendar.DATE) <= 26)) {
             this.isChristmas = true;
         }
     }

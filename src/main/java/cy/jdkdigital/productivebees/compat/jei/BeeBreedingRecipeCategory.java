@@ -59,6 +59,10 @@ public class BeeBreedingRecipeCategory implements IRecipeCategory<BeeBreedingRec
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, BeeBreedingRecipe recipe, IFocusGroup focuses) {
+        if (recipe.ingredients.size() != 2) {
+            ProductiveBees.LOGGER.warn("Recipe is missing bee: " + recipe.getId());
+            return;
+        }
         builder.addSlot(RecipeIngredientRole.INPUT, 12, 17)
                 .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredients.get(0).get())
                 .setSlotName("parent1");

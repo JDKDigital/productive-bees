@@ -30,8 +30,6 @@ public class MediumElvisBeeModel extends MediumBeeModel
         body.addOrReplaceChild(ProductiveBeeModel.LEFT_ANTENNA, CubeListBuilder.create(), PartPose.ZERO);
         body.addOrReplaceChild(ProductiveBeeModel.RIGHT_ANTENNA, CubeListBuilder.create(), PartPose.ZERO);
 
-        // TODO remove santa hat
-
         return LayerDefinition.create(meshDefinition, 64, 64);
     }
 }

@@ -36,7 +36,6 @@ public class InvisibleRedstone extends PoweredBlock
         return RenderShape.INVISIBLE;
     }
 
-
     @Override
     public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
         worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());

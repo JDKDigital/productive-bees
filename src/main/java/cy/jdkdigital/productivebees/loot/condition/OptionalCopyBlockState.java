@@ -85,11 +85,11 @@ public class OptionalCopyBlockState extends LootItemConditionalFunction
             this.block = p_80079_;
         }
 
-        public OptionalCopyBlockState.Builder copy(Property<?> p_80085_) {
-            if (!this.block.getStateDefinition().getProperties().contains(p_80085_)) {
-                throw new IllegalStateException("Property " + p_80085_ + " is not present on block " + this.block);
+        public OptionalCopyBlockState.Builder copy(Property<?> property) {
+            if (!this.block.getStateDefinition().getProperties().contains(property)) {
+                throw new IllegalStateException("Property " + property + " is not present on block " + this.block);
             } else {
-                this.properties.add(p_80085_);
+                this.properties.add(property);
                 return this;
             }
         }
@@ -109,8 +109,10 @@ public class OptionalCopyBlockState extends LootItemConditionalFunction
             super.serialize(json, optionalCopyBlockState, serializationContext);
             json.addProperty("block", BuiltInRegistries.BLOCK.getKey(optionalCopyBlockState.block).toString());
             JsonArray jsonarray = new JsonArray();
-            optionalCopyBlockState.properties.forEach((p_80091_) -> {
-                jsonarray.add(p_80091_.getName());
+            optionalCopyBlockState.properties.forEach((property) -> {
+                if (property != null) {
+                    jsonarray.add(property.getName());
+                }
             });
             json.add("properties", jsonarray);
         }
@@ -122,8 +124,8 @@ public class OptionalCopyBlockState extends LootItemConditionalFunction
             Set<Property<?>> set = Sets.newHashSet();
             JsonArray jsonarray = GsonHelper.getAsJsonArray(p_80093_, "properties", (JsonArray) null);
             if (jsonarray != null) {
-                jsonarray.forEach((p_80111_) -> {
-                    set.add(statedefinition.getProperty(GsonHelper.convertToString(p_80111_, "property")));
+                jsonarray.forEach((json) -> {
+                    set.add(statedefinition.getProperty(GsonHelper.convertToString(json, "property")));
                 });
             }
 

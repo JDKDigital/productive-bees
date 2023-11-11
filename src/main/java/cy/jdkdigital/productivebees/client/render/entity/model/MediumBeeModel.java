@@ -82,31 +82,22 @@ public class MediumBeeModel extends PartialBeeModel
                 PartPose.offset(1.5F, 3.0F, 2.0F)
         );
 
-//        PartDefinition hat = body.addOrReplaceChild(
-//                ProductiveBeeModel.SANTA_HAT,
-//                CubeListBuilder
-//                        .create().texOffs(34, 0)
-//                        .addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F),
-//                PartPose.offset(0.0F, 0.0F, 0.0F)
-//        );
-//        hat.addOrReplaceChild(
-//                ProductiveBeeModel.SANTA_HAT,
-//                CubeListBuilder
-//                        .create().texOffs(34, 0)
-//                        .addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 8.0F),
-//                PartPose.offset(0.0F, 0.0F, 0.0F)
-//        );
+        PartDefinition hat = body.addOrReplaceChild(
+                ProductiveBeeModel.SANTA_HAT,
+                CubeListBuilder
+                        .create().texOffs(0, 52)
+                        .addBox(-5.0F, -10.1F, -6.1F, 9.0F, 3.0F, 9.0F),
+                PartPose.offset(0.5F, 5.0F, 0.0F)
+        );
+        hat.addOrReplaceChild(
+                ProductiveBeeModel.SANTA_HAT,
+                CubeListBuilder
+                        .create().texOffs(27, 55)
+                        .addBox(-1.5F, -6.0F, 5.0F, 3.0F, 3.0F, 3.0F)
+                        .texOffs(0, 40)
+                        .addBox(-3.5F, -5.0F, 0.0F, 7.0F, 5.0F, 7.0F),
+                PartPose.offset(-0.5F, -10.0F, -5.0F)
+        );
         return meshDefinition;
     }
-
-//    @Override
-//    protected void addSantaHat() {
-//        ModelPart hatDroop = santaHat.getChild("hatDroop");
-//        hatDroop.setPos(-0.5F, -10.0F, -5.0F);
-//        hatDroop.texOffs(27, 55).addBox(-1.5F, -6.0F, 5.0F, 3.0F, 3.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-//        hatDroop.texOffs(0, 40).addBox(-3.5F, -5.0F, 0.0F, 7.0F, 5.0F, 7.0F, 0.0F, 0.0F, 0.0F);
-//        setRotationAngle(hatDroop, -0.5061454830783556F, 0.0F, 0.0F);
-//        santaHat.setPos(0.5F, 5.0F, 0.0F);
-//        santaHat.texOffs(0, 52).addBox(-5.0F, -10.0F, -6.0F, 9.0F, 3.0F, 9.0F, 0.0F, 0.0F, 0.0F);
-//    }
 }

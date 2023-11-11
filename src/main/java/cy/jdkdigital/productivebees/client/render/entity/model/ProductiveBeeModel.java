@@ -117,7 +117,7 @@ public class ProductiveBeeModel<T extends ProductiveBee> extends AgeableListMode
         super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
         rollAmount = entity.getRollAmount(partialTicks);
         stinger.visible = !entity.hasStung();
-        if (entity instanceof ConfigurableBee && ((ConfigurableBee) entity).isStingless()) {
+        if (stinger.visible && entity instanceof ConfigurableBee && ((ConfigurableBee) entity).isStingless()) {
             stinger.visible = false;
         }
     }

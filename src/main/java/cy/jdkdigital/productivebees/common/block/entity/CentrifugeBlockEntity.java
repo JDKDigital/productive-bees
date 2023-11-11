@@ -51,6 +51,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -69,6 +70,13 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(11, this)
     {
         @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            if (slot == InventoryHandlerHelper.BOTTLE_SLOT) return false;
+
+            return super.isItemValid(slot, stack);
+        }
+
+        @Override
         public boolean isContainerItem(Item item) {
             return false;
         }
@@ -77,7 +85,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         @Override
         public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate, boolean fromAutomation) {
             if (fromAutomation) {
-                // Skip recipe lookup if the item is different
+                // Skip lookup if the item is different
                 ItemStack existing = this.stacks.get(slot);
                 if (!existing.isEmpty() && !ItemHandlerHelper.canItemStacksStack(stack, existing)) {
                     return stack;
@@ -100,7 +108,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                     item.getItem().equals(ModItems.HONEY_TREAT.get()) ||
                     CentrifugeBlockEntity.this.canProcessItemStack(item);
 
-            return !isProcessableItem || slot == InventoryHandlerHelper.INPUT_SLOT;
+            return (isProcessableItem && slot == InventoryHandlerHelper.INPUT_SLOT) || (!isProcessableItem && !super.isInputSlot(slot));
         }
 
         @Override

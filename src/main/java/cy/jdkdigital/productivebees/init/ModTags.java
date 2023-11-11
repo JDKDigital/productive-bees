@@ -41,6 +41,7 @@ public class ModTags
     public static final TagKey<Block> BOXES_BLOCK = getBlockTag("expansion_boxes");
     public static final TagKey<Block> CANVAS_HIVES_BLOCK = getBlockTag("canvas_beehives");
     public static final TagKey<Block> CANVAS_BOXES_BLOCK = getBlockTag("canvas_expansion_boxes");
+    public static final TagKey<Block> NOT_FLOWERS = getBlockTag("not_flowers_for_spawning_nests");
 
     public static final TagKey<EntityType<?>> RANCHABLES = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "ranchables"));
     public static final TagKey<EntityType<?>> EXTERNAL_CAN_POLLINATE = getEntityTag(new ResourceLocation(ProductiveBees.MODID, "external_can_pollinate"));

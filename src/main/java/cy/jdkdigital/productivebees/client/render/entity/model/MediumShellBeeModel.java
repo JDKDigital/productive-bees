@@ -30,8 +30,6 @@ public class MediumShellBeeModel extends MediumBeeModel
                 PartPose.offset(-1.5F, -4.0F, -4.0F)
         );
 
-        // TODO remove santa hat
-
         return LayerDefinition.create(meshDefinition, 64, 64);
     }
 }

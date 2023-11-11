@@ -60,7 +60,7 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
         }
     });
 
-    public LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
+    private LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
     {
         @Override
         protected void onContentsChanged() {

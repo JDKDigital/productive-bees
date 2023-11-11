@@ -58,6 +58,10 @@ public class AdvancedBeehiveRecipeCategory implements IRecipeCategory<AdvancedBe
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, AdvancedBeehiveRecipe recipe, IFocusGroup focuses) {
+        if (recipe.ingredient.get() == null) {
+            ProductiveBees.LOGGER.warn("Recipe is missing bee: " + recipe.getId());
+            return;
+        }
         builder.addSlot(RecipeIngredientRole.INPUT, 7, 27)
                 .addIngredient(ProductiveBeesJeiPlugin.BEE_INGREDIENT, recipe.ingredient.get())
                 .setSlotName("source");

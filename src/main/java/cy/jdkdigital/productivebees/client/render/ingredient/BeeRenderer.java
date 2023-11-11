@@ -21,18 +21,20 @@ public class BeeRenderer
         Entity bee = beeIngredient.getCachedEntity(minecraft.level);
 
         if (minecraft.player != null && bee != null) {
-            if (bee instanceof ConfigurableBee) {
-                ((ConfigurableBee) bee).setBeeType(beeIngredient.getBeeType().toString());
+            if (bee instanceof ConfigurableBee cBee) {
+                cBee.setBeeType(beeIngredient.getBeeType().toString());
             }
 
-            if (bee instanceof ProductiveBee) {
-                ((ProductiveBee) bee).setRenderStatic();
+            float scaledSize = 18;
+            if (bee instanceof ProductiveBee pBee) {
+                pBee.setRenderStatic();
+                if (pBee.getSizeModifier() >= 3) {
+                    scaledSize = 4;
+                }
             }
 
             bee.tickCount = minecraft.player.tickCount;
             bee.setYBodyRot(-20);
-
-            float scaledSize = 18;
 
             PoseStack postStack = guiGraphics.pose();
             postStack.pushPose();

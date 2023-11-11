@@ -115,8 +115,8 @@ dependencies {
 //    implementation fg.deobf("curse.maven:architectury-api-419699:4663010")
 //    implementation fg.deobf("curse.maven:cloth-config-348521:4633444")
 //    implementation fg.deobf("curse.maven:powah-rearchitected-633483:4729364")
-    implementation fg.deobf("curse.maven:cucumber-272335:4773186")
-    implementation fg.deobf("curse.maven:mystical-agriculture-246640:4761164")
+//    implementation fg.deobf("curse.maven:cucumber-272335:4773186")
+//    implementation fg.deobf("curse.maven:mystical-agriculture-246640:4761164")
 }
 
 def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']

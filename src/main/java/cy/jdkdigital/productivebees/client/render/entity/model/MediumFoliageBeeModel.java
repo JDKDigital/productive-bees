@@ -35,8 +35,6 @@ public class MediumFoliageBeeModel extends MediumBeeModel
                 PartPose.offsetAndRotation(0.0F, -4.0F, 0.0F, 0.0F, -0.7854F, 0.0F)
         );
 
-        // TODO remove santa hat
-
         return LayerDefinition.create(meshDefinition, 64, 64);
     }
 }

@@ -32,6 +32,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.BooleanValue renderCombsInCentrifuge;
         public final ForgeConfigSpec.BooleanValue renderBeesInJars;
         public final ForgeConfigSpec.BooleanValue mutedBeeNestHelmet;
+        public final ForgeConfigSpec.BooleanValue alwaysChristmas;
 
         public Client(ForgeConfigSpec.Builder builder) {
             builder.push("Client");
@@ -47,6 +48,10 @@ public class ProductiveBeesConfig
             mutedBeeNestHelmet = builder
                     .comment("Stop bee nest helmets from making sounds.")
                     .define("mutedBeeNestHelmet", false);
+
+            alwaysChristmas = builder
+                    .comment("Bees wear santa hats.")
+                    .define("alwaysChristmas", false);
 
             builder.pop();
         }
