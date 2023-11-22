@@ -9,7 +9,6 @@
 - sticky sponge, sponge soaking up honey becomes sticky instead of wet, eat it to clean it
 - increased crop pollination for solitary bees
 - add honey cauldron for crafting honey blocks
-- fruit tree bees (or farmer bee support)
 - undead bee spawns as recipes
 - blue carpenter bee
 - orchid bee https://www.google.com/search?q=orchid+bee&sxsrf=AJOqlzU5ZPQMPhFeLTNSlbSrx0tya09LrA:1675839923020&source=lnms&tbm=isch&sa=X&ved=2ahUKEwi-jr-aroX9AhWKgP0HHYJjCKUQ_AUoAXoECAEQAw&biw=1920&bih=973&dpr=1#imgrc=m4vpRlNWuNOYSM
@@ -23,4 +22,6 @@
 - GUI revamp for fluid and power indicators
 - bee spawn blocks (custom nests)
 - more bee helmet versions
+- bee helmet enchants to increase kamikaz spawn chance
+- achievement for kamikaz spawning
 - easter, Christmas and halloween models

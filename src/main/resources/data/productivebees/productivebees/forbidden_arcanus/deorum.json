@@ -1,0 +1,14 @@
+{
+    "primaryColor": "#ca831a",
+    "secondaryColor": "#ebb02f",
+    "particleColor": "#f4d167",
+    "description": "productivebees.ingredient.description.only_spawnegg",
+    "size": 0.8,
+    "flowerBlock": "forbidden_arcanus:deorum_block",
+    "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "forbidden_arcanus"
+    }
+  ]
+}

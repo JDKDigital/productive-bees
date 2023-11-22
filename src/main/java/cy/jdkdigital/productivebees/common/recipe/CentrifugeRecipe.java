@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
+import mezz.jei.forge.platform.ItemStackHelper;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,6 +22,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -53,12 +55,12 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
         if (this.ingredient.getItems().length > 0) {
             ItemStack invStack = inv.getItem(InventoryHandlerHelper.INPUT_SLOT);
 
+            if (!this.ingredient.test(invStack)) {
+                return false;
+            }
+
             for (ItemStack stack : this.ingredient.getItems()) {
-                if (stack.getItem().equals(invStack.getItem())) {
-                    // Check configurable honeycombs
-                    if (stack.hasTag() && invStack.hasTag()) {
-                        return stack.getTag().equals(invStack.getTag());
-                    }
+                if (ItemHandlerHelper.canItemStacksStack(invStack, stack)) {
                     return true;
                 }
             }

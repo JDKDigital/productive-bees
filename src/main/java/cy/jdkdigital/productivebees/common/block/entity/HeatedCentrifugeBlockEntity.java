@@ -74,9 +74,12 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     @Override
     protected CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+        var cacheKey = input.copy();
+        cacheKey.setCount(1);
+
         var directRecipe = super.getRecipe(inputHandler);
         if (input.is(ModTags.Forge.COMBS) && directRecipe == null) {
-            if (!blockRecipeMap.containsKey(input)) {
+            if (!blockRecipeMap.containsKey(cacheKey)) {
                 ItemStack singleComb;
                 // config honeycomb
                 if (input.getItem() instanceof CombBlockItem) {
@@ -87,9 +90,9 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
                 }
                 IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(2);
                 inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, singleComb);
-                blockRecipeMap.put(input, super.getRecipe(inv));
+                blockRecipeMap.put(cacheKey, super.getRecipe(inv));
             }
-            return blockRecipeMap.get(input);
+            return blockRecipeMap.get(cacheKey);
         }
         return directRecipe;
     }

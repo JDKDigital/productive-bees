@@ -165,7 +165,6 @@ public class ProductiveBeesConfig
     public static class Bees
     {
         public final ForgeConfigSpec.BooleanValue allowBeeSimulation;
-        public final ForgeConfigSpec.BooleanValue spawnUndeadBees;
         public final ForgeConfigSpec.DoubleValue spawnUndeadBeesChance;
         public final ForgeConfigSpec.DoubleValue deadBeeConvertChance;
         public final ForgeConfigSpec.DoubleValue sugarbagBeeChance;
@@ -182,10 +181,6 @@ public class ProductiveBeesConfig
             allowBeeSimulation = builder
                     .comment("Allow for bee simulation in hives. This will stop bees from exiting the hive and instead simulate a trip to flower blocks saving on performance.")
                     .define("allowBeeSimulation", true);
-
-            spawnUndeadBees = builder
-                    .comment("Spawn skeletal and zombie bees as night?")
-                    .define("spawnUndeadBees", true);
 
             spawnUndeadBeesChance = builder
                     .defineInRange("spawnUndeadBeesChance", 0.05, 0, 1);

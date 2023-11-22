@@ -31,10 +31,7 @@ import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
 import net.minecraftforge.registries.ForgeRegistries;
 import ovh.corail.woodcutter.registry.ModRecipeSerializers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider implements IConditionBuilder
@@ -91,7 +88,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
             BeeCreator.setTag(ProductiveBees.MODID + ":" + name, stack);
             mixingRecipeBuilder.builder(new ResourceLocation(ProductiveBees.MODID, "create/mixing/chemlib/honeycomb_" + name))
                     .require(StrictNBTIngredient.of(stack))
-                    .output(0.8f, new ResourceLocation("chemlib:" + name), 1)
+                    .output(0.8f, new ResourceLocation("chemlib:" + (name.equals("silicium") ? "silicon" : name)), 1)
                     .output(ModFluids.HONEY.get(), 50)
                     .output(ModItems.WAX.get())
                     .whenModLoaded("chemlib")

@@ -77,13 +77,9 @@ public class BeeBodyLayer extends RenderLayer<ProductiveBee, ProductiveBeeModel<
             }
 
             if (entity.isColored()) {
-                if (entity instanceof ConfigurableBee && ((ConfigurableBee) entity).hasBeeTexture()) {
-                    if (this.modelType.equals("default_crystal") && ((ConfigurableBee) entity).useGlowLayer()) {
-                        renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks);
-                    }
-                    return;
-                }
                 renderColoredLayers(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks);
+            } else if (entity instanceof ConfigurableBee cBee && this.modelType.equals("default_crystal") && cBee.useGlowLayer()) {
+                renderCrystalLayer(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks);
             }
 
             if (entity.hasNectar() && !entity.hasConverted()) {

@@ -104,8 +104,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 this.setCustomName(Component.literal("Depressed Iron Bee"));
             } else if (type.equals("productivebees:sponge") && random.nextFloat() < 0.05f) {
                 this.setCustomName(Component.literal("SpongeBee BlockPants"));
-            } else if (type.equals("productivebees:sponge") && random.nextFloat() < 0.05f) {
-                this.setCustomName(Component.literal("SpongeBee BlockPants"));
+            } else if (type.equals("productivebees:infinity") && random.nextFloat() < 0.25f) {
+                this.setCustomName(Component.literal("Infinibee"));
             } else if (type.equals("productivebees:water") && random.nextFloat() < 0.05f) {
                 switch (random.nextInt(5)) {
                     case 0 -> this.setCustomName(Component.literal("Wet Bee"));
@@ -339,8 +339,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     public boolean isColored() {
-        CompoundTag nbt = getNBTData();
-        return !nbt.contains("beeTexture");
+        return !hasBeeTexture();
     }
 
     @Nonnull

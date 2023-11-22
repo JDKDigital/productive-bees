@@ -1,0 +1,22 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:diamond",
+  "result": "productivebees:arcane_crystal",
+  "item": {
+    "item": "forbidden_arcanus:arcane_crystal_block"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:diamond"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:arcane_crystal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "forbidden_arcanus"
+    }
+  ]
+}

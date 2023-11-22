@@ -1,3 +1,10 @@
+1.20.1-12.2.9
+
+- Added Forbidden and Arcanus bees (thanks to Lego)
+- Improved centrifuge performance
+- Fixed nest locator not tuning to nether gold ore and soul sand
+
+
 1.20.1-12.2.7
 
 - Bee nests spawning from tree growth will no longer consider leaves and sapling as flowers even if they're tagged as such

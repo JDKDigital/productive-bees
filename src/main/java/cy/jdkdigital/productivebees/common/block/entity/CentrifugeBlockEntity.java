@@ -55,6 +55,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -292,34 +293,25 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             }
         }
 
-        CentrifugeRecipe recipe = getRecipe(inv);
+        CentrifugeRecipe recipe = this.getRecipe(inv);
 
         return isAllowedByFilter && recipe != null;
     }
 
+    static Map<ItemStack, CentrifugeRecipe> recipeMap = new HashMap<>();
     protected CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-        if (input.isEmpty() || input == ItemStack.EMPTY || level == null) {
+        if (input.isEmpty() || level == null) {
             return null;
         }
 
-        if (currentRecipe != null && currentRecipe.matches(new RecipeWrapper(inputHandler), level)) {
-            return currentRecipe;
+        var cacheKey = input.copy();
+        cacheKey.setCount(1);
+        if (!recipeMap.containsKey(cacheKey)) {
+            recipeMap.put(cacheKey, BeeHelper.getCentrifugeRecipe(level, inputHandler));
         }
 
-        currentRecipe = BeeHelper.getCentrifugeRecipe(level, inputHandler);
-
-        Map<ResourceLocation, CentrifugeRecipe> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.CENTRIFUGE_TYPE.get());
-        Container inv = new RecipeWrapper(inputHandler);
-        for (Map.Entry<ResourceLocation, CentrifugeRecipe> entry : allRecipes.entrySet()) {
-            CentrifugeRecipe recipe = entry.getValue();
-            if (recipe.matches(inv, level)) {
-                currentRecipe = recipe;
-                break;
-            }
-        }
-
-        return currentRecipe;
+        return recipeMap.getOrDefault(cacheKey, null);
     }
 
     protected boolean canProcessRecipe(@Nullable CentrifugeRecipe recipe, IItemHandlerModifiable invHandler) {
