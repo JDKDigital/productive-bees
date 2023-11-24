@@ -15,7 +15,6 @@ import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
-import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
@@ -25,10 +24,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -50,7 +47,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -298,15 +295,17 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         return isAllowedByFilter && recipe != null;
     }
 
-    static Map<ItemStack, CentrifugeRecipe> recipeMap = new HashMap<>();
+    static Map<String, CentrifugeRecipe> recipeMap = new HashMap<>();
     protected CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
+        if (recipeMap.size() > 5000) {
+            recipeMap.clear();
+        }
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
         if (input.isEmpty() || level == null) {
             return null;
         }
 
-        var cacheKey = input.copy();
-        cacheKey.setCount(1);
+        String cacheKey = ForgeRegistries.ITEMS.getKey(input.getItem()) + (input.getTag() != null ? input.getTag().getAsString() : "");
         if (!recipeMap.containsKey(cacheKey)) {
             recipeMap.put(cacheKey, BeeHelper.getCentrifugeRecipe(level, inputHandler));
         }

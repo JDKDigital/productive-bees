@@ -20,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -70,12 +71,14 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
         return directProcess;
     }
 
-    static Map<ItemStack, CentrifugeRecipe> blockRecipeMap = new HashMap<>();
+    static Map<String, CentrifugeRecipe> blockRecipeMap = new HashMap<>();
     @Override
     protected CentrifugeRecipe getRecipe(IItemHandlerModifiable inputHandler) {
+        if (blockRecipeMap.size() > 5000) {
+            blockRecipeMap.clear();
+        }
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-        var cacheKey = input.copy();
-        cacheKey.setCount(1);
+        String cacheKey = ForgeRegistries.ITEMS.getKey(input.getItem()) + (input.getTag() != null ? input.getTag().getAsString() : "");
 
         var directRecipe = super.getRecipe(inputHandler);
         if (input.is(ModTags.Forge.COMBS) && directRecipe == null) {
@@ -89,6 +92,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
                     singleComb = BeeHelper.getRecipeOutputFromInput(level, input.getItem());
                 }
                 IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(2);
+                // Look up recipe for the single comb that makes up the input comb block
                 inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, singleComb);
                 blockRecipeMap.put(cacheKey, super.getRecipe(inv));
             }

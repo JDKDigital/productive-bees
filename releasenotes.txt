@@ -1,3 +1,8 @@
+1.20.1-12.2.10
+
+- Fixed memory leak with centrifuges
+
+
 1.20.1-12.2.9
 
 - Added Forbidden and Arcanus bees (thanks to Lego)
