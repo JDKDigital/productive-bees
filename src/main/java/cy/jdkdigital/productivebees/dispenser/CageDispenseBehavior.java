@@ -10,6 +10,7 @@ import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 
 public class CageDispenseBehavior extends OptionalDispenseItemBehavior {
     private final DefaultDispenseItemBehavior fallbackDispenseBehavior = new DefaultDispenseItemBehavior();
@@ -31,7 +32,10 @@ public class CageDispenseBehavior extends OptionalDispenseItemBehavior {
                     if (stack.getItem().equals(ModItems.BEE_CAGE.get())) {
                         stack.shrink(1);
                     } else if (stack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
-                        stack.setTag(null);
+                        stack.shrink(1);
+                        if (source.getLevel().getBlockEntity(source.getPos()) instanceof DispenserBlockEntity dispenser) {
+                            dispenser.addItem(new ItemStack(ModItems.STURDY_BEE_CAGE.get()));
+                        }
                     }
                 }
                 return stack;

@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.common.block;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableMap;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.SolitaryNestBlockEntity;
@@ -55,7 +56,8 @@ import java.util.function.Supplier;
 
 public class SolitaryNest extends AdvancedBeehiveAbstract
 {
-    public static Supplier<BiMap<Block, Block>> BLOCK_TO_NEST = Suppliers.memoize(() -> ImmutableBiMap.<Block, Block>builder()
+    public static Supplier<Map<Block, Block>> BLOCK_TO_NEST = Suppliers.memoize(() -> ImmutableMap.<Block, Block>builder()
+            .put(Blocks.GRASS_BLOCK, ModBlocks.BUMBLE_BEE_NEST.get())
             .put(Blocks.OAK_LOG, ModBlocks.OAK_WOOD_NEST.get())
             .put(Blocks.BIRCH_LOG, ModBlocks.BIRCH_WOOD_NEST.get())
             .put(Blocks.SPRUCE_LOG, ModBlocks.SPRUCE_WOOD_NEST.get())

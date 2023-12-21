@@ -793,7 +793,8 @@ public class ProductiveBee extends Bee
                         var flowerTag = ModTags.getEntityTag(new ResourceLocation(nbt.getString("flowerTag")));
                         var amberBlocks = this.findNearestBlock(pos -> {
                             if (ProductiveBee.this.level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
-                                return amberBlockEntity.getCachedEntity().getType().is(flowerTag);
+                                var entity = amberBlockEntity.getCachedEntity();
+                                return entity != null && entity.getType().is(flowerTag);
                             }
                             return false;
                         }, 5);

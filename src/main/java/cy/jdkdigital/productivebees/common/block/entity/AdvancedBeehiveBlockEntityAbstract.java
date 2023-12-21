@@ -212,7 +212,9 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
                     addBee(compoundNBT, ticksInHive, this.getTimeInHive(hasNectar, beeEntity), ((Bee) entity).getSavedFlowerPos(), entity.getName().getString());
                     if (beeEntity.hasSavedFlowerPos() && (!this.hasSavedFlowerPos() || (this.level != null && level.random.nextBoolean()))) {
-                        this.savedFlowerPos = beeEntity.getSavedFlowerPos();
+                        if (!(beeEntity instanceof ProductiveBee pBee) || !pBee.hasConverted()) {
+                            this.savedFlowerPos = beeEntity.getSavedFlowerPos();
+                        }
                     }
 
                     if (this.level != null) {
@@ -346,7 +348,8 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         applyHiveTime(getTimeInHive(beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED, beeEntity), beeEntity);
         beeEntity.dropOffNectar();
 
-        if (beeEntity instanceof ProductiveBee && ((ProductiveBee) beeEntity).hasConverted()) {
+        if (beeEntity instanceof ProductiveBee pBee && pBee.hasConverted()) {
+            pBee.setSavedFlowerPos(null);
             return;
         }
 

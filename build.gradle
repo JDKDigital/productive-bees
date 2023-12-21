@@ -94,7 +94,7 @@ dependencies {
 
     compileOnly(fg.deobf("com.almostreliable.mods:almostunified-forge:${minecraft_version}-${au_version}"))
 
-    implementation fg.deobf("curse.maven:jei-238222:4609866")
+    implementation fg.deobf("curse.maven:jei-238222:4712868")
     implementation fg.deobf("curse.maven:jade-324717:4654448")
     implementation fg.deobf("curse.maven:the-one-probe-245211:4579432")
     implementation fg.deobf("curse.maven:corail-woodcutter-331983:4573934")
@@ -112,6 +112,9 @@ dependencies {
     implementation fg.deobf("curse.maven:alchemistry-293425:4770614")
     implementation fg.deobf("curse.maven:chemlib-340666:4770575")
     implementation fg.deobf("curse.maven:alchemylib-293426:4654069")
+    implementation fg.deobf("curse.maven:terrablender-563928:4647094")
+    implementation fg.deobf("curse.maven:biomes-o-plenty-220318:4764804")
+    implementation fg.deobf("curse.maven:flux-networks-248020:4651164")
 //    implementation fg.deobf("curse.maven:titanium-287342:4712413")
 //    implementation fg.deobf("curse.maven:industrial-foregoing-266515:4709710")
 //    implementation fg.deobf("curse.maven:architectury-api-419699:4663010")

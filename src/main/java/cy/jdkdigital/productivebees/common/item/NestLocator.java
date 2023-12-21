@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import com.mojang.datafixers.util.Pair;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.SolitaryNest;
@@ -130,8 +131,10 @@ public class NestLocator extends Item
             } else if (ForgeRegistries.BLOCKS.getKey(block).getPath().contains("crimson")) {
                 setNestBlock(stack, ModBlocks.CRIMSON_BEE_NEST.get(), context.getPlayer());
             } else {
+                ProductiveBees.LOGGER.info("find nest based on block " + block);
                 // Set block if it's a component in crafting a nest
                 Block nest = SolitaryNest.BLOCK_TO_NEST.get().get(block);
+                ProductiveBees.LOGGER.info("found " + nest);
                 if (nest instanceof SolitaryNest) {
                     setNestBlock(stack, nest, context.getPlayer());
                 }

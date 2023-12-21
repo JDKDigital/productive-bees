@@ -83,6 +83,8 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements Upgrade
                             }
 
                             if (isAllowed && invItem.getCount() > 0) {
+                                bee.setSavedFlowerPos(null);
+                                bee.hivePos = null;
                                 ItemStack cageStack = new ItemStack(invItem.getItem());
                                 BeeCage.captureEntity(bee, cageStack);
                                 if (((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(cageStack).getCount() == 0) {

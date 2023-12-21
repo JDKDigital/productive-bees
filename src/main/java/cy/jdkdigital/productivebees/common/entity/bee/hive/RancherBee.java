@@ -56,7 +56,8 @@ public class RancherBee extends ProductiveBee
         }
 
         if (level().getBlockEntity(pos) instanceof AmberBlockEntity amberBlockEntity) {
-            return amberBlockEntity.getCachedEntity().getType().is(ModTags.RANCHABLES);
+            var entity = amberBlockEntity.getCachedEntity();
+            return entity != null && entity.getType().is(ModTags.RANCHABLES);
         } else {
             List<Entity> entities = level().getEntities(this, (new AABB(pos).inflate(1.0D, 1.0D, 1.0D)), predicate);
             if (!entities.isEmpty()) {

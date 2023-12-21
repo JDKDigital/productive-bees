@@ -34,6 +34,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
         super(ModBlockEntityTypes.AMBER.get(), pos, state);
     }
 
+    @Nullable
     public Entity getCachedEntity() {
         if (entityTag != null) {
             int key = entityTag.hashCode();

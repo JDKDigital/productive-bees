@@ -52,7 +52,7 @@ public class FarmerBee extends ProductiveBee
     }
 
     public List<BlockPos> findHarvestablesNearby(BlockPos pos, int distance) {
-        List<BlockPos> list = BlockPos.betweenClosedStream(pos.offset(-distance, -distance + 2, -distance), pos.offset(distance, distance - 2, distance)).map(BlockPos::immutable).collect(Collectors.toList());
+        var list = BlockPos.betweenClosedStream(pos.offset(-distance, -distance + 2, -distance), pos.offset(distance, distance - 2, distance)).map(BlockPos::immutable).collect(Collectors.toList());
         list.removeIf(blockPos -> this.level().getBlockState(blockPos).isAir());
         list.removeIf(blockPos -> !isCropValid(blockPos));
         return list;

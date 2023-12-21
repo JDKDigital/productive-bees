@@ -1,3 +1,17 @@
+1.20.1-12.2.12
+
+- Fixed stacked sturdy beecages in dispensers all being used up at once
+- Fixed some bees missing textures during Christmas
+
+
+1.20.1-12.2.11
+
+- Fixed nest locator tuning
+- Catchers now reset a bees flower and hive position
+- Removed some old recipes
+- Prevent crash from ember blocks pulled from creative
+
+
 1.20.1-12.2.10
 
 - Fixed memory leak with centrifuges
