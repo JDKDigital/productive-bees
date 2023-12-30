@@ -101,10 +101,11 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
     private static void tickBees(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {
         blockEntity.beeHandler.ifPresent(h -> {
-            Iterator<Inhabitant> inhabitantIterator = h.getInhabitants().iterator();
+            final var currentInhabitants = h.getInhabitants();
+            // worst-case size
+            final var inhabitantsToRemove = new ArrayList<Inhabitant>(currentInhabitants.size());
             boolean hasReleased = false;
-            while (inhabitantIterator.hasNext()) {
-                Inhabitant inhabitant = inhabitantIterator.next();
+            for (var inhabitant : currentInhabitants) {
                 if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
                     BeehiveBlockEntity.BeeReleaseStatus beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
                     if (inhabitant.nbt.contains("HasConverted") && inhabitant.nbt.getBoolean("HasConverted")) {
@@ -121,13 +122,16 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                         }
                     } else if (releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt, null, beeState)) {
                         hasReleased = true;
-                        inhabitantIterator.remove();
+                        inhabitantsToRemove.add(inhabitant);
                     }
                 } else {
                     inhabitant.ticksInHive += blockEntity.tickCounter;
                 }
             }
             if (hasReleased) {
+                // synchronized (currentInhabitants) {
+                currentInhabitants.removeAll(inhabitantsToRemove);
+                // }
                 blockEntity.setNonSuperChanged();
             }
         });
