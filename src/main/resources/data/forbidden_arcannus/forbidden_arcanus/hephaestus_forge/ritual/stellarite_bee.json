@@ -1,47 +1,47 @@
 {
-    "additional_requirements": {
-        "forge_tier": 3
+  "additional_requirements": {
+    "forge_tier": 3
+  },
+  "essences": {
+    "aureal": 82,
+    "blood": 1000,
+    "experience": 0,
+    "souls": 1
+  },
+  "inputs": [
+    {
+      "amount": 3,
+      "ingredient": {
+        "item": "forbidden_arcanus:xpetrified_orb"
+      }
     },
-    "essences": {
-        "aureal": 82,
-        "blood": 1000,
-        "experience": 0,
-        "souls": 1
-    },
-    "inputs": [
-        {
-            "amount": 3,
-            "ingredient": {
-                "item": "forbidden_arcanus:xpetrified_orb"
-            }
-        },
-        {
-            "amount": 4,
-            "ingredient": {
-                "item": "forbidden_arcanus:stellarite_piece"
-            }
-        }
-    ],
-    "main_ingredient": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:diamond"
-            }
-        }
-    },
-    "result": {
+    {
+      "amount": 4,
+      "ingredient": {
+        "item": "forbidden_arcanus:stellarite_piece"
+      }
+    }
+  ],
+  "main_ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:diamond"
+      }
+    }
+  },
+  "result": {
     "type": "forbidden_arcanus:create_item",
     "result_item": {
-            "Count": 1,
-            "type": "forge:nbt",
-            "id": "productivebees:spawn_egg_configurable_bee",
-            "tag": {
-                "EntityTag": {
-                    "type": "productivebees:stellarite"
-                }
-            }
+      "Count": 1,
+      "type": "forge:nbt",
+      "id": "productivebees:spawn_egg_configurable_bee",
+      "tag": {
+        "EntityTag": {
+          "type": "productivebees:stellarite"
         }
-}
+      }
+    }
+  }
 }

@@ -1,13 +1,13 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "iceandfire:silver_block",
-            "required": false
-        },
-        {
-            "id": "electrodynamics:resourceblocksilver",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "iceandfire:silver_block",
+      "required": false
+    },
+    {
+      "id": "electrodynamics:resourceblocksilver",
+      "required": false
+    }
+  ]
 }

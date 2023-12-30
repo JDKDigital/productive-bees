@@ -426,7 +426,7 @@ public class BeeHelper
 
     public static void encaseMob(PathfinderMob target, Level level, Direction direction) {
         // Encase mob
-        if (target != null && !target.getType().is(ModTags.EXTERNAL_CAN_POLLINATE)) {
+        if (target != null && !target.getType().is(ModTags.BEE_ENCASE_BLACKLIST)) {
             if (target instanceof TamableAnimal tamableAnimal && tamableAnimal.isTame()) {
                 return;
             }

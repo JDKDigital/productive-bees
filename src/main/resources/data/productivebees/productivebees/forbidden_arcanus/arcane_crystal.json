@@ -9,9 +9,9 @@
   "flowerBlock": "forbidden_arcanus:arcane_crystal_block",
   "selfbreed": true,
   "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "forbidden_arcanus"
-        }
+    {
+      "type": "forge:mod_loaded",
+      "modid": "forbidden_arcanus"
+    }
   ]
 }

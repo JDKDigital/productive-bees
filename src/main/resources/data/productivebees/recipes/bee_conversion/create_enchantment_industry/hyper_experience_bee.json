@@ -1,0 +1,18 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:experience",
+  "result": "productivebees:hyper_experience",
+  "item": {
+    "item": "create_enchantment_industry:hyper_experience_bottle"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:experience"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:hyper_experience"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
-    "replace": false,
-    "values": [
-        "#productivebees:external_can_pollinate"
-    ]
+  "replace": false,
+  "values": [
+    "#productivebees:external_can_pollinate"
+  ]
 }

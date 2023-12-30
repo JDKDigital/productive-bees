@@ -1,0 +1,50 @@
+{
+  "type": "thermal:smelter",
+  "input": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:apatite\"}}"
+    },
+    {
+      "item": "minecraft:dragon_breath",
+      "count": 3
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:netherite\"}}"
+    }
+  ],
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:dragonsteel"
+      }
+    }
+  },
+  "energy": 8000,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal_extra"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:apatite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:netherite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dragonsteel"
+    }
+  ]
+}

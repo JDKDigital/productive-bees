@@ -1,10 +1,10 @@
 {
-    "replace": false,
-    "values": [
-        "minecraft:honeycomb",
-        "productivebees:honeycomb_milky",
-        "productivebees:honeycomb_powdery",
-        "productivebees:honeycomb_ghostly",
-        "productivebees:configurable_honeycomb"
-    ]
+  "replace": false,
+  "values": [
+    "minecraft:honeycomb",
+    "productivebees:honeycomb_milky",
+    "productivebees:honeycomb_powdery",
+    "productivebees:honeycomb_ghostly",
+    "productivebees:configurable_honeycomb"
+  ]
 }

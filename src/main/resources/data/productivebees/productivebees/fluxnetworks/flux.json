@@ -1,14 +1,14 @@
 {
-    "primaryColor": "#141715",
-    "particleColor": "#222924",
-    "beeTexture": "productivebees:textures/entity/bee/flux/bee",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "flowerBlock": "fluxnetworks:flux_block",
-    "size:": 0.5,
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "fluxnetworks"
-        }
-    ]
+  "primaryColor": "#141715",
+  "particleColor": "#222924",
+  "beeTexture": "productivebees:textures/entity/bee/flux/bee",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerBlock": "fluxnetworks:flux_block",
+  "size:": 0.5,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "fluxnetworks"
+    }
+  ]
 }

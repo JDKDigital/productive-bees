@@ -1,0 +1,35 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:hyper_experience"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "fluid": {
+        "fluid": "create_enchantment_industry:hyper_experience"
+      },
+      "amount": 10
+    },
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:hyper_experience"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create_enchantment_industry"
+    }
+  ]
+}

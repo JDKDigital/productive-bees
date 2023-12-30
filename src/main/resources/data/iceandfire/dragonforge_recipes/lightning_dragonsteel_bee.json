@@ -1,34 +1,34 @@
 {
-    "dragon_type": "lightning",
-    "input_left": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:draconic"
-            }
-        }
+  "dragon_type": "lightning",
+  "input_left": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:draconic"
+      }
+    }
+  },
+  "input_right": {
+    "item": "iceandfire:lightning_dragon_blood"
+  },
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:lightning_dragonsteel"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "iceandfire"
     },
-    "input_right": {
-        "item": "iceandfire:lightning_dragon_blood"
-    },
-    "result": {
-        "type": "forge:nbt",
-        "item": "productivebees:spawn_egg_configurable_bee",
-        "nbt": {
-            "EntityTag": {
-                "type": "productivebees:lightning_dragonsteel"
-            }
-        }
-    },
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "iceandfire"
-        },
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:lightning_dragonsteel"
-        }
-    ]
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:lightning_dragonsteel"
+    }
+  ]
 }

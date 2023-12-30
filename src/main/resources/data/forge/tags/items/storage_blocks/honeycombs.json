@@ -1,10 +1,10 @@
 {
-    "replace": false,
-    "values": [
-        "minecraft:honeycomb_block",
-        "productivebees:configurable_comb",
-        "productivebees:comb_ghostly",
-        "productivebees:comb_milky",
-        "productivebees:comb_powdery"
-    ]
+  "replace": false,
+  "values": [
+    "minecraft:honeycomb_block",
+    "productivebees:configurable_comb",
+    "productivebees:comb_ghostly",
+    "productivebees:comb_milky",
+    "productivebees:comb_powdery"
+  ]
 }

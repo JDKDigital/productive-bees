@@ -1,0 +1,50 @@
+{
+  "type": "thermal:smelter",
+  "input": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:apatite\"}}"
+    },
+    {
+      "item": "thermal_extra:soul_sand_dust",
+      "count": 2
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:invar\"}}"
+    }
+  ],
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:soul_infused"
+      }
+    }
+  },
+  "energy": 8000,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal_extra"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:apatite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:invar"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:soul_infused"
+    }
+  ]
+}

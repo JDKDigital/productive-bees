@@ -1,13 +1,13 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "electrodynamics:resourceblocklead",
-            "required": false
-        },
-        {
-            "id": "ftbic:lead_block",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "electrodynamics:resourceblocklead",
+      "required": false
+    },
+    {
+      "id": "ftbic:lead_block",
+      "required": false
+    }
+  ]
 }

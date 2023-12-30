@@ -1,12 +1,12 @@
 {
-    "primaryColor": "#58594d",
-    "secondaryColor": "#7a7e6d",
-    "particleColor": "#909885",
-    "description": "productivebees.ingredient.description.only_spawnegg",
-    "size": 0.8,
-    "selfbreed": false,
-    "flowerBlock": "forbidden_arcanus:stellarite_block",
-    "conditions": [
+  "primaryColor": "#58594d",
+  "secondaryColor": "#7a7e6d",
+  "particleColor": "#909885",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.8,
+  "selfbreed": false,
+  "flowerBlock": "forbidden_arcanus:stellarite_block",
+  "conditions": [
     {
       "type": "forge:mod_loaded",
       "modid": "forbidden_arcanus"

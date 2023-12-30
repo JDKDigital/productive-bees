@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#4550e7",
+  "secondaryColor": "#5698db",
+  "tertiaryColor": "#b0cdeb",
+  "particleColor": "#a1d0ff",
+  "beeTexture": "productivebees:textures/entity/bee/hyper_experience/bee",
+  "size": 0.6,
+  "flowerFluid": "create_enchantment_industry:hyper_experience",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create_enchantment_industry"
+    }
+  ]
+}

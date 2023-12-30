@@ -1,13 +1,13 @@
 {
-    "replace": false,
-    "values": [
-        {
-            "id": "electrodynamics:resourceblocktin",
-            "required": false
-        },
-        {
-            "id": "ftbic:tin_block",
-            "required": false
-        }
-    ]
+  "replace": false,
+  "values": [
+    {
+      "id": "electrodynamics:resourceblocktin",
+      "required": false
+    },
+    {
+      "id": "ftbic:tin_block",
+      "required": false
+    }
+  ]
 }
