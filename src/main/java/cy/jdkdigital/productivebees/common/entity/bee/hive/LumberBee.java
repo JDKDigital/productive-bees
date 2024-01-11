@@ -20,6 +20,6 @@ public class LumberBee extends ProductiveBee
 
     @Override
     public boolean isFlowerBlock(BlockState flowerBlock) {
-        return flowerBlock.is(ModTags.LUMBER);
+        return !flowerBlock.is(ModTags.DUPE_BLACKLIST) && flowerBlock.is(ModTags.LUMBER);
     }
 }

@@ -1,7 +1,7 @@
 {
   "type": "productivebees:bottler",
   "fluid": {
-    "tag": "forge:honey",
+    "fluid": "productivebees:honey",
     "amount": 250
   },
   "input": {

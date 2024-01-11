@@ -9,6 +9,7 @@ import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 
@@ -29,16 +30,18 @@ public class CageDispenseBehavior extends OptionalDispenseItemBehavior {
                 entity.setPos(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5);
 
                 if (source.getLevel().addFreshEntity(entity)) {
-                    if (stack.getItem().equals(ModItems.BEE_CAGE.get())) {
-                        stack.shrink(1);
-                    } else if (stack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
-                        stack.shrink(1);
+                    if (stack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
                         if (source.getLevel().getBlockEntity(source.getPos()) instanceof DispenserBlockEntity dispenser) {
-                            dispenser.addItem(new ItemStack(ModItems.STURDY_BEE_CAGE.get()));
+                            if (dispenser.addItem(new ItemStack(ModItems.STURDY_BEE_CAGE.get())) < 0) {
+                                Block.popResource(source.getLevel(), source.getPos().above(), new ItemStack(ModItems.STURDY_BEE_CAGE.get()));
+                            }
                         }
                     }
+                    stack.shrink(1);
                 }
-                return stack;
+                if (stack.getCount() > 0) {
+                    return stack;
+                }
             }
         }
         return fallbackDispenseBehavior.dispense(source, stack);

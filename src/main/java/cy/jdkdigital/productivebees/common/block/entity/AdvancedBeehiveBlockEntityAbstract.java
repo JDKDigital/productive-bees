@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
 import com.google.common.collect.Lists;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehiveAbstract;
@@ -129,9 +130,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 }
             }
             if (hasReleased) {
-                // synchronized (currentInhabitants) {
                 currentInhabitants.removeAll(inhabitantsToRemove);
-                // }
                 blockEntity.setNonSuperChanged();
             }
         });
@@ -353,6 +352,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         beeEntity.dropOffNectar();
 
         if (beeEntity instanceof ProductiveBee pBee && pBee.hasConverted()) {
+            pBee.setHasConverted(false);
             pBee.setSavedFlowerPos(null);
             return;
         }

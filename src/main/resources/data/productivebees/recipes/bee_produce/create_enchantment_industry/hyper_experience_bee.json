@@ -11,7 +11,8 @@
             "type": "productivebees:hyper_experience"
           }
         }
-      }
+      },
+      "chance": 30
     },
     {
       "item": {

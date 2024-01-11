@@ -7,10 +7,10 @@
   ],
   "key": {
     "B": {
-      "item": "productivebees:upgrade_base"
+      "item": "productivebees:upgrade_productivity_2"
     },
     "C": {
-      "tag": "forge:storage_blocks/honeycombs"
+      "item": "productivebees:draconic_chunk"
     },
     "W": {
       "tag": "forge:storage_blocks/wax"

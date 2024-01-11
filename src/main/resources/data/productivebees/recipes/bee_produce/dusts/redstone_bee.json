@@ -11,8 +11,7 @@
             "type": "productivebees:redstone"
           }
         }
-      },
-      "chance": 40
+      }
     },
     {
       "item": {

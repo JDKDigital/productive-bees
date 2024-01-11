@@ -255,11 +255,8 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         super.beeReleasePostAction(level, beeEntity, state, beeState);
 
         if (beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED) {
-            // Generate bee produce
-            if (beeEntity instanceof ProductiveBee productiveBee && productiveBee.hasConverted()) {
-                // No produce after converting a block
-                productiveBee.setHasConverted(false);
-            } else {
+            // Generate bee produce (No produce after converting a block)
+            if (!(beeEntity instanceof ProductiveBee productiveBee) || !productiveBee.hasConverted()) {
                 getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
                     BeeHelper.getBeeProduce(level, beeEntity, (getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get())) > 0).forEach((stackIn) -> {
                         ItemStack stack = stackIn.copy();

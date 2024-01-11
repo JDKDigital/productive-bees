@@ -20,6 +20,6 @@ public class QuarryBee extends ProductiveBee
 
     @Override
     public boolean isFlowerBlock(BlockState flowerBlock) {
-        return flowerBlock.is(ModTags.QUARRY);
+        return !flowerBlock.is(ModTags.DUPE_BLACKLIST) && flowerBlock.is(ModTags.QUARRY);
     }
 }

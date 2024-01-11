@@ -1,0 +1,29 @@
+{
+  "type": "naturesaura:altar",
+  "input": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:iron\"}}"
+  },
+  "output": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": "{EntityTag:{type:\"productivebees:infused_iron\"}}"
+  },
+  "aura": 15000,
+  "time": 80,
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:iron"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:infused_iron"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "naturesaura"
+    }
+  ]
+}

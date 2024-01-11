@@ -1,0 +1,54 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:apatite\"}}"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:amethyst\"}}"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:enderium\"}}"
+    }
+  ],
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:twinite"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal_extra"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:apatite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:amethyst"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:enderium"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:twinite"
+    }
+  ]
+}

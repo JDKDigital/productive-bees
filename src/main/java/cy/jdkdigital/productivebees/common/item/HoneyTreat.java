@@ -26,6 +26,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
+import javax.swing.*;
 import java.util.List;
 
 public class HoneyTreat extends Item
@@ -133,7 +134,7 @@ public class HoneyTreat extends Item
         level.addParticle(ParticleTypes.POOF, pos.getX(), pos.getY() + 1, pos.getZ(), 0.2D, 0.1D, 0.2D);
         bee.playAmbientSound();
 
-        if (bee instanceof ProductiveBee) {
+        if (bee instanceof ProductiveBee && !hasBeeType(itemStack)) {
             ProductiveBee productiveBee = (ProductiveBee) target;
             if (hasGene(itemStack)) {
                 applyGenesToBee(level, itemStack, productiveBee);
@@ -146,6 +147,8 @@ public class HoneyTreat extends Item
                     }
                 }
             }
+        } else if (hasBeeType(itemStack)) {
+            player.sendSystemMessage(Component.translatable(ProductiveBees.MODID + ".honey_treat.invalid_use"));
         }
 
         itemStack.shrink(1);

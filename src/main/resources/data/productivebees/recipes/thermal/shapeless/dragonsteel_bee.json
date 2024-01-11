@@ -1,0 +1,54 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:apatite\"}}"
+    },
+    {
+      "item": "minecraft:dragon_breath"
+    },
+    {
+      "item": "minecraft:dragon_breath"
+    },
+    {
+      "item": "minecraft:dragon_breath"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:netherite\"}}"
+    }
+  ],
+  "result": {
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:dragonsteel"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal_extra"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:apatite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:netherite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:dragonsteel"
+    }
+  ]
+}

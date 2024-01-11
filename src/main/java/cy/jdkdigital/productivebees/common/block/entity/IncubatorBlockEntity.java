@@ -135,7 +135,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
                 && invHandler.getStackInSlot(IncubatorContainer.SLOT_OUTPUT).isEmpty() // output has room
                 && treatItem.getItem().equals(ModItems.HONEY_TREAT.get())
                 && (
-                    (cageProcessing && (treatItem.getCount() >= ProductiveBeesConfig.GENERAL.incubatorTreatUse.get() || HoneyTreat.hasGene(treatItem))) ||
+                    (cageProcessing && (treatItem.getCount() >= ProductiveBeesConfig.GENERAL.incubatorTreatUse.get() || (HoneyTreat.hasGene(treatItem) && !HoneyTreat.hasBeeType(treatItem)))) ||
                     (eggProcessing && !treatItem.isEmpty() && HoneyTreat.hasBeeType(treatItem))
                 );
     }

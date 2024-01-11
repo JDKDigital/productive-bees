@@ -30,8 +30,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -64,9 +62,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = ProductiveBees.MODID)
 public class EventHandler
@@ -154,42 +151,33 @@ public class EventHandler
                 return new MerchantOffer(new ItemStack(Items.EMERALD), ItemStack.EMPTY, new ItemStack(ModItems.HONEY_TREAT.get(), 2), 3, 100, 3, 0.2F);
             });
 
-            // TODO more variable trades, pick any random hive and expansion from the registered ones
+            List<Block> hiveMap = new ArrayList<>() {{
+                add(ModBlocks.HIVES.get("advanced_jungle_beehive").get());
+                add(ModBlocks.HIVES.get("advanced_acacia_beehive").get());
+                add(ModBlocks.HIVES.get("advanced_birch_beehive").get());
+                add(ModBlocks.HIVES.get("advanced_dark_oak_beehive").get());
+                add(ModBlocks.HIVES.get("advanced_mangrove_beehive").get());
+                add(ModBlocks.HIVES.get("advanced_spruce_beehive").get());
+                add(ModBlocks.HIVES.get("advanced_cherry_beehive").get());
+                add(ModBlocks.HIVES.get("advanced_oak_beehive").get());
+            }};
+            List<Block> boxMap = new ArrayList<>() {{
+                add(ModBlocks.EXPANSIONS.get("expansion_box_jungle").get());
+                add(ModBlocks.EXPANSIONS.get("expansion_box_acacia").get());
+                add(ModBlocks.EXPANSIONS.get("expansion_box_birch").get());
+                add(ModBlocks.EXPANSIONS.get("expansion_box_dark_oak").get());
+                add(ModBlocks.EXPANSIONS.get("expansion_box_mangrove").get());
+                add(ModBlocks.EXPANSIONS.get("expansion_box_spruce").get());
+                add(ModBlocks.EXPANSIONS.get("expansion_box_cherry").get());
+                add(ModBlocks.EXPANSIONS.get("expansion_box_oak").get());
+            }};
+            AtomicInteger picked = new AtomicInteger();
             event.getTrades().get(ModProfessions.JOURNEYMAN).add((trader, rand) -> {
-                Block hive = ModBlocks.HIVES.get("advanced_oak_beehive").get();
-                if (trader instanceof Villager villager) {
-                    VillagerType villagertype = villager.getVillagerData().getType();
-                    if (villagertype.equals(VillagerType.JUNGLE)) {
-                        hive = ModBlocks.HIVES.get("advanced_jungle_beehive").get();
-                    } else if (villagertype.equals(VillagerType.SAVANNA)) {
-                        hive = ModBlocks.HIVES.get("advanced_acacia_beehive").get();
-                    } else if (villagertype.equals(VillagerType.DESERT)) {
-                        hive = ModBlocks.HIVES.get("advanced_birch_beehive").get();
-                    } else if (villagertype.equals(VillagerType.SWAMP)) {
-                        hive = ModBlocks.HIVES.get("advanced_dark_oak_beehive").get();
-                    } else if (villagertype.equals(VillagerType.TAIGA) || villagertype.equals(VillagerType.SNOW)) {
-                        hive = ModBlocks.HIVES.get("advanced_spruce_beehive").get();
-                    }
-                }
-                return new MerchantOffer(new ItemStack(Items.BEEHIVE, 1), new ItemStack(Items.EMERALD, 6), new ItemStack(hive), 1, 12, 6, 0.2F);
+                picked.set(rand.nextInt(hiveMap.size()));
+                return new MerchantOffer(new ItemStack(Items.BEEHIVE, 1), new ItemStack(Items.EMERALD, 6), new ItemStack(hiveMap.get(picked.get())), 1, 12, 6, 0.2F);
             });
             event.getTrades().get(ModProfessions.JOURNEYMAN).add((trader, rand) -> {
-                Block box = ModBlocks.EXPANSIONS.get("expansion_box_oak").get();
-                if (trader instanceof Villager villager) {
-                    VillagerType villagertype = villager.getVillagerData().getType();
-                    if (villagertype.equals(VillagerType.JUNGLE)) {
-                        box = ModBlocks.EXPANSIONS.get("expansion_box_jungle").get();
-                    } else if (villagertype.equals(VillagerType.SAVANNA)) {
-                        box = ModBlocks.EXPANSIONS.get("expansion_box_acacia").get();
-                    } else if (villagertype.equals(VillagerType.DESERT)) {
-                        box = ModBlocks.EXPANSIONS.get("expansion_box_birch").get();
-                    } else if (villagertype.equals(VillagerType.SWAMP)) {
-                        box = ModBlocks.EXPANSIONS.get("expansion_box_dark_oak").get();
-                    } else if (villagertype.equals(VillagerType.TAIGA) || villagertype.equals(VillagerType.SNOW)) {
-                        box = ModBlocks.EXPANSIONS.get("expansion_box_spruce").get();
-                    }
-                }
-                return new MerchantOffer(new ItemStack(Items.EMERALD, 4), ItemStack.EMPTY, new ItemStack(box), 1, 12, 6, 0.2F);
+                return new MerchantOffer(new ItemStack(Items.EMERALD, 4), ItemStack.EMPTY, new ItemStack(boxMap.get(picked.get())), 1, 12, 6, 0.2F);
             });
 
             event.getTrades().get(ModProfessions.EXPERT).add((trader, rand) -> new MerchantOffer(new ItemStack(Items.EMERALD, 12), new ItemStack(ModItems.BEE_CAGE.get(), 1), new ItemStack(ModItems.STURDY_BEE_CAGE.get()), 3, 12, 6, 0.2F));
@@ -214,7 +202,7 @@ public class EventHandler
                     case 1 -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_rancher_bee"));
                     case 2 -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_farmer_bee"));
                     case 3 -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_cupid_bee"));
-                    case 4 -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_hoarder_bee"));
+                    case 4 -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_collector_bee"));
                     case 5 -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_dye_bee"));
                     default -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, "spawn_egg_lumber_bee"));
                 };

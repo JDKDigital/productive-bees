@@ -70,7 +70,9 @@ public class BeeCage extends Item
                 entity.setSavedFlowerPos(pos);
             } else if ((context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) || (entity.hivePos != null && !level.isLoaded(entity.hivePos))) {
                 entity.hivePos = null;
-                if (entity instanceof ProductiveBee && level instanceof ServerLevel) {
+                if (entity instanceof ProductiveBee pBee && level instanceof ServerLevel) {
+                    pBee.setHasConverted(false);
+                    pBee.setHasNectar(false);
                     PoiManager poiManager = ((ServerLevel) level).getPoiManager();
                     Optional<Holder<PoiType>> poiAtLocation = poiManager.getType(pos);
                     if (poiAtLocation.isPresent() && ((ProductiveBee) entity).getBeehiveInterests().test(poiAtLocation.get())) {

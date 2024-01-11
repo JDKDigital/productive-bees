@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#b9f3e9",
+  "secondaryColor": "#386058",
+  "tertiaryColor": "#5fa295",
+  "particleColor": "#e1f9f9",
+  "beeTexture": "productivebees:textures/entity/bee/hellfire/bee",
+  "size": 0.4,
+  "flowerBlock": "bloodmagic:dungeon_metal",
+  "selfbreed": false,
+  "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "bloodmagic"
+        }
+  ]
+}

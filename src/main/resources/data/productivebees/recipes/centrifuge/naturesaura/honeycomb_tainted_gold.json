@@ -1,0 +1,41 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:tainted_gold"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "naturesaura:tainted_gold"
+      },
+      "chance": 75
+    },
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 25
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:tainted_gold"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "naturesaura"
+    }
+  ]
+}

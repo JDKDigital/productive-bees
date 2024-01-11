@@ -172,7 +172,7 @@ public class FarmerBee extends ProductiveBee
                             FarmerBee.this.targetHarvestPos = null;
                         } else {
                             BlockPos pos = FarmerBee.this.targetHarvestPos;
-                            if (FarmerBee.this.isCropValid(pos)) {
+                            if (FarmerBee.this.level().isLoaded(pos) && FarmerBee.this.isCropValid(pos)) {
                                 FarmerBee.this.harvestBlock(pos);
                             }
 
@@ -190,6 +190,8 @@ public class FarmerBee extends ProductiveBee
     }
 
     public void harvestBlock(BlockPos pos) {
-        HarvestCompatHandler.harvestBlock(this, pos);
+        if (pos != null) {
+            HarvestCompatHandler.harvestBlock(this, pos);
+        }
     }
 }

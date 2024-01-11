@@ -5,7 +5,7 @@
   "particleColor": "#a1d0ff",
   "beeTexture": "productivebees:textures/entity/bee/hyper_experience/bee",
   "size": 0.6,
-  "flowerFluid": "create_enchantment_industry:hyper_experience",
+  "flowerItem": "create_enchantment_industry:hyper_experience_bottle",
   "selfbreed": false,
   "conditions": [
     {

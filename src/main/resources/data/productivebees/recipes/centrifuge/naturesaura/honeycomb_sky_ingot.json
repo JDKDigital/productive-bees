@@ -1,0 +1,41 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:sky_ingot"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "naturesaura:sky_ingot"
+      },
+      "chance": 50
+    },
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 25
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:sky_ingot"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "naturesaura"
+    }
+  ]
+}

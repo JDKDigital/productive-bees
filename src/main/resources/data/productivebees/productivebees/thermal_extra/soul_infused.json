@@ -6,7 +6,6 @@
   "description": "productivebees.ingredient.description.only_spawnegg",
   "size": 0.7,
   "flowerBlock": "thermal_extra:soul_infused_block",
-  "selfbreed": true,
   "conditions": [
     {
       "type": "forge:mod_loaded",

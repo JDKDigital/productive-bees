@@ -5,31 +5,37 @@
     "item": "productivebees:configurable_honeycomb",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:hyper_experience"
+        "type": "productivebees:hop_graphite"
       }
     }
   },
   "outputs": [
     {
-      "fluid": {
-        "fluid": "create_enchantment_industry:hyper_experience"
+      "item": {
+        "item": "immersiveengineering:dust_hop_graphite"
       },
-      "amount": 10
+      "chance": 25
     },
     {
       "item": {
         "tag": "forge:wax"
       }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 25
     }
   ],
   "conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:hyper_experience"
+      "bee": "productivebees:hop_graphite"
     },
     {
       "type": "forge:mod_loaded",
-      "modid": "create_enchantment_industry"
+      "modid": "immersiveengineering"
     }
   ]
 }

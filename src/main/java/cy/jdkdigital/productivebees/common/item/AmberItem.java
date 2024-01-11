@@ -23,6 +23,15 @@ public class AmberItem extends BlockItem
     }
 
     @Override
+    public Component getName(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        if (tag != null && tag.contains("BlockEntityTag") && tag.getCompound("BlockEntityTag").contains("EntityData")) {
+            return Component.translatable("productivebees.amber.name.contained_entity", Component.literal(tag.getCompound("BlockEntityTag").getCompound("EntityData").getString("name")));
+        }
+        return super.getName(stack);
+    }
+
+    @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(stack, level, list, flag);
 

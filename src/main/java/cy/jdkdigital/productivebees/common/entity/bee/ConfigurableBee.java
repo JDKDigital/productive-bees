@@ -399,6 +399,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     }
                 }
             }
+            return false;
         }
 
         return super.isFlowerValid(pos, ConfigurableBee.this::isFlowerBlock, ConfigurableBee.this::isFlowerItem);

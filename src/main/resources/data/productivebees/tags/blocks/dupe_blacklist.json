@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "industrialforegoing:hydroponic_bed",
+      "required": false
+    },
+    {
+      "id": "farmingforblockheads:fertilized_farmland_healthy",
+      "required": false
+    },
+    {
+      "id": "farmingforblockheads:fertilized_farmland_rich",
+      "required": false
+    },
+    {
+      "id": "farmingforblockheads:fertilized_farmland_stable",
+      "required": false
+    },
+    {
+      "id": "farmingforblockheads:fertilized_farmland_healthy_stable",
+      "required": false
+    },
+    {
+      "id": "farmingforblockheads:fertilized_farmland_rich_stable",
+      "required": false
+    }
+  ]
+}

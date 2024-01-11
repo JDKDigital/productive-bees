@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#f2da7d",
+  "secondaryColor": "#a14f38",
+  "tertiaryColor": "#7a3030",
+  "particleColor": "#f9e597",
+  "beeTexture": "productivebees:textures/entity/bee/arcane_gold/bee",
+  "size": 0.8,
+  "flowerBlock": "eidolon:arcane_gold_block",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "eidolon"
+    }
+  ]
+}

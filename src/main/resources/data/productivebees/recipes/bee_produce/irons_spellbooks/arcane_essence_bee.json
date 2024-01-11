@@ -1,0 +1,39 @@
+{
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:arcane_essence",
+  "results": [
+    {
+      "item": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:arcane_essence"
+          }
+        }
+      }
+    },
+    {
+      "item": {
+        "item": "irons_spellbooks:blank_rune"
+      },
+      "chance": 15
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:arcane_essence"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "irons_spellbooks"
+    }
+  ]
+}

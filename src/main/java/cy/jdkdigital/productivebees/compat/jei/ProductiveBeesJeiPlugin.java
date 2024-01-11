@@ -149,11 +149,10 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipes(BOTTLER_TYPE, bottlerRecipeMap.values().stream().toList());
 
         // Bee ingredient descriptions
-        List<String> notInfoBees = Arrays.asList("minecraft:bee", "configurable_bee");
         Map<String, BeeIngredient> beeList = BeeIngredientFactory.getOrCreateList();
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
-            String beeId = entry.getKey().replace("productivebees:", "");
-            if (!notInfoBees.contains(beeId)) {
+            if (entry.getKey().contains(ProductiveBees.MODID)) {
+                String beeId = entry.getKey().replace("productivebees:", "");
                 Component description = Component.literal("");
                 if (entry.getValue().isConfigurable()) {
                     CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getKey());
@@ -216,17 +215,21 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         Collection<AdvancedBeehiveRecipe> chipHiveRecipes = new ArrayList<>();
         BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.QUARRY).forEach(blockHolder -> {
             Block b = blockHolder.value();
-            String id = ForgeRegistries.BLOCKS.getKey(b).getPath();
-            Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
-            blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 1, 100}));
-            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "stone_chip_block_hive_" + id), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), blockItemOutput));
+            if (!b.builtInRegistryHolder().is(ModTags.DUPE_BLACKLIST)) {
+                String id = ForgeRegistries.BLOCKS.getKey(b).getPath();
+                Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
+                blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 1, 100}));
+                chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "quarry_bee_block_hive_" + id), Lazy.of(() -> beeList.get("productivebees:quarry_bee")), blockItemOutput));
+            }
         });
         BuiltInRegistries.BLOCK.getTagOrEmpty(ModTags.LUMBER).forEach(blockHolder -> {
             Block b = blockHolder.value();
-            String id = ForgeRegistries.BLOCKS.getKey(b).getPath();
-            Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
-            blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 1, 100}));
-            chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "wood_chip_block_hive_" + id), Lazy.of(() -> beeList.get("productivebees:lumber_bee")), blockItemOutput));
+            if (!b.builtInRegistryHolder().is(ModTags.DUPE_BLACKLIST)) {
+                String id = ForgeRegistries.BLOCKS.getKey(b).getPath();
+                Map<Ingredient, IntArrayTag> blockItemOutput = new HashMap<>();
+                blockItemOutput.put(Ingredient.of(b.asItem()), new IntArrayTag(new int[]{1, 1, 100}));
+                chipHiveRecipes.add(new AdvancedBeehiveRecipe(new ResourceLocation(ProductiveBees.MODID, "lumber_bee_block_hive_" + id), Lazy.of(() -> beeList.get("productivebees:lumber_bee")), blockItemOutput));
+            }
         });
         registration.addRecipes(ADVANCED_BEEHIVE_TYPE, chipHiveRecipes.stream().toList());
 

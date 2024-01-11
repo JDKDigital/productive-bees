@@ -1,0 +1,42 @@
+{
+  "type": "productivebees:centrifuge",
+  "ingredient": {
+    "type": "forge:nbt",
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:arcane_gold"
+      }
+    }
+  },
+  "outputs": [
+    {
+      "item": {
+        "item": "eidolon:arcane_gold_nugget"
+      },
+      "min": 3,
+      "max": 7
+    },
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 25
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:arcane_gold"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "eidolon"
+    }
+  ]
+}

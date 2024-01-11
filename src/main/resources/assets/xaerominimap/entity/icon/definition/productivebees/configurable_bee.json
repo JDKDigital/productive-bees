@@ -1,0 +1,20 @@
+{
+  "variantIdBuilderMethod" : "cy.jdkdigital.productivebees.compat.xaeros.MinimapCompat.buildVariantIdString",
+
+  "variants" : {
+    "default" : "model"
+  },
+
+  "modelConfigs" : [
+    {
+      "baseScale" : 0.8,
+      "rotationX" : 90,
+      "renderingFullModel": true,
+      "modelRootPath" : [
+        [
+          "cy.jdkdigital.productivebees.client.render.entity.model.MediumBeeModel;body"
+        ]
+      ]
+    }
+  ]
+}

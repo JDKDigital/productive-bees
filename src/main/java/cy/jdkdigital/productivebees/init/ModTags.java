@@ -36,6 +36,7 @@ public class ModTags
     public static final TagKey<Block> RIVER_FLOWERS = getBlockTag("flowers/river_flowers");
     public static final TagKey<Block> QUARRY = getBlockTag("flowers/quarry");
     public static final TagKey<Block> LUMBER = getBlockTag("flowers/lumber");
+    public static final TagKey<Block> DUPE_BLACKLIST = getBlockTag("dupe_blacklist");
     public static final TagKey<Block> POWDERY = getBlockTag("flowers/powdery");
     public static final TagKey<Block> HIVES_BLOCK = getBlockTag("advanced_beehives");
     public static final TagKey<Block> BOXES_BLOCK = getBlockTag("expansion_boxes");

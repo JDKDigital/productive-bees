@@ -329,14 +329,14 @@ public class BeeHelper
         } else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlockFromTag(level, flowerPos, ModTags.LUMBER, (ProductiveBee) beeEntity);
-                if (flowerBlock != null) {
+                if (flowerBlock != null && !flowerBlock.builtInRegistryHolder().is(ModTags.DUPE_BLACKLIST)) {
                     outputList.add(new ItemStack(flowerBlock.asItem()));
                 }
             }
         } else if (beeId.equals("productivebees:quarry_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlockFromTag(level, flowerPos, ModTags.QUARRY, (ProductiveBee) beeEntity);
-                if (flowerBlock != null) {
+                if (flowerBlock != null && !flowerBlock.builtInRegistryHolder().is(ModTags.DUPE_BLACKLIST)) {
                     outputList.add(new ItemStack(flowerBlock.asItem()));
                 }
             }

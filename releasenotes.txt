@@ -1,3 +1,22 @@
+1.20.1-12.2.14
+
+- Fixed flowering block for Hyper Experience bee
+- Fixed sturdy cages not always being put back into dispensers
+- Added alternative recipes for Thermal Extra bees since Thermal still has NBT problems
+- Fixed some problems with type genes on treats when used incorrectly
+- Fixed Thermal Extra bee name translations
+
+
+1.20.1-12.2.13
+
+- Added Thermal Extra bees (Lego)
+- Added Hyper Experience bee from Create Enchantment Industry (Lego)
+- Fixed bees with entity flower type being able to pollinate on flowers
+- Reduced likelihood of race condition occurrences (pucgenie)
+- Updated Italian translation (Catta1997)
+- Changed recipe for block upgrade
+
+
 1.20.1-12.2.12
 
 - Fixed stacked sturdy beecages in dispensers all being used up at once

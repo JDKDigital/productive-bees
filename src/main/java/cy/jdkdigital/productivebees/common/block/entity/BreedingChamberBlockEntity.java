@@ -140,14 +140,16 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
             }
             blockEntity.inventoryHandler.ifPresent(invHandler -> {
                 if (!invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1).isEmpty() && !invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2).isEmpty()) {
-                    Bee bee1 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
-                    Bee bee2 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
-                    if (blockEntity.currentBreedingRecipes.isEmpty() && ++blockEntity.recipeLookupCooldown > 0 && bee1 != null && bee2 != null) {
-                        blockEntity.currentBreedingRecipes = BeeHelper.getBreedingRecipes(bee1, bee2, serverLevel);
-                        if (blockEntity.currentBreedingRecipes.size() > 0 && !blockEntity.currentBreedingRecipes.contains(blockEntity.chosenRecipe)) { // Pick a random recipe from the list as active recipe
-                            blockEntity.setRecipe(blockEntity.currentBreedingRecipes.get(level.random.nextInt(blockEntity.currentBreedingRecipes.size())));
+                    if (blockEntity.currentBreedingRecipes.isEmpty() && ++blockEntity.recipeLookupCooldown > 0) {
+                        Bee bee1 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
+                        Bee bee2 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
+                        if (bee1 != null && bee2 != null) {
+                            blockEntity.currentBreedingRecipes = BeeHelper.getBreedingRecipes(bee1, bee2, serverLevel);
+                            if (blockEntity.currentBreedingRecipes.size() > 0 && !blockEntity.currentBreedingRecipes.contains(blockEntity.chosenRecipe)) { // Pick a random recipe from the list as active recipe
+                                blockEntity.setRecipe(blockEntity.currentBreedingRecipes.get(level.random.nextInt(blockEntity.currentBreedingRecipes.size())));
+                            }
+                            blockEntity.recipeLookupCooldown = -20; // delay between looking up recipe in case the two bees do not produce a recipe result
                         }
-                        blockEntity.recipeLookupCooldown = -20; // delay between looking up recipe in case the two bees do not produce a recipe result
                     }
 
                     // Process breeding
@@ -156,6 +158,9 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                         int totalTime = blockEntity.getProcessingTime(blockEntity.chosenRecipe);
 
                         if (blockEntity.recipeProgress == 0) {
+                            Bee bee1 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
+                            Bee bee2 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
+
                             // Consume breeding items when starting processing
                             invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_1).shrink(bee1 instanceof ProductiveBee pBee1 ? pBee1.getBreedingItemCount() : 1);
                             invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_2).shrink(bee2 instanceof ProductiveBee pBee2 ? pBee2.getBreedingItemCount() : 1);

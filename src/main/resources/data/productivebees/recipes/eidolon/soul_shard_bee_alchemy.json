@@ -1,0 +1,58 @@
+{
+  "type": "eidolon:crucible",
+  "steps": [
+    {
+      "stirs": 2,
+      "items": [
+        {
+          "tag": "forge:dusts/redstone",
+          "count": 2
+        },
+        {
+          "type": "forge:nbt",
+          "item": "productivebees:spawn_egg_configurable_bee",
+          "nbt": {
+            "EntityTag": {
+              "type": "productivebees:withered"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "stirs": 1,
+      "items": [
+        {
+          "item": "eidolon:soul_shard"
+        },
+        {
+          "item": "eidolon:soul_shard"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:soul_shard"
+      }
+    },
+    "count": 1
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:withered"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:soul_shard"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "eidolon"
+    }
+  ]
+}

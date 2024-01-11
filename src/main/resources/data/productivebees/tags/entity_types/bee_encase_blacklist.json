@@ -13,6 +13,10 @@
     {
       "id": "minecolonies:mercenary",
       "required": false
+    },
+    {
+      "id": "ars_nouveau:starbuncle",
+      "required": false
     }
   ]
 }
