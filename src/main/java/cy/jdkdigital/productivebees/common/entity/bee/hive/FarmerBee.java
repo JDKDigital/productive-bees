@@ -59,7 +59,7 @@ public class FarmerBee extends ProductiveBee
     }
 
     public boolean isCropValid(BlockPos blockPos) {
-        return HarvestCompatHandler.isCropValid(this, blockPos);
+        return blockPos != null && HarvestCompatHandler.isCropValid(this, blockPos);
     }
 
     public class HarvestCropGoal extends Goal

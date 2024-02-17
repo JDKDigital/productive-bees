@@ -70,6 +70,7 @@ public class ResinBee extends SolitaryBee
         super.postPollinate();
         if (ProductiveBeesConfig.BEES.enableResinBeeEncasing.get() && level().getRandom().nextInt(100) < 10) {
             BeeHelper.encaseMob(target, level(), this.getDirection());
+            target = null;
         }
     }
 }

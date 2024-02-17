@@ -6,6 +6,18 @@ plugins {
     id "org.sonarqube" version "3.1.1"
 }
 
+jarJar.enable()
+//tasks.jarJar.configure {
+//    archiveClassifier.set('')
+//}
+//tasks.build.dependsOn tasks.jarJar
+
+reobf {
+    jarJar { }
+}
+
+jar.finalizedBy('reobfJarJar')
+
 version = mod_version
 group = mod_group_id
 
@@ -86,6 +98,12 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
+        implementation fg.deobf("local.libs:productivelib-${minecraft_version}:${lib_version}")
+
+    jarJar(group: 'cy.jdkdigital.productivelib', name: 'productivelib', version: '[0.0.1,)') {
+        transitive(false)
+    }
+
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
@@ -105,7 +123,6 @@ dependencies {
 //    implementation fg.deobf("curse.maven:caupona-656147:4727564")
     implementation fg.deobf("curse.maven:pams-harvestcraft-2-trees-365460:4625518")
     implementation fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:4687624")
-    implementation fg.deobf("curse.maven:xaeros-minimap-263420:4933782")
 
 //    implementation fg.deobf("curse.maven:geckolib-388172:4711657")
 //    implementation fg.deobf("curse.maven:ato-405593:4590570")
@@ -119,7 +136,9 @@ dependencies {
     implementation fg.deobf("curse.maven:flux-networks-248020:4651164")
     implementation fg.deobf("curse.maven:titanium-287342:4712413")
     implementation fg.deobf("curse.maven:industrial-foregoing-266515:4709710")
-    implementation fg.deobf("curse.maven:eidolon-repraised-870250:4981047")
+    implementation fg.deobf("curse.maven:apotheosis-313970:5030868")
+    implementation fg.deobf("curse.maven:apothic-attributes-898963:4954000")
+    implementation fg.deobf("curse.maven:placebo-283644:4913663")
 //    implementation fg.deobf("curse.maven:architectury-api-419699:4663010")
 //    implementation fg.deobf("curse.maven:cloth-config-348521:4633444")
 //    implementation fg.deobf("curse.maven:powah-rearchitected-633483:4729364")

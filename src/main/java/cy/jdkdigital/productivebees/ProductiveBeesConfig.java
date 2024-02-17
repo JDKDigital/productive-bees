@@ -33,6 +33,7 @@ public class ProductiveBeesConfig
         public final ForgeConfigSpec.BooleanValue renderBeesInJars;
         public final ForgeConfigSpec.BooleanValue mutedBeeNestHelmet;
         public final ForgeConfigSpec.BooleanValue alwaysChristmas;
+        public final ForgeConfigSpec.BooleanValue renderEntitiesInAmber;
 
         public Client(ForgeConfigSpec.Builder builder) {
             builder.push("Client");
@@ -52,6 +53,10 @@ public class ProductiveBeesConfig
             alwaysChristmas = builder
                     .comment("Bees wear santa hats.")
                     .define("alwaysChristmas", false);
+
+            renderEntitiesInAmber = builder
+                    .comment("Render entities inside amber blocks.")
+                    .define("renderEntitiesInAmber", true);
 
             builder.pop();
         }

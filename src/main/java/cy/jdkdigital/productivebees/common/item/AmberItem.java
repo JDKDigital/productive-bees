@@ -1,10 +1,12 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.client.render.item.AmberItemRenderer;
+import cy.jdkdigital.productivebees.init.ModBlocks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -54,5 +56,17 @@ public class AmberItem extends BlockItem
                 return myRenderer;
             }
         });
+    }
+
+    public static ItemStack getFakeAmberItem(EntityType<?> entityType) {
+        ItemStack stack = new ItemStack(ModBlocks.AMBER.get());
+        CompoundTag entityTag = new CompoundTag();
+        entityTag.putString("name", Component.translatable(entityType.getDescriptionId()).getString());
+        CompoundTag thing = new CompoundTag();
+        thing.put("EntityData", entityTag);
+        CompoundTag tag = new CompoundTag();
+        tag.put("BlockEntityTag", thing);
+        stack.setTag(tag);
+        return stack;
     }
 }

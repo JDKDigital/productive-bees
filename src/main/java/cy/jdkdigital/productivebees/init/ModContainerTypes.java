@@ -45,4 +45,7 @@ public class ModContainerTypes
     public static final RegistryObject<MenuType<BreedingChamberContainer>> BREEDING_CHAMBER = CONTAINER_TYPES.register("breeding_chamber", () ->
             IForgeMenuType.create(BreedingChamberContainer::new)
     );
+    public static final RegistryObject<MenuType<CryoStasisContainer>> CRYO_STASIS = CONTAINER_TYPES.register("cryo_stasis", () ->
+            IForgeMenuType.create(CryoStasisContainer::new)
+    );
 }

@@ -15,12 +15,22 @@
     },
     {
       "item": {
+        "tag": "tombstone:essence_of_undeath"
+      },
+      "chance": 1
+    },
+    {
+      "item": {
         "tag": "forge:pollen"
       },
       "chance": 5
     }
   ],
   "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tombstone"
+    },
     {
       "type": "productivebees:bee_exists",
       "bee": "productivebees:grave"

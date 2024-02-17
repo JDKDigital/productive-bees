@@ -43,6 +43,7 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Map;
@@ -139,6 +140,7 @@ public class ClientSetupEvents
                 if (block instanceof CombBlock) {
                     event.register((stack, tintIndex) -> ((CombBlock) block).getColor(stack), item);
                 }
+                // tinted opening
                 if (block instanceof WoodNest) {
                     event.register((stack, tintIndex) -> ((WoodNest) block).getColor(tintIndex), block);
                 }
@@ -151,7 +153,7 @@ public class ClientSetupEvents
         }, ModBlocks.BUMBLE_BEE_NEST.get());
 
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
-            if (ProductiveBees.isDevEnv || ModList.get().isLoaded(modid)) {
+            if (FMLLoader.getLaunchHandler().isData() || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     if (!type.hasTexture()) {
                         name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
@@ -192,7 +194,7 @@ public class ClientSetupEvents
         }
 
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
-            if (ProductiveBees.isDevEnv || ModList.get().isLoaded(modid)) {
+            if (FMLLoader.getLaunchHandler().isData() || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     if (!type.hasTexture()) {
                         name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;

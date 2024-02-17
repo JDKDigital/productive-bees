@@ -18,6 +18,7 @@ import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -163,7 +164,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
                 // Auto harvest if empty bottles are in
                 if (honeyLevel >= 5) {
-                    int finalHoneyLevel = honeyLevel;
                     blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
                         ItemStack bottles = inv.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
                         if (!bottles.isEmpty() && bottles.getItem() instanceof BottleItem) {
@@ -172,16 +172,10 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                             if (addedBottle) {
                                 ((InventoryHandlerHelper.ItemHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
                                 bottles.shrink(1);
-                                level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, finalHoneyLevel - 5));
+                                level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
                             }
                         }
                     });
-                    honeyLevel = level.getBlockState(pos).getValue(BeehiveBlock.HONEY_LEVEL);
-                }
-
-                // Update any attached expansion box if the honey level reaches max
-                if (state.getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE && honeyLevel >= getMaxHoneyLevel(state)) {
-                    ((AdvancedBeehive) state.getBlock()).updateState(level, pos, state, false);
                 }
 
                 // Insert or extract bees for simulated hives
@@ -258,7 +252,13 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             // Generate bee produce (No produce after converting a block)
             if (!(beeEntity instanceof ProductiveBee productiveBee) || !productiveBee.hasConverted()) {
                 getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-                    BeeHelper.getBeeProduce(level, beeEntity, (getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get())) > 0).forEach((stackIn) -> {
+                    // Count productivity modifier
+                    double upgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get())
+                                        + ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_2.get())
+                                        + ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_3.get())
+                                        + ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get());
+
+                    BeeHelper.getBeeProduce(level, beeEntity, (getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get())) > 0, upgradeMod).forEach((stackIn) -> {
                         ItemStack stack = stackIn.copy();
                         if (!stack.isEmpty()) {
                             if (beeEntity instanceof ProductiveBee) {
@@ -271,21 +271,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                                         stack.grow(Math.round(modifier));
                                     }
                                 }
-                            }
-                            // Apply upgrades
-                            int ProductivityUpgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get());
-                            int productivity2Upgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_2.get());
-                            int productivity3Upgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_3.get());
-                            int productivity4Upgrades = getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get());
-
-                            double upgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * ProductivityUpgrades;
-                            upgradeMod = upgradeMod + ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get() * productivity2Upgrades;
-                            upgradeMod = upgradeMod + ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get() * productivity3Upgrades;
-                            upgradeMod = upgradeMod + ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get() * productivity4Upgrades;
-
-                            if (upgradeMod >= 1.0) {
-                                double newStackSize = stack.getCount() * upgradeMod;
-                                stack.setCount(Math.round((float) newStackSize));
                             }
 
                             ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);

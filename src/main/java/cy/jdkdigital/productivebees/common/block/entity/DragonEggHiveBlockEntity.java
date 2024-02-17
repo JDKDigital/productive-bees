@@ -27,7 +27,7 @@ public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
                     blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
                         ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
-                            final ItemStack filledBottle = level.dimension() == Level.END ? new ItemStack(Items.DRAGON_BREATH) : new ItemStack(Items.HONEY_BOTTLE);
+                            final ItemStack filledBottle = new ItemStack(Items.DRAGON_BREATH);
                             boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle).getCount() == 0;
                             if (addedBottle) {
                                 bottles.shrink(1);

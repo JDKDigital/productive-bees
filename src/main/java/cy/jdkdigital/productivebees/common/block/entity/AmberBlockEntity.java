@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -83,7 +84,7 @@ public class AmberBlockEntity extends AbstractBlockEntity
         this.meltCounter = tag.contains("meltCounter") ? tag.getInt("meltCounter") : 0;
     }
 
-    public void setEntity(PathfinderMob target) {
+    public void setEntity(Mob target) {
         var entityDataTag = target.saveWithoutId(new CompoundTag());
         entityDataTag.putString("entityType", ForgeRegistries.ENTITY_TYPES.getKey(target.getType()).toString());
         entityDataTag.putString("lootTable", target.getLootTable().toString());

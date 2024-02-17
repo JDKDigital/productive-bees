@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.compat.jei;
 
+import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
@@ -16,14 +17,18 @@ import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeCreator;
+import cy.jdkdigital.productivebees.util.BeeHelper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.category.extensions.IRecipeCategoryDecorator;
 import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
@@ -33,6 +38,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -54,6 +60,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
     public static final RecipeType<BeeFishingRecipe> BEE_FISHING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_fishing", BeeFishingRecipe.class);
     public static final RecipeType<BeeSpawningRecipe> BEE_SPAWNING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_spawning", BeeSpawningRecipe.class);
     public static final RecipeType<CentrifugeRecipe> CENTRIFUGE_TYPE = RecipeType.create(ProductiveBees.MODID, "centrifuge", CentrifugeRecipe.class);
+    public static final RecipeType<CentrifugeRecipe> BLOCK_CENTRIFUGE_TYPE = RecipeType.create(ProductiveBees.MODID, "block_centrifuge", CentrifugeRecipe.class);
     public static final RecipeType<BeeFloweringRecipeCategory.Recipe> BEE_FLOWERING_TYPE = RecipeType.create(ProductiveBees.MODID, "bee_flowering", BeeFloweringRecipeCategory.Recipe.class);
     public static final RecipeType<IncubationRecipe> INCUBATION_TYPE = RecipeType.create(ProductiveBees.MODID, "incubation", IncubationRecipe.class);
     public static final RecipeType<BlockConversionRecipe> BLOCK_CONVERSION_TYPE = RecipeType.create(ProductiveBees.MODID, "block_conversion", BlockConversionRecipe.class);
@@ -78,6 +85,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.CENTRIFUGE.get()), CENTRIFUGE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.POWERED_CENTRIFUGE.get()), CENTRIFUGE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.HEATED_CENTRIFUGE.get()), CENTRIFUGE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.HEATED_CENTRIFUGE.get()), BLOCK_CENTRIFUGE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.COARSE_DIRT_NEST.get()), BEE_SPAWNING_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.INCUBATOR.get()), INCUBATION_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BOTTLER.get()), BOTTLER_TYPE);
@@ -94,6 +102,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         registration.addRecipeCategories(new BeeBreedingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeConversionRecipeCategory(guiHelper));
         registration.addRecipeCategories(new CentrifugeRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new HeatedCentrifugeRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeFishingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeSpawningRecipeCategory(guiHelper));
         registration.addRecipeCategories(new BeeFloweringRecipeCategory(guiHelper));
@@ -111,6 +120,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
+        registration.useNbtForSubtypes(ModBlocks.AMBER.get().asItem());
         registration.useNbtForSubtypes(ModItems.CONFIGURABLE_HONEYCOMB.get());
         registration.useNbtForSubtypes(ModItems.CONFIGURABLE_SPAWN_EGG.get());
         registration.useNbtForSubtypes(ModItems.CONFIGURABLE_COMB_BLOCK.get());
@@ -121,32 +131,46 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
 
         // Beehive bee produce recipes
-        Map<ResourceLocation, AdvancedBeehiveRecipe> advancedBeehiveRecipesMap = recipeManager.byType(ModRecipeTypes.ADVANCED_BEEHIVE_TYPE.get());
-        registration.addRecipes(ADVANCED_BEEHIVE_TYPE, advancedBeehiveRecipesMap.values().stream().toList());
+        List<AdvancedBeehiveRecipe> advancedBeehiveRecipesMap = recipeManager.getAllRecipesFor(ModRecipeTypes.ADVANCED_BEEHIVE_TYPE.get());
+        registration.addRecipes(ADVANCED_BEEHIVE_TYPE, advancedBeehiveRecipesMap);
         // Centrifuge recipes
-        Map<ResourceLocation, CentrifugeRecipe> centrifugeRecipesMap = recipeManager.byType(ModRecipeTypes.CENTRIFUGE_TYPE.get());
-        registration.addRecipes(CENTRIFUGE_TYPE, centrifugeRecipesMap.values().stream().toList());
-        // Fishing recipes
-        Map<ResourceLocation, BeeFishingRecipe> fishingRecipesMap = recipeManager.byType(ModRecipeTypes.BEE_FISHING_TYPE.get());
-        registration.addRecipes(BEE_FISHING_TYPE, fishingRecipesMap.values().stream().toList());
+        List<CentrifugeRecipe> centrifugeRecipesMap = recipeManager.getAllRecipesFor(ModRecipeTypes.CENTRIFUGE_TYPE.get());
+        registration.addRecipes(CENTRIFUGE_TYPE, centrifugeRecipesMap);
+
+        List<CentrifugeRecipe> blockCentrifugeRecipesMap = centrifugeRecipesMap.stream().map(recipe -> {
+            var item = recipe.ingredient.getItems()[0];
+            if (item.getItem() instanceof HoneycombItem) {
+                Map<Ingredient, IntArrayTag> outputs = new HashMap<>();
+                recipe.itemOutput.forEach((ingredient, intTags) -> {
+                    outputs.put(ingredient, new IntArrayTag(new int[]{intTags.get(0).getAsInt() * 4, intTags.get(1).getAsInt() * 4, intTags.get(2).getAsInt()}));
+                });
+                return new CentrifugeRecipe(recipe.id.withPath(p -> p + "_block"), Ingredient.of(BeeHelper.getCombBlockFromHoneyComb(item)), outputs, recipe.fluidOutput != null ? Pair.of(recipe.fluidOutput.getFirst(), recipe.fluidOutput.getSecond() * 4) : null, recipe.getProcessingTime());
+            }
+            return null;
+        }).filter(Objects::nonNull).toList();
+        registration.addRecipes(BLOCK_CENTRIFUGE_TYPE, blockCentrifugeRecipesMap);
+
+                // Fishing recipes
+        List<BeeFishingRecipe> fishingRecipesMap = recipeManager.getAllRecipesFor(ModRecipeTypes.BEE_FISHING_TYPE.get());
+        registration.addRecipes(BEE_FISHING_TYPE, fishingRecipesMap);
         // Spawning recipes
-        Map<ResourceLocation, BeeSpawningRecipe> beeSpawningRecipesMap = recipeManager.byType(ModRecipeTypes.BEE_SPAWNING_TYPE.get());
-        registration.addRecipes(BEE_SPAWNING_TYPE, beeSpawningRecipesMap.values().stream().toList());
+        List<BeeSpawningRecipe> beeSpawningRecipesMap = recipeManager.getAllRecipesFor(ModRecipeTypes.BEE_SPAWNING_TYPE.get());
+        registration.addRecipes(BEE_SPAWNING_TYPE, beeSpawningRecipesMap);
         // Breeding recipes
-        Map<ResourceLocation, BeeBreedingRecipe> beeBreedingRecipeMap = recipeManager.byType(ModRecipeTypes.BEE_BREEDING_TYPE.get());
-        registration.addRecipes(BEE_BREEDING_TYPE,beeBreedingRecipeMap.values().stream().toList());
+        List<BeeBreedingRecipe> beeBreedingRecipeMap = recipeManager.getAllRecipesFor(ModRecipeTypes.BEE_BREEDING_TYPE.get());
+        registration.addRecipes(BEE_BREEDING_TYPE,beeBreedingRecipeMap);
         // Bee conversion recipes
-        Map<ResourceLocation, BeeConversionRecipe> beeConversionRecipeMap = recipeManager.byType(ModRecipeTypes.BEE_CONVERSION_TYPE.get());
-        registration.addRecipes(BEE_CONVERSION_TYPE, beeConversionRecipeMap.values().stream().toList());
+        List<BeeConversionRecipe> beeConversionRecipeMap = recipeManager.getAllRecipesFor(ModRecipeTypes.BEE_CONVERSION_TYPE.get());
+        registration.addRecipes(BEE_CONVERSION_TYPE, beeConversionRecipeMap);
         // Block conversion recipes
-        Map<ResourceLocation, BlockConversionRecipe> blockConversionRecipeMap = recipeManager.byType(ModRecipeTypes.BLOCK_CONVERSION_TYPE.get());
-        registration.addRecipes(BLOCK_CONVERSION_TYPE, blockConversionRecipeMap.values().stream().toList());
+        List<BlockConversionRecipe> blockConversionRecipeMap = recipeManager.getAllRecipesFor(ModRecipeTypes.BLOCK_CONVERSION_TYPE.get());
+        registration.addRecipes(BLOCK_CONVERSION_TYPE, blockConversionRecipeMap);
         // Item conversion recipes
-        Map<ResourceLocation, ItemConversionRecipe> itemConversionRecipeMap = recipeManager.byType(ModRecipeTypes.ITEM_CONVERSION_TYPE.get());
-        registration.addRecipes(ITEM_CONVERSION_TYPE, itemConversionRecipeMap.values().stream().toList());
+        List<ItemConversionRecipe> itemConversionRecipeMap = recipeManager.getAllRecipesFor(ModRecipeTypes.ITEM_CONVERSION_TYPE.get());
+        registration.addRecipes(ITEM_CONVERSION_TYPE, itemConversionRecipeMap);
         // Bottler recipes
-        Map<ResourceLocation, BottlerRecipe> bottlerRecipeMap = recipeManager.byType(ModRecipeTypes.BOTTLER_TYPE.get());
-        registration.addRecipes(BOTTLER_TYPE, bottlerRecipeMap.values().stream().toList());
+        List<BottlerRecipe> bottlerRecipeMap = recipeManager.getAllRecipesFor(ModRecipeTypes.BOTTLER_TYPE.get());
+        registration.addRecipes(BOTTLER_TYPE, bottlerRecipeMap);
 
         // Bee ingredient descriptions
         Map<String, BeeIngredient> beeList = BeeIngredientFactory.getOrCreateList();

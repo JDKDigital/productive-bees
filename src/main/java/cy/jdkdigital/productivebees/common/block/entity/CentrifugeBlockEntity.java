@@ -15,8 +15,10 @@ import cy.jdkdigital.productivebees.container.CentrifugeContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -279,7 +281,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             for (ItemStack filter : filterUpgrades) {
                 List<Supplier<BeeIngredient>> allowedBees = FilterUpgradeItem.getAllowedBees(filter);
                 for (Supplier<BeeIngredient> allowedBee : allowedBees) {
-                    List<ItemStack> produceList = BeeHelper.getBeeProduce(level, (Bee) allowedBee.get().getCachedEntity(level), false);
+                    List<ItemStack> produceList = BeeHelper.getBeeProduce(level, (Bee) allowedBee.get().getCachedEntity(level), false, 1.0);
                     for (ItemStack pStack: produceList) {
                         if (pStack.getItem().equals(stack.getItem())) {
                             isAllowedByFilter = true;
@@ -337,8 +339,12 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     }
 
     protected void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler, RandomSource random) {
+        this.completeRecipeProcessing(recipe, invHandler, random, false);
+    }
+
+    protected void completeRecipeProcessing(CentrifugeRecipe recipe, IItemHandlerModifiable invHandler, RandomSource random, boolean stripWax) {
         recipe.getRecipeOutputs().forEach((itemStack, recipeValues) -> {
-            if (random.nextInt(100) <= recipeValues.get(2).getAsInt()) {
+            if ((!stripWax || !itemStack.is(ModTags.Forge.WAX)) && random.nextInt(100) <= recipeValues.get(2).getAsInt()) {
                 int count = Mth.nextInt(random, Mth.floor(recipeValues.get(0).getAsInt()), Mth.floor(recipeValues.get(1).getAsInt()));
                 ItemStack output = itemStack.copy();
                 output.setCount(count);

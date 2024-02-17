@@ -17,8 +17,11 @@ import net.minecraftforge.common.util.FakePlayerFactory;
 public class PamsHarvester
 {
     public static boolean isCropValid(ProductiveBee bee, BlockPos pos) {
-        Block block = bee.level().getBlockState(pos).getBlock();
-        return block instanceof BlockPamFruit || block instanceof BlockPamLogFruit;
+        if (pos != null && bee.level().isLoaded(pos)) {
+            Block block = bee.level().getBlockState(pos).getBlock();
+            return block instanceof BlockPamFruit || block instanceof BlockPamLogFruit;
+        }
+        return false;
     }
 
     public static void harvestBlock(ProductiveBee bee, BlockPos pos) {

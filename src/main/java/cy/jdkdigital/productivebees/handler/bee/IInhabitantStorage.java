@@ -11,6 +11,8 @@ public interface IInhabitantStorage
     @Nonnull
     List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> getInhabitants();
 
+    int countInhabitants();
+
     void setInhabitants(List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> inhabitantList);
 
     void addInhabitant(AdvancedBeehiveBlockEntityAbstract.Inhabitant inhabitant);

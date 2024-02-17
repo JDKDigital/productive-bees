@@ -633,8 +633,8 @@ public class ProductiveBee extends Bee
         }
     }
 
-    private void insertConversionResult() {
-
+    public String getFlowerType() {
+        return "block";
     }
 
     @Override
@@ -706,7 +706,7 @@ public class ProductiveBee extends Bee
             try {
                 if (blockState.getBlock() instanceof Feeder) {
                     isInterested = isValidFeeder(ProductiveBee.this, level().getBlockEntity(blockPos), ProductiveBee.this::isFlowerBlock, ProductiveBee.this::isFlowerItem);
-                } else {
+                } else if (!getFlowerType().equals("entity_type")) {
                     isInterested = ProductiveBee.this.isFlowerBlock(blockState);
                     if (isInterested && blockState.is(BlockTags.TALL_FLOWERS)) {
                         if (blockState.getBlock() == Blocks.SUNFLOWER) {
@@ -769,6 +769,13 @@ public class ProductiveBee extends Bee
         }
 
         @Override
+        public void tick() {
+            if (ProductiveBee.this.hasSavedFlowerPos()) {
+                super.tick();
+            }
+        }
+
+        @Override
         public void stop() {
             super.stop();
             if (this.hasPollinatedLongEnough()) {
@@ -781,12 +788,18 @@ public class ProductiveBee extends Bee
         @Override
         public Optional<BlockPos> findNearbyFlower() {
             if (ProductiveBee.this instanceof RancherBee) {
-                return findEntities(RancherBee.predicate, 5D);
+                var entities = findEntities(RancherBee.predicate, 5D);
+                if (entities.isPresent()) {
+                    return entities;
+                }
             }
             if (ProductiveBee.this instanceof ResinBee) {
-                return findEntities(ResinBee.predicate, 5D);
+                var entities = findEntities(ResinBee.predicate, 5D);
+                if (entities.isPresent()) {
+                    return entities;
+                }
             }
-            if (ProductiveBee.this instanceof ConfigurableBee && ((ConfigurableBee) ProductiveBee.this).getFlowerType().equals("entity_types")) {
+            if (ProductiveBee.this instanceof ConfigurableBee && ProductiveBee.this.getFlowerType().equals("entity_types")) {
                 CompoundTag nbt = ((ConfigurableBee) ProductiveBee.this).getNBTData();
                 if (nbt != null) {
                     if (nbt.contains("flowerTag")) {
@@ -801,7 +814,10 @@ public class ProductiveBee extends Bee
                         if (amberBlocks.isPresent()) {
                             return amberBlocks;
                         }
-                        return findEntities(entity -> entity instanceof Mob && nbt.getBoolean("inverseFlower") != entity.getType().is(flowerTag), 5D);
+                        var entityPositions = findEntities(entity -> entity instanceof Mob && nbt.getBoolean("inverseFlower") != entity.getType().is(flowerTag), 5D);
+                        if (entityPositions.isPresent()) {
+                            return entityPositions;
+                        }
                     }
                 }
             }
@@ -818,7 +834,7 @@ public class ProductiveBee extends Bee
                         for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
                             blockpos$mutableblockpos.setWithOffset(blockpos, k, i - 1, l);
                             if (blockpos.closerThan(blockpos$mutableblockpos, distance) && predicate.test(blockpos$mutableblockpos)) {
-                                return Optional.of(blockpos$mutableblockpos);
+                                return Optional.of(blockpos$mutableblockpos.immutable());
                             }
                         }
                     }
@@ -839,7 +855,7 @@ public class ProductiveBee extends Bee
                     pathfinderMob.getNavigation().setSpeedModifier(0);
                 }
                 blockpos$mutable.set(target.getX(), target.getY(), target.getZ());
-                return Optional.of(blockpos$mutable);
+                return Optional.of(blockpos$mutable.immutable());
             }
 
             return Optional.empty();

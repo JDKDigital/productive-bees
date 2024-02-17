@@ -25,6 +25,11 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
     }
 
     @Override
+    public int countInhabitants() {
+        return this.inhabitantList.size();
+    }
+
+    @Override
     public void setInhabitants(List<AdvancedBeehiveBlockEntityAbstract.Inhabitant> inhabitantList) {
         this.inhabitantList = inhabitantList;
     }

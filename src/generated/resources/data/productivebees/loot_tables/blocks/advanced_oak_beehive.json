@@ -8,7 +8,7 @@
           "type": "minecraft:alternatives",
           "children": [
             {
-              "type": "productivebees:optional_loot_item",
+              "type": "productivelib:optional_loot_item",
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
@@ -38,7 +38,7 @@
                 },
                 {
                   "block": "productivebees:advanced_oak_beehive",
-                  "function": "productivebees:optional_copy_block_state",
+                  "function": "productivelib:optional_copy_block_state",
                   "properties": [
                     "honey_level"
                   ]
@@ -47,7 +47,7 @@
               "name": "productivebees:advanced_oak_beehive"
             },
             {
-              "type": "productivebees:optional_loot_item",
+              "type": "productivelib:optional_loot_item",
               "conditions": [
                 {
                   "condition": "minecraft:survives_explosion"

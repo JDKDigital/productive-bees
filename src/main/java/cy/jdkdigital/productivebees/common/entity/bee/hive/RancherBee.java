@@ -14,6 +14,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
@@ -69,7 +70,7 @@ public class RancherBee extends ProductiveBee
             }
         }
 
-        return false;
+        return isValidFeeder(this, level().getBlockEntity(pos), this::isFlowerBlock, this::isFlowerItem);
     }
 
     @Override
@@ -79,5 +80,15 @@ public class RancherBee extends ProductiveBee
         if (target instanceof Sheep sheep) {
             sheep.shear(SoundSource.BLOCKS);
         }
+    }
+
+    @Override
+    public boolean isFlowerBlock(BlockState flowerBlock) {
+        return false;
+    }
+
+    @Override
+    public String getFlowerType() {
+        return "entity_type";
     }
 }

@@ -16,7 +16,7 @@
         },
         {
             "type": "patchouli:text",
-            "text": "Draconic bees living in a Dragon Egg Hive operating in the End, do not need any flowering as they are absorbing Draconic essence from the air. While operating in any other location, the Draconic bees must have another pollination source.$(br2)Dragon Egg Hives do not support upgrades"
+            "text": "Draconic bees living in a Dragon Egg Hive operating in the End do not need any flowering as they are absorbing Draconic essence from the air. While operating in any other location, the Draconic bees must have another pollination source.$(br2)Dragon Egg Hives do not support upgrades"
         }
     ]
 }

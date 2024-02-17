@@ -5,6 +5,7 @@ import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -72,18 +73,23 @@ public class Feeder extends SlabBlock implements EntityBlock
     }
 
     @Override
-    public boolean canPlaceLiquid(BlockGetter worldIn, BlockPos pos, BlockState state, Fluid fluidIn) {
+    public boolean canPlaceLiquid(BlockGetter level, BlockPos pos, BlockState state, Fluid fluidIn) {
         return state.getValue(TYPE) != SlabType.DOUBLE && (!state.getValue(BlockStateProperties.WATERLOGGED) && (fluidIn == Fluids.WATER || fluidIn.isSame(ModFluids.HONEY.get())));
     }
 
     @Override
-    public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState state, FluidState fluidState) {
+    public boolean placeLiquid(LevelAccessor level, BlockPos pos, BlockState state, FluidState fluidState) {
         if (!state.getValue(BlockStateProperties.WATERLOGGED)) {
             boolean isHoney = fluidState.getType().isSame(ModFluids.HONEY.get()) && fluidState.isSource();
             if (fluidState.getType() == Fluids.WATER || isHoney) {
-                if (!world.isClientSide()) {
-                    world.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, true).setValue(HONEYLOGGED, isHoney), 3);
-                    world.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(world));
+                if (!level.isClientSide()) {
+                    if (level.getBlockEntity(pos) instanceof FeederBlockEntity feederBlockEntity) {
+                        var nbt = new CompoundTag();
+                        feederBlockEntity.savePacketNBT(nbt);
+                        level.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, true).setValue(HONEYLOGGED, isHoney), 3);
+                        level.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(level));
+                        feederBlockEntity.loadPacketNBT(nbt);
+                    }
                 }
                 return true;
             }

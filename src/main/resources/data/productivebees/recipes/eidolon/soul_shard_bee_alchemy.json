@@ -2,7 +2,6 @@
   "type": "eidolon:crucible",
   "steps": [
     {
-      "stirs": 2,
       "items": [
         {
           "tag": "forge:dusts/redstone",
@@ -38,8 +37,7 @@
       "EntityTag": {
         "type": "productivebees:soul_shard"
       }
-    },
-    "count": 1
+    }
   },
   "conditions": [
     {

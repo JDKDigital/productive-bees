@@ -33,7 +33,7 @@
         },
         {
             "type": "patchouli:text",
-            "title": "Spacial Bee",
+            "title": "Spatial Bee",
             "text": "Bred from a $(l:bees/wild/crystalline)Crystalline Bee$(/l) and an $(l:bees/wild/ender)Ender Bee$(/l).$(br2)The combs of this bee can be centrifuged to get certus quartz seeds which require further processing.",
             "anchor": "spacial",
             "flag": "productivebees:spacial"

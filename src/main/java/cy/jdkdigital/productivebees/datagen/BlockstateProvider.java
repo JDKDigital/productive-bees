@@ -22,6 +22,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.nio.file.Path;
@@ -89,7 +90,7 @@ public class BlockstateProvider implements DataProvider
         List<String> completedTypes = new ArrayList<>();
 
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
-            if (ProductiveBees.isDevEnv || ModList.get().isLoaded(modid)) {
+            if (FMLLoader.getLaunchHandler().isData() || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
                     if (!completedTypes.contains(name)) {

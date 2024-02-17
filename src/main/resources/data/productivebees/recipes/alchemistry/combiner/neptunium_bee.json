@@ -1,0 +1,47 @@
+{
+  "type": "alchemistry:combiner",
+  "group": "alchemistry:combiner",
+  "input": [
+    {
+      "count": 1,
+      "ingredient": {
+        "type": "forge:nbt",
+        "item": "productivebees:spawn_egg_configurable_bee",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:radioactive"
+          }
+        }
+      }
+    },
+    {
+      "count": 16,
+      "ingredient": {
+        "item": "chemlib:helium"
+      }
+    }
+  ],
+  "result": {
+    "type": "forge:nbt",
+    "item": "productivebees:spawn_egg_configurable_bee",
+    "nbt": {
+      "EntityTag": {
+        "type": "productivebees:neptunium"
+      }
+    }
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "alchemistry"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:radioactive"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:neptunium"
+    }
+  ]
+}

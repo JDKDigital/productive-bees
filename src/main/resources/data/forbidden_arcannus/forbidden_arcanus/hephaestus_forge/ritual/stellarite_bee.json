@@ -10,15 +10,15 @@
   },
   "inputs": [
     {
-      "amount": 3,
+      "amount": 4,
       "ingredient": {
         "item": "forbidden_arcanus:xpetrified_orb"
       }
     },
     {
-      "amount": 4,
+      "amount": 2,
       "ingredient": {
-        "item": "forbidden_arcanus:stellarite_piece"
+        "item": "forbidden_arcanus:eternal_stella"
       }
     }
   ],

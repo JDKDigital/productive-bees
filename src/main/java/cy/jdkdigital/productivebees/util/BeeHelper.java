@@ -280,7 +280,7 @@ public class BeeHelper
         return getNBTChangerRecipe(beeEntity, item) != null;
     }
 
-    public static List<ItemStack> getBeeProduce(Level level, Bee beeEntity, boolean hasCombBlockUpgrade) {
+    public static List<ItemStack> getBeeProduce(Level level, Bee beeEntity, boolean hasCombBlockUpgrade, double modifier) {
         AdvancedBeehiveRecipe matchedRecipe = null;
         BlockPos flowerPos = beeEntity.getSavedFlowerPos();
         List<ItemStack> outputList = new ArrayList<>();
@@ -303,41 +303,34 @@ public class BeeHelper
             }
         }
 
+        int rolls = Math.max(1, (int) modifier);
+
         if (matchedRecipe != null) {
             matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
-                if (level.random.nextInt(100) <= bounds.get(2).getAsInt()) {
-                    ItemStack stack = itemStack.copy();
-                    int count = Mth.nextInt(level.random, Mth.floor(bounds.get(0).getAsInt()), Mth.floor(bounds.get(1).getAsInt()));
-                    if (hasCombBlockUpgrade && itemStack.getItem() instanceof HoneycombItem honeycombItem) {
-                        if (itemStack.getItem() instanceof Honeycomb) {
-                            stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
-                            stack.setTag(itemStack.getTag());
-                        } else {
-                            stack = switch (ForgeRegistries.ITEMS.getKey(honeycombItem).toString()) {
-                                case "productivebees:honeycomb_ghostly" -> new ItemStack(ModBlocks.COMB_GHOSTLY.get());
-                                case "productivebees:honeycomb_milky" -> new ItemStack(ModBlocks.COMB_MILKY.get());
-                                case "productivebees:honeycomb_powdery" -> new ItemStack(ModBlocks.COMB_POWDERY.get());
-                                case "minecraft:honeycomb" -> new ItemStack(Blocks.HONEYCOMB_BLOCK);
-                                default -> stack;
-                            };
+                for (var i = 0; i < rolls; i++) {
+                    if (level.random.nextInt(100) <= bounds.get(2).getAsInt()) {
+                        ItemStack stack = itemStack.copy();
+                        int count = Mth.nextInt(level.random, Mth.floor(bounds.get(0).getAsInt()), Mth.floor(bounds.get(1).getAsInt()));
+                        if (hasCombBlockUpgrade && itemStack.getItem() instanceof HoneycombItem) {
+                            stack = getCombBlockFromHoneyComb(itemStack);
                         }
+                        stack.setCount(count);
+                        outputList.add(stack);
                     }
-                    stack.setCount(count);
-                    outputList.add(stack);
                 }
             });
         } else if (beeId.equals("productivebees:lumber_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlockFromTag(level, flowerPos, ModTags.LUMBER, (ProductiveBee) beeEntity);
                 if (flowerBlock != null && !flowerBlock.builtInRegistryHolder().is(ModTags.DUPE_BLACKLIST)) {
-                    outputList.add(new ItemStack(flowerBlock.asItem()));
+                    outputList.add(new ItemStack(flowerBlock.asItem(), rolls));
                 }
             }
         } else if (beeId.equals("productivebees:quarry_bee")) {
             if (flowerPos != null) {
                 Block flowerBlock = getFloweringBlockFromTag(level, flowerPos, ModTags.QUARRY, (ProductiveBee) beeEntity);
                 if (flowerBlock != null && !flowerBlock.builtInRegistryHolder().is(ModTags.DUPE_BLACKLIST)) {
-                    outputList.add(new ItemStack(flowerBlock.asItem()));
+                    outputList.add(new ItemStack(flowerBlock.asItem(), rolls));
                 }
             }
         } else if (beeId.equals("productivebees:dye_bee")) {
@@ -348,7 +341,7 @@ public class BeeHelper
 
                     ItemStack dye = getRecipeOutputFromInput(level, flowerItem);
                     if (!dye.isEmpty()) {
-                        dye.setCount(1);
+                        dye.setCount(rolls);
                         outputList.add(dye);
                     }
                 }
@@ -381,7 +374,9 @@ public class BeeHelper
 
                         List<ItemStack> list = lootTable.getRandomItems(lootContextBuilder.create(LootContextParamSets.ENTITY)).stream().filter(itemStack -> !itemStack.is(ModTags.WANNABEE_LOOT_BLACKLIST)).toList();
                         if (list.size() > 0) {
-                            outputList.add(list.get(level.random.nextInt(list.size())));
+                            for (var i = 0; i < rolls; i++) {
+                                outputList.add(list.get(level.random.nextInt(list.size())));
+                            }
                         }
                     }
                 }
@@ -389,6 +384,23 @@ public class BeeHelper
         }
 
         return outputList;
+    }
+
+    public static ItemStack getCombBlockFromHoneyComb(ItemStack itemStack) {
+        ItemStack stack = ItemStack.EMPTY;
+        if (itemStack.getItem() instanceof Honeycomb) {
+            stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
+            stack.setTag(itemStack.getTag());
+        } else {
+            stack = switch (ForgeRegistries.ITEMS.getKey(itemStack.getItem()).toString()) {
+                case "productivebees:honeycomb_ghostly" -> new ItemStack(ModBlocks.COMB_GHOSTLY.get());
+                case "productivebees:honeycomb_milky" -> new ItemStack(ModBlocks.COMB_MILKY.get());
+                case "productivebees:honeycomb_powdery" -> new ItemStack(ModBlocks.COMB_POWDERY.get());
+                case "minecraft:honeycomb" -> new ItemStack(Blocks.HONEYCOMB_BLOCK);
+                default -> stack;
+            };
+        }
+        return stack;
     }
 
     public static ItemStack getRecipeOutputFromInput(Level level, Item input) {
@@ -424,13 +436,13 @@ public class BeeHelper
         return flowerBlockState.is(tag) ? flowerBlock : null;
     }
 
-    public static void encaseMob(PathfinderMob target, Level level, Direction direction) {
+    public static void encaseMob(Mob target, Level level, Direction direction) {
         // Encase mob
-        if (target != null && !target.getType().is(ModTags.BEE_ENCASE_BLACKLIST)) {
+        if (target != null && !target.getType().is(ModTags.BEE_ENCASE_BLACKLIST) && target.isAlive()) {
             if (target instanceof TamableAnimal tamableAnimal && tamableAnimal.isTame()) {
                 return;
             }
-            if (level.isEmptyBlock(target.blockPosition())) {
+            if (level.isEmptyBlock(target.blockPosition()) && !target.isRemoved()) {
                 level.setBlockAndUpdate(target.blockPosition(), ModBlocks.AMBER.get().defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, direction));
                 if (level.getBlockEntity(target.blockPosition()) instanceof AmberBlockEntity amberBlockEntity) {
                     amberBlockEntity.setEntity(target);

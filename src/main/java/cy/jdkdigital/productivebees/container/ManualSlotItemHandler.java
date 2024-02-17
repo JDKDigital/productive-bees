@@ -1,9 +1,11 @@
 package cy.jdkdigital.productivebees.container;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
@@ -33,5 +35,21 @@ public class ManualSlotItemHandler extends SlotItemHandler
     @Nonnull
     public ItemStack remove(int amount) {
         return this.handler.extractItem(this.getSlotIndex(), amount, false, false);
+    }
+
+    @Override
+    public int getMaxStackSize() {
+        if (this.getItemHandler() instanceof InventoryHandlerHelper.UpgradeHandler) {
+            return 1;
+        }
+        return super.getMaxStackSize();
+    }
+
+    @Override
+    public int getMaxStackSize(@NotNull ItemStack stack) {
+        if (this.getItemHandler() instanceof InventoryHandlerHelper.UpgradeHandler) {
+            return 1;
+        }
+        return super.getMaxStackSize(stack);
     }
 }

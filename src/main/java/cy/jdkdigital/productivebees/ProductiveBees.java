@@ -13,8 +13,6 @@ import cy.jdkdigital.productivebees.event.loot.IngredientModifier;
 import cy.jdkdigital.productivebees.event.loot.ItemLootModifier;
 import cy.jdkdigital.productivebees.init.*;
 import cy.jdkdigital.productivebees.loot.LootItemKilledByUUIDCondition;
-import cy.jdkdigital.productivebees.loot.OptionalLootItem;
-import cy.jdkdigital.productivebees.loot.condition.OptionalCopyBlockState;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
@@ -69,7 +67,6 @@ public final class ProductiveBees
 {
     public static final String MODID = "productivebees";
     public static final RandomSource random = RandomSource.create();
-    public static boolean isDevEnv = false;
 
     public static final Logger LOGGER = LogManager.getLogger();
 
@@ -81,8 +78,6 @@ public final class ProductiveBees
     public static final RegistryObject<Codec<ItemLootModifier>> ITEM_MODIFIER = LOOT_SERIALIZERS.register("item_modifier", ItemLootModifier.CODEC);
     public static final RegistryObject<Codec<IngredientModifier>> INGREDIENT_MODIFIER = LOOT_SERIALIZERS.register("ingredient_modifier", IngredientModifier.CODEC);
 
-    public static final RegistryObject<LootPoolEntryType> OPTIONAL_LOOT_ITEM = LOOT_POOL_ENTRIES.register("optional_loot_item", () -> new LootPoolEntryType(new OptionalLootItem.Serializer()));
-    public static final RegistryObject<LootItemFunctionType> OPTIONAL_BLOCK_STATE_PROPERTY = LOOT_POOL_FUNCTIONS.register("optional_copy_block_state", () -> new LootItemFunctionType(new OptionalCopyBlockState.Serializer()));
     public static final RegistryObject<LootItemConditionType> KILLED_BY_UUID = LOOT_POOL_CONDITIONS.register("killed_by_uuid", () -> new LootItemConditionType(new LootItemKilledByUUIDCondition.Serializer()));
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);

@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.block;
 
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
+import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -59,7 +60,7 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     @Override
     public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
         BlockEntity te = world.getBlockEntity(pos);
-        return te != null ? te.getCapability(CapabilityBee.BEE).map(b -> b.getInhabitants().size()).orElse(0) : 0;
+        return te != null ? te.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::countInhabitants).orElse(0) : 0;
     }
 
     @Override

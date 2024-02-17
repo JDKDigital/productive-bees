@@ -8,9 +8,9 @@
   "flowerBlock": "bloodmagic:dungeon_metal",
   "selfbreed": false,
   "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "bloodmagic"
-        }
+    {
+      "type": "forge:mod_loaded",
+      "modid": "bloodmagic"
+    }
   ]
 }

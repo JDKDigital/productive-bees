@@ -43,6 +43,7 @@ public class HeatedCentrifuge extends PoweredCentrifuge
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
 
         pTooltip.add(Component.translatable("productivebees.heated_centrifuge.tooltip").withStyle(ChatFormatting.GOLD));
+        pTooltip.add(Component.translatable("productivebees.heated_centrifuge.tooltip2").withStyle(ChatFormatting.DARK_RED));
     }
 
     @SuppressWarnings("deprecation")

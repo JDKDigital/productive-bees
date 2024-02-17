@@ -5,7 +5,8 @@
     {
       "item": {
         "item": "botania:black_lotus"
-      }
+      },
+      "chance": 50
     },
     {
       "item": {

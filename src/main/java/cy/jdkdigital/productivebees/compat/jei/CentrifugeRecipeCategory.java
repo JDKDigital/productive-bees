@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.CentrifugeRecipe;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivebees.init.ModTags;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -61,6 +62,10 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, CentrifugeRecipe recipe, IFocusGroup focuses) {
+        setRecipe(builder, recipe, focuses, false);
+    }
+
+    protected void setRecipe(IRecipeLayoutBuilder builder, CentrifugeRecipe recipe, IFocusGroup focuses, boolean stripWax) {
         builder.addSlot(RecipeIngredientRole.INPUT, 5, 27)
                 .addItemStacks(Arrays.stream(recipe.ingredient.getItems()).toList())
                 .setSlotName("ingredient");
@@ -70,31 +75,29 @@ public class CentrifugeRecipeCategory implements IRecipeCategory<CentrifugeRecip
         final int[] i = {0};
         if (recipe.getRecipeOutputs().size() > 0) {
             recipe.getRecipeOutputs().forEach((stack, value) -> {
-                // Add a stack per possible output amount
-                List<ItemStack> innerList = new ArrayList<>();
-                IntStream.range(value.get(0).getAsInt(), value.get(1).getAsInt() + 1).forEach((u) -> {
-                    ItemStack newStack = stack.copy();
-                    newStack.setCount(u);
-                    innerList.add(newStack);
-                });
+                if (!stripWax || !stack.is(ModTags.Forge.WAX)) {
+                    // Add a stack per possible output amount
+                    List<ItemStack> innerList = new ArrayList<>();
+                    IntStream.range(value.get(0).getAsInt(), value.get(1).getAsInt() + 1).forEach((u) -> {
+                        ItemStack newStack = stack.copy();
+                        newStack.setCount(u);
+                        innerList.add(newStack);
+                    });
 
-                builder.addSlot(RecipeIngredientRole.OUTPUT, startX + (i[0] * 18) + 1, startY + ((int) Math.floor(i[0] / 3.0F) * 18) + 1)
-                        .addItemStacks(innerList)
-                        .addTooltipCallback((recipeSlotView, tooltip) -> {
-                            int chance = value.get(2).getAsInt();
-                            if (chance < 100) {
-                                tooltip.add(Component.translatable("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
-                            } else {
-                                tooltip.add(Component.literal(""));
-                            }
-                            if (value.get(0) != value.get(1)) {
-                                tooltip.add(Component.translatable("productivebees.centrifuge.tooltip.amount", value.get(0).getAsInt() + " - " + value.get(1).getAsInt()));
-                            } else {
-                                tooltip.add(Component.literal(""));
-                            }
-                        })
-                        .setSlotName("output" + i[0]);
-                i[0]++;
+                    builder.addSlot(RecipeIngredientRole.OUTPUT, startX + (i[0] * 18) + 1, startY + ((int) Math.floor(i[0] / 3.0F) * 18) + 1)
+                            .addItemStacks(innerList)
+                            .addTooltipCallback((recipeSlotView, tooltip) -> {
+                                int chance = value.get(2).getAsInt();
+                                if (chance < 100) {
+                                    tooltip.add(Component.translatable("productivebees.centrifuge.tooltip.chance", chance < 1 ? "<1%" : chance + "%"));
+                                }
+                                if (value.get(0) != value.get(1)) {
+                                    tooltip.add(Component.translatable("productivebees.centrifuge.tooltip.amount", value.get(0).getAsInt() + " - " + value.get(1).getAsInt()));
+                                }
+                            })
+                            .setSlotName("output" + i[0]);
+                    i[0]++;
+                }
             });
         }
         Pair<Fluid, Integer> fluid = recipe.getFluidOutputs();

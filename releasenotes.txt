@@ -1,3 +1,32 @@
+1.20.1-12.3.0
+
+- Upgrades are now stackable outside the hive
+- Changed how productivity upgrade rolls are calculated (needs testing)
+- Blacklisted hives from IFS tick acceleration
+- Changed some bee recipes and outputs
+- Added client config to disable rendering of entities in amber blocks
+- Fixed crash with FarmerBees and Pams
+- Added client config for hiding entities in amber
+- Added ChemLib combiner recipes for the bees that should have been made through fusion
+- Added library mod to be hip with the young generation
+
+
+1.20.1-12.2.15
+
+- Added Sky Steel bee from Megacells (Lego)
+- Added Hop Graphite bee from Immersive Engineering (Lego)
+- Added Arcane Gold, Pewter and Soul Shard bees from Eidolon (Lego)
+- Added Infused Iron, Sky Ingot and Tainted Gold bees from Natures Aura (Lego)
+- Added Arcane Debris and Arcane Essence bees from Irons Spellbooks (Lego)
+- Added Hellfire bee from Bloodmagic (Lego)
+- Changed Heated Centrifuge recipe
+- Changed Coal Bee recipe
+- Improved JEI support for comb block processing and entity pollination
+- Blacklisted Hydroponics (IF) blocks from Quarry bees
+- Blacklisted Starbuncle (Ars Nouveau) from Amber bees
+- Heated centrifuges are now too hot for wax
+
+
 1.20.1-12.2.14
 
 - Fixed flowering block for Hyper Experience bee

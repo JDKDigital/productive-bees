@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,9 +20,11 @@ public class AmberBlockEntityRenderer implements BlockEntityRenderer<AmberBlockE
 
     @Override
     public void render(AmberBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        Entity entity = tileEntityIn.getCachedEntity();
-        if (entity != null) {
-            renderEntity(tileEntityIn, entity, matrixStack, combinedLightIn);
+        if (ProductiveBeesConfig.CLIENT.renderEntitiesInAmber.get()) {
+            Entity entity = tileEntityIn.getCachedEntity();
+            if (entity != null) {
+                renderEntity(tileEntityIn, entity, matrixStack, combinedLightIn);
+            }
         }
     }
 

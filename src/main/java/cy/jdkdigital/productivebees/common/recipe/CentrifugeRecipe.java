@@ -27,16 +27,17 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Container>, TimedRecipeInterface
 {
     public final ResourceLocation id;
     public final Ingredient ingredient;
-    public final Map<String, Integer> fluidOutput;
+    public final Pair<String, Integer> fluidOutput;
     private final Integer processingTime;
 
-    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<Ingredient, IntArrayTag> itemOutput, Map<String, Integer> fluidOutput, int processingTime) {
+    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<Ingredient, IntArrayTag> itemOutput, Pair<String, Integer> fluidOutput, int processingTime) {
         super(itemOutput);
         this.id = id;
         this.ingredient = ingredient;
@@ -91,11 +92,11 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
 
     @Nullable
     public Pair<Fluid, Integer> getFluidOutputs() {
-        for (Map.Entry<String, Integer> entry : fluidOutput.entrySet()) {
-            Fluid fluid = getPreferredFluidByMod(entry.getKey());
+        if (fluidOutput != null) {
+            Fluid fluid = getPreferredFluidByMod(fluidOutput.getFirst());
 
             if (fluid != Fluids.EMPTY) {
-                return Pair.of(fluid, entry.getValue());
+                return Pair.of(fluid, fluidOutput.getSecond());
             }
         }
 
@@ -139,7 +140,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
 
             JsonArray jsonArray = GsonHelper.getAsJsonArray(json, "outputs");
             Map<Ingredient, IntArrayTag> itemOutputs = new LinkedHashMap<>();
-            Map<String, Integer> fluidOutputs = new LinkedHashMap<>();
+            AtomicReference<Pair<String, Integer>> fluidOutputs = new AtomicReference<>();
             jsonArray.forEach(el -> {
                 JsonObject jsonObject = el.getAsJsonObject();
                 if (jsonObject.has("item")) {
@@ -167,13 +168,13 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                         fluidResourceLocation = GsonHelper.getAsString(fluidJson, "fluid");
                     }
 
-                    fluidOutputs.put(fluidResourceLocation, amount);
+                    fluidOutputs.set(Pair.of(fluidResourceLocation, amount));
                 }
             });
 
             int processingTime = json.has("processingTime") ? json.get("processingTime").getAsInt() : 0;
 
-            return this.factory.create(id, ingredient, itemOutputs, fluidOutputs, processingTime);
+            return this.factory.create(id, ingredient, itemOutputs, fluidOutputs.get(), processingTime);
         }
 
         @Override
@@ -186,10 +187,10 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                         i -> itemOutput.put(Ingredient.fromNetwork(buffer), new IntArrayTag(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
                 );
 
-                Map<String, Integer> fluidOutput = new LinkedHashMap<>();
-                IntStream.range(0, buffer.readInt()).forEach(
-                        i -> fluidOutput.put(buffer.readUtf(), buffer.readInt())
-                );
+                Pair<String, Integer> fluidOutput = null;
+                if (buffer.readBoolean()) {
+                    fluidOutput = Pair.of(buffer.readUtf(), buffer.readInt());
+                }
 
                 return this.factory.create(id, ingredient, itemOutput, fluidOutput, buffer.readInt());
             } catch (Exception e) {
@@ -211,11 +212,11 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                     buffer.writeInt(value.get(2).getAsInt());
                 });
 
-                buffer.writeInt(recipe.fluidOutput.size());
-                recipe.fluidOutput.forEach((key, value) -> {
-                    buffer.writeUtf(key);
-                    buffer.writeInt(value);
-                });
+                buffer.writeBoolean(recipe.fluidOutput != null);
+                if (recipe.fluidOutput != null) {
+                    buffer.writeUtf(recipe.fluidOutput.getFirst());
+                    buffer.writeInt(recipe.fluidOutput.getSecond());
+                }
 
                 buffer.writeInt(recipe.getProcessingTime());
 
@@ -227,7 +228,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
 
         public interface IRecipeFactory<T extends CentrifugeRecipe>
         {
-            T create(ResourceLocation id, Ingredient input, Map<Ingredient, IntArrayTag> itemOutput, Map<String, Integer> fluidOutput, Integer processingTime);
+            T create(ResourceLocation id, Ingredient input, Map<Ingredient, IntArrayTag> itemOutput, Pair<String, Integer> fluidOutput, Integer processingTime);
         }
     }
 }

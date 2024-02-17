@@ -51,8 +51,7 @@ public class ConfigurableHoneycombRecipe implements CraftingRecipe
                     if (type != null && !type.equals(itemstack.getTag())) {
                         return false;
                     }
-                }
-                else {
+                } else {
                     return false;
                 }
             }

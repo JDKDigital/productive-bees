@@ -66,7 +66,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     private int attackCooldown = 0;
     public int breathCollectionCooldown = 600;
     private int teleportCooldown = 250;
-    public PathfinderMob target = null;
+    public Mob target = null;
 
     public static final EntityDataAccessor<String> TYPE = SynchedEntityData.defineId(ConfigurableBee.class, EntityDataSerializers.STRING);
 
@@ -135,7 +135,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
 
             // Draconic bees
-            if (level().dimension() == Level.END && isDraconic() && --breathCollectionCooldown <= 0) {
+            if (!hasNectar() && level().dimension() == Level.END && isDraconic() && --breathCollectionCooldown <= 0) {
                 breathCollectionCooldown = 600;
                 this.internalSetHasNectar(true);
             }
@@ -155,7 +155,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             // Entity targeting bees
             if (target != null) {
                 if (!hasNectar()) {
-                    target.getNavigation().setSpeedModifier(0);
+                    target.getNavigation().setSpeedModifier(0.01);
                 } else {
                     target.setTarget(this);
                     target = null;
@@ -610,6 +610,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         return getNBTData().getBoolean("selfheal");
     }
 
+    @Override
     public String getFlowerType() {
         return getNBTData().getString("flowerType");
     }
@@ -716,12 +717,14 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             switch (getNBTData().getString("postPollination")) {
                 case "amber_encase":
                     BeeHelper.encaseMob(target, level(), this.getDirection());
+                    target = null;
                     break;
                 case "sus":
                     if (savedFlowerPos != null && level() instanceof ServerLevel level && level.getBlockEntity(savedFlowerPos) instanceof BrushableBlockEntity brushableBlockEntity) {
                         List<ResourceLocation> possibleTables = SussyCompatHandler.getLootTables(level, savedFlowerPos);
                         if (possibleTables.size() > 0) {
                             brushableBlockEntity.setLootTable(possibleTables.get(level.getRandom().nextInt(possibleTables.size())), level.getRandom().nextLong());
+                            savedFlowerPos = null;
                         }
                     }
                     break;

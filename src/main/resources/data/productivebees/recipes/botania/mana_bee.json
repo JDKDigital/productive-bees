@@ -1,16 +1,33 @@
 {
-  "type": "botania:mana_infusion",
-  "input": {
-    "type": "forge:nbt",
-    "item": "productivebees:spawn_egg_configurable_bee",
-    "nbt": "{EntityTag:{type:\"productivebees:pure\"}}"
-  },
+  "type": "botania:runic_altar",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:spawn_egg_configurable_bee",
+      "nbt": "{EntityTag:{type:\"productivebees:pure\"}}"
+    },
+    {
+      "item": "botania:rune_mana"
+    },
+    {
+      "item": "botania:rune_mana"
+    },
+    {
+      "item": "botania:rune_mana"
+    },
+    {
+      "item": "botania:rune_mana"
+    },
+    {
+      "item": "botania:rune_greed"
+    }
+  ],
+  "mana": 100000,
   "output": {
     "type": "forge:nbt",
     "item": "productivebees:spawn_egg_configurable_bee",
     "nbt": "{EntityTag:{type:\"productivebees:mana\"}}"
   },
-  "mana": 10000,
   "conditions": [
     {
       "type": "forge:mod_loaded",

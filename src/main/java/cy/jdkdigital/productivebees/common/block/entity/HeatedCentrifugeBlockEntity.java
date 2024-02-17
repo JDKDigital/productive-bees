@@ -114,7 +114,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
             }
             invHandler.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, singleComb);
             for (int i = 0; i < 4; i++) {
-                super.completeRecipeProcessing(recipe, invHandler, random);
+                super.completeRecipeProcessing(recipe, invHandler, random, true);
             }
             input.shrink(1);
             invHandler.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, input);

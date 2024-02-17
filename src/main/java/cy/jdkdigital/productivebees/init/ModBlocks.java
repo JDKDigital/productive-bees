@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -55,6 +56,7 @@ public final class ModBlocks
     public static final RegistryObject<Block> WAX_BLOCK = createBlock("wax_block", () -> new WaxBlock(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK)));
     public static final RegistryObject<Block> GENE_INDEXER = createBlock("gene_indexer", () -> new GeneIndexer(Block.Properties.copy(Blocks.CAULDRON)));
     public static final RegistryObject<Block> BREEDING_CHAMBER = createBlock("breeding_chamber", () -> new BreedingChamber(Block.Properties.copy(Blocks.CAULDRON)));
+    public static final RegistryObject<Block> CRYO_STASIS = createBlock("cryo_stasis", () -> new CryoStasis(Block.Properties.copy(Blocks.CAULDRON)), false);
 
     public static final RegistryObject<Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest("#382b18", Block.Properties.copy(Blocks.OAK_LOG)));
     public static final RegistryObject<Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest("#2e1608", Block.Properties.copy(Blocks.SPRUCE_LOG)));
@@ -268,7 +270,7 @@ public final class ModBlocks
 
     public static void registerHives() {
         HIVELIST.forEach((modid, strings) -> {
-            if (ProductiveBees.isDevEnv || ModList.get().isLoaded(modid)) {
+            if (FMLLoader.getLaunchHandler().isData() || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
                     String hiveName = "advanced_" + name + "_beehive";

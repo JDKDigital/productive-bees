@@ -1,8 +1,10 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import cy.jdkdigital.productivebees.common.block.entity.ExpansionBoxBlockEntity;
+import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -70,21 +72,21 @@ public class ExpansionBox extends Block implements EntityBlock
         return new ExpansionBoxBlockEntity(this, pos, state);
     }
 
-    public void updateState(Level world, BlockPos pos, BlockState state, boolean isRemoved) {
-        Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentHive(world, pos);
+    public void updateState(Level level, BlockPos pos, BlockState state, boolean isRemoved) {
+        Pair<Pair<BlockPos, Direction>, BlockState> pair = state.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE) ? getAdjacentHive(level, pos) : getAttachedHive(state, level, pos);
         if (pair != null) {
             Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
             BlockPos hivePos = posAndDirection.getLeft();
-            VerticalHive directionProperty = AdvancedBeehive.calculateExpandedDirection(world, hivePos, isRemoved);
+            VerticalHive directionProperty = AdvancedBeehive.calculateExpandedDirection(level, hivePos, isRemoved);
 
             if (!isRemoved) {
-                updateStateWithDirection(world, pos, state, directionProperty, pair.getRight().getValue(BeehiveBlock.FACING));
+                updateStateWithDirection(level, pos, state, directionProperty, pair.getRight().getValue(BeehiveBlock.FACING));
             }
-            ((AdvancedBeehive) pair.getRight().getBlock()).updateStateWithDirection(world, hivePos, pair.getRight(), directionProperty);
+            ((AdvancedBeehive) pair.getRight().getBlock()).updateStateWithDirection(level, hivePos, pair.getRight(), directionProperty);
         } else {
             // No hive
             if (!isRemoved) {
-                updateStateWithDirection(world, pos, state, VerticalHive.NONE, state.getValue(BeehiveBlock.FACING));
+                updateStateWithDirection(level, pos, state, VerticalHive.NONE, state.getValue(BeehiveBlock.FACING));
             }
         }
     }
@@ -94,7 +96,7 @@ public class ExpansionBox extends Block implements EntityBlock
         ItemStack heldItem = player.getMainHandItem();
         if (level instanceof ServerLevel && heldItem.getItem().equals(Items.STICK)) {
             if (!state.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
-                Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentHive(level, pos);
+                Pair<Pair<BlockPos, Direction>, BlockState> pair = getAttachedHive(state, level, pos);
                 if (pair != null) {
                     Pair<BlockPos, Direction> posAndDirection = pair.getLeft();
                     BlockPos hivePos = posAndDirection.getLeft();
@@ -108,18 +110,44 @@ public class ExpansionBox extends Block implements EntityBlock
         super.attack(state, level, pos, player);
     }
 
-    public void updateStateWithDirection(Level world, BlockPos pos, BlockState state, VerticalHive directionProperty, Direction facing) {
-        world.setBlockAndUpdate(pos, state.setValue(AdvancedBeehive.EXPANDED, directionProperty).setValue(BeehiveBlock.FACING, facing));
+    public void updateStateWithDirection(Level level, BlockPos pos, BlockState state, VerticalHive directionProperty, Direction facing) {
+        // unregister any hives thinking this is their expansion box which are not facing here
+//        ProductiveBees.LOGGER.info("updateStateWithDirection " + facing + " " + directionProperty + " " + pos);
+//        for (Direction direction : BlockStateProperties.FACING.getPossibleValues()) {
+//            ProductiveBees.LOGGER.info("check direction " + direction);
+//            if (!direction.equals(facing)) {
+//                var hiveState = level.getBlockState(pos.relative(direction));
+//                if (hiveState.getBlock() instanceof AdvancedBeehive hive) {
+//                    ProductiveBees.LOGGER.info("other hive state " + hiveState);
+//                    ProductiveBees.LOGGER.info("facing " + hiveState.getValue(BeehiveBlock.FACING));
+//                    ProductiveBees.LOGGER.info("expanded " + hiveState.getValue(AdvancedBeehive.EXPANDED));
+//                }
+//            }
+//        }
+        level.setBlockAndUpdate(pos, state.setValue(AdvancedBeehive.EXPANDED, directionProperty).setValue(BeehiveBlock.FACING, facing));
     }
 
-    public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentHive(Level world, BlockPos pos) {
+    public static Pair<Pair<BlockPos, Direction>, BlockState> getAdjacentHive(Level level, BlockPos pos) {
         for (Direction direction : BlockStateProperties.FACING.getPossibleValues()) {
             BlockPos newPos = pos.relative(direction);
-            BlockState blockStateAtPos = world.getBlockState(newPos);
+            BlockState blockStateAtPos = level.getBlockState(newPos);
 
             Block blockAtPos = blockStateAtPos.getBlock();
             if (blockAtPos instanceof AdvancedBeehive && !(blockAtPos instanceof DragonEggHive)) {
                 return Pair.of(Pair.of(newPos, direction), blockStateAtPos);
+            }
+        }
+        return null;
+    }
+
+    public static Pair<Pair<BlockPos, Direction>, BlockState> getAttachedHive(BlockState boxState, Level level, BlockPos pos) {
+        if (boxState.is(ModTags.BOXES_BLOCK)) {
+            VerticalHive expandDirection = boxState.getValue(AdvancedBeehive.EXPANDED);
+            var hiveDirection = expandDirection.getExpandedCardinalDirection(boxState.getValue(BeehiveBlock.FACING)).getOpposite();
+
+            BlockState blockStateAtPos = level.getBlockState(pos.relative(hiveDirection));
+            if (blockStateAtPos.getBlock() instanceof AdvancedBeehive && !(blockStateAtPos.getBlock() instanceof DragonEggHive)) {
+                return Pair.of(Pair.of(pos.relative(hiveDirection), hiveDirection), blockStateAtPos);
             }
         }
         return null;
@@ -146,17 +174,13 @@ public class ExpansionBox extends Block implements EntityBlock
 
     @SuppressWarnings("deprecation")
     @Override
-    public InteractionResult use(final BlockState state, final Level worldIn, final BlockPos pos, final Player player, final InteractionHand handIn, final BlockHitResult hit) {
-        if (!worldIn.isClientSide) {
+    public InteractionResult use(final BlockState state, final Level level, final BlockPos pos, final Player player, final InteractionHand handIn, final BlockHitResult hit) {
+        if (!level.isClientSide) {
             // Open the attached beehive, if there is one
-            Pair<Pair<BlockPos, Direction>, BlockState> pair = getAdjacentHive(worldIn, pos);
-            if (pair != null) {
-                final BlockEntity tileEntity = worldIn.getBlockEntity(pair.getLeft().getLeft());
-                if (tileEntity instanceof AdvancedBeehiveBlockEntity hiveBlockEntity) {
-                    this.updateState(worldIn, pos, state, false);
-                    BlockState blockState = hiveBlockEntity.getBlockState();
-                    worldIn.sendBlockUpdated(pair.getLeft().getLeft(), blockState, blockState, 3);
-                    ((AdvancedBeehive) blockState.getBlock()).openGui((ServerPlayer) player, (AdvancedBeehiveBlockEntity) tileEntity);
+            if (!state.getValue(AdvancedBeehive.EXPANDED).equals(VerticalHive.NONE)) {
+                var dir = state.getValue(AdvancedBeehive.EXPANDED).getExpandedCardinalDirection(state.getValue(BeehiveBlock.FACING)).getOpposite();
+                if (level.getBlockEntity(pos.relative(dir)) instanceof AdvancedBeehiveBlockEntity hiveBlockEntity) {
+                    ((AdvancedBeehive) level.getBlockState(pos.relative(dir)).getBlock()).openGui((ServerPlayer) player, hiveBlockEntity);
                 }
             }
         }
