@@ -1,7 +1,19 @@
+1.20.1-12.3.2
+
+- Updated Geode bee to match changes in Tetra 1.20
+- Added Scrapped bee (tetra)
+
+
+1.20.1-12.3.1
+
+- Fixed crash when inserting bees into sim hive
+- Fixed phantoms not being ambered
+
+
 1.20.1-12.3.0
 
 - Upgrades are now stackable outside the hive
-- Changed how productivity upgrade rolls are calculated (needs testing)
+- Changed how productivity upgrade rolls are calculated
 - Blacklisted hives from IFS tick acceleration
 - Changed some bee recipes and outputs
 - Added client config to disable rendering of entities in amber blocks

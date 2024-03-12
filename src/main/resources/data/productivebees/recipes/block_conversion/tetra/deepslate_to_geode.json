@@ -2,7 +2,7 @@
   "type": "productivebees:block_conversion",
   "bee": "productivebees:geode",
   "from": {
-    "Name": "minecraft:stone"
+    "Name": "minecraft:deepslate"
   },
   "to": {
     "Name": "tetra:block_geode"
