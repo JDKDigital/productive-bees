@@ -1,9 +1,9 @@
 {
   "type": "productivebees:bee_conversion",
-  "source": "productivebees:quarry_bee",
-  "result": "productivebees:geode",
+  "source": "productivebees:iron",
+  "result": "productivebees:scrapped",
   "item": {
-    "item": "tetra:pristine_amethyst"
+    "item": "tetra:planar_stabilizer"
   },
   "conditions": [
     {
@@ -12,7 +12,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:geode"
+      "bee": "productivebees:scrapped"
     }
   ]
 }

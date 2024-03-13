@@ -80,24 +80,31 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         // Chemlib
         List<String> chemicals = Arrays.stream(new String[]{"actinium", "americium", "antimony", "argon", "arsenic", "astatine", "barium", "berkelium", "beryllium", "bohrium", "boron", "bromine", "cadmium", "calcium", "californium", "cerium", "cesium", "chlorine", "chromium", "copernicium", "curium", "darmstadtium", "dubnium", "dysprosium", "einsteinium", "erbium", "europium", "fermium", "flerovium", "fluorine", "francium", "gadolinium", "gallium", "germanium", "hafnium", "hassium", "helium", "holmium", "hydrogen", "indium", "iodine", "krypton", "lanthanum", "lawrencium", "lithium", "livermorium", "lutetium", "magnesium", "manganese", "meitnerium", "mendelevium", "mercury", "molybdenum", "moscovium", "neodymium", "neon", "neptunium", "nihonium", "niobium", "nitrogen", "nobelium", "oganesson", "oxygen", "palladium", "phosphorus", "plutonium", "polonium", "potassium", "praseodymium", "promethium", "protactinium", "radium", "radon", "rhenium", "rhodium", "roentgenium", "rubidium", "ruthenium", "rutherfordium", "samarium", "scandium", "seaborgium", "selenium", "silicium", "sodium", "strontium", "tantalum", "technetium", "tellurium", "tennessine", "terbium", "thallium", "thorium", "thulium", "vanadium", "xenon", "ytterbium", "yttrium", "zirconium"}).toList();
         chemicals.forEach(name -> {
-            CentrifugeRecipeBuilder.configurable(name)
+            boolean isGtCompatBee = name.equals("molybdenum") || name.equals("neodymium") || name.equals("palladium");
+            var r = CentrifugeRecipeBuilder.configurable(name)
                     .addOutput(new AbstractRecipeBuilder.ModItemOutput("chemlib:" + name, 80))
                     .withCondition(new ModLoadedCondition("chemlib"))
                     .withCondition(new BeeExistsCondition(ProductiveBees.MODID + ":" + name))
-                    .setFluidOutput(new AbstractRecipeBuilder.FluidOutput("productivebees:honey"))
-                    .save(consumer, new ResourceLocation(ProductiveBees.MODID, "centrifuge/chemlib/honeycomb_" + name));
+                    .setFluidOutput(new AbstractRecipeBuilder.FluidOutput("productivebees:honey"));
+            if (isGtCompatBee) {
+                r.withCondition(new TagEmptyCondition("forge:raw_materials/" + name));
+            }
+            r.save(consumer, new ResourceLocation(ProductiveBees.MODID, "centrifuge/chemlib/honeycomb_" + name));
 
             ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
             BeeCreator.setTag(ProductiveBees.MODID + ":" + name, stack);
-            mixingRecipeBuilder.builder(new ResourceLocation(ProductiveBees.MODID, "create/mixing/chemlib/honeycomb_" + name))
+            var b = mixingRecipeBuilder.builder(new ResourceLocation(ProductiveBees.MODID, "create/mixing/chemlib/honeycomb_" + name))
                     .require(StrictNBTIngredient.of(stack))
                     .output(0.8f, new ResourceLocation("chemlib:" + (name.equals("silicium") ? "silicon" : name)), 1)
                     .output(ModFluids.HONEY.get(), 50)
                     .output(ModItems.WAX.get())
                     .whenModLoaded("chemlib")
                     .whenModLoaded("create")
-                    .requiresHeat(HeatCondition.HEATED)
-                    .build(consumer);
+                    .requiresHeat(HeatCondition.HEATED);
+            if (isGtCompatBee) {
+                b.withCondition(new TagEmptyCondition("forge:raw_materials/" + name));
+            }
+            b.build(consumer);
         });
 
         // reactors
@@ -109,9 +116,11 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
             add(new CentrifugeRecipeBuilder.RecipeConfig("ludicrite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#forge:ingots/ludicrite", new HashMap<>()));
             add(new CentrifugeRecipeBuilder.RecipeConfig("magentite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#forge:ingots/magentite", new HashMap<>()));
             add(new CentrifugeRecipeBuilder.RecipeConfig("ridiculite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#forge:ingots/ridiculite", new HashMap<>()));
+            add(new CentrifugeRecipeBuilder.RecipeConfig("graphite", "reactors", new String[]{"extremereactors", "biggerreactors"}, "#forge:ingots/graphite", new HashMap<>()));
         }};
         ingots.forEach((config) -> {
-            var recipe = CentrifugeRecipeBuilder.configurable(config.name()).addOutput(new AbstractRecipeBuilder.ModItemOutput(config.centrifugeOutput()))
+            var recipe = CentrifugeRecipeBuilder.configurable(config.name())
+                    .addOutput(new AbstractRecipeBuilder.ModItemOutput(config.centrifugeOutput()))
                     .setFluidOutput(new AbstractRecipeBuilder.FluidOutput("#forge:honey"))
                     .withCondition(new BeeExistsCondition(ProductiveBees.MODID + ":" + config.name()));
             if (config.centrifugeOutput().startsWith("#")) {
@@ -128,11 +137,37 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                         .output(ModFluids.HONEY.get(), 50)
                         .output(ModItems.WAX.get())
                         .withCondition(new BeeExistsCondition(ProductiveBees.MODID + ":" + config.name()))
-                        .whenModLoaded(s)
                         .whenModLoaded("create")
+                        .whenModLoaded(s)
                         .requiresHeat(HeatCondition.HEATED)
                         .build(consumer);
             });
+        });
+        
+        // GTCEu Modern
+        List<String> gtceuBees = Arrays.stream(new String[]{"barite", "bastnasite", "bauxite", "chromite", "cobaltite", "electrotine", "galena", "graphite", "ilmenite", "lepidolite", "molybdenum", "naquadah", "neodymium", "oilsands", "palladium", "pyrochlore", "pyrolusite", "realgar", "scheelite", "sheldonite", "sphalerite", "stibnite", "tantalite", "tetrahedrite", "tricalcium_phosphate", "tungstate", "vanadium_magnetite"}).toList();
+        gtceuBees.forEach(name -> {
+            String resourceName = name.equals("sheldonite") ? "cooperite" : name;
+            var r = CentrifugeRecipeBuilder.configurable(name)
+                    .addOutput(new AbstractRecipeBuilder.ModItemOutput("#forge:raw_materials/" + resourceName, 80))
+                    .withCondition(new ModLoadedCondition("gtceu"))
+                    .withCondition(new NotCondition(new TagEmptyCondition("forge:raw_materials/" + resourceName)))
+                    .withCondition(new BeeExistsCondition(ProductiveBees.MODID + ":gtceu/" + name))
+                    .setFluidOutput(new AbstractRecipeBuilder.FluidOutput("productivebees:honey"));
+            r.save(consumer, new ResourceLocation(ProductiveBees.MODID, "centrifuge/gtceu/honeycomb_" + name));
+
+            ItemStack stack = new ItemStack(ModItems.CONFIGURABLE_HONEYCOMB.get());
+            BeeCreator.setTag(ProductiveBees.MODID + ":" + name, stack);
+            var b = mixingRecipeBuilder.builder(new ResourceLocation(ProductiveBees.MODID, "create/mixing/gtceu/honeycomb_" + name))
+                    .require(StrictNBTIngredient.of(stack))
+                    .output(0.8f, new ResourceLocation("gtceu:raw_" + resourceName), 1)
+                    .output(ModFluids.HONEY.get(), 50)
+                    .output(ModItems.WAX.get())
+                    .whenModLoaded("create")
+                    .whenModLoaded("gtceu")
+                    .withCondition(new BeeExistsCondition(ProductiveBees.MODID + ":gtceu/" + name))
+                    .requiresHeat(HeatCondition.HEATED);
+            b.build(consumer);
         });
     }
 

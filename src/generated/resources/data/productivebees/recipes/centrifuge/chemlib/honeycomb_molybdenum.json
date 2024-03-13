@@ -8,6 +8,10 @@
     {
       "type": "productivebees:bee_exists",
       "bee": "productivebees:molybdenum"
+    },
+    {
+      "type": "forge:tag_empty",
+      "tag": "forge:raw_materials/molybdenum"
     }
   ],
   "ingredient": {

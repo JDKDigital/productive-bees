@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#836c43",
+  "secondaryColor": "#d8d2c2",
+  "tertiaryColor": "#57411a",
+  "particleColor": "#e5dfcf",
+  "beeTexture": "productivebees:textures/entity/bee/barite/bee",
+  "size": 0.8,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "forge:storage_blocks/raw_barite",
+  "selfbreed": false,
+  "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "gtceu"
+        }
+  ]
+}

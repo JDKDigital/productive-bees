@@ -139,6 +139,8 @@ dependencies {
     implementation fg.deobf("curse.maven:apotheosis-313970:5030868")
     implementation fg.deobf("curse.maven:apothic-attributes-898963:4954000")
     implementation fg.deobf("curse.maven:placebo-283644:4913663")
+//    implementation fg.deobf("curse.maven:mutil-351914:4824501")
+//    implementation fg.deobf("curse.maven:tetra-289712:5097001")
 //    implementation fg.deobf("curse.maven:architectury-api-419699:4663010")
 //    implementation fg.deobf("curse.maven:cloth-config-348521:4633444")
 //    implementation fg.deobf("curse.maven:powah-rearchitected-633483:4729364")

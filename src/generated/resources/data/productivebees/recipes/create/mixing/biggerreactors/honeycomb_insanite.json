@@ -7,11 +7,11 @@
     },
     {
       "type": "forge:mod_loaded",
-      "modid": "biggerreactors"
+      "modid": "create"
     },
     {
       "type": "forge:mod_loaded",
-      "modid": "create"
+      "modid": "biggerreactors"
     }
   ],
   "heatRequirement": "heated",

@@ -2,10 +2,8 @@
   "primaryColor": "#747474",
   "secondaryColor": "#804f40",
   "particleColor": "#747474",
-  "renderer": "thicc",
-  "size": 1.0,
-  "createComb": false,
-  "flowerBlock": "minecraft:deepslate",
+  "size": 1.2,
+  "flowerBlock": "tetra:forged_workbench",
   "conditions": [
     {
       "type": "forge:mod_loaded",

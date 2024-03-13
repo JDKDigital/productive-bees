@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,6 +41,7 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
     public static final ModelLayerLocation PB_SLIMY_LAYER = new ModelLayerLocation(new ResourceLocation(ProductiveBees.MODID, "translucent_with_center"), "main");
 
     protected boolean isChristmas;
+    protected boolean isAprilFool;
 
     public ProductiveBeeRenderer(EntityRendererProvider.Context context) {
         this(context, new ProductiveBeeModel<>(context.bakeLayer(PB_MAIN_LAYER)));
@@ -63,13 +65,16 @@ public class ProductiveBeeRenderer extends MobRenderer<ProductiveBee, Productive
         if (ProductiveBeesConfig.CLIENT.alwaysChristmas.get() || (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 21 && calendar.get(Calendar.DATE) <= 26)) {
             this.isChristmas = true;
         }
+        if (calendar.get(Calendar.MONTH) + 1 == 4 && calendar.get(Calendar.DATE) <= 1) {
+            this.isAprilFool = true;
+        }
     }
 
     @Override
     protected void setupRotations(ProductiveBee entity, PoseStack matrixStack, float f1, float f2, float f3) {
         super.setupRotations(entity, matrixStack, f1, f2, f3);
 
-        if (entity instanceof ConfigurableBee configurableBee && configurableBee.getRenderTransform().equals("flipped")) {
+        if (isAprilFool || (entity instanceof ConfigurableBee configurableBee && configurableBee.getRenderTransform().equals("flipped"))) {
             matrixStack.translate(0.0D, entity.getBbHeight() + 0.1F, 0.0D);
             matrixStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
         }

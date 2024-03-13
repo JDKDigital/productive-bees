@@ -10,6 +10,38 @@
     {
       "id": "dyenamics:sheep",
       "required": false
+    },
+    {
+      "id": "earthmobsmod:wooly_cow",
+      "required": false
+    },
+    {
+      "id": "earthmobsmod:umbra_cow",
+      "required": false
+    },
+    {
+      "id": "earthmobsmod:albino_cow",
+      "required": false
+    },
+    {
+      "id": "earthmobsmod:cream_cow",
+      "required": false
+    },
+    {
+      "id": "earthmobsmod:moobloom",
+      "required": false
+    },
+    {
+      "id": "earthmobsmod:moolip",
+      "required": false
+    },
+    {
+      "id": "earthmobsmod:horned_sheep",
+      "required": false
+    },
+    {
+      "id": "earthmobsmod:jolly_llama",
+      "required": false
     }
   ]
 }

@@ -1,0 +1,45 @@
+{
+  "type": "productivebees:centrifuge",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "gtceu"
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:raw_materials/realgar"
+      }
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gtceu/realgar"
+    }
+  ],
+  "ingredient": {
+    "type": "forge:nbt",
+    "count": 1,
+    "item": "productivebees:configurable_honeycomb",
+    "nbt": "{EntityTag:{type:\"productivebees:realgar\"}}"
+  },
+  "outputs": [
+    {
+      "item": {
+        "tag": "forge:wax"
+      }
+    },
+    {
+      "chance": 80,
+      "item": {
+        "tag": "forge:raw_materials/realgar"
+      }
+    },
+    {
+      "amount": 50,
+      "fluid": {
+        "fluid": "productivebees:honey"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#201a27",
+  "secondaryColor": "#7e8794",
+  "tertiaryColor": "#5c5d6d",
+  "particleColor": "#8892a0",
+  "beeTexture": "productivebees:textures/entity/bee/vanadium_magnetite/bee",
+  "size": 0.8,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "forge:storage_blocks/raw_vanadium_magnetite",
+  "selfbreed": false,
+  "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "gtceu"
+        }
+  ]
+}

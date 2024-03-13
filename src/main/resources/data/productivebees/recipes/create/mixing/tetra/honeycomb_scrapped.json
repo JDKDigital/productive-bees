@@ -6,14 +6,15 @@
       "item": "productivebees:configurable_honeycomb",
       "nbt": {
         "EntityTag": {
-          "type": "productivebees:apatite"
+          "type": "productivebees:scrapped"
         }
       }
     }
   ],
   "results": [
     {
-      "item": "thermal:apatite"
+      "item": "tetra:metal_scrap",
+      "chance": 0.1
     },
     {
       "fluid": "productivebees:honey",
@@ -28,7 +29,7 @@
     },
     {
       "type": "forge:mod_loaded",
-      "modid": "thermal"
+      "modid": "tetra"
     }
   ]
 }

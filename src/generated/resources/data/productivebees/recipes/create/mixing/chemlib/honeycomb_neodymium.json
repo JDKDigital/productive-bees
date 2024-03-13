@@ -8,6 +8,10 @@
     {
       "type": "forge:mod_loaded",
       "modid": "create"
+    },
+    {
+      "type": "forge:tag_empty",
+      "tag": "forge:raw_materials/neodymium"
     }
   ],
   "heatRequirement": "heated",

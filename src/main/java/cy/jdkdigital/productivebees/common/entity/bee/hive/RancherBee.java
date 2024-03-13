@@ -11,6 +11,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.Shearable;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.level.Level;
@@ -77,7 +78,7 @@ public class RancherBee extends ProductiveBee
     public void postPollinate() {
         super.postPollinate();
 
-        if (target instanceof Sheep sheep) {
+        if (target instanceof Shearable sheep && sheep.readyForShearing()) {
             sheep.shear(SoundSource.BLOCKS);
         }
     }

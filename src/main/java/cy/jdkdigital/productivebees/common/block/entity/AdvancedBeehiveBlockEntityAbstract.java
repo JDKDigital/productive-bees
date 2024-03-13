@@ -82,7 +82,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {
-        if (level instanceof ServerLevel serverLevel && ++blockEntity.tickCounter % 100 == 0) {
+        if (level instanceof ServerLevel serverLevel && ++blockEntity.tickCounter%97 == 0) {
             tickBees(serverLevel, pos, state, blockEntity);
             blockEntity.tickCounter = 0;
         }
@@ -131,7 +131,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             }
             if (hasReleased) {
                 currentInhabitants.removeAll(inhabitantsToRemove);
-                h.setInhabitants(currentInhabitants);
+                h.setInhabitants(new ArrayList<>(currentInhabitants));
                 blockEntity.setNonSuperChanged();
             }
         });
@@ -511,9 +511,11 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
                 tag.put("BeeList", compound);
             }
         });
+        tag.putInt("tickCounter", tickCounter);
     }
 
     public void loadPacketNBT(CompoundTag tag) {
+        tickCounter = tag.contains("tickCounter") ? tag.getInt("tickCounter") : 0;
         beeHandler.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound(tag.contains("BeeList") ? "BeeList" : "Bees")));
     }
 

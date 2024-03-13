@@ -39,8 +39,10 @@ public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
             }
         }
 
-        blockEntity.hasTicked = true;
+        if (--blockEntity.abandonCountdown < 0) {
+            blockEntity.abandonCountdown = 0;
+        }
 
-        AdvancedBeehiveBlockEntity.tick(level, pos, level.getBlockState(pos), blockEntity);
+        AdvancedBeehiveBlockEntityAbstract.tick(level, pos, state, blockEntity);
     }
 }

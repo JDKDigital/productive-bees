@@ -1,0 +1,39 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:etherium_ore"
+        }
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "enigmaticlegacy:etherium_ore",
+      "count": 1,
+      "chance": 0.75
+    },
+    {
+      "item": "productivebees:wax"
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "enigmaticlegacy"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:etherium_ore"
+    }
+  ]
+}

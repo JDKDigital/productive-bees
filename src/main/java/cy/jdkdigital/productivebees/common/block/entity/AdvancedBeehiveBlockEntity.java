@@ -58,9 +58,8 @@ import java.util.function.Supplier;
 
 public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstract implements MenuProvider, UpgradeableBlockEntity
 {
-    protected int tickCounter = 0;
-    private int abandonCountdown = 0;
-    protected boolean hasTicked = false;
+    protected int specialTickCounter = 0;
+    protected int abandonCountdown = 0;
 
     protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this) {
         @Override
@@ -127,8 +126,8 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, AdvancedBeehiveBlockEntity blockEntity) {
-        if (!blockEntity.hasTicked && ++blockEntity.tickCounter > ProductiveBeesConfig.GENERAL.hiveTickRate.get()) {
-            blockEntity.tickCounter = 0;
+        if (++blockEntity.specialTickCounter > ProductiveBeesConfig.GENERAL.hiveTickRate.get()) {
+            blockEntity.specialTickCounter = 0;
 
             // Spawn skeletal and zombie bees in empty hives
             BlockPos front = pos.relative(state.getValue(BeehiveBlock.FACING));
@@ -158,7 +157,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             }
         }
 
-        if (!blockEntity.hasTicked && blockEntity.tickCounter % 23 == 0) {
+        if (blockEntity.tickCounter % 23 == 0) {
             if (state.getBlock() instanceof AdvancedBeehive) {
                 int honeyLevel = state.getValue(BeehiveBlock.HONEY_LEVEL);
 
@@ -200,18 +199,19 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                                 } else if (!blockEntity.isEmpty()) {
                                     // grab a bee from the hive and add to the cage
                                     blockEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantStorage -> {
-                                        Iterator<Inhabitant> inhabitantIterator = inhabitantStorage.getInhabitants().iterator();
-                                        Inhabitant inhabitant = inhabitantIterator.next();
-                                        Entity entity = EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
-                                        if (entity instanceof Bee beeEntity) {
-                                            beeEntity.hivePos = blockEntity.worldPosition;
-                                            ItemStack filledCage = new ItemStack(cageStack.getItem());
-                                            BeeCage.captureEntity(beeEntity, filledCage);
-                                            if (invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
-                                                cageStack.shrink(1);
-                                                invHelper.addOutput(filledCage);
-                                                inhabitantIterator.remove();
-                                                level.sendBlockUpdated(pos, state, state, 3);
+                                        if (inhabitantStorage.countInhabitants() > 0) {
+                                            Inhabitant inhabitant = inhabitantStorage.getInhabitants().get(0);
+                                            Entity entity = EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
+                                            if (entity instanceof Bee beeEntity) {
+                                                beeEntity.hivePos = blockEntity.worldPosition;
+                                                ItemStack filledCage = new ItemStack(cageStack.getItem());
+                                                BeeCage.captureEntity(beeEntity, filledCage);
+                                                if (invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
+                                                    cageStack.shrink(1);
+                                                    invHelper.addOutput(filledCage);
+                                                    inhabitantStorage.getInhabitants().remove(0);
+                                                    level.sendBlockUpdated(pos, state, state, 3);
+                                                }
                                             }
                                         }
                                     });
@@ -228,7 +228,6 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         }
 
         AdvancedBeehiveBlockEntityAbstract.tick(level, pos, state, blockEntity);
-        blockEntity.hasTicked = false;
     }
 
     @Override
@@ -377,6 +376,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
 
         // Reset MAX_BEES
         MAX_BEES = tag.contains("max_bees") ? tag.getInt("max_bees") : MAX_BEES;
+        specialTickCounter = tag.contains("specialTickCounter") ? tag.getInt("specialTickCounter") : 0;
     }
 
     @Override
@@ -394,6 +394,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         });
 
         tag.putInt("max_bees", MAX_BEES);
+        tag.putInt("specialTickCounter", specialTickCounter);
     }
 
     @Nonnull

@@ -25,6 +25,7 @@ public class ProductiveBeeDataProvider
         CompletableFuture<HolderLookup.Provider> provider = event.getLookupProvider();
         ExistingFileHelper helper = event.getExistingFileHelper();
 
+        gen.addProvider(event.includeServer(), new BeeProvider(output));
         gen.addProvider(event.includeClient(), new BlockstateProvider(output));
         gen.addProvider(event.includeServer(), new BlockLootProvider(output, List.of(new LootTableProvider.SubProviderEntry(BlockLootProvider.LootProvider::new, LootContextParamSets.BLOCK))));
         gen.addProvider(event.includeServer(), new RecipeProvider(output));

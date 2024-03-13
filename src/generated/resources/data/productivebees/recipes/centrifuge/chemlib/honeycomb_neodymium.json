@@ -8,6 +8,10 @@
     {
       "type": "productivebees:bee_exists",
       "bee": "productivebees:neodymium"
+    },
+    {
+      "type": "forge:tag_empty",
+      "tag": "forge:raw_materials/neodymium"
     }
   ],
   "ingredient": {

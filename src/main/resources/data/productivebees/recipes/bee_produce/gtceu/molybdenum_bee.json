@@ -1,0 +1,23 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:molybdenum",
+    "results": [
+        {
+            "item": {
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:molybdenum"
+                    }
+                }
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:tricalcium_phosphate",
+    "results": [
+        {
+            "item": {
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:tricalcium_phosphate"
+                    }
+                }
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
+        }
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:tricalcium_phosphate"
+        }
+    ]
+}

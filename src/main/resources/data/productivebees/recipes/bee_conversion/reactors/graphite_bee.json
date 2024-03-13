@@ -1,0 +1,25 @@
+{
+  "type": "productivebees:bee_conversion",
+  "source": "productivebees:coal",
+  "result": "productivebees:graphite",
+  "item": {
+    "tag": "forge:storage_blocks/graphite"
+  },
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:coal"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:graphite"
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "gtceu"
+      }
+    }
+  ]
+}

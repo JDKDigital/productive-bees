@@ -251,6 +251,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
 
     public void openGui(ServerPlayer player, AdvancedBeehiveBlockEntity tileEntity) {
 //        this.updateState(tileEntity.getLevel(), tileEntity.getBlockPos(), tileEntity.getBlockState(), false);
+        tileEntity.setChanged();
         NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

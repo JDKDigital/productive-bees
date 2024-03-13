@@ -360,8 +360,8 @@ public class BeeHelper
                     }
                 }
 
-                if (entity instanceof PathfinderMob pathfinderMob) {
-                    LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(pathfinderMob.getLootTable());
+                if (entity instanceof Mob mob) {
+                    LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(mob.getLootTable());
                     if (!lootTable.equals(LootTable.EMPTY)) {
                         Player fakePlayer = FakePlayerFactory.get(serverLevel, new GameProfile(ModEntities.WANNA_BEE_UUID, "wanna_bee"));
                         LootParams.Builder lootContextBuilder = new LootParams.Builder(serverLevel);

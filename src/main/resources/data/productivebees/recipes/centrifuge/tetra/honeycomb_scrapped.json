@@ -5,16 +5,22 @@
     "item": "productivebees:configurable_honeycomb",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:quartz_enriched_iron"
+        "type": "productivebees:scrapped"
       }
     }
   },
   "outputs": [
     {
       "item": {
-        "item": "refinedstorage:quartz_enriched_iron"
+        "item": "tetra:metal_scrap"
       },
-      "chance": 40
+      "chance": 10
+    },
+    {
+      "fluid": {
+        "fluid": "productivebees:honey"
+      },
+      "amount": 50
     },
     {
       "item": {
@@ -25,7 +31,7 @@
   "conditions": [
     {
       "type": "forge:mod_loaded",
-      "modid": "refinedstorage"
+      "modid": "tetra"
     }
   ]
 }

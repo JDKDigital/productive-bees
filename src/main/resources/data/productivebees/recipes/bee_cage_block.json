@@ -5,14 +5,14 @@
   ],
   "key": {
     "W": {
-      "tag": "minecraft:planks"
+      "tag": "minecraft:logs_that_burn"
     },
     "H": {
-      "item": "minecraft:honey_bottle"
+      "item": "minecraft:honey_block"
     }
   },
   "result": {
     "item": "productivebees:bee_cage",
-    "count": 4
+    "count": 16
   }
 }

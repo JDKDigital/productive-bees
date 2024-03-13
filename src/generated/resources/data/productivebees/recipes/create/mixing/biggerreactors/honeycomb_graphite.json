@@ -1,0 +1,38 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:graphite"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "biggerreactors"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "count": 1,
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": "{EntityTag:{type:\"productivebees:graphite\"}}"
+    }
+  ],
+  "results": [
+    {
+      "item": "biggerreactors:graphite"
+    },
+    {
+      "item": "productivebees:wax"
+    },
+    {
+      "amount": 50,
+      "fluid": "productivebees:honey"
+    }
+  ]
+}

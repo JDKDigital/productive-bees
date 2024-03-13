@@ -1,0 +1,23 @@
+{
+    "type": "productivebees:advanced_beehive",
+    "ingredient": "productivebees:lepidolite",
+    "results": [
+        {
+            "item": {
+                "type": "forge:nbt",
+                "item": "productivebees:configurable_honeycomb",
+                "nbt": {
+                    "EntityTag": {
+                        "type": "productivebees:lepidolite"
+                    }
+                }
+            }
+        },
+        {
+            "item": {
+                "tag": "forge:pollen"
+            },
+            "chance": 5
+        }
+    ]
+}

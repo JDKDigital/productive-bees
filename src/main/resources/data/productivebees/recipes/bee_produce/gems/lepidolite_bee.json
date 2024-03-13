@@ -1,6 +1,6 @@
 {
   "type": "productivebees:advanced_beehive",
-  "ingredient": "productivebees:lepidolite",
+  "ingredient": "productivebees:lepidolite_gem",
   "results": [
     {
       "item": {
@@ -17,7 +17,7 @@
   "conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:lepidolite"
+      "bee": "productivebees:lepidolite_gem"
     }
   ]
 }

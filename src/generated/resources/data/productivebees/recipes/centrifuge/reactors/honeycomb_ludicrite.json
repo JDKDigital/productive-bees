@@ -33,7 +33,7 @@
     {
       "amount": 50,
       "fluid": {
-        "fluid": "productivebees:honey"
+        "tag": "forge:honey"
       }
     }
   ]

@@ -24,6 +24,13 @@
     {
       "type": "productivebees:bee_exists",
       "bee": "productivebees:molybdenum"
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "gtceu"
+      }
     }
   ]
 }

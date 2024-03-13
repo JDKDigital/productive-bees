@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#4d4f2e",
+  "secondaryColor": "#d5e999",
+  "tertiaryColor": "#8f9961",
+  "particleColor": "#e6fca5",
+  "beeTexture": "productivebees:textures/entity/bee/sheldonite/bee",
+  "size": 0.8,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "forge:storage_blocks/raw_cooperite",
+  "selfbreed": false,
+  "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "gtceu"
+        }
+  ]
+}

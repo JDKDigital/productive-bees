@@ -1,7 +1,7 @@
 {
   "type": "productivebees:bee_conversion",
   "source": "productivebees:diamond",
-  "result": "productivebees:lepidolite",
+  "result": "productivebees:lepidolite_gem",
   "item": {
     "tag": "productivebees:flowers/lepidolite"
   },
@@ -19,7 +19,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:lepidolite"
+      "bee": "productivebees:lepidolite_gem"
     }
   ]
 }

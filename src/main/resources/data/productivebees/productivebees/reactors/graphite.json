@@ -1,0 +1,19 @@
+{
+  "primaryColor": "#1b2012",
+  "secondaryColor": "#77796d",
+  "tertiaryColor": "#4a4e40",
+  "particleColor": "#a6a69c",
+  "beeTexture": "productivebees:textures/entity/bee/graphite/bee",
+  "size": 0.8,
+  "flowerTag": "forge:storage_blocks/graphite",
+  "selfbreed": true,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "gtceu"
+      }
+    }
+  ]
+}

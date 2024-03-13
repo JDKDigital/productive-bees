@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.entity.JarBlockEntity;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
@@ -39,7 +40,7 @@ public class JarBlockEntityRenderer implements BlockEntityRenderer<JarBlockEntit
     }
 
     public static void renderBee(Entity bee, float partialTicks, PoseStack matrixStack) {
-        bee.tickCount = bee.tickCount + Math.round(partialTicks);
+        bee.tickCount = bee.tickCount + Math.min(2, Math.round(partialTicks/1.3f));
         ((Bee) bee).yBodyRot = -20;
 
         float angle = bee.tickCount % 360;

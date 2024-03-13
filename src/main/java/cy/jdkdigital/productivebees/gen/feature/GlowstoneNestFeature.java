@@ -98,8 +98,6 @@ public class GlowstoneNestFeature extends Feature<BlockStateConfiguration>
                     level.setBlock(nestPos, conf.config().state, 2);
 
                     level.getBlockEntity(nestPos, ModBlockEntityTypes.SOLITARY_NEST.get()).ifPresent((nestBlockEntity) -> {
-                        ProductiveBees.LOGGER.debug("Spawned glowstone nest at " + nestPos + " " + conf.config().state);
-
                         BlockState nestBlock = nestBlockEntity.getBlockState();
                         if (nestBlock.getBlock() instanceof SolitaryNest solitaryNest) {
                             List<BeeSpawningRecipe> recipes = SolitaryNest.getSpawningRecipes(solitaryNest, level.getLevel(), level.getBiome(blockpos), ItemStack.EMPTY);

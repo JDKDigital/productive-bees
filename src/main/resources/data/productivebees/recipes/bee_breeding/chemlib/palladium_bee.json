@@ -17,6 +17,10 @@
     {
       "type": "productivebees:bee_exists",
       "bee": "productivebees:palladium"
+    },
+    {
+      "type": "forge:tag_empty",
+      "tag": "forge:raw_materials/palladium"
     }
   ]
 }

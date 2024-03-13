@@ -42,6 +42,7 @@ public class BeeReloadListener extends SimpleJsonResourceReloadListener
             ResourceLocation id = entry.getKey();
             String simpleId = id.getPath().contains("/") ? id.getNamespace() + ":" + id.getPath().substring(id.getPath().lastIndexOf("/") + 1) : id.toString();
             BEE_CONDITIONS.put(simpleId, entry.getValue().getAsJsonObject());
+            BEE_CONDITIONS.put(id.toString(), entry.getValue().getAsJsonObject());
         }
 
         return map;

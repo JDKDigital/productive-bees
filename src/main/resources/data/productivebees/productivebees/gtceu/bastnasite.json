@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#743b21",
+  "secondaryColor": "#ab904e",
+  "tertiaryColor": "#a77742",
+  "particleColor": "#c7a85e",
+  "beeTexture": "productivebees:textures/entity/bee/bastnasite/bee",
+  "size": 0.8,
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "flowerTag": "forge:storage_blocks/raw_bastnasite",
+  "selfbreed": false,
+  "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "gtceu"
+        }
+  ]
+}
