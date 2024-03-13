@@ -18,6 +18,7 @@ import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeAttribute;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -61,7 +62,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     protected int specialTickCounter = 0;
     protected int abandonCountdown = 0;
 
-    protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(12, this) {
+    protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(12, this) {
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
             if (slot == AdvancedBeehiveContainer.SLOT_CAGE && isInputSlot(slot)) {
@@ -167,9 +168,9 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                         ItemStack bottles = inv.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
                         if (!bottles.isEmpty() && bottles.getItem() instanceof BottleItem) {
                             final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
-                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle).getCount() == 0;
+                            boolean addedBottle = ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(filledBottle).getCount() == 0;
                             if (addedBottle) {
-                                ((InventoryHandlerHelper.ItemHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
+                                ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
                                 bottles.shrink(1);
                                 level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
                             }
@@ -180,7 +181,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 // Insert or extract bees for simulated hives
                 if (blockEntity.isSim()) {
                     blockEntity.inventoryHandler.ifPresent(h -> {
-                        if (h instanceof InventoryHandlerHelper.ItemHandler invHelper) {
+                        if (h instanceof InventoryHandlerHelper.BlockEntityItemStackHandler invHelper) {
                             ItemStack cageStack = h.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE);
                             if (!cageStack.isEmpty() && cageStack.getItem() instanceof BeeCage) {
                                 if (BeeCage.isFilled(cageStack) && (!cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get()) || invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem()))))) {
@@ -272,7 +273,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                                 }
                             }
 
-                            ((InventoryHandlerHelper.ItemHandler) inv).addOutput(stack);
+                            ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(stack);
                         }
                     });
 
@@ -323,11 +324,11 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                     if (attr >= BeeAttributes.attributeList().size()) {
                         // Type gene
                         String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType() : beeEntity.getEncodeId();
-                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
+                        ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
                     } else {
                         BeeAttribute<Integer> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
                         Integer value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
-                        ((InventoryHandlerHelper.ItemHandler) inv).addOutput(Gene.getStack(attribute, value, 1, level.random.nextInt(4) + 1));
+                        ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(Gene.getStack(attribute, value, 1, level.random.nextInt(4) + 1));
                     }
                 });
             }

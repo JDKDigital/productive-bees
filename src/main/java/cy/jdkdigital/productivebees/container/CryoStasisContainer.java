@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.common.block.CryoStasis;
 import cy.jdkdigital.productivebees.common.block.entity.CryoStasisBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -37,9 +37,9 @@ public class CryoStasisContainer extends AbstractContainer
         this.canInteractWithCallable = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, CryoStasisBlockEntity.SLOT_INPUT, 108, 18));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, CryoStasisBlockEntity.SLOT_CAGE, 108, 36));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, CryoStasisBlockEntity.SLOT_OUT, 108, 54));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, CryoStasisBlockEntity.SLOT_INPUT, 108, 18));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, CryoStasisBlockEntity.SLOT_CAGE, 108, 36));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, CryoStasisBlockEntity.SLOT_OUT, 108, 54));
         });
 
         layoutPlayerInventorySlots(playerInventory, 0, 108, 84);

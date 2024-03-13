@@ -12,6 +12,7 @@ import cy.jdkdigital.productivebees.common.recipe.ItemConversionRecipe;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.*;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -580,7 +581,7 @@ public class ProductiveBee extends Bee
                                     if (beehiveBlockEntity.isSim()) {
                                         beehiveBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
                                             if (!output.equals(ItemStack.EMPTY) &&
-                                                    h instanceof InventoryHandlerHelper.ItemHandler itemHandler
+                                                    h instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
                                                     && itemHandler.addOutput(output).getCount() == 0) {
                                                 stack.shrink(1);
                                             }
@@ -599,7 +600,7 @@ public class ProductiveBee extends Bee
                             if (level().random.nextInt(100) <= itemRecipe.chance) {
                                 if (beehiveBlockEntity.isSim()) {
                                     beehiveBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
-                                        if (h instanceof InventoryHandlerHelper.ItemHandler itemHandler
+                                        if (h instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
                                                 && itemHandler.addOutput(itemRecipe.output.copy()).getCount() == 0) {
                                             stack.shrink(1);
                                         }

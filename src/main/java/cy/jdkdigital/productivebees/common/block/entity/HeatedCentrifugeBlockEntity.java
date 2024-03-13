@@ -9,6 +9,7 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -91,7 +92,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
                 } else {
                     singleComb = BeeHelper.getRecipeOutputFromInput(level, input.getItem());
                 }
-                IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(2);
+                IItemHandlerModifiable inv = new InventoryHandlerHelper.BlockEntityItemStackHandler(2);
                 // Look up recipe for the single comb that makes up the input comb block
                 inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, singleComb);
                 blockRecipeMap.put(cacheKey, super.getRecipe(inv));

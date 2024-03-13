@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.common.block.HoneyGenerator;
 import cy.jdkdigital.productivebees.container.HoneyGeneratorContainer;
 import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -43,7 +44,7 @@ public class HoneyGeneratorBlockEntity extends FluidTankBlockEntity implements U
     public int fluidId = 0;
     public boolean hasLoaded = false;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(2, this)
+    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(2, this)
     {
         @Override
         public boolean isContainerItem(Item item) {

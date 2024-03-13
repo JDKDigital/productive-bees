@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.container.CatcherContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,7 +36,7 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements Upgrade
 {
     protected int tickCounter = 0;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(11, this)
+    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(11, this)
     {
         @Override
         public boolean isContainerItem(Item item) {
@@ -88,7 +89,7 @@ public class CatcherBlockEntity extends CapabilityBlockEntity implements Upgrade
                                 bee.hivePos = null;
                                 ItemStack cageStack = new ItemStack(invItem.getItem());
                                 BeeCage.captureEntity(bee, cageStack);
-                                if (((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(cageStack).getCount() == 0) {
+                                if (((InventoryHandlerHelper.BlockEntityItemStackHandler) invHandler).addOutput(cageStack).getCount() == 0) {
                                     bee.discard();
                                     invItem.shrink(1);
                                 }

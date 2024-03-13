@@ -14,6 +14,7 @@ import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.event.BeeReleaseEvent;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -362,7 +363,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         if (beeEntity instanceof HoarderBee) {
             if (((HoarderBee) beeEntity).holdsItem()) {
                 this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-                    ((HoarderBee) beeEntity).emptyIntoInventory(((InventoryHandlerHelper.ItemHandler) inv));
+                    ((HoarderBee) beeEntity).emptyIntoInventory(((InventoryHandlerHelper.BlockEntityItemStackHandler) inv));
                 });
             }
         }

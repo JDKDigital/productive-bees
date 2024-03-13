@@ -1,11 +1,5 @@
 {
   "type": "productivebees:centrifuge",
-  "conditions": [
-    {
-      "type": "forge:mod_loaded",
-      "modid": "integrateddynamics"
-    }
-  ],
   "ingredient": {
     "type": "forge:nbt",
     "count": 1,
@@ -29,6 +23,12 @@
       "fluid": {
         "fluid": "integrateddynamics:menril_resin"
       }
+    }
+  ],
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "integrateddynamics"
     }
   ]
 }

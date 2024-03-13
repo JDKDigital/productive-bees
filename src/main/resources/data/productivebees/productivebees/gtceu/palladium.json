@@ -7,15 +7,16 @@
   "flowerTag": "forge:storage_blocks/palladium",
   "selfbreed": false,
   "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "gtceu"
-        },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "gtceu"
+    },
     {
       "type": "forge:not",
       "value": {
         "type": "forge:tag_empty",
-        "tag": "forge:raw_materials/palladium"}
+        "tag": "forge:raw_materials/palladium"
+      }
     }
   ]
 }

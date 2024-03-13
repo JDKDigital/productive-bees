@@ -18,6 +18,7 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -67,7 +68,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     public int fluidId = 0;
     public int transferCooldown = -1;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(11, this)
+    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(11, this)
     {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
@@ -271,7 +272,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     }
 
     public boolean canProcessItemStack(ItemStack stack) {
-        IItemHandlerModifiable inv = new InventoryHandlerHelper.ItemHandler(2, null);
+        IItemHandlerModifiable inv = new InventoryHandlerHelper.BlockEntityItemStackHandler(2, null);
         inv.setStackInSlot(InventoryHandlerHelper.INPUT_SLOT, stack);
 
         boolean isAllowedByFilter = true;
@@ -333,7 +334,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                 fluidFlag = fluidInventory.map(h -> h.getFluidInTank(0).isEmpty() || h.getFluidInTank(0).getFluid().equals(fluidOutput.getFirst())).orElse(false);
             }
 
-            return fluidFlag && ((InventoryHandlerHelper.ItemHandler) invHandler).canFitStacks(outputList);
+            return fluidFlag && ((InventoryHandlerHelper.BlockEntityItemStackHandler) invHandler).canFitStacks(outputList);
         }
         return false;
     }
@@ -348,7 +349,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                 int count = Mth.nextInt(random, Mth.floor(recipeValues.get(0).getAsInt()), Mth.floor(recipeValues.get(1).getAsInt()));
                 ItemStack output = itemStack.copy();
                 output.setCount(count);
-                ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(output);
+                ((InventoryHandlerHelper.BlockEntityItemStackHandler) invHandler).addOutput(output);
             }
         });
 
@@ -374,14 +375,14 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         for (String attributeName : BeeAttributes.attributeList()) {
             if (random.nextDouble() <= chance) {
                 int value = entityData.getInt("bee_" + attributeName);
-                ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.getAttributeByName(attributeName), value));
+                ((InventoryHandlerHelper.BlockEntityItemStackHandler) invHandler).addOutput(Gene.getStack(BeeAttributes.getAttributeByName(attributeName), value));
             }
         }
 
         // Chance to get a type gene
         if (random.nextDouble() <= chance) {
             int typePurity = ProductiveBeesConfig.BEE_ATTRIBUTES.typeGenePurity.get();
-            ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type"), random.nextInt(Math.max(0, typePurity - 5)) + 10));
+            ((InventoryHandlerHelper.BlockEntityItemStackHandler) invHandler).addOutput(Gene.getStack(entityData.getString("type"), random.nextInt(Math.max(0, typePurity - 5)) + 10));
         }
 
         invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).shrink(1);
@@ -398,7 +399,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                     int purity = ((CompoundTag) inbt).getInt("purity");
                     Gene.setPurity(insertedGene, purity);
                 }
-                ((InventoryHandlerHelper.ItemHandler) invHandler).addOutput(insertedGene);
+                ((InventoryHandlerHelper.BlockEntityItemStackHandler) invHandler).addOutput(insertedGene);
             }
         }
 

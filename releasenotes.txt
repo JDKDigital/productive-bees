@@ -1,9 +1,9 @@
 1.20.1-12.4.0
 
-- Added GregTech ore Bees thanks to Lego (GTCEu Modern)
+- Added GregTech ore bees thanks to Lego (GTCEu Modern)
 - Added Astral and Etherium Ore bees (Enigmatic Legacy)
 - Added Rancher Bee support for Earth Mobs animals
-- Wood nests are now considered wood blocks and should be harvestable in auto-farms
+- Wood nests are now considered log blocks and should be harvestable in auto-farms
 - Fixed some ambered entities not giving any output
 - Fixed bees sometimes being invisible in hives
 - Added alternative bee cage recipe

@@ -12,6 +12,13 @@
     {
       "type": "forge:tag_empty",
       "tag": "forge:raw_materials/neodymium"
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "gtceu"
+      }
     }
   ]
 }

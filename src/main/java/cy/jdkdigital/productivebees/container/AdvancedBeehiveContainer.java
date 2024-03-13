@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.network.FriendlyByteBuf;
@@ -88,9 +88,9 @@ public class AdvancedBeehiveContainer extends AbstractContainer
         // Inventory slots
         this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
             // Bottle slot
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_BOTTLE, 86 - (expanded ? 13 : 0), 17));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_BOTTLE, 86 - (expanded ? 13 : 0), 17));
             // Cage slot for simulated hives
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_CAGE, 86 - (expanded ? 13 : 0), 53));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_CAGE, 86 - (expanded ? 13 : 0), 53));
 
             addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116 - (expanded ? 13 : 0), 17, 3, 18, 3, 18);
         });

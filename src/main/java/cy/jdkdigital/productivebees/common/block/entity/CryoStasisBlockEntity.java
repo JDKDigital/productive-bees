@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.container.CryoStasisContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -43,7 +44,7 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity
     public static int SLOT_INPUT = 0;
     public static int SLOT_CAGE = 1;
     public static int SLOT_OUT = 2;
-    private final LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(3, this)
+    private final LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(3, this)
     {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {

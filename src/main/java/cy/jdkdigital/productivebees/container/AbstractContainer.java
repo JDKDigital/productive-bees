@@ -1,8 +1,8 @@
 package cy.jdkdigital.productivebees.container;
 
-import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
-import cy.jdkdigital.productivebees.common.item.UpgradeItem;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
+import cy.jdkdigital.productivelib.common.item.AbstractUpgradeItem;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -43,7 +43,7 @@ public abstract class AbstractContainer extends AbstractContainerMenu
             } else {
                 // Move from player inv into container
                 int upgradeSlotCount = this.getBlockEntity() instanceof UpgradeableBlockEntity upgradeableBlockEntity && upgradeableBlockEntity.acceptsUpgrades() ? 4 : 0;
-                if (upgradeSlotCount > 0 && slotStack.getItem() instanceof UpgradeItem) {
+                if (upgradeSlotCount > 0 && slotStack.getItem() instanceof AbstractUpgradeItem) {
                     if (!moveItemStackTo(slotStack, containerSlots - upgradeSlotCount, containerSlots, false)) {
                         return ItemStack.EMPTY;
                     }
@@ -71,8 +71,8 @@ public abstract class AbstractContainer extends AbstractContainerMenu
 
     protected int addSlotRange(Container handler, int index, int x, int y, int amount, int dx) {
         for (int i = 0; i < amount; i++) {
-            if (handler instanceof InventoryHandlerHelper.ItemHandler) {
-                addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) handler, index, x, y));
+            if (handler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler) {
+                addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) handler, index, x, y));
             }
             else {
                 addSlot(new Slot(handler, index, x, y));
@@ -85,8 +85,8 @@ public abstract class AbstractContainer extends AbstractContainerMenu
 
     protected int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
         for (int i = 0; i < amount; i++) {
-            if (handler instanceof InventoryHandlerHelper.ItemHandler) {
-                addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) handler, index, x, y));
+            if (handler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler) {
+                addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) handler, index, x, y));
             }
             x += dx;
             index++;

@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.container;
 
 import cy.jdkdigital.productivebees.common.block.Incubator;
 import cy.jdkdigital.productivebees.common.block.entity.IncubatorBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.init.ModContainerTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -76,9 +76,9 @@ public class IncubatorContainer extends AbstractContainer
         });
 
         this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_INPUT, 52 - 13, 35));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_CATALYST, 80 - 13, 53));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) inv, SLOT_OUTPUT, 108 - 13, 35));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_INPUT, 52 - 13, 35));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_CATALYST, 80 - 13, 53));
+            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_OUTPUT, 108 - 13, 35));
         });
 
         this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {

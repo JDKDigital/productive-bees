@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.container.GeneIndexerContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -35,7 +36,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
     private boolean isRunning = true;
     private final Map<String, Map<Integer, Integer>> index = new HashMap<>(); // Map<String(name of attribute or bee type), Map<Slot, Purity>>
 
-    private final LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(104, this)
+    private final LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(104, this)
     {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
@@ -104,8 +105,8 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
                                     ItemStack combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(firstStack, secondStack));
 
                                     if (!firstStack.isEmpty() && !secondStack.isEmpty() && !combinedGene.isEmpty()) {
-                                        if (inventory instanceof InventoryHandlerHelper.ItemHandler
-                                                && ((InventoryHandlerHelper.ItemHandler) inventory).addOutput(combinedGene).getCount() == 0) {
+                                        if (inventory instanceof InventoryHandlerHelper.BlockEntityItemStackHandler
+                                                && ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventory).addOutput(combinedGene).getCount() == 0) {
                                             firstStack.setCount(firstStack.getCount() - 1);
                                             secondStack.setCount(secondStack.getCount() - 1);
                                             inventory.setStackInSlot(firstEntry.get().getKey(), firstStack);
@@ -132,8 +133,8 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
                                     // Merge with self
                                     ItemStack combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(stack, stack.copy()));
                                     if (!stack.isEmpty() && !combinedGene.isEmpty()) {
-                                        if (inventory instanceof InventoryHandlerHelper.ItemHandler
-                                                && ((InventoryHandlerHelper.ItemHandler) inventory).addOutput(combinedGene).getCount() == 0) {
+                                        if (inventory instanceof InventoryHandlerHelper.BlockEntityItemStackHandler
+                                                && ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventory).addOutput(combinedGene).getCount() == 0) {
                                             stack.setCount(stack.getCount() - 2);
                                             inventory.setStackInSlot(innerEntry.getKey(), stack);
 

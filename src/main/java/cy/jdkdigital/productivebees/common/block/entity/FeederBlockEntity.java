@@ -4,6 +4,7 @@ import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.container.FeederContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -145,7 +146,7 @@ public class FeederBlockEntity extends CapabilityBlockEntity
     }
 
     public void refreshInventoryHandler() {
-        this.inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.ItemHandler(isDouble() ? 6 : 3, this)
+        this.inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(isDouble() ? 6 : 3, this)
         {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {

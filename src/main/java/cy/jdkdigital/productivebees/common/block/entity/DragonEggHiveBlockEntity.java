@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.common.block.DragonEggHive;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -28,7 +29,7 @@ public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
                         ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
                         if (!bottles.isEmpty()) {
                             final ItemStack filledBottle = new ItemStack(Items.DRAGON_BREATH);
-                            boolean addedBottle = ((InventoryHandlerHelper.ItemHandler) inv).addOutput(filledBottle).getCount() == 0;
+                            boolean addedBottle = ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(filledBottle).getCount() == 0;
                             if (addedBottle) {
                                 bottles.shrink(1);
                                 level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));

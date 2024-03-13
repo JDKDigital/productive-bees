@@ -1,7 +1,7 @@
 package cy.jdkdigital.productivebees.common.entity.bee.hive;
 
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.core.BlockPos;
@@ -167,7 +167,7 @@ public class HoarderBee extends ProductiveBee
         return !inventory.isEmpty();
     }
 
-    public void emptyIntoInventory(InventoryHandlerHelper.ItemHandler inv) {
+    public void emptyIntoInventory(InventoryHandlerHelper.BlockEntityItemStackHandler inv) {
         for (int i = 0; i < inventory.getContainerSize(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
             if (inv.addOutput(itemstack.copy()).getCount() == 0) {
