@@ -1,6 +1,6 @@
 {
-  "type": "gtceu:macerator",
-  "duration": 200,
+  "type": "gtceu:electrolyzer",
+  "duration": 480,
   "inputs": {
     "item": [
       {
@@ -10,7 +10,7 @@
           "ingredient": {
             "type": "forge:nbt",
             "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{\"EntityTag\": {\"type\": \"productivebees:coal\"}}"
+            "nbt": "{\"EntityTag\": {\"type\": \"productivebees:apatite\"}}"
           }
         },
         "chance": 1,
@@ -27,7 +27,7 @@
           "ingredient": {
             "type": "forge:nbt",
             "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{\"EntityTag\": {\"type\": \"productivebees:graphite\"}}"
+            "nbt": "{\"EntityTag\": {\"type\": \"productivebees:pyrochlore\"}}"
           }
         },
         "chance": 1,
@@ -38,7 +38,7 @@
   "tickInputs": {
     "eu": [
       {
-        "content": 4,
+        "content": 60,
         "chance": 1,
         "tierChanceBoost": 0
       }
@@ -52,11 +52,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:coal"
+      "bee": "productivebees:apatite"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gtceu/graphite"
+      "bee": "productivebees:pyrochlore"
     }
   ]
 }

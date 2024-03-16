@@ -9,9 +9,9 @@
   "description": "productivebees.ingredient.description.only_spawnegg",
   "selfbreed": false,
   "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "gtceu"
-        }
+    {
+      "type": "forge:mod_loaded",
+      "modid": "gtceu"
+    }
   ]
 }

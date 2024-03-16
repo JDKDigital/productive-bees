@@ -23,7 +23,7 @@
             "item": "productivebees:spawn_egg_configurable_bee",
             "nbt": {
               "EntityTag": {
-                "type": "productivebees:thullium"
+                "type": "productivebees:thulium"
               }
             }
           },
@@ -46,7 +46,7 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:thullium"
+      "bee": "productivebees:thulium"
     }
   ]
 }

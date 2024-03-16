@@ -1,29 +1,29 @@
 {
-    "type": "productivebees:advanced_beehive",
-    "ingredient": "productivebees:ilmenite",
-    "results": [
-        {
-            "item": {
-                "type": "forge:nbt",
-                "item": "productivebees:configurable_honeycomb",
-                "nbt": {
-                    "EntityTag": {
-                        "type": "productivebees:ilmenite"
-                    }
-                }
-            }
-        },
-        {
-            "item": {
-                "tag": "forge:pollen"
-            },
-            "chance": 5
+  "type": "productivebees:advanced_beehive",
+  "ingredient": "productivebees:ilmenite",
+  "results": [
+    {
+      "item": {
+        "type": "forge:nbt",
+        "item": "productivebees:configurable_honeycomb",
+        "nbt": {
+          "EntityTag": {
+            "type": "productivebees:ilmenite"
+          }
         }
-    ],
-    "conditions": [
-        {
-            "type": "productivebees:bee_exists",
-            "bee": "productivebees:ilmenite"
-        }
-    ]
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:pollen"
+      },
+      "chance": 5
+    }
+  ],
+  "conditions": [
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:ilmenite"
+    }
+  ]
 }

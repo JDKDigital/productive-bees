@@ -8,9 +8,9 @@
   "flowerTag": "forge:storage_blocks/realgar",
   "selfbreed": true,
   "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "gtceu"
-        }
+    {
+      "type": "forge:mod_loaded",
+      "modid": "gtceu"
+    }
   ]
 }
