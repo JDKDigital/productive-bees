@@ -1,18 +1,18 @@
 {
   "type": "productivebees:bee_conversion",
-  "source": "productivebees:diamond",
-  "result": "productivebees:realgar",
+  "source": "productivebees:naquadah",
+  "result": "productivebees:neutronium",
   "item": {
-    "tag": "forge:storage_blocks/realgar"
+    "item": "gtceu:nan_certificate"
   },
   "conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:diamond"
+      "bee": "productivebees:naquadah"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:realgar"
+      "bee": "productivebees:neutronium"
     },
     {
       "type": "forge:mod_loaded",

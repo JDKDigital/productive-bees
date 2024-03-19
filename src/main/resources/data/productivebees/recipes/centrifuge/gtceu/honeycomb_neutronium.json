@@ -5,15 +5,16 @@
     "item": "productivebees:configurable_honeycomb",
     "nbt": {
       "EntityTag": {
-        "type": "productivebees:iesnium"
+        "type": "productivebees:neutronium"
       }
     }
   },
   "outputs": [
     {
       "item": {
-        "tag": "forge:raw_materials/iesnium"
-      }
+        "item": "gtceu:neutronium_nugget"
+      },
+      "chance": 2
     },
     {
       "item": {
@@ -24,20 +25,17 @@
       "fluid": {
         "fluid": "productivebees:honey"
       },
-      "amount": 50
+      "amount": 250
     }
   ],
   "conditions": [
     {
-      "type": "forge:not",
-      "value": {
-        "type": "forge:tag_empty",
-        "tag": "forge:raw_materials/iesnium"
-      }
+      "type": "forge:mod_loaded",
+      "modid": "gtceu"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:iesnium"
+      "bee": "productivebees:neutronium"
     }
   ]
 }

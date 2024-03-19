@@ -2,7 +2,7 @@
   "type": "gtceu:electric_blast_furnace",
   "duration": 600,
   "data": {
-    "ebf_temp": 3000
+    "ebf_temp": 5000
   },
   "inputs": {
     "item": [

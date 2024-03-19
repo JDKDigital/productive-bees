@@ -1,0 +1,31 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_honeycomb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:gregstar"
+        }
+      }
+    }
+  ],
+  "results": [
+    {
+      "fluid": "productivebees:honey",
+      "amount": 500
+    }
+  ],
+  "heatRequirement": "heated",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:gregstar"
+    }
+  ]
+}

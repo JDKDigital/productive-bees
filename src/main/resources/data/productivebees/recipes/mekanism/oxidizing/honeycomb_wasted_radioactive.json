@@ -13,7 +13,7 @@
   },
   "output": {
     "gas": "mekanism:nuclear_waste",
-    "amount": 1000
+    "amount": 100
   },
   "conditions": [
     {

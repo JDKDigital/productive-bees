@@ -82,7 +82,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         chemicals.forEach(name -> {
             boolean isGtCompatBee = name.equals("molybdenum") || name.equals("neodymium") || name.equals("palladium");
             var r = CentrifugeRecipeBuilder.configurable(name)
-                    .addOutput(new AbstractRecipeBuilder.ModItemOutput("chemlib:" + name, 80))
+                    .addOutput(new AbstractRecipeBuilder.ModItemOutput("chemlib:" + (name.equals("silicium") ? "silicon" : name), 80))
                     .withCondition(new ModLoadedCondition("chemlib"))
                     .withCondition(new BeeExistsCondition(ProductiveBees.MODID + ":" + name))
                     .setFluidOutput(new AbstractRecipeBuilder.FluidOutput("productivebees:honey"));

@@ -1,9 +1,10 @@
 {
-  "primaryColor": "#ffffff",
-  "secondaryColor": "#f2f542",
-  "tertiaryColor": "#f2f542",
+  "primaryColor": "#d0581f",
+  "secondaryColor": "#f2c01a",
+  "tertiaryColor": "#fbfb5d",
   "flowerBlock": "allthetweaks:atm_star_block",
   "renderer": "default_shell",
+  "beeTexture": "productivebees:textures/entity/bee/starry/bee",
   "size": 1.5,
   "selfbreed": false,
   "selfheal": true,

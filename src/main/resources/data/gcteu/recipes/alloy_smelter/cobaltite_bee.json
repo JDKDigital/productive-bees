@@ -1,9 +1,6 @@
 {
-  "type": "gtceu:electric_blast_furnace",
-  "duration": 600,
-  "data": {
-    "ebf_temp": 5000
-  },
+  "type": "gtceu:alloy_smelter",
+  "duration": 100,
   "inputs": {
     "item": [
       {
@@ -13,7 +10,7 @@
           "ingredient": {
             "type": "forge:nbt",
             "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{\"EntityTag\": {\"type\": \"productivebees:iron\"}}"
+            "nbt": "{\"EntityTag\": {\"type\": \"productivebees:cobalt\"}}"
           }
         },
         "chance": 1,
@@ -21,7 +18,11 @@
       },
       {
         "content": {
-          "item": "gtceu:molybdenum_block"
+          "type": "gtceu:sized",
+          "count": 4,
+          "ingredient": {
+            "tag": "forge:dusts/sulfur"
+          }
         },
         "chance": 1,
         "tierChanceBoost": 0
@@ -37,7 +38,7 @@
           "ingredient": {
             "type": "forge:nbt",
             "item": "productivebees:spawn_egg_configurable_bee",
-            "nbt": "{\"EntityTag\": {\"type\": \"productivebees:molybdenum\"}}"
+            "nbt": "{\"EntityTag\": {\"type\": \"productivebees:cobaltite\"}}"
           }
         },
         "chance": 1,
@@ -48,7 +49,7 @@
   "tickInputs": {
     "eu": [
       {
-        "content": 120,
+        "content": 7,
         "chance": 1,
         "tierChanceBoost": 0
       }
@@ -62,11 +63,11 @@
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:iron"
+      "bee": "productivebees:cobalt"
     },
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:gtceu/molybdenum"
+      "bee": "productivebees:cobaltite"
     }
   ]
 }

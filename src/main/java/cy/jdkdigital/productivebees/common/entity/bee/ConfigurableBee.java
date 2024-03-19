@@ -106,6 +106,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 this.setCustomName(Component.literal("SpongeBee BlockPants"));
             } else if (type.equals("productivebees:infinity") && random.nextFloat() < 0.25f) {
                 this.setCustomName(Component.literal("Infinibee"));
+            } else if (type.equals("productivebees:gregstar") && random.nextFloat() < 0.25f) {
+                this.setCustomName(Component.literal("Monsieur Greg"));
             } else if (type.equals("productivebees:water") && random.nextFloat() < 0.05f) {
                 switch (random.nextInt(5)) {
                     case 0 -> this.setCustomName(Component.literal("Wet Bee"));

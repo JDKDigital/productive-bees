@@ -1,6 +1,6 @@
 {
   "type": "productivebees:advanced_beehive",
-  "ingredient": "productivebees:etherium_ore",
+  "ingredient": "productivebees:neutronium",
   "results": [
     {
       "item": {
@@ -8,7 +8,7 @@
         "item": "productivebees:configurable_honeycomb",
         "nbt": {
           "EntityTag": {
-            "type": "productivebees:etherium_ore"
+            "type": "productivebees:neutronium"
           }
         }
       }
@@ -23,7 +23,7 @@
   "conditions": [
     {
       "type": "productivebees:bee_exists",
-      "bee": "productivebees:etherium_ore"
+      "bee": "productivebees:neutronium"
     }
   ]
 }
