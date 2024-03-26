@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.entity.CryoStasisBlockEntity;
 import cy.jdkdigital.productivebees.container.CryoStasisContainer;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -13,7 +12,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import org.lwjgl.glfw.GLFW;
 

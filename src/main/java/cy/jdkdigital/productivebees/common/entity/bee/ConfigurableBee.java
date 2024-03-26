@@ -38,6 +38,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -401,10 +402,9 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     }
                 }
             }
-            return false;
         }
 
-        return super.isFlowerValid(pos, ConfigurableBee.this::isFlowerBlock, ConfigurableBee.this::isFlowerItem);
+        return isFlowerValid(pos, ConfigurableBee.this::isFlowerBlock, ConfigurableBee.this::isFlowerItem);
     }
 
     @Override
@@ -433,7 +433,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 }
             }
         }
-        return super.isFlowerBlock(flowerBlock);
+        return false;
     }
 
     public boolean isFlowerItem(ItemStack flowerItem) {
@@ -451,8 +451,11 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 return flowerItem.is(ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("flowerItem"))));
             }
         }
+        if (flowerItem.getItem() instanceof BlockItem blockItem && BeeHelper.hasBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState())) {
+            return true;
+        }
 
-        return super.isFlowerItem(flowerItem);
+        return BeeHelper.hasItemConversionRecipe(this, flowerItem);
     }
 
     @Override

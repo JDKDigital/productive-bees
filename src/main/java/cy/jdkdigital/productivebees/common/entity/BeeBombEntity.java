@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity;
 
 import cy.jdkdigital.productivebees.common.item.BeeBomb;
-import cy.jdkdigital.productivebees.common.item.BeeBombAngry;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
@@ -61,25 +60,27 @@ public class BeeBombEntity extends ThrowableItemProjectile
             // Release list of bees near landing location
             ItemStack bomb = getItem();
 
-            boolean isAngry = bomb.getItem() instanceof BeeBombAngry;
+            boolean isAngry = bomb.getItem() instanceof BeeBomb beeBomb && beeBomb.isAngry();
 
             if (blockPos != null) {
                 blockPos = blockPos.above();
 
                 ListTag bees = BeeBomb.getBees(bomb);
                 if (!(entity instanceof Player)) {
-                    List<Player> players = level().getEntitiesOfClass(Player.class, (new AABB(blockPos).inflate(2.0D, 2.0D, 2.0D)));
+                    List<Player> players = level().getEntitiesOfClass(Player.class, (new AABB(blockPos).inflate(5.0D, 2.0D, 5.0D)));
                     if (players.size() > 0) {
                         entity = players.iterator().next();
                     }
                 }
+
                 for (Tag bee : bees) {
                     Bee beeEntity = BeeCage.getEntityFromStack((CompoundTag) bee, level(), true);
                     if (beeEntity != null) {
                         beeEntity.setPos(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
                         if (isAngry) {
-                            if (entity instanceof Player) {
+                            if (entity instanceof Player player) {
                                 beeEntity.setPersistentAngerTarget(entity.getUUID());
+                                beeEntity.setTarget(player);
                             } else {
                                 beeEntity.setRemainingPersistentAngerTime(400 + this.random.nextInt(400));
                             }

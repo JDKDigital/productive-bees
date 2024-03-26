@@ -1,6 +1,7 @@
 package cy.jdkdigital.productivebees.common.item;
 
 import cy.jdkdigital.productivebees.common.entity.BeeBombEntity;
+import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
@@ -25,9 +26,15 @@ import java.util.List;
 public class BeeBomb extends Item
 {
     private static final String BEES_KEY = "productivebees_beebomb_bees";
+    private final boolean isAngry;
 
-    public BeeBomb(Properties properties) {
+    public BeeBomb(Properties properties, boolean isAngry) {
         super(properties);
+        this.isAngry = isAngry;
+    }
+
+    public boolean isAngry() {
+        return isAngry;
     }
 
     public static boolean isLoaded(ItemStack itemStack) {
@@ -80,7 +87,11 @@ public class BeeBomb extends Item
                 list.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.DARK_AQUA));
                 for (Tag bee : beeList) {
                     String beeType = ((CompoundTag) bee).getString("entity");
-                    list.add(Component.literal(beeType).withStyle(ChatFormatting.GOLD));
+                    if (beeType.startsWith("productivebees:")) {
+                        list.add(Component.translatable("entity.productivebees." + ProductiveBee.getBeeName(beeType) + "_bee"));
+                    } else {
+                        list.add(Component.literal(beeType));
+                    }
                 }
             } else {
                 list.add(Component.translatable("productivebees.information.hold_shift").withStyle(ChatFormatting.WHITE));

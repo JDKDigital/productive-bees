@@ -3,6 +3,7 @@ package cy.jdkdigital.productivebees.container;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import cy.jdkdigital.productivelib.common.item.AbstractUpgradeItem;
+import cy.jdkdigital.productivelib.container.ManualSlotItemHandler;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

@@ -97,14 +97,13 @@ public class BeeHelper
                         setOffspringAttributes((ProductiveBee) bee, (ProductiveBee) entity, entity);
                     }
                 }
+                if (!player.isCreative()) {
+                    itemStack.shrink(1);
+                }
             }
         }
 
         if (bee != null) {
-            if (!player.isCreative()) {
-                itemStack.shrink(1);
-            }
-
             BlockPos pos = entity.blockPosition();
             bee.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, bee.getYRot(), bee.getXRot());
             if (bee instanceof LivingEntity) {

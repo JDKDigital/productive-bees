@@ -1,13 +1,18 @@
 1.20.1-12.4.4
 
-- Added GregStar and Neutronium bee (GTCEu Modern)
-- New texture for Starry bee
+- Added pollination item to wasted radioactive bee
+- Fixed feeding slabs loosing inventory when doubling
+- Fixed amber bee honey block conversion
+- Fixed bee conversion recipes not consuming item when failing
 
 
 1.20.1-12.4.3
 
-- Added a missing bee recipe
+- Added GregStar and Neutronium bee (GTCEu Modern)
+- New texture for Starry bee
+- Fixed a bunch of bee recipes
 - Fixed upgrade stack duping
+- Reduced Wasted Radioactive bee output
 
 
 1.20.1-12.4.2

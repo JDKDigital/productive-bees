@@ -108,7 +108,10 @@ public class Feeder extends SlabBlock implements EntityBlock
         super.onBlockStateChange(level, pos, oldState, newState);
         // Refresh inventory handler
         if (level.getBlockEntity(pos) instanceof FeederBlockEntity feederBlockEntity) {
+            var nbt = new CompoundTag();
+            feederBlockEntity.savePacketNBT(nbt);
             feederBlockEntity.refreshInventoryHandler();
+            feederBlockEntity.loadPacketNBT(nbt);
         }
     }
 
@@ -157,7 +160,7 @@ public class Feeder extends SlabBlock implements EntityBlock
             if (heldBlock instanceof SlabBlock && !(heldBlock instanceof Feeder)) {
                 final BlockEntity blockEntity = world.getBlockEntity(pos);
                 if (blockEntity instanceof FeederBlockEntity) {
-                    ((FeederBlockEntity) blockEntity).baseBlock = heldBlock instanceof Feeder ? null : heldBlock;
+                    ((FeederBlockEntity) blockEntity).baseBlock = heldBlock;
                     blockEntity.setChanged();
                     return InteractionResult.SUCCESS;
                 }

@@ -26,7 +26,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
-import javax.swing.*;
 import java.util.List;
 
 public class HoneyTreat extends Item
