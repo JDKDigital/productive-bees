@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#c9c7c2",
+  "secondaryColor": "#4f4e4b",
+  "particleColor": "#c9c7c2",
+  "flowerBlock": "refinedstorage:quartz_enriched_iron_block",
+  "conditions": [
+    {
+      "modid": "refinedstorage",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

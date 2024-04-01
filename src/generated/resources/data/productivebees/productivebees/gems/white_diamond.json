@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#fff9e4",
+  "secondaryColor": "#f7ed91",
+  "tertiaryColor": "#c5b520",
+  "particleColor": "#fff9e4",
+  "flowerTag": "productivebees:flowers/white_diamond",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/white_diamond",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/white_diamond",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

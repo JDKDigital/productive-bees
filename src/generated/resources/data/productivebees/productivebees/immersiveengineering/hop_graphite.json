@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#242424",
+  "secondaryColor": "#202020",
+  "tertiaryColor": "#0a0a0a",
+  "particleColor": "#191919",
+  "flowerItem": "immersiveengineering:graphite_electrode",
+  "size": 0.9,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "immersiveengineering",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

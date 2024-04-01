@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#cbf747",
+  "particleColor": "#d0ef76",
+  "flowerFluid": "chemlib:chlorine_fluid",
+  "beeTexture": "productivebees:textures/entity/bee/chlorine/bee",
+  "size": 0.6,
+  "translucent": true,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

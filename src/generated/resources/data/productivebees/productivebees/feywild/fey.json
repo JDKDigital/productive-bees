@@ -1,0 +1,19 @@
+{
+  "primaryColor": "#66ccff",
+  "secondaryColor": "#666699",
+  "particleColor": "#18abf5",
+  "particleType": "pop",
+  "flowerTag": "forge:ores/fey_gem",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/fey/bee",
+  "createComb": false,
+  "size": 0.6,
+  "selfbreed": false,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "feywild",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

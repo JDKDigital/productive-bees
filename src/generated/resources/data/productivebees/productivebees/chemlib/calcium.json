@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#bdbbac",
+  "particleColor": "#cfcdc5",
+  "flowerBlock": "chemlib:calcium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/calcium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

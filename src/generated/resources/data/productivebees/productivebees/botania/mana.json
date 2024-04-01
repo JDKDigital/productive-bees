@@ -1,0 +1,18 @@
+{
+  "primaryColor": "#316ff5",
+  "secondaryColor": "#08080f",
+  "tertiaryColor": "#400438",
+  "particleColor": "#316ff5",
+  "flowerBlock": "botania:gaia_pylon",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "createComb": false,
+  "size": 0.5,
+  "renderer": "default_foliage",
+  "breedingItem": "botania:blacker_lotus",
+  "conditions": [
+    {
+      "modid": "botania",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

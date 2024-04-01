@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#d89abe",
+  "particleColor": "#e2afcb",
+  "flowerBlock": "chemlib:rubidium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/rubidium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

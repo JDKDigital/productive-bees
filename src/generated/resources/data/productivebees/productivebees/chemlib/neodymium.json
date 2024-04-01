@@ -1,0 +1,24 @@
+{
+  "primaryColor": "#998784",
+  "particleColor": "#ab9d9a",
+  "flowerBlock": "chemlib:neodymium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/neodymium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    },
+    {
+      "tag": "forge:raw_materials/neodymium",
+      "type": "forge:tag_empty"
+    },
+    {
+      "value": {
+        "modid": "gtceu",
+        "type": "forge:mod_loaded"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

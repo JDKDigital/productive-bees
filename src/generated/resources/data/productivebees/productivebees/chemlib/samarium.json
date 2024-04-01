@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#d5db8c",
+  "particleColor": "#e3f696",
+  "flowerBlock": "chemlib:samarium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/samarium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

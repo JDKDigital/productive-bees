@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#ecccc8",
+  "secondaryColor": "#987e77",
+  "particleColor": "#d3aa9e",
+  "flowerBlock": "enderio:conductive_alloy_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "conditions": [
+    {
+      "modid": "enderio",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

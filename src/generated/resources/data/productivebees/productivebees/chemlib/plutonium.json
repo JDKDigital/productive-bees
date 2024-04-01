@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#cdccd1",
+  "particleColor": "#c9c6a8",
+  "flowerItem": "chemlib:plutonium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/plutonium/bee",
+  "size": 0.6,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

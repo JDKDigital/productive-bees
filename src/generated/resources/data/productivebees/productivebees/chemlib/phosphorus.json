@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#904456",
+  "particleColor": "#c595a2",
+  "flowerItem": "chemlib:phosphorus",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/phosphorus/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

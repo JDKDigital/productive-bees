@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#978574",
+  "secondaryColor": "#3e5b68",
+  "tertiaryColor": "#725e4c",
+  "particleColor": "#978574",
+  "flowerTag": "productivebees:flowers/tektite",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/tektite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/tektite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#b9f3fa",
+  "secondaryColor": "#1b2c33",
+  "tertiaryColor": "#28a0b1",
+  "particleColor": "#32e1f6",
+  "flowerTag": "productivebees:flowers/fluorite",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/fluorite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/fluorite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

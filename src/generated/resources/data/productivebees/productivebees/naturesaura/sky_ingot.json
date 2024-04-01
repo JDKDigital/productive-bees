@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#b7e8ff",
+  "secondaryColor": "#6ec7f1",
+  "tertiaryColor": "#4ea3cb",
+  "particleColor": "#9ce0ff",
+  "flowerBlock": "naturesaura:sky_ingot_block",
+  "beeTexture": "productivebees:textures/entity/bee/sky_ingot/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "naturesaura",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

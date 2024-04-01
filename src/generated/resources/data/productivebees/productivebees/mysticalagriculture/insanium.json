@@ -1,0 +1,18 @@
+{
+  "primaryColor": "#4d086d",
+  "secondaryColor": "#804f40",
+  "particleColor": "#410062",
+  "flowerBlock": "mysticalagradditions:insanium_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.8,
+  "selfbreed": false,
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "conditions": [
+    {
+      "modid": "mysticalagradditions",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

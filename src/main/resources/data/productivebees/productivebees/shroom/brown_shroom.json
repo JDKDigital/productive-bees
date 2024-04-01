@@ -1,9 +1,0 @@
-{
-  "primaryColor": "#724a2f",
-  "secondaryColor": "#3c2617",
-  "particleColor": "#724a2f",
-  "flowerBlock": "minecraft:brown_mushroom",
-  "renderer": "default_foliage",
-  "size": 0.5,
-  "breedingItem": "minecraft:brown_mushroom"
-}

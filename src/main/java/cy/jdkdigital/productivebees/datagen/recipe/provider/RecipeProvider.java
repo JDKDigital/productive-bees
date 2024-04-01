@@ -121,7 +121,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
         ingots.forEach((config) -> {
             var recipe = CentrifugeRecipeBuilder.configurable(config.name())
                     .addOutput(new AbstractRecipeBuilder.ModItemOutput(config.centrifugeOutput()))
-                    .setFluidOutput(new AbstractRecipeBuilder.FluidOutput("#forge:honey"))
+                    .setFluidOutput(new AbstractRecipeBuilder.FluidOutput("productivebees:honey"))
                     .withCondition(new BeeExistsCondition(ProductiveBees.MODID + ":" + config.name()));
             if (config.centrifugeOutput().startsWith("#")) {
                 recipe.withCondition(new NotCondition(new TagEmptyCondition(config.centrifugeOutput().replace("#", ""))));

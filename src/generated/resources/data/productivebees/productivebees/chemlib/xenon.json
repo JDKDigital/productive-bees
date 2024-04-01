@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#a0ade2",
+  "particleColor": "#accded",
+  "flowerFluid": "chemlib:xenon_fluid",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/xenon/bee",
+  "size": 0.7,
+  "translucent": true,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

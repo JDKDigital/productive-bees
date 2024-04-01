@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#ed220c",
+  "particleColor": "#0c0ced",
+  "flowerItem": "chemlib:americium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/americium/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

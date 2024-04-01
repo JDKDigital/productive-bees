@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#a66ef4",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#3500aa",
+  "particleColor": "#a66ef4",
+  "flowerTag": "productivebees:flowers/tanzanite",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/tanzanite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/tanzanite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

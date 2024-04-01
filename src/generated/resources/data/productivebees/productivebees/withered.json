@@ -1,0 +1,18 @@
+{
+  "primaryColor": "#141414",
+  "particleColor": "#141414",
+  "flowerTag": "productivebees:flowers/wither_flowers",
+  "beeTexture": "productivebees:textures/entity/bee/wither/bee",
+  "selfbreed": false,
+  "withered": true,
+  "attributes": {
+    "temper": 2,
+    "behavior": 1
+  },
+  "passiveEffects": [
+    {
+      "effect": "minecraft:wither",
+      "duration": 150
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#e8d7a6",
+  "particleColor": "#f6e5b2",
+  "flowerBlock": "chemlib:sodium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/sodium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

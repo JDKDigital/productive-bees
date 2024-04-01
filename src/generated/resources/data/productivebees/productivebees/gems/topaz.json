@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#dd7d17",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#dd7d17",
+  "particleColor": "#dd7d17",
+  "flowerTag": "productivebees:flowers/topaz",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/topaz",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/topaz",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

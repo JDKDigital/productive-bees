@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#ccbecf",
+  "particleColor": "#cdc6cf",
+  "flowerItem": "chemlib:arsenic",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/arsenic/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

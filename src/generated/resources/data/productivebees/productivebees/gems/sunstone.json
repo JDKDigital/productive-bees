@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#ffcab0",
+  "secondaryColor": "#3e5b68",
+  "tertiaryColor": "#d45241",
+  "particleColor": "#ffcab0",
+  "flowerTag": "productivebees:flowers/sunstone",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/sunstone",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/sunstone",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

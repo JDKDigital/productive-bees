@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#e8e8f1",
+  "particleColor": "#e8d3d9",
+  "flowerItem": "chemlib:curium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/curium/bee",
+  "size": 0.6,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#ffccff",
+  "secondaryColor": "#d4e4fc",
+  "particleColor": "#8c9fac",
+  "flowerTag": "forge:storage_blocks/iridium",
+  "size": 0.8,
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/iridium",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

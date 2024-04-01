@@ -1,0 +1,18 @@
+{
+  "primaryColor": "#e2ace8",
+  "secondaryColor": "#ba8abf",
+  "particleColor": "#dcb4e0",
+  "flowerTag": "forge:storage_blocks/ridiculite",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/ridiculite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

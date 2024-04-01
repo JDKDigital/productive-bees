@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#9b9252",
+  "secondaryColor": "#dae1a1",
+  "tertiaryColor": "#25bfab",
+  "particleColor": "#cfffff",
+  "flowerBlock": "enigmaticlegacy:etherium_block",
+  "beeTexture": "productivebees:textures/entity/bee/etherium_ore/bee",
+  "size": 0.7,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "enigmaticlegacy",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

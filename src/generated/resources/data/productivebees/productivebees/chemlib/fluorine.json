@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#cac12c",
+  "particleColor": "#f3ee80",
+  "flowerFluid": "chemlib:fluorine_fluid",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/fluorine/bee",
+  "size": 0.4,
+  "translucent": true,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

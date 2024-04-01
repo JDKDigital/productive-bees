@@ -1,0 +1,11 @@
+{
+  "primaryColor": "#5a7088",
+  "secondaryColor": "#804f40",
+  "particleColor": "#5a7088",
+  "conditions": [
+    {
+      "modid": "integrateddynamics",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#fff8e3",
+  "secondaryColor": "#bfb595",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "createComb": false,
+  "size": 0.5,
+  "selfbreed": false,
+  "renderer": "default_foliage",
+  "conditions": [
+    {
+      "modid": "botania",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

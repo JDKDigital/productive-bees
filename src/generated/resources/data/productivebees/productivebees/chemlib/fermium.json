@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#dece8a",
+  "particleColor": "#e1d6a2",
+  "flowerItem": "chemlib:fermium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/fermium/bee",
+  "size": 0.4,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

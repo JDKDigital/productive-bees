@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#c6ccd3",
+  "particleColor": "#c1cdd4",
+  "flowerBlock": "chemlib:gallium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/gallium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

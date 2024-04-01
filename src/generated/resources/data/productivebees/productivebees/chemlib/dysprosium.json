@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#8eb997",
+  "particleColor": "#9fcba4",
+  "flowerBlock": "chemlib:dysprosium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/dysprosium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

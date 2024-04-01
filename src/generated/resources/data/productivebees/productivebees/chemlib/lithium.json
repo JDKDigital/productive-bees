@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#ccccda",
+  "particleColor": "#ffffff",
+  "flowerBlock": "chemlib:lithium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/lithium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

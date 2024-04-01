@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#cccc4c",
+  "secondaryColor": "#9c8c3c",
+  "particleColor": "#3c4c9c",
+  "flowerBlock": "minecraft:sponge",
+  "beeTexture": "productivebees:textures/entity/bee/sponge/bee",
+  "createComb": false,
+  "size": 0.7,
+  "pollinatedSize": 1.1,
+  "waterproof": true,
+  "attributes": {
+    "endurance": 1
+  }
+}

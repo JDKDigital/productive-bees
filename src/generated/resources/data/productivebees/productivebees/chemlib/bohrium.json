@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#67f0bb",
+  "particleColor": "#6ff2c0",
+  "flowerItem": "chemlib:bohrium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/bohrium/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

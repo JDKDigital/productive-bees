@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#E9EBE7",
+  "secondaryColor": "#804f40",
+  "flowerTag": "forge:storage_blocks/zinc",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/zinc",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

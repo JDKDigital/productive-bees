@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#4977f5",
+  "secondaryColor": "#232b3d",
+  "tertiaryColor": "#5e94e0",
+  "particleColor": "#0b1e42",
+  "flowerFluid": "minecraft:water",
+  "createComb": false,
+  "size": 0.8,
+  "waterproof": true,
+  "attributes": {
+    "weather_tolerance": 2
+  }
+}

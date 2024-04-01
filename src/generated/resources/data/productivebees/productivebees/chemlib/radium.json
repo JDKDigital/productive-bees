@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#cde9ee",
+  "particleColor": "#e4f7fa",
+  "flowerBlock": "chemlib:radium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/radium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "primaryColor": "#fcd979",
+  "particleColor": "#fcd979",
+  "particleType": "lava",
+  "flowerTag": "productivebees:flowers/fiery",
+  "beeTexture": "productivebees:textures/entity/bee/blazing/bee",
+  "attackResponse": "fire",
+  "fireproof": true
+}

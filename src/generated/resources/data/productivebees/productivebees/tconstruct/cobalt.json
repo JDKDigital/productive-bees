@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#1d77eb",
+  "secondaryColor": "#0c5abe",
+  "particleColor": "#1d77eb",
+  "flowerTag": "forge:storage_blocks/cobalt",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/cobalt",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#e5dec7",
+  "particleColor": "#efe8d4",
+  "flowerFluid": "chemlib:helium_fluid",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/helium/bee",
+  "size": 0.7,
+  "translucent": true,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

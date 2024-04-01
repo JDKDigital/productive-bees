@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#7cd7ea",
+  "secondaryColor": "#9938c3",
+  "tertiaryColor": "#227c8f",
+  "particleColor": "#7cd7ea",
+  "flowerItem": "irons_spellbooks:ruined_book",
+  "beeTexture": "productivebees:textures/entity/bee/arcane_essence/bee",
+  "size": 0.8,
+  "conditions": [
+    {
+      "modid": "irons_spellbooks",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

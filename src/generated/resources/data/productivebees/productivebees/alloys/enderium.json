@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#58a28b",
+  "secondaryColor": "#804f40",
+  "particleColor": "#437f6c",
+  "flowerTag": "forge:storage_blocks/enderium",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/enderium",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

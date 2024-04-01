@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#f2f24f",
+  "secondaryColor": "#d0581f",
+  "flowerTag": "forge:storage_blocks/allthemodium",
+  "selfbreed": false,
+  "breedingItem": "allthemodium:vibranium_ingot",
+  "breedingItemCount": 4,
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "conditions": [
+    {
+      "modid": "allthemodium",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

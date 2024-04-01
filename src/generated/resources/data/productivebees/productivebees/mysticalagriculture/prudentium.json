@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#008C23",
+  "secondaryColor": "#804f40",
+  "particleColor": "#008C23",
+  "flowerBlock": "mysticalagriculture:prudentium_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "mysticalagriculture",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

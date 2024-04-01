@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#cbddee",
+  "secondaryColor": "#5590ce",
+  "particleColor": "#f8f8fa",
+  "flowerTag": "forge:storage_blocks/drenched_iron",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.6,
+  "conditions": [
+    {
+      "modid": "elementalcraft",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

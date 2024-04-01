@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#8adb18",
+  "secondaryColor": "#064f2c",
+  "tertiaryColor": "#019500",
+  "particleColor": "#8adb18",
+  "flowerTag": "productivebees:flowers/green_sapphire",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/green_sapphire",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/green_sapphire",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

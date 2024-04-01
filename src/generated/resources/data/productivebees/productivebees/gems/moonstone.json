@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#e4e4e4",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#b6b6b6",
+  "particleColor": "#e4e4e4",
+  "flowerTag": "productivebees:flowers/moonstone",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/moonstone",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/moonstone",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

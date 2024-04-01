@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#9c32b4",
+  "particleColor": "#ae36c8",
+  "flowerItem": "chemlib:nobelium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/nobelium/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

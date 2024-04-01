@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#141824",
+  "secondaryColor": "#646464",
+  "tertiaryColor": "#363840",
+  "particleColor": "#7d7c7c",
+  "flowerTag": "forge:storage_blocks/raw_stibnite",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/stibnite/bee",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "gtceu",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

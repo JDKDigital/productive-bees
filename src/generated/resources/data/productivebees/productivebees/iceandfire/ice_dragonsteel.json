@@ -1,0 +1,19 @@
+{
+  "primaryColor": "#c0e3f6",
+  "secondaryColor": "#323234",
+  "particleColor": "#fcfcfc",
+  "flowerBlock": "iceandfire:dragonsteel_ice_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 1.2,
+  "renderer": "thicc",
+  "attributes": {
+    "productivity": 1,
+    "endurance": 3
+  },
+  "conditions": [
+    {
+      "modid": "iceandfire",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

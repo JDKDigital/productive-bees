@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#6650b5",
+  "secondaryColor": "#e388dd",
+  "tertiaryColor": "#57368f",
+  "particleColor": "#ffbaba",
+  "flowerBlock": "eidolon:shadow_gem_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/soul_shard/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "eidolon",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

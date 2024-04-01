@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#4a4340",
+  "particleColor": "#f2f24f",
+  "flowerItem": "chemlib:boron",
+  "beeTexture": "productivebees:textures/entity/bee/boron/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

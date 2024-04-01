@@ -1,0 +1,23 @@
+{
+  "primaryColor": "#b78187",
+  "particleColor": "#c3989a",
+  "flowerBlock": "chemlib:palladium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/palladium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    },
+    {
+      "tag": "forge:raw_materials/palladium",
+      "type": "forge:tag_empty"
+    },
+    {
+      "value": {
+        "modid": "gtceu",
+        "type": "forge:mod_loaded"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

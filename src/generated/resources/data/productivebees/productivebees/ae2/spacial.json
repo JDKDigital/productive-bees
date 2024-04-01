@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#dfe5f6",
+  "secondaryColor": "#93c7ff",
+  "tertiaryColor": "#93c7ff",
+  "particleColor": "#66aefc",
+  "flowerBlock": "ae2:quartz_block",
+  "size": 0.7,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "ae2",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

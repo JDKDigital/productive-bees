@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#63635a",
+  "secondaryColor": "#a1a097",
+  "tertiaryColor": "#b8b8b2",
+  "particleColor": "#f0f0f0",
+  "flowerBlock": "eidolon:pewter_block",
+  "size": 0.9,
+  "conditions": [
+    {
+      "modid": "eidolon",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

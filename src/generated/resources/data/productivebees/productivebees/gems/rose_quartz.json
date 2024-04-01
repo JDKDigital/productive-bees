@@ -1,0 +1,18 @@
+{
+  "primaryColor": "#ffbffb",
+  "secondaryColor": "#3e5b68",
+  "tertiaryColor": "#a63367",
+  "particleColor": "#ffbffb",
+  "flowerTag": "productivebees:flowers/rose_quartz",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "productivebees:flowers/rose_quartz",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

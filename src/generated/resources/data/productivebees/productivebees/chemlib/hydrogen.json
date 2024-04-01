@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#adafe4",
+  "particleColor": "#bcbcd7",
+  "flowerFluid": "chemlib:hydrogen_fluid",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/hydrogen/bee",
+  "size": 0.7,
+  "translucent": true,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

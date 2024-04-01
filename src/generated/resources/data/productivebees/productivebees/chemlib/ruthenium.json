@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#a68994",
+  "particleColor": "#ba9ca6",
+  "flowerBlock": "chemlib:ruthenium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/ruthenium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#7f3190",
+  "particleColor": "#9636a1",
+  "flowerItem": "chemlib:oganesson",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/oganesson/bee",
+  "size": 0.2,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

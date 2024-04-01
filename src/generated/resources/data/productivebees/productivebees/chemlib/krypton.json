@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#bcadca",
+  "particleColor": "#d0c1d0",
+  "flowerFluid": "chemlib:krypton_fluid",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/krypton/bee",
+  "size": 0.7,
+  "translucent": true,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

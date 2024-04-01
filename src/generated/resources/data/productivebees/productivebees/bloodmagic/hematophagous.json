@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#7a0300",
+  "secondaryColor": "#0f0f66",
+  "particleColor": "#7a0300",
+  "flowerType": "entity_types",
+  "flowerTag": "productivebees:animals",
+  "conditions": [
+    {
+      "modid": "bloodmagic",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

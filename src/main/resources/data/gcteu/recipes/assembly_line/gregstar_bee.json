@@ -58,7 +58,7 @@
           "type": "gtceu:sized",
           "count": 8,
           "ingredient": {
-            "tag": "gtceu:uhv_energy_input_hatch_16a"
+            "item": "gtceu:uhv_energy_input_hatch_16a"
           }
         },
         "chance": 1,

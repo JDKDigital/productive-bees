@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#e33917",
+  "secondaryColor": "#b3280c",
+  "flowerBlock": "powah:nitro_crystal_block",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "powah",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

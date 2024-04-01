@@ -1,0 +1,28 @@
+{
+  "primaryColor": "#282e6f",
+  "secondaryColor": "#21bce6",
+  "tertiaryColor": "#576cb5",
+  "particleColor": "#36dfff",
+  "particleType": "pop",
+  "flowerBlock": "allthetweaks:greg_star_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/gregstar/bee",
+  "size": 1.2,
+  "selfbreed": false,
+  "selfheal": true,
+  "fireproof": true,
+  "renderer": "thicc",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "conditions": [
+    {
+      "modid": "allthetweaks",
+      "type": "forge:mod_loaded"
+    },
+    {
+      "modid": "gtceu",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

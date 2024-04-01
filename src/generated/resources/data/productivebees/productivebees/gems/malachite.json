@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#22d946",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#127625",
+  "particleColor": "#22d946",
+  "flowerTag": "productivebees:flowers/malachite",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/malachite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/malachite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

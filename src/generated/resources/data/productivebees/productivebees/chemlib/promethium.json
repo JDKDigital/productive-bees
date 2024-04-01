@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#afd7d4",
+  "particleColor": "#cfece9",
+  "flowerItem": "chemlib:promethium",
+  "beeTexture": "productivebees:textures/entity/bee/promethium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

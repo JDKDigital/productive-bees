@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#4394e5",
+  "particleColor": "#5ea6dd",
+  "flowerItem": "chemlib:darmstadtium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/darmstadtium/bee",
+  "size": 0.4,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

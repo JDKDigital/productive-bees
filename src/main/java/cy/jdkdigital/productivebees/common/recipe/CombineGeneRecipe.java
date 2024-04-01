@@ -36,6 +36,11 @@ public class CombineGeneRecipe implements CraftingRecipe
     }
 
     @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
+    @Override
     public boolean matches(CraftingContainer inv, Level worldIn) {
         // Valid if inv contains one or more genes of the same type
         // genes must not be mutually exclusive (2 levels of the same attribute are not allowed)

@@ -120,9 +120,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
             BlockState blockStateAtPos = world.getBlockState(newPos);
 
             if (blockStateAtPos.getBlock() instanceof ExpansionBox) {
-                if (!onlyFreeBoxes || blockStateAtPos.getValue(EXPANDED).equals(VerticalHive.NONE)) {
-                    return Pair.of(Pair.of(newPos, direction), blockStateAtPos);
-                }
+                return Pair.of(Pair.of(newPos, direction), blockStateAtPos);
             }
         }
         return null;
@@ -170,20 +168,20 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     @Override
-    public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        super.setPlacedBy(world, pos, state, placer, stack);
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
 
-        if (!world.isClientSide()) {
-            this.updateState(world, pos, state, false);
+        if (!level.isClientSide()) {
+            this.updateState(level, pos, state, false);
         }
     }
 
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        boolean removed = super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        boolean removed = super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
 
-        if (!world.isClientSide()) {
-            this.updateState(world, pos, state, true);
+        if (!level.isClientSide()) {
+            this.updateState(level, pos, state, true);
         }
 
         return removed;
@@ -250,8 +248,7 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     }
 
     public void openGui(ServerPlayer player, AdvancedBeehiveBlockEntity tileEntity) {
-//        this.updateState(tileEntity.getLevel(), tileEntity.getBlockPos(), tileEntity.getBlockState(), false);
-        tileEntity.setChanged();
+        this.updateState(tileEntity.getLevel(), tileEntity.getBlockPos(), tileEntity.getBlockState(), false);
         NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#737373",
+  "secondaryColor": "#804f40",
+  "particleColor": "#b6b6b6",
+  "flowerBlock": "pneumaticcraft:compressed_iron_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.5,
+  "conditions": [
+    {
+      "modid": "pneumaticcraft",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#dbe2b1",
+  "particleColor": "#d0e6b6",
+  "flowerBlock": "chemlib:yttrium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/yttrium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

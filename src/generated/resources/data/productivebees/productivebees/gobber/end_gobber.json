@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#30cc9a",
+  "secondaryColor": "#a1f6b9",
+  "flowerBlock": "gobber2:gobber2_block_end",
+  "size": 0.5,
+  "selfbreed": false,
+  "breedingItem": "gobber2:gobber2_glob_end",
+  "conditions": [
+    {
+      "modid": "gobber2",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

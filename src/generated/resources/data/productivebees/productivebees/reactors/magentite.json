@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#c418c9",
+  "secondaryColor": "#970c9c",
+  "particleColor": "#da6fde",
+  "flowerTag": "forge:storage_blocks/magentite",
+  "size": 0.8,
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/magentite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

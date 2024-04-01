@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#d1bf87",
+  "particleColor": "#dccb90",
+  "flowerBlock": "chemlib:lanthanum_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/lanthanum/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

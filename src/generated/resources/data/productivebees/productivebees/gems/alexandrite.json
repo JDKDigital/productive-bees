@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#8d009a",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#250028",
+  "particleColor": "#8d009a",
+  "flowerTag": "productivebees:flowers/alexandrite",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/alexandrite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/alexandrite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#d03621",
+  "secondaryColor": "#804f40",
+  "tertiaryColor": "#730c00",
+  "particleColor": "#ff0000",
+  "flowerTag": "productivebees:flowers/redstone",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.8,
+  "redstoned": true,
+  "conditions": [
+    {
+      "modid": "thermal",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

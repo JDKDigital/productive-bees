@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#79b7ab",
+  "secondaryColor": "#315041",
+  "tertiaryColor": "#5e85a4",
+  "particleColor": "#267a4b",
+  "flowerTag": "productivebees:flowers/prismarine",
+  "size": 0.6,
+  "waterproof": true,
+  "renderer": "default_crystal",
+  "attributes": {
+    "weather_tolerance": 2,
+    "productivity": 0,
+    "temper": 3,
+    "endurance": 3
+  }
+}

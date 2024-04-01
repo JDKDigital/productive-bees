@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#292822",
+  "secondaryColor": "#a18f66",
+  "tertiaryColor": "#665d45",
+  "particleColor": "#e0c588",
+  "flowerBlock": "gtceu:raw_oilsands_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/oilsands/bee",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "gtceu",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

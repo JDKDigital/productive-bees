@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#141414",
+  "particleColor": "#141414",
+  "flowerBlock": "minecraft:sculk_shrieker",
+  "beeTexture": "productivebees:textures/entity/bee/sculk/bee",
+  "selfbreed": false,
+  "attributes": {
+    "temper": 2,
+    "behavior": 1
+  },
+  "passiveEffects": [
+    {
+      "effect": "minecraft:darkness",
+      "duration": 60
+    }
+  ]
+}

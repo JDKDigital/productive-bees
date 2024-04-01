@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#cccccc",
+  "secondaryColor": "#484849",
+  "tertiaryColor": "#cccccc",
+  "particleColor": "#cccccc",
+  "flowerBlock": "elementalcraft:inertcrystal_block",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "elementalcraft",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

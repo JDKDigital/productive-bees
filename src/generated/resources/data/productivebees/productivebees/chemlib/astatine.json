@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#edd574",
+  "particleColor": "#f2db7e",
+  "flowerItem": "chemlib:astatine",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/astatine/bee",
+  "size": 0.4,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

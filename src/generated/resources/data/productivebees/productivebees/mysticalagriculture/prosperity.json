@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#ddfbfb",
+  "secondaryColor": "#587676",
+  "particleColor": "#aecccc",
+  "flowerBlock": "mysticalagriculture:prosperity_block",
+  "size": 0.6,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "mysticalagriculture",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

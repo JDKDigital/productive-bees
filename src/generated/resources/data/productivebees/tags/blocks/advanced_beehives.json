@@ -221,10 +221,6 @@
       "required": false
     },
     {
-      "id": "productivebees:advanced_regions_unexplored_alpha_oak_beehive",
-      "required": false
-    },
-    {
       "id": "productivebees:advanced_regions_unexplored_green_bioshroom_beehive",
       "required": false
     },

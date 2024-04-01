@@ -1,7 +1,27 @@
+1.20.1-12.4.7
+
+- Fixed honey output for reactor combs
+
+
+1.20.1-12.4.6
+
+- Fixed flowering block for oil sands bee
+- Fixed default flowering blocks
+
+
+1.20.1-12.4.5
+
+- Bee attributes now show in Jade
+- Ghostly bees can no longer go through ghostly combs
+- Fixed upgrades stacking in hives
+- Fixed incubatorProcessingTime config not applying
+- Fixed amber bees duping mobs
+
+
 1.20.1-12.4.4
 
 - Added pollination item to wasted radioactive bee
-- Fixed feeding slabs loosing inventory when doubling
+- Fixed feeding slabs losing inventory when doubling
 - Fixed amber bee honey block conversion
 - Fixed bee conversion recipes not consuming item when failing
 

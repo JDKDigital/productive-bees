@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#9ad7e3",
+  "secondaryColor": "#70b4c2",
+  "particleColor": "#b5f3ff",
+  "flowerType": "entity_types",
+  "flowerTag": "forge:withers",
+  "beeTexture": "productivebees:textures/entity/bee/ether_gas/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "renderer": "translucent_with_center",
+  "conditions": [
+    {
+      "modid": "industrialforegoing",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

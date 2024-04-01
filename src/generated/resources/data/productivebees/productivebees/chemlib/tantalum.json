@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#b9bbde",
+  "particleColor": "#bfc2e7",
+  "flowerBlock": "chemlib:tantalum_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/tantalum/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

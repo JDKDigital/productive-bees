@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#b5bb05",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#636e00",
+  "particleColor": "#b5bb05",
+  "flowerTag": "productivebees:flowers/moldavite",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/moldavite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/moldavite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

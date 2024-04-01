@@ -1,0 +1,25 @@
+{
+  "primaryColor": "#ffe59e",
+  "secondaryColor": "#3e5b68",
+  "tertiaryColor": "#d59042",
+  "particleColor": "#ffe59e",
+  "flowerTag": "productivebees:flowers/cats_eye",
+  "size": 0.6,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/cats_eye",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "productivebees:flowers/cats_eye",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

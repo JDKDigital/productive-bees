@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#9c8984",
+  "particleColor": "#b4a19d",
+  "flowerItem": "chemlib:meitnerium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/meitnerium/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

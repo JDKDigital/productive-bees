@@ -1,0 +1,22 @@
+{
+  "primaryColor": "#ffc9a7",
+  "secondaryColor": "#ff762c",
+  "particleColor": "#ffc9a7",
+  "flowerTag": "forge:storage_blocks/spectrum",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/spectrum",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    },
+    {
+      "value": {
+        "tag": "forge:storage_blocks/spectrum",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

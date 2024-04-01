@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#24365d",
+  "secondaryColor": "#c8d8a6",
+  "tertiaryColor": "#93a9ad",
+  "particleColor": "#d4e5b1",
+  "flowerTag": "forge:storage_blocks/raw_scheelite",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/scheelite/bee",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "gtceu",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

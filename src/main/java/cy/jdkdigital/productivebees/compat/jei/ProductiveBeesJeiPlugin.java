@@ -174,19 +174,24 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
         for (Map.Entry<String, BeeIngredient> entry : beeList.entrySet()) {
             if (entry.getKey().contains(ProductiveBees.MODID)) {
                 String beeId = entry.getKey().replace("productivebees:", "");
-                Component description = Component.literal("");
+                Component description;
                 if (entry.getValue().isConfigurable()) {
                     CompoundTag nbt = BeeReloadListener.INSTANCE.getData(entry.getKey());
                     if (nbt.contains("description")) {
                         description = Component.translatable(nbt.getString("description"));
+                    } else {
+                        description = Component.translatable("productivebees.ingredient.description." + beeId + "_bee");
+                        if (description.getString().isEmpty()) {
+                            description = Component.literal("");
+                        }
                     }
                     if (!nbt.getBoolean("selfbreed")) {
-                        description = Component.translatable("productivebees.ingredient.description.selfbreed", description);
+                        description = Component.translatable("productivebees.ingredient.description.selfbreed", description.getString());
                     }
                 } else {
-                    description = Component.translatable("productivebees.ingredient.description." + (beeId));
+                    description = Component.translatable("productivebees.ingredient.description." + beeId);
                     if (beeId.equals("lumber_bee") || beeId.equals("quarry_bee") || beeId.equals("rancher_bee") || beeId.equals("collector_bee") || beeId.equals("hoarder_bee") || beeId.equals("farmer_bee") || beeId.equals("cupid_bee")) {
-                        description = Component.translatable("productivebees.ingredient.description.selfbreed", description);
+                        description = Component.translatable("productivebees.ingredient.description.selfbreed", description.getString());
                     }
                 }
 

@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#dc5af8",
+  "secondaryColor": "#804f40",
+  "flowerTag": "forge:storage_blocks/elementium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "selfbreed": false,
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "conditions": [
+    {
+      "modid": "botania",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

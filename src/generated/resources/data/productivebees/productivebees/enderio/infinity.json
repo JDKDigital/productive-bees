@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#191919",
+  "secondaryColor": "#717171",
+  "particleColor": "#717171",
+  "particleType": "pop",
+  "flowerBlock": "enderio:reinforced_obsidian_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.5,
+  "breedingItem": "minecraft:flint_and_steel",
+  "conditions": [
+    {
+      "modid": "enderio",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

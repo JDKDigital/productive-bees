@@ -1,0 +1,21 @@
+{
+  "primaryColor": "#940e00",
+  "secondaryColor": "#0f0f66",
+  "particleColor": "#940e00",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "createComb": false,
+  "selfbreed": false,
+  "selfheal": true,
+  "renderer": "thicc",
+  "attributes": {
+    "temper": 2,
+    "endurance": 3,
+    "behavior": 2
+  },
+  "conditions": [
+    {
+      "modid": "bloodmagic",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

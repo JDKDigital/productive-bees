@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#4c9db6",
+  "secondaryColor": "#804f40",
+  "flowerTag": "forge:storage_blocks/osmium",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/osmium",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "primaryColor": "#1eeb96",
+  "secondaryColor": "#16c97f",
+  "particleColor": "#37de99",
+  "flowerTag": "forge:storage_blocks/insanite",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/insanite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

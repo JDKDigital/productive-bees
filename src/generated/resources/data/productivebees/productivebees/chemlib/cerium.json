@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#b5c8c0",
+  "particleColor": "#c1d2c9",
+  "flowerBlock": "chemlib:cerium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/cerium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

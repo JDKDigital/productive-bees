@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#ADB7B2",
+  "secondaryColor": "#804f40",
+  "flowerTag": "forge:storage_blocks/invar",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/invar",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

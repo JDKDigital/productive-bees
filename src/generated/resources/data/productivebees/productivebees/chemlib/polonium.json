@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#b3c9c8",
+  "particleColor": "#bccfcc",
+  "flowerBlock": "chemlib:polonium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/polonium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

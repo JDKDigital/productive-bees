@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#15174c",
+  "secondaryColor": "#2b377f",
+  "tertiaryColor": "#5f7ecc",
+  "particleColor": "#79a3ea",
+  "flowerBlock": "thermal_extra:dragonsteel_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.7,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "thermal_extra",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

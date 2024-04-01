@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#d17bfc",
+  "secondaryColor": "#6200ae",
+  "particleColor": "#d17bfc",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/ender_slimy/bee",
+  "renderer": "translucent_with_center",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:slimeball/ender",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

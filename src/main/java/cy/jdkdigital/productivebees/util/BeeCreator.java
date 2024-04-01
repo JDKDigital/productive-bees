@@ -46,15 +46,15 @@ public class BeeCreator
             data.putString("flowerFluid", json.get("flowerFluid").getAsString());
         } else if (json.has("flowerItem") && !json.get("flowerItem").getAsString().isEmpty()) {
             data.putString("flowerItem", json.get("flowerItem").getAsString());
+        } else {
+            // default to flowers
+            data.putString("flowerTag", "minecraft:flowers");
         }
         if (json.has("nestingPreference")) {
             data.putString("nestingPreference", json.get("nestingPreference").getAsString());
         }
         if (json.has("beeTexture")) {
             data.putString("beeTexture", json.get("beeTexture").getAsString());
-        }
-        if (json.has("combTexture")) {
-            data.putString("combTexture", json.get("combTexture").getAsString());
         }
         if (json.has("particleColor")) {
             data.putInt("particleColor", TextColor.parseColor(json.get("particleColor").getAsString()).getValue());

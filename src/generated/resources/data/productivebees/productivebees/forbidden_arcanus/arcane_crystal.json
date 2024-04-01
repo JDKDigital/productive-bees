@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#4550e7",
+  "secondaryColor": "#a7bbfa",
+  "tertiaryColor": "#c1ecfd",
+  "particleColor": "#c4dee8",
+  "flowerBlock": "forbidden_arcanus:arcane_crystal_block",
+  "beeTexture": "productivebees:textures/entity/bee/arcane_crystal/bee",
+  "size": 0.7,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "forbidden_arcanus",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

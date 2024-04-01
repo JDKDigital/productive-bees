@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#7e6782",
+  "particleColor": "#8b7791",
+  "flowerItem": "chemlib:flerovium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/flerovium/bee",
+  "size": 0.4,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

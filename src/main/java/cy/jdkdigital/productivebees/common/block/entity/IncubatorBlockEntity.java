@@ -79,7 +79,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
 
     public int getProcessingTime(TimedRecipeInterface recipe) {
         return (int) (
-                (recipe != null ? recipe.getProcessingTime() : 3600) * getProcessingTimeModifier()
+                (recipe != null ? recipe.getProcessingTime() : ProductiveBeesConfig.GENERAL.incubatorProcessingTime.get()) * getProcessingTimeModifier()
         );
     }
 

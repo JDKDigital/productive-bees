@@ -1,0 +1,18 @@
+{
+  "primaryColor": "#bc2feb",
+  "secondaryColor": "#2e237b",
+  "flowerTag": "forge:storage_blocks/unobtainium",
+  "selfbreed": false,
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "attributes": {
+    "endurance": 3
+  },
+  "conditions": [
+    {
+      "modid": "allthemodium",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

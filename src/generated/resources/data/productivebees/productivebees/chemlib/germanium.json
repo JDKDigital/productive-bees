@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#dfdfe0",
+  "particleColor": "#e9e9eb",
+  "flowerItem": "chemlib:germanium",
+  "beeTexture": "productivebees:textures/entity/bee/germanium/bee",
+  "size": 0.7,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

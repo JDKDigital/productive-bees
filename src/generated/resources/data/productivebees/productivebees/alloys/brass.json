@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#DAAA4C",
+  "secondaryColor": "#804f40",
+  "flowerTag": "forge:storage_blocks/brass",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/brass",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

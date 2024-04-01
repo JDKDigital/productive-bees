@@ -44,5 +44,19 @@
       }
     ]
   },
-  "tickOutputs": {}
+  "tickOutputs": {},
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "gtceu"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:apatite"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:pyrochlore"
+    }
+  ]
 }

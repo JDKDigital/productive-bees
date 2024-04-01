@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#9292a0",
+  "particleColor": "#9e9ea5",
+  "flowerBlock": "chemlib:thallium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/thallium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

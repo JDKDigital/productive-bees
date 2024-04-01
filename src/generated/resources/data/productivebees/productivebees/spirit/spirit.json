@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#839cb8",
+  "secondaryColor": "#0d1119",
+  "particleColor": "#5c687d",
+  "flowerBlock": "spirit:soul_steel_block",
+  "conditions": [
+    {
+      "modid": "spirit",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

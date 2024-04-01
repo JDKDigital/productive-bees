@@ -1,0 +1,19 @@
+{
+  "primaryColor": "#323e8f",
+  "secondaryColor": "#5a8eb7",
+  "particleColor": "#323e8f",
+  "particleType": "lava",
+  "flowerFluid": "allthemodium:soul_lava",
+  "selfbreed": false,
+  "fireproof": true,
+  "breedingItem": "allthemodium:soul_lava_bucket",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "conditions": [
+    {
+      "modid": "allthemodium",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

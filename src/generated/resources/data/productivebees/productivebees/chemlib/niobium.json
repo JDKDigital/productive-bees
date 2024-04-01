@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#bfb1e6",
+  "particleColor": "#c3beea",
+  "flowerBlock": "chemlib:niobium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/niobium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

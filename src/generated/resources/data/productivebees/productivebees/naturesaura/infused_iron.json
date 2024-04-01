@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#51d75a",
+  "secondaryColor": "#2ea736",
+  "tertiaryColor": "#29732e",
+  "particleColor": "#2fc63a",
+  "flowerBlock": "naturesaura:infused_iron_block",
+  "beeTexture": "productivebees:textures/entity/bee/infused_iron/bee",
+  "size": 0.9,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "naturesaura",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

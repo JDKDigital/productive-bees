@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#717174",
+  "particleColor": "#f2f24f",
+  "flowerItem": "chemlib:rutherfordium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/rutherfordium/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

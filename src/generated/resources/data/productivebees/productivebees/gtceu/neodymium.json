@@ -1,0 +1,22 @@
+{
+  "primaryColor": "#998784",
+  "particleColor": "#ab9d9a",
+  "flowerTag": "forge:storage_blocks/neodymium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/neodymium/bee",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "gtceu",
+      "type": "forge:mod_loaded"
+    },
+    {
+      "value": {
+        "tag": "forge:raw_materials/neodymium",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#171006",
+  "secondaryColor": "#2a2924",
+  "tertiaryColor": "#251a0d",
+  "particleColor": "#28251e",
+  "flowerTag": "forge:storage_blocks/raw_ilmenite",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/ilmenite/bee",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "gtceu",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

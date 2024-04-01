@@ -1,0 +1,24 @@
+{
+  "primaryColor": "#ffffff",
+  "secondaryColor": "#ffa500",
+  "flowerBlock": "allthetweaks:atm_star_block",
+  "beeTexture": "productivebees:textures/entity/bee/patrick/bee",
+  "size": 1.25,
+  "selfbreed": false,
+  "selfheal": true,
+  "fireproof": true,
+  "renderer": "thicc",
+  "attributes": {
+    "endurance": 3
+  },
+  "conditions": [
+    {
+      "modid": "allthemodium",
+      "type": "forge:mod_loaded"
+    },
+    {
+      "modid": "allthetweaks",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

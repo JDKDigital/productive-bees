@@ -22,6 +22,7 @@ out
 /eclipse
 /run
 /gen
+/webrender
 
 # Files from Forge MDK
 changelog.txt

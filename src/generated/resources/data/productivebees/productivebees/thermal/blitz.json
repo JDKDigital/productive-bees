@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#e9edf3",
+  "secondaryColor": "#bdccd9",
+  "particleColor": "#ffd86f",
+  "flowerBlock": "thermal:niter_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/blitz/bee",
+  "attributes": {
+    "weather_tolerance": 2
+  },
+  "conditions": [
+    {
+      "modid": "thermal",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

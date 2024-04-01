@@ -1,0 +1,22 @@
+{
+  "primaryColor": "#7e80a5",
+  "particleColor": "#a7a8c3",
+  "flowerTag": "forge:storage_blocks/molybdenum",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/molybdenum/bee",
+  "size": 0.8,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "gtceu",
+      "type": "forge:mod_loaded"
+    },
+    {
+      "value": {
+        "tag": "forge:raw_materials/molybdenum",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

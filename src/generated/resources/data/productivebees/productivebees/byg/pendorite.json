@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#482e76",
+  "secondaryColor": "#30174d",
+  "particleColor": "#8984d3",
+  "flowerBlock": "byg:pendorite_block",
+  "size": 1.2,
+  "conditions": [
+    {
+      "modid": "byg",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

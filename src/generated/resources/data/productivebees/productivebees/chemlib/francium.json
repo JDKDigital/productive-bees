@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#78787d",
+  "particleColor": "#7f7f86",
+  "flowerBlock": "chemlib:francium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/francium/bee",
+  "size": 0.4,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#522629",
+  "secondaryColor": "#211722",
+  "tertiaryColor": "#cc9c59",
+  "particleColor": "#fcefbd",
+  "flowerBlock": "gtceu:naquadah_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/naquadah/bee",
+  "size": 0.6,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "gtceu",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#e93f49",
+  "particleColor": "#9f7a6b",
+  "flowerItem": "chemlib:moscovium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/moscovium/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

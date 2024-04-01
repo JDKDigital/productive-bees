@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#7cff1f",
+  "secondaryColor": "#61bf1f",
+  "flowerBlock": "powah:spirited_crystal_block",
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "powah",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

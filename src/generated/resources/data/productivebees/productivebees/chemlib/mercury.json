@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#a5a4aa",
+  "particleColor": "#bfbec5",
+  "flowerFluid": "chemlib:mercury_fluid",
+  "beeTexture": "productivebees:textures/entity/bee/mercury/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

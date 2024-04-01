@@ -23,6 +23,7 @@ public class ProductiveBeesWailaPlugin implements IWailaPlugin
     public void register(IWailaCommonRegistration registration) {
         registration.registerBlockDataProvider(SolitaryNestProvider.INSTANCE, SolitaryNestBlockEntity.class);
         registration.registerBlockDataProvider(JarProvider.INSTANCE, JarBlockEntity.class);
+        registration.registerEntityDataProvider(ProductiveBeeProvider.INSTANCE, ProductiveBee.class);
     }
 
     @Override

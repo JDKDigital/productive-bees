@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#ffffff",
+  "secondaryColor": "#5c5350",
+  "particleColor": "#dbdbdb",
+  "flowerBlock": "minecraft:stone",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "createComb": false,
+  "size": 0.8,
+  "selfbreed": false,
+  "renderer": "thicc",
+  "conditions": [
+    {
+      "modid": "astralsorcery",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#dcb197",
+  "particleColor": "#d7baa6",
+  "flowerItem": "chemlib:californium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/californium/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

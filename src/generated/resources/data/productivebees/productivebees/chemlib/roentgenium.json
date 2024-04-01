@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#aacb46",
+  "particleColor": "#b0d248",
+  "flowerItem": "chemlib:roentgenium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/roentgenium/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#000000",
+  "secondaryColor": "#6238757",
+  "particleColor": "#99bf02",
+  "flowerBlock": "minecraft:sugar_cane",
+  "nestingPreference": "productivebees:nests/sugarbag_nests",
+  "beeTexture": "productivebees:textures/entity/bee/sugarbag/bee",
+  "createComb": false,
+  "stingless": true,
+  "renderer": "tiny",
+  "attributes": {
+    "temper": 0
+  }
+}

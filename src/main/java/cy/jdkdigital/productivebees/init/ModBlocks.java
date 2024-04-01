@@ -93,7 +93,7 @@ public final class ModBlocks
 
     public static final RegistryObject<Block> CONFIGURABLE_COMB = createBlock("configurable_comb", () -> new ConfigurableCombBlock(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK), "#c8df24"));
 
-    public static final RegistryObject<Block> COMB_GHOSTLY = createBlock("comb_ghostly", () -> new TranslucentCombBlock(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK).noOcclusion().noCollission()));
+    public static final RegistryObject<Block> COMB_GHOSTLY = createBlock("comb_ghostly", () -> new TranslucentCombBlock(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK).noCollission()));
     public static final RegistryObject<Block> COMB_MILKY = createBlock("comb_milky", () -> new Block(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK)));
     public static final RegistryObject<Block> COMB_POWDERY = createBlock("comb_powdery", () -> new Block(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK)));
 
@@ -206,11 +206,9 @@ public final class ModBlocks
         }});
         put("regions_unexplored", new HashMap<>()
         {{
-            put("alpha_oak", new HiveType(false, "#bc9862", "fir", new FakeIngredient("regions_unexplored:alpha_oak_planks")));
             put("baobab", new HiveType(false, "#f8cfb4", "redwood", new FakeIngredient("regions_unexplored:baobab_planks")));
             put("blackwood", new HiveType(false, "#3d332c", "spruce", new FakeIngredient("regions_unexplored:blackwood_planks")));
             put("blue_bioshroom", new HiveType(false, "#82d9e7", "mahogany", new FakeIngredient("regions_unexplored:blue_bioshroom_planks")));
-//            put("brimwood", new HiveType(new FakeIngredient("regions_unexplored:brimwood_planks"))); TODO
             put("cobalt", new HiveType(false, "#19317a", "jacaranda", new FakeIngredient("regions_unexplored:cobalt_planks")));
             put("cypress", new HiveType(false, "#929062", "yucca", new FakeIngredient("regions_unexplored:cypress_planks")));
             put("dead", new HiveType(false, "#786b66", "dead", new FakeIngredient("regions_unexplored:dead_planks")));

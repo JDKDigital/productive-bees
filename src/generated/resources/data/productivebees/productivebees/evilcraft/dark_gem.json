@@ -1,0 +1,18 @@
+{
+  "primaryColor": "#636363",
+  "secondaryColor": "#2e0b17",
+  "tertiaryColor": "#141414",
+  "particleColor": "#636363",
+  "flowerBlock": "evilcraft:dark_block",
+  "size": 0.7,
+  "renderer": "default_crystal",
+  "attributes": {
+    "temper": 2
+  },
+  "conditions": [
+    {
+      "modid": "evilcraft",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

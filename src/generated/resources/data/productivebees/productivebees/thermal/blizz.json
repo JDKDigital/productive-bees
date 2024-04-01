@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#1d7cf1",
+  "secondaryColor": "#ffffff",
+  "particleColor": "#8cdeff",
+  "flowerTag": "productivebees:flowers/frozen",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/blizz/bee",
+  "renderer": "elvis",
+  "conditions": [
+    {
+      "modid": "thermal",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

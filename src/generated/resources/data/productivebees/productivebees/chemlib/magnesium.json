@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#aaaaad",
+  "particleColor": "#ccccd1",
+  "flowerBlock": "chemlib:magnesium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/magnesium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#1c1c1c",
+  "secondaryColor": "#5f2525",
+  "particleColor": "#cc00fa",
+  "flowerTag": "productivebees:flowers/draconic_flowers",
+  "nestingPreference": "productivebees:nests/draconic_nests",
+  "beeTexture": "productivebees:textures/entity/bee/draconic/bee",
+  "draconic": true,
+  "breedingItem": "productivebees:draconic_dust",
+  "breedingItemCount": 2,
+  "attributes": {
+    "temper": 2,
+    "endurance": 3
+  }
+}

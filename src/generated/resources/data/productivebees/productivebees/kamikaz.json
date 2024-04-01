@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#FFFF00",
+  "secondaryColor": "#000001",
+  "particleType": "pop",
+  "createComb": false,
+  "size": 0.2,
+  "speed": 5.0,
+  "selfbreed": false,
+  "attributes": {
+    "productivity": 3,
+    "temper": 3,
+    "endurance": 0
+  }
+}

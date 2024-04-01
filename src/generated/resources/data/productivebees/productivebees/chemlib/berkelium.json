@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#c4bec4",
+  "particleColor": "#d9d4d9",
+  "flowerItem": "chemlib:berkelium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/berkelium/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

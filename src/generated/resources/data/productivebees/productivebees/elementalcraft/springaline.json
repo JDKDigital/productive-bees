@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#b4ddfc",
+  "secondaryColor": "#517391",
+  "tertiaryColor": "#fcfdfd",
+  "particleColor": "#fcfdfd",
+  "flowerBlock": "elementalcraft:springaline_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.6,
+  "selfbreed": false,
+  "renderer": "default_crystal",
+  "conditions": [
+    {
+      "modid": "elementalcraft",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

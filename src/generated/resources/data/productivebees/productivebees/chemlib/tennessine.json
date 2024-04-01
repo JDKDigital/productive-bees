@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#dd995e",
+  "particleColor": "#eeb149",
+  "flowerItem": "chemlib:tennessine",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/tennessine/bee",
+  "size": 0.5,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

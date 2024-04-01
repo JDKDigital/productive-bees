@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#fad87d",
+  "secondaryColor": "#5f2525",
+  "particleColor": "#fad87d",
+  "flowerTag": "productivebees:flowers/glowing_flowers",
+  "nestingPreference": "productivebees:nests/glowstone_nests",
+  "beeTexture": "productivebees:textures/entity/bee/glowing/bee",
+  "size": 0.9,
+  "blinding": true,
+  "passiveEffects": [
+    {
+      "effect": "minecraft:glowing",
+      "duration": 400
+    }
+  ]
+}

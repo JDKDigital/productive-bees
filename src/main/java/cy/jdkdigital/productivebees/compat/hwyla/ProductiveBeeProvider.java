@@ -26,9 +26,9 @@ public class ProductiveBeeProvider implements IEntityComponentProvider, IServerD
 
     @Override
     public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
-        if (config.get(ProductiveBeesWailaPlugin.BEE_ATTRIBUTES) && accessor.getServerData().contains("isProductiveBee")) {
+        if (config.get(ProductiveBeesWailaPlugin.BEE_ATTRIBUTES) && accessor.getServerData().getBoolean("isProductiveBee")) {
             List<Component> list =  new ArrayList<>();
-            BeeHelper.populateBeeInfoFromTag(accessor.getServerData(), list);
+            BeeHelper.populateBeeInfoFromTag(accessor.getServerData(), list, true);
             for (Component component: list) {
                 tooltip.add(component);
             }

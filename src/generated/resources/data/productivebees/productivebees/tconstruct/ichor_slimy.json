@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#fcb77b",
+  "secondaryColor": "#ae3f00",
+  "particleColor": "#fcb77b",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/ichor_slimy/bee",
+  "renderer": "translucent_with_center",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:slimeball/ichor",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

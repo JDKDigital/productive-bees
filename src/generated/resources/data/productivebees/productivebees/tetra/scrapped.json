@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#747474",
+  "secondaryColor": "#804f40",
+  "particleColor": "#747474",
+  "flowerBlock": "tetra:forged_workbench",
+  "size": 1.2,
+  "conditions": [
+    {
+      "modid": "tetra",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

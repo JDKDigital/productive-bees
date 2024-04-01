@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#80B425",
+  "secondaryColor": "#bb8d23",
+  "particleColor": "#80B425",
+  "particleType": "pop",
+  "flowerItem": "mekanism:pellet_antimatter",
+  "selfbreed": false,
+  "irradiated": true,
+  "conditions": [
+    {
+      "modid": "mekanism",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#e1e15f",
+  "particleColor": "#e6e56d",
+  "flowerBlock": "chemlib:zirconium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/zirconium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

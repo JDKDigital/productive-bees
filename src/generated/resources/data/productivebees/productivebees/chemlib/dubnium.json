@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#f1b89c",
+  "particleColor": "#f4bda1",
+  "flowerItem": "chemlib:dubnium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/dubnium/bee",
+  "size": 0.4,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

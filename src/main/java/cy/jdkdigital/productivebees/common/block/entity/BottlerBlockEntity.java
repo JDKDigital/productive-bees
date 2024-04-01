@@ -100,9 +100,6 @@ public class BottlerBlockEntity extends FluidTankBlockEntity
                         level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BOTTLE_FILL, SoundSource.NEUTRAL, 1.0F, 1.0F);
                         bee.kill();
                         bottles.shrink(1);
-//                        if (!player.isClientSide()) {
-//                            player.awardStat(Stats.ITEM_USED.get(item));
-//                        }
                     }
                 });
             }

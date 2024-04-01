@@ -1,0 +1,15 @@
+{
+  "primaryColor": "#914139",
+  "secondaryColor": "#804f40",
+  "particleColor": "#914139",
+  "flowerBlock": "minecraft:cocoa",
+  "conditions": [
+    {
+      "value": {
+        "tag": "TagKey[minecraft:fluid / forge:chocolate]",
+        "type": "productivebees:fluid_tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

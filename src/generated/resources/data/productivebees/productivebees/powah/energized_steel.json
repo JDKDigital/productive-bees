@@ -1,0 +1,11 @@
+{
+  "primaryColor": "#bfb49d",
+  "secondaryColor": "#7d7565",
+  "flowerBlock": "powah:energized_steel_block",
+  "conditions": [
+    {
+      "modid": "powah",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

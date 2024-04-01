@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#d5bdc7",
+  "particleColor": "#e1ccd3",
+  "flowerBlock": "chemlib:gadolinium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/gadolinium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

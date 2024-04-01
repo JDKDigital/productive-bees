@@ -437,7 +437,7 @@ public class BeeHelper
 
     public static void encaseMob(Mob target, Level level, Direction direction) {
         // Encase mob
-        if (target != null && !target.getType().is(ModTags.BEE_ENCASE_BLACKLIST) && target.isAlive()) {
+        if (target != null && !target.getType().is(ModTags.BEE_ENCASE_BLACKLIST) && target.isAlive() && !target.isRemoved()) {
             if (target instanceof TamableAnimal tamableAnimal && tamableAnimal.isTame()) {
                 return;
             }
@@ -540,6 +540,10 @@ public class BeeHelper
     }
 
     public static List<Component> populateBeeInfoFromTag(CompoundTag tag, @Nullable List<Component> list) {
+        return populateBeeInfoFromTag(tag, list, false);
+    }
+
+    public static List<Component> populateBeeInfoFromTag(CompoundTag tag, @Nullable List<Component> list, boolean minified) {
         if (list == null) {
             list = new ArrayList<>();
         }
@@ -547,9 +551,11 @@ public class BeeHelper
         list.add(Component.translatable(tag.getInt("Age") < 0 ? "productivebees.information.age.child" : "productivebees.information.age.adult").withStyle(ChatFormatting.AQUA).withStyle(ChatFormatting.ITALIC));
 
         if (tag.getBoolean("isProductiveBee")) {
-            float current = tag.getFloat("Health");
-            float max = tag.contains("MaxHealth") ? tag.getFloat("MaxHealth") : 10.0f;
-            list.add((Component.translatable("productivebees.information.attribute.health", current, max)).withStyle(ChatFormatting.DARK_GRAY));
+            if (!minified) {
+                float current = tag.getFloat("Health");
+                float max = tag.contains("MaxHealth") ? tag.getFloat("MaxHealth") : 10.0f;
+                list.add((Component.translatable("productivebees.information.attribute.health", current, max)).withStyle(ChatFormatting.DARK_GRAY));
+            }
 
             String type = tag.getString("bee_type");
             Component type_value = Component.translatable("productivebees.information.attribute.type." + type).withStyle(ColorUtil.getBeeTypeColor(type));
@@ -575,21 +581,23 @@ public class BeeHelper
             Component temper_value = Component.translatable(BeeAttributes.keyMap.get(BeeAttributes.TEMPER).get(temper)).withStyle(ColorUtil.getAttributeColor(temper));
             list.add((Component.translatable("productivebees.information.attribute.temper", temper_value)).withStyle(ChatFormatting.DARK_GRAY));
 
-            CompoundTag beeData = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
-            MutableComponent breedingItemText = Component.translatable("productivebees.information.breeding_item_default");
-            if (beeData != null && beeData.contains("breedingItem") && !beeData.getString("breedingItem").isEmpty()) {
-                Item breedingItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(beeData.getString("breedingItem")));
-                breedingItemText = Component.literal(beeData.getInt("breedingItemCount") + " " + Component.translatable(breedingItem.getDescriptionId()).getString());
-            }
-            list.add(Component.translatable("productivebees.information.breeding_item", breedingItemText.withStyle(ChatFormatting.GRAY)).withStyle(ChatFormatting.DARK_GRAY));
+            if (!minified) {
+                CompoundTag beeData = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
+                MutableComponent breedingItemText = Component.translatable("productivebees.information.breeding_item_default");
+                if (beeData != null && beeData.contains("breedingItem") && !beeData.getString("breedingItem").isEmpty()) {
+                    Item breedingItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(beeData.getString("breedingItem")));
+                    breedingItemText = Component.literal(beeData.getInt("breedingItemCount") + " " + Component.translatable(breedingItem.getDescriptionId()).getString());
+                }
+                list.add(Component.translatable("productivebees.information.breeding_item", breedingItemText.withStyle(ChatFormatting.GRAY)).withStyle(ChatFormatting.DARK_GRAY));
 
-            if (beeData != null && !beeData.getBoolean("selfbreed")) {
-                list.add(Component.translatable("productivebees.information.selfbreed_disabled").withStyle(ChatFormatting.GRAY));
-            }
+                if (beeData != null && !beeData.getBoolean("selfbreed")) {
+                    list.add(Component.translatable("productivebees.information.selfbreed_disabled").withStyle(ChatFormatting.GRAY));
+                }
 
-            if (tag.contains("HivePos")) {
-                BlockPos hivePos = NbtUtils.readBlockPos(tag.getCompound("HivePos"));
-                list.add(Component.translatable("productivebees.information.home_position", hivePos.getX(), hivePos.getY(), hivePos.getZ()));
+                if (tag.contains("HivePos")) {
+                    BlockPos hivePos = NbtUtils.readBlockPos(tag.getCompound("HivePos"));
+                    list.add(Component.translatable("productivebees.information.home_position", hivePos.getX(), hivePos.getY(), hivePos.getZ()));
+                }
             }
         } else {
             list.add((Component.literal("Mod: " + tag.getString("mod"))).withStyle(ChatFormatting.DARK_AQUA));

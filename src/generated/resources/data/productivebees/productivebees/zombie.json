@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#796565",
+  "beeTexture": "productivebees:textures/entity/bee/zombie/bee",
+  "speed": 0.8,
+  "selfbreed": false,
+  "munchies": true,
+  "attributes": {
+    "temper": 2,
+    "behavior": 1
+  },
+  "passiveEffects": [
+    {
+      "effect": "minecraft:hunger",
+      "duration": 150
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "primaryColor": "#bc3500",
+  "secondaryColor": "#5f2525",
+  "tertiaryColor": "#bc3500",
+  "particleColor": "#faa420",
+  "flowerTag": "forge:storage_blocks/draconium_awakened",
+  "nestingPreference": "productivebees:nests/draconic_nests",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "selfbreed": false,
+  "fireproof": true,
+  "draconic": true,
+  "renderer": "default_crystal",
+  "invulnerability": [
+    "mekanism.radiation"
+  ],
+  "conditions": [
+    {
+      "modid": "draconicevolution",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

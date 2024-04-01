@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#e0a394",
+  "particleColor": "#edb6a8",
+  "flowerFluid": "chemlib:bromine_fluid",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/bromine/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

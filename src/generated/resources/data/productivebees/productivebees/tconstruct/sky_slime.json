@@ -1,0 +1,17 @@
+{
+  "primaryColor": "#80d4d2",
+  "secondaryColor": "#2e5250",
+  "particleColor": "#80d4d2",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/sky_slimy/bee",
+  "renderer": "translucent_with_center",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:slimeball/sky",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

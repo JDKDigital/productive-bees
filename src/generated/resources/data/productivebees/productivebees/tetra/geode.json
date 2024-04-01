@@ -1,0 +1,14 @@
+{
+  "primaryColor": "#747474",
+  "secondaryColor": "#804f40",
+  "particleColor": "#747474",
+  "flowerBlock": "minecraft:deepslate",
+  "createComb": false,
+  "renderer": "thicc",
+  "conditions": [
+    {
+      "modid": "tetra",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

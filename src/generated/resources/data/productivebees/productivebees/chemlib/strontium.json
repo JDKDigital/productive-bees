@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#c6bdcf",
+  "particleColor": "#d4c5d2",
+  "flowerBlock": "chemlib:strontium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/strontium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

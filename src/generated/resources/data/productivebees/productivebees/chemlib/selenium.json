@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#99bab8",
+  "particleColor": "#b6e3de",
+  "flowerItem": "chemlib:selenium",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/selenium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

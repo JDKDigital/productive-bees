@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#7ae7e0",
+  "secondaryColor": "#73d2dc",
+  "particleColor": "#7ae7e0",
+  "flowerTag": "forge:storage_blocks/slimesteel",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:storage_blocks/slimesteel",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

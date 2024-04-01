@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#ca7157",
+  "secondaryColor": "#804f40",
+  "particleColor": "#ca7157",
+  "flowerTag": "minecraft:leaves",
+  "conditions": [
+    {
+      "modid": "create",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

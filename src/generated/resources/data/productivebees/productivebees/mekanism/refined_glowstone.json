@@ -1,0 +1,11 @@
+{
+  "primaryColor": "#feee7c",
+  "secondaryColor": "#bb8d23",
+  "flowerTag": "forge:storage_blocks/refined_glowstone",
+  "conditions": [
+    {
+      "modid": "mekanism",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

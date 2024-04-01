@@ -1,0 +1,12 @@
+{
+  "primaryColor": "#b0adac",
+  "particleColor": "#ccc9c8",
+  "flowerBlock": "chemlib:cadmium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/cadmium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#fa9f98",
+  "secondaryColor": "#8a8a8a",
+  "particleColor": "#fa7d73",
+  "flowerFluid": "minecraft:water",
+  "waterproof": true,
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:salts",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ]
+}

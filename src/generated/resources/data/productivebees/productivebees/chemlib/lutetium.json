@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#d88087",
+  "particleColor": "#d49a9e",
+  "flowerBlock": "chemlib:lutetium_metal_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "beeTexture": "productivebees:textures/entity/bee/lutetium/bee",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

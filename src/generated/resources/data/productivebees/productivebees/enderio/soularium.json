@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#5b4223",
+  "secondaryColor": "#2a1d0a",
+  "particleColor": "#5b4223",
+  "flowerBlock": "enderio:soularium_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "conditions": [
+    {
+      "modid": "enderio",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

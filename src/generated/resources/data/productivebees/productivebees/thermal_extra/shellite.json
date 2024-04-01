@@ -1,0 +1,16 @@
+{
+  "primaryColor": "#6d2b7f",
+  "secondaryColor": "#924ab2",
+  "tertiaryColor": "#a65fcc",
+  "particleColor": "#c294e8",
+  "flowerBlock": "thermal_extra:shellite_block",
+  "description": "productivebees.ingredient.description.only_spawnegg",
+  "size": 0.7,
+  "selfbreed": false,
+  "conditions": [
+    {
+      "modid": "thermal_extra",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}

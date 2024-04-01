@@ -1,0 +1,13 @@
+{
+  "primaryColor": "#e6e6ea",
+  "particleColor": "#ffffff",
+  "flowerBlock": "chemlib:thorium_metal_block",
+  "beeTexture": "productivebees:textures/entity/bee/thorium/bee",
+  "breedingItem": "chemlib:thorium_ingot",
+  "conditions": [
+    {
+      "modid": "chemlib",
+      "type": "forge:mod_loaded"
+    }
+  ]
+}
