@@ -5,6 +5,7 @@
   "item": {
     "item": "minecraft:sculk"
   },
+  "chance": 30,
   "conditions": [
     {
       "type": "productivebees:bee_exists",

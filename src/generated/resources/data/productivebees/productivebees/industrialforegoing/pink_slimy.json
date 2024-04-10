@@ -13,7 +13,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "TagKey[minecraft:fluid / forge:pink_slime]",
+        "tag": "forge:pink_slime",
         "type": "productivebees:fluid_tag_empty"
       },
       "type": "forge:not"

@@ -79,7 +79,7 @@ public class BeeProvider implements DataProvider
         return "ProductiveBees bee data provider";
     }
 
-    private List<BeeConfig> getBeeConfigs() {
+    protected List<BeeConfig> getBeeConfigs() {
         return new ArrayList<>() {{
             add(new BeeConfig("amber").primaryColor("#fa9310").secondaryColor("#064f2c").tertiaryColor("#d4700e").particleColor("#fa9310").renderer("default_crystal").flowerTag("!productivebees:bee_encase_blacklist").flowerType("entity_types").noComb().size(0.7).postPollination("amber_encase"));
             add(new BeeConfig("coal").primaryColor("#222525").secondaryColor("#804f40").particleColor("#222525").flowerTag("forge:storage_blocks/coal").size(0.5));
@@ -519,7 +519,7 @@ public class BeeProvider implements DataProvider
         }};
     }
 
-    private Supplier<JsonElement> getBee(BeeConfig bee) {
+    public Supplier<JsonElement> getBee(BeeConfig bee) {
         return () -> {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("primaryColor", bee.primaryColor);
@@ -674,7 +674,7 @@ public class BeeProvider implements DataProvider
         };
     }
 
-    static class BeeConfig {
+    public static class BeeConfig {
         String name;
         String primaryColor = null;
         String secondaryColor = null;
@@ -723,215 +723,215 @@ public class BeeProvider implements DataProvider
         List<PassiveEffect> passiveEffects = new ArrayList<>();
         List<ICondition> conditions = new ArrayList<>();
 
-        BeeConfig(String name) {
+        public BeeConfig(String name) {
             this.name = name;
         }
 
-        BeeConfig primaryColor(String primaryColor) {
+        public BeeConfig primaryColor(String primaryColor) {
             this.primaryColor = primaryColor;
             return this;
         }
-        BeeConfig secondaryColor(String secondaryColor) {
+        public BeeConfig secondaryColor(String secondaryColor) {
             this.secondaryColor = secondaryColor;
             return this;
         }
-        BeeConfig tertiaryColor(String tertiaryColor) {
+        public BeeConfig tertiaryColor(String tertiaryColor) {
             this.tertiaryColor = tertiaryColor;
             return this;
         }
-        BeeConfig particleColor(String particleColor) {
+        public BeeConfig particleColor(String particleColor) {
             this.particleColor = particleColor;
             return this;
         }
-        BeeConfig particleType(String particleType) {
+        public BeeConfig particleType(String particleType) {
             this.particleType = particleType;
             return this;
         }
-        BeeConfig beeTexture(String beeTexture) {
+        public BeeConfig beeTexture(String beeTexture) {
             this.beeTexture = "productivebees:textures/entity/bee/" + beeTexture + "/bee";
             return this;
         }
-        BeeConfig description(String description) {
+        public BeeConfig description(String description) {
             this.description = description;
             return this;
         }
-        BeeConfig onlySpawnegg() {
+        public BeeConfig onlySpawnegg() {
             this.description = "productivebees.ingredient.description.only_spawnegg";
             return this;
         }
-        BeeConfig flowerTag(String flowerTag) {
+        public BeeConfig flowerTag(String flowerTag) {
             this.flowerTag = flowerTag;
             return this;
         }
-        BeeConfig flowerBlock(String flowerBlock) {
+        public BeeConfig flowerBlock(String flowerBlock) {
             this.flowerBlock = flowerBlock;
             return this;
         }
-        BeeConfig flowerItem(String flowerItem) {
+        public BeeConfig flowerItem(String flowerItem) {
             this.flowerItem = flowerItem;
             return this;
         }
-        BeeConfig flowerFluid(String flowerFluid) {
+        public BeeConfig flowerFluid(String flowerFluid) {
             this.flowerFluid = flowerFluid;
             return this;
         }
-        BeeConfig flowerType(String flowerType) {
+        public BeeConfig flowerType(String flowerType) {
             this.flowerType = flowerType;
             return this;
         }
-        BeeConfig renderer(String renderer) {
+        public BeeConfig renderer(String renderer) {
             this.renderer = renderer;
             return this;
         }
-        BeeConfig flipped() {
+        public BeeConfig flipped() {
             this.renderTransform = "flipped";
             return this;
         }
-        BeeConfig breedingItem(String breedingItem) {
+        public BeeConfig breedingItem(String breedingItem) {
             this.breedingItem = breedingItem;
             return this;
         }
-        BeeConfig breedingItemCount(Integer breedingItemCount) {
+        public BeeConfig breedingItemCount(Integer breedingItemCount) {
             this.breedingItemCount = breedingItemCount;
             return this;
         }
-        BeeConfig size(double size) {
+        public BeeConfig size(double size) {
             this.size = (float) size;
             return this;
         }
-        BeeConfig pollinatedSize(double pollinatedSize) {
+        public BeeConfig pollinatedSize(double pollinatedSize) {
             this.pollinatedSize = (float) pollinatedSize;
             return this;
         }
-        BeeConfig speed(double speed) {
+        public BeeConfig speed(double speed) {
             this.speed = (float) speed;
             return this;
         }
-        BeeConfig attack(double attack) {
+        public BeeConfig attack(double attack) {
             this.attack = attack;
             return this;
         }
-        BeeConfig attackResponse(String attackResponse) {
+        public BeeConfig attackResponse(String attackResponse) {
             this.attackResponse = attackResponse;
             return this;
         }
-        BeeConfig nestingPreference(String nestingPreference) {
+        public BeeConfig nestingPreference(String nestingPreference) {
             this.nestingPreference = nestingPreference;
             return this;
         }
-        BeeConfig postPollination(String postPollination) {
+        public BeeConfig postPollination(String postPollination) {
             this.postPollination = postPollination;
             return this;
         }
-        BeeConfig noComb() {
+        public BeeConfig noComb() {
             this.createComb = false;
             return this;
         }
-        BeeConfig noSelfBreed() {
+        public BeeConfig noSelfBreed() {
             this.selfBreed = false;
             return this;
         }
-        BeeConfig selfHeal() {
+        public BeeConfig selfHeal() {
             this.selfHeal = true;
             return this;
         }
-        BeeConfig inverseFlower() {
+        public BeeConfig inverseFlower() {
             this.inverseFlower = true;
             return this;
         }
-        BeeConfig translucent() {
+        public BeeConfig translucent() {
             this.translucent = true;
             return this;
         }
-        BeeConfig noGlow() {
+        public BeeConfig noGlow() {
             this.useGlowLayer = false;
             return this;
         }
-        BeeConfig teleporting() {
+        public BeeConfig teleporting() {
             this.teleporting = true;
             return this;
         }
-        BeeConfig redstoned() {
+        public BeeConfig redstoned() {
             this.redstoned = true;
             return this;
         }
-        BeeConfig irradiated() {
+        public BeeConfig irradiated() {
             this.irradiated = true;
             return this;
         }
-        BeeConfig slimy() {
+        public BeeConfig slimy() {
             this.slimy = true;
             return this;
         }
-        BeeConfig fireproof() {
+        public BeeConfig fireproof() {
             this.fireproof = true;
             return this;
         }
-        BeeConfig draconic() {
+        public BeeConfig draconic() {
             this.draconic = true;
             return this;
         }
-        BeeConfig withered() {
+        public BeeConfig withered() {
             this.withered = true;
             return this;
         }
-        BeeConfig blinding() {
+        public BeeConfig blinding() {
             this.blinding = true;
             return this;
         }
-        BeeConfig stringy() {
+        public BeeConfig stringy() {
             this.stringy = true;
             return this;
         }
-        BeeConfig waterproof() {
+        public BeeConfig waterproof() {
             this.waterproof = true;
             return this;
         }
-        BeeConfig coldResistant() {
+        public BeeConfig coldResistant() {
             this.coldResistant = true;
             return this;
         }
-        BeeConfig munchies() {
+        public BeeConfig munchies() {
             this.munchies = true;
             return this;
         }
-        BeeConfig stingless() {
+        public BeeConfig stingless() {
             this.stingless = true;
             return this;
         }
-        BeeConfig invulnerability(List<String> invulnerability) {
+        public BeeConfig invulnerability(List<String> invulnerability) {
             this.invulnerability = invulnerability;
             return this;
         }
-        BeeConfig attributes(Map<String, Integer> attributes) {
+        public BeeConfig attributes(Map<String, Integer> attributes) {
             this.attributes = attributes;
             return this;
         }
-        BeeConfig passiveEffects(List<PassiveEffect> effects) {
+        public BeeConfig passiveEffects(List<PassiveEffect> effects) {
             this.passiveEffects = effects;
             return this;
         }
-        BeeConfig requireMod(String modId) {
+        public BeeConfig requireMod(String modId) {
             this.conditions.add(new ModLoadedCondition(modId));
             return this;
         }
-        BeeConfig requireEitherMod(String modId, String modId2) {
+        public BeeConfig requireEitherMod(String modId, String modId2) {
             this.conditions.add(new OrCondition(new ModLoadedCondition(modId), new ModLoadedCondition(modId2)));
             return this;
         }
-        BeeConfig missingMod(String modId) {
+        public BeeConfig missingMod(String modId) {
             this.conditions.add(new NotCondition(new ModLoadedCondition(modId)));
             return this;
         }
-        BeeConfig requireTag(String tag) {
+        public BeeConfig requireTag(String tag) {
             this.conditions.add(new NotCondition(new TagEmptyCondition(tag)));
             return this;
         }
-        BeeConfig missingTag(String tag) {
+        public BeeConfig missingTag(String tag) {
             this.conditions.add(new TagEmptyCondition(tag));
             return this;
         }
-        BeeConfig requireFluidTag(String tag) {
+        public BeeConfig requireFluidTag(String tag) {
             this.conditions.add(new NotCondition(new FluidTagEmptyCondition(tag)));
             return this;
         }

@@ -5,7 +5,7 @@
       "loot_table_id": "minecraft:gameplay/sniffer_digging"
     }
   ],
-  "type": "productivebees:ingredient_modifier",
+  "type": "productivelib:ingredient_modifier",
   "chance": 0.15,
   "addition": {
     "type": "forge:nbt",

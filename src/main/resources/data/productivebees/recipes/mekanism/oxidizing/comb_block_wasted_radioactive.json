@@ -1,0 +1,28 @@
+{
+  "type": "mekanism:oxidizing",
+  "input": {
+    "ingredient": {
+      "type": "forge:nbt",
+      "item": "productivebees:configurable_comb",
+      "nbt": {
+        "EntityTag": {
+          "type": "productivebees:wasted_radioactive"
+        }
+      }
+    }
+  },
+  "output": {
+    "gas": "mekanism:nuclear_waste",
+    "amount": 400
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "mekanism"
+    },
+    {
+      "type": "productivebees:bee_exists",
+      "bee": "productivebees:wasted_radioactive"
+    }
+  ]
+}

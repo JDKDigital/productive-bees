@@ -49,7 +49,7 @@ public class FluidTagEmptyCondition implements ICondition
 
         @Override
         public void write(JsonObject json, FluidTagEmptyCondition value) {
-            json.addProperty("tag", value.tag_name.toString());
+            json.addProperty("tag", value.tag_name.location().toString());
         }
 
         @Override

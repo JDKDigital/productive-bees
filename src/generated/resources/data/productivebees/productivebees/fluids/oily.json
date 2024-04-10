@@ -8,7 +8,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "TagKey[minecraft:fluid / forge:crude_oil]",
+        "tag": "forge:crude_oil",
         "type": "productivebees:fluid_tag_empty"
       },
       "type": "forge:not"

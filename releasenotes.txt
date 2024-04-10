@@ -1,6 +1,9 @@
-1.20.1-12.4.7
+1.20.1-12.5.0
 
+- Added chance to BeeConversion recipe in JEI
 - Fixed honey output for reactor combs
+- Fixed cherry and mangrove wood nests not functioning as nests
+- Cleaned up a lot of data files
 
 
 1.20.1-12.4.6

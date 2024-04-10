@@ -181,7 +181,7 @@ public class ProductiveBeesJeiPlugin implements IModPlugin
                         description = Component.translatable(nbt.getString("description"));
                     } else {
                         description = Component.translatable("productivebees.ingredient.description." + beeId + "_bee");
-                        if (description.getString().isEmpty()) {
+                        if (description.getString().equals("productivebees.ingredient.description." + beeId + "_bee")) {
                             description = Component.literal("");
                         }
                     }

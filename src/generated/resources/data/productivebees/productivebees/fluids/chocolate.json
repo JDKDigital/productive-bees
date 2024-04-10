@@ -6,7 +6,7 @@
   "conditions": [
     {
       "value": {
-        "tag": "TagKey[minecraft:fluid / forge:chocolate]",
+        "tag": "forge:chocolate",
         "type": "productivebees:fluid_tag_empty"
       },
       "type": "forge:not"

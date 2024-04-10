@@ -5,7 +5,7 @@
       "loot_table_id": "minecraft:archaeology/ocean_ruin_cold"
     }
   ],
-  "type": "productivebees:ingredient_modifier",
+  "type": "productivelib:ingredient_modifier",
   "chance": 0.08,
   "replace": true,
   "addition": {

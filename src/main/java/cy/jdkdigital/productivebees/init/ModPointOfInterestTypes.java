@@ -52,6 +52,8 @@ public final class ModPointOfInterestTypes
         blocks.add(ModBlocks.DARK_OAK_WOOD_NEST);
         blocks.add(ModBlocks.JUNGLE_WOOD_NEST);
         blocks.add(ModBlocks.ACACIA_WOOD_NEST);
+        blocks.add(ModBlocks.CHERRY_WOOD_NEST);
+        blocks.add(ModBlocks.MANGROVE_WOOD_NEST);
         return blocks;
     }, 1);
 

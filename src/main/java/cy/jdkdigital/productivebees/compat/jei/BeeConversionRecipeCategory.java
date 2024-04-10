@@ -2,14 +2,19 @@ package cy.jdkdigital.productivebees.compat.jei;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.recipe.BeeConversionRecipe;
+import cy.jdkdigital.productivebees.common.recipe.BlockConversionRecipe;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -62,5 +67,13 @@ public class BeeConversionRecipeCategory implements IRecipeCategory<BeeConversio
         builder.addSlot(RecipeIngredientRole.INPUT, 10, 26)
                 .addItemStacks(Arrays.stream(recipe.item.getItems()).toList())
                 .setSlotName("conversionItems");
+    }
+
+    @Override
+    public void draw(BeeConversionRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        if (recipe.chance < 100) {
+            Minecraft minecraft = Minecraft.getInstance();
+            guiGraphics.drawString(minecraft.font, Language.getInstance().getVisualOrder(Component.translatable("jei.productivebees.block_conversion.chance", recipe.chance)), 0, 60, 0xFF000000, false);
+        }
     }
 }
