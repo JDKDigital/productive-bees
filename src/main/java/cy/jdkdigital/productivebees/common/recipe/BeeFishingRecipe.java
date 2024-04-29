@@ -48,6 +48,9 @@ public class BeeFishingRecipe implements Recipe<Container>
     }
 
     public boolean matches(Biome biome, Level level) {
+        if (this.biomes.isEmpty()) {
+            return true;
+        }
         var key = level.registryAccess().registryOrThrow(Registries.BIOME).getKey(biome);
         for (String biomeId: this.biomes) {
             if (key != null && key.toString().equals(biomeId)) {

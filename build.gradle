@@ -115,6 +115,7 @@ dependencies {
     implementation fg.deobf("curse.maven:jei-238222:4712868")
     implementation fg.deobf("curse.maven:jade-324717:5072729")
     implementation fg.deobf("curse.maven:the-one-probe-245211:4579432")
+    implementation fg.deobf("curse.maven:emi-580555:5204261")
     implementation fg.deobf("curse.maven:curios-309927:4985525")
     implementation fg.deobf("curse.maven:corail-woodcutter-331983:4573934")
     implementation fg.deobf("curse.maven:create-328085:4626108")
