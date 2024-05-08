@@ -1,3 +1,11 @@
+1.20.1-12.5.1
+
+- Fixed bee fishing not working when no biome is required
+- Added turtle scutes to wannabee drops
+- Added EMI defaults for better recipe chart view
+- Compressed texture file sizes
+
+
 1.20.1-12.5.0
 
 - Added chance to BeeConversion recipe in JEI

@@ -2,6 +2,7 @@
   "primaryColor": "#940e00",
   "secondaryColor": "#0f0f66",
   "particleColor": "#940e00",
+  "flowerTag": "minecraft:flowers",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "createComb": false,
   "selfbreed": false,

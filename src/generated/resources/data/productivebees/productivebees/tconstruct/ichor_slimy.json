@@ -2,6 +2,7 @@
   "primaryColor": "#fcb77b",
   "secondaryColor": "#ae3f00",
   "particleColor": "#fcb77b",
+  "flowerTag": "minecraft:flowers",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "beeTexture": "productivebees:textures/entity/bee/ichor_slimy/bee",
   "renderer": "translucent_with_center",

@@ -2,6 +2,7 @@
   "primaryColor": "#FFC0CB",
   "secondaryColor": "#FFFF00",
   "particleColor": "#FFC0CB",
+  "flowerTag": "minecraft:flowers",
   "createComb": false,
   "size": 0.6,
   "renderer": "thicc",

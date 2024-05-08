@@ -2,6 +2,7 @@
   "primaryColor": "#FFFF00",
   "secondaryColor": "#000001",
   "particleType": "pop",
+  "flowerTag": "minecraft:flowers",
   "createComb": false,
   "size": 0.2,
   "speed": 5.0,

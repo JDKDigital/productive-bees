@@ -1,6 +1,7 @@
 {
   "primaryColor": "#000001",
   "secondaryColor": "#d98b24",
+  "flowerTag": "minecraft:flowers",
   "size": 0.7,
   "attributes": {
     "endurance": 0

@@ -413,8 +413,8 @@ public class BeeProvider implements DataProvider
             add(new BeeConfig("irons_spellbooks/arcane_debris").primaryColor("#ffffff").secondaryColor("#c7c7c7").tertiaryColor("#999999").particleColor("#858585").beeTexture("arcane_debris").size(1).flowerBlock("irons_spellbooks:arcane_debris").requireMod("irons_spellbooks"));
             add(new BeeConfig("irons_spellbooks/arcane_essence").primaryColor("#7cd7ea").secondaryColor("#9938c3").tertiaryColor("#227c8f").particleColor("#7cd7ea").beeTexture("arcane_essence").size(0.8).flowerItem("irons_spellbooks:ruined_book").requireMod("irons_spellbooks"));
 
-            add(new BeeConfig("materials/plastic").primaryColor("#d3d3d3").secondaryColor("#535353").size(0.7).attributes(new HashMap<>(){{  put("endurance", 0); }}).requireTag("forge:plastic"));
-            add(new BeeConfig("materials/sticky_resin").primaryColor("#000001").secondaryColor("#d98b24").size(0.7).attributes(new HashMap<>(){{  put("endurance", 0); }})  .requireEitherMod("gtceu", "ic2"));
+            add(new BeeConfig("materials/plastic").primaryColor("#d3d3d3").secondaryColor("#535353").size(0.7).flowerTag("forge:plastic").attributes(new HashMap<>(){{  put("endurance", 0); }}).requireTag("forge:plastic"));
+            add(new BeeConfig("materials/sticky_resin").primaryColor("#000001").secondaryColor("#d98b24").size(0.7).attributes(new HashMap<>(){{  put("endurance", 0); }}).requireEitherMod("gtceu", "ic2"));
 
             add(new BeeConfig("mekanism/refined_glowstone").primaryColor("#feee7c").secondaryColor("#bb8d23").flowerTag("forge:storage_blocks/refined_glowstone").requireMod("mekanism"));
             add(new BeeConfig("mekanism/refined_obsidian").primaryColor("#5e5077").secondaryColor("#372856").flowerTag("forge:storage_blocks/refined_obsidian").requireMod("mekanism"));
@@ -547,6 +547,9 @@ public class BeeProvider implements DataProvider
             }
             if (bee.flowerFluid != null) {
                 jsonObject.addProperty("flowerFluid", bee.flowerFluid);
+            }
+            if (bee.flowerTag == null && bee.flowerBlock == null && bee.flowerItem == null && bee.flowerFluid == null) {
+                jsonObject.addProperty("flowerTag", "minecraft:flowers");
             }
             if (bee.nestingPreference != null) {
                 jsonObject.addProperty("nestingPreference", bee.nestingPreference);

@@ -1,5 +1,6 @@
 {
   "primaryColor": "#796565",
+  "flowerTag": "minecraft:flowers",
   "beeTexture": "productivebees:textures/entity/bee/zombie/bee",
   "speed": 0.8,
   "selfbreed": false,

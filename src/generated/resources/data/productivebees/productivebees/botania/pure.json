@@ -1,6 +1,7 @@
 {
   "primaryColor": "#fff8e3",
   "secondaryColor": "#bfb595",
+  "flowerTag": "minecraft:flowers",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "createComb": false,
   "size": 0.5,
