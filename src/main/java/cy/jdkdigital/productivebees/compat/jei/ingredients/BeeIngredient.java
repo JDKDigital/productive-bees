@@ -8,14 +8,16 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 public class BeeIngredient
 {
-    private static Map<BeeIngredient, Entity> cache = new HashMap<>();
+    private static final Map<BeeIngredient, WeakReference<Entity>> cache = new WeakHashMap<>();
 
-    private EntityType<? extends Entity> bee;
+    private final EntityType<? extends Entity> bee;
     private ResourceLocation beeType;
     private boolean configurable = false;
 
@@ -39,15 +41,20 @@ public class BeeIngredient
     }
 
     public Entity getCachedEntity(Level world) {
-        if (!cache.containsKey(this)) {
-            Entity newBee = getBeeEntity().create(world);
-            if (newBee instanceof ConfigurableBee) {
-                ((ConfigurableBee) newBee).setBeeType(getBeeType().toString());
-                ((ConfigurableBee) newBee).setDefaultAttributes();
-            }
-            cache.put(this, newBee);
+        Entity entity = null;
+        WeakReference<Entity> entityRef = cache.get(this);
+        if (entityRef != null) {
+            entity = entityRef.get();
         }
-        return cache.getOrDefault(this, null);
+        if (entity == null) {
+            entity = getBeeEntity().create(world);
+            if (entity instanceof ConfigurableBee) {
+                ((ConfigurableBee) entity).setBeeType(getBeeType().toString());
+                ((ConfigurableBee) entity).setDefaultAttributes();
+            }
+            cache.put(this, new WeakReference<>(entity));
+        }
+        return entity;
     }
 
     /**
