@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
+import cy.jdkdigital.productivelib.common.block.entity.AbstractBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -15,7 +17,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -67,8 +68,8 @@ public class AmberBlockEntity extends AbstractBlockEntity
         return null;
     }
 
-    public void savePacketNBT(CompoundTag tag) {
-        super.savePacketNBT(tag);
+    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.savePacketNBT(tag, provider);
 
         if (entityTag != null) {
             tag.put("EntityData", entityTag);
@@ -76,8 +77,8 @@ public class AmberBlockEntity extends AbstractBlockEntity
         tag.putInt("meltCounter", meltCounter);
     }
 
-    public void loadPacketNBT(CompoundTag tag) {
-        super.loadPacketNBT(tag);
+    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadPacketNBT(tag, provider);
         if (tag.contains("EntityData")) {
             this.entityTag = tag.getCompound("EntityData");
         }

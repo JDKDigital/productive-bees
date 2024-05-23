@@ -13,7 +13,9 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class JarBlockEntityRenderer implements BlockEntityRenderer<JarBlockEntity>
 {
@@ -21,20 +23,21 @@ public class JarBlockEntityRenderer implements BlockEntityRenderer<JarBlockEntit
     }
 
     @Override
-    public void render(JarBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(JarBlockEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         boolean shouldRender = ProductiveBeesConfig.CLIENT.renderBeesInJars.get();
         if (shouldRender) {
-            tileEntityIn.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                if (!handler.getStackInSlot(0).isEmpty()) {
-                    ItemStack cage = handler.getStackInSlot(0);
+            IItemHandler invHandler = blockEntity.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), null);
+            if (invHandler instanceof ItemStackHandler) {
+                if (!invHandler.getStackInSlot(0).isEmpty()) {
+                    ItemStack cage = invHandler.getStackInSlot(0);
                     if (cage.getItem() instanceof BeeCage && BeeCage.isFilled(cage)) {
-                        Entity bee = tileEntityIn.getCachedEntity(cage);
+                        Entity bee = blockEntity.getCachedEntity(cage);
                         if (bee instanceof Bee) {
                             renderBee(bee, partialTicks, matrixStack);
                         }
                     }
                 }
-            });
+            }
         }
     }
 

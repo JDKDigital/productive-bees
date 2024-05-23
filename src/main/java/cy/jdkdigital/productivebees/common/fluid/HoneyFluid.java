@@ -17,11 +17,11 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 
 import javax.annotation.Nullable;
 
-public abstract class HoneyFluid extends ForgeFlowingFluid
+public abstract class HoneyFluid extends BaseFlowingFluid
 {
     public static final ResourceLocation STILL = new ResourceLocation(ProductiveBees.MODID, "block/honey/still");
     public static final ResourceLocation FLOWING = new ResourceLocation(ProductiveBees.MODID, "block/honey/flow");

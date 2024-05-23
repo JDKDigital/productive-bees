@@ -8,8 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
 
     @Override
     public void render(@Nonnull GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
+        this.renderBackground(matrixStack, mouseX, mouseY, partialTicks);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }
@@ -35,34 +34,28 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
         guiGraphics.drawString(font, this.title, -5, 6, 4210752, false);
         guiGraphics.drawString(font, this.playerInventoryTitle, -5, (this.getYSize() - 96 + 2), 4210752, false);
 
-        this.menu.tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(handler -> {
-            FluidStack fluidStack = handler.getFluidInTank(0);
+        FluidStack fluidStack = this.menu.tileEntity.fluidInventory.getFluidInTank(0);
+        // Fluid level tooltip
+        if (isHovering(129, 16, 6, 54, mouseX, mouseY)) {
+            List<FormattedCharSequence> tooltipList = new ArrayList<>();
 
-            // Fluid level tooltip
-            if (isHovering(129, 16, 6, 54, mouseX, mouseY)) {
-                List<FormattedCharSequence> tooltipList = new ArrayList<>();
-
-                if (fluidStack.getAmount() > 0) {
-                    tooltipList.add(Component.translatable("productivebees.screen.fluid_level", Component.translatable(fluidStack.getTranslationKey()).getString(), fluidStack.getAmount() + "mB").getVisualOrderText());
-                } else {
-                    tooltipList.add(Component.translatable("productivebees.screen.empty").getVisualOrderText());
-                }
-
-                guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
+            if (fluidStack.getAmount() > 0) {
+                tooltipList.add(Component.translatable("productivebees.screen.fluid_level", fluidStack.getHoverName().getString(), fluidStack.getAmount() + "mB").getVisualOrderText());
+            } else {
+                tooltipList.add(Component.translatable("productivebees.screen.empty").getVisualOrderText());
             }
-        });
 
-        this.menu.tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
-            int energyAmount = handler.getEnergyStored();
+            guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
+        }
 
-            // Energy level tooltip
-            if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
-                List<FormattedCharSequence> tooltipList = new ArrayList<>();
-                tooltipList.add(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
+        int energyAmount = this.menu.tileEntity.energyHandler.getEnergyStored();
+        // Energy level tooltip
+        if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
+            List<FormattedCharSequence> tooltipList = new ArrayList<>();
+            tooltipList.add(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
 
-                guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
-            }
-        });
+            guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
+        }
     }
 
     @Override
@@ -72,19 +65,15 @@ public class HoneyGeneratorScreen extends AbstractContainerScreen<HoneyGenerator
 
         // Draw energy level
         guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
-        this.menu.tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
-            float energyAmount = (float) handler.getEnergyStored();
-            int energyLevel = (int) (energyAmount * (52f / (float) handler.getMaxEnergyStored()));
-            guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
-        });
+        float energyAmount = (float) this.menu.tileEntity.energyHandler.getEnergyStored();
+        int energyLevel = (int) (energyAmount * (52f / (float) this.menu.tileEntity.energyHandler.getMaxEnergyStored()));
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
 
         // Draw fluid tank
-        this.menu.tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(handler -> {
-            FluidStack fluidStack = handler.getFluidInTank(0);
+        FluidStack fluidStack = this.menu.tileEntity.fluidInventory.getFluidInTank(0);
 
-            if (fluidStack.getAmount() > 0) {
-                FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, handler.getTankCapacity(0), 127, 17, 4, 52, 0);
-            }
-        });
+        if (fluidStack.getAmount() > 0) {
+            FluidContainerUtil.renderFluidTank(guiGraphics, this, fluidStack, this.menu.tileEntity.fluidInventory.getTankCapacity(0), 127, 17, 4, 52, 0);
+        }
     }
 }

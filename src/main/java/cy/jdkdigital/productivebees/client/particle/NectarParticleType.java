@@ -1,44 +1,33 @@
 package cy.jdkdigital.productivebees.client.particle;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class NectarParticleType extends ParticleType<NectarParticleType> implements ParticleOptions
 {
+    private final MapCodec<NectarParticleType> codec = MapCodec.unit(this::getType);
+    private final StreamCodec<RegistryFriendlyByteBuf, NectarParticleType> streamCodec = StreamCodec.unit(this);
+
     private float[] color = null;
 
-    private static final Deserializer<NectarParticleType> DESERIALIZER = new Deserializer<NectarParticleType>()
-    {
-        @Nonnull
-        @Override
-        public NectarParticleType fromCommand(@Nonnull ParticleType<NectarParticleType> particleType, @Nonnull StringReader stringReader) throws CommandSyntaxException {
-            return (NectarParticleType) particleType;
-        }
-
-        @Nonnull
-        @Override
-        public NectarParticleType fromNetwork(@Nonnull ParticleType<NectarParticleType> particleType, @Nonnull FriendlyByteBuf buffer) {
-            return (NectarParticleType) particleType;
-        }
-    };
-
-    private final Codec<NectarParticleType> codec = Codec.unit(this::getType);
-
     @Override
-    public Codec<NectarParticleType> codec() {
+    public MapCodec<NectarParticleType> codec() {
         return codec;
     }
 
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, NectarParticleType> streamCodec() {
+        return streamCodec;
+    }
+
     public NectarParticleType() {
-        super(false, DESERIALIZER);
+        super(false);
     }
 
     public void setColor(float[] color) {
@@ -54,15 +43,5 @@ public class NectarParticleType extends ParticleType<NectarParticleType> impleme
     @Override
     public NectarParticleType getType() {
         return this;
-    }
-
-    @Override
-    public void writeToNetwork(@Nonnull FriendlyByteBuf packetBuffer) {
-    }
-
-    @Nonnull
-    @Override
-    public String writeToString() {
-        return ForgeRegistries.PARTICLE_TYPES.getKey(this).toString();
     }
 }

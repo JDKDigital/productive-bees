@@ -4,10 +4,10 @@
     "tag": "forge:honey",
     "amount": 250
   },
-  "input": {
+  "ingredient": {
     "item": "minecraft:honeycomb"
   },
-  "output": {
+  "result": {
     "item": "productivebees:honey_treat"
   }
 }

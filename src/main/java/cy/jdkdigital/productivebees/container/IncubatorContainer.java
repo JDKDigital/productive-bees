@@ -12,8 +12,6 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,42 +22,40 @@ public class IncubatorContainer extends AbstractContainer
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_CATALYST = 1;
     public static final int SLOT_OUTPUT = 2;
-    public final IncubatorBlockEntity tileEntity;
+    public final IncubatorBlockEntity blockEntity;
 
     public final ContainerLevelAccess canInteractWithCallable;
 
     public IncubatorContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
-        this(windowId, playerInventory, getTileEntity(playerInventory, data));
+        this(windowId, playerInventory, getBlockEntity(playerInventory, data));
     }
 
-    public IncubatorContainer(final int windowId, final Inventory playerInventory, final IncubatorBlockEntity tileEntity) {
-        this(ModContainerTypes.INCUBATOR.get(), windowId, playerInventory, tileEntity);
+    public IncubatorContainer(final int windowId, final Inventory playerInventory, final IncubatorBlockEntity blockEntity) {
+        this(ModContainerTypes.INCUBATOR.get(), windowId, playerInventory, blockEntity);
     }
 
-    public IncubatorContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final IncubatorBlockEntity tileEntity) {
+    public IncubatorContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final IncubatorBlockEntity blockEntity) {
         super(type, windowId);
 
-        this.tileEntity = tileEntity;
-        this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
+        this.blockEntity = blockEntity;
+        this.canInteractWithCallable = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
 
         // Energy
         addDataSlot(new DataSlot()
         {
             @Override
             public int get() {
-                return tileEntity.getCapability(ForgeCapabilities.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+                return blockEntity.energyHandler.getEnergyStored();
             }
 
             @Override
             public void set(int value) {
-                tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
-                    if (handler.getEnergyStored() > 0) {
-                        handler.extractEnergy(handler.getEnergyStored(), false);
-                    }
-                    if (value > 0) {
-                        handler.receiveEnergy(value, false);
-                    }
-                });
+                if (blockEntity.energyHandler.getEnergyStored() > 0) {
+                    blockEntity.energyHandler.extractEnergy(blockEntity.energyHandler.getEnergyStored(), false);
+                }
+                if (value > 0) {
+                    blockEntity.energyHandler.receiveEnergy(value, false);
+                }
             }
         });
 
@@ -67,36 +63,32 @@ public class IncubatorContainer extends AbstractContainer
         {
             @Override
             public int get() {
-                return tileEntity.recipeProgress;
+                return blockEntity.recipeProgress;
             }
 
             @Override
             public void set(int value) {
-                tileEntity.recipeProgress = value;
+                blockEntity.recipeProgress = value;
             }
         });
 
-        this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_INPUT, 52 - 13, 35));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_CATALYST, 80 - 13, 53));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_OUTPUT, 108 - 13, 35));
-        });
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_INPUT, 52 - 13, 35));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_CATALYST, 80 - 13, 53));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_OUTPUT, 108 - 13, 35));
 
-        this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
-            addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
-        });
+        addSlotBox(this.blockEntity.getUpgradeHandler(), 0, 165, 8, 1, 18, 4, 18);
 
         layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
     }
 
-    private static IncubatorBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
+    private static IncubatorBlockEntity getBlockEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
         final BlockEntity tileAtPos = playerInventory.player.level().getBlockEntity(data.readBlockPos());
         if (tileAtPos instanceof IncubatorBlockEntity) {
             return (IncubatorBlockEntity) tileAtPos;
         }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+        throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
     }
 
     @Override
@@ -106,6 +98,6 @@ public class IncubatorContainer extends AbstractContainer
 
     @Override
     protected BlockEntity getBlockEntity() {
-        return tileEntity;
+        return blockEntity;
     }
 }

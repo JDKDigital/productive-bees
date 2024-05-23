@@ -4,11 +4,11 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivelib.common.item.AbstractUpgradeItem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -20,14 +20,14 @@ public class UpgradeItem extends AbstractUpgradeItem
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flagIn) {
-        super.appendHoverText(stack, world, tooltip, flagIn);
+    public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTooltipComponents, pTooltipFlag);
 
-        if (stack.getItem().equals(ModItems.UPGRADE_FILTER.get())) {
+        if (pStack.getItem().equals(ModItems.UPGRADE_FILTER.get())) {
             return;
         }
 
-        String upgradeType = ForgeRegistries.ITEMS.getKey(stack.getItem()).getPath();
+        String upgradeType = BuiltInRegistries.ITEM.getKey(pStack.getItem()).getPath();
 
         double value = switch (upgradeType) {
             case "upgrade_breeding" -> ProductiveBeesConfig.UPGRADES.breedingChance.get();
@@ -39,7 +39,7 @@ public class UpgradeItem extends AbstractUpgradeItem
             default -> 0.0F;
         };
 
-        tooltip.add(Component.translatable("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).withStyle(ChatFormatting.GOLD));
-        tooltip.add(Component.translatable("productivebees.information.upgrade.install_help").withStyle(ChatFormatting.GREEN));
+        pTooltipComponents.add(Component.translatable("productivebees.information.upgrade." + upgradeType, (int) (value * 100)).withStyle(ChatFormatting.GOLD));
+        pTooltipComponents.add(Component.translatable("productivebees.information.upgrade.install_help").withStyle(ChatFormatting.GREEN));
     }
 }

@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.event;
 
+import com.mojang.serialization.DataResult;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.model.BeeNestHelmetModel;
 import cy.jdkdigital.productivebees.client.render.entity.DyeBeeRenderer;
@@ -36,25 +37,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Map;
 
-@Mod.EventBusSubscriber(modid = ProductiveBees.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ProductiveBees.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class ClientSetupEvents
 {
     @SubscribeEvent
     public static void tabContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(ProductiveBees.TAB_KEY)) {
-            for (RegistryObject<Item> item: ModItems.ITEMS.getEntries()) {
+            for (DeferredHolder<Item, ? extends Item> item: ProductiveBees.ITEMS.getEntries()) {
                 if (
                         !item.equals(ModItems.CONFIGURABLE_HONEYCOMB) &&
                         !item.equals(ModItems.CONFIGURABLE_COMB_BLOCK) &&
@@ -107,9 +108,9 @@ public class ClientSetupEvents
         }
 
         if (event.getTabKey().equals(ProductiveBees.TAB_KEY) || event.getTabKey().equals(CreativeModeTabs.SPAWN_EGGS)) {
-            for (RegistryObject<Item> spawnEgg: ModItems.SPAWN_EGGS) {
+            for (DeferredHolder<Item, ? extends Item> spawnEgg: ModItems.SPAWN_EGGS) {
                 if (!spawnEgg.equals(ModItems.CONFIGURABLE_SPAWN_EGG)) {
-                    event.accept(spawnEgg);
+                    event.accept(new ItemStack(spawnEgg));
                 }
             }
             for (Map.Entry<String, CompoundTag> entry : BeeReloadListener.INSTANCE.getData().entrySet()) {
@@ -153,12 +154,12 @@ public class ClientSetupEvents
         }, ModBlocks.BUMBLE_BEE_NEST.get());
 
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
-            if (FMLLoader.getLaunchHandler().isData() || ModList.get().isLoaded(modid)) {
+            if (!FMLLoader.isProduction() || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     if (!type.hasTexture()) {
                         name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
-                        TextColor primary = TextColor.parseColor(type.primary());
-                        event.register((stack, tintIndex) -> tintIndex == 0 ? primary.getValue() : -1, ModBlocks.HIVES.get("advanced_" + name + "_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + name).get());
+                        DataResult<TextColor> primary = TextColor.parseColor(type.primary());
+                        event.register((stack, tintIndex) -> tintIndex == 0 ? primary.result().get().getValue() : -1, ModBlocks.HIVES.get("advanced_" + name + "_beehive").get(), ModBlocks.EXPANSIONS.get("expansion_box_" + name).get());
                     }
                 });
             }
@@ -183,7 +184,7 @@ public class ClientSetupEvents
             return lightReader != null && pos != null ? BiomeColors.getAverageGrassColor(lightReader, pos) : GrassColor.get(0.5D, 1.0D);
         }, ModBlocks.BUMBLE_BEE_NEST.get());
 
-        for (RegistryObject<Block> registryBlock : ModBlocks.BLOCKS.getEntries()) {
+        for (DeferredHolder<Block, ? extends Block> registryBlock : ProductiveBees.BLOCKS.getEntries()) {
             Block block = registryBlock.get();
             if (block instanceof CombBlock) {
                 event.register((blockState, lightReader, pos, tintIndex) -> tintIndex == 0 ? ((CombBlock) block).getColor(lightReader, pos) : -1, block);
@@ -194,7 +195,7 @@ public class ClientSetupEvents
         }
 
         ModBlocks.HIVELIST.forEach((modid, strings) -> {
-            if (FMLLoader.getLaunchHandler().isData() || ModList.get().isLoaded(modid)) {
+            if (!FMLLoader.isProduction() || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     if (!type.hasTexture()) {
                         name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
@@ -239,7 +240,7 @@ public class ClientSetupEvents
 
     @SubscribeEvent
     public static void registerEntityRendering(EntityRenderersEvent.RegisterRenderers event) {
-        for (RegistryObject<EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
+        for (DeferredHolder<EntityType<?>, ? extends EntityType<?>> registryObject : ModEntities.HIVE_BEES.getEntries()) {
             EntityType<?> bee = registryObject.get();
             String key = bee.getDescriptionId();
             if (key.contains("dye_bee")) {
@@ -253,7 +254,7 @@ public class ClientSetupEvents
             }
         }
 
-        for (RegistryObject<EntityType<?>> registryObject : ModEntities.SOLITARY_BEES.getEntries()) {
+        for (DeferredHolder<EntityType<?>, ? extends EntityType<?>> registryObject : ModEntities.SOLITARY_BEES.getEntries()) {
             event.registerEntityRenderer((EntityType<? extends ProductiveBee>) registryObject.get(), ProductiveBeeRenderer::new);
         }
 

@@ -12,7 +12,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
@@ -55,12 +54,12 @@ public class CryoStasisScreen extends AbstractContainerScreen<CryoStasisContaine
     @Override
     protected void containerTick() {
         super.containerTick();
-        this.searchBox.tick();
+//        this.searchBox.tick();
     }
 
     @Override
     public void render(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(guiGraphics);
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
 
@@ -78,14 +77,6 @@ public class CryoStasisScreen extends AbstractContainerScreen<CryoStasisContaine
 
         List<FormattedCharSequence> tooltipList = new ArrayList<>();
 
-        // Empty cage slot
-        if (isHovering(108, 41, 18, 18, mouseX, mouseY)) {
-            this.menu.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                if (handler.getStackInSlot(CryoStasisBlockEntity.SLOT_CAGE).isEmpty()) {
-                    tooltipList.add(Component.translatable("productivebees.breeding_chamber.tooltip.cage").getVisualOrderText());
-                }
-            });
-        }
         guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
     }
 

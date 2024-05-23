@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.dispenser;
 
 import cy.jdkdigital.productivebees.common.block.AdvancedBeehive;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -21,13 +21,13 @@ import net.minecraft.world.phys.AABB;
 
 public class ShearsDispenseItemBehavior extends OptionalDispenseItemBehavior  {
     @Override
-    protected ItemStack execute(BlockSource blockSource, ItemStack stack) {
-        Level level = blockSource.getLevel();
+    protected ItemStack execute(BlockSource pBlockSource, ItemStack stack) {
+        Level level = pBlockSource.level();
         if (!level.isClientSide()) {
-            BlockPos blockpos = blockSource.getPos().relative(blockSource.getBlockState().getValue(DispenserBlock.FACING));
+            BlockPos blockpos = pBlockSource.pos().relative(pBlockSource.state().getValue(DispenserBlock.FACING));
             this.setSuccess(tryShearBeehive(level, blockpos) || tryShearLivingEntity(level, blockpos));
-            if (this.isSuccess() && stack.hurt(1, level.getRandom(), null)) {
-                stack.setCount(0);
+            if (this.isSuccess()) {
+                stack.hurtAndBreak(1, level.getRandom(), null, () -> stack.setCount(0));
             }
         }
         return stack;

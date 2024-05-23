@@ -9,7 +9,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
 {
@@ -25,17 +24,15 @@ public class DragonEggHiveBlockEntity extends AdvancedBeehiveBlockEntity
 
                 // Auto harvest if empty bottles are in
                 if (honeyLevel >= 5) {
-                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-                        ItemStack bottles = inv.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
-                        if (!bottles.isEmpty()) {
-                            final ItemStack filledBottle = new ItemStack(Items.DRAGON_BREATH);
-                            boolean addedBottle = ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(filledBottle).getCount() == 0;
-                            if (addedBottle) {
-                                bottles.shrink(1);
-                                level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
-                            }
+                    ItemStack bottles = blockEntity.inventoryHandler.getStackInSlot(InventoryHandlerHelper.BOTTLE_SLOT);
+                    if (!bottles.isEmpty()) {
+                        final ItemStack filledBottle = new ItemStack(Items.DRAGON_BREATH);
+                        boolean addedBottle = ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(filledBottle).getCount() == 0;
+                        if (addedBottle) {
+                            bottles.shrink(1);
+                            level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
                         }
-                    });
+                    }
                 }
             }
         }

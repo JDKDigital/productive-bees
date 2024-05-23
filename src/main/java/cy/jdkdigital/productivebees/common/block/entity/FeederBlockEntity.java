@@ -4,9 +4,12 @@ import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.container.FeederContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
+import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -30,11 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,7 +45,7 @@ public class FeederBlockEntity extends CapabilityBlockEntity
     public Block baseBlock;
     private int tickCounter = 0;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler;
+    public IItemHandlerModifiable inventoryHandler;
 
     public FeederBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.FEEDER.get(), pos, state);
@@ -81,22 +80,13 @@ public class FeederBlockEntity extends CapabilityBlockEntity
     }
 
     public List<ItemStack> getInventoryItems() {
-        return inventoryHandler.map(h -> {
-            List<ItemStack> items = new ArrayList<>();
-            for (int slot = 0; slot < h.getSlots(); ++slot) {
-                items.add(h.getStackInSlot(slot));
+        List<ItemStack> items = new ArrayList<>();
+        for (int slot = 0; slot < inventoryHandler.getSlots(); ++slot) {
+            if (!inventoryHandler.getStackInSlot(slot).isEmpty()) {
+                items.add(inventoryHandler.getStackInSlot(slot));
             }
-            return items;
-        }).filter(itemStacks -> !itemStacks.isEmpty()).orElse(new ArrayList<>());
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventoryHandler.cast();
         }
-        return super.getCapability(cap, side);
+        return items;
     }
 
     @Nonnull
@@ -128,25 +118,25 @@ public class FeederBlockEntity extends CapabilityBlockEntity
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag) {
-        super.savePacketNBT(tag);
+    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.savePacketNBT(tag, provider);
 
         if (baseBlock != null) {
-            tag.putString("baseBlock", ForgeRegistries.BLOCKS.getKey(baseBlock).toString());
+            tag.putString("baseBlock", BuiltInRegistries.BLOCK.getKey(baseBlock).toString());
         }
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag) {
-        super.loadPacketNBT(tag);
+    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadPacketNBT(tag, provider);
 
         if (tag.contains("baseBlock")) {
-            baseBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(tag.getString("baseBlock")));
+            baseBlock = BuiltInRegistries.BLOCK.get(new ResourceLocation(tag.getString("baseBlock")));
         }
     }
 
     public void refreshInventoryHandler() {
-        this.inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(isDouble() ? 6 : 3, this)
+        this.inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(isDouble() ? 6 : 3, this)
         {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
@@ -175,6 +165,6 @@ public class FeederBlockEntity extends CapabilityBlockEntity
                 super.onContentsChanged(slot);
                 setChanged();
             }
-        });
+        };
     }
 }

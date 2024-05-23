@@ -25,8 +25,8 @@ import java.util.function.Supplier;
 
 public class CanvasBeehive extends AdvancedBeehive
 {
-    public CanvasBeehive(Properties properties, Supplier<BlockEntityType<AdvancedBeehiveBlockEntity>> blockEntitySupplier) {
-        super(properties, blockEntitySupplier);
+    public CanvasBeehive(Properties properties) {
+        super(properties);
     }
 
     @Nullable

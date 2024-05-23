@@ -3,38 +3,35 @@ package cy.jdkdigital.productivebees.dispenser;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.init.ModItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 
 public class CageDispenseBehavior extends OptionalDispenseItemBehavior {
     private final DefaultDispenseItemBehavior fallbackDispenseBehavior = new DefaultDispenseItemBehavior();
 
     @Override
-    public ItemStack execute(BlockSource source, ItemStack stack) {
+    protected ItemStack execute(BlockSource pBlockSource, ItemStack stack) {
         if (stack.getItem() instanceof BeeCage && BeeCage.isFilled(stack)) {
-            Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
+            Direction direction = pBlockSource.state().getValue(DispenserBlock.FACING);
 
-            Bee entity = BeeCage.getEntityFromStack(stack, source.getLevel(), true);
+            Bee entity = BeeCage.getEntityFromStack(stack, pBlockSource.level(), true);
             if (entity != null) {
                 entity.hivePos = null;
 
-                BlockPos spawnPos = source.getPos().relative(direction);
+                BlockPos spawnPos = pBlockSource.pos().relative(direction);
 
                 entity.setPos(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5);
 
-                if (source.getLevel().addFreshEntity(entity)) {
+                if (pBlockSource.level().addFreshEntity(entity)) {
                     if (stack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
-                        if (source.getLevel().getBlockEntity(source.getPos()) instanceof DispenserBlockEntity dispenser) {
-                            if (dispenser.addItem(new ItemStack(ModItems.STURDY_BEE_CAGE.get())) < 0) {
-                                Block.popResource(source.getLevel(), source.getPos().above(), new ItemStack(ModItems.STURDY_BEE_CAGE.get()));
-                            }
+                        if (pBlockSource.blockEntity().addItem(new ItemStack(ModItems.STURDY_BEE_CAGE.get())) < 0) {
+                            Block.popResource(pBlockSource.level(), pBlockSource.pos().above(), new ItemStack(ModItems.STURDY_BEE_CAGE.get()));
                         }
                     }
                     stack.shrink(1);
@@ -44,6 +41,6 @@ public class CageDispenseBehavior extends OptionalDispenseItemBehavior {
                 }
             }
         }
-        return fallbackDispenseBehavior.dispense(source, stack);
+        return fallbackDispenseBehavior.dispense(pBlockSource, stack);
     }
 }

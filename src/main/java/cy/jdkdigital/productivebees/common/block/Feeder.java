@@ -5,12 +5,10 @@ import cy.jdkdigital.productivebees.init.ModFluids;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -34,8 +32,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -109,20 +105,19 @@ public class Feeder extends SlabBlock implements EntityBlock
         // Refresh inventory handler
         if (level.getBlockEntity(pos) instanceof FeederBlockEntity feederBlockEntity) {
             var nbt = new CompoundTag();
-            feederBlockEntity.savePacketNBT(nbt);
+            feederBlockEntity.savePacketNBT(nbt, level.registryAccess());
             feederBlockEntity.refreshInventoryHandler();
-            feederBlockEntity.loadPacketNBT(nbt);
+            feederBlockEntity.loadPacketNBT(nbt, level.registryAccess());
         }
     }
 
-    @Nonnull
     @Override
-    public ItemStack pickupBlock(LevelAccessor world, BlockPos pos, BlockState state) {
-        if (state.getValue(HONEYLOGGED)) {
-            world.setBlock(pos, state.setValue(HONEYLOGGED, false).setValue(BlockStateProperties.WATERLOGGED, false), 3);
+    public ItemStack pickupBlock(@Nullable Player pPlayer, LevelAccessor pLevel, BlockPos pPos, BlockState pState) {
+        if (pState.getValue(HONEYLOGGED)) {
+            pLevel.setBlock(pPos, pState.setValue(HONEYLOGGED, false).setValue(BlockStateProperties.WATERLOGGED, false), 3);
             return new ItemStack(ModItems.HONEY_BUCKET.get());
         }
-        return super.pickupBlock(world, pos, state);
+        return super.pickupBlock(pPlayer, pLevel, pPos, pState);
     }
 
     @SuppressWarnings("deprecation")
@@ -138,40 +133,40 @@ public class Feeder extends SlabBlock implements EntityBlock
     public void onRemove(BlockState oldState, @Nonnull Level worldIn, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
         if (oldState.getBlock() != newState.getBlock()) {
             BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-            if (tileEntity instanceof FeederBlockEntity) {
+            if (tileEntity instanceof FeederBlockEntity feederBlockEntity) {
                 // Drop inventory
-                tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                    for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                        Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(slot));
-                    }
-                });
+                for (int slot = 0; slot < feederBlockEntity.inventoryHandler.getSlots(); ++slot) {
+                    Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), feederBlockEntity.inventoryHandler.getStackInSlot(slot));
+                }
             }
         }
         super.onRemove(oldState, worldIn, pos, newState, isMoving);
     }
 
-    @SuppressWarnings("deprecation")
-    @Nonnull
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        ItemStack heldItem = player.getItemInHand(handIn);
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        ItemStack heldItem = pPlayer.getItemInHand(pHand);
         if (heldItem.getItem() instanceof BlockItem) {
             Block heldBlock = ((BlockItem) heldItem.getItem()).getBlock();
             if (heldBlock instanceof SlabBlock && !(heldBlock instanceof Feeder)) {
-                final BlockEntity blockEntity = world.getBlockEntity(pos);
+                final BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
                 if (blockEntity instanceof FeederBlockEntity) {
                     ((FeederBlockEntity) blockEntity).baseBlock = heldBlock;
                     blockEntity.setChanged();
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 }
             }
         }
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
 
-        if (!world.isClientSide()) {
-            final BlockEntity tileEntity = world.getBlockEntity(pos);
+    @Override
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (!pLevel.isClientSide()) {
+            final BlockEntity tileEntity = pLevel.getBlockEntity(pos);
 
             if (tileEntity instanceof FeederBlockEntity) {
-                openGui((ServerPlayer) player, (FeederBlockEntity) tileEntity);
+                openGui((ServerPlayer) pPlayer, (FeederBlockEntity) tileEntity);
             }
         }
         return InteractionResult.SUCCESS;
@@ -183,6 +178,6 @@ public class Feeder extends SlabBlock implements EntityBlock
     }
 
     public void openGui(ServerPlayer player, FeederBlockEntity tileEntity) {
-        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        player.openMenu(tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

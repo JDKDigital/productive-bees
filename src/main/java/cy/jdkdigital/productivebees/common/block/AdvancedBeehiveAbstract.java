@@ -1,11 +1,13 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import cy.jdkdigital.productivebees.capabilities.BeeCapabilities;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
-import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
-import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
+import cy.jdkdigital.productivebees.capabilities.bee.CapabilityBee;
+import cy.jdkdigital.productivebees.capabilities.bee.IInhabitantStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -21,9 +23,11 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.WitherSkull;
 import net.minecraft.world.entity.vehicle.MinecartTNT;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -58,39 +62,36 @@ public abstract class AdvancedBeehiveAbstract extends BaseEntityBlock
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
-        BlockEntity te = world.getBlockEntity(pos);
-        return te != null ? te.getCapability(CapabilityBee.BEE).map(IInhabitantStorage::countInhabitants).orElse(0) : 0;
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        BlockEntity te = level.getBlockEntity(pos);
+        IInhabitantStorage inhabitant = level.getCapability(BeeCapabilities.InhabitantHandler.BLOCK, pos, null);
+        return inhabitant != null ? inhabitant.countInhabitants() : 0;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTootipComponents, TooltipFlag pTooltipFlag) {
+        super.appendHoverText(pStack, pContext, pTootipComponents, pTooltipFlag);
 
-        CompoundTag entityNBT = stack.getTagElement("BlockEntityTag");
-        CompoundTag stateNBT = stack.getTagElement("BlockStateTag");
-        if (stateNBT != null) {
-            if (stateNBT.contains("honey_level")) {
-                String honeyLevel = stateNBT.getString("honey_level");
-                tooltip.add(Component.translatable("productivebees.hive.tooltip.honey_level", honeyLevel).withStyle(ChatFormatting.GOLD));
-            }
-        }
-        if (entityNBT != null) {
-            if (entityNBT.contains("BeeList")) {
-                ListTag beeList = entityNBT.getCompound("BeeList").getList("Inhabitants", 10);
-                if (beeList.size() > 0) {
-                    tooltip.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.BOLD));
-                    for (int i = 0; i < beeList.size(); ++i) {
-                        CompoundTag tag = beeList.getCompound(i);
-                        String name = tag.getString("Name");
-
-                        tooltip.add(Component.literal(name).withStyle(ChatFormatting.GREEN));
-                    }
-                } else {
-                    tooltip.add(Component.translatable("productivebees.hive.tooltip.empty"));
-                }
-            }
-        }
+//        CompoundTag stateNBT = pStack.getTagElement("BlockStateTag");
+//        if (stateNBT != null) {
+//            if (stateNBT.contains("honey_level")) {
+//                String honeyLevel = stateNBT.getString("honey_level");
+//                pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.honey_level", honeyLevel).withStyle(ChatFormatting.GOLD));
+//            }
+//        }
+        // TODO
+//        List<BeehiveBlockEntity.Occupant> occupants = pStack.get(DataComponents.BEES);
+//        if (occupants != null & !occupants.isEmpty()) {
+//            pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.bees").withStyle(ChatFormatting.BOLD));
+//            for (int i = 0; i < occupants.size(); ++i) {
+//                CustomData tag = occupants.get(i).entityData();
+//                String name = tag.contains("Name") ? tag.getString("Name");
+//
+//                pTootipComponents.add(Component.literal(name).withStyle(ChatFormatting.GREEN));
+//            }
+//        } else {
+//            pTootipComponents.add(Component.translatable("productivebees.hive.tooltip.empty"));
+//        }
     }
 
     @Override

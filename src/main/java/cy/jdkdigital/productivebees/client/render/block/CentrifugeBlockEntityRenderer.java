@@ -12,7 +12,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class CentrifugeBlockEntityRenderer implements BlockEntityRenderer<CentrifugeBlockEntity>
 {
@@ -21,12 +23,13 @@ public class CentrifugeBlockEntityRenderer implements BlockEntityRenderer<Centri
 
     public void render(CentrifugeBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if (ProductiveBeesConfig.CLIENT.renderCombsInCentrifuge.get()) {
-            tileEntityIn.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(itemHandler -> {
-                ItemStack stack = itemHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+            IItemHandler invHandler = tileEntityIn.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, tileEntityIn.getBlockPos(), null);
+            if (invHandler instanceof ItemStackHandler) {
+                ItemStack stack = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
                 if (!stack.isEmpty()) {
                     ItemRenderer ir = Minecraft.getInstance().getItemRenderer();
                     long time = System.currentTimeMillis();
-                    double d = (time / 50) % 360;
+                    double d = (time / 50d) % 360;
                     int stackCount = stack.getCount();
                     double shownItemCount = stackCount < 20 ? stackCount : 20 + Math.ceil((stackCount - 20) / 4F);
                     for (int i = 0; i < shownItemCount; ++i) {
@@ -42,7 +45,7 @@ public class CentrifugeBlockEntityRenderer implements BlockEntityRenderer<Centri
                         matrixStackIn.popPose();
                     }
                 }
-            });
+            }
         }
     }
 }

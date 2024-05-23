@@ -11,7 +11,8 @@ import cy.jdkdigital.productivebees.common.item.Gene;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.container.AdvancedBeehiveContainer;
-import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
+import cy.jdkdigital.productivebees.capabilities.bee.CapabilityBee;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
@@ -22,6 +23,7 @@ import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -44,11 +46,8 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -61,7 +60,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     protected int specialTickCounter = 0;
     protected int abandonCountdown = 0;
 
-    protected LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(12, this) {
+    public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(12, this) {
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
             if (slot == AdvancedBeehiveContainer.SLOT_CAGE && isInputSlot(slot)) {
@@ -88,11 +87,12 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
                 }
             }
         }
-    });
-    protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
+    };
 
-    public AdvancedBeehiveBlockEntity(AdvancedBeehive hiveBlock, BlockPos pos, BlockState state) {
-        this(hiveBlock.getBlockEntitySupplier().get(), pos, state);
+    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
+
+    public AdvancedBeehiveBlockEntity(BlockPos pos, BlockState state) {
+        this(ModBlockEntityTypes.EXPANSION_BOX.get(), pos, state);
     }
 
     public AdvancedBeehiveBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
@@ -157,68 +157,62 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             }
         }
 
-        if (blockEntity.tickCounter % 23 == 0) {
+        if (blockEntity.tickCounter % 23 == 0 && blockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemStackHandler) {
             if (state.getBlock() instanceof AdvancedBeehive) {
                 int honeyLevel = state.getValue(BeehiveBlock.HONEY_LEVEL);
 
                 // Auto harvest if empty bottles are in
                 if (honeyLevel >= 5) {
-                    blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-                        ItemStack bottles = inv.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
-                        if (!bottles.isEmpty() && bottles.getItem() instanceof BottleItem) {
-                            final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
-                            boolean addedBottle = ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(filledBottle).getCount() == 0;
-                            if (addedBottle) {
-                                ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(new ItemStack(Items.HONEYCOMB));
-                                bottles.shrink(1);
-                                level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
-                            }
+                    ItemStack bottles = itemStackHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
+                    if (!bottles.isEmpty() && bottles.getItem() instanceof BottleItem) {
+                        final ItemStack filledBottle = new ItemStack(Items.HONEY_BOTTLE);
+                        boolean addedBottle = ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(filledBottle).getCount() == 0;
+                        if (addedBottle) {
+                            itemStackHandler.addOutput(new ItemStack(Items.HONEYCOMB));
+                            bottles.shrink(1);
+                            level.setBlockAndUpdate(pos, state.setValue(BeehiveBlock.HONEY_LEVEL, honeyLevel - 5));
                         }
-                    });
+                    }
                 }
 
                 // Insert or extract bees for simulated hives
                 if (blockEntity.isSim()) {
-                    blockEntity.inventoryHandler.ifPresent(h -> {
-                        if (h instanceof InventoryHandlerHelper.BlockEntityItemStackHandler invHelper) {
-                            ItemStack cageStack = h.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE);
-                            if (!cageStack.isEmpty() && cageStack.getItem() instanceof BeeCage) {
-                                if (BeeCage.isFilled(cageStack) && (!cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get()) || invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem()))))) {
-                                    // insert into hive if space is available
-                                    if (!blockEntity.isFull()) {
-                                        Bee bee = BeeCage.getEntityFromStack(cageStack, level, true);
-                                        if (bee != null && blockEntity.acceptsBee(bee) && !(bee instanceof SolitaryBee)) {
-                                            blockEntity.addOccupant(bee, bee.hasNectar());
-                                            if (cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
-                                                invHelper.addOutput(new ItemStack(cageStack.getItem()));
-                                            }
+                    ItemStack cageStack = itemStackHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_CAGE);
+                    if (!cageStack.isEmpty() && cageStack.getItem() instanceof BeeCage) {
+                        if (BeeCage.isFilled(cageStack) && (!cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get()) || itemStackHandler.canFitStacks(List.of(new ItemStack(cageStack.getItem()))))) {
+                            // insert into hive if space is available
+                            if (!blockEntity.isFull()) {
+                                Bee bee = BeeCage.getEntityFromStack(cageStack, level, true);
+                                if (bee != null && blockEntity.acceptsBee(bee) && !(bee instanceof SolitaryBee)) {
+                                    blockEntity.addOccupant(bee, bee.hasNectar());
+                                    if (cageStack.getItem().equals(ModItems.STURDY_BEE_CAGE.get())) {
+                                        itemStackHandler.addOutput(new ItemStack(cageStack.getItem()));
+                                    }
+                                    cageStack.shrink(1);
+                                    level.sendBlockUpdated(pos, state, state, 3);
+                                }
+                            }
+                        } else if (!blockEntity.isEmpty()) {
+                            // grab a bee from the hive and add to the cage
+                            blockEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantStorage -> {
+                                if (inhabitantStorage.countInhabitants() > 0) {
+                                    Inhabitant inhabitant = inhabitantStorage.getInhabitants().get(0);
+                                    Entity entity = EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
+                                    if (entity instanceof Bee beeEntity) {
+                                        beeEntity.hivePos = blockEntity.worldPosition;
+                                        ItemStack filledCage = new ItemStack(cageStack.getItem());
+                                        BeeCage.captureEntity(beeEntity, filledCage);
+                                        if (itemStackHandler.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
                                             cageStack.shrink(1);
+                                            itemStackHandler.addOutput(filledCage);
+                                            inhabitantStorage.getInhabitants().remove(0);
                                             level.sendBlockUpdated(pos, state, state, 3);
                                         }
                                     }
-                                } else if (!blockEntity.isEmpty()) {
-                                    // grab a bee from the hive and add to the cage
-                                    blockEntity.getCapability(CapabilityBee.BEE).ifPresent(inhabitantStorage -> {
-                                        if (inhabitantStorage.countInhabitants() > 0) {
-                                            Inhabitant inhabitant = inhabitantStorage.getInhabitants().get(0);
-                                            Entity entity = EntityType.loadEntityRecursive(inhabitant.nbt, level, (spawnedEntity) -> spawnedEntity);
-                                            if (entity instanceof Bee beeEntity) {
-                                                beeEntity.hivePos = blockEntity.worldPosition;
-                                                ItemStack filledCage = new ItemStack(cageStack.getItem());
-                                                BeeCage.captureEntity(beeEntity, filledCage);
-                                                if (invHelper.canFitStacks(List.of(new ItemStack(cageStack.getItem())))) {
-                                                    cageStack.shrink(1);
-                                                    invHelper.addOutput(filledCage);
-                                                    inhabitantStorage.getInhabitants().remove(0);
-                                                    level.sendBlockUpdated(pos, state, state, 3);
-                                                }
-                                            }
-                                        }
-                                    });
                                 }
-                            }
+                            });
                         }
-                    });
+                    }
                 }
             }
         }
@@ -231,7 +225,7 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getUpgradeHandler() {
+    public IItemHandlerModifiable getUpgradeHandler() {
         return upgradeHandler;
     }
 
@@ -250,38 +244,36 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
         if (beeState == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED) {
             // Generate bee produce (No produce after converting a block)
             if (!(beeEntity instanceof ProductiveBee productiveBee) || !productiveBee.hasConverted()) {
-                getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-                    // Count productivity modifier
-                    double upgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get())
-                                        + ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_2.get())
-                                        + ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_3.get())
-                                        + ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get());
+                // Count productivity modifier
+                double upgradeMod = ProductiveBeesConfig.UPGRADES.productivityMultiplier.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY.get())
+                                    + ProductiveBeesConfig.UPGRADES.productivityMultiplier2.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_2.get())
+                                    + ProductiveBeesConfig.UPGRADES.productivityMultiplier3.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_3.get())
+                                    + ProductiveBeesConfig.UPGRADES.productivityMultiplier4.get() * getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get());
 
-                    BeeHelper.getBeeProduce(level, beeEntity, (getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get())) > 0, upgradeMod).forEach((stackIn) -> {
-                        ItemStack stack = stackIn.copy();
-                        if (!stack.isEmpty()) {
-                            if (beeEntity instanceof ProductiveBee) {
-                                int productivity = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
-                                if (productivity > 0) {
-                                    if(stack.getCount() == 1) {
-                                        stack.grow(productivity);
-                                    } else {
-                                        float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
-                                        stack.grow(Math.round(modifier));
-                                    }
+                BeeHelper.getBeeProduce(level, beeEntity, (getUpgradeCount(ModItems.UPGRADE_COMB_BLOCK.get()) + getUpgradeCount(ModItems.UPGRADE_PRODUCTIVITY_4.get())) > 0, upgradeMod).forEach((stackIn) -> {
+                    ItemStack stack = stackIn.copy();
+                    if (!stack.isEmpty() && inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemStackHandler) {
+                        if (beeEntity instanceof ProductiveBee) {
+                            int productivity = ((ProductiveBee) beeEntity).getAttributeValue(BeeAttributes.PRODUCTIVITY);
+                            if (productivity > 0) {
+                                if(stack.getCount() == 1) {
+                                    stack.grow(productivity);
+                                } else {
+                                    float modifier = (1f / (productivity + 2f) + (productivity + 1f) / 2f) * stack.getCount();
+                                    stack.grow(Math.round(modifier));
                                 }
                             }
-
-                            ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(stack);
                         }
-                    });
 
-                    // If there's a sponge in the bottle slot, empty honey level
-                    ItemStack itemInBottleSlot = inv.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
-                    if (!itemInBottleSlot.isEmpty() && itemInBottleSlot.is(Blocks.SPONGE.asItem())) {
-                        level.setBlockAndUpdate(getBlockPos(), state.setValue(BeehiveBlock.HONEY_LEVEL, 0));
+                        itemStackHandler.addOutput(stack);
                     }
                 });
+
+                // If there's a sponge in the bottle slot, empty honey level
+                ItemStack itemInBottleSlot = inventoryHandler.getStackInSlot(AdvancedBeehiveContainer.SLOT_BOTTLE);
+                if (!itemInBottleSlot.isEmpty() && itemInBottleSlot.is(Blocks.SPONGE.asItem())) {
+                    level.setBlockAndUpdate(getBlockPos(), state.setValue(BeehiveBlock.HONEY_LEVEL, 0));
+                }
             }
 
             // Produce offspring if breeding upgrade is installed
@@ -316,20 +308,18 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
             // Produce genes
             int samplerUpgrades = getUpgradeCount(ModItems.UPGRADE_BEE_SAMPLER.get());
             if (samplerUpgrades > 0 && !beeEntity.isBaby() && beeEntity instanceof ProductiveBee && level.random.nextFloat() <= (ProductiveBeesConfig.UPGRADES.samplerChance.get() * samplerUpgrades)) {
-                getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-                    Map<BeeAttribute<Integer>, Object> attributes = ((ProductiveBee) beeEntity).getBeeAttributes();
-                    // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
-                    int attr = level.random.nextInt(attributes.size() + 2);
-                    if (attr >= BeeAttributes.attributeList().size()) {
-                        // Type gene
-                        String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType() : beeEntity.getEncodeId();
-                        ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
-                    } else {
-                        BeeAttribute<Integer> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
-                        Integer value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
-                        ((InventoryHandlerHelper.BlockEntityItemStackHandler) inv).addOutput(Gene.getStack(attribute, value, 1, level.random.nextInt(4) + 1));
-                    }
-                });
+                Map<BeeAttribute<Integer>, Object> attributes = ((ProductiveBee) beeEntity).getBeeAttributes();
+                // Get a random number for which attribute to extract, if we hit the additional 2 it will extract a type gene instead
+                int attr = level.random.nextInt(attributes.size() + 2);
+                if (attr >= BeeAttributes.attributeList().size()) {
+                    // Type gene
+                    String type = beeEntity instanceof ConfigurableBee ? ((ConfigurableBee) beeEntity).getBeeType() : beeEntity.getEncodeId();
+                    ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventoryHandler).addOutput(Gene.getStack(type, level.random.nextInt(4) + 1));
+                } else {
+                    BeeAttribute<Integer> attribute = BeeAttributes.map.get(BeeAttributes.attributeList().get(attr));
+                    Integer value = ((ProductiveBee) beeEntity).getAttributeValue(attribute);
+                    ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventoryHandler).addOutput(Gene.getStack(attribute, value, 1, level.random.nextInt(4) + 1));
+                }
             }
         }
 
@@ -365,14 +355,16 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag) {
-        super.loadPacketNBT(tag);
+    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadPacketNBT(tag, provider);
 
-        CompoundTag invTag = tag.getCompound("inv");
-        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag));
+        if (tag.contains("inv") && inventoryHandler instanceof ItemStackHandler serializable) {
+            serializable.deserializeNBT(provider, tag.getCompound("inv"));
+        }
 
-        CompoundTag upgradesTag = tag.getCompound("upgrades");
-        upgradeHandler.ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(upgradesTag));
+        if (tag.contains("upgrades") && upgradeHandler instanceof ItemStackHandler serializable) {
+            serializable.deserializeNBT(provider, tag.getCompound("upgrades"));
+        }
 
         // Reset MAX_BEES
         MAX_BEES = tag.contains("max_bees") ? tag.getInt("max_bees") : MAX_BEES;
@@ -380,29 +372,18 @@ public class AdvancedBeehiveBlockEntity extends AdvancedBeehiveBlockEntityAbstra
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag) {
-        super.savePacketNBT(tag);
+    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.savePacketNBT(tag, provider);
 
-        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
-            tag.put("inv", compound);
-        });
+        if (inventoryHandler instanceof ItemStackHandler serializable) {
+            tag.put("inv", serializable.serializeNBT(provider));
+        }
 
-        upgradeHandler.ifPresent(inv -> {
-            CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
-            tag.put("upgrades", compound);
-        });
+        if (upgradeHandler instanceof ItemStackHandler serializable) {
+            tag.put("upgrades", serializable.serializeNBT(provider));
+        }
 
         tag.putInt("max_bees", MAX_BEES);
         tag.putInt("specialTickCounter", specialTickCounter);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventoryHandler.cast();
-        }
-        return super.getCapability(cap, side);
     }
 }

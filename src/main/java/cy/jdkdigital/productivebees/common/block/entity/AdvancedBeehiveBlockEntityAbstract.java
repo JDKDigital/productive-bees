@@ -8,9 +8,9 @@ import cy.jdkdigital.productivebees.common.block.Feeder;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.FarmerBee;
 import cy.jdkdigital.productivebees.common.entity.bee.hive.HoarderBee;
-import cy.jdkdigital.productivebees.handler.bee.CapabilityBee;
-import cy.jdkdigital.productivebees.handler.bee.IInhabitantStorage;
-import cy.jdkdigital.productivebees.handler.bee.InhabitantStorage;
+import cy.jdkdigital.productivebees.capabilities.bee.CapabilityBee;
+import cy.jdkdigital.productivebees.capabilities.bee.IInhabitantStorage;
+import cy.jdkdigital.productivebees.capabilities.bee.InhabitantStorage;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
@@ -19,6 +19,7 @@ import cy.jdkdigital.productivelib.event.BeeReleaseEvent;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -39,11 +40,11 @@ import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -65,7 +66,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
             "ForgeCaps", "ForgeData"
     );
     public int MAX_BEES = 3;
-    private LazyOptional<IInhabitantStorage> beeHandler = LazyOptional.of(InhabitantStorage::new);
+    public IInhabitantStorage beeHandler = new InhabitantStorage();
     private BlockEntityType<?> tileEntityType;
 
     protected int tickCounter = 0;
@@ -89,52 +90,48 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
 
         // Play hive buzz sound
         if (level.getRandom().nextDouble() < 0.005D) {
-            blockEntity.beeHandler.ifPresent(h -> {
-                if (h.getInhabitants().size() > 0) {
-                    double x = (double) pos.getX() + 0.5D;
-                    double y = (double) pos.getY();
-                    double z = (double) pos.getZ() + 0.5D;
-                    level.playSound(null, x, y, z, SoundEvents.BEEHIVE_WORK, SoundSource.BLOCKS, 1.0F, 1.0F);
-                }
-            });
+            if (blockEntity.beeHandler.getInhabitants().size() > 0) {
+                double x = (double) pos.getX() + 0.5D;
+                double y = (double) pos.getY();
+                double z = (double) pos.getZ() + 0.5D;
+                level.playSound(null, x, y, z, SoundEvents.BEEHIVE_WORK, SoundSource.BLOCKS, 1.0F, 1.0F);
+            }
         }
     }
 
     private static void tickBees(ServerLevel level, BlockPos hivePos, BlockState state, AdvancedBeehiveBlockEntityAbstract blockEntity) {
-        blockEntity.beeHandler.ifPresent(h -> {
-            final var currentInhabitants = new CopyOnWriteArrayList<>(h.getInhabitants());
-            // worst-case size
-            final var inhabitantsToRemove = new ArrayList<Inhabitant>(currentInhabitants.size());
-            boolean hasReleased = false;
-            for (var inhabitant : currentInhabitants) {
-                if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
-                    BeehiveBlockEntity.BeeReleaseStatus beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-                    if (inhabitant.nbt.contains("HasConverted") && inhabitant.nbt.getBoolean("HasConverted")) {
-                        beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
-                    }
-                    if (blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim()) {
-                        // for simulated hives, count all the way up to timeInHive + pollinationTime
-                        if (inhabitant.ticksInHive > (inhabitant.minOccupationTicks + 450)) {
-                            simulateBee(level, hivePos, state, blockEntity, inhabitant);
-                            hasReleased = true;
-                        } else if (willLeaveHive(level, inhabitant.nbt, beeState)){
-                            // only add count if outside is favourable
-                            inhabitant.ticksInHive += blockEntity.tickCounter;
-                        }
-                    } else if (releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt, null, beeState)) {
-                        hasReleased = true;
-                        inhabitantsToRemove.add(inhabitant);
-                    }
-                } else {
-                    inhabitant.ticksInHive += blockEntity.tickCounter;
+        final var currentInhabitants = new CopyOnWriteArrayList<>(blockEntity.beeHandler.getInhabitants());
+        // worst-case size
+        final var inhabitantsToRemove = new ArrayList<Inhabitant>(currentInhabitants.size());
+        boolean hasReleased = false;
+        for (var inhabitant : currentInhabitants) {
+            if (inhabitant.ticksInHive > inhabitant.minOccupationTicks) {
+                BeehiveBlockEntity.BeeReleaseStatus beeState = inhabitant.nbt.getBoolean("HasNectar") ? BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED : BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
+                if (inhabitant.nbt.contains("HasConverted") && inhabitant.nbt.getBoolean("HasConverted")) {
+                    beeState = BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED;
                 }
+                if (blockEntity instanceof AdvancedBeehiveBlockEntity advancedBeehiveBlockEntity && advancedBeehiveBlockEntity.isSim()) {
+                    // for simulated hives, count all the way up to timeInHive + pollinationTime
+                    if (inhabitant.ticksInHive > (inhabitant.minOccupationTicks + 450)) {
+                        simulateBee(level, hivePos, state, blockEntity, inhabitant);
+                        hasReleased = true;
+                    } else if (willLeaveHive(level, inhabitant.nbt, beeState)){
+                        // only add count if outside is favourable
+                        inhabitant.ticksInHive += blockEntity.tickCounter;
+                    }
+                } else if (releaseBee(level, hivePos, state, blockEntity, inhabitant.nbt, null, beeState)) {
+                    hasReleased = true;
+                    inhabitantsToRemove.add(inhabitant);
+                }
+            } else {
+                inhabitant.ticksInHive += blockEntity.tickCounter;
             }
-            if (hasReleased) {
-                currentInhabitants.removeAll(inhabitantsToRemove);
-                h.setInhabitants(new ArrayList<>(currentInhabitants));
-                blockEntity.setNonSuperChanged();
-            }
-        });
+        }
+        if (hasReleased) {
+            currentInhabitants.removeAll(inhabitantsToRemove);
+            h.setInhabitants(new ArrayList<>(currentInhabitants));
+            blockEntity.setNonSuperChanged();
+        }
     }
 
     protected int getTimeInHive(boolean hasNectar, @Nullable Bee beeEntity) {
@@ -343,7 +340,7 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     protected void beeReleasePostAction(Level level, Bee beeEntity, BlockState state, BeehiveBlockEntity.BeeReleaseStatus beeState) {
         beeEntity.setHealth(beeEntity.getMaxHealth());
 
-        if (MinecraftForge.EVENT_BUS.post(new BeeReleaseEvent(level, beeEntity, this, state, beeState))) {
+        if (NeoForge.EVENT_BUS.post(new BeeReleaseEvent(level, beeEntity, this, state, beeState)).getResult().equals(Event.Result.DENY)) {
             return;
         }
 
@@ -361,9 +358,10 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         // Hoarder bees should leave their inventory behind
         if (beeEntity instanceof HoarderBee) {
             if (((HoarderBee) beeEntity).holdsItem()) {
-                this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-                    ((HoarderBee) beeEntity).emptyIntoInventory(((InventoryHandlerHelper.BlockEntityItemStackHandler) inv));
-                });
+                IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, getBlockPos(), null);
+                if (handler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler inv) {
+                    ((HoarderBee) beeEntity).emptyIntoInventory(inv);
+                }
             }
         }
 
@@ -474,15 +472,6 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         }
     }
 
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityBee.BEE) {
-            return beeHandler.cast();
-        }
-        return super.getCapability(cap, side);
-    }
-
     // sets changed just like in BlockEntity::setChanged to skip BeehiveBlockEntity::setChanged
     public void setNonSuperChanged() {
         if (this.level != null) {
@@ -491,19 +480,19 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        this.loadPacketNBT(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        this.loadPacketNBT(tag, provider);
         tag.remove("Bees"); // remove vanilla bee data
-        super.load(tag);
+        super.loadAdditional(tag, provider);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        this.savePacketNBT(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
+        this.savePacketNBT(tag, provider);
     }
 
-    public void savePacketNBT(CompoundTag tag) {
+    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
         beeHandler.ifPresent(h -> {
             tag.remove("Bees"); // remove vanilla bee data
             if (h.getInhabitants().size() > 0) {
@@ -514,14 +503,14 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
         tag.putInt("tickCounter", tickCounter);
     }
 
-    public void loadPacketNBT(CompoundTag tag) {
+    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
         tickCounter = tag.contains("tickCounter") ? tag.getInt("tickCounter") : 0;
         beeHandler.ifPresent(h -> ((INBTSerializable<CompoundTag>) h).deserializeNBT(tag.getCompound(tag.contains("BeeList") ? "BeeList" : "Bees")));
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return saveWithId();
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        return saveWithId(provider);
     }
 
     @Override
@@ -530,9 +519,9 @@ public abstract class AdvancedBeehiveBlockEntityAbstract extends BeehiveBlockEnt
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
-        this.loadPacketNBT(pkt.getTag());
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider provider) {
+        super.onDataPacket(net, pkt, provider);
+        this.loadPacketNBT(pkt.getTag(), provider);
         if (level instanceof ClientLevel) {
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 0);
         }

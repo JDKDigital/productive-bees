@@ -1,50 +1,43 @@
 package cy.jdkdigital.productivebees.common.advancements.criterion;
 
-import com.google.gson.JsonObject;
-import cy.jdkdigital.productivebees.ProductiveBees;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Saddleable;
 import net.minecraft.world.entity.animal.Bee;
 
-import javax.annotation.Nonnull;
+import java.util.Optional;
 
-public class SaddleBeeTrigger extends SimpleCriterionTrigger<SaddleBeeTrigger.Instance>
+public class SaddleBeeTrigger extends SimpleCriterionTrigger<SaddleBeeTrigger.TriggerInstance>
 {
-    private static final ResourceLocation ID = new ResourceLocation(ProductiveBees.MODID, "saddle_bee");
-
-    @Nonnull
     @Override
-    public ResourceLocation getId() {
-        return ID;
+    public Codec<SaddleBeeTrigger.TriggerInstance> codec() {
+        return SaddleBeeTrigger.TriggerInstance.CODEC;
     }
 
     public void trigger(ServerPlayer player, Bee bee) {
         this.trigger(player, trigger -> trigger.test(bee));
     }
 
-    @Nonnull
-    @Override
-    protected Instance createInstance(JsonObject jsonObject, ContextAwarePredicate andPredicate, DeserializationContext conditionArrayParser) {
-        return new SaddleBeeTrigger.Instance();
-    }
-
-    public static class Instance extends AbstractCriterionTriggerInstance
+    public record TriggerInstance(Optional<ContextAwarePredicate> player, String beeName) implements SimpleCriterionTrigger.SimpleInstance
     {
-        public Instance() {
-            super(SaddleBeeTrigger.ID, ContextAwarePredicate.ANY);
+        public static final Codec<SaddleBeeTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
+                instance -> instance.group(
+                        EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(SaddleBeeTrigger.TriggerInstance::player),
+                        Codec.STRING.fieldOf("bee").forGetter(SaddleBeeTrigger.TriggerInstance::beeName)
+                )
+                .apply(instance, SaddleBeeTrigger.TriggerInstance::new)
+        );
+
+        public static SaddleBeeTrigger.TriggerInstance any() {
+            return new SaddleBeeTrigger.TriggerInstance(Optional.empty(), "any");
         }
 
-        public static SaddleBeeTrigger.Instance any() {
-            return new SaddleBeeTrigger.Instance();
-        }
-
-        public static SaddleBeeTrigger.Instance create() {
-            return new SaddleBeeTrigger.Instance();
+        public static SaddleBeeTrigger.TriggerInstance create(String beeName) {
+            return new SaddleBeeTrigger.TriggerInstance(Optional.empty(), beeName);
         }
 
         public boolean test(Bee bee) {

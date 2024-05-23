@@ -20,35 +20,39 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@Mod.EventBusSubscriber(modid = ProductiveBees.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup
 {
     @SubscribeEvent
+    public static void init(final RegisterMenuScreensEvent event) {
+        event.register(ModContainerTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveScreen::new);
+        event.register(ModContainerTypes.CENTRIFUGE.get(), CentrifugeScreen::new);
+        event.register(ModContainerTypes.POWERED_CENTRIFUGE.get(), CentrifugeScreen::new);
+        event.register(ModContainerTypes.HEATED_CENTRIFUGE.get(), CentrifugeScreen::new);
+        event.register(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
+        event.register(ModContainerTypes.FEEDER.get(), FeederScreen::new);
+        event.register(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);
+        event.register(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
+        event.register(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
+        event.register(ModContainerTypes.GENE_INDEXER.get(), GeneIndexerScreen::new);
+        event.register(ModContainerTypes.BREEDING_CHAMBER.get(), BreedingChamberScreen::new);
+        event.register(ModContainerTypes.CRYO_STASIS.get(), CryoStasisScreen::new);
+    }
+
+    @SubscribeEvent
     public static void init(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            MenuScreens.register(ModContainerTypes.ADVANCED_BEEHIVE.get(), AdvancedBeehiveScreen::new);
-            MenuScreens.register(ModContainerTypes.CENTRIFUGE.get(), CentrifugeScreen::new);
-            MenuScreens.register(ModContainerTypes.POWERED_CENTRIFUGE.get(), CentrifugeScreen::new);
-            MenuScreens.register(ModContainerTypes.HEATED_CENTRIFUGE.get(), CentrifugeScreen::new);
-            MenuScreens.register(ModContainerTypes.BOTTLER.get(), BottlerScreen::new);
-            MenuScreens.register(ModContainerTypes.FEEDER.get(), FeederScreen::new);
-            MenuScreens.register(ModContainerTypes.INCUBATOR.get(), IncubatorScreen::new);
-            MenuScreens.register(ModContainerTypes.CATCHER.get(), CatcherScreen::new);
-            MenuScreens.register(ModContainerTypes.HONEY_GENERATOR.get(), HoneyGeneratorScreen::new);
-            MenuScreens.register(ModContainerTypes.GENE_INDEXER.get(), GeneIndexerScreen::new);
-            MenuScreens.register(ModContainerTypes.BREEDING_CHAMBER.get(), BreedingChamberScreen::new);
-            MenuScreens.register(ModContainerTypes.CRYO_STASIS.get(), CryoStasisScreen::new);
-
             ItemProperties.register(ModItems.BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity, i) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.STURDY_BEE_CAGE.get(), new ResourceLocation("filled"), (stack, world, entity, i) -> BeeCage.isFilled(stack) ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.BEE_BOMB.get(), new ResourceLocation("loaded"), (stack, world, entity, i) -> BeeBomb.isLoaded(stack) ? 1.0F : 0.0F);

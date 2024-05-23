@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -115,8 +116,8 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag) {
-        super.loadPacketNBT(tag);
+    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadPacketNBT(tag, provider);
 
         if (tag.contains("nestTickTimer")) {
             nestTickTimer = tag.getInt("nestTickTimer");
@@ -127,8 +128,8 @@ public class SolitaryNestBlockEntity extends AdvancedBeehiveBlockEntityAbstract
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag) {
-        super.savePacketNBT(tag);
+    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.savePacketNBT(tag, provider);
 
         tag.putInt("nestTickTimer", nestTickTimer);
         tag.putInt("spawnCount", spawnCount);

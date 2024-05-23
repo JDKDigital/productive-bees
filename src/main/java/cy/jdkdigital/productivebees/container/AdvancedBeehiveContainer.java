@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.Objects;
 
 public class AdvancedBeehiveContainer extends AbstractContainer
 {
-    public final AdvancedBeehiveBlockEntity tileEntity;
+    public final AdvancedBeehiveBlockEntity blockEntity;
 
     public static final int SLOT_BOTTLE = 0;
     public static final int SLOT_CAGE = 11;
@@ -79,27 +78,23 @@ public class AdvancedBeehiveContainer extends AbstractContainer
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public AdvancedBeehiveContainer(final int windowId, final Inventory playerInventory, final AdvancedBeehiveBlockEntity tileEntity) {
+    public AdvancedBeehiveContainer(final int windowId, final Inventory playerInventory, final AdvancedBeehiveBlockEntity blockEntity) {
         super(ModContainerTypes.ADVANCED_BEEHIVE.get(), windowId);
 
-        this.tileEntity = tileEntity;
-        this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
-        boolean expanded = this.tileEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
+        this.blockEntity = blockEntity;
+        this.canInteractWithCallable = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
+        boolean expanded = this.blockEntity.getBlockState().getValue(AdvancedBeehive.EXPANDED) != VerticalHive.NONE;
 
         // Inventory slots
-        this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            // Bottle slot
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_BOTTLE, 86 - (expanded ? 13 : 0), 17));
-            // Cage slot for simulated hives
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_CAGE, 86 - (expanded ? 13 : 0), 53));
+        // Bottle slot
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_BOTTLE, 86 - (expanded ? 13 : 0), 17));
+        // Cage slot for simulated hives
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_CAGE, 86 - (expanded ? 13 : 0), 53));
 
-            addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116 - (expanded ? 13 : 0), 17, 3, 18, 3, 18);
-        });
+        addSlotBox(this.blockEntity.inventoryHandler, InventoryHandlerHelper.OUTPUT_SLOTS[0], 116 - (expanded ? 13 : 0), 17, 3, 18, 3, 18);
 
-        if (this.tileEntity.acceptsUpgrades()) {
-            this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
-                addSlotBox(upgradeHandler, 0, 178 - (expanded ? 13 : 0), 8, 1, 18, 4, 18);
-            });
+        if (this.blockEntity.acceptsUpgrades()) {
+            addSlotBox(this.blockEntity.getUpgradeHandler(), 0, 178 - (expanded ? 13 : 0), 8, 1, 18, 4, 18);
         }
 
         layoutPlayerInventorySlots(playerInventory, 0, 8 - (expanded ? 13 : 0), 84);
@@ -112,7 +107,7 @@ public class AdvancedBeehiveContainer extends AbstractContainer
         if (tileAtPos instanceof AdvancedBeehiveBlockEntity) {
             return (AdvancedBeehiveBlockEntity) tileAtPos;
         }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+        throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
     }
 
     @Override
@@ -122,6 +117,6 @@ public class AdvancedBeehiveContainer extends AbstractContainer
 
     @Override
     protected BlockEntity getBlockEntity() {
-        return tileEntity;
+        return blockEntity;
     }
 }

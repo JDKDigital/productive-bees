@@ -12,16 +12,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class BottlerContainer extends AbstractContainer
 {
-    public final BottlerBlockEntity tileEntity;
+    public final BottlerBlockEntity blockEntity;
 
     private final ContainerLevelAccess canInteractWithCallable;
 
@@ -29,35 +28,31 @@ public class BottlerContainer extends AbstractContainer
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public BottlerContainer(final int windowId, final Inventory playerInventory, final BottlerBlockEntity tileEntity) {
+    public BottlerContainer(final int windowId, final Inventory playerInventory, final BottlerBlockEntity blockEntity) {
         super(ModContainerTypes.BOTTLER.get(), windowId);
 
-        this.tileEntity = tileEntity;
-        this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
+        this.blockEntity = blockEntity;
+        this.canInteractWithCallable = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
 
         addDataSlots(new ContainerData()
         {
             @Override
             public int get(int i) {
-                return i == 0 ?
-                        tileEntity.fluidId :
-                        tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).map(fluidHandler -> fluidHandler.getFluidInTank(0).getAmount()).orElse(0);
+                return i == 0 ? blockEntity.fluidId : blockEntity.fluidInventory.getFluidInTank(0).getAmount();
             }
 
             @Override
             public void set(int i, int value) {
                 switch (i) {
                     case 0:
-                        tileEntity.fluidId = value;
+                        blockEntity.fluidId = value;
                     case 1:
-                        tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler -> {
-                            FluidStack fluid = fluidHandler.getFluidInTank(0);
-                            if (fluid.isEmpty()) {
-                                fluidHandler.fill(new FluidStack(BuiltInRegistries.FLUID.byId(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
-                            } else {
-                                fluid.setAmount(value);
-                            }
-                        });
+                        FluidStack fluid = blockEntity.fluidInventory.getFluidInTank(0);
+                        if (fluid.isEmpty()) {
+                            blockEntity.fluidInventory.fill(new FluidStack(BuiltInRegistries.FLUID.byId(blockEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
+                        } else {
+                            fluid.setAmount(value);
+                        }
                 }
             }
 
@@ -67,13 +62,11 @@ public class BottlerContainer extends AbstractContainer
             }
         });
 
-        this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
             // Bottle slot
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 152, 17));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, InventoryHandlerHelper.BOTTLE_SLOT, 152, 17));
 
-            // Output slot
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, 152, 53));
-        });
+        // Output slot
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, InventoryHandlerHelper.FLUID_ITEM_OUTPUT_SLOT, 152, 53));
 
         layoutPlayerInventorySlots(playerInventory, 0, 8, 84);
     }
@@ -85,7 +78,7 @@ public class BottlerContainer extends AbstractContainer
         if (tileAtPos instanceof BottlerBlockEntity) {
             return (BottlerBlockEntity) tileAtPos;
         }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+        throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
     }
 
     @Override
@@ -95,6 +88,6 @@ public class BottlerContainer extends AbstractContainer
 
     @Override
     protected BlockEntity getBlockEntity() {
-        return tileEntity;
+        return blockEntity;
     }
 }

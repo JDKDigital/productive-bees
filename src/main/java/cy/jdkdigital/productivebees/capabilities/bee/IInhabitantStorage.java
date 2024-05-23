@@ -1,4 +1,4 @@
-package cy.jdkdigital.productivebees.handler.bee;
+package cy.jdkdigital.productivebees.capabilities.bee;
 
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import net.minecraft.nbt.ListTag;

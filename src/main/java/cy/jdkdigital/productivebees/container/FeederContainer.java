@@ -8,7 +8,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -43,7 +42,7 @@ public class FeederContainer extends AbstractContainer
         if (tileAtPos instanceof FeederBlockEntity) {
             return (FeederBlockEntity) tileAtPos;
         }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+        throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
     }
 
     @Override

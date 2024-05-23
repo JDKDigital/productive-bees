@@ -11,6 +11,8 @@ import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.TypedDataComponent;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,9 +21,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
     }
 
     protected boolean canOperate() {
-        int energy = energyHandler.map(IEnergyStorage::getEnergyStored).orElse(0);
+        int energy = energyHandler.getEnergyStored();
         return energy >= ProductiveBeesConfig.GENERAL.centrifugePowerUse.get();
     }
 
@@ -79,7 +80,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
             blockRecipeMap.clear();
         }
         ItemStack input = inputHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
-        String cacheKey = ForgeRegistries.ITEMS.getKey(input.getItem()) + (input.getTag() != null ? input.getTag().getAsString() : "");
+        String cacheKey = BuiltInRegistries.ITEM.getKey(input.getItem()).toString() + (!input.getComponents().isEmpty() ? input.getComponents().stream().map(TypedDataComponent::toString).reduce((s, s2) -> s + s2) : "");
 
         var directRecipe = super.getRecipe(inputHandler);
         if (input.is(ModTags.Forge.COMBS) && directRecipe == null) {
@@ -131,7 +132,7 @@ public class HeatedCentrifugeBlockEntity extends PoweredCentrifugeBlockEntity
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory, final Player player) {
+    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory) {
         return new HeatedCentrifugeContainer(windowId, playerInventory, this);
     }
 }

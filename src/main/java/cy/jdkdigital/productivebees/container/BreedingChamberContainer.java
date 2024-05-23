@@ -12,8 +12,6 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,19 +49,17 @@ public class BreedingChamberContainer extends AbstractContainer
         {
             @Override
             public int get() {
-                return blockEntity.getCapability(ForgeCapabilities.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+                return blockEntity.energyHandler.getEnergyStored();
             }
 
             @Override
             public void set(int value) {
-                blockEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
-                    if (handler.getEnergyStored() > 0) {
-                        handler.extractEnergy(handler.getEnergyStored(), false);
-                    }
-                    if (value > 0) {
-                        handler.receiveEnergy(value, false);
-                    }
-                });
+                if (blockEntity.energyHandler.getEnergyStored() > 0) {
+                    blockEntity.energyHandler.extractEnergy(blockEntity.energyHandler.getEnergyStored(), false);
+                }
+                if (value > 0) {
+                    blockEntity.energyHandler.receiveEnergy(value, false);
+                }
             }
         });
 
@@ -80,18 +76,14 @@ public class BreedingChamberContainer extends AbstractContainer
             }
         });
 
-        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_CAGE, 134 - 13, 41));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_BEE_1, 26 - 13, 17));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_BEE_2, 62 - 13, 17));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_BREED_ITEM_1, 26 - 13, 37));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_BREED_ITEM_2, 62 - 13, 37));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, SLOT_OUTPUT, 152 - 13, 41));
-        });
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_CAGE, 134 - 13, 41));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_BEE_1, 26 - 13, 17));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_BEE_2, 62 - 13, 17));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_BREED_ITEM_1, 26 - 13, 37));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_BREED_ITEM_2, 62 - 13, 37));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, SLOT_OUTPUT, 152 - 13, 41));
 
-        this.blockEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
-            addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
-        });
+        addSlotBox(this.blockEntity.getUpgradeHandler(), 0, 165, 8, 1, 18, 4, 18);
 
         layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
     }
@@ -103,7 +95,7 @@ public class BreedingChamberContainer extends AbstractContainer
         if (tileAtPos instanceof BreedingChamberBlockEntity) {
             return (BreedingChamberBlockEntity) tileAtPos;
         }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+        throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
     }
 
     @Override

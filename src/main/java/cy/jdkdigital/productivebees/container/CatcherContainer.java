@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,16 +36,12 @@ public class CatcherContainer extends AbstractContainer
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
 
-        this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, InventoryHandlerHelper.BOTTLE_SLOT, 13, 35));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.tileEntity.inventoryHandler, InventoryHandlerHelper.BOTTLE_SLOT, 13, 35));
 
-            // Inventory slots
-            addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 67, 17, 3, 18, 3, 18);
-        });
+        // Inventory slots
+        addSlotBox(this.tileEntity.inventoryHandler, InventoryHandlerHelper.OUTPUT_SLOTS[0], 67, 17, 3, 18, 3, 18);
 
-        this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
-            addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
-        });
+        addSlotBox(this.tileEntity.getUpgradeHandler(), 0, 165, 8, 1, 18, 4, 18);
 
         layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
     }
@@ -58,7 +53,7 @@ public class CatcherContainer extends AbstractContainer
         if (tileAtPos instanceof CatcherBlockEntity) {
             return (CatcherBlockEntity) tileAtPos;
         }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+        throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
     }
 
     @Override

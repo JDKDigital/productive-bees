@@ -12,16 +12,19 @@ import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeCreator;
+import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -29,22 +32,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class IncubatorBlockEntity extends CapabilityBlockEntity implements UpgradeableBlockEntity, IRecipeProcessingBlockEntity
+public class IncubatorBlockEntity extends CapabilityBlockEntity implements MenuProvider, UpgradeableBlockEntity, IRecipeProcessingBlockEntity
 {
     public int recipeProgress = 0;
     public boolean isRunning = false;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(3, this)
+    public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(3, this)
     {
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
@@ -53,15 +53,15 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
                 (slot == IncubatorContainer.SLOT_INPUT && item.is(ModTags.Forge.EGGS)) ||
                 (slot == IncubatorContainer.SLOT_CATALYST && item.getItem() instanceof HoneyTreat);
         }
-    });
+    };
 
     private void setRunning(boolean running) {
         isRunning = running;
     }
 
-    protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
+    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
 
-    protected LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(() -> new EnergyStorage(10000));
+    public IEnergyStorage energyHandler = new EnergyStorage(10000);
 
     public IncubatorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.INCUBATOR.get(), pos, state);
@@ -91,28 +91,24 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
 
     public static void tick(Level level, BlockPos pos, BlockState state, IncubatorBlockEntity blockEntity) {
         if (blockEntity.isRunning && level instanceof ServerLevel) {
-            blockEntity.energyHandler.ifPresent(handler -> {
-                handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
-            });
+            blockEntity.energyHandler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.incubatorPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
         }
-        blockEntity.inventoryHandler.ifPresent(invHandler -> {
-            if (!invHandler.getStackInSlot(0).isEmpty()) {
-                // Process incubation
-                if (blockEntity.isRunning || blockEntity.canProcessInput(invHandler)) {
-                    blockEntity.setRunning(true);
-                    int totalTime = blockEntity.getProcessingTime(null);
+        if (!blockEntity.inventoryHandler.getStackInSlot(0).isEmpty()) {
+            // Process incubation
+            if (blockEntity.isRunning || blockEntity.canProcessInput(blockEntity.inventoryHandler)) {
+                blockEntity.setRunning(true);
+                int totalTime = blockEntity.getProcessingTime(null);
 
-                    if (++blockEntity.recipeProgress >= totalTime) {
-                        blockEntity.completeIncubation(invHandler, level.random);
-                        blockEntity.recipeProgress = 0;
-                        blockEntity.setChanged();
-                    }
+                if (++blockEntity.recipeProgress >= totalTime) {
+                    blockEntity.completeIncubation(blockEntity.inventoryHandler, level.random);
+                    blockEntity.recipeProgress = 0;
+                    blockEntity.setChanged();
                 }
-            } else {
-                blockEntity.recipeProgress = 0;
-                blockEntity.setRunning(false);
             }
-        });
+        } else {
+            blockEntity.recipeProgress = 0;
+            blockEntity.setRunning(false);
+        }
     }
 
     protected double getEnergyConsumptionModifier() {
@@ -125,7 +121,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
      * Three things can be processed here, babees to adults, eggs to spawn eggs and applying genes
      */
     private boolean canProcessInput(IItemHandlerModifiable invHandler) {
-        int energy = energyHandler.map(IEnergyStorage::getEnergyStored).orElse(0);
+        int energy = energyHandler.getEnergyStored();
         ItemStack inItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_INPUT);
         ItemStack treatItem = invHandler.getStackInSlot(IncubatorContainer.SLOT_CATALYST);
 
@@ -199,7 +195,7 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getUpgradeHandler() {
+    public IItemHandlerModifiable getUpgradeHandler() {
         return upgradeHandler;
     }
 
@@ -210,29 +206,17 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag) {
-        super.loadPacketNBT(tag);
+    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadPacketNBT(tag, provider);
 
         recipeProgress = tag.getInt("RecipeProgress");
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag) {
-        super.savePacketNBT(tag);
+    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.savePacketNBT(tag, provider);
 
         tag.putInt("RecipeProgress", recipeProgress);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventoryHandler.cast();
-        }
-        else if (cap == ForgeCapabilities.ENERGY) {
-            return energyHandler.cast();
-        }
-        return super.getCapability(cap, side);
     }
 
     @Nonnull
@@ -241,9 +225,14 @@ public class IncubatorBlockEntity extends CapabilityBlockEntity implements Upgra
         return Component.translatable(ModBlocks.INCUBATOR.get().getDescriptionId());
     }
 
+    @Override
+    public Component getDisplayName() {
+        return getName();
+    }
+
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory, final Player player) {
-        return new IncubatorContainer(windowId, playerInventory, this);
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        return new IncubatorContainer(pContainerId, pPlayerInventory, this);
     }
 }

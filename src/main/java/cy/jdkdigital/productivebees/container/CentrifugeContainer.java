@@ -14,9 +14,8 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,48 +23,46 @@ import java.util.Objects;
 
 public class CentrifugeContainer extends AbstractContainer
 {
-    public final CentrifugeBlockEntity tileEntity;
+    public final CentrifugeBlockEntity blockEntity;
 
     public final ContainerLevelAccess canInteractWithCallable;
 
     public CentrifugeContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
-        this(windowId, playerInventory, getTileEntity(playerInventory, data));
+        this(windowId, playerInventory, getBlockEntity(playerInventory, data));
     }
 
-    public CentrifugeContainer(final int windowId, final Inventory playerInventory, final CentrifugeBlockEntity tileEntity) {
-        this(ModContainerTypes.CENTRIFUGE.get(), windowId, playerInventory, tileEntity);
+    public CentrifugeContainer(final int windowId, final Inventory playerInventory, final CentrifugeBlockEntity blockEntity) {
+        this(ModContainerTypes.CENTRIFUGE.get(), windowId, playerInventory, blockEntity);
     }
 
-    public CentrifugeContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final CentrifugeBlockEntity tileEntity) {
+    public CentrifugeContainer(@Nullable MenuType<?> type, final int windowId, final Inventory playerInventory, final CentrifugeBlockEntity blockEntity) {
         super(type, windowId);
 
-        this.tileEntity = tileEntity;
-        this.canInteractWithCallable = ContainerLevelAccess.create(tileEntity.getLevel(), tileEntity.getBlockPos());
+        this.blockEntity = blockEntity;
+        this.canInteractWithCallable = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
 
         addDataSlots(new ContainerData()
         {
             @Override
             public int get(int i) {
                 return i == 0 ?
-                        tileEntity.fluidId :
-                        tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).map(fluidHandler -> fluidHandler.getFluidInTank(0).getAmount()).orElse(0);
+                        blockEntity.fluidId :
+                        blockEntity.fluidInventory.getFluidInTank(0).getAmount();
             }
 
             @Override
             public void set(int i, int value) {
                 switch (i) {
                     case 0:
-                        tileEntity.fluidId = value;
+                        blockEntity.fluidId = value;
                     case 1:
-                        tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler -> {
-                            FluidStack fluid = fluidHandler.getFluidInTank(0);
-                            if (fluid.isEmpty()) {
-                                fluidHandler.fill(new FluidStack(BuiltInRegistries.FLUID.byId(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
-                            }
-                            else {
-                                fluid.setAmount(value);
-                            }
-                        });
+                        FluidStack fluid = blockEntity.fluidInventory.getFluidInTank(0);
+                        if (fluid.isEmpty()) {
+                            blockEntity.fluidInventory.fill(new FluidStack(BuiltInRegistries.FLUID.byId(blockEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
+                        }
+                        else {
+                            fluid.setAmount(value);
+                        }
                 }
             }
 
@@ -79,38 +76,34 @@ public class CentrifugeContainer extends AbstractContainer
         {
             @Override
             public int get() {
-                return tileEntity.recipeProgress;
+                return blockEntity.recipeProgress;
             }
 
             @Override
             public void set(int value) {
-                tileEntity.recipeProgress = value;
+                blockEntity.recipeProgress = value;
             }
         });
 
-        this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            // Comb slot
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, InventoryHandlerHelper.INPUT_SLOT, 13, 35));
+        // Comb slot
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, InventoryHandlerHelper.INPUT_SLOT, 13, 35));
 
-            // Inventory slots
-            addSlotBox(inv, InventoryHandlerHelper.OUTPUT_SLOTS[0], 67, 17, 3, 18, 3, 18);
-        });
+        // Inventory slots
+        addSlotBox(this.blockEntity.inventoryHandler, InventoryHandlerHelper.OUTPUT_SLOTS[0], 67, 17, 3, 18, 3, 18);
 
-        this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
-            addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
-        });
+        addSlotBox(this.blockEntity.getUpgradeHandler(), 0, 165, 8, 1, 18, 4, 18);
 
         layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
     }
 
-    private static CentrifugeBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
+    private static CentrifugeBlockEntity getBlockEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
         final BlockEntity tileAtPos = playerInventory.player.level().getBlockEntity(data.readBlockPos());
         if (tileAtPos instanceof CentrifugeBlockEntity) {
             return (CentrifugeBlockEntity) tileAtPos;
         }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+        throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
     }
 
     @Override
@@ -120,6 +113,6 @@ public class CentrifugeContainer extends AbstractContainer
 
     @Override
     protected BlockEntity getBlockEntity() {
-        return tileEntity;
+        return blockEntity;
     }
 }

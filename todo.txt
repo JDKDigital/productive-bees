@@ -1,3 +1,11 @@
+test bottler recipe
+change genes to be components
+BeeEffect as components
+register block capabilities in event
+
+redo configs
+look into changing BeeNBTChangerRecipe to BeeComponentChangerRecipe
+
 1.20
 
 - butcher bee

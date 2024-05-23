@@ -1,18 +1,23 @@
 package cy.jdkdigital.productivebees.common.crafting.conditions;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
+import net.neoforged.neoforge.common.conditions.ICondition;
+import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
+import net.neoforged.neoforge.common.crafting.CraftingHelper;
 
-public class BeeExistsCondition implements ICondition
+public record BeeExistsCondition(String beeName) implements ICondition
 {
-    private static final ResourceLocation NAME = new ResourceLocation(ProductiveBees.MODID, "bee_exists");
-    private final ResourceLocation beeName;
+    public static MapCodec<BeeExistsCondition> CODEC = RecordCodecBuilder.mapCodec(
+            builder -> builder
+                    .group(Codec.STRING.fieldOf("bee").forGetter(BeeExistsCondition::beeName))
+                    .apply(builder, BeeExistsCondition::new));
 
     public BeeExistsCondition(String location) {
         this(new ResourceLocation(location));
@@ -27,8 +32,8 @@ public class BeeExistsCondition implements ICondition
     }
 
     @Override
-    public ResourceLocation getID() {
-        return NAME;
+    public MapCodec<? extends ICondition> codec() {
+        return CODEC;
     }
 
     @Override
@@ -40,25 +45,5 @@ public class BeeExistsCondition implements ICondition
     @Override
     public String toString() {
         return "bee_exists(\"" + beeName + "\")";
-    }
-
-    public static class Serializer implements IConditionSerializer<BeeExistsCondition>
-    {
-        public static final Serializer INSTANCE = new Serializer();
-
-        @Override
-        public void write(JsonObject json, BeeExistsCondition value) {
-            json.addProperty("bee", value.beeName.toString());
-        }
-
-        @Override
-        public BeeExistsCondition read(JsonObject json) {
-            return new BeeExistsCondition(new ResourceLocation(GsonHelper.getAsString(json, "bee")));
-        }
-
-        @Override
-        public ResourceLocation getID() {
-            return BeeExistsCondition.NAME;
-        }
     }
 }

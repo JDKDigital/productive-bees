@@ -2,9 +2,11 @@ package cy.jdkdigital.productivebees.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.DataResult;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -12,7 +14,6 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,10 +25,10 @@ public class BeeCreator
 
         data.putString("id", id.toString());
 
-        TextColor primary = TextColor.parseColor(json.has("primaryColor") ? json.get("primaryColor").getAsString() : "#edc343");
-        TextColor secondary = TextColor.parseColor(json.has("secondaryColor") ? json.get("secondaryColor").getAsString() : "#804f40");
-        data.putInt("primaryColor", primary.getValue());
-        data.putInt("secondaryColor", secondary.getValue());
+        DataResult<TextColor> primary = TextColor.parseColor(json.has("primaryColor") ? json.get("primaryColor").getAsString() : "#edc343");
+        DataResult<TextColor> secondary = TextColor.parseColor(json.has("secondaryColor") ? json.get("secondaryColor").getAsString() : "#804f40");
+        data.putInt("primaryColor", primary.getOrThrow().getValue());
+        data.putInt("secondaryColor", secondary.getOrThrow().getValue());
 
         if (json.has("description")) {
             data.putString("description", json.get("description").getAsString());
@@ -57,10 +58,10 @@ public class BeeCreator
             data.putString("beeTexture", json.get("beeTexture").getAsString());
         }
         if (json.has("particleColor")) {
-            data.putInt("particleColor", TextColor.parseColor(json.get("particleColor").getAsString()).getValue());
+            data.putInt("particleColor", TextColor.parseColor(json.get("particleColor").getAsString()).getOrThrow().getValue());
         }
 
-        data.putInt("tertiaryColor", json.has("tertiaryColor") ? TextColor.parseColor(json.get("tertiaryColor").getAsString()).getValue() : data.getInt("primaryColor"));
+        data.putInt("tertiaryColor", json.has("tertiaryColor") ? TextColor.parseColor(json.get("tertiaryColor").getAsString()).getOrThrow().getValue() : data.getInt("primaryColor"));
 
         if (json.has("attackResponse")) {
             data.putString("attackResponse", json.get("attackResponse").getAsString());
@@ -121,7 +122,7 @@ public class BeeCreator
             Map<MobEffect, Integer> effects = new HashMap<>();
             for (JsonElement el : json.get("passiveEffects").getAsJsonArray()) {
                 JsonObject effect = el.getAsJsonObject();
-                effects.put(ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(effect.get("effect").getAsString())), effect.get("duration").getAsInt());
+                effects.put(BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(effect.get("effect").getAsString())), effect.get("duration").getAsInt());
             }
             data.put("effect", new BeeEffect(effects).serializeNBT());
         }
@@ -144,9 +145,9 @@ public class BeeCreator
         } else {
             ResourceLocation name = new ResourceLocation(beeType);
             if (name.getNamespace().equals(ProductiveBees.MODID)) {
-                egg = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name.getNamespace(), "spawn_egg_" + name.getPath())));
+                egg = new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(name.getNamespace(), "spawn_egg_" + name.getPath())));
             } else {
-                egg = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name.getNamespace(), name.getPath() + "_spawn_egg")));
+                egg = new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(name.getNamespace(), name.getPath() + "_spawn_egg")));
             }
         }
         return egg;

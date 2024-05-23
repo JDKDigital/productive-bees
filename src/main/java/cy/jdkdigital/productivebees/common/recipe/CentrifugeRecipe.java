@@ -7,6 +7,7 @@ import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
+import cy.jdkdigital.productivelib.common.recipe.TagOutputRecipe;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,7 +22,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -60,7 +61,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
             }
 
             for (ItemStack stack : this.ingredient.getItems()) {
-                if (ItemHandlerHelper.canItemStacksStack(invStack, stack)) {
+                if (ItemStack.isSameItemSameComponents(invStack, stack)) {
                     return true;
                 }
             }

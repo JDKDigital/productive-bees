@@ -2,15 +2,16 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.fluid.HoneyFluid;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -18,17 +19,17 @@ import java.util.function.Supplier;
 @EventBusSubscriber(modid = ProductiveBees.MODID, bus = EventBusSubscriber.Bus.MOD)
 public final class ModFluids
 {
-    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ProductiveBees.MODID);
-    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, ProductiveBees.MODID);
+    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Registries.FLUID, ProductiveBees.MODID);
+    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.FLUID_TYPES, ProductiveBees.MODID);
 
-    public static final RegistryObject<ForgeFlowingFluid> HONEY = createFluid("honey", HoneyFluid.Source::new);
-    public static final RegistryObject<ForgeFlowingFluid> HONEY_FLOWING = createFluid("flowing_honey", HoneyFluid.Flowing::new);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid> HONEY = createFluid("honey", HoneyFluid.Source::new);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid> HONEY_FLOWING = createFluid("flowing_honey", HoneyFluid.Flowing::new);
 
-    private static <B extends Fluid> RegistryObject<B> createFluid(String name, Supplier<? extends B> supplier) {
+    private static <B extends Fluid> DeferredHolder<Fluid, B> createFluid(String name, Supplier<? extends B> supplier) {
         return FLUIDS.register(name, supplier);
     }
 
-    public static RegistryObject<FluidType> HONEY_FLUID_TYPE = FLUID_TYPES.register("honey", () -> new FluidType(FluidType.Properties.create().canExtinguish(true).supportsBoating(true).motionScale(0.007D))
+    public static DeferredHolder<FluidType, FluidType> HONEY_FLUID_TYPE = FLUID_TYPES.register("honey", () -> new FluidType(FluidType.Properties.create().canExtinguish(true).supportsBoating(true).motionScale(0.007D))
     {
         @Override
         public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {

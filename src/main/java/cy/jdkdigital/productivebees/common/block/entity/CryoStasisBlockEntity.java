@@ -6,13 +6,17 @@ import cy.jdkdigital.productivebees.container.CryoStasisContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
+import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -21,26 +25,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CryoStasisBlockEntity extends CapabilityBlockEntity
+public class CryoStasisBlockEntity extends CapabilityBlockEntity implements MenuProvider
 {
     List<BeeEntry> cryoBees = new ArrayList<>();
 
     public static int SLOT_INPUT = 0;
     public static int SLOT_CAGE = 1;
     public static int SLOT_OUT = 2;
-    private final LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(3, this)
+    public final IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(3, this)
     {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
@@ -56,34 +56,25 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity
         public boolean isInputSlot(int slot) {
             return slot == SLOT_INPUT;
         }
-    });
+    };
 
     public CryoStasisBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.CRYO_STASIS.get(), pos, state);
     }
 
-    @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventoryHandler.cast();
-        }
-        return super.getCapability(cap, side);
-    }
-
-    @Override
-    public void savePacketNBT(CompoundTag tag) {
-        super.savePacketNBT(tag);
+    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.savePacketNBT(tag, provider);
         ListTag listNBT = new ListTag();
         cryoBees.forEach(beeEntry -> {
-            listNBT.add(beeEntry.serializeNBT());
+            listNBT.add(beeEntry.serializeNBT(provider));
         });
         tag.put("BeeList", listNBT);
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag) {
-        super.loadPacketNBT(tag);
+    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadPacketNBT(tag, provider);
         if (tag.contains("BeeList")) {
             ListTag listNBT = tag.getList("BeeList", 10);
             listNBT.forEach(beeTag -> {
@@ -93,33 +84,36 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity
     }
 
     public static <E extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, CryoStasisBlockEntity blockEntity) {
-        blockEntity.inventoryHandler.ifPresent(inv -> {
-            var input = inv.getStackInSlot(blockEntity.SLOT_INPUT);
-            if (!input.isEmpty() && BeeCage.isFilled(input)) {
-                var entity = BeeCage.getEntityFromStack(input.getTag(), level, true);
-                if (entity != null) {
-                    if (entity instanceof ProductiveBee pBee) {
-                        blockEntity.cryoBees.add(new BeeEntry(
-                                new ResourceLocation(pBee.getBeeType()),
-                                true, 1200,
-                                pBee.getAttributeValue(BeeAttributes.PRODUCTIVITY),
-                                pBee.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE),
-                                pBee.getAttributeValue(BeeAttributes.BEHAVIOR),
-                                pBee.getAttributeValue(BeeAttributes.ENDURANCE),
-                                pBee.getAttributeValue(BeeAttributes.TEMPER)
-                        ));
-                    } else {
-                        blockEntity.cryoBees.add(new BeeEntry(ForgeRegistries.ENTITY_TYPES.getKey(entity.getType()), false, 1200, 0, 0, 0, 0, 0));
-                    }
-                    input.shrink(1);
+        var input = blockEntity.inventoryHandler.getStackInSlot(blockEntity.SLOT_INPUT);
+        if (!input.isEmpty() && BeeCage.isFilled(input)) {
+            var entity = BeeCage.getEntityFromStack(input.getTag(), level, true);
+            if (entity != null) {
+                if (entity instanceof ProductiveBee pBee) {
+                    blockEntity.cryoBees.add(new BeeEntry(
+                            new ResourceLocation(pBee.getBeeType()),
+                            true, 1200,
+                            pBee.getAttributeValue(BeeAttributes.PRODUCTIVITY),
+                            pBee.getAttributeValue(BeeAttributes.WEATHER_TOLERANCE),
+                            pBee.getAttributeValue(BeeAttributes.BEHAVIOR),
+                            pBee.getAttributeValue(BeeAttributes.ENDURANCE),
+                            pBee.getAttributeValue(BeeAttributes.TEMPER)
+                    ));
+                } else {
+                    blockEntity.cryoBees.add(new BeeEntry(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()), false, 1200, 0, 0, 0, 0, 0));
                 }
+                input.shrink(1);
             }
-        });
+        }
     }
 
     @Override
     public Component getName() {
         return Component.translatable(ModBlocks.CRYO_STASIS.get().getDescriptionId());
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return getName();
     }
 
     @Override
@@ -163,7 +157,7 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity
         }
 
         @Override
-        public CompoundTag serializeNBT() {
+        public CompoundTag serializeNBT(HolderLookup.Provider provider) {
             var tag = new CompoundTag();
             tag.putString("id", id.toString());
             tag.putBoolean("isProductive", isProductive);
@@ -177,7 +171,7 @@ public class CryoStasisBlockEntity extends CapabilityBlockEntity
         }
 
         @Override
-        public void deserializeNBT(CompoundTag nbt) {
+        public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
         }
 
         public ResourceLocation id() {

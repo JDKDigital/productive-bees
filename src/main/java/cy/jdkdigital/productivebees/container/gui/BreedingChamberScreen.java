@@ -18,7 +18,6 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
 
     @Override
     public void render(@Nonnull GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
+        this.renderBackground(matrixStack, mouseX, mouseY, partialTicks);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }
@@ -46,14 +45,12 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
         guiGraphics.drawString(font, this.playerInventoryTitle, -5, (this.getYSize() - 96 + 2), 4210752, false);
 
         List<FormattedCharSequence> tooltipList = new ArrayList<>();
-        this.menu.blockEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
-            int energyAmount = handler.getEnergyStored();
+        int energyAmount = this.menu.blockEntity.energyHandler.getEnergyStored();
 
-            // Energy level tooltip
-            if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
-                tooltipList.add(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
-            }
-        });
+        // Energy level tooltip
+        if (isHovering(-5, 16, 6, 54, mouseX, mouseY)) {
+            tooltipList.add(Component.translatable("productivebees.screen.energy_level", energyAmount + "FE").getVisualOrderText());
+        }
 
         // Bee output tooltip
         if (this.menu.blockEntity.chosenRecipe != null && minecraft != null) {
@@ -82,11 +79,9 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
 
         // Empty cage slot
         if (isHovering(85 - 13, 14, 18, 18, mouseX, mouseY)) {
-            this.menu.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                if (handler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).isEmpty()) {
-                    tooltipList.add(Component.translatable("productivebees.breeding_chamber.tooltip.cage").getVisualOrderText());
-                }
-            });
+            if (this.menu.blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).isEmpty()) {
+                tooltipList.add(Component.translatable("productivebees.breeding_chamber.tooltip.cage").getVisualOrderText());
+            }
         }
         guiGraphics.renderTooltip(font, tooltipList, mouseX - getGuiLeft(), mouseY - getGuiTop());
     }
@@ -106,11 +101,9 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
 
         // Draw energy level
         guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 206, 0, 4, 52);
-        this.menu.blockEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
-            int energyAmount = handler.getEnergyStored();
-            int energyLevel = (int) (energyAmount * (52 / 10000F));
-            guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
-        });
+        int energyAmount = this.menu.blockEntity.energyHandler.getEnergyStored();
+        int energyLevel = (int) (energyAmount * (52 / 10000F));
+        guiGraphics.blit(GUI_TEXTURE, getGuiLeft() - 5, getGuiTop() + 17, 8, 17, 4, 52 - energyLevel);
 
         // Draw output bee
         if (minecraft != null) {
@@ -121,23 +114,21 @@ public class BreedingChamberScreen extends AbstractContainerScreen<BreedingChamb
                     BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient, minecraft);
                 }
             } else {
-                this.menu.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                    ItemStack cage1 = handler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1);
-                    ItemStack cage2 = handler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2);
-                    if (BeeCage.isFilled(cage1) && BeeCage.isFilled(cage2)) {
-                        CompoundTag tag1 = cage1.getTag();
-                        CompoundTag tag2 = cage2.getTag();
-                        if (tag1 != null) {
-                            var beeData = BeeIngredientFactory.getIngredient(tag1.contains("type") ? tag1.getString("type") : tag1.getString("entity"));
-                            if (tag1.getString("name").equals(tag2.getString("name")) && (!tag1.getBoolean("isProductiveBee") || (beeData.get() != null && (beeData.get().getCachedEntity(this.menu.blockEntity.getLevel()) instanceof ProductiveBee pBee) && pBee.canSelfBreed()))) {
-                                Supplier<BeeIngredient> beeIngredient = BeeIngredientFactory.getIngredient(tag1.getString("type"));
-                                if (beeIngredient.get() != null) {
-                                    BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient.get(), minecraft);
-                                }
+                ItemStack cage1 = this.menu.blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1);
+                ItemStack cage2 = this.menu.blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2);
+                if (BeeCage.isFilled(cage1) && BeeCage.isFilled(cage2)) {
+                    CompoundTag tag1 = cage1.getTag();
+                    CompoundTag tag2 = cage2.getTag();
+                    if (tag1 != null) {
+                        var beeData = BeeIngredientFactory.getIngredient(tag1.contains("type") ? tag1.getString("type") : tag1.getString("entity"));
+                        if (tag1.getString("name").equals(tag2.getString("name")) && (!tag1.getBoolean("isProductiveBee") || (beeData.get() != null && (beeData.get().getCachedEntity(this.menu.blockEntity.getLevel()) instanceof ProductiveBee pBee) && pBee.canSelfBreed()))) {
+                            Supplier<BeeIngredient> beeIngredient = BeeIngredientFactory.getIngredient(tag1.getString("type"));
+                            if (beeIngredient.get() != null) {
+                                BeeRenderer.render(guiGraphics, getGuiLeft() + 134 - 13, getGuiTop() + 17, beeIngredient.get(), minecraft);
                             }
                         }
                     }
-                });
+                }
             }
         }
     }

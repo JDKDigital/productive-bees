@@ -1,12 +1,14 @@
 package cy.jdkdigital.productivebees.compat.sussy;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,9 @@ public class SussyMinecraft
         return block.equals(Blocks.SUSPICIOUS_SAND) || block.equals(Blocks.SUSPICIOUS_GRAVEL);
     }
 
-    public static List<ResourceLocation> getLootTables(ServerLevel level, BlockPos pos) {
+    public static List<ResourceKey<LootTable>> getLootTables(ServerLevel level, BlockPos pos) {
         var biome = level.getBiome(pos);
-        List<ResourceLocation> possibleTables = new ArrayList<>();
+        List<ResourceKey<LootTable>> possibleTables = new ArrayList<>();
         if (biome.is(BiomeTags.HAS_TRAIL_RUINS)) {
             if (level.getRandom().nextInt(100) < 10) {
                 possibleTables.add(BuiltInLootTables.TRAIL_RUINS_ARCHAEOLOGY_RARE);

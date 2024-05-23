@@ -4,10 +4,10 @@
     "tag": "forge:milk",
     "amount": 250
   },
-  "input": {
+  "ingredient": {
     "item": "minecraft:glass_bottle"
   },
-  "output": {
+  "result": {
     "item": "productivebees:milk_bottle"
   },
   "conditions": [

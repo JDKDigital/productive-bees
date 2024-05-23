@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.container.GeneIndexerContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
+import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,10 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,7 +34,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
     private boolean isRunning = true;
     private final Map<String, Map<Integer, Integer>> index = new HashMap<>(); // Map<String(name of attribute or bee type), Map<Slot, Purity>>
 
-    private final LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(104, this)
+    public final IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(104, this)
     {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack, boolean fromAutomation) {
@@ -70,7 +68,7 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
         public boolean isInputSlotItem(int slot, ItemStack item) {
             return this.isItemValid(slot, item);
         }
-    });
+    };
 
     public GeneIndexerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.GENE_INDEXER.get(), pos, state);
@@ -99,54 +97,50 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
                             Optional<Map.Entry<Integer, Integer>> otherEntry = sorted.get().reduce((entry1, entry2) -> entry2);
 
                             if (firstEntry.isPresent() && otherEntry.isPresent()) {
-                                blockEntity.inventoryHandler.ifPresent(inventory -> {
-                                    ItemStack firstStack = inventory.getStackInSlot(firstEntry.get().getKey());
-                                    ItemStack secondStack = inventory.getStackInSlot(otherEntry.get().getKey());
-                                    ItemStack combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(firstStack, secondStack));
+                                ItemStack firstStack = blockEntity.inventoryHandler.getStackInSlot(firstEntry.get().getKey());
+                                ItemStack secondStack = blockEntity.inventoryHandler.getStackInSlot(otherEntry.get().getKey());
+                                ItemStack combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(firstStack, secondStack));
 
-                                    if (!firstStack.isEmpty() && !secondStack.isEmpty() && !combinedGene.isEmpty()) {
-                                        if (inventory instanceof InventoryHandlerHelper.BlockEntityItemStackHandler
-                                                && ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventory).addOutput(combinedGene).getCount() == 0) {
-                                            firstStack.setCount(firstStack.getCount() - 1);
-                                            secondStack.setCount(secondStack.getCount() - 1);
-                                            inventory.setStackInSlot(firstEntry.get().getKey(), firstStack);
-                                            inventory.setStackInSlot(otherEntry.get().getKey(), secondStack);
+                                if (!firstStack.isEmpty() && !secondStack.isEmpty() && !combinedGene.isEmpty()) {
+                                    if (blockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler
+                                            && ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene).getCount() == 0) {
+                                        firstStack.setCount(firstStack.getCount() - 1);
+                                        secondStack.setCount(secondStack.getCount() - 1);
+                                        blockEntity.inventoryHandler.setStackInSlot(firstEntry.get().getKey(), firstStack);
+                                        blockEntity.inventoryHandler.setStackInSlot(otherEntry.get().getKey(), secondStack);
 
-                                            if (Gene.getPurity(combinedGene) == 100) {
-                                                indexIterator.remove();
-                                            }
+                                        if (Gene.getPurity(combinedGene) == 100) {
+                                            indexIterator.remove();
                                         }
-                                    } else {
-                                        // If either stack is empty, the type no longer has enough stacks to merge
-                                        indexIterator.remove();
                                     }
-                                });
+                                } else {
+                                    // If either stack is empty, the type no longer has enough stacks to merge
+                                    indexIterator.remove();
+                                }
                             }
                         } else if (first.getValue().size() == 1) {
                             // There's only one of the type of gene present
                             Map.Entry<Integer, Integer> innerEntry = first.getValue().entrySet().iterator().next();
-                            blockEntity.inventoryHandler.ifPresent(inventory -> {
-                                ItemStack stack = inventory.getStackInSlot(innerEntry.getKey());
-                                if (stack.getCount() == 1) {
-                                    indexIterator.remove();
-                                } else if (stack.getCount() > 1) {
-                                    // Merge with self
-                                    ItemStack combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(stack, stack.copy()));
-                                    if (!stack.isEmpty() && !combinedGene.isEmpty()) {
-                                        if (inventory instanceof InventoryHandlerHelper.BlockEntityItemStackHandler
-                                                && ((InventoryHandlerHelper.BlockEntityItemStackHandler) inventory).addOutput(combinedGene).getCount() == 0) {
-                                            stack.setCount(stack.getCount() - 2);
-                                            inventory.setStackInSlot(innerEntry.getKey(), stack);
+                            ItemStack stack = blockEntity.inventoryHandler.getStackInSlot(innerEntry.getKey());
+                            if (stack.getCount() == 1) {
+                                indexIterator.remove();
+                            } else if (stack.getCount() > 1) {
+                                // Merge with self
+                                ItemStack combinedGene = CombineGeneRecipe.mergeGenes(Arrays.asList(stack, stack.copy()));
+                                if (!stack.isEmpty() && !combinedGene.isEmpty()) {
+                                    if (blockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler
+                                            && ((InventoryHandlerHelper.BlockEntityItemStackHandler) blockEntity.inventoryHandler).addOutput(combinedGene).getCount() == 0) {
+                                        stack.setCount(stack.getCount() - 2);
+                                        blockEntity.inventoryHandler.setStackInSlot(innerEntry.getKey(), stack);
 
-                                            if (Gene.getPurity(combinedGene) == 100) {
-                                                indexIterator.remove();
-                                            }
+                                        if (Gene.getPurity(combinedGene) == 100) {
+                                            indexIterator.remove();
                                         }
                                     }
-                                } else {
-                                    indexIterator.remove();
                                 }
-                            });
+                            } else {
+                                indexIterator.remove();
+                            }
                         } else {
                             indexIterator.remove();
                         }
@@ -162,27 +156,25 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
         blockEntity.index.clear();
 
         // Iterate items and find out which should attempt a merge
-        blockEntity.inventoryHandler.ifPresent(inventory -> {
-            for (int slot = 0; slot < inventory.getSlots(); ++slot) {
-                ItemStack stack = inventory.getStackInSlot(slot);
-                if (stack.getItem().equals(ModItems.GENE.get())) {
-                    // Check purity, 100% pure can be ignored
-                    int purity = Gene.getPurity(stack);
-                    if (purity < 100) {
-                        // Create a list for each attribute variant having the same attribute but different purity
-                        String key = Gene.getAttributeName(stack) + "-" + Gene.getValue(stack);
+        for (int slot = 0; slot < blockEntity.inventoryHandler.getSlots(); ++slot) {
+            ItemStack stack = blockEntity.inventoryHandler.getStackInSlot(slot);
+            if (stack.getItem().equals(ModItems.GENE.get())) {
+                // Check purity, 100% pure can be ignored
+                int purity = Gene.getPurity(stack);
+                if (purity < 100) {
+                    // Create a list for each attribute variant having the same attribute but different purity
+                    String key = Gene.getAttributeName(stack) + "-" + Gene.getValue(stack);
 
-                        // Initiate internal map
-                        if (!blockEntity.index.containsKey(key)) {
-                            blockEntity.index.put(key, new HashMap<>());
-                        }
-                        Map<Integer, Integer> internalMap = blockEntity.index.get(key);
-
-                        internalMap.put(slot, purity);
+                    // Initiate internal map
+                    if (!blockEntity.index.containsKey(key)) {
+                        blockEntity.index.put(key, new HashMap<>());
                     }
+                    Map<Integer, Integer> internalMap = blockEntity.index.get(key);
+
+                    internalMap.put(slot, purity);
                 }
             }
-        });
+        }
         if (state.getValue(BlockStateProperties.ENABLED)) {
             blockEntity.isRunning = true;
         }
@@ -201,22 +193,13 @@ public class GeneIndexerBlockEntity extends CapabilityBlockEntity
 
     @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventoryHandler.cast();
-        }
-        return super.getCapability(cap, side);
-    }
-
-    @Nonnull
-    @Override
     public Component getDisplayName() {
         return Component.translatable(ModBlocks.GENE_INDEXER.get().getDescriptionId());
     }
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory, final Player player) {
+    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory) {
         return new GeneIndexerContainer(windowId, playerInventory, this);
     }
 }

@@ -3,20 +3,22 @@ package cy.jdkdigital.productivebees.common.block.entity;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
+import cy.jdkdigital.productivelib.common.block.entity.AbstractBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,7 +30,7 @@ public class JarBlockEntity extends AbstractBlockEntity
 
     public int tickCount = 0;
 
-    private final LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(1, this)
+    private final IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(1, this)
     {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
@@ -53,19 +55,10 @@ public class JarBlockEntity extends AbstractBlockEntity
                 serverLevel.sendBlockUpdated(blockEntity.getBlockPos(), blockEntity.getBlockState(), blockEntity.getBlockState(), 3);
             }
         }
-    });
+    };
 
     public JarBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.JAR.get(), pos, state);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventoryHandler.cast();
-        }
-        return super.getCapability(cap, side);
     }
 
     @Nullable
@@ -77,18 +70,21 @@ public class JarBlockEntity extends AbstractBlockEntity
         return this.cachedEntity;
     }
 
-    public void savePacketNBT(CompoundTag tag) {
-        super.savePacketNBT(tag);
-        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            CompoundTag compound = ((INBTSerializable<CompoundTag>) inv).serializeNBT();
-            tag.put("inv", compound);
-        });
+    @Override
+    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.savePacketNBT(tag, provider);
+        if (inventoryHandler instanceof ItemStackHandler serializable) {
+            tag.put("inv", serializable.serializeNBT(provider));
+        };
     }
 
-    public void loadPacketNBT(CompoundTag tag) {
-        super.loadPacketNBT(tag);
+    @Override
+    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadPacketNBT(tag, provider);
         CompoundTag invTag = tag.getCompound("inv");
-        this.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> ((INBTSerializable<CompoundTag>) inv).deserializeNBT(invTag));
+        if (inventoryHandler instanceof ItemStackHandler serializable) {
+            serializable.deserializeNBT(provider, invTag);
+        }
 
         tickCount = ProductiveBees.random.nextInt(360);
     }

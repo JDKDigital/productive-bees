@@ -1,21 +1,19 @@
 package cy.jdkdigital.productivebees;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.common.crafting.conditions.BeeExistsCondition;
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
-import cy.jdkdigital.productivebees.compat.top.TopPlugin;
 import cy.jdkdigital.productivebees.dispenser.CageDispenseBehavior;
 import cy.jdkdigital.productivebees.dispenser.ShearsDispenseItemBehavior;
 import cy.jdkdigital.productivebees.event.EventHandler;
-import cy.jdkdigital.productivebees.event.loot.IngredientModifier;
-import cy.jdkdigital.productivebees.event.loot.ItemLootModifier;
 import cy.jdkdigital.productivebees.init.*;
-import cy.jdkdigital.productivebees.loot.LootItemKilledByUUIDCondition;
 import cy.jdkdigital.productivebees.network.PacketHandler;
 import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -30,34 +28,40 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.OnDatapackSyncEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.InterModComms;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.conditions.AndCondition;
+import net.neoforged.neoforge.common.conditions.ICondition;
+import net.neoforged.neoforge.common.crafting.CraftingHelper;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -70,48 +74,51 @@ public final class ProductiveBees
 
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final DeferredRegister<LootPoolEntryType> LOOT_POOL_ENTRIES = DeferredRegister.create(Registries.LOOT_POOL_ENTRY_TYPE, MODID);
-    public static final DeferredRegister<LootItemFunctionType> LOOT_POOL_FUNCTIONS = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, MODID);
-    public static final DeferredRegister<LootItemConditionType> LOOT_POOL_CONDITIONS = DeferredRegister.create(Registries.LOOT_CONDITION_TYPE, MODID);
-    public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> LOOT_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, ProductiveBees.MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
 
-    // TODO remove in 1.21
-    public static final RegistryObject<Codec<ItemLootModifier>> ITEM_MODIFIER = LOOT_SERIALIZERS.register("item_modifier", ItemLootModifier.CODEC);
-    public static final RegistryObject<Codec<IngredientModifier>> INGREDIENT_MODIFIER = LOOT_SERIALIZERS.register("ingredient_modifier", IngredientModifier.CODEC);
-    public static final RegistryObject<LootItemConditionType> KILLED_BY_UUID = LOOT_POOL_CONDITIONS.register("killed_by_uuid", () -> new LootItemConditionType(new LootItemKilledByUUIDCondition.Serializer()));
+    public static final DeferredRegister<LootPoolEntryType> LOOT_POOL_ENTRIES = DeferredRegister.create(Registries.LOOT_POOL_ENTRY_TYPE, MODID);
+    public static final DeferredRegister<LootItemFunctionType<?>> LOOT_POOL_FUNCTIONS = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, MODID);
+    public static final DeferredRegister<LootItemConditionType> LOOT_POOL_CONDITIONS = DeferredRegister.create(Registries.LOOT_CONDITION_TYPE, MODID);
+    public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> LOOT_SERIALIZERS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MODID);
+    public static final DeferredRegister<MapCodec<? extends ICondition>> CONDITION_CODECS = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, MODID);
+    public static final DeferredRegister<CriterionTrigger<?>> TRIGGER_TYPES = DeferredRegister.create(Registries.TRIGGER_TYPE, MODID);
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
     public static ResourceKey<CreativeModeTab> TAB_KEY = ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(MODID, MODID));
-    public static RegistryObject<CreativeModeTab> TAB = CREATIVE_MODE_TABS.register(MODID, () -> {
+    public static DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = CREATIVE_MODE_TABS.register(MODID, () -> {
         return CreativeModeTab.builder()
                 .icon(() -> new ItemStack(Items.BEE_NEST))
                 .title(Component.literal("Productive Bees"))
                 .build();
     });
 
-    public ProductiveBees() {
+    public static final DeferredHolder<MapCodec<? extends ICondition>, MapCodec<FluidTagEmptyCondition>> FLUID_TAG_EMPTY_CONDITION = CONDITION_CODECS.register("fluid_tag_empty", () -> FluidTagEmptyCondition.CODEC);
+    public static final DeferredHolder<MapCodec<? extends ICondition>, MapCodec<BeeExistsCondition>> BEE_EXISTS_CONDITION = CONDITION_CODECS.register("bee_exists", () -> BeeExistsCondition.CODEC);
+
+    public ProductiveBees(IEventBus modEventBus, Dist dist, ModContainer container) {
         ModBlocks.registerHives();
 
         // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
-        MinecraftForge.EVENT_BUS.addListener(this::onDataSync);
-        MinecraftForge.EVENT_BUS.addListener(this::onEntityAttacked);
-        MinecraftForge.EVENT_BUS.addListener(this::onEntityDeath);
-        MinecraftForge.EVENT_BUS.addListener(this::onEntityHurt);
+        NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.addListener(this::onServerStarting);
+        NeoForge.EVENT_BUS.addListener(this::onDataSync);
+        NeoForge.EVENT_BUS.addListener(this::onEntityAttacked);
+        NeoForge.EVENT_BUS.addListener(this::onEntityDeath);
+        NeoForge.EVENT_BUS.addListener(this::onEntityHurt);
 
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModPointOfInterestTypes.POI_TYPES.register(modEventBus);
         ModProfessions.PROFESSIONS.register(modEventBus);
         ModFluids.FLUID_TYPES.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
-        ModItems.ITEMS.register(modEventBus);
-        ModBlocks.BLOCKS.register(modEventBus);
+        ITEMS.register(modEventBus);
+        BLOCKS.register(modEventBus);
         ModEntities.HIVE_BEES.register(modEventBus);
         ModEntities.SOLITARY_BEES.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
-        ModBlockEntityTypes.BLOCK_ENTITIES.register(modEventBus);
+        BLOCK_ENTITIES.register(modEventBus);
         ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
         ModFeatures.TREE_DECORATORS.register(modEventBus);
@@ -124,6 +131,7 @@ public final class ProductiveBees
         LOOT_POOL_FUNCTIONS.register(modEventBus);
         LOOT_POOL_CONDITIONS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
+        CONDITION_CODECS.register(modEventBus);
 
         modEventBus.addListener(this::onInterModEnqueue);
         modEventBus.addListener(this::onCommonSetup);
@@ -136,11 +144,11 @@ public final class ProductiveBees
         CraftingHelper.register(FluidTagEmptyCondition.Serializer.INSTANCE);
         CraftingHelper.register(BeeExistsCondition.Serializer.INSTANCE);
 
-        ForgeMod.enableMilkFluid();
+        NeoForgeMod.enableMilkFluid();
     }
 
     public void onInterModEnqueue(InterModEnqueueEvent event) {
-        InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
+//        InterModComms.sendTo("theoneprobe", "getTheOneProbe", TopPlugin::new);
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {

@@ -4,10 +4,10 @@
     "tag": "forge:honey",
     "amount": 250
   },
-  "input": {
+  "ingredient": {
     "item": "minecraft:glass_bottle"
   },
-  "output": {
+  "result": {
     "item": "minecraft:honey_bottle"
   }
 }

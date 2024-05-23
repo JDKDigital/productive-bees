@@ -1,15 +1,16 @@
 package cy.jdkdigital.productivebees.compat.jei.ingredients;
 
+import com.mojang.serialization.DataResult;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.init.ModEntities;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +44,10 @@ public class BeeIngredientFactory
         return list;
     }
 
+    public static DataResult<Supplier<BeeIngredient>> read(String name) {
+        return DataResult.success(getIngredient(name));
+    }
+
     public static Supplier<BeeIngredient> getIngredient(String name) {
         return () -> getOrCreateList().get(name);
     }
@@ -51,13 +56,13 @@ public class BeeIngredientFactory
         if (ingredientList.isEmpty()) {
             // Add all beehive inhabitors, entity type check must be done before using the entry
             try {
-                for (EntityType<?> registryObject : ForgeRegistries.ENTITY_TYPES.getValues()) {
+                for (EntityType<?> registryObject : BuiltInRegistries.ENTITY_TYPE) {
                     if (registryObject.is(EntityTypeTags.BEEHIVE_INHABITORS)) {
                         if (registryObject.equals(ModEntities.CONFIGURABLE_BEE.get())) {
                             continue;
                         }
                         EntityType<? extends Bee> bee = (EntityType<? extends Bee>) registryObject;
-                        addBee(ForgeRegistries.ENTITY_TYPES.getKey(bee).toString(), new BeeIngredient(bee));
+                        addBee(BuiltInRegistries.ENTITY_TYPE.getKey(bee).toString(), new BeeIngredient(bee));
                     }
                 }
             } catch (IllegalStateException e) {
@@ -81,11 +86,5 @@ public class BeeIngredientFactory
 
     public static void addBee(String name, BeeIngredient bee) {
         ingredientList.put(name, bee);
-    }
-
-    public static Map<String, BeeIngredient> getRBeesIngredients() {
-        Map<String, BeeIngredient> list = new HashMap<>(getOrCreateList());
-        list.entrySet().removeIf(entry -> !entry.getKey().contains("resourcefulbees"));
-        return list;
     }
 }

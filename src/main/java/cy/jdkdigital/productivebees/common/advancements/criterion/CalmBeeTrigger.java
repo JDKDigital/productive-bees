@@ -1,65 +1,49 @@
 package cy.jdkdigital.productivebees.common.advancements.criterion;
 
-import com.google.gson.JsonObject;
-import cy.jdkdigital.productivebees.ProductiveBees;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
-import net.minecraft.advancements.critereon.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.animal.Bee;
 
-import javax.annotation.Nonnull;
+import java.util.Optional;
 
-public class CalmBeeTrigger extends SimpleCriterionTrigger<CalmBeeTrigger.Instance>
+public class CalmBeeTrigger extends SimpleCriterionTrigger<CalmBeeTrigger.TriggerInstance>
 {
-    private static final ResourceLocation ID = new ResourceLocation(ProductiveBees.MODID, "calm_bee");
-
-    @Nonnull
     @Override
-    public ResourceLocation getId() {
-        return ID;
+    public Codec<CalmBeeTrigger.TriggerInstance> codec() {
+        return CalmBeeTrigger.TriggerInstance.CODEC;
     }
 
     public void trigger(ServerPlayer player, Bee bee) {
         this.trigger(player, trigger -> trigger.test(bee));
     }
 
-    @Nonnull
-    @Override
-    protected Instance createInstance(JsonObject jsonObject, ContextAwarePredicate andPredicate, DeserializationContext conditionArrayParser) {
-        return new CalmBeeTrigger.Instance(GsonHelper.getAsString(jsonObject, "beeName"));
-    }
-
-    public static class Instance extends AbstractCriterionTriggerInstance
+    public record TriggerInstance(Optional<ContextAwarePredicate> player, String beeName) implements SimpleCriterionTrigger.SimpleInstance
     {
-        private final String beeName;
+        public static final Codec<CalmBeeTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(
+                EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(CalmBeeTrigger.TriggerInstance::player),
+                Codec.STRING.fieldOf("bee").forGetter(CalmBeeTrigger.TriggerInstance::beeName)
+            )
+            .apply(instance, CalmBeeTrigger.TriggerInstance::new)
+        );
 
-        public Instance(String beeName) {
-            super(CalmBeeTrigger.ID, ContextAwarePredicate.ANY);
-            this.beeName = beeName;
+        public static CalmBeeTrigger.TriggerInstance any() {
+            return new CalmBeeTrigger.TriggerInstance(Optional.empty(), "any");
         }
 
-        public static CalmBeeTrigger.Instance any() {
-            return new CalmBeeTrigger.Instance("any");
-        }
-
-        public static CalmBeeTrigger.Instance create(String beeName) {
-            return new CalmBeeTrigger.Instance(beeName);
+        public static CalmBeeTrigger.TriggerInstance create(String beeName) {
+            return new CalmBeeTrigger.TriggerInstance(Optional.empty(), beeName);
         }
 
         public boolean test(Bee bee) {
             String type = bee instanceof ConfigurableBee ? ((ConfigurableBee) bee).getBeeType() : bee.getEncodeId();
 
             return this.beeName.equals("any") || (type != null && type.equals(this.beeName));
-        }
-
-        @Nonnull
-        @Override
-        public JsonObject serializeToJson(SerializationContext serializer) {
-            JsonObject jsonobject = super.serializeToJson(serializer);
-            jsonobject.addProperty("beeName", this.beeName);
-            return jsonobject;
         }
     }
 }

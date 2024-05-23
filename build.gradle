@@ -1,22 +1,22 @@
 plugins {
+    id 'java-library'
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.neoforged.gradle.userdev' version '7.0.120'
     id "org.sonarqube" version "3.1.1"
 }
 
-jarJar.enable()
-//tasks.jarJar.configure {
+//jarJar.enable()
+////tasks.jarJar.configure {
+////    archiveClassifier.set('')
+////}
+////tasks.build.dependsOn tasks.jarJar
+//
+//tasks.named('jarJar') {
 //    archiveClassifier.set('')
 //}
-//tasks.build.dependsOn tasks.jarJar
-
-reobf {
-    jarJar { }
-}
-
-jar.finalizedBy('reobfJarJar')
+//jar.finalizedBy('reobfJarJar')
 
 version = mod_version
 group = mod_group_id
@@ -25,57 +25,34 @@ base {
     archivesName = mod_id
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
-minecraft {
-    mappings channel: mapping_channel, version: mapping_version
-    copyIdeResources = true
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
-    runs {
-        client {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
 
-            mods {
-                productivebees {
-                    source sourceSets.main
-                }
-            }
-        }
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
 
-        server {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+        modSource project.sourceSets.main
+    }
 
-            mods {
-                productivebees {
-                    source sourceSets.main
-                }
-            }
-        }
+    client {
+        // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
 
-        data {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+    server {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        programArgument '--nogui'
+    }
 
-            args '--mod', "${mod_id}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+    gameTestServer {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
 
-            mods {
-                productivebees {
-                    source sourceSets.main
-                }
-            }
-        }
+    data {
+        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
@@ -83,6 +60,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+    mavenLocal()
     maven {
         url "https://www.cursemaven.com"
     }
@@ -95,74 +73,47 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    implementation "net.neoforged:neoforge:${neo_version}"
+
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    implementation fg.deobf("local.libs:productivelib-${minecraft_version}:${lib_version}")
+    implementation "local.libs:productivelib-${minecraft_version}-${lib_version}"
 
-    jarJar(group: 'cy.jdkdigital.productivelib', name: 'productivelib', version: '[0.0.1,)') {
-        transitive(false)
-    }
+//    jarJar(group: 'cy.jdkdigital.productivelib', name: 'productivelib', version: '[0.0.4,)') {
+//        transitive(false)
+//    }
 
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+//    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+//    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+//
+//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+//
+//    compileOnly(fg.deobf("com.almostreliable.mods:almostunified-forge:${minecraft_version}-${au_version}"))
 
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-
-    compileOnly(fg.deobf("com.almostreliable.mods:almostunified-forge:${minecraft_version}-${au_version}"))
-
-    implementation fg.deobf("curse.maven:jei-238222:4712868")
-    implementation fg.deobf("curse.maven:jade-324717:5072729")
-    implementation fg.deobf("curse.maven:the-one-probe-245211:4579432")
-    implementation fg.deobf("curse.maven:emi-580555:5204261")
-    implementation fg.deobf("curse.maven:curios-309927:4985525")
-    implementation fg.deobf("curse.maven:corail-woodcutter-331983:4573934")
-    implementation fg.deobf("curse.maven:create-328085:4626108")
-//    implementation fg.deobf("curse.maven:croptopia-415438:4636036")
-//    implementation fg.deobf("curse.maven:farmers-delight-398521:4679319")
-//    implementation fg.deobf("curse.maven:caupona-656147:4727564")
-    implementation fg.deobf("curse.maven:pams-harvestcraft-2-trees-365460:4625518")
-    implementation fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:4687624")
-
-//    implementation fg.deobf("curse.maven:geckolib-388172:4711657")
-//    implementation fg.deobf("curse.maven:ato-405593:4590570")
-//    implementation fg.deobf("curse.maven:allthemodium-364466:4742548")
-////
-//    implementation fg.deobf("curse.maven:alchemistry-293425:4770614")
-//    implementation fg.deobf("curse.maven:chemlib-340666:4770575")
-//    implementation fg.deobf("curse.maven:alchemylib-293426:4654069")
-//    implementation fg.deobf("curse.maven:terrablender-563928:4647094")
-//    implementation fg.deobf("curse.maven:biomes-o-plenty-220318:4764804")
-//    implementation fg.deobf("curse.maven:flux-networks-248020:4651164")
-    implementation fg.deobf("curse.maven:titanium-287342:4712413")
-    implementation fg.deobf("curse.maven:industrial-foregoing-266515:4709710")
-//    implementation fg.deobf("curse.maven:apotheosis-313970:5030868")
-//    implementation fg.deobf("curse.maven:apothic-attributes-898963:4954000")
-//    implementation fg.deobf("curse.maven:placebo-283644:4913663")
-//    implementation fg.deobf("curse.maven:mutil-351914:4824501")
-//    implementation fg.deobf("curse.maven:tetra-289712:5097001")
-//    implementation fg.deobf("curse.maven:architectury-api-419699:4663010")
-//    implementation fg.deobf("curse.maven:cloth-config-348521:4633444")
-//    implementation fg.deobf("curse.maven:powah-rearchitected-633483:4729364")
-//    implementation fg.deobf("curse.maven:cucumber-272335:4773186")
-//    implementation fg.deobf("curse.maven:mystical-agriculture-246640:4761164")
+//    implementation fg.deobf("curse.maven:jei-238222:4712868")
+    implementation "curse.maven:jade-324717:5288504"
+//    implementation fg.deobf("curse.maven:the-one-probe-245211:4579432")
+    implementation "curse.maven:emi-580555:5311320"
+//    implementation fg.deobf("curse.maven:curios-309927:4985525")
+//    implementation fg.deobf("curse.maven:corail-woodcutter-331983:4573934")
+//    implementation fg.deobf("curse.maven:create-328085:4626108")
+//    implementation fg.deobf("curse.maven:pams-harvestcraft-2-trees-365460:4625518")
+//    implementation fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:4687624")
 }
 
-def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
-def replaceProperties = [
-        minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
-        forge_version: forge_version, forge_version_range: forge_version_range,
-        loader_version_range: loader_version_range,
-        mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-        mod_authors: mod_authors, mod_description: mod_description
-]
-processResources {
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+            neo_version         : neo_version, neo_version_range: neo_version_range,
+            loader_version_range: loader_version_range,
+            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors         : mod_authors, mod_description: mod_description,
+    ]
     inputs.properties replaceProperties
-    replaceProperties.put 'project', project
 
-    filesMatching(resourceTargets) {
-        expand replaceProperties
+    filesMatching(['META-INF/neoforge.mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
     }
 }
 

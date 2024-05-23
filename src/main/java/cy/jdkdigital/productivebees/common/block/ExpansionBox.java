@@ -38,21 +38,14 @@ import java.util.function.Supplier;
 public class ExpansionBox extends Block implements EntityBlock
 {
     public static final BooleanProperty HAS_HONEY = BooleanProperty.create("has_honey");
-    private final Supplier<BlockEntityType<ExpansionBoxBlockEntity>> blockEntitySupplier;
 
-    public ExpansionBox(final BlockBehaviour.Properties properties, Supplier<BlockEntityType<ExpansionBoxBlockEntity>> blockEntitySupplier) {
+    public ExpansionBox(final BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState()
                 .setValue(BeehiveBlock.FACING, Direction.NORTH)
                 .setValue(AdvancedBeehive.EXPANDED, VerticalHive.NONE)
                 .setValue(HAS_HONEY, false)
         );
-
-        this.blockEntitySupplier = blockEntitySupplier;
-    }
-
-    public Supplier<BlockEntityType<ExpansionBoxBlockEntity>> getBlockEntitySupplier() {
-        return blockEntitySupplier;
     }
 
     @Override

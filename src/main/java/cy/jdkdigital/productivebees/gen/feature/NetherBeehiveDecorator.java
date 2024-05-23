@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
@@ -9,13 +10,16 @@ import cy.jdkdigital.productivebees.init.ModFeatures;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +28,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NetherBeehiveDecorator extends TreeDecorator {
-    public static final Codec<NetherBeehiveDecorator> CODEC = Codec.unit(NetherBeehiveDecorator::new);
+    public static final MapCodec<NetherBeehiveDecorator> CODEC = MapCodec.unit(NetherBeehiveDecorator::new);
 
     private static final Direction[] SPAWN_DIRECTIONS = Direction.Plane.HORIZONTAL.stream().filter((direction) -> direction != Direction.SOUTH.getOpposite()).toArray(Direction[]::new);
 
@@ -68,7 +72,10 @@ public class NetherBeehiveDecorator extends TreeDecorator {
                 context.level().getBlockEntity(optional.get(), ModBlockEntityTypes.NETHER_BEE_NEST.get()).ifPresent((blockEntity) -> {
                     int j = 2 + context.random().nextInt(2);
 
-                    String type = ForgeRegistries.BLOCKS.getKey(nest.getBlock()).getPath().equals("warped_bee_nest") ? "warped" : "crimson";
+                    String type = BuiltInRegistries.BLOCK.getKey(nest.getBlock()).getPath().equals("warped_bee_nest") ? "warped" : "crimson";
+
+                    // TODO use components?
+//                    nest.applyComponents(DataComponentMap.builder().set(DataComponents.BEES, List.of(BeehiveBlockEntity.Occupant.create(0))).build());
 
                     for(int k = 0; k < j; ++k) {
                         try {

@@ -115,7 +115,7 @@ public class HoneyTreat extends Item
         }
 
         if (player instanceof ServerPlayer && bee.isAngry()) {
-            ModAdvancements.CALM_BEE.trigger((ServerPlayer) player, bee);
+            ModAdvancements.CALM_BEE.get().trigger((ServerPlayer) player, bee);
         }
 
         // Stop agro

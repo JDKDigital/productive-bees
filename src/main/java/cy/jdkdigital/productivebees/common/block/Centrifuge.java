@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.common.block.entity.CentrifugeBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
+import cy.jdkdigital.productivelib.common.block.CapabilityContainerBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -11,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -24,14 +27,14 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.fluids.FluidUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class Centrifuge extends CapabilityContainerBlock
 {
+    public static final MapCodec<Catcher> CODEC = simpleCodec(Catcher::new);
     public static final BooleanProperty RUNNING = BooleanProperty.create("running");
 
     private static final VoxelShape INSIDE = box(1.0D, 8.1D, 1.0D, 15.0D, 16.0D, 15.0D);
@@ -50,6 +53,11 @@ public class Centrifuge extends CapabilityContainerBlock
     public Centrifuge(Block.Properties properties) {
         super(properties);
         this.registerDefaultState(defaultBlockState().setValue(RUNNING, Boolean.FALSE));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable
@@ -115,6 +123,6 @@ public class Centrifuge extends CapabilityContainerBlock
     }
 
     private void openGui(ServerPlayer player, CentrifugeBlockEntity tileEntity) {
-        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        player.openMenu(tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

@@ -81,10 +81,10 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(SADDLED, false);
-        this.entityData.define(BOOST_TIME, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(SADDLED, false);
+        pBuilder.define(BOOST_TIME, 0);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class BumbleBee extends SolitaryBee implements ItemSteerable, Saddleable
         if (!flag && this.isSaddled() && !this.isVehicle() && !player.isSecondaryUseActive()) {
             if (!this.level().isClientSide) {
                 if (player instanceof ServerPlayer) {
-                    ModAdvancements.SADDLE_BEE.trigger((ServerPlayer) player, this);
+                    ModAdvancements.SADDLE_BEE.get().trigger((ServerPlayer) player, this);
                 }
 
                 player.startRiding(this);

@@ -11,23 +11,19 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 {
-    public LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(() -> new EnergyStorage(10000));
+    public IEnergyStorage energyHandler = new EnergyStorage(10000);
 
     public PoweredCentrifugeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.POWERED_CENTRIFUGE.get(), pos, state);
@@ -40,9 +36,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
     public static void tick(Level level, BlockPos pos, BlockState state, PoweredCentrifugeBlockEntity blockEntity) {
         CentrifugeBlockEntity.tick(level, pos, state, blockEntity);
         if (state.getValue(Centrifuge.RUNNING) && level instanceof ServerLevel) {
-            blockEntity.energyHandler.ifPresent(handler -> {
-                handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
-            });
+            blockEntity.energyHandler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.centrifugePowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
         }
     }
 
@@ -58,17 +52,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
     }
 
     protected boolean canOperate() {
-        int energy = energyHandler.map(IEnergyStorage::getEnergyStored).orElse(0);
-        return energy >= ProductiveBeesConfig.GENERAL.centrifugePowerUse.get();
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ENERGY) {
-            return energyHandler.cast();
-        }
-        return super.getCapability(cap, side);
+        return energyHandler.getEnergyStored() >= ProductiveBeesConfig.GENERAL.centrifugePowerUse.get();
     }
 
     @Override
@@ -78,7 +62,7 @@ public class PoweredCentrifugeBlockEntity extends CentrifugeBlockEntity
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory, final Player player) {
+    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory) {
         return new PoweredCentrifugeContainer(windowId, playerInventory, this);
     }
 }

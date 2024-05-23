@@ -29,7 +29,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -133,7 +133,7 @@ public class BeeCage extends Item
         player.swing(hand);
 
         if (player instanceof ServerPlayer) {
-            ModAdvancements.CATCH_BEE.trigger((ServerPlayer) player, cageStack);
+            ModAdvancements.CATCH_BEE.get().trigger((ServerPlayer) player, cageStack);
         }
         target.discard();
 

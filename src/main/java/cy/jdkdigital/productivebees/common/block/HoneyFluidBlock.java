@@ -8,13 +8,13 @@ import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 
 import java.util.function.Supplier;
 
 public class HoneyFluidBlock extends LiquidBlock
 {
-    public HoneyFluidBlock(Supplier<? extends ForgeFlowingFluid> supplier, Properties properties) {
+    public HoneyFluidBlock(Supplier<? extends BaseFlowingFluid> supplier, Properties properties) {
         super(supplier, properties);
     }
 

@@ -57,11 +57,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -90,7 +89,7 @@ public class ProductiveBee extends Bee
         // Goal to make entity follow player, must be registered after init to use bee attributes
         this.goalSelector.addGoal(3, new ProductiveTemptGoal(this, 1.25D));
 
-        this.setPathfindingMalus(BlockPathTypes.TRAPDOOR, -1.0F);
+        this.setPathfindingMalus(PathType.TRAPDOOR, -1.0F);
     }
 
     @Override
@@ -217,8 +216,8 @@ public class ProductiveBee extends Bee
 
     @Nonnull
     @Override
-    public EntityDimensions getDimensions(Pose poseIn) {
-        return super.getDimensions(poseIn).scale(getSizeModifier());
+    public EntityDimensions getDefaultDimensions(Pose poseIn) {
+        return super.getDefaultDimensions(poseIn).scale(getSizeModifier());
     }
 
     public float getSizeModifier() {
@@ -244,7 +243,7 @@ public class ProductiveBee extends Bee
     }
 
     @Override
-    public boolean isFlowerValid(@Nullable BlockPos pos) {
+    public boolean isFlowerValid(BlockPos pos) {
         return isFlowerValid(pos, ProductiveBee.this::isFlowerBlock, ProductiveBee.this::isFlowerItem);
     }
 
@@ -544,10 +543,7 @@ public class ProductiveBee extends Bee
         } else if (!(otherAnimal instanceof Bee)) {
             return false;
         } else {
-            return (
-                    this.isInLove() &&
-                            otherAnimal.isInLove()
-            ) &&
+            return (this.isInLove() && otherAnimal.isInLove()) &&
                     (
                             (level() instanceof ServerLevel serverLevel && BeeHelper.getRandomBreedingRecipe(this, otherAnimal, serverLevel) != null) || // check if there's an offspring recipe
                                     canSelfBreed() || // allows self breeding
@@ -582,15 +578,13 @@ public class ProductiveBee extends Bee
                                 if (level().random.nextInt(100) <= blockRecipe.chance) {
                                     ItemStack output = new ItemStack(blockRecipe.stateTo.getBlock().asItem());
                                     if (beehiveBlockEntity.isSim()) {
-                                        beehiveBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
-                                            if (!output.equals(ItemStack.EMPTY) &&
-                                                    h instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
-                                                    && itemHandler.addOutput(output).getCount() == 0) {
-                                                stack.shrink(1);
-                                            }
-                                        });
+                                        if (!output.equals(ItemStack.EMPTY) &&
+                                                beehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
+                                                && itemHandler.addOutput(output).getCount() == 0) {
+                                            stack.shrink(1);
+                                        }
                                     } else {
-                                        Block.popResource(level(), feederBlockEntity.getBlockPos().relative(Direction.UP), output);
+                                        Block.popResourceFromFace(level(), feederBlockEntity.getBlockPos(), Direction.UP, output);
                                         stack.shrink(1);
                                     }
                                 }
@@ -602,35 +596,33 @@ public class ProductiveBee extends Bee
                         if (itemRecipe != null && hiveBlockEntity instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
                             if (level().random.nextInt(100) <= itemRecipe.chance) {
                                 if (beehiveBlockEntity.isSim()) {
-                                    beehiveBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
-                                        if (h instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
-                                                && itemHandler.addOutput(itemRecipe.output.copy()).getCount() == 0) {
-                                            stack.shrink(1);
-                                        }
-                                    });
+                                    if (beehiveBlockEntity.inventoryHandler instanceof InventoryHandlerHelper.BlockEntityItemStackHandler itemHandler
+                                            && itemHandler.addOutput(itemRecipe.output.copy()).getCount() == 0) {
+                                        stack.shrink(1);
+                                    }
                                 } else {
-                                    Block.popResource(level(), feederBlockEntity.getBlockPos().relative(Direction.UP), itemRecipe.output.copy());
+                                    Block.popResourceFromFace(level(), feederBlockEntity.getBlockPos(), Direction.UP, itemRecipe.output.copy());
                                     stack.shrink(1);
                                 }
                             }
                             setHasConverted(!itemRecipe.pollinates);
                             return;
                         }
-                        BeeNBTChangerRecipe nbtRecipe = BeeHelper.getNBTChangerRecipe(this, stack);
-                        CompoundTag tag = stack.getTag();
-                        if (nbtRecipe != null && tag != null) {
-                            // TODO support long
-                            switch (nbtRecipe.method) {
-                                case "decrement" -> tag.putInt(nbtRecipe.attribute, Math.max(nbtRecipe.min, tag.getInt(nbtRecipe.attribute) - nbtRecipe.value));
-                                case "increment" -> tag.putInt(nbtRecipe.attribute, Math.min(nbtRecipe.max, tag.getInt(nbtRecipe.attribute) + nbtRecipe.value));
-                                case "set" -> tag.putInt(nbtRecipe.attribute, nbtRecipe.value);
-                                case "unset" -> tag.remove(nbtRecipe.attribute);
-                            }
-                            stack.setTag(tag);
-                            // Set flag to prevent produce
-                            setHasConverted(true);
-                            return;
-                        }
+                        // TODO BeeComponentChangerRecipe
+//                        BeeNBTChangerRecipe nbtRecipe = BeeHelper.getNBTChangerRecipe(this, stack);
+//                        CompoundTag tag = stack.getTag();
+//                        if (nbtRecipe != null && tag != null) {
+//                            switch (nbtRecipe.method) {
+//                                case "decrement" -> tag.putInt(nbtRecipe.attribute, Math.max(nbtRecipe.min, tag.getInt(nbtRecipe.attribute) - nbtRecipe.value));
+//                                case "increment" -> tag.putInt(nbtRecipe.attribute, Math.min(nbtRecipe.max, tag.getInt(nbtRecipe.attribute) + nbtRecipe.value));
+//                                case "set" -> tag.putInt(nbtRecipe.attribute, nbtRecipe.value);
+//                                case "unset" -> tag.remove(nbtRecipe.attribute);
+//                            }
+//                            stack.setTag(tag);
+//                            // Set flag to prevent produce
+//                            setHasConverted(true);
+//                            return;
+//                        }
                     }
                 }
             }
@@ -639,11 +631,6 @@ public class ProductiveBee extends Bee
 
     public String getFlowerType() {
         return "block";
-    }
-
-    @Override
-    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
-        return this.isBaby() ? sizeIn.height * 0.25F : sizeIn.height * 0.5F;
     }
 
     public float[] getColor(int tintIndex, float tickCount) {

@@ -7,16 +7,22 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.crafting.conditions.FluidTagEmptyCondition;
+import cy.jdkdigital.productivebees.common.recipe.BeeConversionRecipe;
 import net.minecraft.Util;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.*;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.neoforged.neoforge.common.conditions.*;
+import net.neoforged.neoforge.common.crafting.CraftingHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
@@ -667,17 +673,24 @@ public class BeeProvider implements DataProvider
                 jsonObject.add("passiveEffects", effects);
             }
             if (!bee.conditions.isEmpty()) {
-                JsonArray conditions = new JsonArray();
-                bee.conditions.forEach(condition -> {
-                    conditions.add(CraftingHelper.serialize(condition));
-                });
-                jsonObject.add("conditions", conditions);
+//                JsonArray conditions = new JsonArray();
+//                bee.conditions.forEach(condition -> {
+//                    conditions.add(ICondition.CODEC.encode(condition));
+//                });
+//                jsonObject.add("conditions", conditions);
+// TODO bee codec
+//                BeeConfig.CONDITIONAL_CODEC.encode(bee.conditions)
             }
             return jsonObject;
         };
     }
 
+
+
     public static class BeeConfig {
+        public Codec<BeeConfig> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(Codec.STRING.fieldOf("name").forGetter(c -> c.name)).apply(builder, BeeConfig::new));
+        public Codec<Optional<WithConditions<BeeConfig>>> CONDITIONAL_CODEC = ConditionalOps.createConditionalCodecWithConditions(CODEC);
+
         String name;
         String primaryColor = null;
         String secondaryColor = null;
@@ -919,7 +932,7 @@ public class BeeProvider implements DataProvider
             return this;
         }
         public BeeConfig requireEitherMod(String modId, String modId2) {
-            this.conditions.add(new OrCondition(new ModLoadedCondition(modId), new ModLoadedCondition(modId2)));
+            this.conditions.add(new OrCondition(List.of(new ModLoadedCondition(modId), new ModLoadedCondition(modId2))));
             return this;
         }
         public BeeConfig missingMod(String modId) {

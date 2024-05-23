@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,11 +36,9 @@ public class CryoStasisContainer extends AbstractContainer
         this.blockEntity = blockEntity;
         this.canInteractWithCallable = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
 
-        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, CryoStasisBlockEntity.SLOT_INPUT, 108, 18));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, CryoStasisBlockEntity.SLOT_CAGE, 108, 36));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, CryoStasisBlockEntity.SLOT_OUT, 108, 54));
-        });
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, CryoStasisBlockEntity.SLOT_INPUT, 108, 18));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, CryoStasisBlockEntity.SLOT_CAGE, 108, 36));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) this.blockEntity.inventoryHandler, CryoStasisBlockEntity.SLOT_OUT, 108, 54));
 
         layoutPlayerInventorySlots(playerInventory, 0, 108, 84);
     }
@@ -53,7 +50,7 @@ public class CryoStasisContainer extends AbstractContainer
         if (tileAtPos instanceof CryoStasisBlockEntity) {
             return (CryoStasisBlockEntity) tileAtPos;
         }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+        throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
     }
 
     @Override

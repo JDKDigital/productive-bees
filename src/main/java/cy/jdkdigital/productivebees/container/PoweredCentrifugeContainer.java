@@ -8,8 +8,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -32,19 +31,17 @@ public class PoweredCentrifugeContainer extends CentrifugeContainer
         {
             @Override
             public int get() {
-                return tileEntity.getCapability(ForgeCapabilities.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+                return tileEntity.energyHandler.getEnergyStored();
             }
 
             @Override
             public void set(int value) {
-                tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
-                    if (handler.getEnergyStored() > 0) {
-                        handler.extractEnergy(handler.getEnergyStored(), false);
-                    }
-                    if (value > 0) {
-                        handler.receiveEnergy(value, false);
-                    }
-                });
+                if (tileEntity.energyHandler.getEnergyStored() > 0) {
+                    tileEntity.energyHandler.extractEnergy(tileEntity.energyHandler.getEnergyStored(), false);
+                }
+                if (value > 0) {
+                    tileEntity.energyHandler.receiveEnergy(value, false);
+                }
             }
         });
     }
@@ -56,7 +53,7 @@ public class PoweredCentrifugeContainer extends CentrifugeContainer
         if (tileAtPos instanceof PoweredCentrifugeBlockEntity) {
             return (PoweredCentrifugeBlockEntity) tileAtPos;
         }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+        throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
     }
 
     @Override

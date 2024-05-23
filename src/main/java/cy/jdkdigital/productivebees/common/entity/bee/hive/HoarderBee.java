@@ -68,9 +68,9 @@ public class HoarderBee extends ProductiveBee
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(PEEK_TICK, (byte) 100);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(PEEK_TICK, (byte) 100);
     }
 
     @Override

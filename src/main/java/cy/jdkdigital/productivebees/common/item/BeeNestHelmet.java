@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -18,7 +19,7 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -40,16 +41,18 @@ public class BeeNestHelmet extends ArmorItem
     }
 
     @Override
-    public void onArmorTick(ItemStack stack, Level level, Player player) {
-        super.onArmorTick(stack, level, player);
-
-        BlockPos pos = player.blockPosition();
-        if (level.getRandom().nextDouble() < 0.005D && !ProductiveBeesConfig.CLIENT.mutedBeeNestHelmet.get()) {
-            level.playSound(player, pos.getX(), pos.getY() + 2D, pos.getZ(), level.random.nextBoolean() ? SoundEvents.BEEHIVE_WORK : SoundEvents.BEEHIVE_DRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
+    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+        // 36, 37, 38 and 39
+        if (pSlotId >= 36 && pSlotId <= 39) {
+            BlockPos pos = pEntity.blockPosition();
+            if (pLevel.getRandom().nextDouble() < 0.005D && !ProductiveBeesConfig.CLIENT.mutedBeeNestHelmet.get()) {
+                pLevel.playSound(pEntity, pos.getX(), pos.getY() + 2D, pos.getZ(), pLevel.random.nextBoolean() ? SoundEvents.BEEHIVE_WORK : SoundEvents.BEEHIVE_DRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
+            }
+            if (pLevel.getRandom().nextDouble() < 0.015D) {
+                pLevel.addParticle(ParticleTypes.FALLING_NECTAR, Mth.lerp(pLevel.random.nextDouble(), pos.getX() - 0.5D, pos.getX() + 0.5D), pos.getY() + 1.8D, Mth.lerp(pLevel.random.nextDouble(), pos.getZ() - 0.5D, pos.getZ() + 0.5D), 0.0D, 0.0D, 0.0D);
+            }
         }
-        if (level.getRandom().nextDouble() < 0.015D) {
-            level.addParticle(ParticleTypes.FALLING_NECTAR, Mth.lerp(level.random.nextDouble(), pos.getX() - 0.5D, pos.getX() + 0.5D), pos.getY() + 1.8D, Mth.lerp(level.random.nextDouble(), pos.getZ() - 0.5D, pos.getZ() + 0.5D), 0.0D, 0.0D, 0.0D);
-        }
+        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
     }
 
     @Override

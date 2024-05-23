@@ -1,0 +1,18 @@
+{
+    "type": "productivebees:bee_breeding",
+    "parent1": "productivebees:zombie",
+    "parent2": "productivebees:farmer_bee",
+    "offspring": [
+        "productivebees:bacon"
+    ],
+    "conditions": [
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:zombie"
+        },
+        {
+            "type": "productivebees:bee_exists",
+            "bee": "productivebees:bacon"
+        }
+    ]
+}

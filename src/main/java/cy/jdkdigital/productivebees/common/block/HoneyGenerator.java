@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.common.block.entity.HoneyGeneratorBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
+import cy.jdkdigital.productivelib.common.block.CapabilityContainerBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -30,14 +32,14 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.fluids.FluidUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class HoneyGenerator extends CapabilityContainerBlock
 {
+    public static final MapCodec<Catcher> CODEC = simpleCodec(Catcher::new);
     public static final BooleanProperty ON = BooleanProperty.create("on");
     public static final BooleanProperty FULL = BooleanProperty.create("full");
 
@@ -52,6 +54,11 @@ public class HoneyGenerator extends CapabilityContainerBlock
     public HoneyGenerator(Properties builder) {
         super(builder);
         this.registerDefaultState(this.defaultBlockState().setValue(ON, Boolean.FALSE).setValue(FULL, Boolean.FALSE).setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable
@@ -166,7 +173,7 @@ public class HoneyGenerator extends CapabilityContainerBlock
         return super.updateShape(state, direction, stae, level, pos, facingPos);
     }
 
-    public void openGui(ServerPlayer player, HoneyGeneratorBlockEntity tileEntity) {
-        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+    public void openGui(ServerPlayer player, HoneyGeneratorBlockEntity blockEntity) {
+        player.openMenu(blockEntity, packetBuffer -> packetBuffer.writeBlockPos(blockEntity.getBlockPos()));
     }
 }

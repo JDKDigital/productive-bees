@@ -9,7 +9,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
@@ -28,9 +29,10 @@ public class JarProvider implements IBlockComponentProvider, IServerDataProvider
             return;
         }
 
-        tileEntity.loadPacketNBT(accessor.getServerData());
+        tileEntity.loadPacketNBT(accessor.getServerData(), accessor.getLevel().registryAccess());
 
-        tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
+        IItemHandler handler = accessor.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, tileEntity.getBlockPos(), null);
+        if (handler != null) {
             if (!handler.getStackInSlot(0).isEmpty()) {
                 ItemStack cage = handler.getStackInSlot(0);
                 if (cage.getItem() instanceof BeeCage && BeeCage.isFilled(cage)) {
@@ -40,7 +42,7 @@ public class JarProvider implements IBlockComponentProvider, IServerDataProvider
                     }
                 }
             }
-        });
+        }
     }
 
     public void appendServerData(CompoundTag tag, BlockAccessor blockAccessor) {

@@ -4,10 +4,10 @@
     "tag": "forge:tea",
     "amount": 250
   },
-  "input": {
+  "ingredient": {
     "item": "minecraft:glass_bottle"
   },
-  "output": {
+  "result": {
     "item": "create:builders_tea"
   },
   "conditions": [

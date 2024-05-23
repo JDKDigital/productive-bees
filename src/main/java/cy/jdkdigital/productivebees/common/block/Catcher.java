@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.common.block.entity.CatcherBlockEntity;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
+import cy.jdkdigital.productivelib.common.block.CapabilityContainerBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,6 +12,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.TallFlowerBlock;
@@ -18,16 +21,22 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.common.IPlantable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class Catcher extends CapabilityContainerBlock
 {
+    public static final MapCodec<Catcher> CODEC = simpleCodec(Catcher::new);
+
     public Catcher(Properties builder) {
         super(builder);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable
@@ -67,6 +76,6 @@ public class Catcher extends CapabilityContainerBlock
     }
 
     public void openGui(ServerPlayer player, CatcherBlockEntity tileEntity) {
-        NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+        player.openMenu(tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 }

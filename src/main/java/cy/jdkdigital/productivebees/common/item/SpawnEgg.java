@@ -12,13 +12,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class SpawnEgg extends ForgeSpawnEggItem
+public class SpawnEgg extends DeferredSpawnEggItem
 {
     public SpawnEgg(Supplier<EntityType<? extends Mob>> entityType, int primaryColor, int secondaryColor, Item.Properties properties) {
         super(entityType, primaryColor, secondaryColor, properties);

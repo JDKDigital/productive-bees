@@ -2,10 +2,6 @@ package cy.jdkdigital.productivebees.init;
 
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.common.block.*;
-import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.CanvasBeehiveBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.CanvasExpansionBoxBlockEntity;
-import cy.jdkdigital.productivebees.common.block.entity.ExpansionBoxBlockEntity;
 import cy.jdkdigital.productivebees.common.block.nest.BumbleBeeNest;
 import cy.jdkdigital.productivebees.common.block.nest.SugarCaneNest;
 import cy.jdkdigital.productivebees.common.block.nest.WoodNest;
@@ -25,13 +21,10 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -39,51 +32,49 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public final class ModBlocks
 {
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ProductiveBees.MODID);
+    public static final DeferredHolder<Block, ? extends Block> BOTTLER = createBlock("bottler", () -> new Bottler(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
+    public static final DeferredHolder<Block, ? extends Block> CENTRIFUGE = createBlock("centrifuge", () -> new Centrifuge(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
+    public static final DeferredHolder<Block, ? extends Block> POWERED_CENTRIFUGE = createBlock("powered_centrifuge", () -> new PoweredCentrifuge(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
+    public static final DeferredHolder<Block, ? extends Block> HEATED_CENTRIFUGE = createBlock("heated_centrifuge", () -> new HeatedCentrifuge(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
+    public static final DeferredHolder<Block, ? extends Block> HONEY_GENERATOR = createBlock("honey_generator", () -> new HoneyGenerator(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
+    public static final DeferredHolder<Block, ? extends Block> CATCHER = createBlock("catcher", () -> new Catcher(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
+    public static final DeferredHolder<Block, ? extends Block> INCUBATOR = createBlock("incubator", () -> new Incubator(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
+    public static final DeferredHolder<Block, ? extends Block> INACTIVE_DRAGON_EGG = createBlock("inactive_dragon_egg", () -> new InactiveDragonEgg(Block.Properties.ofFullCopy(Blocks.DRAGON_EGG)));
+    public static final DeferredHolder<Block, ? extends Block> INVISIBLE_REDSTONE_BLOCK = createBlock("invisible_redstone_block", () -> new InvisibleRedstone(Block.Properties.ofFullCopy(Blocks.REDSTONE_BLOCK).noOcclusion().noCollission()));
+    public static final DeferredHolder<Block, ? extends Block> FEEDER = createBlock("feeder", () -> new Feeder(Block.Properties.ofFullCopy(Blocks.STONE_SLAB).noOcclusion()));
+    public static final DeferredHolder<Block, ? extends Block> JAR = createBlock("jar_oak", () -> new Jar(Block.Properties.ofFullCopy(Blocks.GLASS)));
+    public static final DeferredHolder<Block, ? extends Block> QUARTZ_NETHERRACK = createBlock("quartz_netherrack", () -> new Block(Block.Properties.ofFullCopy(Blocks.NETHER_QUARTZ_ORE)));
+    public static final DeferredHolder<Block, ? extends Block> WAX_BLOCK = createBlock("wax_block", () -> new WaxBlock(Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK)));
+    public static final DeferredHolder<Block, ? extends Block> GENE_INDEXER = createBlock("gene_indexer", () -> new GeneIndexer(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
+    public static final DeferredHolder<Block, ? extends Block> BREEDING_CHAMBER = createBlock("breeding_chamber", () -> new BreedingChamber(Block.Properties.ofFullCopy(Blocks.CAULDRON)));
+    public static final DeferredHolder<Block, ? extends Block> CRYO_STASIS = createBlock("cryo_stasis", () -> new CryoStasis(Block.Properties.ofFullCopy(Blocks.CAULDRON)), false);
 
-    public static final RegistryObject<Block> BOTTLER = createBlock("bottler", () -> new Bottler(Block.Properties.copy(Blocks.CAULDRON)));
-    public static final RegistryObject<Block> CENTRIFUGE = createBlock("centrifuge", () -> new Centrifuge(Block.Properties.copy(Blocks.CAULDRON)));
-    public static final RegistryObject<Block> POWERED_CENTRIFUGE = createBlock("powered_centrifuge", () -> new PoweredCentrifuge(Block.Properties.copy(Blocks.CAULDRON)));
-    public static final RegistryObject<Block> HEATED_CENTRIFUGE = createBlock("heated_centrifuge", () -> new HeatedCentrifuge(Block.Properties.copy(Blocks.CAULDRON)));
-    public static final RegistryObject<Block> HONEY_GENERATOR = createBlock("honey_generator", () -> new HoneyGenerator(Block.Properties.copy(Blocks.CAULDRON)));
-    public static final RegistryObject<Block> CATCHER = createBlock("catcher", () -> new Catcher(Block.Properties.copy(Blocks.CAULDRON)));
-    public static final RegistryObject<Block> INCUBATOR = createBlock("incubator", () -> new Incubator(Block.Properties.copy(Blocks.CAULDRON)));
-    public static final RegistryObject<Block> INACTIVE_DRAGON_EGG = createBlock("inactive_dragon_egg", () -> new InactiveDragonEgg(Block.Properties.copy(Blocks.DRAGON_EGG)));
-    public static final RegistryObject<Block> INVISIBLE_REDSTONE_BLOCK = createBlock("invisible_redstone_block", () -> new InvisibleRedstone(Block.Properties.copy(Blocks.REDSTONE_BLOCK).noOcclusion().noCollission()));
-    public static final RegistryObject<Block> FEEDER = createBlock("feeder", () -> new Feeder(Block.Properties.copy(Blocks.STONE_SLAB).noOcclusion()));
-    public static final RegistryObject<Block> JAR = createBlock("jar_oak", () -> new Jar(Block.Properties.copy(Blocks.GLASS)));
-    public static final RegistryObject<Block> QUARTZ_NETHERRACK = createBlock("quartz_netherrack", () -> new Block(Block.Properties.copy(Blocks.NETHER_QUARTZ_ORE)));
-    public static final RegistryObject<Block> WAX_BLOCK = createBlock("wax_block", () -> new WaxBlock(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK)));
-    public static final RegistryObject<Block> GENE_INDEXER = createBlock("gene_indexer", () -> new GeneIndexer(Block.Properties.copy(Blocks.CAULDRON)));
-    public static final RegistryObject<Block> BREEDING_CHAMBER = createBlock("breeding_chamber", () -> new BreedingChamber(Block.Properties.copy(Blocks.CAULDRON)));
-    public static final RegistryObject<Block> CRYO_STASIS = createBlock("cryo_stasis", () -> new CryoStasis(Block.Properties.copy(Blocks.CAULDRON)), false);
+    public static final DeferredHolder<Block, ? extends Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest("#382b18", Block.Properties.ofFullCopy(Blocks.OAK_LOG)));
+    public static final DeferredHolder<Block, ? extends Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest("#2e1608", Block.Properties.ofFullCopy(Blocks.SPRUCE_LOG)));
+    public static final DeferredHolder<Block, ? extends Block> DARK_OAK_WOOD_NEST = createBlock("dark_oak_wood_nest", () -> new WoodNest("#292011", Block.Properties.ofFullCopy(Blocks.DARK_OAK_LOG)));
+    public static final DeferredHolder<Block, ? extends Block> BIRCH_WOOD_NEST = createBlock("birch_wood_nest", () -> new WoodNest("#36342a", Block.Properties.ofFullCopy(Blocks.BIRCH_LOG)));
+    public static final DeferredHolder<Block, ? extends Block> JUNGLE_WOOD_NEST = createBlock("jungle_wood_nest", () -> new WoodNest("#3e3013", Block.Properties.ofFullCopy(Blocks.JUNGLE_LOG)));
+    public static final DeferredHolder<Block, ? extends Block> ACACIA_WOOD_NEST = createBlock("acacia_wood_nest", () -> new WoodNest("#504b40", Block.Properties.ofFullCopy(Blocks.ACACIA_LOG)));
+    public static final DeferredHolder<Block, ? extends Block> CHERRY_WOOD_NEST = createBlock("cherry_wood_nest", () -> new WoodNest("#271620", Block.Properties.ofFullCopy(Blocks.CHERRY_LOG)));
+    public static final DeferredHolder<Block, ? extends Block> MANGROVE_WOOD_NEST = createBlock("mangrove_wood_nest", () -> new WoodNest("#443522", Block.Properties.ofFullCopy(Blocks.MANGROVE_LOG)));
 
-    public static final RegistryObject<Block> OAK_WOOD_NEST = createBlock("oak_wood_nest", () -> new WoodNest("#382b18", Block.Properties.copy(Blocks.OAK_LOG)));
-    public static final RegistryObject<Block> SPRUCE_WOOD_NEST = createBlock("spruce_wood_nest", () -> new WoodNest("#2e1608", Block.Properties.copy(Blocks.SPRUCE_LOG)));
-    public static final RegistryObject<Block> DARK_OAK_WOOD_NEST = createBlock("dark_oak_wood_nest", () -> new WoodNest("#292011", Block.Properties.copy(Blocks.DARK_OAK_LOG)));
-    public static final RegistryObject<Block> BIRCH_WOOD_NEST = createBlock("birch_wood_nest", () -> new WoodNest("#36342a", Block.Properties.copy(Blocks.BIRCH_LOG)));
-    public static final RegistryObject<Block> JUNGLE_WOOD_NEST = createBlock("jungle_wood_nest", () -> new WoodNest("#3e3013", Block.Properties.copy(Blocks.JUNGLE_LOG)));
-    public static final RegistryObject<Block> ACACIA_WOOD_NEST = createBlock("acacia_wood_nest", () -> new WoodNest("#504b40", Block.Properties.copy(Blocks.ACACIA_LOG)));
-    public static final RegistryObject<Block> CHERRY_WOOD_NEST = createBlock("cherry_wood_nest", () -> new WoodNest("#271620", Block.Properties.copy(Blocks.CHERRY_LOG)));
-    public static final RegistryObject<Block> MANGROVE_WOOD_NEST = createBlock("mangrove_wood_nest", () -> new WoodNest("#443522", Block.Properties.copy(Blocks.MANGROVE_LOG)));
-
-    public static final RegistryObject<Block> BAMBOO_HIVE = createBlock("bamboo_hive", () -> new BambooHive(Block.Properties.copy(Blocks.BAMBOO_BLOCK)));
-    public static final RegistryObject<Block> DRAGON_EGG_HIVE = createBlock("dragon_egg_hive", () -> new DragonEggHive(Block.Properties.copy(Blocks.DRAGON_EGG)));
-    public static final RegistryObject<Block> STONE_NEST = createBlock("stone_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.STONE)));
-    public static final RegistryObject<Block> COARSE_DIRT_NEST = createBlock("coarse_dirt_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.COARSE_DIRT)));
-    public static final RegistryObject<Block> SAND_NEST = createBlock("sand_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.SAND)));
-    public static final RegistryObject<Block> SNOW_NEST = createBlock("snow_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.SNOW_BLOCK).strength(0.2F)));
-    public static final RegistryObject<Block> GRAVEL_NEST = createBlock("gravel_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.GRAVEL)));
-    public static final RegistryObject<Block> SUGAR_CANE_NEST = createBlock("sugar_cane_nest", () -> new SugarCaneNest(Block.Properties.copy(Blocks.SUGAR_CANE)));
-    public static final RegistryObject<Block> SLIMY_NEST = createBlock("slimy_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.SLIME_BLOCK)));
-    public static final RegistryObject<Block> GLOWSTONE_NEST = createBlock("glowstone_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.GLOWSTONE)));
-    public static final RegistryObject<Block> SOUL_SAND_NEST = createBlock("soul_sand_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.SOUL_SAND)));
-    public static final RegistryObject<Block> NETHER_QUARTZ_NEST = createBlock("nether_quartz_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.NETHER_QUARTZ_ORE)));
-    public static final RegistryObject<Block> NETHER_GOLD_NEST = createBlock("nether_gold_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.NETHER_GOLD_ORE)));
-    public static final RegistryObject<Block> NETHER_BRICK_NEST = createBlock("nether_brick_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.NETHER_BRICKS)));
-    public static final RegistryObject<Block> END_NEST = createBlock("end_stone_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.END_STONE)));
-    public static final RegistryObject<Block> OBSIDIAN_PILLAR_NEST = createBlock("obsidian_nest", () -> new SolitaryNest(Block.Properties.copy(Blocks.OBSIDIAN)));
-    public static final RegistryObject<LiquidBlock> HONEY = createBlock("honey",
+    public static final DeferredHolder<Block, ? extends Block> BAMBOO_HIVE = createBlock("bamboo_hive", () -> new BambooHive(Block.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK)));
+    public static final DeferredHolder<Block, ? extends Block> DRAGON_EGG_HIVE = createBlock("dragon_egg_hive", () -> new DragonEggHive(Block.Properties.ofFullCopy(Blocks.DRAGON_EGG)));
+    public static final DeferredHolder<Block, ? extends Block> STONE_NEST = createBlock("stone_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredHolder<Block, ? extends Block> COARSE_DIRT_NEST = createBlock("coarse_dirt_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.COARSE_DIRT)));
+    public static final DeferredHolder<Block, ? extends Block> SAND_NEST = createBlock("sand_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.SAND)));
+    public static final DeferredHolder<Block, ? extends Block> SNOW_NEST = createBlock("snow_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.SNOW_BLOCK).strength(0.2F)));
+    public static final DeferredHolder<Block, ? extends Block> GRAVEL_NEST = createBlock("gravel_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.GRAVEL)));
+    public static final DeferredHolder<Block, ? extends Block> SUGAR_CANE_NEST = createBlock("sugar_cane_nest", () -> new SugarCaneNest(Block.Properties.ofFullCopy(Blocks.SUGAR_CANE)));
+    public static final DeferredHolder<Block, ? extends Block> SLIMY_NEST = createBlock("slimy_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.SLIME_BLOCK)));
+    public static final DeferredHolder<Block, ? extends Block> GLOWSTONE_NEST = createBlock("glowstone_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.GLOWSTONE)));
+    public static final DeferredHolder<Block, ? extends Block> SOUL_SAND_NEST = createBlock("soul_sand_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.SOUL_SAND)));
+    public static final DeferredHolder<Block, ? extends Block> NETHER_QUARTZ_NEST = createBlock("nether_quartz_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.NETHER_QUARTZ_ORE)));
+    public static final DeferredHolder<Block, ? extends Block> NETHER_GOLD_NEST = createBlock("nether_gold_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.NETHER_GOLD_ORE)));
+    public static final DeferredHolder<Block, ? extends Block> NETHER_BRICK_NEST = createBlock("nether_brick_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
+    public static final DeferredHolder<Block, ? extends Block> END_NEST = createBlock("end_stone_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.END_STONE)));
+    public static final DeferredHolder<Block, ? extends Block> OBSIDIAN_PILLAR_NEST = createBlock("obsidian_nest", () -> new SolitaryNest(Block.Properties.ofFullCopy(Blocks.OBSIDIAN)));
+    public static final DeferredHolder<Block, LiquidBlock> HONEY = createBlock("honey",
             () -> new HoneyFluidBlock(
                     ModFluids.HONEY,
                     Block.Properties.of().noCollission().strength(100.0F).noLootTable().mapColor(MapColor.TERRACOTTA_ORANGE).noCollission().replaceable().liquid().noLootTable().speedFactor(0.3F).jumpFactor(0.3F).friction(1.0f)
@@ -91,26 +82,26 @@ public final class ModBlocks
             false
     );
 
-    public static final RegistryObject<Block> CONFIGURABLE_COMB = createBlock("configurable_comb", () -> new ConfigurableCombBlock(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK), "#c8df24"));
+    public static final DeferredHolder<Block, ? extends Block> CONFIGURABLE_COMB = createBlock("configurable_comb", () -> new ConfigurableCombBlock(Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK), "#c8df24"));
 
-    public static final RegistryObject<Block> COMB_GHOSTLY = createBlock("comb_ghostly", () -> new TranslucentCombBlock(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK).noCollission()));
-    public static final RegistryObject<Block> COMB_MILKY = createBlock("comb_milky", () -> new Block(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK)));
-    public static final RegistryObject<Block> COMB_POWDERY = createBlock("comb_powdery", () -> new Block(Block.Properties.copy(Blocks.HONEYCOMB_BLOCK)));
+    public static final DeferredHolder<Block, ? extends Block> COMB_GHOSTLY = createBlock("comb_ghostly", () -> new TranslucentCombBlock(Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK).noCollission()));
+    public static final DeferredHolder<Block, ? extends Block> COMB_MILKY = createBlock("comb_milky", () -> new Block(Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK)));
+    public static final DeferredHolder<Block, ? extends Block> COMB_POWDERY = createBlock("comb_powdery", () -> new Block(Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK)));
 
-    public static final RegistryObject<Block> BUMBLE_BEE_NEST = createBlock("bumble_bee_nest", () -> new BumbleBeeNest(Block.Properties.copy(Blocks.GRASS_BLOCK)));
-    public static final RegistryObject<Block> SUGARBAG_NEST = createBlock("sugarbag_nest", () -> new SugarbagNest(Block.Properties.copy(Blocks.BEE_NEST)));
-    public static final RegistryObject<Block> WARPED_BEE_NEST = createBlock("warped_bee_nest", () -> new NetherBeeNest(Block.Properties.copy(Blocks.BEE_NEST)));
-    public static final RegistryObject<Block> CRIMSON_BEE_NEST = createBlock("crimson_bee_nest", () -> new NetherBeeNest(Block.Properties.copy(Blocks.BEE_NEST)));
+    public static final DeferredHolder<Block, ? extends Block> BUMBLE_BEE_NEST = createBlock("bumble_bee_nest", () -> new BumbleBeeNest(Block.Properties.ofFullCopy(Blocks.GRASS_BLOCK)));
+    public static final DeferredHolder<Block, ? extends Block> SUGARBAG_NEST = createBlock("sugarbag_nest", () -> new SugarbagNest(Block.Properties.ofFullCopy(Blocks.BEE_NEST)));
+    public static final DeferredHolder<Block, ? extends Block> WARPED_BEE_NEST = createBlock("warped_bee_nest", () -> new NetherBeeNest(Block.Properties.ofFullCopy(Blocks.BEE_NEST)));
+    public static final DeferredHolder<Block, ? extends Block> CRIMSON_BEE_NEST = createBlock("crimson_bee_nest", () -> new NetherBeeNest(Block.Properties.ofFullCopy(Blocks.BEE_NEST)));
 
-    public static final RegistryObject<Block> AMBER = createBlock("amber", () -> new Amber(BlockBehaviour.Properties.copy(Blocks.ORANGE_STAINED_GLASS)));
+    public static final DeferredHolder<Block, ? extends Block> AMBER = createBlock("amber", () -> new Amber(Block.Properties.ofFullCopy(Blocks.ORANGE_STAINED_GLASS)));
 
-    public static final RegistryObject<Block> PETRIFIED_HONEY = createBlock("petrified_honey", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
-    public static final List<RegistryObject<Block>> PETRIFIED_HONEY_BLOCKS = Arrays.stream(DyeColor.values()).map(dyeColor -> {
-        return createBlock(dyeColor.getSerializedName() + "_petrified_honey", () -> new Block(BlockBehaviour.Properties.of().mapColor(dyeColor.getMapColor()).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
+    public static final DeferredHolder<Block, ? extends Block> PETRIFIED_HONEY = createBlock("petrified_honey", () -> new Block(Block.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
+    public static final List<DeferredHolder<Block, ? extends Block>> PETRIFIED_HONEY_BLOCKS = Arrays.stream(DyeColor.values()).map(dyeColor -> {
+        return createBlock(dyeColor.getSerializedName() + "_petrified_honey", () -> new Block(Block.Properties.of().mapColor(dyeColor.getMapColor()).strength(0.3F).noOcclusion().sound(SoundType.BONE_BLOCK)));
     }).toList();
 
-    public static final Map<String, RegistryObject<? extends Block>> HIVES = new HashMap<>();
-    public static final Map<String, RegistryObject<? extends Block>> EXPANSIONS = new HashMap<>();
+    public static final Map<String, DeferredHolder<Block, ? extends Block>> HIVES = new HashMap<>();
+    public static final Map<String, DeferredHolder<Block, ? extends Block>> EXPANSIONS = new HashMap<>();
 
     public static final Map<String, Map<String, HiveType>> HIVELIST = new HashMap<>()
     {{
@@ -268,14 +259,14 @@ public final class ModBlocks
 
     public static void registerHives() {
         HIVELIST.forEach((modid, strings) -> {
-            if (FMLLoader.getLaunchHandler().isData() || ModList.get().isLoaded(modid)) {
+            if (!FMLLoader.isProduction() || ModList.get().isLoaded(modid)) {
                 strings.forEach((name, type) -> {
                     name = modid.equals(ProductiveBees.MODID) ? name : modid + "_" + name;
                     String hiveName = "advanced_" + name + "_beehive";
                     String boxName = "expansion_box_" + name;
                     if (!HIVES.containsKey(hiveName)) {
-                        HIVES.put(hiveName, createBlock(hiveName, () -> new AdvancedBeehive(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(hiveName, () -> createBlockEntityType((pos, state) -> new AdvancedBeehiveBlockEntity((AdvancedBeehive) HIVES.get(hiveName).get(), pos, state), HIVES.get(hiveName).get()))), true));
-                        EXPANSIONS.put(boxName, createBlock(boxName, () -> new ExpansionBox(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(boxName, () -> createBlockEntityType((pos, state) -> new ExpansionBoxBlockEntity((ExpansionBox) EXPANSIONS.get(boxName).get(), pos, state), EXPANSIONS.get(boxName).get()))), true));
+                        HIVES.put(hiveName, createBlock(hiveName, () -> new AdvancedBeehive(Block.Properties.ofFullCopy(Blocks.BEEHIVE)), true));
+                        EXPANSIONS.put(boxName, createBlock(boxName, () -> new ExpansionBox(Block.Properties.ofFullCopy(Blocks.BEEHIVE)), true));
                     }
                 });
             }
@@ -283,40 +274,38 @@ public final class ModBlocks
 
         hiveStyles.forEach(style -> {
             String canvasHiveName = "advanced_" + style + "_canvas_beehive";
-            HIVES.put(canvasHiveName, createBlock(canvasHiveName, () -> new CanvasBeehive(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(canvasHiveName, () -> createBlockEntityType((pos, state) -> new CanvasBeehiveBlockEntity((CanvasBeehive) HIVES.get(canvasHiveName).get(), pos, state), HIVES.get(canvasHiveName).get()))), true));
+            HIVES.put(canvasHiveName, createBlock(canvasHiveName, () -> new CanvasBeehive(Block.Properties.ofFullCopy(Blocks.BEEHIVE)), true));
             String canvasBoxName = "expansion_box_" + style + "_canvas";
-            EXPANSIONS.put(canvasBoxName, createBlock(canvasBoxName, () -> new CanvasExpansionBox(Block.Properties.copy(Blocks.BEEHIVE), registerBlockEntity(canvasBoxName, () -> createBlockEntityType((pos, state) -> new CanvasExpansionBoxBlockEntity((CanvasExpansionBox) EXPANSIONS.get(canvasBoxName).get(), pos, state), EXPANSIONS.get(canvasBoxName).get()))), true));
+            EXPANSIONS.put(canvasBoxName, createBlock(canvasBoxName, () -> new CanvasExpansionBox(Block.Properties.ofFullCopy(Blocks.BEEHIVE)), true));
         });
-    }
-
-    public static <E extends BlockEntity, T extends BlockEntityType<E>> Supplier<T> registerBlockEntity(String id, Supplier<T> supplier) {
-        return ModBlockEntityTypes.BLOCK_ENTITIES.register(id, supplier);
+        
+        ModBlockEntityTypes.registerHiveBlockEntities();
     }
 
     public static <E extends BlockEntity> BlockEntityType<E> createBlockEntityType(BlockEntityType.BlockEntitySupplier<E> factory, Block... blocks) {
         return BlockEntityType.Builder.of(factory, blocks).build(null);
     }
 
-    public static <B extends Block> RegistryObject<B> createBlock(String name, Supplier<? extends B> supplier) {
+    public static <B extends Block> DeferredHolder<Block, B> createBlock(String name, Supplier<? extends B> supplier) {
         return createBlock(name, supplier, true);
     }
 
-    public static <B extends Block> RegistryObject<B> createBlock(String name, Supplier<? extends B> supplier, boolean createItem) {
-        RegistryObject<B> block = BLOCKS.register(name, supplier);
+    public static <B extends Block> DeferredHolder<Block, B> createBlock(String name, Supplier<? extends B> supplier, boolean createItem) {
+        DeferredHolder<Block, B> block = ProductiveBees.BLOCKS.register(name, supplier);
         if (createItem) {
             Item.Properties properties = new Item.Properties();
 
             if (name.equals("configurable_comb")) {
-                ModItems.CONFIGURABLE_COMB_BLOCK = ModItems.ITEMS.register(name, () -> new CombBlockItem(block.get(), properties));
+                ModItems.CONFIGURABLE_COMB_BLOCK = ProductiveBees.ITEMS.register(name, () -> new CombBlockItem(block.get(), properties));
             } else if (name.equals("jar_oak")) {
-                ModItems.ITEMS.register(name, () -> new JarBlockItem(block.get(), properties));
+                ProductiveBees.ITEMS.register(name, () -> new JarBlockItem(block.get(), properties));
             } else if (name.equals("amber")) {
-                ModItems.ITEMS.register(name, () -> new AmberItem(block.get(), properties));
+                ProductiveBees.ITEMS.register(name, () -> new AmberItem(block.get(), properties));
             } else {
                 if (name.equals("comb_netherite")) {
                     properties.fireResistant();
                 }
-                ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
+                ProductiveBees.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
             }
         }
         return block;

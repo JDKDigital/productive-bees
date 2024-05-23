@@ -4,10 +4,10 @@
     "tag": "forge:experience",
     "amount": 250
   },
-  "input": {
+  "ingredient": {
     "item": "minecraft:glass_bottle"
   },
-  "output": {
+  "result": {
     "item": "minecraft:experience_bottle"
   },
   "conditions": [

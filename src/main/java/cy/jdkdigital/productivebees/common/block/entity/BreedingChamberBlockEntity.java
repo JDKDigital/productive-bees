@@ -11,10 +11,12 @@ import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivelib.common.block.entity.CapabilityBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,14 +30,12 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,7 +51,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     private List<BeeBreedingRecipe> currentBreedingRecipes = new ArrayList<>();
     public BeeBreedingRecipe chosenRecipe;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(6, this)
+    public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(6, this)
     {
         @Override
         public boolean isInputSlotItem(int slot, ItemStack item) {
@@ -83,11 +83,11 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
                 }
             }
         }
-    });
+    };
 
-    protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
+    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
 
-    protected LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(() -> new EnergyStorage(10000));
+    public IEnergyStorage energyHandler = new EnergyStorage(10000);
 
     public BreedingChamberBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.BREEDING_CHAMBER.get(), pos, state);
@@ -136,47 +136,43 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     public static void tick(Level level, BlockPos pos, BlockState state, BreedingChamberBlockEntity blockEntity) {
         if (level instanceof ServerLevel serverLevel) {
             if (blockEntity.isRunning) {
-                blockEntity.energyHandler.ifPresent(handler -> {
-                    handler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.breedingChamberPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
-                });
+                blockEntity.energyHandler.extractEnergy((int) (ProductiveBeesConfig.GENERAL.breedingChamberPowerUse.get() * blockEntity.getEnergyConsumptionModifier()), false);
             }
-            blockEntity.inventoryHandler.ifPresent(invHandler -> {
-                if (!invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1).isEmpty() && !invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2).isEmpty()) {
-                    if (blockEntity.currentBreedingRecipes.isEmpty() && ++blockEntity.recipeLookupCooldown > 0) {
-                        Bee bee1 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
-                        Bee bee2 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
-                        if (bee1 != null && bee2 != null) {
-                            blockEntity.currentBreedingRecipes = BeeHelper.getBreedingRecipes(bee1, bee2, serverLevel);
-                            if (blockEntity.currentBreedingRecipes.size() > 0 && !blockEntity.currentBreedingRecipes.contains(blockEntity.chosenRecipe)) { // Pick a random recipe from the list as active recipe
-                                blockEntity.setRecipe(blockEntity.currentBreedingRecipes.get(level.random.nextInt(blockEntity.currentBreedingRecipes.size())));
-                            }
-                            blockEntity.recipeLookupCooldown = -20; // delay between looking up recipe in case the two bees do not produce a recipe result
+            if (!blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1).isEmpty() && !blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2).isEmpty()) {
+                if (blockEntity.currentBreedingRecipes.isEmpty() && ++blockEntity.recipeLookupCooldown > 0) {
+                    Bee bee1 = BeeCage.getCachedEntityFromStack(blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
+                    Bee bee2 = BeeCage.getCachedEntityFromStack(blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
+                    if (bee1 != null && bee2 != null) {
+                        blockEntity.currentBreedingRecipes = BeeHelper.getBreedingRecipes(bee1, bee2, serverLevel);
+                        if (blockEntity.currentBreedingRecipes.size() > 0 && !blockEntity.currentBreedingRecipes.contains(blockEntity.chosenRecipe)) { // Pick a random recipe from the list as active recipe
+                            blockEntity.setRecipe(blockEntity.currentBreedingRecipes.get(level.random.nextInt(blockEntity.currentBreedingRecipes.size())));
                         }
+                        blockEntity.recipeLookupCooldown = -20; // delay between looking up recipe in case the two bees do not produce a recipe result
                     }
-
-                    // Process breeding
-                    if (blockEntity.isRunning || (!blockEntity.currentBreedingRecipes.isEmpty() && blockEntity.canProcessInput(invHandler, true))) {
-                        blockEntity.setRunning(true);
-                        int totalTime = blockEntity.getProcessingTime(blockEntity.chosenRecipe);
-
-                        if (blockEntity.recipeProgress == 0) {
-                            Bee bee1 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
-                            Bee bee2 = BeeCage.getCachedEntityFromStack(invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
-
-                            // Consume breeding items when starting processing
-                            invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_1).shrink(bee1 instanceof ProductiveBee pBee1 ? pBee1.getBreedingItemCount() : 1);
-                            invHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_2).shrink(bee2 instanceof ProductiveBee pBee2 ? pBee2.getBreedingItemCount() : 1);
-                        }
-
-                        if (++blockEntity.recipeProgress >= totalTime && blockEntity.completeBreeding(invHandler)) {
-                            blockEntity.reset();
-                        }
-                        blockEntity.recipeProgress = Math.min(blockEntity.recipeProgress, totalTime); // clamp progress so the GUI doesn't break
-                    }
-                } else {
-                    blockEntity.reset();
                 }
-            });
+
+                // Process breeding
+                if (blockEntity.isRunning || (!blockEntity.currentBreedingRecipes.isEmpty() && blockEntity.canProcessInput(blockEntity.inventoryHandler, true))) {
+                    blockEntity.setRunning(true);
+                    int totalTime = blockEntity.getProcessingTime(blockEntity.chosenRecipe);
+
+                    if (blockEntity.recipeProgress == 0) {
+                        Bee bee1 = BeeCage.getCachedEntityFromStack(blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_1), level, false);
+                        Bee bee2 = BeeCage.getCachedEntityFromStack(blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BEE_2), level, false);
+
+                        // Consume breeding items when starting processing
+                        blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_1).shrink(bee1 instanceof ProductiveBee pBee1 ? pBee1.getBreedingItemCount() : 1);
+                        blockEntity.inventoryHandler.getStackInSlot(BreedingChamberContainer.SLOT_BREED_ITEM_2).shrink(bee2 instanceof ProductiveBee pBee2 ? pBee2.getBreedingItemCount() : 1);
+                    }
+
+                    if (++blockEntity.recipeProgress >= totalTime && blockEntity.completeBreeding(blockEntity.inventoryHandler)) {
+                        blockEntity.reset();
+                    }
+                    blockEntity.recipeProgress = Math.min(blockEntity.recipeProgress, totalTime); // clamp progress so the GUI doesn't break
+                }
+            } else {
+                blockEntity.reset();
+            }
         }
     }
 
@@ -260,17 +256,17 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getUpgradeHandler() {
+    public IItemHandlerModifiable getUpgradeHandler() {
         return upgradeHandler;
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag) {
-        super.loadPacketNBT(tag);
+    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadPacketNBT(tag, provider);
 
         if (tag.contains("ChosenRecipe") && level != null) {
-            Optional<? extends Recipe<?>> recipe = level.getRecipeManager().byKey(new ResourceLocation(tag.getString("ChosenRecipe")));
-            if (recipe.isPresent() && recipe.get() instanceof BeeBreedingRecipe breedingRecipe) {
+            Optional<RecipeHolder<?>> recipe = level.getRecipeManager().byKey(new ResourceLocation(tag.getString("ChosenRecipe")));
+            if (recipe.isPresent() && recipe.get().value() instanceof BeeBreedingRecipe breedingRecipe) {
                 setRecipe(breedingRecipe);
             }
         }
@@ -280,26 +276,14 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag) {
-        super.savePacketNBT(tag);
+    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.savePacketNBT(tag, provider);
 
         if (chosenRecipe != null) {
             tag.putString("ChosenRecipe", chosenRecipe.getId().toString());
         }
         tag.putInt("RecipeProgress", recipeProgress);
         tag.putBoolean("IsRunning", isRunning);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventoryHandler.cast();
-        }
-        else if (cap == ForgeCapabilities.ENERGY) {
-            return energyHandler.cast();
-        }
-        return super.getCapability(cap, side);
     }
 
     @Nonnull

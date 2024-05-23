@@ -2,7 +2,7 @@ package cy.jdkdigital.productivebees.compat.harvest;
 
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

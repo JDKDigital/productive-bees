@@ -1,0 +1,17 @@
+{
+    "type": "productivebees:bee_conversion",
+    "source": "productivebees:iron",
+    "result": "productivebees:example",
+    "item": {
+        "item": "minecraft:hopper"
+    },
+    "conditions": [
+        {
+            "type": "forge:not",
+            "value": {
+                "type": "forge:mod_loaded",
+                "modid": "productivebees"
+            }
+        }
+    ]
+}

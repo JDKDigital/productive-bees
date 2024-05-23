@@ -17,6 +17,7 @@ import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.TagParser;
@@ -51,11 +52,10 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
+import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -71,7 +71,7 @@ public class BeeHelper
         Entity bee = null;
 
         if (!entity.isBaby()) {
-            Container beeInv = new IdentifierInventory(entity, ForgeRegistries.ITEMS.getKey(itemStack.getItem()) + "");
+            Container beeInv = new IdentifierInventory(entity, BuiltInRegistries.ITEM.getKey(itemStack.getItem()) + "");
 
             List<BeeConversionRecipe> recipes = new ArrayList<>();
 
@@ -158,7 +158,7 @@ public class BeeHelper
 
         // If no specific recipe exist for the target bee or the bees are the same type, create a child like the parent
         if (beeEntity != null && (!(beeEntity instanceof ProductiveBee) || ((ProductiveBee) beeEntity).canSelfBreed())) {
-            return ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(beeEntity.getEncodeId())).create(world);
+            return BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(beeEntity.getEncodeId())).create(world);
         }
 
         return null;
@@ -305,11 +305,11 @@ public class BeeHelper
         int rolls = Math.max(1, (int) modifier);
 
         if (matchedRecipe != null) {
-            matchedRecipe.getRecipeOutputs().forEach((itemStack, bounds) -> {
+            matchedRecipe.getRecipeOutputs().forEach((itemStack, chancedOutput) -> {
                 for (var i = 0; i < rolls; i++) {
-                    if (level.random.nextInt(100) <= bounds.get(2).getAsInt()) {
+                    if (level.random.nextFloat() <= chancedOutput.chance()) {
                         ItemStack stack = itemStack.copy();
-                        int count = Mth.nextInt(level.random, Mth.floor(bounds.get(0).getAsInt()), Mth.floor(bounds.get(1).getAsInt()));
+                        int count = Mth.nextInt(level.random, Mth.floor(chancedOutput.min()), Mth.floor(chancedOutput.max()));
                         if (hasCombBlockUpgrade && itemStack.getItem() instanceof HoneycombItem) {
                             stack = getCombBlockFromHoneyComb(itemStack);
                         }
@@ -360,7 +360,7 @@ public class BeeHelper
                 }
 
                 if (entity instanceof Mob mob) {
-                    LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(mob.getLootTable());
+                    LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(mob.getLootTable());
                     if (!lootTable.equals(LootTable.EMPTY)) {
                         Player fakePlayer = FakePlayerFactory.get(serverLevel, new GameProfile(ModEntities.WANNA_BEE_UUID, "wanna_bee"));
                         LootParams.Builder lootContextBuilder = new LootParams.Builder(serverLevel);
@@ -391,7 +391,7 @@ public class BeeHelper
             stack = new ItemStack(ModItems.CONFIGURABLE_COMB_BLOCK.get());
             stack.setTag(itemStack.getTag());
         } else {
-            stack = switch (ForgeRegistries.ITEMS.getKey(itemStack.getItem()).toString()) {
+            stack = switch (BuiltInRegistries.ITEM.getKey(itemStack.getItem()).toString()) {
                 case "productivebees:honeycomb_ghostly" -> new ItemStack(ModBlocks.COMB_GHOSTLY.get());
                 case "productivebees:honeycomb_milky" -> new ItemStack(ModBlocks.COMB_MILKY.get());
                 case "productivebees:honeycomb_powdery" -> new ItemStack(ModBlocks.COMB_POWDERY.get());
@@ -420,7 +420,8 @@ public class BeeHelper
 
     @Nullable
     public static CentrifugeRecipe getCentrifugeRecipe(Level level, IItemHandlerModifiable inputHandler) {
-        return level.getRecipeManager().getRecipeFor(ModRecipeTypes.CENTRIFUGE_TYPE.get(), new RecipeWrapper(inputHandler), level).orElse(null);
+        var recipeHolder = level.getRecipeManager().getRecipeFor(ModRecipeTypes.CENTRIFUGE_TYPE.get(), new RecipeWrapper(inputHandler), level).orElse(null);
+        return recipeHolder != null ? recipeHolder.value() : null;
     }
 
     private static Block getFloweringBlockFromTag(Level level, BlockPos flowerPos, TagKey<Block> tag, ProductiveBee bee) {

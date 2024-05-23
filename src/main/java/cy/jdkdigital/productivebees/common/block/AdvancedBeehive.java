@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.block;
 
+import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.state.properties.VerticalHive;
 import net.minecraft.core.BlockPos;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,30 +29,21 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.network.NetworkHooks;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class AdvancedBeehive extends AdvancedBeehiveAbstract
 {
-    private final Supplier<BlockEntityType<AdvancedBeehiveBlockEntity>> blockEntitySupplier;
     public static final EnumProperty<VerticalHive> EXPANDED = EnumProperty.create("expanded", VerticalHive.class);
 
-    public AdvancedBeehive(final Properties properties, Supplier<BlockEntityType<AdvancedBeehiveBlockEntity>> blockEntitySupplier) {
+    public AdvancedBeehive(final Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState()
                 .setValue(BeehiveBlock.FACING, Direction.NORTH)
                 .setValue(EXPANDED, VerticalHive.NONE)
                 .setValue(BeehiveBlock.HONEY_LEVEL, 0)
         );
-        this.blockEntitySupplier = blockEntitySupplier;
-    }
-
-    public Supplier<BlockEntityType<AdvancedBeehiveBlockEntity>> getBlockEntitySupplier() {
-        return blockEntitySupplier;
     }
 
     @Nullable
@@ -250,5 +243,11 @@ public class AdvancedBeehive extends AdvancedBeehiveAbstract
     public void openGui(ServerPlayer player, AdvancedBeehiveBlockEntity tileEntity) {
         this.updateState(tileEntity.getLevel(), tileEntity.getBlockPos(), tileEntity.getBlockState(), false);
         NetworkHooks.openScreen(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+    }
+
+    public static final MapCodec<AdvancedBeehive> CODEC = simpleCodec(AdvancedBeehive::new);
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 }

@@ -12,6 +12,7 @@ import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -53,7 +54,8 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -83,7 +85,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag tag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
         String type = "";
         if (tag != null) {
             RandomSource random = level.getRandom();
@@ -107,6 +109,8 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 this.setCustomName(Component.literal("SpongeBee BlockPants"));
             } else if (type.equals("productivebees:infinity") && random.nextFloat() < 0.25f) {
                 this.setCustomName(Component.literal("Infinibee"));
+            } else if (type.equals("productivebees:allergy") && random.nextFloat() < 0.25f) {
+                this.setCustomName(Component.literal("Beenadryl Buzz"));
             } else if (type.equals("productivebees:gregstar") && random.nextFloat() < 0.25f) {
                 this.setCustomName(Component.literal("Monsieur Greg"));
             } else if (type.equals("productivebees:water") && random.nextFloat() < 0.05f) {
@@ -120,7 +124,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             }
         }
 
-        return super.finalizeSpawn(level, difficulty, spawnReason, livingEntityData, tag);
+        return super.finalizeSpawn(level, difficulty, pSpawnType, pSpawnGroupData);
     }
 
     @Override
@@ -187,7 +191,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public boolean doHurtTarget(Entity entity) {
         AttributeInstance attackDamage = this.getAttribute(Attributes.ATTACK_DAMAGE);
         if (attackDamage != null && getDamage() != 2.0) {
-            attackDamage.addTransientModifier(new AttributeModifier("Extra Damage", getDamage(), AttributeModifier.Operation.ADDITION));
+            attackDamage.addTransientModifier(new AttributeModifier("Extra Damage", getDamage(), AttributeModifier.Operation.ADD_VALUE));
         }
         return super.doHurtTarget(entity);
     }
@@ -491,15 +495,15 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     public BeeEffect getBeeEffect() {
         CompoundTag nbt = getNBTData();
         if (nbt.contains(("effect"))) {
-            return new BeeEffect(nbt.getCompound("effect"));
+            return new BeeEffect(level().registryAccess(), nbt.getCompound("effect"));
         }
         return super.getBeeEffect();
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(TYPE, "");
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(TYPE, "");
     }
 
     @Override
@@ -621,7 +625,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
-    public Map<MobEffect, Integer> getAggressiveEffects() {
+    public Map<Holder<MobEffect>, Integer> getAggressiveEffects() {
         if (isWithered()) {
             return new HashMap<>()
             {{
@@ -699,7 +703,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         boolean flag = blockstate.blocksMotion();
         boolean flag1 = blockstate.getFluidState().is(FluidTags.WATER);
         if (flag && !flag1) {
-            net.minecraftforge.event.entity.EntityTeleportEvent.EnderEntity event = net.minecraftforge.event.ForgeEventFactory.onEnderTeleport(this, x, y, z);
+           EntityTeleportEvent.EnderEntity event = EventHooks.onEnderTeleport(this, x, y, z);
             if (!event.isCanceled()) {
                 Vec3 vec3 = this.position();
                 boolean flag2 = this.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
@@ -726,7 +730,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                     break;
                 case "sus":
                     if (savedFlowerPos != null && level() instanceof ServerLevel level && level.getBlockEntity(savedFlowerPos) instanceof BrushableBlockEntity brushableBlockEntity) {
-                        List<ResourceLocation> possibleTables = SussyCompatHandler.getLootTables(level, savedFlowerPos);
+                        var possibleTables = SussyCompatHandler.getLootTables(level, savedFlowerPos);
                         if (possibleTables.size() > 0) {
                             brushableBlockEntity.setLootTable(possibleTables.get(level.getRandom().nextInt(possibleTables.size())), level.getRandom().nextLong());
                             savedFlowerPos = null;

@@ -24,8 +24,8 @@ import java.util.function.Supplier;
 
 public class CanvasExpansionBox extends ExpansionBox
 {
-    public CanvasExpansionBox(Properties properties, Supplier<BlockEntityType<ExpansionBoxBlockEntity>> blockEntitySupplier) {
-        super(properties, blockEntitySupplier);
+    public CanvasExpansionBox(Properties properties) {
+        super(properties);
     }
 
     @Nullable

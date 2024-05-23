@@ -13,9 +13,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
 
 public class MinecraftHarvester
 {
@@ -32,24 +32,23 @@ public class MinecraftHarvester
         if (state.hasProperty(SweetBerryBushBlock.AGE) && state.getValue(SweetBerryBushBlock.AGE) == 3) {
             return true;
         }
-        if (block instanceof StemGrownBlock) {
-            return true;
-        }
+
+        // TODO add support for melon and pumpkin again
 
         // Cactus and sugarcane blocks taller than 1 are harvestable
         if (block instanceof CactusBlock || block instanceof SugarCaneBlock) {
             return bee.level().getBlockState(pos.below()).getBlock().equals(state.getBlock());
         }
 
-        return block instanceof CropBlock && !((CropBlock) block).isValidBonemealTarget(bee.level(), pos, state, false);
+        return block instanceof CropBlock && !((CropBlock) block).isValidBonemealTarget(bee.level(), pos, state);
     }
 
     public static void harvestBlock(ProductiveBee bee, BlockPos pos) {
         BlockState cropBlockState = bee.level().getBlockState(pos);
         Block cropBlock = cropBlockState.getBlock();
-        if (cropBlock instanceof AttachedStemBlock) {
+        if (cropBlock instanceof AttachedStemBlock stemBlock) {
             BlockState fruitBlock = bee.level().getBlockState(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)));
-            if (fruitBlock.getBlock() instanceof StemGrownBlock) {
+            if (fruitBlock.is(stemBlock.fruit)) {
                 bee.level().destroyBlock(pos.relative(cropBlockState.getValue(HorizontalDirectionalBlock.FACING)), true);
             }
         } else if (cropBlock instanceof SugarCaneBlock || cropBlock instanceof CactusBlock) {
@@ -81,7 +80,7 @@ public class MinecraftHarvester
                             ModList.get().isLoaded("reap")
             ) {
                 Player fakePlayer = FakePlayerFactory.get((ServerLevel) bee.level(), new GameProfile(FarmerBee.FARMER_BEE_UUID, "farmer_bee"));
-                ForgeHooks.onRightClickBlock(fakePlayer, InteractionHand.MAIN_HAND, pos, new BlockHitResult(bee.getEyePosition(), bee.getMotionDirection(), pos, true));
+                CommonHooks.onRightClickBlock(fakePlayer, InteractionHand.MAIN_HAND, pos, new BlockHitResult(bee.getEyePosition(), bee.getMotionDirection(), pos, true));
             } else {
                 bee.level().destroyBlock(pos, true);
             }

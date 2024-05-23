@@ -1,21 +1,21 @@
 package cy.jdkdigital.productivebees;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class ProductiveBeesConfig
 {
-    private static final ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
-    private static final ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
-    public static final ForgeConfigSpec CLIENT_CONFIG;
+    private static final ModConfigSpec.Builder CLIENT_BUILDER = new ModConfigSpec.Builder();
+    private static final ModConfigSpec.Builder SERVER_BUILDER = new ModConfigSpec.Builder();
+    public static final ModConfigSpec CLIENT_CONFIG;
     public static final Client CLIENT = new Client(CLIENT_BUILDER);
-    public static final ForgeConfigSpec SERVER_CONFIG;
+    public static final ModConfigSpec SERVER_CONFIG;
     public static final General GENERAL = new General(SERVER_BUILDER);
     public static final Bees BEES = new Bees(SERVER_BUILDER);
     public static final BeeAttributes BEE_ATTRIBUTES = new BeeAttributes(SERVER_BUILDER);
@@ -29,13 +29,13 @@ public class ProductiveBeesConfig
 
     public static class Client
     {
-        public final ForgeConfigSpec.BooleanValue renderCombsInCentrifuge;
-        public final ForgeConfigSpec.BooleanValue renderBeesInJars;
-        public final ForgeConfigSpec.BooleanValue mutedBeeNestHelmet;
-        public final ForgeConfigSpec.BooleanValue alwaysChristmas;
-        public final ForgeConfigSpec.BooleanValue renderEntitiesInAmber;
+        public final ModConfigSpec.BooleanValue renderCombsInCentrifuge;
+        public final ModConfigSpec.BooleanValue renderBeesInJars;
+        public final ModConfigSpec.BooleanValue mutedBeeNestHelmet;
+        public final ModConfigSpec.BooleanValue alwaysChristmas;
+        public final ModConfigSpec.BooleanValue renderEntitiesInAmber;
 
-        public Client(ForgeConfigSpec.Builder builder) {
+        public Client(ModConfigSpec.Builder builder) {
             builder.push("Client");
 
             renderCombsInCentrifuge = builder
@@ -64,27 +64,27 @@ public class ProductiveBeesConfig
 
     public static class General
     {
-        public final ForgeConfigSpec.IntValue hiveTickRate;
-        public final ForgeConfigSpec.IntValue timeInHive;
-        public final ForgeConfigSpec.IntValue centrifugeProcessingTime;
-        public final ForgeConfigSpec.IntValue centrifugePoweredProcessingTime;
-        public final ForgeConfigSpec.IntValue centrifugePowerUse;
-        public final ForgeConfigSpec.IntValue incubatorProcessingTime;
-        public final ForgeConfigSpec.IntValue incubatorPowerUse;
-        public final ForgeConfigSpec.IntValue incubatorTreatUse;
-        public final ForgeConfigSpec.IntValue breedingChamberProcessingTime;
-        public final ForgeConfigSpec.IntValue breedingChamberPowerUse;
-        public final ForgeConfigSpec.IntValue generatorPowerGen;
-        public final ForgeConfigSpec.IntValue generatorHoneyUse;
-        public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
-        public final ForgeConfigSpec.IntValue numberOfBeesPerBomb;
-        public final ForgeConfigSpec.IntValue nestLocatorDistance;
-        public final ForgeConfigSpec.IntValue nestSpawnCooldown;
-        public final ForgeConfigSpec.BooleanValue centrifugeHopperMode;
-        public final ForgeConfigSpec.BooleanValue stripForgeCaps;
-        public final ForgeConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
+        public final ModConfigSpec.IntValue hiveTickRate;
+        public final ModConfigSpec.IntValue timeInHive;
+        public final ModConfigSpec.IntValue centrifugeProcessingTime;
+        public final ModConfigSpec.IntValue centrifugePoweredProcessingTime;
+        public final ModConfigSpec.IntValue centrifugePowerUse;
+        public final ModConfigSpec.IntValue incubatorProcessingTime;
+        public final ModConfigSpec.IntValue incubatorPowerUse;
+        public final ModConfigSpec.IntValue incubatorTreatUse;
+        public final ModConfigSpec.IntValue breedingChamberProcessingTime;
+        public final ModConfigSpec.IntValue breedingChamberPowerUse;
+        public final ModConfigSpec.IntValue generatorPowerGen;
+        public final ModConfigSpec.IntValue generatorHoneyUse;
+        public final ModConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
+        public final ModConfigSpec.IntValue numberOfBeesPerBomb;
+        public final ModConfigSpec.IntValue nestLocatorDistance;
+        public final ModConfigSpec.IntValue nestSpawnCooldown;
+        public final ModConfigSpec.BooleanValue centrifugeHopperMode;
+        public final ModConfigSpec.BooleanValue stripForgeCaps;
+        public final ModConfigSpec.BooleanValue forceEnableFarmerBeeRightClickHarvest;
 
-        public General(ForgeConfigSpec.Builder builder) {
+        public General(ModConfigSpec.Builder builder) {
             builder.push("General");
 
             hiveTickRate = builder
@@ -169,18 +169,18 @@ public class ProductiveBeesConfig
 
     public static class Bees
     {
-        public final ForgeConfigSpec.BooleanValue allowBeeSimulation;
-        public final ForgeConfigSpec.DoubleValue spawnUndeadBeesChance;
-        public final ForgeConfigSpec.DoubleValue deadBeeConvertChance;
-        public final ForgeConfigSpec.DoubleValue sugarbagBeeChance;
-        public final ForgeConfigSpec.IntValue cupidBeeAnimalsPerPollination;
-        public final ForgeConfigSpec.IntValue cupidBeeAnimalDensity;
-        public final ForgeConfigSpec.IntValue cuckooSpawnCount;
-        public final ForgeConfigSpec.DoubleValue kamikazBeeChance;
-        public final ForgeConfigSpec.BooleanValue disableWanderGoal;
-        public final ForgeConfigSpec.BooleanValue enableResinBeeEncasing;
+        public final ModConfigSpec.BooleanValue allowBeeSimulation;
+        public final ModConfigSpec.DoubleValue spawnUndeadBeesChance;
+        public final ModConfigSpec.DoubleValue deadBeeConvertChance;
+        public final ModConfigSpec.DoubleValue sugarbagBeeChance;
+        public final ModConfigSpec.IntValue cupidBeeAnimalsPerPollination;
+        public final ModConfigSpec.IntValue cupidBeeAnimalDensity;
+        public final ModConfigSpec.IntValue cuckooSpawnCount;
+        public final ModConfigSpec.DoubleValue kamikazBeeChance;
+        public final ModConfigSpec.BooleanValue disableWanderGoal;
+        public final ModConfigSpec.BooleanValue enableResinBeeEncasing;
 
-        public Bees(ForgeConfigSpec.Builder builder) {
+        public Bees(ModConfigSpec.Builder builder) {
             builder.push("Bees");
 
             allowBeeSimulation = builder
@@ -226,15 +226,15 @@ public class ProductiveBeesConfig
 
     public static class BeeAttributes
     {
-        public final ForgeConfigSpec.IntValue leashedTicks;
-        public final ForgeConfigSpec.DoubleValue damageChance;
-        public final ForgeConfigSpec.DoubleValue toleranceChance;
-        public final ForgeConfigSpec.DoubleValue behaviorChance;
-        public final ForgeConfigSpec.DoubleValue geneExtractChance;
-        public final ForgeConfigSpec.IntValue typeGenePurity;
-        public final ForgeConfigSpec.IntValue effectTicks;
+        public final ModConfigSpec.IntValue leashedTicks;
+        public final ModConfigSpec.DoubleValue damageChance;
+        public final ModConfigSpec.DoubleValue toleranceChance;
+        public final ModConfigSpec.DoubleValue behaviorChance;
+        public final ModConfigSpec.DoubleValue geneExtractChance;
+        public final ModConfigSpec.IntValue typeGenePurity;
+        public final ModConfigSpec.IntValue effectTicks;
 
-        public BeeAttributes(ForgeConfigSpec.Builder builder) {
+        public BeeAttributes(ModConfigSpec.Builder builder) {
             builder.push("Bee attributes");
 
             leashedTicks = builder
@@ -265,10 +265,10 @@ public class ProductiveBeesConfig
 
     public static class WorldGen
     {
-        public final Map<String, ForgeConfigSpec.DoubleValue> nestConfigs = new HashMap<>();
-        public final ForgeConfigSpec.DoubleValue treeGrowNestChance;
+        public final Map<String, ModConfigSpec.DoubleValue> nestConfigs = new HashMap<>();
+        public final ModConfigSpec.DoubleValue treeGrowNestChance;
 
-        public WorldGen(ForgeConfigSpec.Builder builder) {
+        public WorldGen(ModConfigSpec.Builder builder) {
             builder.push("Worldgen");
             builder.comment("Probability for a nest to generate in the world given it's conditions. Nest will still be craftable and attract bees when placed in the world.");
 
@@ -305,16 +305,16 @@ public class ProductiveBeesConfig
 
     public static class Upgrades
     {
-        public final ForgeConfigSpec.DoubleValue timeBonus;
-        public final ForgeConfigSpec.DoubleValue productivityMultiplier;
-        public final ForgeConfigSpec.DoubleValue productivityMultiplier2;
-        public final ForgeConfigSpec.DoubleValue productivityMultiplier3;
-        public final ForgeConfigSpec.DoubleValue productivityMultiplier4;
-        public final ForgeConfigSpec.DoubleValue breedingChance;
-        public final ForgeConfigSpec.IntValue breedingMaxNearbyEntities;
-        public final ForgeConfigSpec.DoubleValue samplerChance;
+        public final ModConfigSpec.DoubleValue timeBonus;
+        public final ModConfigSpec.DoubleValue productivityMultiplier;
+        public final ModConfigSpec.DoubleValue productivityMultiplier2;
+        public final ModConfigSpec.DoubleValue productivityMultiplier3;
+        public final ModConfigSpec.DoubleValue productivityMultiplier4;
+        public final ModConfigSpec.DoubleValue breedingChance;
+        public final ModConfigSpec.IntValue breedingMaxNearbyEntities;
+        public final ModConfigSpec.DoubleValue samplerChance;
 
-        public Upgrades(ForgeConfigSpec.Builder builder) {
+        public Upgrades(ModConfigSpec.Builder builder) {
             builder.push("Hive Upgrades");
 
             timeBonus = builder

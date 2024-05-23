@@ -1,12 +1,13 @@
-package cy.jdkdigital.productivebees.handler.bee;
+package cy.jdkdigital.productivebees.capabilities.bee;
 
 import com.google.common.collect.Lists;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntityAbstract;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -78,7 +79,7 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
     }
 
     @Override
-    public CompoundTag serializeNBT() {
+    public CompoundTag serializeNBT(HolderLookup.Provider provider) {
         ListTag listNBT = getInhabitantListAsListNBT();
         CompoundTag nbt = new CompoundTag();
         nbt.put("Inhabitants", listNBT);
@@ -86,7 +87,7 @@ public class InhabitantStorage implements IInhabitantStorage, INBTSerializable<C
     }
 
     @Override
-    public void deserializeNBT(CompoundTag nbt) {
+    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
         ListTag list = nbt.getList("Inhabitants", 10);
         setInhabitantsFromListNBT(list);
     }

@@ -18,10 +18,13 @@ import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModTags;
 import cy.jdkdigital.productivebees.util.BeeAttributes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
+import cy.jdkdigital.productivelib.common.block.entity.FluidTankBlockEntity;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.block.entity.UpgradeableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -43,14 +46,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -68,7 +70,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     public int fluidId = 0;
     public int transferCooldown = -1;
 
-    private LazyOptional<IItemHandlerModifiable> inventoryHandler = LazyOptional.of(() -> new InventoryHandlerHelper.BlockEntityItemStackHandler(11, this)
+    public IItemHandlerModifiable inventoryHandler = new InventoryHandlerHelper.BlockEntityItemStackHandler(11, this)
     {
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
@@ -88,7 +90,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             if (fromAutomation) {
                 // Skip lookup if the item is different
                 ItemStack existing = this.stacks.get(slot);
-                if (!existing.isEmpty() && !ItemHandlerHelper.canItemStacksStack(stack, existing)) {
+                if (!existing.isEmpty() && !ItemStack.isSameItemSameComponents(stack, existing)) {
                     return stack;
                 }
             }
@@ -104,7 +106,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             }
 
             boolean isProcessableItem =
-                    ItemStack.isSameItemSameTags(currentStack, item) ||
+                    ItemStack.isSameItemSameComponents(currentStack, item) ||
                     item.getItem().equals(ModItems.GENE_BOTTLE.get()) ||
                     item.getItem().equals(ModItems.HONEY_TREAT.get()) ||
                     CentrifugeBlockEntity.this.canProcessItemStack(item);
@@ -119,9 +121,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                 CentrifugeBlockEntity.this.recipeProgress = 0;
             }
         }
-    });
+    };
 
-    protected LazyOptional<IFluidHandler> fluidInventory = LazyOptional.of(() -> new InventoryHandlerHelper.FluidHandler(10000)
+    public IFluidHandler fluidInventory = new InventoryHandlerHelper.FluidHandler(10000)
     {
         @Override
         protected void onContentsChanged() {
@@ -129,9 +131,9 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             CentrifugeBlockEntity.this.fluidId = BuiltInRegistries.FLUID.getId(getFluid().getFluid());
             CentrifugeBlockEntity.this.setChanged();
         }
-    });
+    };
 
-    protected LazyOptional<IItemHandlerModifiable> upgradeHandler = LazyOptional.of(() -> new InventoryHandlerHelper.UpgradeHandler(4, this));
+    protected IItemHandlerModifiable upgradeHandler = new InventoryHandlerHelper.UpgradeHandler(4, this);
 
     public CentrifugeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.CENTRIFUGE.get(), pos, state);
@@ -165,16 +167,17 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, CentrifugeBlockEntity blockEntity) {
-        blockEntity.inventoryHandler.ifPresent(invHandler -> {
-            if (!invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty() && blockEntity.canOperate()) {
+        IItemHandler invHandler = blockEntity.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), null);
+        if (invHandler instanceof ItemStackHandler itemStackHandler) {
+            if (!itemStackHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT).isEmpty() && blockEntity.canOperate()) {
                 // Process gene bottles
-                ItemStack invItem = invHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
+                ItemStack invItem = itemStackHandler.getStackInSlot(InventoryHandlerHelper.INPUT_SLOT);
                 if (invItem.getItem().equals(ModItems.GENE_BOTTLE.get())) {
                     level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
                     int totalTime = blockEntity.getProcessingTime(null);
 
                     if (++blockEntity.recipeProgress >= totalTime) {
-                        blockEntity.completeGeneProcessing(invHandler, level.random);
+                        blockEntity.completeGeneProcessing(itemStackHandler, level.random);
                         blockEntity.recipeProgress = 0;
                         blockEntity.setChanged();
                     }
@@ -183,18 +186,18 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
                     int totalTime = blockEntity.getProcessingTime(null);
 
                     if (++blockEntity.recipeProgress >= totalTime) {
-                        blockEntity.completeTreatProcessing(invHandler);
+                        blockEntity.completeTreatProcessing(itemStackHandler);
                         blockEntity.recipeProgress = 0;
                         blockEntity.setChanged();
                     }
                 } else {
-                    CentrifugeRecipe recipe = blockEntity.getRecipe(invHandler);
-                    if (blockEntity.canProcessRecipe(recipe, invHandler)) {
+                    CentrifugeRecipe recipe = blockEntity.getRecipe(itemStackHandler);
+                    if (blockEntity.canProcessRecipe(recipe, itemStackHandler)) {
                         level.setBlockAndUpdate(pos, state.setValue(Centrifuge.RUNNING, true));
                         int totalTime = blockEntity.getProcessingTime(recipe);
 
                         if (++blockEntity.recipeProgress >= totalTime) {
-                            blockEntity.completeRecipeProcessing(recipe, invHandler, level.random);
+                            blockEntity.completeRecipeProcessing(recipe, itemStackHandler, level.random);
                             blockEntity.recipeProgress = 0;
                             blockEntity.setChanged();
                         }
@@ -207,35 +210,37 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             // Pull items dropped on top
             if (ProductiveBeesConfig.GENERAL.centrifugeHopperMode.get() && --blockEntity.transferCooldown <= 0) {
                 blockEntity.transferCooldown = 22;
-                blockEntity.suckInItems(invHandler);
+                blockEntity.suckInItems(itemStackHandler);
             }
-        });
+        }
         FluidTankBlockEntity.tick(level, pos, state, blockEntity);
     }
 
     @Override
     public void tickFluidTank(Level level, BlockPos pos, BlockState state, FluidTankBlockEntity blockEntity) {
-        this.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler -> {
+        IFluidHandler fluidHandler = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, null);
+        if (fluidHandler instanceof InventoryHandlerHelper.FluidHandler) {
             FluidStack fluidStack = fluidHandler.getFluidInTank(0);
             if (fluidStack.getAmount() > 0) {
                 Direction[] directions = Direction.values();
                 for (Direction direction : directions) {
                     BlockEntity te = level.getBlockEntity(worldPosition.relative(direction));
                     if (te != null && fluidStack.getAmount() > 0) {
-                        te.getCapability(ForgeCapabilities.FLUID_HANDLER, direction.getOpposite()).ifPresent(h -> {
+                        IFluidHandler h = level.getCapability(Capabilities.FluidHandler.BLOCK, pos.relative(direction.getOpposite()), null);
+                        if (h != null) {
                             int amount = h.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE);
                             if (amount > 0) {
                                 amount = h.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
                                 fluidHandler.drain(amount, IFluidHandler.FluidAction.EXECUTE);
                             }
-                        });
+                        }
                     }
                 }
             }
-        });
+        }
     }
 
-    private void suckInItems(IItemHandlerModifiable invHandler) {
+    private void suckInItems(ItemStackHandler invHandler) {
         for (ItemEntity itemEntity : getCaptureItems()) {
             ItemStack itemStack = itemEntity.getItem();
             if (
@@ -267,7 +272,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     }
 
     @Override
-    public LazyOptional<IItemHandlerModifiable> getUpgradeHandler() {
+    public IItemHandlerModifiable getUpgradeHandler() {
         return upgradeHandler;
     }
 
@@ -308,7 +313,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             return null;
         }
 
-        String cacheKey = ForgeRegistries.ITEMS.getKey(input.getItem()) + (input.getTag() != null ? input.getTag().getAsString() : "");
+        String cacheKey = BuiltInRegistries.ITEM.getKey(input.getItem()).toString() + (!input.getComponents().isEmpty() ? input.getComponents().stream().map(TypedDataComponent::toString).reduce((s, s2) -> s + s2) : "");
         if (!recipeMap.containsKey(cacheKey)) {
             recipeMap.put(cacheKey, BeeHelper.getCentrifugeRecipe(level, inputHandler));
         }
@@ -331,7 +336,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
             Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
             boolean fluidFlag = true;
             if (fluidOutput != null) {
-                fluidFlag = fluidInventory.map(h -> h.getFluidInTank(0).isEmpty() || h.getFluidInTank(0).getFluid().equals(fluidOutput.getFirst())).orElse(false);
+                fluidFlag = fluidInventory.getFluidInTank(0).isEmpty() || fluidInventory.getFluidInTank(0).getFluid().equals(fluidOutput.getFirst());
             }
 
             return fluidFlag && ((InventoryHandlerHelper.BlockEntityItemStackHandler) invHandler).canFitStacks(outputList);
@@ -357,9 +362,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
         Pair<Fluid, Integer> fluidOutput = recipe.getFluidOutputs();
         if (fluidOutput != null) {
-            fluidInventory.ifPresent(fluidHandler -> {
-                fluidHandler.fill(new FluidStack(fluidOutput.getFirst(), fluidOutput.getSecond()), IFluidHandler.FluidAction.EXECUTE);
-            });
+            fluidInventory.fill(new FluidStack(fluidOutput.getFirst(), fluidOutput.getSecond()), IFluidHandler.FluidAction.EXECUTE);
         }
     }
 
@@ -394,7 +397,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
         ListTag genes = HoneyTreat.getGenes(honeyTreat);
         if (!genes.isEmpty()) {
             for (Tag inbt : genes) {
-                ItemStack insertedGene = ItemStack.of((CompoundTag) inbt);
+                ItemStack insertedGene = ItemStack.parse(level.registryAccess(), inbt).get();
                 if (((CompoundTag) inbt).contains("purity")) {
                     int purity = ((CompoundTag) inbt).getInt("purity");
                     Gene.setPurity(insertedGene, purity);
@@ -407,32 +410,20 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
     }
 
     @Override
-    public void loadPacketNBT(CompoundTag tag) {
-        super.loadPacketNBT(tag);
+    public void loadPacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadPacketNBT(tag, provider);
 
         recipeProgress = tag.getInt("RecipeProgress");
 
         // set fluid ID for screens
-        Fluid fluid = fluidInventory.map(fluidHandler -> fluidHandler.getFluidInTank(0).getFluid()).orElse(Fluids.EMPTY);
+        Fluid fluid = fluidInventory.getFluidInTank(0).getFluid();
         fluidId = BuiltInRegistries.FLUID.getId(fluid);
     }
 
     @Override
-    public void savePacketNBT(CompoundTag tag) {
-        super.savePacketNBT(tag);
+    public void savePacketNBT(CompoundTag tag, HolderLookup.Provider provider) {
+        super.savePacketNBT(tag, provider);
         tag.putInt("RecipeProgress", recipeProgress);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventoryHandler.cast();
-        }
-        if (cap == ForgeCapabilities.FLUID_HANDLER) {
-            return fluidInventory.cast();
-        }
-        return super.getCapability(cap, side);
     }
 
     @Nonnull
@@ -443,7 +434,7 @@ public class CentrifugeBlockEntity extends FluidTankBlockEntity implements Upgra
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory, final Player player) {
+    public AbstractContainerMenu createMenu(final int windowId, final Inventory playerInventory) {
         return new CentrifugeContainer(windowId, playerInventory, this);
     }
 }

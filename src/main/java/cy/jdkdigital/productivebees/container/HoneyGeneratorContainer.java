@@ -14,10 +14,9 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -48,19 +47,17 @@ public class HoneyGeneratorContainer extends AbstractContainer
         {
             @Override
             public int get() {
-                return tileEntity.getCapability(ForgeCapabilities.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+                return tileEntity.energyHandler.getEnergyStored();
             }
 
             @Override
             public void set(int value) {
-                tileEntity.getCapability(ForgeCapabilities.ENERGY).ifPresent(handler -> {
-                    if (handler.getEnergyStored() > 0) {
-                        handler.extractEnergy(handler.getEnergyStored(), false);
-                    }
-                    if (value > 0) {
-                        handler.receiveEnergy(value, false);
-                    }
-                });
+                if (tileEntity.energyHandler.getEnergyStored() > 0) {
+                    tileEntity.energyHandler.extractEnergy(tileEntity.energyHandler.getEnergyStored(), false);
+                }
+                if (value > 0) {
+                    tileEntity.energyHandler.receiveEnergy(value, false);
+                }
             }
         });
 
@@ -71,7 +68,7 @@ public class HoneyGeneratorContainer extends AbstractContainer
             public int get(int i) {
                 return i == 0 ?
                         tileEntity.fluidId :
-                        tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).map(fluidHandler -> fluidHandler.getFluidInTank(0).getAmount()).orElse(0);
+                        tileEntity.fluidInventory.getFluidInTank(0).getAmount();
             }
 
             @Override
@@ -80,14 +77,12 @@ public class HoneyGeneratorContainer extends AbstractContainer
                     case 0:
                         tileEntity.fluidId = value;
                     case 1:
-                        tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler -> {
-                            FluidStack fluid = fluidHandler.getFluidInTank(0);
-                            if (fluid.isEmpty()) {
-                                fluidHandler.fill(new FluidStack(BuiltInRegistries.FLUID.byId(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
-                            } else {
-                                fluid.setAmount(value);
-                            }
-                        });
+                        FluidStack fluid = tileEntity.fluidInventory.getFluidInTank(0);
+                        if (fluid.isEmpty()) {
+                            tileEntity.fluidInventory.fill(new FluidStack(BuiltInRegistries.FLUID.byId(tileEntity.fluidId), value), IFluidHandler.FluidAction.EXECUTE);
+                        } else {
+                            fluid.setAmount(value);
+                        }
                 }
             }
 
@@ -97,15 +92,11 @@ public class HoneyGeneratorContainer extends AbstractContainer
             }
         });
 
-        this.tileEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(inv -> {
-            // Input and output slot
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, 0, 139, 17));
-            addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) inv, 1, 139, 53));
-        });
+        // Input and output slot
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) tileEntity.inventoryHandler, 0, 139, 17));
+        addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.BlockEntityItemStackHandler) tileEntity.inventoryHandler, 1, 139, 53));
 
-        this.tileEntity.getUpgradeHandler().ifPresent(upgradeHandler -> {
-            addSlotBox(upgradeHandler, 0, 165, 8, 1, 18, 4, 18);
-        });
+        addSlotBox(this.tileEntity.getUpgradeHandler(), 0, 165, 8, 1, 18, 4, 18);
 
         layoutPlayerInventorySlots(playerInventory, 0, -5, 84);
     }
@@ -117,7 +108,7 @@ public class HoneyGeneratorContainer extends AbstractContainer
         if (tileAtPos instanceof HoneyGeneratorBlockEntity) {
             return (HoneyGeneratorBlockEntity) tileAtPos;
         }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+        throw new IllegalStateException("Block entity is not correct! " + tileAtPos);
     }
 
     @Override

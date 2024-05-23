@@ -2,6 +2,7 @@ package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.init.ModFeatures;
 import net.minecraft.core.Holder;
@@ -9,9 +10,9 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ModifiableBiomeInfo;
+import net.neoforged.neoforge.common.world.BiomeGenerationSettingsBuilder;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
 
 public record NestBiomeModifier(HolderSet<Biome> biomes, GenerationStep.Decoration generationStage, HolderSet<PlacedFeature> features, float temperature) implements BiomeModifier
 {
@@ -32,12 +33,12 @@ public record NestBiomeModifier(HolderSet<Biome> biomes, GenerationStep.Decorati
     }
 
     @Override
-    public Codec<? extends BiomeModifier> codec() {
+    public MapCodec<? extends BiomeModifier> codec() {
         return ModFeatures.NEST_BIOME_MODIFIER.get();
     }
 
-    public static Codec<NestBiomeModifier> makeCodec() {
-        return RecordCodecBuilder.create(builder -> builder.group(
+    public static MapCodec<NestBiomeModifier> makeCodec() {
+        return RecordCodecBuilder.mapCodec(builder -> builder.group(
                 Biome.LIST_CODEC.fieldOf("biomes").forGetter(NestBiomeModifier::biomes),
                 Codec.STRING.comapFlatMap(NestBiomeModifier::generationStageFromString, GenerationStep.Decoration::toString).fieldOf("generation_stage").forGetter(NestBiomeModifier::generationStage),
                 PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(NestBiomeModifier::features),

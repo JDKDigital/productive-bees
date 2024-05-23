@@ -20,8 +20,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Collection;
 
-import static net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent;
-
 public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
 {
     private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(CreeperBee.class, EntityDataSerializers.INT);
@@ -39,10 +37,11 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
         return flowerBlock.is(ModTags.POWDERY);
     }
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(STATE, -1);
-        this.entityData.define(POWERED, false);
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(STATE, -1);
+        pBuilder.define(POWERED, false);
     }
 
     @Override
@@ -74,13 +73,13 @@ public class CreeperBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     private void explode() {
-        Level.ExplosionInteraction explosionMode = getMobGriefingEvent(level(), this) ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
-        float f = this.entityData.get(POWERED) ? 2.0F : 1.0F;
-        this.dead = true;
-        float explosionRadius = 1.6F;
-        level().explode(this, this.getX(), this.getY(), this.getZ(), explosionRadius * f, explosionMode);
-        this.discard();
-        this.spawnLingeringCloud();
+        if (!this.level().isClientSide) {
+            float f = this.entityData.get(POWERED) ? 2.0F : 1.0F;
+            this.dead = true;
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.6f * f, Level.ExplosionInteraction.MOB);
+            this.discard();
+            this.spawnLingeringCloud();
+        }
     }
 
     private void spawnLingeringCloud() {

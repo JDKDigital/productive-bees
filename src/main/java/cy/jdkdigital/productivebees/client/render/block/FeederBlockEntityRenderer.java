@@ -15,7 +15,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -49,50 +51,54 @@ public class FeederBlockEntityRenderer implements BlockEntityRenderer<FeederBloc
     public FeederBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
 
-    public void render(FeederBlockEntity tileEntityIn, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        SlabType slabType = tileEntityIn.getBlockState().getValue(SlabBlock.TYPE);
-        tileEntityIn.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-            List<ItemStack> filledSlots = new ArrayList<>();
-            for (int slot = 0; slot < handler.getSlots(); ++slot) {
-                var stack = handler.getStackInSlot(slot);
-                if (!stack.isEmpty()) {
-                    filledSlots.add(stack);
-                }
-            }
+    public void render(FeederBlockEntity blockEntity, float partialTicks, @Nonnull PoseStack poseStack, @Nonnull MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        SlabType slabType = blockEntity.getBlockState().getValue(SlabBlock.TYPE);
 
-            if (filledSlots.size() > 0) {
-                // TODO fix third item not rendering
-                for (int slot = 0; slot < Math.min(3, handler.getSlots()); ++slot) {
-                    ItemStack slotStack = handler.getStackInSlot(slot);
-
-                    if (slotStack.isEmpty()) {
-                        continue;
+        if (blockEntity.getLevel() != null) {
+            IItemHandler invHandler = blockEntity.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), null);
+            if (invHandler instanceof ItemStackHandler) {
+                List<ItemStack> filledSlots = new ArrayList<>();
+                for (int slot = 0; slot < invHandler.getSlots(); ++slot) {
+                    var stack = invHandler.getStackInSlot(slot);
+                    if (!stack.isEmpty()) {
+                        filledSlots.add(stack);
                     }
+                }
 
-                    boolean isFlower = slotStack.is(ItemTags.FLOWERS);
-                    Pair<Float, Float> pos = POSITIONS.get(Math.min(3, filledSlots.size())).get(slot);
-                    float rotation = isFlower ? 90F : 35.0F * slot;
-                    float zScale = isFlower ? 0.775F : 0.575F;
+                if (filledSlots.size() > 0) {
+                    // TODO fix third item not rendering
+                    for (int slot = 0; slot < Math.min(3, invHandler.getSlots()); ++slot) {
+                        ItemStack slotStack = invHandler.getStackInSlot(slot);
 
-                    poseStack.pushPose();
-                    poseStack.translate(pos.getFirst(), 0.52D + (slabType.equals(SlabType.TOP) || slabType.equals(SlabType.DOUBLE) ? 0.5d : 0), pos.getSecond());
-                    poseStack.mulPose(Axis.XP.rotationDegrees(rotation));
-                    poseStack.scale(0.575F, zScale, 0.575F);
-                    Minecraft.getInstance().getItemRenderer().renderStatic(slotStack, ItemDisplayContext.FIXED, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, tileEntityIn.getLevel(), 0);
-                    poseStack.popPose();
+                        if (slotStack.isEmpty()) {
+                            continue;
+                        }
+
+                        boolean isFlower = slotStack.is(ItemTags.FLOWERS);
+                        Pair<Float, Float> pos = POSITIONS.get(Math.min(3, filledSlots.size())).get(slot);
+                        float rotation = isFlower ? 90F : 35.0F * slot;
+                        float zScale = isFlower ? 0.775F : 0.575F;
+
+                        poseStack.pushPose();
+                        poseStack.translate(pos.getFirst(), 0.52D + (slabType.equals(SlabType.TOP) || slabType.equals(SlabType.DOUBLE) ? 0.5d : 0), pos.getSecond());
+                        poseStack.mulPose(Axis.XP.rotationDegrees(rotation));
+                        poseStack.scale(0.575F, zScale, 0.575F);
+                        Minecraft.getInstance().getItemRenderer().renderStatic(slotStack, ItemDisplayContext.FIXED, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, blockEntity.getLevel(), 0);
+                        poseStack.popPose();
+                    }
                 }
             }
-        });
+        }
 
         BlockState slabState;
-        if (tileEntityIn.baseBlock != null) {
-            slabState = tileEntityIn.baseBlock.defaultBlockState();
+        if (blockEntity.baseBlock != null) {
+            slabState = blockEntity.baseBlock.defaultBlockState();
         } else {
             slabState = Blocks.SMOOTH_STONE_SLAB.defaultBlockState();
         }
 
         if (slabState.getBlock() instanceof SlabBlock) {
-            slabState = slabState.setValue(SlabBlock.TYPE, tileEntityIn.getBlockState().getValue(SlabBlock.TYPE)).setValue(SlabBlock.TYPE, slabType);
+            slabState = slabState.setValue(SlabBlock.TYPE, blockEntity.getBlockState().getValue(SlabBlock.TYPE)).setValue(SlabBlock.TYPE, slabType);
         }
 
         Minecraft.getInstance().getBlockRenderer().renderSingleBlock(slabState, poseStack, bufferIn, combinedLightIn, combinedOverlayIn);

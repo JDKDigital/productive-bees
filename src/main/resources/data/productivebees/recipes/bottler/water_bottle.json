@@ -4,10 +4,10 @@
     "fluid": "minecraft:water",
     "amount": 250
   },
-  "input": {
+  "ingredient": {
     "item": "minecraft:glass_bottle"
   },
-  "output": {
+  "result": {
     "item": "minecraft:potion",
     "nbt": "{\"Potion\": \"minecraft:water\"}"
   }
