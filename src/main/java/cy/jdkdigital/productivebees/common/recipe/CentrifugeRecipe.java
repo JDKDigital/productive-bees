@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -191,6 +192,11 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
                 if (buffer.readBoolean()) {
                     fluidOutput = Pair.of(buffer.readUtf(), buffer.readInt());
                 }
+
+                Map<ItemStack, Float> outputs = new LinkedHashMap<>();
+                outputs.forEach((itemStack, aFloat) -> {
+
+                });
 
                 return this.factory.create(id, ingredient, itemOutput, fluidOutput, buffer.readInt());
             } catch (Exception e) {

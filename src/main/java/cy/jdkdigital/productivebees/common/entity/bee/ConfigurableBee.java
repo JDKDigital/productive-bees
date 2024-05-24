@@ -24,6 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -460,16 +461,18 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
 
     @Override
     public Ingredient getBreedingIngredient() {
-        String id = getNBTData().getString("breedingItem");
+        return getBreedingIngredientFromString(getNBTData().getString("breedingItem"));
+    }
+
+    public static Ingredient getBreedingIngredientFromString(String id) {
         if (id.isEmpty()) {
-            return super.getBreedingIngredient();
+            return Ingredient.of(ItemTags.FLOWERS);
         }
 
         if (id.startsWith("#")) {
             return Ingredient.of(ModTags.getItemTag(new ResourceLocation(id.substring(1))));
-        } else {
-            return Ingredient.of(ForgeRegistries.ITEMS.getValue(new ResourceLocation(id)));
         }
+        return Ingredient.of(ForgeRegistries.ITEMS.getValue(new ResourceLocation(id)));
     }
 
     @Override

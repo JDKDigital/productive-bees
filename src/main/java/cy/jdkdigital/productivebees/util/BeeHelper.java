@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.FeederBlockEntity;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
+import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.item.Honeycomb;
 import cy.jdkdigital.productivebees.common.recipe.*;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
@@ -177,9 +178,13 @@ public class BeeHelper
 
     public static List<BeeBreedingRecipe> getBreedingRecipes(Bee beeEntity, AgeableMob targetEntity, ServerLevel level) {
         IdentifierInventory beeInv = new IdentifierInventory(beeEntity, (Bee) targetEntity);
+        return getBreedingRecipes(beeInv, level);
+    }
 
-        // Get breeding recipes
+
+    public static List<BeeBreedingRecipe> getBreedingRecipes(IdentifierInventory beeInv, ServerLevel level) {
         List<BeeBreedingRecipe> recipes = new ArrayList<>();
+        // Get breeding recipes
         Map<ResourceLocation, BeeBreedingRecipe> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.BEE_BREEDING_TYPE.get());
         for (Map.Entry<ResourceLocation, BeeBreedingRecipe> entry : allRecipes.entrySet()) {
             BeeBreedingRecipe recipe = entry.getValue();
@@ -189,7 +194,9 @@ public class BeeHelper
         }
 
         // If the two bees are the same, add a runtime breeding recipe
-        if (beeEntity.getType().equals(targetEntity.getType()) && (!(beeEntity instanceof ProductiveBee peeBee) || (peeBee.canSelfBreed() && peeBee.getBeeType().equals(((ProductiveBee) targetEntity).getBeeType())))) {
+        ResourceLocation bee1Id = new ResourceLocation(beeInv.getIdentifier(0));
+        var bee1Data = BeeReloadListener.INSTANCE.getData(bee1Id.toString());
+        if (bee1Id.toString().equals(beeInv.getIdentifier(1)) && (!(bee1Id.getNamespace().equals(ProductiveBees.MODID)) || bee1Data == null || bee1Data.getBoolean("selfbreed"))) {
             Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeInv.getIdentifier()));
             recipes.add(new BeeBreedingRecipe(new ResourceLocation(ProductiveBees.MODID, "bee_breeding_" + new ResourceLocation(beeInv.getIdentifier()).getPath() + "_self"), List.of(beeIngredient, beeIngredient), beeIngredient));
         }
@@ -615,11 +622,11 @@ public class BeeHelper
         }
 
         public IdentifierInventory(Bee bee1, Bee bee2) {
-            String identifier1 = bee1.getEncodeId();
+            String identifier1 = ForgeRegistries.ENTITY_TYPES.getKey(bee1.getType()).toString();
             if (bee1 instanceof ConfigurableBee) {
                 identifier1 = ((ConfigurableBee) bee1).getBeeType();
             }
-            String identifier2 = bee2.getEncodeId();
+            String identifier2 = ForgeRegistries.ENTITY_TYPES.getKey(bee2.getType()).toString();
             if (bee2 instanceof ConfigurableBee) {
                 identifier2 = ((ConfigurableBee) bee2).getBeeType();
             }
@@ -628,7 +635,7 @@ public class BeeHelper
         }
 
         public IdentifierInventory(Bee bee1, String identifier2) {
-            String identifier1 = bee1.getEncodeId();
+            String identifier1 = ForgeRegistries.ENTITY_TYPES.getKey(bee1.getType()).toString();
             if (bee1 instanceof ConfigurableBee) {
                 identifier1 = ((ConfigurableBee) bee1).getBeeType();
             }
