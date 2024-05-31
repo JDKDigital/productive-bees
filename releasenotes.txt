@@ -1,3 +1,13 @@
+1.20.1-12.5.3
+
+- Corrected Draconic Evolution bees to match 1.20.1 changes
+
+
+1.20.1-12.5.2
+
+- Fixed some memleak issues
+
+
 1.20.1-12.5.1
 
 - Fixed bee fishing not working when no biome is required
