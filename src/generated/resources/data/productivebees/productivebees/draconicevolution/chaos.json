@@ -3,7 +3,7 @@
   "secondaryColor": "#090909",
   "tertiaryColor": "#303030",
   "particleColor": "#303030",
-  "flowerBlock": "draconicevolution:reactor_core",
+  "flowerItem": "draconicevolution:chaos_shard",
   "nestingPreference": "productivebees:nests/draconic_nests",
   "description": "productivebees.ingredient.description.only_spawnegg",
   "selfbreed": false,
