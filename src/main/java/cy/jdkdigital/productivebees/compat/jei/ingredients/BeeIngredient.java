@@ -6,23 +6,29 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.common.entity.bee.ConfigurableBee;
 import cy.jdkdigital.productivebees.common.recipe.AdvancedBeehiveRecipe;
 import cy.jdkdigital.productivelib.common.recipe.TagOutputRecipe;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class BeeIngredient implements Comparable<BeeIngredient>
+public class BeeIngredient
 {
     public static final Codec<Supplier<BeeIngredient>> CODEC = Codec.STRING.comapFlatMap(BeeIngredientFactory::read, BeeIngredient::write).stable();
+    public static final Codec<List<Supplier<BeeIngredient>>> LIST_CODEC = Codec.list(CODEC);
 
     private static Map<BeeIngredient, Entity> cache = new HashMap<>();
 

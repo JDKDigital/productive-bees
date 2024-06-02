@@ -11,7 +11,6 @@ import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.state.BlockState;
@@ -86,7 +85,7 @@ public class WoodNestDecorator extends TreeDecorator {
 
                                 try {
                                     CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
-                                    nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, Component.translatable("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
+                                    nestBlockEntity.addOccupantFromTag(bee, random.nextInt(599), 600);
                                 } catch (CommandSyntaxException e) {
                                     ProductiveBees.LOGGER.warn("Failed to put bees into solitary nest :(" + e.getMessage());
                                 }

@@ -1,17 +1,15 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -21,19 +19,18 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.Lazy;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class BeeBreedingRecipe implements Recipe<Container>, TimedRecipeInterface
 {
-    public final ResourceLocation id;
-    public final List<Lazy<BeeIngredient>> ingredients;
-    public final Lazy<BeeIngredient> offspring;
+    public final Supplier<BeeIngredient> parent1;
+    public final Supplier<BeeIngredient> parent2;
+    public final Supplier<BeeIngredient> offspring;
 
-    public BeeBreedingRecipe(ResourceLocation id, List<Lazy<BeeIngredient>> ingredients, Lazy<BeeIngredient> offspring) {
-        this.id = id;
-        this.ingredients = ingredients;
+    public BeeBreedingRecipe(Supplier<BeeIngredient> parent1, Supplier<BeeIngredient> parent2, Supplier<BeeIngredient> offspring) {
+        this.parent1 = parent1;
+        this.parent2 = parent2;
         this.offspring = offspring;
     }
 
@@ -47,14 +44,14 @@ public class BeeBreedingRecipe implements Recipe<Container>, TimedRecipeInterfac
         if (inv instanceof BeeHelper.IdentifierInventory) {
             String beeName1 = ((BeeHelper.IdentifierInventory) inv).getIdentifier(0);
             String beeName2 = ((BeeHelper.IdentifierInventory) inv).getIdentifier(1);
-            for (Lazy<BeeIngredient> parent : ingredients) {
+            for (Supplier<BeeIngredient> parent : List.of(parent1, parent2)) {
                 if (parent.get() != null) {
                     String parentName = parent.get().getBeeType().toString();
                     if (!parentName.equals(beeName1) && !parentName.equals(beeName2)) {
                         return false;
                     }
                 } else {
-                    ProductiveBees.LOGGER.warn("Bee not found in breeding recipe " + id);
+                    ProductiveBees.LOGGER.warn("Bee not found in breeding recipe");
                     return false;
                 }
             }
@@ -65,7 +62,7 @@ public class BeeBreedingRecipe implements Recipe<Container>, TimedRecipeInterfac
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -76,14 +73,8 @@ public class BeeBreedingRecipe implements Recipe<Container>, TimedRecipeInterfac
 
     @Nonnull
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
-    }
-
-    @Nonnull
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
     }
 
     @Nonnull
@@ -98,74 +89,53 @@ public class BeeBreedingRecipe implements Recipe<Container>, TimedRecipeInterfac
         return ModRecipeTypes.BEE_BREEDING_TYPE.get();
     }
 
-    public static class Serializer<T extends BeeBreedingRecipe> implements RecipeSerializer<T>
+    public static class Serializer implements RecipeSerializer<BeeBreedingRecipe>
     {
-        final BeeBreedingRecipe.Serializer.IRecipeFactory<T> factory;
+        private static final MapCodec<BeeBreedingRecipe> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                                BeeIngredient.CODEC.fieldOf("parent1").forGetter(recipe -> recipe.parent1),
+                                BeeIngredient.CODEC.fieldOf("parent2").forGetter(recipe -> recipe.parent2),
+                                BeeIngredient.CODEC.fieldOf("offspring").forGetter(recipe -> recipe.offspring)
+                        )
+                        .apply(builder, BeeBreedingRecipe::new)
+        );
 
-        public Serializer(BeeBreedingRecipe.Serializer.IRecipeFactory<T> factory) {
-            this.factory = factory;
-        }
+        public static final StreamCodec<RegistryFriendlyByteBuf, BeeBreedingRecipe> STREAM_CODEC = StreamCodec.of(
+                BeeBreedingRecipe.Serializer::toNetwork, BeeBreedingRecipe.Serializer::fromNetwork
+        );
 
-        @Nonnull
         @Override
-        public T fromJson(ResourceLocation id, JsonObject json) {
-            String parentName1 = GsonHelper.getAsString(json, "parent1");
-            String parentName2 = GsonHelper.getAsString(json, "parent2");
-
-            Lazy<BeeIngredient> offspringIngredient = null;
-            JsonArray offspring = GsonHelper.getAsJsonArray(json, "offspring");
-            if (!offspring.isEmpty()) {
-                offspringIngredient = Lazy.of(BeeIngredientFactory.getIngredient(offspring.get(0).getAsString()));
-            }
-
-            Lazy<BeeIngredient> beeIngredientParent1 = Lazy.of(BeeIngredientFactory.getIngredient(parentName1));
-            Lazy<BeeIngredient> beeIngredientParent2 = Lazy.of(BeeIngredientFactory.getIngredient(parentName2));
-
-            return this.factory.create(id, Arrays.asList(beeIngredientParent1, beeIngredientParent2), offspringIngredient);
+        public MapCodec<BeeBreedingRecipe> codec() {
+            return CODEC;
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
-            try {
-                List<Lazy<BeeIngredient>> ingredients = new ArrayList<>();
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, BeeBreedingRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
 
+        public static BeeBreedingRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
+            try {
                 BeeIngredient ing1 = BeeIngredient.fromNetwork(buffer);
                 BeeIngredient ing2 = BeeIngredient.fromNetwork(buffer);
-                ingredients.add(Lazy.of(() -> ing1));
-                ingredients.add(Lazy.of(() -> ing2));
-
                 BeeIngredient offspring = BeeIngredient.fromNetwork(buffer);
 
-                return this.factory.create(id, ingredients, Lazy.of(() -> offspring));
+                return new BeeBreedingRecipe(Lazy.of(() -> ing1), Lazy.of(() -> ing2), Lazy.of(() -> offspring));
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee breeding recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading bee breeding recipe from packet. ", e);
                 throw e;
             }
         }
 
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
+        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BeeBreedingRecipe recipe) {
             try {
-                for (Lazy<BeeIngredient> ingredient : recipe.ingredients) {
-                    if (ingredient.get() != null) {
-                        ingredient.get().toNetwork(buffer);
-                    } else {
-                        throw new RuntimeException("Bee breeding recipe ingredient missing " + recipe.getId() + " - " + ingredient);
-                    }
-                }
-
-                if (recipe.offspring.get() != null) {
-                    recipe.offspring.get().toNetwork(buffer);
-                } else {
-                    throw new RuntimeException("Bee breeding recipe child missing " + recipe.getId() + " - " + recipe.offspring.get());
-                }
+                recipe.parent1.get().toNetwork(buffer);
+                recipe.parent2.get().toNetwork(buffer);
+                recipe.offspring.get().toNetwork(buffer);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee breeding recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing bee breeding recipe to packet. ", e);
                 throw e;
             }
-        }
-
-        public interface IRecipeFactory<T extends BeeBreedingRecipe>
-        {
-            T create(ResourceLocation id, List<Lazy<BeeIngredient>> input, Lazy<BeeIngredient> output);
         }
     }
 }

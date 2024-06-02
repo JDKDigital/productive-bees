@@ -14,7 +14,6 @@ import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.WorldGenLevel;
@@ -105,7 +104,7 @@ public class GlowstoneNestFeature extends Feature<BlockStateConfiguration>
                             BeeIngredient beeIngredient = spawningRecipe.output.get(random.nextInt(spawningRecipe.output.size())).get();
                             try {
                                 CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient);
-                                nestBlockEntity.addBee(bee, random.nextInt(599), 600, null, Component.translatable("entity.productivebees." + beeIngredient.getBeeType().getPath()).getString());
+                                nestBlockEntity.addOccupantFromTag(bee, random.nextInt(599), 600);
                             } catch (CommandSyntaxException e) {
                                 ProductiveBees.LOGGER.warn("Failed to put bee into glowstone nest :(" + e.getMessage());
                             }

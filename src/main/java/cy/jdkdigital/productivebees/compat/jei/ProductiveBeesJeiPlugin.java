@@ -233,7 +233,7 @@
 //                "nether_quartz_nest"
 //        );
 //        for (String itemName : itemInfos) {
-//            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ProductiveBees.MODID, itemName));
+//            Item item = BuiltInRegistries.ITEM.getValue(new ResourceLocation(ProductiveBees.MODID, itemName));
 //            registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, Component.translatable("productivebees.ingredient.description." + itemName));
 //        }
 //

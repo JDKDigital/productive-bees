@@ -1,18 +1,22 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -24,19 +28,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
+import java.util.function.Supplier;
 
 public class BeeFishingRecipe implements Recipe<Container>
 {
+//    static StreamCodec<ByteBuf, Biome> BIOME_STREAM = ByteBufCodecs.fromCodec(Biome.NETWORK_CODEC);
+    static StreamCodec<RegistryFriendlyByteBuf, HolderSet<Biome>> BIOME_STREAM = ByteBufCodecs.holderSet(Registries.BIOME);
+
     private static Map<BeeFishingRecipe, List<Biome>> cachedBiomes = new HashMap<>();
     private static Map<Biome, List<BeeFishingRecipe>> cachedRecipes = new HashMap<>();
-    private final ResourceLocation id;
-    public final Lazy<BeeIngredient> output;
-    public final List<String> biomes;
-    public final double chance;
+    public final Supplier<BeeIngredient> output;
+    public final HolderSet<Biome> biomes;
+    public final float chance;
 
-    public BeeFishingRecipe(ResourceLocation id, Lazy<BeeIngredient> output, List<String> biomes, double chance) {
-        this.id = id;
+    public BeeFishingRecipe(Supplier<BeeIngredient> output, HolderSet<Biome> biomes, float chance) {
         this.output = output;
         this.biomes = biomes;
         this.chance = chance;
@@ -47,27 +52,19 @@ public class BeeFishingRecipe implements Recipe<Container>
         return false;
     }
 
-    public boolean matches(Biome biome, Level level) {
-        if (this.biomes.isEmpty()) {
+    public boolean matches(Holder<Biome> biome, Level level) {
+        if (this.biomes.size() == 0) {
             return true;
         }
-        var key = level.registryAccess().registryOrThrow(Registries.BIOME).getKey(biome);
-        for (String biomeId: this.biomes) {
-            if (key != null && key.toString().equals(biomeId)) {
-                return true;
-            }
-        }
-        return false;
+        return this.biomes.contains(biome);
     }
 
     public static List<Biome> getBiomeList(BeeFishingRecipe recipe, Level level) {
-        var biomeRegistry = level.registryAccess().registryOrThrow(Registries.BIOME);
         if (!cachedBiomes.containsKey(recipe)) {
             List<Biome> list = new ArrayList<>();
 
-            for (String biomeId: recipe.biomes) {
-                Biome biome = biomeRegistry.get(new ResourceLocation(biomeId));
-                list.add(biome);
+            for (Holder<Biome> biome: recipe.biomes) {
+                list.add(biome.value());
             }
 
             cachedBiomes.put(recipe, list);
@@ -75,25 +72,25 @@ public class BeeFishingRecipe implements Recipe<Container>
         return cachedBiomes.get(recipe);
     }
 
-    public static List<BeeFishingRecipe> getRecipeList(Biome biome, Level level) {
-        if (!cachedRecipes.containsKey(biome)) {
+    public static List<BeeFishingRecipe> getRecipeList(Holder<Biome> biome, Level level) {
+        if (!cachedRecipes.containsKey(biome.value())) {
             List<BeeFishingRecipe> list = new ArrayList<>();
 
-            Map<ResourceLocation, BeeFishingRecipe> allRecipes = level.getRecipeManager().byType(ModRecipeTypes.BEE_FISHING_TYPE.get());
-            for (Map.Entry<ResourceLocation, BeeFishingRecipe> recipe: allRecipes.entrySet()) {
-                if (recipe.getValue().matches(biome, level)) {
-                    list.add(recipe.getValue());
+            List<RecipeHolder<BeeFishingRecipe>> allRecipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.BEE_FISHING_TYPE.get());
+            for (RecipeHolder<BeeFishingRecipe> recipe: allRecipes) {
+                if (recipe.value().matches(biome, level)) {
+                    list.add(recipe.value());
                 }
             }
 
-            cachedRecipes.put(biome, list);
+            cachedRecipes.put(biome.value(), list);
         }
-        return cachedRecipes.get(biome);
+        return cachedRecipes.get(biome.value());
     }
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -104,14 +101,8 @@ public class BeeFishingRecipe implements Recipe<Container>
 
     @Nonnull
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
-    }
-
-    @Nonnull
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
     }
 
     @Nonnull
@@ -126,66 +117,53 @@ public class BeeFishingRecipe implements Recipe<Container>
         return ModRecipeTypes.BEE_FISHING_TYPE.get();
     }
 
-    public static class Serializer<T extends BeeFishingRecipe> implements RecipeSerializer<T>
+    public static class Serializer implements RecipeSerializer<BeeFishingRecipe>
     {
-        final BeeFishingRecipe.Serializer.IRecipeFactory<T> factory;
+        private static final MapCodec<BeeFishingRecipe> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                                BeeIngredient.CODEC.fieldOf("bee").forGetter(recipe -> recipe.output),
+                                Biome.LIST_CODEC.fieldOf("biomes").forGetter(recipe -> recipe.biomes),
+                                Codec.FLOAT.fieldOf("chance").forGetter(recipe -> recipe.chance)
+                        )
+                        .apply(builder, BeeFishingRecipe::new)
+        );
 
-        public Serializer(BeeFishingRecipe.Serializer.IRecipeFactory<T> factory) {
-            this.factory = factory;
-        }
+        public static final StreamCodec<RegistryFriendlyByteBuf, BeeFishingRecipe> STREAM_CODEC = StreamCodec.of(
+                BeeFishingRecipe.Serializer::toNetwork, BeeFishingRecipe.Serializer::fromNetwork
+        );
 
-        @Nonnull
         @Override
-        public T fromJson(ResourceLocation id, JsonObject json) {
-            Lazy<BeeIngredient> output = Lazy.of(BeeIngredientFactory.getIngredient(GsonHelper.getAsString(json, "bee")));
-
-            List<String> biomes = new ArrayList<>();
-            if (json.has("biomes")) {
-                GsonHelper.getAsJsonArray(json, "biomes").forEach(jsonElement -> {
-                    biomes.add(jsonElement.getAsString());
-                });
-            }
-
-            double chance = GsonHelper.getAsDouble(json, "chance", 0.05D);
-
-            return this.factory.create(id, output, biomes, chance);
+        public MapCodec<BeeFishingRecipe> codec() {
+            return CODEC;
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, BeeFishingRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
+
+        public static BeeFishingRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
             try {
                 BeeIngredient output = BeeIngredient.fromNetwork(buffer);
 
-                List<String> biomes = new ArrayList<>();
-                IntStream.range(0, buffer.readInt()).forEach(
-                        i -> {
-                            biomes.add(buffer.readUtf());
-                        }
-                );
-
-                return this.factory.create(id, Lazy.of(() -> output), biomes, buffer.readDouble());
+                return new BeeFishingRecipe(Lazy.of(() -> output), BIOME_STREAM.decode(buffer), buffer.readFloat());
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee fishing recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading bee fishing recipe from packet. ", e);
                 throw e;
             }
         }
 
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
+        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BeeFishingRecipe recipe) {
             try {
                 recipe.output.get().toNetwork(buffer);
 
-                buffer.writeInt(recipe.biomes.size());
-                recipe.biomes.forEach(buffer::writeUtf);
+                BIOME_STREAM.encode(buffer, recipe.biomes);
 
                 buffer.writeDouble(recipe.chance);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee fishing recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing bee fishing recipe to packet. ", e);
                 throw e;
             }
-        }
-
-        public interface IRecipeFactory<T extends BeeFishingRecipe>
-        {
-            T create(ResourceLocation id, Lazy<BeeIngredient> output, List<String> biomes, double chance);
         }
     }
 }

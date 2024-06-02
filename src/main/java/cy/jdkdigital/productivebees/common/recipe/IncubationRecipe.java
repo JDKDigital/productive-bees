@@ -1,13 +1,14 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -20,13 +21,11 @@ import javax.annotation.Nonnull;
 
 public class IncubationRecipe implements Recipe<Container>, TimedRecipeInterface
 {
-    public final ResourceLocation id;
     public final Ingredient input;
     public final Ingredient catalyst;
     public final Ingredient result;
 
-    public IncubationRecipe(ResourceLocation id, Ingredient input, Ingredient catalyst, Ingredient result) {
-        this.id = id;
+    public IncubationRecipe(Ingredient input, Ingredient catalyst, Ingredient result) {
         this.input = input;
         this.catalyst = catalyst;
         this.result = result;
@@ -45,7 +44,7 @@ public class IncubationRecipe implements Recipe<Container>, TimedRecipeInterface
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -56,14 +55,8 @@ public class IncubationRecipe implements Recipe<Container>, TimedRecipeInterface
 
     @Nonnull
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
-    }
-
-    @Nonnull
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
     }
 
     @Nonnull
@@ -78,60 +71,47 @@ public class IncubationRecipe implements Recipe<Container>, TimedRecipeInterface
         return ModRecipeTypes.INCUBATION_TYPE.get();
     }
 
-    public static class Serializer<T extends IncubationRecipe> implements RecipeSerializer<T>
+    public static class Serializer implements RecipeSerializer<IncubationRecipe>
     {
-        final IncubationRecipe.Serializer.IRecipeFactory<T> factory;
+        private static final MapCodec<IncubationRecipe> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                                Ingredient.CODEC.fieldOf("input").forGetter(recipe -> recipe.input),
+                                Ingredient.CODEC.fieldOf("input").forGetter(recipe -> recipe.catalyst),
+                                Ingredient.CODEC.fieldOf("output").forGetter(recipe -> recipe.input)
+                        )
+                        .apply(builder, IncubationRecipe::new)
+        );
 
-        public Serializer(IncubationRecipe.Serializer.IRecipeFactory<T> factory) {
-            this.factory = factory;
-        }
+        public static final StreamCodec<RegistryFriendlyByteBuf, IncubationRecipe> STREAM_CODEC = StreamCodec.of(
+                IncubationRecipe.Serializer::toNetwork, IncubationRecipe.Serializer::fromNetwork
+        );
 
-        @Nonnull
         @Override
-        public T fromJson(ResourceLocation id, JsonObject json) {
-            Ingredient input;
-            if (GsonHelper.isArrayNode(json, "input")) {
-                input = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "input"));
-            }
-            else {
-                input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "input"));
-            }
-
-            Ingredient catalyst;
-            if (GsonHelper.isArrayNode(json, "catalyst")) {
-                catalyst = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "catalyst"));
-            }
-            else {
-                catalyst = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "catalyst"));
-            }
-
-            Ingredient output;
-            if (GsonHelper.isArrayNode(json, "output")) {
-                output = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "output"));
-            }
-            else {
-                output = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "output"));
-            }
-
-            return this.factory.create(id, input, catalyst, output);
+        public MapCodec<IncubationRecipe> codec() {
+            return CODEC;
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, IncubationRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
+
+        public static IncubationRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
             try {
-                return this.factory.create(id, Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer));
+                return new IncubationRecipe(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee incubation recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading bee incubation recipe from packet. ", e);
                 throw e;
             }
         }
 
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
+        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, IncubationRecipe recipe) {
             try {
-                recipe.input.toNetwork(buffer);
-                recipe.catalyst.toNetwork(buffer);
-                recipe.result.toNetwork(buffer);
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input);
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.catalyst);
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.result);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee incubation recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing bee incubation recipe to packet. ", e);
                 throw e;
             }
         }

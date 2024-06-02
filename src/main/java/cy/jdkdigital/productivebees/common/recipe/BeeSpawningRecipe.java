@@ -1,19 +1,18 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import net.minecraft.core.Holder;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -27,24 +26,23 @@ import net.neoforged.neoforge.common.util.Lazy;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 public class BeeSpawningRecipe implements Recipe<Container>
 {
-    public final ResourceLocation id;
+    static StreamCodec<RegistryFriendlyByteBuf, HolderSet<Biome>> BIOME_STREAM = ByteBufCodecs.holderSet(Registries.BIOME);
+
     public final Ingredient ingredient;
     public final Ingredient spawnItem;
-    public final List<Lazy<BeeIngredient>> output;
-    public final String biomes;
-    public final TagKey<Biome> biomeKey;
+    public final List<Supplier<BeeIngredient>> output;
+    public final HolderSet<Biome> biomes;
 
-    public BeeSpawningRecipe(ResourceLocation id, Ingredient ingredient, Ingredient spawnItem, List<Lazy<BeeIngredient>> output, String biomes) {
-        this.id = id;
+    public BeeSpawningRecipe(Ingredient ingredient, Ingredient spawnItem, List<Supplier<BeeIngredient>> output, HolderSet<Biome> biomes) {
         this.ingredient = ingredient;
         this.spawnItem = spawnItem;
         this.output = output;
-        this.biomes = biomes.replace("#", "");
-        this.biomeKey = TagKey.create(Registries.BIOME, new ResourceLocation(this.biomes));
+        this.biomes = biomes;
     }
 
     @Override
@@ -52,13 +50,17 @@ public class BeeSpawningRecipe implements Recipe<Container>
         return false;
     }
 
-    public boolean matches(ItemStack nest, ItemStack heldItem, Holder<Biome> biome, Level level) {
-         return ingredient.test(nest) && (heldItem.equals(ItemStack.EMPTY) || spawnItem.test(heldItem)) && (this.biomes.equals("any") || biome.is(biomeKey));
+    public boolean matches(ItemStack nest, ItemStack heldItem, Holder<Biome> biome) {
+        boolean anyBiome = false;
+        if (this.biomes.size() == 0) {
+            anyBiome = true;
+        }
+         return ingredient.test(nest) && (heldItem.equals(ItemStack.EMPTY) || spawnItem.test(heldItem)) && (anyBiome || biomes.contains(biome));
     }
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -69,14 +71,8 @@ public class BeeSpawningRecipe implements Recipe<Container>
 
     @Nonnull
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
-    }
-
-    @Nonnull
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
     }
 
     @Nonnull
@@ -91,57 +87,38 @@ public class BeeSpawningRecipe implements Recipe<Container>
         return ModRecipeTypes.BEE_SPAWNING_TYPE.get();
     }
 
-    public static class Serializer<T extends BeeSpawningRecipe> implements RecipeSerializer<T>
+    public static class Serializer implements RecipeSerializer<BeeSpawningRecipe>
     {
-        final BeeSpawningRecipe.Serializer.IRecipeFactory<T> factory;
+        private static final MapCodec<BeeSpawningRecipe> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                        Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
+                        Ingredient.CODEC.fieldOf("spawn_item").orElse(Ingredient.of(ModItems.HONEY_TREAT.get())).forGetter(recipe -> recipe.spawnItem),
+                        BeeIngredient.LIST_CODEC.fieldOf("results").forGetter(recipe -> recipe.output),
+                        Biome.LIST_CODEC.fieldOf("biomes").forGetter(recipe -> recipe.biomes)
+                )
+                .apply(builder, BeeSpawningRecipe::new)
+        );
 
-        public Serializer(BeeSpawningRecipe.Serializer.IRecipeFactory<T> factory) {
-            this.factory = factory;
-        }
+        public static final StreamCodec<RegistryFriendlyByteBuf, BeeSpawningRecipe> STREAM_CODEC = StreamCodec.of(
+                BeeSpawningRecipe.Serializer::toNetwork, BeeSpawningRecipe.Serializer::fromNetwork
+        );
 
-        @Nonnull
         @Override
-        public T fromJson(ResourceLocation id, JsonObject json) {
-            Ingredient ingredient;
-            if (GsonHelper.isArrayNode(json, "ingredient")) {
-                ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredient"));
-            } else {
-                ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient"));
-            }
-            Ingredient spawnItem;
-            if (json.has("spawn_item")) {
-                if (GsonHelper.isArrayNode(json, "spawn_item")) {
-                    spawnItem = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "spawn_item"));
-                } else {
-                    spawnItem = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "spawn_item"));
-                }
-            } else {
-                spawnItem = Ingredient.of(ModItems.HONEY_TREAT.get());
-            }
-
-            JsonArray jsonArray = GsonHelper.getAsJsonArray(json, "results");
-            List<Lazy<BeeIngredient>> output = new ArrayList<>();
-            jsonArray.forEach(el -> {
-                JsonObject jsonObject = el.getAsJsonObject();
-                String beeName = GsonHelper.getAsString(jsonObject, "bee");
-                Lazy<BeeIngredient> beeIngredient = Lazy.of(BeeIngredientFactory.getIngredient(beeName));
-                output.add(beeIngredient);
-            });
-
-            String biomes = "any";
-            if (json.has("biomes")) {
-                biomes = GsonHelper.getAsString(json, "biomes");
-            }
-
-            return this.factory.create(id, ingredient, spawnItem, output, biomes);
+        public MapCodec<BeeSpawningRecipe> codec() {
+            return CODEC;
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
-            try {
-                Ingredient ingredient = Ingredient.fromNetwork(buffer);
-                Ingredient spawnItem = Ingredient.fromNetwork(buffer);
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, BeeSpawningRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
 
-                List<Lazy<BeeIngredient>> output = new ArrayList<>();
+        public static BeeSpawningRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
+            try {
+                Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+                Ingredient spawnItem = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+
+                List<Supplier<BeeIngredient>> output = new ArrayList<>();
                 IntStream.range(0, buffer.readInt()).forEach(
                         i -> {
                             BeeIngredient ing = BeeIngredient.fromNetwork(buffer);
@@ -149,38 +126,32 @@ public class BeeSpawningRecipe implements Recipe<Container>
                         }
                 );
 
-                return this.factory.create(id, ingredient, spawnItem, output, buffer.readUtf());
+                return new BeeSpawningRecipe(ingredient, spawnItem, output, BIOME_STREAM.decode(buffer));
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading bee spawning recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading bee spawning recipe from packet. ", e);
                 throw e;
             }
         }
 
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
+        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BeeSpawningRecipe recipe) {
             try {
-                recipe.ingredient.toNetwork(buffer);
-                recipe.spawnItem.toNetwork(buffer);
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.spawnItem);
 
                 buffer.writeInt(recipe.output.size());
-                for (Lazy<BeeIngredient> beeOutput : recipe.output) {
+                for (Supplier<BeeIngredient> beeOutput : recipe.output) {
                     if (beeOutput.get() != null) {
                         beeOutput.get().toNetwork(buffer);
-                    }
-                    else {
-                        ProductiveBees.LOGGER.error("Bee spawning recipe output missing " + recipe.getId() + " - " + beeOutput);
+                    } else {
+                        ProductiveBees.LOGGER.error("Bee spawning recipe output missing - " + beeOutput);
                     }
                 }
 
-                buffer.writeUtf(recipe.biomes);
+                BIOME_STREAM.encode(buffer, recipe.biomes);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing bee spawning recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing bee spawning recipe to packet. ", e);
                 throw e;
             }
-        }
-
-        public interface IRecipeFactory<T extends BeeSpawningRecipe>
-        {
-            T create(ResourceLocation id, Ingredient input, Ingredient spawnItem, List<Lazy<BeeIngredient>> output, String biomes);
         }
     }
 }

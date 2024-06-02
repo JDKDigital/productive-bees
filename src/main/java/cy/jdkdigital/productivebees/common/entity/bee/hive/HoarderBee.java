@@ -86,10 +86,6 @@ public class HoarderBee extends ProductiveBee
         }
     }
 
-    public int getTimeInHive(boolean hasNectar) {
-        return 100;
-    }
-
     public int getPeekTick() {
         return this.entityData.get(PEEK_TICK);
     }
@@ -104,14 +100,14 @@ public class HoarderBee extends ProductiveBee
         this.entityData.set(PEEK_TICK, tag.getByte("Peek"));
 
         if (tag.contains("targetItemPos")) {
-            targetItemPos = NbtUtils.readBlockPos(tag.getCompound("targetItemPos"));
+            targetItemPos = NbtUtils.readBlockPos(tag, "targetItemPos").orElse(null);
         }
 
         if (tag.contains("inventory")) {
             ListTag listnbt = tag.getList("inventory", 10);
 
             for (int i = 0; i < listnbt.size(); ++i) {
-                ItemStack itemstack = ItemStack.of(listnbt.getCompound(i));
+                ItemStack itemstack = ItemStack.parseOptional(this.registryAccess(), listnbt.getCompound(i));
                 if (!itemstack.isEmpty()) {
                     inventory.addItem(itemstack);
                 }
@@ -135,7 +131,7 @@ public class HoarderBee extends ProductiveBee
             for (int i = 0; i < inventory.getContainerSize(); ++i) {
                 ItemStack itemstack = inventory.getItem(i);
                 if (!itemstack.isEmpty()) {
-                    listnbt.add(itemstack.save(new CompoundTag()));
+                    listnbt.add(itemstack.save(this.registryAccess()));
                 }
             }
 
@@ -225,7 +221,7 @@ public class HoarderBee extends ProductiveBee
                     HoarderBee.this.targetItemPos != null &&
                     HoarderBee.this.inventoryHasSpace() &&
                     !HoarderBee.this.isAngry() &&
-                    !HoarderBee.this.closerThan(HoarderBee.this.targetItemPos, 2);
+                    !HoarderBee.this.targetItemPos.closerToCenterThan(HoarderBee.this.position(), 2);
         }
 
         @Override
@@ -263,12 +259,12 @@ public class HoarderBee extends ProductiveBee
                     HoarderBee.this.inventoryHasSpace() &&
                     !HoarderBee.this.isAngry();
 
-            if (canStart && HoarderBee.this.hivePos != null) {
+            if (canStart && HoarderBee.this.getHivePos() != null) {
                 List<ItemEntity> items = new ArrayList<>();
-                BlockEntity hive = level().getBlockEntity(HoarderBee.this.hivePos);
+                BlockEntity hive = level().getBlockEntity(HoarderBee.this.getHivePos());
                 if (hive instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
                     int radius = 5 + beehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get());
-                    items = HoarderBee.this.getItemsNearby(HoarderBee.this.hivePos, radius);
+                    items = HoarderBee.this.getItemsNearby(HoarderBee.this.getHivePos(), radius);
                 }
 
                 if (!items.isEmpty()) {

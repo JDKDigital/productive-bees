@@ -70,7 +70,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ProductiveBee extends Bee
+public class ProductiveBee extends Bee implements IProductiveBee
 {
     protected Map<BeeAttribute<Integer>, Object> beeAttributes = new HashMap<>();
 
@@ -220,10 +220,6 @@ public class ProductiveBee extends Bee
         return super.getDefaultDimensions(poseIn).scale(getSizeModifier());
     }
 
-    public float getSizeModifier() {
-        return 1.0f;
-    }
-
     @Override
     public boolean isAngry() {
         return super.isAngry() && getAttributeValue(BeeAttributes.TEMPER) > 0;
@@ -262,14 +258,6 @@ public class ProductiveBee extends Bee
         List<ItemStack> list = Arrays.stream(getBreedingIngredient().getItems()).toList();
         list.forEach(e -> e.setCount(count));
         return list;
-    }
-
-    public Ingredient getBreedingIngredient() {
-        return Ingredient.of(ItemTags.FLOWERS);
-    }
-
-    public Integer getBreedingItemCount() {
-        return 1;
     }
 
     @Override
@@ -379,10 +367,6 @@ public class ProductiveBee extends Bee
         return type.replace("_bee", "");
     }
 
-    public String getRenderer() {
-        return "default";
-    }
-
     public Integer getAttributeValue(BeeAttribute<Integer> parameter) {
         if (this.beeAttributes.get(parameter) != null) {
             return (Integer) this.beeAttributes.get(parameter);
@@ -435,10 +419,6 @@ public class ProductiveBee extends Bee
 
     public boolean canOperateDuringThunder() {
         return getAttributeValue(BeeAttributes.WEATHER_TOLERANCE) == 2;
-    }
-
-    public int getTimeInHive(boolean hasNectar) {
-        return hasNectar ? ProductiveBeesConfig.GENERAL.timeInHive.get() : ProductiveBeesConfig.GENERAL.timeInHive.get() / 2;
     }
 
     public void setRenderStatic() {
@@ -552,10 +532,6 @@ public class ProductiveBee extends Bee
         }
     }
 
-    public boolean canSelfBreed() {
-        return true;
-    }
-
     public void postPollinate() {
         if (hasNectar() && savedFlowerPos != null) {
             BlockState flowerBlockState = level().getBlockState(savedFlowerPos);
@@ -608,7 +584,7 @@ public class ProductiveBee extends Bee
                             setHasConverted(!itemRecipe.pollinates);
                             return;
                         }
-                        // TODO BeeComponentChangerRecipe
+                        // TODO 1.21 BeeComponentChangerRecipe
 //                        BeeNBTChangerRecipe nbtRecipe = BeeHelper.getNBTChangerRecipe(this, stack);
 //                        CompoundTag tag = stack.getTag();
 //                        if (nbtRecipe != null && tag != null) {
@@ -817,15 +793,15 @@ public class ProductiveBee extends Bee
 
         private Optional<BlockPos> findNearestBlock(Predicate<BlockPos> predicate, double distance) {
             BlockPos blockpos = ProductiveBee.this.blockPosition();
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+            BlockPos.MutableBlockPos mutableblockpos = new BlockPos.MutableBlockPos();
 
             for (int i = 0; (double) i <= distance; i = i > 0 ? -i : 1 - i) {
                 for (int j = 0; (double) j < distance; ++j) {
                     for (int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
                         for (int l = k < j && k > -j ? j : 0; l <= j; l = l > 0 ? -l : 1 - l) {
-                            blockpos$mutableblockpos.setWithOffset(blockpos, k, i - 1, l);
-                            if (blockpos.closerThan(blockpos$mutableblockpos, distance) && predicate.test(blockpos$mutableblockpos)) {
-                                return Optional.of(blockpos$mutableblockpos.immutable());
+                            mutableblockpos.setWithOffset(blockpos, k, i - 1, l);
+                            if (blockpos.closerThan(mutableblockpos, distance) && predicate.test(mutableblockpos)) {
+                                return Optional.of(mutableblockpos.immutable());
                             }
                         }
                     }

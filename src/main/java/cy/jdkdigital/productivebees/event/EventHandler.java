@@ -11,8 +11,9 @@ import cy.jdkdigital.productivebees.common.entity.bee.solitary.BlueBandedBee;
 import cy.jdkdigital.productivebees.common.recipe.BeeFishingRecipe;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.gen.feature.WoodNestDecorator;
-import cy.jdkdigital.productivebees.capabilities.bee.IInhabitantStorage;
 import cy.jdkdigital.productivebees.init.*;
+import cy.jdkdigital.productivebees.network.PacketHandler;
+import cy.jdkdigital.productivebees.network.packets.Messages;
 import cy.jdkdigital.productivebees.setup.BeeReloadListener;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
@@ -52,6 +53,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.ItemFishedEvent;
@@ -72,6 +74,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 @EventBusSubscriber(modid = ProductiveBees.MODID)
 public class EventHandler
 {
+    @SubscribeEvent
+    private void onDataSync(OnDatapackSyncEvent event) {
+        if (event.getPlayer() == null) {
+            PacketHandler.sendToAllPlayers(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()));
+        } else {
+            PacketHandler.sendBeeDataToPlayer(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()), event.getPlayer());
+        }
+    }
+
     @SubscribeEvent
     public static void onBlockGrow(SaplingGrowTreeEvent event) {
         if (event.getLevel() instanceof ServerLevel serverLevel) {
@@ -291,7 +302,7 @@ public class EventHandler
         Player player = event.getEntity();
         if (!(player instanceof FakePlayer)) {
             BlockPos pos = event.getHookEntity().blockPosition();
-            Biome fishingBiome = player.level().getBiome(pos).value();
+            var fishingBiome = player.level().getBiome(pos);
             List<BeeFishingRecipe> possibleRecipes = new ArrayList<>();
             var recipes = BeeFishingRecipe.getRecipeList(fishingBiome, player.level());
             if (!recipes.isEmpty()) {
@@ -334,7 +345,6 @@ public class EventHandler
 
     @SubscribeEvent
     public static void registerCaps(RegisterCapabilitiesEvent event) {
-        event.register(IInhabitantStorage.class);
     }
 
     @SubscribeEvent

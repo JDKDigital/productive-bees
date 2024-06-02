@@ -1,7 +1,6 @@
 package cy.jdkdigital.productivebees.gen.feature;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
@@ -10,13 +9,9 @@ import cy.jdkdigital.productivebees.init.ModFeatures;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.BeehiveBlock;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
@@ -82,7 +77,7 @@ public class NetherBeehiveDecorator extends TreeDecorator {
                             var beeIngredient = BeeIngredientFactory.getIngredient("productivebees:" + type);
                             if (beeIngredient.get() != null) {
                                 CompoundTag bee = BeeHelper.getBeeAsCompoundTag(beeIngredient.get());
-                                blockEntity.addBee(bee, context.random().nextInt(599), 600, null, Component.translatable("entity.productivebees." + type + "_bee").getString());
+                                blockEntity.addOccupantFromTag(bee, context.random().nextInt(599), 600);
                             }
                         } catch (CommandSyntaxException e) {
                             ProductiveBees.LOGGER.warn("Failed to put bees into nether nest :(" + e.getMessage());

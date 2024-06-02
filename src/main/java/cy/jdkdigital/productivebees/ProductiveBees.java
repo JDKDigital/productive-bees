@@ -225,12 +225,4 @@ public final class ProductiveBees
             DispenserBlock.registerBehavior(Items.SHEARS.asItem(), new ShearsDispenseItemBehavior());
         });
     }
-
-    private void onDataSync(OnDatapackSyncEvent event) {
-        if (event.getPlayer() == null) {
-            PacketHandler.sendToAllPlayers(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()));
-        } else {
-            PacketHandler.sendBeeDataToPlayer(new Messages.BeeDataMessage(BeeReloadListener.INSTANCE.getData()), event.getPlayer());
-        }
-    }
 }

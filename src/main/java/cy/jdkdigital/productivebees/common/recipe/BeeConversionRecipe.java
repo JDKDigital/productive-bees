@@ -28,9 +28,9 @@ public class BeeConversionRecipe implements Recipe<Container>
     public final Supplier<BeeIngredient> source;
     public final Supplier<BeeIngredient> result;
     public final Ingredient item;
-    public final int chance;
+    public final float chance;
 
-    public BeeConversionRecipe(Supplier<BeeIngredient> ingredients, Lazy<BeeIngredient> result, Ingredient item, int chance) {
+    public BeeConversionRecipe(Supplier<BeeIngredient> ingredients, Supplier<BeeIngredient> result, Ingredient item, float chance) {
         this.source = ingredients;
         this.result = result;
         this.item = item;
@@ -92,8 +92,8 @@ public class BeeConversionRecipe implements Recipe<Container>
                 builder -> builder.group(
                                 BeeIngredient.CODEC.fieldOf("source").forGetter(recipe -> recipe.source),
                                 BeeIngredient.CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
-                                Ingredient.CODEC.fieldOf("item").forGetter(recipe > recipe.item),
-                                Codec.FLOAT.fieldOf("chance").forGetter(recipe > recipe.chance)
+                                Ingredient.CODEC.fieldOf("item").forGetter(recipe -> recipe.item),
+                                Codec.FLOAT.fieldOf("chance").forGetter(recipe -> recipe.chance)
                         )
                         .apply(builder, BeeConversionRecipe::new)
         );
@@ -128,7 +128,7 @@ public class BeeConversionRecipe implements Recipe<Container>
                 recipe.source.get().toNetwork(buffer);
                 recipe.result.get().toNetwork(buffer);
                 Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.item);
-                buffer.writeInt(recipe.chance);
+                buffer.writeFloat(recipe.chance);
             } catch (Exception e) {
                 ProductiveBees.LOGGER.error("Error writing bee conversion recipe to packet.", e);
                 throw e;

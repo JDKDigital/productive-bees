@@ -169,7 +169,7 @@
 //                            recipes.add(Recipe.createFluid(flowerFluid, entry.getValue()));
 //                        }
 //                    } else if (nbt.contains("flowerItem")) {
-//                        Item flowerItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("flowerItem")));
+//                        Item flowerItem = BuiltInRegistries.ITEM.getValue(new ResourceLocation(nbt.getString("flowerItem")));
 //                        recipes.add(Recipe.createItem(new ItemStack(flowerItem), entry.getValue()));
 //                    } else {
 //                        recipes.add(Recipe.createBlock(defaultBlockTag, null, entry.getValue()));

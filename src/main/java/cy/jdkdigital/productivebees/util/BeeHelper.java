@@ -586,7 +586,7 @@ public class BeeHelper
                 CompoundTag beeData = BeeReloadListener.INSTANCE.getData(tag.getString("type"));
                 MutableComponent breedingItemText = Component.translatable("productivebees.information.breeding_item_default");
                 if (beeData != null && beeData.contains("breedingItem") && !beeData.getString("breedingItem").isEmpty()) {
-                    Item breedingItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(beeData.getString("breedingItem")));
+                    Item breedingItem = BuiltInRegistries.ITEM.getValue(new ResourceLocation(beeData.getString("breedingItem")));
                     breedingItemText = Component.literal(beeData.getInt("breedingItemCount") + " " + Component.translatable(breedingItem.getDescriptionId()).getString());
                 }
                 list.add(Component.translatable("productivebees.information.breeding_item", breedingItemText.withStyle(ChatFormatting.GRAY)).withStyle(ChatFormatting.DARK_GRAY));

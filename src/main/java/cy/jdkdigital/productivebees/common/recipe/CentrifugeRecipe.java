@@ -8,6 +8,7 @@ import cy.jdkdigital.productivebees.ProductiveBeesConfig;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivelib.common.block.entity.InventoryHandlerHelper;
 import cy.jdkdigital.productivelib.common.recipe.TagOutputRecipe;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -27,20 +28,19 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Container>, TimedRecipeInterface
 {
-    public final ResourceLocation id;
     public final Ingredient ingredient;
     public final Pair<String, Integer> fluidOutput;
     private final Integer processingTime;
 
-    public CentrifugeRecipe(ResourceLocation id, Ingredient ingredient, Map<Ingredient, IntArrayTag> itemOutput, Pair<String, Integer> fluidOutput, int processingTime) {
+    public CentrifugeRecipe(Ingredient ingredient, List<ChancedOutput> itemOutput, Pair<String, Integer> fluidOutput, int processingTime) {
         super(itemOutput);
-        this.id = id;
         this.ingredient = ingredient;
         this.fluidOutput = fluidOutput;
         this.processingTime = processingTime;
@@ -76,7 +76,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -87,7 +87,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
 
     @Nonnull
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -106,12 +106,6 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
 
     @Nonnull
     @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Nonnull
-    @Override
     public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.CENTRIFUGE.get();
     }
@@ -122,14 +116,8 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
         return ModRecipeTypes.CENTRIFUGE_TYPE.get();
     }
 
-    public static class Serializer<T extends CentrifugeRecipe> implements RecipeSerializer<T>
+    public static class Serializer implements RecipeSerializer<CentrifugeRecipe>
     {
-        final CentrifugeRecipe.Serializer.IRecipeFactory<T> factory;
-
-        public Serializer(CentrifugeRecipe.Serializer.IRecipeFactory<T> factory) {
-            this.factory = factory;
-        }
-
         @Override
         public T fromJson(ResourceLocation id, JsonObject json) {
             Ingredient ingredient;
@@ -178,8 +166,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
             return this.factory.create(id, ingredient, itemOutputs, fluidOutputs.get(), processingTime);
         }
 
-        @Override
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
+        public static CentrifugeRecipe fromNetwork(@Nonnull FriendlyByteBuf buffer) {
             try {
                 Ingredient ingredient = Ingredient.fromNetwork(buffer);
 
@@ -200,8 +187,7 @@ public class CentrifugeRecipe extends TagOutputRecipe implements Recipe<Containe
             }
         }
 
-        @Override
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, @Nonnull T recipe) {
+        public static void toNetwork(@Nonnull FriendlyByteBuf buffer, @Nonnull CentrifugeRecipe recipe) {
             try {
                 recipe.ingredient.toNetwork(buffer);
                 buffer.writeInt(recipe.itemOutput.size());

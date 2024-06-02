@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,13 +15,13 @@ public interface IEffectBeeEntity
 
     default void attackTarget(LivingEntity target) {
         if (getAggressiveEffects() != null) {
-            for (Map.Entry<MobEffect, Integer> entry : getAggressiveEffects().entrySet()) {
+            for (Map.Entry<Holder<MobEffect>, Integer> entry : getAggressiveEffects().entrySet()) {
                 target.addEffect(new MobEffectInstance(entry.getKey(), entry.getValue(), 1));
             }
         }
     }
 
-    default Map<MobEffect, Integer> getAggressiveEffects() {
+    default Map<Holder<MobEffect>, Integer> getAggressiveEffects() {
         return null;
     }
 }

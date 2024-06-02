@@ -1,36 +1,27 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.init.ModItems;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.BeeHelper;
 import cy.jdkdigital.productivelib.common.recipe.TagOutputRecipe;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.IntArrayTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -103,7 +94,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements Recipe<Con
         private static final MapCodec<AdvancedBeehiveRecipe> CODEC = RecordCodecBuilder.mapCodec(
                 builder -> builder.group(
                         BeeIngredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
-                        ChancedOutput.CODEC.listOf().fieldOf("results").forGetter(recipe -> recipe.itemOutput)
+                        Codec.list(ChancedOutput.CODEC).fieldOf("results").forGetter(recipe -> recipe.itemOutput)
                 )
                 .apply(builder, AdvancedBeehiveRecipe::new)
         );
@@ -130,7 +121,7 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements Recipe<Con
 
                 return new AdvancedBeehiveRecipe(() -> ingredient, itemOutput);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading beehive produce recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading beehive produce recipe from packet. ", e);
                 throw e;
             }
         }
@@ -142,8 +133,8 @@ public class AdvancedBeehiveRecipe extends TagOutputRecipe implements Recipe<Con
                 } else {
                     throw new RuntimeException("Bee produce recipe ingredient missing - " + recipe.ingredient);
                 }
-                buffer.writeInt(recipe.itemOutput.size());
 
+                buffer.writeInt(recipe.itemOutput.size());
                 recipe.itemOutput.forEach(chancedRecipe -> {
                     ChancedOutput.write(buffer, chancedRecipe);
                 });

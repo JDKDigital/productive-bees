@@ -117,14 +117,14 @@ public class SolitaryNest extends AdvancedBeehiveAbstract
 
     public static List<BeeSpawningRecipe> getSpawningRecipes(SolitaryNest block, Level level, Holder<Biome> biome, ItemStack heldItem) {
         List<BeeSpawningRecipe> spawningRecipes = new ArrayList<>();
-        String cacheKey = ForgeRegistries.ITEMS.getKey(heldItem.getItem()) + "_" + ForgeRegistries.BLOCKS.getKey(block) + "_" + level.registryAccess().registryOrThrow(Registries.BIOME).getKey(biome.value());
+        String cacheKey = BuiltInRegistries.ITEM.getKey(heldItem.getItem()) + "_" + ForgeRegistries.BLOCKS.getKey(block) + "_" + level.registryAccess().registryOrThrow(Registries.BIOME).getKey(biome.value());
         // Get and cache recipes for nest type
         if (!recipes.containsKey(cacheKey)) {
             Map<ResourceLocation, BeeSpawningRecipe> allRecipes = new HashMap<>(level.getRecipeManager().byType(ModRecipeTypes.BEE_SPAWNING_TYPE.get()));
             ItemStack nestItem = new ItemStack(block);
             for (Map.Entry<ResourceLocation, BeeSpawningRecipe> entry : allRecipes.entrySet()) {
                 BeeSpawningRecipe recipe = entry.getValue();
-                if (recipe.matches(nestItem, heldItem, biome, level)) {
+                if (recipe.matches(nestItem, heldItem, biome)) {
                     spawningRecipes.add(recipe);
                 }
             }

@@ -1,19 +1,19 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -29,25 +29,24 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.neoforged.neoforge.common.util.Lazy;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class BlockConversionRecipe implements Recipe<Container>
 {
-    public final ResourceLocation id;
-    public final List<Lazy<BeeIngredient>> bees;
+    public final List<Supplier<BeeIngredient>> bees;
     public Ingredient input;
     public final BlockState stateFrom;
     public final BlockState stateTo;
-    public final int chance;
-    public Ingredient fromDisplay;
-    public Ingredient toDisplay;
+    public final float chance;
+    public Optional<Ingredient> fromDisplay;
+    public Optional<Ingredient> toDisplay;
     public boolean pollinates;
 
-    public BlockConversionRecipe(ResourceLocation id, List<Lazy<BeeIngredient>> bees, Ingredient input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay, boolean pollinates) {
-        this.id = id;
+    public BlockConversionRecipe(List<Supplier<BeeIngredient>> bees, Ingredient input, BlockState from, BlockState to, float chance, Optional<Ingredient> fromDisplay, Optional<Ingredient> toDisplay, boolean pollinates) {
         this.bees = bees;
         this.input = input;
         this.stateFrom = from;
@@ -72,7 +71,7 @@ public class BlockConversionRecipe implements Recipe<Container>
             }
 
             boolean matchesBee = false;
-            for (Lazy<BeeIngredient> bee: bees) {
+            for (Supplier<BeeIngredient> bee: bees) {
                 matchesBee = matchesBee || bee.get().getBeeType().toString().equals(beeName);
             }
 
@@ -83,7 +82,7 @@ public class BlockConversionRecipe implements Recipe<Container>
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -100,14 +99,8 @@ public class BlockConversionRecipe implements Recipe<Container>
 
     @Nonnull
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
-    }
-
-    @Nonnull
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
     }
 
     @Nonnull
@@ -122,125 +115,80 @@ public class BlockConversionRecipe implements Recipe<Container>
         return ModRecipeTypes.BLOCK_CONVERSION_TYPE.get();
     }
 
-    public static class Serializer<T extends BlockConversionRecipe> implements RecipeSerializer<T>
+    public static class Serializer implements RecipeSerializer<BlockConversionRecipe>
     {
-        final BlockConversionRecipe.Serializer.IRecipeFactory<T> factory;
+        private static final MapCodec<BlockConversionRecipe> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                                BeeIngredient.LIST_CODEC.fieldOf("bees").forGetter(recipe -> recipe.bees),
+                                Ingredient.CODEC.fieldOf("input").orElse(Ingredient.EMPTY).forGetter(recipe -> recipe.input),
+                                BlockState.CODEC.fieldOf("from").orElse(Blocks.AIR.defaultBlockState()).forGetter(recipe -> recipe.stateFrom),
+                                BlockState.CODEC.fieldOf("to").forGetter(recipe -> recipe.stateTo),
+                                Codec.FLOAT.fieldOf("chance").forGetter(recipe -> recipe.chance),
+                                Ingredient.CODEC.optionalFieldOf("from_display").forGetter(recipe -> recipe.fromDisplay),
+                                Ingredient.CODEC.optionalFieldOf("to_display").forGetter(recipe -> recipe.toDisplay),
+                                Codec.BOOL.fieldOf("pollinates").orElse(false).forGetter(recipe -> recipe.pollinates)
+                        )
+                        .apply(builder, BlockConversionRecipe::new)
+        );
 
-        public Serializer(BlockConversionRecipe.Serializer.IRecipeFactory<T> factory) {
-            this.factory = factory;
-        }
+        public static final StreamCodec<RegistryFriendlyByteBuf, BlockConversionRecipe> STREAM_CODEC = StreamCodec.of(
+                BlockConversionRecipe.Serializer::toNetwork, BlockConversionRecipe.Serializer::fromNetwork
+        );
 
-        @Nonnull
         @Override
-        public T fromJson(ResourceLocation id, JsonObject json) {
-            List<Lazy<BeeIngredient>> bees = new ArrayList<>();
-
-            if (json.has("bee")) {
-                String source = GsonHelper.getAsString(json, "bee");
-                Lazy<BeeIngredient> sourceBee = Lazy.of(BeeIngredientFactory.getIngredient(source));
-                bees.add(sourceBee);
-            } else if (json.has("bees")) {
-                var beeArray = GsonHelper.getAsJsonArray(json, "bees");
-                beeArray.forEach(jsonElement -> {
-                    Lazy<BeeIngredient> sourceBee = Lazy.of(BeeIngredientFactory.getIngredient(jsonElement.getAsString()));
-                    bees.add(sourceBee);
-                });
-            }
-
-            Ingredient input = Ingredient.EMPTY;
-            BlockState from = Blocks.AIR.defaultBlockState();
-            if (json.has("from")) {
-                from = jsonToBlockState(json.getAsJsonObject("from"));
-            } else {
-                input = Ingredient.fromJson(json.getAsJsonObject("input"));
-            }
-            BlockState to = jsonToBlockState(json.getAsJsonObject("to"));
-
-            Ingredient fromDisplay;
-            if (json.has("from_display")) {
-                fromDisplay = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "from_display"));
-            } else {
-                fromDisplay = Ingredient.of(new ItemStack(from.getBlock().asItem()));
-            }
-            Ingredient toDisplay;
-            if (json.has("to_display")) {
-                toDisplay = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "to_display"));
-            } else {
-                toDisplay = Ingredient.of(new ItemStack(to.getBlock().asItem()));
-            }
-
-            int chance = GsonHelper.getAsInt(json, "chance", 100);
-            boolean pollinates = GsonHelper.getAsBoolean(json, "pollinates", false);
-
-            return this.factory.create(id, bees, input, from, to, chance, fromDisplay, toDisplay, pollinates);
+        public MapCodec<BlockConversionRecipe> codec() {
+            return CODEC;
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, BlockConversionRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
+
+        public static BlockConversionRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
             try {
                 int beeCount = buffer.readInt();
-                List<Lazy<BeeIngredient>> bees = new ArrayList<>();
+                List<Supplier<BeeIngredient>> bees = new ArrayList<>();
                 for (var i = 0;i < beeCount;i++) {
                     BeeIngredient source = BeeIngredient.fromNetwork(buffer);
                     bees.add(Lazy.of(() -> source));
                 }
-                Ingredient input = Ingredient.fromNetwork(buffer);
-                BlockState from = readBlockState(buffer.readAnySizeNbt());
-                BlockState to = readBlockState(buffer.readAnySizeNbt());
+                Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
+                BlockState from = readBlockState(buffer.readNbt());
+                BlockState to = readBlockState(buffer.readNbt());
 
-                return this.factory.create(id, bees, input, from, to, buffer.readInt(), Ingredient.fromNetwork(buffer), Ingredient.fromNetwork(buffer), buffer.readBoolean());
+                return new BlockConversionRecipe(bees, input, from, to, buffer.readInt(), Optional.of(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer)), Optional.of(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer)), buffer.readBoolean());
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading block conversion recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading block conversion recipe from packet. ", e);
                 throw e;
             }
         }
 
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
+        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, BlockConversionRecipe recipe) {
             try {
                 buffer.writeInt(recipe.bees.size());
                 recipe.bees.forEach(bee -> bee.get().toNetwork(buffer));
 
-                recipe.input.toNetwork(buffer);
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input);
 
                 buffer.writeNbt(NbtUtils.writeBlockState(recipe.stateFrom));
                 buffer.writeNbt(NbtUtils.writeBlockState(recipe.stateTo));
 
-                buffer.writeInt(recipe.chance);
+                buffer.writeFloat(recipe.chance);
 
-                recipe.fromDisplay.toNetwork(buffer);
-                recipe.toDisplay.toNetwork(buffer);
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.fromDisplay.orElse(Ingredient.EMPTY));
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.toDisplay.orElse(Ingredient.EMPTY));
                 buffer.writeBoolean(recipe.pollinates);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing block conversion recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing block conversion recipe to packet. ", e);
                 throw e;
             }
         }
-
-        public interface IRecipeFactory<T extends BlockConversionRecipe>
-        {
-            T create(ResourceLocation id, List<Lazy<BeeIngredient>> beeInput, Ingredient input, BlockState from, BlockState to, int chance, Ingredient fromDisplay, Ingredient toDisplay, boolean pollinates);
-        }
     }
 
-    private static BlockState jsonToBlockState(JsonObject json) {
-        CompoundTag tag = new CompoundTag();
+    private static BlockState readBlockState(@Nullable CompoundTag tag) {
+        if (tag == null) return Blocks.AIR.defaultBlockState();
 
-        tag.putString("Name", GsonHelper.getAsString(json, "Name"));
-
-        if (json.has("Properties")) {
-            CompoundTag propertyTag = new CompoundTag();
-
-            JsonObject properties = GsonHelper.getAsJsonObject(json, "Properties");
-            for (Map.Entry<String, JsonElement> entry : properties.entrySet()) {
-                propertyTag.putString(entry.getKey(), entry.getValue().getAsString());
-            }
-
-            tag.put("Properties", propertyTag);
-        }
-
-        return readBlockState(tag);
-    }
-
-    private static BlockState readBlockState(CompoundTag tag) {
         ResourceLocation resourcelocation = new ResourceLocation(tag.getString("Name"));
         Block block = BuiltInRegistries.BLOCK.get(resourcelocation);
         BlockState blockstate = block.defaultBlockState();

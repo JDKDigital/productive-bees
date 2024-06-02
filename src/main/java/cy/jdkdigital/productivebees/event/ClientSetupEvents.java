@@ -27,6 +27,7 @@ import cy.jdkdigital.productivebees.util.BeeCreator;
 import cy.jdkdigital.productivebees.util.ColorUtil;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.EntityType;
@@ -124,7 +125,7 @@ public class ClientSetupEvents
 
     @SubscribeEvent
     public static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
-        for (RegistryObject<Item> eggItem : ModItems.SPAWN_EGGS) {
+        for (DeferredHolder<Item, ? extends Item> eggItem : ModItems.SPAWN_EGGS) {
             Item item = eggItem.get();
             if (item instanceof SpawnEgg) {
                 event.register((stack, tintIndex) -> ((SpawnEgg) item).getColor(tintIndex, stack), item);
@@ -132,7 +133,7 @@ public class ClientSetupEvents
         }
 
         // Honeycomb colors
-        for (RegistryObject<Item> registryItem : ModItems.ITEMS.getEntries()) {
+        for (DeferredHolder<Item, ? extends Item> registryItem : ProductiveBees.ITEMS.getEntries()) {
             Item item = registryItem.get();
             if (item instanceof Honeycomb) {
                 event.register(((Honeycomb) item)::getColor, item);
@@ -166,8 +167,8 @@ public class ClientSetupEvents
         });
         ModBlocks.hiveStyles.forEach(style -> event.register((stack, tintIndex) -> {
             if (tintIndex == 0 && stack.getItem() instanceof BlockItem blockItem) {
-                if ((blockItem.getBlock() instanceof CanvasBeehive || blockItem.getBlock() instanceof CanvasExpansionBox) && stack.getTag() != null && stack.getTag().contains("color")) {
-                    return stack.getTag().getInt("color");
+                if ((blockItem.getBlock() instanceof CanvasBeehive || blockItem.getBlock() instanceof CanvasExpansionBox) && stack.has(DataComponents.DYED_COLOR)) {
+                    return stack.get(DataComponents.DYED_COLOR).rgb();
                 }
             }
             return 16777215;

@@ -52,14 +52,18 @@ public class FarmerBee extends ProductiveBee
     }
 
     public List<BlockPos> findHarvestablesNearby(BlockPos pos, int distance) {
+        return findHarvestablesNearby(this.level(), pos, distance);
+    }
+
+    public static List<BlockPos> findHarvestablesNearby(Level level, BlockPos pos, int distance) {
         var list = BlockPos.betweenClosedStream(pos.offset(-distance, -distance + 2, -distance), pos.offset(distance, distance - 2, distance)).map(BlockPos::immutable).collect(Collectors.toList());
-        list.removeIf(blockPos -> this.level().getBlockState(blockPos).isAir());
-        list.removeIf(blockPos -> !isCropValid(blockPos));
+        list.removeIf(blockPos -> level.getBlockState(blockPos).isAir());
+        list.removeIf(blockPos -> !isCropValid(level, blockPos));
         return list;
     }
 
-    public boolean isCropValid(BlockPos blockPos) {
-        return blockPos != null && HarvestCompatHandler.isCropValid(this, blockPos);
+    public static boolean isCropValid(Level level, BlockPos blockPos) {
+        return blockPos != null && HarvestCompatHandler.isCropValid(level, blockPos);
     }
 
     public class HarvestCropGoal extends Goal
@@ -74,7 +78,7 @@ public class FarmerBee extends ProductiveBee
 
             return FarmerBee.this.targetHarvestPos != null &&
                             !FarmerBee.this.isAngry() &&
-                            !FarmerBee.this.closerThan(FarmerBee.this.targetHarvestPos, 2);
+                            !FarmerBee.this.targetHarvestPos.closerToCenterThan(FarmerBee.this.position(), 2);
         }
 
         @Override
@@ -119,18 +123,18 @@ public class FarmerBee extends ProductiveBee
 
         @Override
         public boolean canContinueToUse() {
-            if (FarmerBee.this.tickCount % 20 == 0 && !FarmerBee.this.isCropValid(FarmerBee.this.targetHarvestPos)) {
+            if (FarmerBee.this.tickCount % 20 == 0 && !isCropValid(FarmerBee.this.level(), FarmerBee.this.targetHarvestPos)) {
                 FarmerBee.this.targetHarvestPos = null;
             }
             return FarmerBee.this.targetHarvestPos != null && !FarmerBee.this.isAngry();
         }
 
         private BlockPos findNearestHarvestableTarget() {
-            if (FarmerBee.this.hivePos != null) {
-                BlockEntity hive = FarmerBee.this.level().getBlockEntity(FarmerBee.this.hivePos);
+            if (FarmerBee.this.getHivePos() != null) {
+                BlockEntity hive = FarmerBee.this.level().getBlockEntity(FarmerBee.this.getHivePos());
                 if (hive instanceof AdvancedBeehiveBlockEntity beehiveBlockEntity) {
                     int radius = 5 + beehiveBlockEntity.getUpgradeCount(ModItems.UPGRADE_RANGE.get());
-                    List<BlockPos> harvestablesNearby = FarmerBee.this.findHarvestablesNearby(FarmerBee.this.hivePos, radius);
+                    List<BlockPos> harvestablesNearby = FarmerBee.this.findHarvestablesNearby(FarmerBee.this.getHivePos(), radius);
 
                     if (!harvestablesNearby.isEmpty()) {
                         BlockPos nearest = null;
@@ -172,7 +176,7 @@ public class FarmerBee extends ProductiveBee
                             FarmerBee.this.targetHarvestPos = null;
                         } else {
                             BlockPos pos = FarmerBee.this.targetHarvestPos;
-                            if (FarmerBee.this.level().isLoaded(pos) && FarmerBee.this.isCropValid(pos)) {
+                            if (FarmerBee.this.level().isLoaded(pos) && isCropValid(FarmerBee.this.level(), pos)) {
                                 FarmerBee.this.harvestBlock(pos);
                             }
 
@@ -191,7 +195,7 @@ public class FarmerBee extends ProductiveBee
 
     public void harvestBlock(BlockPos pos) {
         if (pos != null) {
-            HarvestCompatHandler.harvestBlock(this, pos);
+            HarvestCompatHandler.harvestBlock(this.level(), pos);
         }
     }
 }

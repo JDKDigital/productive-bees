@@ -1,7 +1,9 @@
 package cy.jdkdigital.productivebees.common.block.entity;
 
 import cy.jdkdigital.productivebees.common.block.CanvasBeehive;
+import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -9,18 +11,16 @@ import org.jetbrains.annotations.NotNull;
 
 public class CanvasBeehiveBlockEntity extends AdvancedBeehiveBlockEntity implements CanvasBlockEntityInterface
 {
-    private final CanvasBeehive hiveBlock;
     private int color = 16777215;
 
-    public CanvasBeehiveBlockEntity(CanvasBeehive hiveBlock, BlockPos pos, BlockState state) {
-        super(hiveBlock.getBlockEntitySupplier().get(), pos, state);
-        this.hiveBlock = hiveBlock;
+    public CanvasBeehiveBlockEntity(BlockPos pos, BlockState state) {
+        super(pos, state);
     }
 
     @NotNull
     @Override
     public BlockEntityType<?> getType() {
-        return hiveBlock != null ? hiveBlock.getBlockEntitySupplier().get() : super.getType();
+        return ModBlockEntityTypes.ADVANCED_HIVE.get();
     }
 
     public void setColor(int color) {
@@ -33,14 +33,14 @@ public class CanvasBeehiveBlockEntity extends AdvancedBeehiveBlockEntity impleme
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
         tag.putInt("color", color);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
         if (tag.contains("color")) {
             this.color = tag.getInt("color");
         }

@@ -6,6 +6,7 @@ import cy.jdkdigital.productivebees.common.entity.bee.ProductiveBee;
 import cy.jdkdigital.productivebees.common.item.BeeCage;
 import cy.jdkdigital.productivebees.common.recipe.BeeBreedingRecipe;
 import cy.jdkdigital.productivebees.common.recipe.TimedRecipeInterface;
+import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
 import cy.jdkdigital.productivebees.container.BreedingChamberContainer;
 import cy.jdkdigital.productivebees.init.ModBlockEntityTypes;
 import cy.jdkdigital.productivebees.init.ModBlocks;
@@ -29,7 +30,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -40,7 +40,6 @@ import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements UpgradeableBlockEntity, IRecipeProcessingBlockEntity
@@ -223,7 +222,7 @@ public class BreedingChamberBlockEntity extends CapabilityBlockEntity implements
 
     private boolean completeBreeding(IItemHandlerModifiable invHandler) {
         if (level != null && chosenRecipe != null && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_OUTPUT).isEmpty() && invHandler.getStackInSlot(BreedingChamberContainer.SLOT_CAGE).getItem() instanceof BeeCage && canProcessInput(invHandler, false)) {
-            var beeIngredient = chosenRecipe.offspring.get();
+            BeeIngredient beeIngredient = chosenRecipe.offspring.get();
 
             Entity offspring = beeIngredient.getBeeEntity().create(level);
             if (offspring instanceof Bee bee) {

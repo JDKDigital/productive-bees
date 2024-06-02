@@ -1,36 +1,38 @@
 package cy.jdkdigital.productivebees.common.recipe;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredient;
-import cy.jdkdigital.productivebees.compat.jei.ingredients.BeeIngredientFactory;
 import cy.jdkdigital.productivebees.init.ModRecipeTypes;
 import cy.jdkdigital.productivebees.util.BeeHelper;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.Lazy;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ItemConversionRecipe implements Recipe<Container>
 {
-    public final ResourceLocation id;
-    public final List<Lazy<BeeIngredient>> bees;
+    public final List<Supplier<BeeIngredient>> bees;
     public Ingredient ingredient;
     public ItemStack output;
-    public final int chance;
+    public final float chance;
     public final boolean pollinates;
 
-    public ItemConversionRecipe(ResourceLocation id, List<Lazy<BeeIngredient>> bees, Ingredient ingredient, ItemStack output, int chance, boolean pollinates) {
-        this.id = id;
+    public ItemConversionRecipe(List<Supplier<BeeIngredient>> bees, Ingredient ingredient, ItemStack output, float chance, boolean pollinates) {
         this.bees = bees;
         this.ingredient = ingredient;
         this.output = output;
@@ -47,7 +49,7 @@ public class ItemConversionRecipe implements Recipe<Container>
             boolean matchesInput = this.ingredient.test(inputItem);
 
             boolean matchesBee = false;
-            for (Lazy<BeeIngredient> bee: bees) {
+            for (Supplier<BeeIngredient> bee: bees) {
                 matchesBee = matchesBee || bee.get().getBeeType().toString().equals(beeName);
             }
 
@@ -58,7 +60,7 @@ public class ItemConversionRecipe implements Recipe<Container>
 
     @Nonnull
     @Override
-    public ItemStack assemble(Container inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(Container inv, HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
     }
 
@@ -75,14 +77,8 @@ public class ItemConversionRecipe implements Recipe<Container>
 
     @Nonnull
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider pRegistries) {
         return ItemStack.EMPTY;
-    }
-
-    @Nonnull
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
     }
 
     @Nonnull
@@ -97,81 +93,64 @@ public class ItemConversionRecipe implements Recipe<Container>
         return ModRecipeTypes.ITEM_CONVERSION_TYPE.get();
     }
 
-    public static class Serializer<T extends ItemConversionRecipe> implements RecipeSerializer<T>
+    public static class Serializer implements RecipeSerializer<ItemConversionRecipe>
     {
-        final ItemConversionRecipe.Serializer.IRecipeFactory<T> factory;
+        private static final MapCodec<ItemConversionRecipe> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                                BeeIngredient.LIST_CODEC.fieldOf("bees").forGetter(recipe -> recipe.bees),
+                                Ingredient.CODEC.fieldOf("ingredients").forGetter(recipe -> recipe.ingredient),
+                                ItemStack.CODEC.fieldOf("result").forGetter(recipe -> recipe.output),
+                                Codec.FLOAT.fieldOf("chance").forGetter(recipe -> recipe.chance),
+                                Codec.BOOL.fieldOf("pollinates").orElse(false).forGetter(recipe -> recipe.pollinates)
+                        )
+                        .apply(builder, ItemConversionRecipe::new)
+        );
 
-        public Serializer(ItemConversionRecipe.Serializer.IRecipeFactory<T> factory) {
-            this.factory = factory;
-        }
+        public static final StreamCodec<RegistryFriendlyByteBuf, ItemConversionRecipe> STREAM_CODEC = StreamCodec.of(
+                ItemConversionRecipe.Serializer::toNetwork, ItemConversionRecipe.Serializer::fromNetwork
+        );
 
-        @Nonnull
         @Override
-        public T fromJson(ResourceLocation id, JsonObject json) {
-            List<Lazy<BeeIngredient>> bees = new ArrayList<>();
-
-            if (json.has("bee")) {
-                String source = GsonHelper.getAsString(json, "bee");
-                Lazy<BeeIngredient> sourceBee = Lazy.of(BeeIngredientFactory.getIngredient(source));
-                bees.add(sourceBee);
-            } else if (json.has("bees")) {
-                var beeArray = GsonHelper.getAsJsonArray(json, "bees");
-                beeArray.forEach(jsonElement -> {
-                    Lazy<BeeIngredient> sourceBee = Lazy.of(BeeIngredientFactory.getIngredient(jsonElement.getAsString()));
-                    bees.add(sourceBee);
-                });
-            }
-
-            Ingredient input;
-            if (GsonHelper.isArrayNode(json, "ingredients")) {
-                input = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredients"));
-            } else {
-                input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredients"));
-            }
-            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-
-            int chance = GsonHelper.getAsInt(json, "chance", 100);
-            boolean pollinates = GsonHelper.getAsBoolean(json, "pollinates", false);
-
-            return this.factory.create(id, bees, input, output, chance, pollinates);
+        public MapCodec<ItemConversionRecipe> codec() {
+            return CODEC;
         }
 
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, ItemConversionRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
+
+        public static ItemConversionRecipe fromNetwork(@Nonnull RegistryFriendlyByteBuf buffer) {
             try {
                 int beeCount = buffer.readInt();
-                List<Lazy<BeeIngredient>> bees = new ArrayList<>();
+                List<Supplier<BeeIngredient>> bees = new ArrayList<>();
                 for (var i = 0;i < beeCount;i++) {
                     BeeIngredient source = BeeIngredient.fromNetwork(buffer);
                     bees.add(Lazy.of(() -> source));
                 }
 
-                return this.factory.create(id, bees, Ingredient.fromNetwork(buffer), buffer.readItem(), buffer.readInt(), buffer.readBoolean());
+                return new ItemConversionRecipe(bees, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer), ItemStack.STREAM_CODEC.decode(buffer), buffer.readInt(), buffer.readBoolean());
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error reading item conversion recipe from packet. " + id, e);
+                ProductiveBees.LOGGER.error("Error reading item conversion recipe from packet. ", e);
                 throw e;
             }
         }
 
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
+        public static void toNetwork(@Nonnull RegistryFriendlyByteBuf buffer, ItemConversionRecipe recipe) {
             try {
                 buffer.writeInt(recipe.bees.size());
                 recipe.bees.forEach(bee -> bee.get().toNetwork(buffer));
 
-                recipe.ingredient.toNetwork(buffer);
-                buffer.writeItem(recipe.output);
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
+                ItemStack.STREAM_CODEC.encode(buffer, recipe.output);
 
-                buffer.writeInt(recipe.chance);
+                buffer.writeFloat(recipe.chance);
 
                 buffer.writeBoolean(recipe.pollinates);
             } catch (Exception e) {
-                ProductiveBees.LOGGER.error("Error writing item conversion recipe to packet. " + recipe.getId(), e);
+                ProductiveBees.LOGGER.error("Error writing item conversion recipe to packet. ", e);
                 throw e;
             }
-        }
-
-        public interface IRecipeFactory<T extends ItemConversionRecipe>
-        {
-            T create(ResourceLocation id, List<Lazy<BeeIngredient>> beeInput, Ingredient input, ItemStack output, int chance, boolean pollinates);
         }
     }
 }

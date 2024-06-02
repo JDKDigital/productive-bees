@@ -1,5 +1,6 @@
 package cy.jdkdigital.productivebees.common.entity.bee;
 
+import cy.jdkdigital.productivebees.ProductiveBees;
 import cy.jdkdigital.productivebees.client.particle.NectarParticleType;
 import cy.jdkdigital.productivebees.common.block.entity.AdvancedBeehiveBlockEntity;
 import cy.jdkdigital.productivebees.common.block.entity.AmberBlockEntity;
@@ -14,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -87,41 +89,43 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType pSpawnType, @Nullable SpawnGroupData pSpawnGroupData) {
         String type = "";
-        if (tag != null) {
+        if (pSpawnGroupData != null) {
             RandomSource random = level.getRandom();
-            type = tag.contains("type") ? tag.getString("type") : tag.contains("EntityTag") ? tag.getCompound("EntityTag").getString("type") : "";
-
-            if (type.equals("productivebees:ghostly") && random.nextFloat() < 0.02f) {
-                this.setCustomName(Component.literal("BooBee"));
-            } else if (type.equals("productivebees:blitz") && random.nextFloat() < 0.02f) {
-                this.setCustomName(Component.literal("King BitzBee"));
-            } else if (type.equals("productivebees:basalz") && random.nextFloat() < 0.02f) {
-                this.setCustomName(Component.literal("Queen BazBee"));
-            } else if (type.equals("productivebees:blizz") && random.nextFloat() < 0.02f) {
-                this.setCustomName(Component.literal("Shiny BizBee"));
-            } else if (type.equals("productivebees:redstone") && random.nextFloat() < 0.01f) {
-                this.setCustomName(Component.literal("Redastone Bee"));
-            } else if (type.equals("productivebees:destabilized_redstone") && random.nextFloat() < 0.10f) {
-                this.setCustomName(Component.literal("Destabilized RedaStone Bee"));
-            } else if (type.equals("productivebees:compressed_iron") && random.nextFloat() < 0.05f) {
-                this.setCustomName(Component.literal("Depressed Iron Bee"));
-            } else if (type.equals("productivebees:sponge") && random.nextFloat() < 0.05f) {
-                this.setCustomName(Component.literal("SpongeBee BlockPants"));
-            } else if (type.equals("productivebees:infinity") && random.nextFloat() < 0.25f) {
-                this.setCustomName(Component.literal("Infinibee"));
-            } else if (type.equals("productivebees:allergy") && random.nextFloat() < 0.25f) {
-                this.setCustomName(Component.literal("Beenadryl Buzz"));
-            } else if (type.equals("productivebees:gregstar") && random.nextFloat() < 0.25f) {
-                this.setCustomName(Component.literal("Monsieur Greg"));
-            } else if (type.equals("productivebees:water") && random.nextFloat() < 0.05f) {
-                switch (random.nextInt(5)) {
-                    case 0 -> this.setCustomName(Component.literal("Wet Bee"));
-                    case 1 -> this.setCustomName(Component.literal("Splashy Bee"));
-                    case 2 -> this.setCustomName(Component.literal("Fishy Bee"));
-                    case 3 -> this.setCustomName(Component.literal("Moist Bee"));
-                    case 4 -> this.setCustomName(Component.literal("Dripping Bee"));
-                }
-            }
+            // TODO 1.21 reimplement
+            ProductiveBees.LOGGER.info("finalize spawn of config bee " + pSpawnGroupData);
+//            type = tag.contains("type") ? tag.getString("type") : tag.contains("EntityTag") ? tag.getCompound("EntityTag").getString("type") : "";
+//
+//            if (type.equals("productivebees:ghostly") && random.nextFloat() < 0.02f) {
+//                this.setCustomName(Component.literal("BooBee"));
+//            } else if (type.equals("productivebees:blitz") && random.nextFloat() < 0.02f) {
+//                this.setCustomName(Component.literal("King BitzBee"));
+//            } else if (type.equals("productivebees:basalz") && random.nextFloat() < 0.02f) {
+//                this.setCustomName(Component.literal("Queen BazBee"));
+//            } else if (type.equals("productivebees:blizz") && random.nextFloat() < 0.02f) {
+//                this.setCustomName(Component.literal("Shiny BizBee"));
+//            } else if (type.equals("productivebees:redstone") && random.nextFloat() < 0.01f) {
+//                this.setCustomName(Component.literal("Redastone Bee"));
+//            } else if (type.equals("productivebees:destabilized_redstone") && random.nextFloat() < 0.10f) {
+//                this.setCustomName(Component.literal("Destabilized RedaStone Bee"));
+//            } else if (type.equals("productivebees:compressed_iron") && random.nextFloat() < 0.05f) {
+//                this.setCustomName(Component.literal("Depressed Iron Bee"));
+//            } else if (type.equals("productivebees:sponge") && random.nextFloat() < 0.05f) {
+//                this.setCustomName(Component.literal("SpongeBee BlockPants"));
+//            } else if (type.equals("productivebees:infinity") && random.nextFloat() < 0.25f) {
+//                this.setCustomName(Component.literal("Infinibee"));
+//            } else if (type.equals("productivebees:allergy") && random.nextFloat() < 0.25f) {
+//                this.setCustomName(Component.literal("Beenadryl Buzz"));
+//            } else if (type.equals("productivebees:gregstar") && random.nextFloat() < 0.25f) {
+//                this.setCustomName(Component.literal("Monsieur Greg"));
+//            } else if (type.equals("productivebees:water") && random.nextFloat() < 0.05f) {
+//                switch (random.nextInt(5)) {
+//                    case 0 -> this.setCustomName(Component.literal("Wet Bee"));
+//                    case 1 -> this.setCustomName(Component.literal("Splashy Bee"));
+//                    case 2 -> this.setCustomName(Component.literal("Fishy Bee"));
+//                    case 3 -> this.setCustomName(Component.literal("Moist Bee"));
+//                    case 4 -> this.setCustomName(Component.literal("Dripping Bee"));
+//                }
+//            }
         }
 
         return super.finalizeSpawn(level, difficulty, pSpawnType, pSpawnGroupData);
@@ -197,7 +201,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
     }
 
     @Override
-    public void spawnFluidParticle(Level worldIn, double xMin, double xMax, double zMin, double zMax, double posY, ParticleOptions particleData) {
+    public void spawnFluidParticle(Level pLevel, double pStartX, double pEndX, double pStartZ, double pEndZ, double pPosY, ParticleOptions pParticleOption) {
         NectarParticleType particle = switch (getParticleType()) {
             case "pop" -> ModParticles.COLORED_POPPING_NECTAR.get();
             case "lava" -> ModParticles.COLORED_LAVA_NECTAR.get();
@@ -212,7 +216,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
             particle.setColor(new float[]{0.92F, 0.782F, 0.72F});
         }
 
-        worldIn.addParticle(particle, Mth.lerp(worldIn.random.nextDouble(), xMin, xMax), posY, Mth.lerp(worldIn.random.nextDouble(), zMin, zMax), 0.0D, 0.0D, 0.0D);
+        pLevel.addParticle(particle, Mth.lerp(pLevel.random.nextDouble(), pStartX, pEndX), pPosY, Mth.lerp(pLevel.random.nextDouble(), pStartZ, pEndZ), 0.0D, 0.0D, 0.0D);
     }
 
     @Override
@@ -427,13 +431,13 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 TagKey<Block> flowerTag = ModTags.getBlockTag(new ResourceLocation(nbt.getString("flowerTag")));
                 return flowerBlock.is(flowerTag);
             } else if (nbt.contains("flowerBlock")) {
-                return ForgeRegistries.BLOCKS.getKey(flowerBlock.getBlock()).toString().equals(nbt.getString("flowerBlock"));
+                return BuiltInRegistries.BLOCK.getKey(flowerBlock.getBlock()).toString().equals(nbt.getString("flowerBlock"));
             } else if (nbt.contains("flowerFluid") && !flowerBlock.getFluidState().isEmpty()) {
                 if (nbt.getString("flowerFluid").contains("#")) {
                     TagKey<Fluid> flowerFluid = ModTags.getFluidTag(new ResourceLocation(nbt.getString("flowerFluid").replace("#", "")));
                     return flowerBlock.getFluidState().is(flowerFluid);
                 } else {
-                    return ForgeRegistries.FLUIDS.getKey(flowerBlock.getFluidState().getType()).toString().equals(nbt.getString("flowerFluid"));
+                    return BuiltInRegistries.FLUID.getKey(flowerBlock.getFluidState().getType()).toString().equals(nbt.getString("flowerFluid"));
                 }
             }
         }
@@ -452,7 +456,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
                 return flowerItem.is(flowerTag);
             }
             if (nbt.contains("flowerItem")) {
-                return flowerItem.is(ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt.getString("flowerItem"))));
+                return flowerItem.is(BuiltInRegistries.ITEM.get(new ResourceLocation(nbt.getString("flowerItem"))));
             }
         }
         if (flowerItem.getItem() instanceof BlockItem blockItem && BeeHelper.hasBlockConversionRecipe(this, blockItem.getBlock().defaultBlockState())) {
@@ -472,7 +476,7 @@ public class ConfigurableBee extends ProductiveBee implements IEffectBeeEntity
         if (id.startsWith("#")) {
             return Ingredient.of(ModTags.getItemTag(new ResourceLocation(id.substring(1))));
         } else {
-            return Ingredient.of(ForgeRegistries.ITEMS.getValue(new ResourceLocation(id)));
+            return Ingredient.of(BuiltInRegistries.ITEM.get(new ResourceLocation(id)));
         }
     }
 
